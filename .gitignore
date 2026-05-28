@@ -1,0 +1,26 @@
+# Investing 2026 — public repo. Keep holdings/docs/secrets OUT.
+
+# Live state & holdings (your portfolio — never publish)
+*.json
+
+# Licensed third-party research
+*.pdf
+*.docx
+
+# Framework / CI docs (carry Notion IDs + account structure)
+*.md
+!README.md
+
+# Local config & secrets
+config_local.py
+.env
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
