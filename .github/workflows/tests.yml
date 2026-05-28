@@ -20,7 +20,7 @@ jobs:
       - name: Install test deps
         run: |
           python -m pip install --upgrade pip
-          pip install pytest
+          pip install pytest requests
 
       - name: Run tests
         run: |
