@@ -624,6 +624,51 @@ def hit_rates_report(calls: list, sources=None) -> dict:
 # Inbox -> Source-Call-Log staleness gauge (v11.35)
 # ==============================================================================
 
+def find_ingestion_gaps(upstream_dates, downstream_dates) -> dict:
+    """Find upstream call dates not represented downstream (v11.36, fix #2).
+
+    The frontier gauges (inbox_log_staleness / log_cache_staleness) count only
+    items dated AFTER the newest downstream item. A date sitting BELOW the newest
+    downstream item but never ingested is invisible to them. Live 2026-05-28: the
+    Log's newest row was the 5/28 monthly batch, but Newton's 5/26 + 5/27 daily
+    calls were never classified -- being <= 5/28 they scored as 0 'un-ingested'.
+    This finds those interior holes.
+
+    Returns dict:
+        frontier_new     : sorted list[str] -- upstream dates strictly AFTER the
+                           newest downstream date (what the frontier gauge sees)
+        interior_missing : sorted list[str] -- upstream dates <= newest downstream
+                           date but ABSENT from the downstream set (what the
+                           frontier gauge MISSES -- this is fix #2)
+        all_missing      : sorted list[str] -- union of the two
+        any_missing      : bool
+
+    LIMITATION (date granularity): a date with SOME downstream representation but
+    missing OTHER calls from that same day will NOT flag -- detecting that needs
+    call-level IDs, not date lists (a separate, larger change). This reliably
+    catches the clear case: a day with ZERO downstream representation.
+    """
+    up = sorted({d for d in (_parse_date(x) for x in (upstream_dates or [])) if d})
+    down = sorted({d for d in (_parse_date(x) for x in (downstream_dates or [])) if d})
+    down_set = set(down)
+    newest_down = down[-1] if down else None
+
+    if newest_down is None:
+        frontier_new = list(up)
+        interior_missing = []
+    else:
+        frontier_new = [d for d in up if d > newest_down]
+        interior_missing = [d for d in up if d <= newest_down and d not in down_set]
+
+    all_missing = sorted(set(frontier_new) | set(interior_missing))
+    return {
+        'frontier_new': [d.isoformat() for d in frontier_new],
+        'interior_missing': [d.isoformat() for d in interior_missing],
+        'all_missing': [d.isoformat() for d in all_missing],
+        'any_missing': bool(all_missing),
+    }
+
+
 def inbox_log_staleness(inbox_call_dates, log_call_dates, now=None) -> dict:
     """Detect Inbox -> Source-Call-Log classification lag (v11.35).
 
@@ -671,14 +716,17 @@ def inbox_log_staleness(inbox_call_dates, log_call_dates, now=None) -> dict:
     else:
         un_ingested = sum(1 for d in inbox if d > newest_log)
 
-    stale = un_ingested > 0
-    if stale and newest_inbox and newest_log:
+    frontier_stale = un_ingested > 0
+    interior_gaps = find_ingestion_gaps(inbox_call_dates, log_call_dates)['interior_missing']
+    stale = frontier_stale or bool(interior_gaps)   # v11.36 #2: interior holes count too
+    if frontier_stale and newest_inbox and newest_log:
         days_behind = max(0, (newest_inbox - newest_log).days)
     else:
-        days_behind = 0  # not stale, or no Log baseline -> lag size undefined
+        days_behind = 0  # frontier lag only; interior gaps are a count, not a lag
 
     return {
         'un_ingested': un_ingested,
+        'interior_gaps': interior_gaps,   # v11.36 #2: dates classified-into-Log-late, below the frontier
         'newest_inbox': newest_inbox.isoformat() if newest_inbox else None,
         'newest_log': newest_log.isoformat() if newest_log else None,
         'stale': stale,
@@ -696,11 +744,19 @@ def staleness_surface_line(gauge: dict) -> str:
     """
     if not gauge or not gauge.get('stale'):
         return ''
-    return (f"⚠️ INBOX→LOG STALE: {gauge['un_ingested']} un-ingested call(s) "
-            f"(newest Inbox {gauge['newest_inbox']} vs newest Log "
-            f"{gauge['newest_log']}, {gauge['days_behind']}d behind) — classify "
-            f"before any calibration-cited capital action; SOURCE CALIB output "
-            f"is PROVISIONAL until cleared")
+    parts = []
+    if gauge.get('un_ingested', 0) > 0:
+        parts.append(
+            f"{gauge['un_ingested']} un-ingested (newest Inbox "
+            f"{gauge['newest_inbox']} vs newest Log {gauge['newest_log']}, "
+            f"{gauge['days_behind']}d behind)")
+    interior = gauge.get('interior_gaps') or []
+    if interior:
+        parts.append(f"{len(interior)} interior-gap call(s) below the frontier "
+                     f"({', '.join(interior)})")
+    return (f"⚠️ INBOX→LOG STALE: " + " + ".join(parts) +
+            " — classify before any calibration-cited capital action; "
+            "SOURCE CALIB output is PROVISIONAL until cleared")
 
 
 
@@ -747,14 +803,17 @@ def log_cache_staleness(log_call_dates, cache_call_dates, now=None) -> dict:
     else:
         un_cached = sum(1 for d in logd if d > newest_cache)
 
-    stale = un_cached > 0
-    if stale and newest_log and newest_cache:
+    frontier_stale = un_cached > 0
+    interior_gaps = find_ingestion_gaps(log_call_dates, cache_call_dates)['interior_missing']
+    stale = frontier_stale or bool(interior_gaps)   # v11.36 #2: interior holes count too
+    if frontier_stale and newest_log and newest_cache:
         days_behind = max(0, (newest_log - newest_cache).days)
     else:
-        days_behind = 0  # not stale, or no cache baseline -> lag size undefined
+        days_behind = 0  # frontier lag only; interior gaps are a count, not a lag
 
     return {
         'un_cached': un_cached,
+        'interior_gaps': interior_gaps,   # v11.36 #2: Log dates not in the cache, below the frontier
         'newest_log': newest_log.isoformat() if newest_log else None,
         'newest_cache': newest_cache.isoformat() if newest_cache else None,
         'stale': stale,
@@ -819,12 +878,20 @@ def chain_staleness_surface(chain: dict) -> str:
         lines.append(staleness_surface_line(chain['inbox_log']))
     if chain['log_cache']['stale']:
         lc = chain['log_cache']
+        parts = []
+        if lc.get('un_cached', 0) > 0:
+            parts.append(
+                f"{lc['un_cached']} un-cached (newest Log {lc['newest_log']} "
+                f"vs newest cache {lc['newest_cache']}, {lc['days_behind']}d behind)")
+        interior = lc.get('interior_gaps') or []
+        if interior:
+            parts.append(f"{len(interior)} interior-gap call(s) below the frontier "
+                         f"({', '.join(interior)})")
         lines.append(
-            f"\u26a0\ufe0f LOG\u2192CACHE STALE: {lc['un_cached']} un-cached call(s) "
-            f"(newest Log {lc['newest_log']} vs newest cache "
-            f"{lc['newest_cache']}, {lc['days_behind']}d behind) \u2014 regenerate "
-            f"source_calls.json from the Log before any calibration-cited capital "
-            f"action; SOURCE CALIB output is PROVISIONAL until cleared")
+            f"\u26a0\ufe0f LOG\u2192CACHE STALE: " + " + ".join(parts) +
+            " \u2014 regenerate source_calls.json from the Log before any "
+            "calibration-cited capital action; SOURCE CALIB output is "
+            "PROVISIONAL until cleared")
     return "\n".join(lines)
 
 
@@ -1198,6 +1265,55 @@ def run_self_test():
     _surf = chain_staleness_surface(chain)
     check("chain: both-stale surface names both hops",
           'INBOX\u2192LOG STALE' in _surf and 'LOG\u2192CACHE STALE' in _surf)
+
+    # ----------------------------------------------------------------------
+    # Block 9: interior-gap detection (v11.36, fix #2) -- the hole BELOW the
+    # frontier that the v11.35 / #1 gauges could not see.
+    # ----------------------------------------------------------------------
+    # find_ingestion_gaps: the live 5/28 shape (5/26, 5/27 missing under 5/28 frontier)
+    g = find_ingestion_gaps(['2026-05-15', '2026-05-26', '2026-05-27', '2026-05-28'],
+                            ['2026-05-15', '2026-05-28'])
+    check("gaps[5/28]: frontier_new empty (all <= 5/28)", g['frontier_new'] == [])
+    check("gaps[5/28]: interior_missing == 5/26, 5/27",
+          g['interior_missing'] == ['2026-05-26', '2026-05-27'])
+    check("gaps[5/28]: any_missing True", g['any_missing'] is True)
+
+    # date with SOME representation does not flag (date-granularity limitation, documented)
+    g = find_ingestion_gaps(['2026-05-26'], ['2026-05-26', '2026-05-28'])
+    check("gaps: date present downstream -> not missing", g['any_missing'] is False)
+
+    # empty downstream -> all frontier_new, none interior
+    g = find_ingestion_gaps(['2026-05-26', '2026-05-27'], [])
+    check("gaps: empty downstream -> all frontier_new",
+          g['frontier_new'] == ['2026-05-26', '2026-05-27'] and g['interior_missing'] == [])
+
+    # inbox_log_staleness now FLAGS the interior gap (the 5/28 regression, fixed)
+    g = inbox_log_staleness(['2026-05-15', '2026-05-26', '2026-05-27', '2026-05-28'],
+                            ['2026-05-15', '2026-05-28'], now='2026-05-28')
+    check("inbox_log[#2]: un_ingested 0 (frontier-blind)", g['un_ingested'] == 0)
+    check("inbox_log[#2]: interior_gaps == 5/26, 5/27",
+          g['interior_gaps'] == ['2026-05-26', '2026-05-27'])
+    check("inbox_log[#2]: stale True via interior (was False pre-#2)", g['stale'] is True)
+    _line = staleness_surface_line(g)
+    check("inbox_log[#2]: surface names interior dates + PROVISIONAL",
+          '2026-05-26' in _line and 'interior-gap' in _line and 'PROVISIONAL' in _line)
+
+    # log_cache_staleness interior gap
+    g = log_cache_staleness(['2026-05-15', '2026-05-22', '2026-05-26'],
+                            ['2026-05-15', '2026-05-26'], now='2026-05-28')
+    check("log_cache[#2]: interior 5/22 flagged", g['interior_gaps'] == ['2026-05-22'])
+    check("log_cache[#2]: stale True via interior", g['stale'] is True)
+
+    # chain catches an interior-only gap on the inbox->log hop
+    chain = calibration_chain_staleness(
+        inbox_call_dates=['2026-05-15', '2026-05-26', '2026-05-27', '2026-05-28'],
+        log_call_dates=['2026-05-15', '2026-05-28'],     # 5/26, 5/27 never ingested
+        cache_call_dates=['2026-05-15', '2026-05-28'],   # cache matches log
+        now='2026-05-28')
+    check("chain[#2]: inbox_log stale via interior", chain['inbox_log']['stale'] is True)
+    check("chain[#2]: chain stale", chain['stale'] is True)
+    check("chain[#2]: surface names interior gap",
+          'interior-gap' in chain_staleness_surface(chain))
 
     return passed, total
 
