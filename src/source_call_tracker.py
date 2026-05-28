@@ -34,6 +34,24 @@ v11.33:
 - hit_rates_report() + --hit-rates — generates source_rates.json (the shape
   pretrade_gate.py consumes), making the prior CI reference real.
 
+v11.35 — Inbox->Log staleness gauge:
+- inbox_log_staleness() + staleness_surface_line() — pure-logic gauge that
+  compares newest live-Inbox call date vs newest call represented in the Log.
+  Root-cause fix for the 2026-05-28 Farrell->HYPE false-negative: the layer
+  could run silently behind the Inbox because classification (Inbox->Log) was
+  not forced before a calibration read. The gauge makes the lag visible; the
+  surface line stamps SOURCE CALIB output PROVISIONAL while the lag is open.
+  Recency must be anchored to the live Inbox, never the cache's max date.
+
+v11.36 - Log->Cache staleness gauge + chain orchestrator (fix #1):
+- log_cache_staleness() - sibling to inbox_log_staleness(); watches the
+  Source-Call-Log -> source_calls.json (cache) hop, the one the v11.35 gauge
+  could not see. On 2026-05-28 the Log was current (5/28) but the cache was
+  stuck at 5/19, so Inbox->Log read clean while hit-rates were 9d stale.
+- calibration_chain_staleness() - checks the whole Inbox->Log->Cache chain in
+  one call so a reader can never inspect one hop and miss the other.
+- chain_staleness_surface() - names whichever hop(s) are stale + PROVISIONAL.
+
 CLI:
     python source_call_tracker.py --self-test
     python source_call_tracker.py --classify "verbatim quote" --source newton
@@ -603,6 +621,214 @@ def hit_rates_report(calls: list, sources=None) -> dict:
 
 
 # ==============================================================================
+# Inbox -> Source-Call-Log staleness gauge (v11.35)
+# ==============================================================================
+
+def inbox_log_staleness(inbox_call_dates, log_call_dates, now=None) -> dict:
+    """Detect Inbox -> Source-Call-Log classification lag (v11.35).
+
+    Root cause of the 2026-05-28 Farrell->HYPE false-negative: the calibration
+    layer reads source_calls.json, which is regenerated from the 📊 Source Call
+    Log; the Log is only as current as the last Inbox-audit classification pass,
+    and nothing forced that pass before a calibration read. So persistence /
+    recency / hit-rate output could run silently behind the live 📧 Fundstrat
+    Inbox.
+
+    PURE LOGIC, no Notion call (Patch P philosophy). At session-open Claude
+    already fetches both the live Inbox (7-day audit) and the Log (v11.33 sync);
+    it passes the two date lists here to make the lag visible and unmissable.
+
+    Recency is measured apples-to-apples: newest *call date* visible in the
+    Inbox vs newest *call date represented in the Log*. A calibration consumer's
+    recency must never be read off the cache's max date alone -- that is exactly
+    the trap that dismissed the live 5/21 HYPE note.
+
+    Args:
+        inbox_call_dates: iterable of date / ISO-str -- dates of FS-source calls
+            (Newton/Lee/Farrell) visible in the live Inbox.
+        log_call_dates:   iterable of date / ISO-str -- 'Date Made' of rows
+            already classified into the Source Call Log.
+        now: optional date / ISO-str; defaults to today (reporting only).
+
+    Returns dict:
+        un_ingested  : int  -- inbox calls dated strictly after the newest call
+                               represented in the Log (all inbox calls if the
+                               Log is empty).
+        newest_inbox : 'YYYY-MM-DD' | None
+        newest_log   : 'YYYY-MM-DD' | None
+        stale        : bool -- un_ingested > 0
+        days_behind  : int  -- (newest_inbox - newest_log).days, clamped >= 0;
+                               0 when not stale or baseline unknown.
+    """
+    inbox = sorted({d for d in (_parse_date(x) for x in (inbox_call_dates or [])) if d})
+    logd = sorted({d for d in (_parse_date(x) for x in (log_call_dates or [])) if d})
+
+    newest_inbox = inbox[-1] if inbox else None
+    newest_log = logd[-1] if logd else None
+
+    if newest_log is None:
+        un_ingested = len(inbox)
+    else:
+        un_ingested = sum(1 for d in inbox if d > newest_log)
+
+    stale = un_ingested > 0
+    if stale and newest_inbox and newest_log:
+        days_behind = max(0, (newest_inbox - newest_log).days)
+    else:
+        days_behind = 0  # not stale, or no Log baseline -> lag size undefined
+
+    return {
+        'un_ingested': un_ingested,
+        'newest_inbox': newest_inbox.isoformat() if newest_inbox else None,
+        'newest_log': newest_log.isoformat() if newest_log else None,
+        'stale': stale,
+        'days_behind': days_behind,
+    }
+
+
+def staleness_surface_line(gauge: dict) -> str:
+    """One-line pre-flight surface for the staleness gauge (v11.35).
+
+    Quiet-output discipline: returns '' when not stale, so the warning appears
+    only on a hit. When stale, it reports *Inbox* recency (never the Log/cache
+    max date) and carries ⚠️ + the PROVISIONAL stamp that tells the SOURCE
+    CALIB block its output is provisional until classification clears the lag.
+    """
+    if not gauge or not gauge.get('stale'):
+        return ''
+    return (f"⚠️ INBOX→LOG STALE: {gauge['un_ingested']} un-ingested call(s) "
+            f"(newest Inbox {gauge['newest_inbox']} vs newest Log "
+            f"{gauge['newest_log']}, {gauge['days_behind']}d behind) — classify "
+            f"before any calibration-cited capital action; SOURCE CALIB output "
+            f"is PROVISIONAL until cleared")
+
+
+
+
+def log_cache_staleness(log_call_dates, cache_call_dates, now=None) -> dict:
+    """Detect Source-Call-Log -> source_calls.json CACHE lag (v11.36, fix #1).
+
+    Sibling to inbox_log_staleness(). v11.35 watches Inbox->Log, but the
+    calibration scripts (persistence_scan / compute_hit_rate) actually READ THE
+    CACHE file source_calls.json -- which the session-open sync regenerates from
+    the Source Call Log. If that regen lags the Log, calibration runs on stale
+    data even when Inbox->Log is current. That was the live 2026-05-28 state:
+    Log newest 5/28, cache newest 5/19 -> the Inbox->Log gauge read CLEAN while
+    hit-rates were silently 9 days stale. This gauge watches THAT hop.
+
+    PURE LOGIC, no Notion call. Claude holds both lists at session-open:
+    log_call_dates from the Log fetch, cache_call_dates from the loaded
+    source_calls.json.
+
+    Args:
+        log_call_dates:   iterable of date / ISO-str -- 'Date Made' of rows in
+            the live Source Call Log.
+        cache_call_dates: iterable of date / ISO-str -- 'date' field of entries
+            in the source_calls.json the calibration scripts will read.
+        now: optional date / ISO-str; defaults to today (reporting only).
+
+    Returns dict (mirror of inbox_log_staleness):
+        un_cached    : int  -- log calls dated strictly after the newest cache
+                               date (all log calls if the cache is empty).
+        newest_log   : 'YYYY-MM-DD' | None
+        newest_cache : 'YYYY-MM-DD' | None
+        stale        : bool -- un_cached > 0
+        days_behind  : int  -- (newest_log - newest_cache).days, clamped >= 0;
+                               0 when not stale or baseline unknown.
+    """
+    logd = sorted({d for d in (_parse_date(x) for x in (log_call_dates or [])) if d})
+    cache = sorted({d for d in (_parse_date(x) for x in (cache_call_dates or [])) if d})
+
+    newest_log = logd[-1] if logd else None
+    newest_cache = cache[-1] if cache else None
+
+    if newest_cache is None:
+        un_cached = len(logd)
+    else:
+        un_cached = sum(1 for d in logd if d > newest_cache)
+
+    stale = un_cached > 0
+    if stale and newest_log and newest_cache:
+        days_behind = max(0, (newest_log - newest_cache).days)
+    else:
+        days_behind = 0  # not stale, or no cache baseline -> lag size undefined
+
+    return {
+        'un_cached': un_cached,
+        'newest_log': newest_log.isoformat() if newest_log else None,
+        'newest_cache': newest_cache.isoformat() if newest_cache else None,
+        'stale': stale,
+        'days_behind': days_behind,
+    }
+
+
+def calibration_chain_staleness(inbox_call_dates, log_call_dates,
+                                cache_call_dates, now=None) -> dict:
+    """Check the WHOLE source-calibration freshness chain in one call (v11.36).
+
+    The chain is:  live Inbox  ->  Source Call Log  ->  source_calls.json cache.
+    Calibration output is only as fresh as the STALEST hop. The 2026-05-28 bug
+    was looking at one hop (Inbox->Log, which was clean) and missing the other
+    (Log->Cache, which was 9d stale). Calling THIS single function instead of
+    either gauge alone is the forcing function that prevents recurrence -- it
+    can never point at the wrong hop because it checks both.
+
+    Returns dict:
+        inbox_log         : the inbox_log_staleness() dict (hop 1)
+        log_cache         : the log_cache_staleness() dict (hop 2)
+        stale             : bool -- True if EITHER hop is stale
+        stale_hops        : list[str] -- any of ['inbox_log', 'log_cache']
+        worst_days_behind : int  -- max days_behind across stale hops (0 if fresh)
+        provisional       : bool -- alias of stale; when True, SOURCE CALIB
+                                    output is PROVISIONAL until the hop(s) clear
+    """
+    h1 = inbox_log_staleness(inbox_call_dates, log_call_dates, now=now)
+    h2 = log_cache_staleness(log_call_dates, cache_call_dates, now=now)
+
+    stale_hops = []
+    if h1['stale']:
+        stale_hops.append('inbox_log')
+    if h2['stale']:
+        stale_hops.append('log_cache')
+
+    stale = bool(stale_hops)
+    worst = max(h1['days_behind'], h2['days_behind']) if stale else 0
+
+    return {
+        'inbox_log': h1,
+        'log_cache': h2,
+        'stale': stale,
+        'stale_hops': stale_hops,
+        'worst_days_behind': worst,
+        'provisional': stale,
+    }
+
+
+def chain_staleness_surface(chain: dict) -> str:
+    """Multi-line pre-flight surface for the full calibration chain (v11.36).
+
+    Quiet when the whole chain is fresh (returns ''). Otherwise emits one
+    warning line per stale hop, each naming its own dates, so the reader sees
+    exactly WHICH hop is behind. Reuses staleness_surface_line() for the
+    Inbox->Log hop so that wording stays identical to v11.35.
+    """
+    if not chain or not chain.get('stale'):
+        return ''
+    lines = []
+    if chain['inbox_log']['stale']:
+        lines.append(staleness_surface_line(chain['inbox_log']))
+    if chain['log_cache']['stale']:
+        lc = chain['log_cache']
+        lines.append(
+            f"\u26a0\ufe0f LOG\u2192CACHE STALE: {lc['un_cached']} un-cached call(s) "
+            f"(newest Log {lc['newest_log']} vs newest cache "
+            f"{lc['newest_cache']}, {lc['days_behind']}d behind) \u2014 regenerate "
+            f"source_calls.json from the Log before any calibration-cited capital "
+            f"action; SOURCE CALIB output is PROVISIONAL until cleared")
+    return "\n".join(lines)
+
+
+# ==============================================================================
 # Self-test
 # ==============================================================================
 
@@ -872,6 +1098,106 @@ def run_self_test():
     check("MACRO_INDEX_TICKERS: 30Y present", '30Y' in MACRO_INDEX_TICKERS)
     check("MACRO_INDEX_TICKERS: VIX present", 'VIX' in MACRO_INDEX_TICKERS)
     check("MACRO_INDEX_TICKERS: NVDA not in set", 'NVDA' not in MACRO_INDEX_TICKERS)
+
+    # --- Block 7: inbox_log_staleness gauge + surface (v11.35) ---
+    # Fresh: inbox newest == log newest -> not stale
+    g = inbox_log_staleness(['2026-05-19', '2026-05-15'],
+                            ['2026-05-19', '2026-05-15'], now='2026-05-28')
+    check("gauge: fresh (inbox==log) -> not stale", g['stale'] is False)
+    check("gauge: fresh -> un_ingested 0", g['un_ingested'] == 0)
+    check("gauge: surface line empty when fresh",
+          staleness_surface_line(g) == '')
+
+    # 2026-05-28 regression fixture: Log newest 5/19, Inbox carries 5/21 + 5/28
+    g = inbox_log_staleness(
+        ['2026-05-15', '2026-05-19', '2026-05-21', '2026-05-28'],
+        ['2026-05-15', '2026-05-19'], now='2026-05-28')
+    check("gauge[5/28]: un_ingested == 2", g['un_ingested'] == 2)
+    check("gauge[5/28]: newest_inbox 2026-05-28",
+          g['newest_inbox'] == '2026-05-28')
+    check("gauge[5/28]: newest_log 2026-05-19", g['newest_log'] == '2026-05-19')
+    check("gauge[5/28]: stale True", g['stale'] is True)
+    check("gauge[5/28]: days_behind 9", g['days_behind'] == 9)
+    check("gauge[5/28]: surface warns + PROVISIONAL",
+          'PROVISIONAL' in staleness_surface_line(g)
+          and '⚠️' in staleness_surface_line(g))
+
+    # Empty log, non-empty inbox -> everything un-ingested
+    g = inbox_log_staleness(['2026-05-21', '2026-05-28'], [], now='2026-05-28')
+    check("gauge: empty log -> all inbox un-ingested", g['un_ingested'] == 2)
+    check("gauge: empty log -> stale, days_behind 0 (no baseline)",
+          g['stale'] is True and g['days_behind'] == 0)
+
+    # Empty inbox -> not stale
+    g = inbox_log_staleness([], ['2026-05-19'], now='2026-05-28')
+    check("gauge: empty inbox -> not stale", g['stale'] is False)
+
+    # Recency-anchoring FP guard: 6 backfill HYPE rows, HYPE held/core -> QUIET
+    hype_rows = [_m('farrell', 'HYPE', d, tier='D', backfill=True)
+                 for d in ('2026-04-29', '2026-05-08', '2026-05-14',
+                           '2026-05-15', '2026-05-18', '2026-05-19')]
+    cl = persistence_scan(hype_rows, core_tickers=['HYPE', 'BMNR', 'LEU'],
+                          now='2026-05-28')
+    check("persistence[5/28]: 6 backfill HYPE fire as one cluster",
+          len(cl) == 1 and cl[0]['count'] == 6)
+    check("persistence[5/28]: held HYPE backfill -> QUIET not LOUD",
+          cl[0]['loud'] is False and cl[0]['quiet_reason'] == 'core')
+
+    # ----------------------------------------------------------------------
+    # Block 8: log_cache_staleness + calibration_chain_staleness (v11.36, #1)
+    # The Log->Cache hop the v11.35 Inbox->Log gauge could not see.
+    # ----------------------------------------------------------------------
+    lc = log_cache_staleness(['2026-05-19', '2026-05-15'],
+                             ['2026-05-19', '2026-05-15'], now='2026-05-28')
+    check("log_cache: fresh -> not stale", lc['stale'] is False)
+    check("log_cache: fresh -> un_cached 0", lc['un_cached'] == 0)
+
+    # 2026-05-28 live fixture: Log carries 5/28, cache stuck at 5/19 -> 9d stale
+    lc = log_cache_staleness(
+        ['2026-05-15', '2026-05-19', '2026-05-28'],
+        ['2026-05-15', '2026-05-19'], now='2026-05-28')
+    check("log_cache[5/28]: un_cached == 1", lc['un_cached'] == 1)
+    check("log_cache[5/28]: newest_log 2026-05-28", lc['newest_log'] == '2026-05-28')
+    check("log_cache[5/28]: newest_cache 2026-05-19", lc['newest_cache'] == '2026-05-19')
+    check("log_cache[5/28]: stale True", lc['stale'] is True)
+    check("log_cache[5/28]: days_behind 9", lc['days_behind'] == 9)
+
+    lc = log_cache_staleness(['2026-05-19', '2026-05-28'], [], now='2026-05-28')
+    check("log_cache: empty cache -> all log un-cached", lc['un_cached'] == 2)
+    check("log_cache: empty cache -> stale, days_behind 0 (no baseline)",
+          lc['stale'] is True and lc['days_behind'] == 0)
+
+    lc = log_cache_staleness([], ['2026-05-19'], now='2026-05-28')
+    check("log_cache: empty log -> not stale", lc['stale'] is False)
+
+    # chain orchestrator: the EXACT 5/28 trap -> Inbox->Log clean, Log->Cache stale
+    chain = calibration_chain_staleness(
+        inbox_call_dates=['2026-05-19', '2026-05-28'],
+        log_call_dates=['2026-05-19', '2026-05-28'],
+        cache_call_dates=['2026-05-15', '2026-05-19'],
+        now='2026-05-28')
+    check("chain[5/28]: inbox_log hop clean", chain['inbox_log']['stale'] is False)
+    check("chain[5/28]: log_cache hop stale", chain['log_cache']['stale'] is True)
+    check("chain[5/28]: chain stale (the hop old gauge missed)", chain['stale'] is True)
+    check("chain[5/28]: stale_hops == ['log_cache']",
+          chain['stale_hops'] == ['log_cache'])
+    check("chain[5/28]: worst_days_behind 9", chain['worst_days_behind'] == 9)
+    check("chain[5/28]: provisional True", chain['provisional'] is True)
+    check("chain[5/28]: surface names LOG->CACHE + PROVISIONAL",
+          'LOG\u2192CACHE STALE' in chain_staleness_surface(chain)
+          and 'PROVISIONAL' in chain_staleness_surface(chain))
+
+    chain = calibration_chain_staleness(
+        ['2026-05-28'], ['2026-05-28'], ['2026-05-28'], now='2026-05-28')
+    check("chain: all fresh -> not stale", chain['stale'] is False)
+    check("chain: all fresh -> surface empty", chain_staleness_surface(chain) == '')
+
+    chain = calibration_chain_staleness(
+        ['2026-05-28'], ['2026-05-19'], ['2026-05-15'], now='2026-05-28')
+    check("chain: both hops stale", set(chain['stale_hops']) == {'inbox_log', 'log_cache'})
+    _surf = chain_staleness_surface(chain)
+    check("chain: both-stale surface names both hops",
+          'INBOX\u2192LOG STALE' in _surf and 'LOG\u2192CACHE STALE' in _surf)
 
     return passed, total
 
