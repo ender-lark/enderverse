@@ -1,22 +1,28 @@
-"""Conviction Engine — Layer 3 Analyst: MECHANICAL reads (A2a).
+"""Conviction Engine — Layer 3 Analyst: MECHANICAL reads (A2a + A2b).
 
-The deterministic, Python-rule reads (tested by assert + boundaries). A2a covers
-the three that consume the A1 config directly:
-  ⑤ rotation_read   — classify each rotation card into a sleeve badge + note
-  ⑥ macro_read      — the macro line + regime + fired alerts + implications
-  ⑨ staleness_read  — the "sourced: …" stamp + per-source stale/baseline flags
+The deterministic, Python-rule reads (tested by assert + boundaries).
+A2a (config-consuming):
+  ⑤ rotation_read       — classify each rotation card into a sleeve badge + note
+  ⑥ macro_read          — the macro line + regime + fired alerts + implications
+  ⑨ staleness_read      — the "sourced: …" stamp + per-source stale/baseline flags
+A2b (the rest of the mechanical set):
+  ④ type_read           — per held name: type · lock · why · break + untracked list
+  ⑧ hero_needs_you_read — headline counts: hero vs needs_you (pure aggregator)
+  ⑩ weight_read         — per subject: independent streams / voices / max trust
+                          (echo-chamber guard that feeds the A3 judgment reads)
 
 Boundary (Sources vs Analyst — RECORD): these are mechanical (fixed calcs /
-config lookups). The JUDGMENT reads (conviction, net-read, fresh-signals) are
-A2b/A3. In particular, ⑤ classifies rotation but does NOT interpret a lag as
-catch-up-vs-broken — that's the ③ net-read.
+config lookups / aggregation). The JUDGMENT reads (① conviction, ② conviction-
+direction, ③ net-read, ⑦ fresh-signals) are A3. In particular ⑤ classifies a lag
+but does NOT interpret it catch-up-vs-broken, and ④ states the configured type but
+does NOT grade conviction — those are the A3 judgment reads.
 """
 from __future__ import annotations
 
 from datetime import date
 
 from uw_price import classify_rotation
-from analyst_config import ROTATION_BANDS, MACRO_ALERTS, is_stale
+from analyst_config import ROTATION_BANDS, MACRO_ALERTS, is_stale, theses_by_ticker
 from sources import DEFAULT_CADENCE
 
 
@@ -198,3 +204,172 @@ def staleness_read(staleness: dict, as_of: str, cadence_map: dict | None = None)
         for e in entries
     )
     return {"stamp": stamp, "entries": entries, "stale": stale_flags}
+
+
+# =========================================================================== #
+# ④ Type / lock / why / break  (per held name)
+# =========================================================================== #
+# Field names are PROVISIONAL per the A2b spec. The cockpit (K1) consumes
+# ty / lock / dr / be — reconcile at the cockpit stage (type->ty, why->dr,
+# break->be). Kept descriptive here so the read is self-explaining.
+NO_BREAK = "—"
+
+
+def _why(thesis: dict) -> str:
+    """Plain 'why we hold it': backing source + factor tags."""
+    source = thesis.get("source") or "—"
+    tags = thesis.get("factor_tags") or []
+    tag_str = ", ".join(tags)
+    return f"{source} · {tag_str}" if tag_str else source
+
+
+def type_read(position_cards, theses) -> dict:
+    """Per held name: type (tier · lane), lock (🔒 if Generational), why
+    (source + factor tags), break (thesis-break condition or '—'); plus the
+    untracked names (held but no thesis row → Tier-C default).
+
+    Mechanical: pure lookup/assembly from theses.json + the position cards.
+    Conviction GRADING (Strong/Promising/…) is the ① judgment read (A3); this
+    read only states the configured type, it never grades. One entry per NAME —
+    the portfolio plug emits a card per account, so same-ticker cards collapse.
+    """
+    by_ticker = theses_by_ticker(theses)
+
+    tracked, untracked, seen = [], [], set()
+    for c in position_cards:
+        if getattr(c, "kind", None) != "position":
+            continue
+        ticker = c.subject
+        if not ticker or ticker in seen:
+            continue
+        seen.add(ticker)
+
+        th = by_ticker.get(ticker)
+        if th is None:
+            untracked.append({
+                "ticker": ticker,
+                "type": "Tier-C (default)",
+                "lock": "",
+                "why": "no documented thesis",
+                "break": NO_BREAK,
+            })
+            continue
+
+        lane, tier = th.get("lane"), th.get("tier")
+        type_str = " · ".join(x for x in (tier, lane) if x) or "—"
+        tracked.append({
+            "ticker": ticker,
+            "type": type_str,
+            "lock": "🔒" if lane == "Generational" else "",
+            "why": _why(th),
+            "break": th.get("break") or NO_BREAK,
+        })
+
+    return {
+        "tracked": tracked,
+        "untracked": untracked,
+        "tracked_count": len(tracked),
+        "untracked_count": len(untracked),
+    }
+
+
+# =========================================================================== #
+# ⑧ Hero / needs-you  (the headline aggregator)
+# =========================================================================== #
+CRITICAL_SOURCES = ("portfolio", "uw_price")
+
+
+def hero_needs_you_read(rotation, macro, staleness, type_reads,
+                        fresh_signals=None, monitor_reentry=None,
+                        red_gates=None,
+                        critical_sources=CRITICAL_SOURCES) -> dict:
+    """Aggregate the mechanical reads into the cockpit headline.
+
+    needs_you = stale CRITICAL sources + firing macro alerts + MONITOR re-entry
+    candidates + any RED gate (+ act-now fresh signals once A3 supplies them).
+    hero      = the clean, tracked, intact-thesis names not flagged elsewhere
+    (plus the LEADING sleeves as positive context).
+
+    Pure aggregator — every input is another read's output. fresh_signals /
+    monitor_reentry / red_gates default empty so A2b can call with just the four
+    mechanical reads, and A3 can enrich without changing the signature.
+    """
+    fresh_signals = fresh_signals or []
+    monitor_reentry = monitor_reentry or []
+    red_gates = red_gates or []
+
+    items = []
+    for src in (staleness.get("stale") or []):
+        if src in critical_sources:
+            items.append({"reason": "stale_critical", "detail": src})
+    for a in (macro.get("alerts") or []):
+        items.append({"reason": "macro_alert",
+                      "detail": a.get("subject"), "note": a.get("note")})
+    for t in monitor_reentry:
+        items.append({"reason": "monitor_reentry", "detail": t})
+    for g in red_gates:
+        items.append({"reason": "red_gate", "detail": g})
+    for s in fresh_signals:
+        if isinstance(s, dict) and s.get("urgency") == "act":
+            items.append({"reason": "fresh_act",
+                          "detail": s.get("ticker") or s.get("subject")})
+
+    flagged = {i["detail"] for i in items}
+    hero_names = [
+        e["ticker"] for e in (type_reads.get("tracked") or [])
+        if e.get("break") in (NO_BREAK, "", None) and e["ticker"] not in flagged
+    ]
+    leading_sleeves = (rotation.get("by_label") or {}).get("LEADING", [])
+
+    return {
+        "hero": {"count": len(hero_names), "names": hero_names,
+                 "leading_sleeves": leading_sleeves},
+        "needs_you": {"count": len(items), "items": items},
+    }
+
+
+# =========================================================================== #
+# ⑩ Trust + independence weighting  (echo-chamber guard; feeds A3 ①–③)
+# =========================================================================== #
+def weight_read(cards) -> dict:
+    """Per subject, collapse same-independence-group cards to ONE voice.
+
+    independent_streams = count of DISTINCT independence_group (the two Fundstrat
+    plugs on one name = 1 stream, not 2 — the echo-chamber guard). voices = the
+    highest-trust card kept per group. max_trust = best trust across the subject.
+    Feeds the ①–③ judgment reads in A3 (A3 passes the endorsement cards per name).
+    Subject-less cards are skipped.
+    """
+    by_subject: dict = {}
+    for c in cards:
+        subject = getattr(c, "subject", None)
+        if not subject:
+            continue
+        by_subject.setdefault(subject, []).append(c)
+
+    out: dict = {}
+    for subject, subj_cards in by_subject.items():
+        best_per_group: dict = {}
+        for c in subj_cards:
+            grp = getattr(c, "independence_group", None)
+            trust = getattr(c, "trust_weight", 0.0) or 0.0
+            cur = best_per_group.get(grp)
+            if cur is None or trust > (getattr(cur, "trust_weight", 0.0) or 0.0):
+                best_per_group[grp] = c
+
+        voices = [{
+            "group": grp,
+            "source": getattr(c, "source", None),
+            "trust": getattr(c, "trust_weight", None),
+            "content": getattr(c, "content", None),
+        } for grp, c in best_per_group.items()]
+
+        max_trust = max((getattr(c, "trust_weight", 0.0) or 0.0)
+                        for c in subj_cards)
+
+        out[subject] = {
+            "independent_streams": len(best_per_group),
+            "voices": voices,
+            "max_trust": max_trust,
+        }
+    return out

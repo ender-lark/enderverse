@@ -10,7 +10,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pytest
 
 from sources import SourceItem
-from analyst import rotation_read, macro_read, staleness_read
+from analyst import (
+    rotation_read, macro_read, staleness_read,
+    type_read, hero_needs_you_read, weight_read, NO_BREAK,
+)
 
 
 def _card(kind, subject, content, data=None, ts="2026-05-29",
@@ -198,3 +201,155 @@ def test_staleness_uses_live_cadence_dial_by_default():
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))
+
+
+# =========================================================================== #
+# ④ type_read
+# =========================================================================== #
+def _pos(ticker, pct=None):
+    content = f"{ticker} {pct}% Owned" if pct is not None else f"{ticker} Owned"
+    return _card("position", ticker, content, {"ticker": ticker, "pct": pct},
+                 source="portfolio", trust=0.95, grp="own")
+
+
+THESES = [
+    {"ticker": "BMNR", "tier": "T1", "lane": "Generational",
+     "source": "operator", "factor_tags": ["crypto", "eth"]},
+    {"ticker": "SMH", "tier": "T1", "lane": "BuyAndHold",
+     "source": "Lee", "factor_tags": ["ai", "semis"]},
+    {"ticker": "LEU", "tier": "T2", "lane": "Speed",
+     "source": "Meridian", "factor_tags": ["nuclear", "haleu"],
+     "break": "HALEU contract canceled"},
+]
+
+
+def test_type_read_tracked_and_untracked():
+    out = type_read([_pos("BMNR"), _pos("SMH"), _pos("AMZN")], THESES)
+    assert {e["ticker"] for e in out["tracked"]} == {"BMNR", "SMH"}
+    assert out["untracked"][0]["ticker"] == "AMZN"          # no thesis row
+    assert out["untracked"][0]["type"] == "Tier-C (default)"
+    assert out["tracked_count"] == 2 and out["untracked_count"] == 1
+
+
+def test_type_read_lock_on_generational():
+    out = type_read([_pos("BMNR"), _pos("SMH")], THESES)
+    locks = {e["ticker"]: e["lock"] for e in out["tracked"]}
+    assert locks["BMNR"] == "🔒"        # Generational -> locked
+    assert locks["SMH"] == ""           # BuyAndHold  -> not locked
+
+
+def test_type_read_type_why_break():
+    out = type_read([_pos("BMNR"), _pos("LEU")], THESES)
+    by = {e["ticker"]: e for e in out["tracked"]}
+    assert by["BMNR"]["type"] == "T1 · Generational"
+    assert by["BMNR"]["why"] == "operator · crypto, eth"     # source + factor tags
+    assert by["BMNR"]["break"] == NO_BREAK                   # no break field -> —
+    assert by["LEU"]["break"] == "HALEU contract canceled"   # surfaced when present
+
+
+def test_type_read_dedupes_same_ticker_across_accounts():
+    # portfolio emits one card per account; type_read is per NAME -> dedupe
+    out = type_read([_pos("SMH"), _pos("SMH")], THESES)
+    assert out["tracked_count"] == 1
+
+
+def test_type_read_ignores_non_position_cards():
+    out = type_read([_macro("10Y", "10Y 4.45%"), _pos("SMH")], THESES)
+    assert out["tracked_count"] == 1 and out["untracked_count"] == 0
+
+
+# =========================================================================== #
+# ⑧ hero_needs_you_read
+# =========================================================================== #
+def test_hero_needs_you_counts():
+    rotation = {"by_label": {"LEADING": ["SMH"]}}
+    macro = {"alerts": [{"subject": "10Y", "note": "Newton resistance"}]}
+    staleness = {"stale": ["portfolio", "fundstrat_bible"]}  # only portfolio critical
+    type_reads = {"tracked": [
+        {"ticker": "SMH", "break": NO_BREAK},
+        {"ticker": "BMNR", "break": NO_BREAK},
+        {"ticker": "LEU", "break": "HALEU contract canceled"},
+    ]}
+    out = hero_needs_you_read(rotation, macro, staleness, type_reads,
+                              monitor_reentry=["MP"], red_gates=["NVDA add RED"])
+    # stale-critical(portfolio) + macro(10Y) + monitor(MP) + red(NVDA) = 4
+    assert out["needs_you"]["count"] == 4
+    assert {i["reason"] for i in out["needs_you"]["items"]} == {
+        "stale_critical", "macro_alert", "monitor_reentry", "red_gate"}
+    # fundstrat_bible stale but NOT critical -> excluded
+    details = {(i["reason"], i["detail"]) for i in out["needs_you"]["items"]}
+    assert ("stale_critical", "fundstrat_bible") not in details
+
+
+def test_hero_excludes_flagged_and_broken():
+    rotation = {"by_label": {"LEADING": ["SMH"]}}
+    type_reads = {"tracked": [
+        {"ticker": "SMH", "break": NO_BREAK},
+        {"ticker": "MP", "break": NO_BREAK},      # but flagged via monitor_reentry
+        {"ticker": "LEU", "break": "broken"},     # broken thesis -> not hero
+    ]}
+    out = hero_needs_you_read(rotation, {"alerts": []}, {"stale": []}, type_reads,
+                              monitor_reentry=["MP"])
+    assert out["hero"]["names"] == ["SMH"]        # MP flagged, LEU broken
+    assert out["hero"]["leading_sleeves"] == ["SMH"]
+
+
+def test_hero_needs_you_empty_inputs():
+    out = hero_needs_you_read({}, {}, {}, {})
+    assert out["needs_you"]["count"] == 0
+    assert out["hero"]["count"] == 0
+
+
+# =========================================================================== #
+# ⑩ weight_read
+# =========================================================================== #
+def test_weight_same_group_collapses_to_one_stream():
+    # the two Fundstrat plugs on ONE name = 1 independent stream (echo-chamber guard)
+    out = weight_read([
+        _card("analyst_call", "XLF", "Lee: own financials",
+              source="fundstrat_bible", trust=0.70, grp="fundstrat"),
+        _card("analyst_call", "XLF", "Newton: XLF breakout",
+              source="fundstrat_daily", trust=0.70, grp="fundstrat"),
+    ])
+    assert out["XLF"]["independent_streams"] == 1
+    assert len(out["XLF"]["voices"]) == 1
+
+
+def test_weight_different_groups_two_streams():
+    out = weight_read([
+        _card("analyst_call", "LEU", "Meridian: HALEU monopoly",
+              source="meridian", trust=0.75, grp="thematic_research"),
+        _card("analyst_call", "LEU", "Lee: nuclear OW",
+              source="fundstrat_bible", trust=0.70, grp="fundstrat"),
+    ])
+    assert out["LEU"]["independent_streams"] == 2
+    assert len(out["LEU"]["voices"]) == 2
+
+
+def test_weight_keeps_highest_trust_voice_per_group():
+    out = weight_read([
+        _card("analyst_call", "NVDA", "low-trust take",
+              source="fundstrat_daily", trust=0.65, grp="fundstrat"),
+        _card("analyst_call", "NVDA", "high-trust take",
+              source="fundstrat_bible", trust=0.72, grp="fundstrat"),
+    ])
+    assert out["NVDA"]["independent_streams"] == 1
+    voice = out["NVDA"]["voices"][0]
+    assert voice["trust"] == 0.72 and voice["content"] == "high-trust take"
+
+
+def test_weight_max_trust():
+    out = weight_read([
+        _card("analyst_call", "SMH", "a", source="fundstrat_bible",
+              trust=0.70, grp="fundstrat"),
+        _card("position", "SMH", "SMH 9.9% Owned", source="portfolio",
+              trust=0.95, grp="own"),
+    ])
+    assert out["SMH"]["max_trust"] == 0.95
+    assert out["SMH"]["independent_streams"] == 2
+
+
+def test_weight_skips_subjectless():
+    out = weight_read([_card("stance", "", "macro stance: constructive",
+                             source="fundstrat_bible", trust=0.70, grp="fundstrat")])
+    assert out == {}
