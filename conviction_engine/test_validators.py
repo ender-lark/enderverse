@@ -216,3 +216,128 @@ def test_validator_runs_clean_over_fetch_all_including_error_item():
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))
+
+
+# =========================================================================== #
+# Contract C — validate_cockpit_feed (A4)
+# =========================================================================== #
+from validators import (
+    validate_cockpit_feed, is_valid_cockpit_feed, assert_valid_cockpit_feed,
+)
+
+
+def _pos(**over):
+    p = {"t": "SMH", "n": "Semiconductor ETF", "pct": 9.9, "st": "Owned",
+         "cv": "Strong", "ty": "Core", "own": "p,s", "lock": "", "fresh": False,
+         "cd": "flat", "cdNote": "No recent change.",
+         "nr": "Core hold — ride it.", "dr": [["Lee", "AI complex"]],
+         "be": "AI capex slows."}
+    p.update(over)
+    return p
+
+
+def _signal(**over):
+    s = {"ticker": "ITA", "urgency": "act", "what": "breakout",
+         "why": "laggard turning up", "when": "2026-05-28", "detail": "Newton note"}
+    s.update(over)
+    return s
+
+
+def _feed(**over):
+    f = {
+        "generated_at": "2026-05-29T12:00:00",
+        "staleness": {"stamp": "sourced: FS 5/28 · rotation 5/29", "entries": [], "stale": []},
+        "hero": {"count": 3, "names": ["SMH"], "leading_sleeves": ["SMH"]},
+        "fresh_signals": [_signal()],
+        "holdings": [{"cat": "AI / Semis", "rot": {"w": "LEADING", "c": "#0f0"}, "pos": [_pos()]}],
+        "rotation": [{"s": "SMH", "w": "LEADING"}],
+        "macro": {"line": "10Y 4.45%", "regime": {}, "alerts": [], "implications": []},
+        "catalysts": [], "questions": [], "research": {},
+    }
+    f.update(over)
+    return f
+
+
+def test_feed_valid_minimal():
+    assert validate_cockpit_feed(_feed()) == []
+    assert is_valid_cockpit_feed(_feed())
+
+
+def test_feed_not_a_dict():
+    assert validate_cockpit_feed(["nope"])
+
+
+def test_feed_missing_generated_at():
+    f = _feed(); del f["generated_at"]
+    assert any("generated_at" in p for p in validate_cockpit_feed(f))
+
+
+def test_feed_missing_required_dict_block():
+    f = _feed(); del f["hero"]
+    assert any("hero" in p for p in validate_cockpit_feed(f))
+
+
+def test_feed_missing_required_list_block():
+    f = _feed(); del f["holdings"]
+    assert any("holdings" in p for p in validate_cockpit_feed(f))
+
+
+def test_feed_wrong_type_block():
+    assert any("rotation" in p for p in validate_cockpit_feed(_feed(rotation={"not": "a list"})))
+    assert any("macro" in p for p in validate_cockpit_feed(_feed(macro=["not", "a", "dict"])))
+
+
+def test_feed_holding_missing_pos():
+    assert any("pos" in p for p in
+               validate_cockpit_feed(_feed(holdings=[{"cat": "AI"}])))
+
+
+def test_feed_holding_missing_cat():
+    assert any("cat" in p for p in
+               validate_cockpit_feed(_feed(holdings=[{"pos": [_pos()]}])))
+
+
+def test_feed_pos_missing_required_field():
+    p = _pos(); del p["nr"]
+    f = _feed(holdings=[{"cat": "AI", "pos": [p]}])
+    assert any("nr" in prob for prob in validate_cockpit_feed(f))
+
+
+def test_feed_pos_empty_ticker():
+    f = _feed(holdings=[{"cat": "AI", "pos": [_pos(t="")]}])
+    assert any("ticker" in prob.lower() for prob in validate_cockpit_feed(f))
+
+
+def test_feed_pos_bad_pct_type():
+    f = _feed(holdings=[{"cat": "AI", "pos": [_pos(pct="9.9")]}])
+    assert any("pct" in prob for prob in validate_cockpit_feed(f))
+
+
+def test_feed_fresh_signal_missing_field():
+    s = _signal(); del s["why"]
+    assert any("why" in prob for prob in validate_cockpit_feed(_feed(fresh_signals=[s])))
+
+
+def test_feed_fresh_signal_bad_urgency():
+    assert any("urgency" in prob for prob in
+               validate_cockpit_feed(_feed(fresh_signals=[_signal(urgency="maybe")])))
+
+
+def test_feed_optional_blocks_absent_is_valid():
+    f = _feed()
+    for k in ("catalysts", "questions", "research"):
+        del f[k]
+    assert validate_cockpit_feed(f) == []
+
+
+def test_feed_research_wrong_type_flagged():
+    assert any("research" in prob for prob in validate_cockpit_feed(_feed(research="nope")))
+
+
+def test_feed_assert_raises_and_passes():
+    assert_valid_cockpit_feed(_feed())          # no raise
+    try:
+        assert_valid_cockpit_feed({"generated_at": ""})
+        assert False, "should have raised"
+    except ValueError as e:
+        assert "invalid CockpitFeed" in str(e)

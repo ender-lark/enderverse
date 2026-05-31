@@ -196,3 +196,125 @@ def assert_valid_collected_snapshot(snap: Any) -> None:
     problems = validate_collected_snapshot(snap)
     if problems:
         raise ValueError("invalid CollectedSnapshot: " + "; ".join(problems))
+
+
+# =========================================================================== #
+# Contract C — CockpitFeed (Analyst → Cockpit)
+# =========================================================================== #
+# The Analyst-EMITTED shape (the feed-assembler maps each read's own field names
+# — type_read's type/why/break, ⑦'s ticker/urgency — into this canonical shape;
+# the cockpit's raw v4 const names (t/urg, and pos without lock/fresh) are a K1
+# display reconciliation). Checks SHAPE only; cross-field consistency (does a
+# `fresh` flag match a held name?) is the assembler's job, not here.
+_FEED_REQUIRED_DICT = ("staleness", "hero", "macro")
+_FEED_REQUIRED_LIST = ("fresh_signals", "holdings", "rotation")
+_FEED_OPTIONAL_LIST = ("catalysts", "questions")
+# canonical per-position field set (Contract C)
+_POS_REQUIRED = ("t", "n", "pct", "st", "cv", "ty", "own",
+                 "lock", "fresh", "cd", "cdNote", "nr", "dr", "be")
+_FRESH_REQUIRED = ("ticker", "urgency", "what", "why")
+_VALID_URGENCY = {"act", "watch"}
+
+
+def _validate_pos(p: Any) -> list[str]:
+    if not isinstance(p, dict):
+        return ["must be a dict"]
+    out: list[str] = [f"missing pos field: {k}" for k in _POS_REQUIRED if k not in p]
+    t = p.get("t")
+    if "t" in p and (not isinstance(t, str) or t.strip() == ""):
+        out.append("t (ticker) must be a non-empty string")
+    for k in ("cv", "cd", "nr"):
+        if k in p and not isinstance(p.get(k), str):
+            out.append(f"{k} must be a string")
+    pct = p.get("pct")
+    if "pct" in p and pct is not None and not isinstance(pct, (int, float)):
+        out.append("pct must be a number or None")
+    return out
+
+
+def _validate_fresh_signal(s: Any) -> list[str]:
+    if not isinstance(s, dict):
+        return ["must be a dict"]
+    out: list[str] = [f"missing field: {k}" for k in _FRESH_REQUIRED if k not in s]
+    if "urgency" in s and s.get("urgency") not in _VALID_URGENCY:
+        out.append(f"urgency must be one of {sorted(_VALID_URGENCY)}, got {s.get('urgency')!r}")
+    tk = s.get("ticker")
+    if "ticker" in s and (not isinstance(tk, str) or tk.strip() == ""):
+        out.append("ticker must be a non-empty string")
+    return out
+
+
+def validate_cockpit_feed(feed: Any) -> list[str]:
+    """Return a list of problems with `feed` as a CockpitFeed (Contract C).
+
+    Empty list == valid. Required top-level blocks (generated_at, staleness,
+    hero, fresh_signals, holdings, rotation, macro; catalysts/questions/research
+    optional), each holding's pos objects carry the full canonical per-name field
+    set, fresh_signals carry ticker/urgency/what/why. Does NOT raise.
+    """
+    if not isinstance(feed, dict):
+        return [f"feed must be a dict, got {type(feed).__name__}"]
+    problems: list[str] = []
+
+    ga = feed.get("generated_at", _MISSING)
+    if ga is _MISSING:
+        problems.append("missing field: generated_at")
+    elif not isinstance(ga, str) or ga.strip() == "":
+        problems.append("generated_at must be a non-empty string")
+
+    for fld in _FEED_REQUIRED_DICT:
+        v = feed.get(fld, _MISSING)
+        if v is _MISSING:
+            problems.append(f"missing field: {fld}")
+        elif not isinstance(v, dict):
+            problems.append(f"{fld} must be a dict, got {type(v).__name__}")
+
+    for fld in _FEED_REQUIRED_LIST:
+        v = feed.get(fld, _MISSING)
+        if v is _MISSING:
+            problems.append(f"missing field: {fld}")
+        elif not isinstance(v, list):
+            problems.append(f"{fld} must be a list, got {type(v).__name__}")
+
+    for fld in _FEED_OPTIONAL_LIST:
+        v = feed.get(fld, _MISSING)
+        if v is not _MISSING and not isinstance(v, list):
+            problems.append(f"{fld} must be a list, got {type(v).__name__}")
+
+    research = feed.get("research", _MISSING)
+    if research is not _MISSING and not isinstance(research, (dict, list)):
+        problems.append(f"research must be a dict or list, got {type(research).__name__}")
+
+    holdings = feed.get("holdings", _MISSING)
+    if isinstance(holdings, list):
+        for i, h in enumerate(holdings):
+            if not isinstance(h, dict):
+                problems.append(f"holdings[{i}] must be a dict")
+                continue
+            if not isinstance(h.get("cat"), str) or not h.get("cat"):
+                problems.append(f"holdings[{i}] missing non-empty 'cat'")
+            pos = h.get("pos", _MISSING)
+            if pos is _MISSING:
+                problems.append(f"holdings[{i}] missing 'pos'")
+            elif not isinstance(pos, list):
+                problems.append(f"holdings[{i}].pos must be a list, got {type(pos).__name__}")
+            else:
+                for j, p in enumerate(pos):
+                    problems.extend(f"holdings[{i}].pos[{j}] {e}" for e in _validate_pos(p))
+
+    fresh = feed.get("fresh_signals", _MISSING)
+    if isinstance(fresh, list):
+        for i, s in enumerate(fresh):
+            problems.extend(f"fresh_signals[{i}] {e}" for e in _validate_fresh_signal(s))
+
+    return problems
+
+
+def is_valid_cockpit_feed(feed: Any) -> bool:
+    return not validate_cockpit_feed(feed)
+
+
+def assert_valid_cockpit_feed(feed: Any) -> None:
+    problems = validate_cockpit_feed(feed)
+    if problems:
+        raise ValueError("invalid CockpitFeed: " + "; ".join(problems))

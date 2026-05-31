@@ -1,0 +1,630 @@
+{
+  "generated_at": "2026-05-29T16:00:00",
+  "staleness": {
+    "stamp": "sourced: uw_price 05-29 \u00b7 uw_macro 05-29 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 05-28 \u00b7 meridian 03-15 (baseline) \u00b7 portfolio 05-27",
+    "entries": [
+      {
+        "source": "uw_price",
+        "date": "2026-05-29",
+        "age_days": 0,
+        "cadence": "daily",
+        "stale": false,
+        "flag": ""
+      },
+      {
+        "source": "uw_macro",
+        "date": "2026-05-29",
+        "age_days": 0,
+        "cadence": "daily",
+        "stale": false,
+        "flag": ""
+      },
+      {
+        "source": "fundstrat_bible",
+        "date": "2026-05-28",
+        "age_days": 1,
+        "cadence": "monthly",
+        "stale": false,
+        "flag": ""
+      },
+      {
+        "source": "fundstrat_daily",
+        "date": "2026-05-28",
+        "age_days": 1,
+        "cadence": "daily",
+        "stale": false,
+        "flag": ""
+      },
+      {
+        "source": "meridian",
+        "date": "2026-03-15",
+        "age_days": 75,
+        "cadence": "static",
+        "stale": false,
+        "flag": "(baseline)"
+      },
+      {
+        "source": "portfolio",
+        "date": "2026-05-27",
+        "age_days": 2,
+        "cadence": "on_refresh",
+        "stale": false,
+        "flag": ""
+      }
+    ],
+    "stale": []
+  },
+  "hero": {
+    "hero": {
+      "count": 12,
+      "names": [
+        "SMH",
+        "MAGS",
+        "NVDA",
+        "MU",
+        "GRNY",
+        "XLF",
+        "LEU",
+        "MP",
+        "UUUU",
+        "BMNR",
+        "IBIT",
+        "VOLT"
+      ],
+      "leading_sleeves": [
+        "SMH",
+        "IGV"
+      ]
+    },
+    "needs_you": {
+      "count": 1,
+      "items": [
+        {
+          "reason": "fresh_act",
+          "detail": "ITA"
+        }
+      ]
+    }
+  },
+  "fresh_signals": [
+    {
+      "ticker": "FN",
+      "urgency": "watch",
+      "what": "new_top5",
+      "why": "FN \u2014 newly named FS Top-5 SMID (AI optical)",
+      "when": "2026-05-28",
+      "detail": "05-28 fundstrat_bible new_top5"
+    },
+    {
+      "ticker": "ITA",
+      "urgency": "act",
+      "what": "breakout",
+      "why": "ITA cleared a multi-month downtrend \u2014 Newton 5/28 (breakout)",
+      "when": "2026-05-28",
+      "detail": "05-28 fundstrat_daily breakout"
+    }
+  ],
+  "holdings": [
+    {
+      "cat": "AI / Semiconductors",
+      "rot": {
+        "w": "LEADING"
+      },
+      "pos": [
+        {
+          "t": "SMH",
+          "n": "SMH",
+          "pct": 9.9,
+          "st": "Owned",
+          "cv": "Strong",
+          "ty": "Core",
+          "own": "p,s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
+          "dr": [
+            [
+              "Lee \u00b7 ai_complex, semiconductors, long_duration_growth"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "MAGS",
+          "n": "MAGS",
+          "pct": 9.09,
+          "st": "Owned",
+          "cv": "Strong",
+          "ty": "Core",
+          "own": "p,s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
+          "dr": [
+            [
+              "Lee \u00b7 ai_complex, long_duration_growth, global_exporter"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "NVDA",
+          "n": "NVDA",
+          "pct": 6.73,
+          "st": "Owned",
+          "cv": "Strong",
+          "ty": "Core",
+          "own": "p,s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
+          "dr": [
+            [
+              "Lee \u00b7 ai_complex, semiconductors, long_duration_growth, global_exporter"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "MU",
+          "n": "MU",
+          "pct": 2.0,
+          "st": "Owned",
+          "cv": "Strong",
+          "ty": "Tactical",
+          "own": "s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Hold \u2014 parabolic; do NOT trim on the move, only on a named break (your rule).",
+          "dr": [
+            [
+              "Lee \u00b7 ai_complex, semiconductors"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "AVGO",
+          "n": "AVGO",
+          "pct": 3.5,
+          "st": "Owned",
+          "cv": "\u2014",
+          "ty": "Tactical",
+          "own": "p,s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold but undocumented \u2014 give me a line.",
+          "dr": [
+            [
+              "no documented thesis"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "ANET",
+          "n": "ANET",
+          "pct": 0.29,
+          "st": "Owned",
+          "cv": "Promising",
+          "ty": "Tactical",
+          "own": "s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold \u2014 source-endorsed, leading; ride it.",
+          "dr": [
+            [
+              "no documented thesis"
+            ]
+          ],
+          "be": "\u2014"
+        }
+      ]
+    },
+    {
+      "cat": "Quality core",
+      "rot": {
+        "w": "IN LINE"
+      },
+      "pos": [
+        {
+          "t": "GRNY",
+          "n": "GRNY",
+          "pct": 5.0,
+          "st": "Owned",
+          "cv": "Strong",
+          "ty": "Core",
+          "own": "p,s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
+          "dr": [
+            [
+              "Lee \u00b7 ai_complex"
+            ]
+          ],
+          "be": "\u2014"
+        }
+      ]
+    },
+    {
+      "cat": "Financials",
+      "rot": {
+        "w": "LAGGING"
+      },
+      "pos": [
+        {
+          "t": "XLF",
+          "n": "XLF",
+          "pct": 3.0,
+          "st": "Owned",
+          "cv": "Promising",
+          "ty": "Tactical",
+          "own": "p",
+          "lock": "",
+          "fresh": false,
+          "cd": "up",
+          "cdNote": "05-28 fundstrat_bible favorable_shift",
+          "nr": "Catch-up \u2014 Lee-endorsed laggard; favorable entry, no rush.",
+          "dr": [
+            [
+              "Lee \u00b7 financials, cyclicals"
+            ]
+          ],
+          "be": "\u2014"
+        }
+      ]
+    },
+    {
+      "cat": "Nuclear",
+      "rot": {
+        "w": "LAGGING"
+      },
+      "pos": [
+        {
+          "t": "LEU",
+          "n": "LEU",
+          "pct": 1.5,
+          "st": "Owned",
+          "cv": "Promising",
+          "ty": "Core",
+          "own": "s",
+          "lock": "\ud83d\udd12",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
+          "dr": [
+            [
+              "Meridian \u00b7 critical_minerals, nuclear, uranium"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "UUUU",
+          "n": "UUUU",
+          "pct": 0.8,
+          "st": "Owned",
+          "cv": "Mixed",
+          "ty": "Tactical",
+          "own": "s",
+          "lock": "",
+          "fresh": false,
+          "cd": "down",
+          "cdNote": "05-28 fundstrat_bible new_bottom5",
+          "nr": "Hold light \u2014 burned sleeve + cross-source split (fundstrat_bible vs meridian); watch for YOUR re-entry trigger, no add on a source call.",
+          "dr": [
+            [
+              "Meridian \u00b7 critical_minerals, uranium"
+            ]
+          ],
+          "be": "\u2014"
+        }
+      ]
+    },
+    {
+      "cat": "Critical minerals",
+      "rot": {
+        "w": "LAGGING"
+      },
+      "pos": [
+        {
+          "t": "MP",
+          "n": "MP",
+          "pct": 1.2,
+          "st": "Owned",
+          "cv": "Promising",
+          "ty": "Tactical",
+          "own": "s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
+          "dr": [
+            [
+              "Meridian \u00b7 critical_minerals, rare_earth"
+            ]
+          ],
+          "be": "\u2014"
+        }
+      ]
+    },
+    {
+      "cat": "Crypto",
+      "rot": {
+        "w": "TURNING DOWN"
+      },
+      "pos": [
+        {
+          "t": "BMNR",
+          "n": "BMNR",
+          "pct": 2.5,
+          "st": "Owned",
+          "cv": "Mixed",
+          "ty": "Core",
+          "own": "s",
+          "lock": "\ud83d\udd12",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "05-28 fundstrat_daily bottom_in vs 05-28 fundstrat_daily unfavorable_shift \u2014 net flat",
+          "nr": "Hold light \u2014 burned sleeve + cross-source split (fundstrat_daily); watch for YOUR re-entry trigger, no add on a source call.",
+          "dr": [
+            [
+              "operator \u00b7 crypto, eth"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "IBIT",
+          "n": "IBIT",
+          "pct": 1.5,
+          "st": "Owned",
+          "cv": "Promising",
+          "ty": "Core",
+          "own": "p",
+          "lock": "\ud83d\udd12",
+          "fresh": false,
+          "cd": "up",
+          "cdNote": "05-28 fundstrat_daily bottom_in",
+          "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
+          "dr": [
+            [
+              "operator \u00b7 crypto"
+            ]
+          ],
+          "be": "\u2014"
+        }
+      ]
+    },
+    {
+      "cat": "Electrification",
+      "rot": {
+        "w": "IN LINE"
+      },
+      "pos": [
+        {
+          "t": "VOLT",
+          "n": "VOLT",
+          "pct": 1.0,
+          "st": "Owned",
+          "cv": "Promising",
+          "ty": "Tactical",
+          "own": "s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold \u2014 operator-endorsed, leading; ride it. You're underweight to conviction here \u2014 the gap is the flag.",
+          "dr": [
+            [
+              "operator \u00b7 nuclear, ai_complex"
+            ]
+          ],
+          "be": "\u2014"
+        }
+      ]
+    },
+    {
+      "cat": "Other holdings",
+      "rot": {
+        "w": ""
+      },
+      "pos": [
+        {
+          "t": "ITA",
+          "n": "ITA",
+          "pct": 0.6,
+          "st": "Owned",
+          "cv": "Promising",
+          "ty": "Tactical",
+          "own": "s",
+          "lock": "",
+          "fresh": true,
+          "cd": "up",
+          "cdNote": "05-28 fundstrat_daily breakout",
+          "nr": "Core hold \u2014 source-endorsed, leading; ride it.",
+          "dr": [
+            [
+              "no documented thesis"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "AMZN",
+          "n": "AMZN",
+          "pct": 2.0,
+          "st": "Owned",
+          "cv": "\u2014",
+          "ty": "Tactical",
+          "own": "p",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold but undocumented \u2014 give me a line.",
+          "dr": [
+            [
+              "no documented thesis"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "COST",
+          "n": "COST",
+          "pct": 1.8,
+          "st": "Owned",
+          "cv": "\u2014",
+          "ty": "Tactical",
+          "own": "p",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold but undocumented \u2014 give me a line.",
+          "dr": [
+            [
+              "no documented thesis"
+            ]
+          ],
+          "be": "\u2014"
+        },
+        {
+          "t": "MSFT",
+          "n": "MSFT",
+          "pct": 2.2,
+          "st": "Owned",
+          "cv": "\u2014",
+          "ty": "Tactical",
+          "own": "p,s",
+          "lock": "",
+          "fresh": false,
+          "cd": "flat",
+          "cdNote": "No recent change.",
+          "nr": "Core hold but undocumented \u2014 give me a line.",
+          "dr": [
+            [
+              "no documented thesis"
+            ]
+          ],
+          "be": "\u2014"
+        }
+      ]
+    }
+  ],
+  "rotation": [
+    {
+      "subject": "SMH",
+      "label": "LEADING",
+      "rel_1m": 0.08,
+      "rel_3m": 0.37,
+      "abs_3m": 0.47,
+      "rel_3m_vs_smh": 0.0,
+      "note": "LEADING +37%/3M vs mkt"
+    },
+    {
+      "subject": "IGV",
+      "label": "LEADING",
+      "rel_1m": 0.2,
+      "rel_3m": 0.14,
+      "abs_3m": 0.24,
+      "rel_3m_vs_smh": -0.23,
+      "note": "LEADING +14%/3M vs mkt"
+    },
+    {
+      "subject": "GRNY",
+      "label": "IN LINE",
+      "rel_1m": 0.0,
+      "rel_3m": 0.0,
+      "abs_3m": 0.1,
+      "rel_3m_vs_smh": -0.37,
+      "note": "IN LINE +0%/3M vs mkt"
+    },
+    {
+      "subject": "VOLT",
+      "label": "IN LINE",
+      "rel_1m": -0.06,
+      "rel_3m": 0.01,
+      "abs_3m": 0.05,
+      "rel_3m_vs_smh": -0.36,
+      "note": "IN LINE +1%/3M vs mkt"
+    },
+    {
+      "subject": "IBIT",
+      "label": "TURNING DOWN",
+      "rel_1m": -0.09,
+      "rel_3m": 0.1,
+      "abs_3m": 0.18,
+      "rel_3m_vs_smh": -0.27,
+      "note": "TURNING DOWN +10%/3M vs mkt"
+    },
+    {
+      "subject": "XLF",
+      "label": "LAGGING",
+      "rel_1m": -0.03,
+      "rel_3m": -0.1,
+      "abs_3m": -0.02,
+      "rel_3m_vs_smh": -0.47,
+      "note": "LAGGING -10%/3M vs mkt"
+    },
+    {
+      "subject": "REMX",
+      "label": "LAGGING",
+      "rel_1m": -0.02,
+      "rel_3m": -0.1,
+      "abs_3m": 0.01,
+      "rel_3m_vs_smh": -0.47,
+      "note": "LAGGING -10%/3M vs mkt"
+    },
+    {
+      "subject": "URA",
+      "label": "LAGGING",
+      "rel_1m": -0.08,
+      "rel_3m": -0.17,
+      "abs_3m": -0.12,
+      "rel_3m_vs_smh": -0.54,
+      "note": "LAGGING -17%/3M vs mkt"
+    },
+    {
+      "subject": "GDX",
+      "label": "LAGGING",
+      "rel_1m": -0.1,
+      "rel_3m": -0.33,
+      "abs_3m": -0.2,
+      "rel_3m_vs_smh": -0.7,
+      "note": "LAGGING -33%/3M vs mkt"
+    }
+  ],
+  "macro": {
+    "line": "10Y 4.45% (-1bp 5d) \u00b7 2s10s +46bp (+1bp 5d) \u00b7 DXY 99.5 (flat 5d) \u00b7 30Y 4.98%",
+    "regime": {
+      "duration": "flat",
+      "vol": "calm",
+      "dollar": "neutral",
+      "label": "duration_flat \u00b7 vol_calm \u00b7 dollar_neutral"
+    },
+    "alerts": [],
+    "implications": []
+  },
+  "catalysts": [],
+  "questions": [],
+  "research": {}
+}
