@@ -109,3 +109,24 @@ def test_empty_theses_safe():
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))
+
+
+# --------------------------------------------------------------------------- #
+# A3a — conviction config sanity (added with the judgment reads)
+# --------------------------------------------------------------------------- #
+def test_conviction_config_present_and_sane():
+    from analyst_config import (
+        CONVICTION_WINDOW_DAYS, CONVICTION_DIRECTION_DEADBAND,
+        HIGH_CONFIDENCE_FACTOR_TAGS, BULLISH_WORDS, BEARISH_WORDS,
+        BULLISH_EVENTS, BEARISH_EVENTS,
+    )
+    assert CONVICTION_WINDOW_DAYS > 0
+    assert 0.0 <= CONVICTION_DIRECTION_DEADBAND <= 1.0
+    assert "ai_complex" in HIGH_CONFIDENCE_FACTOR_TAGS
+    assert BULLISH_WORDS and BEARISH_WORDS
+    # a directional word can't be both bullish and bearish
+    assert not (BULLISH_WORDS & BEARISH_WORDS)
+    # event markers are disjoint by sentiment
+    assert not (BULLISH_EVENTS & BEARISH_EVENTS)
+    from analyst_config import CATCH_UP_ROTATION_LABELS, ACT_NOW_EVENTS
+    assert CATCH_UP_ROTATION_LABELS and ACT_NOW_EVENTS

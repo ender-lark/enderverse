@@ -95,3 +95,60 @@ def theses_by_ticker(theses) -> dict:
     """{ticker: full thesis dict} — for the ④ type/lock/why/break read to look up
     tier / lane / factor_tags per name."""
     return {t["ticker"]: t for t in (theses or []) if t.get("ticker")}
+
+
+# --------------------------------------------------------------------------- #
+# CONVICTION reads config (A3 judgment — ① ② ③ ⑦). v1 lexicons + dials. The
+# discrete grade/arrow is produced deterministically from these (so it's unit-
+# testable now AND the golden-master can run); the prose is templated; the
+# production routine's Claude refines edge cases (the judgment seam). All values
+# are v1 starting points → 6/28 retrospective (same refinement backlog as above).
+# --------------------------------------------------------------------------- #
+
+# ② how far back a dated call still counts as a "recent event" that can move the
+# arrow. Steady-state (no in-window event) = flat.
+CONVICTION_WINDOW_DAYS = 14
+
+# ② when bullish AND bearish events both fire, the arrow stays flat unless one
+# side's (trust × recency) weight beats the other by more than this margin — so a
+# small Lee-0.70 vs Farrell-0.65 split nets flat, not up.
+CONVICTION_DIRECTION_DEADBAND = 0.15
+
+# ① the operator's designated HIGH-CONFIDENCE durable sleeve (memory: under-sizing
+# is the failure mode for AI). A named fundstrat endorsement on a name in this
+# sleeve, no conflict, not burned → Strong; the same endorsement OUTSIDE it →
+# Promising (this is the SMH-Strong vs XLF-Promising split).
+HIGH_CONFIDENCE_FACTOR_TAGS = {"ai_complex"}
+
+# ①/② sentiment of a card's own `direction` word (lower-cased substring match).
+BULLISH_WORDS = {"top_5", "top5", "buy", "own", "overweight", "ow", "long",
+                 "bullish", "breakout", "bottom_in", "add", "upgrade", "favor"}
+BEARISH_WORDS = {"bottom_5", "bottom5", "sell", "underweight", "uw", "short",
+                 "bearish", "struggling", "avoid", "downgrade", "trim", "cut"}
+
+# ② event markers (set by the prose-extraction step when a call is NEW/CHANGED,
+# not a steady-state restatement). Steady-state cards carry no marker → flat.
+BULLISH_EVENTS = {"new_pick", "upgrade", "new_top5", "breakout", "beat",
+                  "favorable_shift", "bottom_in"}
+BEARISH_EVENTS = {"downgrade", "new_bottom5", "miss", "thesis_break",
+                  "unfavorable_shift"}
+
+
+# --------------------------------------------------------------------------- #
+# NET-READ ③ + FRESH-SIGNAL ⑦ tunables (A3b). v1 starting points → 6/28.
+# --------------------------------------------------------------------------- #
+
+# ③ rotation labels that read as an "endorsed laggard → catch-up, favorable
+# entry" (lagging ≠ bearish) rather than a "leading → ride it".
+CATCH_UP_ROTATION_LABELS = {"LAGGING", "TURNING UP"}
+
+# ⑦ event markers that mean the ENTRY TRIGGER fired → ⏳ act now (vs an
+# endorsement with no confirmed entry → 👁 watch). A re-entry-zone touch and an
+# explicit buyable_now also force ⏳ act.
+ACT_NOW_EVENTS = {"breakout"}
+
+# ⑦ which event markers are discrete NAME-LEVEL buy triggers that earn a place
+# on the Actions strip. A sector/stance shift (favorable_shift) drives DIRECTION
+# (cd=up) and the net-read "catch-up" on the holding row, but is NOT an act/watch
+# fresh signal — only these are:
+FRESH_SIGNAL_EVENTS = {"breakout", "new_pick", "new_top5", "upgrade", "bottom_in"}
