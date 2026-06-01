@@ -27,16 +27,36 @@ from analyst_config import theses_by_ticker
 #    single name's relative strength). v1 glue, tunable. A name with no proxy
 #    falls to "_other" and simply carries no rotation label. ──
 NAME_SLEEVE = {
+    # AI / Semiconductors (SMH proxy) — incl. mega-cap AI + semis ETFs + photonics
     "SMH": "SMH", "MAGS": "SMH", "NVDA": "SMH", "MU": "SMH", "AVGO": "SMH",
-    "ANET": "SMH", "IVES": "SMH", "IGV": "IGV", "GRNY": "GRNY", "GRNJ": "GRNY",
-    "XLF": "XLF", "LEU": "URA", "UUUU": "URA", "MP": "REMX",
-    "BMNR": "IBIT", "IBIT": "IBIT", "VOLT": "VOLT",
+    "ANET": "SMH", "IVES": "SMH", "GOOGL": "SMH", "MSFT": "SMH", "AMZN": "SMH",
+    "ASML": "SMH", "NBIS": "SMH", "SOXX": "SMH", "FTXL": "SMH", "LITE": "SMH",
+    "POET": "SMH",
+    # Software (IGV proxy)
+    "IGV": "IGV", "ORCL": "IGV", "RDDT": "IGV", "PLTR": "IGV", "CIBR": "IGV",
+    # Quality core (GRNY proxy)
+    "GRNY": "GRNY", "GRNJ": "GRNY", "COST": "GRNY", "RPG": "GRNY",
+    # Financials (XLF proxy)
+    "XLF": "XLF", "GS": "XLF", "JPM": "XLF", "SOFI": "XLF",
+    # Nuclear (URA proxy)
+    "LEU": "URA", "UUUU": "URA", "CCJ": "URA", "BWXT": "URA", "UURAF": "URA",
+    # Critical minerals (REMX proxy)
+    "MP": "REMX", "LYSDY": "REMX", "LIT": "REMX",
+    # Crypto (IBIT proxy)
+    "BMNR": "IBIT", "IBIT": "IBIT", "ETHA": "IBIT", "MSTR": "IBIT",
+    "COIN": "IBIT", "HYPE": "IBIT",
+    # Electrification (VOLT proxy)
+    "VOLT": "VOLT", "GEV": "VOLT", "PWR": "VOLT", "STRL": "VOLT", "IESC": "VOLT",
+    "BE": "VOLT", "NXT": "VOLT", "FIX": "VOLT", "DRIV": "VOLT", "PBW": "VOLT",
+    # Gold / Hedge (GDX proxy)
+    "GDX": "GDX", "SIL": "GDX", "WPM": "GDX", "NUE": "GDX",
 }
 # sleeve -> display category (cat) for the holdings groups
 SLEEVE_CAT = {
     "SMH": "AI / Semiconductors", "IGV": "Software", "GRNY": "Quality core",
     "XLF": "Financials", "URA": "Nuclear", "REMX": "Critical minerals",
-    "IBIT": "Crypto", "VOLT": "Electrification", "_other": "Other holdings",
+    "IBIT": "Crypto", "VOLT": "Electrification", "GDX": "Gold / Hedge",
+    "_other": "Other holdings",
 }
 # tier -> cockpit risk-class (ty). A real transform, not a rename.
 TIER_RISK = {"T1": "Core", "T2": "Core", "T3": "Tactical", "T4": "Probe"}

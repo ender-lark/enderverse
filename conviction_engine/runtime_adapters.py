@@ -150,3 +150,79 @@ def closes_by_ticker_from_uw(responses_by_ticker: dict) -> dict:
         pts.sort(key=lambda dc: dc[0])          # oldest -> newest (ascending date)
         out[ticker] = [float(c) for _, c in pts]
     return out
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# uw_macro: UW yield-curve + level close-series  ->  uw_macro snapshot (S5.4)
+# ─────────────────────────────────────────────────────────────────────────
+# get_yield_curve() returns a LATEST-ONLY snapshot: a 1-element list of
+#   {"new_date": "...", "bc_2year": "3.99", "bc_10year": "4.45", "bc_30year": "4.98", ...}
+# (rates as percent strings). Because it's latest-only there is no 5d-ago rate,
+# so rate cards emit without the "(±Xbp 5d)" tail — honest, not faked. (A daily
+# rates-history pull for 5d rate-change is a documented enrichment backlog item.)
+#
+# Levels (DXY/VIX/MOVE) reuse the get_ticker_close_prices daily shape
+# ({"data":[{"c","date"}]}); value = latest close, value_5d_ago = the close 5
+# trading days back (index -6 of the date-sorted series). The routine maps each
+# display label to a UW symbol it pulls (e.g. DXY<-UUP/DXY, VIX<-VIX, MOVE<-MOVE);
+# this adapter just keys levels by whatever labels the caller passes.
+#
+#   routine:  yc   = <get_yield_curve()>                                  # Claude fetches
+#             lv   = {"DXY": <get_ticker_close_prices("UUP","3M")>, ...}  # Claude fetches
+#             snap = uw_macro_snapshot_from_uw(yc, lv)
+#             src  = build_uw_macro_source(snap)                          # from uw_macro.py
+
+_YIELD_CURVE_TENORS = [("2Y", "bc_2year"), ("10Y", "bc_10year"), ("30Y", "bc_30year")]
+
+
+def rates_from_yield_curve(yc_resp) -> dict:
+    """get_yield_curve() response -> {tenor: {value(%), value_5d_ago=None}}.
+
+    Accepts the 1-element list UW returns (or a bare snapshot dict). A tenor whose
+    value is missing/blank is dropped (the reader then skips that card). value_5d_ago
+    is None because the curve snapshot is latest-only."""
+    snap = yc_resp[0] if isinstance(yc_resp, list) and yc_resp else yc_resp
+    snap = snap or {}
+    rates: dict = {}
+    for tenor, key in _YIELD_CURVE_TENORS:
+        raw = snap.get(key)
+        if raw in (None, ""):
+            continue
+        try:
+            rates[tenor] = {"value": float(raw), "value_5d_ago": None}
+        except (TypeError, ValueError):
+            continue
+    return rates
+
+
+def levels_from_close_responses(responses_by_symbol: dict) -> dict:
+    """{label: <get_ticker_close_prices response>} -> {label: {value, value_5d_ago}}.
+
+    value = latest close; value_5d_ago = close 5 trading days back (None if the
+    series has < 6 points). Symbols with no usable closes are dropped (the reader
+    then skips that level card rather than faking a number)."""
+    out: dict = {}
+    for label, resp in (responses_by_symbol or {}).items():
+        data = (resp or {}).get("data") or []
+        pts = [
+            (pt.get("date") or "", pt.get("c"))
+            for pt in data
+            if isinstance(pt, dict) and pt.get("c") is not None
+        ]
+        if not pts:
+            continue
+        pts.sort(key=lambda dc: dc[0])              # oldest -> newest
+        value = float(pts[-1][1])
+        v5 = float(pts[-6][1]) if len(pts) >= 6 else None
+        out[label] = {"value": value, "value_5d_ago": v5}
+    return out
+
+
+def uw_macro_snapshot_from_uw(yield_curve_resp, level_responses: dict | None = None) -> dict:
+    """Live UW fetch output -> the macro_snapshot the uw_macro plug consumes:
+    {"rates": {...}, "levels": {...}}. Pass level_responses=None for a
+    rates-only snapshot (levels simply absent -> no level cards)."""
+    return {
+        "rates": rates_from_yield_curve(yield_curve_resp),
+        "levels": levels_from_close_responses(level_responses or {}),
+    }

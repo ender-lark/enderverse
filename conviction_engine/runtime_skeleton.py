@@ -23,6 +23,10 @@ from feed_assembler import assemble_feed
 from validators import validate_cockpit_feed
 from portfolio import build_portfolio_source
 from uw_price import build_uw_price_source
+from uw_macro import build_uw_macro_source
+from fundstrat_bible import build_fundstrat_bible_source
+from fundstrat_daily import build_fundstrat_daily_source
+from meridian import build_meridian_source
 from sources import SourceRegistry
 from runtime_adapters import portfolio_positions_from_page, closes_by_ticker_from_uw
 
@@ -82,6 +86,76 @@ def build_skeleton_feed(
     )
 
     # 6. validate before handing to the cockpit
+    errs = validate_cockpit_feed(feed)
+    if errs:
+        raise SkeletonFeedError(f"feed failed Contract-C validation: {errs}")
+    return feed
+
+
+def build_full_feed(
+    portfolio_page_text: str,
+    uw_responses_by_ticker: dict,
+    theses: list,
+    *,
+    macro_snapshot: dict | None = None,
+    fs_bible_deck: dict | None = None,
+    fs_daily_calls: list | None = None,
+    meridian_items: list | None = None,
+    parabolic=None,
+    as_of: str | None = None,
+    run_timestamp: str | None = None,
+    generated_at: str | None = None,
+) -> dict:
+    """Live fetch output (2 critical + up to 4 optional plugs) -> a validated
+    Contract-C cockpit feed. The full-feed sibling of build_skeleton_feed.
+
+    Critical sources = portfolio + uw_price (SAME gate as the skeleton: a missing
+    critical source aborts). The four optional plugs are registered ONLY when
+    their data is supplied; an omitted OR empty optional plug degrades that
+    section gracefully — never an error.
+
+    Optional inputs (all produced by the in-session / SCOUT fetch step):
+      macro_snapshot  -> runtime_adapters.uw_macro_snapshot_from_uw(...)   {rates, levels}
+      fs_bible_deck   -> Claude-read FS Bible summary  {deck_date, macro_stance, what_to_own, top5, bottom5}
+      fs_daily_calls  -> Claude-read FS Inbox 7d       [{author,ticker,direction,entry,stop,target,window,quote,date}]
+      meridian_items  -> Claude-read Meridian doc      [{subject,item_type,direction,...,theme,quote,date}]
+
+    MERIDIAN IS A STATIC BASELINE (frozen ~Mar 2026): each item MUST carry its
+    real `date` so the cockpit shows true age. It feeds background thesis only —
+    model trades come through as kind="model_trade" (non-actionable), never as
+    fresh buy signals. Supplement those sleeves with live price/flow + Fundstrat.
+    """
+    positions = portfolio_positions_from_page(portfolio_page_text)
+    closes = closes_by_ticker_from_uw(uw_responses_by_ticker)
+
+    reg = SourceRegistry()
+    reg.register(build_portfolio_source(positions))       # critical
+    reg.register(build_uw_price_source(closes))            # critical
+    if macro_snapshot is not None:
+        reg.register(build_uw_macro_source(macro_snapshot))
+    if fs_bible_deck is not None:
+        reg.register(build_fundstrat_bible_source(fs_bible_deck))
+    if fs_daily_calls is not None:
+        reg.register(build_fundstrat_daily_source(fs_daily_calls))
+    if meridian_items is not None:
+        reg.register(build_meridian_source(meridian_items))
+
+    snap = collect(reg, run_timestamp=run_timestamp)
+    if snap.critical_missing:
+        raise SkeletonFeedError(
+            f"critical source(s) delivered no data: {snap.critical_missing} "
+            "— not rendering a partial cockpit"
+        )
+
+    feed = assemble_feed(
+        {
+            "as_of": as_of or _as_of_from_snapshot(snap),
+            "snapshot": dataclasses.asdict(snap),
+            "theses": theses or [],
+        },
+        parabolic=parabolic,
+        generated_at=generated_at,
+    )
     errs = validate_cockpit_feed(feed)
     if errs:
         raise SkeletonFeedError(f"feed failed Contract-C validation: {errs}")
