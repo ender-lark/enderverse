@@ -21,7 +21,7 @@ Snapshot shape:
 Rate values are in percent; spreads + rate changes are reported in bp; level
 changes in points (`unit` records which).
 
-Scope note (v1): rates 2Y/10Y/30Y, spreads 2s10s/10s30s, levels DXY/VIX.
+Scope note (v1): rates 2Y/10Y/30Y, spreads 2s10s/10s30s, levels DXY/VIX/MOVE.
 Fed-cut-probability, real-10Y, and WTI/copper are deferred to a later macro
 enrichment chunk (they need futures / TIPS / commodity pulls in Collection).
 """
@@ -34,6 +34,17 @@ from sources import BaseSource
 
 # Curve spreads to compute when both legs are present: (name, near, far).
 DEFAULT_SPREADS = [("2s10s", "2Y", "10Y"), ("10s30s", "10Y", "30Y")]
+
+# Honest display labels for level cards whose snapshot KEY is a slot name but
+# whose VALUE is a proxy instrument. The dollar slot is keyed "DXY" (so the
+# regime read + MACRO_LINE_ORDER keep finding it by subject), but the routine
+# feeds UUP (the dollar ETF, ~$28) — not the ICE DXY index (~99). Rendering it
+# as "USD (UUP)" stops the macro line from printing a ~28 value under "DXY".
+# `subject` stays the internal routing key; this map only changes the
+# human-facing CONTENT string.
+# NOTE: each label here must stay identical to its band key in
+# publish_gate.MACRO_BANDS, or the publish gate silently stops checking it.
+_LEVEL_DISPLAY = {"DXY": "USD (UUP)"}
 
 
 def _utc_now_iso() -> str:
@@ -119,13 +130,15 @@ def uw_macro_reader(
         })
 
     # --- level cards (DXY / VIX / MOVE; change in points) ---
+    # `subject` stays the raw slot key (regime + line-ordering find it by that);
+    # the DISPLAY label (_LEVEL_DISPLAY) only changes the human-facing content.
     for sym, rec in levels.items():
         value = (rec or {}).get("value")
         if value is None:
             continue
         v5 = rec.get("value_5d_ago")
         chg = (value - v5) if v5 is not None else None
-        content = f"{sym} {value:g}"
+        content = f"{_LEVEL_DISPLAY.get(sym, sym)} {value:g}"
         if chg is not None:
             content += f" ({_fmt_pt(chg)} 5d)"
         rows.append({

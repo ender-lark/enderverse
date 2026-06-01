@@ -14,6 +14,7 @@ from analyst import (
     rotation_read, macro_read, staleness_read,
     type_read, hero_needs_you_read, weight_read, NO_BREAK,
 )
+from uw_macro import uw_macro_reader
 
 
 def _card(kind, subject, content, data=None, ts="2026-05-29",
@@ -112,6 +113,22 @@ def test_macro_regime_falling_elevated_strong():
     assert r["duration"] == "falling"
     assert r["vol"] == "elevated"
     assert r["dollar"] == "strong"
+
+
+def test_relabeled_dollar_card_still_drives_regime_and_honest_line():
+    """Repair A coexist check (2026-06-01): uw_macro_reader now relabels the
+    dollar card's CONTENT to "USD (UUP) ..." but keeps subject="DXY". Because the
+    regime read keys on subject + data (not the display string), dollar must still
+    classify; and the line must carry the honest label, never a bare "DXY 27.76".
+    Feeds the REAL reader output through macro_read to lock the seam."""
+    row = {r["subject"]: r for r in uw_macro_reader(
+        {"levels": {"DXY": {"value": 27.76, "value_5d_ago": 26.10}}}
+    )}["DXY"]
+    card = _macro("DXY", row["content"], **row["data"])   # wrap as Collection would
+    out = macro_read([card])
+    assert out["regime"]["dollar"] == "strong"   # +1.66pt 5d -> strong, by subject
+    assert "USD (UUP) 27.76" in out["line"]       # honest label reaches the line
+    assert "DXY 27.76" not in out["line"]         # the 6/1 bug can't reappear
 
 
 def test_macro_alert_10y_boundary():

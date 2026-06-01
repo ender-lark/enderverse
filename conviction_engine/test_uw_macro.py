@@ -83,11 +83,28 @@ def test_reader_spread_cards():
 
 def test_reader_level_cards():
     rows = _by_subject(uw_macro_reader(SNAP))
-    assert rows["DXY"]["content"] == "DXY 99.2 (-1.3 5d)"
+    # The dollar slot stays KEYED "DXY" (subject), but renders the honest proxy
+    # label (it's UUP, not the index) — see uw_macro._LEVEL_DISPLAY.
+    assert rows["DXY"]["subject"] == "DXY"
+    assert rows["DXY"]["content"] == "USD (UUP) 99.2 (-1.3 5d)"
     assert rows["DXY"]["data"]["chg_5d"] == pytest.approx(-1.3)
     assert rows["VIX"]["content"] == "VIX 17.2 (+2.2 5d)"
     assert rows["MOVE"]["content"] == "MOVE 95 (+3.0 5d)"
     assert rows["MOVE"]["data"]["unit"] == "pt"
+
+
+def test_reader_dollar_slot_renders_honest_proxy_label():
+    """The 6/1 bug: UUP's ~$28 printed as "DXY 27.76". The dollar slot must now
+    render "USD (UUP) 27.76" while keeping subject="DXY" so the regime read +
+    MACRO_LINE_ORDER still find it by subject. (Repair A, 2026-06-01.)"""
+    rows = _by_subject(uw_macro_reader(
+        {"levels": {"DXY": {"value": 27.76, "value_5d_ago": 27.66}}}
+    ))
+    card = rows["DXY"]
+    assert card["subject"] == "DXY"                       # routing key unchanged
+    assert card["content"] == "USD (UUP) 27.76 (+0.1 5d)"  # honest display
+    assert "DXY 27.76" not in card["content"]             # the bug is gone
+    assert card["data"]["value"] == pytest.approx(27.76)  # raw value untouched
 
 
 def test_reader_missing_5d_omits_delta_tail():

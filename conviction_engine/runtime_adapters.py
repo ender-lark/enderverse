@@ -166,6 +166,9 @@ def closes_by_ticker_from_uw(responses_by_ticker: dict) -> dict:
 # trading days back (index -6 of the date-sorted series). The routine maps each
 # display label to a UW symbol it pulls (e.g. DXY<-UUP/DXY, VIX<-VIX, MOVE<-MOVE);
 # this adapter just keys levels by whatever labels the caller passes.
+# NOTE: the dollar slot stays KEYED "DXY" (regime + line-order find it by that),
+# but because it's the UUP proxy (~$28, not the ~99 index) it RENDERS as
+# "USD (UUP)" — see uw_macro._LEVEL_DISPLAY + publish_gate.MACRO_BANDS.
 #
 #   routine:  yc   = <get_yield_curve()>                                  # Claude fetches
 #             lv   = {"DXY": <get_ticker_close_prices("UUP","3M")>, ...}  # Claude fetches
