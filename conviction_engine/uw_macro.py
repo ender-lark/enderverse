@@ -21,7 +21,7 @@ Snapshot shape:
 Rate values are in percent; spreads + rate changes are reported in bp; level
 changes in points (`unit` records which).
 
-Scope note (v1): rates 2Y/10Y/30Y, spreads 2s10s/10s30s, levels DXY/VIX/MOVE.
+Scope note (v1): rates 2Y/10Y/30Y, spreads 2s10s/10s30s, levels DXY/VIX.
 Fed-cut-probability, real-10Y, and WTI/copper are deferred to a later macro
 enrichment chunk (they need futures / TIPS / commodity pulls in Collection).
 """
