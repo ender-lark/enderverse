@@ -118,3 +118,50 @@ def test_build_full_feed_threads_blocks():
     assert feed["synthesis"] == SY
     assert feed["research"] == RS
     assert validate_cockpit_feed(feed) == []
+
+
+# --------------------------------------------------------------------------- #
+# radar (block ⑨ — endorsed, not owned): optional + empty valid, list-of-dicts;
+# DERIVED off the daily calls by default, an explicit list overrides additively.
+# --------------------------------------------------------------------------- #
+RADAR_ROW = {"ticker": "JETS", "author": "Newton", "direction": "long", "entry": None,
+             "stop": 24.79, "target": 34, "window": "2-4wk", "date": "2026-06-01", "quote": "base breakout"}
+
+
+def test_validator_radar_absent_and_empty_are_valid():
+    assert validate_cockpit_feed(_minimal_feed()) == []          # absent → valid
+    feed = _minimal_feed(); feed["radar"] = []
+    assert validate_cockpit_feed(feed) == []                     # empty list → valid
+
+
+def test_validator_accepts_valid_radar():
+    feed = _minimal_feed(); feed["radar"] = [RADAR_ROW]
+    assert validate_cockpit_feed(feed) == []
+
+
+def test_validator_catches_non_list_radar():
+    feed = _minimal_feed(); feed["radar"] = {"not": "a list"}
+    assert any("radar must be a list" in p for p in validate_cockpit_feed(feed))
+
+
+def test_validator_catches_radar_non_dict_row():
+    feed = _minimal_feed(); feed["radar"] = ["JETS"]
+    assert any("radar[0] must be a dict" in p for p in validate_cockpit_feed(feed))
+
+
+def test_validator_catches_radar_missing_ticker():
+    feed = _minimal_feed(); feed["radar"] = [{"author": "Newton"}]
+    assert any("ticker must be a non-empty string" in p for p in validate_cockpit_feed(feed))
+
+
+def test_assemble_feed_radar_defaults_derived_empty():
+    # the golden snapshot's daily calls are all owned/parked → derived radar is [].
+    feed = assemble_feed(_load_snapshot(), parabolic={"MU"})
+    assert feed["radar"] == []
+    assert validate_cockpit_feed(feed) == []
+
+
+def test_assemble_feed_radar_explicit_override():
+    feed = assemble_feed(_load_snapshot(), parabolic={"MU"}, radar=[RADAR_ROW])
+    assert feed["radar"] == [RADAR_ROW]
+    assert validate_cockpit_feed(feed) == []
