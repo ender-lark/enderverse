@@ -45,6 +45,9 @@ from typing import List, Dict, Optional, Any
 
 sys.path.insert(0, "/home/claude/build")
 sys.path.insert(0, "/mnt/project")
+# v12.0 ISSUE-10 fix: prefer this module's own directory over /mnt/project so
+# local/staged copies are importable (the hardcoded inserts above shadowed them).
+sys.path.insert(0, __import__("os").path.dirname(__import__("os").path.abspath(__file__)))
 try:
     import outcome_logger as ol
     import conviction_sizing_calibrator as csc

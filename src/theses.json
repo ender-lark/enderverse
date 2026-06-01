@@ -1,0 +1,163 @@
+[
+  {
+    "ticker": "BMNR",
+    "id": "thesis_bmnr",
+    "tier": "T1",
+    "lane": "Generational",
+    "source": "operator",
+    "factor_tags": [
+      "crypto",
+      "eth"
+    ],
+    "_comment": "Generational Lane reclassified 5/3/26. Currently T2 5% baseline; upgrade to T1 (10%) on high-confidence trigger. Currently CRITICALLY_BELOW T1 floor.",
+    "stance": "MONITOR"
+  },
+  {
+    "ticker": "LEU",
+    "id": "thesis_leu",
+    "tier": "T1",
+    "lane": "Generational",
+    "source": "Meridian",
+    "factor_tags": [
+      "critical_minerals",
+      "nuclear",
+      "uranium"
+    ],
+    "stance": "MONITOR"
+  },
+  {
+    "ticker": "NVDA",
+    "id": "thesis_nvda",
+    "tier": "T2",
+    "lane": "Speed",
+    "source": "Lee",
+    "factor_tags": [
+      "ai_complex",
+      "semiconductors",
+      "long_duration_growth",
+      "global_exporter"
+    ]
+  },
+  {
+    "ticker": "SMH",
+    "id": "thesis_smh",
+    "tier": "T2",
+    "lane": "BuyAndHold",
+    "source": "Lee",
+    "factor_tags": [
+      "ai_complex",
+      "semiconductors",
+      "long_duration_growth"
+    ]
+  },
+  {
+    "ticker": "GRNY",
+    "id": "thesis_grny",
+    "tier": "T2",
+    "lane": "BuyAndHold",
+    "source": "Lee",
+    "factor_tags": [
+      "ai_complex"
+    ]
+  },
+  {
+    "ticker": "MAGS",
+    "id": "thesis_mags",
+    "tier": "T2",
+    "lane": "BuyAndHold",
+    "source": "Lee",
+    "factor_tags": [
+      "ai_complex",
+      "long_duration_growth",
+      "global_exporter"
+    ]
+  },
+  {
+    "ticker": "GRNJ",
+    "id": "thesis_grnj",
+    "tier": "T2",
+    "lane": "BuyAndHold",
+    "source": "Lee",
+    "factor_tags": [
+      "ai_complex"
+    ]
+  },
+  {
+    "ticker": "IGV",
+    "id": "thesis_igv",
+    "tier": "T3",
+    "lane": "BuyAndHold",
+    "source": "Lee",
+    "factor_tags": [
+      "software",
+      "ai_complex"
+    ]
+  },
+  {
+    "ticker": "VOLT",
+    "id": "thesis_volt",
+    "tier": "T3",
+    "lane": "Speed",
+    "source": "operator",
+    "factor_tags": [
+      "nuclear",
+      "ai_complex"
+    ]
+  },
+  {
+    "ticker": "IVES",
+    "id": "thesis_ives",
+    "tier": "T3",
+    "lane": "Speed",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex"
+    ]
+  },
+  {
+    "ticker": "MU",
+    "id": "thesis_mu",
+    "tier": "T3",
+    "lane": "Speed",
+    "source": "Lee",
+    "factor_tags": [
+      "ai_complex",
+      "semiconductors"
+    ]
+  },
+  {
+    "ticker": "UUUU",
+    "id": "thesis_uuuu",
+    "tier": "T3",
+    "lane": "Speed",
+    "source": "Meridian",
+    "factor_tags": [
+      "critical_minerals",
+      "uranium"
+    ],
+    "stance": "MONITOR"
+  },
+  {
+    "ticker": "XLF",
+    "id": "thesis_xlf",
+    "tier": "T3",
+    "lane": "BuyAndHold",
+    "source": "Lee",
+    "factor_tags": [
+      "financials",
+      "cyclicals"
+    ]
+  },
+  {
+    "ticker": "MP",
+    "id": "thesis_mp",
+    "tier": "T3",
+    "lane": "Speed",
+    "source": "Meridian",
+    "factor_tags": [
+      "critical_minerals",
+      "rare_earth"
+    ],
+    "stance": "MONITOR"
+  }
+]

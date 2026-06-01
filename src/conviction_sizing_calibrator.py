@@ -104,6 +104,9 @@ class ConvictionGap:
     source_discount: float = 1.00
     discounted_gap_value: float = 0.0
 
+    # v12.0 — MONITOR stance suppression (CI §7-D)
+    stance: Optional[str] = None
+
     flags: List[str] = field(default_factory=list)
     notes: List[str] = field(default_factory=list)
 
@@ -116,6 +119,7 @@ class ConvictionReport:
     in_band: List[ConvictionGap] = field(default_factory=list)
     above_ceiling: List[ConvictionGap] = field(default_factory=list)
     no_thesis: List[ConvictionGap] = field(default_factory=list)
+    monitor_suppressed: List[ConvictionGap] = field(default_factory=list)
 
     gap_to_close_total: float = 0.0
     gap_to_close_discounted: float = 0.0
@@ -250,6 +254,7 @@ def calibrate(positions: List[Dict], theses: List[Dict],
             lane = None
             source = None
             factor_tags = []
+            stance = ""
         else:
             tier = (thesis.get("tier") or UNTIERED_DEFAULT).upper()
             if tier not in TIER_BANDS:
@@ -259,6 +264,7 @@ def calibrate(positions: List[Dict], theses: List[Dict],
             lane = thesis.get("lane")
             source = thesis.get("source") or thesis.get("source_at_entry")
             factor_tags = thesis.get("factor_tags") or []
+            stance = (thesis.get("stance") or "").upper()
 
         floor, ceiling = TIER_BANDS[tier]
         classification = _classify_gap(pct, floor, ceiling)
@@ -272,6 +278,7 @@ def calibrate(positions: List[Dict], theses: List[Dict],
             ticker=ticker,
             tier=tier,
             lane=lane,
+            stance=stance,
             source_at_entry=source,
             current_value=value,
             current_pct=pct,
@@ -294,22 +301,35 @@ def calibrate(positions: List[Dict], theses: List[Dict],
         if gap.gap_to_floor_value >= DEEPWORK_NOTIONAL_THRESHOLD:
             gap.flags.append("deepwork_threshold")
 
-        if classification == "CRITICALLY_BELOW":
-            report.critically_below.append(gap)
-        elif classification == "BELOW_FLOOR":
-            report.below_floor.append(gap)
-        elif classification == "ABOVE_CEILING":
-            report.above_ceiling.append(gap)
+        if stance == "MONITOR":
+            # CI §7-D: MONITOR-stance names (crypto/ETH, nuclear/uranium,
+            # critical-minerals) are intentionally below floor and are excluded
+            # from gap / under-deployment flags and totals.
+            gap.flags.append("monitor_suppressed")
+            gap.notes.append(
+                "MONITOR-stance — intentionally below floor; excluded from "
+                "gap/under-deployment flags (CI §7-D)"
+            )
+            report.monitor_suppressed.append(gap)
+            if not thesis:
+                report.no_thesis.append(gap)
         else:
-            report.in_band.append(gap)
-        if not thesis:
-            report.no_thesis.append(gap)
+            if classification == "CRITICALLY_BELOW":
+                report.critically_below.append(gap)
+            elif classification == "BELOW_FLOOR":
+                report.below_floor.append(gap)
+            elif classification == "ABOVE_CEILING":
+                report.above_ceiling.append(gap)
+            else:
+                report.in_band.append(gap)
+            if not thesis:
+                report.no_thesis.append(gap)
 
-        if classification in ("CRITICALLY_BELOW", "BELOW_FLOOR"):
-            report.gap_to_close_total += gap.gap_to_floor_value
-            report.gap_to_close_discounted += gap.discounted_gap_value
-            if "deepwork_threshold" in gap.flags:
-                report.deepwork_required_count += 1
+            if classification in ("CRITICALLY_BELOW", "BELOW_FLOOR"):
+                report.gap_to_close_total += gap.gap_to_floor_value
+                report.gap_to_close_discounted += gap.discounted_gap_value
+                if "deepwork_threshold" in gap.flags:
+                    report.deepwork_required_count += 1
 
     report.summary = (
         f"{len(report.critically_below)} CRITICALLY_BELOW, "
@@ -318,7 +338,8 @@ def calibrate(positions: List[Dict], theses: List[Dict],
         f"{len(report.above_ceiling)} ABOVE_CEILING. "
         f"Gap-to-floor total: ${report.gap_to_close_total:,.0f} "
         f"(discounted: ${report.gap_to_close_discounted:,.0f}). "
-        f"{report.deepwork_required_count} require P-DEEPWORK."
+        f"{report.deepwork_required_count} require P-DEEPWORK. "
+        f"{len(report.monitor_suppressed)} MONITOR-suppressed (CI §7-D)."
     )
     return report
 
@@ -368,6 +389,7 @@ def format_text_report(r: ConvictionReport) -> str:
     _section("BELOW_FLOOR", r.below_floor)
     _section("ABOVE_CEILING", r.above_ceiling)
     _section("IN_BAND", r.in_band)
+    _section("MONITOR-SUPPRESSED (intentional, CI §7-D)", r.monitor_suppressed)
     if r.no_thesis:
         out.append(f"-- NO THESIS ROW ({len(r.no_thesis)}) " + "-" * 50)
         for g in r.no_thesis:

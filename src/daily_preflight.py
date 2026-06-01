@@ -45,6 +45,7 @@ import argparse
 import json
 import os
 import sys
+from datetime import date, datetime
 from pathlib import Path
 
 
@@ -153,6 +154,44 @@ def _sleeve_total(args):
 
 
 # ============================================================================
+# POSITIONS-CACHE STALENESS GUARD (v12.0 — ISSUE-05 Part 2)
+# ============================================================================
+
+POSITIONS_MAX_AGE_DAYS = 7  # CI §3: flag for re-upload if the snapshot is > ~7 days old.
+
+
+def _positions_freshness(positions_data, today=None, max_age_days=POSITIONS_MAX_AGE_DAYS):
+    """Classify the positions cache's freshness from its snapshot_date.
+
+    Returns (status, age_days, message); status is 'fresh' | 'stale' | 'unknown'.
+    This is the Watchdog backstop for ISSUE-05: a silently old positions.json must
+    surface loudly (re-upload + re-ingest) instead of feeding the calibrator
+    unnoticed — exactly the failure that produced the false conviction CRIT on 6/1.
+    Mirrors CI §3's ~7-day re-upload rule.
+    """
+    today = today or date.today()
+    sd = positions_data.get("snapshot_date") if isinstance(positions_data, dict) else None
+    if not sd:
+        return ("unknown", None,
+                "positions cache has no snapshot_date — cannot confirm it matches the live "
+                "book; re-run the ingest (build_positions_cache) to stamp it.")
+    try:
+        snap = datetime.strptime(str(sd)[:10], "%Y-%m-%d").date()
+    except ValueError:
+        return ("unknown", None,
+                f"positions snapshot_date is unparseable ({sd!r}); re-run the ingest.")
+    age = (today - snap).days
+    if age < 0:
+        return ("unknown", age,
+                f"positions snapshot_date {snap} is in the future — check the clock or the ingest.")
+    if age > max_age_days:
+        return ("stale", age,
+                f"positions cache is {age} days old (snapshot {snap}, limit {max_age_days}d) — "
+                "re-upload broker PDFs and re-run the ingest; conviction/sizing may be off the live book.")
+    return ("fresh", age, f"positions cache is {age}d old (snapshot {snap}).")
+
+
+# ============================================================================
 # MAIN
 # ============================================================================
 
@@ -181,9 +220,12 @@ def main():
 
     # Import the orchestrator (works from outputs/, build/, or project/)
     script_dir = Path(__file__).parent.resolve()
-    sys.path.insert(0, str(script_dir))
-    sys.path.insert(0, "/home/claude/build")
+    # v12.0 ISSUE-10 fix: prefer the script's OWN directory for imports, with
+    # /home/claude/build and /mnt/project as lower-priority fallbacks. The old
+    # order pinned imports to /mnt/project, shadowing local/staged code.
     sys.path.insert(0, "/mnt/project")
+    sys.path.insert(0, "/home/claude/build")
+    sys.path.insert(0, str(script_dir))
 
     try:
         import session_orchestrator as so
@@ -213,6 +255,15 @@ def main():
     else:
         positions = positions_data
         sleeve_from_file = None
+
+    # v12.0 ISSUE-05 Part 2: positions-cache staleness guard. A silently old cache
+    # is what produced the false conviction CRIT on 6/1 — surface it loudly here.
+    _pf_status, _pf_age, _pf_msg = _positions_freshness(positions_data)
+    if _pf_status != "fresh":
+        _banner = "\n".join(["", "=" * 66,
+                             f"⚠️  POSITIONS CACHE {_pf_status.upper()} — {_pf_msg}",
+                             "=" * 66, ""])
+        print(_banner, file=(sys.stderr if args.json else sys.stdout))
 
     macro_data        = _load(paths["macro"])
     source_rates_data = _load(paths["source_rates"])

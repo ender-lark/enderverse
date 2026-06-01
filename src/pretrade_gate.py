@@ -51,6 +51,7 @@ from typing import List, Dict, Optional, Tuple
 # Import dependencies from the same build directory
 sys.path.insert(0, "/home/claude/build")
 sys.path.insert(0, "/mnt/project")
+sys.path.insert(0, __import__("os").path.dirname(__import__("os").path.abspath(__file__)))
 try:
     import conviction_sizing_calibrator as csc
     import portfolio_factor_exposure as pfe
