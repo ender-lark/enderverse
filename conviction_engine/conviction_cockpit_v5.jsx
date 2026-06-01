@@ -732,6 +732,16 @@ function actionRow(a){
 // ── Tier-1 view-model: heartbeat (layer run-status strip) ──
 const HB_STATUS = { ok:{c:C.green,label:"ok"}, stale:{c:C.amber,label:"stale"}, down:{c:C.red,label:"down"} };
 function heartbeatRow(h){ const s=HB_STATUS[h.status]||{c:C.gray,label:h.status}; return { layer:h.layer, c:s.c, statusLabel:s.label, lastRun:h.last_run||"", note:h.note||"" }; }
+// ── ⑨ Radar view-model: endorsed (daily-call) names not owned yet ──
+function radarRow(r){
+  const levels=[];
+  if(r.entry!=null) levels.push(`entry ${r.entry}`);
+  if(r.stop!=null) levels.push(`stop ${r.stop}`);
+  if(r.target!=null) levels.push(`tgt ${r.target}`);
+  if(r.window) levels.push(String(r.window));
+  return { ticker:r.ticker, author:r.author||"", direction:r.direction||"",
+           levels:levels.join(" · "), date:r.date||"", quote:r.quote||"" };
+}
 function toCockpit(feed){
   return {
     generatedAt: feed.generated_at||"", stamp: stamp(feed),
@@ -741,6 +751,7 @@ function toCockpit(feed){
     actions: (feed.actions||[]).map(actionRow),
     heartbeat: (feed.heartbeat||[]).map(heartbeatRow),
     synthesis: feed.synthesis||{},
+    radar: (feed.radar||[]).map(radarRow),
     freshSignals: (feed.fresh_signals||[]).map(freshSignalRow),
     hero: heroView(feed.hero||{}),
     catalysts: feed.catalysts||[], questions: feed.questions||[], research: feed.research||{},
@@ -890,6 +901,36 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             );
           })}
           {VM.actions.length>5 && <div style={{ fontSize:11.5, color:C.faint, fontFamily:mono, marginTop:2 }}>+{VM.actions.length-5} more lower-priority action{VM.actions.length-5>1?"s":""} (not shown)</div>}
+        </Section>
+
+        {/* RADAR — endorsed names not owned yet (engine ⑨ radar block) */}
+        <Section id="radar" title="Radar — endorsed, not owned" icon="📡" badge={VM.radar.length?`${VM.radar.length}`:"0"} badgeColor={VM.radar.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={true}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>ENDORSED by a daily analyst call · NOT in the book · not a parked 🔒 MONITOR sleeve. A watch surface — not a position.</div>
+          {VM.radar.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing on the radar — no endorsed, un-owned names in the latest daily calls.</div>}
+          {VM.radar.map((r,i)=>{
+            const key="radar"+r.ticker+i, isO=posOpen[key];
+            return (
+              <div key={key} style={{ ...card, marginBottom:8 }}>
+                <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:r.quote?"pointer":"default" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
+                    {r.author && <span style={{ fontFamily:mono, fontSize:11, color:C.dim }}>{r.author}</span>}
+                    {r.direction && <span style={{ fontSize:11.5, color:C.blue, border:`1px solid ${C.blue}55`, borderRadius:99, padding:"0px 7px" }}>{r.direction}</span>}
+                    {r.date && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint, marginLeft:"auto" }}>{r.date}</span>}
+                  </div>
+                  {r.levels && <div style={{ marginTop:7, fontFamily:mono, fontSize:11.5, color:C.dim }}>{r.levels}</div>}
+                  {r.quote && (
+                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
+                      <span style={{ fontSize:11, color:C.blue }}>{isO?"hide call ▲":"call ▾"}</span>
+                    </div>
+                  )}
+                </div>
+                {isO && r.quote && (
+                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>{r.quote}</div>
+                )}
+              </div>
+            );
+          })}
         </Section>
 
         {/* SYNTHESIS — today's read / state-of-play (Daily Synthesis; Tier-1) */}
