@@ -26,6 +26,7 @@ DEFAULTS
       INVEST_SOURCE_CALLS   → source_calls.json
       INVEST_RATIONALES     → rationales.json
       INVEST_PRIOR          → prior_snapshot.json
+      INVEST_PARABOLIC      → parabolic_setups.json
       INVEST_SLEEVE_TOTAL   → numeric sleeve total (default $1,875,000)
 
     Each optional input is loaded if file exists, otherwise skipped (the
@@ -79,6 +80,7 @@ DEFAULT_FILES = {
     "source_calls":  "source_calls.json",
     "rationales":    "rationales.json",
     "prior":         "prior_snapshot.json",
+    "parabolic":     "parabolic_setups.json",
 }
 
 ENV_OVERRIDES = {
@@ -91,6 +93,7 @@ ENV_OVERRIDES = {
     "source_calls": "INVEST_SOURCE_CALLS",
     "rationales":   "INVEST_RATIONALES",
     "prior":        "INVEST_PRIOR",
+    "parabolic":    "INVEST_PARABOLIC",
 }
 
 
@@ -213,6 +216,7 @@ def main():
     p.add_argument("--source-calls", help="Override pending source calls JSON path")
     p.add_argument("--rationales", help="Override rationales JSON path")
     p.add_argument("--prior", help="Override prior snapshot JSON path")
+    p.add_argument("--parabolic", help="Override parabolic setups JSON path")
     p.add_argument("--sleeve-total", type=float, help="Sleeve total $ (default: derived)")
     p.add_argument("--json", action="store_true", help="JSON output")
     p.add_argument("--verbose", action="store_true", help="Print loaded paths")
@@ -272,6 +276,7 @@ def main():
     source_calls_data = _load(paths["source_calls"])
     rationales_data   = _load(paths["rationales"])
     prior_data        = _load(paths["prior"])
+    parabolic_data    = _load(paths["parabolic"])
 
     # Resolve sleeve total
     sleeve_total = _sleeve_total(args) if args.sleeve_total or os.environ.get("INVEST_SLEEVE_TOTAL") \
@@ -289,6 +294,7 @@ def main():
         insider_data=insider_data_full,
         catalysts=catalysts_data,
         source_calls=source_calls_data,
+        parabolic_data=parabolic_data,
     )
 
     if args.json:

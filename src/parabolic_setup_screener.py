@@ -552,20 +552,26 @@ def classify_phase(prices: list[dict], earnings: list[dict]) -> str:
 # MAIN SCREENER
 # ============================================================================
 
-def screen_ticker(client: UWClient, ticker: str, profile: dict) -> ScreenResult:
-    """Run the 8-feature screen on one ticker."""
+def score_bundle(
+    ticker: str,
+    earnings: list[dict],
+    prices: list[dict],
+    income: list[dict],
+    info: dict,
+    profile: dict,
+) -> ScreenResult:
+    """Pure scoring core — run the 8-feature screen on ALREADY-FETCHED data.
+
+    Shared by the live path (``screen_ticker`` fetches, then calls this) and the
+    file-fed producer (``--from-bundle``). No network I/O happens here, so it is
+    fully unit-testable with synthetic inputs and carries no UW credential.
+    """
     feat = FeatureScores()
     notes: list[str] = []
     phase = "Unknown"
     error: str | None = None
 
     try:
-        # Pull data
-        earnings = client.earnings_history(ticker)
-        prices = client.close_prices(ticker, days_back=900)
-        income = client.income_statements(ticker)
-        info = client.company_info(ticker)
-
         current_price = 0.0
         if isinstance(info, dict):
             current_price = float(info.get("price", 0) or 0)
@@ -602,21 +608,13 @@ def screen_ticker(client: UWClient, ticker: str, profile: dict) -> ScreenResult:
         feat.industry_conc = profile.get("industry_conc", 0.0)
         feat.multi_node = profile.get("multi_node", 0.0)
         feat.customer_conc = profile.get("customer_conc", 0.0)
-        notes.append(
-            f"  F6 industry     = {feat.industry_conc:.1f} | seeded"
-        )
-        notes.append(
-            f"  F7 multi_node   = {feat.multi_node:.1f} | seeded"
-        )
-        notes.append(
-            f"  F8 customer     = {feat.customer_conc:.1f} | seeded"
-        )
+        notes.append(f"  F6 industry     = {feat.industry_conc:.1f} | seeded")
+        notes.append(f"  F7 multi_node   = {feat.multi_node:.1f} | seeded")
+        notes.append(f"  F8 customer     = {feat.customer_conc:.1f} | seeded")
 
         # Phase classification
         phase = classify_phase(prices, earnings)
 
-    except requests.HTTPError as e:
-        error = f"HTTP {e.response.status_code}"
     except Exception as e:
         error = f"{type(e).__name__}: {e}"
 
@@ -638,6 +636,28 @@ def screen_ticker(client: UWClient, ticker: str, profile: dict) -> ScreenResult:
         notes=notes,
         error=error,
     )
+
+
+def screen_ticker(client: UWClient, ticker: str, profile: dict) -> ScreenResult:
+    """Live path: fetch the 4 endpoints, then run the pure scoring core."""
+    try:
+        earnings = client.earnings_history(ticker)
+        prices = client.close_prices(ticker, days_back=900)
+        income = client.income_statements(ticker)
+        info = client.company_info(ticker)
+    except requests.HTTPError as e:
+        return ScreenResult(
+            ticker=ticker, score=0.0, surface_tier="SKIP", phase="Unknown",
+            features=FeatureScores(), notes=[],
+            error=f"HTTP {e.response.status_code}",
+        )
+    except Exception as e:
+        return ScreenResult(
+            ticker=ticker, score=0.0, surface_tier="SKIP", phase="Unknown",
+            features=FeatureScores(), notes=[],
+            error=f"{type(e).__name__}: {e}",
+        )
+    return score_bundle(ticker, earnings, prices, income, info or {}, profile or {})
 
 
 def render_text_report(results: list[ScreenResult], verbose: bool = False) -> str:
@@ -675,6 +695,263 @@ def render_text_report(results: list[ScreenResult], verbose: bool = False) -> st
     return "\n".join(out)
 
 
+# ============================================================================
+# FILE-FED PRODUCER PATH (no live API; consumed by the session pre-flight)
+# ============================================================================
+
+def _empty_profile() -> dict:
+    return {"industry_conc": 0.0, "multi_node": 0.0, "customer_conc": 0.0}
+
+
+def screen_from_bundle(bundle: dict) -> list[ScreenResult]:
+    """Score a bundle of PRE-FETCHED per-ticker data — the token-safe producer
+    path. Bundle shape::
+
+        {"as_of": "YYYY-MM-DD",
+         "tickers": {"NVDA": {"earnings": [...], "prices": [...],
+                              "income": [...], "info": {...},
+                              "profile": {...}?}, ...}}
+
+    Per-ticker ``profile`` is optional; falls back to CANDIDATE_PROFILES, then 0s.
+    """
+    out: list[ScreenResult] = []
+    for raw_tkr, data in (bundle.get("tickers") or {}).items():
+        t = str(raw_tkr).upper()
+        data = data or {}
+        profile = data.get("profile") or CANDIDATE_PROFILES.get(t, _empty_profile())
+        out.append(score_bundle(
+            t,
+            data.get("earnings") or [],
+            data.get("prices") or [],
+            data.get("income") or [],
+            data.get("info") or {},
+            profile,
+        ))
+    return out
+
+
+def build_emit_payload(results: list[ScreenResult], as_of: str | None) -> dict:
+    """The producer output contract the session pre-flight consumes."""
+    counts = {"AUTOFIRE": 0, "WATCHLIST": 0, "SKIP": 0}
+    for r in results:
+        counts[r.surface_tier] = counts.get(r.surface_tier, 0) + 1
+    return {
+        "as_of": as_of or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "results": [r.to_dict() for r in results],
+        "counts": counts,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Raw-UW -> canonical bundle adapters (used by the bundle assembler / routine)
+# ---------------------------------------------------------------------------
+# UW MCP/REST field names differ from the canonical names score_bundle reads, so
+# these adapters live at the PRODUCER BOUNDARY and the scoring core stays pure.
+# Confirmed against live NVDA pulls (2026-06-01):
+#   income   : "total_revenue" -> "revenue"; "selling_general_and_administrative"
+#              and "research_and_development" -> "..._expenses" (op-margin derive
+#              fallback only; primary path uses operating_income, which matches).
+#   earnings : UW lists the UPCOMING unreported quarter at index 0 with
+#              reported_eps == null; drop those so index 0 == most recent
+#              reported quarter (what the scoring fns assume).
+#   info     : UW returns {"data": {...company...}, "price": "<px>"} — price is
+#              a TOP-LEVEL sibling of "data", not inside it.
+#   prices   : UW close-price rows use "c" for close (+ "date"); daily on the
+#              3M/1Y/5Y/10Y/YTD presets, usually wrapped as {"data": [...]}.
+#              Confirmed live 2026-06-01 -> map "c" -> "close". (1Y gives ~252
+#              rows; F5 base-window needs ~5Y for full depth, so the cloud
+#              routine should pull 5Y/10Y; shorter windows just leave F5 = 0.)
+
+_UW_INCOME_FIELD_MAP = {
+    "total_revenue": "revenue",
+    "selling_general_and_administrative": "selling_general_and_administrative_expenses",
+    "research_and_development": "research_and_development_expenses",
+}
+
+
+def adapt_uw_income(rows: list[dict], limit: int = 12) -> list[dict]:
+    out = []
+    for r in (rows or [])[:limit]:
+        rr = dict(r)
+        for src, dst in _UW_INCOME_FIELD_MAP.items():
+            if src in rr and dst not in rr:
+                rr[dst] = rr[src]
+        out.append(rr)
+    return out
+
+
+def adapt_uw_earnings(rows: list[dict], limit: int = 12) -> list[dict]:
+    reported = [r for r in (rows or []) if r.get("reported_eps") not in (None, "")]
+    return reported[:limit]
+
+
+def adapt_uw_info(info_resp: dict) -> dict:
+    if not isinstance(info_resp, dict):
+        return {}
+    out = dict(info_resp.get("data") or {})
+    if "price" in info_resp:
+        out["price"] = info_resp["price"]
+    return out
+
+
+def adapt_uw_prices(rows) -> list[dict]:
+    # UW close-price rows use 'c' for close (+ 'date'); may arrive wrapped as
+    # {"data": [...]}. score_price_base / classify_phase read 'close' + 'date'.
+    if isinstance(rows, dict):
+        rows = rows.get("data") or []
+    out = []
+    for r in (rows or []):
+        rr = dict(r)
+        if "close" not in rr and "c" in rr:
+            rr["close"] = rr["c"]
+        out.append(rr)
+    return out
+
+
+def bundle_entry_from_uw(earnings, prices, income, info, profile=None) -> dict:
+    """Convert raw UW responses into a canonical bundle entry — the shape
+    score_bundle / screen_from_bundle expects. Called by the bundle assembler."""
+    entry = {
+        "earnings": adapt_uw_earnings(earnings),
+        "prices": adapt_uw_prices(prices),
+        "income": adapt_uw_income(income),
+        "info": adapt_uw_info(info),
+    }
+    if profile is not None:
+        entry["profile"] = profile
+    return entry
+
+
+# ============================================================================
+# SELF-TEST (golden-master fixtures + producer contract)
+# ============================================================================
+
+def _fixture_autofire() -> dict:
+    # F1=1.0 accel, F2=1.0 (3x>10%), F3=1.0 (+500bps), F4=0 (<12 stmts),
+    # F5=0 (no prices), profile 1/1/1 -> 2+2+1.5+0+0+2+1.5+1.5 = 10.5 -> AUTOFIRE
+    return {
+        "earnings": [{"surprise_percentage": 15}, {"surprise_percentage": 20},
+                     {"surprise_percentage": 12}],
+        "prices": [],
+        "income": [
+            {"revenue": 200, "operating_income": 40},
+            {"revenue": 180}, {"revenue": 160}, {"revenue": 150},
+            {"revenue": 100, "operating_income": 15},
+            {"revenue": 95}, {"revenue": 92}, {"revenue": 100},
+        ],
+        "info": {},
+        "profile": {"industry_conc": 1.0, "multi_node": 1.0, "customer_conc": 1.0},
+    }
+
+
+def _fixture_watchlist() -> dict:
+    # F2=1.0 (2.0) + profile 1/1/1 (5.0) = 7.0 -> WATCHLIST; all else 0
+    return {
+        "earnings": [{"surprise_percentage": 15}, {"surprise_percentage": 20},
+                     {"surprise_percentage": 30}],
+        "prices": [],
+        "income": [{"revenue": 100}, {"revenue": 100}],
+        "info": {},
+        "profile": {"industry_conc": 1.0, "multi_node": 1.0, "customer_conc": 1.0},
+    }
+
+
+def _fixture_skip() -> dict:
+    # everything 0 -> SKIP
+    return {
+        "earnings": [{"surprise_percentage": 1}, {"surprise_percentage": 2},
+                     {"surprise_percentage": 0}],
+        "prices": [],
+        "income": [{"revenue": 100}, {"revenue": 100}],
+        "info": {},
+        "profile": {"industry_conc": 0.0, "multi_node": 0.0, "customer_conc": 0.0},
+    }
+
+
+def _score_fixture(tkr: str, fx: dict) -> ScreenResult:
+    return score_bundle(tkr, fx["earnings"], fx["prices"], fx["income"],
+                        fx["info"], fx["profile"])
+
+
+def _self_test() -> int:
+    failures = 0
+
+    def check(cond: bool, label: str) -> None:
+        nonlocal failures
+        if not cond:
+            failures += 1
+        print(f"  [{'PASS' if cond else 'FAIL'}] {label}")
+
+    print("parabolic_setup_screener self-test")
+    print("- golden-master: known fixtures -> known tiers")
+    af = _score_fixture("AF", _fixture_autofire())
+    check(abs(af.score - 10.5) < 1e-6, f"AUTOFIRE fixture score == 10.5 (got {af.score})")
+    check(af.surface_tier == "AUTOFIRE", f"AUTOFIRE fixture tier (got {af.surface_tier})")
+    wl = _score_fixture("WL", _fixture_watchlist())
+    check(abs(wl.score - 7.0) < 1e-6, f"WATCHLIST fixture score == 7.0 (got {wl.score})")
+    check(wl.surface_tier == "WATCHLIST", f"WATCHLIST fixture tier (got {wl.surface_tier})")
+    sk = _score_fixture("SK", _fixture_skip())
+    check(abs(sk.score - 0.0) < 1e-6, f"SKIP fixture score == 0.0 (got {sk.score})")
+    check(sk.surface_tier == "SKIP", f"SKIP fixture tier (got {sk.surface_tier})")
+
+    print("- contract: ScreenResult.to_dict() shape")
+    d = af.to_dict()
+    for k in ("ticker", "score", "surface_tier", "phase", "features",
+              "weighted_total", "notes"):
+        check(k in d, f"to_dict has '{k}'")
+    check(isinstance(d["features"], dict) and "revenue_accel" in d["features"],
+          "to_dict features expanded with revenue_accel")
+
+    print("- producer: bundle -> results -> emit payload")
+    bundle = {"as_of": "2026-06-01", "tickers": {
+        "AF": _fixture_autofire(), "WL": _fixture_watchlist(),
+        "SK": _fixture_skip()}}
+    results = screen_from_bundle(bundle)
+    check(len(results) == 3, f"screen_from_bundle returns 3 (got {len(results)})")
+    payload = build_emit_payload(results, bundle.get("as_of"))
+    check(payload.get("as_of") == "2026-06-01", "emit as_of preserved")
+    check({"as_of", "results", "counts", "generated_at"} <= set(payload),
+          "emit payload has required keys")
+    check(payload["counts"] == {"AUTOFIRE": 1, "WATCHLIST": 1, "SKIP": 1},
+          f"emit counts (got {payload['counts']})")
+    check(len(payload["results"]) == 3, "emit has 3 results")
+
+    print("- producer: CANDIDATE_PROFILES fallback when bundle omits profile")
+    r2 = screen_from_bundle({"tickers": {"VIAV": {"earnings": [], "prices": [],
+                                                  "income": [], "info": {}}}})
+    check(bool(r2) and r2[0].features.industry_conc == 1.0,
+          "VIAV uses CANDIDATE_PROFILES (industry_conc == 1.0)")
+
+    print("- UW adapter: raw UW field names -> canonical (live-confirmed shapes)")
+    raw_income = [{"total_revenue": "200", "operating_income": "40"},
+                  {"total_revenue": "100"}]
+    ai = adapt_uw_income(raw_income)
+    check(ai[0].get("revenue") == "200", "income total_revenue -> revenue")
+    raw_earn = [{"reported_eps": None, "surprise_percentage": None},
+                {"reported_eps": "1.87", "surprise_percentage": "5.6"}]
+    ae = adapt_uw_earnings(raw_earn)
+    check(len(ae) == 1 and ae[0]["reported_eps"] == "1.87",
+          "earnings drops null reported_eps (unreported quarter)")
+    ainfo = adapt_uw_info({"data": {"sector": "Technology"}, "price": "212.49"})
+    check(ainfo.get("price") == "212.49", "info pulls top-level price")
+    entry = bundle_entry_from_uw(raw_earn, [], raw_income,
+                                 {"data": {}, "price": "10"},
+                                 profile={"industry_conc": 1.0})
+    check(entry["income"][0].get("revenue") == "200"
+          and len(entry["earnings"]) == 1
+          and entry["info"]["price"] == "10"
+          and entry["profile"]["industry_conc"] == 1.0,
+          "bundle_entry_from_uw produces a canonical entry")
+    ap = adapt_uw_prices({"data": [{"c": 211.14, "date": "2026-05-29"},
+                                   {"c": 198.45, "date": "2026-05-01"}]})
+    check(len(ap) == 2 and ap[0].get("close") == 211.14 and bool(ap[0].get("date")),
+          "prices 'c' -> 'close' (+ unwraps {data:[...]})")
+
+    print(f"\n{'ALL PASS' if failures == 0 else str(failures) + ' FAILED'}")
+    return 0 if failures == 0 else 1
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="VIAV-pattern parabolic setup screener")
     parser.add_argument("--tickers", help="Comma-separated tickers to screen (default: all candidates)")
@@ -686,8 +963,45 @@ def main() -> int:
         default=None,
         help=f"Override surface threshold (default {THRESHOLD_WATCHLIST})",
     )
+    parser.add_argument(
+        "--from-bundle",
+        help="Score pre-fetched per-ticker data from a bundle JSON "
+             "(token-safe producer path; no live UW calls).",
+    )
+    parser.add_argument(
+        "--emit",
+        help="Write the producer cache JSON (consumed by the session pre-flight) "
+             "to this path.",
+    )
+    parser.add_argument(
+        "--self-test", action="store_true",
+        help="Run the built-in self-test (golden-master + producer contract) and exit.",
+    )
     args = parser.parse_args()
 
+    if args.self_test:
+        return _self_test()
+
+    # ---- File-fed producer path (no UW_API_KEY required) ----
+    if args.from_bundle:
+        with open(args.from_bundle) as fh:
+            bundle = json.load(fh)
+        results = screen_from_bundle(bundle)
+        payload = build_emit_payload(results, bundle.get("as_of"))
+        if args.emit:
+            with open(args.emit, "w") as fh:
+                json.dump(payload, fh, indent=2)
+            print(f"Emitted {len(results)} results -> {args.emit} "
+                  f"(AUTOFIRE {payload['counts']['AUTOFIRE']}, "
+                  f"WATCHLIST {payload['counts']['WATCHLIST']}, "
+                  f"SKIP {payload['counts']['SKIP']})", file=sys.stderr)
+        if args.json:
+            print(json.dumps(payload, indent=2))
+        else:
+            print(render_text_report(results, verbose=args.verbose))
+        return 0
+
+    # ---- Live path (requires UW_API_KEY) ----
     api_key = os.environ.get("UW_API_KEY")
     if not api_key:
         print("ERROR: UW_API_KEY env var not set", file=sys.stderr)
@@ -716,6 +1030,12 @@ def main() -> int:
         if r.error:
             failures += 1
         results.append(r)
+
+    if args.emit:
+        payload = build_emit_payload(results, None)
+        with open(args.emit, "w") as fh:
+            json.dump(payload, fh, indent=2)
+        print(f"Emitted {len(results)} results -> {args.emit}", file=sys.stderr)
 
     if args.json:
         print(json.dumps([r.to_dict() for r in results], indent=2))

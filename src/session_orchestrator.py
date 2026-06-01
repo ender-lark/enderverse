@@ -387,6 +387,58 @@ def _run_insider(positions: List[Dict],
 # CORE ORCHESTRATOR
 # ============================================================================
 
+def _run_parabolic(parabolic_data: Optional[Dict]) -> SubsystemResult:
+    if parabolic_data is None:
+        return SubsystemResult(
+            name="PARABOLIC SETUPS",
+            available=False,
+            surface_line="PARABOLIC SETUPS: (no parabolic data supplied)",
+            priority="INFO",
+        )
+    results = parabolic_data.get("results")
+    # v12.0 honesty guard — a present-but-empty cache (no results at all) must
+    # not read as "evaluated, nothing setup." Only a non-empty results list is
+    # "evaluated"; an all-SKIP results list IS evaluated (nothing firing today).
+    if not results:
+        return SubsystemResult(
+            name="PARABOLIC SETUPS",
+            available=False,
+            surface_line=("PARABOLIC SETUPS: \u26a0\ufe0f cache empty (stub) \u2014 not "
+                          "evaluated; populate via the parabolic screener routine"),
+            priority="INFO",
+        )
+    autofire = [r.get("ticker") or "?" for r in results
+                if r.get("surface_tier") == "AUTOFIRE"]
+    watchlist = [r.get("ticker") or "?" for r in results
+                 if r.get("surface_tier") == "WATCHLIST"]
+    n_screened = len(results)
+    if autofire:
+        priority = "HIGH"
+    elif watchlist:
+        priority = "MED"
+    else:
+        priority = "INFO"
+    actionable = len(autofire) + len(watchlist)
+    if autofire or watchlist:
+        parts = []
+        if autofire:
+            parts.append(f"{len(autofire)} AUTOFIRE ({', '.join(autofire)})")
+        if watchlist:
+            parts.append(f"{len(watchlist)} WATCHLIST ({', '.join(watchlist)})")
+        surface = "PARABOLIC SETUPS: " + "; ".join(parts)
+    else:
+        surface = f"PARABOLIC SETUPS: none firing ({n_screened} screened, all SKIP)"
+    return SubsystemResult(
+        name="PARABOLIC SETUPS",
+        available=True,
+        surface_line=surface,
+        priority=priority,
+        actionable_count=actionable,
+        payload={"autofire": len(autofire), "watchlist": len(watchlist),
+                 "screened": n_screened},
+    )
+
+
 PRIORITY_RANK = {"CRIT": 0, "HIGH": 1, "MED": 2, "INFO": 3, "NONE": 4}
 
 
@@ -398,7 +450,8 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
                 source_rates: Optional[Dict] = None,
                 insider_data: Optional[Dict] = None,
                 catalysts: Optional[List[Dict]] = None,
-                source_calls: Optional[List[Dict]] = None
+                source_calls: Optional[List[Dict]] = None,
+                parabolic_data: Optional[Dict] = None
                 ) -> SessionDashboard:
     """Run all subsystems and produce dashboard."""
     current_snapshot = {
@@ -415,6 +468,7 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
         _run_conviction(positions, theses, sleeve_total, macro_pulse, source_rates),
         _run_factor(positions, theses, sleeve_total, macro_pulse),
         _run_insider(positions, insider_data, catalysts, theses, macro_pulse),
+        _run_parabolic(parabolic_data),
     ]
 
     # Priority-ordered list of subsystem names that have actionable items
@@ -500,7 +554,7 @@ def _self_test() -> bool:
     # ----- Test 1: minimal — empty everything → no actionable items
     d = orchestrate([], [], sleeve_total=1)
     assert_eq(len(d.priority_order), 0, "empty: no actionable items")
-    assert_eq(len(d.subsystems), 6, "6 subsystems always run")
+    assert_eq(len(d.subsystems), 7, "7 subsystems always run")
 
     # ----- Test 2: realistic operator portfolio
     positions = [
@@ -587,7 +641,7 @@ def _self_test() -> bool:
     js = format_json(d)
     parsed = json.loads(js)
     assert_eq(parsed["sleeve_total"], 1875000, "JSON sleeve_total")
-    assert_true(len(parsed["subsystems"]) == 6, "JSON has 6 subsystems")
+    assert_true(len(parsed["subsystems"]) == 7, "JSON has 7 subsystems")
 
     # ----- Test 10: all-none scenario
     d = orchestrate([], [], 1)
@@ -625,6 +679,39 @@ def _self_test() -> bool:
     assert_true(hasattr(d, "priority_order"), "dashboard.priority_order")
     assert_true(hasattr(d, "summary_block"), "dashboard.summary_block")
 
+    # ----- Test 16: parabolic — AUTOFIRE → HIGH + in priority_order
+    parabolic = {"as_of": "2026-06-01",
+                 "results": [
+                     {"ticker": "VIAV", "surface_tier": "AUTOFIRE", "score": 10.5},
+                     {"ticker": "MU", "surface_tier": "WATCHLIST", "score": 7.0},
+                     {"ticker": "NVDA", "surface_tier": "SKIP", "score": 4.5}],
+                 "counts": {"AUTOFIRE": 1, "WATCHLIST": 1, "SKIP": 1}}
+    d = orchestrate([], [], 1, parabolic_data=parabolic)
+    pb = next(s for s in d.subsystems if s.name == "PARABOLIC SETUPS")
+    assert_true(pb.available, "parabolic available with data")
+    assert_eq(pb.priority, "HIGH", "AUTOFIRE → HIGH priority")
+    assert_eq(pb.actionable_count, 2, "AUTOFIRE+WATCHLIST counted")
+    assert_true("PARABOLIC SETUPS" in d.priority_order,
+                "parabolic in priority_order")
+    assert_true("VIAV" in pb.surface_line, "autofire ticker in surface line")
+
+    # ----- Test 17: parabolic honesty guard — present-but-empty → not evaluated
+    d = orchestrate([], [], 1, parabolic_data={"results": [], "counts": {}})
+    pb = next(s for s in d.subsystems if s.name == "PARABOLIC SETUPS")
+    assert_true(not pb.available,
+                "empty parabolic cache → unavailable (honesty guard)")
+    assert_true("not evaluated" in pb.surface_line,
+                "empty cache surfaces 'not evaluated'")
+
+    # ----- Test 18: parabolic all-SKIP IS evaluated (nothing firing) → INFO
+    d = orchestrate([], [], 1, parabolic_data={
+        "results": [{"ticker": "X", "surface_tier": "SKIP", "score": 2.0}],
+        "counts": {"AUTOFIRE": 0, "WATCHLIST": 0, "SKIP": 1}})
+    pb = next(s for s in d.subsystems if s.name == "PARABOLIC SETUPS")
+    assert_true(pb.available, "all-SKIP parabolic IS evaluated (available)")
+    assert_eq(pb.priority, "INFO", "all-SKIP → INFO")
+    assert_eq(pb.actionable_count, 0, "all-SKIP → 0 actionable")
+
     total = passed + failed
     print(f"\n{passed}/{total} assertions passed.")
     return failed == 0
@@ -646,6 +733,7 @@ def main():
     p.add_argument("--catalysts", help="Catalysts JSON (optional)")
     p.add_argument("--source-calls", help="Pending source calls JSON (optional)")
     p.add_argument("--rationales", help="Active rationales JSON (optional)")
+    p.add_argument("--parabolic", help="Parabolic setups JSON (optional)")
     p.add_argument("--json", action="store_true")
     p.add_argument("--self-test", action="store_true")
     args = p.parse_args()
@@ -669,6 +757,7 @@ def main():
     catalysts = json.load(open(args.catalysts)) if args.catalysts else None
     source_calls = json.load(open(args.source_calls)) if args.source_calls else None
     rationales = json.load(open(args.rationales)) if args.rationales else None
+    parabolic = json.load(open(args.parabolic)) if args.parabolic else None
 
     d = orchestrate(positions, theses, args.sleeve_total,
                     prior_snapshot=prior,
@@ -677,7 +766,8 @@ def main():
                     source_rates=rates,
                     insider_data=insider,
                     catalysts=catalysts,
-                    source_calls=source_calls)
+                    source_calls=source_calls,
+                    parabolic_data=parabolic)
     if args.json:
         print(format_json(d))
     else:
