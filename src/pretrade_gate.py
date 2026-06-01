@@ -189,33 +189,44 @@ def _check_macro(action: str, ticker: str, factor_tags: List[str],
 
 
 def _check_source_calibration(action: str, source: Optional[str],
-                              tier: Optional[str],
+                              call_ladder: Optional[str],
                               source_rates: Optional[Dict]) -> List[Flag]:
-    """v11.26: source × tier hit-rate discount → AMBER or RED."""
+    """source x call-quality-ladder hit-rate discount -> AMBER or RED (v11.26;
+    convention pinned v12.0).
+
+    IMPORTANT — two different axes, do not conflate:
+      * call_ladder = the CALL-QUALITY ladder (A/B/C/D = Specific/Target/
+        Directional/Vague) from classify_call / the Source Call Log. source_rates
+        is keyed by this, so it is the ONLY correct key here.
+      * the POSITION tier (T1-T4) is a sizing axis and must NOT be used for this
+        lookup (source_rates has no T1-T4 keys; passing it silently no-ops).
+    The caller supplies call_ladder from the source's logged call on this name;
+    absent it, the discount cannot be computed and this check is a no-op.
+    """
     flags = []
-    if not source or not tier or not source_rates or action != "ADD":
+    if not source or not call_ladder or not source_rates or action != "ADD":
         return flags
     by_source = source_rates.get(source.lower())
     if not by_source:
         return flags
-    by_tier = by_source.get(tier) or by_source.get("ALL")
-    if not by_tier:
+    by_ladder = by_source.get(call_ladder) or by_source.get("ALL")
+    if not by_ladder:
         return flags
-    band = by_tier.get("band", "INSUFFICIENT_DATA")
-    n = by_tier.get("n", 0)
+    band = by_ladder.get("band", "INSUFFICIENT_DATA")
+    n = by_ladder.get("n", 0)
     if n < 15:
         return flags
     if band == "CONSISTENT_MISS":
         flags.append(Flag(
             color="RED", code="SOURCE_CONSISTENT_MISS",
-            message=f"{source} × {tier} hit rate <40% (n={n}); thesis basis "
-                    "is structurally degraded"
+            message=f"{source} x ladder {call_ladder} hit rate <40% (n={n}); "
+                    "thesis basis is structurally degraded"
         ))
     elif band == "BELOW_BREAKEVEN":
         flags.append(Flag(
             color="YELLOW", code="SOURCE_BELOW_BREAKEVEN",
-            message=f"{source} × {tier} hit rate 40-50% (n={n}); discount "
-                    "size by 0.5x"
+            message=f"{source} x ladder {call_ladder} hit rate 40-50% (n={n}); "
+                    "discount size by 0.5x"
         ))
     return flags
 
@@ -308,7 +319,8 @@ def evaluate(action: str, ticker: str, notional: float,
              sleeve_total: float,
              macro_pulse: Optional[Dict] = None,
              source_rates: Optional[Dict] = None,
-             market_state: Optional[Dict] = None) -> GateResult:
+             market_state: Optional[Dict] = None,
+             call_ladder: Optional[str] = None) -> GateResult:
     """
     Run all gate checks and return GateResult.
     """
@@ -357,8 +369,11 @@ def evaluate(action: str, ticker: str, notional: float,
         result.flags.extend(_check_tier_band(
             action, current_pct, target_pct, tier))
     result.flags.extend(_check_macro(action, ticker, factor_tags, macro_pulse))
+    # Source calibration keys on the CALL-QUALITY ladder (A/B/C/D), NOT the
+    # position tier — pass call_ladder (from the source's logged call), supplied
+    # by the caller; absent it, the check no-ops. (v12.0 convention pin.)
     result.flags.extend(_check_source_calibration(
-        action, source, tier, source_rates))
+        action, source, call_ladder, source_rates))
     if pfe is not None:
         result.flags.extend(_check_factor_concentration(
             action, ticker, notional, factor_tags,
@@ -511,28 +526,36 @@ def _self_test() -> bool:
     red_flags = [f for f in r.flags if f.code == "TRIMMING_CRITICALLY_BELOW"]
     assert_eq(len(red_flags), 1, "TRIM critically below → RED flag")
 
-    # ----- Test 6: Source CONSISTENT_MISS → RED
+    # ----- Test 6: Source CONSISTENT_MISS → RED (keyed by the CALL-QUALITY
+    #               ladder A/B/C/D, call_ladder supplied — NOT the position tier)
     source_rates = {
-        "lee": {"T2": {"band": "CONSISTENT_MISS", "n": 20}}
+        "lee": {"A": {"band": "CONSISTENT_MISS", "n": 20}}
     }
     r = evaluate("ADD", "NVDA", 10000, base_positions, base_theses, 1875000,
-                 source_rates=source_rates)
+                 source_rates=source_rates, call_ladder="A")
     red_flags = [f for f in r.flags if f.code == "SOURCE_CONSISTENT_MISS"]
     assert_eq(len(red_flags), 1, "CONSISTENT_MISS → RED")
 
-    # ----- Test 7: Source BELOW_BREAKEVEN → AMBER
-    source_rates = {
-        "lee": {"T2": {"band": "BELOW_BREAKEVEN", "n": 20}}
-    }
+    # ----- Test 6b: same rates but NO call_ladder → no flag (the position tier
+    #               must not back-door the lookup; v12.0 convention pin)
     r = evaluate("ADD", "NVDA", 10000, base_positions, base_theses, 1875000,
                  source_rates=source_rates)
+    assert_eq(len([f for f in r.flags if "SOURCE_" in f.code]), 0,
+              "no call_ladder → no source flag")
+
+    # ----- Test 7: Source BELOW_BREAKEVEN → AMBER
+    source_rates = {
+        "lee": {"A": {"band": "BELOW_BREAKEVEN", "n": 20}}
+    }
+    r = evaluate("ADD", "NVDA", 10000, base_positions, base_theses, 1875000,
+                 source_rates=source_rates, call_ladder="A")
     yellow_flags = [f for f in r.flags if f.code == "SOURCE_BELOW_BREAKEVEN"]
     assert_eq(len(yellow_flags), 1, "BELOW_BREAKEVEN → AMBER")
 
     # ----- Test 8: Source INSUFFICIENT_DATA (n<15) → no flag
-    source_rates = {"lee": {"T2": {"band": "CONSISTENT_MISS", "n": 8}}}
+    source_rates = {"lee": {"A": {"band": "CONSISTENT_MISS", "n": 8}}}
     r = evaluate("ADD", "NVDA", 10000, base_positions, base_theses, 1875000,
-                 source_rates=source_rates)
+                 source_rates=source_rates, call_ladder="A")
     src_flags = [f for f in r.flags if "SOURCE_" in f.code]
     assert_eq(len(src_flags), 0, "n<15 → no source flag")
 

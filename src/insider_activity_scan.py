@@ -750,6 +750,88 @@ def _self_test() -> bool:
 # CLI
 # ============================================================================
 
+def _safe_num(x: Any) -> Optional[float]:
+    if x is None:
+        return None
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return None
+
+
+def normalize_uw_insider(raw: Any,
+                         trump_tickers: Optional[List[str]] = None
+                         ) -> Dict[str, List[Dict]]:
+    """Normalize raw UW get_insider_transactions output into the insider_data.json
+    schema this scan consumes:
+        ticker -> [{date, transaction_code, transaction_type, insider_title,
+                    insider_name, shares, price, value, side, rule_10b5_1,
+                    trump_ally}]
+
+    Accepts a flat list of UW rows (each carrying a ticker), a {ticker: [rows]}
+    dict, or a raw UW response dict with a "data" list.
+
+    UW shape (confirmed against live MCP 5/14/26): `amount` = shares, `price` is
+    per-share, and there is no `value` field — value is computed. TITLE handling
+    matters: _is_csuite matches on the title string (CEO/CFO/COO/CTO/PRESIDENT/
+    CHAIRMAN/CHIEF*/DIRECTOR), so UW's role/relationship field is preserved
+    verbatim; the is_officer/is_director booleans are only a fallback and a bare
+    "OFFICER" will NOT classify as C-suite. Verify UW's title field name on first
+    live run.
+    """
+    trump = {t.upper().strip() for t in (trump_tickers or [])}
+
+    rows: List[Dict] = []
+    if isinstance(raw, dict):
+        if isinstance(raw.get("data"), list):
+            rows = raw["data"]
+        else:
+            for tk, lst in raw.items():
+                if isinstance(lst, list):
+                    for r in lst:
+                        rr = dict(r)
+                        rr.setdefault("ticker", tk)
+                        rows.append(rr)
+    elif isinstance(raw, list):
+        rows = raw
+
+    out: Dict[str, List[Dict]] = {}
+    for r in rows:
+        tk = (r.get("ticker") or r.get("symbol") or "").upper().strip()
+        if not tk:
+            continue
+        shares = _safe_num(r.get("amount") if r.get("amount") is not None
+                           else r.get("shares"))
+        price = _safe_num(r.get("price"))
+        value = _safe_num(r.get("value") if r.get("value") is not None
+                          else r.get("notional_usd"))
+        if value is None and shares is not None and price is not None:
+            value = abs(shares * price)
+        title = (r.get("insider_title") or r.get("officer_title")
+                 or r.get("relationship") or r.get("title") or "")
+        if not title:
+            if r.get("is_director"):
+                title = "DIRECTOR"
+            elif r.get("is_officer"):
+                title = "OFFICER"          # NOTE: not C-suite per _is_csuite
+        code = (r.get("transaction_code") or r.get("code") or "").upper().strip()
+        out.setdefault(tk, []).append({
+            "date": r.get("transaction_date") or r.get("date"),
+            "transaction_code": code or None,
+            "transaction_type": r.get("transaction_type"),
+            "insider_title": title,
+            "insider_name": r.get("insider_name") or r.get("owner_name"),
+            "shares": shares,
+            "price": price,
+            "value": value,
+            "side": r.get("side"),
+            "rule_10b5_1": bool(r.get("rule_10b5_1") or r.get("is_10b5_1_plan")
+                                or r.get("is_10b5_1")),
+            "trump_ally": bool(r.get("trump_ally")) or (tk in trump),
+        })
+    return out
+
+
 def main():
     p = argparse.ArgumentParser(description="Insider Activity Scan v11.26")
     p.add_argument("--positions", help="Positions JSON")
@@ -760,10 +842,32 @@ def main():
     p.add_argument("--json", action="store_true")
     p.add_argument("--surface", action="store_true")
     p.add_argument("--self-test", action="store_true")
+    p.add_argument("--normalize-uw", metavar="RAW_JSON",
+                   help="Normalize raw UW get_insider_transactions output (flat list "
+                        "or ticker-keyed dict) into the insider_data.json schema")
+    p.add_argument("--emit-data", metavar="OUT_JSON",
+                   help="With --normalize-uw: write the normalized insider_data.json here")
+    p.add_argument("--trump-tickers", metavar="CSV",
+                   help="Comma-separated tickers to tag trump_ally=true during normalize")
     args = p.parse_args()
 
     if args.self_test:
         sys.exit(0 if _self_test() else 1)
+
+    if args.normalize_uw:
+        with open(args.normalize_uw) as f:
+            raw = json.load(f)
+        trump = [t.strip() for t in (args.trump_tickers or "").split(",") if t.strip()]
+        data = normalize_uw_insider(raw, trump_tickers=trump)
+        if args.emit_data:
+            with open(args.emit_data, "w") as f:
+                json.dump(data, f, indent=2)
+            n_txns = sum(len(v) for v in data.values())
+            print(f"insider_data written -> {args.emit_data} "
+                  f"({len(data)} tickers, {n_txns} transactions)")
+        else:
+            print(json.dumps(data, indent=2))
+        return
 
     if not (args.positions and args.insider_data):
         p.error("--positions and --insider-data required (or --self-test)")

@@ -1322,6 +1322,107 @@ def run_self_test():
 # CLI
 # ==============================================================================
 
+def batch_classify(raw_calls, now=None):
+    """Batch-classify raw Inbox calls into Source-Call-Log-ready entries.
+
+    Each raw call is a dict: {source, text|verbatim_quote, ticker(optional),
+    date|call_date(optional)}. Runs classify_call on the text, then emits the
+    canonical Log schema with the falsification condition + scoring window filled
+    and outcome left 'Pending' — pre-registered BEFORE the outcome is known,
+    which is the whole point of the calibration layer.
+
+    Returns a list of dicts ready to create as Source Call Log rows. Does NOT
+    write to Notion; the routine/operator creates the rows. This is the throughput
+    helper for the n=0 bottleneck: many Inbox calls -> many Log-ready entries.
+    """
+    today = now or datetime.now().strftime('%Y-%m-%d')
+    out = []
+    for raw in raw_calls:
+        if not isinstance(raw, dict):
+            continue
+        text = (raw.get('verbatim_quote') or raw.get('text') or '').strip()
+        src = raw.get('source')
+        if not src or not text:
+            continue
+        cls = classify_call(text)
+        call_date = raw.get('date') or raw.get('call_date') or today
+        window_end = raw.get('window_end')
+        if not window_end:
+            base = _parse_date(call_date) or _parse_date(today)
+            window_end = ((base + timedelta(days=cls['window_days'])).strftime('%Y-%m-%d')
+                          if base else cls['window_end'])
+        ticker = raw.get('ticker') or raw.get('named_ticker')
+        if not ticker and cls.get('tickers_detected'):
+            ticker = cls['tickers_detected'][0]
+        out.append({
+            'source': str(src).strip().lower(),
+            'ticker': (str(ticker).strip().upper() if ticker else None),
+            'tier': cls['tier'],
+            'confidence_in_tier': cls['confidence'],
+            'verbatim_quote': text,
+            'falsification_condition': cls['falsification'],
+            'date': call_date,
+            'window_end': window_end,
+            'window_days': cls['window_days'],
+            'outcome': 'Pending',
+            'backfill': False,
+            'classified_at': today,
+        })
+    return out
+
+
+# Ladders that are expected to be scored Win/Loss/Push. D = unfalsifiable
+# narrative ("DO NOT SCORE"), so it is never flagged as scoring-overdue.
+SCORABLE_LADDERS = {'A', 'B', 'C'}
+
+
+def scoring_lag_sweep(calls, now=None):
+    """Find calls whose scoring window has CLOSED but are still unscored.
+
+    Distinct from the Inbox->Log->cache propagation gauges: this catches calls
+    that propagated fine but were never scored Win/Loss/Push after window_end
+    passed — so the hit-rate denominator never grows even as windows close.
+    Backfill rows and Tier-D (unfalsifiable) calls are excluded.
+
+    Returns {due, count, oldest_overdue_days, by_source}; `due` is sorted most
+    overdue first, each row carrying an 'overdue_days' field.
+    """
+    now_d = _parse_date(now) or datetime.now().date()
+    due = []
+    for c in (_normalize_call(c) for c in calls):
+        if not c or c.get('backfill'):
+            continue
+        tier = (c.get('tier') or '').upper()
+        if tier and tier not in SCORABLE_LADDERS:
+            continue
+        outcome = (c.get('outcome') or '').strip().lower()
+        if outcome in ('win', 'loss', 'push'):
+            continue
+        we = _parse_date(c.get('window_end'))
+        if not we or we >= now_d:
+            continue
+        due.append({**c, 'overdue_days': (now_d - we).days})
+    due.sort(key=lambda c: -c['overdue_days'])
+    by_source = {}
+    for c in due:
+        by_source[c['source']] = by_source.get(c['source'], 0) + 1
+    return {
+        'due': due,
+        'count': len(due),
+        'oldest_overdue_days': (due[0]['overdue_days'] if due else 0),
+        'by_source': by_source,
+    }
+
+
+def scoring_lag_surface_line(sweep):
+    if not sweep or sweep.get('count', 0) == 0:
+        return "SCORING LAG: clean \u2014 no calls past window-end awaiting a score."
+    bysrc = ", ".join(f"{s}:{n}" for s, n in sorted(sweep['by_source'].items()))
+    return (f"SCORING LAG: \u26a0\ufe0f {sweep['count']} call(s) past window-end still "
+            f"unscored (oldest {sweep['oldest_overdue_days']}d; {bysrc}) \u2014 "
+            f"score Win/Loss/Push so the hit-rate denominator grows.")
+
+
 def _cli_arg(name, default=None):
     """Fetch the value following a --flag in sys.argv, else default."""
     if name in sys.argv:
@@ -1350,6 +1451,50 @@ def main():
         result['verbatim'] = text
         result['classified_at'] = datetime.now().isoformat()
         print(json.dumps(result, indent=2, default=str))
+        sys.exit(0)
+
+    if cmd == '--batch-classify':
+        raw_path = (sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith('--')
+                    else _cli_arg('--raw'))
+        if not raw_path:
+            print("ERROR: --batch-classify needs a raw calls JSON path "
+                  "(positional or --raw)", file=sys.stderr)
+            sys.exit(1)
+        try:
+            with open(raw_path) as f:
+                raw = json.load(f)
+        except FileNotFoundError:
+            print(f"ERROR: raw calls file not found: {raw_path}", file=sys.stderr)
+            sys.exit(1)
+        if isinstance(raw, dict):
+            raw = raw.get('calls') or raw.get('data') or [raw]
+        entries = batch_classify(raw, now=_cli_arg('--now'))
+        out_text = json.dumps(entries, indent=2, default=str)
+        out_path = _cli_arg('--out')
+        if out_path:
+            with open(out_path, 'w') as f:
+                f.write(out_text + '\n')
+            print(f"{len(entries)} Log-ready entries written to {out_path}")
+        else:
+            print(out_text)
+        sys.exit(0)
+
+    if cmd == '--scoring-lag':
+        calls_path = _cli_arg('--calls', 'source_calls.json')
+        try:
+            calls = load_calls(calls_path)
+        except FileNotFoundError:
+            print(f"ERROR: --calls file not found: {calls_path}", file=sys.stderr)
+            sys.exit(1)
+        sweep = scoring_lag_sweep(calls, now=_cli_arg('--now'))
+        print(json.dumps({
+            'calls_loaded': len(calls),
+            'count': sweep['count'],
+            'oldest_overdue_days': sweep['oldest_overdue_days'],
+            'by_source': sweep['by_source'],
+            'due': sweep['due'],
+            'surface_line': scoring_lag_surface_line(sweep),
+        }, indent=2, default=str))
         sys.exit(0)
 
     if cmd == '--persistence':

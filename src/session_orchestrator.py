@@ -37,6 +37,7 @@ USAGE
 """
 
 import argparse
+import datetime
 import json
 import sys
 from dataclasses import dataclass, asdict, field
@@ -81,7 +82,45 @@ class SessionDashboard:
 # SUBSYSTEM RUNNERS
 # ============================================================================
 
-def _run_macro(macro_pulse: Optional[Dict]) -> SubsystemResult:
+def _parse_date(s: Optional[str]) -> Optional[datetime.date]:
+    if not s:
+        return None
+    try:
+        return datetime.date.fromisoformat(str(s).strip())
+    except (ValueError, AttributeError):
+        return None
+
+
+def macro_freshness(snapshot_date: Optional[str],
+                    today: Optional[str] = None) -> Dict:
+    """Is macro_state.json current? (v12.0 staleness guard.)
+
+    Strict per the operator's call: macro moves daily, so 'fresh' means the
+    snapshot is the current trading day. Weekends accept the most recent Friday;
+    market holidays are not special-cased (the guard errs toward flagging, which
+    is the safe direction). Returns {fresh, age_days, snapshot_date, label}.
+    """
+    today_d = _parse_date(today) or datetime.date.today()
+    snap_d = _parse_date(snapshot_date)
+    if snap_d is None:
+        return {"fresh": False, "age_days": None,
+                "snapshot_date": snapshot_date, "label": "STALE (no snapshot_date)"}
+    ref = today_d                       # most recent trading day on/before today
+    if ref.weekday() == 5:              # Saturday -> Friday
+        ref -= datetime.timedelta(days=1)
+    elif ref.weekday() == 6:            # Sunday -> Friday
+        ref -= datetime.timedelta(days=2)
+    age = (today_d - snap_d).days
+    if snap_d >= ref:
+        return {"fresh": True, "age_days": age,
+                "snapshot_date": snapshot_date, "label": f"fresh ({snapshot_date})"}
+    return {"fresh": False, "age_days": age,
+            "snapshot_date": snapshot_date,
+            "label": f"STALE {age}d (snapshot {snapshot_date})"}
+
+
+def _run_macro(macro_pulse: Optional[Dict],
+               today: Optional[str] = None) -> SubsystemResult:
     if not macro_pulse:
         return SubsystemResult(
             name="MACRO PULSE",
@@ -93,16 +132,29 @@ def _run_macro(macro_pulse: Optional[Dict]) -> SubsystemResult:
               or "unknown")
     alerts = macro_pulse.get("alerts", []) or []
     n_alerts = len(alerts)
-    priority = "HIGH" if n_alerts >= 1 else "INFO"
-    surface = (f"MACRO: {regime}"
-               + (f"  [{n_alerts} alert(s)]" if n_alerts else ""))
+
+    # v12.0 freshness guard — stale macro feeds 4 consumers + the macro-headwind
+    # gate, so a stale/undated cache is surfaced loudly and never read as current.
+    fresh = macro_freshness(macro_pulse.get("snapshot_date"), today=today)
+    stale = not fresh["fresh"]
+
+    priority = "HIGH" if (n_alerts >= 1 or stale) else "INFO"
+    surface = f"MACRO: {regime}"
+    if n_alerts:
+        surface += f"  [{n_alerts} alert(s)]"
+    if stale:
+        surface += (f"  \u26a0\ufe0f {fresh['label']} \u2014 refresh before any Tier A/B "
+                    f"(macro confidence downgraded)")
+
     return SubsystemResult(
         name="MACRO PULSE",
         available=True,
         surface_line=surface,
         priority=priority,
-        actionable_count=n_alerts,
-        payload={"regime": regime, "alerts": alerts},
+        actionable_count=(max(n_alerts, 1) if stale else n_alerts),
+        payload={"regime": regime, "alerts": alerts,
+                 "snapshot_date": macro_pulse.get("snapshot_date"),
+                 "freshness": fresh},
     )
 
 
@@ -289,6 +341,18 @@ def _run_insider(positions: List[Dict],
             name="INSIDER ACTIVITY",
             available=False,
             surface_line="INSIDER ACTIVITY: (no insider data supplied)",
+            priority="INFO",
+        )
+    # v12.0 honesty guard — a present-but-empty cache (the stub) must not read as
+    # "evaluated, nothing found." Surface the empty state explicitly so the insider
+    # line can never be a silent false all-clear (Cat-5 stays honestly dark).
+    n_txns = sum(len(v) for v in insider_data.values() if isinstance(v, list))
+    if n_txns == 0:
+        return SubsystemResult(
+            name="INSIDER ACTIVITY",
+            available=False,
+            surface_line=("INSIDER ACTIVITY: \u26a0\ufe0f cache empty (stub) \u2014 not "
+                          "evaluated; populate via the insider refresh routine"),
             priority="INFO",
         )
     report = ias.scan(positions, insider_data, catalysts, theses, macro_pulse)
