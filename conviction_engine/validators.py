@@ -293,6 +293,19 @@ def _validate_heartbeat_entry(h: Any) -> list[str]:
     return out
 
 
+def _validate_radar_row(r: Any) -> list[str]:
+    """One `radar` row (Contract C, optional block — the endorsed-but-not-owned
+    watch lane). A dict carrying at least a non-empty `ticker`; the level fields
+    (author/direction/entry/stop/target/window/date/quote) MAY be absent or None
+    (a bare long call needn't name levels), so only `ticker` is enforced."""
+    if not isinstance(r, dict):
+        return ["must be a dict"]
+    tk = r.get("ticker")
+    if not isinstance(tk, str) or tk.strip() == "":
+        return ["ticker must be a non-empty string"]
+    return []
+
+
 def validate_cockpit_feed(feed: Any) -> list[str]:
     """Return a list of problems with `feed` as a CockpitFeed (Contract C).
 
@@ -379,6 +392,16 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
     synthesis = feed.get("synthesis", _MISSING)
     if synthesis is not _MISSING and not isinstance(synthesis, dict):
         problems.append(f"synthesis must be a dict, got {type(synthesis).__name__}")
+
+    # OPTIONAL `radar` block (endorsed, not owned). A list of dicts; absent OR
+    # empty is valid (feeds that predate it, or a day with no qualifying call).
+    radar = feed.get("radar", _MISSING)
+    if radar is not _MISSING:
+        if not isinstance(radar, list):
+            problems.append(f"radar must be a list, got {type(radar).__name__}")
+        else:
+            for i, r in enumerate(radar):
+                problems.extend(f"radar[{i}] {e}" for e in _validate_radar_row(r))
 
     return problems
 
