@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from runtime_skeleton import build_full_feed, build_skeleton_feed, SkeletonFeedError
 from meridian import meridian_reader
+from validators import validate_cockpit_feed
 
 ROTATION = ["SMH", "SPY"]  # minimal: a proxy + the benchmark
 
@@ -118,3 +119,95 @@ def test_missing_portfolio_aborts():
         pass
     else:
         raise AssertionError("expected an abort when the portfolio delivers no positions")
+
+
+# --------------------------------------------------------------------------- #
+# RADAR LANE (block ⑨) — endorsed (daily-call) names NOT owned yet.
+# The book holds ITA / HYPE / MU, so those endorsed names are owned (→ excluded);
+# JETS / DAL / UAL / PEJ / XHS are NOT in the book (→ surface on the radar).
+# --------------------------------------------------------------------------- #
+RADAR_PAGE = _page([
+    ("SMH", "285.05", "170,734", "8.88%", "ps"),   # held — also the rotation proxy
+    ("ITA", "240.00", "50,000", "2.50%", "ps"),     # held → excluded from radar
+    ("HYPE", "55.00", "30,000", "1.50%", "s"),      # held → excluded
+    ("MU", "120.00", "40,000", "2.00%", "ps"),      # held → excluded
+])
+RADAR_CALLS = [
+    {"author": "Newton", "ticker": "JETS", "direction": "long", "stop": 24.79,
+     "target": 34, "window": "2-4wk", "quote": "JETS cleared the base", "date": "2026-06-01"},
+    {"author": "Newton", "ticker": "DAL", "direction": "long", "date": "2026-06-01"},
+    {"author": "Newton", "ticker": "UAL", "direction": "long", "date": "2026-06-01"},
+    {"author": "Newton", "ticker": "PEJ", "direction": "long", "stop": 58, "target": 72, "date": "2026-06-01"},
+    {"author": "Newton", "ticker": "XHS", "direction": "long", "stop": 114.63, "target": 147, "date": "2026-06-01"},
+    {"author": "Newton", "ticker": "ITA", "direction": "long", "stop": 220, "target": 250, "date": "2026-06-01"},  # held
+    {"author": "Farrell", "ticker": "HYPE", "direction": "long", "stop": 59, "date": "2026-06-01"},                # held
+    {"author": "Newton", "ticker": "MU", "direction": "long", "date": "2026-06-01"},                              # held
+]
+
+
+def _radar_tickers(feed):
+    return [r["ticker"] for r in feed["radar"]]
+
+
+def test_radar_surfaces_endorsed_not_owned():
+    # (a) the non-held endorsed names — and ONLY those — populate the radar; the
+    #     book and the Actions strip are unchanged (the names surface ONLY here).
+    feed = build_full_feed(RADAR_PAGE, UW, THESES, fs_daily_calls=RADAR_CALLS, as_of="2026-06-01")
+    assert set(_radar_tickers(feed)) == {"JETS", "DAL", "UAL", "PEJ", "XHS"}
+    assert validate_cockpit_feed(feed) == []
+
+    # each row is the daily-call shape, carrying author + structured levels + quote
+    jets = next(r for r in feed["radar"] if r["ticker"] == "JETS")
+    assert set(jets) == {"ticker", "author", "direction", "entry", "stop",
+                         "target", "window", "date", "quote"}
+    assert (jets["author"], jets["direction"], jets["stop"], jets["target"],
+            jets["window"], jets["date"]) == ("Newton", "long", 24.79, 34, "2-4wk", "2026-06-01")
+    assert jets["quote"] == "JETS cleared the base"
+
+    # the radar names leak into NEITHER holdings NOR Actions (a separate surface),
+    # and the Actions strip is byte-identical to the same build without the calls.
+    base = build_full_feed(RADAR_PAGE, UW, THESES, as_of="2026-06-01")
+    held = {p["t"] for h in feed["holdings"] for p in h["pos"]}
+    acted = {a.get("ticker") for a in feed["actions"]}
+    assert {"JETS", "DAL", "UAL", "PEJ", "XHS"}.isdisjoint(held | acted)
+    assert feed["actions"] == base["actions"]
+    assert [h["cat"] for h in feed["holdings"]] == [h["cat"] for h in base["holdings"]]
+
+
+def test_radar_excludes_owned_names():
+    # (b) endorsed names already in the book never show on the radar.
+    feed = build_full_feed(RADAR_PAGE, UW, THESES, fs_daily_calls=RADAR_CALLS, as_of="2026-06-01")
+    assert {"ITA", "HYPE", "MU"}.isdisjoint(_radar_tickers(feed))
+
+
+def test_radar_excludes_monitor_stance():
+    # (c) a non-held, endorsed name whose thesis is a parked MONITOR sleeve is held
+    #     OFF the radar — even though it isn't owned.
+    calls = RADAR_CALLS + [{"author": "Newton", "ticker": "ARKB", "direction": "long", "date": "2026-06-01"}]
+    monitor = [{"ticker": "ARKB", "tier": "T3", "stance": "MONITOR", "source": "x", "factor_tags": ["crypto"]}]
+    feed = build_full_feed(RADAR_PAGE, UW, THESES + monitor, fs_daily_calls=calls, as_of="2026-06-01")
+    assert "ARKB" not in _radar_tickers(feed)
+    # control: drop the MONITOR thesis and the SAME call surfaces — proving it was
+    # the stance, not the holdings rule, that excluded it (ARKB is never owned).
+    ctrl = build_full_feed(RADAR_PAGE, UW, THESES, fs_daily_calls=calls, as_of="2026-06-01")
+    assert "ARKB" in _radar_tickers(ctrl)
+
+
+def test_radar_omitted_yields_empty_and_unchanged():
+    # (d) no daily calls -> nothing to surface: radar is [], and the block is
+    #     purely additive — holdings + actions match the no-radar skeleton exactly.
+    full = build_full_feed(PAGE, UW, THESES)
+    skel = build_skeleton_feed(PAGE, UW, THESES)
+    assert full["radar"] == [] == skel["radar"]
+    assert full["holdings"] == skel["holdings"]
+    assert full["actions"] == skel["actions"]
+
+
+def test_radar_explicit_override_threads_through():
+    # the kwarg is the additive seam: an explicit radar list is threaded straight
+    # into feed["radar"] (no derivation), exactly like heartbeat/synthesis/research.
+    rows = [{"ticker": "ZZZ", "author": "X", "direction": "long", "entry": None,
+             "stop": None, "target": None, "window": None, "date": "2026-06-01", "quote": "q"}]
+    feed = build_full_feed(PAGE, UW, THESES, fs_daily_calls=RADAR_CALLS, radar=rows, as_of="2026-06-01")
+    assert feed["radar"] == rows
+    assert validate_cockpit_feed(feed) == []
