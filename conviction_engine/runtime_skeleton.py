@@ -104,6 +104,7 @@ def build_full_feed(
     heartbeat: list | None = None,
     synthesis: dict | None = None,
     research: dict | None = None,
+    radar: list | None = None,
     parabolic=None,
     as_of: str | None = None,
     run_timestamp: str | None = None,
@@ -116,6 +117,10 @@ def build_full_feed(
     critical source aborts). The four optional plugs are registered ONLY when
     their data is supplied; an omitted OR empty optional plug degrades that
     section gracefully — never an error.
+
+    radar threads through assemble_feed into feed["radar"] (the endorsed-but-not-
+    owned watch lane). Left None it defaults to the engine-derived list off the
+    fundstrat_daily calls — empty when none qualify, so omitting it is a no-op.
 
     Optional inputs (all produced by the in-session / SCOUT fetch step):
       macro_snapshot  -> runtime_adapters.uw_macro_snapshot_from_uw(...)   {rates, levels}
@@ -161,6 +166,7 @@ def build_full_feed(
         heartbeat=heartbeat,
         synthesis=synthesis,
         research=research,
+        radar=radar,
     )
     errs = validate_cockpit_feed(feed)
     if errs:
