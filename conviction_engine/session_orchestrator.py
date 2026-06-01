@@ -343,6 +343,18 @@ def _run_insider(positions: List[Dict],
             surface_line="INSIDER ACTIVITY: (no insider data supplied)",
             priority="INFO",
         )
+    # v12.0 honesty guard — a present-but-empty cache (the stub) must not read as
+    # "evaluated, nothing found." Surface the empty state explicitly so the insider
+    # line can never be a silent false all-clear (Cat-5 stays honestly dark).
+    n_txns = sum(len(v) for v in insider_data.values() if isinstance(v, list))
+    if n_txns == 0:
+        return SubsystemResult(
+            name="INSIDER ACTIVITY",
+            available=False,
+            surface_line=("INSIDER ACTIVITY: \u26a0\ufe0f cache empty (stub) \u2014 not "
+                          "evaluated; populate via the insider refresh routine"),
+            priority="INFO",
+        )
     report = ias.scan(positions, insider_data, catalysts, theses, macro_pulse)
     actionable = (len(report.bullish) + len(report.bearish)
                   + len(report.cluster) + len(report.flagged))
