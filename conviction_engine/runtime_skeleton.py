@@ -101,6 +101,9 @@ def build_full_feed(
     fs_bible_deck: dict | None = None,
     fs_daily_calls: list | None = None,
     meridian_items: list | None = None,
+    heartbeat: list | None = None,
+    synthesis: dict | None = None,
+    research: dict | None = None,
     parabolic=None,
     as_of: str | None = None,
     run_timestamp: str | None = None,
@@ -155,6 +158,9 @@ def build_full_feed(
         },
         parabolic=parabolic,
         generated_at=generated_at,
+        heartbeat=heartbeat,
+        synthesis=synthesis,
+        research=research,
     )
     errs = validate_cockpit_feed(feed)
     if errs:

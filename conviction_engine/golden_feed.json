@@ -86,6 +86,35 @@
       ]
     }
   },
+  "actions": [
+    {
+      "rank": 1,
+      "kind": "buy_now",
+      "ticker": "ITA",
+      "what": "Buy trigger fired",
+      "confidence": "High",
+      "your_move": "Size ITA and run the pre-trade gate before you buy.",
+      "gate": {
+        "needs_gate": true,
+        "preview": "\ud83d\udfe1 size \u2192 gate",
+        "ticker": "ITA",
+        "default_action": "ADD"
+      },
+      "source": "fresh_signal",
+      "why": "ITA cleared a multi-month downtrend \u2014 Newton 5/28 (breakout)"
+    },
+    {
+      "rank": 2,
+      "kind": "watch_entry",
+      "ticker": "FN",
+      "what": "Endorsed \u2014 watch for entry",
+      "confidence": "Moderate",
+      "your_move": "FN is endorsed but the entry isn't confirmed \u2014 set an alert, no buy yet.",
+      "gate": null,
+      "source": "fresh_signal",
+      "why": "FN \u2014 newly named FS Top-5 SMID (AI optical)"
+    }
+  ],
   "fresh_signals": [
     {
       "ticker": "FN",
@@ -626,5 +655,7 @@
   },
   "catalysts": [],
   "questions": [],
-  "research": {}
+  "research": {},
+  "heartbeat": [],
+  "synthesis": {}
 }

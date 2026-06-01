@@ -214,6 +214,17 @@ _POS_REQUIRED = ("t", "n", "pct", "st", "cv", "ty", "own",
                  "lock", "fresh", "cd", "cdNote", "nr", "dr", "be")
 _FRESH_REQUIRED = ("ticker", "urgency", "what", "why")
 _VALID_URGENCY = {"act", "watch"}
+# canonical action-row field set (Contract C, OPTIONAL block — like catalysts):
+# validated only IF `actions` is present, so feeds that predate the block stay
+# valid (forward-compatible). The assembler emits it; old/stored feeds may not.
+_ACTION_REQUIRED = ("rank", "kind", "ticker", "what", "confidence", "your_move",
+                    "gate", "source", "why")
+_VALID_CONFIDENCE = {"High", "Moderate", "Low"}
+_VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
+                       "macro_alert", "watch_entry", "stale_critical", "synthesis"}
+# heartbeat entry (Contract C, OPTIONAL block — the layer run-status strip)
+_HEARTBEAT_REQUIRED = ("layer", "status")
+_VALID_HEARTBEAT_STATUS = {"ok", "stale", "down"}
 
 
 def _validate_pos(p: Any) -> list[str]:
@@ -241,6 +252,44 @@ def _validate_fresh_signal(s: Any) -> list[str]:
     tk = s.get("ticker")
     if "ticker" in s and (not isinstance(tk, str) or tk.strip() == ""):
         out.append("ticker must be a non-empty string")
+    return out
+
+
+def _validate_action(a: Any) -> list[str]:
+    """One `actions` row (Contract C, optional block). ticker MAY be None (a
+    market-wide action like a macro alert); gate MAY be None (no capital action
+    implied). Confidence is the operator-facing read, not a tier letter."""
+    if not isinstance(a, dict):
+        return ["must be a dict"]
+    out: list[str] = [f"missing field: {k}" for k in _ACTION_REQUIRED if k not in a]
+    if "confidence" in a and a.get("confidence") not in _VALID_CONFIDENCE:
+        out.append(f"confidence must be one of {sorted(_VALID_CONFIDENCE)}, "
+                   f"got {a.get('confidence')!r}")
+    if "kind" in a and a.get("kind") not in _VALID_ACTION_KINDS:
+        out.append(f"kind must be a known action kind, got {a.get('kind')!r}")
+    if "rank" in a and not isinstance(a.get("rank"), int):
+        out.append("rank must be an int")
+    tk = a.get("ticker")
+    if "ticker" in a and tk is not None and (not isinstance(tk, str) or tk.strip() == ""):
+        out.append("ticker must be a non-empty string or None")
+    g = a.get("gate")
+    if "gate" in a and g is not None and not isinstance(g, dict):
+        out.append("gate must be a dict or None")
+    return out
+
+
+def _validate_heartbeat_entry(h: Any) -> list[str]:
+    """One `heartbeat` row (Contract C, optional block — the layer run-status
+    strip). last_run/note are optional; status is the traffic-light."""
+    if not isinstance(h, dict):
+        return ["must be a dict"]
+    out: list[str] = [f"missing field: {k}" for k in _HEARTBEAT_REQUIRED if k not in h]
+    layer = h.get("layer")
+    if "layer" in h and (not isinstance(layer, str) or layer.strip() == ""):
+        out.append("layer must be a non-empty string")
+    if "status" in h and h.get("status") not in _VALID_HEARTBEAT_STATUS:
+        out.append(f"status must be one of {sorted(_VALID_HEARTBEAT_STATUS)}, "
+                   f"got {h.get('status')!r}")
     return out
 
 
@@ -306,6 +355,30 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
     if isinstance(fresh, list):
         for i, s in enumerate(fresh):
             problems.extend(f"fresh_signals[{i}] {e}" for e in _validate_fresh_signal(s))
+
+    # OPTIONAL `actions` block (the Top-5 surface). Validated IF present so feeds
+    # that predate it still pass; the assembler emits it for all fresh feeds.
+    actions = feed.get("actions", _MISSING)
+    if actions is not _MISSING:
+        if not isinstance(actions, list):
+            problems.append(f"actions must be a list, got {type(actions).__name__}")
+        else:
+            for i, a in enumerate(actions):
+                problems.extend(f"actions[{i}] {e}" for e in _validate_action(a))
+
+    # OPTIONAL `heartbeat` (layer run-status strip) + `synthesis` (state-of-play).
+    # Validated IF present so feeds that predate them still pass.
+    heartbeat = feed.get("heartbeat", _MISSING)
+    if heartbeat is not _MISSING:
+        if not isinstance(heartbeat, list):
+            problems.append(f"heartbeat must be a list, got {type(heartbeat).__name__}")
+        else:
+            for i, h in enumerate(heartbeat):
+                problems.extend(f"heartbeat[{i}] {e}" for e in _validate_heartbeat_entry(h))
+
+    synthesis = feed.get("synthesis", _MISSING)
+    if synthesis is not _MISSING and not isinstance(synthesis, dict):
+        problems.append(f"synthesis must be a dict, got {type(synthesis).__name__}")
 
     return problems
 

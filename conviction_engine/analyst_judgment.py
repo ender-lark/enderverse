@@ -406,3 +406,181 @@ def fresh_signal_read(direction_reads, theses, reentry_touches=None,
         "act_count": sum(1 for s in signals if s["urgency"] == "act"),
         "watch_count": sum(1 for s in signals if s["urgency"] == "watch"),
     }
+
+
+# =========================================================================== #
+# ⑦b Actions read — the prioritized "what to do today" surface (cockpit `actions`)
+#     ADDITIVE: derived from already-assembled reads (⑦ fresh_signals + ⑧ hero
+#     needs_you); never mutates them. Forward-compat: `synthesis_actions`
+#     defaults empty — the seam the Daily-Synthesis brain fills later, with no
+#     change to this shape. The engine returns the FULL priority-ranked list;
+#     the cockpit panel shows the top 5 + a "+N more" count (capping is a
+#     DISPLAY concern, so the feed stays complete).
+# =========================================================================== #
+
+# kind -> display priority (lower = shown first). A real ranking, not a rename.
+_ACTION_PRIORITY = {
+    "red_gate": 0,         # a RED pre-trade flag — a hard stop you must see
+    "buy_now": 1,          # a discrete entry trigger fired (⏳ act)
+    "synthesis": 1,        # v1 placeholder: curated synthesis action (tune when wired)
+    "reentry_zone": 2,     # a re-entry-zone touch (⏳ act, non-burned)
+    "monitor_reentry": 3,  # a burned-sleeve re-entry candidate (watch YOUR trigger)
+    "macro_alert": 4,      # a firing macro alert (regime-level)
+    "watch_entry": 5,      # endorsed, entry not confirmed (👁 watch)
+    "stale_critical": 6,   # a stale critical source (a data-trust gap)
+}
+_ACTION_CONFIDENCE = {
+    "red_gate": "High", "buy_now": "High", "reentry_zone": "High",
+    "monitor_reentry": "Moderate", "macro_alert": "Moderate",
+    "watch_entry": "Moderate", "stale_critical": "Low",
+}
+_CONFIDENCE_RANK = {"High": 0, "Moderate": 1, "Low": 2}
+
+
+def _gate_hook(ticker, by_ticker, default_action="ADD") -> dict:
+    """The Option-A gate ROUTING HOOK — a provisional, advisory badge only.
+    The authoritative GREEN/AMBER/RED comes from pretrade_gate.evaluate(...) run
+    IN-SESSION when the operator drills + names the $ size (machinery fires on
+    act, not in the static render). A T1 ADD always runs Deepwork regardless of
+    size; for everything else the gate requirement depends on the size — so the
+    badge never claims a verdict on a size that was never chosen."""
+    tier = (by_ticker.get(ticker) or {}).get("tier")
+    preview = "🔒 T1 — runs Deepwork" if tier == "T1" else "🟡 size → gate"
+    return {"needs_gate": True, "preview": preview,
+            "ticker": ticker, "default_action": default_action}
+
+
+def actions_read(fresh_signals, needs_you_items, theses,
+                 *, synthesis_actions=None) -> dict:
+    """⑦b the prioritized Actions surface (cockpit `actions`).
+
+    Pool = ⑦ fresh_signals (act/watch) + ⑧ hero needs_you items (red_gate /
+    macro_alert / monitor_reentry / stale_critical). `fresh_act` needs_you items
+    are SKIPPED — they only point back to a fresh_signal already in the pool
+    (dedup, not a second action). Each row leads with a CONFIDENCE read
+    (High/Moderate/Low), NOT a tier letter, and carries the gate hook the
+    in-session drill uses. Returns the full priority-ranked list + counts.
+    """
+    synthesis_actions = synthesis_actions or []
+    by_ticker = theses_by_ticker(theses)
+    rows = []
+
+    # (a) fresh_signals -> buy_now / reentry_zone / watch_entry
+    for s in (fresh_signals or []):
+        tk = s.get("ticker")
+        urg = s.get("urgency")
+        is_reentry = (s.get("detail") == "re-entry zone"
+                      or s.get("what") == "re-entry zone touch")
+        if urg == "act":
+            kind = "reentry_zone" if is_reentry else "buy_now"
+        else:
+            kind = "watch_entry"
+        if kind == "buy_now":
+            what = "Buy trigger fired"
+            your_move = f"Size {tk} and run the pre-trade gate before you buy."
+            gate = _gate_hook(tk, by_ticker)
+        elif kind == "reentry_zone":
+            what = "Re-entry zone touched"
+            your_move = f"{tk} entered your re-entry zone — confirm the setup, size, run the gate."
+            gate = _gate_hook(tk, by_ticker)
+        else:  # watch_entry — nothing to gate until it becomes a buy
+            what = "Endorsed — watch for entry"
+            your_move = f"{tk} is endorsed but the entry isn't confirmed — set an alert, no buy yet."
+            gate = None
+        rows.append({
+            "kind": kind, "ticker": tk, "what": what,
+            "confidence": _ACTION_CONFIDENCE[kind], "your_move": your_move,
+            "gate": gate, "source": "fresh_signal",
+            "why": s.get("why") or s.get("detail") or "",
+        })
+
+    # (b) hero needs_you items.  fresh_act is dedup'd against (a).
+    for it in (needs_you_items or []):
+        reason = it.get("reason")
+        detail = it.get("detail")
+        note = it.get("note") or ""
+        if reason == "fresh_act":
+            continue  # already represented by its fresh_signal (dedup)
+        if reason == "red_gate":
+            tk = detail if isinstance(detail, str) else None
+            rows.append({
+                "kind": "red_gate", "ticker": tk, "what": "RED pre-trade flag",
+                "confidence": "High",
+                "your_move": (f"Clear the RED flag on {tk} before any action."
+                              if tk else "Clear the RED pre-trade flag before any action."),
+                "gate": {"needs_gate": True, "preview": "🔴 RED — clear first",
+                         "ticker": tk, "default_action": "REVIEW"},
+                "source": "needs_you:red_gate",
+                "why": note or "a red pre-trade flag is active",
+            })
+        elif reason == "macro_alert":
+            rows.append({
+                "kind": "macro_alert", "ticker": None,
+                "what": "Macro alert" + (f": {detail}" if detail else ""),
+                "confidence": "Moderate",
+                "your_move": "Re-check the macro read before any Tier-A/B action today.",
+                "gate": None, "source": "needs_you:macro_alert",
+                "why": note or "a macro alert is firing",
+            })
+        elif reason == "monitor_reentry":
+            tk = detail if isinstance(detail, str) else None
+            rows.append({
+                "kind": "monitor_reentry", "ticker": tk,
+                "what": "Re-entry candidate (burned sleeve)",
+                "confidence": "Moderate",
+                "your_move": (f"{tk} is a burned sleeve — confirm YOUR re-entry trigger "
+                              "(≥3-source convergence / named catalyst / regime turn) before "
+                              "any add; prefer defined-risk options."),
+                "gate": _gate_hook(tk, by_ticker) if tk else None,
+                "source": "needs_you:monitor_reentry",
+                "why": note or "a burned-sleeve re-entry candidate surfaced",
+            })
+        elif reason == "stale_critical":
+            rows.append({
+                "kind": "stale_critical", "ticker": None,
+                "what": "Stale critical source" + (f": {detail}" if detail else ""),
+                "confidence": "Low",
+                "your_move": (f"Refresh {detail} — a critical source is stale; trust is "
+                              "degraded until you do." if detail else
+                              "Refresh the stale critical source; trust is degraded until you do."),
+                "gate": None, "source": "needs_you:stale_critical",
+                "why": note or "a critical source is past its freshness window",
+            })
+        # unknown reasons are ignored — never fabricate an action
+
+    # (c) forward-compat seam: Daily-Synthesis actions (empty until that brain
+    #     lands). Accept light dicts; normalize into the row shape. v1 slotting.
+    for sa in synthesis_actions:
+        if not isinstance(sa, dict):
+            continue
+        conf = sa.get("confidence")
+        rows.append({
+            "kind": "synthesis", "ticker": sa.get("ticker"),
+            "what": sa.get("what") or "Synthesis action",
+            "confidence": conf if conf in _CONFIDENCE_RANK else "Moderate",
+            "your_move": sa.get("your_move") or "Review this synthesis action.",
+            "gate": sa.get("gate"),  # pass through if supplied
+            "source": "daily_synthesis", "why": sa.get("why") or "",
+        })
+
+    # (d) priority sort — kind tier, then confidence, then stable insertion order
+    for idx, r in enumerate(rows):
+        r["_order"] = idx
+    rows.sort(key=lambda r: (_ACTION_PRIORITY.get(r["kind"], 9),
+                             _CONFIDENCE_RANK.get(r["confidence"], 9),
+                             r["_order"]))
+
+    actions = []
+    for rank, r in enumerate(rows, start=1):
+        actions.append({          # canonical field order (stable golden output)
+            "rank": rank, "kind": r["kind"], "ticker": r["ticker"],
+            "what": r["what"], "confidence": r["confidence"],
+            "your_move": r["your_move"], "gate": r["gate"],
+            "source": r["source"], "why": r["why"],
+        })
+
+    return {
+        "actions": actions,
+        "total_candidates": len(actions),
+        "act_like": sum(1 for a in actions if a["kind"] in ("buy_now", "reentry_zone")),
+    }

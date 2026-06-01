@@ -20,7 +20,7 @@ from types import SimpleNamespace
 from analyst import (rotation_read, macro_read, staleness_read,
                      type_read, hero_needs_you_read, weight_read)
 from analyst_judgment import (conviction_read, conviction_direction_read,
-                              net_read, fresh_signal_read)
+                              net_read, fresh_signal_read, actions_read)
 from analyst_config import theses_by_ticker
 
 # ── name -> rotation-proxy sleeve (the leaderboard subject that stands in for a
@@ -71,9 +71,15 @@ def _ns(items):
     return [SimpleNamespace(**it) for it in items]
 
 
-def assemble_feed(bundle: dict, parabolic=None, generated_at=None) -> dict:
+def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
+                  heartbeat=None, synthesis=None, research=None) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
-    Returns a Contract-C CockpitFeed (passes validate_cockpit_feed)."""
+    Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
+
+    heartbeat / synthesis / research are EXTERNAL reads (Notion — layer run-times,
+    the latest Daily Synthesis, the live Research Queue), supplied by the
+    cockpit-build step like the Fundstrat/macro plugs. They are threaded through
+    ADDITIVELY (default to empty), never derived from the snapshot here."""
     as_of = bundle["as_of"]
     snap = bundle["snapshot"]
     theses = bundle["theses"]
@@ -141,15 +147,24 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None) -> dict:
     hero = hero_needs_you_read(rot, macro, stale, type_r,
                                fresh_signals=fresh["fresh_signals"])
 
+    # ── ⑦b prioritized Actions surface (ADDITIVE — derived from ⑦ + ⑧, the
+    #    "what to do today" strip on top of the book). synthesis_actions stays
+    #    empty until the Daily-Synthesis brain lands (forward-compat seam). ──
+    actions = actions_read(fresh["fresh_signals"],
+                           hero["needs_you"]["items"], theses)["actions"]
+
     return {
         "generated_at": generated_at or f"{as_of}T16:00:00",
         "staleness": stale,
         "hero": hero,
+        "actions": actions,
         "fresh_signals": fresh["fresh_signals"],
         "holdings": holdings,
         "rotation": rot["sleeves"],
         "macro": macro,
         "catalysts": [],
         "questions": [],
-        "research": {},
+        "research": research or {},
+        "heartbeat": heartbeat or [],
+        "synthesis": synthesis or {},
     }
