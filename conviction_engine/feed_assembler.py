@@ -72,14 +72,20 @@ def _ns(items):
 
 
 def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
-                  heartbeat=None, synthesis=None, research=None) -> dict:
+                  heartbeat=None, synthesis=None, research=None, radar=None) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
 
     heartbeat / synthesis / research are EXTERNAL reads (Notion — layer run-times,
     the latest Daily Synthesis, the live Research Queue), supplied by the
     cockpit-build step like the Fundstrat/macro plugs. They are threaded through
-    ADDITIVELY (default to empty), never derived from the snapshot here."""
+    ADDITIVELY (default to empty), never derived from the snapshot here.
+
+    radar is the one additive block DERIVED here (block ⑨): the endorsed-but-not-
+    owned watch surface, read off the fundstrat_daily analyst-call cards. It
+    defaults to the engine-derived list (empty when no qualifying call exists);
+    pass an explicit list to override that derivation, same additive seam as the
+    three reads above."""
     as_of = bundle["as_of"]
     snap = bundle["snapshot"]
     theses = bundle["theses"]
@@ -153,6 +159,37 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     actions = actions_read(fresh["fresh_signals"],
                            hero["needs_you"]["items"], theses)["actions"]
 
+    # ── ⑨ Radar — endorsed, not owned. The fundstrat_daily analyst-call cards
+    #    name external picks; keep ONLY the ones absent from the book whose thesis
+    #    (if any) isn't a parked MONITOR sleeve — i.e. live endorsements you don't
+    #    hold yet. Source-scoped to the daily plug so the row carries its real
+    #    author + structured levels (bible/meridian endorsements are a different
+    #    shape and surface elsewhere). Dedup first-seen; ADDITIVE — empty is fine.
+    #    A caller may pass `radar` to override this derivation (see docstring). ──
+    derived_radar: list = []
+    if radar is None:
+        radar_seen: set = set()
+        for c in cards:
+            if (getattr(c, "kind", None) != "analyst_call"
+                    or getattr(c, "source", None) != "fundstrat_daily"):
+                continue
+            tk = c.subject
+            if not tk or tk in seen or tk in radar_seen:
+                continue
+            if (by_tk.get(tk) or {}).get("stance") == "MONITOR":
+                continue
+            d = c.data or {}
+            derived_radar.append({
+                "ticker": tk,
+                "author": d.get("author", ""),
+                "direction": d.get("direction"),
+                "entry": d.get("entry"), "stop": d.get("stop"),
+                "target": d.get("target"), "window": d.get("window"),
+                "date": getattr(c, "timestamp", ""),
+                "quote": d.get("verbatim") or getattr(c, "content", ""),
+            })
+            radar_seen.add(tk)
+
     return {
         "generated_at": generated_at or f"{as_of}T16:00:00",
         "staleness": stale,
@@ -167,4 +204,5 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "research": research or {},
         "heartbeat": heartbeat or [],
         "synthesis": synthesis or {},
+        "radar": derived_radar if radar is None else radar,
     }
