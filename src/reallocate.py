@@ -91,6 +91,38 @@ SOURCE_TAG_PREFILLED = "PREFILLED"                       # from thesis.source
 SOURCE_TAG_REQUIRED = "REQUIRED"                         # operator must supply
 SOURCE_TAG_ROTATION = "ROTATION_RATIONALE_REQUIRED"      # cross-sleeve rotation
 
+# What SIZED a leg's target (the authority for its target_pct). TIER_BAND is the
+# default v1 behavior (size toward the tier floor/ceiling). EXPLICIT_TARGET means
+# the operator handed in a per-name target_weights map and THAT weight is binding
+# — it overrides the tier band (e.g. promote NVDA to 10% past its T2 ceiling, or
+# trim/exit a CORE name the operator has consciously de-convicted). The validator
+# relaxes the tier-ceiling checks for EXPLICIT_TARGET legs but keeps every safety
+# invariant, and additionally pins each explicit leg to the operator's map value.
+SIZING_TIER_BAND = "TIER_BAND"
+SIZING_EXPLICIT_TARGET = "EXPLICIT_TARGET"
+
+# A funded rotation is "net-factor-neutral" on a factor when the $ added to that
+# factor is matched (or exceeded) by the $ trimmed from it — so net exposure does
+# not rise. Below this tolerance (in pp of book) the plan's net delta for a factor
+# reads as flat-or-down, which is how an in-isolation pretrade_gate
+# INCREMENTAL_FACTOR_CONCENTRATION RED on a single add leg should be re-read
+# (AMBER / override-and-log) when the add is funded by a same-factor trim.
+NET_FACTOR_FLAT_TOL_PCT = 0.5      # <= 0.5pp of book net == "did not raise factor"
+
+# ETF look-through table (v1, approximate, OPERATOR-OVERRIDABLE via the
+# `etf_lookthrough` arg). Holding an ETF AND sizing its constituents as singles
+# double-counts that factor. Weights are the ETF's approximate constituent % (the
+# SMH row encodes the Notion model's "SMH ~= 13% NVDA + AVGO/TSM/AMD/MU"). Used
+# only to WARN + show the look-through-adjusted true single-name exposure; it does
+# NOT silently resize anything (P-NO-FILL-NO-FACT).
+ETF_LOOKTHROUGH = {
+    "SMH": {
+        "factor": "semiconductors",
+        "constituents": {"NVDA": 0.13, "TSM": 0.10, "AVGO": 0.09,
+                         "AMD": 0.05, "MU": 0.04},
+    },
+}
+
 
 # ===========================================================================
 # HELPERS
@@ -296,6 +328,12 @@ class Leg:
     rank: int = 0
     rationale: str = ""
     caveats: list[str] = field(default_factory=list)
+    # --- target-weight mode (explicit per-name targets) ---
+    binding: str = SIZING_TIER_BAND          # TIER_BAND (default) | EXPLICIT_TARGET
+    factor_tags: list[str] = field(default_factory=list)
+    net_factor_neutral: bool = False         # add funded by a same-factor trim
+    net_factor_label: Optional[str] = None   # the shared factor, e.g. "ai_complex"
+    stage_after: Optional[str] = None        # sequencing: gate-event to stage after
     gate: dict = field(default_factory=dict)
 
     def __post_init__(self):
@@ -320,7 +358,8 @@ class TargetRow:
 class FundingSummary:
     trims_total_usd: float = 0.0
     adds_total_usd: float = 0.0
-    cash_used_usd: float = 0.0
+    cash_used_usd: float = 0.0           # cash DRAWN to help fund adds (>= 0)
+    cash_freed_usd: float = 0.0          # surplus trims PARKED to cash (>= 0)
     shortfall_usd: float = 0.0
     unfunded_adds: list[str] = field(default_factory=list)
 
@@ -339,6 +378,10 @@ class ReallocationResult:
     undocumented_excluded: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    # --- target-weight mode artifacts (empty in tier-band mode) ---
+    explicit_targets: dict = field(default_factory=dict)   # ticker -> target % (operator map)
+    net_factor_delta: dict = field(default_factory=dict)   # factor -> signed $ net delta
+    lookthrough: list[dict] = field(default_factory=list)  # ETF overlap findings
     # banners — always true; surfaced so the output can never be mistaken for
     # an execution-ready plan
     tax_agnostic: bool = True
@@ -387,26 +430,46 @@ def _validate_leg(leg: dict, idx: int) -> list[str]:
     if abs((tgt - cur) - delta) > 1e-6:
         e.append(f"{tag}: delta_pct {delta} != target-current {tgt - cur}")
 
+    # Binding = what authorized this target. EXPLICIT_TARGET legs are driven by an
+    # operator-supplied target_weights map and may legitimately sit outside the
+    # tier band (NVDA promoted past its old ceiling; a CORE name consciously
+    # de-convicted below its floor). For those we KEEP directionality + the >=0
+    # bound + map-equality (checked in validate_reallocation), but skip the
+    # tier-ceiling caps. TIER_BAND legs keep the full conservative-sizing rules.
+    binding = leg.get("binding", SIZING_TIER_BAND)
+    explicit = binding == SIZING_EXPLICIT_TARGET
+    if binding not in (SIZING_TIER_BAND, SIZING_EXPLICIT_TARGET):
+        e.append(f"{tag}: invalid binding {binding!r}")
+
     ceil = leg["ceiling_pct"]
     if action == ADD:
         if tgt <= cur:
             e.append(f"{tag}: ADD must increase weight (target>current)")
-        if tgt > ceil + CEILING_TOL_PCT:
+        if explicit:
+            if tgt > 100.0 + CEILING_TOL_PCT:
+                e.append(f"{tag}: ADD explicit target {tgt}% exceeds 100%")
+        elif tgt > ceil + CEILING_TOL_PCT:
             e.append(f"{tag}: ADD target {tgt}% exceeds tier ceiling {ceil}%")
     elif action == TRIM:
         if tgt >= cur:
             e.append(f"{tag}: TRIM must decrease weight (target<current)")
-        # conservative-trim rule: never trim a name BELOW its ceiling
-        if tgt < ceil - CEILING_TOL_PCT:
-            e.append(
-                f"{tag}: TRIM target {tgt}% is below tier ceiling {ceil}% — "
-                f"trims fund from over-ceiling excess only, never below ceiling"
-            )
-        if cur <= ceil + CEILING_TOL_PCT:
-            e.append(
-                f"{tag}: TRIM on {leg['ticker']} which is not above its ceiling "
-                f"({cur}% <= {ceil}%) — only ABOVE_CEILING names are trim-eligible"
-            )
+        if explicit:
+            # explicit trim/exit: only bound is target >= 0 (the operator's map is
+            # the authority; below-floor de-conviction is a deliberate, caveated move)
+            if tgt < -CEILING_TOL_PCT:
+                e.append(f"{tag}: TRIM explicit target {tgt}% must be >= 0")
+        else:
+            # conservative-trim rule: never trim a name BELOW its ceiling
+            if tgt < ceil - CEILING_TOL_PCT:
+                e.append(
+                    f"{tag}: TRIM target {tgt}% is below tier ceiling {ceil}% — "
+                    f"trims fund from over-ceiling excess only, never below ceiling"
+                )
+            if cur <= ceil + CEILING_TOL_PCT:
+                e.append(
+                    f"{tag}: TRIM on {leg['ticker']} which is not above its ceiling "
+                    f"({cur}% <= {ceil}%) — only ABOVE_CEILING names are trim-eligible"
+                )
 
     # gate flag must match the $25K threshold exactly
     gate = leg["gate"] or {}
@@ -470,24 +533,51 @@ def validate_reallocation(result: Any) -> list[str]:
                         f"from current — must be left untouched"
                     )
 
-    # funding coherence (cash-neutral): adds ~= trims + cash_used + shortfall
+    # explicit-target contract (target-weight mode): every EXPLICIT_TARGET leg
+    # must move its name to EXACTLY the operator's mapped weight, and must have a
+    # map entry at all. This is what makes "the planner can never invent a CORE
+    # trim" checkable at the seam: an explicit leg is provably traceable to the
+    # operator's target_weights, never to planner discretion.
+    explicit_targets = result.get("explicit_targets") or {}
+    if explicit_targets:
+        emap = {str(k).upper(): float(v) for k, v in explicit_targets.items()}
+        for leg in all_legs:
+            if leg.get("binding") != SIZING_EXPLICIT_TARGET:
+                continue
+            tk = (leg.get("ticker") or "").upper()
+            if tk not in emap:
+                e.append(
+                    f"{tk}: EXPLICIT_TARGET leg has no entry in explicit_targets "
+                    f"map — explicit legs must trace to the operator's targets")
+            elif abs(float(leg.get("target_pct") or 0.0) - emap[tk]) > CEILING_TOL_PCT:
+                e.append(
+                    f"{tk}: EXPLICIT_TARGET leg target {leg.get('target_pct')}% != "
+                    f"operator map {emap[tk]}% — explicit legs hit the exact target")
+
+    # funding coherence: sources used (trims + cash_used) == uses (funded adds +
+    # cash_freed). shortfall is UNMET add demand, reported separately — never a
+    # source. cash_freed defaults to 0, so tier-band mode is unchanged.
     f = result.get("funding") or {}
     adds = float(f.get("adds_total_usd") or 0.0)
     trims = float(f.get("trims_total_usd") or 0.0)
     cash_used = float(f.get("cash_used_usd") or 0.0)
+    cash_freed = float(f.get("cash_freed_usd") or 0.0)
     shortfall = float(f.get("shortfall_usd") or 0.0)
-    if adds or trims or cash_used or shortfall:
-        # Funded adds must equal the funding SOURCES used (trims + cash).
-        # shortfall is UNMET add demand, reported separately — never a source.
-        bal = trims + cash_used - adds
+    if adds or trims or cash_used or cash_freed or shortfall:
+        bal = (trims + cash_used) - (adds + cash_freed)
         tol = max(50.0, 0.005 * float(result.get("total_book_value") or 0.0))
         if abs(bal) > tol:
             e.append(
-                f"funding: funded adds({adds:.0f}) != trims({trims:.0f})+cash("
-                f"{cash_used:.0f}) [bal {bal:.0f}, tol {tol:.0f}]"
+                f"funding: sources trims({trims:.0f})+cash_used({cash_used:.0f}) != "
+                f"uses adds({adds:.0f})+cash_freed({cash_freed:.0f}) "
+                f"[bal {bal:.0f}, tol {tol:.0f}]"
             )
         if shortfall < 0:
             e.append(f"funding: shortfall_usd must be >= 0, got {shortfall:.0f}")
+        if cash_used < 0:
+            e.append(f"funding: cash_used_usd must be >= 0, got {cash_used:.0f}")
+        if cash_freed < 0:
+            e.append(f"funding: cash_freed_usd must be >= 0, got {cash_freed:.0f}")
     return e
 
 
@@ -647,10 +737,22 @@ def plan_reallocation(*, positions: Optional[list[dict]] = None,
                       materiality_pct: float = 1.0,
                       materiality_usd: float = GATE_NOTIONAL_THRESHOLD,
                       expected_cash_pct: Optional[float] = None,
+                      target_weights: Optional[dict] = None,
+                      sequence_events: Optional[dict] = None,
+                      etf_lookthrough: Optional[dict] = None,
+                      cash_reserve_pct: float = 0.0,
                       as_of: str = "") -> ReallocationResult:
     """Build a framework-aware reallocation as CANDIDATE legs. Reuses
     calibrate() for the floor/ceiling diagnosis + MONITOR suppression; this
     function adds the trim<->add pairing, funding, and rotation rule.
+
+    Two modes:
+      * TIER-BAND (default): size below-band names toward their tier floor,
+        funded by above-ceiling excess. Unchanged v1 behavior.
+      * TARGET-WEIGHT (when `target_weights` {ticker: % of book} is given): plan
+        the funded trim<->add legs to move current weights to those EXACT
+        targets. The explicit map drives the plan; the tier band is only used for
+        the floor/ceiling diagnosis (display + below-conviction caveats).
 
     Provide `feed` (cockpit FEED) OR `positions` [{ticker, market_value|_pct}].
     """
@@ -663,6 +765,15 @@ def plan_reallocation(*, positions: Optional[list[dict]] = None,
     book = float(total_book_value)
     mode = {**DEFAULT_MODE, **(mode or {})}
     positions = _normalize_positions(positions, book)
+
+    if target_weights:
+        return plan_target_reallocation(
+            positions=positions, theses=theses, total_book_value=book,
+            target_weights=target_weights, mode=mode, macro=macro,
+            source_rates=source_rates, materiality_pct=materiality_pct,
+            materiality_usd=materiality_usd, expected_cash_pct=expected_cash_pct,
+            sequence_events=sequence_events, etf_lookthrough=etf_lookthrough,
+            cash_reserve_pct=cash_reserve_pct, as_of=as_of)
 
     report = calibrate(positions, theses, book, macro, source_rates)
     cbt = _classes_by_ticker(positions, theses)
@@ -825,6 +936,373 @@ def summary_line(r: ReallocationResult) -> str:
 
 
 # ===========================================================================
+# TARGET-WEIGHT PLANNER  — explicit per-name targets -> funded trim<->add legs
+#
+# The operator hands in `target_weights` {ticker: % of book}; we plan the funded
+# legs that move CURRENT weights to those EXACT targets. The tier band is NOT the
+# target here (it's only the floor/ceiling diagnosis for display + de-conviction
+# caveats). Safety invariants are identical to tier-band mode and are enforced by
+# the same validate_reallocation: MONITOR/UNDOCUMENTED never legged, each leg
+# carries its own source tag, cross-sleeve adds are ROTATION_RATIONALE_REQUIRED,
+# >=$25K -> gate, T1 ADD -> deepwork. Two target-mode specifics:
+#   * EXPLICIT_TARGET binding lets a leg sit outside its tier band (NVDA 10% past
+#     T2 ceiling; a CORE name trimmed below floor) — but ONLY to the operator's
+#     exact mapped weight (the validator pins it), so no trim is ever planner-
+#     invented. Below-floor CORE trims carry a visible de-conviction caveat.
+#   * Funded-rotation pairing prefers a SAME-FACTOR trim to fund each add (the
+#     true net-flat rotation), labels those pairs NET-FACTOR-NEUTRAL, and reports
+#     a plan-level net factor delta so an in-isolation gate concentration RED can
+#     be re-read as AMBER/override for a net-flat rotation.
+# ===========================================================================
+
+def _target_diff_record(tk: str, hc, target_pct: float, book: float,
+                        classif: dict, sequence_events: dict) -> dict:
+    # round current/target FIRST, then derive delta from the rounded fields, so
+    # (target_pct - current_pct) == delta_pct holds to float-epsilon (the
+    # validator's delta check is exact to 1e-6).
+    cur = round(hc.current_pct, 4)
+    tgt = round(target_pct, 4)
+    delta = round(tgt - cur, 4)
+    return {
+        "ticker": tk, "sleeve": hc.sleeve, "sleeve_class": hc.sleeve_class,
+        "tier": hc.tier, "current_pct": cur,
+        "target_pct": tgt, "delta_pct": delta,
+        "notional": round(abs(delta) / 100.0 * book, 2),
+        "floor_pct": hc.floor_pct, "ceiling_pct": hc.ceiling_pct,
+        "source": hc.source, "factors": list(hc.factors),
+        "classification": classif.get(tk, ""), "deepwork": hc.tier == "T1",
+        "stage_after": sequence_events.get(tk), "is_exit": abs(target_pct) < 1e-9,
+        "remaining_usd": round(abs(delta) / 100.0 * book, 2), "_funded": [],
+    }
+
+
+def _add_caveats(ac: dict) -> list[str]:
+    cav = []
+    if ac["target_pct"] > ac["ceiling_pct"] + CEILING_TOL_PCT:
+        cav.append(
+            f"Explicit target {ac['target_pct']:.1f}% is ABOVE the {ac['tier'] or 'T3'} "
+            f"ceiling {ac['ceiling_pct']:.1f}% — a conscious tier promotion; confirm "
+            f"the over-band single-name concentration is intended.")
+    return cav
+
+
+def _trim_caveats(tc: dict) -> list[str]:
+    cav = []
+    if tc["is_exit"]:
+        cav.append("Full EXIT to 0% — confirm this de-conviction is intended.")
+    elif tc["target_pct"] < tc["floor_pct"] - CEILING_TOL_PCT and \
+            tc["sleeve_class"] == CLS_CORE:
+        cav.append(
+            f"Explicit target {tc['target_pct']:.1f}% is BELOW the {tc['tier'] or 'T3'} "
+            f"conviction floor {tc['floor_pct']:.1f}% on a CORE name — confirm this is "
+            f"an intentional de-conviction, not a sizing slip.")
+    return cav
+
+
+def plan_target_reallocation(*, positions: list[dict], theses: list[dict],
+                             total_book_value: float, target_weights: dict,
+                             mode: Optional[dict] = None, macro: Optional[dict] = None,
+                             source_rates: Optional[dict] = None,
+                             materiality_pct: float = 1.0,
+                             materiality_usd: float = GATE_NOTIONAL_THRESHOLD,
+                             expected_cash_pct: Optional[float] = None,
+                             sequence_events: Optional[dict] = None,
+                             etf_lookthrough: Optional[dict] = None,
+                             cash_reserve_pct: float = 0.0,
+                             as_of: str = "") -> ReallocationResult:
+    """Plan funded trim<->add legs to move current weights to an EXPLICIT
+    per-name target_weights map. See the section header for the contract."""
+    book = float(total_book_value)
+    if book <= 0:
+        raise ValueError("total_book_value must be > 0")
+    # force names/funding to target mode (these keys win over any incoming mode,
+    # which plan_reallocation has already merged with DEFAULT_MODE)
+    mode = {**DEFAULT_MODE, **(mode or {}),
+            "names": "target_weight", "funding": "funded_rotation"}
+    tmap = {str(k).upper().strip(): float(v)
+            for k, v in (target_weights or {}).items() if str(k).strip()}
+    sequence_events = {str(k).upper(): v for k, v in (sequence_events or {}).items()}
+    positions = _normalize_positions(positions, book)
+
+    # Every targeted ticker must be classifiable even if not currently held
+    # (e.g. TSM 0% -> 4%): add a zero-weight row so classify_book/calibrate see it.
+    held = {(p.get("ticker") or "").upper() for p in positions}
+    pos_aug = list(positions) + [
+        {"ticker": tk, "market_value": 0.0, "_pct": 0.0}
+        for tk in tmap if tk not in held]
+
+    report = calibrate(pos_aug, theses, book, macro, source_rates)
+    cbt = _classes_by_ticker(pos_aug, theses)
+    classif = _classif_by_ticker(report)
+
+    # ---- per-ticker diffs (MONITOR/UNDOCUMENTED are never legged, only warned) -
+    monitor_in_map: list[str] = []
+    undoc_in_map: list[str] = []
+    add_cands: list[dict] = []
+    trim_cands: list[dict] = []
+    for tk, target_pct in tmap.items():
+        hc = cbt.get(tk)
+        if hc is None or hc.sleeve_class == CLS_UNDOCUMENTED:
+            undoc_in_map.append(tk)
+            continue
+        if hc.sleeve_class == CLS_MONITOR:
+            monitor_in_map.append(tk)
+            continue
+        rec = _target_diff_record(tk, hc, target_pct, book, classif, sequence_events)
+        if abs(rec["delta_pct"]) < 1e-9 or rec["notional"] < 1e-6:
+            continue  # already at target
+        (add_cands if rec["delta_pct"] > 0 else trim_cands).append(rec)
+
+    # ---- funded-rotation pairing (same-factor trims first) -------------------
+    # Trims are FIXED by the explicit targets (they happen regardless); pairing is
+    # attribution + the net-factor-neutral label. Adds draw from the trim pool,
+    # preferring a same-factor trim, then any trim, then available cash.
+    add_cands.sort(key=lambda c: (_CLASS_PRIORITY.get(c["sleeve_class"], 0),
+                                   c["notional"]), reverse=True)
+    trims_total = round(sum(t["notional"] for t in trim_cands), 2)
+    cash_pct_now = cash_pct_from_positions(positions)
+    available_cash = max(0.0, (cash_pct_now - cash_reserve_pct) / 100.0 * book)
+
+    cash_used = 0.0
+    funded_add_usd = 0.0
+    unfunded: list[dict] = []
+    trim_id = {t["ticker"]: f"T{i+1}" for i, t in enumerate(trim_cands)}
+    add_id = {a["ticker"]: f"A{i+1}" for i, a in enumerate(add_cands)}
+
+    for ac in add_cands:
+        need = ac["notional"]
+        fa = set(ac["factors"])
+        pool = sorted(trim_cands, key=lambda t: (
+            0 if (set(t["factors"]) & fa) else 1, -t["remaining_usd"]))
+        funders: list[list] = []
+        remaining = need
+        for tc in pool:
+            if remaining <= 1e-6:
+                break
+            draw = min(tc["remaining_usd"], remaining)
+            if draw <= 1e-9:
+                continue
+            tc["remaining_usd"] -= draw
+            remaining -= draw
+            funders.append([tc, round(draw, 2)])
+        cash_draw = 0.0
+        if remaining > 1e-6 and available_cash > 1e-6:
+            cash_draw = min(available_cash, remaining)
+            available_cash -= cash_draw
+            remaining -= cash_draw
+        if remaining > 1e-6:
+            # cannot fully fund this EXACT target — roll back, defer (never hit an
+            # explicit target partially), surface as unfunded.
+            for tc, draw in funders:
+                tc["remaining_usd"] += draw
+            available_cash += cash_draw
+            unfunded.append({"ticker": ac["ticker"], "needed_usd": round(need, 2),
+                             "sleeve": ac["sleeve"], "tier": ac["tier"]})
+            continue
+        cash_used += cash_draw
+        funded_add_usd += need
+        ac["_cash_draw"] = round(cash_draw, 2)
+        ac["_funders"] = funders
+        for tc, draw in funders:
+            tc["_funded"].append([ac["ticker"], draw])
+
+    # ---- build trim legs (one per name, to its exact target) -----------------
+    legs: list[Leg] = []
+    for tc in trim_cands:
+        primary_add = max(tc["_funded"], key=lambda x: x[1])[0] if tc["_funded"] else None
+        funded_names = ", ".join(a for a, _ in tc["_funded"]) or "cash (parked surplus)"
+        rationale = (
+            f"{tc['ticker']} {tc['current_pct']:.2f}% -> {tc['target_pct']:.2f}% "
+            f"({'EXIT' if tc['is_exit'] else 'trim'}, explicit target); "
+            f"funds {funded_names}.")
+        legs.append(Leg(
+            leg_id=trim_id[tc["ticker"]], action=TRIM, ticker=tc["ticker"],
+            sleeve=tc["sleeve"], sleeve_class=tc["sleeve_class"], tier=tc["tier"],
+            current_pct=tc["current_pct"], target_pct=tc["target_pct"],
+            delta_pct=tc["delta_pct"], notional_usd=tc["notional"],
+            floor_pct=tc["floor_pct"], ceiling_pct=tc["ceiling_pct"],
+            source_tag=tc["source"],
+            source_tag_status=(SOURCE_TAG_PREFILLED if tc["source"] else SOURCE_TAG_REQUIRED),
+            funds_leg_id=(add_id.get(primary_add) if primary_add else None),
+            rotation=False, optional=False, binding=SIZING_EXPLICIT_TARGET,
+            factor_tags=tc["factors"], stage_after=tc["stage_after"],
+            rationale=rationale, caveats=_trim_caveats(tc)))
+
+    # ---- build add legs (to exact target) ------------------------------------
+    for ac in add_cands:
+        if "_funders" not in ac:
+            continue  # unfunded
+        funders = ac["_funders"]
+        primary = max(funders, key=lambda x: x[1])[0] if funders else None
+        rotation = bool(primary and primary["sleeve_class"] != ac["sleeve_class"])
+        shared = (set(primary["factors"]) & set(ac["factors"])) if primary else set()
+        neutral = bool(shared)
+        label = sorted(shared)[0] if shared else None
+        status = SOURCE_TAG_ROTATION if rotation else (
+            SOURCE_TAG_PREFILLED if ac["source"] else SOURCE_TAG_REQUIRED)
+        src_names = ", ".join(f"{t['ticker']} ${d:,.0f}" for t, d in funders)
+        if ac["_cash_draw"] > 0:
+            src_names = (src_names + ", " if src_names else "") + f"cash ${ac['_cash_draw']:,.0f}"
+        rationale = (
+            f"{ac['ticker']} {ac['current_pct']:.2f}% -> {ac['target_pct']:.2f}% "
+            f"(+{ac['delta_pct']:.2f}pp, explicit target); funded by {src_names}.")
+        if neutral:
+            rationale += (f" NET-FACTOR-NEUTRAL on {label}: funding trim shares this "
+                          f"factor, so the rotation does not raise net {label} exposure.")
+        elif rotation:
+            rationale += (f" CROSS-SLEEVE rotation ({primary['sleeve']} -> {ac['sleeve']}) "
+                          f"— confirm the rotation rationale and tag this leg's source.")
+        legs.append(Leg(
+            leg_id=add_id[ac["ticker"]], action=ADD, ticker=ac["ticker"],
+            sleeve=ac["sleeve"], sleeve_class=ac["sleeve_class"], tier=ac["tier"],
+            current_pct=ac["current_pct"], target_pct=ac["target_pct"],
+            delta_pct=ac["delta_pct"], notional_usd=ac["notional"],
+            floor_pct=ac["floor_pct"], ceiling_pct=ac["ceiling_pct"],
+            source_tag=ac["source"], source_tag_status=status,
+            funded_by_leg_id=(trim_id.get(primary["ticker"]) if primary else None),
+            rotation=rotation, deepwork=ac["deepwork"], binding=SIZING_EXPLICIT_TARGET,
+            factor_tags=ac["factors"], net_factor_neutral=neutral,
+            net_factor_label=label, stage_after=ac["stage_after"],
+            rationale=rationale, caveats=_add_caveats(ac)))
+
+    # ---- net factor delta across the whole plan ------------------------------
+    net_factor_delta: dict = {}
+    for l in legs:
+        signed = l.notional_usd if l.action == ADD else -l.notional_usd
+        for f in l.factor_tags:
+            net_factor_delta[f] = round(net_factor_delta.get(f, 0.0) + signed, 2)
+
+    # ---- materiality split + rank --------------------------------------------
+    def _material(l: Leg) -> bool:
+        return l.notional_usd >= materiality_usd or abs(l.delta_pct) >= materiality_pct
+    if mode["aggressiveness"] == "material_only":
+        main_legs = [l for l in legs if _material(l)]
+        sub_legs = [l for l in legs if not _material(l)]
+    else:
+        main_legs, sub_legs = list(legs), []
+    for i, l in enumerate(main_legs, 1):
+        l.rank = i
+    for i, l in enumerate(sub_legs, 1):
+        l.rank = i
+
+    # ---- target-vs-current for EVERY holding (overlay net leg deltas) --------
+    delta_by_ticker: dict = {}
+    for l in legs:
+        delta_by_ticker[l.ticker] = delta_by_ticker.get(l.ticker, 0.0) + l.delta_pct
+    rows = [
+        TargetRow(
+            ticker=hc.ticker, sleeve=hc.sleeve, sleeve_class=hc.sleeve_class,
+            tier=hc.tier, current_pct=round(hc.current_pct, 4),
+            target_pct=round(hc.current_pct + delta_by_ticker.get(hc.ticker, 0.0), 4),
+            classification=classif.get(hc.ticker, ""))
+        for hc in cbt.values()]
+
+    # ---- ETF look-through (warn on ETF + single double-count) ----------------
+    lt_table = etf_lookthrough or ETF_LOOKTHROUGH
+    final_pct = {r.ticker: r.target_pct for r in rows}
+    lookthrough: list[dict] = []
+    lt_warnings: list[str] = []
+    for etf, info in lt_table.items():
+        etf_pct = final_pct.get(etf.upper())
+        if etf_pct is None or etf_pct <= 1e-9:
+            continue
+        overlaps = []
+        for name, w in (info.get("constituents") or {}).items():
+            sp = final_pct.get(name.upper())
+            if sp and sp > 1e-9:
+                via = round(etf_pct * w, 4)
+                overlaps.append({"ticker": name.upper(), "single_pct": round(sp, 4),
+                                 "via_etf_pct": via, "true_pct": round(sp + via, 4)})
+        if overlaps:
+            lookthrough.append({"etf": etf.upper(), "etf_pct": round(etf_pct, 4),
+                                "factor": info.get("factor"), "overlaps": overlaps})
+            names = ", ".join(f"{o['ticker']} (single {o['single_pct']:.1f}% + "
+                              f"{o['via_etf_pct']:.2f}% via {etf.upper()} = "
+                              f"true ~{o['true_pct']:.1f}%)" for o in overlaps)
+            lt_warnings.append(
+                f"ETF look-through: {etf.upper()} held at {etf_pct:.1f}% double-counts "
+                f"{info.get('factor')} that is ALSO sized as singles — {names}. "
+                f"Approach A = keep {etf.upper()} base + singles on top (true exposure "
+                f"is the higher number); Approach B = shrink {etf.upper()} and let the "
+                f"singles carry the factor (cleaner attribution).")
+
+    # ---- funding summary (conservation holds by construction) ----------------
+    cash_freed = round(trims_total + cash_used - funded_add_usd, 2)
+    funding = FundingSummary(
+        trims_total_usd=trims_total, adds_total_usd=round(funded_add_usd, 2),
+        cash_used_usd=round(cash_used, 2), cash_freed_usd=max(0.0, cash_freed),
+        shortfall_usd=round(sum(u["needed_usd"] for u in unfunded), 2),
+        unfunded_adds=[u["ticker"] for u in unfunded])
+
+    # new cash% from the flow: old cash + trims - funded adds (as pp of book)
+    new_cash_pct = round(cash_pct_now + (trims_total - funded_add_usd) / book * 100.0, 4)
+
+    monitor_left = sorted(set([g.ticker for g in report.monitor_suppressed]) | set(monitor_in_map))
+    undoc = sorted(set([g.ticker for g in report.no_thesis
+                        if "monitor_suppressed" not in g.flags]) | set(undoc_in_map))
+
+    # ---- notes + warnings ----------------------------------------------------
+    notes: list[str] = []
+    if not main_legs and not sub_legs:
+        notes.append("No moves indicated — current weights already match the target map "
+                     "(MONITOR/undocumented names excluded).")
+    neutral_legs = [l for l in main_legs if l.net_factor_neutral]
+    if neutral_legs:
+        nf = ", ".join(sorted({l.net_factor_label for l in neutral_legs if l.net_factor_label}))
+        notes.append(
+            f"Funded rotation: {len(neutral_legs)} add(s) are NET-FACTOR-NEUTRAL ({nf}) — "
+            f"funded by same-factor trims, so net exposure does not rise. A pretrade_gate "
+            f"INCREMENTAL_FACTOR_CONCENTRATION RED scored on a single add IN ISOLATION "
+            f"should be read as AMBER (override + log) where the plan's net factor delta is "
+            f"flat-or-down (see net_factor_delta).")
+    if cash_freed > materiality_usd:
+        notes.append(f"Net de-risking: trims exceed funded adds by ${cash_freed:,.0f} — "
+                     f"surplus parks to cash (cash {cash_pct_now:.1f}% -> {new_cash_pct:.1f}%).")
+    if unfunded:
+        notes.append("Some explicit targets are unfunded (trims + available cash "
+                     "insufficient) — listed names stay at current; raise cash or trim "
+                     "more to reach every target.")
+    seq_legs = [l for l in main_legs if l.stage_after]
+    if seq_legs:
+        ev = ", ".join(sorted({l.stage_after for l in seq_legs}))
+        notes.append(f"Sequencing: {len(seq_legs)} correlated leg(s) tagged to STAGE AFTER "
+                     f"[{ev}] — the rest are 'now'.")
+    if monitor_in_map:
+        notes.append(f"target_weights listed MONITOR name(s) {', '.join(sorted(monitor_in_map))}"
+                     f" — left UNTOUCHED (MONITOR is never traded to fund a gap).")
+    if undoc_in_map:
+        notes.append(f"target_weights listed name(s) with no thesis/tier "
+                     f"({', '.join(sorted(undoc_in_map))}) — excluded; add a thesis line "
+                     f"to size them.")
+
+    warnings: list[str] = list(lt_warnings)
+    coverage = round(sum(float(p.get("_pct") or 0.0) for p in positions), 2)
+    if coverage < 95.0:
+        warnings.append(
+            f"FEED covers only {coverage:.1f}% of the book by weight ({100 - coverage:.1f}% "
+            f"reads as cash/untracked) — verify against the Latest Portfolio before acting.")
+    if expected_cash_pct is not None and abs(cash_pct_now - expected_cash_pct) > 1.0:
+        warnings.append(
+            f"FEED-implied cash {cash_pct_now:.2f}% differs from stated "
+            f"{expected_cash_pct:.2f}% — the FEED may be missing holdings; verify.")
+
+    return ReallocationResult(
+        as_of=as_of, total_book_value=book, cash_pct=new_cash_pct, mode=mode,
+        legs=main_legs, sub_threshold_legs=sub_legs, target_vs_current=rows,
+        funding=funding, monitor_left_alone=monitor_left, undocumented_excluded=undoc,
+        notes=notes, warnings=warnings, explicit_targets={k: round(v, 4) for k, v in tmap.items()},
+        net_factor_delta=net_factor_delta, lookthrough=lookthrough)
+
+
+def net_factor_is_flat_or_down(result: ReallocationResult, factor: str) -> bool:
+    """True when the plan's net $ delta for `factor` does not raise exposure
+    (<= NET_FACTOR_FLAT_TOL_PCT of book). This is the test for re-reading an
+    in-isolation gate INCREMENTAL_FACTOR_CONCENTRATION RED as AMBER/override."""
+    tol = NET_FACTOR_FLAT_TOL_PCT / 100.0 * float(result.total_book_value or 0.0)
+    return float(result.net_factor_delta.get(factor, 0.0)) <= tol
+
+
+# ===========================================================================
 # GATE WIRING  (Chunk 3)  — fire the REAL pretrade_gate LIVE, in-session
 # ===========================================================================
 
@@ -858,6 +1336,52 @@ def run_gate_on_legs(result: ReallocationResult, *, positions: list[dict],
             "flags": [{"color": f.color, "code": f.code, "message": f.message}
                       for f in gr.flags],
         }
+    annotate_net_factor_overrides(result, include_sub_threshold=include_sub_threshold)
+    return result
+
+
+def annotate_net_factor_overrides(result: ReallocationResult, *,
+                                  include_sub_threshold: bool = False) -> ReallocationResult:
+    """Re-read pretrade_gate's per-leg INCREMENTAL_FACTOR_CONCENTRATION RED in the
+    context of the WHOLE funded plan.
+
+    The gate scores each leg IN ISOLATION: at ~60% ai_complex it REDs any AI add
+    on its own. But a funded wrapper->single rotation (the AI add paired with a
+    same-factor trim) does NOT raise net factor exposure. So when the plan's net
+    delta for that factor is flat-or-down, we attach an explicit 'read_as: AMBER
+    (override + log)' note to the leg's gate result. We do NOT mutate the gate's
+    own `overall` — the gate's isolated verdict stays honest; this is the
+    portfolio-level reconciliation the operator reads alongside it."""
+    import re
+    pool = list(result.legs) + (list(result.sub_threshold_legs)
+                                if include_sub_threshold else [])
+    for leg in pool:
+        res = leg.gate.get("result")
+        if not res:
+            continue
+        for fl in res.get("flags", []):
+            if fl.get("code") != "INCREMENTAL_FACTOR_CONCENTRATION" or fl.get("color") != "RED":
+                continue
+            # which factor did the gate RED on? it is single-quoted in the message
+            # ("Post-trade 'ai_complex' = 65.0% ..."). Fall back to the leg's tags.
+            m = re.search(r"'([^']+)'", fl.get("message", ""))
+            cand = [m.group(1).lower()] if m else list(leg.factor_tags)
+            flat = [f for f in cand
+                    if f in leg.factor_tags and net_factor_is_flat_or_down(result, f)]
+            if not flat:
+                continue   # the REDed factor really IS net-up — leave the RED standing
+            deltas = {f: round(result.net_factor_delta.get(f, 0.0), 0) for f in flat}
+            res.setdefault("overrides", []).append({
+                "flag": "INCREMENTAL_FACTOR_CONCENTRATION",
+                "gate_color": "RED",
+                "read_as": "AMBER",
+                "factor": flat[0],
+                "reason": (
+                    f"Gate scored this add IN ISOLATION. The plan's net delta for the "
+                    f"flagged factor is flat-or-down ({deltas}) — this add is a funded "
+                    f"net-factor-neutral rotation, so net exposure does not rise. Read as "
+                    f"AMBER: override + log, don't block."),
+            })
     return result
 
 
@@ -874,12 +1398,16 @@ def _fmt_leg_line(l: Leg) -> str:
     else:
         gate_txt = ""
     tags = []
+    if l.net_factor_neutral:
+        tags.append(f"NET-FACTOR-NEUTRAL ({l.net_factor_label})")
     if l.rotation:
         tags.append("rotation")
     if l.optional:
         tags.append("optional")
     if l.deepwork:
         tags.append("DEEPWORK")
+    if l.stage_after:
+        tags.append(f"stage after {l.stage_after}")
     tagtxt = (" · " + " · ".join(tags)) if tags else ""
     src = f"{l.source_tag or '—'}/{l.source_tag_status}"
     return (f"**{label} {l.ticker}** {l.current_pct:.2f}% -> {l.target_pct:.2f}% "
@@ -910,6 +1438,9 @@ def format_reallocation(r: ReallocationResult) -> str:
             L.append(f"   \u21b3 {l.rationale}")
             for c in l.caveats:
                 L.append(f"   \u26a0\ufe0f {c}")
+            for ov in (l.gate.get("result") or {}).get("overrides", []):
+                L.append(f"   \U0001f504 gate {ov['gate_color']} read as **{ov['read_as']}**: "
+                         f"{ov['reason']}")
     else:
         L.append("\n## Ranked moves\n_No material moves today._")
 
@@ -919,13 +1450,34 @@ def format_reallocation(r: ReallocationResult) -> str:
             L.append(f"- {_fmt_leg_line(l)}")
 
     if r.funding.unfunded_adds:
-        L.append(f"\n## Unfunded (cash-neutral shortfall: ${r.funding.shortfall_usd:,.0f})")
+        L.append(f"\n## Unfunded (shortfall: ${r.funding.shortfall_usd:,.0f})")
         L.append("- " + ", ".join(r.funding.unfunded_adds))
 
     f = r.funding
     L.append("\n## Funding")
-    L.append(f"trims ${f.trims_total_usd:,.0f} = adds ${f.adds_total_usd:,.0f} "
-             f"(cash used ${f.cash_used_usd:,.0f}) · shortfall ${f.shortfall_usd:,.0f}")
+    L.append(f"trims ${f.trims_total_usd:,.0f} → adds ${f.adds_total_usd:,.0f} "
+             f"(cash used ${f.cash_used_usd:,.0f} · cash freed ${f.cash_freed_usd:,.0f}) · "
+             f"shortfall ${f.shortfall_usd:,.0f}")
+
+    # --- target-weight mode extras: net factor delta + ETF look-through -------
+    if r.net_factor_delta:
+        L.append("\n## Net factor delta (whole plan)")
+        L.append("_Adds minus trims per factor — the funded-rotation lens the per-leg gate lacks._")
+        L.append("| Factor | Net Δ$ | Reading |")
+        L.append("|---|---:|---|")
+        for fac, d in sorted(r.net_factor_delta.items(), key=lambda kv: kv[1]):
+            flat = net_factor_is_flat_or_down(r, fac)
+            read = "flat/down — gate concentration RED reads as AMBER" if flat else "net ADD"
+            L.append(f"| {fac} | {d:+,.0f} | {read} |")
+
+    if r.lookthrough:
+        L.append("\n## ⚠️ ETF look-through (double-count check)")
+        for lt in r.lookthrough:
+            L.append(f"- **{lt['etf']}** held {lt['etf_pct']:.1f}% ({lt['factor']}) overlaps "
+                     f"singles you also size:")
+            for o in lt["overlaps"]:
+                L.append(f"   ↳ {o['ticker']}: single {o['single_pct']:.1f}% + "
+                         f"{o['via_etf_pct']:.2f}% via {lt['etf']} = **true ~{o['true_pct']:.1f}%**")
 
     movers = {l.ticker for l in r.legs} | {l.ticker for l in r.sub_threshold_legs}
     interesting = [row for row in r.target_vs_current
@@ -966,14 +1518,23 @@ def reallocate(*, feed: Optional[dict] = None, positions: Optional[list[dict]] =
                mode: Optional[dict] = None, materiality_pct: float = 1.0,
                materiality_usd: float = GATE_NOTIONAL_THRESHOLD,
                expected_cash_pct: Optional[float] = None,
+               target_weights: Optional[dict] = None,
+               sequence_events: Optional[dict] = None,
+               etf_lookthrough: Optional[dict] = None,
+               cash_reserve_pct: float = 0.0,
                as_of: str = "") -> tuple[ReallocationResult, str]:
     """One-call in-session entry point: plan -> (optionally) fire the LIVE gate
     -> render. Returns (ReallocationResult, markdown). Set run_gate=True with
-    live macro/source_rates to populate gate verdicts on >=$25K legs."""
+    live macro/source_rates to populate gate verdicts on >=$25K legs.
+
+    Pass `target_weights` {ticker: % of book} to drive TARGET-WEIGHT mode (exact
+    funded legs to those weights); omit it for the default TIER-BAND behavior."""
     result = plan_reallocation(
         feed=feed, positions=positions, theses=theses, total_book_value=total_book_value,
         mode=mode, macro=macro, source_rates=source_rates, materiality_pct=materiality_pct,
-        materiality_usd=materiality_usd, expected_cash_pct=expected_cash_pct, as_of=as_of)
+        materiality_usd=materiality_usd, expected_cash_pct=expected_cash_pct,
+        target_weights=target_weights, sequence_events=sequence_events,
+        etf_lookthrough=etf_lookthrough, cash_reserve_pct=cash_reserve_pct, as_of=as_of)
     if run_gate:
         pos = positions if positions is not None else (
             positions_from_feed(feed, total_book_value) if feed is not None else None)
@@ -1022,14 +1583,21 @@ if __name__ == "__main__":
     ap.add_argument("--expected-cash", type=float, default=None,
                     help="stated cash %% for a consistency check")
     ap.add_argument("--materiality-pct", type=float, default=1.0)
+    ap.add_argument("--target-weights", help="path to a {ticker: %%-of-book} json — "
+                    "drives TARGET-WEIGHT mode (exact funded legs); omit for tier-band")
+    ap.add_argument("--sequence-events", help="path to a {ticker: 'event'} json — "
+                    "tag correlated legs to 'stage after [event]'")
     a = ap.parse_args()
 
     if a.feed and a.theses and a.book:
         feed = _json.load(open(a.feed))
         theses = _json.load(open(a.theses))
+        tw = _json.load(open(a.target_weights)) if a.target_weights else None
+        seq = _json.load(open(a.sequence_events)) if a.sequence_events else None
         result, md = reallocate(feed=feed, theses=theses, total_book_value=a.book,
                                 as_of=a.as_of, expected_cash_pct=a.expected_cash,
-                                materiality_pct=a.materiality_pct)
+                                materiality_pct=a.materiality_pct,
+                                target_weights=tw, sequence_events=seq)
         print(md)
         errs = validate_reallocation(result)
         print("\n[validate] " + ("OK" if not errs else "; ".join(errs)), file=_sys.stderr)
