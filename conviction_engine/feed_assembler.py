@@ -21,7 +21,7 @@ from analyst import (rotation_read, macro_read, staleness_read,
                      type_read, hero_needs_you_read, weight_read)
 from analyst_judgment import (conviction_read, conviction_direction_read,
                               net_read, fresh_signal_read, actions_read,
-                              catalyst_needs_you)
+                              catalyst_needs_you, research_actions_read)
 from analyst_config import theses_by_ticker
 
 # ── name -> rotation-proxy sleeve (the leaderboard subject that stands in for a
@@ -169,6 +169,15 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     actions = actions_read(fresh["fresh_signals"],
                            hero["needs_you"]["items"], theses)["actions"]
 
+    # ── ⑦c research_actions: ticker-specific Research-Queue items as their OWN
+    #    candidate-action category (SEPARATE from `actions`; never blended).
+    #    Deduped against the action + catalyst lanes by ticker (catalyst-
+    #    precedence) so a name surfaces exactly once. ──
+    _taken = {a["ticker"] for a in actions if a.get("ticker")}
+    _taken |= {c.get("ticker") for c in (catalysts or [])
+               if isinstance(c, dict) and c.get("ticker")}
+    research_actions = research_actions_read(research or {}, theses, _taken)["research_actions"]
+
     # ── ⑨ Radar — endorsed, not owned. The fundstrat_daily analyst-call cards
     #    name external picks; keep ONLY the ones absent from the book whose thesis
     #    (if any) isn't a parked MONITOR sleeve — i.e. live endorsements you don't
@@ -212,6 +221,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "catalysts": catalysts or [],
         "questions": [],
         "research": research or {},
+        "research_actions": research_actions,
         "heartbeat": heartbeat or [],
         "synthesis": synthesis or {},
         "radar": derived_radar if radar is None else radar,

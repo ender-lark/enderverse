@@ -222,7 +222,7 @@ _ACTION_REQUIRED = ("rank", "kind", "ticker", "what", "confidence", "your_move",
 _VALID_CONFIDENCE = {"High", "Moderate", "Low"}
 _VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
                        "macro_alert", "watch_entry", "stale_critical", "synthesis",
-                       "catalyst_imminent"}
+                       "catalyst_imminent", "research_review"}
 # canonical catalyst-row field set (Contract C, OPTIONAL block — the near-term
 # event lane read off the Catalyst Calendar). Validated only IF present, so a
 # dark/unsourced lane (empty or absent) stays valid.
@@ -400,6 +400,18 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
         else:
             for i, a in enumerate(actions):
                 problems.extend(f"actions[{i}] {e}" for e in _validate_action(a))
+
+    # OPTIONAL `research_actions` block (the SEPARATE "From Research" surface —
+    # ticker-specific Research-Queue items as candidate-actions, deduped against
+    # the action + catalyst lanes). Rows reuse the action-row shape; validated IF
+    # present so feeds that predate it stay valid (forward-compatible).
+    research_actions = feed.get("research_actions", _MISSING)
+    if research_actions is not _MISSING:
+        if not isinstance(research_actions, list):
+            problems.append(f"research_actions must be a list, got {type(research_actions).__name__}")
+        else:
+            for i, a in enumerate(research_actions):
+                problems.extend(f"research_actions[{i}] {e}" for e in _validate_action(a))
 
     # OPTIONAL `catalysts` block (near-term event lane, read off the Catalyst
     # Calendar). The KEY is shape-checked as a list above (_FEED_OPTIONAL_LIST);

@@ -666,3 +666,123 @@ def actions_read(fresh_signals, needs_you_items, theses,
         "total_candidates": len(actions),
         "act_like": sum(1 for a in actions if a["kind"] in ("buy_now", "reentry_zone")),
     }
+
+
+# =========================================================================== #
+# ⑦c Research-actions read — the SEPARATE "From Research" surface (cockpit
+#     `research_actions`). Ticker-specific Research Queue items surfaced as
+#     their OWN candidate-action category — NEVER blended into ⑦b `actions` or
+#     the catalyst list (operator decision 2026-06-02). Built routine-side from
+#     the external `research` read; the live session ranks + gates on drill (a
+#     research_action >= $25K -> pretrade_gate fires in-session). Rows reuse the
+#     action-row shape (kind "research_review") so the renderer's actionRow
+#     mapper is reused unchanged.
+#
+#     Filter (v1): a parsed ticker AND (priority high/med OR a structured
+#     near-term date within horizon). The DATE clause is DORMANT until the
+#     Research-Queue read carries a structured `days_out` -- today's feed items
+#     carry only {r, pr}, so only the priority clause fires (parsing a date out
+#     of free text is too fragile to gate on). Ticker is parsed from the leading
+#     "TICKER - ..." token; non-ticker process/governance items are NOT surfaced
+#     here (they stay in the Research panel).
+#
+#     Dedup (catalyst-precedence): an item whose ticker is already in the action
+#     OR catalyst lane is DROPPED -- so a name surfaces exactly once and
+#     research_actions YIELDS to the sharper dated driver. The caller passes that
+#     union as `taken_tickers`.
+# =========================================================================== #
+
+import re as _re
+
+_RESEARCH_PR_CONFIDENCE = {"high": "High", "med": "Moderate", "medium": "Moderate",
+                           "low": "Low"}
+_RESEARCH_PR_RANK = {"high": 0, "med": 1, "medium": 1, "low": 2}
+_RESEARCH_INCLUDE_PR = frozenset({"high", "med", "medium"})
+# leading all-caps ticker (1-6, optional .SUFFIX) immediately followed by a dash/colon
+_TICKER_LEAD = _re.compile(r"^\s*([A-Z]{1,6}(?:\.[A-Z]{1,4})?)\s*[\u2014\u2013:\-]")
+
+
+def _parse_research_ticker(text):
+    """Pull the leading 'TICKER - ...' symbol from a Research-Queue item's text.
+    Returns the ticker string, or None for a non-ticker (process/governance) item."""
+    if not isinstance(text, str):
+        return None
+    m = _TICKER_LEAD.match(text)
+    return m.group(1) if m else None
+
+
+def research_actions_read(research, theses, taken_tickers=None,
+                          *, horizon_days=7, include_priorities=_RESEARCH_INCLUDE_PR):
+    """⑦c the SEPARATE "From Research" candidate-action surface.
+
+    `research` is the external Research-Queue read: a dict {pending:[...],
+    done:[...]} (or a bare list, treated as `pending`). Each pending item is
+    {r: "<TICKER - summary>", pr: "high"|"med"|"low", ...}; a structured
+    `days_out` (int) is honored if present (dormant until the read emits it).
+
+    Returns {research_actions:[...], total_candidates:n}. Each row is the
+    canonical action-row shape with kind "research_review", so the renderer's
+    actionRow mapper renders it unchanged. Deterministic order: priority, then
+    confidence, then first-seen.
+    """
+    taken = set(taken_tickers or [])
+    by_ticker = theses_by_ticker(theses)
+    if isinstance(research, dict):
+        pending = research.get("pending") or []
+    elif isinstance(research, list):
+        pending = research
+    else:
+        pending = []
+
+    rows = []
+    for idx, it in enumerate(pending):
+        if not isinstance(it, dict):
+            continue
+        text = it.get("r") or it.get("text") or ""
+        ticker = _parse_research_ticker(text)
+        if not ticker:
+            continue  # v1: ticker-specific research only (process items stay in the panel)
+        pr = str(it.get("pr") or it.get("priority") or "").lower()
+        days = it.get("days_out")
+        dated_ok = isinstance(days, int) and 0 <= days <= horizon_days  # dormant today
+        if not (pr in include_priorities or dated_ok):
+            continue
+        if ticker in taken:
+            continue  # dedup -- the action/catalyst lane already carries it (catalyst-precedence)
+        stance = (by_ticker.get(ticker) or {}).get("stance")
+        confidence = _RESEARCH_PR_CONFIDENCE.get(pr, "Moderate")
+        cd = f" (~{days}d)" if dated_ok else ""
+        if stance == "MONITOR":
+            # burned sleeve: review/watch only -- never an add nudge
+            your_move = (f"{ticker}: burned-sleeve research -- review / risk-check only; "
+                         "no add absent YOUR re-entry trigger (\u22653-source convergence / "
+                         "named catalyst / regime turn).")
+            gate = None
+            confidence = "Low"
+        else:
+            your_move = (f"{ticker}: review the Off-Hours dossier{cd} -- confirm the thesis, "
+                         "then size / decide (run the pre-trade gate if you act). "
+                         "A research item, not a fired trigger.")
+            gate = _gate_hook(ticker, by_ticker, default_action="REVIEW")
+        rows.append({
+            "kind": "research_review", "ticker": ticker,
+            "what": "Research dossier -- review" + cd,
+            "confidence": confidence, "your_move": your_move,
+            "gate": gate, "source": "research_queue", "why": text,
+            "_pr_rank": _RESEARCH_PR_RANK.get(pr, 1), "_order": idx,
+        })
+
+    rows.sort(key=lambda r: (r["_pr_rank"], _CONFIDENCE_RANK.get(r["confidence"], 9),
+                             r["_order"]))
+
+    research_actions = []
+    for rank, r in enumerate(rows, start=1):
+        research_actions.append({
+            "rank": rank, "kind": r["kind"], "ticker": r["ticker"],
+            "what": r["what"], "confidence": r["confidence"],
+            "your_move": r["your_move"], "gate": r["gate"],
+            "source": r["source"], "why": r["why"],
+        })
+
+    return {"research_actions": research_actions,
+            "total_candidates": len(research_actions)}

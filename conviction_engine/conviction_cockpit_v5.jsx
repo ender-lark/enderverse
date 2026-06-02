@@ -717,6 +717,7 @@ const ACTION_KIND_META = {
   stale_critical:  { icon:"⚠️", label:"Stale source",   c:C.dim   },
   synthesis:       { icon:"🧠", label:"Synthesis",      c:C.blue  },
   catalyst_imminent:{ icon:"📅", label:"Catalyst",       c:C.amber },
+  research_review: { icon:"🔬", label:"Research",       c:C.blue  },
 };
 const CONF_META = {
   High:     { c:C.green, label:"High" },
@@ -751,6 +752,7 @@ function toCockpit(feed){
     rotation: (feed.rotation||[]).map(rotationRow),
     holdings: (feed.holdings||[]).map(holdingGroup),
     actions: (feed.actions||[]).map(actionRow),
+    researchActions: (feed.research_actions||[]).map(actionRow),
     heartbeat: (feed.heartbeat||[]).map(heartbeatRow),
     synthesis: feed.synthesis||{},
     radar: (feed.radar||[]).map(radarRow),
@@ -904,6 +906,46 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             );
           })}
           {VM.actions.length>5 && <div style={{ fontSize:11.5, color:C.faint, fontFamily:mono, marginTop:2 }}>+{VM.actions.length-5} more lower-priority action{VM.actions.length-5>1?"s":""} (not shown)</div>}
+        </Section>
+
+        {/* FROM RESEARCH — ticker-specific Research-Queue items as their OWN
+            candidate-action category (engine ⑦c research_actions), SEPARATE from
+            Today's actions; deduped against the action+catalyst lanes
+            (catalyst-precedence). Default-open when populated. */}
+        <Section id="research-actions" title="From Research" icon="🔎" badge={VM.researchActions.length?`${VM.researchActions.length}`:"0"} badgeColor={VM.researchActions.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.researchActions.length>0}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>FROM YOUR RESEARCH QUEUE — high-priority / dated dossiers as candidate reviews. SEPARATE from Today's actions; a name on the catalyst lane shows there, not here. Drill in chat to act.</div>
+          {VM.researchActions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing from research right now — no high-priority or dated Research-Queue items (or absent in this feed build).</div>}
+          {VM.researchActions.map((a)=>{
+            const key="rsch"+a.rank+(a.ticker||a.kind), isO=posOpen[key];
+            return (
+              <div key={key} style={{ ...card, marginBottom:8, borderColor:a.c+"44", background:a.c+"0a" }}>
+                <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:a.why?"pointer":"default" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{a.rank}</span>
+                    {a.ticker && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{a.ticker}</span>}
+                    <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{a.what}</span>
+                  </div>
+                  <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
+                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>conf: {a.confLabel}</span>
+                    {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
+                  </div>
+                  <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
+                  {a.why && (
+                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
+                      <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
+                    </div>
+                  )}
+                </div>
+                {isO && a.why && (
+                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
+                    {a.why}
+                    <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{VM.stamp} · research candidate — you decide, you size · drill in chat to run the gate</div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </Section>
 
         {/* RADAR — endorsed names not owned yet (engine ⑨ radar block) */}
@@ -1092,7 +1134,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* RESEARCH — live Research Queue (R = VM.research when present, else curated) */}
-        <Section id="research" title="Research" icon="🔬" openMap={open} setOpen={setOpen} defaultOpen={false}>
+        <Section id="research" title="Research" icon="🔬" badge={(R.pending||[]).length+(R.done||[]).length} badgeColor={C.blue} openMap={open} setOpen={setOpen} defaultOpen={((R.pending||[]).length+(R.done||[]).length)>0}>
           <Section id="rpending" title="Pending — you prioritize" icon="⏳" badge={(R.pending||[]).length} badgeColor={C.blue} openMap={open} setOpen={setOpen}>
             {(R.pending||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing pending.</div>}
             {(R.pending||[]).map((x,i)=>{ const pr=x.priority||x.pr||""; return (
