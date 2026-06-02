@@ -222,7 +222,8 @@ _ACTION_REQUIRED = ("rank", "kind", "ticker", "what", "confidence", "your_move",
 _VALID_CONFIDENCE = {"High", "Moderate", "Low"}
 _VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
                        "macro_alert", "watch_entry", "stale_critical", "synthesis",
-                       "catalyst_imminent", "lean_in", "research_review"}
+                       "catalyst_imminent", "lean_in", "research_review",
+                       "decision_aging"}
 # canonical catalyst-row field set (Contract C, OPTIONAL block — the near-term
 # event lane read off the Catalyst Calendar). Validated only IF present, so a
 # dark/unsourced lane (empty or absent) stays valid.
