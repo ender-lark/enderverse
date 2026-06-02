@@ -44,6 +44,16 @@ from analyst_config import (
     CATCH_UP_ROTATION_LABELS,
     ACT_NOW_EVENTS,
     FRESH_SIGNAL_EVENTS,
+    CV_RANK,
+    LEAN_IN_MIN_CONVICTION,
+    LEAN_IN_ROTATION_POSITIVE,
+    LEAN_IN_CATCHUP_LABELS,
+    LEAN_IN_ROTATION_NEGATIVE,
+    LEAN_IN_ALREADY_MOVED_LABELS,
+    LEAN_IN_REQUIRE_CD_UP,
+    LEAN_IN_INDEPENDENCE_MIN_SOURCES,
+    LEAN_IN_OPP_COST_PROXY,
+    LEAN_IN_MAX_ITEMS,
     theses_by_ticker,
 )
 
@@ -426,13 +436,14 @@ _ACTION_PRIORITY = {
     "reentry_zone": 2,     # a re-entry-zone touch (⏳ act, non-burned)
     "catalyst_imminent": 2,  # a near-term dated event on a HELD name (review-before)
     "monitor_reentry": 3,  # a burned-sleeve re-entry candidate (watch YOUR trigger)
+    "lean_in": 3,          # a promoted lean-in — looks good, size it yourself (no trigger yet)
     "macro_alert": 4,      # a firing macro alert (regime-level)
     "watch_entry": 5,      # endorsed, entry not confirmed (👁 watch)
     "stale_critical": 6,   # a stale critical source (a data-trust gap)
 }
 _ACTION_CONFIDENCE = {
     "red_gate": "High", "buy_now": "High", "reentry_zone": "High",
-    "monitor_reentry": "Moderate", "macro_alert": "Moderate",
+    "monitor_reentry": "Moderate", "macro_alert": "Moderate", "lean_in": "Moderate",
     "watch_entry": "Moderate", "stale_critical": "Low",
 }
 _CONFIDENCE_RANK = {"High": 0, "Moderate": 1, "Low": 2}
@@ -495,7 +506,7 @@ def catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7):
 
 
 def actions_read(fresh_signals, needs_you_items, theses,
-                 *, synthesis_actions=None) -> dict:
+                 *, synthesis_actions=None, lean_in_items=None) -> dict:
     """⑦b the prioritized Actions surface (cockpit `actions`).
 
     Pool = ⑦ fresh_signals (act/watch) + ⑧ hero needs_you items (red_gate /
@@ -624,6 +635,35 @@ def actions_read(fresh_signals, needs_you_items, theses,
                     "days_to_catalyst": days if isinstance(days, int) else None,
                 })
         # unknown reasons are ignored — never fabricate an action
+
+    # (b2) PROMOTED lean-ins — the strongest opportunity reads (lean == "lean_in")
+    #      brought front-and-center onto the Actions strip (the opportunity mirror
+    #      of the act-now triggers). Only "lean_in" is promoted — `build` /
+    #      `still_lagging` / `cooling` stay in the lean-in panel, never the act
+    #      strip. Deduped against names already represented above (a confirmed
+    #      buy_now / watch already says it), so a name appears once. SURFACE only:
+    #      a gate hook for sizing, never an executed buy.
+    promoted_seen = {r["ticker"] for r in rows if r.get("ticker")}
+    for li in (lean_in_items or []):
+        if li.get("lean") != "lean_in":
+            continue
+        tk = li.get("ticker")
+        if not tk or tk in promoted_seen:
+            continue
+        cvq = li.get("conviction")
+        conf = "High" if cvq == "Strong" else ("Moderate" if cvq == "Promising" else "Low")
+        rot = li.get("rotation")
+        rows.append({
+            "kind": "lean_in", "ticker": tk,
+            "what": "Lean-in — looks good",
+            "confidence": conf,
+            "your_move": (f"{tk} looks good ({cvq}{', ' + rot if rot else ''}) — size it "
+                          "yourself and run the pre-trade gate. No auto-buy."),
+            "gate": _gate_hook(tk, by_ticker),
+            "source": "lean_in",
+            "why": li.get("headline") or "",
+        })
+        promoted_seen.add(tk)
 
     # (c) forward-compat seam: Daily-Synthesis actions (empty until that brain
     #     lands). Accept light dicts; normalize into the row shape. v1 slotting.
@@ -786,3 +826,241 @@ def research_actions_read(research, theses, taken_tickers=None,
 
     return {"research_actions": research_actions,
             "total_candidates": len(research_actions)}
+# --------------------------------------------------------------------------- #
+# ⑩ LEAN-IN read — the opportunity mirror of risk surfacing (Opportunity-Engine
+# pivot, Chunk A). Reconciles ① conviction QUALITY (the permissive size ceiling)
+# + ② conviction DIRECTION + sleeve rotation into a SYMMETRIC lean read, off the
+# SAME computed structures the other reads use. Surfaces a lean with its
+# evidence, an opportunity-cost read, the sizing ceiling (risk class), what would
+# RAISE conviction, and honesty caveats. NEVER decides / auto-buys (action=NONE).
+# All thresholds are dials (analyst_config LEAN_IN_*), overridable here for
+# tuning/tests. Deterministic: same inputs -> same lane.
+# --------------------------------------------------------------------------- #
+_LEAN_PRIORITY = {"lean_in": 0, "build": 1, "still_lagging": 2, "cooling": 3}
+
+
+def _cv_rank(cv) -> int:
+    return CV_RANK.get(cv, 0)
+
+
+def _lean_classify(cv_rank, cd, label, owned, underweight, parabolic, act, watch, *,
+                   floor_rank, positive_labels, catchup_labels,
+                   negative_labels, moved_labels, require_cd_up):
+    """The SYMMETRIC lean word for one name, or None (quiet). Negatives checked
+    FIRST (anti-avoidance: willing to print the bad read). Positives gate at/above
+    the conviction floor. `act`/`watch` are the ⑦ fresh-signal urgencies, kept
+    CONSISTENT with the Actions strip: a confirmed act trigger -> lean_in; an
+    endorsement whose entry isn't confirmed (watch) -> build. Otherwise a working
+    tape + room to add -> lean_in; an endorsed laggard that hasn't turned ->
+    still_lagging; rising-but-unconfirmed or under-conviction -> build. Parabolic
+    demotes lean_in -> build (don't chase the move)."""
+    # --- negatives first (allowed even below the positive floor) ---
+    if cd == "down" or label in negative_labels:
+        return "cooling"
+    if cv_rank < floor_rank:
+        return None                                       # no conviction to lean on
+
+    has_room = (not owned) or underweight
+    positive_tape = label in positive_labels
+    rising = (cd == "up")
+
+    # a confirmed entry trigger (⏳ act) -> lean_in (consistent with its buy_now action)
+    if act:
+        return "build" if parabolic else "lean_in"
+    # a working tape with room to add -> lean_in
+    tape_ok = (positive_tape and rising) if require_cd_up else positive_tape
+    if tape_ok and has_room:
+        return "build" if parabolic else "lean_in"
+    # endorsed but entry NOT confirmed (👁 watch) -> build (watch for the trigger)
+    if watch:
+        return "build"
+    # endorsed laggard that hasn't turned -> the honest "still lagging"
+    if label in catchup_labels and not rising:
+        return "still_lagging"
+    # rising conviction (non-trigger event), or under-conviction on a Strong name -> build
+    if rising or (underweight and cv_rank >= CV_RANK["Strong"]):
+        return "build"
+    return None                                           # sized + flat + leading core -> quiet
+
+
+def _lean_opp_cost(ticker, sleeve, proxy) -> str:
+    if not isinstance(sleeve, dict) or not sleeve:
+        return "No sleeve rotation on file — opportunity cost vs the book not measured."
+    if sleeve.get("subject") == proxy:
+        return f"This IS the {proxy} opportunity-cost benchmark."
+    rel = sleeve.get("rel_3m_vs_smh")
+    if rel is None:
+        return f"Opportunity cost vs {proxy} not measured."
+    if rel >= 0:
+        return f"Gaining on {proxy} ({rel:+.0%}/3M vs the capital benchmark) — leaning in keeps pace."
+    return (f"Still lagging {proxy} ({rel:+.0%}/3M) — leaning in trades the benchmark for this name; "
+            "size only as the relative trend turns.")
+
+
+def _lean_evidence(conv, dr, label) -> list:
+    ev = []
+    if conv.get("reason"):
+        ev.append(f"Conviction: {conv['reason']}")
+    note = dr.get("cdNote")
+    if note and note != "No recent change.":
+        ev.append(f"Direction: {note}")
+    if label:
+        ev.append(f"Rotation: {label}")
+    return ev
+
+
+def _lean_headline(lean, tk, cv, label, owned, underweight) -> str:
+    own = "you own it" if owned else "not owned"
+    if lean == "lean_in":
+        gap = ("under your conviction — room to add" if (owned and underweight)
+               else ("a place to start" if not owned else "room toward the ceiling"))
+        return f"{tk}: {cv} and the tape's with it ({label or 'no sleeve'}) — {gap}."
+    if lean == "build":
+        if not owned:
+            return (f"{tk}: {cv}, endorsed — watch for the entry trigger before starting "
+                    f"({label or 'no sleeve'}).")
+        if label in ("LAGGING", "TURNING UP"):
+            return (f"{tk}: {cv}, conviction up but the sleeve's still lagging — "
+                    f"research deeper / hold, watch for the rotation to turn.")
+        return (f"{tk}: {cv}, conviction building, tape not yet confirmed — "
+                f"hold, watch for the turn.")
+    if lean == "still_lagging":
+        return (f"{tk}: {cv} and endorsed, but still lagging — favorable entry only "
+                f"once the rotation turns ({own}).")
+    if lean == "cooling":
+        return (f"{tk}: the case is cooling ({label or 'direction down'}) — "
+                f"watch / reassess, don't add ({own}).")
+    return f"{tk}: {cv}."
+
+
+def _lean_next_evidence(lean, label) -> str:
+    if lean == "lean_in":
+        return ("Size toward the ceiling on conviction; if via options, a defined-risk "
+                "structure. Raises it further: a 2nd independent source or a held rotation turn.")
+    if lean == "build":
+        return "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst."
+    if lean == "still_lagging":
+        return "Clears it: the rotation turning up (lagging -> turning up), confirming the catch-up."
+    if lean == "cooling":
+        return "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading."
+    return ""
+
+
+def _lean_ceiling(risk_class) -> str:
+    if not risk_class:
+        return "Tactical (default) — size as a catalyst/cycle position with an exit."
+    guide = {
+        "Core": "durable — can be a large position; conviction sizes toward the upper end.",
+        "Tactical": "catalyst/cycle — medium, with a defined exit.",
+        "Speculative": "high-risk — small, capped.",
+        "Probe": "high-risk — small, capped.",
+        "Hedge": "protection — sized by portfolio role, not its own upside.",
+    }.get(risk_class, "size within the risk class.")
+    return f"{risk_class} — {guide}"
+
+
+def lean_in_read(direction_reads, theses, cards, as_of, *,
+                 rotation_by_name=None, risk_by_tk=None,
+                 held=None, underweight=None, parabolic=None,
+                 fresh_act=None, fresh_watch=None,
+                 high_conf_reentry=None,
+                 min_conviction=LEAN_IN_MIN_CONVICTION,
+                 positive_labels=LEAN_IN_ROTATION_POSITIVE,
+                 catchup_labels=LEAN_IN_CATCHUP_LABELS,
+                 negative_labels=LEAN_IN_ROTATION_NEGATIVE,
+                 moved_labels=LEAN_IN_ALREADY_MOVED_LABELS,
+                 require_cd_up=LEAN_IN_REQUIRE_CD_UP,
+                 independence_min=LEAN_IN_INDEPENDENCE_MIN_SOURCES,
+                 opp_cost_proxy=LEAN_IN_OPP_COST_PROXY,
+                 max_items=LEAN_IN_MAX_ITEMS) -> dict:
+    """⑩ the LEAN-IN lane (cockpit `lean_in`) — the opportunity mirror of risk
+    surfacing.
+
+    HARD invariants (by construction):
+      • action == "NONE" on EVERY item — a SURFACE, never an order.
+      • burned sleeves (stance MONITOR) surface ONLY when a high-confidence
+        re-entry has cleared (tk in high_conf_reentry); otherwise skipped — the
+        conviction-GATED MONITOR reframe. Never lean_in on a bare source call.
+      • SYMMETRIC — willing to print `cooling` / `still_lagging`; quiet by
+        default (a sized, flat, leading core name returns no item).
+    """
+    rotation_by_name = rotation_by_name or {}
+    risk_by_tk = risk_by_tk or {}
+    held = set(held or [])
+    underweight = set(underweight or [])
+    parabolic = set(parabolic or [])
+    fresh_act = set(fresh_act or [])
+    fresh_watch = set(fresh_watch or [])
+    high_conf_reentry = set(high_conf_reentry or [])
+    by_tk = theses_by_ticker(theses)
+    floor_rank = CV_RANK.get(min_conviction, CV_RANK["Promising"])
+
+    items = []
+    for dr in direction_reads:
+        tk = dr.get("ticker")
+        if not tk:
+            continue
+        thesis = by_tk.get(tk)
+        burned = bool(thesis and thesis.get("stance") == "MONITOR")
+        if burned and tk not in high_conf_reentry:
+            continue                         # 🔒 conviction-gate -> the monitor path owns it
+
+        conv = conviction_read(tk, thesis, cards)
+        cv = conv.get("cv")
+        streams = conv.get("streams", 0)
+        cd = dr.get("cd", "flat")
+
+        sleeve = rotation_by_name.get(tk) or {}
+        label = sleeve.get("label", "") if isinstance(sleeve, dict) else (sleeve or "")
+        owned = tk in held
+        is_uw = tk in underweight
+        is_para = tk in parabolic
+        act = tk in fresh_act
+        watch = tk in fresh_watch
+
+        lean = _lean_classify(_cv_rank(cv), cd, label, owned, is_uw, is_para, act, watch,
+                              floor_rank=floor_rank, positive_labels=positive_labels,
+                              catchup_labels=catchup_labels, negative_labels=negative_labels,
+                              moved_labels=moved_labels, require_cd_up=require_cd_up)
+        if lean is None:
+            continue
+
+        caveats = []
+        if streams and streams < independence_min and lean in ("lean_in", "build"):
+            caveats.append(f"clustered: {streams} independent source"
+                           f"{'s' if streams != 1 else ''} — not independent confirmation")
+        if (label in moved_labels or is_para) and lean in ("lean_in", "build"):
+            caveats.append("already moved: entry less asymmetric"
+                           + (" (parabolic)" if is_para else " (sleeve leading)"))
+        if burned:
+            caveats.append("burned sleeve: re-entry only on a strong signal; "
+                           "prefer defined-risk options")
+
+        items.append({
+            "ticker": tk,
+            "owned": owned,
+            "stance_gate": "monitor" if burned else "open",
+            "conviction": cv,
+            "cd": cd,
+            "rotation": label,
+            "lean": lean,
+            "headline": _lean_headline(lean, tk, cv, label, owned, is_uw),
+            "evidence": _lean_evidence(conv, dr, label),
+            "next_evidence": _lean_next_evidence(lean, label),
+            "opportunity_cost": _lean_opp_cost(tk, sleeve, opp_cost_proxy),
+            "ceiling": _lean_ceiling(risk_by_tk.get(tk)),
+            "caveats": caveats,
+            "freshness": f"as-of {str(as_of)[:10]}",
+            "action": "NONE",
+        })
+
+    items.sort(key=lambda it: (_LEAN_PRIORITY.get(it["lean"], 9),
+                               -_cv_rank(it["conviction"]), it["ticker"]))
+    if isinstance(max_items, int) and max_items >= 0:
+        items = items[:max_items]
+    return {
+        "lean_in": items,
+        "lean_count": len(items),
+        "positive_count": sum(1 for i in items if i["lean"] in ("lean_in", "build")),
+        "negative_count": sum(1 for i in items if i["lean"] in ("cooling", "still_lagging")),
+    }

@@ -718,6 +718,7 @@ const ACTION_KIND_META = {
   synthesis:       { icon:"🧠", label:"Synthesis",      c:C.blue  },
   catalyst_imminent:{ icon:"📅", label:"Catalyst",       c:C.amber },
   research_review: { icon:"🔬", label:"Research",       c:C.blue  },
+  lean_in:         { icon:"▲", label:"Lean in",         c:C.green },
 };
 const CONF_META = {
   High:     { c:C.green, label:"High" },
@@ -745,6 +746,22 @@ function radarRow(r){
   return { ticker:r.ticker, author:r.author||"", direction:r.direction||"",
            levels:levels.join(" · "), date:r.date||"", quote:r.quote||"" };
 }
+// ── ⑩ Lean-in view-model: the opportunity mirror (symmetric; never auto-buys) ──
+const LEAN_META = {
+  lean_in:       { icon:"▲", label:"Lean in",       c:C.green },
+  build:         { icon:"◷", label:"Build",         c:C.blue  },
+  still_lagging: { icon:"→", label:"Still lagging",  c:C.gray  },
+  cooling:       { icon:"▼", label:"Cooling",        c:C.red   },
+};
+function leanInRow(it){
+  const m = LEAN_META[it.lean] || { icon:"•", label:it.lean||"", c:C.dim };
+  return { ticker:it.ticker, owned:!!it.owned, monitor:(it.stance_gate==="monitor"),
+           lean:it.lean, icon:m.icon, leanLabel:m.label, c:m.c,
+           conviction:it.conviction||"—", cd:it.cd||"flat", rotation:it.rotation||"",
+           headline:it.headline||"", evidence:it.evidence||[], nextEvidence:it.next_evidence||"",
+           oppCost:it.opportunity_cost||"", ceiling:it.ceiling||"",
+           caveats:it.caveats||[], freshness:it.freshness||"", action:it.action||"NONE" };
+}
 function toCockpit(feed){
   return {
     generatedAt: feed.generated_at||"", stamp: stamp(feed),
@@ -756,6 +773,7 @@ function toCockpit(feed){
     heartbeat: (feed.heartbeat||[]).map(heartbeatRow),
     synthesis: feed.synthesis||{},
     radar: (feed.radar||[]).map(radarRow),
+    leanIn: (feed.lean_in||[]).map(leanInRow),
     freshSignals: (feed.fresh_signals||[]).map(freshSignalRow),
     hero: heroView(feed.hero||{}),
     catalysts: feed.catalysts||[], questions: feed.questions||[], research: feed.research||{},
@@ -906,6 +924,57 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             );
           })}
           {VM.actions.length>5 && <div style={{ fontSize:11.5, color:C.faint, fontFamily:mono, marginTop:2 }}>+{VM.actions.length-5} more lower-priority action{VM.actions.length-5>1?"s":""} (not shown)</div>}
+        </Section>
+
+        {/* LEAN-IN — the opportunity mirror of risk surfacing (engine ⑩ lean_in block) */}
+        <Section id="leanin" title="Lean-in — what looks good" icon="📈"
+          badge={VM.leanIn.length?`${VM.leanIn.length}`:"0"}
+          badgeColor={VM.leanIn.some(l=>l.lean==="lean_in")?C.green:(VM.leanIn.length?C.blue:C.faint)}
+          openMap={open} setOpen={setOpen} defaultOpen={true}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SYMMETRIC opportunity read — conviction × direction × rotation. A surface, NOT an order: every row is "no buy" — size it yourself and run the gate. Burned 🔒 sleeves appear only on a cleared re-entry.</div>
+          {VM.leanIn.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing to lean into right now — no name clearing the conviction floor with a working tape (and nothing cooling). Quiet ≠ all-clear.</div>}
+          {VM.leanIn.map((l,i)=>{
+            const key="lean"+l.ticker+i, isO=posOpen[key];
+            const hasDetail = l.evidence.length || l.nextEvidence || l.caveats.length || l.oppCost || l.ceiling;
+            return (
+              <div key={key} style={{ ...card, marginBottom:8, borderColor:l.c+"44", background:l.c+"0a" }}>
+                <div onClick={()=>hasDetail&&setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:hasDetail?"pointer":"default" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{l.ticker}</span>
+                    <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{l.owned?"held":"not owned"}</span>
+                    {l.monitor && <span style={{ fontSize:10.5, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"0px 7px" }}>🔒 re-entry</span>}
+                    <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint, marginLeft:"auto" }}>{l.action}</span>
+                  </div>
+                  <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:mono, fontSize:11, color:l.c, border:`1px solid ${l.c}55`, borderRadius:99, padding:"1px 8px" }}>{l.icon} {l.leanLabel}</span>
+                    <span style={{ fontFamily:mono, fontSize:11, color:(CONV[l.conviction]||CONV["—"]).c, border:`1px solid ${(CONV[l.conviction]||CONV["—"]).c}55`, borderRadius:99, padding:"1px 8px" }}>{l.conviction}</span>
+                    <span style={{ fontFamily:mono, fontSize:11, color:dirColor(l.cd) }}>{l.cd==="up"?"▲":l.cd==="down"?"▼":"▬"} dir</span>
+                    {l.rotation && <span style={{ fontFamily:mono, fontSize:10.5, color:C.dim }}>{l.rotation}</span>}
+                  </div>
+                  {l.headline && <div style={{ marginTop:8, fontSize:12.5, color:C.text }}>{l.headline}</div>}
+                  {hasDetail && (
+                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
+                      <span style={{ fontSize:11, color:l.c }}>{isO?"hide ▲":"why ▾"}</span>
+                    </div>
+                  )}
+                </div>
+                {isO && hasDetail && (
+                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}` }}>
+                    {l.evidence.map((e,j)=>(<div key={j} style={{ ...muted, marginBottom:3 }}>• {e}</div>))}
+                    {l.oppCost && <div style={{ marginTop:6, fontSize:11.5, color:C.dim }}><span style={{ color:C.faint, fontFamily:mono, fontSize:10 }}>OPP COST </span>{l.oppCost}</div>}
+                    {l.ceiling && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}><span style={{ color:C.faint, fontFamily:mono, fontSize:10 }}>CEILING </span>{l.ceiling}</div>}
+                    {l.nextEvidence && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}><span style={{ color:C.faint, fontFamily:mono, fontSize:10 }}>RAISES IT </span>{l.nextEvidence}</div>}
+                    {l.caveats.length>0 && (
+                      <div style={{ marginTop:6 }}>
+                        {l.caveats.map((cv,j)=>(<div key={j} style={{ fontSize:11, color:C.amber, marginBottom:2 }}>⚠ {cv}</div>))}
+                      </div>
+                    )}
+                    {l.freshness && <div style={{ marginTop:7, fontFamily:mono, fontSize:10, color:C.faint }}>{l.freshness} · surface only — size it yourself, run the gate</div>}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </Section>
 
         {/* FROM RESEARCH — ticker-specific Research-Queue items as their OWN

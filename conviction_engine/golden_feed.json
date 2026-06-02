@@ -659,5 +659,74 @@
   "research_actions": [],
   "heartbeat": [],
   "synthesis": {},
-  "radar": []
+  "radar": [],
+  "lean_in": [
+    {
+      "ticker": "ITA",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "up",
+      "rotation": "",
+      "lean": "lean_in",
+      "headline": "ITA: Promising and the tape's with it (no sleeve) \u2014 room toward the ceiling.",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Direction: 05-28 fundstrat_daily breakout"
+      ],
+      "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
+      "opportunity_cost": "No sleeve rotation on file \u2014 opportunity cost vs the book not measured.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [
+        "clustered: 1 independent source \u2014 not independent confirmation"
+      ],
+      "freshness": "as-of 2026-05-29",
+      "action": "NONE"
+    },
+    {
+      "ticker": "FN",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "up",
+      "rotation": "",
+      "lean": "build",
+      "headline": "FN: Promising, endorsed \u2014 watch for the entry trigger before starting (no sleeve).",
+      "evidence": [
+        "Conviction: single external pick (no thesis on file, one source) \u2014 adopt it before sizing up",
+        "Direction: 05-28 fundstrat_bible new_top5"
+      ],
+      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
+      "opportunity_cost": "No sleeve rotation on file \u2014 opportunity cost vs the book not measured.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [
+        "clustered: 1 independent source \u2014 not independent confirmation"
+      ],
+      "freshness": "as-of 2026-05-29",
+      "action": "NONE"
+    },
+    {
+      "ticker": "XLF",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "up",
+      "rotation": "LAGGING",
+      "lean": "build",
+      "headline": "XLF: Promising, conviction up but the sleeve's still lagging \u2014 research deeper / hold, watch for the rotation to turn.",
+      "evidence": [
+        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
+        "Direction: 05-28 fundstrat_bible favorable_shift",
+        "Rotation: LAGGING"
+      ],
+      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
+      "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [
+        "clustered: 1 independent source \u2014 not independent confirmation"
+      ],
+      "freshness": "as-of 2026-05-29",
+      "action": "NONE"
+    }
+  ]
 }

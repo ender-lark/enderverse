@@ -152,3 +152,55 @@ ACT_NOW_EVENTS = {"breakout"}
 # (cd=up) and the net-read "catch-up" on the holding row, but is NOT an act/watch
 # fresh signal — only these are:
 FRESH_SIGNAL_EVENTS = {"breakout", "new_pick", "new_top5", "upgrade", "bottom_in"}
+
+
+# --------------------------------------------------------------------------- #
+# LEAN-IN ⑩ tunables (the opportunity mirror of risk surfacing). All defaults,
+# all "starting points → 6/28 retrospective" — the adjustable surface for the
+# proactive lean-in lane. The lane is SYMMETRIC (also prints cooling / still-
+# lagging) and NEVER auto-buys (every item action == "NONE").
+# --------------------------------------------------------------------------- #
+
+# conviction-quality ladder as an order. CONVICTION = quality (the permissive
+# size CEILING runs on it); this rank lets the lane gate positives at/above a
+# floor without overloading a letter. Higher = stronger.
+CV_RANK = {"Strong": 4, "Promising": 3, "Mixed": 2, "Weak": 1, "—": 0}
+
+# floor quality to surface a name POSITIVELY (lean_in / build). Below this a
+# name only surfaces if it's WEAKENING (cooling) — never as a lean-in. "Lean
+# into what looks good" starts at Promising.
+LEAN_IN_MIN_CONVICTION = "Promising"
+
+# rotation labels that read as a working tape (a lean-in tailwind).
+LEAN_IN_ROTATION_POSITIVE = {"LEADING", "TURNING UP"}
+# rotation labels that read as an endorsed-laggard catch-up (favorable entry,
+# not yet turned) — still lean-in-eligible, but carries the "hasn't turned" note.
+LEAN_IN_CATCHUP_LABELS = {"LAGGING", "TURNING UP"}
+# rotation labels that flip the read NEGATIVE (the symmetric "cooling" call).
+LEAN_IN_ROTATION_NEGATIVE = {"TURNING DOWN"}
+# rotation labels that mean the move is largely ALREADY made (entry less
+# asymmetric) — a caveat FLAG, never a gate.
+LEAN_IN_ALREADY_MOVED_LABELS = {"LEADING"}
+
+# require rising conviction-DIRECTION (cd == up) for a lean_in? False = loose by
+# default (lean into a flat-but-strong working name); flip True to demand a
+# fresh up-event before any lean-in.
+LEAN_IN_REQUIRE_CD_UP = False
+
+# below this many INDEPENDENT sources (conviction_read.streams) a lean-in carries
+# a `clustered` caveat — the echo-chamber honesty flag (a FLAG, not a gate).
+LEAN_IN_INDEPENDENCE_MIN_SOURCES = 2
+
+# the opportunity-cost benchmark sleeve — "is this gaining on what my capital is
+# already in?" — read off rotation's rel_3m_vs_smh.
+LEAN_IN_OPP_COST_PROXY = "SMH"
+
+# optional cap on surfaced lean-in items (attention discipline). None = uncapped.
+LEAN_IN_MAX_ITEMS = None
+
+# the re-entry conditions that let a burned-sleeve (stance MONITOR) name clear
+# its gate and surface as a (caveated) lean-in — the conviction-GATED MONITOR
+# reframe. Documentation + the caller's high-confidence-re-entry vocabulary; the
+# lane never lifts the gate on its own (the caller passes the cleared set).
+LEAN_IN_MONITOR_NEEDS = {"source_convergence_3", "named_catalyst_setup",
+                         "macro_regime_turn", "defined_risk_options"}

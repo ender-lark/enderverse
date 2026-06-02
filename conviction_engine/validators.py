@@ -222,7 +222,7 @@ _ACTION_REQUIRED = ("rank", "kind", "ticker", "what", "confidence", "your_move",
 _VALID_CONFIDENCE = {"High", "Moderate", "Low"}
 _VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
                        "macro_alert", "watch_entry", "stale_critical", "synthesis",
-                       "catalyst_imminent", "research_review"}
+                       "catalyst_imminent", "lean_in", "research_review"}
 # canonical catalyst-row field set (Contract C, OPTIONAL block — the near-term
 # event lane read off the Catalyst Calendar). Validated only IF present, so a
 # dark/unsourced lane (empty or absent) stays valid.
@@ -230,6 +230,13 @@ _CATALYST_REQUIRED = ("ticker", "label", "date", "days_out", "source")
 # heartbeat entry (Contract C, OPTIONAL block — the layer run-status strip)
 _HEARTBEAT_REQUIRED = ("layer", "status")
 _VALID_HEARTBEAT_STATUS = {"ok", "stale", "down"}
+# canonical lean-in-row field set (Contract C, OPTIONAL block ⑩ — the lean-in
+# opportunity lane). Validated only IF present (forward-compatible). Only the
+# ticker is required; the read fields may vary. Two HARD invariants are checked:
+# `lean` (if present) is a known symmetric word, and `action` (if present) is
+# "NONE" — the lane is a surface, never an order (no auto-buy, by contract).
+_VALID_LEAN = {"lean_in", "build", "still_lagging", "cooling"}
+_LEAN_ACTION = "NONE"
 
 
 def _validate_pos(p: Any) -> list[str]:
@@ -326,6 +333,28 @@ def _validate_radar_row(r: Any) -> list[str]:
     if not isinstance(tk, str) or tk.strip() == "":
         return ["ticker must be a non-empty string"]
     return []
+
+#----------------------------------------------------------------------
+def _validate_lean_in_row(r: Any) -> list[str]:
+    """One `lean_in` row (Contract C, optional block ⑩ — the opportunity lane,
+    the mirror of risk surfacing). A dict with a non-empty `ticker`. The read
+    fields are flexible, but two invariants are enforced WHEN present: `lean` is
+    a known symmetric word, and `action` is "NONE" — the lane surfaces, it never
+    emits an order (the no-auto-buy guard, enforced at the contract)."""
+    if not isinstance(r, dict):
+        return ["must be a dict"]
+    out: list[str] = []
+    tk = r.get("ticker")
+    if not isinstance(tk, str) or tk.strip() == "":
+        out.append("ticker must be a non-empty string")
+    if "lean" in r and r.get("lean") not in _VALID_LEAN:
+        out.append(f"lean must be one of {sorted(_VALID_LEAN)}, got {r.get('lean')!r}")
+    if "action" in r and r.get("action") != _LEAN_ACTION:
+        out.append(f"action must be {_LEAN_ACTION!r} (lean-in never auto-buys), "
+                   f"got {r.get('action')!r}")
+    if "caveats" in r and not isinstance(r.get("caveats"), list):
+        out.append("caveats must be a list")
+    return out
 
 
 def validate_cockpit_feed(feed: Any) -> list[str]:
@@ -445,6 +474,18 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
         else:
             for i, r in enumerate(radar):
                 problems.extend(f"radar[{i}] {e}" for e in _validate_radar_row(r))
+
+    # OPTIONAL `lean_in` block ⑩ (the opportunity lane — the mirror of risk
+    # surfacing). A list of dicts; absent OR empty is valid (feeds that predate
+    # it, or a quiet day with nothing to lean into — quiet-by-default, NOT an
+    # "all clear"). Per-row invariants in _validate_lean_in_row.
+    lean = feed.get("lean_in", _MISSING)
+    if lean is not _MISSING:
+        if not isinstance(lean, list):
+            problems.append(f"lean_in must be a list, got {type(lean).__name__}")
+        else:
+            for i, r in enumerate(lean):
+                problems.extend(f"lean_in[{i}] {e}" for e in _validate_lean_in_row(r))
 
     return problems
 
