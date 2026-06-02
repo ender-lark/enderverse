@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 // ───────────────────────────────────────────────────────────────
 // CONVICTION COCKPIT — v5
@@ -660,7 +660,20 @@ const FEED = {
   },
   "catalysts": [],
   "questions": [],
-  "research": {}
+  "research": {},
+  "heartbeat": [
+    {"layer":"Morning Scan","status":"ok","last_run":"2026-05-29","note":"Signal Log current"},
+    {"layer":"Off-Hours","status":"ok","last_run":"2026-05-29","note":"Research Queue updated"},
+    {"layer":"Daily Synthesis","status":"ok","last_run":"2026-05-29","note":"scout/librarian — state, not actions"},
+    {"layer":"Insider feed","status":"down","last_run":null,"note":"reads a stub — non-functional"},
+    {"layer":"Macro cache","status":"stale","last_run":"2026-05-28","note":"no auto-refresh"}
+  ],
+  "synthesis": {"date":"2026-05-29","source":"Daily Synthesis","state_of_play":"AI/semis leads the tape (+47%/3M); software just caught up. Burned MONITOR sleeves still lag — no re-entry signal firing.","delta":"FN named a new FS Top-5 SMID (5/28). ITA cleared a multi-month downtrend (Newton 5/28).","hanging":["FN buy-on-pullback not yet acted (flagged 5/28).","XLF Fundstrat rationale still undocumented in Live Theses."]},
+  "actions": [
+    {"rank":1,"kind":"decision_aging","ticker":"FN","confidence":"High","what":"Named FS Top-5 (5/28) — still un-acted","age_days":5,"first_flagged":"5/28","move_since":"+12% since flag","sizing":"~$35K (5sh → ~2%), fund via GRNY above-ceiling trim","your_move":"Buy-on-pullback ~$620 OR post-AVGO print — don't let it keep running away.","why":"SAMPLE row. High-conviction AI/optical pick flagged 5/28; up 12% while un-acted — the persistence/aging cue exists so this stops happening. The age / move-since values come from the engine (E2 / E5); not live yet.","gate":{"preview":"≥$25K → gate (expect AMBER: AI concentration)"}},
+    {"rank":2,"kind":"conviction_gap","ticker":"NVDA","confidence":"High","what":"Under-deployed vs conviction (AI core)","sizing":"Express via a researched add; fund by trimming SMH / MAGS — not more ETF beta","your_move":"Size toward conviction — under-sizing the AI core is the canonical failure.","why":"SAMPLE row illustrating conviction_gap: flags a high-conviction sleeve smaller than the thesis supports. Applies ONLY to high-conviction sleeves — never a MONITOR sleeve. Engine-emit is backlog (E1).","gate":{"preview":"≥$25K → gate"}},
+    {"rank":3,"kind":"reentry_zone","ticker":"LEU","confidence":"Moderate","what":"MONITOR re-entry signal — setup fired","age_days":3,"first_flagged":"5/30","move_since":"+5% since flag","sizing":"Defined-risk only (small / options) — burned sleeve","your_move":"Re-entry condition met the bar — express defined-risk. NOT a floor-gap nudge.","why":"SAMPLE row showing the MONITOR re-entry path: a burned-sleeve name surfaces LOUD only when a genuine re-entry condition fires (convergence / catalyst / regime-turn) — never on a bare dip. LEU ran +5% un-acted; loud + sticky is the fix.","gate":{"preview":"defined-risk → no gate"}}
+  ]
 };
 
 // ───────────────────────────────────────────────────────────────
@@ -716,9 +729,8 @@ const ACTION_KIND_META = {
   watch_entry:     { icon:"👁", label:"Watch",          c:C.blue  },
   stale_critical:  { icon:"⚠️", label:"Stale source",   c:C.dim   },
   synthesis:       { icon:"🧠", label:"Synthesis",      c:C.blue  },
-  catalyst_imminent:{ icon:"📅", label:"Catalyst",       c:C.amber },
-  research_review: { icon:"🔬", label:"Research",       c:C.blue  },
-  lean_in:         { icon:"▲", label:"Lean in",         c:C.green },
+  conviction_gap:  { icon:"📈", label:"Under-deployed", c:C.green },
+  decision_aging:  { icon:"🕒", label:"Aging — act",    c:C.amber },
 };
 const CONF_META = {
   High:     { c:C.green, label:"High" },
@@ -731,7 +743,8 @@ function actionRow(a){
   return { rank:a.rank, kind:a.kind, icon:m.icon, kindLabel:m.label, c:m.c,
            ticker:a.ticker||"", what:a.what||"", confLabel:cf.label, confColor:cf.c,
            yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"",
-           daysToCatalyst:(a.days_to_catalyst==null?null:a.days_to_catalyst) };
+           ageDays:(typeof a.age_days==="number"?a.age_days:null), flagged:a.first_flagged||"",
+           moveSince:a.move_since||"", sizing:a.sizing||"" };
 }
 // ── Tier-1 view-model: heartbeat (layer run-status strip) ──
 const HB_STATUS = { ok:{c:C.green,label:"ok"}, stale:{c:C.amber,label:"stale"}, down:{c:C.red,label:"down"} };
@@ -746,38 +759,35 @@ function radarRow(r){
   return { ticker:r.ticker, author:r.author||"", direction:r.direction||"",
            levels:levels.join(" · "), date:r.date||"", quote:r.quote||"" };
 }
-// ── ⑩ Lean-in view-model: the opportunity mirror (symmetric; never auto-buys) ──
-const LEAN_META = {
-  lean_in:       { icon:"▲", label:"Lean in",       c:C.green },
-  build:         { icon:"◷", label:"Build",         c:C.blue  },
-  still_lagging: { icon:"→", label:"Still lagging",  c:C.gray  },
-  cooling:       { icon:"▼", label:"Cooling",        c:C.red   },
-};
-function leanInRow(it){
-  const m = LEAN_META[it.lean] || { icon:"•", label:it.lean||"", c:C.dim };
-  return { ticker:it.ticker, owned:!!it.owned, monitor:(it.stance_gate==="monitor"),
-           lean:it.lean, icon:m.icon, leanLabel:m.label, c:m.c,
-           conviction:it.conviction||"—", cd:it.cd||"flat", rotation:it.rotation||"",
-           headline:it.headline||"", evidence:it.evidence||[], nextEvidence:it.next_evidence||"",
-           oppCost:it.opportunity_cost||"", ceiling:it.ceiling||"",
-           caveats:it.caveats||[], freshness:it.freshness||"", action:it.action||"NONE" };
-}
-function toCockpit(feed){
+// ── lazy view-model: split so each view's lanes are built ONLY when active ──
+// sharedVM = chrome shown on BOTH views (header stamp + heartbeat strip).
+function sharedVM(feed){
   return {
     generatedAt: feed.generated_at||"", stamp: stamp(feed),
+    heartbeat: (feed.heartbeat||[]).map(heartbeatRow),
+  };
+}
+// actionVM = the ⚡ Action surface (decide/do). Built only when mode==="action".
+function actionVM(feed){
+  return {
     macro: macroView(feed.macro||{}),
     rotation: (feed.rotation||[]).map(rotationRow),
-    holdings: (feed.holdings||[]).map(holdingGroup),
     actions: (feed.actions||[]).map(actionRow),
-    researchActions: (feed.research_actions||[]).map(actionRow),
-    heartbeat: (feed.heartbeat||[]).map(heartbeatRow),
     synthesis: feed.synthesis||{},
     radar: (feed.radar||[]).map(radarRow),
-    leanIn: (feed.lean_in||[]).map(leanInRow),
     freshSignals: (feed.fresh_signals||[]).map(freshSignalRow),
     hero: heroView(feed.hero||{}),
     catalysts: feed.catalysts||[], questions: feed.questions||[], research: feed.research||{},
   };
+}
+// bookVM = the 📊 Book surface (dig into holdings). Built ONLY when mode==="book"
+// — this is the per-position map; on Action it is never called.
+function bookVM(feed){
+  return { holdings: (feed.holdings||[]).map(holdingGroup) };
+}
+// thin wrapper — preserves the full public VM shape for feed_to_cockpit.js + node tests.
+function toCockpit(feed){
+  return { ...sharedVM(feed), ...actionVM(feed), ...bookVM(feed) };
 }
 
 // ── cockpit-curated content (NOT engine-derived) ──────────────────────────
@@ -836,7 +846,14 @@ const card = { background:C.panel, border:`1px solid ${C.line}`, borderRadius:11
 const muted = { color:C.dim, fontSize:12.5 };
 
 export default function ConvictionCockpit({ feed = FEED } = {}) {
-  const VM = toCockpit(feed);   // default = embedded golden feed; pass a live feed at runtime
+  const [mode, setMode] = useState("action");   // "action" = decide/do · "book" = dig into holdings
+  // Lazy + memoized view-model. shared is always built; each view's lanes are built ONLY when that
+  // view is active, so on Action bookVM (the per-position map) is never called — holdings aren't
+  // iterated at all. useMemo means toggling back and forth doesn't recompute either side.
+  const shared = sharedVM(feed);
+  const A = useMemo(() => mode === "action" ? actionVM(feed) : null, [mode, feed]);
+  const B = useMemo(() => mode === "book"   ? bookVM(feed)   : null, [mode, feed]);
+  const VM = { ...shared, ...(A || {}), ...(B || {}) };   // only the active view's lanes + shared
   const R = (VM.research && ((VM.research.pending||[]).length || (VM.research.done||[]).length))
     ? VM.research : CURATED.research;   // live Research Queue when present, else curated fallback
   const [open, setOpen] = useState({});
@@ -871,6 +888,24 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           </div>
         )}
 
+        {/* VIEW TOGGLE — shared chrome (sticky): ⚡ Action ⇄ 📊 Book */}
+        <div style={{ position:"sticky", top:0, zIndex:10, background:C.bg, marginTop:6, paddingTop:10, paddingBottom:8, borderBottom:`1px solid ${C.line}` }}>
+          <div style={{ display:"flex", gap:4, background:C.panel, border:`1px solid ${C.line}`, borderRadius:9, padding:3, width:"fit-content" }}>
+            {[["action","⚡ Action"],["book","📊 Book"]].map(([k,l])=>(
+              <button key={k} onClick={()=>setMode(k)} style={{ cursor:"pointer", border:"none", borderRadius:6, padding:"6px 14px", fontSize:12.5, fontWeight:600, fontFamily:sans, background: mode===k?C.panel3:"transparent", color: mode===k?C.text:C.faint }}>{l}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* ⚡ ACTION VIEW ───────────────────────────────────────────── */}
+        {mode==="action" && (<>
+
+        {/* affordance — the full book lives in the Book tab (nothing actionable is Book-only) */}
+        <div style={{ marginTop:12, display:"flex", alignItems:"center", gap:8, fontSize:11.5, color:C.faint, flexWrap:"wrap" }}>
+          <span>📊 Full book + per-name detail →</span>
+          <button onClick={()=>setMode("book")} style={{ cursor:"pointer", background:"transparent", border:`1px solid ${C.line}`, borderRadius:7, padding:"3px 9px", fontSize:11, fontFamily:mono, color:C.dim }}>open Book ▸</button>
+        </div>
+
         {/* HERO — needs-you banner (engine ⑧) */}
         {(() => {
           const h = VM.hero;
@@ -880,7 +915,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             <div style={{ marginTop:12, ...card, borderColor: need? C.amber+"66":C.green+"44", background: need? C.amber+"10":C.green+"0c", display:"flex", alignItems:"center", gap:12 }}>
               <div style={{ fontFamily:mono, fontSize:26, fontWeight:700, color: need?C.amber:C.green, lineHeight:1 }}>{need? h.needsCount : "✓"}</div>
               <div>
-                <div style={{ fontSize:13.5, fontWeight:600 }}>{need ? `${h.needsCount} thing${h.needsCount>1?"s":""} need${h.needsCount>1?"":"s"} you${h.needsItems.length?`: ${h.needsItems.map(it=>it.detail).join(", ")}`:""}` : "Nothing needs you — all quiet"}</div>
+                <div style={{ fontSize:13.5, fontWeight:600 }}>{need ? `${h.needsCount} thing${h.needsCount>1?"s":""} need${h.needsCount>1?"":"s"} you` : "Nothing needs you — all quiet"}</div>
                 <div style={muted}>{need ? "Time-sensitive items are in Today's actions below." : "No fresh actions."} <span style={{ color:C.faint }}>{h.leadCount} name{h.leadCount===1?"":"s"} on strong footing{sleeves?` · leading: ${sleeves}`:""}.</span></div>
               </div>
             </div>
@@ -903,11 +938,12 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
                     <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
-                    {a.daysToCatalyst!=null && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:C.accent, border:`1px solid ${C.accent}66`, borderRadius:99, padding:"1px 8px", background:C.accent+"14" }}>⏱ {a.daysToCatalyst===0?"today":a.daysToCatalyst===1?"1 day":a.daysToCatalyst+" days"}</span>}
                     <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>conf: {a.confLabel}</span>
                     {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
+                    {a.ageDays!=null && <span title="how long this has been actionable — the cost of waiting" style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>🕒 open {a.ageDays}d{a.flagged?` · since ${a.flagged}`:""}{a.moveSince?` · ${a.moveSince}`:""}</span>}
                   </div>
                   <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
+                  {a.sizing && <div style={{ marginTop:5, fontSize:12, color:C.dim }}><span style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5 }}>Size </span>{a.sizing}</div>}
                   {a.why && (
                     <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
                       <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
@@ -926,95 +962,26 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           {VM.actions.length>5 && <div style={{ fontSize:11.5, color:C.faint, fontFamily:mono, marginTop:2 }}>+{VM.actions.length-5} more lower-priority action{VM.actions.length-5>1?"s":""} (not shown)</div>}
         </Section>
 
-        {/* LEAN-IN — the opportunity mirror of risk surfacing (engine ⑩ lean_in block) */}
-        <Section id="leanin" title="Lean-in — what looks good" icon="📈"
-          badge={VM.leanIn.length?`${VM.leanIn.length}`:"0"}
-          badgeColor={VM.leanIn.some(l=>l.lean==="lean_in")?C.green:(VM.leanIn.length?C.blue:C.faint)}
-          openMap={open} setOpen={setOpen} defaultOpen={true}>
-          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SYMMETRIC opportunity read — conviction × direction × rotation. A surface, NOT an order: every row is "no buy" — size it yourself and run the gate. Burned 🔒 sleeves appear only on a cleared re-entry.</div>
-          {VM.leanIn.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing to lean into right now — no name clearing the conviction floor with a working tape (and nothing cooling). Quiet ≠ all-clear.</div>}
-          {VM.leanIn.map((l,i)=>{
-            const key="lean"+l.ticker+i, isO=posOpen[key];
-            const hasDetail = l.evidence.length || l.nextEvidence || l.caveats.length || l.oppCost || l.ceiling;
+        {/* SYNTHESIS — today's read / state-of-play (Daily Synthesis; Tier-1) */}
+        <Section id="synthesis" title="Today's read — synthesis" icon="🧠" badge={VM.synthesis&&VM.synthesis.date?VM.synthesis.date:""} badgeColor={C.blue} openMap={open} setOpen={setOpen} defaultOpen={true}>
+          {(() => {
+            const s = VM.synthesis || {};
+            const empty = !s.state_of_play && !s.delta && !(s.hanging&&s.hanging.length);
+            if (empty) return <div style={{ ...card, fontSize:12, color:C.faint }}>No synthesis loaded — run a Fresh Run; the Daily Synthesis feeds this panel.</div>;
             return (
-              <div key={key} style={{ ...card, marginBottom:8, borderColor:l.c+"44", background:l.c+"0a" }}>
-                <div onClick={()=>hasDetail&&setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:hasDetail?"pointer":"default" }}>
-                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-                    <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{l.ticker}</span>
-                    <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{l.owned?"held":"not owned"}</span>
-                    {l.monitor && <span style={{ fontSize:10.5, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"0px 7px" }}>🔒 re-entry</span>}
-                    <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint, marginLeft:"auto" }}>{l.action}</span>
-                  </div>
-                  <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
-                    <span style={{ fontFamily:mono, fontSize:11, color:l.c, border:`1px solid ${l.c}55`, borderRadius:99, padding:"1px 8px" }}>{l.icon} {l.leanLabel}</span>
-                    <span style={{ fontFamily:mono, fontSize:11, color:(CONV[l.conviction]||CONV["—"]).c, border:`1px solid ${(CONV[l.conviction]||CONV["—"]).c}55`, borderRadius:99, padding:"1px 8px" }}>{l.conviction}</span>
-                    <span style={{ fontFamily:mono, fontSize:11, color:dirColor(l.cd) }}>{l.cd==="up"?"▲":l.cd==="down"?"▼":"▬"} dir</span>
-                    {l.rotation && <span style={{ fontFamily:mono, fontSize:10.5, color:C.dim }}>{l.rotation}</span>}
-                  </div>
-                  {l.headline && <div style={{ marginTop:8, fontSize:12.5, color:C.text }}>{l.headline}</div>}
-                  {hasDetail && (
-                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
-                      <span style={{ fontSize:11, color:l.c }}>{isO?"hide ▲":"why ▾"}</span>
-                    </div>
-                  )}
-                </div>
-                {isO && hasDetail && (
-                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}` }}>
-                    {l.evidence.map((e,j)=>(<div key={j} style={{ ...muted, marginBottom:3 }}>• {e}</div>))}
-                    {l.oppCost && <div style={{ marginTop:6, fontSize:11.5, color:C.dim }}><span style={{ color:C.faint, fontFamily:mono, fontSize:10 }}>OPP COST </span>{l.oppCost}</div>}
-                    {l.ceiling && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}><span style={{ color:C.faint, fontFamily:mono, fontSize:10 }}>CEILING </span>{l.ceiling}</div>}
-                    {l.nextEvidence && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}><span style={{ color:C.faint, fontFamily:mono, fontSize:10 }}>RAISES IT </span>{l.nextEvidence}</div>}
-                    {l.caveats.length>0 && (
-                      <div style={{ marginTop:6 }}>
-                        {l.caveats.map((cv,j)=>(<div key={j} style={{ fontSize:11, color:C.amber, marginBottom:2 }}>⚠ {cv}</div>))}
-                      </div>
-                    )}
-                    {l.freshness && <div style={{ marginTop:7, fontFamily:mono, fontSize:10, color:C.faint }}>{l.freshness} · surface only — size it yourself, run the gate</div>}
+              <div style={card}>
+                {s.state_of_play && <div style={{ fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>State of play:</span> {s.state_of_play}</div>}
+                {s.delta && <div style={{ marginTop:7, fontSize:12.5, color:C.dim }}><span style={{ color:C.dim, fontWeight:600 }}>Last 24–48h:</span> {s.delta}</div>}
+                {s.hanging && s.hanging.length>0 && (
+                  <div style={{ marginTop:8 }}>
+                    <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:4 }}>Hanging</div>
+                    {s.hanging.map((h,i)=>(<div key={i} style={{ ...muted, marginBottom:3 }}>• {h}</div>))}
                   </div>
                 )}
+                <div style={{ marginTop:9, fontFamily:mono, fontSize:10, color:C.faint }}>{s.source||"Daily Synthesis"}{s.date?` · ${s.date}`:""} · scout/librarian — state, not actions</div>
               </div>
             );
-          })}
-        </Section>
-
-        {/* FROM RESEARCH — ticker-specific Research-Queue items as their OWN
-            candidate-action category (engine ⑦c research_actions), SEPARATE from
-            Today's actions; deduped against the action+catalyst lanes
-            (catalyst-precedence). Default-open when populated. */}
-        <Section id="research-actions" title="From Research" icon="🔎" badge={VM.researchActions.length?`${VM.researchActions.length}`:"0"} badgeColor={VM.researchActions.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.researchActions.length>0}>
-          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>FROM YOUR RESEARCH QUEUE — high-priority / dated dossiers as candidate reviews. SEPARATE from Today's actions; a name on the catalyst lane shows there, not here. Drill in chat to act.</div>
-          {VM.researchActions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing from research right now — no high-priority or dated Research-Queue items (or absent in this feed build).</div>}
-          {VM.researchActions.map((a)=>{
-            const key="rsch"+a.rank+(a.ticker||a.kind), isO=posOpen[key];
-            return (
-              <div key={key} style={{ ...card, marginBottom:8, borderColor:a.c+"44", background:a.c+"0a" }}>
-                <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:a.why?"pointer":"default" }}>
-                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-                    <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{a.rank}</span>
-                    {a.ticker && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{a.ticker}</span>}
-                    <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{a.what}</span>
-                  </div>
-                  <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
-                    <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
-                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>conf: {a.confLabel}</span>
-                    {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
-                  </div>
-                  <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
-                  {a.why && (
-                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
-                      <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
-                    </div>
-                  )}
-                </div>
-                {isO && a.why && (
-                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
-                    {a.why}
-                    <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{VM.stamp} · research candidate — you decide, you size · drill in chat to run the gate</div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          })()}
         </Section>
 
         {/* RADAR — endorsed names not owned yet (engine ⑨ radar block) */}
@@ -1047,27 +1014,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })}
         </Section>
 
-        {/* SYNTHESIS — today's read / state-of-play (Daily Synthesis; Tier-1) */}
-        <Section id="synthesis" title="Today's read — synthesis" icon="🧠" badge={VM.synthesis&&VM.synthesis.date?VM.synthesis.date:""} badgeColor={C.blue} openMap={open} setOpen={setOpen} defaultOpen={true}>
-          {(() => {
-            const s = VM.synthesis || {};
-            const empty = !s.state_of_play && !s.delta && !(s.hanging&&s.hanging.length);
-            if (empty) return <div style={{ ...card, fontSize:12, color:C.faint }}>No synthesis loaded — run a Fresh Run; the Daily Synthesis feeds this panel.</div>;
-            return (
-              <div style={card}>
-                {s.state_of_play && <div style={{ fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>State of play:</span> {s.state_of_play}</div>}
-                {s.delta && <div style={{ marginTop:7, fontSize:12.5, color:C.dim }}><span style={{ color:C.dim, fontWeight:600 }}>Last 24–48h:</span> {s.delta}</div>}
-                {s.hanging && s.hanging.length>0 && (
-                  <div style={{ marginTop:8 }}>
-                    <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:4 }}>Hanging</div>
-                    {s.hanging.map((h,i)=>(<div key={i} style={{ ...muted, marginBottom:3 }}>• {h}</div>))}
-                  </div>
-                )}
-                <div style={{ marginTop:9, fontFamily:mono, fontSize:10, color:C.faint }}>{s.source||"Daily Synthesis"}{s.date?` · ${s.date}`:""} · scout/librarian — state, not actions</div>
-              </div>
-            );
-          })()}
-        </Section>
+        </>)}
+
+        {/* 📊 BOOK VIEW ─────────────────────────────────────────────── */}
+        {mode==="book" && (<>
 
         {/* HOLDINGS (from FEED) */}
         <Section id="holdings" title="Holdings" icon="📊" openMap={open} setOpen={setOpen} defaultOpen={true}>
@@ -1165,23 +1115,17 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })}
         </Section>
 
-        {/* QUESTIONS (cockpit-curated; swap CURATED.questions → VM.questions when the feed emits them) */}
-        <Section id="questions" title="Questions for you" icon="❓" badge={`${CURATED.questions.length}`} badgeColor={C.dim} openMap={open} setOpen={setOpen} defaultOpen={false}>
-          {CURATED.questions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No open questions.</div>}
-          {CURATED.questions.map((x,i)=>(
-            <div key={i} style={{ ...card, marginBottom:7 }}>
-              <div style={{ fontSize:12.5, color:C.dim }}>{x.q}</div>
-              <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{x.tag} · {x.d}</div>
-            </div>
-          ))}
-        </Section>
+        </>)}
+
+        {/* ⚡ ACTION VIEW (cont.) ────────────────────────────────────── */}
+        {mode==="action" && (<>
 
         {/* MARKET READ — rotation + macro (from FEED) */}
         <Section id="market" title="Market read — rotation + macro" icon="🌐" openMap={open} setOpen={setOpen} defaultOpen={true}>
           <div style={{ ...card, marginBottom:8 }}>
             <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SLEEVE LEADERSHIP (relative strength vs market)</div>
             {VM.rotation.map((r,i)=>(
-              <div key={i} style={{ display:"grid", gridTemplateColumns:"168px 116px 1fr", gap:10, alignItems:"center", padding:"5px 0", borderTop: i?`1px solid ${C.line}`:"none" }}>
+              <div key={i} style={{ display:"grid", gridTemplateColumns:"minmax(110px, 168px) auto minmax(0, 1fr)", gap:10, alignItems:"center", padding:"5px 0", borderTop: i?`1px solid ${C.line}`:"none" }}>
                 <span style={{ fontSize:12.5, color:C.text }}>{r.s}</span>
                 <Pill label={r.w} color={COLOR_HEX[r.c]||C.gray} />
                 <span style={{ fontSize:11.5, color:C.dim }}><span style={{ fontFamily:mono, color:C.faint }}>{r.n}</span> · {r.note}</span>
@@ -1203,7 +1147,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* RESEARCH — live Research Queue (R = VM.research when present, else curated) */}
-        <Section id="research" title="Research" icon="🔬" badge={(R.pending||[]).length+(R.done||[]).length} badgeColor={C.blue} openMap={open} setOpen={setOpen} defaultOpen={((R.pending||[]).length+(R.done||[]).length)>0}>
+        <Section id="research" title="Research" icon="🔬" openMap={open} setOpen={setOpen} defaultOpen={false}>
           <Section id="rpending" title="Pending — you prioritize" icon="⏳" badge={(R.pending||[]).length} badgeColor={C.blue} openMap={open} setOpen={setOpen}>
             {(R.pending||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing pending.</div>}
             {(R.pending||[]).map((x,i)=>{ const pr=x.priority||x.pr||""; return (
@@ -1223,30 +1167,34 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           </Section>
         </Section>
 
-        {/* CATALYSTS — now feed-emitted (VM.catalysts). Empty = an UNSOURCED
-            dark lane (the L5 FULL-build routine doesn't populate it yet — Chunk 3)
-            → say "not checked", never "no catalysts" (Dark-Lane-Honesty). */}
-        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={VM.catalysts.length?VM.catalysts.length:"—"} badgeColor={VM.catalysts.length?C.accent:C.faint} openMap={open} setOpen={setOpen} defaultOpen={false}>
-          {VM.catalysts.length===0 && (
-            <div style={{ ...card, fontSize:12, color:C.faint }}>⚠️ Catalyst lane not sourced in this feed build — <b>not checked</b> (not "no catalysts"). Pending the Catalyst Calendar read in the FULL-build routine.</div>
-          )}
-          {VM.catalysts.slice().sort((a,b)=>((a.days_out==null?99:a.days_out)-(b.days_out==null?99:b.days_out))).map((x,i)=>(
+        {/* CATALYSTS (cockpit-curated; swap CURATED.catalysts → VM.catalysts when the feed emits them) */}
+        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={CURATED.catalysts.length} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {CURATED.catalysts.map((x,i)=>(
             <div key={i} style={{ ...card, marginBottom:7, display:"flex", gap:12, alignItems:"baseline" }}>
-              <span style={{ fontFamily:mono, fontSize:12, fontWeight:700, color:C.accent, minWidth:64 }}>{x.days_out===0?"today":x.days_out===1?"1 day":(x.days_out+" days")}</span>
-              <div>
-                <div style={{ fontSize:13, color:C.text }}>{x.ticker?<b style={{ fontFamily:mono }}>{x.ticker} </b>:null}{x.label}</div>
-                <div style={muted}>{x.date}{x.source?` · ${x.source}`:""}</div>
-              </div>
+              <span style={{ fontFamily:mono, fontSize:12, color:C.accent, minWidth:58 }}>{x.d}</span>
+              <div><div style={{ fontSize:13, color:C.text }}>{x.e}</div><div style={muted}>{x.note}</div></div>
+            </div>
+          ))}
+          <div style={{ fontSize:11, color:C.faint, marginTop:4 }}>Cockpit-curated — auto-population from the calendar sync follows.</div>
+        </Section>
+
+        {/* QUESTIONS (cockpit-curated; swap CURATED.questions → VM.questions when the feed emits them) */}
+        <Section id="questions" title="Questions for you" icon="❓" badge={`${CURATED.questions.length}`} badgeColor={C.dim} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {CURATED.questions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No open questions.</div>}
+          {CURATED.questions.map((x,i)=>(
+            <div key={i} style={{ ...card, marginBottom:7 }}>
+              <div style={{ fontSize:12.5, color:C.dim }}>{x.q}</div>
+              <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{x.tag} · {x.d}</div>
             </div>
           ))}
         </Section>
 
-        <div style={{ marginTop:18, ...card, background:C.panel2, fontSize:12, color:C.dim }}>
-          <span style={{ color:C.green, fontFamily:mono }}>● v5:</span> every section reads from one Contract-C FEED via the feed_to_cockpit seam. Engine-derived: hero · fresh signals · actions · catalysts · rotation · macro · holdings. Cockpit-curated (until the feed emits them): questions (research uses the feed when present).
-        </div>
-        <div style={{ marginTop:12, fontSize:11, color:C.faint, textAlign:"center", fontFamily:mono }}>
+        <div style={{ marginTop:18, fontSize:11, color:C.faint, textAlign:"center", fontFamily:mono }}>
           {VM.stamp} · tap anything to expand · every section collapses independently
         </div>
+
+        </>)}
+
       </div>
     </div>
   );
