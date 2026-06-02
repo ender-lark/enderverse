@@ -105,6 +105,7 @@ def build_full_feed(
     synthesis: dict | None = None,
     research: dict | None = None,
     radar: list | None = None,
+    catalysts: list | None = None,
     parabolic=None,
     as_of: str | None = None,
     run_timestamp: str | None = None,
@@ -121,6 +122,10 @@ def build_full_feed(
     radar threads through assemble_feed into feed["radar"] (the endorsed-but-not-
     owned watch lane). Left None it defaults to the engine-derived list off the
     fundstrat_daily calls — empty when none qualify, so omitting it is a no-op.
+
+    catalysts threads through assemble_feed into feed["catalysts"] (the near-term
+    event lane, read off the Catalyst Calendar by the cockpit-build step). Left
+    None it defaults to [] — an unsourced/dark lane, never "no catalysts".
 
     Optional inputs (all produced by the in-session / SCOUT fetch step):
       macro_snapshot  -> runtime_adapters.uw_macro_snapshot_from_uw(...)   {rates, levels}
@@ -167,6 +172,7 @@ def build_full_feed(
         synthesis=synthesis,
         research=research,
         radar=radar,
+        catalysts=catalysts,
     )
     errs = validate_cockpit_feed(feed)
     if errs:

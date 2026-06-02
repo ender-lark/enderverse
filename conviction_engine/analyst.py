@@ -281,22 +281,26 @@ CRITICAL_SOURCES = ("portfolio", "uw_price")
 
 def hero_needs_you_read(rotation, macro, staleness, type_reads,
                         fresh_signals=None, monitor_reentry=None,
-                        red_gates=None,
+                        red_gates=None, catalyst_imminent=None,
                         critical_sources=CRITICAL_SOURCES) -> dict:
     """Aggregate the mechanical reads into the cockpit headline.
 
     needs_you = stale CRITICAL sources + firing macro alerts + MONITOR re-entry
-    candidates + any RED gate (+ act-now fresh signals once A3 supplies them).
+    candidates + any RED gate + near-term catalysts on held names (+ act-now
+    fresh signals once A3 supplies them).
     hero      = the clean, tracked, intact-thesis names not flagged elsewhere
     (plus the LEADING sleeves as positive context).
 
     Pure aggregator — every input is another read's output. fresh_signals /
-    monitor_reentry / red_gates default empty so A2b can call with just the four
-    mechanical reads, and A3 can enrich without changing the signature.
+    monitor_reentry / red_gates / catalyst_imminent default empty so A2b can call
+    with just the four mechanical reads, and the caller can enrich without
+    changing the signature. catalyst_imminent items are pre-formed needs_you
+    dicts (reason "catalyst_imminent") from analyst_judgment.catalyst_needs_you.
     """
     fresh_signals = fresh_signals or []
     monitor_reentry = monitor_reentry or []
     red_gates = red_gates or []
+    catalyst_imminent = catalyst_imminent or []
 
     items = []
     for src in (staleness.get("stale") or []):
@@ -313,6 +317,8 @@ def hero_needs_you_read(rotation, macro, staleness, type_reads,
         if isinstance(s, dict) and s.get("urgency") == "act":
             items.append({"reason": "fresh_act",
                           "detail": s.get("ticker") or s.get("subject")})
+    for c in catalyst_imminent:
+        items.append(c)
 
     flagged = {i["detail"] for i in items}
     hero_names = [

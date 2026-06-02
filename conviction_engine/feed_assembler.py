@@ -20,7 +20,8 @@ from types import SimpleNamespace
 from analyst import (rotation_read, macro_read, staleness_read,
                      type_read, hero_needs_you_read, weight_read)
 from analyst_judgment import (conviction_read, conviction_direction_read,
-                              net_read, fresh_signal_read, actions_read)
+                              net_read, fresh_signal_read, actions_read,
+                              catalyst_needs_you)
 from analyst_config import theses_by_ticker
 
 # ── name -> rotation-proxy sleeve (the leaderboard subject that stands in for a
@@ -72,14 +73,16 @@ def _ns(items):
 
 
 def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
-                  heartbeat=None, synthesis=None, research=None, radar=None) -> dict:
+                  heartbeat=None, synthesis=None, research=None, radar=None,
+                  catalysts=None) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
 
-    heartbeat / synthesis / research are EXTERNAL reads (Notion — layer run-times,
-    the latest Daily Synthesis, the live Research Queue), supplied by the
-    cockpit-build step like the Fundstrat/macro plugs. They are threaded through
-    ADDITIVELY (default to empty), never derived from the snapshot here.
+    heartbeat / synthesis / research / catalysts are EXTERNAL reads (Notion —
+    layer run-times, the latest Daily Synthesis, the live Research Queue, and the
+    Catalyst Calendar near-term events), supplied by the cockpit-build step like
+    the Fundstrat/macro plugs. They are threaded through ADDITIVELY (default to
+    empty), never derived from the snapshot here.
 
     radar is the one additive block DERIVED here (block ⑨): the endorsed-but-not-
     owned watch surface, read off the fundstrat_daily analyst-call cards. It
@@ -150,8 +153,15 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                  "rot": {"w": rot_label.get(s, "")}, "pos": ps}
                 for s, ps in pos_by_sleeve.items()]
 
+    # ── ⑧ enrichment: near-term CATALYSTS on held names (the event-driven
+    #    act-now path — surfaces a time-sensitive hold regardless of price
+    #    movement). MONITOR holds surface as watch/risk, never an add. `seen`
+    #    is the held-ticker set built above. ──
+    cat_items = catalyst_needs_you(catalysts, seen, theses)
+
     hero = hero_needs_you_read(rot, macro, stale, type_r,
-                               fresh_signals=fresh["fresh_signals"])
+                               fresh_signals=fresh["fresh_signals"],
+                               catalyst_imminent=cat_items)
 
     # ── ⑦b prioritized Actions surface (ADDITIVE — derived from ⑦ + ⑧, the
     #    "what to do today" strip on top of the book). synthesis_actions stays
@@ -199,7 +209,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "holdings": holdings,
         "rotation": rot["sleeves"],
         "macro": macro,
-        "catalysts": [],
+        "catalysts": catalysts or [],
         "questions": [],
         "research": research or {},
         "heartbeat": heartbeat or [],

@@ -716,6 +716,7 @@ const ACTION_KIND_META = {
   watch_entry:     { icon:"👁", label:"Watch",          c:C.blue  },
   stale_critical:  { icon:"⚠️", label:"Stale source",   c:C.dim   },
   synthesis:       { icon:"🧠", label:"Synthesis",      c:C.blue  },
+  catalyst_imminent:{ icon:"📅", label:"Catalyst",       c:C.amber },
 };
 const CONF_META = {
   High:     { c:C.green, label:"High" },
@@ -727,7 +728,8 @@ function actionRow(a){
   const cf = CONF_META[a.confidence] || { c:C.dim, label:a.confidence };
   return { rank:a.rank, kind:a.kind, icon:m.icon, kindLabel:m.label, c:m.c,
            ticker:a.ticker||"", what:a.what||"", confLabel:cf.label, confColor:cf.c,
-           yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"" };
+           yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"",
+           daysToCatalyst:(a.days_to_catalyst==null?null:a.days_to_catalyst) };
 }
 // ── Tier-1 view-model: heartbeat (layer run-status strip) ──
 const HB_STATUS = { ok:{c:C.green,label:"ok"}, stale:{c:C.amber,label:"stale"}, down:{c:C.red,label:"down"} };
@@ -881,6 +883,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
                     <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
+                    {a.daysToCatalyst!=null && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:C.accent, border:`1px solid ${C.accent}66`, borderRadius:99, padding:"1px 8px", background:C.accent+"14" }}>⏱ {a.daysToCatalyst===0?"today":a.daysToCatalyst===1?"1 day":a.daysToCatalyst+" days"}</span>}
                     <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>conf: {a.confLabel}</span>
                     {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
                   </div>
@@ -1109,19 +1112,26 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           </Section>
         </Section>
 
-        {/* CATALYSTS (cockpit-curated; swap CURATED.catalysts → VM.catalysts when the feed emits them) */}
-        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={CURATED.catalysts.length} openMap={open} setOpen={setOpen} defaultOpen={false}>
-          {CURATED.catalysts.map((x,i)=>(
+        {/* CATALYSTS — now feed-emitted (VM.catalysts). Empty = an UNSOURCED
+            dark lane (the L5 FULL-build routine doesn't populate it yet — Chunk 3)
+            → say "not checked", never "no catalysts" (Dark-Lane-Honesty). */}
+        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={VM.catalysts.length?VM.catalysts.length:"—"} badgeColor={VM.catalysts.length?C.accent:C.faint} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {VM.catalysts.length===0 && (
+            <div style={{ ...card, fontSize:12, color:C.faint }}>⚠️ Catalyst lane not sourced in this feed build — <b>not checked</b> (not "no catalysts"). Pending the Catalyst Calendar read in the FULL-build routine.</div>
+          )}
+          {VM.catalysts.slice().sort((a,b)=>((a.days_out==null?99:a.days_out)-(b.days_out==null?99:b.days_out))).map((x,i)=>(
             <div key={i} style={{ ...card, marginBottom:7, display:"flex", gap:12, alignItems:"baseline" }}>
-              <span style={{ fontFamily:mono, fontSize:12, color:C.accent, minWidth:58 }}>{x.d}</span>
-              <div><div style={{ fontSize:13, color:C.text }}>{x.e}</div><div style={muted}>{x.note}</div></div>
+              <span style={{ fontFamily:mono, fontSize:12, fontWeight:700, color:C.accent, minWidth:64 }}>{x.days_out===0?"today":x.days_out===1?"1 day":(x.days_out+" days")}</span>
+              <div>
+                <div style={{ fontSize:13, color:C.text }}>{x.ticker?<b style={{ fontFamily:mono }}>{x.ticker} </b>:null}{x.label}</div>
+                <div style={muted}>{x.date}{x.source?` · ${x.source}`:""}</div>
+              </div>
             </div>
           ))}
-          <div style={{ fontSize:11, color:C.faint, marginTop:4 }}>Cockpit-curated — auto-population from the calendar sync follows.</div>
         </Section>
 
         <div style={{ marginTop:18, ...card, background:C.panel2, fontSize:12, color:C.dim }}>
-          <span style={{ color:C.green, fontFamily:mono }}>● v5:</span> every section reads from one Contract-C FEED via the feed_to_cockpit seam. Engine-derived: hero · fresh signals · rotation · macro · holdings. Cockpit-curated (until the feed emits them): questions · research · catalysts.
+          <span style={{ color:C.green, fontFamily:mono }}>● v5:</span> every section reads from one Contract-C FEED via the feed_to_cockpit seam. Engine-derived: hero · fresh signals · actions · catalysts · rotation · macro · holdings. Cockpit-curated (until the feed emits them): questions (research uses the feed when present).
         </div>
         <div style={{ marginTop:12, fontSize:11, color:C.faint, textAlign:"center", fontFamily:mono }}>
           {VM.stamp} · tap anything to expand · every section collapses independently

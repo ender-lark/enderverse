@@ -424,6 +424,7 @@ _ACTION_PRIORITY = {
     "buy_now": 1,          # a discrete entry trigger fired (⏳ act)
     "synthesis": 1,        # v1 placeholder: curated synthesis action (tune when wired)
     "reentry_zone": 2,     # a re-entry-zone touch (⏳ act, non-burned)
+    "catalyst_imminent": 2,  # a near-term dated event on a HELD name (review-before)
     "monitor_reentry": 3,  # a burned-sleeve re-entry candidate (watch YOUR trigger)
     "macro_alert": 4,      # a firing macro alert (regime-level)
     "watch_entry": 5,      # endorsed, entry not confirmed (👁 watch)
@@ -448,6 +449,49 @@ def _gate_hook(ticker, by_ticker, default_action="ADD") -> dict:
     preview = "🔒 T1 — runs Deepwork" if tier == "T1" else "🟡 size → gate"
     return {"needs_gate": True, "preview": preview,
             "ticker": ticker, "default_action": default_action}
+
+
+def catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7):
+    """⑧ enrichment — surface near-term CATALYSTS on HELD names as needs_you
+    items (reason "catalyst_imminent"). This is the EVENT-DRIVEN act-now path:
+    it makes a time-sensitive hold visible on the surface REGARDLESS of daily
+    price movement (the gap where a flat-price day -> empty actions hid AVGO's
+    2-days-out print on 6/1).
+
+    Scope (v1): HELD names only, with a catalyst 0..horizon_days out. A
+    non-held / research-complete candidate is the research_ready path (deferred).
+    A MONITOR-stance hold (burned sleeve) surfaces as a WATCH/RISK flag, never an
+    ADD nudge (the conviction-posture rule) — tagged stance="MONITOR" so the
+    action row renders watch-only.
+
+    Returns pre-formed needs_you item dicts (reason/detail/days_out/label/stance/
+    note), deterministically sorted by (days_out, ticker) for a stable feed.
+    """
+    by_tk = theses_by_ticker(theses)
+    held = set(held_tickers or [])
+    items = []
+    for c in (catalysts or []):
+        if not isinstance(c, dict):
+            continue
+        tk = c.get("ticker")
+        days = c.get("days_out")
+        if not tk or tk not in held:
+            continue
+        if not isinstance(days, int) or days < 0 or days > horizon_days:
+            continue
+        stance = (by_tk.get(tk) or {}).get("stance")
+        label = c.get("label") or "a catalyst"
+        items.append({
+            "reason": "catalyst_imminent",
+            "detail": tk,
+            "days_out": days,
+            "label": label,
+            "stance": stance,
+            "note": f"{label} in ~{days}d"
+                    + (" on a MONITOR-stance hold" if stance == "MONITOR" else ""),
+        })
+    items.sort(key=lambda it: (it["days_out"], it["detail"]))
+    return items
 
 
 def actions_read(fresh_signals, needs_you_items, theses,
@@ -546,6 +590,39 @@ def actions_read(fresh_signals, needs_you_items, theses,
                 "gate": None, "source": "needs_you:stale_critical",
                 "why": note or "a critical source is past its freshness window",
             })
+        elif reason == "catalyst_imminent":
+            tk = detail if isinstance(detail, str) else None
+            days = it.get("days_out")
+            label = it.get("label") or "a catalyst"
+            cd = f"~{days}d" if isinstance(days, int) else "soon"
+            if it.get("stance") == "MONITOR":
+                # burned sleeve: a catalyst is a WATCH/RISK flag, NEVER an add nudge
+                rows.append({
+                    "kind": "catalyst_imminent", "ticker": tk,
+                    "what": f"Catalyst on a burned-sleeve hold ({cd})",
+                    "confidence": "Low",
+                    "your_move": (f"{tk}: {label} in {cd} on a MONITOR-stance hold — "
+                                  "watch / risk-check only; no add absent YOUR re-entry "
+                                  "trigger (\u22653-source convergence / named catalyst / regime turn)."),
+                    "gate": None, "source": "needs_you:catalyst_imminent",
+                    "why": note or f"{label} is within the act-now horizon",
+                    "days_to_catalyst": days if isinstance(days, int) else None,
+                })
+            else:
+                # a dated event on a HELD name: a DECISION PROMPT, not a buy trigger
+                rows.append({
+                    "kind": "catalyst_imminent", "ticker": tk,
+                    "what": f"Pre-catalyst review ({cd})",
+                    "confidence": "Moderate",
+                    "your_move": (f"{tk}: {label} in {cd} — review the held position before it: "
+                                  "confirm thesis, size, and whether to hedge or hold. "
+                                  "A decision prompt, not a buy trigger."),
+                    "gate": (_gate_hook(tk, by_ticker, default_action="REVIEW")
+                             if tk else None),
+                    "source": "needs_you:catalyst_imminent",
+                    "why": note or f"{label} is within the act-now horizon",
+                    "days_to_catalyst": days if isinstance(days, int) else None,
+                })
         # unknown reasons are ignored — never fabricate an action
 
     # (c) forward-compat seam: Daily-Synthesis actions (empty until that brain
@@ -572,12 +649,17 @@ def actions_read(fresh_signals, needs_you_items, theses,
 
     actions = []
     for rank, r in enumerate(rows, start=1):
-        actions.append({          # canonical field order (stable golden output)
+        row = {                   # canonical field order (stable golden output)
             "rank": rank, "kind": r["kind"], "ticker": r["ticker"],
             "what": r["what"], "confidence": r["confidence"],
             "your_move": r["your_move"], "gate": r["gate"],
             "source": r["source"], "why": r["why"],
-        })
+        }
+        # additive, only on rows carrying a countdown -> pre-catalyst feeds stay
+        # byte-identical (no golden drift); the renderer reads days_to_catalyst.
+        if r.get("days_to_catalyst") is not None:
+            row["days_to_catalyst"] = r["days_to_catalyst"]
+        actions.append(row)
 
     return {
         "actions": actions,

@@ -221,7 +221,12 @@ _ACTION_REQUIRED = ("rank", "kind", "ticker", "what", "confidence", "your_move",
                     "gate", "source", "why")
 _VALID_CONFIDENCE = {"High", "Moderate", "Low"}
 _VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
-                       "macro_alert", "watch_entry", "stale_critical", "synthesis"}
+                       "macro_alert", "watch_entry", "stale_critical", "synthesis",
+                       "catalyst_imminent"}
+# canonical catalyst-row field set (Contract C, OPTIONAL block — the near-term
+# event lane read off the Catalyst Calendar). Validated only IF present, so a
+# dark/unsourced lane (empty or absent) stays valid.
+_CATALYST_REQUIRED = ("ticker", "label", "date", "days_out", "source")
 # heartbeat entry (Contract C, OPTIONAL block — the layer run-status strip)
 _HEARTBEAT_REQUIRED = ("layer", "status")
 _VALID_HEARTBEAT_STATUS = {"ok", "stale", "down"}
@@ -275,6 +280,23 @@ def _validate_action(a: Any) -> list[str]:
     g = a.get("gate")
     if "gate" in a and g is not None and not isinstance(g, dict):
         out.append("gate must be a dict or None")
+    return out
+
+
+def _validate_catalyst(c: Any) -> list[str]:
+    """One `catalysts` row (Contract C, optional block — the near-term event lane
+    read off the Catalyst Calendar). Shape: ticker/label/date/days_out/source.
+    `date` is an ISO string (shape only — not parsed here); `days_out` is an int
+    (days from the build's now to the event)."""
+    if not isinstance(c, dict):
+        return ["must be a dict"]
+    out: list[str] = [f"missing field: {k}" for k in _CATALYST_REQUIRED if k not in c]
+    for k in ("ticker", "label", "date", "source"):
+        v = c.get(k)
+        if k in c and (not isinstance(v, str) or v.strip() == ""):
+            out.append(f"{k} must be a non-empty string")
+    if "days_out" in c and not isinstance(c.get("days_out"), int):
+        out.append("days_out must be an int")
     return out
 
 
@@ -378,6 +400,15 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
         else:
             for i, a in enumerate(actions):
                 problems.extend(f"actions[{i}] {e}" for e in _validate_action(a))
+
+    # OPTIONAL `catalysts` block (near-term event lane, read off the Catalyst
+    # Calendar). The KEY is shape-checked as a list above (_FEED_OPTIONAL_LIST);
+    # here we validate each ROW IF present. Empty/absent stays valid (a dark,
+    # unsourced lane) — so "no catalysts" never looks falsely "checked".
+    catalysts = feed.get("catalysts", _MISSING)
+    if isinstance(catalysts, list):
+        for i, c in enumerate(catalysts):
+            problems.extend(f"catalysts[{i}] {e}" for e in _validate_catalyst(c))
 
     # OPTIONAL `heartbeat` (layer run-status strip) + `synthesis` (state-of-play).
     # Validated IF present so feeds that predate them still pass.
