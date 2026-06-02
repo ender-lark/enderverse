@@ -479,3 +479,30 @@ def test_live_payloads_round_trip_through_the_consumer():
     assert len(cards) == 3                                    # flow + oi + dark_pool all extracted
     assert all(c["kind"] == UW_OPP_KIND for c in cards)
     assert {c["data"]["signal_type"] for c in cards} == {"sweep", "oi_build", "dark_pool_accum"}
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# 9. MCP ENVELOPE — the {"result":[...]} wrapper the cloud-routine connector returns
+#    (surfaced 2026-06-02 by the UW Opportunity Cache run). _arr must unwrap it so a
+#    VERBATIM tool-result save normalizes — no hand-projection.
+# ════════════════════════════════════════════════════════════════════════════
+def test_arr_unwraps_mcp_result_envelope_via_flow():
+    rows = [{"type": "call", "total_premium": "2000000",
+             "total_ask_side_prem": "2000000", "has_sweep": True}]
+    # the failure mode: MCP wraps as {"result":[...]} -> old _arr returned [] -> empty cache
+    assert normalize_flow({"result": rows}) is not None
+    # double-wrap tolerated
+    assert normalize_flow({"result": {"data": rows}}) is not None
+    # the REST shapes still work
+    assert normalize_flow({"data": rows}) is not None
+    assert normalize_flow(rows) is not None
+    # an empty envelope stays empty (a real quiet tape)
+    assert normalize_flow({"result": []}) is None
+
+
+def test_arr_envelope_covers_oi_and_dark_pool():
+    oi = [{"option_symbol": "NVDA260605C00230000", "oi_change": 0.35, "oi_diff_plain": 5000}]
+    dp = [{"premium": "12000000", "price": "214.5", "nbbo_ask": "214.45",
+           "nbbo_bid": "214.37", "executed_at": "2026-05-28T20:00:00Z"}]
+    assert normalize_oi({"result": oi}) is not None
+    assert normalize_dark_pool({"result": dp}) is not None

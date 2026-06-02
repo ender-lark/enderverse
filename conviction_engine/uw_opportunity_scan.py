@@ -129,9 +129,16 @@ ENDPOINT_COMPANY_INFO = "/stock/{ticker}/info"
 
 # ────────────────────────────── small helpers ──────────────────────────────
 def _arr(x) -> list:
-    """Unwrap the common UW envelopes ({data:[...]} / {results:[...]} / {signals:[...]})."""
+    """Unwrap a UW response to a list of rows. Handles a bare list and the
+    ``{data|results|signals|result:[...]}`` dict wrappers. ``result`` is the MCP-connector
+    envelope (the REST shapes use data/results/signals) — covering it lets a VERBATIM
+    tool-result save normalize correctly with no hand-projection. Surfaced 2026-06-02 by
+    the UW Opportunity Cache run: a ``{"result":[...]}`` MCP save would otherwise normalize
+    to empty across EVERY lane (and a near-empty cache could read as a quiet tape). Recurses
+    one level so a double-wrap ``{"result": {"data": [...]}}`` also resolves."""
     if isinstance(x, dict):
-        return x.get("data") or x.get("results") or x.get("signals") or []
+        inner = x.get("data") or x.get("results") or x.get("signals") or x.get("result")
+        return _arr(inner) if isinstance(inner, dict) else (inner or [])
     return x or []
 
 
