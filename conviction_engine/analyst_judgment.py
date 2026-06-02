@@ -54,8 +54,11 @@ from analyst_config import (
     LEAN_IN_INDEPENDENCE_MIN_SOURCES,
     LEAN_IN_OPP_COST_PROXY,
     LEAN_IN_MAX_ITEMS,
+    UW_OPP_FRESH_DAYS,
+    UW_OPP_MAX_EVIDENCE,
     theses_by_ticker,
 )
+from uw_opportunity import UW_OPP_KIND
 
 GRADE_UNASSESSED = "—"
 # kinds that count as a directional endorsement of a name (model_trade excluded)
@@ -225,6 +228,30 @@ def conviction_direction_read(ticker, cards, as_of,
     events = []
     for c in _for_ticker(cards, ticker):
         if _is_model(c):
+            continue
+        # ── Strand 3 (Chunk 2): a FRESH UW opportunity signal is a DIRECTION event
+        #    — confirmation / timing on a name you already hold a view on. Sentiment
+        #    is the signal's own direction; the date is the card's timestamp; gated
+        #    by the SHORTER UW_OPP_FRESH_DAYS (flow goes stale fast). It moves
+        #    DIRECTION only — never conviction QUALITY (uw_opportunity is not in
+        #    ENDORSEMENT_KINDS, so conviction_read ignores it). It cannot, by itself,
+        #    manufacture a lean-in: lean_in_read still gates on the conviction floor,
+        #    which flow does not raise. ──
+        if getattr(c, "kind", None) == UW_OPP_KIND:
+            d = c.data or {}
+            direction = d.get("direction")
+            if direction not in ("bullish", "bearish"):
+                continue
+            cdate = d.get("date") or getattr(c, "timestamp", None)
+            if not _in_window(cdate, asof_d, UW_OPP_FRESH_DAYS):
+                continue
+            events.append({
+                "date": cdate, "sentiment": direction,
+                "event": d.get("signal_type"),       # e.g. "sweep" — reads in the cdNote
+                "source": getattr(c, "source", None),
+                "trust": getattr(c, "trust_weight", 0.0) or 0.0,
+                "content": getattr(c, "content", None),
+            })
             continue
         sent = _event_sentiment(c)
         if sent is None:
@@ -959,6 +986,37 @@ def _lean_ceiling(risk_class) -> str:
     return f"{risk_class} — {guide}"
 
 
+def _uw_opp_evidence(cards, tk, as_of, *, fresh_days=UW_OPP_FRESH_DAYS,
+                     max_lines=UW_OPP_MAX_EVIDENCE):
+    """The FRESH UW opportunity signals on a name, as lean-in evidence lines
+    (newest first), plus whether any fresh signal is bullish (makes the 'already
+    moved' caveat flow-aware). Reads the SAME uw_opportunity cards
+    conviction_direction_read consumes, gated by the same freshness window — so the
+    evidence shown matches the signal that moved the direction."""
+    asof_d = date.fromisoformat(str(as_of)[:10])
+    sigs = []
+    for c in _for_ticker(cards, tk):
+        if getattr(c, "kind", None) != UW_OPP_KIND:
+            continue
+        d = c.data or {}
+        cdate = d.get("date") or getattr(c, "timestamp", None)
+        if not _in_window(cdate, asof_d, fresh_days):
+            continue
+        try:
+            age = (asof_d - date.fromisoformat(str(cdate)[:10])).days
+        except (ValueError, TypeError):
+            age = 999
+        sigs.append((age, d.get("direction"), getattr(c, "content", "") or ""))
+    sigs.sort(key=lambda s: s[0])
+    has_bull = any(direction == "bullish" for _, direction, _ in sigs)
+    lines = []
+    for age, direction, content in sigs[:max_lines]:
+        arrow = "▲" if direction == "bullish" else "▼" if direction == "bearish" else "•"
+        agestr = f" ({age}d)" if age != 999 else ""
+        lines.append(f"UW {arrow} {content}{agestr}")
+    return lines, has_bull
+
+
 def lean_in_read(direction_reads, theses, cards, as_of, *,
                  rotation_by_name=None, risk_by_tk=None,
                  held=None, underweight=None, parabolic=None,
@@ -1025,13 +1083,16 @@ def lean_in_read(direction_reads, theses, cards, as_of, *,
         if lean is None:
             continue
 
+        uw_lines, uw_fresh_bull = _uw_opp_evidence(cards, tk, as_of)
         caveats = []
         if streams and streams < independence_min and lean in ("lean_in", "build"):
             caveats.append(f"clustered: {streams} independent source"
                            f"{'s' if streams != 1 else ''} — not independent confirmation")
         if (label in moved_labels or is_para) and lean in ("lean_in", "build"):
-            caveats.append("already moved: entry less asymmetric"
-                           + (" (parabolic)" if is_para else " (sleeve leading)"))
+            why = " (parabolic)" if is_para else " (sleeve leading)"
+            if uw_fresh_bull:
+                why += " — flow is confirming a move already underway, not front-running it"
+            caveats.append("already moved: entry less asymmetric" + why)
         if burned:
             caveats.append("burned sleeve: re-entry only on a strong signal; "
                            "prefer defined-risk options")
@@ -1045,7 +1106,7 @@ def lean_in_read(direction_reads, theses, cards, as_of, *,
             "rotation": label,
             "lean": lean,
             "headline": _lean_headline(lean, tk, cv, label, owned, is_uw),
-            "evidence": _lean_evidence(conv, dr, label),
+            "evidence": _lean_evidence(conv, dr, label) + uw_lines,
             "next_evidence": _lean_next_evidence(lean, label),
             "opportunity_cost": _lean_opp_cost(tk, sleeve, opp_cost_proxy),
             "ceiling": _lean_ceiling(risk_by_tk.get(tk)),

@@ -204,3 +204,19 @@ LEAN_IN_MAX_ITEMS = None
 # lane never lifts the gate on its own (the caller passes the cleared set).
 LEAN_IN_MONITOR_NEEDS = {"source_convergence_3", "named_catalyst_setup",
                          "macro_regime_turn", "defined_risk_options"}
+
+
+# ── Strand 3 (UW opportunity radar) dials — Chunk 1 ──────────────────────────
+# trust_weight stamped on a uw_opportunity card from the scout's strength label.
+# Starting points → retrofit from the Source Call Log once the scout has fired
+# enough scans to calibrate (same "starting points → retrospective" convention as
+# the LEAN_IN_* / CV_RANK dials). Chunk 1: only the adapter (uw_opportunity.py)
+# reads this; Chunk 2 wires these cards into the conviction-direction trail +
+# lean-in evidence, where trust × recency sets the up-event weight.
+UW_OPP_STRENGTH_TRUST = {"strong": 0.9, "moderate": 0.7, "weak": 0.5}
+# a uw_opportunity signal counts as a direction event / lean-in evidence ONLY
+# within this many days — flow goes stale fast, so this is SHORTER than the
+# endorsement window (CONVICTION_WINDOW_DAYS). Tunable.
+UW_OPP_FRESH_DAYS = 5
+# cap on UW evidence lines shown per lean-in row (newest first).
+UW_OPP_MAX_EVIDENCE = 3

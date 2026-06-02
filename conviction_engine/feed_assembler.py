@@ -23,6 +23,7 @@ from analyst_judgment import (conviction_read, conviction_direction_read,
                               net_read, fresh_signal_read, actions_read,
                               catalyst_needs_you, lean_in_read, research_actions_read)
 from analyst_config import theses_by_ticker
+from uw_opportunity import uw_opportunity_cards
 
 # ── name -> rotation-proxy sleeve (the leaderboard subject that stands in for a
 #    single name's relative strength). v1 glue, tunable. A name with no proxy
@@ -74,7 +75,7 @@ def _ns(items):
 
 def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   heartbeat=None, synthesis=None, research=None, radar=None,
-                  catalysts=None, lean_in=None) -> dict:
+                  catalysts=None, lean_in=None, uw_opportunity=None) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
 
@@ -93,7 +94,15 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     snap = bundle["snapshot"]
     theses = bundle["theses"]
     parabolic = set(parabolic or [])
-    cards = _ns(snap["items"])
+    # ── Strand 3 (Chunk 1): fold the daily UW opportunity-signals cache into the
+    #    card stream as kind="uw_opportunity" cards (the conviction trail). ADDITIVE
+    #    and default-None — inert today (no `event` marker → the conviction reads
+    #    ignore them); Chunk 2 is the hook that turns a fresh bullish signal into an
+    #    up-event + a lean-in evidence row. Tolerant: a bad cache yields no cards. ──
+    _items = snap["items"]
+    if uw_opportunity:
+        _items = list(_items) + uw_opportunity_cards(uw_opportunity)
+    cards = _ns(_items)
     by_tk = theses_by_ticker(theses)
 
     # ── sleeve-level mechanical reads ──
