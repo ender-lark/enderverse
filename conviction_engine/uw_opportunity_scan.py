@@ -51,12 +51,19 @@ ROUTE-AROUNDS HONORED (CI known-broken)
   per-ticker HISTORICAL flow -> get_interval_flow --date (not needed for the v1 current-tape scan).
   get_stock_screener ticker filter is COMMA-delimited (pipe -> empty) -> --universe is comma-delimited.
 
-⚠ CONFIRM-AT-DRY-RUN: the live REST endpoint PATHS + raw response field SHAPES in
-``UWClient`` / the ``normalize_*`` functions are best-effort (no live UW token in
-the build session — it is a routine-ENV secret, never in a tool call). A read-only
-live dry-run confirms/corrects them before scheduling. All field access is isolated
-at this producer boundary, so a correction is a one-spot change; the pure core and
-the round-trip test are solid regardless.
+FIELD MAPS — confirmation status:
+  • normalize_flow / normalize_oi / normalize_dark_pool (the three REQUIRED signal
+    sources) are CONFIRMED against live get_flow_alerts / get_open_interest_changes /
+    get_dark_pool_trades pulls (NVDA) on 2026-06-02. The per-function ⚠ notes record the
+    real shapes (string premiums + total_ask_side_prem; OCC-encoded side/strike + a
+    fractional oi_change; NBBO-mid sign with no VWAP field).
+  • ⚠ STILL DRY-RUN: ``UWClient``'s REST endpoint PATHS (the standalone-with-token path;
+    the routine uses MCP tools, not these) and the OPTIONAL gamma/IV modifier shapes
+    (normalize_gamma's greek rows into gamma_positioning.analyze; normalize_iv's IV
+    inputs). These only temper strength and degrade to "no modifier" if the shape is off
+    — never a crash, never a bad signal. Confirm them when wiring the modifier pulls.
+  All field access is isolated at this producer boundary, so any correction is a
+  one-spot change; the pure core and the round-trip test are solid regardless.
 
 EMPTY-DAY HONESTY: a scan with no qualifying signals writes ``"signals": []`` — the
 engine reads that as "no flow," never "all clear" (dark-lane discipline). The scout
@@ -67,6 +74,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -146,6 +154,28 @@ def _f(x) -> Optional[float]:
 
 def _truthy(x) -> bool:
     return bool(x) and str(x).lower() not in ("0", "false", "no", "")
+
+
+# OCC option-symbol parser: the OI-change feed encodes call/put + strike in the
+# contract symbol (e.g. NVDA260605C00230000 -> call, 230) with no separate type/strike
+# field, so we parse it. ⚠ confirmed against live get_open_interest_changes (NVDA) 2026-06-02.
+_OCC_RE = re.compile(r"([CP])(\d{8})$")
+
+
+def _occ_side_strike(symbol):
+    if not isinstance(symbol, str):
+        return (None, None)
+    m = _OCC_RE.search(symbol.strip())
+    if not m:
+        return (None, None)
+    return ("call" if m.group(1) == "C" else "put", int(m.group(2)) / 1000.0)
+
+
+def _clean_strike(s):
+    f = _f(s)
+    if f is None:
+        return s
+    return int(f) if f == int(f) else f
 
 
 def _bump(strength: str, notch: int) -> str:
@@ -282,14 +312,14 @@ def _signal_from_dark_pool(tk: str, obs: dict, gamma_obs, iv_obs) -> Optional[di
     """Normalized dark-pool obs -> a dark_pool_accum signal. direction = sign of
     notional vs VWAP (accumulation above -> bullish, distribution below -> bearish);
     strength = |notional| band, modified."""
-    notional = _f(obs.get("notional_above_vwap"))
+    notional = _f(obs.get("notional_signed"))
     if notional is None or notional == 0:
         return None
     direction = "bullish" if notional >= 0 else "bearish"
     strength = _bump(_dp_strength(abs(notional)), _modifier_notch(gamma_obs, iv_obs))
     sessions = int(_f(obs.get("sessions")) or DP_WINDOW_SESSIONS)
-    where = "above" if notional >= 0 else "below"
-    evidence = f"dark-pool blocks ${abs(notional) / 1e6:.0f}M {where} VWAP, {sessions} sessions"
+    lean = "net buy" if notional >= 0 else "net sell"
+    evidence = f"dark-pool blocks ${abs(notional) / 1e6:.0f}M {lean}, {sessions} sessions"
     detail: dict = {"notional": notional, "sessions": sessions}
     _attach_modifier_provenance(detail, gamma_obs, iv_obs)
     sig = {"ticker": tk, "signal_type": "dark_pool_accum", "direction": direction,
@@ -366,7 +396,13 @@ def scan(universe, as_of, *, adapters, generated_at: Optional[str] = None,
 # ════════════════════════════════════════════════════════════════════════════
 def normalize_flow(raw) -> Optional[dict]:
     """Raw get_flow_alerts -> {call/put premium, ask-side split, c/p ratio, is_sweep}.
-    Aggregates aggressive (ask-side) call vs put premium across alert rows."""
+    Aggregates aggressive (ask-side) call vs put premium across alert rows.
+
+    ⚠ confirmed against live get_flow_alerts (NVDA) 2026-06-02: the feed is a bare
+    array of alert rows; premium fields are STRINGS; the aggressive slice is given
+    directly per row as total_ask_side_prem / total_bid_side_prem (there is NO row-level
+    'side' field); sweep is the boolean has_sweep and/or alert_rule containing 'Sweep'.
+    """
     rows = _arr(raw)
     if not rows:
         return None
@@ -375,28 +411,25 @@ def normalize_flow(raw) -> Optional[dict]:
     for r in rows:
         if not isinstance(r, dict):
             continue
-        prem = _f(_first(r, "premium", "total_premium", "value")) or 0.0
         typ = str(_first(r, "type", "option_type", "put_call") or "").lower()
-        side = str(_first(r, "side", "aggressor", "trade_side") or "").lower()
-        rule = str(_first(r, "rule_name", "alert_rule") or "").lower()
-        if "sweep" in rule or _truthy(_first(r, "is_sweep", "sweep")):
+        total = _f(_first(r, "total_premium", "premium", "value")) or 0.0
+        ask = _f(_first(r, "total_ask_side_prem", "ask_side_premium", "ask_premium")) or 0.0
+        rule = str(_first(r, "alert_rule", "rule_name") or "").lower()
+        if _truthy(_first(r, "has_sweep", "is_sweep", "sweep")) or "sweep" in rule:
             sweep = True
-        is_ask = side.startswith("a")
         if typ.startswith("c"):
-            call_all += prem
-            if is_ask:
-                call_ask += prem
+            call_all += total
+            call_ask += ask
         elif typ.startswith("p"):
-            put_all += prem
-            if is_ask:
-                put_ask += prem
+            put_all += total
+            put_ask += ask
     if call_all == 0 and put_all == 0:
         return None
     ratio = round(call_all / put_all, 2) if put_all else None
     return {
         "call_premium": call_all,
         "put_premium": put_all,
-        "ask_side_call_premium": call_ask or call_all,   # degrade to all-side if no ask split (flagged)
+        "ask_side_call_premium": call_ask or call_all,   # degrade to total if no ask split
         "ask_side_put_premium": put_ask or put_all,
         "call_put_ratio": ratio,
         "is_sweep": sweep,
@@ -405,8 +438,14 @@ def normalize_flow(raw) -> Optional[dict]:
 
 def normalize_oi(raw) -> Optional[dict]:
     """Raw get_open_interest_changes -> {oi_change_pct, side, strikes}. Picks the
-    dominant side by summed positive OI change; uses the max change-% on that side.
-    Returns None if no percentage is available (can't honestly grade strength)."""
+    dominant side by summed absolute OI change; uses the max change-% on that side.
+    Returns None if no percentage is available (can't honestly grade strength).
+
+    ⚠ confirmed against live get_open_interest_changes (NVDA) 2026-06-02: rows carry
+    NO type/strike field — call/put + strike are parsed from the OCC option_symbol; the
+    absolute change is oi_diff_plain; and oi_change is a FRACTION (0.71 == 71%), so it is
+    scaled x100 (an explicit oi_change_pct, if ever present, is taken as already-percent).
+    """
     rows = _arr(raw)
     if not rows:
         return None
@@ -417,20 +456,31 @@ def normalize_oi(raw) -> Optional[dict]:
     for r in rows:
         if not isinstance(r, dict):
             continue
-        typ = str(_first(r, "type", "option_type", "put_call") or "").lower()
-        chg = _f(_first(r, "oi_change", "oi_diff", "change")) or 0.0
-        pct = _f(_first(r, "oi_change_pct", "pct_change", "oi_pct"))
+        # side + strike: explicit fields first, else parse the OCC option symbol
+        side = str(_first(r, "type", "option_type", "put_call") or "").lower()
         strike = _first(r, "strike", "strike_price")
-        if typ.startswith("c"):
-            call_chg += chg
-            if chg > 0 and strike is not None:
-                call_strikes.append(strike)
+        if not side.startswith(("c", "p")) or strike is None:
+            occ_side, occ_strike = _occ_side_strike(_first(r, "option_symbol", "option_chain", "symbol"))
+            if not side.startswith(("c", "p")):
+                side = occ_side or ""
+            if strike is None:
+                strike = occ_strike
+        # change %: oi_change_pct is already a percent; UW's oi_change is a fraction -> x100
+        pct = _f(_first(r, "oi_change_pct", "pct_change", "oi_pct"))
+        if pct is None:
+            frac = _f(_first(r, "oi_change", "oi_change_perc"))
+            pct = frac * 100.0 if frac is not None else None
+        abs_chg = _f(_first(r, "oi_diff_plain", "oi_change_abs", "oi_diff", "change")) or 0.0
+        if side.startswith("c"):
+            call_chg += abs_chg
+            if abs_chg > 0 and strike is not None:
+                call_strikes.append(_clean_strike(strike))
             if pct is not None:
                 pcts.append(("call", pct))
-        elif typ.startswith("p"):
-            put_chg += chg
-            if chg > 0 and strike is not None:
-                put_strikes.append(strike)
+        elif side.startswith("p"):
+            put_chg += abs_chg
+            if abs_chg > 0 and strike is not None:
+                put_strikes.append(_clean_strike(strike))
             if pct is not None:
                 pcts.append(("put", pct))
     if call_chg == 0 and put_chg == 0:
@@ -444,11 +494,17 @@ def normalize_oi(raw) -> Optional[dict]:
 
 
 def normalize_dark_pool(raw, *, window_sessions: int = DP_WINDOW_SESSIONS) -> Optional[dict]:
-    """Raw get_dark_pool_trades -> {notional_above_vwap, sessions}. Sums signed block
-    notional (above-VWAP accumulation positive, below-VWAP distribution negative) and
-    counts distinct print sessions. ⚠ the VWAP-side determination is best-effort: if a
-    row lacks a vwap-relative field we treat the block as accumulation (+) — a dry-run
-    refinement."""
+    """Raw get_dark_pool_trades -> {notional_signed, sessions}. Sums signed block notional
+    (buyer-initiated accumulation positive, seller-initiated distribution negative) and
+    counts distinct print sessions.
+
+    ⚠ confirmed against live get_dark_pool_trades (NVDA) 2026-06-02: prints are a bare
+    array; notional is the STRING premium (fallback size*price); timestamp is executed_at;
+    there is NO VWAP/above-VWAP field, so the sign is inferred from price vs the NBBO
+    midpoint (price >= mid -> accumulation +, else distribution -). A vwap-relative flag,
+    if ever present, is honored first. Sign is a lean, not a VWAP claim — hence the
+    'net buy/sell' wording, not 'above VWAP'.
+    """
     rows = _arr(raw)
     if not rows:
         return None
@@ -462,19 +518,26 @@ def normalize_dark_pool(raw, *, window_sessions: int = DP_WINDOW_SESSIONS) -> Op
             sz = _f(_first(r, "size", "volume", "quantity")) or 0.0
             px = _f(_first(r, "price", "px", "fill_price")) or 0.0
             n = sz * px
-        rel = _first(r, "above_vwap", "vwap_side")
+        n = abs(n or 0.0)
         sign = 1.0
+        rel = _first(r, "above_vwap", "vwap_side")
         if isinstance(rel, bool):
             sign = 1.0 if rel else -1.0
         elif isinstance(rel, str):
             sign = -1.0 if rel.lower() in ("below", "under", "sell") else 1.0
-        notional += sign * abs(n or 0.0)
-        d = _first(r, "date", "executed_at", "timestamp")
+        else:
+            price = _f(_first(r, "price", "px", "fill_price"))
+            ask = _f(_first(r, "nbbo_ask", "ask"))
+            bid = _f(_first(r, "nbbo_bid", "bid"))
+            if price is not None and ask is not None and bid is not None:
+                sign = 1.0 if price >= (ask + bid) / 2.0 else -1.0
+        notional += sign * n
+        d = _first(r, "executed_at", "date", "timestamp", "created_at")
         if d:
             dates.add(str(d)[:10])
     if notional == 0:
         return None
-    return {"notional_above_vwap": notional, "sessions": (len(dates) or window_sessions)}
+    return {"notional_signed": notional, "sessions": (len(dates) or window_sessions)}
 
 
 def normalize_gamma(raw_rows, spot, ticker, *, analyze=None) -> Optional[dict]:
@@ -713,7 +776,7 @@ def _self_test() -> int:
         "ANET": {"flow": {"ask_side_call_premium": 2_100_000, "put_premium": 700_000,
                           "call_put_ratio": 3.0, "is_sweep": True}},
         "NVDA": {"oi": {"oi_change_pct": 38.0, "side": "call", "strikes": [1300, 1350]}},
-        "MU": {"dark_pool": {"notional_above_vwap": 14_000_000, "sessions": 4}},
+        "MU": {"dark_pool": {"notional_signed": 14_000_000, "sessions": 4}},
     }
     cache = scan(["ANET", "NVDA", "MU"], "2026-05-29",
                  adapters=BundleAdapters(observations),

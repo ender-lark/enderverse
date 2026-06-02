@@ -12,6 +12,8 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
+import pytest
+
 from analyst_config import UW_OPP_STRENGTH_TRUST
 from uw_opportunity import (
     uw_opportunity_cards,
@@ -50,7 +52,7 @@ def test_emitted_cache_roundtrips_through_consumer():
         "ANET": {"flow": {"ask_side_call_premium": 2_100_000, "put_premium": 700_000,
                           "call_put_ratio": 3.0, "is_sweep": True}},
         "NVDA": {"oi": {"oi_change_pct": 38.0, "side": "call", "strikes": [1300, 1350]}},
-        "MU": {"dark_pool": {"notional_above_vwap": 14_000_000, "sessions": 4}},
+        "MU": {"dark_pool": {"notional_signed": 14_000_000, "sessions": 4}},
     }
     cache = scan(["ANET", "NVDA", "MU"], "2026-05-29", adapters=_bundle_adapters(obs), generated_at=GEN)
 
@@ -79,7 +81,7 @@ def test_emitted_signals_satisfy_the_contract_enums():
     obs = {
         "ANET": {"flow": {"ask_side_call_premium": 2_100_000, "put_premium": 100_000, "is_sweep": True}},
         "NVDA": {"oi": {"oi_change_pct": 38.0, "side": "put"}},
-        "MU": {"dark_pool": {"notional_above_vwap": -14_000_000, "sessions": 4}},
+        "MU": {"dark_pool": {"notional_signed": -14_000_000, "sessions": 4}},
     }
     cache = scan(["ANET", "NVDA", "MU"], "2026-05-29", adapters=_bundle_adapters(obs), generated_at=GEN)
     for s in cache["signals"]:
@@ -132,12 +134,12 @@ def test_oi_direction_follows_building_side():
 
 
 def test_dark_pool_direction_from_notional_sign():
-    pos = scan(["X"], "d", adapters=_bundle_adapters({"X": {"dark_pool": {"notional_above_vwap": 5_000_000}}}),
+    pos = scan(["X"], "d", adapters=_bundle_adapters({"X": {"dark_pool": {"notional_signed": 5_000_000}}}),
                generated_at=GEN)["signals"][0]
-    neg = scan(["Y"], "d", adapters=_bundle_adapters({"Y": {"dark_pool": {"notional_above_vwap": -5_000_000}}}),
+    neg = scan(["Y"], "d", adapters=_bundle_adapters({"Y": {"dark_pool": {"notional_signed": -5_000_000}}}),
                generated_at=GEN)["signals"][0]
-    assert pos["direction"] == "bullish" and "above" in pos["evidence"]
-    assert neg["direction"] == "bearish" and "below" in neg["evidence"]
+    assert pos["direction"] == "bullish" and "net buy" in pos["evidence"]
+    assert neg["direction"] == "bearish" and "net sell" in neg["evidence"]
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -163,7 +165,7 @@ def test_oi_strength_bands():
 
 def test_dark_pool_strength_bands():
     def strength(n):
-        obs = {"X": {"dark_pool": {"notional_above_vwap": n}}}
+        obs = {"X": {"dark_pool": {"notional_signed": n}}}
         return scan(["X"], "d", adapters=_bundle_adapters(obs), generated_at=GEN)["signals"][0]["strength"]
     assert strength(12_000_000) == "strong"
     assert strength(5_000_000) == "moderate"
@@ -263,7 +265,7 @@ def test_determinism_same_inputs_same_cache():
 
 def test_signal_emission_order_is_stable():
     # universe order, then flow -> oi -> dark_pool within a ticker.
-    obs = {"X": {"dark_pool": {"notional_above_vwap": 12_000_000},
+    obs = {"X": {"dark_pool": {"notional_signed": 12_000_000},
                  "flow": {"ask_side_call_premium": 2_000_000},
                  "oi": {"oi_change_pct": 40, "side": "call"}}}
     sigs = scan(["X"], "d", adapters=_bundle_adapters(obs), generated_at=GEN)["signals"]
@@ -280,11 +282,13 @@ def test_per_signal_as_of_passes_through_when_present():
 # 6. NORMALIZERS — the raw-UW -> observation producer boundary
 # ════════════════════════════════════════════════════════════════════════════
 def test_normalize_flow_aggregates_ask_side():
-    raw = {"data": [
-        {"type": "call", "side": "ask", "premium": 1_500_000, "rule_name": "RepeatedHits"},
-        {"type": "call", "side": "ask", "premium": 600_000, "rule_name": "Sweep"},
-        {"type": "put", "side": "ask", "premium": 400_000},
-    ]}
+    # real get_flow_alerts shape: bare list, STRING premiums, total_ask_side_prem per row,
+    # has_sweep boolean / alert_rule (confirmed live NVDA 2026-06-02).
+    raw = [
+        {"type": "call", "total_premium": "1500000", "total_ask_side_prem": "1500000", "alert_rule": "RepeatedHits"},
+        {"type": "call", "total_premium": "600000", "total_ask_side_prem": "600000", "has_sweep": True},
+        {"type": "put", "total_premium": "400000", "total_ask_side_prem": "400000", "alert_rule": "RepeatedHits"},
+    ]
     obs = normalize_flow(raw)
     assert obs["ask_side_call_premium"] == 2_100_000
     assert obs["put_premium"] == 400_000
@@ -293,43 +297,52 @@ def test_normalize_flow_aggregates_ask_side():
 
 
 def test_normalize_flow_empty_returns_none():
+    assert normalize_flow([]) is None
     assert normalize_flow({"data": []}) is None
     assert normalize_flow(None) is None
 
 
-def test_normalize_oi_picks_dominant_side_and_max_pct():
-    raw = {"data": [
-        {"option_type": "call", "oi_change": 5000, "oi_change_pct": 40, "strike": 1300},
-        {"option_type": "call", "oi_change": 3000, "oi_change_pct": 25, "strike": 1350},
-        {"put_call": "put", "oi_change": 1000, "oi_change_pct": 10, "strike": 1200},
-    ]}
+def test_normalize_oi_parses_occ_and_scales_fraction():
+    # real get_open_interest_changes shape: no type/strike field (parse OCC option_symbol);
+    # oi_change is a FRACTION (0.40 == 40%); oi_diff_plain is the absolute change.
+    raw = [
+        {"option_symbol": "NVDA260605C00230000", "oi_change": 0.40, "oi_diff_plain": 5000},
+        {"option_symbol": "NVDA260612C00235000", "oi_change": 0.25, "oi_diff_plain": 3000},
+        {"option_symbol": "NVDA260605P00200000", "oi_change": 0.10, "oi_diff_plain": 1000},
+    ]
     obs = normalize_oi(raw)
-    assert obs["side"] == "call"
-    assert obs["oi_change_pct"] == 40
-    assert obs["strikes"] == [1300, 1350]
+    assert obs["side"] == "call"            # call abs-change 8000 > put 1000
+    assert obs["oi_change_pct"] == 40.0     # max(0.40, 0.25) * 100
+    assert obs["strikes"] == [230, 235]     # parsed from the OCC symbols
 
 
 def test_normalize_oi_none_without_percentage():
-    # change present but no percentage -> can't grade strength honestly -> None
-    raw = {"data": [{"option_type": "call", "oi_change": 5000, "strike": 1300}]}
+    # absolute change present but no oi_change/oi_change_pct -> can't grade strength -> None
+    raw = [{"option_symbol": "NVDA260605C00230000", "oi_diff_plain": 5000}]
     assert normalize_oi(raw) is None
 
 
-def test_normalize_dark_pool_signs_and_sessions():
-    raw = {"data": [
-        {"premium": 8_000_000, "above_vwap": True, "date": "2026-05-28"},
-        {"premium": 6_000_000, "above_vwap": True, "date": "2026-05-27"},
-        {"notional": 2_000_000, "above_vwap": False, "date": "2026-05-27"},
-    ]}
+def test_normalize_dark_pool_signs_by_nbbo_mid_and_counts_sessions():
+    # real get_dark_pool_trades shape: STRING premium, nbbo_ask/nbbo_bid, executed_at; NO
+    # VWAP field -> sign from price vs NBBO mid (confirmed live NVDA 2026-06-02).
+    raw = [
+        {"premium": "8000000", "price": "214.50", "nbbo_ask": "214.45", "nbbo_bid": "214.37",
+         "executed_at": "2026-05-28T20:16:49Z"},    # price > mid -> +8M
+        {"premium": "6000000", "price": "214.25", "nbbo_ask": "214.05", "nbbo_bid": "214.00",
+         "executed_at": "2026-05-27T20:00:00Z"},    # price > mid -> +6M
+        {"premium": "2000000", "price": "214.00", "nbbo_ask": "214.40", "nbbo_bid": "214.30",
+         "executed_at": "2026-05-27T21:00:00Z"},    # price < mid -> -2M
+    ]
     obs = normalize_dark_pool(raw)
-    assert obs["notional_above_vwap"] == 12_000_000   # +8 +6 -2
-    assert obs["sessions"] == 2                         # two distinct dates
+    assert obs["notional_signed"] == 12_000_000     # +8 +6 -2
+    assert obs["sessions"] == 2                       # 05-28 + 05-27
 
 
-def test_normalize_dark_pool_derives_notional_from_size_x_price():
-    raw = {"data": [{"size": 100_000, "price": 50.0, "date": "2026-05-28"}]}
+def test_normalize_dark_pool_derives_notional_and_defaults_sign_positive():
+    # premium absent -> size*price; no NBBO -> default accumulation (+)
+    raw = [{"size": 100_000, "price": "50.0", "executed_at": "2026-05-28T20:00:00Z"}]
     obs = normalize_dark_pool(raw)
-    assert obs["notional_above_vwap"] == 5_000_000
+    assert obs["notional_signed"] == 5_000_000
 
 
 # ── gamma / IV normalizers use INJECTED pure fns (no src/ dependency in tests) ──
@@ -367,17 +380,18 @@ def test_normalize_iv_none_without_rank():
 
 def test_observation_from_uw_assembles_full_observation():
     obs = observation_from_uw(
-        ticker="X", spot=101.0,
-        flow={"data": [{"type": "call", "side": "ask", "premium": 2_000_000, "rule_name": "Sweep"}]},
-        oi={"data": [{"option_type": "call", "oi_change": 5000, "oi_change_pct": 35, "strike": 100}]},
-        dark_pool={"data": [{"premium": 12_000_000, "above_vwap": True, "date": "2026-05-28"}]},
+        ticker="NVDA", spot=227.0,
+        flow=[{"type": "call", "total_premium": "2000000", "total_ask_side_prem": "2000000", "has_sweep": True}],
+        oi=[{"option_symbol": "NVDA260605C00230000", "oi_change": 0.35, "oi_diff_plain": 5000}],
+        dark_pool=[{"premium": "12000000", "price": "214.5", "nbbo_ask": "214.45",
+                    "nbbo_bid": "214.37", "executed_at": "2026-05-28T20:00:00Z"}],
         greek=[{"strike": 100, "gamma": 1}],
         iv={"iv_rank": 82},
         gamma_analyze=_fake_gamma, iv_classify=_fake_iv,
     )
     assert set(obs) == {"flow", "oi", "dark_pool", "gamma", "iv"}
     # and the assembled observation drives a coherent scan
-    cache = scan(["X"], "d", adapters=_bundle_adapters({"X": obs}), generated_at=GEN)
+    cache = scan(["NVDA"], "d", adapters=_bundle_adapters({"NVDA": obs}), generated_at=GEN)
     types = {s["signal_type"] for s in cache["signals"]}
     assert types == {"sweep", "oi_build", "dark_pool_accum"}
 
@@ -403,3 +417,65 @@ def test_real_repo_theses_loads_as_universe():
     uni = universe_from_theses(S.DEFAULT_THESES_PATH)
     assert isinstance(uni, list) and len(uni) >= 1
     assert all(t == t.upper() for t in uni)
+
+# ════════════════════════════════════════════════════════════════════════════
+# 8. LIVE-SHAPE REGRESSION — verbatim (trimmed) NVDA payloads pulled from the UW
+#    connector on 2026-06-02. Locks the field maps against reality: if a future
+#    UW response renames a field these break, instead of silently emitting [].
+# ════════════════════════════════════════════════════════════════════════════
+LIVE_FLOW_NVDA = [  # get_flow_alerts(NVDA) — 2 call rows + 1 put row, real fields
+    {"has_sweep": False, "type": "put", "total_premium": "123680", "total_bid_side_prem": "0",
+     "total_ask_side_prem": "123680", "alert_rule": "RepeatedHits", "option_chain": "NVDA280121P00170000"},
+    {"has_sweep": False, "type": "call", "total_premium": "226250", "total_bid_side_prem": "27150",
+     "total_ask_side_prem": "199100", "alert_rule": "RepeatedHits", "option_chain": "NVDA260918C00240000"},
+    {"has_sweep": True, "type": "call", "total_premium": "123510", "total_bid_side_prem": "0",
+     "total_ask_side_prem": "123510", "alert_rule": "RepeatedHits", "option_chain": "NVDA260717C00240000"},
+]
+LIVE_OI_NVDA = [  # get_open_interest_changes(NVDA) — volume_candles trimmed off (unused)
+    {"option_symbol": "NVDA260605C00230000", "oi_change": "0.71013212746414187805", "oi_diff_plain": 20101},
+    {"option_symbol": "NVDA260612C00235000", "oi_change": "2.6057858376511226", "oi_diff_plain": 18105},
+    {"option_symbol": "NVDA260603C00225000", "oi_change": "1.11817603778726496503", "oi_diff_plain": 12310},
+]
+LIVE_DP_NVDA = [  # get_dark_pool_trades(NVDA, order=prem) — top prints, real fields
+    {"size": 3360000, "price": "214.25", "premium": "719880000.00", "nbbo_ask": "214.45",
+     "nbbo_bid": "214.37", "executed_at": "2026-05-28T20:16:49Z"},
+    {"size": 3041179, "price": "214.25", "premium": "651572600.75", "nbbo_ask": "214.05",
+     "nbbo_bid": "214", "executed_at": "2026-05-28T20:02:20Z"},
+]
+
+
+def test_live_flow_shape_extracts_bullish_calls():
+    obs = normalize_flow(LIVE_FLOW_NVDA)
+    assert obs is not None
+    assert obs["ask_side_call_premium"] == 199100 + 123510   # the two ask-side call rows
+    assert obs["ask_side_put_premium"] == 123680
+    assert obs["is_sweep"] is True                            # the 3rd row's has_sweep
+    sig = scan(["NVDA"], "d", adapters=_bundle_adapters({"NVDA": {"flow": obs}}), generated_at=GEN)["signals"][0]
+    assert sig["signal_type"] == "sweep" and sig["direction"] == "bullish"
+
+
+def test_live_oi_shape_parses_occ_and_scales():
+    obs = normalize_oi(LIVE_OI_NVDA)
+    assert obs is not None
+    assert obs["side"] == "call"
+    assert obs["oi_change_pct"] == pytest.approx(260.578, rel=1e-3)   # 2.6057.. fraction * 100
+    assert obs["strikes"] == [230, 235, 225]
+
+
+def test_live_dark_pool_shape_sums_signed_notional():
+    obs = normalize_dark_pool(LIVE_DP_NVDA)
+    assert obs is not None
+    # row1 price 214.25 < mid 214.41 -> -; row2 price 214.25 >= mid 214.025 -> +
+    assert obs["notional_signed"] == pytest.approx(651572600.75 - 719880000.00, rel=1e-6)
+    assert obs["sessions"] == 1                               # both 2026-05-28
+
+
+def test_live_payloads_round_trip_through_the_consumer():
+    obs = observation_from_uw(
+        ticker="NVDA", flow=LIVE_FLOW_NVDA, oi=LIVE_OI_NVDA, dark_pool=LIVE_DP_NVDA,
+    )
+    cache = scan(["NVDA"], "2026-06-02", adapters=_bundle_adapters({"NVDA": obs}), generated_at=GEN)
+    cards = uw_opportunity_cards(cache)
+    assert len(cards) == 3                                    # flow + oi + dark_pool all extracted
+    assert all(c["kind"] == UW_OPP_KIND for c in cards)
+    assert {c["data"]["signal_type"] for c in cards} == {"sweep", "oi_build", "dark_pool_accum"}
