@@ -106,6 +106,7 @@ def build_full_feed(
     research: dict | None = None,
     radar: list | None = None,
     catalysts: list | None = None,
+    uw_opportunity: dict | None = None,
     parabolic=None,
     as_of: str | None = None,
     run_timestamp: str | None = None,
@@ -126,6 +127,15 @@ def build_full_feed(
     catalysts threads through assemble_feed into feed["catalysts"] (the near-term
     event lane, read off the Catalyst Calendar by the cockpit-build step). Left
     None it defaults to [] — an unsourced/dark lane, never "no catalysts".
+
+    uw_opportunity is the daily UW opportunity-signals cache (Strand 3): the
+    cockpit-build step loads conviction_engine/uw_opportunity_signals.json (written
+    by the uw_opportunity_scan SCOUT routine) and passes it here. assemble_feed
+    folds it into the card stream as kind="uw_opportunity" cards; fresh bullish flow
+    becomes a direction up-event + a lean-in "UW ▲" evidence row on names that
+    ALREADY have conviction quality — never an auto-buy, never a quality bump. Left
+    None it is inert (default-None → byte-identical feed; the golden bundle carries
+    no flow cache, so the golden master stays drift-free).
 
     Optional inputs (all produced by the in-session / SCOUT fetch step):
       macro_snapshot  -> runtime_adapters.uw_macro_snapshot_from_uw(...)   {rates, levels}
@@ -173,6 +183,7 @@ def build_full_feed(
         research=research,
         radar=radar,
         catalysts=catalysts,
+        uw_opportunity=uw_opportunity,
     )
     errs = validate_cockpit_feed(feed)
     if errs:
