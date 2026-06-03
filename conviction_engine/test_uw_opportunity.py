@@ -235,3 +235,71 @@ def test_monitor_name_with_flow_stays_gated_until_reentry():
     cleared = lean_in_read(drs, theses, cards, AS_OF, held={"BMNR"},
                            high_conf_reentry={"BMNR"})
     assert any(i["ticker"] == "BMNR" for i in cleared["lean_in"])
+
+
+# ── B1: read-only "Bullish flow" surface (uw_opportunity_surface) ──
+import os as _os, json as _json
+from uw_opportunity import uw_opportunity_surface, sample_opportunity_cache
+import feed_assembler as _FA, validators as _V
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+
+
+def test_surface_groups_by_ticker_uw_flow_one_bucket():
+    # multiple flow signals on ANET collapse to ONE row (uw_flow = one bucket/name)
+    cache = {"as_of": "2026-05-29", "signals": [
+        {"ticker": "ANET", "signal_type": "sweep", "direction": "bullish", "strength": "strong"},
+        {"ticker": "ANET", "signal_type": "sweep", "direction": "bullish", "strength": "weak"},
+        {"ticker": "ANET", "signal_type": "oi_build", "direction": "bullish", "strength": "moderate"},
+        {"ticker": "MU", "signal_type": "call_flow", "direction": "bullish", "strength": "moderate"},
+    ]}
+    out = uw_opportunity_surface(cache)
+    assert out["tickers"] == 2 and out["count"] == 4
+    anet = next(r for r in out["rows"] if r["ticker"] == "ANET")
+    assert anet["n"] == 3
+    assert anet["strength"] == "strong"                         # strongest leads the bucket
+    assert set(anet["signal_types"]) == {"sweep", "oi_build"}   # types de-duped
+
+
+def test_surface_bullish_first_then_strength():
+    cache = {"signals": [
+        {"ticker": "AAA", "signal_type": "sweep", "direction": "bearish", "strength": "strong"},
+        {"ticker": "BBB", "signal_type": "sweep", "direction": "bullish", "strength": "weak"},
+        {"ticker": "CCC", "signal_type": "sweep", "direction": "bullish", "strength": "strong"},
+    ]}
+    rows = uw_opportunity_surface(cache)["rows"]
+    assert rows[0]["ticker"] == "CCC"    # bullish + strongest first
+    assert rows[-1]["ticker"] == "AAA"   # bearish last
+
+
+def test_surface_tolerant_and_empty():
+    assert uw_opportunity_surface(None) == {}
+    assert uw_opportunity_surface({"signals": []}) == {}
+    bad = {"signals": [
+        {"ticker": "X", "signal_type": "NOT_A_TYPE", "direction": "bullish"},  # bad enum
+        {"signal_type": "sweep", "direction": "bullish"},                       # no ticker
+        "junk",                                                                  # not a dict
+        {"ticker": "OK", "signal_type": "sweep", "direction": "bullish"},
+    ]}
+    out = uw_opportunity_surface(bad)
+    assert out["tickers"] == 1 and out["rows"][0]["ticker"] == "OK"
+
+
+def test_assemble_feed_emits_bullish_flow_and_validates():
+    snap = _json.load(open(_os.path.join(_HERE, "golden_snapshot.json")))
+    feed = _FA.assemble_feed(snap, uw_opportunity=sample_opportunity_cache())
+    assert isinstance(feed["bullish_flow"], dict) and feed["bullish_flow"]["tickers"] >= 1
+    assert _V.validate_cockpit_feed(feed) == []
+    feed2 = _FA.assemble_feed(snap)                 # no cache -> {} and still valid
+    assert feed2["bullish_flow"] == {}
+    assert _V.validate_cockpit_feed(feed2) == []
+
+
+def test_surface_tags_monitor_names_parked():
+    cache = {"signals": [
+        {"ticker": "ETH", "signal_type": "sweep", "direction": "bullish", "strength": "strong"},
+        {"ticker": "NVDA", "signal_type": "sweep", "direction": "bullish", "strength": "strong"},
+    ]}
+    out = uw_opportunity_surface(cache, monitor_tickers={"ETH"})
+    byk = {r["ticker"]: r for r in out["rows"]}
+    assert byk["ETH"]["parked"] is True       # MONITOR/parked sleeve -> caution tag
+    assert byk["NVDA"]["parked"] is False     # active name -> no tag

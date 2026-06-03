@@ -24,7 +24,8 @@ from analyst_judgment import (conviction_read, conviction_direction_read,
                               catalyst_needs_you, lean_in_read, research_actions_read,
                               apply_decision_aging)
 from analyst_config import theses_by_ticker
-from uw_opportunity import uw_opportunity_cards
+from uw_opportunity import uw_opportunity_cards, uw_opportunity_surface
+from prospect_surface import build_prospects_lane
 from open_opportunities import open_opportunity_aging
 
 # ── name -> rotation-proxy sleeve (the leaderboard subject that stands in for a
@@ -79,7 +80,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   heartbeat=None, synthesis=None, research=None, radar=None,
                   catalysts=None, lean_in=None, uw_opportunity=None,
                   open_opportunities=None, opp_prices=None,
-                  aging_threshold_days=3) -> dict:
+                  top_prospects=None, aging_threshold_days=3) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
 
@@ -260,6 +261,16 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
             })
             radar_seen.add(tk)
 
+    # ── B1 (Strand-3 surfacing): read-only "Bullish flow" watch lane from the UW
+    #    opportunity cache (grouped by ticker; NOT conviction — the gated Chunk-2
+    #    hook is separate). ──
+    _monitor_all = {tk for tk, th in by_tk.items() if (th or {}).get("stance") == "MONITOR"}
+    bullish_flow = uw_opportunity_surface(uw_opportunity, monitor_tickers=_monitor_all) if uw_opportunity else {}
+    # ── Top Prospects lane (item 5): shape the raw prospects cache into the cockpit
+    #    lane (hot / movers / sell-fast / counts). External read, engine-shaped +
+    #    golden-pinned; {} when no cache. ──
+    prospects = build_prospects_lane(top_prospects) if isinstance(top_prospects, dict) and top_prospects else {}
+
     return {
         "generated_at": generated_at or f"{as_of}T16:00:00",
         "staleness": stale,
@@ -277,4 +288,6 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "synthesis": synthesis or {},
         "radar": derived_radar if radar is None else radar,
         "lean_in": lean_block,
+        "bullish_flow": bullish_flow,
+        "prospects": prospects,
     }

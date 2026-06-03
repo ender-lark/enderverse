@@ -466,6 +466,18 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
     if synthesis is not _MISSING and not isinstance(synthesis, dict):
         problems.append(f"synthesis must be a dict, got {type(synthesis).__name__}")
 
+    # OPTIONAL `bullish_flow` block (read-only UW opportunity WATCH lane, B1). A
+    # dict {as_of,count,tickers,rows[]} or {}; validated IF present (forward-compat).
+    bullish_flow = feed.get("bullish_flow", _MISSING)
+    if bullish_flow is not _MISSING and not isinstance(bullish_flow, dict):
+        problems.append(f"bullish_flow must be a dict, got {type(bullish_flow).__name__}")
+
+    # OPTIONAL `prospects` block (Top Prospects lane — hot/movers/sell_fast/counts).
+    # A dict or {}; validated IF present (forward-compat).
+    prospects = feed.get("prospects", _MISSING)
+    if prospects is not _MISSING and not isinstance(prospects, dict):
+        problems.append(f"prospects must be a dict, got {type(prospects).__name__}")
+
     # OPTIONAL `radar` block (endorsed, not owned). A list of dicts; absent OR
     # empty is valid (feeds that predate it, or a day with no qualifying call).
     radar = feed.get("radar", _MISSING)

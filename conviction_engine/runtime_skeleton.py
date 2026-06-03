@@ -109,6 +109,7 @@ def build_full_feed(
     uw_opportunity: dict | None = None,
     open_opportunities: dict | None = None,
     opp_prices: dict | None = None,
+    top_prospects: dict | None = None,
     aging_threshold_days: int = 3,
     parabolic=None,
     as_of: str | None = None,
@@ -189,6 +190,7 @@ def build_full_feed(
         uw_opportunity=uw_opportunity,
         open_opportunities=open_opportunities,
         opp_prices=opp_prices,
+        top_prospects=top_prospects,
         aging_threshold_days=aging_threshold_days,
     )
     errs = validate_cockpit_feed(feed)

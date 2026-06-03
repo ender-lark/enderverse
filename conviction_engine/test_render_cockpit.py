@@ -8,6 +8,13 @@ import render_cockpit as rc
 
 TEMPLATE = os.environ.get("COCKPIT_TEMPLATE", "/mnt/project/conviction_cockpit_v5.jsx")
 
+# Skip the pinned-template tests when the renderer file is not provisioned in this
+# env (it lives at /mnt/project on the read-path). Set COCKPIT_TEMPLATE to run them.
+requires_template = pytest.mark.skipif(
+    not os.path.exists(TEMPLATE),
+    reason="pinned renderer not present in this env; set COCKPIT_TEMPLATE to run",
+)
+
 
 # ── T1: the brace-matcher must survive { } ; inside string VALUES ──
 def test_brace_matcher_ignores_braces_and_semicolons_inside_strings():
@@ -45,6 +52,7 @@ def test_parse_feed_rejects_malformed_and_non_object_and_non_feed():
         rc.parse_feed('{"generated_at": "x"}')  # object but no holdings
 
 
+@requires_template
 def test_inject_aborts_on_bad_feed_without_writing():
     tpl = open(TEMPLATE, encoding="utf-8").read()
     with pytest.raises(ValueError):
@@ -52,6 +60,7 @@ def test_inject_aborts_on_bad_feed_without_writing():
 
 
 # ── T3: golden-master — injecting the template's OWN FEED reproduces a valid file ──
+@requires_template
 def test_golden_master_roundtrip_against_pinned_template():
     tpl = open(TEMPLATE, encoding="utf-8").read()
     start, end = rc.find_feed_literal(tpl)
@@ -66,11 +75,13 @@ def test_golden_master_roundtrip_against_pinned_template():
     assert again == golden
 
 
+@requires_template
 def test_selftest_helper_passes_on_pinned_template():
     assert rc.selftest(TEMPLATE) is True
 
 
 # ── T4: end-to-end with a fake live feed → valid output + a useful caveat line ──
+@requires_template
 def test_end_to_end_fake_feed_and_caveat():
     tpl = open(TEMPLATE, encoding="utf-8").read()
     fake = {
@@ -95,6 +106,7 @@ def test_end_to_end_fake_feed_and_caveat():
     assert "catalysts" in cav and "questions" in cav   # curated lanes flagged
 
 
+@requires_template
 def test_main_stdin_writes_artifact(tmp_path, monkeypatch, capsys):
     out = tmp_path / "cockpit.jsx"
     fake = {"generated_at": "2026-06-01T20:17:26-04:00",

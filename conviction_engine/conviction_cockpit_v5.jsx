@@ -729,9 +729,10 @@ const ACTION_KIND_META = {
   watch_entry:     { icon:"👁", label:"Watch",          c:C.blue  },
   stale_critical:  { icon:"⚠️", label:"Stale source",   c:C.dim   },
   synthesis:       { icon:"🧠", label:"Synthesis",      c:C.blue  },
-  lean_in:          { icon:"📈", label:"Under-deployed", c:C.green },
+  lean_in:          { icon:"📈", label:"Under-deployed", c:C.green },  // surfaces via Today's actions (actions_read promotes the strongest); feed.lean_in is the FULL lane, intentionally not a separate panel — item-6 disposition
   catalyst_imminent:{ icon:"📅", label:"Pre-catalyst",   c:C.blue  },
   decision_aging:   { icon:"🕒", label:"Aging — act",    c:C.amber },
+  research_review:  { icon:"🔬", label:"Research",       c:C.blue  },
 };
 const CONF_META = {
   High:     { c:C.green, label:"High" },
@@ -774,9 +775,12 @@ function actionVM(feed){
     macro: macroView(feed.macro||{}),
     rotation: (feed.rotation||[]).map(rotationRow),
     actions: (feed.actions||[]).map(actionRow),
+    researchActions: (feed.research_actions||[]).map(actionRow),
     synthesis: feed.synthesis||{},
     radar: (feed.radar||[]).map(radarRow),
     freshSignals: (feed.fresh_signals||[]).map(freshSignalRow),
+    bullishFlow: feed.bullish_flow||{},
+    prospects: feed.prospects||{},
     hero: heroView(feed.hero||{}),
     catalysts: feed.catalysts||[], questions: feed.questions||[], research: feed.research||{},
   };
@@ -963,6 +967,167 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           {VM.actions.length>5 && <div style={{ fontSize:11.5, color:C.faint, fontFamily:mono, marginTop:2 }}>+{VM.actions.length-5} more lower-priority action{VM.actions.length-5>1?"s":""} (not shown)</div>}
         </Section>
 
+        {/* TOP PROSPECTS — the conviction-stack watchlist (item 5): FS-sourced
+            names ranked by conviction/urgency, with alpha-vs-SPY movers + a
+            sell-fast strip. Candidate surface; not the held book. */}
+        <Section id="top-prospects" title="Top Prospects" icon="🎯" badge={(VM.prospects.counts&&VM.prospects.counts.total)?`${VM.prospects.counts.total}`:"0"} badgeColor={(VM.prospects.counts&&VM.prospects.counts.total)?C.accent:C.faint} openMap={open} setOpen={setOpen} defaultOpen={!!(VM.prospects.counts&&VM.prospects.counts.total)}>
+          {(() => {
+            const P = VM.prospects||{}, ct = P.counts||{};
+            if(!ct.total) return <div style={{ ...card, fontSize:12, color:C.faint }}>No prospects tracked in this feed build.</div>;
+            const URG = { ACT_NOW:C.red, HOT:C.amber, BUILDING:C.blue, QUIET:C.faint };
+            const CORR = (c)=> c==="Vetted-Buy"?C.green : c==="Uncorroborated"?C.faint : C.blue;
+            const pctxt = (x)=> x==null?"" : `${x>=0?"+":""}${(x*100).toFixed(1)}% vs SPY`;
+            const pcol = (x)=> x==null?C.faint : x>=0?C.green:C.red;
+            const prow = (r)=>{
+              const key="prosp"+(r.ticker||""), isO=posOpen[key], uc=URG[r.urgency]||C.faint;
+              return (
+                <div key={key} style={{ ...card, marginBottom:7, borderColor:uc+"33" }}>
+                  <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:r.summary?"pointer":"default" }}>
+                    <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                      <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
+                      <span style={{ fontFamily:mono, fontSize:11, color:uc, border:`1px solid ${uc}55`, borderRadius:99, padding:"1px 8px" }}>{r.urgency}</span>
+                      {r.pct_vs_spy!=null && <span style={{ fontFamily:mono, fontSize:11, color:pcol(r.pct_vs_spy) }}>{pctxt(r.pct_vs_spy)}</span>}
+                      <span style={{ fontFamily:mono, fontSize:11, color:CORR(r.corroboration), border:`1px solid ${CORR(r.corroboration)}55`, borderRadius:99, padding:"1px 8px" }}>{r.corroboration}</span>
+                    </div>
+                    {(r.sources&&r.sources.length>0) && <div style={{ marginTop:6, display:"flex", gap:5, flexWrap:"wrap" }}>{r.sources.map((s,j)=>(<span key={j} style={{ fontFamily:mono, fontSize:10, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 7px" }}>{s}</span>))}</div>}
+                  </div>
+                  {isO && r.summary && <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>{r.summary}</div>}
+                </div>
+              );
+            };
+            return (
+              <div>
+                <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>{ct.total} tracked · {ct.act_now||0} act-now · {ct.hot||0} hot · {ct.uncorroborated||0} uncorroborated · candidate surface, not the book</div>
+                {(P.hot||[]).length>0 && <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:4 }}>Hot</div>}
+                {(P.hot||[]).map(prow)}
+                {((P.movers_best||[]).length>0 || (P.movers_worst||[]).length>0) && (
+                  <div style={{ ...card, marginBottom:7, marginTop:2 }}>
+                    <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>Movers · vs SPY</div>
+                    {(P.movers_best||[]).map((r,j)=>(<div key={"mb"+j} style={{ fontSize:12, color:C.text, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:pcol(r.pct_vs_spy), fontFamily:mono }}>{pctxt(r.pct_vs_spy)}</span></div>))}
+                    {(P.movers_worst||[]).map((r,j)=>(<div key={"mw"+j} style={{ fontSize:12, color:C.dim, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:pcol(r.pct_vs_spy), fontFamily:mono }}>{pctxt(r.pct_vs_spy)}</span></div>))}
+                  </div>
+                )}
+                {(P.sell_fast||[]).length>0 && (
+                  <div style={{ ...card, marginBottom:7, borderColor:C.red+"44", background:C.red+"0a" }}>
+                    <div style={{ fontFamily:mono, fontSize:10, color:C.red, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>⚠️ Sell-fast — FS dropped a name you may hold</div>
+                    {(P.sell_fast||[]).map((r,j)=>(<div key={"sf"+j} style={{ fontSize:12.5, color:C.text, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:C.dim }}>{r.summary||"avoid"}</span></div>))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+        </Section>
+
+        {/* FROM RESEARCH — ticker-specific Research-Queue items as their OWN
+            candidate-action category (engine ⑦c research_actions), SEPARATE from
+            Today's actions; deduped against the action+catalyst lanes
+            (catalyst-precedence). Default-open when populated. */}
+        <Section id="research-actions" title="From Research" icon="🔎" badge={VM.researchActions.length?`${VM.researchActions.length}`:"0"} badgeColor={VM.researchActions.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.researchActions.length>0}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>FROM YOUR RESEARCH QUEUE — high-priority / dated dossiers as candidate reviews. SEPARATE from Today's actions; a name on the catalyst lane shows there, not here. Drill in chat to act.</div>
+          {VM.researchActions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing from research right now — no high-priority or dated Research-Queue items in this feed build.</div>}
+          {VM.researchActions.map((a)=>{
+            const key="rsch"+a.rank+(a.ticker||a.kind), isO=posOpen[key];
+            return (
+              <div key={key} style={{ ...card, marginBottom:8, borderColor:a.c+"44", background:a.c+"0a" }}>
+                <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:a.why?"pointer":"default" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{a.rank}</span>
+                    {a.ticker && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{a.ticker}</span>}
+                    <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{a.what}</span>
+                  </div>
+                  <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
+                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>priority: {a.confLabel}</span>
+                    {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
+                  </div>
+                  <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
+                  {a.why && (
+                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
+                      <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
+                    </div>
+                  )}
+                </div>
+                {isO && a.why && (
+                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
+                    {a.why}
+                    <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{VM.stamp} · research candidate — you decide, you size · drill in chat to run the gate</div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </Section>
+
+        {/* FRESH SIGNALS — Morning-Scan ⑦ signals not yet promoted to an action.
+            A scan/watch surface, not a gated action. */}
+        <Section id="fresh-signals" title="Fresh signals" icon="📨" badge={VM.freshSignals.length?`${VM.freshSignals.length}`:"0"} badgeColor={VM.freshSignals.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.freshSignals.length>0}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>MORNING-SCAN SIGNALS (⑦) — fresh movement / new names, not yet a fired action. A watch surface; promote in chat.</div>
+          {VM.freshSignals.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No fresh signals in this feed build.</div>}
+          {VM.freshSignals.map((s,i)=>{
+            const key="fsig"+i+(s.t||""), isO=posOpen[key];
+            return (
+              <div key={key} style={{ ...card, marginBottom:8 }}>
+                <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:(s.why||s.detail)?"pointer":"default" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                    {s.t && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{s.t}</span>}
+                    <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{s.what}</span>
+                  </div>
+                  <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+                    {s.urgLabel && <span style={{ fontFamily:mono, fontSize:11, color:C.blue, border:`1px solid ${C.blue}55`, borderRadius:99, padding:"1px 8px" }}>{s.urgLabel}</span>}
+                    {s.when && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{s.when}</span>}
+                  </div>
+                  {s.why && <div style={{ marginTop:8, fontSize:12.5, color:C.dim }}>{s.why}</div>}
+                  {s.detail && (
+                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
+                      <span style={{ fontSize:11, color:C.blue }}>{isO?"hide ▲":"detail ▾"}</span>
+                    </div>
+                  )}
+                </div>
+                {isO && s.detail && (
+                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>{s.detail}</div>
+                )}
+              </div>
+            );
+          })}
+        </Section>
+
+        {/* BULLISH FLOW (UW) — read-only WATCH lane: the daily UW opportunity
+            cache (Strand-3 surfacing / B1), grouped by ticker (uw_flow = one
+            name, one bucket). NOT conviction — the gated Chunk-2 hook is separate. */}
+        <Section id="bullish-flow" title="Bullish flow (UW)" icon="🌊" badge={(VM.bullishFlow.rows||[]).length?`${VM.bullishFlow.tickers} · ${VM.bullishFlow.count}`:"0"} badgeColor={(VM.bullishFlow.rows||[]).length?C.green:C.faint} openMap={open} setOpen={setOpen} defaultOpen={(VM.bullishFlow.rows||[]).length>0}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>DAILY UW OPTIONS RADAR — fresh bullish flow / sweeps / OI build / dark-pool, grouped by name (5 sweeps = one bucket). A WATCH surface, not conviction; not a fired action.{VM.bullishFlow.as_of?` · as-of ${VM.bullishFlow.as_of}`:""}</div>
+          {(VM.bullishFlow.rows||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No bullish-flow signals in this feed build.</div>}
+          {(VM.bullishFlow.rows||[]).map((r,i)=>{
+            const isBull=r.direction==="bullish", dc=isBull?C.green:C.red;
+            const key="bflow"+i+(r.ticker||""), isO=posOpen[key];
+            return (
+              <div key={key} style={{ ...card, marginBottom:8, borderColor:dc+"33" }}>
+                <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:(r.evidence&&r.evidence.length)?"pointer":"default" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
+                    <span style={{ fontFamily:mono, fontSize:11, color:dc, border:`1px solid ${dc}55`, borderRadius:99, padding:"1px 8px" }}>{isBull?"▲":"▼"} {r.direction}</span>
+                    <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px" }}>{r.strength}</span>
+                    {r.n>1 && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>×{r.n}</span>}
+                    {r.parked && <span title="Parked / MONITOR sleeve — deliberately benched; flow here is NOT a green light. Add only on a real re-entry trigger." style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>🔒 Parked</span>}
+                  </div>
+                  <div style={{ marginTop:7, fontFamily:mono, fontSize:11, color:C.faint }}>{(r.signal_types||[]).join(" · ")}</div>
+                  {(r.evidence&&r.evidence.length>0) && (
+                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
+                      <span style={{ fontSize:11, color:dc }}>{isO?"hide ▲":"evidence ▾"}</span>
+                    </div>
+                  )}
+                </div>
+                {isO && r.evidence && r.evidence.length>0 && (
+                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
+                    {r.evidence.map((e,j)=>(<div key={j} style={{ marginBottom:3 }}>• {e}</div>))}
+                    <div style={{ marginTop:6, fontFamily:mono, fontSize:10, color:C.faint }}>uw_flow — one independence bucket per name · watch, not a buy</div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </Section>
+
         {/* SYNTHESIS — today's read / state-of-play (Daily Synthesis; Tier-1) */}
         <Section id="synthesis" title="Today's read — synthesis" icon="🧠" badge={VM.synthesis&&VM.synthesis.date?VM.synthesis.date:""} badgeColor={C.blue} openMap={open} setOpen={setOpen} defaultOpen={true}>
           {(() => {
@@ -1080,6 +1245,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                                 <Pill label={p.cv} color={cv.c} title={cv.q} />
                                 <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{p.ty}</span>
                                 {(p.cd==="up"||p.cd==="down") && <span title="conviction-direction — the case for owning it recently changed (tap for why)" style={{ fontFamily:mono, fontSize:12.5, color:dirColor(p.cd) }}>{p.cd==="up"?"▲":"▼"}</span>}
+                                {p.cdNote && p.cdNote.indexOf("uw_opportunity")>=0 && <span title="direction turned on fresh UW options flow — timing / confirmation, not conviction" style={{ fontFamily:mono, fontSize:9.5, color:C.green, border:`1px solid ${C.green}55`, borderRadius:99, padding:"0px 5px" }}>UW</span>}
                                 {p.lock && <span style={{ fontSize:10.5 }} title="add only on a strong signal">🔒</span>}
                                 {p.fresh && <span style={{ fontSize:10.5 }} title="fresh buy-signal — see Today's actions">🔔</span>}
                               </div>
@@ -1148,7 +1314,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* RESEARCH — live Research Queue (R = VM.research when present, else curated) */}
-        <Section id="research" title="Research" icon="🔬" openMap={open} setOpen={setOpen} defaultOpen={false}>
+        <Section id="research" title="Research" icon="🔬" badge={(R.pending||[]).length+(R.done||[]).length} badgeColor={C.blue} openMap={open} setOpen={setOpen} defaultOpen={((R.pending||[]).length+(R.done||[]).length)>0}>
           <Section id="rpending" title="Pending — you prioritize" icon="⏳" badge={(R.pending||[]).length} badgeColor={C.blue} openMap={open} setOpen={setOpen}>
             {(R.pending||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing pending.</div>}
             {(R.pending||[]).map((x,i)=>{ const pr=x.priority||x.pr||""; return (

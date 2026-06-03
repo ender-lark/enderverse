@@ -13,13 +13,17 @@ strand 3) splits on the 2.0 line exactly like the parabolic cache:
     CARDS (SourceItem-shaped) so the conviction reads can treat fresh bullish flow
     as confirmation / timing on names you ALREADY have conviction on.
 
-THIS FILE IS THE CONSUMER'S CONTRACT + ADAPTER ONLY (Chunk 1). It does NOT fetch
-from UW (that is the scout) and it does NOT yet move conviction (that is Chunk 2).
-The cards it emits carry kind ``uw_opportunity`` and — deliberately — NO ``event``
-marker, so ``conviction_direction_read`` and ``conviction_read`` IGNORE them today
-(proven by the inert-seam test in test_uw_opportunity.py). Chunk 2 is the single
-hook that turns a fresh bullish ``uw_opportunity`` card into an up-event on the
-direction trail + a lean-in evidence row — gated, never an auto-buy.
+THIS FILE IS THE CONSUMER'S CONTRACT + ADAPTER (it does NOT fetch from UW — that is
+the scout). The cards it emits carry kind ``uw_opportunity`` and — deliberately — NO
+``event`` key; the Chunk-2 hook is LIVE in the READERS (not via an event marker):
+``conviction_direction_read`` derives a DIRECTION event straight from ``data.direction``
+(gated by the short ``UW_OPP_FRESH_DAYS`` window; ``uw_flow`` independence group), so a
+fresh bullish signal moves a name's ``cd`` to ``up`` and surfaces a lean-in evidence
+row — gated, never an auto-buy. It moves DIRECTION only: ``conviction_read`` (QUALITY)
+still IGNORES it (``uw_opportunity`` is not in ``ENDORSEMENT_KINDS``), so flow can never
+manufacture a lean-in or bump conviction — ``lean_in_read`` gates on the conviction
+floor, which flow does not raise. (Enforced by ``test_fresh_bullish_flow_is_up_event``,
+``test_quality_read_ignores_flow``, ``test_flow_is_not_an_independence_stream``.)
 
 THE CACHE SCHEMA  (what the scout writes / this adapter reads)
 -------------------------------------------------------------
@@ -114,9 +118,9 @@ def uw_opportunity_cards(cache) -> list[dict]:
             "timestamp": ts,
             "trust_weight": UW_OPP_STRENGTH_TRUST[strength],
             "independence_group": UW_OPP_INDEPENDENCE_GROUP,
-            # `data` carries the opportunity semantics. NO "event" key in Chunk 1 —
-            # that is the Chunk-2 hook that turns a fresh bullish signal into an
-            # up-event on the conviction-direction trail (+ a lean-in evidence row).
+            # `data` carries the opportunity semantics. NO "event" key by design —
+            # the Chunk-2 hook is LIVE: conviction_direction_read derives a fresh
+            # DIRECTION up/down event straight from data.direction (no marker needed).
             "data": {"signal_type": stype, "direction": direction,
                      "strength": strength, **detail},
         })
@@ -146,3 +150,47 @@ def sample_opportunity_cache() -> dict:
              "detail": {"notional": 14000000, "sessions": 4}},
         ],
     }
+
+
+def uw_opportunity_surface(cache, monitor_tickers=None) -> dict:
+    """Read-only DISPLAY shaping of the opportunity cache for the cockpit's
+    "Bullish flow" WATCH lane (Strand-3 surfacing / B1). Groups signals by ticker
+    (``uw_flow`` = one name, one bucket -- 5 sweeps on ANET = one row, not five;
+    decision-kernel #7), strongest first, bullish first. Tolerant: malformed rows
+    are skipped (never raised). Does NOT move conviction -- that is the gated
+    Chunk-2 hook, deliberately separate. Returns ``{}`` for an empty / None cache.
+    """
+    signals, cache_ts = _coerce_signals(cache)
+    monitor = set(monitor_tickers or ())   # 🔒 parked/burned MONITOR sleeves -> caution tag
+    groups: dict[str, dict] = {}
+    for s in signals:
+        if not isinstance(s, dict):
+            continue
+        ticker = s.get("ticker")
+        stype = s.get("signal_type")
+        direction = s.get("direction")
+        if not ticker or stype not in SIGNAL_TYPES or direction not in DIRECTIONS:
+            continue  # contract violation -> skip
+        strength = s.get("strength")
+        if strength not in UW_OPP_STRENGTH_TRUST:
+            strength = UW_OPP_DEFAULT_STRENGTH
+        g = groups.setdefault(ticker, {"ticker": ticker, "direction": direction,
+                                       "strength": strength, "signal_types": [],
+                                       "n": 0, "evidence": [], "parked": ticker in monitor})
+        g["n"] += 1
+        if stype not in g["signal_types"]:
+            g["signal_types"].append(stype)
+        if UW_OPP_STRENGTH_TRUST[strength] > UW_OPP_STRENGTH_TRUST.get(g["strength"], 0):
+            g["strength"] = strength  # strongest in the bucket leads the header
+        ev = s.get("evidence")
+        if ev and ev not in g["evidence"] and len(g["evidence"]) < 3:
+            g["evidence"].append(ev)
+    rows = sorted(groups.values(),
+                  key=lambda r: (0 if r["direction"] == "bullish" else 1,
+                                 -UW_OPP_STRENGTH_TRUST.get(r["strength"], 0),
+                                 -r["n"], r["ticker"]))
+    if not rows:
+        return {}
+    as_of = (cache.get("as_of") if isinstance(cache, dict) else None) or cache_ts or ""
+    return {"as_of": as_of, "count": sum(r["n"] for r in rows),
+            "tickers": len(rows), "rows": rows}
