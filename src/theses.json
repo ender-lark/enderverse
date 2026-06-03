@@ -4,32 +4,33 @@
     "id": "thesis_bmnr",
     "tier": "T1",
     "lane": "Generational",
+    "stance": "MONITOR",
     "source": "operator",
     "factor_tags": [
       "crypto",
       "eth"
     ],
-    "_comment": "Generational Lane reclassified 5/3/26. Currently T2 5% baseline; upgrade to T1 (10%) on high-confidence trigger. Currently CRITICALLY_BELOW T1 floor.",
-    "stance": "MONITOR"
+    "_comment": "Generational Lane reclassified 5/3/26. Currently T2 5% baseline; upgrade to T1 (10%) on high-confidence trigger. Currently CRITICALLY_BELOW T1 floor."
   },
   {
     "ticker": "LEU",
     "id": "thesis_leu",
     "tier": "T1",
     "lane": "Generational",
+    "stance": "MONITOR",
     "source": "Meridian",
     "factor_tags": [
       "critical_minerals",
       "nuclear",
       "uranium"
-    ],
-    "stance": "MONITOR"
+    ]
   },
   {
     "ticker": "NVDA",
     "id": "thesis_nvda",
     "tier": "T2",
     "lane": "Speed",
+    "stance": "ACTIVE",
     "source": "Lee",
     "factor_tags": [
       "ai_complex",
@@ -43,6 +44,7 @@
     "id": "thesis_smh",
     "tier": "T2",
     "lane": "BuyAndHold",
+    "stance": "ACTIVE",
     "source": "Lee",
     "factor_tags": [
       "ai_complex",
@@ -55,6 +57,7 @@
     "id": "thesis_grny",
     "tier": "T2",
     "lane": "BuyAndHold",
+    "stance": "ACTIVE",
     "source": "Lee",
     "factor_tags": [
       "ai_complex"
@@ -65,6 +68,7 @@
     "id": "thesis_mags",
     "tier": "T2",
     "lane": "BuyAndHold",
+    "stance": "ACTIVE",
     "source": "Lee",
     "factor_tags": [
       "ai_complex",
@@ -77,6 +81,7 @@
     "id": "thesis_grnj",
     "tier": "T2",
     "lane": "BuyAndHold",
+    "stance": "ACTIVE",
     "source": "Lee",
     "factor_tags": [
       "ai_complex"
@@ -87,6 +92,7 @@
     "id": "thesis_igv",
     "tier": "T3",
     "lane": "BuyAndHold",
+    "stance": "ACTIVE",
     "source": "Lee",
     "factor_tags": [
       "software",
@@ -98,6 +104,7 @@
     "id": "thesis_volt",
     "tier": "T3",
     "lane": "Speed",
+    "stance": "ACTIVE",
     "source": "operator",
     "factor_tags": [
       "nuclear",
@@ -109,6 +116,7 @@
     "id": "thesis_ives",
     "tier": "T3",
     "lane": "Speed",
+    "stance": "ACTIVE",
     "source": "operator",
     "factor_tags": [
       "ai_complex"
@@ -119,6 +127,7 @@
     "id": "thesis_mu",
     "tier": "T3",
     "lane": "Speed",
+    "stance": "ACTIVE",
     "source": "Lee",
     "factor_tags": [
       "ai_complex",
@@ -130,18 +139,19 @@
     "id": "thesis_uuuu",
     "tier": "T3",
     "lane": "Speed",
+    "stance": "MONITOR",
     "source": "Meridian",
     "factor_tags": [
       "critical_minerals",
       "uranium"
-    ],
-    "stance": "MONITOR"
+    ]
   },
   {
     "ticker": "XLF",
     "id": "thesis_xlf",
     "tier": "T3",
     "lane": "BuyAndHold",
+    "stance": "ACTIVE",
     "source": "Lee",
     "factor_tags": [
       "financials",
@@ -153,11 +163,11 @@
     "id": "thesis_mp",
     "tier": "T3",
     "lane": "Speed",
+    "stance": "MONITOR",
     "source": "Meridian",
     "factor_tags": [
       "critical_minerals",
       "rare_earth"
-    ],
-    "stance": "MONITOR"
+    ]
   }
 ]
