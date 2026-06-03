@@ -81,6 +81,8 @@ DEFAULT_FILES = {
     "rationales":    "rationales.json",
     "prior":         "prior_snapshot.json",
     "parabolic":     "parabolic_setups.json",
+    "inbox_dates":   "inbox_call_dates.json",
+    "log_dates":     "log_call_dates.json",
 }
 
 ENV_OVERRIDES = {
@@ -94,6 +96,8 @@ ENV_OVERRIDES = {
     "rationales":   "INVEST_RATIONALES",
     "prior":        "INVEST_PRIOR",
     "parabolic":    "INVEST_PARABOLIC",
+    "inbox_dates":  "INVEST_INBOX_CALL_DATES",
+    "log_dates":    "INVEST_LOG_CALL_DATES",
 }
 
 
@@ -194,6 +198,40 @@ def _positions_freshness(positions_data, today=None, max_age_days=POSITIONS_MAX_
     return ("fresh", age, f"positions cache is {age}d old (snapshot {snap}).")
 
 
+def _calibration_chain_banner(source_calls_data, inbox_call_dates, log_call_dates, today=None):
+    """Surface source-calibration chain staleness at session-open (Issue #10 §3 wiring).
+
+    The chain live Inbox -> Source Call Log -> source_calls.json cache is only as fresh
+    as its stalest hop (the 2026-05-28 failure: Inbox->Log read clean while hit-rates were
+    9d stale). The gauge functions already exist in source_call_tracker (v11.35/11.36);
+    this wires them into the pre-flight so a silently-stale calibration becomes LOUD.
+
+    cache_call_dates is read offline from source_calls.json. The LIVE side (inbox/log
+    dates) is Notion-only and supplied by the routine; when it is absent we report
+    'not checked / PROVISIONAL' rather than implying the chain is clean (Dark-Lane-Honesty).
+    Returns a banner string ('' only when the chain is CONFIRMED fresh).
+    """
+    import source_call_tracker as sct
+    calls = source_calls_data if isinstance(source_calls_data, list) else []
+    cache_dates = [c["date"] for c in calls if isinstance(c, dict) and c.get("date")]
+    newest_cache = max(cache_dates) if cache_dates else None
+    bar = "=" * 66
+
+    if not inbox_call_dates and not log_call_dates:
+        return "\n".join(["", bar,
+            "⚠️  SOURCE CALIB CHAIN NOT CHECKED — live Inbox/Log not supplied this run; "
+            f"cache as-of {newest_cache or 'unknown'}. Treat calibration as PROVISIONAL "
+            "until the routine passes Inbox/Log dates.", bar, ""])
+
+    chain = sct.calibration_chain_staleness(
+        inbox_call_dates or [], log_call_dates or [], cache_dates, now=today)
+    if not chain.get("stale"):
+        return ""
+    return "\n".join(["", bar,
+        f"⚠️  SOURCE CALIB CHAIN STALE ({chain['worst_days_behind']}d behind) — PROVISIONAL",
+        sct.chain_staleness_surface(chain), bar, ""])
+
+
 # ============================================================================
 # MAIN
 # ============================================================================
@@ -277,6 +315,18 @@ def main():
     rationales_data   = _load(paths["rationales"])
     prior_data        = _load(paths["prior"])
     parabolic_data    = _load(paths["parabolic"])
+
+    # v12.5 Issue #10 §3: source-calibration chain staleness at boot. The gauges exist in
+    # source_call_tracker (v11.35/11.36) but were unwired; surface them, or say "not checked"
+    # when the live Inbox/Log dates aren't supplied. One small hardened read — never breaks boot.
+    try:
+        _inbox_dates = _load(paths["inbox_dates"]) if paths.get("inbox_dates") else None
+        _log_dates   = _load(paths["log_dates"]) if paths.get("log_dates") else None
+        _cc_banner = _calibration_chain_banner(source_calls_data, _inbox_dates, _log_dates)
+    except Exception:
+        _cc_banner = ""
+    if _cc_banner:
+        print(_cc_banner, file=(sys.stderr if args.json else sys.stdout))
 
     # Resolve sleeve total
     sleeve_total = _sleeve_total(args) if args.sleeve_total or os.environ.get("INVEST_SLEEVE_TOTAL") \

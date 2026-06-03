@@ -53,9 +53,11 @@ try:
     import conviction_sizing_calibrator as csc
     import portfolio_factor_exposure as pfe
     import insider_activity_scan as ias
+    import source_call_tracker as sct
 except ImportError as e:
     print(f"WARNING: import failure — {e}")
     ol = csc = pfe = ias = None
+    sct = None
 
 
 # ============================================================================
@@ -439,6 +441,56 @@ def _run_parabolic(parabolic_data: Optional[Dict]) -> SubsystemResult:
     )
 
 
+def _run_persistence(source_calls, theses, calibration_fresh,
+                     core_tickers=None, now=None) -> SubsystemResult:
+    """SOURCE PERSISTENCE — single-source soloist detector (v11.29), wired as the
+    8th subsystem (v12.5). STALENESS GUARD: when the source-calibration chain is
+    NOT confirmed fresh, LOUD clusters are downgraded to PROVISIONAL — still
+    surfaced (never silently dropped), but not firing P-WAKE-UP on their own,
+    because the underlying calls may be stale / un-ingested (Issue #10). Core
+    (non-MONITOR T1/T2) names are the quiet set; MONITOR names stay loud-eligible
+    so re-entry persistence still surfaces (AI-Momentum / Monitor-Stance)."""
+    if sct is None:
+        return SubsystemResult(name="SOURCE PERSISTENCE", available=False,
+            surface_line="SOURCE PERSISTENCE: (source_call_tracker unavailable)",
+            priority="INFO")
+    if not source_calls:
+        return SubsystemResult(name="SOURCE PERSISTENCE", available=False,
+            surface_line="SOURCE PERSISTENCE: (no source calls supplied)",
+            priority="INFO")
+    if core_tickers is None:
+        core_tickers = {(t.get("ticker") or "").upper() for t in (theses or [])
+                        if (t.get("stance") or "").upper() != "MONITOR"
+                        and (t.get("tier") or "").upper() in ("T1", "T2")}
+    clusters = sct.persistence_scan(source_calls, core_tickers=core_tickers, now=now)
+
+    guarded = False
+    if not calibration_fresh:
+        for c in clusters:
+            if c.get("loud"):
+                c["loud"] = False
+                c["quiet_reason"] = "calib_provisional"
+                c["provisional"] = True
+                guarded = True
+
+    if not clusters:
+        return SubsystemResult(name="SOURCE PERSISTENCE", available=True,
+            surface_line="SOURCE PERSISTENCE: none firing", priority="INFO")
+
+    loud_n = sum(1 for c in clusters if c.get("loud"))
+    prov_n = sum(1 for c in clusters if c.get("provisional"))
+    surface = sct.persistence_surface_line(clusters)
+    if guarded:
+        surface += ("  \u26a0\ufe0f PROVISIONAL — calibration chain not confirmed "
+                    "fresh; LOUD held until calibration refreshes (Issue #10 guard)")
+    priority = "HIGH" if loud_n else ("MED" if prov_n else "INFO")
+    return SubsystemResult(name="SOURCE PERSISTENCE", available=True,
+        surface_line=surface, priority=priority,
+        actionable_count=loud_n + prov_n,
+        payload={"clusters": len(clusters), "loud": loud_n,
+                 "provisional": prov_n, "guarded": guarded})
+
+
 PRIORITY_RANK = {"CRIT": 0, "HIGH": 1, "MED": 2, "INFO": 3, "NONE": 4}
 
 
@@ -451,7 +503,9 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
                 insider_data: Optional[Dict] = None,
                 catalysts: Optional[List[Dict]] = None,
                 source_calls: Optional[List[Dict]] = None,
-                parabolic_data: Optional[Dict] = None
+                parabolic_data: Optional[Dict] = None,
+                inbox_call_dates: Optional[List] = None,
+                log_call_dates: Optional[List] = None
                 ) -> SessionDashboard:
     """Run all subsystems and produce dashboard."""
     current_snapshot = {
@@ -459,6 +513,19 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
         "positions": positions,
         "sleeve_value": sleeve_total,
     }
+
+    # v12.5 Issue #10: confirm the source-calibration chain is fresh before letting
+    # SOURCE PERSISTENCE fire LOUD. Live Inbox/Log dates are routine-supplied; absent
+    # them the chain is "not checked" -> persistence stays PROVISIONAL (safe default).
+    calibration_fresh = False
+    if sct is not None and inbox_call_dates and log_call_dates:
+        try:
+            _cache_dates = [c.get("date") for c in (source_calls or [])
+                            if isinstance(c, dict) and c.get("date")]
+            calibration_fresh = not sct.calibration_chain_staleness(
+                inbox_call_dates, log_call_dates, _cache_dates).get("stale")
+        except Exception:
+            calibration_fresh = False
 
     subs = [
         _run_macro(macro_pulse),
@@ -469,6 +536,7 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
         _run_factor(positions, theses, sleeve_total, macro_pulse),
         _run_insider(positions, insider_data, catalysts, theses, macro_pulse),
         _run_parabolic(parabolic_data),
+        _run_persistence(source_calls, theses, calibration_fresh),
     ]
 
     # Priority-ordered list of subsystem names that have actionable items
@@ -554,7 +622,7 @@ def _self_test() -> bool:
     # ----- Test 1: minimal — empty everything → no actionable items
     d = orchestrate([], [], sleeve_total=1)
     assert_eq(len(d.priority_order), 0, "empty: no actionable items")
-    assert_eq(len(d.subsystems), 7, "7 subsystems always run")
+    assert_eq(len(d.subsystems), 8, "8 subsystems always run")
 
     # ----- Test 2: realistic operator portfolio
     positions = [
@@ -641,7 +709,7 @@ def _self_test() -> bool:
     js = format_json(d)
     parsed = json.loads(js)
     assert_eq(parsed["sleeve_total"], 1875000, "JSON sleeve_total")
-    assert_true(len(parsed["subsystems"]) == 7, "JSON has 7 subsystems")
+    assert_true(len(parsed["subsystems"]) == 8, "JSON has 8 subsystems")
 
     # ----- Test 10: all-none scenario
     d = orchestrate([], [], 1)
