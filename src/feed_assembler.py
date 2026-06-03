@@ -21,8 +21,12 @@ from analyst import (rotation_read, macro_read, staleness_read,
                      type_read, hero_needs_you_read, weight_read)
 from analyst_judgment import (conviction_read, conviction_direction_read,
                               net_read, fresh_signal_read, actions_read,
-                              catalyst_needs_you, research_actions_read)
+                              catalyst_needs_you, lean_in_read, research_actions_read,
+                              apply_decision_aging)
 from analyst_config import theses_by_ticker
+from uw_opportunity import uw_opportunity_cards, uw_opportunity_surface
+from prospect_surface import build_prospects_lane
+from open_opportunities import open_opportunity_aging
 
 # ── name -> rotation-proxy sleeve (the leaderboard subject that stands in for a
 #    single name's relative strength). v1 glue, tunable. A name with no proxy
@@ -74,7 +78,9 @@ def _ns(items):
 
 def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   heartbeat=None, synthesis=None, research=None, radar=None,
-                  catalysts=None) -> dict:
+                  catalysts=None, lean_in=None, uw_opportunity=None,
+                  open_opportunities=None, opp_prices=None,
+                  top_prospects=None, aging_threshold_days=3) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
 
@@ -93,7 +99,15 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     snap = bundle["snapshot"]
     theses = bundle["theses"]
     parabolic = set(parabolic or [])
-    cards = _ns(snap["items"])
+    # ── Strand 3 (Chunk 1): fold the daily UW opportunity-signals cache into the
+    #    card stream as kind="uw_opportunity" cards (the conviction trail). ADDITIVE
+    #    and default-None — inert today (no `event` marker → the conviction reads
+    #    ignore them); Chunk 2 is the hook that turns a fresh bullish signal into an
+    #    up-event + a lean-in evidence row. Tolerant: a bad cache yields no cards. ──
+    _items = snap["items"]
+    if uw_opportunity:
+        _items = list(_items) + uw_opportunity_cards(uw_opportunity)
+    cards = _ns(_items)
     by_tk = theses_by_ticker(theses)
 
     # ── sleeve-level mechanical reads ──
@@ -126,6 +140,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
 
     # ── per-name pos rows, grouped by sleeve ──
     pos_by_sleeve: dict = {}
+    underweight_set: set = set()   # held names under their tier floor (lean-in input)
     for c in held:
         tk = c.subject
         th = by_tk.get(tk)
@@ -135,6 +150,8 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         pct = d.get("pct")
         tier = (th or {}).get("tier")
         underweight = pct is not None and pct < TIER_FLOOR.get(tier, 0.0)
+        if underweight:
+            underweight_set.add(tk)
         nr = net_read(tk, th, conv,
                       rotation_label=rot_label.get(NAME_SLEEVE.get(tk)),
                       weighted=wt.get(tk), parabolic=(tk in parabolic),
@@ -163,11 +180,46 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                                fresh_signals=fresh["fresh_signals"],
                                catalyst_imminent=cat_items)
 
-    # ── ⑦b prioritized Actions surface (ADDITIVE — derived from ⑦ + ⑧, the
-    #    "what to do today" strip on top of the book). synthesis_actions stays
-    #    empty until the Daily-Synthesis brain lands (forward-compat seam). ──
-    actions = actions_read(fresh["fresh_signals"],
-                           hero["needs_you"]["items"], theses)["actions"]
+    # ── ⑩ LEAN-IN lane (computed BEFORE Actions so the strongest lean-ins can be
+    #    promoted onto the act strip). ADDITIVE — the opportunity mirror of risk
+    #    surfacing; reconciles conviction quality + direction + sleeve rotation off
+    #    the SAME computed structures (dir_reads / rotation / type / stance). Never
+    #    decides/auto-buys. Override via `lean_in=` (same seam as radar). The
+    #    burned-sleeve (MONITOR) re-entry gate stays closed here (no high-conf
+    #    re-entry set passed by default), so the lane never lifts the gate itself. ──
+    if lean_in is None:
+        rot_by_subject = {s["subject"]: s for s in rot["sleeves"]}
+        rot_by_name = {tk: rot_by_subject.get(NAME_SLEEVE.get(tk)) for tk in dir_reads}
+        risk_by_tk = {tk: TIER_RISK.get((by_tk.get(tk) or {}).get("tier"), "Tactical")
+                      for tk in dir_reads}
+        fresh_act = {s["ticker"] for s in fresh["fresh_signals"] if s.get("urgency") == "act"}
+        fresh_watch = {s["ticker"] for s in fresh["fresh_signals"] if s.get("urgency") == "watch"}
+        lean_block = lean_in_read(list(dir_reads.values()), theses, cards, as_of,
+                                  rotation_by_name=rot_by_name, risk_by_tk=risk_by_tk,
+                                  held=seen, underweight=underweight_set, parabolic=parabolic,
+                                  fresh_act=fresh_act, fresh_watch=fresh_watch)["lean_in"]
+    else:
+        lean_block = lean_in
+
+    # ── ⑦b prioritized Actions surface (ADDITIVE — ⑦ fresh_signals + ⑧ hero
+    #    needs_you + PROMOTED ⑩ lean_ins, the "what to do today" strip on top of
+    #    the book). Only lean=="lean_in" items promote, deduped against fresh-
+    #    signal actions; synthesis_actions stays empty (forward-compat seam). ──
+    actions = actions_read(fresh["fresh_signals"], hero["needs_you"]["items"], theses,
+                           lean_in_items=lean_block)["actions"]
+
+    # ── ⑦b-aging (E2): age the open-opportunity store into the Actions strip.
+    #    ENRICH any action row that's an open aging idea with age / first-flagged /
+    #    move-since (renderer draws the 🕒 chip), and EMIT a standalone
+    #    `decision_aging` row for an aging idea that didn't re-surface today — so a
+    #    flagged-but-ignored name never silently falls off. MONITOR names are
+    #    excluded inside open_opportunity_aging (guardrail). No store → no-op. ──
+    if open_opportunities is not None:
+        _monitor = {tk for tk, th in by_tk.items() if (th or {}).get("stance") == "MONITOR"}
+        _aging = open_opportunity_aging(open_opportunities, opp_prices or {}, as_of,
+                                        threshold_days=aging_threshold_days,
+                                        monitor_tickers=_monitor)
+        actions = apply_decision_aging(actions, _aging, by_tk)
 
     # ── ⑦c research_actions: ticker-specific Research-Queue items as their OWN
     #    candidate-action category (SEPARATE from `actions`; never blended).
@@ -209,6 +261,16 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
             })
             radar_seen.add(tk)
 
+    # ── B1 (Strand-3 surfacing): read-only "Bullish flow" watch lane from the UW
+    #    opportunity cache (grouped by ticker; NOT conviction — the gated Chunk-2
+    #    hook is separate). ──
+    _monitor_all = {tk for tk, th in by_tk.items() if (th or {}).get("stance") == "MONITOR"}
+    bullish_flow = uw_opportunity_surface(uw_opportunity, monitor_tickers=_monitor_all) if uw_opportunity else {}
+    # ── Top Prospects lane (item 5): shape the raw prospects cache into the cockpit
+    #    lane (hot / movers / sell-fast / counts). External read, engine-shaped +
+    #    golden-pinned; {} when no cache. ──
+    prospects = build_prospects_lane(top_prospects) if isinstance(top_prospects, dict) and top_prospects else {}
+
     return {
         "generated_at": generated_at or f"{as_of}T16:00:00",
         "staleness": stale,
@@ -225,4 +287,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "heartbeat": heartbeat or [],
         "synthesis": synthesis or {},
         "radar": derived_radar if radar is None else radar,
+        "lean_in": lean_block,
+        "bullish_flow": bullish_flow,
+        "prospects": prospects,
     }
