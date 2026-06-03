@@ -21,9 +21,11 @@ from analyst import (rotation_read, macro_read, staleness_read,
                      type_read, hero_needs_you_read, weight_read)
 from analyst_judgment import (conviction_read, conviction_direction_read,
                               net_read, fresh_signal_read, actions_read,
-                              catalyst_needs_you, lean_in_read, research_actions_read)
+                              catalyst_needs_you, lean_in_read, research_actions_read,
+                              apply_decision_aging)
 from analyst_config import theses_by_ticker
 from uw_opportunity import uw_opportunity_cards
+from open_opportunities import open_opportunity_aging
 
 # ── name -> rotation-proxy sleeve (the leaderboard subject that stands in for a
 #    single name's relative strength). v1 glue, tunable. A name with no proxy
@@ -75,7 +77,9 @@ def _ns(items):
 
 def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   heartbeat=None, synthesis=None, research=None, radar=None,
-                  catalysts=None, lean_in=None, uw_opportunity=None) -> dict:
+                  catalysts=None, lean_in=None, uw_opportunity=None,
+                  open_opportunities=None, opp_prices=None,
+                  aging_threshold_days=3) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
 
@@ -202,6 +206,19 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     #    signal actions; synthesis_actions stays empty (forward-compat seam). ──
     actions = actions_read(fresh["fresh_signals"], hero["needs_you"]["items"], theses,
                            lean_in_items=lean_block)["actions"]
+
+    # ── ⑦b-aging (E2): age the open-opportunity store into the Actions strip.
+    #    ENRICH any action row that's an open aging idea with age / first-flagged /
+    #    move-since (renderer draws the 🕒 chip), and EMIT a standalone
+    #    `decision_aging` row for an aging idea that didn't re-surface today — so a
+    #    flagged-but-ignored name never silently falls off. MONITOR names are
+    #    excluded inside open_opportunity_aging (guardrail). No store → no-op. ──
+    if open_opportunities is not None:
+        _monitor = {tk for tk, th in by_tk.items() if (th or {}).get("stance") == "MONITOR"}
+        _aging = open_opportunity_aging(open_opportunities, opp_prices or {}, as_of,
+                                        threshold_days=aging_threshold_days,
+                                        monitor_tickers=_monitor)
+        actions = apply_decision_aging(actions, _aging, by_tk)
 
     # ── ⑦c research_actions: ticker-specific Research-Queue items as their OWN
     #    candidate-action category (SEPARATE from `actions`; never blended).

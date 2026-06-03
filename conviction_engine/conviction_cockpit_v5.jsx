@@ -671,7 +671,7 @@ const FEED = {
   "synthesis": {"date":"2026-05-29","source":"Daily Synthesis","state_of_play":"AI/semis leads the tape (+47%/3M); software just caught up. Burned MONITOR sleeves still lag — no re-entry signal firing.","delta":"FN named a new FS Top-5 SMID (5/28). ITA cleared a multi-month downtrend (Newton 5/28).","hanging":["FN buy-on-pullback not yet acted (flagged 5/28).","XLF Fundstrat rationale still undocumented in Live Theses."]},
   "actions": [
     {"rank":1,"kind":"decision_aging","ticker":"FN","confidence":"High","what":"Named FS Top-5 (5/28) — still un-acted","age_days":5,"first_flagged":"5/28","move_since":"+12% since flag","sizing":"~$35K (5sh → ~2%), fund via GRNY above-ceiling trim","your_move":"Buy-on-pullback ~$620 OR post-AVGO print — don't let it keep running away.","why":"SAMPLE row. High-conviction AI/optical pick flagged 5/28; up 12% while un-acted — the persistence/aging cue exists so this stops happening. The age / move-since values come from the engine (E2 / E5); not live yet.","gate":{"preview":"≥$25K → gate (expect AMBER: AI concentration)"}},
-    {"rank":2,"kind":"conviction_gap","ticker":"NVDA","confidence":"High","what":"Under-deployed vs conviction (AI core)","sizing":"Express via a researched add; fund by trimming SMH / MAGS — not more ETF beta","your_move":"Size toward conviction — under-sizing the AI core is the canonical failure.","why":"SAMPLE row illustrating conviction_gap: flags a high-conviction sleeve smaller than the thesis supports. Applies ONLY to high-conviction sleeves — never a MONITOR sleeve. Engine-emit is backlog (E1).","gate":{"preview":"≥$25K → gate"}},
+    {"rank":2,"kind":"lean_in","ticker":"NVDA","confidence":"High","what":"Under-deployed vs conviction (AI core)","sizing":"Express via a researched add; fund by trimming SMH / MAGS — not more ETF beta","your_move":"Size toward conviction — under-sizing the AI core is the canonical failure.","why":"SAMPLE row illustrating lean_in (the engine's under-deployment surfacing): flags a high-conviction sleeve smaller than the thesis supports. Applies ONLY to high-conviction sleeves — never a MONITOR sleeve. Now styled to the engine's live lean_in kind (E1).","gate":{"preview":"≥$25K → gate"}},
     {"rank":3,"kind":"reentry_zone","ticker":"LEU","confidence":"Moderate","what":"MONITOR re-entry signal — setup fired","age_days":3,"first_flagged":"5/30","move_since":"+5% since flag","sizing":"Defined-risk only (small / options) — burned sleeve","your_move":"Re-entry condition met the bar — express defined-risk. NOT a floor-gap nudge.","why":"SAMPLE row showing the MONITOR re-entry path: a burned-sleeve name surfaces LOUD only when a genuine re-entry condition fires (convergence / catalyst / regime-turn) — never on a bare dip. LEU ran +5% un-acted; loud + sticky is the fix.","gate":{"preview":"defined-risk → no gate"}}
   ]
 };
@@ -729,8 +729,9 @@ const ACTION_KIND_META = {
   watch_entry:     { icon:"👁", label:"Watch",          c:C.blue  },
   stale_critical:  { icon:"⚠️", label:"Stale source",   c:C.dim   },
   synthesis:       { icon:"🧠", label:"Synthesis",      c:C.blue  },
-  conviction_gap:  { icon:"📈", label:"Under-deployed", c:C.green },
-  decision_aging:  { icon:"🕒", label:"Aging — act",    c:C.amber },
+  lean_in:          { icon:"📈", label:"Under-deployed", c:C.green },
+  catalyst_imminent:{ icon:"📅", label:"Pre-catalyst",   c:C.blue  },
+  decision_aging:   { icon:"🕒", label:"Aging — act",    c:C.amber },
 };
 const CONF_META = {
   High:     { c:C.green, label:"High" },

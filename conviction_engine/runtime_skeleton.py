@@ -107,6 +107,9 @@ def build_full_feed(
     radar: list | None = None,
     catalysts: list | None = None,
     uw_opportunity: dict | None = None,
+    open_opportunities: dict | None = None,
+    opp_prices: dict | None = None,
+    aging_threshold_days: int = 3,
     parabolic=None,
     as_of: str | None = None,
     run_timestamp: str | None = None,
@@ -184,6 +187,9 @@ def build_full_feed(
         radar=radar,
         catalysts=catalysts,
         uw_opportunity=uw_opportunity,
+        open_opportunities=open_opportunities,
+        opp_prices=opp_prices,
+        aging_threshold_days=aging_threshold_days,
     )
     errs = validate_cockpit_feed(feed)
     if errs:

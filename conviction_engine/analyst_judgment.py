@@ -462,6 +462,7 @@ _ACTION_PRIORITY = {
     "synthesis": 1,        # v1 placeholder: curated synthesis action (tune when wired)
     "reentry_zone": 2,     # a re-entry-zone touch (⏳ act, non-burned)
     "catalyst_imminent": 2,  # a near-term dated event on a HELD name (review-before)
+    "decision_aging": 2,   # an open, aging, un-acted opportunity (E2) — decide, don't let it run
     "monitor_reentry": 3,  # a burned-sleeve re-entry candidate (watch YOUR trigger)
     "lean_in": 3,          # a promoted lean-in — looks good, size it yourself (no trigger yet)
     "macro_alert": 4,      # a firing macro alert (regime-level)
@@ -472,6 +473,7 @@ _ACTION_CONFIDENCE = {
     "red_gate": "High", "buy_now": "High", "reentry_zone": "High",
     "monitor_reentry": "Moderate", "macro_alert": "Moderate", "lean_in": "Moderate",
     "watch_entry": "Moderate", "stale_critical": "Low",
+    "decision_aging": "Moderate",
 }
 _CONFIDENCE_RANK = {"High": 0, "Moderate": 1, "Low": 2}
 
@@ -733,6 +735,75 @@ def actions_read(fresh_signals, needs_you_items, theses,
         "total_candidates": len(actions),
         "act_like": sum(1 for a in actions if a["kind"] in ("buy_now", "reentry_zone")),
     }
+
+
+def apply_decision_aging(actions, aging_records, by_ticker):
+    """E2 — fold the open-opportunity aging store into the Actions strip.
+
+    Two moves:
+      (a) ENRICH any existing action row whose ticker is an open aging idea with
+          age_days / first_flagged / move_since (additive — like days_to_catalyst
+          it never perturbs rows without it; the renderer draws the 🕒 chip).
+      (b) EMIT a standalone `decision_aging` row for an aging idea NOT already on
+          the strip, so a flagged-but-ignored name never silently drops off.
+
+    Any aging row (enriched or standalone) is sort-boosted to priority <= 2 so a
+    name that's been ignored + is moving surfaces LOUD — without changing its kind
+    label. MONITOR names are already excluded upstream (open_opportunity_aging).
+
+    `aging_records`: the open_opportunity_aging() output. EMPTY -> the actions list
+    is returned UNCHANGED (no copy, no re-rank) so feeds without the store stay
+    byte-identical (golden-safe).
+    """
+    if not aging_records:
+        return actions
+    aging_by_tk = {r["ticker"]: r for r in aging_records if r.get("ticker")}
+    rows = [dict(a) for a in (actions or [])]
+    present = {a.get("ticker") for a in rows if a.get("ticker")}
+
+    # (a) ENRICH existing rows
+    for a in rows:
+        rec = aging_by_tk.get(a.get("ticker"))
+        if not rec:
+            continue
+        a.setdefault("age_days", rec.get("age_days"))
+        a.setdefault("first_flagged", rec.get("first_flagged"))
+        if not a.get("move_since"):
+            a["move_since"] = rec.get("move_since", "")
+
+    # (b) EMIT standalone decision_aging rows for aging names not already present
+    for tk, rec in aging_by_tk.items():
+        if tk in present:
+            continue
+        age = rec.get("age_days")
+        ms = rec.get("move_since") or ""
+        ff = rec.get("first_flagged")
+        conf = "High" if isinstance(age, int) and age >= 5 else "Moderate"
+        span = f"({ms})" if ms else (f"(open {age}d)" if age is not None else "")
+        rows.append({
+            "rank": 10_000 + len(rows),   # sort after same-priority existing; renumbered below
+            "kind": "decision_aging", "ticker": tk,
+            "what": f"Flagged {ff} — still un-acted",
+            "confidence": conf,
+            "your_move": (f"You flagged {tk} on {ff} and still haven't acted {span} — "
+                          "decide now: size it and run the gate, or log why you're "
+                          "passing. Don't let it keep running away."),
+            "gate": _gate_hook(tk, by_ticker),
+            "source": "decision_aging",
+            "why": f"open {age} trading days since {ff}" + (f"; {ms}" if ms else ""),
+            "age_days": age, "first_flagged": ff, "move_since": ms,
+        })
+
+    def _eff_pri(a):
+        base = _ACTION_PRIORITY.get(a["kind"], 9)
+        return min(base, 2) if a.get("age_days") is not None else base  # aging → loud
+
+    rows.sort(key=lambda a: (_eff_pri(a),
+                             _CONFIDENCE_RANK.get(a.get("confidence"), 9),
+                             a.get("rank", 9_999)))
+    for i, a in enumerate(rows, start=1):
+        a["rank"] = i
+    return rows
 
 
 # =========================================================================== #
