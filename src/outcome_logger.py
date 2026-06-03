@@ -20,6 +20,25 @@ V11.26 ENHANCEMENTS OVER V11.20 ORIGINAL
     4. Source-cluster-3 flag: when ≥3 outcomes share the same named source
        anchor in the same diff window, surface as coordinated-thesis-event
 
+V11.36 INGEST-SEAM FIX (CI Update Queue: P-PORTFOLIO-INGEST prior-snapshot seam)
+    The portfolio-pdf-extractor emits a NESTED schema (positions live under
+    files[].positions[] with symbol / quantity / account_name keys), while this
+    diff engine consumes a FLAT snapshot ({snapshot_date, sleeve_value,
+    positions[]} with ticker / shares / account).  Previously the bridge between
+    the two was re-improvised on every ingest, and "prior" had no canonical JSON
+    form.  Now:
+      - flatten_extractor_snapshot() converts extractor output (combined OR
+        single-file) into the flat schema internally — symbol->ticker,
+        quantity->shares, account_name->account; cash rows skipped; OPTION rows
+        keyed by a synthetic ticker so they never merge into the underlying
+        equity's share count.  Idempotent on an already-flat snapshot.
+      - --current-from-extractor / --prior-from-extractor accept extractor
+        output directly (no hand-built transform step).
+      - --emit-snapshot writes the normalized flat CURRENT snapshot to a file so
+        the P-PORTFOLIO-INGEST procedure can persist it (to 📊 Latest Portfolio)
+        as the canonical, unambiguous PRIOR for the next ingest.
+    No new script; folds into this file.  Scripts stay 19.
+
 NOT IN SCOPE
     - Unrealized PnL tracking (already covered by 📊 Latest Portfolio)
     - Tax-lot specific accounting (use broker tools)
@@ -32,6 +51,14 @@ USAGE
     python outcome_logger.py --prior P.json --current C.json \\
         --rationales R.json --theses T.json --macro M.json --source-calls S.json
     python outcome_logger.py --prior P.json --current C.json --notion-payloads
+
+    # v11.36 ingest-seam fix — feed the extractor's native output directly
+    # (no hand-built transform), and auto-emit the normalized flat snapshot so
+    # it becomes the next ingest's prior:
+    python outcome_logger.py \\
+        --prior-from-extractor prior_combined.json \\
+        --current-from-extractor current_combined.json \\
+        --emit-snapshot latest_snapshot.json
 
 SNAPSHOT JSON SCHEMA (input — both --prior and --current)
     {
@@ -160,6 +187,111 @@ def _aggregate_positions(snapshot: Dict) -> Dict[str, Dict]:
         if acct and acct not in agg[t]["accounts"]:
             agg[t]["accounts"].append(acct)
     return agg
+
+
+def _option_ticker_key(symbol: str, opt: Dict) -> str:
+    """
+    Synthetic ticker for an option row so it aggregates SEPARATELY from the
+    underlying equity.  Merging option contracts into the equity's share count
+    would silently corrupt the equity position, so options get a distinct,
+    human-readable key, e.g. 'SMH 2026-07-18 520P'.
+    """
+    strike = opt.get("strike")
+    strike_str = f"{strike:g}" if isinstance(strike, (int, float)) else str(strike)
+    cp = str(opt.get("call_put") or "").lower()
+    cp_letter = "C" if cp.startswith("c") else ("P" if cp.startswith("p") else "?")
+    expiry = opt.get("expiry") or "????"
+    return f"{symbol} {expiry} {strike_str}{cp_letter}".strip()
+
+
+def flatten_extractor_snapshot(doc: Dict) -> Dict:
+    """
+    Convert portfolio-pdf-extractor output (schema v2.0) into the FLAT snapshot
+    shape that diff_snapshots() / _aggregate_positions() consume:
+
+        {"snapshot_date": "YYYY-MM-DD",
+         "sleeve_value": float,
+         "positions": [
+            {"ticker","shares","market_value","cost_basis","account"}, ...]}
+
+    Accepts three inputs (this is the whole point — no hand-built transform):
+      * combined `--combined` output  ({"files":[...], "portfolio_summary":{...}})
+      * a single per-file extractor doc ({"positions":[...], ...})
+      * an already-flat snapshot — returned UNCHANGED (idempotent safety, so the
+        loader can call this on either kind without thinking)
+
+    Key remaps: symbol -> ticker, quantity -> shares, account_name -> account.
+    Cash rows (asset_type == "cash") are skipped.  Option rows are keyed by a
+    synthetic ticker (see _option_ticker_key) so they never merge into the
+    underlying equity's share count.
+    """
+    # --- Idempotent: an already-flat snapshot passes straight through.
+    if "files" not in doc and "positions" in doc:
+        first = doc["positions"][0] if doc["positions"] else {}
+        if "ticker" in first and "symbol" not in first:
+            return doc
+
+    # --- Normalize to a list of per-file extractor docs.
+    if isinstance(doc.get("files"), list):
+        files = doc["files"]
+        summary = doc.get("portfolio_summary") or {}
+    else:
+        files = [doc]            # single per-file doc
+        summary = {}
+
+    # --- snapshot_date: prefer summary.as_of, else the latest per-file as_of.
+    as_of = summary.get("as_of")
+    if not as_of:
+        file_dates = [f.get("as_of") for f in files if f.get("as_of")]
+        as_of = max(file_dates) if file_dates else None
+    snapshot_date = as_of.split("T")[0] if isinstance(as_of, str) else None
+
+    # --- sleeve_value: summary totals, else sum of reported_total, else sum MV.
+    sleeve_value = None
+    tmv = summary.get("total_market_value")
+    if tmv is not None:
+        sleeve_value = float(tmv) + float(summary.get("total_cash") or 0)
+    if sleeve_value is None:
+        reported = [f.get("reported_total") for f in files]
+        if reported and all(r is not None for r in reported):
+            sleeve_value = float(sum(reported))
+
+    positions: List[Dict] = []
+    running_mv = 0.0
+    for f in files:
+        broker = f.get("broker")
+        for p in f.get("positions", []):
+            if str(p.get("asset_type") or "").lower() == "cash":
+                continue
+            symbol = (p.get("symbol") or "").upper().strip()
+            if not symbol:
+                continue
+            opt = p.get("option")
+            if str(p.get("asset_type") or "").lower() == "option" and opt:
+                ticker = _option_ticker_key(symbol, opt)
+            else:
+                ticker = symbol
+            mv = float(p.get("market_value") or 0)
+            running_mv += mv
+            positions.append({
+                "ticker": ticker,
+                "shares": float(p.get("quantity") or 0),
+                "market_value": mv,
+                # None is fine — _aggregate_positions treats it as incomplete CB.
+                "cost_basis": p.get("cost_basis"),
+                # When positions_scope == "aggregate", account_name is omitted;
+                # fall back to the broker so the row still carries provenance.
+                "account": p.get("account_name") or broker or "aggregate",
+            })
+
+    if sleeve_value is None:
+        sleeve_value = running_mv
+
+    return {
+        "snapshot_date": snapshot_date,
+        "sleeve_value": sleeve_value,
+        "positions": positions,
+    }
 
 
 def _est_pnl(market_value_old: float, cost_basis_old: float,
@@ -634,7 +766,7 @@ def to_source_call_resolutions(r: OutcomeReport) -> List[Dict[str, Any]]:
 # ============================================================================
 
 def _self_test() -> bool:
-    """30 assertions covering core behaviors."""
+    """Self-test: core diff behaviors + extractor-flatten / round-trip coverage."""
     passed = 0
     failed = 0
 
@@ -974,6 +1106,77 @@ def _self_test() -> bool:
     assert_eq(len(r_empty.partial_exits), 0, "empty diff partial")
     assert_eq(r_empty.total_realized_pnl, 0.0, "empty diff PnL = 0")
 
+    # ----- Test 21: flatten extractor --combined output -> flat snapshot
+    combined = {
+        "schema_version": "2.0",
+        "portfolio_summary": {
+            "total_market_value": 50000.0, "total_cash": 1000.0,
+            "as_of": "2026-05-31T16:00:00",
+        },
+        "files": [
+            {"broker": "schwab", "as_of": "2026-05-31T16:00:00",
+             "positions_scope": "per_account",
+             "positions": [
+                {"symbol": "nvda", "asset_type": "equity", "account_name": "PCRA",
+                 "quantity": 100, "market_value": 30000, "cost_basis": 20000},
+                {"symbol": "SMH", "asset_type": "option", "account_name": "PCRA",
+                 "quantity": 7, "market_value": 2000, "cost_basis": 3500,
+                 "option": {"underlying": "SMH", "strike": 520.0,
+                            "call_put": "put", "expiry": "2026-07-18"}},
+                {"symbol": "FCASH", "asset_type": "cash", "account_name": "PCRA",
+                 "quantity": 1000, "market_value": 1000},
+             ]},
+        ],
+    }
+    flat = flatten_extractor_snapshot(combined)
+    assert_eq(flat["snapshot_date"], "2026-05-31", "flatten: date from as_of")
+    assert_close(flat["sleeve_value"], 51000.0, "flatten: sleeve = MV + cash")
+    assert_eq(len(flat["positions"]), 2, "flatten: cash row skipped")
+    agg = _aggregate_positions(flat)
+    assert_true("NVDA" in agg, "flatten: symbol->ticker uppercased")
+    assert_close(agg["NVDA"]["shares"], 100, "flatten: quantity->shares")
+    assert_true("SMH" not in agg, "flatten: option did NOT create bare-equity bucket")
+    assert_true(any(k.startswith("SMH ") for k in agg), "flatten: option keyed separately")
+
+    # ----- Test 22: single per-file doc (no 'files' wrapper) also flattens
+    single = {
+        "broker": "fidelity", "as_of": "2026-05-30T00:00:00",
+        "positions_scope": "per_account",
+        "positions": [
+            {"symbol": "LEU", "asset_type": "equity", "account_name": "Joint",
+             "quantity": 500, "market_value": 95000, "cost_basis": 40000},
+        ],
+    }
+    flat2 = flatten_extractor_snapshot(single)
+    assert_eq(flat2["snapshot_date"], "2026-05-30", "flatten single: date")
+    assert_close(flat2["sleeve_value"], 95000.0, "flatten single: sleeve=MV fallback")
+    assert_eq(flat2["positions"][0]["ticker"], "LEU", "flatten single: ticker")
+
+    # ----- Test 23: idempotent on an already-flat snapshot
+    already_flat = {"snapshot_date": "2026-05-15", "sleeve_value": 1000.0,
+                    "positions": [{"ticker": "AAA", "shares": 10,
+                                   "market_value": 1000, "account": "X"}]}
+    assert_true(flatten_extractor_snapshot(already_flat) is already_flat,
+                "flatten: already-flat passes through unchanged")
+
+    # ----- Test 24: round-trip — flatten current, diff vs identical prior = no events
+    r_rt = diff_snapshots(flatten_extractor_snapshot(combined),
+                          flatten_extractor_snapshot(combined))
+    assert_eq(len(r_rt.full_exits), 0, "round-trip: no spurious full exits")
+    assert_eq(len(r_rt.partial_exits), 0, "round-trip: no spurious partial exits")
+    assert_eq(len(r_rt.size_increases), 0, "round-trip: no spurious size increases")
+    assert_eq(len(r_rt.new_positions), 0, "round-trip: no spurious new positions")
+
+    # ----- Test 25: a real delta survives the flatten path (sell all NVDA)
+    combined_after = json.loads(json.dumps(combined))
+    combined_after["files"][0]["positions"] = [
+        p for p in combined_after["files"][0]["positions"] if p["symbol"] != "nvda"
+    ]
+    r_delta = diff_snapshots(flatten_extractor_snapshot(combined),
+                             flatten_extractor_snapshot(combined_after))
+    assert_eq(len(r_delta.full_exits), 1, "flatten delta: NVDA full exit detected")
+    assert_eq(r_delta.full_exits[0].ticker, "NVDA", "flatten delta: exit ticker")
+
     total = passed + failed
     print(f"\n{passed}/{total} assertions passed.")
     return failed == 0
@@ -985,8 +1188,18 @@ def _self_test() -> bool:
 
 def main():
     p = argparse.ArgumentParser(description="Outcome Logger v11.26")
-    p.add_argument("--prior", help="Path to prior portfolio snapshot JSON")
-    p.add_argument("--current", help="Path to current portfolio snapshot JSON")
+    p.add_argument("--prior", help="Path to prior portfolio snapshot JSON (flat schema)")
+    p.add_argument("--current", help="Path to current portfolio snapshot JSON (flat schema)")
+    p.add_argument("--prior-from-extractor",
+                   help="portfolio-pdf-extractor output (--combined or single-file) to use "
+                        "as PRIOR; flattened to the flat snapshot schema internally")
+    p.add_argument("--current-from-extractor",
+                   help="portfolio-pdf-extractor output (--combined or single-file) to use "
+                        "as CURRENT; flattened internally (no hand-built transform step)")
+    p.add_argument("--emit-snapshot",
+                   help="Write the normalized flat CURRENT snapshot to this path so it can be "
+                        "persisted as the canonical PRIOR for the next ingest. Defaults to "
+                        "./latest_snapshot.json when --current-from-extractor is used.")
     p.add_argument("--rationales", help="Active Trade Rationales JSON (optional)")
     p.add_argument("--theses", help="Live Theses JSON (optional)")
     p.add_argument("--macro", help="Macro pulse JSON (optional, v11.25)")
@@ -1002,13 +1215,33 @@ def main():
     if args.self_test:
         sys.exit(0 if _self_test() else 1)
 
-    if not args.prior or not args.current:
-        p.error("--prior and --current required (or --self-test)")
+    if not (args.prior or args.prior_from_extractor) or \
+       not (args.current or args.current_from_extractor):
+        p.error("need a prior (--prior or --prior-from-extractor) AND a current "
+                "(--current or --current-from-extractor) — or --self-test")
 
-    with open(args.prior) as f:
-        prior = json.load(f)
-    with open(args.current) as f:
-        current = json.load(f)
+    def _load_snapshot(flat_path, extractor_path):
+        """Flat JSON if given; otherwise flatten extractor output. flatten_*
+        is idempotent, so passing an already-flat file via --*-from-extractor
+        is harmless too."""
+        path = extractor_path or flat_path
+        with open(path) as f:
+            data = json.load(f)
+        return flatten_extractor_snapshot(data) if extractor_path else data
+
+    prior = _load_snapshot(args.prior, args.prior_from_extractor)
+    current = _load_snapshot(args.current, args.current_from_extractor)
+
+    # Auto-persist the normalized flat CURRENT snapshot -> next ingest's prior.
+    emit_path = args.emit_snapshot
+    if emit_path is None and args.current_from_extractor:
+        emit_path = "latest_snapshot.json"
+    if emit_path:
+        with open(emit_path, "w") as ef:
+            json.dump(current, ef, indent=2)
+        print(f"[outcome_logger] normalized flat snapshot -> {emit_path} "
+              f"(persist to 📊 Latest Portfolio; use as --prior next ingest)",
+              file=sys.stderr)
 
     rationales = None
     if args.rationales:
