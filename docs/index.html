@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="refresh" content="3600">
+<title>Conviction Cockpit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  background:#0d1117;color:#c9d1d9;font-size:14px;line-height:1.55;
+}
+a{color:#58a6ff;text-decoration:none}
+.wrap{max-width:920px;margin:0 auto;padding:16px 14px}
+
+/* ── header ── */
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;
+  flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.hdr-left h1{font-size:18px;font-weight:700;color:#f0f6fc;letter-spacing:-.3px}
+.stamp{font-size:11px;color:#484f58;font-family:monospace;margin-top:3px}
+.stale-warn{font-size:11px;color:#d29922;margin-top:3px}
+.book-as-of{font-size:11px;color:#484f58;font-family:monospace}
+
+/* ── section card ── */
+.card{background:#161b22;border:1px solid #21262d;border-radius:8px;
+  padding:12px 14px;margin-bottom:10px}
+.card-title{font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.9px;color:#8b949e;margin-bottom:9px;display:flex;
+  align-items:center;gap:6px}
+.card-title .icon{font-size:14px}
+
+/* ── heartbeat strip ── */
+.hb{display:flex;flex-wrap:wrap;gap:5px}
+.hb-badge{padding:2px 9px;border-radius:99px;font-size:10px;
+  font-family:monospace;white-space:nowrap}
+.ok  {background:#0d2b16;color:#3fb950;border:1px solid #238636}
+.stale{background:#2b1e0a;color:#d29922;border:1px solid #9e6a03}
+.down{background:#2b0d0d;color:#f85149;border:1px solid #da3633}
+
+/* ── needs-you hero ── */
+.hero{background:#161b22;border:1px solid #21262d;border-radius:8px;
+  padding:12px 14px;margin-bottom:10px;
+  border-left:3px solid #d29922}
+.hero-row{display:flex;align-items:center;gap:10px}
+.hero-num{font-size:32px;font-weight:800;color:#d29922;min-width:40px}
+.hero-label{font-size:11px;color:#8b949e;margin-top:2px}
+.hero-items{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.hero-item{font-size:12px;color:#c9d1d9;padding:5px 8px;
+  background:#1c2128;border-radius:5px;
+  border-left:2px solid #d29922}
+
+/* ── actions ── */
+.action{border-radius:6px;padding:10px 12px;margin-bottom:7px;
+  background:#1c2128;border-left:3px solid #30363d}
+.action-header{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.rank-badge{font-size:10px;font-family:monospace;color:#484f58;
+  min-width:22px}
+.ticker-tag{font-size:14px;font-weight:700;color:#f0f6fc}
+.action-what{font-size:12px;color:#8b949e;margin-left:auto}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+.tag{display:inline-block;padding:1px 7px;border-radius:99px;
+  font-size:10px;font-family:monospace}
+.t-cat   {background:#0d2339;color:#58a6ff}
+.t-conf  {background:#0d2b16;color:#3fb950}
+.t-gate-g{background:#0d2b16;color:#3fb950}
+.t-gate-a{background:#2b1e0a;color:#d29922}
+.t-gate-r{background:#2b0d0d;color:#f85149}
+.action-move{font-size:12px;color:#8b949e;line-height:1.4}
+
+/* ── rotation table ── */
+.rot-wrap{overflow-x:auto}
+table.rot{width:100%;border-collapse:collapse;font-size:12px}
+.rot th{color:#484f58;font-weight:600;padding:4px 8px;
+  text-align:left;border-bottom:1px solid #21262d}
+.rot td{padding:5px 8px;border-bottom:1px solid #1c2128;
+  font-family:monospace}
+.rot td:first-child{font-family:-apple-system,sans-serif;
+  font-weight:600;color:#c9d1d9}
+.lead{color:#3fb950}.lag{color:#f85149}.inl{color:#8b949e}
+
+/* ── macro ── */
+.macro-line{font-family:monospace;font-size:12px;color:#8b949e}
+.regime-tag{display:inline-block;padding:2px 8px;border-radius:99px;
+  font-size:10px;font-family:monospace;background:#161b22;
+  border:1px solid #21262d;color:#8b949e;margin-top:5px}
+
+/* ── synthesis ── */
+.s-label{font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.6px;color:#484f58;margin-top:10px;margin-bottom:3px}
+.s-label:first-of-type{margin-top:0}
+.s-body{font-size:13px;color:#c9d1d9}
+.hang-list{list-style:none;margin-top:6px}
+.hang-list li{font-size:12px;color:#8b949e;padding:4px 0;
+  border-bottom:1px solid #1c2128}
+.hang-list li:last-child{border-bottom:none}
+.hang-list li::before{content:"⚠ ";color:#d29922;font-size:10px}
+
+/* ── catalysts ── */
+.cat-list{display:flex;flex-direction:column;gap:6px}
+.cat-item{display:flex;align-items:center;gap:10px;font-size:12px;
+  padding:5px 8px;background:#1c2128;border-radius:5px}
+.cat-days{font-family:monospace;font-weight:700;color:#d29922;min-width:30px}
+.cat-ticker{font-weight:700;color:#f0f6fc;min-width:40px}
+.cat-label{color:#8b949e}
+
+/* ── research pending ── */
+.res-list{display:flex;flex-direction:column;gap:4px}
+.res-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;
+  color:#8b949e;padding:4px 0;border-bottom:1px solid #1c2128}
+.res-item:last-child{border-bottom:none}
+.pr{font-family:monospace;font-size:10px;min-width:22px;
+  padding:1px 5px;border-radius:3px;text-align:center}
+.pr-h{background:#2b0d0d;color:#f85149}
+.pr-m{background:#2b1e0a;color:#d29922}
+.pr-l{background:#1c2128;color:#484f58}
+
+/* ── book ── */
+.book-wrap{overflow-x:auto}
+table.book{width:100%;border-collapse:collapse;font-size:12px}
+.book th{color:#484f58;font-weight:600;padding:4px 8px;
+  text-align:left;border-bottom:1px solid #21262d}
+.book td{padding:4px 8px;border-bottom:1px solid #1c2128}
+.book-cat-row td{background:#161b22;color:#8b949e;font-size:10px;
+  font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+  padding:6px 8px 3px}
+.book td:nth-child(2){font-family:monospace;color:#8b949e}
+.book td:nth-child(3){color:#8b949e;font-size:11px}
+.cv-yes{color:#3fb950}
+.lock-tag{font-size:10px;color:#d29922;margin-left:3px}
+
+/* ── lean-in ── */
+.lean-item{padding:8px 0;border-bottom:1px solid #1c2128;font-size:12px}
+.lean-item:last-child{border-bottom:none}
+.lean-ticker{font-weight:700;color:#f0f6fc}
+.lean-headline{color:#c9d1d9;margin:2px 0}
+.lean-sub{color:#8b949e;font-size:11px}
+
+/* ── footer ── */
+.footer{text-align:center;font-size:10px;color:#30363d;
+  margin-top:20px;padding:16px;border-top:1px solid #21262d}
+
+/* ── responsive ── */
+@media(max-width:600px){
+  .wrap{padding:10px 8px}
+  .hdr{flex-direction:column}
+  .hero-num{font-size:24px}
+}
+@media(min-width:720px){
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="hdr-left">
+      <h1>⚡ Conviction Cockpit</h1>
+      <div class="stamp">
+        built 2026-06-03 21:09 ET
+        
+      </div>
+      <div class="stamp">sourced: portfolio 06-04 · uw_price 06-04 · uw_macro 06-04 · fundstrat_bible 05-28 · fundstrat_daily 06-03 · meridian 03-05 (baseline)</div>
+      
+    </div>
+    <div style="text-align:right">
+      <div class="book-as-of">book as-of </div>
+      <div style="margin-top:4px">
+        <a href="." style="font-size:11px;color:#484f58">↻ refresh</a>
+      </div>
+    </div>
+  </div>
+
+  
+<div class="card">
+  <div class="card-title"><span class="icon">📡</span> System layers</div>
+  <div class="hb"><span class="hb-badge stale" title="Morning Scan · 2026-06-02 (10:0">Morning Scan</span><span class="hb-badge stale" title="Daily Synthesis · 2026-06-02 (10:0">Daily Synthesis</span><span class="hb-badge ok" title="UW Opportunity Cache · 2026-06-03T14:21 · signals present">UW Opportunity Cache</span><span class="hb-badge ok" title="Open-Opp Store · 2026-05-31 · aging memory current">Open-Opp Store</span><span class="hb-badge stale" title="Macro Cache · LIVE this build · stale by design — macro pulled LIVE">Macro Cache</span><span class="hb-badge down" title="Parabolic Cache · — · cache not on main yet">Parabolic Cache</span><span class="hb-badge down" title="Insider Feed · — · stub">Insider Feed</span><span class="hb-badge ok" title="Weekly Pilot Run · 2026-06-02 · 3 pilots tracked">Weekly Pilot Run</span></div>
+</div>
+  
+<div class="hero">
+  <div class="hero-row">
+    <div class="hero-num">1</div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:#f0f6fc">
+        thing needs you
+      </div>
+      <div class="hero-label">14 names on the book · leading: SMH, IGV</div>
+    </div>
+  </div>
+  <div class="hero-items"><div class="hero-item"><strong>AVGO</strong> — Catalyst Imminent · Q2 FY26 earnings AMC (implied move ±9.8%, ~4.8% of book) in ~0d</div></div>
+</div>
+  
+<div class="card">
+  <div class="card-title"><span class="icon">⚡</span> Today&#39;s actions</div>
+  
+<div class="action">
+  <div class="action-header">
+    <span class="rank-badge">#1</span>
+    <span class="ticker-tag">AVGO</span>
+    <span class="action-what">Pre-catalyst review (~0d)</span>
+  </div>
+  <div class="tags">
+    <span class="tag t-cat">Catalyst Imminent</span>
+    <span class="tag t-conf">conf: Moderate</span>
+    <span class="tag t-gate-a">size → gate</span>
+  </div>
+  <div class="action-move">AVGO: Q2 FY26 earnings AMC (implied move ±9.8%, ~4.8% of book) in ~0d — review the held position before it: confirm thesis, size, and whether to hedge or hold. A decision prompt, not a buy trigger.</div>
+</div>
+</div>
+  
+<div class="card">
+  <div class="card-title"><span class="icon">🧠</span> Today&#39;s read
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2026-06-02 (10:06 AM ET)</span>
+  </div>
+  <div class="s-label">State of play</div><div class="s-body">Book unchanged: heavily AI/semi-concentrated at record-high index levels, layered on nuclear/critical-minerals and crypto/fintech sleeves. NVDA ~7.4%, AVBO ~4.8%, Buy-and-Hold core (AMZN/MSFT/GOOGL), MU Tier 2, LEU/BMNR Generational, HYPE deep ITM. AVBO Q2 FY26 print 6/3 AMC resolved: hold 85 shares unhedged. Iran/oil posture: no reposition, defined trigger set logged.</div>
+  <div class="s-label">24–48h delta</div><div class="s-body">Two operator decisions captured that prior run missed (logged 12:30 PM ET 6/1): AVBO hold 85 sh unhedged into 6/3 print, Iran no-reposition + defined triggers. 8:43 AM ET 6/2 Morning Scan fired ~14 signals, no held-name triggers. GOOGL $80B AI-capex raise (confirms core AI thesis). Metals tariffs raised to 25% eff 6/8. MU parabolic ~$971 IV rank ~100 no-trim rule active. Overnight Off-Hours moved 2 RQ items Queued-&gt;Working (Weekly Pilot Run not firing; Cross-session handoff protocol).</div>
+  
+<div class="s-label">Hanging / unresolved</div>
+<ul class="hang-list"><li>AVBO thesis line still Queued (not Working) despite 6/3 print tomorrow</li><li>EWY forced-rebalance overhang through June 5 — no plan logged</li><li>Both weekly pilots zero live runs, 26 days to 6/28 earn-or-kill checkpoint</li><li>12 Trade Outcomes Pending Operator Review (7 from 5/31 + 5 from 5/27)</li><li>LEU structure decision (~$58K gap) still un-made despite Iran posture resolved</li><li>Conviction Engine Stage 0 warm-start not seeded</li><li>BMNR Two-Lens + Gate #2 mNAV verification unactioned</li><li>v12.0.1 patch prepared but PENDING COMMIT to enderverse repo</li><li>Macro cache stale — enderverse repo absent, 5/28 UW read</li><li>ANET Live Theses row missing; HYPE stale (5/14); NVDA &amp; MU Two-Lens overdue</li></ul>
+</div>
+
+  <div class="two-col">
+    
+<div class="card">
+  <div class="card-title"><span class="icon">🔄</span> Sleeve rotation vs SPY</div>
+  <div class="rot-wrap">
+    <table class="rot">
+      <tr><th>Sleeve</th><th>Status</th><th>Abs 3M</th>
+          <th>Rel 3M</th><th>Rel 1M</th></tr>
+      <tr>
+      <td>SMH</td>
+      <td class="lead">LEADING</td>
+      <td>+59.8%</td>
+      <td>+49.7%</td>
+      <td>+20.8%</td>
+    </tr><tr>
+      <td>IGV</td>
+      <td class="lead">LEADING</td>
+      <td>+17.0%</td>
+      <td>+6.9%</td>
+      <td>+8.3%</td>
+    </tr><tr>
+      <td>GRNY</td>
+      <td class="inl">IN LINE</td>
+      <td>+9.6%</td>
+      <td>-0.5%</td>
+      <td>-1.7%</td>
+    </tr><tr>
+      <td>IBIT</td>
+      <td class="lag">LAGGING</td>
+      <td>-10.7%</td>
+      <td>-20.8%</td>
+      <td>-23.5%</td>
+    </tr><tr>
+      <td>URA</td>
+      <td class="lag">LAGGING</td>
+      <td>-4.5%</td>
+      <td>-14.6%</td>
+      <td>-13.0%</td>
+    </tr><tr>
+      <td>REMX</td>
+      <td class="lag">LAGGING</td>
+      <td>+0.5%</td>
+      <td>-9.6%</td>
+      <td>-8.8%</td>
+    </tr><tr>
+      <td>XLF</td>
+      <td class="lag">LAGGING</td>
+      <td>-1.2%</td>
+      <td>-11.3%</td>
+      <td>-6.4%</td>
+    </tr><tr>
+      <td>GDX</td>
+      <td class="lag">LAGGING</td>
+      <td>-19.7%</td>
+      <td>-29.8%</td>
+      <td>-5.8%</td>
+    </tr><tr>
+      <td>VOLT</td>
+      <td class="inl">IN LINE</td>
+      <td>+14.2%</td>
+      <td>+4.1%</td>
+      <td>-7.3%</td>
+    </tr>
+    </table>
+  </div>
+</div>
+    <div>
+      
+<div class="card">
+  <div class="card-title"><span class="icon">📊</span> Macro</div>
+  <div class="macro-line">USD (UUP) 27.86 (+0.1 5d)</div>
+  <span class="regime-tag">duration_flat · vol_calm · dollar_neutral</span>
+  
+</div>
+      
+<div class="card">
+  <div class="card-title"><span class="icon">📅</span> Catalysts (&le;14d)</div>
+  <div class="cat-list">
+<div class="cat-item">
+  <span class="cat-days">TODAY</span>
+  <span class="cat-ticker">AVGO</span>
+  <span class="cat-label">Q2 FY26 earnings AMC (implied move ±9.8%, ~4.8% of book)</span>
+</div>
+<div class="cat-item">
+  <span class="cat-days">T+2d</span>
+  <span class="cat-ticker">EWY/MU/NVDA/AVGO/SMH</span>
+  <span class="cat-label">iShares MSCI South Korea ETF forced rebalance overhang through June 5 (semi ripple)</span>
+</div></div>
+</div>
+    </div>
+  </div>
+
+  
+<div class="card">
+  <div class="card-title"><span class="icon">🔎</span> Research queue</div>
+  <div class="res-list">
+<div class="res-item">
+  <span class="pr pr-h">HI</span>
+  <span>Weekly Pilot Run not firing — diagnose never-armed scheduler, recommend manual pilot cycle</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-h">HI</span>
+  <span>Cross-session handoff protocol for proposed-but-unconfirmed options/structure decisions</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-h">HI</span>
+  <span>Optimize the Synthesis Brain (Daily + Deep Synthesis)</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-m">MD</span>
+  <span>Staleness triage of the Working pile — review current Working-status RQ items</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-h">HI</span>
+  <span>Trade Outcomes closure loop — rationale-link + outcome-tag for Pending Operator Review backlog</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-h">HI</span>
+  <span>AVBO thesis line — write one-line thesis for AVBO (AI-networking + custom silicon)</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-h">HI</span>
+  <span>LEU (Centrus) — deep-researched 5/27, structure decision pending</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-m">MD</span>
+  <span>MU: evaluate sizing — 3-insider non-plan sell cluster</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-m">MD</span>
+  <span>MP: mixed insider signal — COO buy vs CEO selling evaluation</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-l">LO</span>
+  <span>DHI (D.R. Horton) / Homebuilders — deep-researched 5/27 refresh</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-l">LO</span>
+  <span>Quantum computing / WQTM — generational-theme entry evaluation, one open action item</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-l">LO</span>
+  <span>FIGR — Figure Technology Solutions CLARITY beneficiary evaluation (~45% conviction)</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-l">LO</span>
+  <span>SILVER/PAAS/SIL — deep-researched 5/27, &#x27;don&#x27;t add&#x27; needs formal close</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-m">MD</span>
+  <span>Source-level calibration trend synthesis — surface multi-call source drift</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-m">MD</span>
+  <span>Pre-event trigger registration discipline — stop building alert infra after the miss</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-m">MD</span>
+  <span>Patch-cadence / integration-debt governor — framework velocity outrunning integration</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-l">LO</span>
+  <span>AI Labor Disruption / End of Exponential — thematic thesis, Status Queued filed 6/2</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-m">MD</span>
+  <span>CoreCivic (CXW) and GEO Group — regime-change LEAD triggered watch</span>
+</div>
+<div class="res-item">
+  <span class="pr pr-l">LO</span>
+  <span>Political Regime-Change Basket (2027) — hub pointer index</span>
+</div></div>
+</div>
+  
+<div class="card">
+  <div class="card-title"><span class="icon">📈</span> Lean-in watchlist</div>
+  
+<div class="lean-item">
+  <span class="lean-ticker">GRNJ</span>
+  <span class="tag inl" style="margin-left:6px">IN LINE</span>
+  <div class="lean-headline">GRNJ: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">GRNY</span>
+  <span class="tag inl" style="margin-left:6px">IN LINE</span>
+  <div class="lean-headline">GRNY: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">IVES</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">IVES: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">MAGS</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">MAGS: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">MU</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">MU: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">VOLT</span>
+  <span class="tag inl" style="margin-left:6px">IN LINE</span>
+  <div class="lean-headline">VOLT: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">XLF</span>
+  <span class="tag lag" style="margin-left:6px">LAGGING</span>
+  <div class="lean-headline">XLF: Promising, conviction up but the sleeve&#x27;s still lagging — research deeper / hold, watch for the rotation to turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">ETHA</span>
+  <span class="tag lag" style="margin-left:6px">LAGGING</span>
+  <div class="lean-headline">ETHA: Promising and endorsed, but still lagging — favorable entry only once the rotation turns (you own it).</div>
+  <div class="lean-sub">Clears when: Clears it: the rotation turning up (lagging -&gt; turning up), confirming the catch-up.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">GS</span>
+  <span class="tag lag" style="margin-left:6px">LAGGING</span>
+  <div class="lean-headline">GS: Promising and endorsed, but still lagging — favorable entry only once the rotation turns (you own it).</div>
+  <div class="lean-sub">Clears when: Clears it: the rotation turning up (lagging -&gt; turning up), confirming the catch-up.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">IBIT</span>
+  <span class="tag lag" style="margin-left:6px">LAGGING</span>
+  <div class="lean-headline">IBIT: Promising and endorsed, but still lagging — favorable entry only once the rotation turns (you own it).</div>
+  <div class="lean-sub">Clears when: Clears it: the rotation turning up (lagging -&gt; turning up), confirming the catch-up.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">SOFI</span>
+  <span class="tag lag" style="margin-left:6px">LAGGING</span>
+  <div class="lean-headline">SOFI: Promising and endorsed, but still lagging — favorable entry only once the rotation turns (you own it).</div>
+  <div class="lean-sub">Clears when: Clears it: the rotation turning up (lagging -&gt; turning up), confirming the catch-up.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">IGV</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">IGV: the case is cooling (LEADING) — watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">NVDA</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">NVDA: the case is cooling (LEADING) — watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">SMH</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">SMH: the case is cooling (LEADING) — watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+</div>
+  
+<details>
+  <summary style="cursor:pointer;user-select:none;padding:12px 14px;
+    background:#161b22;border:1px solid #21262d;border-radius:8px;
+    margin-bottom:10px;font-size:10px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.9px;color:#8b949e;list-style:none">
+    📚 Full book (click to expand)
+  </summary>
+  <div class="card" style="margin-top:-2px;border-radius:0 0 8px 8px">
+    <div class="book-wrap">
+      <table class="book">
+        <tr><th>Name</th><th>Weight</th><th>Conviction</th><th>Read</th></tr>
+        <tr class="book-cat-row">
+  <td colspan="4">AI / Semiconductors
+    <span class="lead" style="font-size:10px;margin-left:6px">LEADING</span>
+  </td></tr><tr>
+  <td><strong>MAGS</strong></td>
+  <td>9.0%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>SMH</strong></td>
+  <td>8.9%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>NVDA</strong></td>
+  <td>6.6%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>IVES</strong></td>
+  <td>3.9%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — operator-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>MU</strong></td>
+  <td>3.3%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>AVGO</strong></td>
+  <td>2.0%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>SOXX</strong></td>
+  <td>1.5%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>MSFT</strong></td>
+  <td>1.4%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>AMZN</strong></td>
+  <td>1.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>NBIS</strong></td>
+  <td>1.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>GOOGL</strong></td>
+  <td>1.1%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>ASML</strong></td>
+  <td>0.4%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>ANET</strong></td>
+  <td>0.3%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>FTXL</strong></td>
+  <td>0.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>LITE</strong></td>
+  <td>0.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>POET</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Quality core
+    <span class="inl" style="font-size:10px;margin-left:6px">IN LINE</span>
+  </td></tr><tr>
+  <td><strong>GRNY</strong></td>
+  <td>8.7%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>GRNJ</strong></td>
+  <td>7.3%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>RPG</strong></td>
+  <td>0.6%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>COST</strong></td>
+  <td>0.3%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Software
+    <span class="lead" style="font-size:10px;margin-left:6px">LEADING</span>
+  </td></tr><tr>
+  <td><strong>IGV</strong></td>
+  <td>5.1%</td>
+  <td class="">Strong</td>
+  <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>RDDT</strong></td>
+  <td>1.0%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>ORCL</strong></td>
+  <td>0.4%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>CIBR</strong></td>
+  <td>0.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>PLTR</strong></td>
+  <td>0.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Nuclear
+    <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
+  </td></tr><tr>
+  <td><strong>LEU</strong><span class="lock-tag">🔒</span></td>
+  <td>4.8%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Hold light — burned sleeve; watch for YOUR re-entry trigger,…</td>
+</tr><tr>
+  <td><strong>UUUU</strong></td>
+  <td>2.1%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Hold light — burned sleeve; watch for YOUR re-entry trigger,…</td>
+</tr><tr>
+  <td><strong>CCJ</strong></td>
+  <td>1.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>BWXT</strong></td>
+  <td>1.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>UURAF</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Electrification
+    <span class="inl" style="font-size:10px;margin-left:6px">IN LINE</span>
+  </td></tr><tr>
+  <td><strong>VOLT</strong></td>
+  <td>4.0%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — operator-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>BE</strong></td>
+  <td>1.0%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>PBW</strong></td>
+  <td>0.8%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>DRIV</strong></td>
+  <td>0.7%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>GEV</strong></td>
+  <td>0.6%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>STRL</strong></td>
+  <td>0.5%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>PWR</strong></td>
+  <td>0.4%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>IESC</strong></td>
+  <td>0.3%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>FIX</strong></td>
+  <td>0.2%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>NXT</strong></td>
+  <td>0.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Financials
+    <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
+  </td></tr><tr>
+  <td><strong>XLF</strong></td>
+  <td>3.9%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Catch-up — Lee-endorsed laggard; favorable entry, no rush.</td>
+</tr><tr>
+  <td><strong>GS</strong></td>
+  <td>0.6%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Catch-up — source-endorsed laggard; favorable entry, no rush…</td>
+</tr><tr>
+  <td><strong>JPM</strong></td>
+  <td>0.3%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>SOFI</strong></td>
+  <td>0.1%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Catch-up — source-endorsed laggard; favorable entry, no rush…</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Crypto
+    <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
+  </td></tr><tr>
+  <td><strong>BMNR</strong><span class="lock-tag">🔒</span></td>
+  <td>3.5%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Hold light — burned sleeve; watch for YOUR re-entry trigger,…</td>
+</tr><tr>
+  <td><strong>IBIT</strong></td>
+  <td>0.3%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Catch-up — source-endorsed laggard; favorable entry, no rush…</td>
+</tr><tr>
+  <td><strong>ETHA</strong></td>
+  <td>0.2%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Catch-up — source-endorsed laggard; favorable entry, no rush…</td>
+</tr><tr>
+  <td><strong>MSTR</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>COIN</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>HYPE</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Gold / Hedge
+    <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
+  </td></tr><tr>
+  <td><strong>GDX</strong></td>
+  <td>1.8%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>SIL</strong></td>
+  <td>0.6%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>WPM</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>NUE</strong></td>
+  <td>0.0%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Critical minerals
+    <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
+  </td></tr><tr>
+  <td><strong>MP</strong></td>
+  <td>1.0%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Hold light — burned sleeve; watch for YOUR re-entry trigger,…</td>
+</tr><tr>
+  <td><strong>LIT</strong></td>
+  <td>0.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>LYSDY</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Other holdings
+    
+  </td></tr><tr>
+  <td><strong>XLI</strong></td>
+  <td>0.6%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>ITA</strong></td>
+  <td>0.6%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>ASTS</strong></td>
+  <td>0.4%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>SNSR</strong></td>
+  <td>0.3%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>LUNR</strong></td>
+  <td>0.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>FN</strong></td>
+  <td>0.2%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold — source-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>UMAC</strong></td>
+  <td>0.2%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>ARRRF</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>TLOFF</strong></td>
+  <td>0.1%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr><tr>
+  <td><strong>FBGKX</strong></td>
+  <td>0.0%</td>
+  <td class="">—</td>
+  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
+</tr>
+      </table>
+    </div>
+  </div>
+</details>
+
+  <div class="footer">
+    Conviction Cockpit · auto-refreshes hourly ·
+    <a href="https://github.com/ender-lark/enderverse">enderverse</a>
+  </div>
+
+</div>
+</body>
+</html>
