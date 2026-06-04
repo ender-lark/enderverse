@@ -95,6 +95,7 @@ def test_acted_when_now_held_is_dropped():
         store, todays_candidates=[], held_tickers={"FN"}, prices={}, as_of=TODAY)
     assert all(o["ticker"] != "FN" for o in ns["opportunities"])
     assert dropped and dropped[0]["ticker"] == "FN" and dropped[0]["status"] == "acted"
+    assert ns["history"][0]["ticker"] == "FN" and ns["history"][0]["status"] == "acted"
 
 
 def test_invalidated_is_dropped():
@@ -104,6 +105,28 @@ def test_invalidated_is_dropped():
         invalidations={"FN"})
     assert all(o["ticker"] != "FN" for o in ns["opportunities"])
     assert dropped[0]["status"] == "invalidated"
+    assert ns["history"][0]["status"] == "invalidated"
+
+
+def test_explicit_resolution_ignored_deferred_missed_persist_to_history():
+    store = oo.seed_open_opportunities([
+        {"ticker": "FN", "first_flagged": "2026-05-28"},
+        {"ticker": "AVGO", "first_flagged": "2026-05-28"},
+        {"ticker": "MU", "first_flagged": "2026-05-28"},
+    ], as_of="2026-05-28")
+    ns, dropped = oo.update_open_opportunities(
+        store, todays_candidates=[], held_tickers=set(), prices={}, as_of=TODAY,
+        resolutions=[
+            {"ticker": "FN", "status": "ignored", "reason": "passed after review"},
+            {"ticker": "AVGO", "status": "deferred", "reason": "wait for earnings"},
+            {"ticker": "MU", "status": "missed", "reason": "ran before action"},
+        ])
+    assert ns["opportunities"] == []
+    assert {d["status"] for d in dropped} == {"ignored", "deferred", "missed"}
+    hist = {h["ticker"]: h for h in ns["history"]}
+    assert hist["FN"]["reason"] == "passed after review"
+    assert hist["AVGO"]["status"] == "deferred"
+    assert hist["MU"]["status"] == "missed"
 
 
 def test_max_age_expiry_optional():

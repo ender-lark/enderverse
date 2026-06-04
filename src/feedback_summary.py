@@ -90,6 +90,7 @@ def open_action_feedback(open_opportunities, *, prices=None, as_of=None) -> dict
             "count": 0,
             "oldest_age_days": 0,
             "items": [],
+            "recent_history": [],
         }
     rows = (open_opportunities or {}).get("opportunities") if isinstance(open_opportunities, dict) else []
     rows = [r for r in (rows or []) if isinstance(r, dict) and r.get("status", "open") == "open"]
@@ -100,6 +101,7 @@ def open_action_feedback(open_opportunities, *, prices=None, as_of=None) -> dict
             "count": 0,
             "oldest_age_days": 0,
             "items": [],
+            "recent_history": _recent_history(open_opportunities),
         }
     today = _today(as_of)
     prices = prices or {}
@@ -124,7 +126,24 @@ def open_action_feedback(open_opportunities, *, prices=None, as_of=None) -> dict
         "count": len(items),
         "oldest_age_days": oldest,
         "items": items[:5],
+        "recent_history": _recent_history(open_opportunities),
     }
+
+
+def _recent_history(store, limit=5):
+    rows = (store or {}).get("history") if isinstance(store, dict) else []
+    out = []
+    for r in (rows or []):
+        if not isinstance(r, dict):
+            continue
+        out.append({
+            "ticker": r.get("ticker"),
+            "status": r.get("status") or "",
+            "reason": r.get("reason") or "",
+            "resolved_at": r.get("resolved_at") or "",
+        })
+    out.sort(key=lambda r: r.get("resolved_at") or "", reverse=True)
+    return out[:limit]
 
 
 def build_feedback_summary(*, source_calls=None, open_opportunities=None,

@@ -39,6 +39,16 @@ def test_open_action_feedback_surfaces_oldest_backlog():
     assert fb["items"][0]["move_since"] == "+10% since flag"
 
 
+def test_open_action_feedback_includes_recent_history():
+    store = {"opportunities": [], "history": [
+        {"ticker": "FN", "status": "missed", "reason": "ran before action", "resolved_at": "2026-06-04"},
+    ]}
+    fb = open_action_feedback(store, as_of="2026-06-04")
+    assert fb["status"] == "checked_clear"
+    assert fb["recent_history"][0]["ticker"] == "FN"
+    assert fb["recent_history"][0]["status"] == "missed"
+
+
 def test_feedback_summary_recommends_scoring_and_resolution():
     store = {"opportunities": [
         {"ticker": "FN", "first_flagged": "2026-05-28", "kind": "lean_in", "status": "open"},

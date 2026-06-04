@@ -1241,6 +1241,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>Open action backlog</div>
                   <div style={{ fontSize:12.5, color:oa.count?C.amber:C.dim }}>{oa.line||"Open action backlog not checked."}</div>
                   {(oa.items||[]).length>0 && <div style={{ marginTop:7 }}>{(oa.items||[]).map((it,i)=>(<div key={i} style={{ fontSize:12, color:C.dim, marginBottom:3 }}><span style={{ fontFamily:mono, fontWeight:700, color:C.text }}>{it.ticker}</span> {it.age_days}d open{it.move_since?` · ${it.move_since}`:""} <span style={{ color:C.faint }}>({it.source||it.kind})</span></div>))}</div>}
+                  {(oa.recent_history||[]).length>0 && <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}` }}>
+                    <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:4 }}>Recent resolutions</div>
+                    {(oa.recent_history||[]).slice(0,3).map((it,i)=>(<div key={i} style={{ fontSize:12, color:C.dim, marginBottom:3 }}><span style={{ fontFamily:mono, fontWeight:700, color:C.text }}>{it.ticker}</span> {it.status}{it.reason?` · ${it.reason}`:""}</div>))}
+                  </div>}
                 </div>
                 {recs.length>0 && <div style={{ fontSize:11.5, color:C.faint, fontFamily:mono }}>NEXT: {recs[0]}</div>}
               </div>

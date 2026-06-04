@@ -65,7 +65,8 @@ SCHEMA_VERSION = "1.0"
 # (FS "act now" lands as buy_now via E3, so it is already covered here.)
 TRACKABLE_KINDS = ("buy_now", "lean_in", "reentry_zone")
 
-VALID_STATUS = ("open", "acted", "invalidated")
+VALID_STATUS = ("open", "acted", "invalidated", "ignored", "deferred", "missed", "expired", "dropped")
+RESOLVED_STATUS = ("acted", "invalidated", "ignored", "deferred", "missed", "expired", "dropped")
 
 # Position statuses (feed holdings `pos[].st`) that count as actually HELD — used to
 # detect "acted" (an opportunity that became a position).
@@ -154,6 +155,8 @@ def load_open_opportunities(path) -> dict:
         return dict(empty)
     if not isinstance(data.get("opportunities"), list):
         data["opportunities"] = []
+    if not isinstance(data.get("history"), list):
+        data["history"] = []
     return data
 
 
@@ -163,10 +166,39 @@ def save_open_opportunities(store, path) -> str:
     return path
 
 
+def _resolution_map(resolutions):
+    out = {}
+    for r in (resolutions or []):
+        if isinstance(r, str):
+            out[r.upper()] = {"status": "ignored", "reason": "operator ignored"}
+        elif isinstance(r, dict) and r.get("ticker"):
+            status = r.get("status") if r.get("status") in RESOLVED_STATUS else "ignored"
+            out[str(r["ticker"]).upper()] = {
+                "status": status,
+                "reason": r.get("reason") or status,
+            }
+    return out
+
+
+def _history_row(c, *, status, reason, as_of):
+    return {
+        "ticker": c.get("ticker"),
+        "first_flagged": c.get("first_flagged"),
+        "last_seen": c.get("last_seen"),
+        "resolved_at": as_of,
+        "status": status,
+        "reason": reason,
+        "source": c.get("source") or "",
+        "kind": c.get("kind") or "",
+        "flag_price": c.get("flag_price"),
+    }
+
+
 # ───────────────────── WRITER side (the routine) ─────────────────────
 
 def update_open_opportunities(store, todays_candidates, held_tickers, prices, as_of, *,
-                              monitor_tickers=None, invalidations=None, max_age_days=None):
+                              monitor_tickers=None, invalidations=None, resolutions=None,
+                              max_age_days=None):
     """Merge today's candidates into the store; age the survivors; drop the resolved.
 
     Inputs
@@ -185,10 +217,12 @@ def update_open_opportunities(store, todays_candidates, held_tickers, prices, as
     held = {str(t).upper() for t in (held_tickers or set())}
     monitor = {str(t).upper() for t in (monitor_tickers or set())}
     invalid = {str(t).upper() for t in (invalidations or set())}
+    resolved = _resolution_map(resolutions)
     prices = prices or {}
     today_iso = (_parse_date(as_of) or date.today()).isoformat()
 
     kept, dropped, seen = [], [], set()
+    history = list((store or {}).get("history") or [])
 
     # 1) age / keep / drop existing OPEN opportunities
     for raw in (store or {}).get("opportunities", []) or []:
@@ -196,18 +230,27 @@ def update_open_opportunities(store, todays_candidates, held_tickers, prices, as
         if not c or c["status"] != "open":
             continue
         up = c["ticker"].upper()
+        if up in resolved:
+            rr = resolved[up]
+            history.append(_history_row(c, status=rr["status"], reason=rr["reason"], as_of=today_iso))
+            dropped.append({"ticker": c["ticker"], "status": rr["status"], "reason": rr["reason"]})
+            continue
         if up in monitor:
+            history.append(_history_row(c, status="dropped", reason="monitor_excluded", as_of=today_iso))
             dropped.append({"ticker": c["ticker"], "status": "dropped", "reason": "monitor_excluded"})
             continue
         if up in held:
+            history.append(_history_row(c, status="acted", reason="now held", as_of=today_iso))
             dropped.append({"ticker": c["ticker"], "status": "acted", "reason": "now held"})
             continue
         if up in invalid:
+            history.append(_history_row(c, status="invalidated", reason="invalidated", as_of=today_iso))
             dropped.append({"ticker": c["ticker"], "status": "invalidated", "reason": "invalidated"})
             continue
         if max_age_days is not None:
             age = age_business_days(c["first_flagged"], as_of)
             if age is not None and age > max_age_days:
+                history.append(_history_row(c, status="expired", reason=f">{max_age_days}d unacted", as_of=today_iso))
                 dropped.append({"ticker": c["ticker"], "status": "expired",
                                 "reason": f">{max_age_days}d unacted"})
                 continue
@@ -247,6 +290,7 @@ def update_open_opportunities(store, todays_candidates, held_tickers, prices, as
         "as_of": today_iso,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "opportunities": kept,
+        "history": history,
     }
     return new_store, dropped
 
@@ -279,6 +323,7 @@ def seed_open_opportunities(seeds, as_of=None) -> dict:
         "as_of": as_of,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "opportunities": opps,
+        "history": [],
     }
 
 

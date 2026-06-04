@@ -146,11 +146,11 @@
       }
     ],
     "counts": {
-      "has_data": 6,
-      "not_checked": 5,
-      "failed": 0,
       "checked_clear": 0,
-      "stale": 0
+      "stale": 0,
+      "has_data": 6,
+      "failed": 0,
+      "not_checked": 5
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -874,7 +874,8 @@
       "line": "Open action backlog not checked.",
       "count": 0,
       "oldest_age_days": 0,
-      "items": []
+      "items": [],
+      "recent_history": []
     },
     "recommendations": [
       "No feedback-loop action required."
