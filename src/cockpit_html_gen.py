@@ -174,6 +174,27 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .footer{text-align:center;font-size:10px;color:#30363d;
   margin-top:20px;padding:16px;border-top:1px solid #21262d}
 
+
+/* ── tabs ── */
+.tab-bar{display:flex;gap:2px;margin-bottom:12px;border-bottom:1px solid #21262d;padding-bottom:0}
+.tab-btn{padding:7px 14px;font-size:12px;font-weight:600;color:#8b949e;background:none;border:none;
+  border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;letter-spacing:.3px}
+.tab-btn.active{color:#f0f6fc;border-bottom-color:#58a6ff}
+/* ── commands panel ── */
+.cmd-section{margin-bottom:16px}
+.cmd-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;
+  color:#8b949e;margin-bottom:8px}
+.cmd-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;
+  border-bottom:1px solid #1c2128;font-size:12px}
+.cmd-row:last-child{border-bottom:none}
+.cmd-name{font-family:monospace;color:#58a6ff;min-width:110px;font-size:11px;flex-shrink:0}
+.cmd-desc{color:#8b949e;line-height:1.4}
+.nav-row{display:flex;align-items:center;gap:8px;padding:5px 0;
+  border-bottom:1px solid #1c2128;font-size:12px}
+.nav-row:last-child{border-bottom:none}
+.nav-label{color:#c9d1d9;min-width:140px;flex-shrink:0}
+.nav-hint{font-size:10px;color:#484f58;font-family:monospace;margin-left:4px}
+
 /* ── responsive ── */
 @media(max-width:600px){
   .wrap{padding:10px 8px}
@@ -474,6 +495,127 @@ def _book(holdings: list) -> str:
 </details>"""
 
 
+
+
+def _book_tab(holdings: list, book_asof: str = "") -> str:
+    """Full book as a flat table for the Book tab — no collapsible wrapper."""
+    if not holdings:
+        return '<div style="padding:20px;text-align:center;color:#484f58;font-size:12px">No holdings data in this feed build.</div>'
+    rows = ""
+    total_pct = 0.0
+    for cat_block in holdings:
+        cat  = _e(cat_block.get("cat", ""))
+        rot  = (cat_block.get("rot") or {}).get("w", "")
+        rot_cls = {"LEADING": "lead", "LAGGING": "lag"}.get(rot, "inl")
+        rows += f'''<tr class="book-cat-row">
+  <td colspan="4">{cat}
+    {f'<span class="{rot_cls}" style="font-size:10px;margin-left:6px">{_e(rot)}</span>' if rot else ""}
+  </td></tr>'''
+        for pos in (cat_block.get("pos") or []):
+            t   = _e(pos.get("t", ""))
+            pct = pos.get("pct", 0)
+            total_pct += float(pct or 0)
+            pct_str = _pct(pct)
+            cv  = pos.get("cv") or "—"
+            lock = pos.get("lock") or ""
+            nr  = _e(pos.get("nr") or "")
+            cv_cls = "cv-yes" if cv == "Promising" else ""
+            lock_html = f'<span class="lock-tag">{_e(lock)}</span>' if lock else ""
+            rows += f'''<tr>
+  <td><strong>{t}</strong>{lock_html}</td>
+  <td>{pct_str}</td>
+  <td class="{cv_cls}">{_e(cv) if cv != "—" else "—"}</td>
+  <td style="color:#484f58;font-size:11px">{nr[:72]}{"…" if len(nr)>72 else ""}</td>
+</tr>'''
+    asof_str = f'as-of {_e(book_asof)}' if book_asof else ""
+    return f'''
+<div class="card" style="margin-bottom:10px">
+  <div class="card-title">
+    <span class="icon">📚</span> Full book
+    {f'<span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{asof_str}</span>' if asof_str else ""}
+  </div>
+  <div class="book-wrap">
+    <table class="book">
+      <tr><th>Name</th><th>Weight</th><th>Conviction</th><th>Read</th></tr>
+      {rows}
+      <tr style="border-top:1px solid #30363d">
+        <td style="color:#8b949e;font-size:11px">Total shown</td>
+        <td style="font-family:monospace;color:#8b949e">{_pct(round(total_pct,1))}</td>
+        <td colspan="2"></td>
+      </tr>
+    </table>
+  </div>
+</div>'''
+
+
+_COMMANDS = [
+    ("dash / dashboard",   "Live conviction cockpit — gist-first, instant render"),
+    ("pulse",              "What changed since last build — FS Inbox, Signal Log, catalysts, synthesis delta"),
+    ("top 5",              "Today's ranked action list with gate badges"),
+    ("deepdive [ticker]",  "Full due-diligence on a stock — or just start talking about it"),
+    ("reallocate",         "Full-book reallocation candidates (trim ETF wrappers → single names)"),
+    ("fs digest",          "Process a Fundstrat note — act / watch / no-action verdict"),
+    ("queue",              "Research Queue Working items, ranked by priority + age"),
+    ("theses",             "Live Theses ACTIVE/MONITOR breakdown, flags no-stop names"),
+    ("nav",                "Tappable Notion links — all key pages, instant, no fetch"),
+    ("reconcile [Nd]",     "Triage open chat threads — DONE / OPEN-MATERIAL / OPEN-MINOR / DEAD"),
+    ("morning scan",       "Manual full world sweep — weekends / ad-hoc re-sweep"),
+    ("menu",               "This command list (auto-shows on short opening messages)"),
+    ("fresh run",          "Full cockpit rebuild from live sources (manual fallback only)"),
+]
+
+_NAV_LINKS = [
+    ("📊 Portfolio",        "https://www.notion.so/35ac50314bb681fcb792e50bf86d63f4", ""),
+    ("📈 Live Theses",      "https://www.notion.so/1286877d625f4b3eb2bedcce9bb81266", "type: theses"),
+    ("🎯 Trade Rationales", "https://www.notion.so/c854a4187c7a438ea9e31ed9137cb448", ""),
+    ("🚨 Exit Triggers",    "https://www.notion.so/b739b1210584411fabab06ad87bf5603", ""),
+    ("📡 Signal Log",       "https://www.notion.so/4bf2f38e30dc4088bb314912167f052e", ""),
+    ("📞 Source Calls",     "https://www.notion.so/7aa11ab3219d4373996e5b3e756375dd", ""),
+    ("📧 FS Inbox",         "https://www.notion.so/354c50314bb681b5b88cf7cdb0e81731", "type: fs digest"),
+    ("📚 Research Queue",   "https://www.notion.so/16b90c918e6a44049a8ba2b658943f25", "type: queue"),
+    ("📖 Decisions Log",    "https://www.notion.so/d287d06184a74b7793ad26b42f33fd40", ""),
+    ("💹 Trade Outcomes",   "https://www.notion.so/ab0817a74c654694ba834089febe1c74", ""),
+    ("🧠 Synthesis Log",    "https://www.notion.so/c414bc41c37248d09df2591ab160fe0f", ""),
+    ("🛰️ Routines Hub",     "https://www.notion.so/36ec50314bb681eb84bee946ef956048", ""),
+    ("🛸 Pilot Status",     "https://www.notion.so/36dc50314bb681a5913bf0f70da71ae9", ""),
+    ("🏗️ Command Center",   "https://www.notion.so/36dc50314bb68163ad59dc2fbfac6cad", ""),
+]
+
+
+def _commands_tab() -> str:
+    cmd_rows = "".join(
+        f'<div class="cmd-row"><span class="cmd-name">{_e(n)}</span><span class="cmd-desc">{_e(d)}</span></div>'
+        for n, d in _COMMANDS
+    )
+    nav_rows = "".join(
+        f'<div class="nav-row"><span class="nav-label"><a href="{_e(url)}" style="color:#c9d1d9">{_e(label)}</a></span>' +
+        (f'<span class="nav-hint">{_e(hint)}</span>' if hint else "") + "</div>"
+        for label, url, hint in _NAV_LINKS
+    )
+    return f"""
+<div id="tab-commands" style="display:none">
+  <div class="cmd-section">
+    <div class="cmd-section-title">Claude commands</div>
+    {cmd_rows}
+  </div>
+  <div class="cmd-section">
+    <div class="cmd-section-title">Notion quick links</div>
+    {nav_rows}
+  </div>
+  <div class="cmd-section">
+    <div class="cmd-section-title">GitHub Pages dashboard</div>
+    <div class="nav-row">
+      <span class="nav-label">
+        <a href="https://ender-lark.github.io/enderverse/" style="color:#c9d1d9">
+          ⚡ Live dashboard
+        </a>
+      </span>
+      <span class="nav-hint">auto-refreshes hourly</span>
+    </div>
+  </div>
+</div>"""
+
+
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
 def generate_html(feed: dict) -> str:
@@ -501,7 +643,10 @@ def generate_html(feed: dict) -> str:
     cats_html   = _catalysts(feed.get("catalysts") or [])
     res_html    = _research(feed.get("research") or {})
     lean_html   = _lean_in(feed.get("lean_in") or [])
-    book_html   = _book(feed.get("holdings") or [])
+    book_html     = _book(feed.get("holdings") or [])
+    book_tab_html = _book_tab(feed.get("holdings") or [], book_asof)
+
+    cmds_html = _commands_tab()
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -533,22 +678,35 @@ def generate_html(feed: dict) -> str:
     </div>
   </div>
 
-  {hb_html}
-  {hero_html}
-  {actions_html}
-  {synth_html}
-
-  <div class="two-col">
-    {rot_html}
-    <div>
-      {macro_html}
-      {cats_html}
-    </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('dashboard',this)">⚡ Cockpit</button>
+    <button class="tab-btn" onclick="showTab('book',this)">📚 Book</button>
+    <button class="tab-btn" onclick="showTab('commands',this)">📋 Commands</button>
   </div>
 
-  {res_html}
-  {lean_html}
-  {book_html}
+  <div id="tab-dashboard">
+    {hb_html}
+    {hero_html}
+    {actions_html}
+    {synth_html}
+
+    <div class="two-col">
+      {rot_html}
+      <div>
+        {macro_html}
+        {cats_html}
+      </div>
+    </div>
+
+    {res_html}
+    {lean_html}
+  </div>
+
+  <div id="tab-book" style="display:none">
+    {book_tab_html}
+  </div>
+
+  {cmds_html}
 
   <div class="footer">
     Conviction Cockpit · auto-refreshes hourly ·
@@ -556,5 +714,13 @@ def generate_html(feed: dict) -> str:
   </div>
 
 </div>
+<script>
+function showTab(name, btn) {{
+  document.querySelectorAll('[id^="tab-"]').forEach(d => d.style.display = 'none');
+  document.getElementById('tab-' + name).style.display = '';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}}
+</script>
 </body>
 </html>"""
