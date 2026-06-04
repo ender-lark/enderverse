@@ -23,8 +23,13 @@ def test_assemble_feed_emits_prospects_and_validates():
     actions = {a["ticker"]: a for a in feed["actions"] if a.get("ticker")}
     assert actions["NVDA"]["kind"] == "top_prospect"              # ACT_NOW prospect reaches Actions
     assert actions["NVDA"]["action_state"] == "ACT_NOW"
+    assert actions["NVDA"]["goal_impact"] == "High"
+    assert actions["NVDA"]["action_label"] == "START/VALIDATE"
+    assert actions["NVDA"]["capital_effect"] == "start"
     assert actions["LULU"]["kind"] == "sell_fast"                 # sell-fast warning reaches Actions
     assert actions["LULU"]["action_state"] == "ACT_NOW"
+    assert actions["LULU"]["goal_impact"] == "High"
+    assert actions["LULU"]["capital_effect"] == "trim"
     assert "ANET" not in actions                                  # HOT stays in prospects until ACT_NOW
     assert V.validate_cockpit_feed(feed) == []
 

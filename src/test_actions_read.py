@@ -18,6 +18,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from analyst_judgment import actions_read
 from feed_assembler import assemble_feed
+from goal_impact import annotate_action
 from validators import validate_cockpit_feed
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -211,13 +212,24 @@ def _minimal_feed():
             "macro": {}, "fresh_signals": [], "holdings": [], "rotation": []}
 
 
-def _valid_action_row():
+def _legacy_valid_action_row():
     return {"rank": 1, "kind": "buy_now", "ticker": "NVDA",
             "what": "Buy trigger fired", "confidence": "High",
             "your_move": "Size it and run the gate.",
             "gate": {"needs_gate": True, "preview": "🔒 T1 — runs Deepwork",
                      "ticker": "NVDA", "default_action": "ADD"},
             "source": "fresh_signal", "why": "breakout"}
+
+
+def _valid_action_row():
+    return annotate_action({
+        "rank": 1, "kind": "buy_now", "ticker": "NVDA",
+        "what": "Buy trigger fired", "confidence": "High",
+        "your_move": "Size it and run the gate.",
+        "gate": {"needs_gate": True, "preview": "T1 runs Deepwork",
+                 "ticker": "NVDA", "default_action": "ADD"},
+        "source": "fresh_signal", "why": "breakout",
+    })
 
 
 def test_validator_absent_actions_still_valid():

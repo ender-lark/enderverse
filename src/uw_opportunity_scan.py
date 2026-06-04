@@ -94,7 +94,7 @@ except Exception:  # standalone use outside the engine tree — keep in lock-ste
 
 CACHE_SOURCE = "uw_opportunity_scan"
 DEFAULT_CACHE_PATH = "uw_opportunity_signals.json"   # live sibling of sample_opportunity_signals.json
-DEFAULT_THESES_PATH = "theses.json"                  # the conviction universe (committed)
+DEFAULT_THESES_PATH = str(Path(__file__).resolve().parent / "theses.json")  # committed conviction universe
 
 # ── strength ladder ──
 _STRENGTH_ORDER = ["weak", "moderate", "strong"]

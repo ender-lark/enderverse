@@ -102,7 +102,19 @@
         "default_action": "ADD"
       },
       "source": "fresh_signal",
-      "why": "ITA cleared a multi-month downtrend \u2014 Newton 5/28 (breakout)"
+      "why": "ITA cleared a multi-month downtrend \u2014 Newton 5/28 (breakout)",
+      "goal_channels": [
+        "upside",
+        "conviction",
+        "opportunity_cost"
+      ],
+      "goal_impact": "High",
+      "goal_score": 90,
+      "time_window": "today",
+      "capital_effect": "add",
+      "action_label": "BUY/ADD",
+      "why_it_moves_goal": "A buy trigger with rising conviction can improve compounding if sized in time.",
+      "missing_evidence": []
     },
     {
       "rank": 2,
@@ -114,7 +126,20 @@
       "your_move": "FN is endorsed but the entry isn't confirmed \u2014 set an alert, no buy yet.",
       "gate": null,
       "source": "fresh_signal",
-      "why": "FN \u2014 newly named FS Top-5 SMID (AI optical)"
+      "why": "FN \u2014 newly named FS Top-5 SMID (AI optical)",
+      "goal_channels": [
+        "upside",
+        "conviction"
+      ],
+      "goal_impact": "Medium",
+      "goal_score": 52,
+      "time_window": "1-2 weeks",
+      "capital_effect": "no_capital_yet",
+      "action_label": "WATCH",
+      "why_it_moves_goal": "The setup is relevant, but the entry trigger has not fired.",
+      "missing_evidence": [
+        "entry trigger"
+      ]
     }
   ],
   "fresh_signals": [

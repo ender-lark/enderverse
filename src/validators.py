@@ -218,13 +218,21 @@ _VALID_URGENCY = {"act", "watch"}
 # validated only IF `actions` is present, so feeds that predate the block stay
 # valid (forward-compatible). The assembler emits it; old/stored feeds may not.
 _ACTION_REQUIRED = ("rank", "kind", "ticker", "what", "confidence", "your_move",
-                    "gate", "source", "why")
+                    "gate", "source", "why", "goal_channels", "goal_impact",
+                    "goal_score", "time_window", "capital_effect", "action_label",
+                    "why_it_moves_goal", "missing_evidence")
 _VALID_CONFIDENCE = {"High", "Moderate", "Low"}
 _VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
                        "macro_alert", "watch_entry", "stale_critical", "synthesis",
                        "catalyst_imminent", "lean_in", "research_review",
                        "decision_aging", "top_prospect", "sell_fast"}
 _VALID_ACTION_STATES = {"ACT_NOW", "WATCH", "RESEARCH", "MONITOR"}
+_VALID_GOAL_CHANNELS = {"upside", "downside_protection", "sizing_gap", "leverage",
+                        "conviction", "opportunity_cost", "data_quality"}
+_VALID_GOAL_IMPACTS = {"High", "Medium", "Low"}
+_VALID_TIME_WINDOWS = {"today", "1-3 trading days", "1-2 weeks", "no timing edge"}
+_VALID_CAPITAL_EFFECTS = {"start", "add", "trim", "sell", "hedge", "rotate",
+                          "review", "no_capital_yet"}
 # canonical catalyst-row field set (Contract C, OPTIONAL block — the near-term
 # event lane read off the Catalyst Calendar). Validated only IF present, so a
 # dark/unsourced lane (empty or absent) stays valid.
@@ -284,6 +292,34 @@ def _validate_action(a: Any) -> list[str]:
     if "action_state" in a and a.get("action_state") not in _VALID_ACTION_STATES:
         out.append(f"action_state must be one of {sorted(_VALID_ACTION_STATES)}, "
                    f"got {a.get('action_state')!r}")
+    channels = a.get("goal_channels")
+    if "goal_channels" in a:
+        if not isinstance(channels, list) or not all(isinstance(c, str) for c in channels):
+            out.append("goal_channels must be a list of strings")
+        else:
+            bad = [c for c in channels if c not in _VALID_GOAL_CHANNELS]
+            if bad:
+                out.append(f"goal_channels has unknown value(s): {bad!r}")
+    if "goal_impact" in a and a.get("goal_impact") not in _VALID_GOAL_IMPACTS:
+        out.append(f"goal_impact must be one of {sorted(_VALID_GOAL_IMPACTS)}, "
+                   f"got {a.get('goal_impact')!r}")
+    if "goal_score" in a:
+        score = a.get("goal_score")
+        if not isinstance(score, int) or score < 0 or score > 100:
+            out.append("goal_score must be an int from 0 to 100")
+    if "time_window" in a and a.get("time_window") not in _VALID_TIME_WINDOWS:
+        out.append(f"time_window must be one of {sorted(_VALID_TIME_WINDOWS)}, "
+                   f"got {a.get('time_window')!r}")
+    if "capital_effect" in a and a.get("capital_effect") not in _VALID_CAPITAL_EFFECTS:
+        out.append(f"capital_effect must be one of {sorted(_VALID_CAPITAL_EFFECTS)}, "
+                   f"got {a.get('capital_effect')!r}")
+    for fld in ("action_label", "why_it_moves_goal"):
+        if fld in a and (not isinstance(a.get(fld), str) or not a.get(fld).strip()):
+            out.append(f"{fld} must be a non-empty string")
+    if "missing_evidence" in a:
+        me = a.get("missing_evidence")
+        if not isinstance(me, list) or not all(isinstance(x, str) for x in me):
+            out.append("missing_evidence must be a list of strings")
     if "rank" in a and not isinstance(a.get("rank"), int):
         out.append("rank must be an int")
     tk = a.get("ticker")

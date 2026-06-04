@@ -747,13 +747,24 @@ const ACTION_STATE_META = {
   RESEARCH: { c:C.blue,  label:"RESEARCH" },
   MONITOR:  { c:C.amber, label:"MONITOR" },
 };
+const GOAL_IMPACT_META = {
+  High:   { c:C.red,   label:"Goal: High" },
+  Medium: { c:C.amber, label:"Goal: Med" },
+  Low:    { c:C.faint, label:"Goal: Low" },
+};
 function actionRow(a){
   const m = ACTION_KIND_META[a.kind] || { icon:"•", label:a.kind, c:C.dim };
   const cf = CONF_META[a.confidence] || { c:C.dim, label:a.confidence };
   const st = ACTION_STATE_META[a.action_state] || null;
+  const gi = GOAL_IMPACT_META[a.goal_impact] || null;
   return { rank:a.rank, kind:a.kind, icon:m.icon, kindLabel:m.label, c:m.c,
            ticker:a.ticker||"", what:a.what||"", confLabel:cf.label, confColor:cf.c,
            actionState:a.action_state||"", stateLabel:st&&st.label||"", stateColor:st&&st.c||"",
+           goalImpact:a.goal_impact||"", goalLabel:gi&&gi.label||"", goalColor:gi&&gi.c||"",
+           goalScore:(typeof a.goal_score==="number"?a.goal_score:null),
+           timeWindow:a.time_window||"", capitalEffect:a.capital_effect||"",
+           actionLabel:a.action_label||"", goalWhy:a.why_it_moves_goal||"",
+           goalChannels:a.goal_channels||[], missingEvidence:a.missing_evidence||[],
            yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"",
            ageDays:(typeof a.age_days==="number"?a.age_days:null), flagged:a.first_flagged||"",
            moveSince:a.move_since||"", sizing:a.sizing||"" };
@@ -781,10 +792,18 @@ function sharedVM(feed){
 }
 // actionVM = the ⚡ Action surface (decide/do). Built only when mode==="action".
 function actionVM(feed){
+  const actions = (feed.actions||[]).map(actionRow);
+  const isOpp = (a)=>["upside","sizing_gap","leverage","opportunity_cost"].some(c=>(a.goalChannels||[]).includes(c));
+  const isRisk = (a)=>["downside_protection","data_quality"].some(c=>(a.goalChannels||[]).includes(c));
   return {
     macro: macroView(feed.macro||{}),
     rotation: (feed.rotation||[]).map(rotationRow),
-    actions: (feed.actions||[]).map(actionRow),
+    actions,
+    actionSplit: {
+      actNow: actions.filter(a=>a.actionState==="ACT_NOW"),
+      opportunities: actions.filter(a=>a.actionState!=="ACT_NOW" && isOpp(a)),
+      risks: actions.filter(a=>isRisk(a)),
+    },
     researchActions: (feed.research_actions||[]).map(actionRow),
     synthesis: feed.synthesis||{},
     radar: (feed.radar||[]).map(radarRow),
@@ -940,6 +959,9 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {/* ACTIONS — prioritized "what to do today" (engine ⑦b actions block) */}
         <Section id="actions" title="Today's actions" icon="🟢" badge={VM.actions.length?`${Math.min(VM.actions.length,5)}${VM.actions.length>5?` of ${VM.actions.length}`:""}`:"0 live"} badgeColor={VM.actions.length?C.amber:C.faint} openMap={open} setOpen={setOpen}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>PRIORITIZED — confidence-led. Gate badges are provisional; the real 🟢/🟡/🔴 runs when you act on it in chat.</div>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>
+            ACT_NOW {VM.actionSplit.actNow.length} · OPPORTUNITIES {VM.actionSplit.opportunities.length} · RISKS {VM.actionSplit.risks.length}
+          </div>
           {VM.actions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing to act on right now — no live buy-trigger, alert, or flag.</div>}
           {VM.actions.slice(0,5).map((a)=>{
             const key="act"+a.rank+(a.ticker||a.kind), isO=posOpen[key];
@@ -953,12 +975,16 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
                     {a.stateLabel && <span style={{ fontFamily:mono, fontSize:11, color:a.stateColor, border:`1px solid ${a.stateColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.stateColor}12` }}>{a.stateLabel}</span>}
+                    {a.goalLabel && <span title={a.goalScore!=null?`goal score ${a.goalScore}/100`:""} style={{ fontFamily:mono, fontSize:11, color:a.goalColor, border:`1px solid ${a.goalColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.goalColor}10` }}>{a.goalLabel}</span>}
+                    {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, color:C.text, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.actionLabel}</span>}
+                    {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
                     <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
                     <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>conf: {a.confLabel}</span>
                     {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
                     {a.ageDays!=null && <span title="how long this has been actionable — the cost of waiting" style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>🕒 open {a.ageDays}d{a.flagged?` · since ${a.flagged}`:""}{a.moveSince?` · ${a.moveSince}`:""}</span>}
                   </div>
                   <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
+                  {a.goalWhy && <div style={{ marginTop:5, fontSize:12.2, color:a.goalColor }}><span style={{ color:C.dim, fontWeight:600 }}>Goal impact:</span> {a.goalWhy}</div>}
                   {a.sizing && <div style={{ marginTop:5, fontSize:12, color:C.dim }}><span style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5 }}>Size </span>{a.sizing}</div>}
                   {a.why && (
                     <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
@@ -969,6 +995,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 {isO && a.why && (
                   <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
                     {a.why}
+                    {(a.goalChannels.length>0 || a.capitalEffect) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}</div>}
+                    {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
                     <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{VM.stamp} · not a trade — you decide, you size · drill in chat to run the gate</div>
                   </div>
                 )}
@@ -1048,11 +1076,15 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
                     {a.stateLabel && <span style={{ fontFamily:mono, fontSize:11, color:a.stateColor, border:`1px solid ${a.stateColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.stateColor}12` }}>{a.stateLabel}</span>}
+                    {a.goalLabel && <span title={a.goalScore!=null?`goal score ${a.goalScore}/100`:""} style={{ fontFamily:mono, fontSize:11, color:a.goalColor, border:`1px solid ${a.goalColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.goalColor}10` }}>{a.goalLabel}</span>}
+                    {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, color:C.text, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.actionLabel}</span>}
+                    {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
                     <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
                     <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>priority: {a.confLabel}</span>
                     {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
                   </div>
                   <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
+                  {a.goalWhy && <div style={{ marginTop:5, fontSize:12.2, color:a.goalColor }}><span style={{ color:C.dim, fontWeight:600 }}>Goal impact:</span> {a.goalWhy}</div>}
                   {a.why && (
                     <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
                       <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
@@ -1062,6 +1094,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 {isO && a.why && (
                   <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
                     {a.why}
+                    {(a.goalChannels.length>0 || a.capitalEffect) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}</div>}
+                    {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
                     <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{VM.stamp} · research candidate — you decide, you size · drill in chat to run the gate</div>
                   </div>
                 )}

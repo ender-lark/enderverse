@@ -58,6 +58,7 @@ from analyst_config import (
     UW_OPP_MAX_EVIDENCE,
     theses_by_ticker,
 )
+from goal_impact import annotate_actions
 from uw_opportunity import UW_OPP_KIND
 
 GRADE_UNASSESSED = "—"
@@ -802,6 +803,7 @@ def actions_read(fresh_signals, needs_you_items, theses,
             row["days_to_catalyst"] = r["days_to_catalyst"]
         actions.append(row)
 
+    actions = annotate_actions(actions)
     return {
         "actions": actions,
         "total_candidates": len(actions),
@@ -877,7 +879,7 @@ def apply_decision_aging(actions, aging_records, by_ticker):
     for i, a in enumerate(rows, start=1):
         a["rank"] = i
         a.setdefault("action_state", _ACTION_STATE_BY_KIND.get(a.get("kind"), "WATCH"))
-    return rows
+    return annotate_actions(rows)
 
 
 # =========================================================================== #
@@ -997,6 +999,7 @@ def research_actions_read(research, theses, taken_tickers=None,
             "source": r["source"], "why": r["why"],
         })
 
+    research_actions = annotate_actions(research_actions)
     return {"research_actions": research_actions,
             "total_candidates": len(research_actions)}
 # --------------------------------------------------------------------------- #

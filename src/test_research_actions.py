@@ -166,6 +166,9 @@ def test_rows_pass_action_validator():
     for a in out["research_actions"]:
         assert validators._validate_action(a) == []
         assert a["kind"] == "research_review"
+        assert a["action_label"] == "RESEARCH NOW"
+        assert a["capital_effect"] == "no_capital_yet"
+        assert "decision-grade thesis" in a["missing_evidence"]
 
 
 # --------------------------------------------------------------------------- #
