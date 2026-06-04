@@ -59,6 +59,11 @@ except ImportError as e:
     ol = csc = pfe = ias = None
     sct = None
 
+try:
+    from runtime_adapters import catalysts_from_calendar_rows
+except ImportError:
+    catalysts_from_calendar_rows = None
+
 
 # ============================================================================
 # DATA STRUCTURES
@@ -360,7 +365,9 @@ def _run_insider(positions: List[Dict],
                           "evaluated; populate via the insider refresh routine"),
             priority="INFO",
         )
-    report = ias.scan(positions, insider_data, catalysts, theses, macro_pulse)
+    report = ias.scan(positions, insider_data,
+                      _normalize_catalysts_for_routine(catalysts),
+                      theses, macro_pulse)
     actionable = (len(report.bullish) + len(report.bearish)
                   + len(report.cluster) + len(report.flagged))
     if len(report.flagged):
@@ -494,6 +501,18 @@ def _run_persistence(source_calls, theses, calibration_fresh,
 PRIORITY_RANK = {"CRIT": 0, "HIGH": 1, "MED": 2, "INFO": 3, "NONE": 4}
 
 
+def _normalize_catalysts_for_routine(catalysts, today=None) -> list:
+    """Normalize Catalyst Calendar input for preflight subsystem consumers."""
+    if not catalysts:
+        return []
+    rows = catalysts.get("catalysts") if isinstance(catalysts, dict) else catalysts
+    if not isinstance(rows, list):
+        return []
+    if catalysts_from_calendar_rows is None:
+        return rows
+    return catalysts_from_calendar_rows(rows, as_of=today)
+
+
 def orchestrate(positions: List[Dict], theses: List[Dict],
                 sleeve_total: float,
                 prior_snapshot: Optional[Dict] = None,
@@ -513,6 +532,7 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
         "positions": positions,
         "sleeve_value": sleeve_total,
     }
+    catalysts = _normalize_catalysts_for_routine(catalysts)
 
     # v12.5 Issue #10: confirm the source-calibration chain is fresh before letting
     # SOURCE PERSISTENCE fire LOUD. Live Inbox/Log dates are routine-supplied; absent

@@ -93,3 +93,45 @@ def test_no_cache_is_unavailable():
     res = so._run_insider([{"ticker": "NVDA"}], None, None, None, None)
     assert res.available is False
     assert "no insider data" in res.surface_line.lower()
+
+
+def test_preflight_normalizes_raw_catalyst_rows_for_insider_scan():
+    insider = ia.normalize_uw_insider([{
+        "ticker": "NVDA",
+        "transaction_code": "S",
+        "insider_title": "Chief Financial Officer",
+        "insider_name": "Jane Roe",
+        "amount": 10000,
+        "price": 120.0,
+        "transaction_date": "2026-06-04",
+    }])
+    raw_catalysts = [
+        {"ticker": "NVDA", "date": "2026-06-10T00:00:00+00:00", "name": "Q2 earnings"}
+    ]
+    res = so._run_insider([{"ticker": "NVDA"}], insider, raw_catalysts, None, None)
+    assert res.available is True
+    assert res.priority == "HIGH"
+    assert res.payload["flagged"] == 1
+
+
+def test_orchestrator_normalizes_wrapped_catalyst_cache():
+    insider = ia.normalize_uw_insider([{
+        "ticker": "NVDA",
+        "transaction_code": "S",
+        "insider_title": "Chief Financial Officer",
+        "insider_name": "Jane Roe",
+        "amount": 10000,
+        "price": 120.0,
+        "transaction_date": "2026-06-04",
+    }])
+    d = so.orchestrate(
+        positions=[{"ticker": "NVDA"}],
+        theses=[],
+        sleeve_total=1_000_000,
+        insider_data=insider,
+        catalysts={"catalysts": [
+            {"ticker": "NVDA", "date": "2026-06-10T00:00:00+00:00", "name": "Q2 earnings"}
+        ]},
+    )
+    res = next(s for s in d.subsystems if s.name == "INSIDER ACTIVITY")
+    assert res.payload["flagged"] == 1
