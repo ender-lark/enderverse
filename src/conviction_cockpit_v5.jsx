@@ -772,6 +772,19 @@ function actionRow(a){
 // ── Tier-1 view-model: heartbeat (layer run-status strip) ──
 const HB_STATUS = { ok:{c:C.green,label:"ok"}, stale:{c:C.amber,label:"stale"}, down:{c:C.red,label:"down"} };
 function heartbeatRow(h){ const s=HB_STATUS[h.status]||{c:C.gray,label:h.status}; return { layer:h.layer, c:s.c, statusLabel:s.label, lastRun:h.last_run||"", note:h.note||"" }; }
+const LANE_STATUS_META = {
+  has_data:      { c:C.green, label:"data" },
+  checked_clear: { c:C.blue,  label:"clear" },
+  not_checked:   { c:C.amber, label:"not checked" },
+  stale:         { c:C.amber, label:"stale" },
+  failed:        { c:C.red,   label:"failed" },
+};
+function laneStatusRow(r){
+  const m = LANE_STATUS_META[r.status] || { c:C.dim, label:r.status||"unknown" };
+  return { key:r.key||"", label:r.label||r.key||"", c:m.c, statusLabel:m.label,
+           detail:r.detail||"", count:(typeof r.count==="number"?r.count:0),
+           checkedAt:r.checked_at||"" };
+}
 // ── ⑨ Radar view-model: endorsed (daily-call) names not owned yet ──
 function radarRow(r){
   const levels=[];
@@ -788,6 +801,9 @@ function sharedVM(feed){
   return {
     generatedAt: feed.generated_at||"", stamp: stamp(feed),
     heartbeat: (feed.heartbeat||[]).map(heartbeatRow),
+    laneStatus: ((feed.lane_status||{}).rows||[]).map(laneStatusRow),
+    darkLaneCount: (((feed.lane_status||{}).counts||{}).not_checked)||0,
+    staleLaneCount: ((((feed.lane_status||{}).counts||{}).stale)||0) + ((((feed.lane_status||{}).counts||{}).failed)||0),
   };
 }
 // actionVM = the ⚡ Action surface (decide/do). Built only when mode==="action".
@@ -923,6 +939,19 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         )}
 
         {/* VIEW TOGGLE — shared chrome (sticky): ⚡ Action ⇄ 📊 Book */}
+        {VM.laneStatus.length>0 && (
+          <div style={{ marginTop:8, display:"flex", flexWrap:"wrap", gap:6, alignItems:"center" }}>
+            <span style={{ fontFamily:mono, fontSize:10, color:C.faint, marginRight:2 }}>CHECKS</span>
+            {VM.laneStatus.map((r,i)=>(
+              <span key={i} title={`${r.detail}${r.checkedAt?` Â· checked ${r.checkedAt}`:""}`}
+                style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"2px 8px", borderRadius:99,
+                  fontSize:10.5, fontFamily:mono, color:r.c, border:`1px solid ${r.c}44`, background:`${r.c}10`, whiteSpace:"nowrap" }}>
+                {r.label} Â· {r.statusLabel}{r.count?` ${r.count}`:""}
+              </span>
+            ))}
+          </div>
+        )}
+
         <div style={{ position:"sticky", top:0, zIndex:10, background:C.bg, marginTop:6, paddingTop:10, paddingBottom:8, borderBottom:`1px solid ${C.line}` }}>
           <div style={{ display:"flex", gap:4, background:C.panel, border:`1px solid ${C.line}`, borderRadius:9, padding:3, width:"fit-content" }}>
             {[["action","⚡ Action"],["book","📊 Book"]].map(([k,l])=>(

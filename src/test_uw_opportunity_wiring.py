@@ -125,7 +125,11 @@ def test_default_none_is_byte_identical():
 def test_empty_cache_is_inert():
     empty = {"as_of": "2026-05-31", "generated_at": "2026-05-31T15:30:00Z",
              "source": "uw_opportunity_scan", "signals": []}
-    assert _norm(_feed(empty)) == _norm(_feed(None))
+    with_empty = _feed(empty)
+    without = _feed(None)
+    assert _lean_row(with_empty, "NVDA") == _lean_row(without, "NVDA")
+    rows = {r["key"]: r for r in with_empty["lane_status"]["rows"]}
+    assert rows["uw_opportunity"]["status"] == "checked_clear"
 
 
 def test_malformed_cache_is_tolerant_and_inert():
@@ -136,7 +140,11 @@ def test_malformed_cache_is_tolerant_and_inert():
         {"ticker": "NVDA", "signal_type": "nope", "direction": "bullish"},   # bad signal_type
         "not-a-dict",
     ]}
-    assert _norm(_feed(junk)) == _norm(_feed(None))
+    with_junk = _feed(junk)
+    without = _feed(None)
+    assert _lean_row(with_junk, "NVDA") == _lean_row(without, "NVDA")
+    rows = {r["key"]: r for r in with_junk["lane_status"]["rows"]}
+    assert rows["uw_opportunity"]["status"] == "checked_clear"
 
 
 def test_stale_flow_does_not_fire(monkeypatch=None):

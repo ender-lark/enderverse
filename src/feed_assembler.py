@@ -24,6 +24,7 @@ from analyst_judgment import (conviction_read, conviction_direction_read,
                               catalyst_needs_you, lean_in_read, research_actions_read,
                               apply_decision_aging)
 from analyst_config import theses_by_ticker
+from lane_status import build_lane_status
 from uw_opportunity import uw_opportunity_cards, uw_opportunity_surface
 from prospect_surface import build_prospects_lane
 from open_opportunities import open_opportunity_aging
@@ -105,8 +106,10 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     #    ignore them); Chunk 2 is the hook that turns a fresh bullish signal into an
     #    up-event + a lean-in evidence row. Tolerant: a bad cache yields no cards. ──
     _items = snap["items"]
+    uw_cards = []
     if uw_opportunity:
-        _items = list(_items) + uw_opportunity_cards(uw_opportunity)
+        uw_cards = uw_opportunity_cards(uw_opportunity)
+        _items = list(_items) + uw_cards
     cards = _ns(_items)
     by_tk = theses_by_ticker(theses)
 
@@ -273,9 +276,18 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     #    hook is separate). ──
     _monitor_all = {tk for tk, th in by_tk.items() if (th or {}).get("stance") == "MONITOR"}
     bullish_flow = uw_opportunity_surface(uw_opportunity, monitor_tickers=_monitor_all) if uw_opportunity else {}
+    lane_status = build_lane_status(
+        snap, stale,
+        catalysts=catalysts,
+        research=research,
+        synthesis=synthesis,
+        uw_opportunity=(uw_cards if uw_opportunity is not None else None),
+        top_prospects=top_prospects,
+    )
     return {
         "generated_at": generated_at or f"{as_of}T16:00:00",
         "staleness": stale,
+        "lane_status": lane_status,
         "hero": hero,
         "actions": actions,
         "fresh_signals": fresh["fresh_signals"],

@@ -54,6 +54,107 @@
     ],
     "stale": []
   },
+  "lane_status": {
+    "rows": [
+      {
+        "key": "portfolio",
+        "label": "Portfolio",
+        "status": "has_data",
+        "detail": "checked",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "uw_price",
+        "label": "Prices",
+        "status": "has_data",
+        "detail": "checked",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "uw_macro",
+        "label": "Macro",
+        "status": "has_data",
+        "detail": "checked",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "fundstrat_bible",
+        "label": "FS Bible",
+        "status": "has_data",
+        "detail": "checked",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "fundstrat_daily",
+        "label": "FS Daily",
+        "status": "has_data",
+        "detail": "checked",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "meridian",
+        "label": "meridian",
+        "status": "has_data",
+        "detail": "checked",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "catalysts",
+        "label": "Catalysts",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "research",
+        "label": "Research Queue",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "synthesis",
+        "label": "Daily Synthesis",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "uw_opportunity",
+        "label": "UW Flow",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
+        "key": "top_prospects",
+        "label": "Top Prospects",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": ""
+      }
+    ],
+    "counts": {
+      "not_checked": 5,
+      "stale": 0,
+      "has_data": 6,
+      "checked_clear": 0,
+      "failed": 0
+    },
+    "has_dark_lanes": true,
+    "has_stale_or_failed": false
+  },
   "hero": {
     "hero": {
       "count": 12,

@@ -240,6 +240,7 @@ _CATALYST_REQUIRED = ("ticker", "label", "date", "days_out", "source")
 # heartbeat entry (Contract C, OPTIONAL block — the layer run-status strip)
 _HEARTBEAT_REQUIRED = ("layer", "status")
 _VALID_HEARTBEAT_STATUS = {"ok", "stale", "down"}
+_VALID_LANE_STATUS = {"has_data", "checked_clear", "not_checked", "stale", "failed"}
 # canonical lean-in-row field set (Contract C, OPTIONAL block ⑩ — the lean-in
 # opportunity lane). Validated only IF present (forward-compatible). Only the
 # ticker is required; the read fields may vary. Two HARD invariants are checked:
@@ -360,6 +361,27 @@ def _validate_heartbeat_entry(h: Any) -> list[str]:
     if "status" in h and h.get("status") not in _VALID_HEARTBEAT_STATUS:
         out.append(f"status must be one of {sorted(_VALID_HEARTBEAT_STATUS)}, "
                    f"got {h.get('status')!r}")
+    return out
+
+
+def _validate_lane_status_row(r: Any) -> list[str]:
+    """One dark-lane-honesty row. Status is explicit so omitted lanes cannot be
+    confused with checked-clear lanes."""
+    if not isinstance(r, dict):
+        return ["must be a dict"]
+    out: list[str] = []
+    for key in ("key", "label", "status", "detail", "checked_at"):
+        if key not in r:
+            out.append(f"missing field: {key}")
+        elif not isinstance(r.get(key), str):
+            out.append(f"{key} must be a string")
+    if "status" in r and r.get("status") not in _VALID_LANE_STATUS:
+        out.append(f"status must be one of {sorted(_VALID_LANE_STATUS)}, "
+                   f"got {r.get('status')!r}")
+    if "count" not in r:
+        out.append("missing field: count")
+    elif not isinstance(r.get("count"), int) or r.get("count") < 0:
+        out.append("count must be a non-negative int")
     return out
 
 
@@ -505,6 +527,28 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
     synthesis = feed.get("synthesis", _MISSING)
     if synthesis is not _MISSING and not isinstance(synthesis, dict):
         problems.append(f"synthesis must be a dict, got {type(synthesis).__name__}")
+
+    lane_status = feed.get("lane_status", _MISSING)
+    if lane_status is not _MISSING:
+        if not isinstance(lane_status, dict):
+            problems.append(f"lane_status must be a dict, got {type(lane_status).__name__}")
+        else:
+            rows = lane_status.get("rows", _MISSING)
+            if rows is _MISSING:
+                problems.append("lane_status missing field: rows")
+            elif not isinstance(rows, list):
+                problems.append(f"lane_status.rows must be a list, got {type(rows).__name__}")
+            else:
+                for i, row in enumerate(rows):
+                    problems.extend(f"lane_status.rows[{i}] {e}" for e in _validate_lane_status_row(row))
+            counts = lane_status.get("counts", _MISSING)
+            if counts is _MISSING:
+                problems.append("lane_status missing field: counts")
+            elif not isinstance(counts, dict):
+                problems.append(f"lane_status.counts must be a dict, got {type(counts).__name__}")
+            for flag in ("has_dark_lanes", "has_stale_or_failed"):
+                if flag in lane_status and not isinstance(lane_status.get(flag), bool):
+                    problems.append(f"lane_status.{flag} must be a bool")
 
     # OPTIONAL `bullish_flow` block (read-only UW opportunity WATCH lane, B1). A
     # dict {as_of,count,tickers,rows[]} or {}; validated IF present (forward-compat).
