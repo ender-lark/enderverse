@@ -23,8 +23,17 @@ All three live in `runtime_skeleton.py` → they wrap `assemble_feed` (`feed_ass
 | `build_full_feed(...)` | L5 FULL build (~10:30 AM ET) | the complete FEED — book, rotation, macro, all Tier-1 blocks, all lanes |
 | `build_skeleton_feed(...)` | the "Dashboard" fast-view | book + rotation only; Tier-1 panels in empty-state; dark lanes stamped |
 | `assemble_feed(bundle, *, parabolic, generated_at, heartbeat, synthesis, research, radar, catalysts)` | both of the above (+ tests) | the actual assembly; returns the FEED dict |
+| `publish_cockpit_feed.py --feed <feed.json> ...` | L5/operator publish boundary | validates the finished FEED, writes the publish artifact, then updates `open_opportunities.json` |
 
 **`build_full_feed` is a pass-through**: it forwards `research`, `catalysts`, `synthesis`, `heartbeat`, `radar` into `assemble_feed` and **returns its output unchanged**. Consequence that matters: any new feed key `assemble_feed` emits appears in the FULL build automatically — no routine-prompt change needed (this is exactly why `research_actions` shipped without touching L5).
+
+**Side effects live after the publish gate.** The daily routine should build the
+FEED first, then call `publish_cockpit_feed.py`. That runner runs
+`publish_gate.validate_publish_gate(feed)` and fails closed: if the feed is stale
+or malformed it writes neither the latest feed artifact nor action memory. If the
+gate passes, it writes the optional feed copy and calls
+`runtime_skeleton.update_action_memory_after_publish(...)`, which keeps
+unresolved opportunities durable across days.
 
 **External vs derived inputs** (critical distinction):
 - **Derived from the book** (the engine computes them): `holdings`, `rotation`, `hero`, `fresh_signals` (⑦), the needs-you list (⑧), `actions` (⑦b), `research_actions` (⑦c).
