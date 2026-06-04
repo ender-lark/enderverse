@@ -241,6 +241,7 @@ _CATALYST_REQUIRED = ("ticker", "label", "date", "days_out", "source")
 _HEARTBEAT_REQUIRED = ("layer", "status")
 _VALID_HEARTBEAT_STATUS = {"ok", "stale", "down"}
 _VALID_LANE_STATUS = {"has_data", "checked_clear", "not_checked", "stale", "failed"}
+_VALID_FEEDBACK_STATUS = {"has_data", "checked_clear", "not_checked"}
 # canonical lean-in-row field set (Contract C, OPTIONAL block ⑩ — the lean-in
 # opportunity lane). Validated only IF present (forward-compatible). Only the
 # ticker is required; the read fields may vary. Two HARD invariants are checked:
@@ -382,6 +383,27 @@ def _validate_lane_status_row(r: Any) -> list[str]:
         out.append("missing field: count")
     elif not isinstance(r.get("count"), int) or r.get("count") < 0:
         out.append("count must be a non-negative int")
+    return out
+
+
+def _validate_feedback_block(fb: Any) -> list[str]:
+    if not isinstance(fb, dict):
+        return [f"must be a dict, got {type(fb).__name__}"]
+    out: list[str] = []
+    for key in ("source_calls", "open_actions"):
+        block = fb.get(key)
+        if not isinstance(block, dict):
+            out.append(f"{key} must be a dict")
+            continue
+        status = block.get("status")
+        if status not in _VALID_FEEDBACK_STATUS:
+            out.append(f"{key}.status must be one of {sorted(_VALID_FEEDBACK_STATUS)}, got {status!r}")
+        line = block.get("line")
+        if not isinstance(line, str) or not line.strip():
+            out.append(f"{key}.line must be a non-empty string")
+    recs = fb.get("recommendations")
+    if not isinstance(recs, list) or not all(isinstance(r, str) for r in recs):
+        out.append("recommendations must be a list of strings")
     return out
 
 
@@ -561,6 +583,10 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
     prospects = feed.get("prospects", _MISSING)
     if prospects is not _MISSING and not isinstance(prospects, dict):
         problems.append(f"prospects must be a dict, got {type(prospects).__name__}")
+
+    feedback = feed.get("feedback", _MISSING)
+    if feedback is not _MISSING:
+        problems.extend(f"feedback {e}" for e in _validate_feedback_block(feedback))
 
     # OPTIONAL `radar` block (endorsed, not owned). A list of dicts; absent OR
     # empty is valid (feeds that predate it, or a day with no qualifying call).

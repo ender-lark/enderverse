@@ -24,6 +24,7 @@ from analyst_judgment import (conviction_read, conviction_direction_read,
                               catalyst_needs_you, lean_in_read, research_actions_read,
                               apply_decision_aging)
 from analyst_config import theses_by_ticker
+from feedback_summary import build_feedback_summary
 from lane_status import build_lane_status
 from uw_opportunity import uw_opportunity_cards, uw_opportunity_surface
 from prospect_surface import build_prospects_lane
@@ -81,7 +82,8 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   heartbeat=None, synthesis=None, research=None, radar=None,
                   catalysts=None, lean_in=None, uw_opportunity=None,
                   open_opportunities=None, opp_prices=None,
-                  top_prospects=None, aging_threshold_days=3) -> dict:
+                  top_prospects=None, source_calls=None,
+                  aging_threshold_days=3) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
 
@@ -284,6 +286,12 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         uw_opportunity=(uw_cards if uw_opportunity is not None else None),
         top_prospects=top_prospects,
     )
+    feedback = build_feedback_summary(
+        source_calls=source_calls,
+        open_opportunities=open_opportunities,
+        prices=opp_prices,
+        as_of=as_of,
+    )
     return {
         "generated_at": generated_at or f"{as_of}T16:00:00",
         "staleness": stale,
@@ -304,4 +312,5 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "lean_in": lean_block,
         "bullish_flow": bullish_flow,
         "prospects": prospects,
+        "feedback": feedback,
     }

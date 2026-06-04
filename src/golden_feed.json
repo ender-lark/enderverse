@@ -146,11 +146,11 @@
       }
     ],
     "counts": {
-      "not_checked": 5,
-      "stale": 0,
       "has_data": 6,
+      "not_checked": 5,
+      "failed": 0,
       "checked_clear": 0,
-      "failed": 0
+      "stale": 0
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -858,5 +858,26 @@
     }
   ],
   "bullish_flow": {},
-  "prospects": {}
+  "prospects": {},
+  "feedback": {
+    "source_calls": {
+      "status": "not_checked",
+      "line": "Source calls not checked.",
+      "pending_count": 0,
+      "overdue_count": 0,
+      "oldest_overdue_days": 0,
+      "rates": [],
+      "due": []
+    },
+    "open_actions": {
+      "status": "not_checked",
+      "line": "Open action backlog not checked.",
+      "count": 0,
+      "oldest_age_days": 0,
+      "items": []
+    },
+    "recommendations": [
+      "No feedback-loop action required."
+    ]
+  }
 }
