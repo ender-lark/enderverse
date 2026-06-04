@@ -51,6 +51,7 @@ def test_buy_now_non_t1_gets_size_gate_hook():
     r = actions_read([_act("SOFI", "act")], [], THESES)
     a = r["actions"][0]
     assert a["kind"] == "buy_now"
+    assert a["action_state"] == "ACT_NOW"
     assert a["confidence"] == "High"
     assert a["source"] == "fresh_signal"
     assert a["gate"]["needs_gate"] is True
@@ -70,6 +71,7 @@ def test_watch_entry_is_moderate_and_ungated():
     r = actions_read([_act("SOFI", "watch")], [], THESES)
     a = r["actions"][0]
     assert a["kind"] == "watch_entry"
+    assert a["action_state"] == "WATCH"
     assert a["confidence"] == "Moderate"
     assert a["gate"] is None          # nothing to gate until it becomes a buy
 
@@ -175,6 +177,33 @@ def test_synthesis_bad_confidence_defaults_moderate():
 
 
 # --------------------------------------------------------------------------- #
+# Top Prospects promotion
+# --------------------------------------------------------------------------- #
+def test_act_now_top_prospect_promotes_to_actions():
+    prospects = {"hot": [
+        {"ticker": "NVDA", "urgency": "ACT_NOW", "corroboration": "Vetted-Buy",
+         "summary": "FS Top-5 plus confirmation"},
+        {"ticker": "ANET", "urgency": "HOT", "corroboration": "Uncorroborated",
+         "summary": "watch but not act-now"},
+    ], "sell_fast": []}
+    r = actions_read([], [], THESES, prospect_items=prospects)
+    rows = {a["ticker"]: a for a in r["actions"]}
+    assert rows["NVDA"]["kind"] == "top_prospect"
+    assert rows["NVDA"]["action_state"] == "ACT_NOW"
+    assert rows["NVDA"]["confidence"] == "High"
+    assert "ANET" not in rows
+
+
+def test_sell_fast_promotes_above_buy_now():
+    prospects = {"hot": [], "sell_fast": [
+        {"ticker": "SOFI", "summary": "source says avoid"}
+    ]}
+    r = actions_read([_act("NVDA", "act")], [], THESES, prospect_items=prospects)
+    assert [a["kind"] for a in r["actions"][:2]] == ["sell_fast", "buy_now"]
+    assert r["actions"][0]["action_state"] == "ACT_NOW"
+
+
+# --------------------------------------------------------------------------- #
 # validator: optional block
 # --------------------------------------------------------------------------- #
 def _minimal_feed():
@@ -208,6 +237,15 @@ def test_validator_catches_bad_confidence():
     feed["actions"] = [bad]
     probs = validate_cockpit_feed(feed)
     assert any("confidence must be one of" in p for p in probs)
+
+
+def test_validator_catches_bad_action_state():
+    feed = _minimal_feed()
+    bad = _valid_action_row()
+    bad["action_state"] = "MAYBE"
+    feed["actions"] = [bad]
+    probs = validate_cockpit_feed(feed)
+    assert any("action_state must be one of" in p for p in probs)
 
 
 def test_validator_catches_non_list_actions():

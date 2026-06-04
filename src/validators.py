@@ -223,7 +223,8 @@ _VALID_CONFIDENCE = {"High", "Moderate", "Low"}
 _VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
                        "macro_alert", "watch_entry", "stale_critical", "synthesis",
                        "catalyst_imminent", "lean_in", "research_review",
-                       "decision_aging"}
+                       "decision_aging", "top_prospect", "sell_fast"}
+_VALID_ACTION_STATES = {"ACT_NOW", "WATCH", "RESEARCH", "MONITOR"}
 # canonical catalyst-row field set (Contract C, OPTIONAL block — the near-term
 # event lane read off the Catalyst Calendar). Validated only IF present, so a
 # dark/unsourced lane (empty or absent) stays valid.
@@ -280,6 +281,9 @@ def _validate_action(a: Any) -> list[str]:
                    f"got {a.get('confidence')!r}")
     if "kind" in a and a.get("kind") not in _VALID_ACTION_KINDS:
         out.append(f"kind must be a known action kind, got {a.get('kind')!r}")
+    if "action_state" in a and a.get("action_state") not in _VALID_ACTION_STATES:
+        out.append(f"action_state must be one of {sorted(_VALID_ACTION_STATES)}, "
+                   f"got {a.get('action_state')!r}")
     if "rank" in a and not isinstance(a.get("rank"), int):
         out.append("rank must be an int")
     tk = a.get("ticker")

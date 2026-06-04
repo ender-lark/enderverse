@@ -723,6 +723,8 @@ function stamp(feed){
 const ACTION_KIND_META = {
   buy_now:         { icon:"⏳", label:"Buy trigger",    c:C.amber },
   reentry_zone:    { icon:"⏳", label:"Re-entry zone",  c:C.amber },
+  top_prospect:    { icon:"🎯", label:"Top prospect",   c:C.amber },
+  sell_fast:       { icon:"⚠️", label:"Sell-fast",      c:C.red   },
   monitor_reentry: { icon:"🔒", label:"Re-entry watch", c:C.blue  },
   red_gate:        { icon:"🔴", label:"RED gate",       c:C.red   },
   macro_alert:     { icon:"🌐", label:"Macro alert",    c:C.amber },
@@ -739,11 +741,19 @@ const CONF_META = {
   Moderate: { c:C.amber, label:"Moderate" },
   Low:      { c:C.faint, label:"Low" },
 };
+const ACTION_STATE_META = {
+  ACT_NOW:  { c:C.red,   label:"ACT_NOW" },
+  WATCH:    { c:C.blue,  label:"WATCH" },
+  RESEARCH: { c:C.blue,  label:"RESEARCH" },
+  MONITOR:  { c:C.amber, label:"MONITOR" },
+};
 function actionRow(a){
   const m = ACTION_KIND_META[a.kind] || { icon:"•", label:a.kind, c:C.dim };
   const cf = CONF_META[a.confidence] || { c:C.dim, label:a.confidence };
+  const st = ACTION_STATE_META[a.action_state] || null;
   return { rank:a.rank, kind:a.kind, icon:m.icon, kindLabel:m.label, c:m.c,
            ticker:a.ticker||"", what:a.what||"", confLabel:cf.label, confColor:cf.c,
+           actionState:a.action_state||"", stateLabel:st&&st.label||"", stateColor:st&&st.c||"",
            yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"",
            ageDays:(typeof a.age_days==="number"?a.age_days:null), flagged:a.first_flagged||"",
            moveSince:a.move_since||"", sizing:a.sizing||"" };
@@ -942,6 +952,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{a.what}</span>
                   </div>
                   <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+                    {a.stateLabel && <span style={{ fontFamily:mono, fontSize:11, color:a.stateColor, border:`1px solid ${a.stateColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.stateColor}12` }}>{a.stateLabel}</span>}
                     <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
                     <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>conf: {a.confLabel}</span>
                     {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
@@ -1036,6 +1047,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{a.what}</span>
                   </div>
                   <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+                    {a.stateLabel && <span style={{ fontFamily:mono, fontSize:11, color:a.stateColor, border:`1px solid ${a.stateColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.stateColor}12` }}>{a.stateLabel}</span>}
                     <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
                     <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>priority: {a.confLabel}</span>
                     {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}

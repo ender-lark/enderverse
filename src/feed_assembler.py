@@ -201,12 +201,19 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     else:
         lean_block = lean_in
 
+    # ── Top Prospects lane (item 5): shape the raw prospects cache before Actions
+    #    so ACT_NOW/sell-fast candidates can promote to the top strip while the
+    #    full candidate lane remains available below. ──
+    prospects = build_prospects_lane(top_prospects) if isinstance(top_prospects, dict) and top_prospects else {}
+
     # ── ⑦b prioritized Actions surface (ADDITIVE — ⑦ fresh_signals + ⑧ hero
-    #    needs_you + PROMOTED ⑩ lean_ins, the "what to do today" strip on top of
-    #    the book). Only lean=="lean_in" items promote, deduped against fresh-
-    #    signal actions; synthesis_actions stays empty (forward-compat seam). ──
+    #    needs_you + PROMOTED ⑩ lean_ins + ACT_NOW prospects, the "what to do
+    #    today" strip on top of the book). Only lean=="lean_in" items promote,
+    #    deduped against fresh-signal actions; synthesis_actions stays empty
+    #    (forward-compat seam). ──
     actions = actions_read(fresh["fresh_signals"], hero["needs_you"]["items"], theses,
-                           lean_in_items=lean_block)["actions"]
+                           lean_in_items=lean_block,
+                           prospect_items=prospects)["actions"]
 
     # ── ⑦b-aging (E2): age the open-opportunity store into the Actions strip.
     #    ENRICH any action row that's an open aging idea with age / first-flagged /
@@ -266,11 +273,6 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     #    hook is separate). ──
     _monitor_all = {tk for tk, th in by_tk.items() if (th or {}).get("stance") == "MONITOR"}
     bullish_flow = uw_opportunity_surface(uw_opportunity, monitor_tickers=_monitor_all) if uw_opportunity else {}
-    # ── Top Prospects lane (item 5): shape the raw prospects cache into the cockpit
-    #    lane (hot / movers / sell-fast / counts). External read, engine-shaped +
-    #    golden-pinned; {} when no cache. ──
-    prospects = build_prospects_lane(top_prospects) if isinstance(top_prospects, dict) and top_prospects else {}
-
     return {
         "generated_at": generated_at or f"{as_of}T16:00:00",
         "staleness": stale,

@@ -458,8 +458,10 @@ def fresh_signal_read(direction_reads, theses, reentry_touches=None,
 # kind -> display priority (lower = shown first). A real ranking, not a rename.
 _ACTION_PRIORITY = {
     "red_gate": 0,         # a RED pre-trade flag — a hard stop you must see
+    "sell_fast": 0,        # an avoid/sell-fast source call on a tracked name
     "buy_now": 1,          # a discrete entry trigger fired (⏳ act)
     "synthesis": 1,        # v1 placeholder: curated synthesis action (tune when wired)
+    "top_prospect": 1,     # an external ACT_NOW candidate that must not stay buried
     "reentry_zone": 2,     # a re-entry-zone touch (⏳ act, non-burned)
     "catalyst_imminent": 2,  # a near-term dated event on a HELD name (review-before)
     "decision_aging": 2,   # an open, aging, un-acted opportunity (E2) — decide, don't let it run
@@ -471,11 +473,28 @@ _ACTION_PRIORITY = {
 }
 _ACTION_CONFIDENCE = {
     "red_gate": "High", "buy_now": "High", "reentry_zone": "High",
+    "sell_fast": "High", "top_prospect": "High",
     "monitor_reentry": "Moderate", "macro_alert": "Moderate", "lean_in": "Moderate",
     "watch_entry": "Moderate", "stale_critical": "Low",
     "decision_aging": "Moderate",
 }
 _CONFIDENCE_RANK = {"High": 0, "Moderate": 1, "Low": 2}
+_ACTION_STATE_BY_KIND = {
+    "red_gate": "ACT_NOW",
+    "sell_fast": "ACT_NOW",
+    "buy_now": "ACT_NOW",
+    "top_prospect": "ACT_NOW",
+    "reentry_zone": "ACT_NOW",
+    "catalyst_imminent": "ACT_NOW",
+    "decision_aging": "ACT_NOW",
+    "synthesis": "ACT_NOW",
+    "monitor_reentry": "MONITOR",
+    "lean_in": "WATCH",
+    "macro_alert": "WATCH",
+    "watch_entry": "WATCH",
+    "stale_critical": "MONITOR",
+    "research_review": "RESEARCH",
+}
 
 
 def _gate_hook(ticker, by_ticker, default_action="ADD") -> dict:
@@ -489,6 +508,14 @@ def _gate_hook(ticker, by_ticker, default_action="ADD") -> dict:
     preview = "🔒 T1 — runs Deepwork" if tier == "T1" else "🟡 size → gate"
     return {"needs_gate": True, "preview": preview,
             "ticker": ticker, "default_action": default_action}
+
+
+def _prospect_confidence(row) -> str:
+    if row.get("urgency") == "ACT_NOW" and row.get("corroboration") == "Vetted-Buy":
+        return "High"
+    if row.get("urgency") == "ACT_NOW":
+        return "Moderate"
+    return "Low"
 
 
 def catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7):
@@ -535,15 +562,18 @@ def catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7):
 
 
 def actions_read(fresh_signals, needs_you_items, theses,
-                 *, synthesis_actions=None, lean_in_items=None) -> dict:
+                 *, synthesis_actions=None, lean_in_items=None,
+                 prospect_items=None) -> dict:
     """⑦b the prioritized Actions surface (cockpit `actions`).
 
     Pool = ⑦ fresh_signals (act/watch) + ⑧ hero needs_you items (red_gate /
     macro_alert / monitor_reentry / stale_critical). `fresh_act` needs_you items
     are SKIPPED — they only point back to a fresh_signal already in the pool
-    (dedup, not a second action). Each row leads with a CONFIDENCE read
-    (High/Moderate/Low), NOT a tier letter, and carries the gate hook the
-    in-session drill uses. Returns the full priority-ranked list + counts.
+    (dedup, not a second action). High-priority Top Prospects may also promote
+    here so an ACT_NOW candidate cannot remain visible only in a secondary lane.
+    Each row leads with a CONFIDENCE read (High/Moderate/Low), NOT a tier letter,
+    and carries the gate hook the in-session drill uses. Returns the full
+    priority-ranked list + counts.
     """
     synthesis_actions = synthesis_actions or []
     by_ticker = theses_by_ticker(theses)
@@ -694,6 +724,47 @@ def actions_read(fresh_signals, needs_you_items, theses,
         })
         promoted_seen.add(tk)
 
+    # (b3) PROMOTED Top Prospects — ACT_NOW candidates and sell-fast warnings
+    #      become durable actions, not just a lower candidate lane. HOT/BUILDING
+    #      names remain in the Top Prospects surface until they cross ACT_NOW.
+    prospects = prospect_items or {}
+    prospect_seen = {r["ticker"] for r in rows if r.get("ticker")}
+    for sf in (prospects.get("sell_fast") or []):
+        if not isinstance(sf, dict):
+            continue
+        tk = sf.get("ticker")
+        if not tk or tk in prospect_seen:
+            continue
+        rows.append({
+            "kind": "sell_fast", "ticker": tk,
+            "what": "Sell-fast review",
+            "confidence": "High",
+            "your_move": (f"{tk}: source says avoid / sell-fast — check whether you hold it, "
+                          "then decide trim/exit or log why you are overriding it."),
+            "gate": _gate_hook(tk, by_ticker, default_action="REVIEW"),
+            "source": "top_prospects:sell_fast",
+            "why": sf.get("summary") or sf.get("provenance") or "sell-fast prospect warning",
+        })
+        prospect_seen.add(tk)
+    for p in (prospects.get("hot") or []):
+        if not isinstance(p, dict) or p.get("urgency") != "ACT_NOW":
+            continue
+        tk = p.get("ticker")
+        if not tk or tk in prospect_seen:
+            continue
+        conf = _prospect_confidence(p)
+        rows.append({
+            "kind": "top_prospect", "ticker": tk,
+            "what": "Top prospect ACT_NOW",
+            "confidence": conf,
+            "your_move": (f"{tk}: ACT_NOW prospect — vet the thesis now; if it still clears, "
+                          "size it and run the pre-trade gate. Not a buy by itself."),
+            "gate": _gate_hook(tk, by_ticker, default_action="REVIEW"),
+            "source": "top_prospects",
+            "why": p.get("summary") or p.get("provenance") or "top prospect urgency is ACT_NOW",
+        })
+        prospect_seen.add(tk)
+
     # (c) forward-compat seam: Daily-Synthesis actions (empty until that brain
     #     lands). Accept light dicts; normalize into the row shape. v1 slotting.
     for sa in synthesis_actions:
@@ -720,6 +791,7 @@ def actions_read(fresh_signals, needs_you_items, theses,
     for rank, r in enumerate(rows, start=1):
         row = {                   # canonical field order (stable golden output)
             "rank": rank, "kind": r["kind"], "ticker": r["ticker"],
+            "action_state": _ACTION_STATE_BY_KIND.get(r["kind"], "WATCH"),
             "what": r["what"], "confidence": r["confidence"],
             "your_move": r["your_move"], "gate": r["gate"],
             "source": r["source"], "why": r["why"],
@@ -783,6 +855,7 @@ def apply_decision_aging(actions, aging_records, by_ticker):
         rows.append({
             "rank": 10_000 + len(rows),   # sort after same-priority existing; renumbered below
             "kind": "decision_aging", "ticker": tk,
+            "action_state": _ACTION_STATE_BY_KIND["decision_aging"],
             "what": f"Flagged {ff} — still un-acted",
             "confidence": conf,
             "your_move": (f"You flagged {tk} on {ff} and still haven't acted {span} — "
@@ -803,6 +876,7 @@ def apply_decision_aging(actions, aging_records, by_ticker):
                              a.get("rank", 9_999)))
     for i, a in enumerate(rows, start=1):
         a["rank"] = i
+        a.setdefault("action_state", _ACTION_STATE_BY_KIND.get(a.get("kind"), "WATCH"))
     return rows
 
 
@@ -917,6 +991,7 @@ def research_actions_read(research, theses, taken_tickers=None,
     for rank, r in enumerate(rows, start=1):
         research_actions.append({
             "rank": rank, "kind": r["kind"], "ticker": r["ticker"],
+            "action_state": _ACTION_STATE_BY_KIND["research_review"],
             "what": r["what"], "confidence": r["confidence"],
             "your_move": r["your_move"], "gate": r["gate"],
             "source": r["source"], "why": r["why"],
