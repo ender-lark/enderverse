@@ -19,6 +19,7 @@ sys.path.insert(0, HERE)
 
 from feed_assembler import assemble_feed
 from runtime_skeleton import build_full_feed
+from runtime_adapters import catalysts_from_calendar_rows
 from validators import validate_cockpit_feed, _validate_catalyst
 from build_golden import build_snapshot_bundle
 from test_runtime_skeleton import PAGE, _uw_all, _theses
@@ -53,6 +54,21 @@ def test_full_feed_threads_catalysts():
                            catalysts=[AVGO_CAT],
                            run_timestamp="2026-06-01T16:00:00")
     assert feed["catalysts"] == [AVGO_CAT]
+
+
+def test_calendar_adapter_output_surfaces_in_full_feed_actions():
+    cats = catalysts_from_calendar_rows(
+        [{"ticker": "NVDA", "date": "2026-06-03T00:00:00+00:00", "name": "Q2 earnings"}],
+        as_of="2026-06-01",
+        horizon_days=7,
+    )
+    feed = build_full_feed(PAGE, _uw_all(), _theses(),
+                           catalysts=cats,
+                           run_timestamp="2026-06-01T16:00:00",
+                           as_of="2026-06-01")
+    row = next(a for a in feed["actions"] if a.get("ticker") == "NVDA")
+    assert row["kind"] == "catalyst_imminent"
+    assert row["days_to_catalyst"] == 2
 
 
 def test_full_feed_omitted_catalysts_is_dark_lane():

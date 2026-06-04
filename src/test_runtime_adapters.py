@@ -16,6 +16,7 @@ from runtime_adapters import (
     positions_from_rows,
     portfolio_positions_from_page,
     closes_by_ticker_from_uw,
+    catalysts_from_calendar_rows,
     UW_ROTATION_TICKERS,
     UW_ROTATION_TIMEFRAME,
 )
@@ -238,3 +239,51 @@ def test_feeds_the_real_uw_price_plug():
     assert smh_card.data["label"] in ("LEADING", "TURNING DOWN")
     igv_card = next(it for it in rot if it.subject == "IGV")
     assert igv_card.data["label"] == "IN LINE"     # flat vs flat
+
+
+# â”€â”€ Catalyst Calendar adapter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+def test_catalysts_from_calendar_rows_normalizes_live_helper_shape():
+    rows = [
+        {"ticker": "AVGO", "date": "2026-06-06T00:00:00+00:00",
+         "name": "Q2 earnings", "type": "Earnings"},
+    ]
+    cats = catalysts_from_calendar_rows(rows, as_of="2026-06-04")
+    assert cats == [{
+        "ticker": "AVGO",
+        "label": "Q2 earnings",
+        "date": "2026-06-06",
+        "days_out": 2,
+        "source": "Catalyst Calendar",
+    }]
+
+
+def test_catalysts_from_calendar_rows_splits_tickers_and_sorts():
+    rows = [
+        {"tickers": "UUUU, MP; LEU", "date": "2026-06-10", "label": "Nuclear hearing"},
+        {"ticker": "AVGO", "date": "2026-06-06", "label": "Earnings"},
+    ]
+    cats = catalysts_from_calendar_rows(rows, as_of="2026-06-04")
+    assert [(c["days_out"], c["ticker"]) for c in cats] == [
+        (2, "AVGO"), (6, "LEU"), (6, "MP"), (6, "UUUU")
+    ]
+
+
+def test_catalysts_from_calendar_rows_skips_past_far_and_malformed():
+    rows = [
+        {"ticker": "OLD", "date": "2026-06-01", "label": "Past"},
+        {"ticker": "FAR", "date": "2026-07-01", "label": "Too far"},
+        {"ticker": "BAD", "date": "not a date", "label": "Bad"},
+        {"ticker": "AVGO", "date": "2026-06-06", "label": "Earnings"},
+    ]
+    cats = catalysts_from_calendar_rows(rows, as_of="2026-06-04", horizon_days=7)
+    assert [c["ticker"] for c in cats] == ["AVGO"]
+
+
+def test_catalysts_from_calendar_rows_dedupes_same_event():
+    rows = [
+        {"ticker": "AVGO", "date": "2026-06-06", "label": "Earnings"},
+        {"ticker": "AVGO", "date": "2026-06-06T00:00:00+00:00", "label": "Earnings"},
+    ]
+    cats = catalysts_from_calendar_rows(rows, as_of="2026-06-04")
+    assert len(cats) == 1

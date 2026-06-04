@@ -82,7 +82,7 @@ Pure functions over the book + the external plugs. The numbering (⑦, ⑧, …)
 
 - **⑦ `fresh_signal_read(...)`** — scans the book for *fresh movement* signals. Empty when prices are flat/stale (a symptom, not a bug).
 - **⑧ `hero_needs_you_read(..., fresh_signals=, catalyst_imminent=)`** — builds the "what needs you" list: macro alerts, MONITOR re-entry conditions, gate items, **and** folds in catalyst-imminent items (below).
-- **`catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7)`** — turns *dated catalysts on HELD names* into needs-you items with reason `catalyst_imminent` (0..horizon days out). Burned/MONITOR sleeves → the catalyst is a WATCH/RISK flag, **never** an add nudge. Fed `[]` today because the L5 routine doesn't yet pass the Catalyst Calendar (the "step-④" wire — open).
+- **`catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7)`** — turns *dated catalysts on HELD names* into needs-you items with reason `catalyst_imminent` (0..horizon days out). Burned/MONITOR sleeves → the catalyst is a WATCH/RISK flag, **never** an add nudge. L5 should normalize fetched calendar rows through `runtime_adapters.catalysts_from_calendar_rows(...)` before passing them into `build_full_feed`.
 - **⑦b `actions_read(fresh_signals, needs_you_items, theses, *, synthesis_actions=None)`** — the **Today's actions** list. **Additive**: it ranks what ⑦ + ⑧ hand it (including `catalyst_imminent` items); it does **not** invent actions. `synthesis_actions=[]` is a reserved seam for a future Synthesis Brain (unbuilt). Ranks via `_ACTION_PRIORITY` (e.g. `red_gate` > `buy_now` > `catalyst_imminent` > …), confidence via `_CONFIDENCE_RANK`.
 - **⑦c `research_actions_read(research, theses, taken_tickers=None, *, horizon_days=7, include_priorities={"high","med","medium"})`** — the **From Research** list (the 2026-06-02 build). Detailed below.
 
@@ -163,7 +163,7 @@ How the **live session** renders without cloning the repo (CI §6 Render Cockpit
 
 ## 9 · Known constraints & dead-spots
 
-- **Catalyst lane (step-④) not wired into L5** — the FULL-build routine doesn't yet fetch the Catalyst Calendar and pass `catalysts`, so `catalysts`/`catalyst_imminent` actions are empty in the live feed even though the engine + renderer support them. This is the next obvious wire.
+- **Catalyst fetch still external to the engine** — `runtime_adapters.catalysts_from_calendar_rows(...)` now normalizes calendar rows into the feed contract and `build_full_feed(..., catalysts=...)` surfaces held-name catalysts as actions. The live routine still must fetch/provide the Catalyst Calendar rows; absence remains a `not_checked`/dark-lane condition, not "no catalysts."
 - **Parabolic cache + insider feed = down/stub** (heartbeat shows it) — two `fresh_signal` sources are non-functional, which is part of why `fresh_signals` can be empty.
 - **Macro cache stale** (no auto-refresh) — the cockpit routine pulls macro *live*, so the macro line is fine despite the stale `macro_state.json`.
 - **UW route-arounds** (also in the high-level doc / CI §10): `get_option_trades` ignores filters → `get_flow_alerts`/`get_interval_flow --date`; screener ticker filter is comma-delimited; `MOVE` is a stock not the bond-vol index → DXY/VIX; dark-pool prints lag ~3 sessions; `get_interval_flow` depth ~12 days.
@@ -175,7 +175,7 @@ How the **live session** renders without cloning the repo (CI §6 Render Cockpit
 
 The recurring trap: an empty lane looks like a failure. Three independent reasons a lane can be empty, none of which is an engine bug:
 1. **Derived-but-no-signal** — `actions`/`fresh_signals` are computed from the book; flat/stale prices → nothing to surface.
-2. **External-but-not-passed** — `catalysts` is empty because the routine doesn't pass the calendar yet (step-④), not because there are no catalysts.
+2. **External-but-not-passed** — `catalysts` is empty because the routine did not pass calendar rows for that run, not because there are no catalysts.
 3. **Curated-fallback / unsourced** — a dark lane means "not checked," never "all clear" (Dark-Lane-Honesty).
 
 Before "fixing" an empty lane: identify which of the three it is (and *which seam/layer owns it*) before opening any box. On 2026-06-02 the "empty actions" report was #1 + #2 together — the engine was correct; the catalyst wire and a render-default were hiding/limiting output.
@@ -187,7 +187,7 @@ Before "fixing" an empty lane: identify which of the three it is (and *which sea
 - **Structured ticker field** on Off-Hours dossiers (replaces the fragile free-text parse in ⑦c; also lets the date clause activate).
 - **Extract a shared `ActionCard`** component so Today's-actions + From-Research don't duplicate the row-render block.
 - **Relabel the From-Research confidence badge** `"priority:"` (it maps from research priority, not signal conviction — avoid conflation).
-- **Wire step-④** — L5 fetches the Catalyst Calendar + passes `catalysts` → catalyst-imminent actions go live (and From-Research dedup starts yielding AVGO).
+- **Live Catalyst Calendar fetch** — L5 fetches the calendar, normalizes rows with `catalysts_from_calendar_rows(...)`, and passes `catalysts` → catalyst-imminent actions go live (and From-Research dedup yields to dated events).
 - **Signal-Log → cockpit lane** — open design question: should Morning-Scan Signal-Log items get a cockpit lane (they currently don't reach `actions`)? Tracked, not a bug.
 - **Synthesis Brain** — fill the reserved `synthesis_actions` seam in `actions_read` (the keystone enrichment, contract-blocked).
 - **L2→L3 stamp/shape validator** — the still-open half of the seam gap (the L5→L3 half is `publish_gate.py`).

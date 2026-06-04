@@ -17,6 +17,7 @@ Later steps add the `uw_price` adapter (S5.2) and the skeleton wiring (S5.3).
 """
 from __future__ import annotations
 
+from datetime import date, datetime
 import re
 
 # ─────────────────────────────────────────────────────────────────────────
@@ -229,3 +230,96 @@ def uw_macro_snapshot_from_uw(yield_curve_resp, level_responses: dict | None = N
         "rates": rates_from_yield_curve(yield_curve_resp),
         "levels": levels_from_close_responses(level_responses or {}),
     }
+
+
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Catalyst Calendar: raw Notion/calendar rows -> feed["catalysts"] rows
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+def _parse_iso_date(value) -> date | None:
+    if not value:
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        return date.fromisoformat(text[:10])
+    except ValueError:
+        pass
+    try:
+        return datetime.fromisoformat(text.replace("Z", "+00:00")).date()
+    except ValueError:
+        return None
+
+
+def _split_tickers(value) -> list[str]:
+    raw = str(value or "").upper()
+    out: list[str] = []
+    for tk in re.split(r"[\s,;/]+", raw):
+        tk = tk.strip()
+        if not tk or tk == "TICKER":
+            continue
+        if len(tk) > 8 or not tk.replace(".", "").isalnum():
+            continue
+        if tk not in out:
+            out.append(tk)
+    return out
+
+
+def catalysts_from_calendar_rows(
+    rows,
+    *,
+    as_of: str | date | None = None,
+    horizon_days: int | None = None,
+    default_source: str = "Catalyst Calendar",
+) -> list[dict]:
+    """Normalize raw Catalyst Calendar rows into Contract-C catalyst rows.
+
+    Accepted raw keys are intentionally broad because the caller may pass rows
+    from `live_theses_helpers.fetch_catalyst_calendar` (`name`/`type`) or a hand
+    curated cache (`label`/`source`). Past rows are skipped. When `horizon_days`
+    is supplied, rows beyond that window are skipped by the adapter rather than
+    left for the analyst read to ignore.
+    """
+    base = as_of if isinstance(as_of, date) else _parse_iso_date(as_of) if as_of else date.today()
+    if base is None:
+        base = date.today()
+
+    out: list[dict] = []
+    seen: set[tuple[str, str, str]] = set()
+    for row in rows or []:
+        if not isinstance(row, dict):
+            continue
+        event_date = _parse_iso_date(row.get("date") or row.get("event_date") or row.get("when"))
+        if event_date is None:
+            continue
+        days_out = (event_date - base).days
+        if days_out < 0:
+            continue
+        if horizon_days is not None and days_out > horizon_days:
+            continue
+
+        label = (
+            row.get("label")
+            or row.get("name")
+            or row.get("catalyst")
+            or row.get("event")
+            or row.get("type")
+            or "Catalyst"
+        )
+        source = row.get("source") or default_source
+        for ticker in _split_tickers(row.get("ticker") or row.get("tickers") or row.get("symbol")):
+            key = (ticker, event_date.isoformat(), str(label).strip())
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append({
+                "ticker": ticker,
+                "label": str(label).strip() or "Catalyst",
+                "date": event_date.isoformat(),
+                "days_out": days_out,
+                "source": str(source).strip() or default_source,
+            })
+
+    out.sort(key=lambda r: (r["days_out"], r["ticker"], r["label"]))
+    return out
