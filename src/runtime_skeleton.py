@@ -199,3 +199,50 @@ def build_full_feed(
     if errs:
         raise SkeletonFeedError(f"feed failed Contract-C validation: {errs}")
     return feed
+
+
+def update_action_memory_after_publish(
+    feed: dict,
+    *,
+    store_path: str = "open_opportunities.json",
+    prices: dict | None = None,
+    monitor_tickers=None,
+    invalidations=None,
+    resolutions=None,
+    max_age_days=None,
+    require_publish_gate: bool = True,
+) -> dict:
+    """Persist action memory only after a feed is safe to publish.
+
+    Feed construction stays pure. The daily/full-run routine should call this
+    after building the cockpit feed and before/after publishing the validated
+    feed artifact. If the publish gate fails, this function does not write the
+    open-opportunity store; stale or malformed feeds cannot accidentally refresh
+    away unresolved actions.
+    """
+    if require_publish_gate:
+        from publish_gate import validate_publish_gate
+
+        problems = validate_publish_gate(feed)
+        if problems:
+            return {
+                "updated": False,
+                "reason": "publish_gate_failed",
+                "problems": problems,
+                "store_path": store_path,
+            }
+
+    from action_memory_writer import update_action_memory_from_feed
+
+    summary = update_action_memory_from_feed(
+        feed,
+        store_path=store_path,
+        prices=prices,
+        monitor_tickers=monitor_tickers,
+        invalidations=invalidations,
+        resolutions=resolutions,
+        max_age_days=max_age_days,
+    )
+    summary["updated"] = True
+    summary.setdefault("reason", "updated")
+    return summary

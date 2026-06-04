@@ -10,9 +10,15 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from runtime_skeleton import build_full_feed, build_skeleton_feed, SkeletonFeedError
+from runtime_skeleton import (
+    build_full_feed,
+    build_skeleton_feed,
+    SkeletonFeedError,
+    update_action_memory_after_publish,
+)
 from meridian import meridian_reader
 from validators import validate_cockpit_feed
+from goal_impact import annotate_action
 
 ROTATION = ["SMH", "SPY"]  # minimal: a proxy + the benchmark
 
@@ -211,3 +217,62 @@ def test_radar_explicit_override_threads_through():
     feed = build_full_feed(PAGE, UW, THESES, fs_daily_calls=RADAR_CALLS, radar=rows, as_of="2026-06-01")
     assert feed["radar"] == rows
     assert validate_cockpit_feed(feed) == []
+
+
+def _publishable_feed_with_action():
+    action = annotate_action({
+        "rank": 1,
+        "kind": "buy_now",
+        "ticker": "AVGO",
+        "what": "Add AVGO through the sizing gate",
+        "confidence": "High",
+        "your_move": "Review sizing and execute if gate is clear",
+        "gate": None,
+        "source": "test",
+        "why": "Fresh high-conviction opportunity",
+    })
+    return {
+        "generated_at": "2026-06-04T16:00:00+00:00",
+        "staleness": {
+            "stamp": "sourced",
+            "entries": [
+                {"source": "portfolio", "date": "2026-06-04T16:00:00+00:00",
+                 "age_days": 0, "stale": False, "flag": ""},
+                {"source": "uw_price", "date": "2026-06-04T16:00:00+00:00",
+                 "age_days": 0, "stale": False, "flag": ""},
+            ],
+            "stale": [],
+        },
+        "hero": {"hero": {"count": 0, "names": [], "leading_sleeves": []},
+                 "needs_you": {"count": 0, "items": []}},
+        "fresh_signals": [],
+        "holdings": [],
+        "rotation": [],
+        "macro": {"line": "", "regime": {}, "alerts": [], "implications": []},
+        "actions": [action],
+        "catalysts": [],
+        "questions": [],
+        "research": {},
+    }
+
+
+def test_action_memory_publish_hook_writes_after_gate_pass(tmp_path):
+    store = tmp_path / "open_opportunities.json"
+    summary = update_action_memory_after_publish(
+        _publishable_feed_with_action(),
+        store_path=str(store),
+        prices={"AVGO": 1400},
+    )
+    assert summary["updated"] is True
+    assert summary["open_count"] == 1
+    assert store.exists()
+
+
+def test_action_memory_publish_hook_does_not_write_after_gate_fail(tmp_path):
+    store = tmp_path / "open_opportunities.json"
+    feed = _publishable_feed_with_action()
+    feed["generated_at"] = "2026-06-04T10:00:00+00:00"
+    summary = update_action_memory_after_publish(feed, store_path=str(store))
+    assert summary["updated"] is False
+    assert summary["reason"] == "publish_gate_failed"
+    assert not store.exists()
