@@ -15,13 +15,21 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- HTML preview opportunity-context summary.
+  - Added a compact `Opportunity context` card to the generated summary/preview
+    dashboard using existing feed lanes only: Target Drift, Prospects, Radar,
+    and Bullish Flow.
+  - The card is explicitly labeled `context, not orders` and caps rows to keep
+    the preview scan-friendly.
+  - Refreshed the live dashboard package; the local preview now shows build
+    `2026-06-05 10:12 ET` with the new context card.
 - Live data-flow proof in operator status.
   - Extended `python src/live_status.py` with a `data_flow` section showing
     the current feed timestamp, source dates, lanes with data, dark/stale lane
     counts, action counts, and top action.
   - Added a `Live data flow` PASS/WARN row to
     `python src/go_live_checklist.py --format text`.
-  - Current proof shows feed `2026-06-05T10:03:31.604897+00:00`, 11 lanes with
+  - Current proof shows feed `2026-06-05T10:12:49.784116+00:00`, 11 lanes with
     data, 2 dark lanes, 4 actions, and top action `event_risk`.
 - Canonical dashboard operator-status parity.
   - Added the compact Operator Status read to the canonical JSX cockpit, not
@@ -30,7 +38,7 @@ until the core logic is stable; Notion sync comes later.
     reviews, dark/stale/failed source lanes, and the go-live checklist command.
   - Refreshed the live dashboard package; the local preview at
     `http://127.0.0.1:8765/dashboard_preview.html` now shows build
-    `2026-06-05 10:03 ET` with 4 actions, 2 open reviews, and 2 dark lanes.
+    `2026-06-05 10:12 ET` with 4 actions, 2 open reviews, and 2 dark lanes.
 - Fundstrat Daily compact live refresh.
   - Ingested three compact, full-body-derived Fundstrat daily calls from Gmail
     evidence: `XOP`, `RYF`, and `TNX`.

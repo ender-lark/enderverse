@@ -185,11 +185,15 @@ Important recent state:
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T10:03:31.604897+00:00`.
+  `2026-06-05T10:12:49.784116+00:00`.
 - The canonical JSX cockpit and generated summary/preview dashboard both have
   an Operator Status card near the top. It summarizes action count, open
   reviews, source-lane warning state, and the
   `python src/go_live_checklist.py --format text` command.
+- The generated summary/preview dashboard now also has an Opportunity Context
+  card. It summarizes existing Target Drift, Prospects, Radar, and Bullish Flow
+  feed rows and is labeled context, not orders; detailed lane views remain in
+  the canonical JSX cockpit.
 - Current `src/open_opportunities.json` has 2 open watch/review items:
   `ANET` and `GOOGL`.
 - Current `python src/live_status.py` reports `live_summary:
@@ -197,14 +201,14 @@ Important recent state:
   actions, 2 dark optional lanes (`catalysts`, `signal_log`), 2 open
   action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
   active/queued system-improvement items. Its data-flow proof shows feed
-  `2026-06-05T10:03:31.604897+00:00`, 11 lanes with data, 2 dark lanes, and
+  `2026-06-05T10:12:49.784116+00:00`, 11 lanes with data, 2 dark lanes, and
   top action `event_risk`.
 - `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
   regression test covers cp1252 encoding of the caveat line.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `941 passed, 6 skipped`.
+- `python -m pytest src -q` -> `942 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

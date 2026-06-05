@@ -46,6 +46,24 @@ def _feed():
             },
             "recommendations": ["Resolve oldest open action."],
         },
+        "target_drift": {
+            "rows": [
+                {"ticker": "NVDA", "direction": "UNDERSIZED", "actual_pct": 6.6, "target_pct": 12.0}
+            ]
+        },
+        "prospects": {
+            "sell_fast": [
+                {"ticker": "DE", "direction": "avoid", "summary": "DE: sell-pressure building."}
+            ]
+        },
+        "radar": [
+            {"ticker": "JETS", "direction": "long", "author": "Newton", "date": "2026-06-05"}
+        ],
+        "bullish_flow": {
+            "rows": [
+                {"ticker": "BMNR", "direction": "bullish", "strength": "strong", "signal_types": ["sweep"]}
+            ]
+        },
     }
 
 
@@ -78,6 +96,22 @@ def test_generated_html_surfaces_operator_status_card():
     assert "Open reviews" in html
     assert "Source lanes" in html
     assert "python src/go_live_checklist.py --format text" in html
+
+
+def test_generated_html_surfaces_opportunity_context():
+    html = generate_html(_feed())
+
+    assert "Opportunity context" in html
+    assert "context, not orders" in html
+    assert "Target drift" in html
+    assert "NVDA" in html
+    assert "6.6% actual vs 12.0% target" in html
+    assert "Prospects" in html
+    assert "DE: sell-pressure building." in html
+    assert "Radar" in html
+    assert "JETS" in html
+    assert "Bullish flow" in html
+    assert "BMNR" in html
 
 
 def test_generated_html_is_ascii_display_safe():

@@ -121,6 +121,13 @@ a{color:#58a6ff;text-decoration:none}
 .operator-value{font-size:13px;font-weight:700;color:#f0f6fc}
 .operator-pass{color:#3fb950}.operator-warn{color:#d29922}.operator-fail{color:#f85149}
 .operator-command{font-family:monospace;font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:5px;padding:6px 8px;overflow-x:auto}
+.context-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.context-col{background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:8px}
+.context-label{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#484f58;margin-bottom:6px}
+.context-row{font-size:12px;color:#c9d1d9;padding:5px 0;border-top:1px solid #30363d}
+.context-row:first-of-type{border-top:none;padding-top:0}
+.context-ticker{font-family:monospace;font-weight:700;color:#f0f6fc;margin-right:5px}
+.context-sub{display:block;color:#8b949e;font-size:11px;margin-top:2px}
 
 /* ── needs-you hero ── */
 .hero{background:#161b22;border:1px solid #21262d;border-radius:8px;
@@ -650,6 +657,86 @@ def _lean_in(lean: list) -> str:
 </div>"""
 
 
+def _opportunity_context(feed: dict) -> str:
+    columns: list[tuple[str, list[str]]] = []
+
+    target_rows = (((feed.get("target_drift") or {}).get("rows") or [])[:3])
+    if target_rows:
+        rows = []
+        for row in target_rows:
+            ticker = _e(row.get("ticker") or "")
+            direction = _e(row.get("direction") or "")
+            actual = _pct(row.get("actual_pct"))
+            target = _pct(row.get("target_pct"))
+            rows.append(
+                f'<div class="context-row"><span class="context-ticker">{ticker}</span>{direction}'
+                f'<span class="context-sub">{actual} actual vs {target} target</span></div>'
+            )
+        columns.append(("Target drift", rows))
+
+    prospect_rows = (
+        ((feed.get("prospects") or {}).get("hot") or [])
+        + ((feed.get("prospects") or {}).get("movers_best") or [])
+        + ((feed.get("prospects") or {}).get("sell_fast") or [])
+    )[:3]
+    if prospect_rows:
+        rows = []
+        for row in prospect_rows:
+            ticker = _e(row.get("ticker") or "")
+            direction = _e(row.get("direction") or row.get("urgency") or "")
+            summary = _e(row.get("summary") or row.get("provenance") or "")
+            rows.append(
+                f'<div class="context-row"><span class="context-ticker">{ticker}</span>{direction}'
+                f'{f"<span class=\"context-sub\">{summary}</span>" if summary else ""}</div>'
+            )
+        columns.append(("Prospects", rows))
+
+    radar_rows = (feed.get("radar") or [])[:3]
+    if radar_rows:
+        rows = []
+        for row in radar_rows:
+            ticker = _e(row.get("ticker") or "")
+            direction = _e(row.get("direction") or "")
+            author = _e(row.get("author") or "")
+            detail = " | ".join(part for part in (author, _e(row.get("date") or "")) if part)
+            rows.append(
+                f'<div class="context-row"><span class="context-ticker">{ticker}</span>{direction}'
+                f'{f"<span class=\"context-sub\">{detail}</span>" if detail else ""}</div>'
+            )
+        columns.append(("Radar", rows))
+
+    flow_rows = (((feed.get("bullish_flow") or {}).get("rows") or [])[:3])
+    if flow_rows:
+        rows = []
+        for row in flow_rows:
+            ticker = _e(row.get("ticker") or "")
+            direction = _e(row.get("direction") or "")
+            strength = _e(row.get("strength") or "")
+            types = ", ".join(row.get("signal_types") or [])
+            rows.append(
+                f'<div class="context-row"><span class="context-ticker">{ticker}</span>{direction} {strength}'
+                f'{f"<span class=\"context-sub\">{_e(types)}</span>" if types else ""}</div>'
+            )
+        columns.append(("Bullish flow", rows))
+
+    if not columns:
+        return ""
+    body = ""
+    for label, rows in columns[:4]:
+        body += f"""
+<div class="context-col">
+  <div class="context-label">{_e(label)}</div>
+  {''.join(rows)}
+</div>"""
+    return f"""
+<div class="card">
+  <div class="card-title"><span class="icon">+</span> Opportunity context
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">context, not orders</span>
+  </div>
+  <div class="context-grid">{body}</div>
+</div>"""
+
+
 def _book(holdings: list) -> str:
     if not holdings:
         return ""
@@ -842,6 +929,7 @@ def generate_html(feed: dict) -> str:
     hb_html     = _heartbeat(feed.get("heartbeat") or [])
     hero_html   = _hero(feed.get("hero") or {})
     actions_html = _actions(feed.get("actions") or [])
+    context_html = _opportunity_context(feed)
     synth_html  = _synthesis(feed.get("synthesis") or {})
     rot_html    = _rotation(feed.get("rotation") or [])
     macro_html  = _macro(feed.get("macro") or {})
@@ -897,6 +985,7 @@ def generate_html(feed: dict) -> str:
     {hb_html}
     {hero_html}
     {actions_html}
+    {context_html}
     {synth_html}
 
     <div class="two-col">

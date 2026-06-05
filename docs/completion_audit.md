@@ -106,12 +106,18 @@ enough to hand control back, using current repo state as evidence. It covers:
   operator-status slice. It refreshed `src/latest_cockpit_feed.json`,
   `src/rendered/conviction_cockpit_v5.jsx`, `docs/index.html`, and
   `tmp/dashboard_preview.html`; current build stamp is
-  `2026-06-05T10:03:31.604897+00:00`, with 4 actions and 2 dark lanes.
+  `2026-06-05T10:12:49.784116+00:00`, with 4 actions and 2 dark lanes.
 - Browser verification of the local preview confirmed Operator Status, 4
   Today Actions, 2 Open Reviews, 2 dark Source Lanes, and
   `python src/go_live_checklist.py --format text`.
+- The generated HTML summary/preview now includes a capped Opportunity Context
+  card for existing Target Drift, Prospects, Radar, and Bullish Flow feed
+  lanes. Browser verification confirmed the card appears in the local preview;
+  the card is labeled context, not orders.
+- Focused generated-HTML tests passed after the Opportunity Context slice:
+  `python -m pytest src/test_cockpit_html_gen.py -q` reported 6 passed.
 - `python src/live_status.py` now includes a `data_flow` proof section. Current
-  output confirms feed `2026-06-05T10:03:31.604897+00:00`, source dates for
+  output confirms feed `2026-06-05T10:12:49.784116+00:00`, source dates for
   portfolio/UW price/UW macro/Fundstrat monthly/Fundstrat daily, 11 lanes with
   data, 2 dark lanes, 4 actions, and top action `event_risk`.
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json
@@ -165,12 +171,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 941 passed, 6 skipped
+  - broad `src` suite: 942 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 941 passed, 6 skipped.
+  ignore workaround: 942 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified

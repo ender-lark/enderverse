@@ -23,8 +23,9 @@ Reason:
   FEED with a live feed while preserving the renderer.
 - `src/cockpit_html_gen.py` directly generates a smaller HTML dashboard. It now
   includes a summary/export caveat, lane-status counts/rows, and compact
-  feedback-loop context, but it still omits newer action-clarity blocks such as
-  `research_actions`, `bullish_flow`, `prospects`, `radar`, or
+  feedback-loop context, plus a capped Opportunity Context summary for
+  `bullish_flow`, `prospects`, `radar`, and `target_drift`. It still omits
+  full detail for newer action-clarity blocks such as `research_actions` or
   `portfolio_views`.
 
 ## Current Feed Baseline
@@ -83,11 +84,12 @@ Result summary:
 | `research_actions` | `research_actions_read` + ACT_NOW promotion | From Research lane | Not rendered | Missing in HTML |
 | `heartbeat` | Routine status cache | Heartbeat strip | System layers strip | Full enough in both, but HTML lacks lane-status relationship |
 | `synthesis` | Daily synthesis cache | Synthesis panel | Today's read | Full enough in both |
-| `radar` | Fundstrat daily endorsed-not-owned calls | Radar lane | Not rendered | Missing in HTML |
+| `radar` | Fundstrat daily endorsed-not-owned calls | Radar lane | Opportunity Context summary, capped top rows | Partial in HTML |
 | `lean_in` | `lean_in_read` | Lean In lane and promotion source | Lean-in watchlist | Partial in HTML because gate/detail fields are thinner |
-| `bullish_flow` | UW opportunity cache | Bullish flow lane | Not rendered | Missing in HTML |
-| `prospects` | Top prospects cache | Top Prospects lane and action promotion | Not rendered | Missing in HTML |
+| `bullish_flow` | UW opportunity cache | Bullish flow lane | Opportunity Context summary, capped top rows | Partial in HTML |
+| `prospects` | Top prospects cache | Top Prospects lane and action promotion | Opportunity Context summary, capped top rows | Partial in HTML |
 | `feedback` | `feedback_summary.py` | Feedback loops panel | Compact feedback lines and recommendations | Partial in HTML; detailed rows remain canonical JSX |
+| `target_drift` | Reallocation target model versus actual holdings | Target Drift panel | Opportunity Context summary, capped top rows | Partial in HTML |
 | `portfolio_views` | `account_positions.json` -> `portfolio_views.py` | Book tab account views plus effective ETF look-through estimates when present | Not rendered | Missing in HTML |
 
 ## Static, Sample, Or Stale Surfaces
@@ -146,9 +148,9 @@ Highest impact gaps:
   guidance, but the canonical JSX remains the full source for lane diagnostics.
 - HTML now shows compact `feedback` lines and recommendations, but detailed
   source-call rows and clusters remain canonical JSX.
-- HTML omits `research_actions`, `prospects`, `bullish_flow`, and `radar`. These
-  are candidate-action and timing lanes; hiding them reduces buy/research
-  clarity.
+- HTML now shows capped Opportunity Context rows for `prospects`,
+  `bullish_flow`, `radar`, and `target_drift`, but detailed lane diagnostics
+  remain canonical JSX. `research_actions` is still JSX-only.
 - HTML now shows a summary/export caveat. `actions: []` plus dark lanes should
   no longer read as "all clear."
 - JSX questions are static/unwired. This is lower priority than action lanes,

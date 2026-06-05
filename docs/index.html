@@ -62,6 +62,13 @@ a{color:#58a6ff;text-decoration:none}
 .operator-value{font-size:13px;font-weight:700;color:#f0f6fc}
 .operator-pass{color:#3fb950}.operator-warn{color:#d29922}.operator-fail{color:#f85149}
 .operator-command{font-family:monospace;font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:5px;padding:6px 8px;overflow-x:auto}
+.context-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.context-col{background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:8px}
+.context-label{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#484f58;margin-bottom:6px}
+.context-row{font-size:12px;color:#c9d1d9;padding:5px 0;border-top:1px solid #30363d}
+.context-row:first-of-type{border-top:none;padding-top:0}
+.context-ticker{font-family:monospace;font-weight:700;color:#f0f6fc;margin-right:5px}
+.context-sub{display:block;color:#8b949e;font-size:11px;margin-top:2px}
 
 /*  needs-you hero  */
 .hero{background:#161b22;border:1px solid #21262d;border-radius:8px;
@@ -204,7 +211,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-05 10:03 ET
+        built 2026-06-05 10:12 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28  fundstrat_daily 06-03</div>
@@ -310,7 +317,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T10:03:31.527052+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T10:03:31.527052+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T10:03:31.527052+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T10:03:31.527052+00:00 | dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T10:03:31.527052+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T10:12:49.704925+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T10:12:49.704925+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T10:12:49.704925+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T10:12:49.704925+00:00 | dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T10:12:49.704925+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -381,6 +388,29 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </div>
   <div class="action-move">GOOGL looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</div>
 </div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="icon">+</span> Opportunity context
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">context, not orders</span>
+  </div>
+  <div class="context-grid">
+<div class="context-col">
+  <div class="context-label">Target drift</div>
+  <div class="context-row"><span class="context-ticker">GRNY</span>OVERSIZED<span class="context-sub">8.7% actual vs 3.0% target</span></div><div class="context-row"><span class="context-ticker">SMH</span>OVERSIZED<span class="context-sub">8.9% actual vs 5.0% target</span></div><div class="context-row"><span class="context-ticker">NVDA</span>UNDERSIZED<span class="context-sub">6.6% actual vs 12.0% target</span></div>
+</div>
+<div class="context-col">
+  <div class="context-label">Prospects</div>
+  <div class="context-row"><span class="context-ticker">DE</span>avoid<span class="context-sub">DE: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div><div class="context-row"><span class="context-ticker">HOOD</span>avoid<span class="context-sub">HOOD: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div><div class="context-row"><span class="context-ticker">PKG</span>avoid<span class="context-sub">PKG: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div>
+</div>
+<div class="context-col">
+  <div class="context-label">Radar</div>
+  <div class="context-row"><span class="context-ticker">RYF</span>avoid<span class="context-sub">Newton | 2026-06-03</span></div><div class="context-row"><span class="context-ticker">TNX</span>watch<span class="context-sub">Newton | 2026-06-03</span></div><div class="context-row"><span class="context-ticker">XOP</span>avoid<span class="context-sub">Newton | 2026-06-03</span></div>
+</div>
+<div class="context-col">
+  <div class="context-label">Bullish flow</div>
+  <div class="context-row"><span class="context-ticker">BMNR</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">IGV</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div>
+</div></div>
 </div>
 
 <div class="card">

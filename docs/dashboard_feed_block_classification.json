@@ -99,7 +99,7 @@
     "radar": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Radar lane",
-      "summary_surface": "Not rendered"
+      "summary_surface": "Opportunity Context summary, capped top rows"
     },
     "lean_in": {
       "primary_status": "canonical-rendered",
@@ -109,12 +109,12 @@
     "bullish_flow": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Bullish flow (UW) lane",
-      "summary_surface": "Not rendered"
+      "summary_surface": "Opportunity Context summary, capped top rows"
     },
     "prospects": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Top Prospects lane and action-promotion source",
-      "summary_surface": "Not rendered"
+      "summary_surface": "Opportunity Context summary, capped top rows"
     },
     "feedback": {
       "primary_status": "canonical-rendered",
@@ -124,7 +124,7 @@
     "target_drift": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Target Drift panel in the Action view",
-      "summary_surface": "Not rendered"
+      "summary_surface": "Opportunity Context summary, capped top rows"
     },
     "portfolio_views": {
       "primary_status": "canonical-rendered",
