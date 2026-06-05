@@ -14,6 +14,8 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+from live_readiness import readiness_report
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SRC = ROOT / "src"
@@ -106,7 +108,33 @@ def run_steps(steps: list[Step]) -> list[dict[str, object]]:
     return results
 
 
-def build_refresh_summary(feed_path: str | Path, *, preview_out: str | Path | None = None) -> dict:
+def _readiness_brief(report: dict | None) -> dict:
+    if not report:
+        return {}
+    return {
+        "go_live_ready": bool(report.get("go_live_ready")),
+        "publish_ready": bool(report.get("publish_ready")),
+        "required_inputs_ready": bool(report.get("required_inputs_ready")),
+        "live_data_ready": bool(report.get("live_data_ready")),
+        "missing_required_inputs": [
+            row.get("key") for row in report.get("missing_required_inputs") or [] if isinstance(row, dict)
+        ],
+        "stale_required_inputs": [
+            row.get("key") for row in report.get("stale_required_inputs") or [] if isinstance(row, dict)
+        ],
+        "invalid_minimum_live_inputs": [
+            row.get("key") for row in report.get("invalid_minimum_live_inputs") or [] if isinstance(row, dict)
+        ],
+        "next_steps": (report.get("next_steps") or [])[:5],
+    }
+
+
+def build_refresh_summary(
+    feed_path: str | Path,
+    *,
+    preview_out: str | Path | None = None,
+    readiness: dict | None = None,
+) -> dict:
     feed_file = Path(feed_path)
     feed = json.loads(feed_file.read_text(encoding="utf-8"))
     lane_status = feed.get("lane_status") if isinstance(feed, dict) else {}
@@ -154,6 +182,7 @@ def build_refresh_summary(feed_path: str | Path, *, preview_out: str | Path | No
             "line": (source_calls or {}).get("line") or "Source calls not checked.",
             "observed_count": int((source_calls or {}).get("observed_count") or 0),
         },
+        "readiness": _readiness_brief(readiness),
         "dark_lane_details": dark_rows[:5],
     }
 
@@ -185,7 +214,8 @@ def main(argv=None) -> int:
     results = run_steps(steps)
     feed = Path(args.feed_out) if args.feed_out else Path(args.src_dir) / "latest_cockpit_feed.json"
     preview = Path(args.preview_out) if args.preview_out else ROOT / "tmp" / "dashboard_preview.html"
-    summary = build_refresh_summary(feed, preview_out=preview)
+    readiness = readiness_report(args.src_dir)
+    summary = build_refresh_summary(feed, preview_out=preview, readiness=readiness)
     print(json.dumps({"refreshed": True, "steps": results, "summary": summary}, indent=2))
     return 0
 

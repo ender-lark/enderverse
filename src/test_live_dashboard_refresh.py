@@ -81,7 +81,17 @@ def test_build_refresh_summary_surfaces_live_state(tmp_path):
         },
     }), encoding="utf-8")
 
-    summary = refresh.build_refresh_summary(feed, preview_out=tmp_path / "preview.html")
+    summary = refresh.build_refresh_summary(
+        feed,
+        preview_out=tmp_path / "preview.html",
+        readiness={
+            "go_live_ready": True,
+            "publish_ready": True,
+            "required_inputs_ready": True,
+            "live_data_ready": True,
+            "next_steps": ["Review dark lanes."],
+        },
+    )
 
     assert summary["actions"]["count"] == 1
     assert summary["actions"]["top"][0]["ticker"] == "NVDA"
@@ -90,3 +100,5 @@ def test_build_refresh_summary_surfaces_live_state(tmp_path):
     assert summary["data_flow"]["lanes_with_data"] == 7
     assert summary["data_flow"]["dark_lane_keys"] == ["catalysts"]
     assert summary["source_calls"]["observed_count"] == 3
+    assert summary["readiness"]["go_live_ready"] is True
+    assert summary["readiness"]["next_steps"] == ["Review dark lanes."]
