@@ -29,8 +29,7 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Macro state refresh
-  routine wiring.
+- Latest completed slice before this handoff refresh: Live readiness report.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -55,6 +54,10 @@ Important recent state:
 - `src/full_build_runner.py` now reports `dark_lane_keys`,
   `missing_required_inputs`, and `missing_optional_inputs` in dry-run CLI
   output, using the manifest convention-input contract.
+- `src/live_readiness.py --src-dir src` reports current go/no-go status without
+  fetching or publishing. It distinguishes a runnable rehearsal build from a
+  live-ready build and treats missing UW price/macro caches as minimum
+  market-data blockers.
 - Absent optional price cache now leaves `uw_price` not checked instead of
   registering an empty price source as `has_data`.
 - `src/uw_price_cache_intake.py` can normalize supplied UW close-price responses
@@ -77,10 +80,14 @@ Important recent state:
 - `src/codex_routine_manifest.json` now has eight active routines, including
   `daily_synthesis_intake` and `signal_log_intake`; the current repo still has
   no populated `src/daily_synthesis.json` or `src/signal_log.json`.
+- Current live-readiness probe on the repo reports `rehearsal_ready: true` and
+  `go_live_ready: false` because `src/uw_closes.json` and
+  `src/macro_state.json` are absent and publish-gate clock verification cannot
+  pass without a live datetime source.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `867 passed, 6 skipped`.
+- `python -m pytest src -q` -> `870 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the same full pytest tree plus the standalone self-tests.
 

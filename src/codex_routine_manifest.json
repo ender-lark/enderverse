@@ -394,11 +394,15 @@
       ],
       "commands": [
         {
+          "id": "readiness_check",
+          "command": "python src/live_readiness.py --src-dir src"
+        },
+        {
           "id": "build_and_publish",
           "command": "python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish"
         }
       ],
-      "verification": "python -m pytest src/test_full_build_runner.py src/test_runtime_full.py src/test_cockpit_blocks.py -q",
+      "verification": "python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_runtime_full.py src/test_cockpit_blocks.py -q",
       "no_input_behavior": "Missing optional source files remain dark lanes; publish gate prevents unsafe feed overwrite."
     },
     {

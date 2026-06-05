@@ -21,17 +21,26 @@ This is the main replacement for Claude's FULL-build prompt.
 4. Run:
 
    ```bash
+   python src/live_readiness.py --src-dir src
+   ```
+
+5. If `go_live_ready` is false, treat the report as the current status and do
+   not force-publish. `rehearsal_ready` means the build can run, not that the
+   live market/source lanes are populated.
+6. When the readiness report is clean, run:
+
+   ```bash
    python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish
    ```
 
-5. If publish fails, do not force-write a feed. Report the publish-gate problems.
-6. Run focused checks:
+7. If publish fails, do not force-write a feed. Report the publish-gate problems.
+8. Run focused checks:
 
    ```bash
-   python -m pytest src/test_full_build_runner.py src/test_runtime_full.py src/test_cockpit_blocks.py -q
+   python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_runtime_full.py src/test_cockpit_blocks.py -q
    ```
 
-7. Summarize:
+9. Summarize:
    - action count
    - ACT_NOW names
    - research-action count

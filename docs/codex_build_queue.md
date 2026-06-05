@@ -15,6 +15,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Live readiness report.
+  - Added `live_readiness.py` to turn current convention-file/build evidence
+    into a machine-readable go/no-go report without fetching or publishing.
+  - Distinguishes `rehearsal_ready`, `publish_ready`, `live_data_ready`, and
+    `go_live_ready` so a valid dry run cannot be mistaken for a live-ready day.
+  - Treats UW price and macro caches as minimum live market inputs while keeping
+    other missing optional lanes visible as dark lanes.
 - Macro state refresh routine wiring.
   - Extended `macro_pulse_scan.py --emit-state` so `macro_state.json` carries
     both session-preflight regime/freshness fields and the UW macro snapshot

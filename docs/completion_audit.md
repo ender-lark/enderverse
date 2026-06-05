@@ -40,6 +40,11 @@ enough to hand control back, using current repo state as evidence. It covers:
   src/test_uw_macro.py src/test_uw_macro_adapter.py
   src/test_codex_routine_manifest.py src/test_state_ownership_map.py -q`
   reported 54 passed.
+- Focused live-readiness tests passed: `python -m pytest
+  src/test_live_readiness.py -q` reported 3 passed.
+- Current `python src/live_readiness.py --src-dir src` reports
+  `rehearsal_ready: true` and `go_live_ready: false`; missing minimum live
+  market inputs are `macro` and `uw_prices`.
 - Dashboard parity guardrail tests passed.
 - `python src/uw_price_cache_intake.py --validate src/uw_closes.json` now
   returns a structured JSON failure when the price cache is absent instead of a
@@ -54,12 +59,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 867 passed, 6 skipped
+  - broad `src` suite: 870 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 867 passed, 6 skipped.
+  ignore workaround: 870 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -84,6 +89,9 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Live readiness report: `live_readiness.py` now provides a non-publishing
+  go/no-go report that distinguishes build readiness, publish-gate readiness,
+  live-data readiness, and go-live readiness from the current convention files.
 - Macro state refresh routine wiring: `macro_pulse_scan.py --emit-state` now
   writes a `macro_state.json` cache that supports both session preflight
   freshness/regime checks and the full-build `uw_macro` lane; the routine
