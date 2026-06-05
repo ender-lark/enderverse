@@ -2,7 +2,7 @@
 
 Generated: 2026-06-05
 
-Last refreshed: 2026-06-05 after the dark-lane next-step guidance slice.
+Last refreshed: 2026-06-05 after the Fundstrat-derived Event Risk live refresh.
 
 ## Decision
 
@@ -38,10 +38,12 @@ python src\full_build_runner.py --src-dir src --feed-out tmp\dashboard_parity_fe
 Result summary:
 
 - Build succeeded.
-- `actions`: 2
+- `actions`: 3
 - `research_actions`: 0
-- `lane_status.counts.not_checked`: 4
-- Dark lane keys: `catalysts`, `synthesis`, `signal_log`, `event_risk`.
+- `lane_status.counts.not_checked`: 3
+- Dark lane keys: `catalysts`, `synthesis`, `signal_log`.
+- Event Risk is supplied and has data; one conservative exposure-review action
+  is promoted from the oil/rates shock row.
 - Not-checked rows carry structured `next_step` and `missing_impact` guidance.
 - Emitted feed keys: `generated_at`, `staleness`, `lane_status`, `hero`,
   `actions`, `fresh_signals`, `signal_log`, `event_risk`, `holdings`,

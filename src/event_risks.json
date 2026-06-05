@@ -1,0 +1,86 @@
+[
+  {
+    "date": "2026-06-03",
+    "title": "Middle East oil/rates shock can affect new-buy timing",
+    "severity": "high",
+    "horizon": "daily",
+    "channels": [
+      "oil",
+      "rates",
+      "volatility",
+      "energy",
+      "growth"
+    ],
+    "tickers": [
+      "XOP",
+      "XLE",
+      "TNX"
+    ],
+    "affected": [
+      "Energy",
+      "Semiconductors",
+      "High-duration growth",
+      "Portfolio hedges"
+    ],
+    "source": "Fundstrat Gmail full-body read: Jun 3 FlashInsights / Daily Technical Strategy",
+    "summary": "Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.",
+    "trigger": "WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+    "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-03",
+    "title": "Financials breakdown and crypto-linked weakness weigh on tape breadth",
+    "severity": "medium",
+    "horizon": "1-2 weeks",
+    "channels": [
+      "financials",
+      "breadth",
+      "crypto",
+      "risk appetite"
+    ],
+    "tickers": [
+      "RYF",
+      "XLF",
+      "COIN",
+      "HOOD",
+      "BX",
+      "KKR"
+    ],
+    "affected": [
+      "Financials",
+      "Crypto beta",
+      "Broad equity tape"
+    ],
+    "source": "Fundstrat Gmail full-body read: Daily Technical Strategy",
+    "summary": "Fundstrat technical work flagged equal-weight financial weakness and crypto-linked financial pressure as a tape negative that may persist over coming weeks.",
+    "trigger": "RYF remains below support near 74.40, crypto-linked financials fail to stabilize, or XLF/RYF relative weakness accelerates.",
+    "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-03",
+    "title": "Narrow AI leadership versus improving equal-weight participation",
+    "severity": "medium",
+    "horizon": "daily",
+    "channels": [
+      "breadth",
+      "AI",
+      "semiconductors",
+      "rotation"
+    ],
+    "tickers": [
+      "MAGS",
+      "SMH",
+      "SPY",
+      "RSP"
+    ],
+    "affected": [
+      "AI leaders",
+      "Equal-weight market",
+      "Rotation sleeves"
+    ],
+    "source": "Fundstrat Gmail full-body read: Mark Newton webinar notice",
+    "summary": "Fundstrat noted narrow semiconductor/AI leadership, oil swings, and a potential breadth shift as a rotation risk to monitor rather than an all-clear tape read.",
+    "trigger": "Mag 7/AI leadership weakens while equal-weight participation improves, or oil swings disrupt growth leadership.",
+    "direction": "risk_watch"
+  }
+]

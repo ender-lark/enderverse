@@ -15,6 +15,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat-derived Event Risk live refresh.
+  - Used Gmail full-body Fundstrat reads as supplied source evidence to write a
+    compact `event_risks.json` cache without storing raw email bodies.
+  - Captured only actionable event-risk metadata: oil/rates shock, Financials
+    breadth weakness, and narrow AI leadership/rotation risk.
+  - Event Risk is now a `has_data` lane with one conservative Today's Actions
+    exposure-review prompt; no buy/sell order is implied.
 - Fundstrat snippet-to-full-body state hardening.
   - Fixed daily Fundstrat email intake state so snippet-only Gmail discovery no
     longer marks message IDs as full-body processed.
