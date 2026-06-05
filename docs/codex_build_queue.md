@@ -35,6 +35,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Live refresh source-call tracking.
+  - `python src/live_dashboard_refresh.py` now runs
+    `source_call_candidate_draft.py --merge-existing --merge-cache` after the
+    first feed build and before the final dashboard build.
+  - This keeps newly observed Fundstrat daily calls tracked as pending source
+    calls without requiring a separate operator command, while still not scoring
+    outcomes early or inventing market content.
 - Position-cache normalizer convergence.
   - `build_positions_cache.py` now uses
     `outcome_logger.flatten_extractor_snapshot()` for the extractor-to-flat

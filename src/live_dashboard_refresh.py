@@ -3,7 +3,8 @@
 
 Source intake remains separate. This command takes whatever convention files
 are present in `src/`, rebuilds the feed, refreshes repo-evidence synthesis from
-that feed, rebuilds again, and renders the dashboard artifacts.
+that feed, updates pending source-call tracking from feed observations, rebuilds
+again, and renders the dashboard artifacts.
 """
 from __future__ import annotations
 
@@ -65,6 +66,13 @@ def refresh_plan(
             "--summary", _rel(src / "heartbeat_summary.json"),
         ]),
         Step("build_publish_pre_synthesis", build_cmd),
+        Step("draft_source_call_candidates", [
+            py, "src/source_call_candidate_draft.py",
+            "--feed", _rel(feed),
+            "--out", _rel(src / "source_call_candidates.json"),
+            "--merge-existing",
+            "--merge-cache",
+        ]),
         Step("repo_evidence_synthesis", [
             py, "src/daily_synthesis_from_feed.py",
             "--feed", _rel(feed),

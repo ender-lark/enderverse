@@ -8,13 +8,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import live_dashboard_refresh as refresh
 
 
-def test_refresh_plan_runs_synthesis_between_two_builds():
+def test_refresh_plan_tracks_source_calls_before_final_build():
     steps = refresh.refresh_plan(publish=True)
     names = [step.name for step in steps]
 
     assert names == [
         "heartbeat_pre_synthesis",
         "build_publish_pre_synthesis",
+        "draft_source_call_candidates",
         "repo_evidence_synthesis",
         "heartbeat_post_synthesis",
         "build_publish_final",
@@ -24,11 +25,15 @@ def test_refresh_plan_runs_synthesis_between_two_builds():
         "write_parity_feed",
     ]
     first_build = steps[1].command
-    final_build = steps[4].command
-    synthesis = steps[2].command
+    source_calls = steps[2].command
+    synthesis = steps[3].command
+    final_build = steps[5].command
     assert "src/full_build_runner.py" in first_build
     assert "--publish" in first_build
     assert first_build == final_build
+    assert "src/source_call_candidate_draft.py" in source_calls
+    assert "--merge-existing" in source_calls
+    assert "--merge-cache" in source_calls
     assert "src/daily_synthesis_from_feed.py" in synthesis
     assert any(part.replace("\\", "/") == "src/latest_cockpit_feed.json" for part in synthesis)
 
@@ -37,7 +42,7 @@ def test_refresh_plan_can_rehearse_without_publish():
     steps = refresh.refresh_plan(publish=False)
 
     assert "--publish" not in steps[1].command
-    assert "--publish" not in steps[4].command
+    assert "--publish" not in steps[5].command
 
 
 def test_live_dashboard_refresh_dry_run_lists_steps():
@@ -52,7 +57,8 @@ def test_live_dashboard_refresh_dry_run_lists_steps():
 
     assert proc.returncode == 0, proc.stderr
     payload = json.loads(proc.stdout)
-    assert payload["steps"][2]["name"] == "repo_evidence_synthesis"
+    assert payload["steps"][2]["name"] == "draft_source_call_candidates"
+    assert payload["steps"][3]["name"] == "repo_evidence_synthesis"
     assert payload["steps"][-1]["name"] == "write_parity_feed"
 
 
