@@ -172,6 +172,8 @@ Important recent state:
   source-drop validation, open action reviews, queue state, and optional dark
   lanes. With the current repo it reports `go_live_ready: true` and checklist
   status `warn` because open reviews and optional dark lanes remain.
+  Use `python src/go_live_checklist.py --format text` for the human-readable
+  PASS/WARN command checklist.
 - The open action-memory resolver is:
   `python src/action_memory_resolve.py --list` to inspect unresolved items, or
   `python src/action_memory_resolve.py --review-report` to inspect age,
@@ -194,7 +196,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `936 passed, 6 skipped`.
+- `python -m pytest src -q` -> `938 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

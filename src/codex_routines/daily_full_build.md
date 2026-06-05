@@ -57,6 +57,7 @@ This is the main replacement for Claude's FULL-build prompt.
    ```bash
    python src/live_status.py
    python src/go_live_checklist.py
+   python src/go_live_checklist.py --format text
    ```
 
    This does not rebuild or publish. It combines live readiness, preview-server

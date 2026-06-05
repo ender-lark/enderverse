@@ -44,6 +44,7 @@ For a fast non-rebuilding status check:
 ```powershell
 python src\live_status.py
 python src\go_live_checklist.py
+python src\go_live_checklist.py --format text
 ```
 
 These report live readiness, preview-server state, unresolved action-memory

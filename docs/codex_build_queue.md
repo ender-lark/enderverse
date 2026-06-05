@@ -422,6 +422,10 @@ until the core logic is stable; Notion sync comes later.
     action reviews, queue state, and optional dark lanes.
   - Current checklist is `warn`, not blocked: live readiness is green, with
     warnings for open reviews and optional dark lanes.
+- Human-readable go-live checklist output.
+  - Added `go_live_checklist.py --format text` so the go-live check is
+    scannable without reading JSON.
+  - JSON remains the default for automation/backward compatibility.
 
 ## Queued Slices
 

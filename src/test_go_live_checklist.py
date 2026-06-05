@@ -84,6 +84,22 @@ def test_build_go_live_checklist_validates_manual_drop(monkeypatch, tmp_path):
     assert not (tmp_path / "event_risks.json").exists()
 
 
+def test_format_text_is_human_scannable(monkeypatch, tmp_path):
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: _fake_status(open_count=1))
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {"open_count": 1, "oldest_age_days": 2},
+    )
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+
+    text = go_live_checklist.format_text(report)
+
+    assert "Go-live checklist: WARN" in text
+    assert "[WARN] Open action reviews" in text
+    assert "python src/action_memory_resolve.py --review-report" in text
+
+
 def test_go_live_checklist_cli_runs_against_current_repo():
     proc = subprocess.run(
         [
@@ -101,3 +117,23 @@ def test_go_live_checklist_cli_runs_against_current_repo():
     report = json.loads(proc.stdout)
     assert "rows" in report
     assert any(row["key"] == "manual_drop" for row in report["rows"])
+
+
+def test_go_live_checklist_cli_text_format_runs_against_current_repo():
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(Path(__file__).resolve().parent / "go_live_checklist.py"),
+            "--manual-drop",
+            str(Path(__file__).resolve().parents[1] / "docs" / "manual_drop.template.json"),
+            "--format",
+            "text",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0
+    assert "Go-live checklist: WARN" in proc.stdout
+    assert "Dashboard preview" in proc.stdout

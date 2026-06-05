@@ -124,15 +124,39 @@ def build_go_live_checklist(
     }
 
 
+def format_text(report: dict[str, Any]) -> str:
+    lines = [
+        f"Go-live checklist: {str(report.get('status') or '').upper()}",
+        f"Ready: {bool(report.get('go_live_ready'))} | failures: {report.get('fail_count', 0)} | warnings: {report.get('warn_count', 0)}",
+    ]
+    preview_url = report.get("preview_url") or ""
+    if preview_url:
+        lines.append(f"Preview: {preview_url}")
+    lines.append("")
+    for row in report.get("rows") or []:
+        status = str(row.get("status") or "").upper()
+        label = row.get("label") or row.get("key") or "Checklist item"
+        detail = row.get("detail") or ""
+        command = row.get("command") or ""
+        lines.append(f"[{status}] {label}: {detail}")
+        if command:
+            lines.append(f"  command: {command}")
+    return "\n".join(lines)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Print non-mutating go-live operator checklist")
     parser.add_argument("--src-dir", default=str(DEFAULT_SRC))
     parser.add_argument("--manual-drop", help="Optional manual source-drop JSON to validate without writing")
+    parser.add_argument("--format", choices=["json", "text"], default="json")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero on warnings as well as failures")
     args = parser.parse_args(argv)
 
     report = build_go_live_checklist(src_dir=args.src_dir, manual_drop=args.manual_drop)
-    print(json.dumps(report, indent=2))
+    if args.format == "text":
+        print(format_text(report))
+    else:
+        print(json.dumps(report, indent=2))
     if report["fail_count"]:
         return 2
     if args.strict and report["warn_count"]:
