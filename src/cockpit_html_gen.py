@@ -611,6 +611,7 @@ def _operator_status(feed: dict) -> str:
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value {_e(build_cls)}">{_e(build_blockers)}</div></a>
   </div>
   <div class="operator-readiness"><strong class="{_e(build_cls)}">{_e(build_state)}</strong> | {_e(wait_text)}</div>
+  <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
   {live_config_html}
   {event_watch_html}

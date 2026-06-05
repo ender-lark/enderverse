@@ -265,6 +265,7 @@ def test_generated_html_surfaces_operator_status_card():
     assert "HIGH | oil, rates | XOP, TNX" in html
     assert "Trigger: WTI spike" in html
     assert "1 overdue" in html
+    assert "python src/completion_audit.py --format text" in html
     assert "python src/go_live_checklist.py --format text" in html
     assert "python src/sudden_event_refresh.py --title" in html
 
