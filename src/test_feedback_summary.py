@@ -34,6 +34,22 @@ def test_source_call_feedback_not_checked_when_omitted():
     assert fb["overdue_count"] == 0
 
 
+def test_source_call_feedback_surfaces_unscored_daily_calls_without_calibration():
+    fb = source_call_feedback(
+        None,
+        as_of="2026-06-05",
+        source_call_observations=[
+            {"author": "Newton", "ticker": "XOP", "direction": "avoid",
+             "quote": "Resistance should repel price.", "date": "2026-06-03",
+             "source": "Fundstrat Gmail full-body read"},
+        ],
+    )
+    assert fb["status"] == "not_checked"
+    assert fb["observed_count"] == 1
+    assert "unscored daily call" in fb["line"]
+    assert fb["observations"][0]["ticker"] == "XOP"
+
+
 def test_source_call_feedback_surfaces_loud_persistence_when_calibration_fresh():
     fb = source_call_feedback(
         PERSISTENCE_CALLS,

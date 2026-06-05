@@ -38,6 +38,27 @@ def _source_rates(calls: list) -> list[dict]:
     return rows
 
 
+def _source_observations(source_call_observations) -> list[dict]:
+    rows: list[dict] = []
+    for row in source_call_observations or []:
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").strip().upper()
+        quote = str(row.get("quote") or row.get("call_summary") or row.get("verbatim_quote") or "").strip()
+        if not ticker and not quote:
+            continue
+        rows.append({
+            "source": row.get("source") or "unclassified source call",
+            "author": row.get("author") or "",
+            "ticker": ticker or None,
+            "direction": row.get("direction") or "",
+            "date": str(row.get("date") or "")[:10],
+            "quote": quote,
+        })
+    rows.sort(key=lambda r: (r.get("date") or "", r.get("ticker") or ""), reverse=True)
+    return rows
+
+
 def _calibration_feedback(calls: list, *, inbox_call_dates=None, log_call_dates=None,
                           as_of=None) -> tuple[dict, bool]:
     cache_dates = [c.get("date") for c in calls if isinstance(c, dict) and c.get("date")]
@@ -123,9 +144,29 @@ def _persistence_feedback(calls: list, *, core_tickers=None, calibration_fresh=F
 
 
 def source_call_feedback(source_calls, *, as_of=None, core_tickers=None,
-                         inbox_call_dates=None, log_call_dates=None) -> dict:
+                         inbox_call_dates=None, log_call_dates=None,
+                         source_call_observations=None) -> dict:
     """Summarize source calibration health from source_calls.json-shaped rows."""
     if source_calls is None:
+        observations = _source_observations(source_call_observations)
+        if observations:
+            dated = [r.get("date") for r in observations if r.get("date")]
+            newest = max(dated) if dated else ""
+            return {
+                "status": "not_checked",
+                "line": (
+                    f"Source-call calibration not checked; {len(observations)} "
+                    f"unscored daily call(s) are flowing"
+                    + (f" through {newest}." if newest else ".")
+                ),
+                "pending_count": 0,
+                "overdue_count": 0,
+                "oldest_overdue_days": 0,
+                "rates": [],
+                "due": [],
+                "observed_count": len(observations),
+                "observations": observations[:5],
+            }
         return {
             "status": "not_checked",
             "line": "Source calls not checked.",
@@ -247,13 +288,15 @@ def _recent_history(store, limit=5):
 
 def build_feedback_summary(*, source_calls=None, open_opportunities=None,
                            prices=None, as_of=None, core_tickers=None,
-                           inbox_call_dates=None, log_call_dates=None) -> dict:
+                           inbox_call_dates=None, log_call_dates=None,
+                           source_call_observations=None) -> dict:
     source = source_call_feedback(
         source_calls,
         as_of=as_of,
         core_tickers=core_tickers,
         inbox_call_dates=inbox_call_dates,
         log_call_dates=log_call_dates,
+        source_call_observations=source_call_observations,
     )
     actions = open_action_feedback(open_opportunities, prices=prices, as_of=as_of)
     recommendations = []
@@ -264,6 +307,8 @@ def build_feedback_summary(*, source_calls=None, open_opportunities=None,
         recommendations.append("Escalate LOUD source-persistence cluster into research/action review.")
     elif persistence.get("provisional_count"):
         recommendations.append("Refresh calibration chain, then review provisional source-persistence cluster.")
+    if source.get("observed_count") and source.get("status") == "not_checked":
+        recommendations.append("Classify daily source calls into the calibration cache before using persistence.")
     if actions["count"]:
         recommendations.append("Resolve oldest open action: act, invalidate, or keep watching explicitly.")
     if not recommendations:

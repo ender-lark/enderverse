@@ -384,6 +384,7 @@ def build_full_feed_from_files(
         opp_prices=latest_prices_from_closes(closes),
         top_prospects=top_prospects,
         source_calls=source_calls,
+        source_call_observations=fs_daily,
         inbox_call_dates=inbox_call_dates,
         log_call_dates=log_call_dates,
         target_drift=target_drift,

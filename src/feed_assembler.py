@@ -88,6 +88,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   event_risk=None,
                   open_opportunities=None, opp_prices=None,
                   top_prospects=None, source_calls=None,
+                  source_call_observations=None,
                   inbox_call_dates=None, log_call_dates=None,
                   target_drift=None,
                   aging_threshold_days=3) -> dict:
@@ -317,6 +318,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         },
         inbox_call_dates=inbox_call_dates,
         log_call_dates=log_call_dates,
+        source_call_observations=source_call_observations,
     )
     feed = {
         "generated_at": generated_at or f"{as_of}T16:00:00",

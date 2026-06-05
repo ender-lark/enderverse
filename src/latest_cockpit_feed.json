@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T08:59:55.522596+00:00",
+  "generated_at": "2026-06-05T09:07:47.174588+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T08:59:55.522596+00:00",
+        "date": "2026-06-05T09:07:47.174588+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T08:59:55.522596+00:00",
+        "date": "2026-06-05T09:07:47.174588+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -158,10 +158,10 @@
       }
     ],
     "counts": {
-      "not_checked": 2,
       "has_data": 11,
-      "checked_clear": 0,
       "failed": 0,
+      "not_checked": 2,
+      "checked_clear": 0,
       "stale": 0
     },
     "has_dark_lanes": true,
@@ -870,31 +870,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T08:59:55.443735+00:00",
+      "last_run": "2026-06-05T09:07:47.094690+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T08:59:55.443735+00:00",
+      "last_run": "2026-06-05T09:07:47.094690+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T08:59:55.443735+00:00",
+      "last_run": "2026-06-05T09:07:47.094690+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T08:59:55.443735+00:00",
+      "last_run": "2026-06-05T09:07:47.094690+00:00",
       "note": "dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T08:59:55.443735+00:00",
+      "last_run": "2026-06-05T09:07:47.094690+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1619,12 +1619,39 @@
   "feedback": {
     "source_calls": {
       "status": "not_checked",
-      "line": "Source calls not checked.",
+      "line": "Source-call calibration not checked; 3 unscored daily call(s) are flowing through 2026-06-03.",
       "pending_count": 0,
       "overdue_count": 0,
       "oldest_overdue_days": 0,
       "rates": [],
-      "due": []
+      "due": [],
+      "observed_count": 3,
+      "observations": [
+        {
+          "source": "Fundstrat Gmail full-body read",
+          "author": "Newton",
+          "ticker": "XOP",
+          "direction": "avoid",
+          "date": "2026-06-03",
+          "quote": "Bounce only; resistance near 175.72 should repel price toward 162."
+        },
+        {
+          "source": "Fundstrat Gmail full-body read",
+          "author": "Newton",
+          "ticker": "TNX",
+          "direction": "watch",
+          "date": "2026-06-03",
+          "quote": "Corrective bounce toward 4.554-4.586% should precede a turn lower if the ceasefire path holds."
+        },
+        {
+          "source": "Fundstrat Gmail full-body read",
+          "author": "Newton",
+          "ticker": "RYF",
+          "direction": "avoid",
+          "date": "2026-06-03",
+          "quote": "Break below 74.40 keeps the path of least resistance lower toward 71."
+        }
+      ]
     },
     "open_actions": {
       "status": "has_data",
@@ -1652,6 +1679,7 @@
       "recent_history": []
     },
     "recommendations": [
+      "Classify daily source calls into the calibration cache before using persistence.",
       "Resolve oldest open action: act, invalidate, or keep watching explicitly."
     ]
   },
