@@ -35,6 +35,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Daily cloud-ops readiness status.
+  - Added `python src/cloud_ops_status.py --format text` to separate local
+    go-live readiness from actual scheduled Codex cloud automation readiness.
+  - The command validates the routine manifest, live dashboard status, optional
+    dark source lanes, open action reviews, and whether a named daily Codex
+    automation is installed and active.
+  - Current repo state is locally go-live ready, but unattended daily ops remain
+    false until the Codex app scheduler successfully creates the daily cloud
+    automation. Missing Signal Log / Catalyst pulls remain visible as dark
+    lanes instead of being treated as checked clear.
 - Go-live checklist event-watch parity.
   - `python src/go_live_checklist.py --format text` now includes an Active
     Event Watch row derived from the same live-status/feed evidence as the
