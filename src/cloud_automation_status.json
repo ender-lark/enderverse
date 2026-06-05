@@ -1,12 +1,13 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-05T12:50:21.5557100-04:00",
-  "verification_source": "Codex app automation_update calls paused six legacy unreceipted jobs; Pre-Market Source Intake now covers supplied broker-position uploads; all active routine prompts use --run-source scheduled receipt provenance; Full Cockpit Build and Post-Close Refresh prompts use cloud_routine_runner.py; schedule checked against Notion Scheduled Cloud Routines Master Reference and 2026-06-02 Routine schedule reconcile note",
+  "verified_at": "2026-06-05T14:43:35.7533406-04:00",
+  "verification_source": "Codex app automation_update calls paused six legacy unreceipted jobs; Pre-Market Source Intake now covers supplied broker-position uploads; all active routine prompts use --run-source scheduled receipt provenance, commit/push write-back, and missing-source honesty guards; Full Cockpit Build and Post-Close Refresh prompts use cloud_routine_runner.py; Deep Synthesis prompt was patched to include the missing-source honesty guard; schedule checked against Notion Scheduled Cloud Routines Master Reference and 2026-06-02 Routine schedule reconcile note",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
     "Supplied broker-position uploads are handled by the active Pre-Market Source Intake routine; no valid broker input means positions remain stale/not refreshed rather than checked clear.",
     "Missing connector/source pulls must remain dark/not_checked in the dashboard, never checked clear.",
     "Each scheduled routine should append cloud_routine_receipts.json receipts with run_source=scheduled; manual rehearsal receipts do not prove cloud live-run execution.",
+    "Each active routine prompt should also include commit/push write-back and missing-source honesty instructions so changed receipt/output files persist and missing source pulls are not treated as checked clear.",
     "Notion schedule reconcile basis: Daily Synthesis should run after the 8:35 AM ET Morning Scan, 9:15-9:30 AM ET is acceptable, UW Opportunity Cache should stay no earlier than roughly 9:45 AM ET, and Full Cockpit Build should run at 10:30 AM ET for buffer."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",

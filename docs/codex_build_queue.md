@@ -61,8 +61,13 @@ until the core logic is stable; Notion sync comes later.
     when `CODEX_HOME` is unset and fails the cloud schedule if a superseded
     legacy automation is still active.
   - The cloud-ops check also validates active local automation prompts for
-    routine-specific receipt protocol. Current app state reports
+    routine-specific scheduled receipt protocol, commit/push write-back, and
+    missing-source honesty guards. Current app state reports
     `Cloud receipt protocol: checked=10 | ok=10 | missing=0`.
+  - Tightened the prompt checker and patched the active Deep Synthesis
+    automation prompt after the stricter check found it had receipt/write-back
+    instructions but lacked an explicit missing-source honesty guard. The
+    stack is ready again after the prompt update.
   - Updated `src/cloud_automation_status.json` to record the app-created
     routine ids and updated `cloud_ops_status.py` so cloud readiness requires
     the full expected stack to be installed and active.

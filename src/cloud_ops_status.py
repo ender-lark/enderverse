@@ -296,8 +296,31 @@ def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, A
     has_receipt = "cloud_routine_receipts.py" in prompt and routine_id in prompt
     has_final_status = "success" in prompt.lower() and "failed" in prompt.lower()
     has_scheduled_source = "--run-source scheduled" in prompt
-    ok = bool((has_runner or has_receipt) and has_final_status and has_scheduled_source)
-    problem = "" if ok else "prompt does not include routine-specific scheduled started/final receipt protocol"
+    lowered = prompt.lower()
+    has_writeback = "commit and push" in lowered and "push fails" in lowered
+    has_source_honesty = any(
+        token in lowered
+        for token in (
+            "dark/not_checked",
+            "checked clear",
+            "do not invent",
+            "fabricate",
+            "manufactur",
+            "missing data",
+            "source gap",
+            "connector or data pulls fail",
+            "do not scan the outside world",
+        )
+    )
+    missing_parts = []
+    if not ((has_runner or has_receipt) and has_final_status and has_scheduled_source):
+        missing_parts.append("routine-specific scheduled started/final receipt protocol")
+    if not has_writeback:
+        missing_parts.append("commit/push write-back protocol")
+    if not has_source_honesty:
+        missing_parts.append("missing-source honesty guard")
+    ok = not missing_parts
+    problem = "" if ok else "prompt missing: " + ", ".join(missing_parts)
     return {
         "path": str(path),
         "routine_id": routine_id,
@@ -306,6 +329,8 @@ def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, A
         "has_receipt_command": has_receipt,
         "has_final_status": has_final_status,
         "has_scheduled_source": has_scheduled_source,
+        "has_writeback": has_writeback,
+        "has_source_honesty": has_source_honesty,
         "problem": problem,
     }
 

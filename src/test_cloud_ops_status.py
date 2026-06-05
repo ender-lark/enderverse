@@ -253,6 +253,79 @@ def test_cloud_ops_status_rejects_active_prompt_without_receipt_protocol(monkeyp
     assert "Cloud receipt protocol: checked=1 | ok=0 | missing=1" in text
 
 
+def test_cloud_ops_status_validates_prompt_writeback_and_source_honesty(tmp_path):
+    automation_dir = tmp_path / "automations" / "investing-os-morning-scan"
+    automation_dir.mkdir(parents=True)
+    good_prompt = (
+        "First append a started receipt with: python src/cloud_routine_receipts.py "
+        "--routine-id investing-os-morning-scan --status started --run-source scheduled "
+        "--summary \"started\". At the end append a success or failed receipt. "
+        "Do not invent missing data; missing pulls stay dark/not_checked, never checked clear. "
+        "Commit and push src/cloud_routine_receipts.json plus output files if changed; "
+        "if push fails, report it."
+    )
+    (automation_dir / "automation.toml").write_text(
+        "\n".join([
+            'id = "investing-os-morning-scan"',
+            'name = "Investing OS Morning Scan"',
+            'status = "ACTIVE"',
+            f"prompt = {json.dumps(good_prompt)}",
+        ]),
+        encoding="utf-8",
+    )
+
+    report = cloud_ops_status._automation_summary(
+        automations_dir=tmp_path / "automations",
+        expected_automations=[{
+            "automation_id": "investing-os-morning-scan",
+            "automation_name": "Investing OS Morning Scan",
+            "role": "morning_scan",
+            "schedule": "",
+        }],
+    )
+
+    protocol = report["prompt_protocol"]["rows"][0]
+    assert protocol["ok"] is True
+    assert protocol["has_writeback"] is True
+    assert protocol["has_source_honesty"] is True
+
+
+def test_cloud_ops_status_rejects_prompt_without_writeback_or_source_honesty(tmp_path):
+    automation_dir = tmp_path / "automations" / "investing-os-morning-scan"
+    automation_dir.mkdir(parents=True)
+    prompt = (
+        "First append a started receipt with: python src/cloud_routine_receipts.py "
+        "--routine-id investing-os-morning-scan --status started --run-source scheduled "
+        "--summary \"started\". At the end append a success or failed receipt."
+    )
+    (automation_dir / "automation.toml").write_text(
+        "\n".join([
+            'id = "investing-os-morning-scan"',
+            'name = "Investing OS Morning Scan"',
+            'status = "ACTIVE"',
+            f"prompt = {json.dumps(prompt)}",
+        ]),
+        encoding="utf-8",
+    )
+
+    report = cloud_ops_status._automation_summary(
+        automations_dir=tmp_path / "automations",
+        expected_automations=[{
+            "automation_id": "investing-os-morning-scan",
+            "automation_name": "Investing OS Morning Scan",
+            "role": "morning_scan",
+            "schedule": "",
+        }],
+    )
+
+    protocol = report["prompt_protocol"]["rows"][0]
+    assert protocol["ok"] is False
+    assert protocol["has_writeback"] is False
+    assert protocol["has_source_honesty"] is False
+    assert "commit/push write-back protocol" in protocol["problem"]
+    assert "missing-source honesty guard" in protocol["problem"]
+
+
 def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()
