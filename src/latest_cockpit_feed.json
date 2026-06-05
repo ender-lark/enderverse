@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-05T08:24:25.756661+00:00",
+  "generated_at": "2026-06-05T08:31:02.223735+00:00",
   "staleness": {
-    "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28",
+    "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
       {
         "source": "portfolio",
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T08:24:25.756661+00:00",
+        "date": "2026-06-05T08:31:02.223735+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T08:24:25.756661+00:00",
+        "date": "2026-06-05T08:31:02.223735+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -32,6 +32,14 @@
         "date": "2026-05-28",
         "age_days": 8,
         "cadence": "monthly",
+        "stale": false,
+        "flag": ""
+      },
+      {
+        "source": "fundstrat_daily",
+        "date": "2026-06-03",
+        "age_days": 2,
+        "cadence": "daily",
         "stale": false,
         "flag": ""
       }
@@ -75,12 +83,10 @@
       {
         "key": "fundstrat_daily",
         "label": "FS Daily",
-        "status": "not_checked",
-        "detail": "not checked",
+        "status": "has_data",
+        "detail": "checked",
         "count": 0,
-        "checked_at": "",
-        "next_step": "Ingest recent Fundstrat daily email/article updates before using the daily source lane.",
-        "missing_impact": "Daily Fundstrat calls are absent; this is not a no-signal read."
+        "checked_at": ""
       },
       {
         "key": "catalysts",
@@ -155,10 +161,10 @@
     ],
     "counts": {
       "checked_clear": 0,
+      "has_data": 10,
+      "not_checked": 3,
       "failed": 0,
-      "stale": 0,
-      "has_data": 9,
-      "not_checked": 4
+      "stale": 0
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -832,36 +838,70 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T08:24:25.673570+00:00",
+      "last_run": "2026-06-05T08:31:02.141564+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T08:24:25.673570+00:00",
+      "last_run": "2026-06-05T08:31:02.141564+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T08:24:25.673570+00:00",
+      "last_run": "2026-06-05T08:31:02.141564+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T08:24:25.673570+00:00",
-      "note": "dark lanes: fundstrat_daily, catalysts, synthesis, signal_log | next: Ingest recent Fundstrat daily email/article updates before using the daily source lane; Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows"
+      "last_run": "2026-06-05T08:31:02.141564+00:00",
+      "note": "dark lanes: catalysts, synthesis, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Daily Synthesis JSON before relying on a top-down daily read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T08:24:25.673570+00:00",
+      "last_run": "2026-06-05T08:31:02.141564+00:00",
       "note": "rehearsal build can run"
     }
   ],
   "synthesis": {},
-  "radar": [],
+  "radar": [
+    {
+      "ticker": "RYF",
+      "author": "Newton",
+      "direction": "avoid",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-03",
+      "quote": "Break below 74.40 keeps the path of least resistance lower toward 71."
+    },
+    {
+      "ticker": "TNX",
+      "author": "Newton",
+      "direction": "watch",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-03",
+      "quote": "Corrective bounce toward 4.554-4.586% should precede a turn lower if the ceasefire path holds."
+    },
+    {
+      "ticker": "XOP",
+      "author": "Newton",
+      "direction": "avoid",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-03",
+      "quote": "Bounce only; resistance near 175.72 should repel price toward 162."
+    }
+  ],
   "lean_in": [
     {
       "ticker": "ANET",

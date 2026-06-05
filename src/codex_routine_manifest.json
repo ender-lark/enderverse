@@ -12,6 +12,7 @@
       "separation_group": "source_intake",
       "input_boundaries": [
         "Gmail connector full-body reads",
+        "Compact full-body-derived Fundstrat daily call rows when connector bodies cannot be safely piped to a file",
         "Fundstrat daily email drop-folder text, eml, or Gmail-shaped json",
         "Direct monthly Fundstrat PDF/text/json uploads"
       ],
@@ -39,6 +40,10 @@
           "command": "python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json --source-calls src/source_calls.json --log-call-dates src/log_call_dates.json --source-call-summary src/source_call_cache_summary.json"
         },
         {
+          "id": "compact_full_body_daily_calls",
+          "command": "python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir src --merge-existing"
+        },
+        {
           "id": "monthly_pdf_upload",
           "command": "python src/fundstrat_bible_intake.py <monthly-pdf-or-text-or-json> --out src/fundstrat_bible.json --summary src/fundstrat_bible_intake_summary.json --merge-existing --top-prospects src/top_prospects.json"
         },
@@ -52,7 +57,7 @@
           "command": "python src/fundstrat_email_intake.py --validate src"
         }
       ],
-      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q",
+      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily_compact_intake.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q",
       "no_input_behavior": "Do not overwrite Fundstrat caches; report Fundstrat as not checked."
     },
     {

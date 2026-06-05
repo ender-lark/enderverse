@@ -198,10 +198,10 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-05 08:24 ET
+        built 2026-06-05 08:31 ET
 
       </div>
-      <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28</div>
+      <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28  fundstrat_daily 06-03</div>
 
     </div>
     <div style="text-align:right">
@@ -222,12 +222,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card summary-caveat">
   <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
-  <div class="summary-line">Summary/export view. The action-complete operator dashboard is the canonical JSX cockpit.</div><div class="summary-line">4 dark/not-checked lanes means this is not an all-clear read.</div>
+  <div class="summary-line">Summary/export view. The action-complete operator dashboard is the canonical JSX cockpit.</div><div class="summary-line">3 dark/not-checked lanes means this is not an all-clear read.</div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> Lane status</div>
-  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 9</span><span class="lane-status ls-checked_clear">checked clear: </span><span class="lane-status ls-not_checked">not checked: 4</span><span class="lane-status ls-stale">stale: </span><span class="lane-status ls-failed">failed: </span></div>
+  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 10</span><span class="lane-status ls-checked_clear">checked clear: </span><span class="lane-status ls-not_checked">not checked: 3</span><span class="lane-status ls-stale">stale: </span><span class="lane-status ls-failed">failed: </span></div>
 
 <div class="lane-row">
   <span class="lane-key">Catalysts</span>
@@ -238,11 +238,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="lane-key">Daily Synthesis</span>
   <span class="lane-status ls-not_checked">not checked</span>
   <span class="summary-muted">not supplied | next: Supply the Daily Synthesis JSON before relying on a top-down daily read.</span>
-</div>
-<div class="lane-row">
-  <span class="lane-key">FS Daily</span>
-  <span class="lane-status ls-not_checked">not checked</span>
-  <span class="summary-muted">not checked | next: Ingest recent Fundstrat daily email/article updates before using the daily source lane.</span>
 </div>
 <div class="lane-row">
   <span class="lane-key">Signal Log</span>
@@ -256,6 +251,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 <div class="lane-row">
   <span class="lane-key">FS Bible</span>
+  <span class="lane-status ls-has_data">has data</span>
+  <span class="summary-muted">checked</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">FS Daily</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked</span>
 </div>
@@ -291,7 +291,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T08:24:25.673570+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T08:24:25.673570+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T08:24:25.673570+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T08:24:25.673570+00:00 | dark lanes: fundstrat_daily, catalysts, synthesis, signal_log | next: Ingest recent Fundstrat daily email/article updates before using the daily source lane; Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T08:24:25.673570+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T08:31:02.141564+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T08:31:02.141564+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T08:31:02.141564+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T08:31:02.141564+00:00 | dark lanes: catalysts, synthesis, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Daily Synthesis JSON before relying on a top-down daily read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T08:31:02.141564+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

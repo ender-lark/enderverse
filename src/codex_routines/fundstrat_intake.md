@@ -54,6 +54,20 @@ Accepted monthly file types:
    fields can update daily calls, inbox dates, source-call candidates, or top
    prospects.
 
+   If the connector exposes full bodies only in the tool stream and cannot pipe
+   them safely to a local JSON file, extract only compact, source-backed daily
+   call rows and run:
+
+   ```bash
+   python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir src --merge-existing
+   ```
+
+   This path is intentionally narrower: it writes `fundstrat_daily_calls.json`,
+   `inbox_call_dates.json`, redacted audit entries, summary, and state, but it
+   rejects long raw-body-like quotes and does not update source-call calibration
+   or top prospects. Use it only for full-body-derived compact metadata, never
+   for snippet-only discovery.
+
 3. If the drop folder has files, run:
 
    ```bash
@@ -153,5 +167,7 @@ debugging, and do not commit raw publication bodies.
 - Do not let snippet-only discovery update `source_calls.json` or
   `log_call_dates.json`.
 - Do not treat unfetched or unparsed emails as checked clear.
+- Do not use compact daily-call intake for raw publication bodies; quotes must
+  be short source-backed summaries or ticker-level excerpts.
 - Do not make trade recommendations from this routine; it only prepares source
   inputs for the cockpit build.

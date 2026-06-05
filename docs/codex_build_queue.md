@@ -15,6 +15,22 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat Daily compact live refresh.
+  - Ingested three compact, full-body-derived Fundstrat daily calls from Gmail
+    evidence: `XOP`, `RYF`, and `TNX`.
+  - FS Daily is now a `has_data` lane, while raw email bodies remain uncommitted
+    and audit entries remain redacted.
+  - The rows surface as daily source/radar context; they do not create direct
+    buy/sell orders.
+- Compact Fundstrat Daily intake path.
+  - Added `fundstrat_daily_compact_intake.py` for full-body-derived compact
+    daily call rows when Gmail connector bodies cannot be safely piped into a
+    local JSON file.
+  - The compact path rejects raw-body-sized quotes, writes redacted audit/state
+    files, and makes FS Daily checkable without storing raw publication bodies.
+  - It intentionally does not update source-call calibration or top prospects;
+    the full raw-body parser remains the richer path when safe connector JSON is
+    available.
 - Fundstrat Daily full-body honesty.
   - Changed full-build source registration so snippet-only Fundstrat discovery
     does not mark FS Daily as checked clear.
