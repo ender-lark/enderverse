@@ -159,6 +159,90 @@ def live_status(
     )
 
 
+def _join_values(values: list[Any], *, empty: str = "none") -> str:
+    cleaned = [str(value) for value in values if value]
+    return ", ".join(cleaned) if cleaned else empty
+
+
+def format_text(status: dict[str, Any]) -> str:
+    """Return a human-readable operator status without changing JSON output."""
+    data_flow = status.get("data_flow") or {}
+    preview = status.get("preview") or {}
+    open_actions = status.get("open_actions") or {}
+    dark_lanes = status.get("dark_lanes") or {}
+    queue = status.get("system_queue") or {}
+    top_action = data_flow.get("top_action") or {}
+
+    preview_url = preview.get("url") or "preview URL unavailable"
+    preview_state = "running" if preview.get("server_running") else "not running"
+    top_kind = top_action.get("kind") or "none"
+    top_what = top_action.get("what") or ""
+    top_text = top_kind if not top_what else f"{top_kind}: {top_what}"
+
+    lines = [
+        f"Live status: {status.get('live_summary', 'unknown')}",
+        (
+            f"Ready: {bool(status.get('go_live_ready'))} | "
+            f"publish: {bool(status.get('publish_ready'))} | "
+            f"live data: {bool(status.get('live_data_ready'))}"
+        ),
+        (
+            f"Actions: {int(status.get('actions') or 0)} | "
+            f"research actions: {int(status.get('research_actions') or 0)} | "
+            f"open reviews: {int(open_actions.get('count') or 0)}"
+        ),
+        (
+            f"Data flow: feed={data_flow.get('generated_at') or 'missing'} | "
+            f"lanes_with_data={int(data_flow.get('lanes_with_data') or 0)} | "
+            f"dark_lanes={int(data_flow.get('dark_lanes') or 0)} | "
+            f"top_action={top_text}"
+        ),
+        f"Preview: {preview_url} ({preview_state})",
+        f"Open review tickers: {_join_values(open_actions.get('tickers') or [])}",
+        (
+            f"Queue: valid={bool(queue.get('valid'))} | "
+            f"items={int(queue.get('items') or 0)} | "
+            f"active_or_queued={int(queue.get('active_or_queued') or 0)}"
+        ),
+    ]
+
+    blockers = status.get("blockers") or {}
+    blocker_parts = []
+    for key in (
+        "missing_required_inputs",
+        "stale_required_inputs",
+        "missing_minimum_live_inputs",
+        "invalid_minimum_live_inputs",
+    ):
+        values = blockers.get(key) or []
+        if values:
+            blocker_parts.append(f"{key}={_join_values(values)}")
+    if blockers.get("publish_gate_problems"):
+        blocker_parts.append(f"publish_gate={len(blockers.get('publish_gate_problems') or [])}")
+    if blockers.get("build_problem"):
+        blocker_parts.append("build_problem=present")
+    lines.append(f"Blockers: {'; '.join(blocker_parts) if blocker_parts else 'none'}")
+
+    details = dark_lanes.get("details") or []
+    if details:
+        lines.append("Dark lanes:")
+        for row in details:
+            if not isinstance(row, dict):
+                continue
+            key = row.get("label") or row.get("key") or "unknown"
+            next_step = row.get("next_step") or row.get("missing_impact") or "Supply source input."
+            lines.append(f"- {key}: {next_step}")
+    else:
+        lines.append("Dark lanes: none")
+
+    next_steps = status.get("next_steps") or []
+    if next_steps:
+        lines.append("Next steps:")
+        for step in next_steps[:5]:
+            lines.append(f"- {step}")
+    return "\n".join(lines)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Print compact live status without rebuilding")
     parser.add_argument("--src-dir", default=str(DEFAULT_SRC))
@@ -166,6 +250,7 @@ def main(argv=None) -> int:
     parser.add_argument("--queue")
     parser.add_argument("--open-store")
     parser.add_argument("--feed")
+    parser.add_argument("--format", choices=["json", "text"], default="json")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero unless go_live_ready is true")
     args = parser.parse_args(argv)
 
@@ -176,7 +261,10 @@ def main(argv=None) -> int:
         open_store_path=args.open_store,
         feed_path=args.feed,
     )
-    print(json.dumps(status, indent=2))
+    if args.format == "text":
+        print(format_text(status))
+    else:
+        print(json.dumps(status, indent=2))
     return 0 if status["go_live_ready"] or not args.strict else 2
 
 

@@ -15,6 +15,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Human-readable live status.
+  - Added `python src/live_status.py --format text` for a fast operator readout
+    of live readiness, data-flow proof, open-review tickers, preview state,
+    blockers, dark-lane next inputs, and queue state.
+  - Kept the default JSON output unchanged for scripts and checks.
 - Actionable checklist warning detail.
   - `python src/go_live_checklist.py --format text` now names open-review
     tickers in the warning row.

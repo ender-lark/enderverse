@@ -99,3 +99,37 @@ def test_build_status_summary_reports_queue_when_live():
 
     assert status["live_summary"] == "live_with_build_queue"
     assert status["system_queue"]["next"][0]["id"] == "slice"
+
+
+def test_format_text_is_operator_scannable():
+    status = live_status.build_status_summary(
+        readiness=_readiness(
+            dark_lane_keys=["catalysts", "signal_log"],
+            dark_lane_details=[
+                {"key": "catalysts", "label": "Catalysts", "next_step": "Supply Catalyst Calendar rows."},
+                {"key": "signal_log", "label": "Signal Log", "next_step": "Supply Morning Scan JSON."},
+            ],
+        ),
+        preview={
+            "preview_exists": True,
+            "server_running": True,
+            "url": "http://127.0.0.1:8765/dashboard_preview.html",
+        },
+        open_store={"opportunities": [{"ticker": "ANET", "status": "open", "first_flagged": "2026-06-05"}]},
+        queue=_queue(),
+        feed={
+            "generated_at": "2026-06-05T10:03:31+00:00",
+            "lane_status": {"counts": {"has_data": 11}},
+            "actions": [{"kind": "event_risk", "what": "Review oil shock"}],
+        },
+    )
+
+    text = live_status.format_text(status)
+
+    assert "Live status: live_with_open_reviews" in text
+    assert "Ready: True" in text
+    assert "Data flow: feed=2026-06-05T10:03:31+00:00" in text
+    assert "top_action=event_risk: Review oil shock" in text
+    assert "Open review tickers: ANET" in text
+    assert "- Catalysts: Supply Catalyst Calendar rows." in text
+    assert "- Signal Log: Supply Morning Scan JSON." in text

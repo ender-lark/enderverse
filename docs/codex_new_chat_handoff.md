@@ -168,6 +168,8 @@ Important recent state:
   rows, data-flow proof, and the system-improvement queue into one JSON
   readout. Its `data_flow` section shows feed timestamp, source dates, lanes
   with data, dark/stale lane counts, action counts, and top action.
+  Use `python src/live_status.py --format text` for the fast human-readable
+  operator status with open-review tickers and dark-lane next inputs.
 - The go-live checklist helper is:
   `python src/go_live_checklist.py`.
   It is non-mutating and summarizes refresh/status, live data flow, preview,
