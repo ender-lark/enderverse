@@ -796,16 +796,22 @@ function laneStatusRow(r){
 }
 function operatorStatus(feed){
   const counts = ((feed.lane_status||{}).counts)||{};
-  const openActions = (((feed.feedback||{}).open_actions)||{}).count||0;
+  const feedback = feed.feedback||{};
+  const openActions = ((feedback.open_actions)||{}).count||0;
+  const sourceCalls = feedback.source_calls||{};
+  const sourceCallStatus = sourceCalls.status||"not_checked";
+  const sourceCallObserved = sourceCalls.observed_count||0;
+  const sourceCallWarn = sourceCallStatus==="not_checked" && sourceCallObserved>0;
   const actions = (feed.actions||[]).length;
   const dark = counts.not_checked||0;
   const stale = counts.stale||0;
   const failed = counts.failed||0;
-  const status = failed ? "FAIL" : ((dark||stale||openActions) ? "WARN" : "PASS");
+  const status = failed ? "FAIL" : ((dark||stale||openActions||sourceCallWarn) ? "WARN" : "PASS");
   const statusColor = failed ? C.red : (status==="WARN" ? C.amber : C.green);
   const sourceLane = failed ? `${failed} failed` : dark ? `${dark} dark` : stale ? `${stale} stale` : "clear";
+  const sourceCall = sourceCallWarn ? `${sourceCallObserved} unscored` : "clear";
   return {
-    status, statusColor, actions, openActions, sourceLane,
+    status, statusColor, actions, openActions, sourceLane, sourceCall, sourceCallWarn,
     command:"python src/go_live_checklist.py --format text",
   };
 }
@@ -1075,6 +1081,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             ["Today actions", String(op.actions), op.actions?C.amber:C.dim],
             ["Open reviews", String(op.openActions), op.openActions?C.amber:C.green],
             ["Source lanes", op.sourceLane, op.sourceLane==="clear"?C.green:C.amber],
+            ["Source calls", op.sourceCall, op.sourceCallWarn?C.amber:C.green],
           ];
           return (
             <div style={{ marginTop:10, ...card, borderColor:op.statusColor+"55", background:op.statusColor+"0d" }}>

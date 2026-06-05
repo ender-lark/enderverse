@@ -15,6 +15,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dashboard Operator Status source-call parity.
+  - Added a Source calls pill to the generated HTML preview and canonical JSX
+    Operator Status card.
+  - The pill warns when Fundstrat daily calls are flowing but source-call
+    calibration is still not checked.
 - Source-call calibration status in operator checks.
   - `python src/live_status.py --format text` now reports source-call
     calibration status, observed daily call count, and overdue count.

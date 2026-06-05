@@ -14,6 +14,7 @@ def test_canonical_cockpit_surfaces_operator_status():
     assert "Today actions" in text
     assert "Open reviews" in text
     assert "Source lanes" in text
+    assert "Source calls" in text
     assert "python src/go_live_checklist.py --format text" in text
 
 
@@ -23,4 +24,5 @@ def test_rendered_cockpit_keeps_operator_status_card():
     assert "Operator status" in text
     assert "Open reviews" in text
     assert "Source lanes" in text
+    assert "Source calls" in text
     assert "python src/go_live_checklist.py --format text" in text

@@ -424,13 +424,18 @@ def _operator_status(feed: dict) -> str:
     counts = lane.get("counts") or {}
     feedback = feed.get("feedback") or {}
     open_actions = feedback.get("open_actions") or {}
+    source_calls = feedback.get("source_calls") or {}
     actions = feed.get("actions") or []
     dark = int(counts.get("not_checked") or 0)
     stale = int(counts.get("stale") or 0)
     failed = int(counts.get("failed") or 0)
     open_count = int(open_actions.get("count") or 0)
+    source_call_status = source_calls.get("status") or "not_checked"
+    source_call_observed = int(source_calls.get("observed_count") or 0)
+    source_call_warn = source_call_status == "not_checked" and source_call_observed > 0
+    source_call_value = "clear" if not source_call_warn else f"{source_call_observed} unscored"
     action_count = len(actions)
-    status = "FAIL" if failed else "WARN" if dark or stale or open_count else "PASS"
+    status = "FAIL" if failed else "WARN" if dark or stale or open_count or source_call_warn else "PASS"
     cls = {"PASS": "operator-pass", "WARN": "operator-warn", "FAIL": "operator-fail"}[status]
     lane_detail = []
     if dark:
@@ -449,6 +454,7 @@ def _operator_status(feed: dict) -> str:
     <div class="operator-pill"><div class="operator-label">Today actions</div><div class="operator-value">{_e(action_count)}</div></div>
     <div class="operator-pill"><div class="operator-label">Open reviews</div><div class="operator-value {_e('operator-warn' if open_count else 'operator-pass')}">{_e(open_count)}</div></div>
     <div class="operator-pill"><div class="operator-label">Source lanes</div><div class="operator-value {_e('operator-warn' if lane_detail else 'operator-pass')}">{_e(lane_value)}</div></div>
+    <div class="operator-pill"><div class="operator-label">Source calls</div><div class="operator-value {_e('operator-warn' if source_call_warn else 'operator-pass')}">{_e(source_call_value)}</div></div>
     <div class="operator-pill"><div class="operator-label">Go-live check</div><div class="operator-value {_e(cls)}">{status}</div></div>
   </div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>

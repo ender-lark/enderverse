@@ -99,6 +99,7 @@ def test_generated_html_surfaces_operator_status_card():
     assert "Today actions" in html
     assert "Open reviews" in html
     assert "Source lanes" in html
+    assert "Source calls" in html
     assert "python src/go_live_checklist.py --format text" in html
 
 
