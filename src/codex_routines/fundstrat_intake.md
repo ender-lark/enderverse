@@ -7,14 +7,22 @@ surface named calls, time-sensitive technicals, and source-call candidates.
 
 ## Inputs
 
-- Preferred: Gmail connector search for recent Fundstrat messages.
-- Fallback: files in `G:\My Drive\Codex\Investing OS Context\03_Inbox\Fundstrat_Email_Drop`.
+- Daily updates: Gmail connector search for recent Fundstrat messages.
+- Daily fallback: files in `G:\My Drive\Codex\Investing OS Context\03_Inbox\Fundstrat_Email_Drop`.
+- Monthly/Bible update: direct uploaded Fundstrat monthly PDF, text export, or
+  structured JSON deck.
 
-Accepted fallback file types:
+Accepted daily fallback file types:
 
 - `.txt`
 - `.eml`
 - `.json` containing a list of Gmail-like messages or `{messages:[...]}`
+
+Accepted monthly file types:
+
+- `.pdf` with selectable text
+- `.txt`
+- `.json` in the existing `fundstrat_bible.json` deck shape
 
 ## Procedure
 
@@ -64,32 +72,51 @@ Accepted fallback file types:
    python src/source_call_cache_merge.py --candidates src/source_call_candidates.json --source-calls src/source_calls.json --log-dates src/log_call_dates.json
    ```
 
-6. Validate output shape and the raw-body redaction rule:
+6. When the monthly Fundstrat update is directly uploaded, parse only useful
+   labeled sections into `fundstrat_bible.json`:
+
+   ```bash
+   python src/fundstrat_bible_intake.py <monthly-pdf-or-text-or-json> --out src/fundstrat_bible.json --summary src/fundstrat_bible_intake_summary.json --merge-existing --top-prospects src/top_prospects.json
+   ```
+
+   The monthly parser is intentionally compact: it captures explicit summary
+   charts/core lists such as `What to Own`, `Core List` / `Consider List`,
+   `Top 5`, `Bottom 5`, and short stance text when present. Core-list names are
+   routed to `top_prospects.json` as consider-list candidates even if they do
+   not immediately affect the cockpit's Bible read. It does not store raw PDF
+   text, stock-price chart text, performance tables, or long numeric notes.
+
+7. Validate output shape and the raw-body redaction rule:
 
    ```bash
    python src/fundstrat_email_intake.py --validate src
+   python src/fundstrat_bible_intake.py --validate src/fundstrat_bible.json
    ```
 
-7. If no Gmail results and no drop-folder files exist, do not overwrite
+8. If no Gmail results and no drop-folder files exist, do not overwrite
    `fundstrat_daily_calls.json`; report Fundstrat as not checked.
-8. Run focused checks:
+9. Run focused checks:
 
    ```bash
-   python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q
+   python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q
    ```
 
-9. Summarize:
+10. Summarize:
    - emails parsed
    - full-body emails parsed
    - snippet-only emails discovered
    - daily calls emitted
    - source-call candidates emitted
    - source calls merged
+   - monthly Top-5/Bottom-5/consider rows emitted, if a direct monthly upload
+     was supplied
    - inbox dates written
    - whether no-input meant not checked
 
 ## Output Files
 
+- `src/fundstrat_bible.json` when a monthly upload is supplied
+- `src/fundstrat_bible_intake_summary.json` when a monthly upload is supplied
 - `src/fundstrat_daily_calls.json`
 - `src/fundstrat_inbox_entries.json`
 - `src/inbox_call_dates.json`
@@ -110,6 +137,9 @@ debugging, and do not commit raw publication bodies.
 - Preserve source date and author.
 - Do not commit raw Fundstrat email bodies.
 - Do not paste raw Fundstrat bodies into routine summaries.
+- Do not commit raw Fundstrat PDF text.
+- Do not store monthly stock-price chart/table text that does not affect
+  stance, What-to-Own, consider-list, Top-5, or Bottom-5 surfacing.
 - Do not turn non-action mentions into daily-call rows.
 - Do not let snippet-only discovery update `top_prospects.json`.
 - Do not let snippet-only discovery update `inbox_call_dates.json`.

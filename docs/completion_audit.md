@@ -18,13 +18,13 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Evidence
 
 - Git working tree was clean before the audit slice.
-- `python src/system_improvement_queue.py` passed and reported 16 tracked queue
-  items as done after the Fundstrat source-call upsert automation slice.
+- `python src/system_improvement_queue.py` passed and reported 17 tracked queue
+  items as done after the Fundstrat monthly/Bible direct upload slice.
 - `python src/codex_routine_manifest.py` passed with six active routine
   definitions across source intake, market data refresh, and feed build/publish.
 - Dashboard parity guardrail tests passed.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite excluding retired `src/test_reallocate.py`: 830 passed,
+  - broad `src` suite excluding retired `src/test_reallocate.py`: 838 passed,
     6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
@@ -43,6 +43,11 @@ enough to hand control back, using current repo state as evidence. It covers:
   classified source-call candidates into `source_calls.json`,
   `log_call_dates.json`, and `source_call_cache_summary.json` in the same
   routine path while snippet-only discovery leaves those caches untouched.
+- Fundstrat monthly/Bible direct upload intake: direct monthly PDF/text/JSON
+  uploads can write compact `fundstrat_bible.json` state for stance,
+  What-to-Own, consider/core list, Top-5, and Bottom-5 sections; monthly
+  ticker lists can update `top_prospects.json` without storing raw PDF or
+  stock-price chart text.
 - Daily Synthesis structured action metadata: explicit action rows can now carry
   ticker aliases, urgency, sizing, timing, capital effect, goal channels, and
   missing-evidence fields without broad prose guessing.
@@ -68,13 +73,13 @@ L2-to-L3 validation, Signal Log lane design, generated HTML summary safety, and
 conflict wording scope. Daily Synthesis structured action metadata is also
 supported for explicit rows.
 
-Remaining feasible follow-up candidates include:
-
-- Continue Fundstrat intake v1.1 with richer monthly/Bible extraction.
+No concrete queued follow-up candidate remains promoted from the older backlog
+notes. Future work should start with a fresh completion audit or new user/input
+evidence rather than extending stale backlog wording.
 
 ## Conclusion
 
-The originally queued product slices are complete and verified. The project is
-not globally exhausted because older refinement notes still contain feasible
-follow-up work. Before the next change, promote one candidate into
-`docs/codex_build_queue.md` and keep the one-slice/verify/commit discipline.
+The originally queued product slices and the promoted follow-up candidates are
+complete and verified. Before the next change, run a fresh completion audit or
+promote a new evidence-backed candidate into `docs/codex_build_queue.md` and
+keep the one-slice/verify/commit discipline.

@@ -53,6 +53,15 @@
       "done_when": "The canonical Fundstrat intake command can update source_calls.json, log_call_dates.json, and source_call_cache_summary.json from classified full-body candidates while snippet-only discovery leaves those caches untouched."
     },
     {
+      "id": "fundstrat-monthly-bible-upload",
+      "title": "Parse direct Fundstrat monthly uploads into compact Bible deck state",
+      "priority": "P1",
+      "status": "done",
+      "area": "routines",
+      "why": "Monthly Fundstrat updates arrive as uploaded PDFs and should update the source spine without storing noisy stock-price chart text.",
+      "done_when": "Direct monthly PDF/text/JSON uploads can write fundstrat_bible.json, preserve useful summary/core lists, route core-list names to top_prospects.json as consider candidates, and avoid raw PDF or stock-price chart clutter."
+    },
+    {
       "id": "codex-routine-migration",
       "title": "Replace Claude cloud routines with Codex automations",
       "priority": "P1",

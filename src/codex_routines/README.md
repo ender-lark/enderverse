@@ -29,6 +29,10 @@ not-checked instead of being treated as clear.
 1. Fundstrat intake
    - Parse forwarded/exported Fundstrat emails, or Gmail search results when the
      connector is available.
+   - Parse direct monthly Fundstrat PDF/text/JSON uploads into the compact
+     `fundstrat_bible.json` deck shape: summary/core lists only, not raw
+     stock-price chart text. Core-list names can feed `top_prospects.json` as
+     consider-list candidates.
    - Write `fundstrat_daily_calls.json`, `fundstrat_inbox_entries.json`,
      `inbox_call_dates.json`, and `source_call_candidates.json`.
    - Merge full-body action-like daily calls into `top_prospects.json` so the

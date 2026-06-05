@@ -12,9 +12,12 @@
       "separation_group": "source_intake",
       "input_boundaries": [
         "Gmail connector full-body reads",
-        "Fundstrat drop-folder text, eml, or Gmail-shaped json"
+        "Fundstrat daily email drop-folder text, eml, or Gmail-shaped json",
+        "Direct monthly Fundstrat PDF/text/json uploads"
       ],
       "owns": [
+        "src/fundstrat_bible.json",
+        "src/fundstrat_bible_intake_summary.json",
         "src/fundstrat_daily_calls.json",
         "src/fundstrat_inbox_entries.json",
         "src/inbox_call_dates.json",
@@ -36,6 +39,10 @@
           "command": "python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json --source-calls src/source_calls.json --log-call-dates src/log_call_dates.json --source-call-summary src/source_call_cache_summary.json"
         },
         {
+          "id": "monthly_pdf_upload",
+          "command": "python src/fundstrat_bible_intake.py <monthly-pdf-or-text-or-json> --out src/fundstrat_bible.json --summary src/fundstrat_bible_intake_summary.json --merge-existing --top-prospects src/top_prospects.json"
+        },
+        {
           "id": "merge_source_call_candidates",
           "command": "python src/source_call_cache_merge.py --candidates src/source_call_candidates.json --source-calls src/source_calls.json --log-dates src/log_call_dates.json",
           "fallback_for": "manual remerge of existing source_call_candidates.json"
@@ -45,7 +52,7 @@
           "command": "python src/fundstrat_email_intake.py --validate src"
         }
       ],
-      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q",
+      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q",
       "no_input_behavior": "Do not overwrite Fundstrat caches; report Fundstrat as not checked."
     },
     {

@@ -12,6 +12,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat monthly/Bible direct upload intake.
+  - Added `fundstrat_bible_intake.py` for direct monthly PDF/text/JSON uploads.
+  - Writes compact `fundstrat_bible.json` deck shape for useful summary/core
+    lists: stance, What-to-Own, consider/core list, Top-5, and Bottom-5.
+  - Can merge monthly Top-5/Bottom-5 and consider-list names into
+    `top_prospects.json` without storing raw PDF text or stock-price chart
+    clutter.
 - Fundstrat source-call upsert automation.
   - Added optional one-step source-call cache/log-date merge to
     `fundstrat_email_intake.py`.

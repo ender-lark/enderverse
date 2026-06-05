@@ -158,5 +158,5 @@ work. The old canonicalization guardrail and previously queued product slices
 are complete; current parity evidence says the dashboard contract is classified
 and the canonical JSX path remains the operator surface.
 
-The remaining feasible follow-up candidate is Fundstrat intake v1.1: richer
-monthly/Bible extraction and stronger source-call-log upsert automation.
+No stale dashboard-specific follow-up is promoted from this parity review. Next
+dashboard work should come from fresh feed evidence or a new completion audit.
