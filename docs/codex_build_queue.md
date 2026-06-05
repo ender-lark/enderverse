@@ -104,6 +104,10 @@ until the core logic is stable; Notion sync comes later.
   - Added `src/cloud_routine_runner.py` so deterministic repo-local cloud jobs
     can wrap their command with guaranteed started/final receipts instead of
     relying on prompt-only bookkeeping.
+  - Added `python src/cloud_routine_drill.py --format text --strict` as a
+    safe non-mutating drill. It writes scheduled-style receipts only to a temp
+    store and verifies the real `src/cloud_routine_receipts.json` proof store
+    is untouched; it validates mechanics but does not prove a scheduled run.
   - Full Cockpit Build and Post-Close Refresh should use
     `python src/cloud_routine_runner.py --run-source scheduled --routine-id <id> -- python src/live_dashboard_refresh.py`
     as their core command before committing/pushing changed artifacts.

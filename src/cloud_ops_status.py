@@ -22,6 +22,7 @@ DEFAULT_AUTOMATION_NAME = "Investing OS Daily Cloud Refresh"
 DEFAULT_AUTOMATION_ID = "investing-os-daily-cloud-refresh"
 DEFAULT_AUTOMATION_PROOF = "cloud_automation_status.json"
 DEFAULT_RECEIPT_PROOF = "cloud_routine_receipts.json"
+DRILL_COMMAND = "python src/cloud_routine_drill.py --format text --strict"
 DEFAULT_EXPECTED_AUTOMATIONS = [
     {
         "automation_id": "investing-os-pre-market-source-intake",
@@ -696,6 +697,7 @@ def cloud_ops_status(
             "intake attempts, but missing connector exports must remain visible as "
             "dark lanes instead of being treated as checked clear."
         ),
+        "drill_command": DRILL_COMMAND,
     }
 
 
@@ -767,6 +769,7 @@ def format_text(report: dict[str, Any]) -> str:
     if next_due:
         label = next_due.get("routine_name") or next_due.get("routine_id") or "unknown"
         lines.append(f"Next expected receipt: {label} at {next_due.get('next_due_at') or ''}")
+    lines.append(f"Cloud runner drill: {report.get('drill_command') or DRILL_COMMAND}")
     gaps = report.get("gaps") or []
     if gaps:
         lines.append("Gaps:")
