@@ -59,6 +59,13 @@ until the core logic is stable; Notion sync comes later.
     treated as proven until a success receipt appears.
   - Latest failed receipts surface as operator gaps; first-run-pending receipts
     stay visible without marking a source lane checked clear.
+- Cloud routine runner.
+  - Added `src/cloud_routine_runner.py` so deterministic repo-local cloud jobs
+    can wrap their command with guaranteed started/final receipts instead of
+    relying on prompt-only bookkeeping.
+  - Full Cockpit Build and Post-Close Refresh should use
+    `python src/cloud_routine_runner.py --routine-id <id> -- python src/live_dashboard_refresh.py`
+    as their core command before committing/pushing changed artifacts.
 - Signal Log / Morning Scan lane populated.
   - Used Notion search/fetch against the Signal Log data source, not the failed
     SQL query path, to source recent macro, oil/Hormuz, Iran escalation, and

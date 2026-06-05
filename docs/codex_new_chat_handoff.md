@@ -195,6 +195,10 @@ Important recent state:
   `cloud_ops_status.py --format text` now reports the receipt count separately
   from schedule readiness, so first-run-pending jobs are visible and failed
   latest receipts become operator gaps.
+- `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
+  guaranteed started/final receipts. Use it for Full Cockpit Build and
+  Post-Close Refresh, e.g.
+  `python src/cloud_routine_runner.py --routine-id investing-os-post-close-refresh --success-summary "post-close refresh succeeded" --failure-summary "post-close refresh failed" -- python src/live_dashboard_refresh.py`.
 - Target Drift now promotes held, materially undersized names into conservative
   `conviction_gap` actions. The current feed surfaces NVDA as a funded
   add/rotation review (`6.6%` actual versus `12.0%` target), while missing

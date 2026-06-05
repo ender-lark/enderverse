@@ -1,13 +1,14 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-05T12:12:15.8221666-04:00",
-  "verification_source": "Codex app automation_update create/update calls succeeded in this thread; active prompts were updated to append run receipts",
+  "verified_at": "2026-06-05T12:16:06.4913902-04:00",
+  "verification_source": "Codex app automation_update create/update calls succeeded in this thread; Full Cockpit Build and Post-Close Refresh prompts now use cloud_routine_runner.py",
   "notes": [
     "The previous generic daily refresh automation is paused and superseded by this split routine stack.",
     "Missing connector/source pulls must remain dark/not_checked in the dashboard, never checked clear.",
     "Each scheduled routine should append a cloud_routine_receipts.json receipt at the end of the run."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --summary \"<short run result>\"",
+  "runner_command_template": "python src/cloud_routine_runner.py --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
   "superseded": [
     {
       "automation_id": "investing-os-daily-cloud-refresh",
