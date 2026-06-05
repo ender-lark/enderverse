@@ -108,6 +108,10 @@ until the core logic is stable; Notion sync comes later.
   - The status readout now separates due states into `overdue`,
     `due_waiting`, `not_due_yet`, and `current`, and prints an explicit
     first-scheduled-proof-pending line before the first expected receipt window.
+  - `cloud_ops_status.py --strict` remains the schedule-readiness gate.
+    Use `--require-first-proof` to fail until at least one scheduled success
+    receipt exists, and `--require-live-run` to fail until every expected
+    routine has a scheduled success receipt.
   - Latest failed receipts surface as operator gaps; first-run-pending receipts
     stay visible without marking a source lane checked clear.
 - Cloud routine runner.

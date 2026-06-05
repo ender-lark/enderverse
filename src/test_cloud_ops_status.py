@@ -333,6 +333,30 @@ def test_cloud_ops_status_reports_partial_live_run_after_first_scheduled_success
     assert "Cloud live-run proven: False" in text
 
 
+def test_cloud_ops_status_cli_can_require_first_scheduled_proof(monkeypatch, capsys):
+    monkeypatch.setattr(cloud_ops_status, "cloud_ops_status", lambda **kwargs: {
+        "ready_for_unattended_daily_run": True,
+        "first_scheduled_run_proven": False,
+        "live_run_proven": False,
+    })
+
+    rc = cloud_ops_status.main(["--require-first-proof"])
+
+    assert rc == 2
+    assert '"first_scheduled_run_proven": false' in capsys.readouterr().out
+
+
+def test_cloud_ops_status_cli_can_require_full_live_run(monkeypatch):
+    monkeypatch.setattr(cloud_ops_status, "cloud_ops_status", lambda **kwargs: {
+        "ready_for_unattended_daily_run": True,
+        "first_scheduled_run_proven": True,
+        "live_run_proven": False,
+    })
+
+    assert cloud_ops_status.main(["--require-live-run"]) == 3
+    assert cloud_ops_status.main(["--require-first-proof"]) == 0
+
+
 def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()

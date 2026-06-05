@@ -802,6 +802,16 @@ def main(argv=None) -> int:
     parser.add_argument("--now", help="Override current time for testing, ISO format")
     parser.add_argument("--format", choices=["json", "text"], default="json")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero unless unattended daily ops are ready")
+    parser.add_argument(
+        "--require-first-proof",
+        action="store_true",
+        help="Exit non-zero unless at least one scheduled routine success receipt is present",
+    )
+    parser.add_argument(
+        "--require-live-run",
+        action="store_true",
+        help="Exit non-zero unless every expected routine has a scheduled success receipt",
+    )
     args = parser.parse_args(argv)
 
     report = cloud_ops_status(
@@ -817,6 +827,10 @@ def main(argv=None) -> int:
         print(format_text(report))
     else:
         print(json.dumps(report, indent=2))
+    if args.require_live_run and not report.get("live_run_proven"):
+        return 3
+    if args.require_first_proof and not report.get("first_scheduled_run_proven"):
+        return 2
     if args.strict and not report.get("ready_for_unattended_daily_run"):
         return 1
     return 0

@@ -239,6 +239,9 @@ Important recent state:
   line, so schedule readiness is not mistaken for run proof. The first expected
   proof target after this activation is Post-Close Refresh at 2026-06-05
   4:30 PM ET.
+  `--strict` checks schedule readiness only; use `--require-first-proof` after
+  the first expected run window, and `--require-live-run` when the whole routine
+  stack must be proven.
 - `python src/go_live_checklist.py --format text` includes a Cloud automation
   proof row. It should warn before the first scheduled receipt, then pass after
   `Cloud first scheduled run proven: true`.
