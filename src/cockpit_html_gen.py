@@ -20,7 +20,7 @@ from typing import Any
 
 def _e(s: Any) -> str:
     """HTML-escape a value."""
-    return _html.escape(str(s or ""))
+    return _html.escape("" if s is None else str(s))
 
 
 def _strip_trailing_ws(text: str) -> str:
@@ -128,6 +128,8 @@ a{color:#58a6ff;text-decoration:none}
 .operator-value{font-size:13px;font-weight:700;color:#f0f6fc}
 .operator-pass{color:#3fb950}.operator-warn{color:#d29922}.operator-fail{color:#f85149}
 .operator-command{font-family:monospace;font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:5px;padding:6px 8px;overflow-x:auto}
+.operator-readiness{font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:7px 8px;margin-bottom:8px}
+.operator-readiness strong{font-size:12px}
 .operator-event-watch{background:#2b1e0a;border:1px solid #d2992244;border-radius:6px;padding:7px 8px;margin:7px 0}
 .operator-event-title{font-size:12px;font-weight:700;color:#f0f6fc}
 .operator-event-meta{font-family:monospace;font-size:10px;color:#8b949e;margin-top:3px}
@@ -498,6 +500,12 @@ def _operator_status(feed: dict) -> str:
     live_configured = int(live_config.get("configured_count") or 0)
     source_call_warn = source_call_status == "not_checked" and source_call_observed > 0
     source_call_fail = source_call_overdue > 0
+    audits = feed.get("source_audits") or {}
+    cloud = audits.get("cloud_routines") or {}
+    cloud_expected = int(cloud.get("expected_count") or 0)
+    cloud_scheduled = int(cloud.get("scheduled_success_count") or 0)
+    cloud_failed = int(cloud.get("failed_latest_count") or 0)
+    schedule_wait = bool(cloud_expected and cloud_scheduled < cloud_expected and not cloud_failed)
     if source_call_fail:
         source_call_value = f"{source_call_overdue} overdue"
     elif source_call_warn:
@@ -559,6 +567,28 @@ def _operator_status(feed: dict) -> str:
         else "PASS"
     )
     cls = {"PASS": "operator-pass", "WARN": "operator-warn", "FAIL": "operator-fail"}[status]
+    build_blockers = 0
+    if failed:
+        build_blockers += failed
+    if source_call_fail:
+        build_blockers += 1
+    if cloud_failed:
+        build_blockers += 1
+    build_state = "Blocked" if build_blockers else "No build blockers"
+    build_cls = "operator-fail" if build_blockers else "operator-pass"
+    wait_parts = []
+    source_waits = dark + (1 if live_config_missing else 0)
+    if source_waits:
+        wait_parts.append(f"{source_waits} source wait{'s' if source_waits != 1 else ''}")
+    if schedule_wait:
+        wait_parts.append(f"cloud proof {cloud_scheduled}/{cloud_expected}")
+    if open_count:
+        wait_parts.append(f"{open_count} review{'s' if open_count != 1 else ''}")
+    if stale:
+        wait_parts.append(f"{stale} re-check{'s' if stale != 1 else ''}")
+    if source_call_warn:
+        wait_parts.append(f"{source_call_observed} unscored source call{'s' if source_call_observed != 1 else ''}")
+    wait_text = "; ".join(wait_parts) if wait_parts else "no waits"
     lane_detail = []
     if dark:
         lane_detail.append(f"{dark} dark")
@@ -578,8 +608,9 @@ def _operator_status(feed: dict) -> str:
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value {_e('operator-warn' if lane_detail else 'operator-pass')}">{_e(lane_value)}</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value {_e('operator-fail' if source_call_fail else 'operator-warn' if source_call_warn else 'operator-pass')}">{_e(source_call_value)}</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value {_e('operator-warn' if live_config_missing else 'operator-pass')}">{_e(f'{live_configured}/{live_config_total}' if live_config_total else 'unknown')}</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Go-live check</div><div class="operator-value {_e(cls)}">{status}</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value {_e(build_cls)}">{_e(build_blockers)}</div></a>
   </div>
+  <div class="operator-readiness"><strong class="{_e(build_cls)}">{_e(build_state)}</strong> | {_e(wait_text)}</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
   {live_config_html}
   {event_watch_html}

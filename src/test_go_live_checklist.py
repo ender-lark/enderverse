@@ -123,6 +123,10 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
 
     assert report["status"] == "warn"
     assert report["go_live_ready"] is True
+    assert report["operator_summary"]["state"] == "build_ready_with_waits"
+    assert report["operator_summary"]["build_blocker_count"] == 0
+    assert report["operator_summary"]["waiting_on_source_count"] >= 1
+    assert report["operator_summary"]["review_backlog_count"] == 1
     assert any(
         row["key"] == "open_reviews" and row["status"] == "warn" and "ANET" in row["detail"]
         for row in report["rows"]
@@ -154,6 +158,7 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
     assert any(
         row["key"] == "cloud_ops"
         and row["status"] == "warn"
+        and row["category"] == "natural_schedule"
         and "first_scheduled_proof=False" in row["detail"]
         for row in report["rows"]
     )
@@ -176,6 +181,8 @@ def test_build_go_live_checklist_fails_when_readiness_blocked(monkeypatch, tmp_p
 
     assert report["status"] == "fail"
     assert report["fail_count"] >= 1
+    assert report["operator_summary"]["state"] == "blocked"
+    assert report["operator_summary"]["build_blocker_count"] >= 1
 
 
 def test_build_go_live_checklist_passes_after_first_cloud_proof(monkeypatch, tmp_path):
@@ -345,6 +352,10 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     text = go_live_checklist.format_text(report)
 
     assert "Go-live checklist: WARN" in text
+    assert "Build status: build_ready_with_waits | no build blockers" in text
+    assert "source waits=" in text
+    assert "schedule waits=1" in text
+    assert "review backlog=1" in text
     assert "[PASS] Live data flow" in text
     assert "[WARN] Live source coverage" in text
     assert "[WARN] Live source configuration" in text

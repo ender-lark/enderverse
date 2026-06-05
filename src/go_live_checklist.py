@@ -17,13 +17,21 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SRC = ROOT / "src"
 
 
-def _row(key: str, label: str, status: str, detail: str, command: str = "") -> dict[str, str]:
+def _row(
+    key: str,
+    label: str,
+    status: str,
+    detail: str,
+    command: str = "",
+    category: str = "build",
+) -> dict[str, str]:
     return {
         "key": key,
         "label": label,
         "status": status,
         "detail": detail,
         "command": command,
+        "category": category,
     }
 
 
@@ -130,6 +138,14 @@ def _cloud_row_detail(cloud: dict[str, Any]) -> str:
     )
 
 
+def _cloud_row_category(cloud: dict[str, Any]) -> str:
+    if not cloud.get("schedule_ready_for_unattended_run"):
+        return "build"
+    if cloud.get("live_run_proven"):
+        return "build"
+    return "natural_schedule"
+
+
 def _source_capability_row_status(source_capability: dict[str, Any]) -> str:
     if not source_capability.get("valid", True):
         return "fail"
@@ -229,6 +245,62 @@ def _manual_drop_command(source_capability: dict[str, Any]) -> str:
     return "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"
 
 
+def _operator_summary(rows: list[dict[str, str]]) -> dict[str, Any]:
+    """Separate code blockers from expected waits and source gaps."""
+    build_blockers = [
+        row for row in rows
+        if row.get("status") == "fail" and row.get("category") == "build"
+    ]
+    waiting_on_source = [
+        row for row in rows
+        if row.get("status") == "warn" and row.get("category") == "source_input"
+    ]
+    waiting_on_schedule = [
+        row for row in rows
+        if row.get("status") in {"pass", "warn"} and row.get("category") == "natural_schedule"
+    ]
+    review_backlog = [
+        row for row in rows
+        if row.get("status") == "warn" and row.get("category") == "review_backlog"
+    ]
+    monitoring = [
+        row for row in rows
+        if row.get("status") == "warn" and row.get("category") == "monitoring"
+    ]
+    source_wait_labels = _source_wait_labels(waiting_on_source)
+    state = "blocked" if build_blockers else "build_ready"
+    if not build_blockers and (waiting_on_source or waiting_on_schedule or review_backlog or monitoring):
+        state = "build_ready_with_waits"
+    return {
+        "state": state,
+        "build_blocker_count": len(build_blockers),
+        "waiting_on_source_count": len(source_wait_labels),
+        "waiting_on_schedule_count": len(waiting_on_schedule),
+        "review_backlog_count": len(review_backlog),
+        "monitoring_warning_count": len(monitoring),
+        "build_blockers": [row["label"] for row in build_blockers],
+        "waiting_on_source": source_wait_labels,
+        "waiting_on_schedule": [row["label"] for row in waiting_on_schedule],
+        "review_backlog": [row["label"] for row in review_backlog],
+        "monitoring": [row["label"] for row in monitoring],
+    }
+
+
+def _source_wait_labels(rows: list[dict[str, str]]) -> list[str]:
+    labels = []
+    for row in rows:
+        text = f"{row.get('label', '')} {row.get('detail', '')}".lower()
+        if "account_positions" in text or "account positions" in text:
+            label = "Account Positions"
+        elif "unusual whales" in text or "uw_api_key" in text:
+            label = "Unusual Whales live fetch"
+        else:
+            label = row.get("label") or row.get("key") or "Source input"
+        if label not in labels:
+            labels.append(label)
+    return labels
+
+
 def _optional_dark_lane_command(status: dict[str, Any], source_capability: dict[str, Any]) -> str:
     keys = {
         str(key)
@@ -285,6 +357,7 @@ def build_go_live_checklist(
             _cloud_row_status(cloud),
             _cloud_row_detail(cloud),
             "python src/cloud_ops_status.py --format text",
+            _cloud_row_category(cloud),
         ),
         _row(
             "data_flow",
@@ -307,6 +380,7 @@ def build_go_live_checklist(
             _source_capability_row_status(source_capability),
             _source_capability_row_detail(source_capability),
             "python src/live_source_capability.py --format text",
+            "source_input",
         ),
         _row(
             "live_source_config",
@@ -314,6 +388,7 @@ def build_go_live_checklist(
             _live_source_config_row_status(source_capability),
             _live_source_config_row_detail(source_capability),
             "python src/live_source_capability.py --format text",
+            "source_input",
         ),
         _row(
             "preview",
@@ -328,6 +403,7 @@ def build_go_live_checklist(
             _source_call_row_status(source_calls),
             source_calls.get("line") or "Source-call calibration not checked.",
             "python src/live_status.py --format text",
+            "build" if _source_call_row_status(source_calls) == "fail" else "monitoring",
         ),
         _row(
             "manual_drop",
@@ -335,6 +411,7 @@ def build_go_live_checklist(
             _manual_drop_row_status(manual_report, status, source_capability),
             _manual_drop_row_detail(manual_report, status, source_capability),
             _manual_drop_command(source_capability),
+            "source_input",
         ),
         _row(
             "sudden_event",
@@ -349,6 +426,7 @@ def build_go_live_checklist(
             "pass" if event_watch.get("active") else "warn",
             _event_watch_detail(event_watch),
             _sudden_event_command(),
+            "monitoring",
         ),
         _row(
             "open_reviews",
@@ -356,6 +434,7 @@ def build_go_live_checklist(
             "warn" if review.get("open_count") else "pass",
             _open_review_detail(review),
             "python src/action_memory_resolve.py --review-report",
+            "review_backlog",
         ),
         _row(
             "queue",
@@ -372,14 +451,17 @@ def build_go_live_checklist(
             "warn",
             _dark_lane_detail(status),
             _optional_dark_lane_command(status, source_capability),
+            "source_input",
         ))
     fail_count = sum(1 for row in rows if row["status"] == "fail")
     warn_count = sum(1 for row in rows if row["status"] == "warn")
+    operator_summary = _operator_summary(rows)
     return {
         "go_live_ready": bool(status.get("go_live_ready")) and fail_count == 0,
         "status": "fail" if fail_count else "warn" if warn_count else "pass",
         "fail_count": fail_count,
         "warn_count": warn_count,
+        "operator_summary": operator_summary,
         "rows": rows,
         "preview_url": preview.get("url") or "",
         "manual_drop_checked": manual_report is not None,
@@ -391,6 +473,16 @@ def format_text(report: dict[str, Any]) -> str:
         f"Go-live checklist: {str(report.get('status') or '').upper()}",
         f"Ready: {bool(report.get('go_live_ready'))} | failures: {report.get('fail_count', 0)} | warnings: {report.get('warn_count', 0)}",
     ]
+    summary = report.get("operator_summary") or {}
+    if summary:
+        build_label = "blocked" if summary.get("build_blocker_count") else "no build blockers"
+        lines.append(
+            "Build status: "
+            f"{summary.get('state') or 'unknown'} | {build_label} | "
+            f"source waits={summary.get('waiting_on_source_count', 0)} | "
+            f"schedule waits={summary.get('waiting_on_schedule_count', 0)} | "
+            f"review backlog={summary.get('review_backlog_count', 0)}"
+        )
     preview_url = report.get("preview_url") or ""
     if preview_url:
         lines.append(f"Preview: {preview_url}")

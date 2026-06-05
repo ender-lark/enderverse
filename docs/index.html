@@ -69,6 +69,8 @@ a{color:#58a6ff;text-decoration:none}
 .operator-value{font-size:13px;font-weight:700;color:#f0f6fc}
 .operator-pass{color:#3fb950}.operator-warn{color:#d29922}.operator-fail{color:#f85149}
 .operator-command{font-family:monospace;font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:5px;padding:6px 8px;overflow-x:auto}
+.operator-readiness{font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:7px 8px;margin-bottom:8px}
+.operator-readiness strong{font-size:12px}
 .operator-event-watch{background:#2b1e0a;border:1px solid #d2992244;border-radius:6px;padding:7px 8px;margin:7px 0}
 .operator-event-title{font-size:12px;font-weight:700;color:#f0f6fc}
 .operator-event-meta{font-family:monospace;font-size:10px;color:#8b949e;margin-top:3px}
@@ -242,7 +244,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-05 23:18 ET
+        built 2026-06-05 23:26 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28  fundstrat_daily 06-03</div>
@@ -414,8 +416,9 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 dark</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">3 pending</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Go-live check</div><div class="operator-value operator-warn">WARN</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
+  <div class="operator-readiness"><strong class="operator-pass">No build blockers</strong> | 1 source wait; cloud proof 3/10; 2 reviews</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
 
@@ -525,7 +528,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="lane-status">
   <div class="card-title"><span class="icon"></span> Lane status</div>
-  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 13</span><span class="lane-status ls-checked_clear">checked clear: </span><span class="lane-status ls-not_checked">not checked: 1</span><span class="lane-status ls-stale">stale: </span><span class="lane-status ls-failed">failed: </span></div>
+  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 13</span><span class="lane-status ls-checked_clear">checked clear: 0</span><span class="lane-status ls-not_checked">not checked: 1</span><span class="lane-status ls-stale">stale: 0</span><span class="lane-status ls-failed">failed: 0</span></div>
 
 <div class="lane-row">
   <span class="lane-key">Account Positions</span>
@@ -607,7 +610,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T23:18:21.787987+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T23:18:21.787987+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T23:18:21.787987+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T23:18:21.787987+00:00 | dark lanes: account_positions | next: Supply src\account_positions.json through the owning source routine or manual live-source drop">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T23:18:21.787987+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T23:26:58.970168+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T23:26:58.970168+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T23:26:58.970168+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T23:26:58.970168+00:00 | dark lanes: account_positions | next: Supply src\account_positions.json through the owning source routine or manual live-source drop">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T23:26:58.970168+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

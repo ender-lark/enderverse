@@ -255,6 +255,9 @@ def test_generated_html_surfaces_operator_status_card():
     assert "Source lanes" in html
     assert "Source calls" in html
     assert "Live fetch" in html
+    assert "Build blockers" in html
+    assert "Blocked" in html
+    assert "cloud proof 2/10" in html
     assert "Live source configuration" in html
     assert "Unusual Whales API key" in html
     assert "Active event watch" in html
@@ -264,6 +267,24 @@ def test_generated_html_surfaces_operator_status_card():
     assert "1 overdue" in html
     assert "python src/go_live_checklist.py --format text" in html
     assert "python src/sudden_event_refresh.py --title" in html
+
+
+def test_generated_html_separates_waits_from_build_blockers():
+    feed = _feed()
+    feed["feedback"]["source_calls"] = {
+        "status": "has_data",
+        "pending_count": 0,
+        "overdue_count": 0,
+        "observed_count": 0,
+    }
+    feed["lane_status"]["counts"]["failed"] = 0
+
+    html = generate_html(feed)
+
+    assert "No build blockers" in html
+    assert "operator-value operator-pass\">0</div>" in html
+    assert "cloud proof 2/10" in html
+    assert "source waits" in html
 
 
 def test_generated_html_surfaces_opportunity_context():
