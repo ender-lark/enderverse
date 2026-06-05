@@ -15,6 +15,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Minimum live input validation.
+  - Extended `live_readiness.py` so present UW price and macro caches must pass
+    their existing validators before `live_data_ready` can turn true.
+  - Added regression coverage for incomplete `uw_closes.json` and malformed
+    `macro_state.json` so file presence alone cannot unlock go-live.
 - Heartbeat status writer.
   - Added `heartbeat_status.py` to produce dashboard heartbeat rows from
     repo-local live-readiness evidence without fetching or publishing.

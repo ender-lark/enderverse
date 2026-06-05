@@ -13,7 +13,9 @@ from pathlib import Path
 from typing import Any
 
 from full_build_runner import FullBuildError, build_full_feed_from_files, convention_input_status
+from macro_pulse_scan import validate_macro_state
 from publish_gate import validate_publish_gate
+from uw_price_cache_intake import normalize_price_cache, validate_price_cache
 
 
 MINIMUM_LIVE_INPUTS = {"uw_prices", "macro"}
@@ -38,6 +40,56 @@ def _missing_input_rows(status_rows: list[dict[str, Any]], *, required: bool | N
     return out
 
 
+def _read_json(path: str | Path) -> Any:
+    with Path(path).open(encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def _validation_result(key: str, path: str, *, valid: bool, problems: list[str]) -> dict[str, Any]:
+    return {
+        "key": key,
+        "path": path,
+        "valid": valid,
+        "problems": problems,
+    }
+
+
+def _validate_minimum_live_input(row: dict[str, Any]) -> dict[str, Any]:
+    key = str(row.get("key") or "")
+    path = str(row.get("resolved_path") or "")
+    if not path:
+        return _validation_result(key, path, valid=False, problems=["input file not found"])
+    try:
+        payload = _read_json(path)
+        if key == "uw_prices":
+            summary = validate_price_cache(normalize_price_cache([payload]))
+            problems = []
+            if summary.get("missing_tickers"):
+                problems.append("missing_tickers: " + ", ".join(summary["missing_tickers"]))
+            if summary.get("too_short"):
+                problems.append("too_short: " + json.dumps(summary["too_short"], sort_keys=True))
+            return _validation_result(key, path, valid=bool(summary.get("valid")), problems=problems)
+        if key == "macro":
+            problems = validate_macro_state(payload)
+            return _validation_result(key, path, valid=not problems, problems=problems)
+        return _validation_result(key, path, valid=True, problems=[])
+    except Exception as exc:  # noqa: BLE001 - readiness should report, not crash
+        return _validation_result(key, path, valid=False, problems=[f"{type(exc).__name__}: {exc}"])
+
+
+def _minimum_live_validations(
+    input_by_key: dict[str, dict[str, Any]],
+    minimum_live_inputs: set[str],
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for key in sorted(minimum_live_inputs):
+        row = input_by_key.get(key)
+        if not row or not row.get("present"):
+            continue
+        rows.append(_validate_minimum_live_input(row))
+    return rows
+
+
 def readiness_report(
     src_dir: str | Path = Path(__file__).resolve().parent,
     *,
@@ -57,6 +109,8 @@ def readiness_report(
         for key in sorted(minimum_live_inputs)
         if key in input_by_key and not input_by_key[key].get("present")
     ]
+    minimum_live_validations = _minimum_live_validations(input_by_key, minimum_live_inputs)
+    invalid_minimum_live = [row for row in minimum_live_validations if not row.get("valid")]
 
     feed: dict[str, Any] | None = None
     build_problem = ""
@@ -85,7 +139,7 @@ def readiness_report(
 
     build_ready = feed is not None and not missing_required and not build_problem
     publish_ready = build_ready and not publish_gate_problems
-    live_data_ready = not missing_minimum_live
+    live_data_ready = not missing_minimum_live and not invalid_minimum_live
     go_live_ready = publish_ready and live_data_ready
 
     next_steps: list[str] = []
@@ -98,6 +152,9 @@ def readiness_report(
     if missing_minimum_live:
         missing = ", ".join(row["key"] for row in missing_minimum_live)
         next_steps.append(f"Populate minimum live market inputs: {missing}.")
+    if invalid_minimum_live:
+        invalid = ", ".join(row["key"] for row in invalid_minimum_live)
+        next_steps.append(f"Fix invalid minimum live market inputs: {invalid}.")
     if dark_lane_keys:
         next_steps.append("Review dark lanes; missing optional lanes must stay visible, not checked clear.")
     if not next_steps:
@@ -114,6 +171,8 @@ def readiness_report(
         "missing_required_inputs": missing_required,
         "missing_optional_inputs": missing_optional,
         "missing_minimum_live_inputs": missing_minimum_live,
+        "minimum_live_input_validations": minimum_live_validations,
+        "invalid_minimum_live_inputs": invalid_minimum_live,
         "dark_lane_keys": dark_lane_keys,
         "stale_or_failed_lane_keys": stale_or_failed_lane_keys,
         "actions": len((feed or {}).get("actions") or []),

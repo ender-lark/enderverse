@@ -106,6 +106,45 @@ def test_readiness_go_live_ready_with_minimum_market_inputs(tmp_path):
     assert report["live_data_ready"] is True
     assert report["go_live_ready"] is True
     assert report["missing_minimum_live_inputs"] == []
+    assert report["invalid_minimum_live_inputs"] == []
+
+
+def test_readiness_rejects_present_but_incomplete_price_cache(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _market_files(src)
+    _write(src / "uw_closes.json", {"SMH": _series(100)})
+
+    report = readiness_report(
+        src,
+        run_timestamp="2026-06-05T14:00:00+00:00",
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+
+    assert report["live_data_ready"] is False
+    invalid = {row["key"]: row for row in report["invalid_minimum_live_inputs"]}
+    assert "uw_prices" in invalid
+    assert any("missing_tickers" in problem for problem in invalid["uw_prices"]["problems"])
+
+
+def test_readiness_rejects_present_but_malformed_macro_cache(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _market_files(src)
+    _write(src / "macro_state.json", {"snapshot_date": "2026-06-05"})
+
+    report = readiness_report(
+        src,
+        run_timestamp="2026-06-05T14:00:00+00:00",
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+
+    assert report["live_data_ready"] is False
+    invalid = {row["key"]: row for row in report["invalid_minimum_live_inputs"]}
+    assert "macro" in invalid
+    assert any("regime_label" in problem for problem in invalid["macro"]["problems"])
 
 
 def test_readiness_cli_strict_returns_nonzero_when_not_ready(tmp_path):

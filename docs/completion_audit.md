@@ -50,6 +50,9 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Current `python src/heartbeat_status.py --src-dir src --no-write` reports a
   valid five-row heartbeat with 2 down, 2 ok, and 1 stale rows; no generated
   heartbeat files were written during the audit.
+- Focused minimum-live-input validation tests passed: `python -m pytest
+  src/test_live_readiness.py src/test_heartbeat_status.py
+  src/test_full_build_runner.py -q` reported 20 passed.
 - Current `python src/live_readiness.py --src-dir src` reports
   `rehearsal_ready: true` and `go_live_ready: false`; missing minimum live
   market inputs are `macro` and `uw_prices`.
@@ -67,12 +70,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 875 passed, 6 skipped
+  - broad `src` suite: 877 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 875 passed, 6 skipped.
+  ignore workaround: 877 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -97,6 +100,9 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Minimum live input validation: `live_readiness.py` now validates present
+  `uw_closes.json` and `macro_state.json` with their existing validators before
+  marking live market data ready.
 - Heartbeat status writer: `heartbeat_status.py` now produces operational
   heartbeat rows from live-readiness evidence and is wired into the daily
   full-build routine before readiness/publish.

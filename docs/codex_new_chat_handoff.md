@@ -29,7 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Heartbeat status writer.
+- Latest completed slice before this handoff refresh: Minimum live input
+  validation.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -57,7 +58,8 @@ Important recent state:
 - `src/live_readiness.py --src-dir src` reports current go/no-go status without
   fetching or publishing. It distinguishes a runnable rehearsal build from a
   live-ready build and treats missing UW price/macro caches as minimum
-  market-data blockers.
+  market-data blockers. If those files are present, it validates them with the
+  existing UW price and macro validators before `live_data_ready` can turn true.
 - Source lane status now requires delivered dated items for `has_data`; a
   cleanly registered but empty source is `checked_clear`, not data.
 - `src/heartbeat_status.py` writes `src/heartbeat.json` and
@@ -93,7 +95,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `875 passed, 6 skipped`.
+- `python -m pytest src -q` -> `877 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the same full pytest tree plus the standalone self-tests.
 
