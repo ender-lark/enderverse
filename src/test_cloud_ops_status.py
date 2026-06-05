@@ -67,6 +67,43 @@ def test_cloud_ops_status_accepts_active_named_automation(monkeypatch, tmp_path)
     assert report["gaps"] == []
 
 
+def test_cloud_ops_status_accepts_app_created_automation_proof(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "cloud_automation_status.json").write_text(
+        json.dumps({
+            "automation_id": "investing-os-daily-cloud-refresh",
+            "automation_name": "Investing OS Daily Cloud Refresh",
+            "status": "ACTIVE",
+            "verified_at": "2026-06-05T10:12:39-04:00",
+            "verification_source": "Codex app automation view succeeded",
+        }),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+    )
+
+    assert report["ready_for_unattended_daily_run"] is True
+    assert report["cloud_automation"]["installed"] is True
+    assert report["cloud_automation"]["active"] is True
+    assert report["cloud_automation"]["matches"][0]["evidence_type"] == "repo_proof"
+    assert report["gaps"] == []
+
+
 def test_cloud_ops_status_keeps_dark_lanes_visible(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()

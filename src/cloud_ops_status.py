@@ -15,6 +15,8 @@ import live_status as live_status_mod
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SRC = ROOT / "src"
 DEFAULT_AUTOMATION_NAME = "Investing OS Daily Cloud Refresh"
+DEFAULT_AUTOMATION_ID = "investing-os-daily-cloud-refresh"
+DEFAULT_AUTOMATION_PROOF = "cloud_automation_status.json"
 
 
 def _automation_dirs(base: Path) -> list[Path]:
@@ -31,10 +33,60 @@ def _toml_text_has_active_status(text: str) -> bool:
     return False
 
 
+def _status_is_active(value: Any) -> bool:
+    return str(value or "").strip().upper() == "ACTIVE"
+
+
+def _automation_proof_summary(
+    proof_path: str | Path | None,
+    *,
+    automation_name: str,
+    automation_id: str,
+) -> dict[str, Any] | None:
+    if proof_path is None:
+        return None
+    path = Path(proof_path)
+    if not path.is_file():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return {
+            "path": str(path),
+            "active": False,
+            "evidence_type": "repo_proof",
+            "problem": str(exc),
+        }
+    if not isinstance(payload, dict):
+        return {
+            "path": str(path),
+            "active": False,
+            "evidence_type": "repo_proof",
+            "problem": "proof file must be a JSON object",
+        }
+    recorded_name = str(payload.get("automation_name") or payload.get("name") or "")
+    recorded_id = str(payload.get("automation_id") or payload.get("id") or "")
+    name_matches = bool(recorded_name) and recorded_name.lower() == automation_name.lower()
+    id_matches = bool(recorded_id) and recorded_id.lower() == automation_id.lower()
+    if not (name_matches or id_matches):
+        return None
+    return {
+        "path": str(path),
+        "active": _status_is_active(payload.get("status")),
+        "evidence_type": "repo_proof",
+        "automation_id": recorded_id,
+        "automation_name": recorded_name,
+        "verified_at": payload.get("verified_at") or "",
+        "verification_source": payload.get("verification_source") or "",
+    }
+
+
 def _automation_summary(
     *,
     automations_dir: str | Path | None = None,
     automation_name: str = DEFAULT_AUTOMATION_NAME,
+    automation_id: str = DEFAULT_AUTOMATION_ID,
+    automation_proof: str | Path | None = None,
 ) -> dict[str, Any]:
     if automations_dir is None:
         home = os.environ.get("CODEX_HOME")
@@ -50,11 +102,22 @@ def _automation_summary(
         matches.append({
             "path": str(path),
             "active": _toml_text_has_active_status(text),
+            "evidence_type": "local_toml",
         })
 
+    proof = _automation_proof_summary(
+        automation_proof,
+        automation_name=automation_name,
+        automation_id=automation_id,
+    )
+    if proof is not None:
+        matches.append(proof)
+
     return {
+        "automation_id": automation_id,
         "automation_name": automation_name,
         "automations_dir": str(base) if str(base) else "",
+        "automation_proof": str(automation_proof or ""),
         "installed": bool(matches),
         "active": any(row["active"] for row in matches),
         "matches": matches,
@@ -105,13 +168,19 @@ def cloud_ops_status(
     src_dir: str | Path = DEFAULT_SRC,
     automations_dir: str | Path | None = None,
     automation_name: str = DEFAULT_AUTOMATION_NAME,
+    automation_id: str = DEFAULT_AUTOMATION_ID,
+    automation_proof: str | Path | None = None,
 ) -> dict[str, Any]:
     src = Path(src_dir)
+    if automation_proof is None:
+        automation_proof = src / DEFAULT_AUTOMATION_PROOF
     status = live_status_mod.live_status(src_dir=src)
     manifest = _manifest_summary(src)
     automation = _automation_summary(
         automations_dir=automations_dir,
         automation_name=automation_name,
+        automation_id=automation_id,
+        automation_proof=automation_proof,
     )
     gaps = _operating_gaps(status, automation, manifest)
     return {
@@ -150,7 +219,8 @@ def format_text(report: dict[str, Any]) -> str:
         (
             "Daily cloud automation: "
             f"installed={bool(automation.get('installed'))} | "
-            f"active={bool(automation.get('active'))}"
+            f"active={bool(automation.get('active'))} | "
+            f"id={automation.get('automation_id') or ''}"
         ),
         (
             "Dark source lanes: "
@@ -172,6 +242,8 @@ def main(argv=None) -> int:
     parser.add_argument("--src-dir", default=str(DEFAULT_SRC))
     parser.add_argument("--automations-dir")
     parser.add_argument("--automation-name", default=DEFAULT_AUTOMATION_NAME)
+    parser.add_argument("--automation-id", default=DEFAULT_AUTOMATION_ID)
+    parser.add_argument("--automation-proof")
     parser.add_argument("--format", choices=["json", "text"], default="json")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero unless unattended daily ops are ready")
     args = parser.parse_args(argv)
@@ -180,6 +252,8 @@ def main(argv=None) -> int:
         src_dir=args.src_dir,
         automations_dir=args.automations_dir,
         automation_name=args.automation_name,
+        automation_id=args.automation_id,
+        automation_proof=args.automation_proof,
     )
     if args.format == "text":
         print(format_text(report))

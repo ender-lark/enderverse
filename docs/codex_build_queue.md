@@ -41,14 +41,15 @@ until the core logic is stable; Notion sync comes later.
   - The command validates the routine manifest, live dashboard status, optional
     dark source lanes, open action reviews, and whether a named daily Codex
     automation is installed and active.
-  - Current repo state is locally go-live ready, but unattended daily ops remain
-    false until the Codex app scheduler successfully creates the daily cloud
-    automation. Missing Signal Log / Catalyst pulls remain visible as dark
-    lanes instead of being treated as checked clear.
-  - Immediate local cron creation was rejected by the Codex app scheduler; a
-    worktree-style daily automation proposal was rendered for operator review.
-    Treat it as proposed, not installed, until `cloud_ops_status.py` reports the
-    named automation as installed and active.
+  - The app-created automation id
+    `investing-os-daily-cloud-refresh` is now recorded in
+    `src/cloud_automation_status.json`, so
+    `python src/cloud_ops_status.py --format text` reports installed=true,
+    active=true, and cloud ops ready=true even when the app scheduler has not
+    written a local `$CODEX_HOME/automations` TOML file.
+  - Missing Signal Log / Catalyst pulls remain visible as dark lanes instead
+    of being treated as checked clear. Open action reviews remain visible as
+    warnings, not cloud-ops blockers.
 - Go-live checklist event-watch parity.
   - `python src/go_live_checklist.py --format text` now includes an Active
     Event Watch row derived from the same live-status/feed evidence as the
