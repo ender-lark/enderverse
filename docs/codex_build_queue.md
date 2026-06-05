@@ -5,8 +5,15 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- No active implementation slice.
-  - Promote the next slice from fresh audit/user evidence before editing.
+- Required input freshness validation for live readiness.
+  - Fresh audit evidence shows the build is runnable and verified, but
+    `live_readiness.py` only gates missing required convention inputs by
+    presence/shape today.
+  - Add explicit stale/missing-date validation for required launch inputs,
+    starting with `positions.json` `snapshot_date`, so an old portfolio
+    snapshot cannot silently pass the live-readiness gate.
+  - Keep `rehearsal_ready` separate from `go_live_ready`; stale required inputs
+    may still allow rehearsal but must block live/publish confidence.
   - Keep dashboard parity classification current before committing any new
     dashboard/feed meaning or UI work.
   - Prioritize system/routine/dashboard work over stock-specific research.
@@ -239,7 +246,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-No additional queued implementation slices. Add new deferred work here before starting another slice.
+- Live launch rehearsal with real minimum market inputs.
+  - Populate or supply validated `src/uw_closes.json` and `src/macro_state.json`.
+  - Re-run `live_readiness.py`, `heartbeat_status.py`, and
+    `verify_standard.py`.
+  - Only treat this as a publish candidate if `go_live_ready` turns true and no
+    required-input freshness blockers remain.
 
 ## Working Rules
 
