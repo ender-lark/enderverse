@@ -5,13 +5,17 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Dashboard parity review.
-  - Decide the canonical dashboard path: generated HTML or JSX.
-  - Map every feed block to its dashboard surface.
-  - List missing, partial, duplicate, and obsolete surfaces before more UI work.
+- Dashboard canonicalization guardrail.
+  - Treat `src/conviction_cockpit_v5.jsx` + `src/render_cockpit.py` as canonical.
+  - Keep `docs/index.html` as summary/export unless it is brought to parity.
+  - Add a small parity check or explicit classification for emitted feed blocks.
 
 ## Recently Completed
 
+- Dashboard parity review.
+  - Added `docs/dashboard_parity_review.md`.
+  - Decided JSX injection is canonical; generated HTML is summary/export.
+  - Mapped feed blocks to JSX and generated HTML surfaces.
 - Feedback/source-call tracking surfacing.
   - Make overdue source-call scoring visible.
   - Make repeated source-call persistence clusters durable in the feed/dashboard.
