@@ -10,7 +10,9 @@ Core rule: routines gather and write convention files; the engine remains pure.
 
 `src/codex_routine_manifest.json` is the automation control plane. It records
 each routine's doc, cadence, input boundary, owned output files, allowed
-commands, verification command, and no-input behavior.
+commands, verification command, and no-input behavior. The `daily_full_build`
+entry also records every `full_build_runner.DEFAULT_FILES` convention input it
+can consume, whether that input is required, and how absence should surface.
 
 Validate and list it with:
 
@@ -92,6 +94,10 @@ source was actually fetched or supplied.
 ## Preflight Surfacing
 
 - `daily_preflight.py` runs `session_orchestrator.orchestrate(...)`.
+- The daily full-build routine's `convention_inputs` list is the source of
+  truth for required versus optional convention files. A missing required file
+  is a build failure; a missing optional file is a not-checked/dark-lane fact,
+  not an all-clear read.
 - `TARGET DRIFT` compares `positions.json` against the explicit AI working model
   in `reallocate_config.py` through `position_drift_check.target_weight_drift`.
 - Target drift is a sizing-gap surface. It can make "right idea, wrong size"

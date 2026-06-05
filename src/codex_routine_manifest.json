@@ -159,6 +159,148 @@
         "Repo convention files only",
         "No live source acquisition"
       ],
+      "convention_inputs": [
+        {
+          "key": "positions",
+          "paths": ["src/positions.json"],
+          "required": true,
+          "source": "broker_position_intake",
+          "missing_behavior": "Required position cache; build failure if missing or empty."
+        },
+        {
+          "key": "account_positions",
+          "paths": ["src/account_positions.json"],
+          "required": false,
+          "source": "broker_position_intake",
+          "missing_behavior": "Account views are not checked; do not imply no account-level breakdown."
+        },
+        {
+          "key": "theses",
+          "paths": ["src/theses.json"],
+          "required": true,
+          "source": "github_manual_thesis_updates",
+          "missing_behavior": "Required thesis map; build failure if missing."
+        },
+        {
+          "key": "uw_prices",
+          "paths": ["src/uw_closes.json", "src/uw_price_responses.json", "src/prices.json"],
+          "required": false,
+          "source": "uw_cache_refresh_or_supplied_price_cache",
+          "missing_behavior": "Price-derived lanes are not checked; quiet tape must not read as all clear."
+        },
+        {
+          "key": "macro",
+          "paths": ["src/macro_state.json"],
+          "required": false,
+          "source": "market_data_macro_routine_or_manual_cache",
+          "missing_behavior": "Macro lane is not checked; stale or missing macro must remain visible."
+        },
+        {
+          "key": "fs_bible",
+          "paths": ["src/fundstrat_bible.json", "src/fs_bible.json"],
+          "required": false,
+          "source": "fundstrat_intake monthly upload",
+          "missing_behavior": "Monthly Fundstrat state is not checked; do not overwrite with empty state."
+        },
+        {
+          "key": "fs_daily",
+          "paths": ["src/fundstrat_daily_calls.json", "src/fs_daily_calls.json"],
+          "required": false,
+          "source": "fundstrat_intake daily full-body email",
+          "missing_behavior": "Daily Fundstrat calls are not checked; snippet discovery is not a clear lane."
+        },
+        {
+          "key": "meridian",
+          "paths": ["src/meridian_items.json"],
+          "required": false,
+          "source": "Meridian export/cache",
+          "missing_behavior": "Meridian source is not checked; missing data is not a no-signal read."
+        },
+        {
+          "key": "heartbeat",
+          "paths": ["src/heartbeat.json"],
+          "required": false,
+          "source": "routine status writers",
+          "missing_behavior": "Routine health is not checked; keep heartbeat absence visible."
+        },
+        {
+          "key": "signal_log",
+          "paths": ["src/signal_log.json", "src/morning_signal_log.json"],
+          "required": false,
+          "source": "morning signal log export",
+          "missing_behavior": "Signal Log is not checked; missing fetch is not no signals."
+        },
+        {
+          "key": "synthesis",
+          "paths": ["src/daily_synthesis.json", "src/synthesis.json"],
+          "required": false,
+          "source": "daily synthesis routine",
+          "missing_behavior": "Daily Synthesis is not checked; vague or absent synthesis must not create trades."
+        },
+        {
+          "key": "research",
+          "paths": ["src/research_queue.json", "src/research.json"],
+          "required": false,
+          "source": "off_hours_research_queue",
+          "missing_behavior": "Research Queue is not checked; do not overwrite or assume no research."
+        },
+        {
+          "key": "catalysts",
+          "paths": ["src/catalysts.json", "src/catalyst_calendar.json"],
+          "required": false,
+          "source": "catalyst_intake",
+          "missing_behavior": "Catalysts are not checked; absence is not no near-term catalysts."
+        },
+        {
+          "key": "uw_opportunity",
+          "paths": ["src/uw_opportunity_signals.json"],
+          "required": false,
+          "source": "uw_cache_refresh",
+          "missing_behavior": "UW opportunity flow is not checked; missing cache is not quiet tape."
+        },
+        {
+          "key": "open_opportunities",
+          "paths": ["src/open_opportunities.json"],
+          "required": false,
+          "source": "publish_cockpit_feed action memory",
+          "missing_behavior": "Action aging memory is not checked; missing store is not resolved actions."
+        },
+        {
+          "key": "top_prospects",
+          "paths": ["src/top_prospects.json"],
+          "required": false,
+          "source": "top_prospects_feeder and Fundstrat intake",
+          "missing_behavior": "Prospects are not checked; missing file is not no prospects."
+        },
+        {
+          "key": "source_calls",
+          "paths": ["src/source_calls.json"],
+          "required": false,
+          "source": "fundstrat_intake/source_call_cache_merge",
+          "missing_behavior": "Source-call cache is not checked; calibration remains provisional."
+        },
+        {
+          "key": "inbox_call_dates",
+          "paths": ["src/inbox_call_dates.json"],
+          "required": false,
+          "source": "fundstrat_intake full-body dates",
+          "missing_behavior": "Inbox date calibration is not checked; do not treat persistence as fully calibrated."
+        },
+        {
+          "key": "log_call_dates",
+          "paths": ["src/log_call_dates.json"],
+          "required": false,
+          "source": "fundstrat_intake/source_call_cache_merge",
+          "missing_behavior": "Log date calibration is not checked; do not treat persistence as fully calibrated."
+        },
+        {
+          "key": "parabolic",
+          "paths": ["src/parabolic_setups.json"],
+          "required": false,
+          "source": "uw_cache_refresh parabolic mode",
+          "missing_behavior": "Parabolic risk cache is not checked; missing file is not no chase risk."
+        }
+      ],
       "owns": [
         "src/latest_cockpit_feed.json",
         "src/open_opportunities.json"

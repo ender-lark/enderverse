@@ -13,6 +13,7 @@ def test_committed_manifest_validates():
 
     assert crm.validate_manifest(manifest) == []
     assert set(crm.EXPECTED_ROUTINES) == {routine["id"] for routine in manifest["routines"]}
+    assert crm.summary(manifest)["daily_convention_inputs"] == len(crm._full_build_default_keys())
 
 
 def test_daily_full_build_stays_separate_from_source_intake():
@@ -62,6 +63,24 @@ def test_manifest_rejects_checked_clear_no_input_behavior():
     assert any("not-checked" in problem or "dark-lane" in problem for problem in problems)
 
 
+def test_manifest_requires_daily_full_build_convention_input_coverage():
+    manifest = crm.load_manifest()
+    daily = next(r for r in manifest["routines"] if r["id"] == "daily_full_build")
+    daily["convention_inputs"] = [
+        row
+        for row in daily["convention_inputs"]
+        if row.get("key") != "signal_log"
+    ]
+
+    problems = crm.validate_manifest(manifest)
+
+    assert any(
+        "daily_full_build.convention_inputs missing full_build_runner.DEFAULT_FILES keys" in problem
+        and "signal_log" in problem
+        for problem in problems
+    )
+
+
 def test_cli_self_test_and_list_pass():
     script = os.path.join(os.path.dirname(__file__), "codex_routine_manifest.py")
     selftest = subprocess.run(
@@ -93,7 +112,7 @@ def _routine(routine_id, *, group="source_intake", owns=None, no_input="Report s
         "daily_full_build": "src/codex_routines/daily_full_build.md",
         "off_hours_research_queue": "src/codex_routines/off_hours_research.md",
     }
-    return {
+    routine = {
         "id": routine_id,
         "title": routine_id.replace("_", " ").title(),
         "status": "active",
@@ -106,3 +125,15 @@ def _routine(routine_id, *, group="source_intake", owns=None, no_input="Report s
         "verification": "python -m pytest src/test_example.py -q",
         "no_input_behavior": no_input,
     }
+    if routine_id == "daily_full_build":
+        routine["convention_inputs"] = [
+            {
+                "key": key,
+                "paths": [f"src/{key}.json"],
+                "required": key in {"positions", "theses"},
+                "source": "test",
+                "missing_behavior": "Build failure if required; otherwise report source as not checked.",
+            }
+            for key in sorted(crm._full_build_default_keys())
+        ]
+    return routine

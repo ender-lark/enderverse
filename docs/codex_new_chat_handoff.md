@@ -29,7 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Fundstrat monthly state ownership map.
+- Latest completed slice before this handoff refresh: daily full-build
+  convention input contract.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -43,10 +44,17 @@ Important recent state:
   catalyst has passed; it is now a low-priority queued Research Queue item, not
   an immediate From Research action.
 - The stale retired `src/test_reallocate.py` workaround has been removed; plain full-suite pytest passes.
+- `src/codex_routine_manifest.json` now records all 20 convention inputs read
+  by `daily_full_build`, including required versus optional status and
+  missing-input behavior.
+- `src/codex_routine_manifest.py` validates that every
+  `full_build_runner.DEFAULT_FILES` key has daily routine-manifest coverage.
+- `src/state_ownership_map.py` validates that every
+  `full_build_runner.DEFAULT_FILES` key has state-ownership feed-path coverage.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `840 passed, 6 skipped`.
+- `python -m pytest src -q` -> `842 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` should run the same full pytest tree plus the standalone self-tests.
 

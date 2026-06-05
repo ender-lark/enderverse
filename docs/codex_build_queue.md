@@ -13,6 +13,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Daily full-build convention input contract.
+  - Added a `daily_full_build.convention_inputs` contract covering all 20
+    `full_build_runner.DEFAULT_FILES` keys.
+  - Recorded required versus optional convention inputs plus missing-input
+    behavior so optional files stay not checked/dark instead of reading clear.
+  - Added a routine-manifest validator guardrail so future full-build inputs
+    require routine-manifest coverage.
 - Full-build state ownership coverage.
   - Added explicit ownership entries for `inbox_call_dates`, `log_call_dates`,
     `meridian`, and `signal_log`.

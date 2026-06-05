@@ -29,15 +29,18 @@ enough to hand control back, using current repo state as evidence. It covers:
 - `python src/state_ownership_map.py --self-test` passed with the new
   full-build convention-file coverage guardrail.
 - `python src/codex_routine_manifest.py` passed with six active routine
-  definitions across source intake, market data refresh, and feed build/publish.
+  definitions across source intake, market data refresh, and feed build/publish;
+  it now reports 20 daily convention inputs.
+- `python src/codex_routine_manifest.py --self-test` passed with the daily
+  full-build convention-input coverage guardrail.
 - Dashboard parity guardrail tests passed.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 840 passed, 6 skipped
+  - broad `src` suite: 842 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 840 passed, 6 skipped.
+  ignore workaround: 842 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -55,6 +58,10 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Daily full-build convention input contract: the routine manifest now declares
+  every `full_build_runner.DEFAULT_FILES` key consumed by daily full build,
+  required versus optional status, and missing-input behavior; the validator now
+  rejects missing convention-input coverage.
 - Full-build state ownership coverage: every `full_build_runner.DEFAULT_FILES`
   convention input now has an ownership feed-path reference, including
   `inbox_call_dates`, `log_call_dates`, `meridian`, and `signal_log`; the

@@ -25,6 +25,7 @@ REQUIRED_ROUTINE_FIELDS = {
     "no_input_behavior",
 }
 REQUIRED_COMMAND_FIELDS = {"id", "command"}
+REQUIRED_CONVENTION_INPUT_FIELDS = {"key", "paths", "required", "source", "missing_behavior"}
 EXPECTED_ROUTINES = {
     "fundstrat_intake",
     "catalyst_intake",
@@ -48,6 +49,69 @@ def _non_empty_string(value: Any) -> bool:
 
 def _non_empty_string_list(value: Any) -> bool:
     return isinstance(value, list) and bool(value) and all(_non_empty_string(v) for v in value)
+
+
+def _full_build_default_keys() -> set[str]:
+    try:
+        from full_build_runner import DEFAULT_FILES
+    except Exception:
+        return set()
+    if not isinstance(DEFAULT_FILES, dict):
+        return set()
+    return {str(key) for key in DEFAULT_FILES}
+
+
+def _validate_daily_convention_inputs(daily: dict[str, Any]) -> list[str]:
+    problems: list[str] = []
+    inputs = daily.get("convention_inputs")
+    if not isinstance(inputs, list) or not inputs:
+        return ["daily_full_build.convention_inputs must be a non-empty list"]
+
+    seen: set[str] = set()
+    keys: set[str] = set()
+    for idx, row in enumerate(inputs):
+        label = f"daily_full_build.convention_inputs[{idx}]"
+        if not isinstance(row, dict):
+            problems.append(f"{label} must be an object")
+            continue
+        for field in sorted(REQUIRED_CONVENTION_INPUT_FIELDS):
+            if field not in row:
+                problems.append(f"{label}.{field} is required")
+        key = str(row.get("key") or "").strip()
+        if not key:
+            problems.append(f"{label}.key must be non-empty")
+        elif key in seen:
+            problems.append(f"duplicate daily_full_build convention input key: {key}")
+        else:
+            seen.add(key)
+            keys.add(key)
+        if "paths" in row and not _non_empty_string_list(row.get("paths")):
+            problems.append(f"{label}.paths must be a non-empty string list")
+        if "required" in row and not isinstance(row.get("required"), bool):
+            problems.append(f"{label}.required must be a boolean")
+        if "source" in row and not _non_empty_string(row.get("source")):
+            problems.append(f"{label}.source must be a non-empty string")
+        missing_behavior = str(row.get("missing_behavior") or "").lower()
+        if missing_behavior and not any(
+            token in missing_behavior
+            for token in ("not checked", "dark lane", "dark lanes", "build fail", "build failure", "required")
+        ):
+            problems.append(f"{label}.missing_behavior must preserve required/not-checked/dark-lane behavior")
+
+    expected = _full_build_default_keys()
+    missing = sorted(expected - keys)
+    if missing:
+        problems.append(
+            "daily_full_build.convention_inputs missing full_build_runner.DEFAULT_FILES keys: "
+            + ", ".join(missing)
+        )
+    extra = sorted(keys - expected)
+    if expected and extra:
+        problems.append(
+            "daily_full_build.convention_inputs unknown keys: "
+            + ", ".join(extra)
+        )
+    return problems
 
 
 def validate_manifest(manifest: dict[str, Any], *, root: Path = ROOT) -> list[str]:
@@ -150,12 +214,14 @@ def validate_manifest(manifest: dict[str, Any], *, root: Path = ROOT) -> list[st
         for source_id in sorted(source_routines):
             if source_id in daily_text:
                 problems.append(f"daily_full_build command text must not run source routine {source_id}")
+        problems.extend(_validate_daily_convention_inputs(daily))
 
     return problems
 
 
 def summary(manifest: dict[str, Any]) -> dict[str, Any]:
     routines = [r for r in manifest.get("routines", []) if isinstance(r, dict)]
+    daily = next((r for r in routines if r.get("id") == "daily_full_build"), {})
     return {
         "routines": len(routines),
         "active": sum(1 for r in routines if str(r.get("status", "")).startswith("active")),
@@ -163,11 +229,22 @@ def summary(manifest: dict[str, Any]) -> dict[str, Any]:
             group: sum(1 for r in routines if r.get("separation_group") == group)
             for group in sorted(VALID_SEPARATION_GROUPS)
         },
+        "daily_convention_inputs": len(daily.get("convention_inputs") or []),
         "routine_ids": [r.get("id") for r in routines],
     }
 
 
 def _self_test() -> bool:
+    convention_inputs = [
+        {
+            "key": key,
+            "paths": [f"src/{key}.json"],
+            "required": key in {"positions", "theses"},
+            "source": "test",
+            "missing_behavior": "Build failure if required; otherwise report source as not checked.",
+        }
+        for key in sorted(_full_build_default_keys())
+    ]
     routine = {
         "id": "fundstrat_intake",
         "title": "Fundstrat",
@@ -188,7 +265,7 @@ def _self_test() -> bool:
             {**routine, "id": "catalyst_intake", "doc": "src/codex_routines/catalyst_intake.md", "owns": ["src/catalysts.json"]},
             {**routine, "id": "broker_position_intake", "doc": "src/codex_routines/broker_position_intake.md", "owns": ["src/positions.json"]},
             {**routine, "id": "uw_cache_refresh", "doc": "src/codex_routines/uw_cache_refresh.md", "separation_group": "market_data_refresh", "owns": ["src/uw_opportunity_signals.json"]},
-            {**routine, "id": "daily_full_build", "doc": "src/codex_routines/daily_full_build.md", "separation_group": "feed_build_publish", "owns": ["src/latest_cockpit_feed.json"]},
+            {**routine, "id": "daily_full_build", "doc": "src/codex_routines/daily_full_build.md", "separation_group": "feed_build_publish", "owns": ["src/latest_cockpit_feed.json"], "convention_inputs": convention_inputs},
             {**routine, "id": "off_hours_research_queue", "doc": "src/codex_routines/off_hours_research.md", "owns": ["src/research_queue.json"]},
         ],
     }
