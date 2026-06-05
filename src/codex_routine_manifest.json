@@ -160,6 +160,38 @@
       "no_input_behavior": "Do not mark UW lanes checked clear; report missing UW input as not checked and skipped or failed tickers explicitly."
     },
     {
+      "id": "daily_synthesis_intake",
+      "title": "Daily Synthesis Intake",
+      "status": "active_safe_intake",
+      "cadence": "daily_after_source_review_when_supplied",
+      "doc": "src/codex_routines/daily_synthesis.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Supplied Daily Synthesis JSON",
+        "No autonomous market narrative generation"
+      ],
+      "owns": [
+        "src/daily_synthesis.json",
+        "src/daily_synthesis_intake_summary.json"
+      ],
+      "commands": [
+        {
+          "id": "ingest_supplied_synthesis",
+          "command": "python src/daily_synthesis_intake.py <daily-synthesis-json> --out src/daily_synthesis.json --summary src/daily_synthesis_intake_summary.json --merge-existing"
+        },
+        {
+          "id": "stdin_supplied_synthesis",
+          "command": "python src/daily_synthesis_intake.py --stdin-json --out src/daily_synthesis.json --summary src/daily_synthesis_intake_summary.json --merge-existing"
+        },
+        {
+          "id": "validate_synthesis_cache",
+          "command": "python src/daily_synthesis_intake.py --validate src/daily_synthesis.json"
+        }
+      ],
+      "verification": "python -m pytest src/test_daily_synthesis_intake.py src/test_actions_read.py src/test_cockpit_blocks.py -q",
+      "no_input_behavior": "Do not overwrite daily_synthesis.json; report Daily Synthesis as not checked."
+    },
+    {
       "id": "daily_full_build",
       "title": "Daily Full Build",
       "status": "active",

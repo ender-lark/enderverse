@@ -191,11 +191,11 @@
       "id": "daily_synthesis",
       "source_of_truth": "daily_synthesis_routine",
       "repo_artifact": "src/daily_synthesis.json",
-      "producer": "daily synthesis routine",
+      "producer": "daily_synthesis_intake -> daily_synthesis_intake.py",
       "feed_path": "full_build_runner.DEFAULT_FILES.synthesis -> feed.synthesis/actions",
       "dashboard_surface": "Synthesis panel and conservative synthesis actions",
       "mirror_policy": "GitHub structured summary is build input; Notion may keep longer narrative.",
-      "freshness_contract": "Structured actions should include ticker/action/urgency when intended to surface.",
+      "freshness_contract": "Update only from supplied Daily Synthesis JSON; structured actions should include ticker/action/urgency when intended to surface.",
       "not_checked_behavior": "Missing synthesis is not checked; vague prose alone must not create trades.",
       "action_surface": "Structured or ticker-led actionable items can promote conservatively."
     },

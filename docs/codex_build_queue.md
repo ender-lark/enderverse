@@ -13,6 +13,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Daily Synthesis intake routine.
+  - Added `daily_synthesis_intake.py` to normalize supplied Daily Synthesis JSON
+    into `src/daily_synthesis.json`.
+  - Preserves conservative structured action metadata without generating market
+    content or promoting vague prose inside the intake routine.
+  - Added `daily_synthesis_intake` as an active safe-intake routine in the
+    manifest/docs.
 - UW price cache intake.
   - Added `uw_price_cache_intake.py` to normalize supplied UW close-price
     responses or close arrays into `src/uw_closes.json`.

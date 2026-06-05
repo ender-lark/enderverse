@@ -29,7 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: UW price cache intake.
+- Latest completed slice before this handoff refresh: Daily Synthesis intake
+  routine.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -61,10 +62,16 @@ Important recent state:
 - The UW cache refresh routine manifest/docs now own `src/uw_closes.json` and
   `src/uw_price_cache_summary.json`, but the current repo still has no
   populated `src/uw_closes.json`.
+- `src/daily_synthesis_intake.py` can normalize supplied Daily Synthesis JSON
+  into `src/daily_synthesis.json`, preserving structured action metadata without
+  generating market content.
+- `src/codex_routine_manifest.json` now has seven active routines, including
+  `daily_synthesis_intake`; the current repo still has no populated
+  `src/daily_synthesis.json`.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `851 passed, 6 skipped`.
+- `python -m pytest src -q` -> `857 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` should run the same full pytest tree plus the standalone self-tests.
 

@@ -67,12 +67,17 @@ not-checked instead of being treated as clear.
    - Refresh `uw_opportunity_signals.json` and, when scheduled, `parabolic_setups.json`.
    - Run the UW orchestrator as a module from `src`.
 
-5. Daily full build
+5. Daily Synthesis intake
+   - Normalize supplied Daily Synthesis JSON into `daily_synthesis.json`.
+   - Preserve structured action metadata without inventing market content.
+   - Missing supplied synthesis remains not checked.
+
+6. Daily full build
    - Run `full_build_runner.py`.
    - Publish only through the publish gate.
    - Update action memory only after the feed is publish-safe.
 
-6. Off-hours research queue
+7. Off-hours research queue
    - Normalize supplied/exported Research Queue rows with
      `research_queue_intake.py`.
    - Write `research_queue.json` only when queue rows were actually supplied.
