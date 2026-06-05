@@ -96,7 +96,7 @@ def build_go_live_checklist(
             "Live readiness status",
             _status_from_bool(bool(status.get("go_live_ready"))),
             f"{status.get('live_summary')}; actions={status.get('actions')}; research_actions={status.get('research_actions')}",
-            "python src/live_status.py",
+            "python src/live_status.py --format text",
         ),
         _row(
             "data_flow",
@@ -111,7 +111,7 @@ def build_go_live_checklist(
                 f"dark_lanes={data_flow.get('dark_lanes', 0)}; "
                 f"top_action={data_flow.get('top_action', {}).get('kind') or 'none'}"
             ),
-            "python src/live_status.py",
+            "python src/live_status.py --format text",
         ),
         _row(
             "preview",
@@ -152,7 +152,7 @@ def build_go_live_checklist(
             "Optional dark lanes",
             "warn",
             _dark_lane_detail(status),
-            "python src/live_status.py",
+            "python src/live_status.py --format text",
         ))
     fail_count = sum(1 for row in rows if row["status"] == "fail")
     warn_count = sum(1 for row in rows if row["status"] == "warn")

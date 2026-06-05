@@ -131,5 +131,10 @@ def test_format_text_is_operator_scannable():
     assert "Data flow: feed=2026-06-05T10:03:31+00:00" in text
     assert "top_action=event_risk: Review oil shock" in text
     assert "Open review tickers: ANET" in text
+    assert "Open review commands:" in text
+    assert "python src/action_memory_resolve.py --review-report" in text
+    assert 'python src/action_memory_resolve.py --ticker ANET --status deferred --reason "keep watching"' in text
+    assert 'python src/action_memory_resolve.py --ticker ANET --status ignored --reason "no edge"' in text
+    assert 'python src/action_memory_resolve.py --ticker ANET --status acted --reason "operator acted"' in text
     assert "- Catalysts: Supply Catalyst Calendar rows." in text
     assert "- Signal Log: Supply Morning Scan JSON." in text

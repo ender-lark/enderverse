@@ -131,6 +131,7 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     assert "[WARN] Open action reviews" in text
     assert "ANET" in text
     assert "Supply Catalyst Calendar rows." in text
+    assert "python src/live_status.py --format text" in text
     assert "python src/action_memory_resolve.py --review-report" in text
 
 

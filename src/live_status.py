@@ -28,10 +28,12 @@ def _keys(rows: list[dict[str, Any]], key: str = "key") -> list[str]:
 
 def _open_actions_summary(store: dict[str, Any]) -> dict[str, Any]:
     rows = action_resolver.open_action_rows(store)
+    review_rows = action_resolver.review_rows(store)
     return {
         "count": len(rows),
         "tickers": [row.get("ticker") for row in rows if row.get("ticker")],
         "rows": rows,
+        "review_rows": review_rows,
     }
 
 
@@ -222,6 +224,25 @@ def format_text(status: dict[str, Any]) -> str:
     if blockers.get("build_problem"):
         blocker_parts.append("build_problem=present")
     lines.append(f"Blockers: {'; '.join(blocker_parts) if blocker_parts else 'none'}")
+
+    review_rows = open_actions.get("review_rows") or []
+    if review_rows:
+        lines.append("Open review commands:")
+        lines.append("- python src/action_memory_resolve.py --review-report")
+        for row in review_rows[:5]:
+            if not isinstance(row, dict):
+                continue
+            ticker = row.get("ticker") or "UNKNOWN"
+            commands = row.get("commands") or {}
+            defer = commands.get("defer") or ""
+            ignore = commands.get("ignore") or ""
+            acted = commands.get("acted") or ""
+            if defer:
+                lines.append(f"- {ticker} defer: {defer}")
+            if ignore:
+                lines.append(f"- {ticker} ignore: {ignore}")
+            if acted:
+                lines.append(f"- {ticker} acted: {acted}")
 
     details = dark_lanes.get("details") or []
     if details:

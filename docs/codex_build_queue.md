@@ -15,6 +15,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Open-review command visibility.
+  - `python src/live_status.py --format text` now includes the review-report
+    command and per-ticker defer/ignore/acted commands for open
+    action-memory items.
+  - The go-live checklist now points status/data-flow/dark-lane rows at the
+    human-readable live-status command.
 - Sudden-event dashboard refresh command.
   - Added `python src/sudden_event_refresh.py` to append one supplied
     headline/event-risk row, run the live dashboard refresh, and print
