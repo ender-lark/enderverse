@@ -185,7 +185,7 @@ Important recent state:
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T10:17:07.948238+00:00`.
+  `2026-06-05T10:20:13.403157+00:00`.
 - The canonical JSX cockpit and generated summary/preview dashboard both have
   an Operator Status card near the top. It summarizes action count, open
   reviews, source-lane warning state, and the
@@ -195,7 +195,9 @@ Important recent state:
   feed rows and is labeled context, not orders; detailed lane views remain in
   the canonical JSX cockpit.
 - The generated Feedback loops card now shows open action-review tickers from
-  `feedback.open_actions.items`; current preview shows `ANET` and `GOOGL`.
+  `feedback.open_actions.items`; current preview shows `ANET` and `GOOGL`
+  plus ticker-specific `deferred` command hints for keeping a name on watch
+  explicitly after review.
 - Current `src/open_opportunities.json` has 2 open watch/review items:
   `ANET` and `GOOGL`.
 - Current `python src/live_status.py` reports `live_summary:
@@ -203,7 +205,7 @@ Important recent state:
   actions, 2 dark optional lanes (`catalysts`, `signal_log`), 2 open
   action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
   active/queued system-improvement items. Its data-flow proof shows feed
-  `2026-06-05T10:17:07.948238+00:00`, 11 lanes with data, 2 dark lanes, and
+  `2026-06-05T10:20:13.403157+00:00`, 11 lanes with data, 2 dark lanes, and
   top action `event_risk`.
 - `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
   regression test covers cp1252 encoding of the caveat line.

@@ -106,7 +106,7 @@ enough to hand control back, using current repo state as evidence. It covers:
   operator-status slice. It refreshed `src/latest_cockpit_feed.json`,
   `src/rendered/conviction_cockpit_v5.jsx`, `docs/index.html`, and
   `tmp/dashboard_preview.html`; current build stamp is
-  `2026-06-05T10:17:07.948238+00:00`, with 4 actions and 2 dark lanes.
+  `2026-06-05T10:20:13.403157+00:00`, with 4 actions and 2 dark lanes.
 - Browser verification of the local preview confirmed Operator Status, 4
   Today Actions, 2 Open Reviews, 2 dark Source Lanes, and
   `python src/go_live_checklist.py --format text`.
@@ -117,10 +117,13 @@ enough to hand control back, using current repo state as evidence. It covers:
 - The generated HTML Feedback loops card now shows open action-review tickers
   from `feedback.open_actions.items`. Browser verification confirmed `ANET`
   and `GOOGL` appear with open-review detail.
+- Browser verification also confirmed the preview shows ticker-specific
+  `deferred` command hints for keeping `ANET` and `GOOGL` on watch after
+  operator review.
 - Focused generated-HTML tests passed after the Opportunity Context slice:
   `python -m pytest src/test_cockpit_html_gen.py -q` reported 6 passed.
 - `python src/live_status.py` now includes a `data_flow` proof section. Current
-  output confirms feed `2026-06-05T10:17:07.948238+00:00`, source dates for
+  output confirms feed `2026-06-05T10:20:13.403157+00:00`, source dates for
   portfolio/UW price/UW macro/Fundstrat monthly/Fundstrat daily, 11 lanes with
   data, 2 dark lanes, 4 actions, and top action `event_risk`.
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json

@@ -88,6 +88,7 @@ def test_generated_html_surfaces_feedback_context():
     assert "Open action backlog: 1 open" in html
     assert "ANET" in html
     assert "3d open | lean_in" in html
+    assert "python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;" in html
     assert "Resolve oldest open action." in html
 
 

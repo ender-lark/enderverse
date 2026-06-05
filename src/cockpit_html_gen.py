@@ -394,8 +394,13 @@ def _feedback_summary(feedback: dict) -> str:
             detail += f" | {source}"
         if move:
             detail += f" | {move}"
+        command = (
+            f'python src/action_memory_resolve.py --ticker {ticker} '
+            f'--status deferred --reason "keep watching"'
+        )
         lines.append(
-            f'<div class="feedback-item"><span class="context-ticker">{ticker}</span>{_e(detail)}</div>'
+            f'<div class="feedback-item"><span class="context-ticker">{ticker}</span>{_e(detail)}'
+            f'<span class="context-sub">{_e(command)}</span></div>'
         )
     if not lines:
         return ""
