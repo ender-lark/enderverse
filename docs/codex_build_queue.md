@@ -5,13 +5,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Dashboard canonicalization guardrail.
-  - Treat `src/conviction_cockpit_v5.jsx` + `src/render_cockpit.py` as canonical.
-  - Keep `docs/index.html` as summary/export unless it is brought to parity.
-  - Add a small parity check or explicit classification for emitted feed blocks.
+- Reallocation and target drift.
+  - Make target weights machine-readable.
+  - Surface undersized/oversized AI allocation gaps at preflight and dashboard.
 
 ## Recently Completed
 
+- Dashboard canonicalization guardrail.
+  - Added `docs/dashboard_feed_block_classification.json`.
+  - Added `src/test_dashboard_parity_guardrail.py`.
+  - Documented JSX injection as canonical and `docs/index.html` as summary/export.
 - Dashboard parity review.
   - Added `docs/dashboard_parity_review.md`.
   - Decided JSX injection is canonical; generated HTML is summary/export.
@@ -23,9 +26,6 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-- Reallocation and target drift.
-  - Make target weights machine-readable.
-  - Surface undersized/oversized AI allocation gaps at preflight and dashboard.
 - PDF holdings ingest.
   - Improve broker position extraction when selectable text is available.
   - Keep screenshot/OCR PDFs honest-fail until OCR tooling exists.

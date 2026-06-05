@@ -156,6 +156,17 @@ npx esbuild conviction_cockpit_v5.jsx --bundle --external:react \
 
 ## Runtime wiring (Stage 5 — the handoff)
 
+Dashboard canonicalization:
+
+- Canonical operator dashboard path: render the Contract-C FEED through
+  `conviction_cockpit_v5.jsx`, using `render_cockpit.py` to inject a live feed
+  into the pinned renderer when needed.
+- `docs/index.html` is a generated summary/export path only. Do not add new
+  operator meaning there unless the canonical JSX surface is already present or
+  the block is intentionally classified.
+- Feed-block classification lives in
+  `../docs/dashboard_feed_block_classification.json`.
+
 1. **Swap fixture plugs for live ones.** Replace the canned fetchers with real
    UW / Notion / Fundstrat / portfolio fetchers (same `BaseSource(name, fetcher=…)` shape).
 2. **Run the chain.** `collect(registry)` → `assemble_feed(bundle)` → a Contract-C feed (JSON).

@@ -29,6 +29,10 @@ friction path is the GitHub web UI — **Add file → Upload files → drag → 
 **In the repo (safe to publish):**
 - `src/*.py` — all 47 operational + test scripts, unmodified.
 - `.github/workflows/tests.yml` — runs the suite on every push.
+- Dashboard code and docs. The canonical operator dashboard path is the
+  Contract-C FEED rendered by `src/conviction_cockpit_v5.jsx` with live-feed
+  injection through `src/render_cockpit.py`. `docs/index.html` is only a
+  generated summary/export page unless it is explicitly brought to parity.
 
 **Deliberately NOT in the repo** (kept in Notion + the Claude project — see
 `.gitignore`):

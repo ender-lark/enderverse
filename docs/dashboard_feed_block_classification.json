@@ -1,0 +1,120 @@
+{
+  "generated_at": "2026-06-05",
+  "canonical_dashboard": {
+    "renderer": "src/conviction_cockpit_v5.jsx",
+    "injector": "src/render_cockpit.py",
+    "summary_export": "docs/index.html via src/cockpit_html_gen.py"
+  },
+  "allowed_primary_statuses": [
+    "canonical-rendered",
+    "summary-rendered",
+    "intentionally-hidden"
+  ],
+  "blocks": {
+    "generated_at": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Header stamp",
+      "summary_surface": "Header stamp"
+    },
+    "staleness": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Header source-date stamp",
+      "summary_surface": "Header source line and stale warning"
+    },
+    "lane_status": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Header dark/stale lane counters and lane status rows",
+      "summary_surface": "Not rendered; summary export must not be treated as action-complete"
+    },
+    "hero": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Hero needs-you banner",
+      "summary_surface": "Hero needs-you banner"
+    },
+    "actions": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Today's Actions",
+      "summary_surface": "Today's actions when non-empty; empty-action caveat is incomplete"
+    },
+    "fresh_signals": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Fresh signal cards and action context",
+      "summary_surface": "Not rendered as its own summary lane"
+    },
+    "holdings": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Book tab holdings with conviction detail expanders",
+      "summary_surface": "Book table with truncated detail"
+    },
+    "rotation": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Market read and sleeve badges",
+      "summary_surface": "Rotation table"
+    },
+    "macro": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Market read macro panel",
+      "summary_surface": "Macro panel"
+    },
+    "catalysts": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Upcoming catalysts and action promotion",
+      "summary_surface": "Catalyst list when non-empty; empty/not-checked distinction is incomplete"
+    },
+    "questions": {
+      "primary_status": "intentionally-hidden",
+      "canonical_surface": "Currently static CURATED.questions fallback; feed emits empty list",
+      "summary_surface": "Not rendered"
+    },
+    "research": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Research panel with live rows or curated fallback",
+      "summary_surface": "Pending research only"
+    },
+    "research_actions": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "From Research lane",
+      "summary_surface": "Not rendered"
+    },
+    "heartbeat": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Heartbeat strip",
+      "summary_surface": "System layers strip"
+    },
+    "synthesis": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Synthesis panel",
+      "summary_surface": "Today's read"
+    },
+    "radar": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Radar lane",
+      "summary_surface": "Not rendered"
+    },
+    "lean_in": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Lean In lane and action-promotion source",
+      "summary_surface": "Lean-in watchlist with thinner detail"
+    },
+    "bullish_flow": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Bullish flow (UW) lane",
+      "summary_surface": "Not rendered"
+    },
+    "prospects": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Top Prospects lane and action-promotion source",
+      "summary_surface": "Not rendered"
+    },
+    "feedback": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Feedback loops panel",
+      "summary_surface": "Not rendered"
+    },
+    "portfolio_views": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Book tab account views when account_positions.json exists",
+      "summary_surface": "Not rendered"
+    }
+  }
+}
