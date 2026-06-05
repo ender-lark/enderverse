@@ -2,7 +2,8 @@
 
 Generated: 2026-06-05
 
-Last refreshed: 2026-06-05 after the canonical operator-status parity refresh.
+Last refreshed: 2026-06-05 after the active event-watch and go-live
+checklist parity refresh.
 
 ## Decision
 
@@ -12,7 +13,8 @@ The canonical dashboard path is the Contract-C FEED rendered through
 
 `docs/index.html` / `src/cockpit_html_gen.py` is a generated GitHub Pages
 summary, not the canonical dashboard. It is useful as a lightweight public
-snapshot, but it currently omits too many live feed blocks to be trusted as the
+snapshot and now mirrors the core Operator Status and active event-watch
+summary, but it still omits too many live feed blocks to be trusted as the
 operator cockpit.
 
 Reason:
@@ -22,11 +24,11 @@ Reason:
 - `src/render_cockpit.py` is the tested injection path for replacing the baked
   FEED with a live feed while preserving the renderer.
 - `src/cockpit_html_gen.py` directly generates a smaller HTML dashboard. It now
-  includes a summary/export caveat, lane-status counts/rows, and compact
-  feedback-loop context, plus a capped Opportunity Context summary for
-  `bullish_flow`, `prospects`, `radar`, and `target_drift`. It still omits
-  full detail for newer action-clarity blocks such as `research_actions` or
-  `portfolio_views`.
+  includes a summary/export caveat, lane-status counts/rows, Operator Status
+  with active event watch, and compact feedback-loop context, plus a capped
+  Opportunity Context summary for `bullish_flow`, `prospects`, `radar`, and
+  `target_drift`. It still omits full detail for newer action-clarity blocks
+  such as `research_actions` or `portfolio_views`.
 
 ## Current Feed Baseline
 
@@ -49,6 +51,10 @@ Result summary:
   `conviction_gap` action; missing target names remain context-only.
 - Event Risk is supplied and has data; one conservative exposure-review action
   is promoted from the oil/rates shock row.
+- Operator Status derives the active event watch from the supplied Event Risk
+  lane in both canonical JSX and the generated HTML summary. The go-live
+  checklist also surfaces that same watch, and warns when no supplied active
+  event watch exists.
 - FS Daily is supplied and has data from compact full-body-derived Fundstrat
   rows; the richer raw-body parser remains preferred when safe connector JSON
   can be piped locally.
@@ -74,7 +80,7 @@ Result summary:
 | `actions` | `actions_read` + decision aging + promoted research/prospects | Today's Actions | Today's actions when non-empty; summary caveat when empty/dark | Full enough in HTML for summary/export use |
 | `fresh_signals` | `fresh_signal_read` | Fresh signals / action context | Not rendered as its own lane | Missing in HTML |
 | `signal_log` | Morning Scan convention file `signal_log.json` / `morning_signal_log.json` | Signal Log watch-only lane | Not rendered | Missing in HTML; acceptable because it is watch-only context |
-| `event_risk` | Supplied Event Risk convention file `event_risks.json` / `event_risk.json` | Lane status plus promoted Today's Actions review prompts and dark-lane next-step tooltip | Lane-status summary plus next-step text; promoted actions render in Today's actions | Partial in HTML; acceptable because actions are review-only and lane status carries not-checked honesty |
+| `event_risk` | Supplied Event Risk convention file `event_risks.json` / `event_risk.json` | Lane status plus promoted Today's Actions review prompts, active event-watch summary in Operator Status, and dark-lane next-step tooltip | Lane-status summary plus next-step text; promoted actions render in Today's actions; active event-watch summary appears in Operator Status | Partial in HTML; acceptable because actions are review-only and lane status carries not-checked honesty |
 | `holdings` | Portfolio source + thesis reads | Book tab holdings with conviction/detail expanders | Book table | Partial in HTML because details are truncated |
 | `rotation` | `rotation_read` | Market read and sleeve badges | Rotation table | Full enough in both |
 | `macro` | `macro_read` | Market read macro panel | Macro panel | Full enough in both |
@@ -100,8 +106,8 @@ Result summary:
 - `src/render_cockpit.py` is the correct way to replace that baked sample with a
   live feed.
 - `docs/index.html` is a static generated artifact. Its current checked-in
-  header shows a 2026-06-04 build stamp, but it only updates when regenerated
-  and committed/published.
+  header shows the latest committed generated build stamp, but it only updates
+  when regenerated and committed/published.
 - `CURATED.questions` in JSX is still static. The assembler emits
   `questions: []`, and the UI still reads the curated fallback instead of live
   feed questions.
@@ -127,14 +133,19 @@ Result summary:
   critical rows can promote into `actions`, but only as exposure-review prompts;
   no buy/sell order is implied. When it is dark, lane status now tells the
   operator to supply the daily/weekly Event Risk scan for sudden war, oil,
-  rates, policy, or volatility shocks.
+  rates, policy, or volatility shocks. Operator Status and the go-live
+  checklist now derive an active event-watch summary from the supplied rows, but
+  they do not create or fetch events.
 - `heartbeat` and `lane_status` overlap operational health. `heartbeat` says
   which routines ran; `lane_status` says which data lanes were checked, stale,
   failed, or dark. Both should stay; generated HTML now mirrors lane-status
   counts/top rows as summary context.
 - Operator Status is a derived readiness surface, not a separate feed block.
   It must remain sourced from existing `actions`, `feedback.open_actions`, and
-  `lane_status` health in both canonical JSX and generated HTML.
+  `lane_status` health in both canonical JSX and generated HTML. Active
+  event-watch text is the one Event Risk detail allowed in Operator Status
+  because it is directly sourced from `feed.event_risk` and makes sudden-event
+  workflow status visible.
 - `docs/index.html` duplicates a subset of the JSX dashboard. Because it omits
   newer surfaces, this duplicate path can create conflicting operator truth.
 - The command/navigation tab in generated HTML is static utility content, not a
