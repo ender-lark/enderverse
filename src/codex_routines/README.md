@@ -61,6 +61,9 @@ not-checked instead of being treated as clear.
      account-level holdings and trade diffs.
 
 4. UW cache refresh
+   - Normalize supplied UW close-price responses into `uw_closes.json` with
+     `uw_price_cache_intake.py`; the intake refuses incomplete default rotation
+     coverage unless an operator explicitly allows partial output.
    - Refresh `uw_opportunity_signals.json` and, when scheduled, `parabolic_setups.json`.
    - Run the UW orchestrator as a module from `src`.
 

@@ -129,13 +129,24 @@
       "doc": "src/codex_routines/uw_cache_refresh.md",
       "separation_group": "market_data_refresh",
       "input_boundaries": [
-        "Unusual Whales connector/API results gathered by bounded workers"
+        "Unusual Whales connector/API results gathered by bounded workers",
+        "Supplied UW close-price response JSON for rotation cache"
       ],
       "owns": [
+        "src/uw_closes.json",
+        "src/uw_price_cache_summary.json",
         "src/uw_opportunity_signals.json",
         "src/parabolic_setups.json"
       ],
       "commands": [
+        {
+          "id": "price_cache_from_responses",
+          "command": "python src/uw_price_cache_intake.py <uw-close-response-json> --out src/uw_closes.json --summary src/uw_price_cache_summary.json"
+        },
+        {
+          "id": "validate_price_cache",
+          "command": "python src/uw_price_cache_intake.py --validate src/uw_closes.json"
+        },
         {
           "id": "opportunity_cache",
           "command": "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1"
@@ -145,7 +156,7 @@
           "command": "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1"
         }
       ],
-      "verification": "python src/uw_opportunity_scan.py --self-test && python src/parabolic_setup_screener.py --self-test && python -m pytest src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q",
+      "verification": "python src/uw_opportunity_scan.py --self-test && python src/parabolic_setup_screener.py --self-test && python -m pytest src/test_uw_price_cache_intake.py src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q",
       "no_input_behavior": "Do not mark UW lanes checked clear; report missing UW input as not checked and skipped or failed tickers explicitly."
     },
     {

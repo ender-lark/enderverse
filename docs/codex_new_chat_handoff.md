@@ -29,8 +29,7 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: daily full-build input
-  status summary.
+- Latest completed slice before this handoff refresh: UW price cache intake.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -56,10 +55,16 @@ Important recent state:
   output, using the manifest convention-input contract.
 - Absent optional price cache now leaves `uw_price` not checked instead of
   registering an empty price source as `has_data`.
+- `src/uw_price_cache_intake.py` can normalize supplied UW close-price responses
+  or close arrays into `src/uw_closes.json` and validates all default rotation
+  tickers have enough history before writing.
+- The UW cache refresh routine manifest/docs now own `src/uw_closes.json` and
+  `src/uw_price_cache_summary.json`, but the current repo still has no
+  populated `src/uw_closes.json`.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `845 passed, 6 skipped`.
+- `python -m pytest src -q` -> `851 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` should run the same full pytest tree plus the standalone self-tests.
 

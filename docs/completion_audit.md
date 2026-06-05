@@ -34,13 +34,19 @@ enough to hand control back, using current repo state as evidence. It covers:
 - `python src/codex_routine_manifest.py --self-test` passed with the daily
   full-build convention-input coverage guardrail.
 - Dashboard parity guardrail tests passed.
+- `python src/uw_price_cache_intake.py --validate src/uw_closes.json` now
+  returns a structured JSON failure when the price cache is absent instead of a
+  traceback; the current repo still has no `src/uw_closes.json`.
+- Focused UW price-cache intake tests passed, including response normalization,
+  incomplete-cache rejection, missing-cache validation, and full-build rotation
+  lane use from a valid supplied cache.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 845 passed, 6 skipped
+  - broad `src` suite: 851 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 845 passed, 6 skipped.
+  ignore workaround: 851 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -65,6 +71,9 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- UW price cache intake: supplied UW close-price responses can now be normalized
+  into `uw_closes.json`, validated for all default rotation tickers and enough
+  3-month history, and routed through the UW cache refresh manifest/docs.
 - Daily full-build input status summary: the full-build CLI now reports dark
   lane keys and missing convention inputs with required/optional status, source,
   and missing-input behavior; absent optional price cache remains a dark lane

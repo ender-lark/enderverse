@@ -13,6 +13,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- UW price cache intake.
+  - Added `uw_price_cache_intake.py` to normalize supplied UW close-price
+    responses or close arrays into `src/uw_closes.json`.
+  - Validates all default rotation tickers have enough close history before
+    writing unless an operator explicitly allows partial output.
+  - Wired the command, validation path, and owned outputs into the UW cache
+    refresh routine manifest/docs.
 - Daily full-build input status summary.
   - Extended full-build CLI output so successful dry runs name dark lane keys
     and missing convention inputs instead of only counting them.
