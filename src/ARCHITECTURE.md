@@ -189,7 +189,7 @@ Before "fixing" an empty lane: identify which of the three it is (and *which sea
 ## 11 · Refinement backlog (v1 → v1.1)
 
 - **Structured ticker field** on Off-Hours dossiers -- done 2026-06-05. ⑦c now prefers explicit `ticker`/`symbol` fields before legacy free-text parsing, and the structured date clause activates for plain-title ticker dossiers.
-- **Extract a shared `ActionCard`** component so Today's-actions + From-Research don't duplicate the row-render block.
+- **Extract a shared `ActionCard`** component -- done 2026-06-05. Today's Actions and From Research now share the canonical action-card renderer while preserving lane-specific footer copy, aging/sizing chips, and research priority labeling.
 - **Relabel the From-Research confidence badge** `"priority:"` (it maps from research priority, not signal conviction — avoid conflation).
 - **Live Catalyst Calendar fetch/intake** -- connector-shaped intake done 2026-06-05. `catalyst_calendar_intake.py` accepts exported files or live connector/stdin envelopes, including Notion-style `properties` rows, then writes `catalysts.json`; L5 still owns fetching/supplying rows before the pure engine normalizes them with `catalysts_from_calendar_rows(...)`.
 - **Signal-Log → cockpit lane** — open design question: should Morning-Scan Signal-Log items get a cockpit lane (they currently don't reach `actions`)? Tracked, not a bug.

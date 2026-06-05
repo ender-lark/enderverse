@@ -900,6 +900,53 @@ function Section({ id, title, icon, badge, badgeColor, children, openMap, setOpe
 const card = { background:C.panel, border:`1px solid ${C.line}`, borderRadius:11, padding:"12px 14px" };
 const muted = { color:C.dim, fontSize:12.5 };
 
+function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, showAging=false, showSizing=false }) {
+  const key = keyPrefix + a.rank + (a.ticker || a.kind), isO = posOpen[key];
+  const urgent = a.actionState === "ACT_NOW";
+  const highGoal = a.goalImpact === "High";
+  const edge = urgent ? C.red : (highGoal ? (a.goalColor || a.c) : a.c);
+  return (
+    <div key={key} style={{ ...card, marginBottom:8,
+      borderColor: urgent ? edge+"aa" : edge+"44",
+      background: urgent ? edge+"18" : (highGoal ? edge+"10" : a.c+"0a"),
+      boxShadow: urgent ? `0 0 0 1px ${edge}55 inset` : "none" }}>
+      <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:a.why?"pointer":"default" }}>
+        <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+          <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{a.rank}</span>
+          {a.ticker && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{a.ticker}</span>}
+          <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{a.what}</span>
+        </div>
+        <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+          {a.stateLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:urgent?800:600, color:a.stateColor, border:`1px solid ${a.stateColor}${urgent?"bb":"66"}`, borderRadius:99, padding:"1px 8px", background:`${a.stateColor}${urgent?"22":"12"}` }}>{a.stateLabel}</span>}
+          {a.goalLabel && <span title={a.goalScore!=null?`goal score ${a.goalScore}/100`:""} style={{ fontFamily:mono, fontSize:11, color:a.goalColor, border:`1px solid ${a.goalColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.goalColor}10` }}>{a.goalLabel}</span>}
+          {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:urgent?C.text:C.dim, border:`1px solid ${(urgent?a.stateColor:C.line)}${urgent?"aa":""}`, borderRadius:99, padding:"1px 8px", background:urgent?`${a.stateColor}20`:C.panel2 }}>{a.actionLabel}</span>}
+          {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
+          <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
+          <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
+          {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
+          {showAging && a.ageDays!=null && <span title="how long this has been actionable — the cost of waiting" style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>🕒 open {a.ageDays}d{a.flagged?` · since ${a.flagged}`:""}{a.moveSince?` · ${a.moveSince}`:""}</span>}
+        </div>
+        <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
+        {a.goalWhy && <div style={{ marginTop:5, fontSize:12.2, color:a.goalColor }}><span style={{ color:C.dim, fontWeight:600 }}>Goal impact:</span> {a.goalWhy}</div>}
+        {showSizing && a.sizing && <div style={{ marginTop:5, fontSize:12, color:C.dim }}><span style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5 }}>Size </span>{a.sizing}</div>}
+        {a.why && (
+          <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
+            <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
+          </div>
+        )}
+      </div>
+      {isO && a.why && (
+        <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
+          {a.why}
+          {(a.goalChannels.length>0 || a.capitalEffect) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}</div>}
+          {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
+          <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{stamp} · {footerLabel} · drill in chat to run the gate</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ConvictionCockpit({ feed = FEED } = {}) {
   const [mode, setMode] = useState("action");   // "action" = decide/do · "book" = dig into holdings
   // Lazy + memoized view-model. shared is always built; each view's lanes are built ONLY when that
@@ -1005,52 +1052,19 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             ACT_NOW {VM.actionSplit.actNow.length} · OPPORTUNITIES {VM.actionSplit.opportunities.length} · RISKS {VM.actionSplit.risks.length}
           </div>
           {VM.actions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing to act on right now — no live buy-trigger, alert, or flag.</div>}
-          {VM.actions.slice(0,5).map((a)=>{
-            const key="act"+a.rank+(a.ticker||a.kind), isO=posOpen[key];
-            const urgent = a.actionState==="ACT_NOW";
-            const highGoal = a.goalImpact==="High";
-            const edge = urgent ? C.red : (highGoal ? (a.goalColor||a.c) : a.c);
-            return (
-              <div key={key} style={{ ...card, marginBottom:8,
-                borderColor: urgent ? edge+"aa" : edge+"44",
-                background: urgent ? edge+"18" : (highGoal ? edge+"10" : a.c+"0a"),
-                boxShadow: urgent ? `0 0 0 1px ${edge}55 inset` : "none" }}>
-                <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:a.why?"pointer":"default" }}>
-                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-                    <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{a.rank}</span>
-                    {a.ticker && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{a.ticker}</span>}
-                    <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{a.what}</span>
-                  </div>
-                  <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
-                    {a.stateLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:urgent?800:600, color:a.stateColor, border:`1px solid ${a.stateColor}${urgent?"bb":"66"}`, borderRadius:99, padding:"1px 8px", background:`${a.stateColor}${urgent?"22":"12"}` }}>{a.stateLabel}</span>}
-                    {a.goalLabel && <span title={a.goalScore!=null?`goal score ${a.goalScore}/100`:""} style={{ fontFamily:mono, fontSize:11, color:a.goalColor, border:`1px solid ${a.goalColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.goalColor}10` }}>{a.goalLabel}</span>}
-                    {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:urgent?C.text:C.dim, border:`1px solid ${(urgent?a.stateColor:C.line)}${urgent?"aa":""}`, borderRadius:99, padding:"1px 8px", background:urgent?`${a.stateColor}20`:C.panel2 }}>{a.actionLabel}</span>}
-                    {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
-                    <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
-                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
-                    {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
-                    {a.ageDays!=null && <span title="how long this has been actionable — the cost of waiting" style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>🕒 open {a.ageDays}d{a.flagged?` · since ${a.flagged}`:""}{a.moveSince?` · ${a.moveSince}`:""}</span>}
-                  </div>
-                  <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
-                  {a.goalWhy && <div style={{ marginTop:5, fontSize:12.2, color:a.goalColor }}><span style={{ color:C.dim, fontWeight:600 }}>Goal impact:</span> {a.goalWhy}</div>}
-                  {a.sizing && <div style={{ marginTop:5, fontSize:12, color:C.dim }}><span style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5 }}>Size </span>{a.sizing}</div>}
-                  {a.why && (
-                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
-                      <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
-                    </div>
-                  )}
-                </div>
-                {isO && a.why && (
-                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
-                    {a.why}
-                    {(a.goalChannels.length>0 || a.capitalEffect) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}</div>}
-                    {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
-                    <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{VM.stamp} · not a trade — you decide, you size · drill in chat to run the gate</div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {VM.actions.slice(0,5).map((a)=>(
+            <ActionCard
+              key={"act"+a.rank+(a.ticker||a.kind)}
+              a={a}
+              keyPrefix="act"
+              posOpen={posOpen}
+              setPosOpen={setPosOpen}
+              stamp={VM.stamp}
+              footerLabel="not a trade — you decide, you size"
+              showAging={true}
+              showSizing={true}
+            />
+          ))}
           {VM.actions.length>5 && <div style={{ fontSize:11.5, color:C.faint, fontFamily:mono, marginTop:2 }}>+{VM.actions.length-5} more lower-priority action{VM.actions.length-5>1?"s":""} (not shown)</div>}
         </Section>
 
@@ -1141,50 +1155,17 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         <Section id="research-actions" title="From Research" icon="🔎" badge={VM.researchActions.length?`${VM.researchActions.length}`:"0"} badgeColor={VM.researchActions.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.researchActions.length>0}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>FROM YOUR RESEARCH QUEUE — high-priority / dated dossiers as candidate reviews. SEPARATE from Today's actions; a name on the catalyst lane shows there, not here. Drill in chat to act.</div>
           {VM.researchActions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing from research right now — no high-priority or dated Research-Queue items in this feed build.</div>}
-          {VM.researchActions.map((a)=>{
-            const key="rsch"+a.rank+(a.ticker||a.kind), isO=posOpen[key];
-            const urgent = a.actionState==="ACT_NOW";
-            const highGoal = a.goalImpact==="High";
-            const edge = urgent ? C.red : (highGoal ? (a.goalColor||a.c) : a.c);
-            return (
-              <div key={key} style={{ ...card, marginBottom:8,
-                borderColor: urgent ? edge+"aa" : edge+"44",
-                background: urgent ? edge+"18" : (highGoal ? edge+"10" : a.c+"0a"),
-                boxShadow: urgent ? `0 0 0 1px ${edge}55 inset` : "none" }}>
-                <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:a.why?"pointer":"default" }}>
-                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-                    <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{a.rank}</span>
-                    {a.ticker && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{a.ticker}</span>}
-                    <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{a.what}</span>
-                  </div>
-                  <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
-                    {a.stateLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:urgent?800:600, color:a.stateColor, border:`1px solid ${a.stateColor}${urgent?"bb":"66"}`, borderRadius:99, padding:"1px 8px", background:`${a.stateColor}${urgent?"22":"12"}` }}>{a.stateLabel}</span>}
-                    {a.goalLabel && <span title={a.goalScore!=null?`goal score ${a.goalScore}/100`:""} style={{ fontFamily:mono, fontSize:11, color:a.goalColor, border:`1px solid ${a.goalColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.goalColor}10` }}>{a.goalLabel}</span>}
-                    {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:urgent?C.text:C.dim, border:`1px solid ${(urgent?a.stateColor:C.line)}${urgent?"aa":""}`, borderRadius:99, padding:"1px 8px", background:urgent?`${a.stateColor}20`:C.panel2 }}>{a.actionLabel}</span>}
-                    {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
-                    <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
-                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
-                    {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
-                  </div>
-                  <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
-                  {a.goalWhy && <div style={{ marginTop:5, fontSize:12.2, color:a.goalColor }}><span style={{ color:C.dim, fontWeight:600 }}>Goal impact:</span> {a.goalWhy}</div>}
-                  {a.why && (
-                    <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
-                      <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
-                    </div>
-                  )}
-                </div>
-                {isO && a.why && (
-                  <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
-                    {a.why}
-                    {(a.goalChannels.length>0 || a.capitalEffect) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}</div>}
-                    {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
-                    <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{VM.stamp} · research candidate — you decide, you size · drill in chat to run the gate</div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {VM.researchActions.map((a)=>(
+            <ActionCard
+              key={"rsch"+a.rank+(a.ticker||a.kind)}
+              a={a}
+              keyPrefix="rsch"
+              posOpen={posOpen}
+              setPosOpen={setPosOpen}
+              stamp={VM.stamp}
+              footerLabel="research candidate — you decide, you size"
+            />
+          ))}
         </Section>
 
         {/* FRESH SIGNALS — Morning-Scan ⑦ signals not yet promoted to an action.
@@ -1590,3 +1571,4 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
     </div>
   );
 }
+

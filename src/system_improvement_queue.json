@@ -96,6 +96,15 @@
       "area": "routines",
       "why": "Near-term catalysts should become durable ACT_NOW review items without requiring a manual calendar export shape.",
       "done_when": "Catalyst intake accepts stdin connector envelopes, flattens Notion-style properties, writes catalysts.json, and preserves full-build ownership of action promotion."
+    },
+    {
+      "id": "shared-action-card",
+      "title": "Extract a shared dashboard action card renderer",
+      "priority": "P2",
+      "status": "done",
+      "area": "cockpit",
+      "why": "Today's Actions and From Research should not drift apart when action clarity, priority labels, aging, sizing, or goal-impact badges change.",
+      "done_when": "Both lanes render through one ActionCard component while preserving lane-specific footer text, From Research priority labeling, and Today's Actions aging/sizing chips."
     }
   ]
 }

@@ -6,12 +6,17 @@ until the core logic is stable; Notion sync comes later.
 ## Active Slice
 
 - Completion audit and next-slice discovery.
-  - Re-check older refinement notes after the connector-shaped Catalyst intake
-    slice.
+  - Re-check older refinement notes after the shared ActionCard refactor slice.
   - Promote the next self-contained repo slice if one remains.
 
 ## Recently Completed
 
+- Shared ActionCard refactor.
+  - Extracted the duplicated Today's Actions and From Research row renderer into
+    a shared `ActionCard` component in the canonical dashboard.
+  - Preserved lane-specific footer copy, aging/sizing chips, and From Research
+    priority badge labeling.
+  - Kept Contract-C action row shape unchanged.
 - Connector-shaped Catalyst intake.
   - `catalyst_calendar_intake.py` now accepts live connector/stdin JSON
     envelopes as well as exported JSON/CSV files.
