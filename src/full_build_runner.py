@@ -476,6 +476,9 @@ def build_full_feed_from_files(
     if portfolio_views:
         feed["portfolio_views"] = portfolio_views
     _append_missing_source_gap_rows(feed, convention_input_status(src))
+    import live_source_capability
+
+    feed["live_source_config"] = live_source_capability.live_config_report()
     problems = validate_cockpit_feed(feed)
     if problems:
         raise FullBuildError(f"feed failed Contract-C validation: {problems}")

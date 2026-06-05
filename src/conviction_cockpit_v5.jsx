@@ -803,6 +803,10 @@ function operatorStatus(feed){
   const sourceCallObserved = sourceCalls.observed_count||0;
   const sourceCallPending = sourceCalls.pending_count||0;
   const sourceCallOverdue = sourceCalls.overdue_count||0;
+  const liveConfig = feed.live_source_config||{};
+  const liveConfigMissing = liveConfig.missing_count||0;
+  const liveConfigTotal = liveConfig.total_count||0;
+  const liveConfigured = liveConfig.configured_count||0;
   const sourceCallWarn = sourceCallStatus==="not_checked" && sourceCallObserved>0;
   const sourceCallFail = sourceCallOverdue>0;
   const actions = (feed.actions||[]).length;
@@ -813,12 +817,14 @@ function operatorStatus(feed){
   const dark = counts.not_checked||0;
   const stale = counts.stale||0;
   const failed = counts.failed||0;
-  const status = (failed||sourceCallFail) ? "FAIL" : ((dark||stale||openActions||sourceCallWarn) ? "WARN" : "PASS");
+  const status = (failed||sourceCallFail) ? "FAIL" : ((dark||stale||openActions||sourceCallWarn||liveConfigMissing) ? "WARN" : "PASS");
   const statusColor = (failed||sourceCallFail) ? C.red : (status==="WARN" ? C.amber : C.green);
   const sourceLane = failed ? `${failed} failed` : dark ? `${dark} dark` : stale ? `${stale} stale` : "clear";
   const sourceCall = sourceCallFail ? `${sourceCallOverdue} overdue` : sourceCallWarn ? `${sourceCallObserved} unscored` : sourceCallPending ? `${sourceCallPending} pending` : "clear";
+  const liveFetch = liveConfigTotal ? `${liveConfigured}/${liveConfigTotal}` : "unknown";
   return {
     status, statusColor, actions, openActions, sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
+    liveFetch, liveConfigMissing, liveConfig,
     eventWatch,
     command:"python src/go_live_checklist.py --format text",
     suddenEventCommand:'python src/sudden_event_refresh.py --title "<event headline>" --channels "oil,rates,volatility" --tickers "XOP,TNX" --why "<why exposure, hedges, or new-buy timing changes>" --trigger "<what confirms or changes the risk>"',
@@ -1091,6 +1097,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             ["Open reviews", String(op.openActions), op.openActions?C.amber:C.green],
             ["Source lanes", op.sourceLane, op.sourceLane==="clear"?C.green:C.amber],
             ["Source calls", op.sourceCall, op.sourceCallFail?C.red:op.sourceCallWarn?C.amber:C.green],
+            ["Live fetch", op.liveFetch, op.liveConfigMissing?C.amber:C.green],
           ];
           return (
             <div style={{ marginTop:10, ...card, borderColor:op.statusColor+"55", background:op.statusColor+"0d" }}>
@@ -1107,6 +1114,15 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 ))}
               </div>
               <div style={{ marginTop:8, fontFamily:mono, fontSize:10.5, color:C.faint }}>Verify: {op.command}</div>
+              {op.liveConfigMissing>0 && (
+                <div style={{ marginTop:6, border:`1px solid ${C.amber}44`, borderRadius:8, padding:"7px 8px", background:C.amber+"0a" }}>
+                  <div style={{ fontFamily:mono, fontSize:10, color:C.amber, textTransform:"uppercase", marginBottom:3 }}>Live source configuration</div>
+                  <div style={{ fontSize:12.5, color:C.text, fontWeight:650 }}>{op.liveConfigMissing} missing live-fetch setting{op.liveConfigMissing===1?"":"s"}</div>
+                  <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>
+                    {((op.liveConfig.missing||[]).slice(0,3).map(r=>`${r.label||r.key}: ${r.impact||"live source fetch is not configured"}`).join("; "))}
+                  </div>
+                </div>
+              )}
               {op.eventWatch && (
                 <div style={{ marginTop:6, border:`1px solid ${C.amber}44`, borderRadius:8, padding:"7px 8px", background:C.amber+"0a" }}>
                   <div style={{ fontFamily:mono, fontSize:10, color:C.amber, textTransform:"uppercase", marginBottom:3 }}>Active event watch</div>

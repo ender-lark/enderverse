@@ -26,6 +26,11 @@
       "canonical_surface": "Header dark/stale lane counters and lane status rows",
       "summary_surface": "Summary export caveat plus lane-status counts and top lane rows"
     },
+    "live_source_config": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Operator Status live-fetch configuration pill and warning panel",
+      "summary_surface": "Operator Status live-fetch configuration pill and warning panel"
+    },
     "hero": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Hero needs-you banner",

@@ -154,6 +154,36 @@ def _source_capability_row_detail(source_capability: dict[str, Any]) -> str:
     return detail
 
 
+def _live_source_config(source_capability: dict[str, Any]) -> dict[str, Any]:
+    return source_capability.get("live_source_config") or {}
+
+
+def _live_source_config_row_status(source_capability: dict[str, Any]) -> str:
+    config = _live_source_config(source_capability)
+    if not config:
+        return "warn"
+    if int(config.get("missing_count") or 0):
+        return "warn"
+    return "pass"
+
+
+def _live_source_config_row_detail(source_capability: dict[str, Any]) -> str:
+    config = _live_source_config(source_capability)
+    missing = [
+        str(row.get("label") or row.get("key"))
+        for row in config.get("missing") or []
+        if isinstance(row, dict) and (row.get("label") or row.get("key"))
+    ]
+    detail = (
+        f"configured={int(config.get('configured_count') or 0)}/"
+        f"{int(config.get('total_count') or 0)}; "
+        f"missing={int(config.get('missing_count') or 0)}"
+    )
+    if missing:
+        detail += f" ({', '.join(missing)})"
+    return detail
+
+
 def _manual_drop_row_status(
     manual_report: dict[str, Any] | None,
     status: dict[str, Any],
@@ -276,6 +306,13 @@ def build_go_live_checklist(
             "Live source coverage",
             _source_capability_row_status(source_capability),
             _source_capability_row_detail(source_capability),
+            "python src/live_source_capability.py --format text",
+        ),
+        _row(
+            "live_source_config",
+            "Live source configuration",
+            _live_source_config_row_status(source_capability),
+            _live_source_config_row_detail(source_capability),
             "python src/live_source_capability.py --format text",
         ),
         _row(

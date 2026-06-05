@@ -35,9 +35,10 @@ Current pushed snapshot (2026-06-05 14:19 ET live artifacts):
   is committed and pushed.
 - `python src/live_status.py --format text` reports
   `live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
-  actions, feed `2026-06-05T14:19:26.904831+00:00`, 12 lanes with data, 1 dark
-  optional lane (`catalysts`), 2 open action reviews, and 3 pending / 0 overdue
-  source calls.
+  actions, 13 lanes with data, 2 dark optional lanes (`account_positions`,
+  `meridian`), 2 open action reviews, and 3 pending / 0 overdue source calls.
+  It also reports `Live source config: configured=0/1 | missing=1` because
+  `UW_API_KEY` is not set in the current automation environment.
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
   reports `WARN` with 0 failures and 2 warnings: open action reviews
   (`ANET`, `GOOGL`) and optional dark lane `catalysts`. It also includes a PASS
@@ -189,9 +190,9 @@ Important recent state:
   Calendar page `35fc5031-4bb6-81c5-ae90-d8a84919999b`. Only exact
   future-dated rows were normalized into `src/catalysts.json`; vague/TBD rows
   were skipped rather than guessed.
-- Current dark lane count is 0. Missing `account_positions` and `meridian`
-  remain optional missing source inputs in live-source capability, not
-  checked-clear claims.
+- Current dashboard dark lane count is 2. Missing `account_positions` and
+  `meridian` remain optional missing source inputs in live-source capability
+  and visible dashboard lane-status rows, not checked-clear claims.
 - `python src/live_source_capability.py --format text` prints the missing
   live-capable input owner, missing-data behavior, and expected repo path for
   those optional source gaps. Current gaps are `src/account_positions.json` and
@@ -199,6 +200,12 @@ Important recent state:
 - `python src/live_status.py --format text` and
   `python src/cloud_ops_status.py --format text` now include the same detailed
   missing live-capable input lines.
+- `python src/live_source_capability.py --format text` also prints live-fetch
+  configuration separately from cached readiness. Current local/cloud shell
+  state reports `UW_API_KEY` missing, so the dashboard Operator Status card
+  shows `Live fetch 0/1` and a visible live-source configuration warning for
+  UW opportunity/parabolic fetches. Existing UW caches can render, but they are
+  not proof of fresh live UW fetch capability.
 - `src/cloud_ops_status.py --format text` is the operator check for unattended
   cloud ops. It distinguishes local go-live readiness from the installed Codex
   app automation stack. The previous generic

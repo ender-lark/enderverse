@@ -438,6 +438,10 @@ def _operator_status(feed: dict) -> str:
     source_call_observed = int(source_calls.get("observed_count") or 0)
     source_call_pending = int(source_calls.get("pending_count") or 0)
     source_call_overdue = int(source_calls.get("overdue_count") or 0)
+    live_config = feed.get("live_source_config") or {}
+    live_config_missing = int(live_config.get("missing_count") or 0)
+    live_config_total = int(live_config.get("total_count") or 0)
+    live_configured = int(live_config.get("configured_count") or 0)
     source_call_warn = source_call_status == "not_checked" and source_call_observed > 0
     source_call_fail = source_call_overdue > 0
     if source_call_fail:
@@ -476,7 +480,30 @@ def _operator_status(feed: dict) -> str:
     <div class="operator-event-meta">{_e(meta)}</div>
     {trigger_html}
   </div>"""
-    status = "FAIL" if failed or source_call_fail else "WARN" if dark or stale or open_count or source_call_warn else "PASS"
+    live_config_html = ""
+    if live_config_missing:
+        missing = [
+            row for row in live_config.get("missing") or []
+            if isinstance(row, dict)
+        ]
+        lines = []
+        for row in missing[:3]:
+            label = row.get("label") or row.get("key") or "Live source"
+            impact = row.get("impact") or "live source fetch is not configured"
+            lines.append(f"{label}: {impact}")
+        live_config_html = f"""
+  <div class="operator-event-watch">
+    <div class="operator-label">Live source configuration</div>
+    <div class="operator-event-title">{_e(live_config_missing)} missing live-fetch setting{'' if live_config_missing == 1 else 's'}</div>
+    <div class="operator-event-trigger">{_e('; '.join(lines))}</div>
+  </div>"""
+    status = (
+        "FAIL"
+        if failed or source_call_fail
+        else "WARN"
+        if dark or stale or open_count or source_call_warn or live_config_missing
+        else "PASS"
+    )
     cls = {"PASS": "operator-pass", "WARN": "operator-warn", "FAIL": "operator-fail"}[status]
     lane_detail = []
     if dark:
@@ -496,9 +523,11 @@ def _operator_status(feed: dict) -> str:
     <div class="operator-pill"><div class="operator-label">Open reviews</div><div class="operator-value {_e('operator-warn' if open_count else 'operator-pass')}">{_e(open_count)}</div></div>
     <div class="operator-pill"><div class="operator-label">Source lanes</div><div class="operator-value {_e('operator-warn' if lane_detail else 'operator-pass')}">{_e(lane_value)}</div></div>
     <div class="operator-pill"><div class="operator-label">Source calls</div><div class="operator-value {_e('operator-fail' if source_call_fail else 'operator-warn' if source_call_warn else 'operator-pass')}">{_e(source_call_value)}</div></div>
+    <div class="operator-pill"><div class="operator-label">Live fetch</div><div class="operator-value {_e('operator-warn' if live_config_missing else 'operator-pass')}">{_e(f'{live_configured}/{live_config_total}' if live_config_total else 'unknown')}</div></div>
     <div class="operator-pill"><div class="operator-label">Go-live check</div><div class="operator-value {_e(cls)}">{status}</div></div>
   </div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
+  {live_config_html}
   {event_watch_html}
   <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
 </div>"""

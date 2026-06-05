@@ -29,6 +29,19 @@ def _feed():
                 {"key": "portfolio", "label": "Portfolio", "status": "has_data", "detail": "checked", "count": 18},
             ],
         },
+        "live_source_config": {
+            "configured": False,
+            "configured_count": 0,
+            "total_count": 1,
+            "missing_count": 1,
+            "missing": [
+                {
+                    "key": "uw_api_key",
+                    "label": "Unusual Whales API key",
+                    "impact": "Live UW opportunity/parabolic fetches cannot run.",
+                }
+            ],
+        },
         "feedback": {
             "source_calls": {
                 "line": "Source-call scoring: 1 overdue.",
@@ -110,6 +123,9 @@ def test_generated_html_surfaces_operator_status_card():
     assert "Open reviews" in html
     assert "Source lanes" in html
     assert "Source calls" in html
+    assert "Live fetch" in html
+    assert "Live source configuration" in html
+    assert "Unusual Whales API key" in html
     assert "Active event watch" in html
     assert "Oil shock" in html
     assert "HIGH | oil, rates | XOP, TNX" in html

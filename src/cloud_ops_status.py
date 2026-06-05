@@ -624,6 +624,14 @@ def _operating_gaps(
             continue
         label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
         gaps.append(f"{label} run receipt is overdue after {row.get('overdue_after')}.")
+    source_capability = status.get("source_capability") or {}
+    live_config = source_capability.get("live_source_config") or {}
+    for row in live_config.get("missing") or []:
+        if not isinstance(row, dict):
+            continue
+        label = row.get("label") or row.get("key") or "Live source"
+        impact = row.get("impact") or "live source fetch is not configured"
+        gaps.append(f"{label} configuration missing: {impact}")
     if not status.get("go_live_ready"):
         gaps.append("Dashboard is not go-live ready.")
     dark = (status.get("dark_lanes") or {}).get("details") or []
@@ -786,6 +794,12 @@ def format_text(report: dict[str, Any]) -> str:
             f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}"
         ),
         (
+            "Live source config: "
+            f"configured={int((source_capability.get('live_source_config') or {}).get('configured_count') or 0)}/"
+            f"{int((source_capability.get('live_source_config') or {}).get('total_count') or 0)} | "
+            f"missing={int((source_capability.get('live_source_config') or {}).get('missing_count') or 0)}"
+        ),
+        (
             "Cloud run receipts: "
             f"scheduled_success={int(receipts.get('scheduled_success_count') or 0)}/"
             f"{int(receipts.get('expected_count') or 0)} | "
@@ -801,6 +815,7 @@ def format_text(report: dict[str, Any]) -> str:
         ),
     ]
     lines.extend(live_source_capability.format_missing_live_capable(source_capability))
+    lines.extend(live_source_capability.format_missing_live_config(source_capability))
     if next_due:
         label = next_due.get("routine_name") or next_due.get("routine_id") or "unknown"
         lines.append(f"Next expected receipt: {label} at {next_due.get('next_due_at') or ''}")

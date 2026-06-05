@@ -275,8 +275,15 @@ def format_text(status: dict[str, Any]) -> str:
             f"supplied_or_export={int(source_capability.get('supplied_or_export_count') or 0)} | "
             f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}"
         ),
+        (
+            "Live source config: "
+            f"configured={int((source_capability.get('live_source_config') or {}).get('configured_count') or 0)}/"
+            f"{int((source_capability.get('live_source_config') or {}).get('total_count') or 0)} | "
+            f"missing={int((source_capability.get('live_source_config') or {}).get('missing_count') or 0)}"
+        ),
     ]
     lines.extend(live_source_capability.format_missing_live_capable(source_capability))
+    lines.extend(live_source_capability.format_missing_live_config(source_capability))
     event_watch = data_flow.get("event_watch") or {}
     if event_watch.get("active"):
         channels = _join_values(event_watch.get("channels") or [])

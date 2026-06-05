@@ -106,6 +106,13 @@ until the core logic is stable; Notion sync comes later.
     and `meridian`; they stay visible in `live_status`, `cloud_ops_status`,
     the go-live checklist, and the generated dashboard until the actual source
     files are supplied.
+  - Live-source configuration is now tracked separately from cached/local
+    readiness. `live_source_capability.py`, `live_status.py`,
+    `cloud_ops_status.py`, `go_live_checklist.py`, and the dashboard Operator
+    Status card show `UW_API_KEY` missing as `Live fetch 0/1` / a live-source
+    configuration warning. Existing UW caches may still render, but they are no
+    longer silent proof that the UW opportunity/parabolic routines can fetch
+    fresh live data.
   - `live_status.py` points those Account Positions/Meridian dark lanes at
     `docs/manual_live_source_drop.template.json`, while source-specific lanes
     such as Catalyst Calendar and Signal Log keep their specialized intake

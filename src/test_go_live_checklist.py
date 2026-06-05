@@ -96,6 +96,13 @@ def _fake_status(open_count=0, ready=True):
             "total_inputs": 21,
             "missing_live_capable_count": 2,
             "missing_live_capable_keys": ["account_positions", "meridian"],
+            "live_source_config": {
+                "configured": False,
+                "configured_count": 0,
+                "total_count": 1,
+                "missing_count": 1,
+                "missing": [{"key": "uw_api_key", "label": "Unusual Whales API key"}],
+            },
         },
     }
 
@@ -129,6 +136,12 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
         row["key"] == "source_capability"
         and row["status"] == "warn"
         and "account_positions, meridian" in row["detail"]
+        for row in report["rows"]
+    )
+    assert any(
+        row["key"] == "live_source_config"
+        and row["status"] == "warn"
+        and "Unusual Whales API key" in row["detail"]
         for row in report["rows"]
     )
     assert any(
@@ -196,6 +209,13 @@ def test_build_go_live_checklist_passes_when_live_source_coverage_complete(monke
         "total_inputs": 21,
         "missing_live_capable_count": 0,
         "missing_live_capable_keys": [],
+        "live_source_config": {
+            "configured": True,
+            "configured_count": 1,
+            "total_count": 1,
+            "missing_count": 0,
+            "missing": [],
+        },
     }
     monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: status)
     monkeypatch.setattr(
@@ -223,6 +243,13 @@ def test_build_go_live_checklist_passes_manual_drop_when_no_source_gaps(monkeypa
         "total_inputs": 21,
         "missing_live_capable_count": 0,
         "missing_live_capable_keys": [],
+        "live_source_config": {
+            "configured": True,
+            "configured_count": 1,
+            "total_count": 1,
+            "missing_count": 0,
+            "missing": [],
+        },
     }
     monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: status)
     monkeypatch.setattr(
@@ -320,6 +347,7 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     assert "Go-live checklist: WARN" in text
     assert "[PASS] Live data flow" in text
     assert "[WARN] Live source coverage" in text
+    assert "[WARN] Live source configuration" in text
     assert "python src/live_source_capability.py --format text" in text
     assert "[WARN] Cloud automation proof" in text
     assert "python src/cloud_ops_status.py --format text" in text

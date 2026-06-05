@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -64,6 +65,20 @@ ROUTINE_BY_INPUT_KEY = {
 }
 
 MODE_PRIORITY = ("connector_or_api", "supplied_or_export", "repo_cache_or_evidence", "repo_manual")
+LIVE_CONFIG_REQUIREMENTS = [
+    {
+        "key": "uw_api_key",
+        "label": "Unusual Whales API key",
+        "kind": "env",
+        "env_var": "UW_API_KEY",
+        "affected_inputs": ["uw_opportunity", "parabolic"],
+        "impact": (
+            "Live UW opportunity/parabolic fetches cannot run; existing UW caches "
+            "may still render but must be treated as cached evidence."
+        ),
+        "next_step": "Set UW_API_KEY in the automation environment before live UW cache runs.",
+    },
+]
 
 
 def _as_text(parts: list[Any]) -> str:
@@ -113,11 +128,37 @@ def _primary_mode(modes: list[str]) -> str:
     return "repo_manual"
 
 
+def live_config_report(environ: dict[str, str] | None = None) -> dict[str, Any]:
+    """Return non-secret live-fetch configuration status."""
+    env = os.environ if environ is None else environ
+    rows: list[dict[str, Any]] = []
+    for requirement in LIVE_CONFIG_REQUIREMENTS:
+        env_var = str(requirement.get("env_var") or "")
+        configured = bool(str(env.get(env_var) or "").strip()) if env_var else False
+        rows.append({
+            **requirement,
+            "configured": configured,
+            "present": configured,
+        })
+    missing = [row for row in rows if not row.get("configured")]
+    return {
+        "valid": True,
+        "configured": not missing,
+        "total_count": len(rows),
+        "configured_count": len(rows) - len(missing),
+        "missing_count": len(missing),
+        "missing_keys": [row.get("key") for row in missing if row.get("key")],
+        "rows": rows,
+        "missing": missing,
+    }
+
+
 def capability_report(
     src_dir: str | Path = DEFAULT_SRC,
     *,
     manifest_path: str | Path = DEFAULT_MANIFEST,
     input_rows: list[dict[str, Any]] | None = None,
+    environ: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Return a non-fetching source capability report for daily build inputs."""
     src = Path(src_dir)
@@ -177,6 +218,7 @@ def capability_report(
         "supplied_or_export_keys": supplied_keys,
         "missing_input_keys": missing_keys,
         "missing_live_capable_keys": missing_live_capable,
+        "live_source_config": live_config_report(environ),
         "rows": rows,
     }
 
@@ -197,8 +239,15 @@ def format_text(report: dict[str, Any]) -> str:
             f"live_capable={int(report.get('live_capable_count') or 0)} | "
             f"missing_live_capable={int(report.get('missing_live_capable_count') or 0)}"
         ),
+        (
+            "Live source config: "
+            f"configured={int((report.get('live_source_config') or {}).get('configured_count') or 0)}/"
+            f"{int((report.get('live_source_config') or {}).get('total_count') or 0)} | "
+            f"missing={int((report.get('live_source_config') or {}).get('missing_count') or 0)}"
+        ),
     ]
     lines.extend(format_missing_live_capable(report))
+    lines.extend(format_missing_live_config(report))
     if report.get("problems"):
         lines.append("Problems:")
         lines.extend(f"- {problem}" for problem in report.get("problems") or [])
@@ -237,6 +286,38 @@ def format_missing_live_capable(report: dict[str, Any]) -> list[str]:
         ]
         if candidate_paths:
             lines.append("  expected path: " + ", ".join(candidate_paths))
+    return lines
+
+
+def format_missing_live_config(report: dict[str, Any]) -> list[str]:
+    """Return human-readable lines for missing live-fetch configuration."""
+    config = report.get("live_source_config") or {}
+    missing = [
+        row for row in config.get("missing") or []
+        if isinstance(row, dict)
+    ]
+    if not missing:
+        return []
+    lines = ["Missing live-source configuration:"]
+    for row in missing:
+        label = str(row.get("label") or row.get("key") or "Live source")
+        env_var = str(row.get("env_var") or "")
+        affected = [
+            str(key)
+            for key in row.get("affected_inputs") or []
+            if key
+        ]
+        suffix = f" ({', '.join(affected)})" if affected else ""
+        if env_var:
+            lines.append(f"- {label}: {env_var} is not set{suffix}")
+        else:
+            lines.append(f"- {label}: not configured{suffix}")
+        impact = str(row.get("impact") or "")
+        if impact:
+            lines.append(f"  impact: {impact}")
+        next_step = str(row.get("next_step") or "")
+        if next_step:
+            lines.append(f"  next step: {next_step}")
     return lines
 
 
