@@ -191,6 +191,54 @@ def test_synthesis_actions_read_promotes_structured_actions():
     assert r["actions"][0]["gate"]["ticker"] == "NVDA"
 
 
+def test_synthesis_actions_read_accepts_richer_structured_fields():
+    synthesis = {"source": "Daily Synthesis", "actions": [{
+        "symbol": "NVDA",
+        "recommendation": "Add NVDA while setup is live",
+        "urgency": "ACT_NOW",
+        "next_step": "Size the add and run the gate.",
+        "capital_effect": "add",
+        "time_window": "today",
+        "sizing": "$25K starter",
+        "goal_channels": ["upside", "opportunity_cost", "bad-channel"],
+        "missing_evidence": "confirm exact size",
+        "evidence": "Daily synthesis found a live setup.",
+    }]}
+    rows = synthesis_actions_read(synthesis)
+    assert rows[0]["ticker"] == "NVDA"
+    assert rows[0]["confidence"] == "High"
+    assert rows[0]["capital_effect"] == "add"
+    assert rows[0]["time_window"] == "today"
+    assert rows[0]["sizing"] == "$25K starter"
+    assert rows[0]["goal_channels"] == ["upside", "opportunity_cost"]
+    assert rows[0]["missing_evidence"] == ["confirm exact size"]
+
+    r = actions_read([], [], THESES, synthesis_actions=rows)
+    row = r["actions"][0]
+    assert row["ticker"] == "NVDA"
+    assert row["capital_effect"] == "add"
+    assert row["time_window"] == "today"
+    assert row["sizing"] == "$25K starter"
+    assert row["missing_evidence"] == ["confirm exact size"]
+    assert validate_cockpit_feed({**_minimal_feed(), "actions": r["actions"]}) == []
+
+
+def test_synthesis_actions_read_ignores_invalid_structured_metadata():
+    synthesis = {"actions": [{
+        "ticker": "NVDA",
+        "what": "Add NVDA if setup clears",
+        "time_window": "someday",
+        "capital_effect": "YOLO",
+        "goal_channels": ["bad"],
+        "goal_score": 999,
+    }]}
+    rows = synthesis_actions_read(synthesis)
+    assert "time_window" not in rows[0]
+    assert "capital_effect" not in rows[0]
+    assert "goal_channels" not in rows[0]
+    assert "goal_score" not in rows[0]
+
+
 def test_synthesis_actions_read_promotes_actionable_hanging_items_only():
     synthesis = {"source": "Daily Synthesis", "hanging": [
         "FN buy-on-pullback not yet acted.",

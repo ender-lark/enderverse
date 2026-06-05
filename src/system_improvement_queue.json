@@ -132,6 +132,15 @@
       "area": "analyst",
       "why": "Mixed conviction can come from independent source disagreement or from two analysts inside one source group; the action read should not overstate independence.",
       "done_when": "The analyst read preserves conflict scope/detail, cross-source cases still say cross-source split, and same-source Lee/Farrell disagreement renders as same-source split without changing Mixed/flat logic."
+    },
+    {
+      "id": "synthesis-structured-action-metadata",
+      "title": "Support richer structured Daily Synthesis action fields",
+      "priority": "P2",
+      "status": "done",
+      "area": "synthesis",
+      "why": "Daily Synthesis can become more actionable when explicit rows carry timing, sizing, capital effect, and evidence without requiring free-form prose guessing.",
+      "done_when": "Structured synthesis actions accept explicit ticker aliases, recommendation text, urgency, time window, capital effect, sizing, goal channels, and missing evidence while vague prose remains unpromoted."
     }
   ]
 }

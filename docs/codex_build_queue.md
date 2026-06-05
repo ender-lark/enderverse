@@ -12,6 +12,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Daily Synthesis structured action metadata.
+  - Added aliases for structured synthesis action rows such as `symbol`,
+    `recommendation`, `next_step`, and `urgency`.
+  - Preserved explicit timing, capital effect, sizing, goal-channel, and missing
+    evidence metadata when valid.
+  - Kept free-form prose conservative: ticker-led actionable hanging items only.
 - Conflict wording refinement.
   - Preserved `Mixed` conflict handling while adding source-scope/detail to the
     conviction read.

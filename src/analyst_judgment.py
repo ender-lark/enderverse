@@ -59,7 +59,13 @@ from analyst_config import (
     UW_OPP_MAX_EVIDENCE,
     theses_by_ticker,
 )
-from goal_impact import annotate_actions
+from goal_impact import (
+    CAPITAL_EFFECTS,
+    GOAL_CHANNELS,
+    GOAL_IMPACTS,
+    TIME_WINDOWS,
+    annotate_actions,
+)
 from uw_opportunity import UW_OPP_KIND
 
 GRADE_UNASSESSED = "—"
@@ -558,6 +564,11 @@ def _synthesis_confidence(row, text):
     raw = row.get("confidence") if isinstance(row, dict) else None
     if raw in _CONFIDENCE_RANK:
         return raw
+    urgency = str((row or {}).get("urgency") or (row or {}).get("action_state") or "").upper() if isinstance(row, dict) else ""
+    if urgency == "ACT_NOW":
+        return "High"
+    if urgency in ("WATCH", "MONITOR", "RESEARCH"):
+        return "Low"
     priority = str((row or {}).get("priority") or (row or {}).get("pr") or "").lower() if isinstance(row, dict) else ""
     low = str(text or "").lower()
     if priority == "high" or any(w in low for w in ("urgent", "time-sensitive", "act now", "sell", "trim", "exit")):
@@ -565,6 +576,33 @@ def _synthesis_confidence(row, text):
     if priority in ("low", "monitor"):
         return "Low"
     return "Moderate"
+
+
+def _first_present(row, keys):
+    for key in keys:
+        value = row.get(key)
+        if value not in (None, ""):
+            return value
+    return None
+
+
+def _as_string_list(value):
+    if value in (None, ""):
+        return []
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, (list, tuple)):
+        return [str(v) for v in value if v not in (None, "")]
+    return []
+
+
+def _synthesis_default_action(item):
+    raw = str(item.get("default_action") or item.get("capital_effect") or "").lower()
+    if raw in ("sell", "trim", "reduce", "exit"):
+        return "SELL"
+    if raw in ("hedge", "rotate", "review"):
+        return "REVIEW"
+    return item.get("default_action") or "ADD"
 
 
 def synthesis_actions_read(synthesis, *, max_items=5) -> list[dict]:
@@ -597,22 +635,41 @@ def synthesis_actions_read(synthesis, *, max_items=5) -> list[dict]:
                 "why": f"{source}: {text}",
             })
         elif isinstance(item, dict):
-            text = item.get("what") or item.get("action") or item.get("text") or item.get("summary") or ""
-            ticker = item.get("ticker") or _synthesis_ticker(text)
-            if not ticker and not item.get("what"):
+            text = _first_present(item, ("what", "action", "recommendation", "text", "summary", "title")) or ""
+            ticker = _first_present(item, ("ticker", "symbol")) or _synthesis_ticker(text)
+            if not ticker and not _first_present(item, ("what", "action", "recommendation")):
                 continue
-            your_move = item.get("your_move") or item.get("move")
+            your_move = _first_present(item, ("your_move", "move", "operator_move", "next_step"))
             if not your_move:
                 your_move = f"Review synthesis action for {ticker}." if ticker else "Review synthesis action."
-            rows.append({
+            row = {
                 "ticker": ticker,
                 "what": text or "Synthesis action",
                 "confidence": _synthesis_confidence(item, text),
                 "your_move": your_move,
-                "why": item.get("why") or item.get("reason") or f"{source}: {text}",
+                "why": _first_present(item, ("why", "reason", "evidence")) or f"{source}: {text}",
                 "gate": item.get("gate"),
-                "default_action": item.get("default_action"),
-            })
+                "default_action": _synthesis_default_action(item),
+            }
+            if item.get("time_window") in TIME_WINDOWS:
+                row["time_window"] = item["time_window"]
+            if item.get("capital_effect") in CAPITAL_EFFECTS:
+                row["capital_effect"] = item["capital_effect"]
+            if item.get("goal_impact") in GOAL_IMPACTS:
+                row["goal_impact"] = item["goal_impact"]
+            if isinstance(item.get("goal_score"), int) and 0 <= item["goal_score"] <= 100:
+                row["goal_score"] = item["goal_score"]
+            for src_key in ("sizing", "action_label", "why_it_moves_goal"):
+                if isinstance(item.get(src_key), str) and item.get(src_key).strip():
+                    row[src_key] = item[src_key]
+            channels = _as_string_list(item.get("goal_channels") or item.get("goal_channel"))
+            channels = [c for c in channels if c in GOAL_CHANNELS]
+            if channels:
+                row["goal_channels"] = channels
+            missing = _as_string_list(item.get("missing_evidence") or item.get("missing") or item.get("needs"))
+            if missing:
+                row["missing_evidence"] = missing
+            rows.append(row)
 
     for text in synthesis.get("hanging") or []:
         ticker = _synthesis_ticker(text)
@@ -923,14 +980,22 @@ def actions_read(fresh_signals, needs_you_items, theses,
                 else "ADD"
             )
             gate = _gate_hook(tk, by_ticker, default_action=default_action)
-        rows.append({
+        row = {
             "kind": "synthesis", "ticker": tk,
             "what": sa.get("what") or "Synthesis action",
             "confidence": conf if conf in _CONFIDENCE_RANK else "Moderate",
             "your_move": sa.get("your_move") or "Review this synthesis action.",
             "gate": gate,
             "source": "daily_synthesis", "why": sa.get("why") or "",
-        })
+        }
+        for optional in (
+            "time_window", "capital_effect", "sizing", "goal_channels",
+            "goal_impact", "goal_score", "action_label", "why_it_moves_goal",
+            "missing_evidence",
+        ):
+            if sa.get(optional) not in (None, "", []):
+                row[optional] = sa[optional]
+        rows.append(row)
 
     # (d) priority sort — kind tier, then confidence, then stable insertion order
     for idx, r in enumerate(rows):
@@ -948,6 +1013,13 @@ def actions_read(fresh_signals, needs_you_items, theses,
             "your_move": r["your_move"], "gate": r["gate"],
             "source": r["source"], "why": r["why"],
         }
+        for optional in (
+            "time_window", "capital_effect", "sizing", "goal_channels",
+            "goal_impact", "goal_score", "action_label", "why_it_moves_goal",
+            "missing_evidence",
+        ):
+            if r.get(optional) not in (None, "", []):
+                row[optional] = r[optional]
         # additive, only on rows carrying a countdown -> pre-catalyst feeds stay
         # byte-identical (no golden drift); the renderer reads days_to_catalyst.
         if r.get("days_to_catalyst") is not None:
