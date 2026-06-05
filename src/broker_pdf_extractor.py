@@ -29,6 +29,11 @@ HEADER_WORDS = {
     "symbol", "ticker", "description", "quantity", "qty", "price", "value",
     "market", "cash", "account", "holdings", "positions", "total",
 }
+SECURITY_WORDS = {
+    "INC", "CORP", "LTD", "PLC", "CO", "COMPANY", "CLASS", "CL", "COM",
+    "ETF", "ETN", "FUND", "TRUST", "ISHARES", "VANGUARD", "FIDELITY",
+    "SCHWAB", "SPDR", "INVESCO", "ISH", "ADR", "ORD", "UNIT",
+}
 
 
 def _utc_now_iso() -> str:
@@ -72,7 +77,18 @@ def _ticker_token(line: str) -> str | None:
     token = parts[0].strip().upper().replace("$", "")
     if token.lower() in HEADER_WORDS:
         return None
-    return token if TICKER_RE.match(token) and token not in {"CASH", "USD"} else None
+    return token if _looks_like_ticker(token) else None
+
+
+def _clean_token(token: str) -> str:
+    return token.strip().upper().strip(",:;()[]{}").replace("$", "")
+
+
+def _looks_like_ticker(token: str) -> bool:
+    token = _clean_token(token)
+    if token.lower() in HEADER_WORDS or token in SECURITY_WORDS or token in {"CASH", "USD"}:
+        return False
+    return bool(TICKER_RE.match(token))
 
 
 def _is_noise_line(line: str) -> bool:
@@ -123,6 +139,73 @@ def infer_cash(text: str) -> float:
     return 0.0
 
 
+def _position_from_line(line: str, *, account_name: str | None = None) -> dict[str, Any] | None:
+    """Parse one selectable-text position row.
+
+    Accepts both ticker-led rows ("NVDA NVIDIA 12 ... $2,040") and broker rows
+    where the description precedes the symbol ("NVIDIA CORP NVDA 12 ...").
+    A candidate ticker must be followed by a numeric quantity and a positive
+    market value, keeping image/OCR/no-symbol text as an honest failure.
+    """
+    tokens = line.split()
+    if not tokens:
+        return None
+    money_matches = list(MONEY_RE.finditer(line))
+    if not money_matches:
+        return None
+    market_value = _num(money_matches[-1].group(0))
+    if market_value is None or market_value <= 0:
+        return None
+
+    before_value = line[:money_matches[-1].start()].strip()
+    tokens_before_value = before_value.split()
+    candidates: list[tuple[int, int, str, float, int]] = []
+    for ticker_idx, token in enumerate(tokens_before_value):
+        ticker = _clean_token(token)
+        if not _looks_like_ticker(ticker):
+            continue
+        if len(ticker) == 1 and ticker_idx > 0:
+            continue
+
+        trailing = tokens_before_value[ticker_idx + 1:]
+        quantity: float | None = None
+        quantity_idx: int | None = None
+        for idx, qtoken in enumerate(trailing):
+            cleaned = qtoken.replace(",", "")
+            if NUMBER_RE.match(cleaned):
+                quantity = _num(cleaned)
+                quantity_idx = idx
+                break
+        if quantity is None or quantity_idx is None:
+            continue
+        if ticker_idx == 0 and trailing and _clean_token(trailing[0]) not in SECURITY_WORDS:
+            priority = 0
+        elif quantity_idx == 0:
+            priority = 1
+        else:
+            continue
+        candidates.append((priority, ticker_idx, ticker, quantity, quantity_idx))
+
+    if candidates:
+        priority, ticker_idx, ticker, quantity, quantity_idx = sorted(candidates)[0]
+        trailing = tokens_before_value[ticker_idx + 1:]
+
+        desc_tokens = (
+            tokens_before_value[:ticker_idx]
+            if ticker_idx > 0
+            else trailing[:quantity_idx]
+        )
+        description = " ".join(desc_tokens).strip()
+        return {
+            "symbol": ticker,
+            "description": description,
+            "quantity": quantity,
+            "market_value": market_value,
+            "account_name": account_name or "Unknown",
+        }
+    return None
+
+
 def parse_position_lines(text: str, *, account_name: str | None = None) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     seen: set[tuple[str, float, float]] = set()
@@ -130,41 +213,17 @@ def parse_position_lines(text: str, *, account_name: str | None = None) -> list[
         line = " ".join(raw_line.split())
         if _is_noise_line(line):
             continue
-        ticker = _ticker_token(line)
-        if not ticker:
+        row = _position_from_line(line, account_name=account_name)
+        if not row:
             continue
-        money_matches = list(MONEY_RE.finditer(line))
-        if not money_matches:
-            continue
-        market_value = _num(money_matches[-1].group(0))
-        if market_value is None or market_value <= 0:
-            continue
-
-        before_value = line[:money_matches[-1].start()].strip()
-        tokens_after_ticker = before_value.split()[1:]
-        quantity: float | None = None
-        quantity_idx: int | None = None
-        for idx, token in enumerate(tokens_after_ticker):
-            cleaned = token.replace(",", "")
-            if NUMBER_RE.match(cleaned):
-                quantity = _num(cleaned)
-                quantity_idx = idx
-                break
-        if quantity is None:
-            continue
-        desc_tokens = tokens_after_ticker[:quantity_idx]
-        description = " ".join(desc_tokens).strip()
+        ticker = row["symbol"]
+        quantity = row["quantity"]
+        market_value = row["market_value"]
         key = (ticker, round(quantity, 6), round(market_value, 2))
         if key in seen:
             continue
         seen.add(key)
-        rows.append({
-            "symbol": ticker,
-            "description": description,
-            "quantity": quantity,
-            "market_value": market_value,
-            "account_name": account_name or "Unknown",
-        })
+        rows.append(row)
     return rows
 
 
@@ -204,7 +263,7 @@ def extract_file(path: str | Path, *, as_of: str | None = None) -> dict[str, Any
     if error:
         validation["error"] = error
     if text.strip() and not positions:
-        validation["error"] = "no confident ticker-led position rows found"
+        validation["error"] = "no confident ticker/symbol position rows found"
     return {
         "source_file": str(p),
         "broker": infer_broker(str(p), text),

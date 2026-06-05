@@ -5,12 +5,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- PDF holdings ingest.
-  - Improve broker position extraction when selectable text is available.
-  - Keep screenshot/OCR PDFs honest-fail until OCR tooling exists.
+- Verification command.
+  - Add one repo-owned command for the standard focused checks.
+  - Document any known expected failures explicitly.
 
 ## Recently Completed
 
+- PDF holdings ingest.
+  - `broker_pdf_extractor.py` now handles ticker-led and description-before-symbol selectable text rows.
+  - Added focused text-export and optional selectable-PDF tests.
+  - Image-only/OCR-needed inputs still fail honestly until OCR tooling exists.
 - Reallocation and target drift.
   - Target weights are machine-readable through `reallocate_config.py`.
   - `position_drift_check.py` emits a structured `target_drift` feed block.
@@ -30,9 +34,6 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-- Verification command.
-  - Add one repo-owned command for the standard focused checks.
-  - Document any known expected failures explicitly.
 - Codex-owned cloud routines.
   - Replace prompt-only Claude routines with repo-owned routine docs and app automations.
   - Keep Gmail/Fundstrat intake and UW cache refresh separated from full-build synthesis.

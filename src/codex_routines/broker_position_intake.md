@@ -22,10 +22,12 @@ change report before the daily cockpit/preflight uses the book.
    python src/broker_pdf_extractor.py --validate combined.json
    ```
 
-   For PDFs, this first-pass extractor requires selectable PDF text and the
-   `pypdf` package. If `python` cannot import `pypdf`, run it with the bundled
-   Codex dependency Python. If extraction reports failed files, do not continue
-   to cache refresh; report position extraction as not checked.
+   For PDFs, this extractor requires selectable PDF text and the `pypdf`
+   package. It handles both ticker-led rows and selectable text tables where the
+   broker prints description before symbol. If `python` cannot import `pypdf`,
+   run it with the bundled Codex dependency Python. If extraction reports failed
+   files, do not continue to cache refresh; report position extraction as not
+   checked.
 
    If a stronger external extractor has already produced a valid `combined.json`,
    use that instead.
@@ -65,8 +67,8 @@ change report before the daily cockpit/preflight uses the book.
 
 - Do not overwrite `positions.json` from a failed extractor validation when
   `--strict` fails.
-- The repo-owned PDF extractor is text-table only. Image-only PDFs are not
-  checked until OCR or a stronger external extractor is added.
+- The repo-owned PDF extractor is selectable-text-table only. Image-only PDFs
+  are not checked until OCR or a stronger external extractor is added.
 - Account-level output may include untracked holdings; engine-facing
   `positions.json` remains thesis-filtered.
 - A share change is a trade diff. A market-value-only change is reported as
