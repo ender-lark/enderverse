@@ -55,6 +55,17 @@ def test_assemble_feed_threads_supplied_blocks():
     assert validate_cockpit_feed(feed) == []
 
 
+def test_assemble_feed_promotes_synthesis_hanging_to_actions():
+    synthesis = {**SY, "hanging": ["FN buy-on-pullback not yet acted."]}
+    feed = assemble_feed(_load_snapshot(), parabolic={"MU"}, synthesis=synthesis)
+    rows = [a for a in feed["actions"] if a.get("source") == "daily_synthesis"]
+    assert len(rows) == 1
+    assert rows[0]["ticker"] == "FN"
+    assert rows[0]["kind"] == "synthesis"
+    assert rows[0]["action_state"] == "ACT_NOW"
+    assert validate_cockpit_feed(feed) == []
+
+
 # --------------------------------------------------------------------------- #
 # validators: optional (absent → valid), shape-checked when present
 # --------------------------------------------------------------------------- #
@@ -118,6 +129,19 @@ def test_build_full_feed_threads_blocks():
     assert feed["synthesis"] == SY
     assert feed["research"] == RS
     assert validate_cockpit_feed(feed) == []
+
+
+def test_build_full_feed_promotes_synthesis_actions():
+    theses = [{"ticker": "NVDA", "tier": "T1", "stance": "ACTIVE", "factor_tags": ["AI_complex"]}]
+    synthesis = {**SY, "actions": [
+        {"ticker": "NVDA", "what": "Add NVDA if gate clears", "confidence": "High"}
+    ]}
+    feed = build_full_feed(_PAGE, {}, theses,
+                           synthesis=synthesis,
+                           as_of="2026-06-01", run_timestamp="2026-06-01T16:00:00")
+    row = next(a for a in feed["actions"] if a.get("source") == "daily_synthesis")
+    assert row["ticker"] == "NVDA"
+    assert row["gate"]["preview"]
 
 
 # --------------------------------------------------------------------------- #

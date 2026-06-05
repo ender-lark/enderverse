@@ -31,6 +31,7 @@ plugs on one name count as ONE corroborating voice, not two.
 """
 from __future__ import annotations
 
+import re
 from datetime import date
 
 from analyst_config import (
@@ -497,6 +498,109 @@ _ACTION_STATE_BY_KIND = {
     "research_review": "RESEARCH",
 }
 
+_SYNTH_TICKER_LEAD = re.compile(r"^\s*([A-Z]{1,6}(?:\.[A-Z]{1,4})?)\s*[\u2014\u2013:\- ]")
+_SYNTH_ACTION_WORDS = (
+    "act", "buy", "add", "start", "size", "sell", "trim", "exit", "reduce",
+    "review", "decide", "gate", "time-sensitive", "urgent",
+)
+
+
+def _synthesis_ticker(text):
+    if not isinstance(text, str):
+        return None
+    m = _SYNTH_TICKER_LEAD.match(text)
+    return m.group(1) if m else None
+
+
+def _synthesis_is_actionish(text):
+    low = str(text or "").lower()
+    return any(w in low for w in _SYNTH_ACTION_WORDS)
+
+
+def _synthesis_confidence(row, text):
+    raw = row.get("confidence") if isinstance(row, dict) else None
+    if raw in _CONFIDENCE_RANK:
+        return raw
+    priority = str((row or {}).get("priority") or (row or {}).get("pr") or "").lower() if isinstance(row, dict) else ""
+    low = str(text or "").lower()
+    if priority == "high" or any(w in low for w in ("urgent", "time-sensitive", "act now", "sell", "trim", "exit")):
+        return "High"
+    if priority in ("low", "monitor"):
+        return "Low"
+    return "Moderate"
+
+
+def synthesis_actions_read(synthesis, *, max_items=5) -> list[dict]:
+    """Extract durable action rows from the Daily Synthesis read.
+
+    Prefer explicit structured `actions`/`action_items` rows. As a fallback,
+    promote only ticker-led `hanging` lines that contain action language. This is
+    intentionally conservative: prose stays in the synthesis panel unless it can
+    be made into a concrete ticker/action candidate.
+    """
+    if not isinstance(synthesis, dict):
+        return []
+    rows = []
+    source = synthesis.get("source") or "Daily Synthesis"
+
+    explicit = synthesis.get("actions") or synthesis.get("action_items") or synthesis.get("recommendations") or []
+    if isinstance(explicit, dict):
+        explicit = [explicit]
+    for item in explicit if isinstance(explicit, list) else []:
+        if isinstance(item, str):
+            text = item
+            ticker = _synthesis_ticker(text)
+            if not ticker or not _synthesis_is_actionish(text):
+                continue
+            rows.append({
+                "ticker": ticker,
+                "what": text,
+                "confidence": _synthesis_confidence({}, text),
+                "your_move": f"Decide on {ticker}: {text}",
+                "why": f"{source}: {text}",
+            })
+        elif isinstance(item, dict):
+            text = item.get("what") or item.get("action") or item.get("text") or item.get("summary") or ""
+            ticker = item.get("ticker") or _synthesis_ticker(text)
+            if not ticker and not item.get("what"):
+                continue
+            your_move = item.get("your_move") or item.get("move")
+            if not your_move:
+                your_move = f"Review synthesis action for {ticker}." if ticker else "Review synthesis action."
+            rows.append({
+                "ticker": ticker,
+                "what": text or "Synthesis action",
+                "confidence": _synthesis_confidence(item, text),
+                "your_move": your_move,
+                "why": item.get("why") or item.get("reason") or f"{source}: {text}",
+                "gate": item.get("gate"),
+                "default_action": item.get("default_action"),
+            })
+
+    for text in synthesis.get("hanging") or []:
+        ticker = _synthesis_ticker(text)
+        if not ticker or not _synthesis_is_actionish(text):
+            continue
+        rows.append({
+            "ticker": ticker,
+            "what": f"Synthesis follow-up: {text}",
+            "confidence": _synthesis_confidence({}, text),
+            "your_move": f"Decide on {ticker}: {text}",
+            "why": f"{source} hanging item: {text}",
+        })
+
+    out = []
+    seen = set()
+    for row in rows:
+        key = (row.get("ticker"), row.get("what"))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(row)
+        if len(out) >= max_items:
+            break
+    return out
+
 
 def _gate_hook(ticker, by_ticker, default_action="ADD") -> dict:
     """The Option-A gate ROUTING HOOK — a provisional, advisory badge only.
@@ -772,12 +876,22 @@ def actions_read(fresh_signals, needs_you_items, theses,
         if not isinstance(sa, dict):
             continue
         conf = sa.get("confidence")
+        tk = sa.get("ticker")
+        gate = sa.get("gate")
+        if gate is None and tk and _synthesis_is_actionish(
+            " ".join(str(sa.get(k) or "") for k in ("what", "your_move"))
+        ):
+            default_action = sa.get("default_action") or (
+                "SELL" if any(w in str(sa.get("what") or "").lower() for w in ("sell", "trim", "exit", "reduce"))
+                else "ADD"
+            )
+            gate = _gate_hook(tk, by_ticker, default_action=default_action)
         rows.append({
-            "kind": "synthesis", "ticker": sa.get("ticker"),
+            "kind": "synthesis", "ticker": tk,
             "what": sa.get("what") or "Synthesis action",
             "confidence": conf if conf in _CONFIDENCE_RANK else "Moderate",
             "your_move": sa.get("your_move") or "Review this synthesis action.",
-            "gate": sa.get("gate"),  # pass through if supplied
+            "gate": gate,
             "source": "daily_synthesis", "why": sa.get("why") or "",
         })
 

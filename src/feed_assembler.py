@@ -22,7 +22,7 @@ from analyst import (rotation_read, macro_read, staleness_read,
 from analyst_judgment import (conviction_read, conviction_direction_read,
                               net_read, fresh_signal_read, actions_read,
                               catalyst_needs_you, lean_in_read, research_actions_read,
-                              apply_decision_aging)
+                              apply_decision_aging, synthesis_actions_read)
 from analyst_config import theses_by_ticker
 from feedback_summary import build_feedback_summary
 from lane_status import build_lane_status
@@ -214,11 +214,13 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     # ── ⑦b prioritized Actions surface (ADDITIVE — ⑦ fresh_signals + ⑧ hero
     #    needs_you + PROMOTED ⑩ lean_ins + ACT_NOW prospects, the "what to do
     #    today" strip on top of the book). Only lean=="lean_in" items promote,
-    #    deduped against fresh-signal actions; synthesis_actions stays empty
-    #    (forward-compat seam). ──
+    #    deduped against fresh-signal actions; synthesis actions are extracted
+    #    conservatively from structured rows or ticker-led actionable lines. ──
+    synthesis_action_items = synthesis_actions_read(synthesis)
     actions = actions_read(fresh["fresh_signals"], hero["needs_you"]["items"], theses,
                            lean_in_items=lean_block,
-                           prospect_items=prospects)["actions"]
+                           prospect_items=prospects,
+                           synthesis_actions=synthesis_action_items)["actions"]
 
     # ── ⑦b-aging (E2): age the open-opportunity store into the Actions strip.
     #    ENRICH any action row that's an open aging idea with age / first-flagged /

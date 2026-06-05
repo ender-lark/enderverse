@@ -16,7 +16,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from analyst_judgment import actions_read
+from analyst_judgment import actions_read, synthesis_actions_read
 from feed_assembler import assemble_feed
 from goal_impact import annotate_action
 from validators import validate_cockpit_feed
@@ -175,6 +175,31 @@ def test_synthesis_bad_confidence_defaults_moderate():
     syn = [{"what": "x", "confidence": "Maybe"}]
     r = actions_read([], [], THESES, synthesis_actions=syn)
     assert r["actions"][0]["confidence"] == "Moderate"
+
+
+def test_synthesis_actions_read_promotes_structured_actions():
+    synthesis = {"source": "Daily Synthesis", "actions": [
+        {"ticker": "NVDA", "what": "Add NVDA on confirmed setup", "confidence": "High",
+         "your_move": "Size and run the gate."}
+    ]}
+    rows = synthesis_actions_read(synthesis)
+    assert rows[0]["ticker"] == "NVDA"
+    assert rows[0]["confidence"] == "High"
+    r = actions_read([], [], THESES, synthesis_actions=rows)
+    assert r["actions"][0]["kind"] == "synthesis"
+    assert r["actions"][0]["action_state"] == "ACT_NOW"
+    assert r["actions"][0]["gate"]["ticker"] == "NVDA"
+
+
+def test_synthesis_actions_read_promotes_actionable_hanging_items_only():
+    synthesis = {"source": "Daily Synthesis", "hanging": [
+        "FN buy-on-pullback not yet acted.",
+        "XLF rationale still undocumented.",
+        "No ticker process note.",
+    ]}
+    rows = synthesis_actions_read(synthesis)
+    assert [r["ticker"] for r in rows] == ["FN"]
+    assert "buy-on-pullback" in rows[0]["what"]
 
 
 # --------------------------------------------------------------------------- #
