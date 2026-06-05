@@ -185,9 +185,13 @@ Important recent state:
 - Current live-readiness probe on the repo reports `rehearsal_ready: true`,
   `required_inputs_ready: true`, `live_data_ready: true`,
   `publish_ready: true`, and `go_live_ready: true`.
-- Current dark lane is `catalysts`. It is not a hard go-live blocker, but the
-  dashboard keeps its missing-source input visible instead of treating it as
-  checked clear.
+- Catalyst Calendar now has source-backed compact rows from the Notion Catalyst
+  Calendar page `35fc5031-4bb6-81c5-ae90-d8a84919999b`. Only exact
+  future-dated rows were normalized into `src/catalysts.json`; vague/TBD rows
+  were skipped rather than guessed.
+- Current dark lane count is 0. Missing `account_positions` and `meridian`
+  remain optional missing source inputs in live-source capability, not
+  checked-clear claims.
 - `src/cloud_ops_status.py --format text` is the operator check for unattended
   cloud ops. It distinguishes local go-live readiness from the installed Codex
   app automation stack. The previous generic

@@ -47,8 +47,11 @@ def test_heartbeat_rows_show_missing_market_data_and_dark_lanes():
 
 def test_heartbeat_rows_all_ok_when_report_is_clean():
     rows = heartbeat_rows(_base_report(), generated_at="2026-06-05T14:00:00+00:00")
+    by_layer = {row["layer"]: row for row in rows}
 
     assert {row["status"] for row in rows} == {"ok"}
+    assert by_layer["Optional Source Lanes"]["note"] == "no dark lanes reported in lane-status block"
+    assert "checked clear" not in by_layer["Optional Source Lanes"]["note"]
 
 
 def test_heartbeat_rows_show_stale_required_inputs():

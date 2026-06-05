@@ -75,7 +75,7 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
 
     optional_note = (
         "dark lanes: " + ", ".join(str(key) for key in dark_lanes)
-        if dark_lanes else "all optional lanes supplied or checked clear"
+        if dark_lanes else "no dark lanes reported in lane-status block"
     )
     if dark_lane_details:
         fixes = [

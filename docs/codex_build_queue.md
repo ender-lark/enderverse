@@ -122,6 +122,16 @@ until the core logic is stable; Notion sync comes later.
   - Refreshed the live dashboard package. Current status shows 12 lanes with
     data and 1 dark lane (`catalysts`); Signal Log is checked as has-data, while
     Catalyst remains dark/not checked.
+- Catalyst Calendar lane populated.
+  - Fetched the Notion Catalyst Calendar database/page and used exact
+    future-dated rows only from the page source
+    `35fc5031-4bb6-81c5-ae90-d8a84919999b`.
+  - Normalized eight compact Catalyst Calendar rows into `src/catalysts.json`
+    with `catalyst_calendar_intake.py`; vague/TBD rows were skipped rather than
+    guessed.
+  - Refreshed the live dashboard package. Current status shows 13 lanes with
+    data and 0 dark lanes; missing `account_positions` and `meridian` remain
+    optional missing source inputs, not checked-clear claims.
 - Daily cloud-ops readiness status.
   - Added `python src/cloud_ops_status.py --format text` to separate local
     go-live readiness from actual scheduled Codex cloud automation readiness.
