@@ -59,3 +59,9 @@ source was actually fetched or supplied.
   in `reallocate_config.py` through `position_drift_check.target_weight_drift`.
 - Target drift is a sizing-gap surface. It can make "right idea, wrong size"
   visible at session open, but it is not an automatic trade instruction.
+
+## Improvement Queue
+
+- Deferred and lower-priority build items live in `system_improvement_queue.json`.
+- Validate the queue with `python src/system_improvement_queue.py`.
+- Keep the queue for product/system improvements, not live market calls.

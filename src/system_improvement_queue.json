@@ -1,0 +1,65 @@
+{
+  "generated_at": "2026-06-05",
+  "owner": "Codex Investing OS",
+  "policy": {
+    "priority_order": ["P0", "P1", "P2", "P3"],
+    "statuses": ["queued", "active", "blocked", "done", "deferred"],
+    "rule": "Action surfacing and early-retirement impact outrank UI polish."
+  },
+  "items": [
+    {
+      "id": "holdings-account-tabs",
+      "title": "Current holdings tab with combined, SKB, parents, and sleeve views",
+      "priority": "P2",
+      "status": "queued",
+      "area": "cockpit",
+      "why": "Useful for understanding concentration and account ownership, but lower priority than making ACT_NOW decisions durable.",
+      "done_when": "Cockpit can switch combined/SKB/parents views and show sleeve concentration without confusing ETF look-through with direct holdings."
+    },
+    {
+      "id": "broker-pdf-position-reconciliation",
+      "title": "Broker PDF intake and trade-diff reconciliation",
+      "priority": "P1",
+      "status": "queued",
+      "area": "positions",
+      "why": "The system needs current account positions after uploaded broker PDFs, including trade diffs since the last snapshot.",
+      "done_when": "Uploaded account PDFs produce account-level positions, combined positions, and a clear diff of buys/sells/trims since the prior snapshot."
+    },
+    {
+      "id": "etf-lookthrough-sleeves",
+      "title": "ETF look-through and overlapping sleeve exposure",
+      "priority": "P2",
+      "status": "queued",
+      "area": "portfolio",
+      "why": "Sleeve concentration can be misleading when ETFs overlap with single-name AI, nuclear, or crypto exposure.",
+      "done_when": "Dashboard distinguishes direct sleeve weights from effective look-through exposure and labels estimates clearly."
+    },
+    {
+      "id": "fundstrat-gmail-hardening",
+      "title": "Harden Gmail-based Fundstrat intake",
+      "priority": "P1",
+      "status": "active",
+      "area": "routines",
+      "why": "Fundstrat is the source spine; full-body emails should feed source calls and top prospects without storing raw publication bodies.",
+      "done_when": "Routine reliably searches, reads full bodies when permitted, redacts bodies, updates source calls/top prospects, and reports snippet-only discovery as not checked."
+    },
+    {
+      "id": "codex-routine-migration",
+      "title": "Replace Claude cloud routines with Codex automations",
+      "priority": "P1",
+      "status": "active",
+      "area": "routines",
+      "why": "Recurring acquisition, synthesis, and research queue work should run from repo-owned Codex routine definitions.",
+      "done_when": "All daily/off-hours routines have active Codex automations, repo-owned prompts, and clear not-checked behavior."
+    },
+    {
+      "id": "notion-github-ownership-map",
+      "title": "Map which state belongs in Notion, GitHub, or both",
+      "priority": "P2",
+      "status": "queued",
+      "area": "architecture",
+      "why": "Overlapping storage caused analysis to exist without surfacing. Ownership rules reduce drift.",
+      "done_when": "Each major object type has a source-of-truth owner, mirror policy, and dashboard surfacing path."
+    }
+  ]
+}
