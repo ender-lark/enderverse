@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from fundstrat_email_intake import (
     build_intake_payload,
+    entries_from_payload,
     extract_daily_calls,
     extract_tickers,
     load_entries,
@@ -73,6 +74,20 @@ def test_load_entries_accepts_gmail_like_json(tmp_path):
     assert len(entries) == 1
     assert entries[0]["author"] == "Farrell"
     assert entries[0]["date"] == "2026-06-05"
+
+
+def test_entries_from_payload_accepts_gmail_connector_responses_shape():
+    entries = entries_from_payload({"responses": [{
+        "from_": "Mark Newton mark.newton@fundstratdirect.com",
+        "subject": "Daily Technical Strategy",
+        "body": "Buy RSPH on relative breakout.",
+        "email_ts": "2026-06-04T23:35:18+00:00",
+    }]})
+    assert len(entries) == 1
+    assert entries[0]["author"] == "Newton"
+    assert entries[0]["subject"] == "Daily Technical Strategy"
+    assert entries[0]["date"] == "2026-06-04"
+    assert "RSPH" in entries[0]["body"]
 
 
 def test_build_payload_and_write_convention_files(tmp_path):

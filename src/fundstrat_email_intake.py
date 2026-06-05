@@ -153,9 +153,9 @@ def normalize_email_entry(raw: Any, *, fallback_date: str | None = None,
     if isinstance(raw, dict):
         subject = raw.get("subject") or raw.get("title") or ""
         body = raw.get("body") or raw.get("text") or raw.get("snippet") or ""
-        sender = raw.get("from") or raw.get("sender") or raw.get("author") or ""
+        sender = raw.get("from") or raw.get("from_") or raw.get("sender") or raw.get("author") or ""
         date_s = parse_date(
-            raw.get("date") or raw.get("timestamp") or raw.get("internalDate"),
+            raw.get("date") or raw.get("timestamp") or raw.get("email_ts") or raw.get("internalDate"),
             fallback=fallback_date,
         )
         author = raw.get("analyst") or detect_author(subject, body, sender)
@@ -207,6 +207,32 @@ def load_entries(paths: list[str | Path], *, fallback_date: str | None = None) -
             entries.append(normalize_email_entry(text, fallback_date=fallback_date,
                                                  source_path=str(path)))
     return entries
+
+
+def entries_from_payload(payload: Any, *, fallback_date: str | None = None,
+                         source_path: str = "stdin") -> list[dict]:
+    """Normalize a Gmail-like JSON payload into intake entries.
+
+    Accepts a list, `{messages:[...]}`, `{emails:[...]}`, `{responses:[...]}`, or
+    a single message dict. This matches the common Gmail connector result shapes.
+    """
+    if isinstance(payload, dict):
+        if isinstance(payload.get("messages"), list):
+            rows = payload["messages"]
+        elif isinstance(payload.get("emails"), list):
+            rows = payload["emails"]
+        elif isinstance(payload.get("responses"), list):
+            rows = payload["responses"]
+        else:
+            rows = [payload]
+    elif isinstance(payload, list):
+        rows = payload
+    else:
+        rows = []
+    return [
+        normalize_email_entry(row, fallback_date=fallback_date, source_path=source_path)
+        for row in rows
+    ]
 
 
 def load_ticker_universe(theses_path: str | Path | None = None,
@@ -393,16 +419,24 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
         description="Parse forwarded/exported Fundstrat emails into convention files."
     )
-    parser.add_argument("inputs", nargs="+", help="Email .txt/.eml files or Gmail-like JSON files")
+    parser.add_argument("inputs", nargs="*", help="Email .txt/.eml files or Gmail-like JSON files")
     parser.add_argument("--out-dir", default=str(Path(__file__).resolve().parent))
     parser.add_argument("--theses", default=str(Path(__file__).resolve().parent / "theses.json"))
     parser.add_argument("--positions", default=str(Path(__file__).resolve().parent / "positions.json"))
     parser.add_argument("--as-of", help="Fallback date for raw text with no email Date header")
     parser.add_argument("--generated-at")
+    parser.add_argument("--stdin-json", action="store_true",
+                        help="Read Gmail-like message JSON from stdin")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
-    entries = load_entries(args.inputs, fallback_date=args.as_of)
+    entries = []
+    if args.stdin_json:
+        entries.extend(entries_from_payload(json.load(os.sys.stdin), fallback_date=args.as_of))
+    if args.inputs:
+        entries.extend(load_entries(args.inputs, fallback_date=args.as_of))
+    if not entries:
+        parser.error("provide at least one input file or --stdin-json")
     universe = load_ticker_universe(args.theses, args.positions)
     payload = build_intake_payload(entries, universe=universe,
                                    generated_at=args.generated_at)

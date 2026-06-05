@@ -20,7 +20,19 @@ Accepted fallback file types:
 
 1. Check the repo is on `main` and up to date.
 2. If Gmail is available, search for Fundstrat emails since the last successful
-   intake and save normalized message JSON into the drop folder.
+   intake. Validated search pattern:
+
+   ```text
+   (from:fundstrat OR from:fsinsight OR Fundstrat OR FSInsight OR "Tom Lee" OR "Mark Newton" OR "Sean Farrell") newer_than:14d -in:spam -in:trash
+   ```
+
+   Read shortlisted message bodies with the Gmail batch-read tool. Feed the
+   resulting Gmail connector JSON shape (`responses:[...]`) into:
+
+   ```bash
+   python src/fundstrat_email_intake.py --stdin-json --out-dir src
+   ```
+
 3. If the drop folder has files, run:
 
    ```bash
