@@ -36,7 +36,7 @@ Current priority:
    normal schedules produce remaining `run_source=scheduled` receipts unless
    the user explicitly asks to accelerate again.
 
-Current pushed snapshot (2026-06-05 18:43 ET live artifacts; 19:01 ET cloud proof):
+Current pushed snapshot (2026-06-05 19:18 ET live artifacts; 19:01 ET cloud proof):
 
 - Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
   this handoff page's commit hash as runtime evidence.
@@ -62,7 +62,7 @@ Current pushed snapshot (2026-06-05 18:43 ET live artifacts; 19:01 ET cloud proo
   live data flow, dashboard preview, and the current supplied oil/rates watch.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-05 18:43 ET`.
+  `2026-06-05 19:18 ET`.
 - The dashboard Operator Status card now shows both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
@@ -70,7 +70,7 @@ Current pushed snapshot (2026-06-05 18:43 ET live artifacts; 19:01 ET cloud proo
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `1022 passed, 6 skipped`, plus
+- Full standard verification last passed with `1024 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
@@ -85,7 +85,9 @@ Important recent state:
   surfacing.
 - Latest completed slice after that baseline: dashboard decision grouping,
   freshness/rationale judgment, asymmetric opportunity lane, source/audit
-  panels, and Meridian stale-archive reclassification.
+  panels, and Meridian stale-archive reclassification. Fast-moving evidence
+  whose evidence date predates the build now lands in Re-check Before Acting
+  instead of plain Key Now.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -374,7 +376,7 @@ Important recent state:
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T22:43:49.533734+00:00`.
+  `2026-06-05T23:18:21.873913+00:00`.
 - The canonical JSX cockpit and generated summary/preview dashboard both have
   an Operator Status card near the top. It summarizes action count, open
   reviews, source-lane warning state, and the
@@ -397,7 +399,7 @@ Important recent state:
   actions, 1 dark optional lane (`account_positions`), 2 open
   action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
   active/queued system-improvement items. Its data-flow proof shows feed
-  `2026-06-05T22:43:49.533734+00:00`, 13 lanes with data, 1 dark lane, and
+  `2026-06-05T23:18:21.873913+00:00`, 13 lanes with data, 1 dark lane, and
   top action `synthesis`. It also prints the active Middle East oil/rates
   event watch, the sudden-event refresh command template, and the open-review
   resolution commands.
@@ -406,7 +408,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `1022 passed, 6 skipped`.
+- `python -m pytest src -q` -> `1024 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

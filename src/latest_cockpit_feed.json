@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T22:43:49.533734+00:00",
+  "generated_at": "2026-06-05T23:18:21.873913+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T22:43:49.533734+00:00",
+        "date": "2026-06-05T23:18:21.873913+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T22:43:49.533734+00:00",
+        "date": "2026-06-05T23:18:21.873913+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -125,7 +125,7 @@
         "label": "Signal Log",
         "status": "has_data",
         "detail": "checked",
-        "count": 6,
+        "count": 11,
         "checked_at": ""
       },
       {
@@ -273,8 +273,8 @@
       },
       "freshness": "fast-moving: evidence 2026-06-03; decays intraday to 1 trading day",
       "why_this_matters": "Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.",
-      "decision_group": "key_now",
-      "decision_group_label": "Key Now"
+      "decision_group": "recheck_before_acting",
+      "decision_group_label": "Re-check Before Acting"
     },
     {
       "rank": 3,
@@ -451,6 +451,46 @@
       "priority": "medium",
       "source": "https://app.notion.com/p/373c50314bb6818e9857f52cb4eda89b",
       "note": "Higher metals tariffs and ended exemptions are a policy tailwind for domestic materials and critical-minerals exposure. Watch-only."
+    },
+    {
+      "signal": "Growth-to-value rotation is pressuring held semis/AI exposure",
+      "ticker": "SMH, NVDA, MU, MAGS, GRNY, GRNJ, IGV, IVES, VOLT, QQQ",
+      "date": "2026-06-05",
+      "priority": "high",
+      "source": "https://app.notion.com/p/376c50314bb681b1bb45dbb5943bf598",
+      "note": "Fundstrat Daily Technical Strategy says the June 5 drawdown looked like rotation from Growth into Value rather than a broad-market top. Semis and QQQ cracked while Healthcare, Energy, Materials, Industrials, and Financials held up better. Watch-only for held AI/semis concentration; no trade call."
+    },
+    {
+      "signal": "QQQ and SOX support bands define next-week damage-control watch",
+      "ticker": "QQQ, SMH, NVDA, MU",
+      "date": "2026-06-05",
+      "priority": "high",
+      "source": "https://app.notion.com/p/376c50314bb68110b813d06ff64df7cd",
+      "note": "Fundstrat flagged QQQ roughly 703-705 and SOX roughly 12,114 as the first important support zones after the June 5 break. If those zones fail, the note shifts toward a deeper second leg lower. Watch-only timing signal for held semis and AI beta."
+    },
+    {
+      "signal": "UW market tide stayed deeply risk-off into the June 5 close",
+      "ticker": "SPY, QQQ, SMH, NVDA",
+      "date": "2026-06-05",
+      "priority": "high",
+      "source": "chart://market-tide/2026-06-05",
+      "note": "Unusual Whales market tide closed with sharply negative net call premium, positive net put premium, and negative net volume, confirming broad tape stress rather than an isolated single-name move. Watch-only flow context."
+    },
+    {
+      "signal": "Strong jobs plus higher yields widened the broad tech drawdown",
+      "ticker": "QQQ, NVDA, MU, XLF, TNX",
+      "date": "2026-06-05",
+      "priority": "medium",
+      "source": "https://apnews.com/article/b9d2661cbba6cc326c618c06769d8291",
+      "note": "AP market coverage on June 5 said a stronger-than-expected May jobs print pushed Treasury yields higher and helped trigger a tech-led selloff. Broad-market confirmation matches the Fundstrat rotation read. Watch-only."
+    },
+    {
+      "signal": "TNX and crude reversal path still depends on Persian Gulf de-escalation",
+      "ticker": "TNX, XLF, XOP, LEU, UUUU",
+      "date": "2026-06-05",
+      "priority": "medium",
+      "source": "https://app.notion.com/p/376c50314bb681718aafec25d4b5aea5",
+      "note": "Fundstrat Flash Insights argued yields could peak into next week and crude could keep easing if negotiation progress arrives in the Persian Gulf. This keeps rates/oil headline sensitivity live for financials, energy, and nuclear sleeves. Watch-only until confirmed."
     }
   ],
   "event_risk": [
@@ -1063,31 +1103,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T22:43:49.447149+00:00",
+      "last_run": "2026-06-05T23:18:21.787987+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T22:43:49.447149+00:00",
+      "last_run": "2026-06-05T23:18:21.787987+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T22:43:49.447149+00:00",
+      "last_run": "2026-06-05T23:18:21.787987+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T22:43:49.447149+00:00",
+      "last_run": "2026-06-05T23:18:21.787987+00:00",
       "note": "dark lanes: account_positions | next: Supply src\\account_positions.json through the owning source routine or manual live-source drop"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T22:43:49.447149+00:00",
+      "last_run": "2026-06-05T23:18:21.787987+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1990,11 +2030,19 @@
         "key": "key_now",
         "label": "Key Now",
         "description": "Decision pressure that is current, time-sensitive, or goal-moving.",
-        "count": 3,
+        "count": 2,
         "ranks": [
           1,
-          2,
           3
+        ]
+      },
+      {
+        "key": "recheck_before_acting",
+        "label": "Re-check Before Acting",
+        "description": "Items where a missing source, stale source, or gate must be checked first.",
+        "count": 1,
+        "ranks": [
+          2
         ]
       },
       {
@@ -2008,13 +2056,6 @@
         ]
       },
       {
-        "key": "recheck_before_acting",
-        "label": "Re-check Before Acting",
-        "description": "Items where a missing source, stale source, or gate must be checked first.",
-        "count": 0,
-        "ranks": []
-      },
-      {
         "key": "quiet_watch",
         "label": "Quiet Watch",
         "description": "Monitored context with no current action pressure.",
@@ -2023,9 +2064,9 @@
       }
     ],
     "counts": {
-      "key_now": 3,
+      "key_now": 2,
+      "recheck_before_acting": 1,
       "important_backlog": 2,
-      "recheck_before_acting": 0,
       "quiet_watch": 0
     }
   },
@@ -2137,8 +2178,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-05T15:55:00-04:00",
-        "connector_proof_age_hours": 2.81
+        "connector_verified_at": "2026-06-05T16:14:00-04:00",
+        "connector_proof_age_hours": 3.07
       }
     ],
     "missing": [],
@@ -2162,18 +2203,12 @@
     },
     "cloud_routines": {
       "status": "partial_live_run_proven",
-      "line": "Cloud scheduled proof: 2/10 routines proven; failed latest=0.",
-      "scheduled_success_count": 2,
+      "line": "Cloud scheduled proof: 3/10 routines proven; failed latest=0.",
+      "scheduled_success_count": 3,
       "expected_count": 10,
       "failed_latest_count": 0,
-      "missing_scheduled_success_count": 8,
+      "missing_scheduled_success_count": 7,
       "missing_scheduled_success": [
-        {
-          "routine_id": "investing-os-morning-scan",
-          "routine_name": "Investing OS Morning Scan",
-          "schedule": "market weekdays 8:35 AM ET",
-          "last_status": "success"
-        },
         {
           "routine_id": "investing-os-daily-synthesis",
           "routine_name": "Investing OS Daily Synthesis",
@@ -2236,13 +2271,13 @@
           "routine_name": "Investing OS Morning Scan",
           "role": "morning_scan",
           "schedule": "market weekdays 8:35 AM ET",
-          "receipt_count": 8,
+          "receipt_count": 10,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-05T20:11:59.119323Z",
-          "last_success_at": "2026-06-05T20:11:59.119323Z",
-          "last_scheduled_success_at": "",
-          "last_summary": "morning scan manual run completed; Signal Log remains watch-only"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-05T23:00:09.235927Z",
+          "last_success_at": "2026-06-05T23:00:09.235927Z",
+          "last_scheduled_success_at": "2026-06-05T23:00:09.235927Z",
+          "last_summary": "5 Signal Log rows written to Notion; repo Signal Log merged to 11 rows; UW proof refreshed to 2026-06-05 16:14 ET; macro cache left unchanged"
         },
         {
           "routine_id": "investing-os-daily-synthesis",
@@ -2361,8 +2396,8 @@
           "label": "Signal Log cache",
           "status": "has_data",
           "written": true,
-          "count": 6,
-          "line": "Signal Log cache: written; count=6.",
+          "count": 11,
+          "line": "Signal Log cache: written; count=11.",
           "problems": []
         },
         {

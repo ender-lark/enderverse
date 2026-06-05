@@ -42,6 +42,9 @@ until the core logic is stable; Notion sync comes later.
   - Added action grouping into Key Now, Important Backlog, Re-check Before
     Acting, and Quiet Watch so the dashboard can surface every important
     decision while pushing the most time-sensitive items harder.
+  - Tightened the grouping so fast-moving evidence whose evidence date predates
+    the current build lands in Re-check Before Acting, while same-day
+    fast-moving evidence can remain Key Now.
   - Added freshness/rationale judgment on action cards: evidence date, last
     checked, decay speed, freshness label, and why the recommendation still
     matters.

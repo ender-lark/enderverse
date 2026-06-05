@@ -17,14 +17,14 @@ GROUPS = (
         "description": "Decision pressure that is current, time-sensitive, or goal-moving.",
     },
     {
-        "key": "important_backlog",
-        "label": "Important Backlog",
-        "description": "Still-important decisions that should stay visible but are not the loudest current item.",
-    },
-    {
         "key": "recheck_before_acting",
         "label": "Re-check Before Acting",
         "description": "Items where a missing source, stale source, or gate must be checked first.",
+    },
+    {
+        "key": "important_backlog",
+        "label": "Important Backlog",
+        "description": "Still-important decisions that should stay visible but are not the loudest current item.",
     },
     {
         "key": "quiet_watch",
@@ -167,6 +167,13 @@ def _group_for(action: dict[str, Any]) -> str:
     freshness_label = str(freshness.get("label") or "")
 
     if freshness_label in {"stale", "not checked"}:
+        return "recheck_before_acting"
+    if (
+        freshness_label == "fast-moving"
+        and freshness.get("evidence_date")
+        and freshness.get("last_checked")
+        and freshness.get("evidence_date") != freshness.get("last_checked")
+    ):
         return "recheck_before_acting"
     if missing and state != "ACT_NOW":
         return "recheck_before_acting"

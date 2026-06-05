@@ -46,8 +46,8 @@ Result summary:
 - `research_actions`: 0
 - `lane_status.counts.not_checked`: 1
 - Dark lane keys: `account_positions`.
-- Action decision groups: Key Now 3, Important Backlog 2, Re-check Before
-  Acting 0, Quiet Watch 0.
+- Action decision groups: Key Now 2, Re-check Before Acting 1, Important
+  Backlog 2, Quiet Watch 0.
 - Asymmetric opportunities: 8 deduped ticker rows.
 - Source audits include cloud routine proof, connector evidence, Fundstrat
   intake, and Notion/writeback audit.
