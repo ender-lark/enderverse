@@ -106,6 +106,20 @@ def test_end_to_end_fake_feed_and_caveat():
     assert "catalysts" in cav and "questions" in cav   # curated lanes flagged
 
 
+def test_caveat_is_windows_console_safe():
+    feed = {
+        "generated_at": "2026-06-01T20:17:26-04:00",
+        "actions": [],
+        "fresh_signals": [],
+        "catalysts": [],
+        "questions": [],
+        "hero": {"needs_you": {"count": 0, "items": []}},
+        "heartbeat": [{"layer": "Optional Source Lanes", "status": "stale"}],
+        "holdings": [],
+    }
+    rc.build_caveat(feed).encode("cp1252")
+
+
 @requires_template
 def test_main_stdin_writes_artifact(tmp_path, monkeypatch, capsys):
     out = tmp_path / "cockpit.jsx"

@@ -72,6 +72,14 @@ enough to hand control back, using current repo state as evidence. It covers:
   src/test_full_build_runner.py src/test_live_readiness.py
   src/test_heartbeat_status.py src/test_runtime_full.py
   src/test_cockpit_blocks.py -q` reported 57 passed.
+- `python src/render_cockpit.py src/latest_cockpit_feed.json --out
+  src/rendered/conviction_cockpit_v5.jsx` succeeded after making the renderer's
+  caveat output ASCII-safe on Windows.
+- Focused dashboard render checks passed: `python -m pytest
+  src/test_render_cockpit.py src/test_dashboard_parity_guardrail.py -q`
+  reported 6 passed, 5 skipped.
+- `python src/render_cockpit.py --selftest` passed after the published-feed
+  render refresh.
 - Focused minimum-live-input validation tests passed: `python -m pytest
   src/test_live_readiness.py src/test_heartbeat_status.py
   src/test_full_build_runner.py -q` reported 20 passed.
@@ -96,12 +104,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 880 passed, 6 skipped
+  - broad `src` suite: 881 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 880 passed, 6 skipped.
+  ignore workaround: 881 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -126,6 +134,10 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Published feed dashboard render refresh: `latest_cockpit_feed.json` is now
+  injected into `src/rendered/conviction_cockpit_v5.jsx` through the canonical
+  JSX injector, and `render_cockpit.py` has a Windows-console-safe caveat
+  regression.
 - Live launch rehearsal and first publish: validated UW price and macro caches
   are now present, `live_readiness.py` reports `go_live_ready: true`, the
   heartbeat has 0 down rows, and `latest_cockpit_feed.json` was published

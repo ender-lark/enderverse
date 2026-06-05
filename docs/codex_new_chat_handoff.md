@@ -29,8 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Live launch rehearsal and
-  first publish.
+- Latest completed slice before this handoff refresh: Published feed dashboard
+  render refresh.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -107,12 +107,18 @@ Important recent state:
   `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
   It wrote `src/latest_cockpit_feed.json` and updated
   `src/open_opportunities.json` with 0 open action-memory items.
+- The published feed has been rendered through the canonical JSX injector:
+  `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
+  The rendered artifact contains generated_at
+  `2026-06-05T07:01:39.270529+00:00`.
+- `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
+  regression test covers cp1252 encoding of the caveat line.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `880 passed, 6 skipped`.
+- `python -m pytest src -q` -> `881 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
-- `python src\verify_standard.py` passed with the same full pytest tree plus the standalone self-tests.
+- `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 
 Working rules:
 

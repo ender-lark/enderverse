@@ -15,6 +15,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Published feed dashboard render refresh.
+  - Rendered `src/latest_cockpit_feed.json` through the canonical JSX injector
+    into `src/rendered/conviction_cockpit_v5.jsx`.
+  - Fixed `render_cockpit.py` console caveat output so the render path is
+    ASCII-safe on Windows consoles.
+  - Added a regression test for Windows-console-safe caveat output.
+  - Verified `render_cockpit.py --selftest` plus focused render/parity tests.
 - Live launch rehearsal and first publish.
   - Populated validated minimum live market inputs:
     `src/uw_closes.json` plus `src/uw_price_cache_summary.json`, and

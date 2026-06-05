@@ -175,7 +175,7 @@ def build_caveat(feed: dict) -> str:
     if not needs.get("count"):
         empty_engine.append("needs_you")
     if empty_engine:
-        parts.append("empty engine lanes: " + ", ".join(empty_engine) + " (≠ all clear — see synthesis hanging)")
+        parts.append("empty engine lanes: " + ", ".join(empty_engine) + " (!= all clear - see synthesis hanging)")
 
     # heartbeat: surface the dead-spots honestly
     hb = feed.get("heartbeat", []) or []
@@ -187,7 +187,7 @@ def build_caveat(feed: dict) -> str:
         parts.append("heartbeat STALE: " + ", ".join(stale))
 
     parts.append("prices as-of build, not live (say `refresh`)")
-    return " · ".join(parts)
+    return " | ".join(parts)
 
 
 # ── self-test: round-trip the template's OWN golden FEED through the injector ──
@@ -254,7 +254,7 @@ def main(argv: list[str] | None = None) -> int:
     with open(args.out, "w", encoding="utf-8") as f:
         f.write(new_text)
 
-    print(f"RENDER READY · {args.out}")
+    print(f"RENDER READY | {args.out}")
     print(build_caveat(feed))
     return 0
 
