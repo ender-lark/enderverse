@@ -51,7 +51,16 @@ This is the main replacement for Claude's FULL-build prompt.
 
    This writes heartbeat status, publishes a feed, refreshes repo-evidence
    Daily Synthesis from that feed, republishes, and renders both the canonical
-   JSX artifact and the summary/preview HTML.
+   JSX artifact and the summary/preview HTML. The final JSON summary is the
+   operator readout: it includes `go_live_ready`, required-input status, live
+   market-data status, action count/top actions, data-lane count, dark lanes,
+   source-call calibration status, and the preview path.
+
+   Current local preview:
+
+   ```text
+   http://127.0.0.1:8765/dashboard_preview.html
+   ```
 
 9. If publish fails, do not force-write a feed. Report the publish-gate problems.
 10. Run focused checks:
@@ -66,6 +75,7 @@ This is the main replacement for Claude's FULL-build prompt.
    - research-action count
    - dark-lane count
    - stale/failed source count
+   - `go_live_ready`
    - whether `open_opportunities.json` was updated
 
 ## Rules
