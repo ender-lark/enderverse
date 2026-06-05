@@ -106,6 +106,58 @@ def run_steps(steps: list[Step]) -> list[dict[str, object]]:
     return results
 
 
+def build_refresh_summary(feed_path: str | Path, *, preview_out: str | Path | None = None) -> dict:
+    feed_file = Path(feed_path)
+    feed = json.loads(feed_file.read_text(encoding="utf-8"))
+    lane_status = feed.get("lane_status") if isinstance(feed, dict) else {}
+    counts = lane_status.get("counts") if isinstance(lane_status, dict) else {}
+    rows = lane_status.get("rows") if isinstance(lane_status, dict) else []
+    dark_rows = [
+        {
+            "key": r.get("key") or "",
+            "label": r.get("label") or "",
+            "next_step": r.get("next_step") or "",
+            "missing_impact": r.get("missing_impact") or "",
+        }
+        for r in rows or []
+        if isinstance(r, dict) and r.get("status") == "not_checked"
+    ]
+    actions = [
+        {
+            "ticker": a.get("ticker"),
+            "kind": a.get("kind") or "",
+            "action_state": a.get("action_state") or a.get("urgency") or "",
+            "what": a.get("what") or a.get("headline") or "",
+        }
+        for a in (feed.get("actions") or [])
+        if isinstance(a, dict)
+    ]
+    feedback = feed.get("feedback") if isinstance(feed, dict) else {}
+    source_calls = (feedback or {}).get("source_calls") if isinstance(feedback, dict) else {}
+    staleness = feed.get("staleness") if isinstance(feed, dict) else {}
+    return {
+        "feed": _rel(feed_file),
+        "preview": _rel(preview_out) if preview_out else "",
+        "generated_at": feed.get("generated_at") or "",
+        "data_flow": {
+            "staleness_stamp": (staleness or {}).get("stamp") or "",
+            "lanes_with_data": int((counts or {}).get("has_data") or 0),
+            "dark_lanes": int((counts or {}).get("not_checked") or 0),
+            "dark_lane_keys": [r["key"] for r in dark_rows if r.get("key")],
+        },
+        "actions": {
+            "count": len(actions),
+            "top": actions[:5],
+        },
+        "source_calls": {
+            "status": (source_calls or {}).get("status") or "not_checked",
+            "line": (source_calls or {}).get("line") or "Source calls not checked.",
+            "observed_count": int((source_calls or {}).get("observed_count") or 0),
+        },
+        "dark_lane_details": dark_rows[:5],
+    }
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Refresh repo-local live dashboard artifacts")
     parser.add_argument("--src-dir", default=str(DEFAULT_SRC))
@@ -131,7 +183,10 @@ def main(argv=None) -> int:
         print(json.dumps({"steps": [_step_dict(step) for step in steps]}, indent=2))
         return 0
     results = run_steps(steps)
-    print(json.dumps({"refreshed": True, "steps": results}, indent=2))
+    feed = Path(args.feed_out) if args.feed_out else Path(args.src_dir) / "latest_cockpit_feed.json"
+    preview = Path(args.preview_out) if args.preview_out else ROOT / "tmp" / "dashboard_preview.html"
+    summary = build_refresh_summary(feed, preview_out=preview)
+    print(json.dumps({"refreshed": True, "steps": results, "summary": summary}, indent=2))
     return 0
 
 

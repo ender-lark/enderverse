@@ -54,3 +54,39 @@ def test_live_dashboard_refresh_dry_run_lists_steps():
     payload = json.loads(proc.stdout)
     assert payload["steps"][2]["name"] == "repo_evidence_synthesis"
     assert payload["steps"][-1]["name"] == "write_parity_feed"
+
+
+def test_build_refresh_summary_surfaces_live_state(tmp_path):
+    feed = tmp_path / "feed.json"
+    feed.write_text(json.dumps({
+        "generated_at": "2026-06-05T14:00:00+00:00",
+        "staleness": {"stamp": "sourced: portfolio 05-31"},
+        "lane_status": {
+            "counts": {"has_data": 7, "not_checked": 1},
+            "rows": [
+                {"key": "catalysts", "label": "Catalysts", "status": "not_checked",
+                 "next_step": "Supply catalysts.", "missing_impact": "Timing may be missing."},
+            ],
+        },
+        "actions": [
+            {"ticker": "NVDA", "kind": "conviction_gap", "urgency": "ACT_NOW",
+             "headline": "Conviction gap: NVDA is under target"},
+        ],
+        "feedback": {
+            "source_calls": {
+                "status": "not_checked",
+                "line": "Source-call calibration not checked; 3 unscored daily call(s) are flowing.",
+                "observed_count": 3,
+            },
+        },
+    }), encoding="utf-8")
+
+    summary = refresh.build_refresh_summary(feed, preview_out=tmp_path / "preview.html")
+
+    assert summary["actions"]["count"] == 1
+    assert summary["actions"]["top"][0]["ticker"] == "NVDA"
+    assert summary["actions"]["top"][0]["what"] == "Conviction gap: NVDA is under target"
+    assert summary["actions"]["top"][0]["action_state"] == "ACT_NOW"
+    assert summary["data_flow"]["lanes_with_data"] == 7
+    assert summary["data_flow"]["dark_lane_keys"] == ["catalysts"]
+    assert summary["source_calls"]["observed_count"] == 3
