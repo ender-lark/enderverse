@@ -13,6 +13,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Full-build state ownership coverage.
+  - Added explicit ownership entries for `inbox_call_dates`, `log_call_dates`,
+    `meridian`, and `signal_log`.
+  - Added a state ownership validator guardrail requiring every
+    `full_build_runner.DEFAULT_FILES` key to appear in an ownership feed path.
+  - Kept the new coverage system-focused; no Core List storage or stock-specific
+    research was added.
 - AVGO research priority downgrade.
   - Lowered the AVGO thesis item from high-priority Working to low-priority
     Queued because the important timing date has passed.

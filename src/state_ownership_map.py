@@ -24,27 +24,45 @@ REQUIRED_OBJECT_FIELDS = {
 }
 
 EXPECTED_ARTIFACT_IDS = {
+    "account_positions",
+    "catalysts",
+    "daily_synthesis",
+    "fundstrat_bible",
     "positions",
+    "position_reconciliation",
     "theses",
     "fundstrat_daily_calls",
-    "fundstrat_bible",
-    "research_queue",
-    "catalysts",
-    "uw_opportunity_signals",
-    "parabolic_setups",
-    "top_prospects",
-    "source_calls",
-    "macro_state",
-    "uw_closes",
-    "daily_synthesis",
-    "open_opportunities",
+    "fundstrat_inbox_entries",
     "heartbeat",
+    "inbox_call_dates",
+    "log_call_dates",
+    "macro_state",
+    "meridian",
+    "open_opportunities",
+    "parabolic_setups",
+    "research_queue",
+    "signal_log",
+    "source_calls",
+    "system_improvement_queue",
+    "top_prospects",
+    "uw_opportunity_signals",
+    "uw_closes",
 }
 
 
 def _read_json(path: str | Path) -> Any:
     with Path(path).open(encoding="utf-8") as fh:
         return json.load(fh)
+
+
+def _default_file_keys() -> set[str]:
+    try:
+        from full_build_runner import DEFAULT_FILES
+    except Exception:
+        return set()
+    if not isinstance(DEFAULT_FILES, dict):
+        return set()
+    return {str(key) for key in DEFAULT_FILES}
 
 
 def validate_ownership_map(payload: dict[str, Any]) -> list[str]:
@@ -77,10 +95,30 @@ def validate_ownership_map(payload: dict[str, Any]) -> list[str]:
     missing = sorted(EXPECTED_ARTIFACT_IDS - ids)
     if missing:
         problems.append(f"missing expected artifact ownership ids: {', '.join(missing)}")
+
+    feed_paths = "\n".join(
+        str(obj.get("feed_path") or "")
+        for obj in objects
+        if isinstance(obj, dict)
+    )
+    missing_default_files = sorted(
+        key
+        for key in _default_file_keys()
+        if f"DEFAULT_FILES.{key}" not in feed_paths
+    )
+    if missing_default_files:
+        problems.append(
+            "full_build_runner.DEFAULT_FILES keys missing ownership feed_path references: "
+            + ", ".join(missing_default_files)
+        )
     return problems
 
 
 def _self_test() -> int:
+    default_refs = " ".join(
+        f"full_build_runner.DEFAULT_FILES.{key}"
+        for key in sorted(_default_file_keys())
+    )
     payload = {
         "objects": [
             {
@@ -91,6 +129,7 @@ def _self_test() -> int:
             for obj_id in EXPECTED_ARTIFACT_IDS
         ]
     }
+    payload["objects"][0]["feed_path"] = default_refs or "x"
     assert validate_ownership_map(payload) == []
     bad = {"objects": [{"id": "positions"}]}
     assert validate_ownership_map(bad)

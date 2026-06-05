@@ -92,6 +92,30 @@
       "action_surface": "Supports source-call persistence checks; not a direct trade signal."
     },
     {
+      "id": "inbox_call_dates",
+      "source_of_truth": "fundstrat_full_body_intake_dates",
+      "repo_artifact": "src/inbox_call_dates.json",
+      "producer": "fundstrat_email_intake.py",
+      "feed_path": "full_build_runner.DEFAULT_FILES.inbox_call_dates -> feedback_summary calibration/source-call freshness",
+      "dashboard_surface": "Feedback loops calibration/provisional banner",
+      "mirror_policy": "GitHub stores date metadata only; raw Fundstrat emails are not committed.",
+      "freshness_contract": "Update only from full-body Fundstrat intake or a validated merge path.",
+      "not_checked_behavior": "Missing or stale dates keep calibration provisional; snippet-only discovery must not update this file.",
+      "action_surface": "Calibrates source-call loudness and freshness; not a direct trade signal."
+    },
+    {
+      "id": "log_call_dates",
+      "source_of_truth": "classified_source_call_log",
+      "repo_artifact": "src/log_call_dates.json",
+      "producer": "fundstrat_email_intake.py + source_call_cache_merge.py",
+      "feed_path": "full_build_runner.DEFAULT_FILES.log_call_dates -> feedback_summary calibration/source-call freshness",
+      "dashboard_surface": "Feedback loops calibration/provisional banner",
+      "mirror_policy": "GitHub stores classified source-call date metadata only.",
+      "freshness_contract": "Update when classified source-call candidates merge into source_calls.json.",
+      "not_checked_behavior": "Missing or stale dates keep calibration provisional.",
+      "action_surface": "Calibrates repeated source-call evidence; not a direct trade signal."
+    },
+    {
       "id": "source_calls",
       "source_of_truth": "github_cache_from_fundstrat_classification",
       "repo_artifact": "src/source_calls.json",
@@ -176,6 +200,18 @@
       "action_surface": "Structured or ticker-led actionable items can promote conservatively."
     },
     {
+      "id": "meridian",
+      "source_of_truth": "meridian_source_exports_or_cache",
+      "repo_artifact": "src/meridian_items.json",
+      "producer": "Meridian routine/export",
+      "feed_path": "full_build_runner.DEFAULT_FILES.meridian -> meridian source -> conviction direction/net read context",
+      "dashboard_surface": "Holdings conviction and net-read context when Meridian data exists",
+      "mirror_policy": "GitHub stores structured Meridian thesis/call/model rows only.",
+      "freshness_contract": "Refresh only from a validated Meridian export/source.",
+      "not_checked_behavior": "Missing Meridian data is not checked; stale or absent data must not imply no Meridian signal.",
+      "action_surface": "Conflicting or confirming source context; never a standalone trade signal."
+    },
+    {
       "id": "macro_state",
       "source_of_truth": "uw_macro_or_market_data_routine",
       "repo_artifact": "src/macro_state.json",
@@ -222,6 +258,18 @@
       "freshness_contract": "Each routine reports last_run/status/failure plainly.",
       "not_checked_behavior": "Absent heartbeat rows are not checked.",
       "action_surface": "Operational surface only; can block confidence in other action lanes."
+    },
+    {
+      "id": "signal_log",
+      "source_of_truth": "morning_signal_log_or_export",
+      "repo_artifact": "src/signal_log.json",
+      "producer": "signal_log intake/export",
+      "feed_path": "full_build_runner.DEFAULT_FILES.signal_log -> feed.signal_log watch-only lane",
+      "dashboard_surface": "Signal Log lane",
+      "mirror_policy": "GitHub stores structured watch-only signal rows.",
+      "freshness_contract": "Update only when signal-log rows are supplied or fetched.",
+      "not_checked_behavior": "Missing fetch is not checked, not no signals.",
+      "action_surface": "Watch-only context; never directly promotes into actions."
     },
     {
       "id": "system_improvement_queue",

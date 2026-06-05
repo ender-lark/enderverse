@@ -23,6 +23,11 @@ enough to hand control back, using current repo state as evidence. It covers:
   items as done after the Fundstrat monthly/Bible direct upload slice.
 - `python src/state_ownership_map.py` passed after adding monthly Fundstrat
   Bible ownership.
+- `python src/state_ownership_map.py` passed after adding full-build
+  `DEFAULT_FILES` ownership coverage for `inbox_call_dates`, `log_call_dates`,
+  `meridian`, and `signal_log`.
+- `python src/state_ownership_map.py --self-test` passed with the new
+  full-build convention-file coverage guardrail.
 - `python src/codex_routine_manifest.py` passed with six active routine
   definitions across source intake, market data refresh, and feed build/publish.
 - Dashboard parity guardrail tests passed.
@@ -50,6 +55,10 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Full-build state ownership coverage: every `full_build_runner.DEFAULT_FILES`
+  convention input now has an ownership feed-path reference, including
+  `inbox_call_dates`, `log_call_dates`, `meridian`, and `signal_log`; the
+  validator now rejects missing convention-file ownership.
 - Dashboard parity refresh: current emitted feed keys remain covered by
   `docs/dashboard_feed_block_classification.json`; no UI work was needed.
 - Fundstrat source-call upsert automation: full-body intake can now merge
