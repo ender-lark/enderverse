@@ -138,6 +138,7 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
 
     assert report["ready_for_unattended_daily_run"] is True
     assert report["schedule_ready_for_unattended_run"] is True
+    assert report["first_scheduled_run_proven"] is False
     assert report["live_run_proven"] is False
     assert report["cloud_operating_state"] == "ready_pending_first_success"
     assert report["routine_receipt_due"]["overdue_count"] == 0
@@ -272,9 +273,51 @@ def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(mon
     text = cloud_ops_status.format_text(report)
 
     assert report["ready_for_unattended_daily_run"] is True
+    assert report["first_scheduled_run_proven"] is True
     assert report["live_run_proven"] is True
     assert report["cloud_operating_state"] == "live_run_proven"
+    assert "Cloud first scheduled run proven: True" in text
     assert "Cloud live-run proven: True" in text
+
+
+def test_cloud_ops_status_reports_partial_live_run_after_first_scheduled_success(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+    cloud_routine_receipts.append_receipt(
+        path=src / "cloud_routine_receipts.json",
+        routine_id="investing-os-post-close-refresh",
+        status="success",
+        run_source="scheduled",
+        summary="post-close refresh succeeded",
+        recorded_at="2026-06-05T20:35:00Z",
+    )
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T16:40:00-04:00",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["ready_for_unattended_daily_run"] is True
+    assert report["first_scheduled_run_proven"] is True
+    assert report["live_run_proven"] is False
+    assert report["cloud_operating_state"] == "partial_live_run_proven"
+    assert report["routine_receipts"]["summary"]["scheduled_success_count"] == 1
+    assert "Cloud first scheduled run proven: True" in text
+    assert "Cloud live-run proven: False" in text
 
 
 def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monkeypatch, tmp_path):
@@ -310,6 +353,7 @@ def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monke
     text = cloud_ops_status.format_text(report)
 
     assert report["ready_for_unattended_daily_run"] is True
+    assert report["first_scheduled_run_proven"] is False
     assert report["live_run_proven"] is False
     assert report["cloud_operating_state"] == "ready_pending_first_success"
     assert report["routine_receipts"]["summary"]["success_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)

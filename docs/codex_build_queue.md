@@ -83,6 +83,10 @@ until the core logic is stable; Notion sync comes later.
     `--run-source scheduled`; current cloud status reports
     `scheduled_success=0/10` because the first scheduled proof run has not
     happened yet.
+  - `cloud_ops_status.py` distinguishes first scheduled proof from full-stack
+    proof: one scheduled success moves the state to `partial_live_run_proven`,
+    while `Cloud live-run proven` remains false until every expected routine has
+    a scheduled success receipt.
   - `python src/cloud_ops_status.py --format text` now reports both the active
     routine stack and the current run-receipt proof count. A newly installed
     routine stack can be ready before first run, but no live run should be

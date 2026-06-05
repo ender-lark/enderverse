@@ -216,7 +216,12 @@ Important recent state:
   first-run-pending jobs are visible and failed latest receipts become operator
   gaps.
   Treat `Cloud schedule ready: true` as installed/ready-to-run only; the live
-  scheduled system is not proven until `Cloud live-run proven: true`.
+  scheduled system has first-run proof only when
+  `Cloud first scheduled run proven: true`; the full routine stack is not
+  proven until `Cloud live-run proven: true`.
+  One scheduled success moves the operating state to
+  `partial_live_run_proven`, while full-stack proof requires every expected
+  routine to have a scheduled success receipt.
   The status command also prints the next expected receipt and marks a routine
   overdue after a 30-minute grace window. The first expected proof target after
   this activation is Post-Close Refresh at 2026-06-05 4:30 PM ET.

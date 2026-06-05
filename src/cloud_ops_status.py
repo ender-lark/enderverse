@@ -652,23 +652,34 @@ def cloud_ops_status(
         and int(receipt_due.get("overdue_count") or 0) == 0
     )
     receipt_summary = receipts.get("summary") or {}
+    scheduled_success_count = int(receipt_summary.get("scheduled_success_count") or 0)
+    expected_receipt_count = int(receipt_summary.get("expected_count") or 0)
+    failed_latest_count = int(receipt_summary.get("failed_latest_count") or 0)
+    first_scheduled_run_proven = (
+        schedule_ready
+        and scheduled_success_count > 0
+        and failed_latest_count == 0
+    )
     live_run_proven = (
         schedule_ready
-        and int(receipt_summary.get("scheduled_success_count") or 0) >= int(receipt_summary.get("expected_count") or 0)
-        and int(receipt_summary.get("expected_count") or 0) > 0
-        and int(receipt_summary.get("failed_latest_count") or 0) == 0
+        and scheduled_success_count >= expected_receipt_count
+        and expected_receipt_count > 0
+        and failed_latest_count == 0
     )
     if not schedule_ready:
         operating_state = "not_ready"
+    elif failed_latest_count:
+        operating_state = "run_failed"
     elif live_run_proven:
         operating_state = "live_run_proven"
-    elif int(receipt_summary.get("failed_latest_count") or 0):
-        operating_state = "run_failed"
+    elif first_scheduled_run_proven:
+        operating_state = "partial_live_run_proven"
     else:
         operating_state = "ready_pending_first_success"
     return {
         "ready_for_unattended_daily_run": schedule_ready,
         "schedule_ready_for_unattended_run": schedule_ready,
+        "first_scheduled_run_proven": first_scheduled_run_proven,
         "live_run_proven": live_run_proven,
         "cloud_operating_state": operating_state,
         "local_go_live_ready": bool(status.get("go_live_ready")),
@@ -703,6 +714,7 @@ def format_text(report: dict[str, Any]) -> str:
     )
     lines = [
         f"Cloud schedule ready: {bool(report.get('schedule_ready_for_unattended_run'))}",
+        f"Cloud first scheduled run proven: {bool(report.get('first_scheduled_run_proven'))}",
         f"Cloud live-run proven: {bool(report.get('live_run_proven'))}",
         f"Cloud operating state: {report.get('cloud_operating_state') or 'unknown'}",
         f"Local go-live ready: {bool(report.get('local_go_live_ready'))}",
