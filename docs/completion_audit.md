@@ -68,6 +68,11 @@ enough to hand control back, using current repo state as evidence. It covers:
   `src/latest_cockpit_feed.json`, refreshed the rendered dashboard artifacts,
   and updated `src/open_opportunities.json` with 2 open watch/review items
   (`ANET`, `GOOGL`) and 0 history rows.
+- `python src/dashboard_preview_server.py --check` succeeded and reported that
+  `tmp/dashboard_preview.html` exists and the local preview server is running
+  on `http://127.0.0.1:8765/dashboard_preview.html`.
+- `python src/action_memory_resolve.py --list` succeeded and reported 2 open
+  action-memory items: `ANET` and `GOOGL`.
 - Focused daily full-build checks passed: `python -m pytest
   src/test_full_build_runner.py src/test_live_readiness.py
   src/test_heartbeat_status.py src/test_runtime_full.py
@@ -105,12 +110,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 911 passed, 6 skipped
+  - broad `src` suite: 918 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 911 passed, 6 skipped.
+  ignore workaround: 918 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -235,6 +240,11 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Codex routine manifest/control plane.
 - Gmail-first Fundstrat intake hardening.
 - ETF look-through effective exposure in portfolio views and canonical Book tab.
+- Dashboard preview server helper: repo-owned command can now check or serve the
+  local preview URL, and the live refresh summary reports preview-server status.
+- Open action resolver: repo-owned command can now list or resolve
+  `open_opportunities.json` items into history after operator review without a
+  full feed rebuild.
 
 ## Remaining Discovery
 

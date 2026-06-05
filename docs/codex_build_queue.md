@@ -112,8 +112,8 @@ until the core logic is stable; Notion sync comes later.
   - Ran the publish path successfully:
     `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
   - Published `src/latest_cockpit_feed.json` and updated
-    `src/open_opportunities.json`; there are currently 0 action rows and 0
-    research-action rows.
+    `src/open_opportunities.json`; the current live refresh now surfaces 4
+    action rows and 0 research-action rows.
 - Heartbeat cache snapshot.
   - Ran `heartbeat_status.py` against current repo-local readiness evidence and
     wrote `src/heartbeat.json` plus `src/heartbeat_summary.json`.
@@ -358,8 +358,19 @@ until the core logic is stable; Notion sync comes later.
   - Added `live_dashboard_refresh.py` as the repo-local live refresh runner.
   - It writes heartbeat status, publishes a feed, refreshes repo-evidence Daily
     Synthesis from that feed, republishes, renders canonical JSX plus
-    summary/preview HTML, and writes the parity feed.
+    summary/preview HTML, writes the parity feed, and prints readiness plus
+    preview-server status.
   - Added routine-manifest coverage and focused tests for the refresh sequence.
+- Dashboard preview server helper.
+  - Added `dashboard_preview_server.py` so the repo can check or serve
+    `tmp/dashboard_preview.html` at the local preview URL without relying on an
+    unknown external server process.
+  - Wired preview-server status into the live dashboard refresh summary.
+- Open action resolver.
+  - Added `action_memory_resolve.py` so unresolved action-memory items can be
+    listed or resolved into history after operator review without rebuilding the
+    feed.
+  - Current open action-memory items are `ANET` and `GOOGL`.
 - Conviction-gap action surfacing.
   - Promoted the useful part of the Notion System Update Queue E1 item.
   - Target Drift now emits conservative `conviction_gap` action prompts for

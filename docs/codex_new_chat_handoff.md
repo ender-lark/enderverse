@@ -29,8 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: live-operations docs and
-  readiness-summary refresh.
+- Latest completed slice before this handoff refresh: open action resolver and
+  dashboard preview server helper.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -136,8 +136,9 @@ Important recent state:
   target names and MONITOR sleeves stay out of Today's Actions.
 - The first publish path succeeded:
   `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
-  It wrote `src/latest_cockpit_feed.json` and updated
-  `src/open_opportunities.json` with 0 open action-memory items.
+  It wrote `src/latest_cockpit_feed.json`; current daily action memory is now
+  maintained by the live refresh and can be inspected with
+  `python src/action_memory_resolve.py --list`.
 - The local one-command live dashboard refresh is now:
   `python src/live_dashboard_refresh.py`.
   It writes heartbeat status, publishes a feed, refreshes repo-evidence Daily
@@ -145,17 +146,27 @@ Important recent state:
   `src/rendered/conviction_cockpit_v5.jsx`, writes `docs/index.html`, refreshes
   `tmp/dashboard_preview.html`, writes `tmp/dashboard_parity_feed.json`, and
   prints a final operator summary with actions, data lanes, dark lanes,
-  source-call status, and `go_live_ready`.
+  source-call status, `go_live_ready`, and local preview-server status.
+- The local preview helper is:
+  `python src/dashboard_preview_server.py --check` to inspect status, or
+  `python src/dashboard_preview_server.py` to serve `tmp/dashboard_preview.html`
+  on `http://127.0.0.1:8765/dashboard_preview.html`.
+- The open action-memory resolver is:
+  `python src/action_memory_resolve.py --list` to inspect unresolved items, or
+  `python src/action_memory_resolve.py --ticker <TICKER> --status deferred --reason "..."`
+  to resolve an item into history after operator review.
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T09:13:56.366738+00:00`.
+  `2026-06-05T09:21:11.228075+00:00`.
+- Current `src/open_opportunities.json` has 2 open watch/review items:
+  `ANET` and `GOOGL`.
 - `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
   regression test covers cp1252 encoding of the caveat line.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `911 passed, 6 skipped`.
+- `python -m pytest src -q` -> `918 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 
