@@ -217,6 +217,12 @@ Important recent state:
   jobs as schedule conflicts. It also validates active local automation prompts
   for routine-specific receipt protocol; current app state reports
   `Cloud receipt protocol: checked=10 | ok=10 | missing=0`.
+- The active automation timing was checked against Notion's "Scheduled Cloud
+  Routines - Master Reference" and the 2026-06-02 "Routine schedule reconcile"
+  note. Current intent: Morning Scan at 8:35 ET, Daily Synthesis at 9:30 ET
+  after Morning Scan, UW Opportunity Cache no earlier than roughly 9:45 ET
+  and currently 10:00 ET, Full Cockpit Build at 10:30 ET, Post-Close Refresh
+  at 4:30 PM ET.
 - `src/cloud_routine_receipts.py` records scheduled-run receipts in
   `src/cloud_routine_receipts.json`. Each automation should append a
   started/success/failed receipt at the end of its run using

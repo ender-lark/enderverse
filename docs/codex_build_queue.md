@@ -42,6 +42,13 @@ until the core logic is stable; Notion sync comes later.
     Parabolic Cache (10:05), Full Cockpit Build (10:30), Post-Close Refresh
     (4:30 PM), Off-Hours Worker (1:45 AM daily), Deep Synthesis (Sunday
     1:00 PM), and Weekly Pilot Run (Sunday 6:00 PM).
+  - Schedule basis was cross-checked against Notion's "Scheduled Cloud
+    Routines - Master Reference" and the 2026-06-02 "Routine schedule
+    reconcile" note. The reconcile note says Daily Synthesis must not run
+    before the 8:35 Morning Scan, 9:15-9:30 is acceptable, UW Opportunity
+    Cache should not move before roughly 9:45, and the full cockpit build
+    should move to 10:30 to give UW/Synthesis more buffer. The current active
+    stack follows those constraints.
   - Paused the old generic `investing-os-daily-cloud-refresh` automation as
     superseded by the split routine stack.
   - Paused six older unreceipted local cron jobs as superseded by the active
