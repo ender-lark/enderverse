@@ -12,6 +12,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Generated HTML summary safety.
+  - Added a summary/export caveat to the generated GitHub Pages dashboard.
+  - Rendered lane-status counts/top rows and compact feedback-loop lines.
+  - Added focused generator tests so empty actions plus dark lanes cannot read
+    as all clear.
 - Signal Log watch lane and parity classification.
   - Added optional `signal_log.json` / `morning_signal_log.json` intake through
     the full-build convention path.

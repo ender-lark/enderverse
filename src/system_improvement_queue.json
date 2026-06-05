@@ -114,6 +114,15 @@
       "area": "cockpit",
       "why": "Morning Scan notes can explain attention and timing, but should not silently create buy/sell actions without a sharper source.",
       "done_when": "Optional signal_log convention files feed a separately classified dashboard lane, validate row shape, report not-checked when absent, and never promote directly into Today's Actions."
+    },
+    {
+      "id": "generated-html-summary-safety",
+      "title": "Keep generated HTML from implying all-clear when lanes are dark",
+      "priority": "P2",
+      "status": "done",
+      "area": "dashboard",
+      "why": "The static GitHub Pages summary can be seen before the canonical cockpit, so empty actions plus not-checked lanes must not look like a clean day.",
+      "done_when": "Generated HTML labels itself as a summary/export view, surfaces lane-status and feedback context, and shows a caveat when Today's Actions is empty with dark or stale lanes."
     }
   ]
 }

@@ -24,7 +24,7 @@
     "lane_status": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Header dark/stale lane counters and lane status rows",
-      "summary_surface": "Not rendered; summary export must not be treated as action-complete"
+      "summary_surface": "Summary export caveat plus lane-status counts and top lane rows"
     },
     "hero": {
       "primary_status": "canonical-rendered",
@@ -34,7 +34,7 @@
     "actions": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Today's Actions",
-      "summary_surface": "Today's actions when non-empty; empty-action caveat is incomplete"
+      "summary_surface": "Today's actions when non-empty; summary/export caveat when empty or dark lanes exist"
     },
     "fresh_signals": {
       "primary_status": "canonical-rendered",
@@ -114,7 +114,7 @@
     "feedback": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Feedback loops panel",
-      "summary_surface": "Not rendered"
+      "summary_surface": "Compact feedback-loop lines and recommendations"
     },
     "target_drift": {
       "primary_status": "canonical-rendered",

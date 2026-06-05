@@ -20,6 +20,10 @@ def _e(s: Any) -> str:
     return _html.escape(str(s or ""))
 
 
+def _strip_trailing_ws(text: str) -> str:
+    return "\n".join(line.rstrip() for line in text.splitlines()) + "\n"
+
+
 def _pct(v: Any) -> str:
     try:
         return f"{float(v):.1f}%"
@@ -71,6 +75,24 @@ a{color:#58a6ff;text-decoration:none}
 .ok  {background:#0d2b16;color:#3fb950;border:1px solid #238636}
 .stale{background:#2b1e0a;color:#d29922;border:1px solid #9e6a03}
 .down{background:#2b0d0d;color:#f85149;border:1px solid #da3633}
+
+/* summary/export honesty */
+.summary-caveat{border-left:3px solid #d29922}
+.summary-line{font-size:12px;color:#c9d1d9;margin-bottom:5px}
+.summary-line:last-child{margin-bottom:0}
+.summary-muted{color:#8b949e}
+.lane-counts{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.lane-row{display:flex;align-items:center;gap:8px;font-size:12px;
+  padding:5px 0;border-bottom:1px solid #1c2128}
+.lane-row:last-child{border-bottom:none}
+.lane-key{font-weight:700;color:#c9d1d9;min-width:130px}
+.lane-status{font-family:monospace;font-size:10px;padding:1px 7px;border-radius:99px}
+.ls-has_data{background:#0d2b16;color:#3fb950}
+.ls-checked_clear{background:#1c2128;color:#8b949e}
+.ls-not_checked{background:#2b1e0a;color:#d29922}
+.ls-stale,.ls-failed{background:#2b0d0d;color:#f85149}
+.feedback-line{font-size:12px;color:#8b949e;margin:5px 0}
+.feedback-rec{font-size:12px;color:#c9d1d9;padding:4px 0;border-top:1px solid #1c2128}
 
 /* ── needs-you hero ── */
 .hero{background:#161b22;border:1px solid #21262d;border-radius:8px;
@@ -225,6 +247,117 @@ def _heartbeat(hb: list) -> str:
 <div class="card">
   <div class="card-title"><span class="icon">📡</span> System layers</div>
   <div class="hb">{badges}</div>
+</div>"""
+
+
+def _summary_notice(feed: dict) -> str:
+    lane = feed.get("lane_status") or {}
+    counts = lane.get("counts") or {}
+    dark = int(counts.get("not_checked") or 0)
+    stale = int(counts.get("stale") or 0)
+    failed = int(counts.get("failed") or 0)
+    actions = feed.get("actions") or []
+    lines = [
+        "Summary/export view. The action-complete operator dashboard is the canonical JSX cockpit.",
+    ]
+    if not actions:
+        lines.append("No Today's Actions are shown in this summary export.")
+    if dark or stale or failed:
+        parts = []
+        if dark:
+            parts.append(f"{dark} dark/not-checked lane{'s' if dark != 1 else ''}")
+        if stale:
+            parts.append(f"{stale} stale lane{'s' if stale != 1 else ''}")
+        if failed:
+            parts.append(f"{failed} failed lane{'s' if failed != 1 else ''}")
+        lines.append("; ".join(parts) + " means this is not an all-clear read.")
+    else:
+        lines.append("No dark, stale, or failed lanes reported in the feed lane-status block.")
+    body = "".join(f'<div class="summary-line">{_e(line)}</div>' for line in lines)
+    return f"""
+<div class="card summary-caveat">
+  <div class="card-title"><span class="icon">âš </span> Summary/export caveat</div>
+  {body}
+</div>"""
+
+
+def _lane_status_summary(lane_status: dict) -> str:
+    rows = lane_status.get("rows") or []
+    if not rows:
+        return ""
+    counts = lane_status.get("counts") or {}
+    count_badges = ""
+    for key, label in (
+        ("has_data", "has data"),
+        ("checked_clear", "checked clear"),
+        ("not_checked", "not checked"),
+        ("stale", "stale"),
+        ("failed", "failed"),
+    ):
+        count_badges += f'<span class="lane-status ls-{key}">{_e(label)}: {_e(counts.get(key, 0))}</span>'
+    priority = {"failed": 0, "stale": 1, "not_checked": 2, "has_data": 3, "checked_clear": 4}
+    ordered = sorted(
+        [r for r in rows if isinstance(r, dict)],
+        key=lambda r: (priority.get(r.get("status"), 9), r.get("label") or r.get("key") or ""),
+    )
+    visible = ordered[:10]
+    row_html = ""
+    for r in visible:
+        status = r.get("status") or "not_checked"
+        label = r.get("label") or r.get("key") or ""
+        detail = r.get("detail") or ""
+        count = r.get("count") or 0
+        count_txt = f" Â· {count}" if count else ""
+        row_html += f"""
+<div class="lane-row">
+  <span class="lane-key">{_e(label)}</span>
+  <span class="lane-status ls-{_e(status)}">{_e(status.replace("_", " "))}</span>
+  <span class="summary-muted">{_e(detail)}{_e(count_txt)}</span>
+</div>"""
+    more = len(ordered) - len(visible)
+    more_html = f'<div class="feedback-line">+{more} more lane rows in the canonical cockpit.</div>' if more > 0 else ""
+    return f"""
+<div class="card">
+  <div class="card-title"><span class="icon">âš™</span> Lane status</div>
+  <div class="lane-counts">{count_badges}</div>
+  {row_html}
+  {more_html}
+</div>"""
+
+
+def _feedback_summary(feedback: dict) -> str:
+    if not feedback:
+        return ""
+    sc = feedback.get("source_calls") or {}
+    oa = feedback.get("open_actions") or {}
+    cal = sc.get("calibration") or {}
+    persistence = sc.get("persistence") or {}
+    recs = feedback.get("recommendations") or []
+    lines = []
+    for line in (
+        sc.get("line"),
+        cal.get("line"),
+        persistence.get("line"),
+        oa.get("line"),
+    ):
+        if line:
+            lines.append(f'<div class="feedback-line">{_e(line)}</div>')
+    if recs:
+        lines.extend(f'<div class="feedback-rec">{_e(r)}</div>' for r in recs[:4])
+    if not lines:
+        return ""
+    badge = (
+        int(sc.get("overdue_count") or 0)
+        + int((persistence or {}).get("loud_count") or 0)
+        + int((persistence or {}).get("provisional_count") or 0)
+        + int(oa.get("count") or 0)
+    )
+    return f"""
+<div class="card">
+  <div class="card-title"><span class="icon">ðŸ”</span> Feedback loops
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{badge} open signal(s)</span>
+  </div>
+  {''.join(lines)}
 </div>"""
 
 
@@ -634,6 +767,9 @@ def generate_html(feed: dict) -> str:
         stale_warn = f'<div class="stale-warn">⚠ Stale sources: {names}</div>'
 
     # sections
+    summary_html = _summary_notice(feed)
+    lane_html   = _lane_status_summary(feed.get("lane_status") or {})
+    feedback_html = _feedback_summary(feed.get("feedback") or {})
     hb_html     = _heartbeat(feed.get("heartbeat") or [])
     hero_html   = _hero(feed.get("hero") or {})
     actions_html = _actions(feed.get("actions") or [])
@@ -648,7 +784,7 @@ def generate_html(feed: dict) -> str:
 
     cmds_html = _commands_tab()
 
-    return f"""<!DOCTYPE html>
+    return _strip_trailing_ws(f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -685,6 +821,9 @@ def generate_html(feed: dict) -> str:
   </div>
 
   <div id="tab-dashboard">
+    {summary_html}
+    {lane_html}
+    {feedback_html}
     {hb_html}
     {hero_html}
     {actions_html}
@@ -723,4 +862,4 @@ function showTab(name, btn) {{
 }}
 </script>
 </body>
-</html>"""
+</html>""")

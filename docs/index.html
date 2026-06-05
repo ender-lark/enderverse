@@ -39,6 +39,24 @@ a{color:#58a6ff;text-decoration:none}
 .stale{background:#2b1e0a;color:#d29922;border:1px solid #9e6a03}
 .down{background:#2b0d0d;color:#f85149;border:1px solid #da3633}
 
+/* summary/export honesty */
+.summary-caveat{border-left:3px solid #d29922}
+.summary-line{font-size:12px;color:#c9d1d9;margin-bottom:5px}
+.summary-line:last-child{margin-bottom:0}
+.summary-muted{color:#8b949e}
+.lane-counts{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.lane-row{display:flex;align-items:center;gap:8px;font-size:12px;
+  padding:5px 0;border-bottom:1px solid #1c2128}
+.lane-row:last-child{border-bottom:none}
+.lane-key{font-weight:700;color:#c9d1d9;min-width:130px}
+.lane-status{font-family:monospace;font-size:10px;padding:1px 7px;border-radius:99px}
+.ls-has_data{background:#0d2b16;color:#3fb950}
+.ls-checked_clear{background:#1c2128;color:#8b949e}
+.ls-not_checked{background:#2b1e0a;color:#d29922}
+.ls-stale,.ls-failed{background:#2b0d0d;color:#f85149}
+.feedback-line{font-size:12px;color:#8b949e;margin:5px 0}
+.feedback-rec{font-size:12px;color:#c9d1d9;padding:4px 0;border-top:1px solid #1c2128}
+
 /* ── needs-you hero ── */
 .hero{background:#161b22;border:1px solid #21262d;border-radius:8px;
   padding:12px 14px;margin-bottom:10px;
@@ -180,14 +198,14 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1>⚡ Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-04 10:39 ET
-         · FULL
+        built 2026-06-05 04:15 ET
+
       </div>
-      <div class="stamp">sourced: portfolio 06-04 · uw_price 06-04 · uw_macro 06-04 · fundstrat_bible 05-28 · meridian 06-04 (baseline)</div>
-      
+      <div class="stamp">sourced: portfolio 05-31 · uw_price 06-05</div>
+
     </div>
     <div style="text-align:right">
-      <div class="book-as-of">book as-of 2026-05-31</div>
+      <div class="book-as-of">book as-of </div>
       <div style="margin-top:4px">
         <a href="." style="font-size:11px;color:#484f58">↻ refresh</a>
       </div>
@@ -201,12 +219,77 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </div>
 
   <div id="tab-dashboard">
-    
-<div class="card">
-  <div class="card-title"><span class="icon">📡</span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="notion · —">notion</span><span class="hb-badge ok" title="market · —">market</span><span class="hb-badge ok" title="notion · —">notion</span><span class="hb-badge ok" title="notion · —">notion</span><span class="hb-badge ok" title="pilot · —">pilot</span><span class="hb-badge ok" title="pilot · —">pilot</span><span class="hb-badge ok" title="pilot · —">pilot</span><span class="hb-badge ok" title="pilot · —">pilot</span></div>
+
+<div class="card summary-caveat">
+  <div class="card-title"><span class="icon">âš </span> Summary/export caveat</div>
+  <div class="summary-line">Summary/export view. The action-complete operator dashboard is the canonical JSX cockpit.</div><div class="summary-line">No Today&#x27;s Actions are shown in this summary export.</div><div class="summary-line">7 dark/not-checked lanes means this is not an all-clear read.</div>
 </div>
-    
+
+<div class="card">
+  <div class="card-title"><span class="icon">âš™</span> Lane status</div>
+  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 5</span><span class="lane-status ls-checked_clear">checked clear: </span><span class="lane-status ls-not_checked">not checked: 7</span><span class="lane-status ls-stale">stale: </span><span class="lane-status ls-failed">failed: </span></div>
+
+<div class="lane-row">
+  <span class="lane-key">Catalysts</span>
+  <span class="lane-status ls-not_checked">not checked</span>
+  <span class="summary-muted">not supplied</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">Daily Synthesis</span>
+  <span class="lane-status ls-not_checked">not checked</span>
+  <span class="summary-muted">not supplied</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">FS Bible</span>
+  <span class="lane-status ls-not_checked">not checked</span>
+  <span class="summary-muted">not checked</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">Macro</span>
+  <span class="lane-status ls-not_checked">not checked</span>
+  <span class="summary-muted">not checked</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">Research Queue</span>
+  <span class="lane-status ls-not_checked">not checked</span>
+  <span class="summary-muted">not supplied</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">Signal Log</span>
+  <span class="lane-status ls-not_checked">not checked</span>
+  <span class="summary-muted">not supplied</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">Top Prospects</span>
+  <span class="lane-status ls-not_checked">not checked</span>
+  <span class="summary-muted">not supplied</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">FS Daily</span>
+  <span class="lane-status ls-has_data">has data</span>
+  <span class="summary-muted">checked</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">Portfolio</span>
+  <span class="lane-status ls-has_data">has data</span>
+  <span class="summary-muted">checked</span>
+</div>
+<div class="lane-row">
+  <span class="lane-key">Prices</span>
+  <span class="lane-status ls-has_data">has data</span>
+  <span class="summary-muted">checked</span>
+</div>
+  <div class="feedback-line">+2 more lane rows in the canonical cockpit.</div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="icon">ðŸ”</span> Feedback loops
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">0 open signal(s)</span>
+  </div>
+  <div class="feedback-line">Source calls not checked.</div><div class="feedback-line">Open action backlog clean.</div><div class="feedback-rec">No feedback-loop action required.</div>
+</div>
+
+
 <div class="hero">
   <div class="hero-row">
     <div class="hero-num">0</div>
@@ -217,23 +300,13 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
       <div class="hero-label">14 names on the book</div>
     </div>
   </div>
-  
-</div>
-    
-    
-<div class="card">
-  <div class="card-title"><span class="icon">🧠</span> Today&#39;s read
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2026-06-04</span>
-  </div>
-  <div class="s-label">State of play</div><div class="s-body">Book enters June 4 with AVGO printing -15% AH on a guided-down AI datacenter demand miss. Operator held 85 shares unhedged. Morning Scan (8:54 AM ET 6/4) rates COMPOSITE 22.5 | Asymmetry High | Confirmability High | Novelty High | Routing: Deepdive | Triage: Top 3 | Status: Open. ~29% portfolio AI-complex exposure (AVGO, NVDA, MU, MSFT, GOOGL, AMZN) facing contagion premarket. Broader book unchanged: AI/semis concentrated at record-high index levels, layered over nuclear/critical-minerals sleeve (LEU/UUUU/MP, all MONITOR), crypto/fintech sleeve (BMNR, IBIT, CRCL), and Buy-and-Hold anchors (AMZN/MSFT/GOOGL). CI v12.5 authored and conviction_engine-&gt;src flat merge complete. TSM Tier A thesis row created. VIX ~16, 2s10s +41 bps.</div>
-  <div class="s-label">24–48h delta</div><div class="s-body">① AVBO -15% AH — dominant overnight event. ② Morning Scan ~11 signals alongside AVGO including MU $830K put sweeps, FIX CEO+CFO+CAO+3 directors cluster sell, PLTR 5-officer $125M+ cluster sell, MP COO $962K open-market buy, GLD $921K Oct put flow, Cuba military strike 46% prediction market. ③ Decisions Log +1: v12.5 authored + conviction_engine-&gt;src flat merge complete (7:27 PM ET 6/3). ④ Research Queue +3 new items (Meridian Deep Research Working, TSM Geo Addendum Queued, AI Infrastructure/Energy Queued). ⑤ Live Theses +1: TSM row created (Tier A, Anchor 6/3, Status Building). ⑥ Flat: Trade Outcomes (12 Pending), Source Call Log (no new entries).</div>
-  
-<div class="s-label">Hanging / unresolved</div>
-<ul class="hang-list"><li>C</li><li>R</li><li>I</li><li>T</li><li>I</li><li>C</li><li>A</li><li>L</li><li>:</li><li> </li><li>A</li><li>V</li><li>G</li><li>O</li><li> </li><li>g</li><li>u</li><li>i</li><li>d</li><li>a</li><li>n</li><li>c</li><li>e</li><li> </li><li>m</li><li>i</li><li>s</li><li>s</li><li> </li><li>s</li><li>i</li><li>g</li><li>n</li><li>a</li><li>l</li><li> </li><li>O</li><li>p</li><li>e</li><li>n</li><li>/</li><li>D</li><li>e</li><li>e</li><li>p</li><li>d</li><li>i</li><li>v</li><li>e</li><li>-</li><li>r</li><li>o</li><li>u</li><li>t</li><li>e</li><li>d</li><li>;</li><li> </li><li>A</li><li>I</li><li> </li><li>c</li><li>o</li><li>n</li><li>t</li><li>a</li><li>g</li><li>i</li><li>o</li><li>n</li><li> </li><li>2</li><li>9</li><li>%</li><li> </li><li>e</li><li>x</li><li>p</li><li>o</li><li>s</li><li>u</li><li>r</li><li>e</li><li>;</li><li> </li><li>E</li><li>W</li><li>Y</li><li> </li><li>f</li><li>o</li><li>r</li><li>c</li><li>e</li><li>d</li><li>-</li><li>r</li><li>e</li><li>b</li><li>a</li><li>l</li><li>a</li><li>n</li><li>c</li><li>e</li><li> </li><li>e</li><li>x</li><li>p</li><li>i</li><li>r</li><li>e</li><li>s</li><li> </li><li>~</li><li>J</li><li>u</li><li>n</li><li>e</li><li> </li><li>5</li><li>;</li><li> </li><li>S</li><li>o</li><li>u</li><li>r</li><li>c</li><li>e</li><li> </li><li>C</li><li>a</li><li>l</li><li>l</li><li> </li><li>L</li><li>o</li><li>g</li><li> </li><li>N</li><li>e</li><li>w</li><li>t</li><li>o</li><li>n</li><li> </li><li>T</li><li>i</li><li>e</li><li>r</li><li> </li><li>B</li><li> </li><li>c</li><li>a</li><li>l</li><li>l</li><li>s</li><li> </li><li>d</li><li>u</li><li>e</li><li> </li><li>J</li><li>u</li><li>n</li><li>e</li><li> </li><li>1</li><li>4</li><li>;</li><li> </li><li>L</li><li>E</li><li>U</li><li> </li><li>s</li><li>t</li><li>r</li><li>u</li><li>c</li><li>t</li><li>u</li><li>r</li><li>e</li><li> </li><li>d</li><li>e</li><li>c</li><li>i</li><li>s</li><li>i</li><li>o</li><li>n</li><li> </li><li>(</li><li>~</li><li>$</li><li>5</li><li>8</li><li>K</li><li> </li><li>g</li><li>a</li><li>p</li><li>)</li><li> </li><li>o</li><li>p</li><li>e</li><li>r</li><li>a</li><li>t</li><li>o</li><li>r</li><li>-</li><li>g</li><li>a</li><li>t</li><li>e</li><li>d</li><li>;</li><li> </li><li>R</li><li>e</li><li>p</li><li>l</li><li>a</li><li>c</li><li>e</li><li>m</li><li>e</li><li>n</li><li>t</li><li>-</li><li>s</li><li>o</li><li>u</li><li>r</li><li>c</li><li>e</li><li> </li><li>f</li><li>i</li><li>e</li><li>l</li><li>d</li><li>s</li><li> </li><li>f</li><li>o</li><li>r</li><li> </li><li>L</li><li>E</li><li>U</li><li>/</li><li>U</li><li>U</li><li>U</li><li>U</li><li>/</li><li>M</li><li>P</li><li>;</li><li> </li><li>C</li><li>o</li><li>n</li><li>v</li><li>i</li><li>c</li><li>t</li><li>i</li><li>o</li><li>n</li><li> </li><li>E</li><li>n</li><li>g</li><li>i</li><li>n</li><li>e</li><li> </li><li>S</li><li>t</li><li>a</li><li>g</li><li>e</li><li> </li><li>0</li><li> </li><li>w</li><li>a</li><li>r</li><li>m</li><li>-</li><li>s</li><li>t</li><li>a</li><li>r</li><li>t</li><li> </li><li>u</li><li>n</li><li>a</li><li>c</li><li>t</li><li>i</li><li>o</li><li>n</li><li>e</li><li>d</li><li>;</li><li> </li><li>B</li><li>M</li><li>N</li><li>R</li><li> </li><li>T</li><li>w</li><li>o</li><li>-</li><li>L</li><li>e</li><li>n</li><li>s</li><li> </li><li>+</li><li> </li><li>G</li><li>a</li><li>t</li><li>e</li><li> </li><li>#</li><li>2</li><li> </li><li>u</li><li>n</li><li>a</li><li>c</li><li>t</li><li>i</li><li>o</li><li>n</li><li>e</li><li>d</li><li>;</li><li> </li><li>v</li><li>1</li><li>2</li><li>.</li><li>5</li><li> </li><li>a</li><li>c</li><li>t</li><li>i</li><li>v</li><li>a</li><li>t</li><li>i</li><li>o</li><li>n</li><li> </li><li>g</li><li>a</li><li>t</li><li>e</li><li> </li><li>P</li><li>R</li><li>O</li><li>V</li><li>I</li><li>S</li><li>I</li><li>O</li><li>N</li><li>A</li><li>L</li><li>;</li><li> </li><li>1</li><li>2</li><li> </li><li>T</li><li>r</li><li>a</li><li>d</li><li>e</li><li> </li><li>O</li><li>u</li><li>t</li><li>c</li><li>o</li><li>m</li><li>e</li><li>s</li><li> </li><li>p</li><li>e</li><li>n</li><li>d</li><li>i</li><li>n</li><li>g</li><li> </li><li>o</li><li>p</li><li>e</li><li>r</li><li>a</li><li>t</li><li>o</li><li>r</li><li> </li><li>r</li><li>e</li><li>v</li><li>i</li><li>e</li><li>w</li><li>;</li><li> </li><li>A</li><li>V</li><li>G</li><li>O</li><li> </li><li>t</li><li>h</li><li>e</li><li>s</li><li>i</li><li>s</li><li> </li><li>l</li><li>i</li><li>n</li><li>e</li><li> </li><li>s</li><li>t</li><li>i</li><li>l</li><li>l</li><li> </li><li>Q</li><li>u</li><li>e</li><li>u</li><li>e</li><li>d</li><li> </li><li>p</li><li>o</li><li>s</li><li>t</li><li>-</li><li>p</li><li>r</li><li>i</li><li>n</li><li>t</li><li>.</li></ul>
+
 </div>
 
+
+
     <div class="two-col">
-      
+
 <div class="card">
   <div class="card-title"><span class="icon">🔄</span> Sleeve rotation vs SPY</div>
   <div class="rot-wrap">
@@ -299,67 +372,91 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </div>
 </div>
       <div>
-        
+
 <div class="card">
   <div class="card-title"><span class="icon">📊</span> Macro</div>
-  <div class="macro-line">USD (UUP) 27.805 (+0.1 5d)</div>
+  <div class="macro-line"></div>
   <span class="regime-tag">duration_flat · vol_calm · dollar_neutral</span>
-  
+
 </div>
-        
-<div class="card">
-  <div class="card-title"><span class="icon">📅</span> Catalysts (&le;14d)</div>
-  <div class="cat-list">
-<div class="cat-item">
-  <span class="cat-days">-1d</span>
-  <span class="cat-ticker">AVGO</span>
-  <span class="cat-label">Q2 FY26 earnings postmarket (PASSED - printed -15% AH on AI datacenter guidance miss)</span>
-</div>
-<div class="cat-item">
-  <span class="cat-days">T+1d</span>
-  <span class="cat-ticker">EWY</span>
-  <span class="cat-label">iShares MSCI South Korea ETF forced rebalance (Samsung+SK Hynix ~52% must reduce per MSCI 25/50) — expires ~June 5</span>
-</div>
-<div class="cat-item">
-  <span class="cat-days">T+10d</span>
-  <span class="cat-ticker">SPX</span>
-  <span class="cat-label">Newton Tier B call scoring deadline: SPX &lt;7375 -&gt; 3-5% pullback + 30Y weekly close &gt;5.15</span>
-</div>
-<div class="cat-item">
-  <span class="cat-days">T+14d</span>
-  <span class="cat-ticker">SPX</span>
-  <span class="cat-label">Newton Tier B call scoring deadline: SPX 7175-7245 support test by end of week + Mining/Materials/Industrials underperform</span>
-</div></div>
-</div>
+
       </div>
     </div>
 
-    
+
+
 <div class="card">
-  <div class="card-title"><span class="icon">🔎</span> Research queue</div>
-  <div class="res-list">
-<div class="res-item">
-  <span class="pr pr-h">HI</span>
-  <span>Deep Research: Meridian Positions (LEU / UUUU / MP) — Source Gone, Theses Stale</span>
+  <div class="card-title"><span class="icon">📈</span> Lean-in watchlist</div>
+
+<div class="lean-item">
+  <span class="lean-ticker">GRNY</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">GRNY: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
-<div class="res-item">
-  <span class="pr pr-m">MD</span>
-  <span>TSM / TSMC — Geopolitical Single-Point-of-Failure Thesis Addendum</span>
+<div class="lean-item">
+  <span class="lean-ticker">IGV</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">IGV: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
-<div class="res-item">
-  <span class="pr pr-h">HI</span>
-  <span>AI Infrastructure Deep Dive — Energy as Primary US Bottleneck</span>
-</div></div>
+<div class="lean-item">
+  <span class="lean-ticker">IVES</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">IVES: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
-    
+<div class="lean-item">
+  <span class="lean-ticker">MAGS</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">MAGS: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">NVDA</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">NVDA: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">VOLT</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">VOLT: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">XLF</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">XLF: Promising, conviction building, tape not yet confirmed — hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">GRNJ</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">GRNJ: the case is cooling (NO DATA) — watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">MU</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">MU: the case is cooling (NO DATA) — watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">SMH</span>
+  <span class="tag inl" style="margin-left:6px">NO DATA</span>
+  <div class="lean-headline">SMH: the case is cooling (NO DATA) — watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+</div>
   </div>
 
   <div id="tab-book" style="display:none">
-    
+
 <div class="card" style="margin-bottom:10px">
   <div class="card-title">
     <span class="icon">📚</span> Full book
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">as-of 2026-05-31</span>
+
   </div>
   <div class="book-wrap">
     <table class="book">
@@ -392,61 +489,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <td>3.3%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>AVGO</strong></td>
-  <td>2.0%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>SOXX</strong></td>
-  <td>1.5%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>MSFT</strong></td>
-  <td>1.4%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>AMZN</strong></td>
-  <td>1.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>NBIS</strong></td>
-  <td>1.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>GOOGL</strong></td>
-  <td>1.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>ASML</strong></td>
-  <td>0.4%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>ANET</strong></td>
-  <td>0.3%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>FTXL</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>LITE</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>POET</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Quality core
     <span class="inl" style="font-size:10px;margin-left:6px">NO DATA</span>
@@ -460,16 +502,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <td>7.3%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>RPG</strong></td>
-  <td>0.6%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>COST</strong></td>
-  <td>0.3%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Software
     <span class="inl" style="font-size:10px;margin-left:6px">NO DATA</span>
@@ -478,26 +510,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <td>5.1%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>RDDT</strong></td>
-  <td>1.0%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>ORCL</strong></td>
-  <td>0.4%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>CIBR</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>PLTR</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Nuclear
     <span class="inl" style="font-size:10px;margin-left:6px">NO DATA</span>
@@ -511,21 +523,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <td>2.1%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Hold light — burned sleeve; watch for YOUR re-entry trigger, no add on a…</td>
-</tr><tr>
-  <td><strong>CCJ</strong></td>
-  <td>1.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>BWXT</strong></td>
-  <td>1.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>UURAF</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Electrification
     <span class="inl" style="font-size:10px;margin-left:6px">NO DATA</span>
@@ -534,51 +531,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <td>4.0%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Core hold — operator-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>BE</strong></td>
-  <td>1.0%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>PBW</strong></td>
-  <td>0.8%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>DRIV</strong></td>
-  <td>0.7%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>GEV</strong></td>
-  <td>0.6%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>STRL</strong></td>
-  <td>0.5%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>PWR</strong></td>
-  <td>0.4%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>IESC</strong></td>
-  <td>0.3%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>FIX</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>NXT</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Financials
     <span class="inl" style="font-size:10px;margin-left:6px">NO DATA</span>
@@ -587,21 +539,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <td>3.9%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Core hold — Lee-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>GS</strong></td>
-  <td>0.6%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>JPM</strong></td>
-  <td>0.3%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>SOFI</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Crypto
     <span class="inl" style="font-size:10px;margin-left:6px">NO DATA</span>
@@ -610,54 +547,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <td>3.5%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Hold light — burned sleeve; watch for YOUR re-entry trigger, no add on a…</td>
-</tr><tr>
-  <td><strong>IBIT</strong></td>
-  <td>0.3%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>ETHA</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>MSTR</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>COIN</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>HYPE</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr class="book-cat-row">
-  <td colspan="4">Gold / Hedge
-    <span class="inl" style="font-size:10px;margin-left:6px">NO DATA</span>
-  </td></tr><tr>
-  <td><strong>GDX</strong></td>
-  <td>1.8%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>SIL</strong></td>
-  <td>0.6%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>WPM</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>NUE</strong></td>
-  <td>0.0%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Critical minerals
     <span class="inl" style="font-size:10px;margin-left:6px">NO DATA</span>
@@ -666,73 +555,10 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <td>1.0%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Hold light — burned sleeve; watch for YOUR re-entry trigger, no add on a…</td>
-</tr><tr>
-  <td><strong>LIT</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>LYSDY</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr class="book-cat-row">
-  <td colspan="4">Other holdings
-    
-  </td></tr><tr>
-  <td><strong>XLI</strong></td>
-  <td>0.6%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>ITA</strong></td>
-  <td>0.6%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>ASTS</strong></td>
-  <td>0.4%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>SNSR</strong></td>
-  <td>0.3%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>LUNR</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>FN</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>UMAC</strong></td>
-  <td>0.2%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>ARRRF</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>TLOFF</strong></td>
-  <td>0.1%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
-</tr><tr>
-  <td><strong>FBGKX</strong></td>
-  <td>0.0%</td>
-  <td class="">—</td>
-  <td style="color:#484f58;font-size:11px">Core hold but undocumented — give me a line.</td>
 </tr>
       <tr style="border-top:1px solid #30363d">
         <td style="color:#8b949e;font-size:11px">Total shown</td>
-        <td style="font-family:monospace;color:#8b949e">98.5%</td>
+        <td style="font-family:monospace;color:#8b949e">72.0%</td>
         <td colspan="2"></td>
       </tr>
     </table>
@@ -740,7 +566,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
   </div>
 
-  
+
 <div id="tab-commands" style="display:none">
   <div class="cmd-section">
     <div class="cmd-section-title">Claude commands</div>

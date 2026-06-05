@@ -19,9 +19,10 @@ Reason:
   only to its baked example FEED.
 - `src/render_cockpit.py` is the tested injection path for replacing the baked
   FEED with a live feed while preserving the renderer.
-- `src/cockpit_html_gen.py` directly generates a smaller HTML dashboard and
-  does not render newer action-clarity blocks such as `lane_status`,
-  `research_actions`, `bullish_flow`, `prospects`, `feedback`, `radar`, or
+- `src/cockpit_html_gen.py` directly generates a smaller HTML dashboard. It now
+  includes a summary/export caveat, lane-status counts/rows, and compact
+  feedback-loop context, but it still omits newer action-clarity blocks such as
+  `research_actions`, `bullish_flow`, `prospects`, `radar`, or
   `portfolio_views`.
 
 ## Current Feed Baseline
@@ -51,9 +52,9 @@ Result summary:
 | --- | --- | --- | --- | --- |
 | `generated_at` | `full_build_runner.py` / `assemble_feed` | Header stamp via `toCockpit` | Header stamp | Full in both |
 | `staleness` | `collect` + `staleness_read` | Header stamp source dates | Header source line and stale warning | Full in both |
-| `lane_status` | `build_lane_status` | Header dark/stale lane counters and lane status rows | Not rendered | Missing in HTML |
+| `lane_status` | `build_lane_status` | Header dark/stale lane counters and lane status rows | Summary caveat plus lane-status counts and top rows | Partial in HTML; enough to avoid all-clear ambiguity |
 | `hero` | `hero_needs_you_read` | Hero banner | Hero banner | Full in both |
-| `actions` | `actions_read` + decision aging + promoted research/prospects | Today's Actions | Today's actions only when non-empty | Partial in HTML because empty state/caveat is missing |
+| `actions` | `actions_read` + decision aging + promoted research/prospects | Today's Actions | Today's actions when non-empty; summary caveat when empty/dark | Full enough in HTML for summary/export use |
 | `fresh_signals` | `fresh_signal_read` | Fresh signals / action context | Not rendered as its own lane | Missing in HTML |
 | `signal_log` | Morning Scan convention file `signal_log.json` / `morning_signal_log.json` | Signal Log watch-only lane | Not rendered | Missing in HTML; acceptable because it is watch-only context |
 | `holdings` | Portfolio source + thesis reads | Book tab holdings with conviction/detail expanders | Book table | Partial in HTML because details are truncated |
@@ -69,7 +70,7 @@ Result summary:
 | `lean_in` | `lean_in_read` | Lean In lane and promotion source | Lean-in watchlist | Partial in HTML because gate/detail fields are thinner |
 | `bullish_flow` | UW opportunity cache | Bullish flow lane | Not rendered | Missing in HTML |
 | `prospects` | Top prospects cache | Top Prospects lane and action promotion | Not rendered | Missing in HTML |
-| `feedback` | `feedback_summary.py` | Feedback loops panel | Not rendered | Missing in HTML |
+| `feedback` | `feedback_summary.py` | Feedback loops panel | Compact feedback lines and recommendations | Partial in HTML; detailed rows remain canonical JSX |
 | `portfolio_views` | `account_positions.json` -> `portfolio_views.py` | Book tab account views plus effective ETF look-through estimates when present | Not rendered | Missing in HTML |
 
 ## Static, Sample, Or Stale Surfaces
@@ -105,7 +106,8 @@ Result summary:
   without a sharper action source.
 - `heartbeat` and `lane_status` overlap operational health. `heartbeat` says
   which routines ran; `lane_status` says which data lanes were checked, stale,
-  failed, or dark. Both should stay, but HTML currently shows only heartbeat.
+  failed, or dark. Both should stay; generated HTML now mirrors lane-status
+  counts/top rows as summary context.
 - `docs/index.html` duplicates a subset of the JSX dashboard. Because it omits
   newer surfaces, this duplicate path can create conflicting operator truth.
 - The command/navigation tab in generated HTML is static utility content, not a
@@ -115,17 +117,15 @@ Result summary:
 
 Highest impact gaps:
 
-- HTML omits `lane_status`. With the current local build showing six
-  not-checked lanes, the generated page can look calmer than the underlying
-  feed.
-- HTML omits `feedback`. Source-call scoring backlog, calibration freshness,
-  persistence clusters, and open-action backlog are invisible in the generated
-  page.
+- HTML now shows `lane_status` summary counts/top rows, but the canonical JSX
+  remains the full source for lane diagnostics.
+- HTML now shows compact `feedback` lines and recommendations, but detailed
+  source-call rows and clusters remain canonical JSX.
 - HTML omits `research_actions`, `prospects`, `bullish_flow`, and `radar`. These
   are candidate-action and timing lanes; hiding them reduces buy/research
   clarity.
-- HTML does not show a strong empty-action caveat. `actions: []` plus dark lanes
-  should not read as "all clear."
+- HTML now shows a summary/export caveat. `actions: []` plus dark lanes should
+  no longer read as "all clear."
 - JSX questions are static/unwired. This is lower priority than action lanes,
   but it is still not feed-backed.
 
@@ -154,9 +154,8 @@ Add a small dashboard canonicalization guardrail before deeper UI expansion:
 - Add a focused parity test or script that fails when a new feed block is emitted
   but not classified as `canonical-rendered`, `summary-rendered`, or
   `intentionally-hidden`.
-- In the same or next small slice, make generated HTML show at least
-  `lane_status`, `feedback`, and an `actions: []` caveat, or label the generated
-  page as a summary that is not action-complete.
+- Completed 2026-06-05: generated HTML now shows a summary/export caveat,
+  `lane_status` summary rows, compact `feedback`, and an empty-action caveat.
 
 After that guardrail, resume the queued product slices in this order:
 
