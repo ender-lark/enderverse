@@ -574,7 +574,6 @@ def _operator_status(feed: dict) -> str:
         build_blockers += 1
     if cloud_failed:
         build_blockers += 1
-    build_state = "Blocked" if build_blockers else "No build blockers"
     build_cls = "operator-fail" if build_blockers else "operator-pass"
     wait_parts = []
     source_waits = dark + (1 if live_config_missing else 0)
@@ -589,6 +588,13 @@ def _operator_status(feed: dict) -> str:
     if source_call_warn:
         wait_parts.append(f"{source_call_observed} unscored source call{'s' if source_call_observed != 1 else ''}")
     wait_text = "; ".join(wait_parts) if wait_parts else "no waits"
+    build_state = (
+        "Blocked"
+        if build_blockers
+        else "Build clear, not all clear"
+        if wait_parts
+        else "All clear"
+    )
     lane_detail = []
     if dark:
         lane_detail.append(f"{dark} dark")

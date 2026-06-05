@@ -282,7 +282,7 @@ def test_generated_html_separates_waits_from_build_blockers():
 
     html = generate_html(feed)
 
-    assert "No build blockers" in html
+    assert "Build clear, not all clear" in html
     assert "operator-value operator-pass\">0</div>" in html
     assert "cloud proof 2/10" in html
     assert "source waits" in html

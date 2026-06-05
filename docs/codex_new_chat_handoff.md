@@ -72,15 +72,15 @@ Current pushed snapshot (2026-06-05 19:18 ET live artifacts; 19:01 ET cloud proo
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
   `2026-06-05 19:26 ET`.
 - The dashboard Operator Status card now shows `Build blockers 0`, the wait
-  summary `No build blockers | 1 source wait; cloud proof 3/10; 2 reviews`, and
-  both:
+  summary `Build clear, not all clear | 1 source wait; cloud proof 3/10; 2 reviews`,
+  and both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `1024 passed, 6 skipped`, plus
+- Full standard verification last passed with `1032 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
