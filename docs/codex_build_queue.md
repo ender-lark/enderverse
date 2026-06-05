@@ -38,6 +38,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Build-readiness and completion-audit clarity.
+  - Added `python src/completion_audit.py --format text` as the non-mutating
+    current-state audit for build blockers, source/user waits, natural cloud
+    proof waits, open-review backlog, and the next recommended action.
+  - Updated the go-live checklist and dashboard Operator Status card so `WARN`
+    no longer implies a code blocker. Current status is build-clear with waits:
+    0 build blockers, Account Positions source wait, partial cloud proof
+    `3/10`, and deferred `ANET`/`GOOGL` reviews.
 - Dashboard decision surfacing build completion.
   - Added action grouping into Key Now, Important Backlog, Re-check Before
     Acting, and Quiet Watch so the dashboard can surface every important

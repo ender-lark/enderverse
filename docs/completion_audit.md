@@ -1,5 +1,21 @@
 # Completion Audit
 
+## Executable Current Audit
+
+Use the repo command for current completion state instead of treating the older
+manual evidence below as live:
+
+```powershell
+python src/completion_audit.py --format text
+```
+
+Current command output classifies the build as
+`BUILD_CLEAR_WAITING_EXTERNAL`: local dashboard/go-live readiness is clear,
+there are 0 build blockers, Account Positions is the one source/user wait,
+cloud routine proof remains partial at `3/10` and should advance naturally, and
+`ANET`/`GOOGL` remain deferred open reviews until the build is explicitly
+resumed for stock-specific review.
+
 Generated: 2026-06-05
 
 Latest live refresh: 2026-06-05 11:17 ET after the active event-watch

@@ -35,6 +35,9 @@ Current priority:
 7. Cloud routine proof is end-of-queue background monitoring now; let the
    normal schedules produce remaining `run_source=scheduled` receipts unless
    the user explicitly asks to accelerate again.
+8. Use `python src/completion_audit.py --format text` when no implementation
+   slice is queued; it separates build blockers from source/user waits, natural
+   cloud proof waits, and deferred stock-review backlog.
 
 Current pushed snapshot (2026-06-05 19:18 ET live artifacts; 19:01 ET cloud proof):
 
@@ -56,14 +59,20 @@ Current pushed snapshot (2026-06-05 19:18 ET live artifacts; 19:01 ET cloud proo
   Refresh, Pre-Market Source Intake, and Morning Scan. Remaining routine proof
   should advance through natural schedules, not active acceleration.
 - `python src/go_live_checklist.py --format text` reports `WARN` with 0
-  failures and 4 warnings: live source coverage/manual source drop for
-  `account_positions`, open action reviews (`ANET`, `GOOGL`), and optional dark
-  lane Account Positions. It also includes PASS rows for partial cloud proof,
-  live data flow, dashboard preview, and the current supplied oil/rates watch.
+  failures and 4 warnings, but its build summary is
+  `build_ready_with_waits`: 0 build blockers, 1 source wait, 1 natural schedule
+  wait, and 1 review-backlog bucket. The warnings are Account Positions source
+  input/manual drop/dark lane and open action reviews (`ANET`, `GOOGL`).
+- `python src/completion_audit.py --format text` reports
+  `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, go-live ready, 0 build blockers,
+  Account Positions as the source/user wait, cloud proof `3/10`, and open
+  reviews `ANET`, `GOOGL`.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-05 19:18 ET`.
-- The dashboard Operator Status card now shows both:
+  `2026-06-05 19:26 ET`.
+- The dashboard Operator Status card now shows `Build blockers 0`, the wait
+  summary `No build blockers | 1 source wait; cloud proof 3/10; 2 reviews`, and
+  both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.
