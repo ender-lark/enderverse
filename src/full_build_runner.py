@@ -188,6 +188,15 @@ def _load_optional(src_dir: Path, key: str, override: str | Path | None = None) 
     return _read_json(path, default=None)
 
 
+def _fundstrat_daily_checked(src_dir: Path, calls: Any) -> bool:
+    if calls:
+        return True
+    summary = _read_json(src_dir / "fundstrat_intake_summary.json", default={})
+    if not isinstance(summary, dict):
+        return False
+    return int(summary.get("full_body_entries") or 0) > 0
+
+
 def _num(value: Any) -> float | None:
     if value is None or value == "":
         return None
@@ -345,7 +354,7 @@ def build_full_feed_from_files(
         reg.register(build_uw_macro_source(macro, as_of=now))
     if fs_bible is not None:
         reg.register(build_fundstrat_bible_source(fs_bible))
-    if fs_daily is not None:
+    if fs_daily is not None and _fundstrat_daily_checked(src, fs_daily):
         reg.register(build_fundstrat_daily_source(fs_daily))
     if meridian is not None:
         reg.register(build_meridian_source(meridian))

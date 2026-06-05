@@ -2,7 +2,7 @@
 
 Generated: 2026-06-05
 
-Last refreshed: 2026-06-05 after the Fundstrat-derived Event Risk live refresh.
+Last refreshed: 2026-06-05 after the Fundstrat Daily full-body honesty slice.
 
 ## Decision
 
@@ -40,10 +40,12 @@ Result summary:
 - Build succeeded.
 - `actions`: 3
 - `research_actions`: 0
-- `lane_status.counts.not_checked`: 3
-- Dark lane keys: `catalysts`, `synthesis`, `signal_log`.
+- `lane_status.counts.not_checked`: 4
+- Dark lane keys: `fundstrat_daily`, `catalysts`, `synthesis`, `signal_log`.
 - Event Risk is supplied and has data; one conservative exposure-review action
   is promoted from the oil/rates shock row.
+- FS Daily remains not checked because current daily-email state is
+  snippet-only and has zero full-body parsed entries.
 - Not-checked rows carry structured `next_step` and `missing_impact` guidance.
 - Emitted feed keys: `generated_at`, `staleness`, `lane_status`, `hero`,
   `actions`, `fresh_signals`, `signal_log`, `event_risk`, `holdings`,

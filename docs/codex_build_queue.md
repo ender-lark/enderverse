@@ -15,6 +15,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat Daily full-body honesty.
+  - Changed full-build source registration so snippet-only Fundstrat discovery
+    does not mark FS Daily as checked clear.
+  - Empty daily calls can be checked clear only after
+    `fundstrat_intake_summary.json` proves at least one full-body email was
+    parsed.
+  - Prioritized FS Daily in readiness next steps because daily Fundstrat emails
+    are a primary source lane.
 - Fundstrat-derived Event Risk live refresh.
   - Used Gmail full-body Fundstrat reads as supplied source evidence to write a
     compact `event_risks.json` cache without storing raw email bodies.

@@ -29,8 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Fundstrat-derived Event
-  Risk live refresh.
+- Latest completed slice before this handoff refresh: Fundstrat Daily full-body
+  honesty.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -46,6 +46,10 @@ Important recent state:
   evidence. `src/event_risks.json` stores only metadata/brief summaries, not raw
   email bodies. The lane promotes one conservative exposure-review action for
   oil/rates shock risk; no buy/sell order is implied.
+- FS Daily is intentionally `not_checked` while the current Fundstrat intake
+  summary shows `full_body_entries: 0` and `snippet_only_entries: 10`. Empty
+  daily calls are checked clear only after at least one full-body daily email is
+  parsed.
 - Monthly Core List tables are intentionally not stored. Treat Core List table
   ingestion as out of scope for the current system build and do not assume it is
   a future requirement; only a new explicit user request should reopen it.
@@ -117,9 +121,9 @@ Important recent state:
 - Current live-readiness probe on the repo reports `rehearsal_ready: true`,
   `required_inputs_ready: true`, `live_data_ready: true`,
   `publish_ready: true`, and `go_live_ready: true`.
-- Current dark lanes are `catalysts`, `synthesis`, and `signal_log`. These are
-  not hard go-live blockers, but the dashboard now shows what input to supply
-  next for each.
+- Current dark lanes are `fundstrat_daily`, `catalysts`, `synthesis`, and
+  `signal_log`. These are not hard go-live blockers, but the dashboard now
+  shows what input to supply next for each.
 - The first publish path succeeded:
   `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
   It wrote `src/latest_cockpit_feed.json` and updated

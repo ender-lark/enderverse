@@ -23,9 +23,10 @@ from uw_price_cache_intake import normalize_price_cache, validate_price_cache
 MINIMUM_LIVE_INPUTS = {"uw_prices", "macro"}
 DARK_LANE_NEXT_STEP_PRIORITY = {
     "event_risk": 0,
-    "catalysts": 1,
-    "synthesis": 2,
-    "signal_log": 3,
+    "fundstrat_daily": 1,
+    "catalysts": 2,
+    "synthesis": 3,
+    "signal_log": 4,
 }
 
 

@@ -209,6 +209,50 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["synthesis"]["status"] == "not_checked"
 
 
+def test_full_build_runner_snippet_only_fundstrat_daily_stays_not_checked(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "fundstrat_daily_calls.json", [])
+    _write(src / "fundstrat_intake_summary.json", {
+        "entries": 10,
+        "full_body_entries": 0,
+        "snippet_only_entries": 10,
+        "daily_calls": 0,
+    })
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    rows = _lane_rows(feed)
+    assert rows["fundstrat_daily"]["status"] == "not_checked"
+
+
+def test_full_build_runner_full_body_fundstrat_daily_can_be_checked_clear(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "fundstrat_daily_calls.json", [])
+    _write(src / "fundstrat_intake_summary.json", {
+        "entries": 2,
+        "full_body_entries": 2,
+        "snippet_only_entries": 0,
+        "daily_calls": 0,
+    })
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    rows = _lane_rows(feed)
+    assert rows["fundstrat_daily"]["status"] == "checked_clear"
+
+
 def test_full_build_runner_missing_price_file_is_dark_not_false_has_data(tmp_path):
     src = tmp_path / "src"
     src.mkdir()
