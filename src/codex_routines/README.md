@@ -34,8 +34,9 @@ not-checked instead of being treated as clear.
    - Parse direct monthly Fundstrat PDF/text/JSON uploads into the compact
      `fundstrat_bible.json` deck shape: useful summary sections only, not raw
      stock-price chart text or Core List tables. Do not reopen Core List table
-     parsing unless the user explicitly asks later. Top-5/Bottom-5 and separate
-     Consider List rows can feed `top_prospects.json`.
+     parsing unless the user makes a new explicit request after the working
+     system is in place. Top-5/Bottom-5 and separate Consider List rows can
+     feed `top_prospects.json`.
    - Write `fundstrat_daily_calls.json`, `fundstrat_inbox_entries.json`,
      `inbox_call_dates.json`, and `source_call_candidates.json`.
    - Merge full-body action-like daily calls into `top_prospects.json` so the

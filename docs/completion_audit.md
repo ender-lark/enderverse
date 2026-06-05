@@ -116,7 +116,8 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Monthly Top/Bottom idea extraction and core-list deferral: real PDF text where
   Top-5/Bottom-5 labels appear after ticker blocks is parsed correctly, while
   Core List tables are intentionally left out to avoid overclutter and should
-  not be revisited unless the user explicitly reopens them later.
+  not be treated as a future requirement unless the user makes a new explicit
+  request after the working system is in place.
 - Retired reallocation test workaround: the stale Chunk 1
   `src/test_reallocate.py` artifact was removed, so the standard verifier can
   run the full repo pytest tree directly while `src/test_reallocate_rebuild.py`

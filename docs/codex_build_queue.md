@@ -10,6 +10,8 @@ until the core logic is stable; Notion sync comes later.
   - Keep dashboard parity classification current before committing any new
     dashboard/feed meaning or UI work.
   - Prioritize system/routine/dashboard work over stock-specific research.
+  - Do not promote Fundstrat Core List table ingestion; it is out of scope for
+    the current system build and may never be needed.
 
 ## Recently Completed
 
@@ -68,7 +70,7 @@ until the core logic is stable; Notion sync comes later.
     `fundstrat_bible_intake.py` for monthly Top-5/Bottom-5 and separate
     Consider List rows.
   - Kept Core List tables explicitly excluded from the monthly ownership
-    contract unless the user explicitly asks to revisit them later.
+    contract; do not assume they are a future requirement.
 - Retired stale reallocation test workaround.
   - Removed the retired Chunk 1 `src/test_reallocate.py` artifact that blocked
     plain full-suite pytest collection.
@@ -78,8 +80,8 @@ until the core logic is stable; Notion sync comes later.
     planner coverage.
 - Monthly Top/Bottom idea extraction and core-list deferral.
   - Left Fundstrat monthly Core List tables out of stored state to avoid
-    overclutter and bad row extraction; do not revive this tonight unless the
-    user explicitly reopens it later.
+    overclutter and bad row extraction; do not revive this unless the user
+    makes a new explicit request after the working system is in place.
   - Added a PDF-text fallback for monthly Large-cap Top-5/Bottom-5 pages where
     extraction places labels after ticker blocks.
   - Added an explicit low-pressure `consider_list` category for separate

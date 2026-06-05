@@ -36,8 +36,9 @@ Important recent state:
   spend time on stock research such as AVGO.
 - Dashboard parity review is complete; JSX injection is canonical, generated HTML is a summary/export path.
 - Fundstrat daily email intake and direct monthly PDF/text/JSON upload intake are supported.
-- Monthly Core List tables are intentionally not stored and should not be
-  revisited tonight; only explicit future user direction should reopen that.
+- Monthly Core List tables are intentionally not stored. Treat Core List table
+  ingestion as out of scope for the current system build and do not assume it is
+  a future requirement; only a new explicit user request should reopen it.
   Top-5/Bottom-5 and separate Consider List rows are the monthly
   prospect-signal path.
 - AVGO remains unassessed until an actual thesis is written, but its timing
