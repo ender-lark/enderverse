@@ -794,6 +794,21 @@ function laneStatusRow(r){
            detail:r.detail||"", count:(typeof r.count==="number"?r.count:0),
            checkedAt:r.checked_at||"", nextStep:r.next_step||"", missingImpact:r.missing_impact||"" };
 }
+function operatorStatus(feed){
+  const counts = ((feed.lane_status||{}).counts)||{};
+  const openActions = (((feed.feedback||{}).open_actions)||{}).count||0;
+  const actions = (feed.actions||[]).length;
+  const dark = counts.not_checked||0;
+  const stale = counts.stale||0;
+  const failed = counts.failed||0;
+  const status = failed ? "FAIL" : ((dark||stale||openActions) ? "WARN" : "PASS");
+  const statusColor = failed ? C.red : (status==="WARN" ? C.amber : C.green);
+  const sourceLane = failed ? `${failed} failed` : dark ? `${dark} dark` : stale ? `${stale} stale` : "clear";
+  return {
+    status, statusColor, actions, openActions, sourceLane,
+    command:"python src/go_live_checklist.py --format text",
+  };
+}
 // ── ⑨ Radar view-model: endorsed (daily-call) names not owned yet ──
 function radarRow(r){
   const levels=[];
@@ -813,6 +828,7 @@ function sharedVM(feed){
     laneStatus: ((feed.lane_status||{}).rows||[]).map(laneStatusRow),
     darkLaneCount: (((feed.lane_status||{}).counts||{}).not_checked)||0,
     staleLaneCount: ((((feed.lane_status||{}).counts||{}).stale)||0) + ((((feed.lane_status||{}).counts||{}).failed)||0),
+    operatorStatus: operatorStatus(feed),
   };
 }
 // actionVM = the ⚡ Action surface (decide/do). Built only when mode==="action".
@@ -1053,6 +1069,32 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         })()}
 
         {/* ACTIONS — prioritized "what to do today" (engine ⑦b actions block) */}
+        {(() => {
+          const op = VM.operatorStatus;
+          const items = [
+            ["Today actions", String(op.actions), op.actions?C.amber:C.dim],
+            ["Open reviews", String(op.openActions), op.openActions?C.amber:C.green],
+            ["Source lanes", op.sourceLane, op.sourceLane==="clear"?C.green:C.amber],
+          ];
+          return (
+            <div style={{ marginTop:10, ...card, borderColor:op.statusColor+"55", background:op.statusColor+"0d" }}>
+              <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:10, flexWrap:"wrap", marginBottom:8 }}>
+                <div style={{ fontSize:13.5, fontWeight:700, color:C.text }}>Operator status</div>
+                <span style={{ fontFamily:mono, fontSize:11, fontWeight:800, color:op.statusColor, border:`1px solid ${op.statusColor}77`, borderRadius:99, padding:"1px 8px", background:`${op.statusColor}14` }}>{op.status}</span>
+              </div>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(120px, 1fr))", gap:8 }}>
+                {items.map(([label,value,color])=>(
+                  <div key={label} style={{ border:`1px solid ${C.line}`, borderRadius:8, padding:"7px 8px", background:C.panel }}>
+                    <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", marginBottom:3 }}>{label}</div>
+                    <div style={{ fontFamily:mono, fontSize:14, fontWeight:800, color }}>{value}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop:8, fontFamily:mono, fontSize:10.5, color:C.faint }}>Verify: {op.command}</div>
+            </div>
+          );
+        })()}
+
         <Section id="actions" title="Today's actions" icon="🟢" badge={VM.actions.length?`${Math.min(VM.actions.length,5)}${VM.actions.length>5?` of ${VM.actions.length}`:""}`:"0 live"} badgeColor={VM.actions.length?C.amber:C.faint} openMap={open} setOpen={setOpen}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>PRIORITIZED — confidence-led. Gate badges are provisional; the real 🟢/🟡/🔴 runs when you act on it in chat.</div>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>

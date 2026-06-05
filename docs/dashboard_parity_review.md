@@ -2,7 +2,7 @@
 
 Generated: 2026-06-05
 
-Last refreshed: 2026-06-05 after the conviction-gap action refresh.
+Last refreshed: 2026-06-05 after the canonical operator-status parity refresh.
 
 ## Decision
 
@@ -130,6 +130,9 @@ Result summary:
   which routines ran; `lane_status` says which data lanes were checked, stale,
   failed, or dark. Both should stay; generated HTML now mirrors lane-status
   counts/top rows as summary context.
+- Operator Status is a derived readiness surface, not a separate feed block.
+  It must remain sourced from existing `actions`, `feedback.open_actions`, and
+  `lane_status` health in both canonical JSX and generated HTML.
 - `docs/index.html` duplicates a subset of the JSX dashboard. Because it omits
   newer surfaces, this duplicate path can create conflicting operator truth.
 - The command/navigation tab in generated HTML is static utility content, not a

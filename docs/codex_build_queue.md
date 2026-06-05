@@ -15,6 +15,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Canonical dashboard operator-status parity.
+  - Added the compact Operator Status read to the canonical JSX cockpit, not
+    only the generated HTML preview.
+  - The card uses live feed health only: Today's Actions, open action-memory
+    reviews, dark/stale/failed source lanes, and the go-live checklist command.
+  - Refreshed the live dashboard package; the local preview at
+    `http://127.0.0.1:8765/dashboard_preview.html` now shows build
+    `2026-06-05 10:03 ET` with 4 actions, 2 open reviews, and 2 dark lanes.
 - Fundstrat Daily compact live refresh.
   - Ingested three compact, full-body-derived Fundstrat daily calls from Gmail
     evidence: `XOP`, `RYF`, and `TNX`.

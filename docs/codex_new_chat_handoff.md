@@ -183,10 +183,11 @@ Important recent state:
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T09:56:30.433251+00:00`.
-- The generated summary/preview dashboard now has an Operator Status card near
-  the top. It summarizes action count, open reviews, source-lane warning state,
-  and the `python src/go_live_checklist.py --format text` command.
+  `2026-06-05T10:03:31.604897+00:00`.
+- The canonical JSX cockpit and generated summary/preview dashboard both have
+  an Operator Status card near the top. It summarizes action count, open
+  reviews, source-lane warning state, and the
+  `python src/go_live_checklist.py --format text` command.
 - Current `src/open_opportunities.json` has 2 open watch/review items:
   `ANET` and `GOOGL`.
 - Current `python src/live_status.py` reports `live_summary:
@@ -199,7 +200,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `939 passed, 6 skipped`.
+- `python -m pytest src -q` -> `941 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 
