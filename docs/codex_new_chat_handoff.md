@@ -215,11 +215,16 @@ Important recent state:
   cloud-ops blockers. The cloud-ops check reads the default Codex app
   automation folder when `CODEX_HOME` is unset and reports active superseded
   jobs as schedule conflicts. It also validates active local automation prompts
-  for routine-specific scheduled receipt protocol, commit/push write-back, and
-  missing-source honesty guards; current app state reports
+  for routine-specific scheduled receipt protocol, safe write-back via
+  `cloud_routine_commit.py`, and missing-source honesty guards; current app
+  state reports
   `Cloud receipt protocol: checked=10 | ok=10 | missing=0`.
   The active Deep Synthesis automation prompt was patched after the stricter
   checker found it lacked the explicit missing-source honesty guard.
+- Active routine prompts now call `python src/cloud_routine_commit.py --message
+  "<routine scheduled run>" --push --format text` for write-back. The helper
+  stages only allowlisted routine-owned files and leaves unrelated dirty files,
+  including the existing Fundstrat generated files, untouched.
 - The active automation timing was checked against Notion's "Scheduled Cloud
   Routines - Master Reference" and the 2026-06-02 "Routine schedule reconcile"
   note. Current intent: Morning Scan at 8:35 ET, Daily Synthesis at 9:30 ET

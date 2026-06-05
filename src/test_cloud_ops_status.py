@@ -261,7 +261,8 @@ def test_cloud_ops_status_validates_prompt_writeback_and_source_honesty(tmp_path
         "--routine-id investing-os-morning-scan --status started --run-source scheduled "
         "--summary \"started\". At the end append a success or failed receipt. "
         "Do not invent missing data; missing pulls stay dark/not_checked, never checked clear. "
-        "Commit and push src/cloud_routine_receipts.json plus output files if changed; "
+        "Commit and push src/cloud_routine_receipts.json plus output files if changed with "
+        "python src/cloud_routine_commit.py --message \"run\" --push --format text; "
         "if push fails, report it."
     )
     (automation_dir / "automation.toml").write_text(
@@ -287,6 +288,7 @@ def test_cloud_ops_status_validates_prompt_writeback_and_source_honesty(tmp_path
     protocol = report["prompt_protocol"]["rows"][0]
     assert protocol["ok"] is True
     assert protocol["has_writeback"] is True
+    assert protocol["has_safe_commit_helper"] is True
     assert protocol["has_source_honesty"] is True
 
 
@@ -321,8 +323,10 @@ def test_cloud_ops_status_rejects_prompt_without_writeback_or_source_honesty(tmp
     protocol = report["prompt_protocol"]["rows"][0]
     assert protocol["ok"] is False
     assert protocol["has_writeback"] is False
+    assert protocol["has_safe_commit_helper"] is False
     assert protocol["has_source_honesty"] is False
     assert "commit/push write-back protocol" in protocol["problem"]
+    assert "safe routine-owned commit helper" in protocol["problem"]
     assert "missing-source honesty guard" in protocol["problem"]
 
 

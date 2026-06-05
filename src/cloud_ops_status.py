@@ -298,6 +298,7 @@ def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, A
     has_scheduled_source = "--run-source scheduled" in prompt
     lowered = prompt.lower()
     has_writeback = "commit and push" in lowered and "push fails" in lowered
+    has_safe_commit_helper = "cloud_routine_commit.py" in prompt
     has_source_honesty = any(
         token in lowered
         for token in (
@@ -317,6 +318,8 @@ def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, A
         missing_parts.append("routine-specific scheduled started/final receipt protocol")
     if not has_writeback:
         missing_parts.append("commit/push write-back protocol")
+    if not has_safe_commit_helper:
+        missing_parts.append("safe routine-owned commit helper")
     if not has_source_honesty:
         missing_parts.append("missing-source honesty guard")
     ok = not missing_parts
@@ -330,6 +333,7 @@ def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, A
         "has_final_status": has_final_status,
         "has_scheduled_source": has_scheduled_source,
         "has_writeback": has_writeback,
+        "has_safe_commit_helper": has_safe_commit_helper,
         "has_source_honesty": has_source_honesty,
         "problem": problem,
     }
