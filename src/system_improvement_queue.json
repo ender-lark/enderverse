@@ -78,6 +78,15 @@
       "area": "research",
       "why": "Off-hours dossiers should promote actionable buy/sell/hold/research items from explicit ticker metadata instead of fragile title parsing.",
       "done_when": "Research action promotion prefers ticker/symbol fields, preserves process-item filtering, and activates the near-term date clause for plain-title ticker dossiers."
+    },
+    {
+      "id": "collection-gate-l2-l3",
+      "title": "Validate the Collection-to-Analyst handoff before feed assembly",
+      "priority": "P1",
+      "status": "done",
+      "area": "architecture",
+      "why": "Bad source stamps or inconsistent collection metadata can silently contaminate action surfacing before the publish gate ever sees a feed.",
+      "done_when": "Full-build and runtime skeleton paths fail closed on malformed Contract-B snapshots, bad run/source stamps, critical missing sources, and staleness/source-failure drift."
     }
   ]
 }

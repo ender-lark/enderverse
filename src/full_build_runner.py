@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Any
 
 from collection import collect
+from collection_gate import validate_collection_gate
 from feed_assembler import assemble_feed
 from fundstrat_bible import build_fundstrat_bible_source
 from fundstrat_daily import build_fundstrat_daily_source
@@ -284,8 +285,9 @@ def build_full_feed_from_files(
         reg.register(build_meridian_source(meridian))
 
     snap = collect(reg, run_timestamp=now)
-    if snap.critical_missing:
-        raise FullBuildError(f"critical source(s) delivered no data: {snap.critical_missing}")
+    collection_problems = validate_collection_gate(snap)
+    if collection_problems:
+        raise FullBuildError(f"snapshot failed L2->L3 collection gate: {collection_problems}")
 
     feed = assemble_feed(
         {

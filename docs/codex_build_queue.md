@@ -6,12 +6,17 @@ until the core logic is stable; Notion sync comes later.
 ## Active Slice
 
 - Completion audit and next-slice discovery.
-  - Re-check older refinement notes after the structured Research Queue ticker
-    field slice.
+  - Re-check older refinement notes after the L2-to-L3 collection gate slice.
   - Promote the next self-contained repo slice if one remains.
 
 ## Recently Completed
 
+- L2-to-L3 collection gate.
+  - Added `collection_gate.py` as the Collection-to-Analyst handoff validator.
+  - Layered Contract-B shape, parseable run/source stamps, critical-source
+    fail-closed behavior, and staleness/source-failure consistency checks.
+  - Wired the gate into both full-build and runtime skeleton paths before L3
+    feed assembly.
 - Structured Research Queue ticker field.
   - Research action promotion now trusts explicit dossier tickers before legacy
     title parsing.

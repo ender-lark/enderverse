@@ -19,6 +19,7 @@ from __future__ import annotations
 import dataclasses
 
 from collection import collect
+from collection_gate import validate_collection_gate
 from feed_assembler import assemble_feed
 from validators import validate_cockpit_feed
 from portfolio import build_portfolio_source
@@ -67,10 +68,11 @@ def build_skeleton_feed(
     # 3. collect into a CollectedSnapshot (Contract B)
     snap = collect(reg, run_timestamp=run_timestamp)
 
-    # 4. critical-missing gate — abort rather than render a partial cockpit
-    if snap.critical_missing:
+    # 4. L2->L3 gate — abort rather than render a partial or malformed cockpit
+    collection_problems = validate_collection_gate(snap)
+    if collection_problems:
         raise SkeletonFeedError(
-            f"critical source(s) delivered no data: {snap.critical_missing} "
+            f"snapshot failed L2->L3 collection gate: {collection_problems} "
             "— not rendering a partial cockpit"
         )
 
@@ -169,9 +171,10 @@ def build_full_feed(
         reg.register(build_meridian_source(meridian_items))
 
     snap = collect(reg, run_timestamp=run_timestamp)
-    if snap.critical_missing:
+    collection_problems = validate_collection_gate(snap)
+    if collection_problems:
         raise SkeletonFeedError(
-            f"critical source(s) delivered no data: {snap.critical_missing} "
+            f"snapshot failed L2->L3 collection gate: {collection_problems} "
             "— not rendering a partial cockpit"
         )
 

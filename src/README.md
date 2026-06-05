@@ -68,7 +68,9 @@ Six plugs ship today. Each returns dict rows (the plug stamps `source`; rows may
 
 `CRITICAL_SOURCES = ("portfolio", "uw_price")`. If a critical plug fails, `collect()` records it
 in `critical_missing`; a non-critical plug failing is tolerated (one `kind="error"` item, the
-pull survives).
+pull survives). Before Layer 3 assembly, `collection_gate.validate_collection_gate(...)` layers
+Contract-B shape, run/source stamp parsing, critical-source fail-closed behavior, and staleness /
+failure-record consistency checks.
 
 ---
 

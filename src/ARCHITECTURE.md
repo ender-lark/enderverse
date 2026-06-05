@@ -196,7 +196,7 @@ Before "fixing" an empty lane: identify which of the three it is (and *which sea
 - **Synthesis Brain v1.1** — broaden structured extraction only after the Daily Synthesis routine emits richer fields (`ticker`, `action`, `urgency`, `capital_effect`, evidence). Avoid free-form prose guessing.
 - **Codex-owned routine orchestration** — replace Claude-only cloud routine prompts with repo-defined runners/automations that Codex can inspect and operate: build caches, gather inputs, build the feed, publish through the gate, and write action memory.
 - **Fundstrat email intake v1.1** — `fundstrat_email_intake.py` now parses forwarded/exported emails into `fundstrat_daily_calls.json`, `fundstrat_inbox_entries.json`, `inbox_call_dates.json`, and `source_call_candidates.json`. Follow-up: Gmail connector fetch/search, richer monthly/Bible extraction, and stronger source-call-log upsert automation.
-- **L2→L3 stamp/shape validator** — the still-open half of the seam gap (the L5→L3 half is `publish_gate.py`).
+- **L2→L3 stamp/shape validator** -- done 2026-06-05. `collection_gate.py` now layers Contract-B shape, parseable run/source stamps, critical-source fail-closed behavior, and staleness/source-failure consistency before L3 assembly; `publish_gate.py` remains the L5→L3 publish gate.
 
 ---
 
