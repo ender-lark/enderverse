@@ -120,6 +120,13 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
         "go_live_ready": True,
         "dark_lanes": {"count": 0, "details": []},
+        "source_capability": {
+            "present_inputs": 18,
+            "total_inputs": 21,
+            "connector_or_api_count": 5,
+            "supplied_or_export_count": 8,
+            "missing_live_capable_count": 1,
+        },
         "open_actions": {"count": 0, "tickers": []},
     })
 
@@ -127,6 +134,7 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
         src_dir=src,
         automations_dir=tmp_path / "missing_automations",
     )
+    text = cloud_ops_status.format_text(report)
 
     assert report["ready_for_unattended_daily_run"] is True
     assert report["schedule_ready_for_unattended_run"] is True
@@ -139,6 +147,8 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     assert report["cloud_automation"]["expected_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
     assert report["cloud_automation"]["active_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
     assert report["cloud_automation"]["matches"][0]["evidence_type"] == "repo_proof"
+    assert report["source_capability"]["connector_or_api_count"] == 5
+    assert "Live source capability: inputs=18/21 | connector_or_api=5 | supplied_or_export=8 | missing_live_capable=1" in text
     assert report["gaps"] == []
 
 

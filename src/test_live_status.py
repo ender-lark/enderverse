@@ -23,6 +23,13 @@ def _readiness(**overrides):
         "invalid_minimum_live_inputs": [],
         "publish_gate_problems": [],
         "build_problem": "",
+        "source_capability": {
+            "present_inputs": 18,
+            "total_inputs": 21,
+            "connector_or_api_count": 5,
+            "supplied_or_export_count": 8,
+            "missing_live_capable_count": 1,
+        },
         "next_steps": ["Review dark lanes."],
     }
     base.update(overrides)
@@ -91,6 +98,7 @@ def test_build_status_summary_reports_live_with_open_reviews():
     assert status["data_flow"]["event_watch"]["title"] == "Oil shock"
     assert status["source_calls"]["status"] == "not_checked"
     assert status["source_calls"]["observed_count"] == 3
+    assert status["source_capability"]["connector_or_api_count"] == 5
 
 
 def test_build_status_summary_prioritizes_blocked_state():
@@ -170,6 +178,7 @@ def test_format_text_is_operator_scannable():
     assert "Data flow: feed=2026-06-05T10:03:31+00:00" in text
     assert "top_action=event_risk: Review oil shock" in text
     assert "Source calls: not_checked | observed=3 | pending=0 | overdue=0" in text
+    assert "Live source capability: inputs=18/21 | connector_or_api=5 | supplied_or_export=8 | missing_live_capable=1" in text
     assert "Active event watch: high | Oil shock | channels=oil, rates | tickers=XOP, TNX | trigger=WTI spike" in text
     assert "Sudden event command:" in text
     assert "python src/sudden_event_refresh.py --title \"<event headline>\"" in text

@@ -131,6 +131,16 @@ Important recent state:
   `go_live_ready` while still allowing rehearsal when the build itself can run.
 - Current `positions.json` snapshot is `2026-05-31`; under the 2026-06-05
   clock it is fresh at 5 days old.
+- `src/live_source_capability.py --format text` reports source-acquisition
+  capability without fetching or publishing. It reads the routine manifest and
+  daily build convention inputs, then distinguishes connector/API-capable
+  inputs, supplied/export-capable inputs, and repo-local/cache inputs. The
+  live-status and cloud-ops text commands now include this count so
+  `live_data_ready: true` cannot be misread as proof that every source was
+  freshly fetched. Current source-capability read shows 18/21 inputs present,
+  14 connector/API-capable inputs, 18 supplied/export-capable inputs, and 3
+  missing live-capable optional inputs (`account_positions`, `meridian`,
+  `catalysts`); only `catalysts` is currently a dark dashboard lane.
 - Source lane status now requires delivered dated items for `has_data`; a
   cleanly registered but empty source is `checked_clear`, not data.
 - Not-checked lane-status rows now carry structured `next_step` and

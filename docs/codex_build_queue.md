@@ -58,6 +58,17 @@ until the core logic is stable; Notion sync comes later.
     the full expected stack to be installed and active.
   - Missing connector/source pulls still remain visible as dark lanes instead
     of checked clear; current optional dark lane remains Catalyst Calendar.
+- Live-source capability status.
+  - Added `python src/live_source_capability.py --format text` as a
+    non-fetching operator proof of which daily build inputs are
+    connector/API-capable, supplied/export-capable, or repo-local/cache inputs.
+  - `python src/live_status.py --format text` and
+    `python src/cloud_ops_status.py --format text` now include the source
+    capability counts alongside existing live-data readiness, so a valid local
+    cache cannot be mistaken for proof that every source was freshly fetched.
+  - Updated the routine manifest source-boundary text for Catalyst, Daily
+    Synthesis, and Signal Log connector paths; missing source inputs still
+    remain missing/dark rather than checked clear.
 - Cloud routine run receipts.
   - Added `src/cloud_routine_receipts.py` and
     `src/cloud_routine_receipts.json` so scheduled jobs can append auditable

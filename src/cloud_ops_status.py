@@ -605,6 +605,7 @@ def cloud_ops_status(
         "routine_receipts": receipts,
         "routine_receipt_due": receipt_due,
         "dark_lanes": status.get("dark_lanes") or {},
+        "source_capability": status.get("source_capability") or {},
         "open_actions": status.get("open_actions") or {},
         "gaps": gaps,
         "source_pull_note": (
@@ -622,6 +623,11 @@ def format_text(report: dict[str, Any]) -> str:
     receipt_due = report.get("routine_receipt_due") or {}
     next_due = receipt_due.get("next_due") or {}
     dark = report.get("dark_lanes") or {}
+    source_capability = (
+        (report.get("live_status") or {}).get("source_capability")
+        or report.get("source_capability")
+        or {}
+    )
     lines = [
         f"Cloud schedule ready: {bool(report.get('schedule_ready_for_unattended_run'))}",
         f"Cloud live-run proven: {bool(report.get('live_run_proven'))}",
@@ -644,6 +650,14 @@ def format_text(report: dict[str, Any]) -> str:
         (
             "Dark source lanes: "
             f"{int(dark.get('count') or 0)}"
+        ),
+        (
+            "Live source capability: "
+            f"inputs={int(source_capability.get('present_inputs') or 0)}/"
+            f"{int(source_capability.get('total_inputs') or 0)} | "
+            f"connector_or_api={int(source_capability.get('connector_or_api_count') or 0)} | "
+            f"supplied_or_export={int(source_capability.get('supplied_or_export_count') or 0)} | "
+            f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}"
         ),
         (
             "Cloud run receipts: "

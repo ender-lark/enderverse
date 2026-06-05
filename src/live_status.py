@@ -144,6 +144,7 @@ def build_status_summary(
         "open_actions": open_actions,
         "data_flow": _data_flow_summary(readiness, feed),
         "source_calls": _source_call_summary(feed),
+        "source_capability": readiness.get("source_capability") or {},
         "preview": preview,
         "system_queue": queue_status,
         "next_steps": readiness.get("next_steps") or [],
@@ -217,6 +218,7 @@ def format_text(status: dict[str, Any]) -> str:
     dark_lanes = status.get("dark_lanes") or {}
     queue = status.get("system_queue") or {}
     source_calls = status.get("source_calls") or {}
+    source_capability = status.get("source_capability") or {}
     top_action = data_flow.get("top_action") or {}
 
     preview_url = preview.get("url") or "preview URL unavailable"
@@ -248,6 +250,14 @@ def format_text(status: dict[str, Any]) -> str:
             f"observed={int(source_calls.get('observed_count') or 0)} | "
             f"pending={int(source_calls.get('pending_count') or 0)} | "
             f"overdue={int(source_calls.get('overdue_count') or 0)}"
+        ),
+        (
+            "Live source capability: "
+            f"inputs={int(source_capability.get('present_inputs') or 0)}/"
+            f"{int(source_capability.get('total_inputs') or 0)} | "
+            f"connector_or_api={int(source_capability.get('connector_or_api_count') or 0)} | "
+            f"supplied_or_export={int(source_capability.get('supplied_or_export_count') or 0)} | "
+            f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}"
         ),
     ]
     event_watch = data_flow.get("event_watch") or {}

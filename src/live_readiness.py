@@ -15,6 +15,7 @@ from typing import Any
 
 from daily_preflight import _positions_freshness
 from full_build_runner import FullBuildError, build_full_feed_from_files, convention_input_status
+import live_source_capability
 from macro_pulse_scan import validate_macro_state
 from publish_gate import validate_publish_gate
 from uw_price_cache_intake import normalize_price_cache, validate_price_cache
@@ -195,6 +196,7 @@ def readiness_report(
     minimum_live_inputs = minimum_live_inputs or set(MINIMUM_LIVE_INPUTS)
     report_today = _report_date(as_of, generated_at, run_timestamp)
     input_rows = convention_input_status(src)
+    source_capability = live_source_capability.capability_report(src, input_rows=input_rows)
     missing_required = _missing_input_rows(input_rows, required=True)
     missing_optional = _missing_input_rows(input_rows, required=False)
     input_by_key = {row["key"]: row for row in input_rows}
@@ -294,6 +296,7 @@ def readiness_report(
         "missing_minimum_live_inputs": missing_minimum_live,
         "minimum_live_input_validations": minimum_live_validations,
         "invalid_minimum_live_inputs": invalid_minimum_live,
+        "source_capability": source_capability,
         "dark_lane_keys": dark_lane_keys,
         "dark_lane_details": dark_lane_details,
         "stale_or_failed_lane_keys": stale_or_failed_lane_keys,

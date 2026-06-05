@@ -72,6 +72,7 @@
       "doc": "src/codex_routines/catalyst_intake.md",
       "separation_group": "source_intake",
       "input_boundaries": [
+        "Notion Catalyst Calendar connector rows when available",
         "Catalyst Calendar export json or csv",
         "Catalyst drop-folder files"
       ],
@@ -187,6 +188,7 @@
       "doc": "src/codex_routines/daily_synthesis.md",
       "separation_group": "source_intake",
       "input_boundaries": [
+        "Notion Synthesis Log read/write when connector access is available",
         "Supplied Daily Synthesis JSON",
         "Repo-evidence synthesis generated only from an existing cockpit feed",
         "No autonomous market narrative generation"
@@ -224,6 +226,7 @@
       "doc": "src/codex_routines/signal_log.md",
       "separation_group": "source_intake",
       "input_boundaries": [
+        "Notion Signal Log search/fetch rows when connector access is available",
         "Supplied Signal Log JSON",
         "Supplied Morning Scan JSON",
         "Watch-only context; no action promotion"
