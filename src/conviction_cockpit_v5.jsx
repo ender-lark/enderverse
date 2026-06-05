@@ -908,6 +908,11 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
   const VM = { ...shared, ...(A || {}), ...(B || {}) };   // only the active view's lanes + shared
   const R = (VM.research && ((VM.research.pending||[]).length || (VM.research.done||[]).length))
     ? VM.research : CURATED.research;   // live Research Queue when present, else curated fallback
+  const CATS = (VM.catalysts||[]).map(c=>({
+    d: c.date||"",
+    e: `${c.ticker?`${c.ticker} · `:""}${c.label||"Catalyst"}`,
+    note: `${c.days_out!=null?`in ~${c.days_out}d · `:""}${c.source||"Catalyst Calendar"}`
+  }));
   const [open, setOpen] = useState({});
   const [posOpen, setPosOpen] = useState({});
   const [collapsed, setCollapsed] = useState({});
@@ -1448,15 +1453,15 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           </Section>
         </Section>
 
-        {/* CATALYSTS (cockpit-curated; swap CURATED.catalysts → VM.catalysts when the feed emits them) */}
-        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={CURATED.catalysts.length} openMap={open} setOpen={setOpen} defaultOpen={false}>
-          {CURATED.catalysts.map((x,i)=>(
+        {/* CATALYSTS - live feed rows from Catalyst Calendar / catalyst intake */}
+        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={CATS.length} badgeColor={CATS.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={CATS.length>0}>
+          {CATS.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No catalysts supplied in this feed build.</div>}
+          {CATS.map((x,i)=>(
             <div key={i} style={{ ...card, marginBottom:7, display:"flex", gap:12, alignItems:"baseline" }}>
               <span style={{ fontFamily:mono, fontSize:12, color:C.accent, minWidth:58 }}>{x.d}</span>
               <div><div style={{ fontSize:13, color:C.text }}>{x.e}</div><div style={muted}>{x.note}</div></div>
             </div>
           ))}
-          <div style={{ fontSize:11, color:C.faint, marginTop:4 }}>Cockpit-curated — auto-population from the calendar sync follows.</div>
         </Section>
 
         {/* QUESTIONS (cockpit-curated; swap CURATED.questions → VM.questions when the feed emits them) */}
