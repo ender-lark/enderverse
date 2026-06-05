@@ -119,6 +119,24 @@ def test_helper_monitor_tagged():
     assert items[0]["stance"] == "MONITOR"
 
 
+def test_helper_marks_t1_t2_non_monitor_for_offensive_playbook():
+    theses = [
+        {"ticker": "NVDA", "tier": "T2", "stance": "ACTIVE", "factor_tags": ["ai_complex"]},
+        {"ticker": "BMNR", "tier": "T2", "stance": "MONITOR", "factor_tags": ["crypto"]},
+    ]
+    items = catalyst_needs_you(
+        [
+            {"ticker": "NVDA", "label": "earnings", "date": "2026-06-03", "days_out": 2, "source": "Calendar"},
+            {"ticker": "BMNR", "label": "unlock", "date": "2026-06-04", "days_out": 3, "source": "Calendar"},
+        ],
+        {"NVDA", "BMNR"},
+        theses,
+    )
+    by_ticker = {item["detail"]: item for item in items}
+    assert by_ticker["NVDA"]["offensive_playbook"] is True
+    assert by_ticker["BMNR"]["offensive_playbook"] is False
+
+
 def test_helper_deterministic_sort():
     cats = [{**AVGO_CAT, "ticker": "ZZZ", "days_out": 5},
             {**AVGO_CAT, "ticker": "AVGO", "days_out": 5},
@@ -143,3 +161,27 @@ def test_actions_read_renders_catalyst_item():
     assert len(rows) == 1 and rows[0]["kind"] == "catalyst_imminent"
     # a review prompt is NOT counted as an act-like (buy) action
     assert out["act_like"] == 0
+
+
+def test_actions_read_frames_high_conviction_catalyst_as_offensive_review():
+    theses = [{"ticker": "NVDA", "tier": "T2", "stance": "ACTIVE", "factor_tags": ["ai_complex"]}]
+    ny_items = [{
+        "reason": "catalyst_imminent",
+        "detail": "NVDA",
+        "days_out": 2,
+        "label": "earnings",
+        "stance": "ACTIVE",
+        "offensive_playbook": True,
+        "note": "x",
+    }]
+
+    out = actions_read([], ny_items, theses)
+    row = out["actions"][0]
+
+    assert row["kind"] == "catalyst_imminent"
+    assert row["what"] == "Catalyst lean-in review (~2d)"
+    assert row["capital_effect"] == "review"
+    assert "pre-register the offensive plan" in row["your_move"]
+    assert "defined-risk upside" in row["your_move"]
+    assert "not a buy trigger" in row["your_move"]
+    assert row["gate"]["default_action"] == "REVIEW"

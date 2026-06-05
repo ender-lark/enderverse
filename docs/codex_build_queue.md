@@ -15,6 +15,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- High-conviction catalyst offensive review framing.
+  - Promoted the useful part of the Notion System Update Queue catalyst
+    playbook without adding options/IV automation tonight.
+  - Near-term catalysts on T1/T2 non-MONITOR holdings now frame Today's Actions
+    as an offensive review: add-to-target, defined-risk upside, and post-event
+    dip ladder, while still requiring the gate and never auto-buying.
+  - MONITOR-stance catalyst rows remain watch/risk only.
 - Supplied Event Risk intake and action surfacing.
   - Added `event_risk_intake.py` for supplied daily/weekly event-risk JSON so
     sudden market-moving headlines can be checked without scraping or inventing

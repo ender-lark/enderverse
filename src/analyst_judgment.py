@@ -749,13 +749,16 @@ def catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7):
         if not isinstance(days, int) or days < 0 or days > horizon_days:
             continue
         stance = (by_tk.get(tk) or {}).get("stance")
+        tier = (by_tk.get(tk) or {}).get("tier")
         label = c.get("label") or "a catalyst"
+        offensive_playbook = stance != "MONITOR" and tier in {"T1", "T2"}
         items.append({
             "reason": "catalyst_imminent",
             "detail": tk,
             "days_out": days,
             "label": label,
             "stance": stance,
+            "offensive_playbook": offensive_playbook,
             "note": f"{label} in ~{days}d"
                     + (" on a MONITOR-stance hold" if stance == "MONITOR" else ""),
         })
@@ -882,6 +885,25 @@ def actions_read(fresh_signals, needs_you_items, theses,
                     "days_to_catalyst": days if isinstance(days, int) else None,
                 })
             else:
+                high_conviction = bool(it.get("offensive_playbook"))
+                th = by_ticker.get(tk) if tk else {}
+                if not high_conviction and isinstance(th, dict):
+                    high_conviction = th.get("tier") in {"T1", "T2"} and th.get("stance") != "MONITOR"
+                if high_conviction:
+                    catalyst_what = f"Catalyst lean-in review ({cd})"
+                    catalyst_move = (
+                        f"{tk}: {label} in {cd} - pre-register the offensive plan before it: "
+                        "add-to-target if conviction still clears, defined-risk upside structure "
+                        "if IV/price setup is efficient, and post-event buy-the-dip ladder. "
+                        "Run the gate on the actual size. A decision prompt, not a buy trigger."
+                    )
+                else:
+                    catalyst_what = f"Pre-catalyst review ({cd})"
+                    catalyst_move = (
+                        f"{tk}: {label} in {cd} - review the held position before it: "
+                        "confirm thesis, size, and whether to hedge or hold. "
+                        "A decision prompt, not a buy trigger."
+                    )
                 # a dated event on a HELD name: a DECISION PROMPT, not a buy trigger
                 rows.append({
                     "kind": "catalyst_imminent", "ticker": tk,
@@ -895,6 +917,12 @@ def actions_read(fresh_signals, needs_you_items, theses,
                     "source": "needs_you:catalyst_imminent",
                     "why": note or f"{label} is within the act-now horizon",
                     "days_to_catalyst": days if isinstance(days, int) else None,
+                    "what": catalyst_what,
+                    "your_move": catalyst_move,
+                    "capital_effect": "review",
+                    "goal_channels": ["upside", "downside_protection", "opportunity_cost"],
+                    "goal_impact": "Medium",
+                    "action_label": "CATALYST REVIEW",
                 })
         # unknown reasons are ignored — never fabricate an action
 
