@@ -410,6 +410,12 @@ until the core logic is stable; Notion sync comes later.
   - Added `manual_source_drop.py --validate-only` as a clearer no-write check
     before committing source-cache updates.
   - Regression tests prove the template validates and does not write cache files.
+- Open action review report.
+  - Extended `action_memory_resolve.py` with `--review-report` so open action
+    memory rows include age, review prompt, and ready-to-run defer/ignore/acted
+    commands.
+  - This keeps the operator decision explicit while making the resolution loop
+    easier to complete.
 
 ## Queued Slices
 

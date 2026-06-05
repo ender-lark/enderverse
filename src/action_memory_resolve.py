@@ -6,6 +6,7 @@ import argparse
 import json
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 import action_memory_writer as amw
 import open_opportunities as oo
@@ -55,6 +56,54 @@ def resolve_open_actions(
     }
 
 
+def review_rows(store: dict, *, as_of: str | None = None) -> list[dict[str, Any]]:
+    today = str(as_of or date.today().isoformat())[:10]
+    rows: list[dict[str, Any]] = []
+    for row in open_action_rows(store):
+        ticker = row.get("ticker") or ""
+        age = oo.age_business_days(row.get("first_flagged"), today)
+        rows.append({
+            "ticker": ticker,
+            "kind": row.get("kind") or "",
+            "source": row.get("source") or "",
+            "first_flagged": row.get("first_flagged") or "",
+            "last_seen": row.get("last_seen") or "",
+            "age_days": age if age is not None else 0,
+            "review_prompt": (
+                f"Decide whether {ticker} was acted, invalidated, ignored, deferred, missed, expired, or dropped."
+            ),
+            "commands": {
+                "defer": f"python src/action_memory_resolve.py --ticker {ticker} --status deferred --reason \"keep watching\"",
+                "ignore": f"python src/action_memory_resolve.py --ticker {ticker} --status ignored --reason \"no edge\"",
+                "acted": f"python src/action_memory_resolve.py --ticker {ticker} --status acted --reason \"operator acted\"",
+            },
+        })
+    rows.sort(key=lambda r: (-int(r.get("age_days") or 0), r.get("ticker") or ""))
+    return rows
+
+
+def review_report(
+    *,
+    store_path: str | Path = DEFAULT_STORE,
+    as_of: str | None = None,
+) -> dict[str, Any]:
+    path = Path(store_path)
+    store = oo.load_open_opportunities(path)
+    rows = review_rows(store, as_of=as_of)
+    return {
+        "store_path": str(path),
+        "as_of": str(as_of or date.today().isoformat())[:10],
+        "open_count": len(rows),
+        "oldest_age_days": max([int(row.get("age_days") or 0) for row in rows], default=0),
+        "rows": rows,
+        "next_step": (
+            "Resolve each row after operator review; use deferred to keep watching explicitly."
+            if rows else
+            "No open action-memory reviews."
+        ),
+    }
+
+
 def _resolution_from_args(args) -> list[dict]:
     if not args.ticker:
         return []
@@ -70,6 +119,7 @@ def main(argv=None) -> int:
     parser.add_argument("--store", default=str(DEFAULT_STORE))
     parser.add_argument("--as-of")
     parser.add_argument("--list", action="store_true", help="List open items without writing")
+    parser.add_argument("--review-report", action="store_true", help="Show open items with suggested resolution commands")
     parser.add_argument("--ticker", help="Ticker to resolve")
     parser.add_argument(
         "--status",
@@ -80,6 +130,10 @@ def main(argv=None) -> int:
     parser.add_argument("--reason", default="", help="Short resolution reason")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
+
+    if args.review_report:
+        print(json.dumps(review_report(store_path=args.store, as_of=args.as_of), indent=2))
+        return 0
 
     if args.list or not args.ticker:
         store = oo.load_open_opportunities(args.store)

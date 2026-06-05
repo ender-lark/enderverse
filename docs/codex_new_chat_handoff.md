@@ -168,6 +168,8 @@ Important recent state:
   rows, and the system-improvement queue into one JSON readout.
 - The open action-memory resolver is:
   `python src/action_memory_resolve.py --list` to inspect unresolved items, or
+  `python src/action_memory_resolve.py --review-report` to inspect age,
+  review prompts, and suggested resolution commands, or
   `python src/action_memory_resolve.py --ticker <TICKER> --status deferred --reason "..."`
   to resolve an item into history after operator review.
 - The published feed has been rendered through the canonical JSX injector:
@@ -186,7 +188,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `930 passed, 6 skipped`.
+- `python -m pytest src -q` -> `932 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

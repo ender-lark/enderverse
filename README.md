@@ -76,6 +76,7 @@ List unresolved action-memory items:
 
 ```powershell
 python src\action_memory_resolve.py --list
+python src\action_memory_resolve.py --review-report
 ```
 
 Resolve one after you decide:

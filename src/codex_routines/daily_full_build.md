@@ -111,6 +111,7 @@ This is the main replacement for Claude's FULL-build prompt.
 
    ```bash
    python src/action_memory_resolve.py --list
+   python src/action_memory_resolve.py --review-report
    python src/action_memory_resolve.py --ticker ANET --status deferred --reason "wait for setup"
    ```
 
