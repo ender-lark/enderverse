@@ -39,6 +39,13 @@ Accepted fallback file types:
    python src/fundstrat_email_intake.py --stdin-json --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json
    ```
 
+   The parser accepts direct search rows and nested batch-read envelopes:
+   `{emails:[...]}`, `{responses:[...]}`, `{results:[...]}`, `{items:[...]}`,
+   and rows wrapped under `email`, `message`, `result`, or `data`. Search rows
+   with only `snippet` remain snippet-only; only rows with full body/text/html
+   fields can update daily calls, inbox dates, source-call candidates, or top
+   prospects.
+
 3. If the drop folder has files, run:
 
    ```bash
@@ -103,6 +110,7 @@ debugging, and do not commit raw publication bodies.
 - Do not paste raw Fundstrat bodies into routine summaries.
 - Do not turn non-action mentions into daily-call rows.
 - Do not let snippet-only discovery update `top_prospects.json`.
+- Do not let snippet-only discovery update `inbox_call_dates.json`.
 - Do not treat unfetched or unparsed emails as checked clear.
 - Do not make trade recommendations from this routine; it only prepares source
   inputs for the cockpit build.

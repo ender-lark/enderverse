@@ -145,6 +145,48 @@ def test_entries_from_payload_accepts_gmail_connector_responses_shape():
     assert entries[0]["body_fetched"] is True
 
 
+def test_entries_from_payload_accepts_search_emails_shape_as_snippet_only():
+    entries = entries_from_payload({"emails": [{
+        "id": "search-1",
+        "threadId": "thread-1",
+        "from": {"name": "Mark Newton", "email": "mark.newton@fundstratdirect.com"},
+        "subject": "Daily Technical Strategy",
+        "snippet": "Buy NVDA near support.",
+        "internalDate": "1780660800000",
+    }]})
+
+    assert entries[0]["message_id"] == "search-1"
+    assert entries[0]["thread_id"] == "thread-1"
+    assert entries[0]["author"] == "Newton"
+    assert entries[0]["date"] == "2026-06-05"
+    assert entries[0]["body_source"] == "snippet"
+    assert entries[0]["body_fetched"] is False
+
+
+def test_entries_from_payload_accepts_nested_batch_read_result():
+    entries = entries_from_payload({"responses": [{
+        "ok": True,
+        "email": {
+            "messageId": "read-1",
+            "threadId": "thread-1",
+            "sender": {"name": "Tom Lee", "address": "tom@fsinsight.com"},
+            "subject": "First Word",
+            "body_html": "<p>We are constructive and would add <b>NVDA</b> near 170.</p>",
+            "receivedAt": "2026-06-05T13:30:00Z",
+        },
+    }]})
+    payload = build_intake_payload(entries, universe={"NVDA"},
+                                   generated_at="2026-06-05T14:00:00+00:00")
+
+    assert entries[0]["message_id"] == "read-1"
+    assert entries[0]["thread_id"] == "thread-1"
+    assert entries[0]["author"] == "Lee"
+    assert entries[0]["body_source"] == "body"
+    assert entries[0]["body_fetched"] is True
+    assert payload["summary"]["full_body_entries"] == 1
+    assert payload["daily_calls"][0]["ticker"] == "NVDA"
+
+
 def test_snippet_only_entries_do_not_mark_inbox_checked():
     entries = entries_from_payload({"responses": [{
         "id": "abc",

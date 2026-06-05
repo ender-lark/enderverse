@@ -5,12 +5,15 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Fundstrat intake expansion.
-  - Prefer Gmail connector email ingestion first.
-  - Later add direct source/archive routes only if needed.
+- ETF look-through sleeves.
+  - Add holdings overlap and sleeve exposure only after dashboard parity and action surfacing are stable.
 
 ## Recently Completed
 
+- Fundstrat intake expansion.
+  - Hardened `fundstrat_email_intake.py` for Gmail connector search and batch-read shapes.
+  - Preserved snippet-only discovery as not full-body checked.
+  - Added regression tests for nested batch-read envelopes, `threadId`/`internalDate`, and HTML body normalization.
 - Codex-owned cloud routines.
   - Added `src/codex_routine_manifest.json` as the machine-readable routine control plane.
   - Added `src/codex_routine_manifest.py` validation/listing command and manifest tests.
@@ -42,8 +45,7 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-- ETF look-through sleeves.
-  - Add holdings overlap and sleeve exposure only after dashboard parity and action surfacing are stable.
+No queued implementation slices. Add new deferred work here before starting a new slice.
 
 ## Working Rules
 

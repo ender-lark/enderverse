@@ -25,6 +25,7 @@ from datetime import datetime, timezone
 from email import policy
 from email.parser import Parser
 from email.utils import parsedate_to_datetime
+from html import unescape
 from pathlib import Path
 from typing import Any
 
@@ -122,6 +123,60 @@ def _body_from_message(msg) -> str:
         return str(msg.get_payload() or "").strip()
 
 
+def _first_value(raw: dict, names: tuple[str, ...]) -> Any:
+    for name in names:
+        if name in raw and raw[name] not in (None, ""):
+            return raw[name]
+    return None
+
+
+def _stringify_body(value: Any) -> str:
+    if value in (None, ""):
+        return ""
+    if isinstance(value, list):
+        return "\n".join(_stringify_body(v) for v in value if v not in (None, ""))
+    if isinstance(value, dict):
+        for key in ("plain", "text", "body", "content", "html"):
+            if key in value and value[key] not in (None, ""):
+                return _stringify_body(value[key])
+        return json.dumps(value, sort_keys=True)
+    text = str(value)
+    if "<" in text and ">" in text:
+        text = re.sub(r"(?is)<(script|style).*?>.*?</\1>", " ", text)
+        text = re.sub(r"(?s)<[^>]+>", " ", text)
+        text = unescape(text)
+    return " ".join(text.split())
+
+
+def _stringify_sender(value: Any) -> str:
+    if value in (None, ""):
+        return ""
+    if isinstance(value, dict):
+        name = value.get("name") or value.get("display_name") or ""
+        email = value.get("email") or value.get("address") or value.get("value") or ""
+        return " ".join(str(v) for v in (name, email) if v).strip()
+    if isinstance(value, list):
+        return ", ".join(_stringify_sender(v) for v in value if v not in (None, ""))
+    return str(value)
+
+
+def _unwrap_connector_row(raw: dict) -> dict:
+    """Unwrap common Gmail connector batch-read envelopes.
+
+    Search rows are usually direct message dicts. Batch-read rows may wrap the
+    email under keys such as `email`, `message`, `result`, or `data`, sometimes
+    alongside a success/error flag. Keep direct rows intact when no wrapper is
+    present.
+    """
+    for key in ("email", "message", "result", "data"):
+        nested = raw.get(key)
+        if isinstance(nested, dict):
+            merged = {k: v for k, v in raw.items() if k not in {"email", "message", "result", "data"}}
+            merged.update(nested)
+            return merged
+    return raw
+
+
 def parse_date(value: Any, fallback: str | None = None) -> str:
     if value in (None, ""):
         return fallback or datetime.now(timezone.utc).date().isoformat()
@@ -155,21 +210,28 @@ def normalize_email_entry(raw: Any, *, fallback_date: str | None = None,
                           source_path: str = "") -> dict:
     """Normalize one raw text or Gmail-like dict into {subject, body, date, ...}."""
     if isinstance(raw, dict):
-        message_id = raw.get("id") or raw.get("message_id")
-        thread_id = raw.get("thread_id")
-        subject = raw.get("subject") or raw.get("title") or ""
-        if raw.get("body"):
-            body = raw.get("body")
+        raw = _unwrap_connector_row(raw)
+        message_id = _first_value(raw, ("id", "message_id", "messageId", "gmail_id", "gmailId"))
+        thread_id = _first_value(raw, ("thread_id", "threadId"))
+        subject = _first_value(raw, ("subject", "title")) or ""
+        direct_body = _first_value(raw, (
+            "body", "text", "plain", "plain_text", "text_plain", "body_text",
+            "content", "html", "body_html",
+        ))
+        if direct_body:
+            body = _stringify_body(direct_body)
             body_source = "body"
-        elif raw.get("text"):
-            body = raw.get("text")
-            body_source = "text"
         else:
-            body = raw.get("snippet") or ""
+            body = _stringify_body(_first_value(raw, ("snippet", "preview", "summary")))
             body_source = "snippet" if body else "missing"
-        sender = raw.get("from") or raw.get("from_") or raw.get("sender") or raw.get("author") or ""
+        sender = _stringify_sender(_first_value(raw, (
+            "from", "from_", "sender", "author", "from_email", "fromEmail",
+        )))
         date_s = parse_date(
-            raw.get("date") or raw.get("timestamp") or raw.get("email_ts") or raw.get("internalDate"),
+            _first_value(raw, (
+                "date", "timestamp", "email_ts", "internalDate", "internal_date",
+                "received_at", "receivedAt",
+            )),
             fallback=fallback_date,
         )
         author = raw.get("analyst") or detect_author(subject, body, sender)
@@ -238,13 +300,12 @@ def entries_from_payload(payload: Any, *, fallback_date: str | None = None,
     a single message dict. This matches the common Gmail connector result shapes.
     """
     if isinstance(payload, dict):
-        if isinstance(payload.get("messages"), list):
-            rows = payload["messages"]
-        elif isinstance(payload.get("emails"), list):
-            rows = payload["emails"]
-        elif isinstance(payload.get("responses"), list):
-            rows = payload["responses"]
-        else:
+        rows = None
+        for key in ("responses", "emails", "messages", "results", "items"):
+            if isinstance(payload.get(key), list):
+                rows = payload[key]
+                break
+        if rows is None:
             rows = [payload]
     elif isinstance(payload, list):
         rows = payload
