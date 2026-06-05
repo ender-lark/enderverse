@@ -78,6 +78,7 @@ def refresh_plan(
             "--feed", _rel(feed),
             "--out", _rel(src / "daily_synthesis.json"),
             "--summary", _rel(src / "daily_synthesis_intake_summary.json"),
+            "--merge-existing",
         ]),
         Step("heartbeat_post_synthesis", [
             py, "src/heartbeat_status.py", "--src-dir", _rel(src),

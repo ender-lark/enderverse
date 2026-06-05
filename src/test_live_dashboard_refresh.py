@@ -35,6 +35,7 @@ def test_refresh_plan_tracks_source_calls_before_final_build():
     assert "--merge-existing" in source_calls
     assert "--merge-cache" in source_calls
     assert "src/daily_synthesis_from_feed.py" in synthesis
+    assert "--merge-existing" in synthesis
     assert any(part.replace("\\", "/") == "src/latest_cockpit_feed.json" for part in synthesis)
 
 

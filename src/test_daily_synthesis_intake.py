@@ -214,3 +214,49 @@ def test_daily_synthesis_from_feed_cli_writes_summary(tmp_path):
     written = json.loads(out.read_text(encoding="utf-8"))
     assert written["source"] == "Repo Evidence Synthesis"
     assert json.loads(summary.read_text(encoding="utf-8"))["action_count"] == 0
+
+
+def test_daily_synthesis_from_feed_merge_existing_preserves_actions(tmp_path):
+    feed_path = tmp_path / "feed.json"
+    out = tmp_path / "daily_synthesis.json"
+    summary = tmp_path / "summary.json"
+    feed_path.write_text(json.dumps({
+        "generated_at": "2026-06-05T12:00:00+00:00",
+        "lane_status": {"counts": {"has_data": 4, "not_checked": 0}, "rows": []},
+        "actions": [],
+    }), encoding="utf-8")
+    out.write_text(json.dumps({
+        "source": "Daily Synthesis",
+        "date": "2026-06-05",
+        "state_of_play": "Prior synthesis.",
+        "actions": [{
+            "what": "Review Growth-to-Value rotation",
+            "why": "Fundstrat rotation note changed sector preference.",
+            "default_action": "REVIEW",
+            "capital_effect": "rotate",
+        }],
+    }), encoding="utf-8")
+    script = os.path.join(os.path.dirname(__file__), "daily_synthesis_from_feed.py")
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            script,
+            "--feed",
+            str(feed_path),
+            "--out",
+            str(out),
+            "--summary",
+            str(summary),
+            "--merge-existing",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    written = json.loads(out.read_text(encoding="utf-8"))
+    assert written["source"] == "Repo Evidence Synthesis"
+    assert written["actions"][0]["what"] == "Review Growth-to-Value rotation"
+    assert json.loads(summary.read_text(encoding="utf-8"))["action_count"] == 1

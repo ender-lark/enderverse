@@ -15,7 +15,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from daily_synthesis_intake import normalize_synthesis, validate_synthesis
+from daily_synthesis_intake import merge_synthesis, normalize_synthesis, validate_synthesis
 
 
 DEFAULT_FEED = Path(__file__).resolve().parent / "latest_cockpit_feed.json"
@@ -198,16 +198,37 @@ def build_synthesis_from_feed(feed: dict[str, Any], *, as_of: str | None = None)
     return normalize_synthesis(payload, default_date=synthesis_date)
 
 
+def merge_existing_synthesis(repo_synthesis: dict[str, Any], existing: Any) -> dict[str, Any]:
+    """Preserve explicit Daily Synthesis actions while refreshing repo evidence.
+
+    The feed-derived synthesis is intentionally conservative and usually has no
+    structured actions. Scheduled Daily Synthesis may have written explicit
+    operator actions earlier in the day; later cockpit refreshes should not
+    erase those actions just because they rebuild the repo-evidence read.
+    """
+    if not isinstance(existing, dict):
+        return repo_synthesis
+    normalized_existing = normalize_synthesis(existing, default_date=repo_synthesis.get("date"))
+    existing_actions = normalized_existing.get("actions") or []
+    if not existing_actions:
+        return repo_synthesis
+    return merge_synthesis(normalized_existing, repo_synthesis)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Build Daily Synthesis from existing cockpit feed evidence")
     parser.add_argument("--feed", default=str(DEFAULT_FEED))
     parser.add_argument("--out", default=str(DEFAULT_OUT))
     parser.add_argument("--summary", default=str(DEFAULT_SUMMARY))
     parser.add_argument("--date")
+    parser.add_argument("--merge-existing", action="store_true",
+                        help="Preserve existing explicit synthesis actions while refreshing repo-evidence fields")
     args = parser.parse_args(argv)
 
     feed = _read_json(args.feed)
     synthesis = build_synthesis_from_feed(feed, as_of=args.date)
+    if args.merge_existing and Path(args.out).is_file():
+        synthesis = merge_existing_synthesis(synthesis, _read_json(args.out))
     problems = validate_synthesis(synthesis)
     summary = {
         "valid": not problems,
