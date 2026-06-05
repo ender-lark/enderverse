@@ -592,6 +592,7 @@ def test_cloud_ops_status_keeps_dark_lanes_visible(monkeypatch, tmp_path):
     report = cloud_ops_status.cloud_ops_status(
         src_dir=src,
         automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T12:20:00-04:00",
     )
     text = cloud_ops_status.format_text(report)
 

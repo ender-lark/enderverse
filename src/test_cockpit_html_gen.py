@@ -94,13 +94,42 @@ def _feed():
 def test_generated_html_labels_summary_export_and_dark_lanes():
     html = generate_html(_feed())
 
-    assert "Summary/export view" in html
+    assert "Action-first summary view" in html
     assert "not an all-clear read" in html
     assert "No Today" in html and "Actions are shown" in html
+    assert 'href="#today-actions"' in html
+    assert 'href="#lane-status"' in html
     assert "Lane status" in html
     assert "Research Queue" in html
     assert "not checked" in html
     assert "checked (18)" in html
+
+
+def test_generated_html_surfaces_action_cards_first():
+    feed = _feed()
+    feed["actions"] = [{
+        "rank": 1,
+        "ticker": "NVDA",
+        "kind": "conviction_gap",
+        "action_state": "ACT_NOW",
+        "action_label": "SIZE GAP",
+        "capital_effect": "review",
+        "confidence": "High",
+        "goal_impact": "High",
+        "what": "Conviction gap: NVDA is under target",
+        "your_move": "Decide whether to add, hold below target with a written reason, or cut the target.",
+        "why": "Target drift shows a 5.4pp sizing gap vs the AI working model.",
+        "source": "target_drift",
+        "gate": {"preview": "size -> gate"},
+    }]
+
+    html = generate_html(feed)
+
+    assert 'id="today-actions"' in html
+    assert "1 ranked item; no auto-trade" in html
+    assert "Conviction gap: NVDA is under target" in html
+    assert "Target drift shows a 5.4pp sizing gap" in html
+    assert html.index('id="today-actions"') < html.index('id="operator-status"')
 
 
 def test_generated_html_surfaces_feedback_context():
@@ -174,5 +203,5 @@ def test_cockpit_html_gen_cli_writes_output(tmp_path):
 
     assert proc.returncode == 0, proc.stderr
     html = out_path.read_text(encoding="utf-8")
-    assert "Summary/export view" in html
+    assert "Action-first summary view" in html
     assert "Lane status" in html

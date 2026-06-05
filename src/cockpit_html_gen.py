@@ -73,6 +73,11 @@ body{
 }
 a{color:#58a6ff;text-decoration:none}
 .wrap{max-width:920px;margin:0 auto;padding:16px 14px}
+.quick-nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.quick-link{display:inline-flex;align-items:center;gap:5px;background:#1c2128;
+  border:1px solid #30363d;border-radius:6px;padding:5px 8px;
+  font-size:11px;color:#c9d1d9}
+.quick-link strong{color:#f0f6fc}
 
 /* ── header ── */
 .hdr{display:flex;align-items:flex-start;justify-content:space-between;
@@ -117,7 +122,8 @@ a{color:#58a6ff;text-decoration:none}
 .feedback-rec{font-size:12px;color:#c9d1d9;padding:4px 0;border-top:1px solid #1c2128}
 .feedback-item{font-size:12px;color:#c9d1d9;padding:4px 0 4px 8px;border-left:2px solid #d29922;margin:5px 0;background:#1c2128}
 .operator-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-bottom:8px}
-.operator-pill{background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:7px 8px}
+.operator-pill{background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:7px 8px;display:block;color:inherit}
+.operator-pill:hover{border-color:#58a6ff;background:#20262e}
 .operator-label{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#484f58;margin-bottom:2px}
 .operator-value{font-size:13px;font-weight:700;color:#f0f6fc}
 .operator-pass{color:#3fb950}.operator-warn{color:#d29922}.operator-fail{color:#f85149}
@@ -147,13 +153,16 @@ a{color:#58a6ff;text-decoration:none}
   border-left:2px solid #d29922}
 
 /* ── actions ── */
-.action{border-radius:6px;padding:10px 12px;margin-bottom:7px;
-  background:#1c2128;border-left:3px solid #30363d}
-.action-header{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.action{border-radius:6px;padding:11px 12px;margin-bottom:8px;
+  background:#1c2128;border:1px solid #30363d;border-left:4px solid #30363d}
+.action-act{border-left-color:#d29922;background:#1d2026}
+.action-watch{border-left-color:#58a6ff}
+.action-header{display:grid;grid-template-columns:auto minmax(70px,max-content) 1fr;
+  align-items:start;gap:7px;margin-bottom:6px}
 .rank-badge{font-size:10px;font-family:monospace;color:#484f58;
   min-width:22px}
 .ticker-tag{font-size:14px;font-weight:700;color:#f0f6fc}
-.action-what{font-size:12px;color:#8b949e;margin-left:auto}
+.action-what{font-size:13px;color:#f0f6fc;font-weight:600}
 .tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
 .tag{display:inline-block;padding:1px 7px;border-radius:99px;
   font-size:10px;font-family:monospace}
@@ -162,7 +171,10 @@ a{color:#58a6ff;text-decoration:none}
 .t-gate-g{background:#0d2b16;color:#3fb950}
 .t-gate-a{background:#2b1e0a;color:#d29922}
 .t-gate-r{background:#2b0d0d;color:#f85149}
-.action-move{font-size:12px;color:#8b949e;line-height:1.4}
+.action-move{font-size:12px;color:#c9d1d9;line-height:1.45;margin-top:5px}
+.action-why{font-size:11px;color:#8b949e;line-height:1.4;margin-top:6px;
+  padding-top:6px;border-top:1px solid #30363d}
+.action-foot{font-size:10px;color:#484f58;font-family:monospace;margin-top:6px}
 
 /* ── rotation table ── */
 .rot-wrap{overflow-x:auto}
@@ -298,7 +310,7 @@ def _summary_notice(feed: dict) -> str:
     failed = int(counts.get("failed") or 0)
     actions = feed.get("actions") or []
     lines = [
-        "Summary/export view. The action-complete operator dashboard is the canonical JSX cockpit.",
+        "Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today's decisions are surfaced here.",
     ]
     if not actions:
         lines.append("No Today's Actions are shown in this summary export.")
@@ -318,6 +330,32 @@ def _summary_notice(feed: dict) -> str:
 <div class="card summary-caveat">
   <div class="card-title"><span class="icon">âš </span> Summary/export caveat</div>
   {body}
+</div>"""
+
+
+def _quick_nav(feed: dict) -> str:
+    lane = feed.get("lane_status") or {}
+    counts = lane.get("counts") or {}
+    feedback = feed.get("feedback") or {}
+    open_actions = (feedback.get("open_actions") or {}).get("count") or 0
+    source_calls = feedback.get("source_calls") or {}
+    source_call_pending = source_calls.get("pending_count") or 0
+    source_call_overdue = source_calls.get("overdue_count") or 0
+    lane_gaps = int(counts.get("not_checked") or 0) + int(counts.get("stale") or 0) + int(counts.get("failed") or 0)
+    source_label = (
+        f"{source_call_overdue} overdue"
+        if source_call_overdue
+        else f"{source_call_pending} pending"
+        if source_call_pending
+        else "clear"
+    )
+    return f"""
+<div class="quick-nav">
+  <a class="quick-link" href="#today-actions"><strong>{len(feed.get("actions") or [])}</strong> actions</a>
+  <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
+  <a class="quick-link" href="#feedback-loops"><strong>{_e(open_actions)}</strong> open reviews</a>
+  <a class="quick-link" href="#lane-status"><strong>{_e(lane_gaps)}</strong> source gaps</a>
+  <a class="quick-link" href="#feedback-loops"><strong>{_e(source_label)}</strong> source calls</a>
 </div>"""
 
 
@@ -361,7 +399,7 @@ def _lane_status_summary(lane_status: dict) -> str:
     more = len(ordered) - len(visible)
     more_html = f'<div class="feedback-line">+{more} more lane rows in the canonical cockpit.</div>' if more > 0 else ""
     return f"""
-<div class="card">
+<div class="card" id="lane-status">
   <div class="card-title"><span class="icon">âš™</span> Lane status</div>
   <div class="lane-counts">{count_badges}</div>
   {row_html}
@@ -415,7 +453,7 @@ def _feedback_summary(feedback: dict) -> str:
         + int(oa.get("count") or 0)
     )
     return f"""
-<div class="card">
+<div class="card" id="feedback-loops">
   <div class="card-title"><span class="icon">ðŸ”</span> Feedback loops
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{badge} open signal(s)</span>
   </div>
@@ -514,17 +552,17 @@ def _operator_status(feed: dict) -> str:
         lane_detail.append(f"{failed} failed")
     lane_value = ", ".join(lane_detail) if lane_detail else "clear"
     return f"""
-<div class="card">
+<div class="card" id="operator-status">
   <div class="card-title"><span class="icon">!</span> Operator status
     <span class="{cls}" style="font-size:11px;margin-left:auto">{status}</span>
   </div>
   <div class="operator-grid">
-    <div class="operator-pill"><div class="operator-label">Today actions</div><div class="operator-value">{_e(action_count)}</div></div>
-    <div class="operator-pill"><div class="operator-label">Open reviews</div><div class="operator-value {_e('operator-warn' if open_count else 'operator-pass')}">{_e(open_count)}</div></div>
-    <div class="operator-pill"><div class="operator-label">Source lanes</div><div class="operator-value {_e('operator-warn' if lane_detail else 'operator-pass')}">{_e(lane_value)}</div></div>
-    <div class="operator-pill"><div class="operator-label">Source calls</div><div class="operator-value {_e('operator-fail' if source_call_fail else 'operator-warn' if source_call_warn else 'operator-pass')}">{_e(source_call_value)}</div></div>
-    <div class="operator-pill"><div class="operator-label">Live fetch</div><div class="operator-value {_e('operator-warn' if live_config_missing else 'operator-pass')}">{_e(f'{live_configured}/{live_config_total}' if live_config_total else 'unknown')}</div></div>
-    <div class="operator-pill"><div class="operator-label">Go-live check</div><div class="operator-value {_e(cls)}">{status}</div></div>
+    <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">{_e(action_count)}</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value {_e('operator-warn' if open_count else 'operator-pass')}">{_e(open_count)}</div></a>
+    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value {_e('operator-warn' if lane_detail else 'operator-pass')}">{_e(lane_value)}</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value {_e('operator-fail' if source_call_fail else 'operator-warn' if source_call_warn else 'operator-pass')}">{_e(source_call_value)}</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value {_e('operator-warn' if live_config_missing else 'operator-pass')}">{_e(f'{live_configured}/{live_config_total}' if live_config_total else 'unknown')}</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Go-live check</div><div class="operator-value {_e(cls)}">{status}</div></a>
   </div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
   {live_config_html}
@@ -583,15 +621,37 @@ def _actions(actions: list) -> str:
     rows = ""
     for a in actions:
         rank     = a.get("rank", "")
-        ticker   = _e(a.get("ticker", ""))
+        ticker_raw = a.get("ticker") or ""
+        if not ticker_raw:
+            ticker_raw = "EVENT" if a.get("kind") == "event_risk" else "PORTFOLIO"
+        ticker   = _e(ticker_raw)
         what     = _e(a.get("what", ""))
         conf     = _e(a.get("confidence", ""))
         move     = _e(a.get("your_move", ""))
+        why      = _e(a.get("why", ""))
         kind_raw = (a.get("kind") or "").replace("_", " ").title()
+        state    = _e(a.get("action_state") or a.get("urgency") or "")
+        label    = _e(a.get("action_label") or "")
+        capital  = _e(a.get("capital_effect") or "")
+        impact   = _e(a.get("goal_impact") or "")
+        source   = _e(a.get("source") or "")
+        freshness = _e(a.get("freshness") or "")
         gate     = _gate_tag(a.get("gate"))
+        cls      = "action-act" if a.get("action_state") == "ACT_NOW" else "action-watch"
+        meta = ""
+        for value, css in (
+            (state, "t-cat"),
+            (label, "t-cat"),
+            (capital, "t-gate-a"),
+            (f"goal: {impact}" if impact else "", "t-conf"),
+        ):
+            if value:
+                meta += f'<span class="tag {css}">{value}</span>'
+        foot_bits = [bit for bit in (source, freshness) if bit]
+        foot = " | ".join(foot_bits)
 
         rows += f"""
-<div class="action">
+<div class="action {cls}" id="action-{_e(rank)}">
   <div class="action-header">
     <span class="rank-badge">#{rank}</span>
     <span class="ticker-tag">{ticker}</span>
@@ -601,12 +661,17 @@ def _actions(actions: list) -> str:
     <span class="tag t-cat">{_e(kind_raw)}</span>
     <span class="tag t-conf">conf: {conf}</span>
     {gate}
+    {meta}
   </div>
   {f'<div class="action-move">{move}</div>' if move else ""}
+  {f'<div class="action-why">{why}</div>' if why else ""}
+  {f'<div class="action-foot">{foot}</div>' if foot else ""}
 </div>"""
     return f"""
-<div class="card">
-  <div class="card-title"><span class="icon">⚡</span> Today&#39;s actions</div>
+<div class="card" id="today-actions">
+  <div class="card-title"><span class="icon">!</span> Today&#39;s actions
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{len(actions)} ranked item{'s' if len(actions) != 1 else ''}; no auto-trade</span>
+  </div>
   {rows}
 </div>"""
 
@@ -1020,6 +1085,7 @@ def generate_html(feed: dict) -> str:
 
     # sections
     summary_html = _summary_notice(feed)
+    quick_html = _quick_nav(feed)
     operator_html = _operator_status(feed)
     lane_html   = _lane_status_summary(feed.get("lane_status") or {})
     feedback_html = _feedback_summary(feed.get("feedback") or {})
@@ -1076,13 +1142,14 @@ def generate_html(feed: dict) -> str:
 
   <div id="tab-dashboard">
     {summary_html}
+    {quick_html}
+    {actions_html}
     {operator_html}
+    {context_html}
     {lane_html}
     {feedback_html}
     {hb_html}
     {hero_html}
-    {actions_html}
-    {context_html}
     {synth_html}
 
     <div class="two-col">

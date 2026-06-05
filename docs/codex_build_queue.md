@@ -35,6 +35,17 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dashboard summary-preview action usability.
+  - Made the generated `dashboard_preview.html` action-first instead of
+    status-first: Today's Actions now render immediately below the caveat with
+    ticker/portfolio/event labels, move text, rationale, source, confidence,
+    goal impact, and gate context visible without hidden drill-downs.
+  - Added jump links from the top summary/status pills to Today's Actions,
+    Operator Status, open reviews/source calls, and lane-status gaps, so the
+    action count is no longer a dead metric in the local preview.
+  - Kept missing/dark source lanes visible and below the action surface, so the
+    preview supports the core goal: see what needs a decision first, then check
+    data-quality caveats before acting.
 - Codex cloud routine stack.
   - Replaced the single generic daily cloud-refresh assumption with a split
     Codex app automation stack: Pre-Market Source Intake (8:10 ET), Morning
