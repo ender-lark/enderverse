@@ -24,35 +24,45 @@ Current priority:
 
 1. Read `docs/investing_os_system_architecture.md` and
    `docs/codex_build_queue.md`; promote only evidence-backed slices.
-2. Prioritize cloud routine proof, source intake reliability, and dashboard
-   action surfacing over stock-specific research.
+2. Prioritize source intake reliability, dashboard action surfacing, and
+   source-proof honesty over stock-specific research.
 3. Keep missing source pulls visible as dark/not_checked lanes, never checked
    clear.
 4. Do not work on Core List ingestion or open action reviews unless explicitly
    requested.
 5. Use `python src/verify_standard.py` as the standard verification command.
 6. Commit and push after each clean verified slice.
+7. Cloud routine proof is end-of-queue background monitoring now; let the
+   normal schedules produce remaining `run_source=scheduled` receipts unless
+   the user explicitly asks to accelerate again.
 
-Current pushed snapshot (2026-06-05 14:19 ET live artifacts):
+Current pushed snapshot (2026-06-05 18:43 ET live artifacts; 19:01 ET cloud proof):
 
 - Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
   this handoff page's commit hash as runtime evidence.
 - Working tree should be clean on `main...origin/main` after the current slice
   is committed and pushed.
 - `python src/live_status.py --format text` reports
-  `live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
-  actions, 13 lanes with data, 2 dark optional lanes (`account_positions`,
-  `meridian`), 2 open action reviews, and 3 pending / 0 overdue source calls.
-  It also reports `Live source config: configured=1/1 | missing=0` after the
-  app Unusual Whales connector was verified through a market-wide
-  `get_market_tide` call and recorded in `src/live_source_config.json`.
-- `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
-  reports `WARN` with 0 failures and 2 warnings: open action reviews
-  (`ANET`, `GOOGL`) and optional dark lane `catalysts`. It also includes a PASS
-  Active Event Watch row for the current supplied oil/rates watch.
+  `live_with_open_reviews`, `go_live_ready: true`, 5 actions, 0 research
+  actions, 13 lanes with data, 1 dark optional lane (`account_positions`), 2
+  open action reviews, and 3 pending / 0 overdue source calls. It also reports
+  `Live source config: configured=1/1 | missing=0` after the app Unusual
+  Whales connector proof was recorded in `src/live_source_config.json`.
+- Meridian is stale thesis archive context after March 2026. Missing Meridian
+  archive data must not count as fresh tactical evidence or as a live-source
+  dark lane.
+- `python src/cloud_ops_status.py --format text` reports
+  `scheduled_success=3/10` after real scheduled successes for Post-Close
+  Refresh, Pre-Market Source Intake, and Morning Scan. Remaining routine proof
+  should advance through natural schedules, not active acceleration.
+- `python src/go_live_checklist.py --format text` reports `WARN` with 0
+  failures and 4 warnings: live source coverage/manual source drop for
+  `account_positions`, open action reviews (`ANET`, `GOOGL`), and optional dark
+  lane Account Positions. It also includes PASS rows for partial cloud proof,
+  live data flow, dashboard preview, and the current supplied oil/rates watch.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-05 14:19 ET`.
+  `2026-06-05 18:43 ET`.
 - The dashboard Operator Status card now shows both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
@@ -60,7 +70,7 @@ Current pushed snapshot (2026-06-05 14:19 ET live artifacts):
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `957 passed, 6 skipped`, plus
+- Full standard verification last passed with `1022 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
@@ -73,6 +83,9 @@ Important recent state:
   source-call tracking during live refresh, external queue audit,
   position-cache normalizer convergence, and dark-lane intake command
   surfacing.
+- Latest completed slice after that baseline: dashboard decision grouping,
+  freshness/rationale judgment, asymmetric opportunity lane, source/audit
+  panels, and Meridian stale-archive reclassification.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -267,9 +280,9 @@ Important recent state:
   The status command also prints the next expected receipt and marks a routine
   overdue after a 30-minute grace window. Before the first receipt window it
   reports `not_due_yet` counts and an explicit first-scheduled-proof-pending
-  line, so schedule readiness is not mistaken for run proof. The first expected
-  proof target after this activation is Post-Close Refresh at 2026-06-05
-  4:30 PM ET.
+  line, so schedule readiness is not mistaken for run proof. Current scheduled
+  proof is partial at `3/10`; after the user pivot, remaining proof belongs to
+  natural scheduled receipts rather than active acceleration.
   `--strict` checks schedule readiness only; use `--require-first-proof` after
   the first expected run window, and `--require-live-run` when the whole routine
   stack must be proven.
@@ -278,22 +291,22 @@ Important recent state:
   `Cloud first scheduled run proven: true`.
 - `python src/go_live_checklist.py --format text` also includes a Live source
   coverage row. It warns while live-capable optional inputs such as
-  `account_positions` and `meridian` are missing.
+  `account_positions` are missing.
 - `manual_source_drop.py` can now validate and ingest explicit
-  `account_positions` and `meridian` sections. Use
+  `account_positions` and archived `meridian` sections. Use
   `docs/manual_live_source_drop.template.json` for the expected shape; validate
   first with `--validate-only`.
 - The go-live checklist manual-drop row points at that live-source template
   when those are the active missing live-capable inputs.
 - Missing optional live-source convention inputs that do not otherwise render
   as cockpit lanes are also surfaced as feed `lane_status` dark rows. Current
-  dark rows are Account Positions (`account_positions`) and Meridian
-  (`meridian`), both `not_checked`; they must not be interpreted as checked
-  clear while their source files are absent.
-- `python src/live_status.py --format text` points those Account
-  Positions/Meridian dark lanes at
-  `docs/manual_live_source_drop.template.json`; Catalyst Calendar and Signal
-  Log dark lanes keep their specialized intake commands.
+  dark row is Account Positions (`account_positions`), `not_checked`; it must
+  not be interpreted as checked clear while its source file is absent. Meridian
+  is archived thesis context and is not a live tactical source miss.
+- `python src/live_status.py --format text` points the Account Positions dark
+  lane at `docs/manual_live_source_drop.template.json`; Catalyst Calendar and
+  Signal Log dark lanes keep their specialized intake commands if they become
+  missing in a future run.
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.
@@ -363,7 +376,7 @@ Important recent state:
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T14:19:26.904831+00:00`.
+  `2026-06-05T22:43:49.533734+00:00`.
 - The canonical JSX cockpit and generated summary/preview dashboard both have
   an Operator Status card near the top. It summarizes action count, open
   reviews, source-lane warning state, and the
@@ -382,12 +395,12 @@ Important recent state:
 - Current `src/open_opportunities.json` has 2 open watch/review items:
   `ANET` and `GOOGL`.
 - Current `python src/live_status.py` reports `live_summary:
-  live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
-  actions, 1 dark optional lane (`catalysts`), 2 open
+  live_with_open_reviews`, `go_live_ready: true`, 5 actions, 0 research
+  actions, 1 dark optional lane (`account_positions`), 2 open
   action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
   active/queued system-improvement items. Its data-flow proof shows feed
-  `2026-06-05T14:19:26.904831+00:00`, 12 lanes with data, 1 dark lane, and
-  top action `event_risk`. It also prints the active Middle East oil/rates
+  `2026-06-05T22:43:49.533734+00:00`, 13 lanes with data, 1 dark lane, and
+  top action `synthesis`. It also prints the active Middle East oil/rates
   event watch, the sudden-event refresh command template, and the open-review
   resolution commands.
 - `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
@@ -395,7 +408,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `957 passed, 6 skipped`.
+- `python -m pytest src -q` -> `1022 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

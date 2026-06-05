@@ -7,6 +7,9 @@ until the core logic is stable; Notion sync comes later.
 
 - No active implementation slice.
   - Promote the next slice from fresh audit/user evidence before editing.
+  - Cloud routine proof is now end-of-queue background monitoring. Let the
+    normal schedules produce remaining `run_source=scheduled` receipts unless
+    the user explicitly asks to accelerate again.
   - Keep dashboard parity classification current before committing any new
     dashboard/feed meaning or UI work.
   - Prioritize system/routine/dashboard work over stock-specific research.
@@ -35,6 +38,38 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dashboard decision surfacing build completion.
+  - Added action grouping into Key Now, Important Backlog, Re-check Before
+    Acting, and Quiet Watch so the dashboard can surface every important
+    decision while pushing the most time-sensitive items harder.
+  - Added freshness/rationale judgment on action cards: evidence date, last
+    checked, decay speed, freshness label, and why the recommendation still
+    matters.
+  - Added asymmetric-opportunity surfacing with one row per ticker and merged
+    evidence sources across target drift, lean-in, prospects/radar context, and
+    bullish flow.
+  - Added source proof/audit dashboard blocks for cloud routine proof,
+    connector evidence, Fundstrat intake, and Notion/writeback audit.
+  - Reclassified Meridian as stale thesis archive context, not live tactical
+    evidence. Missing Meridian archive data no longer creates a live dark lane;
+    current live-capable dark lane is Account Positions only.
+  - Browser-verified `http://127.0.0.1:8765/dashboard_preview.html`: grouped
+    action sections, five expandable rationale drawers, asymmetric
+    opportunities, source proof/audits, Account Positions dark lane, and no
+    Meridian live-lane row.
+  - `python src\verify_standard.py` passed with 1022 tests, 6 skips, plus the
+    reallocation direct check, cockpit injector self-test, and broker extractor
+    self-test.
+- Cloud proof pivot.
+  - Pre-Market Source Intake, Post-Close Refresh, and Morning Scan now have
+    real scheduled success receipts, so `cloud_ops_status.py --format text`
+    reports `scheduled_success=3/10`.
+  - Morning Scan was temporarily accelerated once, completed, committed, and
+    restored to its normal 8:35 AM ET weekday schedule.
+  - Daily Synthesis was restored to its normal 9:30 AM ET weekday schedule
+    before any proof was counted.
+  - All active routines are back on their normal schedules; remaining proof is
+    deferred to natural runs at the end of the build queue.
 - System architecture reference.
   - Added `docs/investing_os_system_architecture.md` as the durable map of the
     current Investing OS operating system: source routines, convention files,
@@ -114,7 +149,8 @@ until the core logic is stable; Notion sync comes later.
     remain missing/dark rather than checked clear.
   - The text readout now prints missing live-capable inputs with source/routine
     ownership, missing-data behavior, and expected repo paths. Current missing
-    live-capable inputs are `account_positions` and `meridian`.
+    live-capable input is `account_positions`; Meridian is thesis archive
+    context and must not count as fresh tactical evidence or a live-source miss.
   - `python src/live_status.py --format text` and
     `python src/cloud_ops_status.py --format text` also surface those detailed
     missing live-source lines, so operator/cloud checks do not require a
@@ -159,8 +195,8 @@ until the core logic is stable; Notion sync comes later.
     cannot accidentally satisfy `Cloud live-run proven`.
   - Updated all active Codex app routine prompts to use
     `--run-source scheduled`; current cloud status reports
-    `scheduled_success=0/10` because the first scheduled proof run has not
-    happened yet.
+    `scheduled_success=3/10` after Post-Close Refresh, Pre-Market Source
+    Intake, and Morning Scan scheduled successes.
   - `cloud_ops_status.py` distinguishes first scheduled proof from full-stack
     proof: one scheduled success moves the state to `partial_live_run_proven`,
     while `Cloud live-run proven` remains false until every expected routine has
@@ -170,12 +206,12 @@ until the core logic is stable; Notion sync comes later.
     routine stack can be ready before first run, but no live run should be
     treated as proven until a success receipt appears.
   - `cloud_ops_status.py` distinguishes `Cloud schedule ready` from
-    `Cloud live-run proven`; the current first-run-pending state should be
-    read as ready to run, not yet proven with live scheduled execution.
+    `Cloud live-run proven`; the current partial-proof state should be read as
+    ready to run with some scheduled proof, not yet full-stack live proof.
   - It also computes the next expected receipt from the automation activation
-    time and marks a due routine overdue after a 30-minute grace window. The
-    first expected proof target after the current activation is Post-Close
-    Refresh at 2026-06-05 4:30 PM ET.
+    time and marks a due routine overdue after a 30-minute grace window. After
+    the proof pivot, the next natural expected receipt is Off-Hours Worker at
+    2026-06-06 1:45 AM ET.
   - The status readout now separates due states into `overdue`,
     `due_waiting`, `not_due_yet`, and `current`, and prints an explicit
     first-scheduled-proof-pending line before the first expected receipt window.
@@ -211,7 +247,7 @@ until the core logic is stable; Notion sync comes later.
     `python src/signal_log_intake.py tmp\signal_log_notion_compact_2026-06-05.json --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing`.
   - Preserved distinct row notes in `signal_log_intake.py` so the dashboard can
     show why each watch item matters without promoting direct buy/sell actions.
-  - Refreshed the live dashboard package. Current status shows 12 lanes with
+  - Refreshed the live dashboard package. At that slice, status showed 12 lanes with
     data and 1 dark lane (`catalysts`); Signal Log is checked as has-data, while
     Catalyst remains dark/not checked.
 - Catalyst Calendar lane populated.
@@ -221,7 +257,7 @@ until the core logic is stable; Notion sync comes later.
   - Normalized eight compact Catalyst Calendar rows into `src/catalysts.json`
     with `catalyst_calendar_intake.py`; vague/TBD rows were skipped rather than
     guessed.
-  - Refreshed the live dashboard package. Current status shows 13 lanes with
+  - Refreshed the live dashboard package. At that slice, status showed 13 lanes with
     data and 2 dark lanes (`account_positions`, `meridian`); those missing
     optional source inputs are visible as not checked, not checked-clear
     claims.
@@ -243,8 +279,8 @@ until the core logic is stable; Notion sync comes later.
 - Go-live checklist cloud proof row.
   - `python src/go_live_checklist.py --format text` now includes a Cloud
     automation proof row derived from `cloud_ops_status.py`.
-  - The row warns while the stack is schedule-ready but first scheduled proof
-    is still pending, and will pass after the first scheduled receipt lands.
+  - The row warns until scheduled proof is complete; current proof is partial
+    at `scheduled_success=3/10`, not full-stack live proof.
 - Go-live checklist live-source coverage row.
   - `python src/go_live_checklist.py --format text` now includes a Live source
     coverage row derived from live-source capability status.
@@ -368,7 +404,7 @@ until the core logic is stable; Notion sync comes later.
     counts, action counts, and top action.
   - Added a `Live data flow` PASS/WARN row to
     `python src/go_live_checklist.py --format text`.
-  - Current proof shows feed `2026-06-05T10:20:13.403157+00:00`, 11 lanes with
+  - That slice proof showed feed `2026-06-05T10:20:13.403157+00:00`, 11 lanes with
     data, 2 dark lanes, 4 actions, and top action `event_risk`.
 - Canonical dashboard operator-status parity.
   - Added the compact Operator Status read to the canonical JSX cockpit, not
