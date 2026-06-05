@@ -166,6 +166,62 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     assert report["gaps"] == []
 
 
+def test_cloud_ops_status_requires_live_source_config_for_schedule_ready(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "source_capability": {
+            "present_inputs": 19,
+            "total_inputs": 21,
+            "connector_or_api_count": 14,
+            "supplied_or_export_count": 18,
+            "missing_live_capable_count": 0,
+            "live_source_config": {
+                "total_count": 1,
+                "configured_count": 0,
+                "missing_count": 1,
+                "stale_count": 1,
+                "missing": [{
+                    "key": "uw_api_key",
+                    "label": "Unusual Whales live access",
+                    "env_var": "UW_API_KEY",
+                    "connector_key": "unusual_whales",
+                    "connector_available": True,
+                    "connector_proof_fresh": False,
+                    "connector_proof_age_hours": 48.0,
+                    "connector_proof_max_age_hours": 36,
+                    "affected_inputs": ["uw_opportunity", "parabolic"],
+                    "impact": "Live UW opportunity/parabolic fetches cannot run.",
+                }],
+            },
+            "rows": [],
+        },
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T12:20:00-04:00",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["ready_for_unattended_daily_run"] is False
+    assert report["schedule_ready_for_unattended_run"] is False
+    assert report["cloud_operating_state"] == "not_ready"
+    assert "Live source config: configured=0/1 | missing=1 | stale=1" in text
+    assert "Unusual Whales live access configuration missing" in "\n".join(report["gaps"])
+
+
 def test_cloud_ops_status_rejects_active_superseded_automation(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()

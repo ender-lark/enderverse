@@ -120,6 +120,10 @@ until the core logic is stable; Notion sync comes later.
     show it as stale/missing instead of leaving `Live fetch 1/1` permanently
     green. `src/live_source_config.json` is now a routine-owned safe-commit
     path so scheduled routines can persist refreshed non-secret proof metadata.
+  - Cloud schedule readiness now requires that live-source configuration be
+    present and fresh. A stale connector-only proof can leave cached dashboard
+    artifacts renderable, but it no longer counts as unattended cloud-ready
+    live operation.
   - `live_status.py` points those Account Positions/Meridian dark lanes at
     `docs/manual_live_source_drop.template.json`, while source-specific lanes
     such as Catalyst Calendar and Signal Log keep their specialized intake

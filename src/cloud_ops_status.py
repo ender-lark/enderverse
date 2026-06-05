@@ -685,8 +685,17 @@ def cloud_ops_status(
         now=_parse_dt(now) if now is not None else None,
     )
     gaps = _operating_gaps(status, automation, manifest, receipts, receipt_due)
+    live_config = (status.get("source_capability") or {}).get("live_source_config") or {}
+    live_config_ready = (
+        int(live_config.get("total_count") or 0) == 0
+        or (
+            int(live_config.get("missing_count") or 0) == 0
+            and int(live_config.get("stale_count") or 0) == 0
+        )
+    )
     schedule_ready = (
         bool(status.get("go_live_ready"))
+        and live_config_ready
         and bool(manifest.get("valid"))
         and bool(automation.get("active"))
         and bool((automation.get("prompt_protocol") or {}).get("ready", True))
