@@ -194,7 +194,7 @@ Before "fixing" an empty lane: identify which of the three it is (and *which sea
 - **Signal-Log → cockpit lane** — open design question: should Morning-Scan Signal-Log items get a cockpit lane (they currently don't reach `actions`)? Tracked, not a bug.
 - **Synthesis Brain v1.1** — broaden structured extraction only after the Daily Synthesis routine emits richer fields (`ticker`, `action`, `urgency`, `capital_effect`, evidence). Avoid free-form prose guessing.
 - **Codex-owned routine orchestration** — replace Claude-only cloud routine prompts with repo-defined runners/automations that Codex can inspect and operate: build caches, gather inputs, build the feed, publish through the gate, and write action memory.
-- **Fundstrat email intake** — ingest Fundstrat publications from forwarded emails or Gmail search into a normalized source bundle, then feed the existing Fundstrat daily/bible readers. First version should preserve source dates/authors and avoid treating unparsed emails as checked-clear.
+- **Fundstrat email intake v1.1** — `fundstrat_email_intake.py` now parses forwarded/exported emails into `fundstrat_daily_calls.json`, `fundstrat_inbox_entries.json`, `inbox_call_dates.json`, and `source_call_candidates.json`. Follow-up: Gmail connector fetch/search, richer monthly/Bible extraction, and stronger source-call-log upsert automation.
 - **L2→L3 stamp/shape validator** — the still-open half of the seam gap (the L5→L3 half is `publish_gate.py`).
 
 ---
