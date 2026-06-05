@@ -179,6 +179,10 @@ until the core logic is stable; Notion sync comes later.
     supplied JSON is structurally valid.
   - `docs/manual_live_source_drop.template.json` shows the expected shape and
     validates with `python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir <tmp-or-src> --validate-only`.
+  - The go-live checklist manual-drop row now points at
+    `docs/manual_live_source_drop.template.json` when the active source coverage
+    gap is `account_positions`/`meridian`, instead of warning generically about
+    event/signal/catalyst source drops.
 - Go-live checklist event-watch parity.
   - `python src/go_live_checklist.py --format text` now includes an Active
     Event Watch row derived from the same live-status/feed evidence as the

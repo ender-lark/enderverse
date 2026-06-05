@@ -252,6 +252,8 @@ Important recent state:
   `account_positions` and `meridian` sections. Use
   `docs/manual_live_source_drop.template.json` for the expected shape; validate
   first with `--validate-only`.
+- The go-live checklist manual-drop row points at that live-source template
+  when those are the active missing live-capable inputs.
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.

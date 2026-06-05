@@ -154,6 +154,51 @@ def _source_capability_row_detail(source_capability: dict[str, Any]) -> str:
     return detail
 
 
+def _manual_drop_row_status(
+    manual_report: dict[str, Any] | None,
+    status: dict[str, Any],
+    source_capability: dict[str, Any],
+) -> str:
+    if manual_report:
+        return "pass" if manual_report.get("valid") else "warn"
+    if int(source_capability.get("missing_live_capable_count") or 0):
+        return "warn"
+    if int((status.get("dark_lanes") or {}).get("count") or 0):
+        return "warn"
+    return "pass"
+
+
+def _manual_drop_row_detail(
+    manual_report: dict[str, Any] | None,
+    status: dict[str, Any],
+    source_capability: dict[str, Any],
+) -> str:
+    if manual_report:
+        return f"Validated supplied drop sections: {', '.join(manual_report.get('sections_seen') or [])}."
+    missing_live = [
+        str(key)
+        for key in source_capability.get("missing_live_capable_keys") or []
+        if key
+    ]
+    if missing_live:
+        return (
+            "No manual live-source drop supplied; use "
+            f"docs/manual_live_source_drop.template.json for {', '.join(missing_live)}."
+        )
+    if int((status.get("dark_lanes") or {}).get("count") or 0):
+        return "No manual drop supplied; optional event/signal/catalyst lanes may remain dark."
+    return "No manual drop supplied; no dark lanes or missing live-capable inputs currently require one."
+
+
+def _manual_drop_command(source_capability: dict[str, Any]) -> str:
+    if int(source_capability.get("missing_live_capable_count") or 0):
+        return (
+            "python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
+            "--src-dir src --validate-only"
+        )
+    return "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"
+
+
 def build_go_live_checklist(
     *,
     src_dir: str | Path = DEFAULT_SRC,
@@ -239,13 +284,9 @@ def build_go_live_checklist(
         _row(
             "manual_drop",
             "Manual source drop",
-            "pass" if manual_report and manual_report.get("valid") else "warn",
-            (
-                f"Validated supplied drop sections: {', '.join(manual_report.get('sections_seen') or [])}."
-                if manual_report else
-                "No manual drop supplied; optional event/signal/catalyst lanes may remain dark."
-            ),
-            "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+            _manual_drop_row_status(manual_report, status, source_capability),
+            _manual_drop_row_detail(manual_report, status, source_capability),
+            _manual_drop_command(source_capability),
         ),
         _row(
             "sudden_event",

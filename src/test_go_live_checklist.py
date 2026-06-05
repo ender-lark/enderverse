@@ -132,6 +132,13 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
         for row in report["rows"]
     )
     assert any(
+        row["key"] == "manual_drop"
+        and row["status"] == "warn"
+        and "docs/manual_live_source_drop.template.json" in row["detail"]
+        and "docs/manual_live_source_drop.template.json" in row["command"]
+        for row in report["rows"]
+    )
+    assert any(
         row["key"] == "cloud_ops"
         and row["status"] == "warn"
         and "first_scheduled_proof=False" in row["detail"]
@@ -203,6 +210,33 @@ def test_build_go_live_checklist_passes_when_live_source_coverage_complete(monke
         row["key"] == "source_capability"
         and row["status"] == "pass"
         and "missing_live_capable=0" in row["detail"]
+        for row in report["rows"]
+    )
+
+
+def test_build_go_live_checklist_passes_manual_drop_when_no_source_gaps(monkeypatch, tmp_path):
+    status = _fake_status()
+    status["dark_lanes"] = {"count": 0, "keys": [], "details": []}
+    status["source_capability"] = {
+        "valid": True,
+        "present_inputs": 21,
+        "total_inputs": 21,
+        "missing_live_capable_count": 0,
+        "missing_live_capable_keys": [],
+    }
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: status)
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {"open_count": 0, "oldest_age_days": 0},
+    )
+
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+
+    assert any(
+        row["key"] == "manual_drop"
+        and row["status"] == "pass"
+        and "no dark lanes or missing live-capable inputs" in row["detail"]
         for row in report["rows"]
     )
 
@@ -299,7 +333,7 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     assert "Supply Catalyst Calendar rows." in text
     assert "python src/live_status.py --format text" in text
     assert "python src/sudden_event_refresh.py --title \"<event headline>\"" in text
-    assert "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only" in text
+    assert "python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in text
     assert "python src/action_memory_resolve.py --review-report" in text
 
 
