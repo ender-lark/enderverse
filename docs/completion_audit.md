@@ -42,6 +42,9 @@ enough to hand control back, using current repo state as evidence. It covers:
   reported 54 passed.
 - Focused live-readiness tests passed: `python -m pytest
   src/test_live_readiness.py -q` reported 3 passed.
+- Focused empty-source lane guardrail tests passed: `python -m pytest
+  src/test_lane_status.py src/test_full_build_runner.py
+  src/test_live_readiness.py -q` reported 18 passed.
 - Current `python src/live_readiness.py --src-dir src` reports
   `rehearsal_ready: true` and `go_live_ready: false`; missing minimum live
   market inputs are `macro` and `uw_prices`.
@@ -59,12 +62,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 870 passed, 6 skipped
+  - broad `src` suite: 871 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 870 passed, 6 skipped.
+  ignore workaround: 871 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -89,6 +92,9 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Empty source lane status guardrail: source lane `has_data` now requires
+  delivered dated items; cleanly registered empty sources surface as
+  `checked_clear`.
 - Live readiness report: `live_readiness.py` now provides a non-publishing
   go/no-go report that distinguishes build readiness, publish-gate readiness,
   live-data readiness, and go-live readiness from the current convention files.

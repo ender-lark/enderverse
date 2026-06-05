@@ -15,6 +15,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Empty source lane status guardrail.
+  - Changed source lane status so a cleanly registered but empty source is
+    `checked_clear`, not `has_data`.
+  - Added regression coverage for empty source rows so an empty Fundstrat daily
+    cache cannot look like real delivered data.
 - Live readiness report.
   - Added `live_readiness.py` to turn current convention-file/build evidence
     into a machine-readable go/no-go report without fetching or publishing.

@@ -32,6 +32,20 @@ def test_source_rows_distinguish_ok_stale_failed_and_not_checked():
     assert lane["has_stale_or_failed"] is True
 
 
+def test_source_rows_do_not_mark_empty_clean_source_as_has_data():
+    snap = {
+        "sources_ok": ["portfolio", "fundstrat_daily"],
+        "sources_failed": [],
+        "staleness": {"portfolio": "2026-06-04"},
+    }
+
+    lane = build_lane_status(snap, {"stale": []})
+    rows = {r["key"]: r for r in lane["rows"]}
+
+    assert rows["portfolio"]["status"] == STATUS_HAS_DATA
+    assert rows["fundstrat_daily"]["status"] == STATUS_CHECKED_CLEAR
+
+
 def test_external_lanes_distinguish_not_checked_from_checked_clear():
     lane = build_lane_status(
         _snapshot(),

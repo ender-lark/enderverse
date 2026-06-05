@@ -104,8 +104,10 @@ def source_rows(snapshot: dict, staleness: dict) -> list[dict]:
             rows.append(_row(key, label, STATUS_FAILED, detail=str(failed[key])))
         elif key in stale:
             rows.append(_row(key, label, STATUS_STALE, detail="past freshness window"))
-        elif key in ok:
+        elif key in ok and key in dates:
             rows.append(_row(key, label, STATUS_HAS_DATA, detail="checked"))
+        elif key in ok:
+            rows.append(_row(key, label, STATUS_CHECKED_CLEAR, detail="checked clear"))
         else:
             rows.append(_row(key, label, STATUS_NOT_CHECKED, detail="not checked"))
     return rows
