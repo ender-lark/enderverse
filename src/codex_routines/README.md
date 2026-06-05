@@ -13,6 +13,8 @@ Core rule: routines gather and write convention files; the engine remains pure.
      connector is available.
    - Write `fundstrat_daily_calls.json`, `fundstrat_inbox_entries.json`,
      `inbox_call_dates.json`, and `source_call_candidates.json`.
+   - After a full-body parse, merge classified candidates into `source_calls.json`
+     and `log_call_dates.json` with `source_call_cache_merge.py`.
 
 2. UW cache refresh
    - Refresh `uw_opportunity_signals.json` and, when scheduled, `parabolic_setups.json`.
@@ -35,6 +37,7 @@ Core rule: routines gather and write convention files; the engine remains pure.
 
 ## Activation State
 
-The first Codex automations should be created paused until we confirm schedules
-and output routing. The code paths are ready; the live data acquisition layer is
-still being expanded.
+The first Codex automations are active on the local workspace. Routines must keep
+dark-lane honesty: search snippets are discovery-only, missing sources are not
+checked, and generated convention files should only be updated when the relevant
+source was actually fetched or supplied.
