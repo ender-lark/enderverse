@@ -26,7 +26,9 @@ Core rule: routines gather and write convention files; the engine remains pure.
      pre-catalyst review actions.
 
 3. Broker position intake
-   - Convert uploaded broker-position PDFs into extractor `combined.json`.
+   - Convert uploaded text-based broker-position PDFs into extractor
+     `combined.json` with `broker_pdf_extractor.py`, or consume a stronger
+     externally generated `combined.json`.
    - Refresh `positions.json` for the engine.
    - Refresh `account_positions.json` and `position_reconciliation.json` for
      account-level holdings and trade diffs.

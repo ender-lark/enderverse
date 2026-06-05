@@ -15,7 +15,21 @@ change report before the daily cockpit/preflight uses the book.
 
 ## Procedure
 
-1. Extract the uploaded PDFs into a combined extractor JSON.
+1. Extract uploaded PDFs/text exports into a combined extractor JSON:
+
+   ```bash
+   python src/broker_pdf_extractor.py <pdfs-or-text-files> --out combined.json
+   python src/broker_pdf_extractor.py --validate combined.json
+   ```
+
+   For PDFs, this first-pass extractor requires selectable PDF text and the
+   `pypdf` package. If `python` cannot import `pypdf`, run it with the bundled
+   Codex dependency Python. If extraction reports failed files, do not continue
+   to cache refresh; report position extraction as not checked.
+
+   If a stronger external extractor has already produced a valid `combined.json`,
+   use that instead.
+
 2. Build the engine-facing combined cache:
 
    ```bash
@@ -38,7 +52,7 @@ change report before the daily cockpit/preflight uses the book.
 5. Run focused checks:
 
    ```bash
-   python -m pytest src/test_build_positions_cache.py src/test_build_positions_golden.py src/test_position_reconciliation.py src/test_positions_freshness.py -q
+   python -m pytest src/test_broker_pdf_extractor.py src/test_build_positions_cache.py src/test_build_positions_golden.py src/test_position_reconciliation.py src/test_positions_freshness.py -q
    ```
 
 ## Output Files
@@ -51,6 +65,8 @@ change report before the daily cockpit/preflight uses the book.
 
 - Do not overwrite `positions.json` from a failed extractor validation when
   `--strict` fails.
+- The repo-owned PDF extractor is text-table only. Image-only PDFs are not
+  checked until OCR or a stronger external extractor is added.
 - Account-level output may include untracked holdings; engine-facing
   `positions.json` remains thesis-filtered.
 - A share change is a trade diff. A market-value-only change is reported as
