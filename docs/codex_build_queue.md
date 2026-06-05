@@ -12,6 +12,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Retired stale reallocation test workaround.
+  - Removed the retired Chunk 1 `src/test_reallocate.py` artifact that blocked
+    plain full-suite pytest collection.
+  - Updated `src/verify_standard.py` and `docs/verification.md` so the standard
+    verifier runs `python -m pytest src -q` directly.
+  - Kept `src/test_reallocate_rebuild.py` as the canonical target-weight
+    planner coverage.
 - Monthly Top/Bottom idea extraction and core-list deferral.
   - Left Fundstrat monthly Core List tables out of stored state for now to avoid
     overclutter and bad row extraction.
@@ -115,7 +122,7 @@ until the core logic is stable; Notion sync comes later.
 - Verification command.
   - Added `src/verify_standard.py` as the repo-owned standard verification command.
   - GitHub Actions now runs the same command.
-  - Documented the known retired `src/test_reallocate.py` failure and optional JSX bundle check.
+  - Supports the full repo pytest tree and optional JSX bundle check.
 - PDF holdings ingest.
   - `broker_pdf_extractor.py` now handles ticker-led and description-before-symbol selectable text rows.
   - Added focused text-export and optional selectable-PDF tests.

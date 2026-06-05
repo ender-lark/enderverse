@@ -5,9 +5,8 @@ Run from the repository root:
 
     python src/verify_standard.py
 
-The standard suite intentionally excludes src/test_reallocate.py, which targets
-the retired Chunk 1 reallocation API. The rebuilt planner is covered by
-src/test_reallocate_rebuild.py and the broad pytest run below.
+The standard suite runs the full repo-owned Python test tree and then runs a few
+standalone self-tests that are intentionally executable outside pytest.
 """
 from __future__ import annotations
 
@@ -46,19 +45,9 @@ def standard_checks() -> list[Check]:
     py = _python()
     return [
         Check(
-            name="pytest-src-with-known-stale-reallocate-excluded",
-            command=[
-                py,
-                "-m",
-                "pytest",
-                "src",
-                "--ignore=src/test_reallocate.py",
-                "-q",
-            ],
-            why=(
-                "broad src suite; excludes retired src/test_reallocate.py while "
-                "the rebuilt planner has its own direct check"
-            ),
+            name="pytest-src",
+            command=[py, "-m", "pytest", "src", "-q"],
+            why="broad src suite, including rebuilt reallocation planner tests",
         ),
         Check(
             name="rebuilt-reallocate-direct-check",

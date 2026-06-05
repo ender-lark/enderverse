@@ -24,11 +24,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   definitions across source intake, market data refresh, and feed build/publish.
 - Dashboard parity guardrail tests passed.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite excluding retired `src/test_reallocate.py`: 840 passed,
-    6 skipped
+  - broad `src` suite: 840 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
+- `python -m pytest src -q` passed without the old retired reallocation-test
+  ignore workaround: 840 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -59,6 +60,10 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Monthly Top/Bottom idea extraction and core-list deferral: real PDF text where
   Top-5/Bottom-5 labels appear after ticker blocks is parsed correctly, while
   Core List tables are intentionally left out for now to avoid overclutter.
+- Retired reallocation test workaround: the stale Chunk 1
+  `src/test_reallocate.py` artifact was removed, so the standard verifier can
+  run the full repo pytest tree directly while `src/test_reallocate_rebuild.py`
+  remains the canonical planner coverage.
 - AVGO thesis Research Queue seed: the older README note is now a durable
   `research_queue.json` item that From Research can surface while AVGO remains
   unassessed until the thesis is actually written.
