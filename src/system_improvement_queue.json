@@ -56,7 +56,7 @@
       "id": "notion-github-ownership-map",
       "title": "Map which state belongs in Notion, GitHub, or both",
       "priority": "P2",
-      "status": "queued",
+      "status": "done",
       "area": "architecture",
       "why": "Overlapping storage caused analysis to exist without surfacing. Ownership rules reduce drift.",
       "done_when": "Each major object type has a source-of-truth owner, mirror policy, and dashboard surfacing path."

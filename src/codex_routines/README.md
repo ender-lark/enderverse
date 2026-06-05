@@ -77,3 +77,11 @@ source was actually fetched or supplied.
 - Deferred and lower-priority build items live in `system_improvement_queue.json`.
 - Validate the queue with `python src/system_improvement_queue.py`.
 - Keep the queue for product/system improvements, not live market calls.
+
+## State Ownership
+
+- Storage and surfacing ownership rules live in `state_ownership_map.json`.
+- Validate the map with `python src/state_ownership_map.py`.
+- A state object should not be added to Notion, GitHub, Gmail intake, or a cache
+  routine unless its dashboard/preflight surface and not-checked behavior are
+  explicit.
