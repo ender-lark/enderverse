@@ -86,6 +86,16 @@ until the core logic is stable; Notion sync comes later.
     `python src/cloud_ops_status.py --format text` also surface those detailed
     missing live-source lines, so operator/cloud checks do not require a
     separate command to know which source file is absent.
+  - Missing optional live-source convention inputs that do not otherwise render
+    as cockpit lanes are now appended to the feed `lane_status` as dark
+    `not_checked` rows. Current dashboard dark lanes are `account_positions`
+    and `meridian`; they stay visible in `live_status`, `cloud_ops_status`,
+    the go-live checklist, and the generated dashboard until the actual source
+    files are supplied.
+  - `live_status.py` points those Account Positions/Meridian dark lanes at
+    `docs/manual_live_source_drop.template.json`, while source-specific lanes
+    such as Catalyst Calendar and Signal Log keep their specialized intake
+    commands.
 - Cloud routine run receipts.
   - Added `src/cloud_routine_receipts.py` and
     `src/cloud_routine_receipts.json` so scheduled jobs can append auditable
@@ -151,8 +161,9 @@ until the core logic is stable; Notion sync comes later.
     with `catalyst_calendar_intake.py`; vague/TBD rows were skipped rather than
     guessed.
   - Refreshed the live dashboard package. Current status shows 13 lanes with
-    data and 0 dark lanes; missing `account_positions` and `meridian` remain
-    optional missing source inputs, not checked-clear claims.
+    data and 2 dark lanes (`account_positions`, `meridian`); those missing
+    optional source inputs are visible as not checked, not checked-clear
+    claims.
 - Daily cloud-ops readiness status.
   - Added `python src/cloud_ops_status.py --format text` to separate local
     go-live readiness from actual scheduled Codex cloud automation readiness.

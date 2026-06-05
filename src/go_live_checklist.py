@@ -199,6 +199,17 @@ def _manual_drop_command(source_capability: dict[str, Any]) -> str:
     return "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"
 
 
+def _optional_dark_lane_command(status: dict[str, Any], source_capability: dict[str, Any]) -> str:
+    keys = {
+        str(key)
+        for key in ((status.get("dark_lanes") or {}).get("keys") or [])
+        if key
+    }
+    if keys and keys.issubset({"account_positions", "meridian"}):
+        return _manual_drop_command(source_capability)
+    return "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"
+
+
 def build_go_live_checklist(
     *,
     src_dir: str | Path = DEFAULT_SRC,
@@ -323,7 +334,7 @@ def build_go_live_checklist(
             "Optional dark lanes",
             "warn",
             _dark_lane_detail(status),
-            "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+            _optional_dark_lane_command(status, source_capability),
         ))
     fail_count = sum(1 for row in rows if row["status"] == "fail")
     warn_count = sum(1 for row in rows if row["status"] == "warn")

@@ -208,3 +208,37 @@ def test_format_text_is_operator_scannable():
     assert "python src/catalyst_calendar_intake.py <catalyst-calendar.json> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing" in text
     assert "python src/signal_log_intake.py <signal-log.json> --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing" in text
     assert "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only" in text
+
+
+def test_format_text_points_live_source_dark_lanes_at_live_template():
+    status = live_status.build_status_summary(
+        readiness=_readiness(
+            dark_lane_keys=["account_positions", "meridian"],
+            dark_lane_details=[
+                {
+                    "key": "account_positions",
+                    "label": "Account Positions",
+                    "next_step": "Supply src/account_positions.json.",
+                },
+                {
+                    "key": "meridian",
+                    "label": "Meridian",
+                    "next_step": "Supply src/meridian_items.json.",
+                },
+            ],
+        ),
+        preview={
+            "preview_exists": True,
+            "server_running": True,
+            "url": "http://127.0.0.1:8765/dashboard_preview.html",
+        },
+        open_store={"opportunities": []},
+        queue=_queue(),
+    )
+
+    text = live_status.format_text(status)
+
+    assert "- Start template: docs/manual_live_source_drop.template.json" in text
+    assert "docs/manual_drop.template.json" not in text
+    assert "Account Positions: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in text
+    assert "Meridian: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in text

@@ -207,6 +207,29 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["signal_log"]["status"] == "not_checked"
     assert rows["event_risk"]["status"] == "not_checked"
     assert rows["synthesis"]["status"] == "not_checked"
+    assert rows["account_positions"]["status"] == "not_checked"
+    assert rows["account_positions"]["detail"] == "missing live source input"
+    assert rows["meridian"]["status"] == "not_checked"
+    assert rows["meridian"]["detail"] == "missing live source input"
+    assert feed["lane_status"]["counts"]["not_checked"] >= 8
+
+
+def test_missing_source_gap_rows_do_not_duplicate_existing_lanes(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    keys = [row.get("key") for row in feed["lane_status"]["rows"]]
+    assert keys.count("signal_log") == 1
+    assert keys.count("catalysts") == 1
+    assert keys.count("account_positions") == 1
+    assert keys.count("meridian") == 1
 
 
 def test_full_build_runner_snippet_only_fundstrat_daily_stays_not_checked(tmp_path):

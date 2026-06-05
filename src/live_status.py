@@ -189,7 +189,13 @@ def _join_values(values: list[Any], *, empty: str = "none") -> str:
 
 
 def _dark_lane_commands(key: str) -> list[str]:
+    live_source_command = (
+        "python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
+        "--src-dir src --validate-only"
+    )
     commands = {
+        "account_positions": [live_source_command],
+        "meridian": [live_source_command],
         "catalysts": [
             "python src/catalyst_calendar_intake.py <catalyst-calendar.json> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing",
             "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
@@ -200,6 +206,15 @@ def _dark_lane_commands(key: str) -> list[str]:
         ],
     }
     return commands.get(key, ["python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"])
+
+
+def _dark_lane_templates(keys: list[str]) -> list[str]:
+    templates = []
+    if any(key in {"account_positions", "meridian"} for key in keys):
+        templates.append("docs/manual_live_source_drop.template.json")
+    if any(key not in {"account_positions", "meridian"} for key in keys):
+        templates.append("docs/manual_drop.template.json")
+    return templates or ["docs/manual_drop.template.json"]
 
 
 def _sudden_event_command() -> str:
@@ -332,7 +347,13 @@ def format_text(status: dict[str, Any]) -> str:
             next_step = row.get("next_step") or row.get("missing_impact") or "Supply source input."
             lines.append(f"- {key}: {next_step}")
         lines.append("Dark lane intake commands:")
-        lines.append("- Start template: docs/manual_drop.template.json")
+        dark_keys = [
+            str(row.get("key") or "").strip()
+            for row in details
+            if isinstance(row, dict)
+        ]
+        for template in _dark_lane_templates(dark_keys):
+            lines.append(f"- Start template: {template}")
         for row in details:
             if not isinstance(row, dict):
                 continue

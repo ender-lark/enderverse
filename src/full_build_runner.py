@@ -67,6 +67,89 @@ DEFAULT_FILES = {
     "parabolic": ("parabolic_setups.json",),
 }
 
+SOURCE_GAP_LABELS = {
+    "account_positions": "Account Positions",
+    "meridian": "Meridian",
+    "heartbeat": "Routine Heartbeat",
+    "open_opportunities": "Action Memory",
+    "inbox_call_dates": "Inbox Call Dates",
+    "log_call_dates": "Log Call Dates",
+}
+
+
+def _lane_counts(rows: list[dict]) -> dict[str, int]:
+    counts = {
+        "failed": 0,
+        "not_checked": 0,
+        "has_data": 0,
+        "stale": 0,
+        "checked_clear": 0,
+    }
+    for row in rows:
+        status = str(row.get("status") or "")
+        counts[status] = counts.get(status, 0) + 1
+    return counts
+
+
+def _source_gap_row(input_row: dict) -> dict:
+    key = str(input_row.get("key") or "")
+    label = SOURCE_GAP_LABELS.get(key) or key.replace("_", " ").title()
+    candidates = [
+        str(path)
+        for path in input_row.get("candidate_paths") or []
+        if path
+    ]
+    expected = candidates[0] if candidates else ""
+    next_step = (
+        f"Supply {expected} through the owning source routine or manual live-source drop."
+        if expected
+        else "Supply the owning live source before treating this input as checked."
+    )
+    missing_impact = (
+        str(input_row.get("missing_behavior") or "")
+        or "This live-capable source input is not checked; absence is not a clear read."
+    )
+    return {
+        "key": key,
+        "label": label,
+        "status": "not_checked",
+        "detail": "missing live source input",
+        "count": 0,
+        "checked_at": "",
+        "next_step": next_step,
+        "missing_impact": missing_impact,
+    }
+
+
+def _append_missing_source_gap_rows(feed: dict, input_rows: list[dict]) -> None:
+    """Expose missing live-source convention inputs as dark lane-status rows."""
+    lane_status = feed.setdefault("lane_status", {})
+    rows = lane_status.setdefault("rows", [])
+    if not isinstance(rows, list):
+        return
+    existing = {
+        str(row.get("key") or "")
+        for row in rows
+        if isinstance(row, dict)
+    }
+    for input_row in input_rows:
+        key = str(input_row.get("key") or "")
+        if not key or key in existing:
+            continue
+        if input_row.get("status") != "missing_optional":
+            continue
+        if not input_row.get("missing_behavior"):
+            continue
+        rows.append(_source_gap_row(input_row))
+        existing.add(key)
+
+    counts = _lane_counts([row for row in rows if isinstance(row, dict)])
+    lane_status["counts"] = counts
+    lane_status["has_dark_lanes"] = counts.get("not_checked", 0) > 0
+    lane_status["has_stale_or_failed"] = (
+        counts.get("stale", 0) + counts.get("failed", 0)
+    ) > 0
+
 
 def _src_dir() -> Path:
     return Path(__file__).resolve().parent
@@ -392,6 +475,7 @@ def build_full_feed_from_files(
     portfolio_views = build_portfolio_views(account_positions)
     if portfolio_views:
         feed["portfolio_views"] = portfolio_views
+    _append_missing_source_gap_rows(feed, convention_input_status(src))
     problems = validate_cockpit_feed(feed)
     if problems:
         raise FullBuildError(f"feed failed Contract-C validation: {problems}")

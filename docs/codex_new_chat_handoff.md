@@ -260,6 +260,15 @@ Important recent state:
   first with `--validate-only`.
 - The go-live checklist manual-drop row points at that live-source template
   when those are the active missing live-capable inputs.
+- Missing optional live-source convention inputs that do not otherwise render
+  as cockpit lanes are also surfaced as feed `lane_status` dark rows. Current
+  dark rows are Account Positions (`account_positions`) and Meridian
+  (`meridian`), both `not_checked`; they must not be interpreted as checked
+  clear while their source files are absent.
+- `python src/live_status.py --format text` points those Account
+  Positions/Meridian dark lanes at
+  `docs/manual_live_source_drop.template.json`; Catalyst Calendar and Signal
+  Log dark lanes keep their specialized intake commands.
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.
