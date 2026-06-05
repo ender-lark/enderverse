@@ -49,6 +49,16 @@ until the core logic is stable; Notion sync comes later.
     the full expected stack to be installed and active.
   - Missing connector/source pulls still remain visible as dark lanes instead
     of checked clear; current optional dark lane remains Catalyst Calendar.
+- Cloud routine run receipts.
+  - Added `src/cloud_routine_receipts.py` and
+    `src/cloud_routine_receipts.json` so scheduled jobs can append auditable
+    started/success/failed receipts after they run.
+  - `python src/cloud_ops_status.py --format text` now reports both the active
+    routine stack and the current run-receipt proof count. A newly installed
+    routine stack can be ready before first run, but no live run should be
+    treated as proven until a success receipt appears.
+  - Latest failed receipts surface as operator gaps; first-run-pending receipts
+    stay visible without marking a source lane checked clear.
 - Signal Log / Morning Scan lane populated.
   - Used Notion search/fetch against the Signal Log data source, not the failed
     SQL query path, to source recent macro, oil/Hormuz, Iran escalation, and

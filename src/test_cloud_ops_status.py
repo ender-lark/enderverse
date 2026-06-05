@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import cloud_ops_status
+import cloud_routine_receipts
 
 
 def _write_active_stack_proof(src: Path) -> None:
@@ -139,3 +140,37 @@ def test_cloud_ops_status_keeps_dark_lanes_visible(monkeypatch, tmp_path):
     assert report["ready_for_unattended_daily_run"] is True
     assert "Signal Log remains dark" in json.dumps(report["gaps"])
     assert "Signal Log remains dark" in text
+
+
+def test_cloud_ops_status_surfaces_failed_run_receipt(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+    cloud_routine_receipts.append_receipt(
+        path=src / "cloud_routine_receipts.json",
+        routine_id="investing-os-morning-scan",
+        status="failed",
+        summary="Signal Log connector write failed.",
+        recorded_at="2026-06-05T12:00:00Z",
+    )
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert any("Investing OS Morning Scan latest run receipt failed" in gap for gap in report["gaps"])
+    assert "Cloud run receipts: success=0/" in text
+    assert "failed_latest=1" in text

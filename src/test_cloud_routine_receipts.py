@@ -1,0 +1,94 @@
+from __future__ import annotations
+
+import json
+
+import cloud_routine_receipts
+
+
+EXPECTED = [
+    {
+        "automation_id": "investing-os-morning-scan",
+        "automation_name": "Investing OS Morning Scan",
+        "role": "morning_scan",
+        "schedule": "market weekdays 8:35 AM ET",
+    },
+    {
+        "automation_id": "investing-os-full-cockpit-build",
+        "automation_name": "Investing OS Full Cockpit Build",
+        "role": "full_cockpit_build",
+        "schedule": "market weekdays 10:30 AM ET",
+    },
+]
+
+
+def test_append_receipt_writes_valid_store(tmp_path):
+    path = tmp_path / "receipts.json"
+
+    receipt = cloud_routine_receipts.append_receipt(
+        path=path,
+        routine_id="investing-os-morning-scan",
+        status="success",
+        summary="Signal Log rows landed.",
+        recorded_at="2026-06-05T12:00:00Z",
+    )
+
+    payload = cloud_routine_receipts.load_receipts(path)
+    assert receipt["status"] == "success"
+    assert payload["receipts"][0]["routine_id"] == "investing-os-morning-scan"
+    assert cloud_routine_receipts.validate_receipts(payload) == []
+
+
+def test_summarize_receipts_reports_missing_and_failed(tmp_path):
+    path = tmp_path / "receipts.json"
+    cloud_routine_receipts.append_receipt(
+        path=path,
+        routine_id="investing-os-morning-scan",
+        status="success",
+        summary="Rows landed.",
+        recorded_at="2026-06-05T12:00:00Z",
+    )
+    cloud_routine_receipts.append_receipt(
+        path=path,
+        routine_id="investing-os-full-cockpit-build",
+        status="failed",
+        summary="Connector failed.",
+        recorded_at="2026-06-05T14:30:00Z",
+    )
+
+    summary = cloud_routine_receipts.summarize_receipts(
+        cloud_routine_receipts.load_receipts(path),
+        expected_automations=EXPECTED,
+    )
+    text = cloud_routine_receipts.format_text(summary)
+
+    assert summary["success_count"] == 1
+    assert summary["failed_latest_count"] == 1
+    assert summary["missing_success_count"] == 1
+    assert summary["failed_latest"][0]["routine_id"] == "investing-os-full-cockpit-build"
+    assert "Investing OS Full Cockpit Build: Connector failed." in text
+
+
+def test_validate_rejects_bad_status():
+    problems = cloud_routine_receipts.validate_receipts({
+        "schema_version": 1,
+        "receipts": [{"routine_id": "x", "status": "done", "recorded_at": "2026-06-05T12:00:00Z"}],
+    })
+
+    assert any("status must be one of" in problem for problem in problems)
+
+
+def test_cli_records_receipt(tmp_path, capsys):
+    path = tmp_path / "receipts.json"
+
+    rc = cloud_routine_receipts.main([
+        "--out", str(path),
+        "--routine-id", "investing-os-morning-scan",
+        "--status", "started",
+        "--summary", "started run",
+        "--format", "json",
+    ])
+
+    captured = capsys.readouterr().out
+    assert rc == 0
+    assert json.loads(captured)["valid"] is True
+    assert cloud_routine_receipts.load_receipts(path)["receipts"][0]["status"] == "started"

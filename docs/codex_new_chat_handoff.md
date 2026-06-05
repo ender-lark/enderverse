@@ -188,6 +188,13 @@ Important recent state:
   `src/cloud_automation_status.json`. Catalyst gaps should remain visible as
   dark lanes if connector/source pulls fail; open action reviews remain
   warnings, not cloud-ops blockers.
+- `src/cloud_routine_receipts.py` records scheduled-run receipts in
+  `src/cloud_routine_receipts.json`. Each automation should append a
+  started/success/failed receipt at the end of its run using
+  `python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --summary "<short run result>"`.
+  `cloud_ops_status.py --format text` now reports the receipt count separately
+  from schedule readiness, so first-run-pending jobs are visible and failed
+  latest receipts become operator gaps.
 - Target Drift now promotes held, materially undersized names into conservative
   `conviction_gap` actions. The current feed surfaces NVDA as a funded
   add/rotation review (`6.6%` actual versus `12.0%` target), while missing

@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 import codex_routine_manifest
+import cloud_routine_receipts
 import live_status as live_status_mod
 
 
@@ -17,6 +18,7 @@ DEFAULT_SRC = ROOT / "src"
 DEFAULT_AUTOMATION_NAME = "Investing OS Daily Cloud Refresh"
 DEFAULT_AUTOMATION_ID = "investing-os-daily-cloud-refresh"
 DEFAULT_AUTOMATION_PROOF = "cloud_automation_status.json"
+DEFAULT_RECEIPT_PROOF = "cloud_routine_receipts.json"
 DEFAULT_EXPECTED_AUTOMATIONS = [
     {
         "automation_id": "investing-os-pre-market-source-intake",
@@ -225,7 +227,38 @@ def _manifest_summary(src_dir: Path) -> dict[str, Any]:
     return {"valid": not problems, "problems": problems, "summary": summary}
 
 
-def _operating_gaps(status: dict[str, Any], automation: dict[str, Any], manifest: dict[str, Any]) -> list[str]:
+def _receipt_summary(path: str | Path, expected_automations: list[dict[str, Any]]) -> dict[str, Any]:
+    try:
+        payload = cloud_routine_receipts.load_receipts(path)
+        problems = cloud_routine_receipts.validate_receipts(payload)
+        summary = cloud_routine_receipts.summarize_receipts(
+            payload,
+            expected_automations=expected_automations,
+        )
+    except Exception as exc:
+        return {
+            "valid": False,
+            "problems": [str(exc)],
+            "summary": {
+                "receipt_file_present": False,
+                "expected_count": len(expected_automations),
+                "success_count": 0,
+                "failed_latest_count": 0,
+                "missing_success_count": len(expected_automations),
+                "rows": [],
+                "missing_success": expected_automations,
+                "failed_latest": [],
+            },
+        }
+    return {"valid": not problems, "problems": problems, "summary": summary}
+
+
+def _operating_gaps(
+    status: dict[str, Any],
+    automation: dict[str, Any],
+    manifest: dict[str, Any],
+    receipts: dict[str, Any],
+) -> list[str]:
     gaps: list[str] = []
     if not automation.get("installed"):
         missing = [
@@ -245,6 +278,15 @@ def _operating_gaps(status: dict[str, Any], automation: dict[str, Any], manifest
         gaps.append(f"Codex cloud routine stack has inactive routines{suffix}")
     if not manifest.get("valid"):
         gaps.append("Routine manifest is invalid.")
+    if not receipts.get("valid"):
+        gaps.append("Cloud routine receipt file is invalid.")
+    failed_receipts = ((receipts.get("summary") or {}).get("failed_latest") or [])
+    for row in failed_receipts:
+        if not isinstance(row, dict):
+            continue
+        label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
+        summary = row.get("last_summary") or row.get("last_recorded_at") or "latest run failed"
+        gaps.append(f"{label} latest run receipt failed: {summary}")
     if not status.get("go_live_ready"):
         gaps.append("Dashboard is not go-live ready.")
     dark = (status.get("dark_lanes") or {}).get("details") or []
@@ -272,10 +314,13 @@ def cloud_ops_status(
     automation_name: str = DEFAULT_AUTOMATION_NAME,
     automation_id: str = DEFAULT_AUTOMATION_ID,
     automation_proof: str | Path | None = None,
+    receipt_proof: str | Path | None = None,
 ) -> dict[str, Any]:
     src = Path(src_dir)
     if automation_proof is None:
         automation_proof = src / DEFAULT_AUTOMATION_PROOF
+    if receipt_proof is None:
+        receipt_proof = src / DEFAULT_RECEIPT_PROOF
     status = live_status_mod.live_status(src_dir=src)
     manifest = _manifest_summary(src)
     automation = _automation_summary(
@@ -285,16 +330,19 @@ def cloud_ops_status(
         automation_proof=automation_proof,
         expected_automations=DEFAULT_EXPECTED_AUTOMATIONS,
     )
-    gaps = _operating_gaps(status, automation, manifest)
+    receipts = _receipt_summary(receipt_proof, DEFAULT_EXPECTED_AUTOMATIONS)
+    gaps = _operating_gaps(status, automation, manifest, receipts)
     return {
         "ready_for_unattended_daily_run": (
             bool(status.get("go_live_ready"))
             and bool(manifest.get("valid"))
             and bool(automation.get("active"))
+            and bool(receipts.get("valid"))
         ),
         "local_go_live_ready": bool(status.get("go_live_ready")),
         "routine_manifest": manifest,
         "cloud_automation": automation,
+        "routine_receipts": receipts,
         "dark_lanes": status.get("dark_lanes") or {},
         "open_actions": status.get("open_actions") or {},
         "gaps": gaps,
@@ -309,6 +357,7 @@ def cloud_ops_status(
 def format_text(report: dict[str, Any]) -> str:
     manifest_summary = (report.get("routine_manifest") or {}).get("summary") or {}
     automation = report.get("cloud_automation") or {}
+    receipts = ((report.get("routine_receipts") or {}).get("summary") or {})
     dark = report.get("dark_lanes") or {}
     lines = [
         f"Cloud ops ready: {bool(report.get('ready_for_unattended_daily_run'))}",
@@ -330,6 +379,13 @@ def format_text(report: dict[str, Any]) -> str:
             "Dark source lanes: "
             f"{int(dark.get('count') or 0)}"
         ),
+        (
+            "Cloud run receipts: "
+            f"success={int(receipts.get('success_count') or 0)}/"
+            f"{int(receipts.get('expected_count') or 0)} | "
+            f"failed_latest={int(receipts.get('failed_latest_count') or 0)} | "
+            f"missing_success={int(receipts.get('missing_success_count') or 0)}"
+        ),
     ]
     gaps = report.get("gaps") or []
     if gaps:
@@ -348,6 +404,7 @@ def main(argv=None) -> int:
     parser.add_argument("--automation-name", default=DEFAULT_AUTOMATION_NAME)
     parser.add_argument("--automation-id", default=DEFAULT_AUTOMATION_ID)
     parser.add_argument("--automation-proof")
+    parser.add_argument("--receipt-proof")
     parser.add_argument("--format", choices=["json", "text"], default="json")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero unless unattended daily ops are ready")
     args = parser.parse_args(argv)
@@ -358,6 +415,7 @@ def main(argv=None) -> int:
         automation_name=args.automation_name,
         automation_id=args.automation_id,
         automation_proof=args.automation_proof,
+        receipt_proof=args.receipt_proof,
     )
     if args.format == "text":
         print(format_text(report))
