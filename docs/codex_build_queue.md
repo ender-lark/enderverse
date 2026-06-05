@@ -5,12 +5,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Completion audit and next-slice discovery.
-  - Check repo queues, manifests, and standard verification before declaring the current project backlog clear.
-  - If gaps remain, add the next concrete slice here before implementation.
+- From-Research priority label clarity.
+  - Relabel research-action confidence display so Research Queue priority is not confused with investment conviction.
+  - Keep the action row contract unchanged unless a small renderer-only mapping is enough.
 
 ## Recently Completed
 
+- Completion audit and next-slice discovery.
+  - Added `docs/completion_audit.md`.
+  - Verified queues, routine manifest, dashboard guardrail, and standard verification command.
+  - Promoted the next self-contained refinement slice from older architecture backlog notes.
 - ETF look-through sleeves.
   - Added separate effective ETF look-through exposure to `portfolio_views`.
   - Rendered effective sleeve estimates and top overlap rows in the canonical Book tab.
@@ -50,7 +54,7 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-No queued implementation slices. Add new deferred work here before starting a new slice.
+No additional queued implementation slices. Add new deferred work here before starting another slice.
 
 ## Working Rules
 
