@@ -464,6 +464,7 @@ _ACTION_PRIORITY = {
     "buy_now": 1,          # a discrete entry trigger fired (⏳ act)
     "synthesis": 1,        # v1 placeholder: curated synthesis action (tune when wired)
     "top_prospect": 1,     # an external ACT_NOW candidate that must not stay buried
+    "research_act_now": 1,  # time-sensitive research must not stay buried
     "reentry_zone": 2,     # a re-entry-zone touch (⏳ act, non-burned)
     "catalyst_imminent": 2,  # a near-term dated event on a HELD name (review-before)
     "decision_aging": 2,   # an open, aging, un-acted opportunity (E2) — decide, don't let it run
@@ -475,7 +476,7 @@ _ACTION_PRIORITY = {
 }
 _ACTION_CONFIDENCE = {
     "red_gate": "High", "buy_now": "High", "reentry_zone": "High",
-    "sell_fast": "High", "top_prospect": "High",
+    "sell_fast": "High", "top_prospect": "High", "research_act_now": "High",
     "monitor_reentry": "Moderate", "macro_alert": "Moderate", "lean_in": "Moderate",
     "watch_entry": "Moderate", "stale_critical": "Low",
     "decision_aging": "Moderate",
@@ -486,6 +487,7 @@ _ACTION_STATE_BY_KIND = {
     "sell_fast": "ACT_NOW",
     "buy_now": "ACT_NOW",
     "top_prospect": "ACT_NOW",
+    "research_act_now": "ACT_NOW",
     "reentry_zone": "ACT_NOW",
     "catalyst_imminent": "ACT_NOW",
     "decision_aging": "ACT_NOW",
@@ -996,6 +998,46 @@ def apply_decision_aging(actions, aging_records, by_ticker):
     return annotate_actions(rows)
 
 
+def promote_research_act_now_actions(actions, research_actions):
+    """Copy urgent research rows into Today's Actions without removing the lane."""
+    urgent = [
+        r for r in (research_actions or [])
+        if isinstance(r, dict)
+        and (r.get("kind") == "research_act_now" or r.get("action_state") == "ACT_NOW")
+        and r.get("ticker")
+    ]
+    if not urgent:
+        return actions
+
+    rows = [dict(a) for a in (actions or [])]
+    present = {a.get("ticker") for a in rows if a.get("ticker")}
+    for r in urgent:
+        tk = r.get("ticker")
+        if tk in present:
+            continue
+        row = dict(r)
+        row["kind"] = "research_act_now"
+        row["action_state"] = _ACTION_STATE_BY_KIND["research_act_now"]
+        row["source"] = "research_queue:act_now"
+        row["what"] = row.get("what") or "Research ACT_NOW"
+        row["your_move"] = row.get("your_move") or (
+            f"{tk}: finish the research now, then size/decide through the gate."
+        )
+        row["confidence"] = (
+            row.get("confidence") if row.get("confidence") in _CONFIDENCE_RANK else "High"
+        )
+        rows.append(row)
+        present.add(tk)
+
+    rows.sort(key=lambda a: (_ACTION_PRIORITY.get(a.get("kind"), 9),
+                             _CONFIDENCE_RANK.get(a.get("confidence"), 9),
+                             a.get("rank", 9_999)))
+    for i, a in enumerate(rows, start=1):
+        a["rank"] = i
+        a.setdefault("action_state", _ACTION_STATE_BY_KIND.get(a.get("kind"), "WATCH"))
+    return annotate_actions(rows)
+
+
 # =========================================================================== #
 # ⑦c Research-actions read — the SEPARATE "From Research" surface (cockpit
 #     `research_actions`). Ticker-specific Research Queue items surfaced as
@@ -1026,6 +1068,10 @@ _RESEARCH_PR_CONFIDENCE = {"high": "High", "med": "Moderate", "medium": "Moderat
                            "low": "Low"}
 _RESEARCH_PR_RANK = {"high": 0, "med": 1, "medium": 1, "low": 2}
 _RESEARCH_INCLUDE_PR = frozenset({"high", "med", "medium"})
+_RESEARCH_ACT_NOW_VALUES = frozenset({
+    "act_now", "act now", "act-now", "urgent", "time-sensitive", "time_sensitive",
+    "today", "now",
+})
 # leading all-caps ticker (1-6, optional .SUFFIX) immediately followed by a dash/colon
 _TICKER_LEAD = _re.compile(r"^\s*([A-Z]{1,6}(?:\.[A-Z]{1,4})?)\s*[\u2014\u2013:\-]")
 
@@ -1037,6 +1083,19 @@ def _parse_research_ticker(text):
         return None
     m = _TICKER_LEAD.match(text)
     return m.group(1) if m else None
+
+
+def _research_is_act_now(item, dated_ok: bool) -> bool:
+    if dated_ok:
+        return True
+    for key in ("action_state", "urgency", "action", "recommendation", "status"):
+        raw = item.get(key)
+        if raw is None:
+            continue
+        norm = str(raw).strip().lower().replace("-", "_")
+        if norm in _RESEARCH_ACT_NOW_VALUES:
+            return True
+    return False
 
 
 def research_actions_read(research, theses, taken_tickers=None,
@@ -1080,6 +1139,7 @@ def research_actions_read(research, theses, taken_tickers=None,
         stance = (by_ticker.get(ticker) or {}).get("stance")
         confidence = _RESEARCH_PR_CONFIDENCE.get(pr, "Moderate")
         cd = f" (~{days}d)" if dated_ok else ""
+        act_now = stance != "MONITOR" and _research_is_act_now(it, dated_ok)
         if stance == "MONITOR":
             # burned sleeve: review/watch only -- never an add nudge
             your_move = (f"{ticker}: burned-sleeve research -- review / risk-check only; "
@@ -1092,9 +1152,11 @@ def research_actions_read(research, theses, taken_tickers=None,
                          "then size / decide (run the pre-trade gate if you act). "
                          "A research item, not a fired trigger.")
             gate = _gate_hook(ticker, by_ticker, default_action="REVIEW")
+        kind = "research_act_now" if act_now else "research_review"
+        what = "Research ACT_NOW -- review" + cd if act_now else "Research dossier -- review" + cd
         rows.append({
-            "kind": "research_review", "ticker": ticker,
-            "what": "Research dossier -- review" + cd,
+            "kind": kind, "ticker": ticker,
+            "what": what,
             "confidence": confidence, "your_move": your_move,
             "gate": gate, "source": "research_queue", "why": text,
             "_pr_rank": _RESEARCH_PR_RANK.get(pr, 1), "_order": idx,
@@ -1107,7 +1169,7 @@ def research_actions_read(research, theses, taken_tickers=None,
     for rank, r in enumerate(rows, start=1):
         research_actions.append({
             "rank": rank, "kind": r["kind"], "ticker": r["ticker"],
-            "action_state": _ACTION_STATE_BY_KIND["research_review"],
+            "action_state": _ACTION_STATE_BY_KIND.get(r["kind"], "RESEARCH"),
             "what": r["what"], "confidence": r["confidence"],
             "your_move": r["your_move"], "gate": r["gate"],
             "source": r["source"], "why": r["why"],

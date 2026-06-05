@@ -106,6 +106,22 @@ def test_dated_low_priority_item_surfaces_via_date_clause():
         {"pending": [{"r": "GS \u2014 review", "pr": "low", "days_out": 2}]}, THESES)
     assert _tickers(out) == ["GS"]
     assert "(~2d)" in out["research_actions"][0]["what"]
+    assert out["research_actions"][0]["kind"] == "research_act_now"
+    assert out["research_actions"][0]["action_state"] == "ACT_NOW"
+
+
+def test_explicit_act_now_research_gets_act_now_state():
+    out = research_actions_read(
+        {"pending": [{"r": "GS \u2014 urgent setup review", "pr": "high",
+                      "urgency": "ACT_NOW"}]},
+        THESES,
+    )
+    row = out["research_actions"][0]
+    assert row["ticker"] == "GS"
+    assert row["kind"] == "research_act_now"
+    assert row["action_state"] == "ACT_NOW"
+    assert row["goal_impact"] == "High"
+    assert row["action_label"] == "RESEARCH ACT NOW"
 
 
 def test_dated_beyond_horizon_low_priority_filtered():
@@ -128,9 +144,12 @@ def test_dedup_drops_ticker_already_in_action_or_catalyst_lane():
 # MONITOR stance — watch-only, no gate, no add nudge
 # --------------------------------------------------------------------------- #
 def test_monitor_stance_is_watch_only():
-    out = research_actions_read({"pending": [{"r": "BMNR \u2014 review", "pr": "high"}]}, THESES)
+    out = research_actions_read({"pending": [{"r": "BMNR \u2014 review", "pr": "high",
+                                              "urgency": "ACT_NOW"}]}, THESES)
     row = out["research_actions"][0]
     assert row["ticker"] == "BMNR"
+    assert row["kind"] == "research_review"
+    assert row["action_state"] == "RESEARCH"
     assert row["gate"] is None
     assert row["confidence"] == "Low"
     assert "no add" in row["your_move"].lower()
@@ -187,6 +206,21 @@ def test_assemble_feed_emits_research_actions_and_validates():
     # AVGO/MU/XLF are not engine actions in the golden, none on a (non-passed)
     # catalyst lane -> all three surface here.
     assert {"AVGO", "MU", "XLF"} <= ra_tickers
+    assert validators.validate_cockpit_feed(feed) == []
+
+
+def test_assemble_feed_promotes_act_now_research_into_actions():
+    research = {"pending": [
+        {"r": "GS \u2014 urgent decision dossier", "pr": "high", "urgency": "ACT_NOW"}
+    ]}
+    feed = assemble_feed(_load("golden_snapshot.json"), parabolic={"MU"}, research=research)
+    research_by_ticker = {a["ticker"]: a for a in feed["research_actions"]}
+    actions_by_ticker = {a["ticker"]: a for a in feed["actions"] if a.get("ticker")}
+
+    assert research_by_ticker["GS"]["kind"] == "research_act_now"
+    assert actions_by_ticker["GS"]["kind"] == "research_act_now"
+    assert actions_by_ticker["GS"]["action_state"] == "ACT_NOW"
+    assert actions_by_ticker["GS"]["source"] == "research_queue:act_now"
     assert validators.validate_cockpit_feed(feed) == []
 
 

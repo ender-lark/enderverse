@@ -69,6 +69,16 @@ _KIND_DEFAULTS = {
         "why_it_moves_goal": "An ACT_NOW prospect may be an asymmetric opportunity before the window closes.",
         "missing_evidence": ["confirm thesis", "size through gate"],
     },
+    "research_act_now": {
+        "goal_channels": ["conviction", "upside", "opportunity_cost"],
+        "goal_impact": "High",
+        "goal_score": 74,
+        "time_window": "1-3 trading days",
+        "capital_effect": "review",
+        "action_label": "RESEARCH ACT NOW",
+        "why_it_moves_goal": "Time-sensitive research can unlock or reject a capital move before the setup decays.",
+        "missing_evidence": ["decision-grade thesis", "position sizing decision"],
+    },
     "reentry_zone": {
         "goal_channels": ["upside", "conviction", "opportunity_cost"],
         "goal_impact": "High",

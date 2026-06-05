@@ -225,7 +225,7 @@ _VALID_CONFIDENCE = {"High", "Moderate", "Low"}
 _VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
                        "macro_alert", "watch_entry", "stale_critical", "synthesis",
                        "catalyst_imminent", "lean_in", "research_review",
-                       "decision_aging", "top_prospect", "sell_fast"}
+                       "research_act_now", "decision_aging", "top_prospect", "sell_fast"}
 _VALID_ACTION_STATES = {"ACT_NOW", "WATCH", "RESEARCH", "MONITOR"}
 _VALID_GOAL_CHANNELS = {"upside", "downside_protection", "sizing_gap", "leverage",
                         "conviction", "opportunity_cost", "data_quality"}

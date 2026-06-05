@@ -22,7 +22,8 @@ from analyst import (rotation_read, macro_read, staleness_read,
 from analyst_judgment import (conviction_read, conviction_direction_read,
                               net_read, fresh_signal_read, actions_read,
                               catalyst_needs_you, lean_in_read, research_actions_read,
-                              apply_decision_aging, synthesis_actions_read)
+                              apply_decision_aging, synthesis_actions_read,
+                              promote_research_act_now_actions)
 from analyst_config import theses_by_ticker
 from feedback_summary import build_feedback_summary
 from lane_status import build_lane_status
@@ -243,6 +244,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     _taken |= {c.get("ticker") for c in (catalysts or [])
                if isinstance(c, dict) and c.get("ticker")}
     research_actions = research_actions_read(research or {}, theses, _taken)["research_actions"]
+    actions = promote_research_act_now_actions(actions, research_actions)
 
     # ── ⑨ Radar — endorsed, not owned. The fundstrat_daily analyst-call cards
     #    name external picks; keep ONLY the ones absent from the book whose thesis
