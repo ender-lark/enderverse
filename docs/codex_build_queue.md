@@ -15,6 +15,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Heartbeat cache snapshot.
+  - Ran `heartbeat_status.py` against current repo-local readiness evidence and
+    wrote `src/heartbeat.json` plus `src/heartbeat_summary.json`.
+  - The generated heartbeat is valid and intentionally shows launch blockers:
+    Required Inputs and Daily Full Build are `ok`, Minimum Market Data and
+    Publish Gate are `down`, and Optional Source Lanes are `stale`.
 - Required input freshness validation for live readiness.
   - Extended `live_readiness.py` so present required convention inputs are
     validated before live/publish readiness.

@@ -48,8 +48,13 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Focused heartbeat status tests passed: `python -m pytest
   src/test_heartbeat_status.py -q` reported 4 passed.
 - Current `python src/heartbeat_status.py --src-dir src --no-write` reports a
-  valid five-row heartbeat with 2 down, 2 ok, and 1 stale rows; no generated
-  heartbeat files were written during the audit.
+  valid five-row heartbeat with 2 down, 2 ok, and 1 stale rows without
+  modifying the existing heartbeat files.
+- `python src/heartbeat_status.py --src-dir src --out src/heartbeat.json
+  --summary src/heartbeat_summary.json` wrote a valid heartbeat snapshot with
+  2 down, 2 ok, and 1 stale rows.
+- `python src/heartbeat_status.py --validate src/heartbeat.json` passed after
+  writing the heartbeat snapshot.
 - Focused minimum-live-input validation tests passed: `python -m pytest
   src/test_live_readiness.py src/test_heartbeat_status.py
   src/test_full_build_runner.py -q` reported 20 passed.
@@ -104,6 +109,10 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Heartbeat cache snapshot: the repo now contains a valid `heartbeat.json` and
+  `heartbeat_summary.json` generated from current live-readiness evidence,
+  showing Required Inputs and Daily Full Build as `ok`, Minimum Market Data and
+  Publish Gate as `down`, and Optional Source Lanes as `stale`.
 - Required input freshness validation: `live_readiness.py` now validates
   present required convention inputs before live/publish readiness; stale,
   missing-date, unparseable, future-dated, or bare-list `positions.json`

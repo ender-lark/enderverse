@@ -29,8 +29,7 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Required input freshness
-  validation for live readiness.
+- Latest completed slice before this handoff refresh: Heartbeat cache snapshot.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -73,6 +72,10 @@ Important recent state:
   `src/heartbeat_summary.json` from repo-local readiness evidence. It reports
   required-input, minimum-market-data, publish-gate, optional-lane, and daily
   build status; it does not fetch sources or create trade actions.
+- The current repo has a valid `src/heartbeat.json` and
+  `src/heartbeat_summary.json` snapshot. It shows Required Inputs and Daily Full
+  Build as `ok`, Minimum Market Data and Publish Gate as `down`, and Optional
+  Source Lanes as `stale`.
 - Absent optional price cache now leaves `uw_price` not checked instead of
   registering an empty price source as `has_data`.
 - `src/uw_price_cache_intake.py` can normalize supplied UW close-price responses
@@ -98,7 +101,8 @@ Important recent state:
 - Current live-readiness probe on the repo reports `rehearsal_ready: true`,
   `required_inputs_ready: true`, and `go_live_ready: false` because
   `src/uw_closes.json` and `src/macro_state.json` are absent and publish-gate
-  clock verification cannot pass without a live datetime source.
+  clock verification cannot pass without a live datetime source. With
+  `src/heartbeat.json` present, heartbeat is no longer a missing optional input.
 
 Current verification baseline:
 
