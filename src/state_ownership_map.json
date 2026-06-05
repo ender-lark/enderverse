@@ -201,15 +201,15 @@
     },
     {
       "id": "meridian",
-      "source_of_truth": "meridian_source_exports_or_cache",
+      "source_of_truth": "archived_meridian_thesis_cache",
       "repo_artifact": "src/meridian_items.json",
-      "producer": "Meridian routine/export",
+      "producer": "One-time Meridian archive import",
       "feed_path": "full_build_runner.DEFAULT_FILES.meridian -> meridian source -> conviction direction/net read context",
-      "dashboard_surface": "Holdings conviction and net-read context when Meridian data exists",
+      "dashboard_surface": "Holdings conviction and thesis context when archived Meridian data exists",
       "mirror_policy": "GitHub stores structured Meridian thesis/call/model rows only.",
-      "freshness_contract": "Refresh only from a validated Meridian export/source.",
-      "not_checked_behavior": "Missing Meridian data is not checked; stale or absent data must not imply no Meridian signal.",
-      "action_surface": "Conflicting or confirming source context; never a standalone trade signal."
+      "freshness_contract": "Meridian stopped updating after March 2026; treat it as thesis archive context, not fresh tactical evidence.",
+      "not_checked_behavior": "Missing Meridian archive data should not count as a live-source miss or no-signal read.",
+      "action_surface": "Conflicting or confirming thesis context; never a standalone trade signal."
     },
     {
       "id": "macro_state",

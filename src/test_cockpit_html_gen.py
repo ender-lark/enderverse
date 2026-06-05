@@ -13,6 +13,49 @@ def _feed():
     return {
         "generated_at": "2026-06-05T14:00:00+00:00",
         "actions": [],
+        "action_decision_groups": {
+            "sections": [
+                {"key": "key_now", "label": "Key Now", "description": "current decisions", "count": 1, "ranks": [1]},
+                {"key": "important_backlog", "label": "Important Backlog", "description": "still visible", "count": 0, "ranks": []},
+            ],
+            "counts": {"key_now": 1, "important_backlog": 0},
+        },
+        "asymmetric_opportunities": {
+            "status": "has_data",
+            "count": 1,
+            "dedupe_rule": "One row per ticker.",
+            "rows": [
+                {
+                    "ticker": "NVDA",
+                    "source": "target_drift",
+                    "score": 88,
+                    "reason": "High-conviction target gap can make the thesis too small.",
+                    "evidence": "UNDERSIZED vs target",
+                    "decay_window": "until account/target changes",
+                    "action": "review setup; no auto-trade",
+                }
+            ],
+        },
+        "source_audits": {
+            "cloud_routines": {
+                "line": "Cloud scheduled proof: 2/10 routines proven; failed latest=0.",
+                "scheduled_success_count": 2,
+                "expected_count": 10,
+                "missing_scheduled_success": [
+                    {"routine_name": "Morning Scan"},
+                    {"routine_name": "Daily Synthesis"},
+                ],
+            },
+            "connector_evidence": {
+                "line": "Connector/supplied evidence: present=19/21; missing live-capable=1.",
+            },
+            "fundstrat": {
+                "line": "Fundstrat intake: 4 full-body, 1 snippet-only, 0 daily calls, 3 stored source-call candidates.",
+            },
+            "notion_writeback": {
+                "line": "Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.",
+            },
+        },
         "hero": {"hero": {"count": 0}, "needs_you": {"count": 0, "items": []}},
         "holdings": [],
         "lane_status": {
@@ -70,6 +113,34 @@ def _feed():
                 "source": "Manual",
             }
         ],
+        "fresh_signals": [
+            {"ticker": "FN", "urgency": "watch", "what": "new_top5", "why": "Fresh Fundstrat Top 5.", "when": "2026-06-05"}
+        ],
+        "signal_log": [
+            {"ticker": "NVDA", "signal": "AI leadership remains narrow", "source": "Morning Scan"}
+        ],
+        "research_actions": [
+            {
+                "rank": 1,
+                "ticker": "AVGO",
+                "kind": "research_review",
+                "action_state": "RESEARCH",
+                "action_label": "RESEARCH",
+                "capital_effect": "review",
+                "confidence": "Moderate",
+                "goal_impact": "Medium",
+                "goal_channels": ["conviction"],
+                "goal_score": 50,
+                "time_window": "1-2 weeks",
+                "what": "Research AVGO thesis",
+                "your_move": "Write the thesis before sizing.",
+                "why": "Research queue needs decision-grade rationale.",
+                "why_it_moves_goal": "Better thesis quality improves sizing.",
+                "missing_evidence": ["decision-grade thesis"],
+                "source": "research",
+                "gate": None,
+            }
+        ],
         "target_drift": {
             "rows": [
                 {"ticker": "NVDA", "direction": "UNDERSIZED", "actual_pct": 6.6, "target_pct": 12.0}
@@ -121,6 +192,22 @@ def test_generated_html_surfaces_action_cards_first():
         "why": "Target drift shows a 5.4pp sizing gap vs the AI working model.",
         "source": "target_drift",
         "gate": {"preview": "size -> gate"},
+        "goal_channels": ["sizing_gap", "conviction"],
+        "goal_score": 85,
+        "time_window": "1-3 trading days",
+        "capital_effect": "review",
+        "why_it_moves_goal": "A high-conviction target gap can make the right thesis too small.",
+        "missing_evidence": ["funding leg"],
+        "decision_group": "key_now",
+        "decision_group_label": "Key Now",
+        "freshness": "fresh: evidence 2026-06-05; decays until position, price, thesis, or target changes",
+        "freshness_judgment": {
+            "label": "fresh",
+            "evidence_date": "2026-06-05",
+            "decay_window": "until position, price, thesis, or target changes",
+            "judgment": "Fresh enough for a decision prompt.",
+        },
+        "why_this_matters": "A high-conviction target gap can make the right thesis too small.",
     }]
 
     html = generate_html(feed)
@@ -129,6 +216,9 @@ def test_generated_html_surfaces_action_cards_first():
     assert "1 ranked item; no auto-trade" in html
     assert "Conviction gap: NVDA is under target" in html
     assert "Target drift shows a 5.4pp sizing gap" in html
+    assert "Key Now" in html
+    assert "Why this matters" in html
+    assert "Fresh enough for a decision prompt." in html
     assert html.index('id="today-actions"') < html.index('id="operator-status"')
 
 
@@ -178,6 +268,24 @@ def test_generated_html_surfaces_opportunity_context():
     assert "JETS" in html
     assert "Bullish flow" in html
     assert "BMNR" in html
+
+
+def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
+    html = generate_html(_feed())
+
+    assert 'id="asymmetric-opportunities"' in html
+    assert "Asymmetric opportunities" in html
+    assert "High-conviction target gap" in html
+    assert 'id="source-audits"' in html
+    assert "Cloud scheduled proof: 2/10 routines proven" in html
+    assert "Fundstrat intake: 4 full-body" in html
+    assert "Notion/writeback audit" in html
+    assert 'id="research-actions"' in html
+    assert "Research AVGO thesis" in html
+    assert 'id="fresh-signals"' in html
+    assert "Fresh Fundstrat Top 5." in html
+    assert 'id="signal-log"' in html
+    assert "AI leadership remains narrow" in html
 
 
 def test_generated_html_is_ascii_display_safe():

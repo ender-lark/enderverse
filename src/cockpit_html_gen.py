@@ -175,6 +175,20 @@ a{color:#58a6ff;text-decoration:none}
 .action-why{font-size:11px;color:#8b949e;line-height:1.4;margin-top:6px;
   padding-top:6px;border-top:1px solid #30363d}
 .action-foot{font-size:10px;color:#484f58;font-family:monospace;margin-top:6px}
+.action-group{margin-bottom:10px}
+.action-group-title{font-size:11px;font-weight:700;color:#f0f6fc;margin:2px 0 7px;
+  display:flex;align-items:center;gap:6px}
+.action-group-title span{font-family:monospace;font-size:10px;color:#8b949e;font-weight:400}
+.action-details{margin-top:7px;border-top:1px solid #30363d;padding-top:6px}
+.action-details summary{cursor:pointer;color:#58a6ff;font-size:11px;list-style:none}
+.action-details summary::-webkit-details-marker{display:none}
+.action-detail-body{font-size:11px;color:#8b949e;line-height:1.45;margin-top:6px}
+.audit-row{font-size:12px;color:#c9d1d9;padding:5px 0;border-top:1px solid #1c2128}
+.audit-row:first-of-type{border-top:none}
+.audit-k{font-family:monospace;color:#f0f6fc;font-weight:700;margin-right:6px}
+.small-list{display:flex;flex-direction:column;gap:5px}
+.small-item{font-size:12px;color:#c9d1d9;background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:7px 8px}
+.small-muted{display:block;color:#8b949e;font-size:11px;margin-top:2px}
 
 /* ── rotation table ── */
 .rot-wrap{overflow-x:auto}
@@ -353,9 +367,11 @@ def _quick_nav(feed: dict) -> str:
 <div class="quick-nav">
   <a class="quick-link" href="#today-actions"><strong>{len(feed.get("actions") or [])}</strong> actions</a>
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
+  <a class="quick-link" href="#asymmetric-opportunities"><strong>{_e((feed.get("asymmetric_opportunities") or {}).get("count") or 0)}</strong> asymmetry</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(open_actions)}</strong> open reviews</a>
   <a class="quick-link" href="#lane-status"><strong>{_e(lane_gaps)}</strong> source gaps</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(source_label)}</strong> source calls</a>
+  <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
 </div>"""
 
 
@@ -615,43 +631,72 @@ def _gate_tag(gate: dict | None) -> str:
     return f'<span class="tag {cls}">{_e(label)}</span>'
 
 
-def _actions(actions: list) -> str:
-    if not actions:
-        return ""
-    rows = ""
-    for a in actions:
-        rank     = a.get("rank", "")
-        ticker_raw = a.get("ticker") or ""
-        if not ticker_raw:
-            ticker_raw = "EVENT" if a.get("kind") == "event_risk" else "PORTFOLIO"
-        ticker   = _e(ticker_raw)
-        what     = _e(a.get("what", ""))
-        conf     = _e(a.get("confidence", ""))
-        move     = _e(a.get("your_move", ""))
-        why      = _e(a.get("why", ""))
-        kind_raw = (a.get("kind") or "").replace("_", " ").title()
-        state    = _e(a.get("action_state") or a.get("urgency") or "")
-        label    = _e(a.get("action_label") or "")
-        capital  = _e(a.get("capital_effect") or "")
-        impact   = _e(a.get("goal_impact") or "")
-        source   = _e(a.get("source") or "")
-        freshness = _e(a.get("freshness") or "")
-        gate     = _gate_tag(a.get("gate"))
-        cls      = "action-act" if a.get("action_state") == "ACT_NOW" else "action-watch"
-        meta = ""
-        for value, css in (
-            (state, "t-cat"),
-            (label, "t-cat"),
-            (capital, "t-gate-a"),
-            (f"goal: {impact}" if impact else "", "t-conf"),
-        ):
-            if value:
-                meta += f'<span class="tag {css}">{value}</span>'
-        foot_bits = [bit for bit in (source, freshness) if bit]
-        foot = " | ".join(foot_bits)
+def _action_card(a: dict, *, prefix: str = "action") -> str:
+    rank = a.get("rank", "")
+    ticker_raw = a.get("ticker") or ""
+    if not ticker_raw:
+        ticker_raw = "EVENT" if a.get("kind") == "event_risk" else "PORTFOLIO"
+    ticker = _e(ticker_raw)
+    what = _e(a.get("what", ""))
+    conf = _e(a.get("confidence", ""))
+    move = _e(a.get("your_move", ""))
+    why = _e(a.get("why", ""))
+    kind_raw = (a.get("kind") or "").replace("_", " ").title()
+    state = _e(a.get("action_state") or a.get("urgency") or "")
+    label = _e(a.get("action_label") or "")
+    capital = _e(a.get("capital_effect") or "")
+    impact = _e(a.get("goal_impact") or "")
+    source = _e(a.get("source") or "")
+    freshness = _e(a.get("freshness") or "")
+    freshness_judgment = a.get("freshness_judgment") or {}
+    why_matters = _e(a.get("why_this_matters") or a.get("why_it_moves_goal") or "")
+    gate = _gate_tag(a.get("gate"))
+    cls = "action-act" if a.get("action_state") == "ACT_NOW" else "action-watch"
+    meta = ""
+    for value, css in (
+        (state, "t-cat"),
+        (label, "t-cat"),
+        (capital, "t-gate-a"),
+        (f"goal: {impact}" if impact else "", "t-conf"),
+        (_e(a.get("decision_group_label") or ""), "t-cat"),
+    ):
+        if value:
+            meta += f'<span class="tag {css}">{value}</span>'
+    foot_bits = [bit for bit in (source, freshness) if bit]
+    foot = " | ".join(foot_bits)
+    channels = " / ".join(str(v) for v in (a.get("goal_channels") or []) if v)
+    missing = " / ".join(str(v) for v in (a.get("missing_evidence") or []) if v)
+    detail_lines = []
+    if why_matters:
+        detail_lines.append(f"<strong>Why this matters:</strong> {why_matters}")
+    if why:
+        detail_lines.append(f"<strong>Rationale:</strong> {why}")
+    judgment = freshness_judgment.get("judgment") or ""
+    if judgment:
+        detail_lines.append(
+            f"<strong>Freshness:</strong> {_e(judgment)} "
+            f"({_e(freshness_judgment.get('evidence_date') or 'n/a')}; "
+            f"{_e(freshness_judgment.get('decay_window') or 'source dependent')})"
+        )
+    if channels or capital or a.get("goal_score") is not None:
+        score = a.get("goal_score")
+        score_txt = f" | score {score}/100" if score is not None else ""
+        detail_lines.append(
+            f"<strong>Goal/capital:</strong> {_e(channels or 'n/a')} "
+            f"| capital {_e(capital or 'n/a')}{_e(score_txt)}"
+        )
+    if missing:
+        detail_lines.append(f"<strong>Missing/re-check:</strong> {_e(missing)}")
+    details = ""
+    if detail_lines:
+        details = f"""
+  <details class="action-details">
+    <summary>Why this matters</summary>
+    <div class="action-detail-body">{'<br>'.join(detail_lines)}</div>
+  </details>"""
 
-        rows += f"""
-<div class="action {cls}" id="action-{_e(rank)}">
+    return f"""
+<div class="action {cls}" id="{_e(prefix)}-{_e(rank)}">
   <div class="action-header">
     <span class="rank-badge">#{rank}</span>
     <span class="ticker-tag">{ticker}</span>
@@ -664,15 +709,40 @@ def _actions(actions: list) -> str:
     {meta}
   </div>
   {f'<div class="action-move">{move}</div>' if move else ""}
-  {f'<div class="action-why">{why}</div>' if why else ""}
+  {details}
   {f'<div class="action-foot">{foot}</div>' if foot else ""}
 </div>"""
+
+
+def _actions(actions: list, groups: dict | None = None) -> str:
+    if not actions:
+        return ""
+    by_rank = {a.get("rank"): a for a in actions if isinstance(a, dict)}
+    sections = (groups or {}).get("sections") or []
+    group_html = ""
+    rendered: set[Any] = set()
+    for section in sections:
+        ranks = [rank for rank in (section.get("ranks") or []) if rank in by_rank]
+        if not ranks:
+            continue
+        rendered.update(ranks)
+        cards = "".join(_action_card(by_rank[rank]) for rank in ranks)
+        group_html += f"""
+<div class="action-group">
+  <div class="action-group-title">{_e(section.get("label") or section.get("key") or "Actions")}
+    <span>{_e(section.get("description") or "")}</span>
+  </div>
+  {cards}
+</div>"""
+    leftovers = [a for a in actions if a.get("rank") not in rendered]
+    if leftovers:
+        group_html += "".join(_action_card(a) for a in leftovers)
     return f"""
 <div class="card" id="today-actions">
   <div class="card-title"><span class="icon">!</span> Today&#39;s actions
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{len(actions)} ranked item{'s' if len(actions) != 1 else ''}; no auto-trade</span>
   </div>
-  {rows}
+  {group_html}
 </div>"""
 
 
@@ -899,6 +969,144 @@ def _opportunity_context(feed: dict) -> str:
 </div>"""
 
 
+def _asymmetric_opportunities(block: dict) -> str:
+    rows = block.get("rows") or []
+    if not rows:
+        return ""
+    body = ""
+    for row in rows[:8]:
+        body += f"""
+<div class="small-item">
+  <span class="context-ticker">{_e(row.get("ticker") or "")}</span>
+  <span class="tag t-conf">score {_e(row.get("score") or "")}</span>
+  <span class="tag t-cat">{_e(row.get("source") or "")}</span>
+  <span class="small-muted">{_e(row.get("reason") or "")}</span>
+  {f'<span class="small-muted">Evidence: {_e(row.get("evidence") or "")}</span>' if row.get("evidence") else ""}
+  <span class="small-muted">Decay: {_e(row.get("decay_window") or "source dependent")} | {_e(row.get("action") or "review")}</span>
+</div>"""
+    return f"""
+<div class="card" id="asymmetric-opportunities">
+  <div class="card-title"><span class="icon">+</span> Asymmetric opportunities
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{_e(block.get("dedupe_rule") or "deduped")}</span>
+  </div>
+  <div class="small-list">{body}</div>
+</div>"""
+
+
+def _research_actions(actions: list) -> str:
+    if not actions:
+        return ""
+    body = "".join(_action_card(a, prefix="research-action") for a in actions[:6])
+    return f"""
+<div class="card" id="research-actions">
+  <div class="card-title"><span class="icon">?</span> From Research
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{len(actions)} candidate review{'s' if len(actions) != 1 else ''}</span>
+  </div>
+  {body}
+</div>"""
+
+
+def _fresh_signals(signals: list) -> str:
+    if not signals:
+        return ""
+    body = ""
+    for row in signals[:8]:
+        body += f"""
+<div class="small-item">
+  <span class="context-ticker">{_e(row.get("ticker") or "")}</span>
+  <span class="tag t-cat">{_e(row.get("urgency") or "")}</span>
+  <span>{_e(row.get("what") or "")}</span>
+  <span class="small-muted">{_e(row.get("why") or row.get("detail") or "")}</span>
+  {f'<span class="small-muted">When: {_e(row.get("when") or "")}</span>' if row.get("when") else ""}
+</div>"""
+    return f"""
+<div class="card" id="fresh-signals">
+  <div class="card-title"><span class="icon">*</span> Fresh signals</div>
+  <div class="small-list">{body}</div>
+</div>"""
+
+
+def _signal_log(rows: list) -> str:
+    if not rows:
+        return ""
+    body = ""
+    for row in rows[:8]:
+        title = row.get("signal") or row.get("title") or row.get("what") or row.get("summary") or ""
+        ticker = row.get("ticker") or row.get("subject") or ""
+        body += f"""
+<div class="small-item">
+  {f'<span class="context-ticker">{_e(ticker)}</span>' if ticker else ""}
+  <span>{_e(title)}</span>
+  <span class="small-muted">{_e(row.get("source") or row.get("note") or row.get("detail") or "")}</span>
+</div>"""
+    return f"""
+<div class="card" id="signal-log">
+  <div class="card-title"><span class="icon">*</span> Signal Log
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">watch-only</span>
+  </div>
+  <div class="small-list">{body}</div>
+</div>"""
+
+
+def _portfolio_views_summary(portfolio_views: dict | None) -> str:
+    views = (portfolio_views or {}).get("views") or {}
+    if not views:
+        return ""
+    body = ""
+    for key in ("combined", "skb", "parents"):
+        view = views.get(key) or {}
+        if not view:
+            continue
+        total = view.get("total_value")
+        rows = view.get("rows") or []
+        body += f"""
+<div class="audit-row">
+  <span class="audit-k">{_e(key)}</span>
+  {_e(len(rows))} row{'s' if len(rows) != 1 else ''}{f' | total ${float(total):,.0f}' if isinstance(total, (int, float)) else ''}
+</div>"""
+    if not body:
+        return ""
+    return f"""
+<div class="card" id="portfolio-views">
+  <div class="card-title"><span class="icon">#</span> Portfolio views</div>
+  {body}
+</div>"""
+
+
+def _source_audits(audits: dict) -> str:
+    if not audits:
+        return ""
+    rows = []
+    for key, label in (
+        ("cloud_routines", "Cloud routines"),
+        ("connector_evidence", "Connector evidence"),
+        ("fundstrat", "Fundstrat intake"),
+        ("notion_writeback", "Notion/writeback"),
+    ):
+        block = audits.get(key) or {}
+        if not block:
+            continue
+        rows.append(f"""
+<div class="audit-row">
+  <span class="audit-k">{_e(label)}</span>{_e(block.get("line") or block.get("status") or "")}
+</div>""")
+    if not rows:
+        return ""
+    cloud = audits.get("cloud_routines") or {}
+    missing = cloud.get("missing_scheduled_success") or []
+    missing_html = ""
+    if missing:
+        names = ", ".join(_e(row.get("routine_name") or row.get("routine_id") or "") for row in missing[:6])
+        more = len(missing) - min(len(missing), 6)
+        missing_html = f'<div class="feedback-line">Unproven scheduled routines: {names}{f" +{more} more" if more else ""}</div>'
+    return f"""
+<div class="card" id="source-audits">
+  <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
+  {''.join(rows)}
+  {missing_html}
+</div>"""
+
+
 def _book(holdings: list) -> str:
     if not holdings:
         return ""
@@ -1091,7 +1299,13 @@ def generate_html(feed: dict) -> str:
     feedback_html = _feedback_summary(feed.get("feedback") or {})
     hb_html     = _heartbeat(feed.get("heartbeat") or [])
     hero_html   = _hero(feed.get("hero") or {})
-    actions_html = _actions(feed.get("actions") or [])
+    actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
+    asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
+    research_actions_html = _research_actions(feed.get("research_actions") or [])
+    fresh_html = _fresh_signals(feed.get("fresh_signals") or [])
+    signal_log_html = _signal_log(feed.get("signal_log") or [])
+    portfolio_views_html = _portfolio_views_summary(feed.get("portfolio_views") or {})
+    source_audits_html = _source_audits(feed.get("source_audits") or {})
     context_html = _opportunity_context(feed)
     synth_html  = _synthesis(feed.get("synthesis") or {})
     rot_html    = _rotation(feed.get("rotation") or [])
@@ -1145,12 +1359,17 @@ def generate_html(feed: dict) -> str:
     {quick_html}
     {actions_html}
     {operator_html}
+    {asymmetric_html}
+    {research_actions_html}
     {context_html}
     {lane_html}
+    {source_audits_html}
     {feedback_html}
     {hb_html}
     {hero_html}
     {synth_html}
+    {fresh_html}
+    {signal_log_html}
 
     <div class="two-col">
       {rot_html}
@@ -1162,6 +1381,7 @@ def generate_html(feed: dict) -> str:
 
     {res_html}
     {lean_html}
+    {portfolio_views_html}
   </div>
 
   <div id="tab-book" style="display:none">

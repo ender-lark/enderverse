@@ -368,8 +368,8 @@
           "key": "meridian",
           "paths": ["src/meridian_items.json"],
           "required": false,
-          "source": "Meridian export/cache",
-          "missing_behavior": "Meridian source is not checked; missing data is not a no-signal read."
+          "source": "archived Meridian thesis cache",
+          "missing_behavior": "Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap."
         },
         {
           "key": "heartbeat",

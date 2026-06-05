@@ -209,9 +209,8 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["synthesis"]["status"] == "not_checked"
     assert rows["account_positions"]["status"] == "not_checked"
     assert rows["account_positions"]["detail"] == "missing live source input"
-    assert rows["meridian"]["status"] == "not_checked"
-    assert rows["meridian"]["detail"] == "missing live source input"
-    assert feed["lane_status"]["counts"]["not_checked"] >= 8
+    assert "meridian" not in rows
+    assert feed["lane_status"]["counts"]["not_checked"] >= 7
 
 
 def test_missing_source_gap_rows_do_not_duplicate_existing_lanes(tmp_path):
@@ -229,7 +228,7 @@ def test_missing_source_gap_rows_do_not_duplicate_existing_lanes(tmp_path):
     assert keys.count("signal_log") == 1
     assert keys.count("catalysts") == 1
     assert keys.count("account_positions") == 1
-    assert keys.count("meridian") == 1
+    assert keys.count("meridian") == 0
 
 
 def test_full_build_runner_snippet_only_fundstrat_daily_stays_not_checked(tmp_path):
@@ -400,3 +399,23 @@ def test_full_build_runner_adds_portfolio_views_when_account_positions_exist(tmp
         for r in feed["portfolio_views"]["views"]["combined"]["effective_exposure"]["overlap_rows"]
     }
     assert overlap["NVDA"]["lookthrough_market_value"] == 1600
+
+
+def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    assert "action_decision_groups" in feed
+    assert "key_now" in feed["action_decision_groups"]["counts"]
+    assert "asymmetric_opportunities" in feed
+    assert feed["asymmetric_opportunities"]["dedupe_rule"]
+    assert "source_audits" in feed
+    assert "fundstrat" in feed["source_audits"]
+    assert "cloud_routines" in feed["source_audits"]

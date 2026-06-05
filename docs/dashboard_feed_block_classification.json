@@ -41,6 +41,11 @@
       "canonical_surface": "Today's Actions",
       "summary_surface": "Today's actions when non-empty; summary/export caveat when empty or dark lanes exist"
     },
+    "action_decision_groups": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Today's Actions grouped into Key Now, Important Backlog, Re-check Before Acting, and Quiet Watch",
+      "summary_surface": "Grouped action sections with expandable rationale drawers"
+    },
     "fresh_signals": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Fresh signal cards and action context",
@@ -121,6 +126,11 @@
       "canonical_surface": "Top Prospects lane and action-promotion source",
       "summary_surface": "Opportunity Context summary, capped top rows"
     },
+    "asymmetric_opportunities": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Asymmetric Opportunities lane in the Action view",
+      "summary_surface": "Asymmetric Opportunities card, one deduped row per ticker"
+    },
     "feedback": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Feedback loops panel",
@@ -135,6 +145,11 @@
       "primary_status": "canonical-rendered",
       "canonical_surface": "Book tab account views and effective ETF look-through estimates when account_positions.json exists",
       "summary_surface": "Not rendered"
+    },
+    "source_audits": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Source Proof panel with cloud routine, connector, Fundstrat, and Notion/writeback evidence",
+      "summary_surface": "Source proof and audits card"
     }
   }
 }

@@ -775,6 +775,9 @@ function actionRow(a, opts={}){
            actionLabel:a.action_label||"", goalWhy:a.why_it_moves_goal||"",
            goalChannels:a.goal_channels||[], missingEvidence:a.missing_evidence||[],
            yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"",
+           decisionGroup:a.decision_group||"", decisionGroupLabel:a.decision_group_label||"",
+           freshness:a.freshness||"", freshnessJudgment:a.freshness_judgment||{},
+           whyThisMatters:a.why_this_matters||"",
            ageDays:(typeof a.age_days==="number"?a.age_days:null), flagged:a.first_flagged||"",
            moveSince:a.move_since||"", sizing:a.sizing||"" };
 }
@@ -861,6 +864,9 @@ function actionVM(feed){
     macro: macroView(feed.macro||{}),
     rotation: (feed.rotation||[]).map(rotationRow),
     actions,
+    actionGroups: feed.action_decision_groups||{},
+    asymmetricOpportunities: feed.asymmetric_opportunities||{},
+    sourceAudits: feed.source_audits||{},
     actionSplit: {
       actNow: actions.filter(a=>a.actionState==="ACT_NOW"),
       opportunities: actions.filter(a=>a.actionState!=="ACT_NOW" && isOpp(a)),
@@ -964,7 +970,9 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
           {a.stateLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:urgent?800:600, color:a.stateColor, border:`1px solid ${a.stateColor}${urgent?"bb":"66"}`, borderRadius:99, padding:"1px 8px", background:`${a.stateColor}${urgent?"22":"12"}` }}>{a.stateLabel}</span>}
           {a.goalLabel && <span title={a.goalScore!=null?`goal score ${a.goalScore}/100`:""} style={{ fontFamily:mono, fontSize:11, color:a.goalColor, border:`1px solid ${a.goalColor}66`, borderRadius:99, padding:"1px 8px", background:`${a.goalColor}10` }}>{a.goalLabel}</span>}
           {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:urgent?C.text:C.dim, border:`1px solid ${(urgent?a.stateColor:C.line)}${urgent?"aa":""}`, borderRadius:99, padding:"1px 8px", background:urgent?`${a.stateColor}20`:C.panel2 }}>{a.actionLabel}</span>}
+          {a.decisionGroupLabel && <span style={{ fontFamily:mono, fontSize:11, color:C.text, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.decisionGroupLabel}</span>}
           {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
+          {a.freshnessJudgment && a.freshnessJudgment.label && <span title={a.freshnessJudgment.judgment||""} style={{ fontFamily:mono, fontSize:11, color:a.freshnessJudgment.label==="stale"?C.red:a.freshnessJudgment.label==="fast-moving"?C.amber:C.faint }}>{a.freshnessJudgment.label}</span>}
           <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
           <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
           {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
@@ -981,7 +989,9 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
       </div>
       {isO && a.why && (
         <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
+          {a.whyThisMatters && <div style={{ marginBottom:6, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Why this matters:</span> {a.whyThisMatters}</div>}
           {a.why}
+          {a.freshnessJudgment && a.freshnessJudgment.judgment && <div style={{ marginTop:6, fontFamily:mono, fontSize:10, color:C.faint }}>freshness: {a.freshnessJudgment.judgment} | evidence {a.freshnessJudgment.evidence_date||"n/a"} | decays {a.freshnessJudgment.decay_window||"source dependent"}</div>}
           {(a.goalChannels.length>0 || a.capitalEffect) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}</div>}
           {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
           <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{stamp} · {footerLabel} · drill in chat to run the gate</div>
@@ -1144,20 +1154,53 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             ACT_NOW {VM.actionSplit.actNow.length} · OPPORTUNITIES {VM.actionSplit.opportunities.length} · RISKS {VM.actionSplit.risks.length}
           </div>
           {VM.actions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing to act on right now — no live buy-trigger, alert, or flag.</div>}
-          {VM.actions.slice(0,5).map((a)=>(
-            <ActionCard
-              key={"act"+a.rank+(a.ticker||a.kind)}
-              a={a}
-              keyPrefix="act"
-              posOpen={posOpen}
-              setPosOpen={setPosOpen}
-              stamp={VM.stamp}
-              footerLabel="not a trade — you decide, you size"
-              showAging={true}
-              showSizing={true}
-            />
+          {(() => {
+            const sections = ((VM.actionGroups||{}).sections||[]).filter(s=>(s.ranks||[]).length);
+            const byRank = Object.fromEntries(VM.actions.map(a=>[a.rank,a]));
+            const fallback = [{ key:"all", label:"All decisions", description:"Ranked by the engine", ranks:VM.actions.map(a=>a.rank) }];
+            return (sections.length?sections:fallback).map((section)=> {
+              const rows = (section.ranks||[]).map(r=>byRank[r]).filter(Boolean);
+              if(!rows.length) return null;
+              return (
+                <div key={section.key||section.label} style={{ marginBottom:10 }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap", marginBottom:5 }}>
+                    <span style={{ fontSize:12.5, fontWeight:750, color:C.text }}>{section.label||section.key}</span>
+                    <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{section.description||""}</span>
+                  </div>
+                  {rows.map((a)=>(
+                    <ActionCard
+                      key={"act"+a.rank+(a.ticker||a.kind)}
+                      a={a}
+                      keyPrefix="act"
+                      posOpen={posOpen}
+                      setPosOpen={setPosOpen}
+                      stamp={VM.stamp}
+                      footerLabel="not a trade — you decide, you size"
+                      showAging={true}
+                      showSizing={true}
+                    />
+                  ))}
+                </div>
+              );
+            });
+          })()}
+        </Section>
+
+        <Section id="asymmetric-opportunities" title="Asymmetric Opportunities" icon="+" badge={(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count)?`${VM.asymmetricOpportunities.count}`:"0"} badgeColor={(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count)?C.green:C.faint} openMap={open} setOpen={setOpen} defaultOpen={!!(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count)}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>DEDUPED ACROSS ACTIONS / TARGET DRIFT / PROSPECTS / RADAR / UW FLOW. Review prompts only; no auto-trade.</div>
+          {!(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count) && <div style={{ ...card, fontSize:12, color:C.faint }}>No asymmetric opportunity row cleared the evidence filter in this feed build.</div>}
+          {((VM.asymmetricOpportunities&&VM.asymmetricOpportunities.rows)||[]).map((r,i)=>(
+            <div key={`${r.ticker}${i}`} style={{ ...card, marginBottom:7, borderColor:C.green+"33" }}>
+              <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
+                <span style={{ fontFamily:mono, fontSize:11, color:C.green, border:`1px solid ${C.green}55`, borderRadius:99, padding:"1px 8px" }}>score {r.score}</span>
+                <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.source}</span>
+              </div>
+              <div style={{ marginTop:6, fontSize:12.5, color:C.text }}>{r.reason}</div>
+              {r.evidence && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Evidence: {r.evidence}</div>}
+              <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>decays {r.decay_window||"source dependent"} | {r.action||"review"}</div>
+            </div>
           ))}
-          {VM.actions.length>5 && <div style={{ fontSize:11.5, color:C.faint, fontFamily:mono, marginTop:2 }}>+{VM.actions.length-5} more lower-priority action{VM.actions.length-5>1?"s":""} (not shown)</div>}
         </Section>
 
         {/* TOP PROSPECTS — the conviction-stack watchlist (item 5): FS-sourced
@@ -1373,6 +1416,30 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* RADAR — endorsed names not owned yet (engine ⑨ radar block) */}
+        <Section id="source-audits" title="Source Proof" icon="!" badge={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.expected_count?`${c.scheduled_success_count||0}/${c.expected_count}`:"audit"; })()} badgeColor={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.expected_count && (c.scheduled_success_count||0) >= c.expected_count ? C.green : C.amber; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {(() => {
+            const A=VM.sourceAudits||{};
+            const rows=[
+              ["Cloud routines", (A.cloud_routines||{}).line],
+              ["Connector evidence", (A.connector_evidence||{}).line],
+              ["Fundstrat intake", (A.fundstrat||{}).line],
+              ["Notion/writeback", (A.notion_writeback||{}).line],
+            ].filter(r=>r[1]);
+            if(!rows.length) return <div style={{ ...card, fontSize:12, color:C.faint }}>No source-audit block in this feed build.</div>;
+            return (
+              <div>
+                {rows.map(([label,line])=>(
+                  <div key={label} style={{ ...card, marginBottom:7 }}>
+                    <div style={{ fontFamily:mono, fontSize:10.5, color:C.faint, textTransform:"uppercase", marginBottom:3 }}>{label}</div>
+                    <div style={{ fontSize:12.5, color:C.text }}>{line}</div>
+                  </div>
+                ))}
+                {(((A.cloud_routines||{}).missing_scheduled_success)||[]).length>0 && <div style={{ fontSize:11.5, color:C.dim }}>Unproven scheduled routines: {((A.cloud_routines||{}).missing_scheduled_success||[]).slice(0,6).map(r=>r.routine_name||r.routine_id).join(", ")}</div>}
+              </div>
+            );
+          })()}
+        </Section>
+
         <Section id="feedback" title="Feedback loops" icon="🔁" badge={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, sp=sc.persistence||{}, oa=f.open_actions||{}; const n=(sc.overdue_count||0)+(sp.loud_count||0)+(sp.provisional_count||0)+(oa.count||0); return n?`${n}`:"0"; })()} badgeColor={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, sp=sc.persistence||{}, oa=f.open_actions||{}; return (sp.loud_count||0)?C.red:((sc.overdue_count||0)+(sp.provisional_count||0)+(oa.count||0))?C.amber:C.faint; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const f=VM.feedback||{}, sc=f.source_calls||{}, cal=sc.calibration||{}, sp=sc.persistence||{}, oa=f.open_actions||{}, recs=f.recommendations||[];

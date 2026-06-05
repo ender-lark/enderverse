@@ -35,6 +35,8 @@ from sources import SourceRegistry
 from uw_macro import build_uw_macro_source
 from uw_price import build_uw_price_source
 from validators import validate_cockpit_feed
+from decision_support import enrich_actions, build_asymmetric_opportunities
+import cloud_routine_receipts
 
 
 class FullBuildError(RuntimeError):
@@ -137,6 +139,13 @@ def _append_missing_source_gap_rows(feed: dict, input_rows: list[dict]) -> None:
         if not key or key in existing:
             continue
         if input_row.get("status") != "missing_optional":
+            continue
+        source_text = (
+            str(input_row.get("source") or "")
+            + " "
+            + str(input_row.get("missing_behavior") or "")
+        ).lower()
+        if "archived" in source_text or "archive" in source_text:
             continue
         if not input_row.get("missing_behavior"):
             continue
@@ -278,6 +287,177 @@ def _fundstrat_daily_checked(src_dir: Path, calls: Any) -> bool:
     if not isinstance(summary, dict):
         return False
     return int(summary.get("full_body_entries") or 0) > 0
+
+
+def _build_fundstrat_audit(src_dir: Path) -> dict[str, Any]:
+    summary = _read_json(src_dir / "fundstrat_intake_summary.json", default={})
+    if not isinstance(summary, dict) or not summary:
+        return {
+            "status": "not_checked",
+            "line": "Fundstrat intake summary is not present.",
+            "rows": [],
+        }
+    entries = int(summary.get("entries") or 0)
+    full_body = int(summary.get("full_body_entries") or 0)
+    snippets = int(summary.get("snippet_only_entries") or 0)
+    daily_calls = int(summary.get("daily_calls") or 0)
+    candidates = int(summary.get("source_call_candidates") or 0)
+    stored_candidates = int(summary.get("stored_source_call_candidates") or 0)
+    line = (
+        f"Fundstrat intake: {full_body} full-body, {snippets} snippet-only, "
+        f"{daily_calls} daily calls, {stored_candidates} stored source-call candidates."
+    )
+    return {
+        "status": "has_data" if entries or full_body or snippets else "checked_clear",
+        "line": line,
+        "entries": entries,
+        "full_body_entries": full_body,
+        "snippet_only_entries": snippets,
+        "daily_calls": daily_calls,
+        "source_call_candidates": candidates,
+        "stored_entries": int(summary.get("stored_entries") or 0),
+        "stored_daily_calls": int(summary.get("stored_daily_calls") or 0),
+        "stored_source_call_candidates": stored_candidates,
+        "bodies_redacted": bool(summary.get("bodies_redacted")),
+        "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear.",
+    }
+
+
+def _build_cloud_routine_audit(src_dir: Path) -> dict[str, Any]:
+    proof = _read_json(src_dir / "cloud_automation_status.json", default={})
+    expected = proof.get("routines") if isinstance(proof, dict) else []
+    expected = [row for row in expected or [] if isinstance(row, dict)]
+    receipts = cloud_routine_receipts.load_receipts(src_dir / "cloud_routine_receipts.json")
+    summary = cloud_routine_receipts.summarize_receipts(
+        receipts,
+        expected_automations=expected,
+    )
+    expected_count = int(summary.get("expected_count") or 0)
+    scheduled = int(summary.get("scheduled_success_count") or 0)
+    failed = int(summary.get("failed_latest_count") or 0)
+    missing_rows = [
+        {
+            "routine_id": row.get("routine_id") or "",
+            "routine_name": row.get("routine_name") or row.get("routine_id") or "",
+            "schedule": row.get("schedule") or "",
+            "last_status": row.get("last_status") or "",
+        }
+        for row in (summary.get("missing_scheduled_success") or [])
+        if isinstance(row, dict)
+    ]
+    status = (
+        "live_run_proven"
+        if expected_count and scheduled >= expected_count and not failed
+        else "partial_live_run_proven"
+        if scheduled and not failed
+        else "not_proven"
+    )
+    return {
+        "status": status,
+        "line": f"Cloud scheduled proof: {scheduled}/{expected_count} routines proven; failed latest={failed}.",
+        "scheduled_success_count": scheduled,
+        "expected_count": expected_count,
+        "failed_latest_count": failed,
+        "missing_scheduled_success_count": int(summary.get("missing_scheduled_success_count") or 0),
+        "missing_scheduled_success": missing_rows,
+        "rows": summary.get("rows") or [],
+    }
+
+
+def _summary_row(src_dir: Path, filename: str, label: str) -> dict[str, Any]:
+    payload = _read_json(src_dir / filename, default={})
+    if not isinstance(payload, dict) or not payload:
+        return {
+            "key": filename,
+            "label": label,
+            "status": "not_checked",
+            "line": f"{label} summary missing.",
+        }
+    written = bool(payload.get("written"))
+    problems = payload.get("problems") or []
+    count = (
+        payload.get("rows")
+        or payload.get("action_count")
+        or payload.get("hanging_count")
+        or payload.get("stored")
+        or 0
+    )
+    status = "failed" if problems else "has_data" if written or count else "checked_clear"
+    return {
+        "key": filename,
+        "label": label,
+        "status": status,
+        "written": written,
+        "count": count,
+        "line": f"{label}: {'written' if written else 'checked'}; count={count}.",
+        "problems": problems,
+    }
+
+
+def _build_notion_writeback_audit(src_dir: Path) -> dict[str, Any]:
+    rows = [
+        _summary_row(src_dir, "signal_log_intake_summary.json", "Signal Log cache"),
+        _summary_row(src_dir, "daily_synthesis_intake_summary.json", "Daily Synthesis cache"),
+        _summary_row(src_dir, "catalyst_intake_summary.json", "Catalyst Calendar cache"),
+    ]
+    failed = [row for row in rows if row.get("status") == "failed"]
+    written = [row for row in rows if row.get("written")]
+    return {
+        "status": "failed" if failed else "has_data" if written else "not_checked",
+        "line": (
+            f"Notion/writeback audit: {len(written)} repo cache write(s) proven; "
+            "connector writes must be verified by routine receipts when used."
+        ),
+        "connector_write_proven": False,
+        "repo_cache_writes": len(written),
+        "rows": rows,
+        "honesty_rule": "A repo cache write is not the same as a verified Notion connector write.",
+    }
+
+
+def _build_connector_evidence(src_dir: Path, live_source_capability_module: Any) -> dict[str, Any]:
+    report = live_source_capability_module.capability_report(src_dir)
+    rows = [
+        {
+            "key": row.get("key") or "",
+            "status": row.get("status") or "",
+            "present": bool(row.get("present")),
+            "primary_mode": row.get("primary_mode") or "",
+            "modes": row.get("modes") or [],
+            "source": row.get("source") or "",
+            "missing_behavior": row.get("missing_behavior") or "",
+        }
+        for row in report.get("rows") or []
+        if isinstance(row, dict)
+    ]
+    config = report.get("live_source_config") or {}
+    return {
+        "status": "has_data",
+        "line": (
+            f"Connector/supplied evidence: present={report.get('present_inputs')}/"
+            f"{report.get('total_inputs')}; missing live-capable={report.get('missing_live_capable_count')}."
+        ),
+        "present_inputs": report.get("present_inputs") or 0,
+        "total_inputs": report.get("total_inputs") or 0,
+        "missing_live_capable_count": report.get("missing_live_capable_count") or 0,
+        "missing_live_capable_keys": report.get("missing_live_capable_keys") or [],
+        "live_source_config": {
+            "configured_count": config.get("configured_count") or 0,
+            "total_count": config.get("total_count") or 0,
+            "stale_count": config.get("stale_count") or 0,
+            "missing_count": config.get("missing_count") or 0,
+        },
+        "rows": rows,
+    }
+
+
+def _build_source_audits(src_dir: Path, live_source_capability_module: Any) -> dict[str, Any]:
+    return {
+        "fundstrat": _build_fundstrat_audit(src_dir),
+        "cloud_routines": _build_cloud_routine_audit(src_dir),
+        "notion_writeback": _build_notion_writeback_audit(src_dir),
+        "connector_evidence": _build_connector_evidence(src_dir, live_source_capability_module),
+    }
 
 
 def _num(value: Any) -> float | None:
@@ -472,6 +652,14 @@ def build_full_feed_from_files(
         log_call_dates=log_call_dates,
         target_drift=target_drift,
     )
+    feed["actions"], feed["action_decision_groups"] = enrich_actions(
+        feed.get("actions") or [],
+        staleness=feed.get("staleness") or {},
+        synthesis=feed.get("synthesis") or {},
+        event_risk=feed.get("event_risk") or [],
+        generated_at=feed.get("generated_at") or now,
+    )
+    feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
     portfolio_views = build_portfolio_views(account_positions)
     if portfolio_views:
         feed["portfolio_views"] = portfolio_views
@@ -479,6 +667,7 @@ def build_full_feed_from_files(
     import live_source_capability
 
     feed["live_source_config"] = live_source_capability.live_config_report()
+    feed["source_audits"] = _build_source_audits(src, live_source_capability)
     problems = validate_cockpit_feed(feed)
     if problems:
         raise FullBuildError(f"feed failed Contract-C validation: {problems}")

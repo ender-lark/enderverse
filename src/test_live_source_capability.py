@@ -24,6 +24,8 @@ def test_capability_report_classifies_connector_and_supplied_lanes(tmp_path):
     assert "signal_log" in report["connector_or_api_keys"]
     assert "positions" in report["supplied_or_export_keys"]
     assert "event_risk" in report["supplied_or_export_keys"]
+    assert "meridian" not in report["supplied_or_export_keys"]
+    assert "meridian" not in report["missing_live_capable_keys"]
     assert "theses" not in report["connector_or_api_keys"]
     assert "theses" not in report["supplied_or_export_keys"]
     assert "theses" in report["missing_input_keys"]
