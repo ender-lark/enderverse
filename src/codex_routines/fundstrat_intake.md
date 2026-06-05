@@ -91,6 +91,17 @@ Accepted monthly file types:
    python src/source_call_cache_merge.py --candidates src/source_call_candidates.json --source-calls src/source_calls.json --log-dates src/log_call_dates.json
    ```
 
+   If compact daily-call observations are already visible in the latest feed
+   but source-call calibration is still not checked, draft reviewable pending
+   candidates from those observations and merge them into the cache:
+
+   ```bash
+   python src/source_call_candidate_draft.py --feed src/latest_cockpit_feed.json --out src/source_call_candidates.json --merge-existing --merge-cache
+   ```
+
+   This only pre-registers pending calls from existing compact observations. It
+   does not score Win/Loss/Push outcomes.
+
 6. When the monthly Fundstrat update is directly uploaded, parse only useful
    labeled sections into `fundstrat_bible.json`:
 

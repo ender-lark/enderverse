@@ -80,6 +80,16 @@ Start from `docs\manual_drop.template.json`, and check before writing with:
 python src\manual_source_drop.py docs\manual_drop.template.json --src-dir src --validate-only
 ```
 
+To pre-register pending source calls from compact daily observations already
+visible in the latest feed:
+
+```powershell
+python src\source_call_candidate_draft.py --feed src\latest_cockpit_feed.json --out src\source_call_candidates.json --merge-existing --merge-cache
+```
+
+This does not score outcomes; it only moves observed calls into the pending
+calibration cache.
+
 ## Resolving Open Review Items
 
 List unresolved action-memory items:
@@ -131,6 +141,7 @@ python src\verify_standard.py --include-js
 - `src\event_risk_intake.py`: supplied daily/weekly or one-line sudden-event risk intake.
 - `src\sudden_event_refresh.py`: one-command supplied sudden-event intake plus dashboard refresh.
 - `src\manual_source_drop.py`: one-file manual drop router for event risk, signal log, and catalysts.
+- `src\source_call_candidate_draft.py`: draft pending source-call candidates from feed observations.
 - `src\dashboard_preview_server.py`: check/start the local dashboard preview server.
 - `src\action_memory_resolve.py`: list or resolve open action-memory items.
 - `src\live_readiness.py`: non-publishing go/no-go report.

@@ -67,12 +67,12 @@ def _source_call_row_status(source_calls: dict[str, Any]) -> str:
     state = str(source_calls.get("status") or "not_checked")
     observed = int(source_calls.get("observed_count") or 0)
     overdue = int(source_calls.get("overdue_count") or 0)
-    pending = int(source_calls.get("pending_count") or 0)
+    calibration = source_calls.get("calibration") or {}
     if overdue:
         return "fail"
     if state == "not_checked" and observed:
         return "warn"
-    if pending:
+    if (calibration.get("status") or "") == "stale":
         return "warn"
     return "pass"
 

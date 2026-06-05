@@ -801,17 +801,20 @@ function operatorStatus(feed){
   const sourceCalls = feedback.source_calls||{};
   const sourceCallStatus = sourceCalls.status||"not_checked";
   const sourceCallObserved = sourceCalls.observed_count||0;
+  const sourceCallPending = sourceCalls.pending_count||0;
+  const sourceCallOverdue = sourceCalls.overdue_count||0;
   const sourceCallWarn = sourceCallStatus==="not_checked" && sourceCallObserved>0;
+  const sourceCallFail = sourceCallOverdue>0;
   const actions = (feed.actions||[]).length;
   const dark = counts.not_checked||0;
   const stale = counts.stale||0;
   const failed = counts.failed||0;
-  const status = failed ? "FAIL" : ((dark||stale||openActions||sourceCallWarn) ? "WARN" : "PASS");
-  const statusColor = failed ? C.red : (status==="WARN" ? C.amber : C.green);
+  const status = (failed||sourceCallFail) ? "FAIL" : ((dark||stale||openActions||sourceCallWarn) ? "WARN" : "PASS");
+  const statusColor = (failed||sourceCallFail) ? C.red : (status==="WARN" ? C.amber : C.green);
   const sourceLane = failed ? `${failed} failed` : dark ? `${dark} dark` : stale ? `${stale} stale` : "clear";
-  const sourceCall = sourceCallWarn ? `${sourceCallObserved} unscored` : "clear";
+  const sourceCall = sourceCallFail ? `${sourceCallOverdue} overdue` : sourceCallWarn ? `${sourceCallObserved} unscored` : sourceCallPending ? `${sourceCallPending} pending` : "clear";
   return {
-    status, statusColor, actions, openActions, sourceLane, sourceCall, sourceCallWarn,
+    status, statusColor, actions, openActions, sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
     command:"python src/go_live_checklist.py --format text",
   };
 }
@@ -1081,7 +1084,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             ["Today actions", String(op.actions), op.actions?C.amber:C.dim],
             ["Open reviews", String(op.openActions), op.openActions?C.amber:C.green],
             ["Source lanes", op.sourceLane, op.sourceLane==="clear"?C.green:C.amber],
-            ["Source calls", op.sourceCall, op.sourceCallWarn?C.amber:C.green],
+            ["Source calls", op.sourceCall, op.sourceCallFail?C.red:op.sourceCallWarn?C.amber:C.green],
           ];
           return (
             <div style={{ marginTop:10, ...card, borderColor:op.statusColor+"55", background:op.statusColor+"0d" }}>

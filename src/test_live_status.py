@@ -64,6 +64,7 @@ def test_build_status_summary_reports_live_with_open_reviews():
                     "status": "not_checked",
                     "line": "Source-call calibration not checked; 3 unscored daily call(s) are flowing.",
                     "observed_count": 3,
+                    "pending_count": 0,
                 }
             },
         },
@@ -135,6 +136,7 @@ def test_format_text_is_operator_scannable():
                     "status": "not_checked",
                     "line": "Source-call calibration not checked; 3 unscored daily call(s) are flowing.",
                     "observed_count": 3,
+                    "pending_count": 0,
                 }
             },
         },
@@ -146,7 +148,7 @@ def test_format_text_is_operator_scannable():
     assert "Ready: True" in text
     assert "Data flow: feed=2026-06-05T10:03:31+00:00" in text
     assert "top_action=event_risk: Review oil shock" in text
-    assert "Source calls: not_checked | observed=3 | overdue=0" in text
+    assert "Source calls: not_checked | observed=3 | pending=0 | overdue=0" in text
     assert "Open review tickers: ANET" in text
     assert "Open review commands:" in text
     assert "python src/action_memory_resolve.py --review-report" in text

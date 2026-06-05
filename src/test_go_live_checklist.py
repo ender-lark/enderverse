@@ -100,6 +100,28 @@ def test_build_go_live_checklist_fails_when_readiness_blocked(monkeypatch, tmp_p
     assert report["fail_count"] >= 1
 
 
+def test_build_go_live_checklist_passes_tracked_pending_source_calls(monkeypatch, tmp_path):
+    status = _fake_status()
+    status["source_calls"] = {
+        "status": "has_data",
+        "line": "SCORING LAG: clean - no calls past window-end awaiting a score.",
+        "observed_count": 0,
+        "pending_count": 3,
+        "overdue_count": 0,
+        "calibration": {"status": "checked_fresh"},
+    }
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: status)
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {"open_count": 0, "oldest_age_days": 0},
+    )
+
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+
+    assert any(row["key"] == "source_calls" and row["status"] == "pass" for row in report["rows"])
+
+
 def test_build_go_live_checklist_validates_manual_drop(monkeypatch, tmp_path):
     drop = tmp_path / "manual_drop.json"
     drop.write_text(json.dumps({

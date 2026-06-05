@@ -15,6 +15,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Source-call candidate draft helper.
+  - Added `python src/source_call_candidate_draft.py` to draft pending
+    source-call candidates from compact daily-call observations already present
+    in the latest cockpit feed.
+  - The helper can merge those candidates into `source_calls.json` and
+    `log_call_dates.json` without scoring outcomes.
+  - Pending source-call rows are now shown as tracked/pending, not as a warning
+    unless calibration is stale or a scoring window is overdue.
 - Dashboard Operator Status source-call parity.
   - Added a Source calls pill to the generated HTML preview and canonical JSX
     Operator Status card.

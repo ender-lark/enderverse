@@ -103,6 +103,7 @@ def _source_call_summary(feed: dict[str, Any] | None) -> dict[str, Any]:
         "pending_count": int(source_calls.get("pending_count") or 0),
         "overdue_count": int(source_calls.get("overdue_count") or 0),
         "oldest_overdue_days": int(source_calls.get("oldest_overdue_days") or 0),
+        "calibration": source_calls.get("calibration") or {},
     }
 
 
@@ -220,6 +221,7 @@ def format_text(status: dict[str, Any]) -> str:
         (
             f"Source calls: {source_calls.get('status') or 'not_checked'} | "
             f"observed={int(source_calls.get('observed_count') or 0)} | "
+            f"pending={int(source_calls.get('pending_count') or 0)} | "
             f"overdue={int(source_calls.get('overdue_count') or 0)}"
         ),
         f"Preview: {preview_url} ({preview_state})",

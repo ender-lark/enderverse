@@ -162,6 +162,11 @@ Important recent state:
   `tmp/dashboard_preview.html`, writes `tmp/dashboard_parity_feed.json`, and
   prints a final operator summary with actions, data lanes, dark lanes,
   source-call status, `go_live_ready`, and local preview-server status.
+- Source-call calibration is now populated from compact daily observations:
+  `python src/source_call_candidate_draft.py --feed src/latest_cockpit_feed.json --out src/source_call_candidates.json --merge-existing --merge-cache`.
+  It pre-registers pending source-call rows only; it does not score outcomes.
+  Current pending rows are `XOP`, `TNX`, and `RYF`, all sourced from
+  Fundstrat daily observations.
 - The local preview helper is:
   `python src/dashboard_preview_server.py --check` to inspect status, or
   `python src/dashboard_preview_server.py` to serve `tmp/dashboard_preview.html`

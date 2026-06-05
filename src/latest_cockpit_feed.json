@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T10:41:44.087834+00:00",
+  "generated_at": "2026-06-05T10:49:51.400991+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T10:41:44.087834+00:00",
+        "date": "2026-06-05T10:49:51.400991+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T10:41:44.087834+00:00",
+        "date": "2026-06-05T10:49:51.400991+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -158,11 +158,11 @@
       }
     ],
     "counts": {
-      "has_data": 11,
       "checked_clear": 0,
-      "not_checked": 2,
+      "failed": 0,
       "stale": 0,
-      "failed": 0
+      "has_data": 11,
+      "not_checked": 2
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -870,31 +870,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T10:41:44.011877+00:00",
+      "last_run": "2026-06-05T10:49:51.316636+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T10:41:44.011877+00:00",
+      "last_run": "2026-06-05T10:49:51.316636+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T10:41:44.011877+00:00",
+      "last_run": "2026-06-05T10:49:51.316636+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T10:41:44.011877+00:00",
+      "last_run": "2026-06-05T10:49:51.316636+00:00",
       "note": "dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T10:41:44.011877+00:00",
+      "last_run": "2026-06-05T10:49:51.316636+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1618,40 +1618,39 @@
   },
   "feedback": {
     "source_calls": {
-      "status": "not_checked",
-      "line": "Source-call calibration not checked; 3 unscored daily call(s) are flowing through 2026-06-03.",
-      "pending_count": 0,
+      "status": "has_data",
+      "line": "SCORING LAG: clean \u2014 no calls past window-end awaiting a score.",
+      "pending_count": 3,
       "overdue_count": 0,
       "oldest_overdue_days": 0,
-      "rates": [],
-      "due": [],
-      "observed_count": 3,
-      "observations": [
+      "rates": [
         {
-          "source": "Fundstrat Gmail full-body read",
-          "author": "Newton",
-          "ticker": "XOP",
-          "direction": "avoid",
-          "date": "2026-06-03",
-          "quote": "Bounce only; resistance near 175.72 should repel price toward 162."
-        },
-        {
-          "source": "Fundstrat Gmail full-body read",
-          "author": "Newton",
-          "ticker": "TNX",
-          "direction": "watch",
-          "date": "2026-06-03",
-          "quote": "Corrective bounce toward 4.554-4.586% should precede a turn lower if the ceasefire path holds."
-        },
-        {
-          "source": "Fundstrat Gmail full-body read",
-          "author": "Newton",
-          "ticker": "RYF",
-          "direction": "avoid",
-          "date": "2026-06-03",
-          "quote": "Break below 74.40 keeps the path of least resistance lower toward 71."
+          "source": "newton",
+          "n": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "hit_rate": null,
+          "tier_band": "NO_DATA",
+          "discount_factor": 1.0
         }
-      ]
+      ],
+      "due": [],
+      "calibration": {
+        "status": "checked_fresh",
+        "line": "Calibration chain checked fresh.",
+        "worst_days_behind": 0,
+        "cache_as_of": "2026-06-03"
+      },
+      "persistence": {
+        "status": "checked_clear",
+        "line": "Source persistence checked: no repeated-call clusters.",
+        "cluster_count": 0,
+        "loud_count": 0,
+        "provisional_count": 0,
+        "guarded": false,
+        "clusters": []
+      }
     },
     "open_actions": {
       "status": "has_data",
@@ -1679,7 +1678,6 @@
       "recent_history": []
     },
     "recommendations": [
-      "Classify daily source calls into the calibration cache before using persistence.",
       "Resolve oldest open action: act, invalidate, or keep watching explicitly."
     ]
   },

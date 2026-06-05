@@ -100,6 +100,7 @@ def test_generated_html_surfaces_operator_status_card():
     assert "Open reviews" in html
     assert "Source lanes" in html
     assert "Source calls" in html
+    assert "1 overdue" in html
     assert "python src/go_live_checklist.py --format text" in html
 
 
