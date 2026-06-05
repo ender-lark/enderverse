@@ -1,14 +1,18 @@
 {
-  "entries": 3,
-  "full_body_entries": 2,
-  "snippet_only_entries": 0,
-  "mentions": 3,
-  "daily_calls": 3,
-  "source_call_candidates": 0,
-  "merged": true,
-  "bodies_redacted": true,
-  "compact_full_body_derived": true,
-  "stored_entries": 3,
-  "stored_daily_calls": 3,
-  "stored_source_call_candidates": 0
+    "entries":  5,
+    "full_body_entries":  4,
+    "snippet_only_entries":  1,
+    "mentions":  3,
+    "daily_calls":  0,
+    "source_call_candidates":  0,
+    "merged":  true,
+    "bodies_redacted":  true,
+    "stored_entries":  15,
+    "stored_daily_calls":  3,
+    "stored_source_call_candidates":  3,
+    "top_prospects":  {
+                          "updated":  false,
+                          "picks":  0,
+                          "path":  "src\\\\top_prospects.json"
+                      }
 }
