@@ -186,7 +186,8 @@ Dashboard canonicalization:
 - **ANET → Promising** (single-source cap): one correlated source, no operator thesis → adopt
   before sizing up, don't grade Strong.
 - **AVGO → "—"** (unassessed): no thesis line yet; honest **and** required for golden-master
-  reproducibility (hand-grading would break determinism). An AVGO-thesis research task is queued.
+  reproducibility (hand-grading would break determinism). The AVGO thesis task is persisted in
+  `research_queue.json` so From Research can surface it without hand-grading the thesis.
 - **UUUU → burned-lead net-read**: "Hold light — burned + split (Meridian vs FS Bottom-5); watch
   YOUR trigger, no add." The binding re-entry gate is the operator's trigger, not the split resolving.
 - **MONITOR stance** (burned sleeves — crypto/ETH, nuclear/uranium, critical minerals): below-T1-floor

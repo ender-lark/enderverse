@@ -6,12 +6,17 @@ until the core logic is stable; Notion sync comes later.
 ## Active Slice
 
 - No active implementation slice.
-  - Run completion audit / next-slice discovery before starting the next change.
+  - Promote the next slice from fresh audit/user evidence before editing.
   - Keep dashboard parity classification current before committing any new
-    dashboard/feed meaning.
+    dashboard/feed meaning or UI work.
 
 ## Recently Completed
 
+- AVGO thesis Research Queue seed.
+  - Added `src/research_queue.json` with one high-priority AVGO thesis/sizing
+    research item from the README backlog note.
+  - Kept AVGO unassessed in source/golden logic; no thesis was invented.
+  - Validated the queue so From Research can surface it.
 - Fundstrat monthly/Bible direct upload intake.
   - Added `fundstrat_bible_intake.py` for direct monthly PDF/text/JSON uploads.
   - Writes compact `fundstrat_bible.json` deck shape for useful summary/core

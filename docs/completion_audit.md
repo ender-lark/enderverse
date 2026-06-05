@@ -33,6 +33,10 @@ enough to hand control back, using current repo state as evidence. It covers:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
   - `portfolio_views` remained conditional on `account_positions.json`
+- `python src/research_queue_intake.py --validate src/research_queue.json`
+  passed after seeding the AVGO thesis/sizing item.
+- `python src/full_build_runner.py --feed-out tmp/avgo_research_feed.json`
+  emitted one `research_actions` item for AVGO and no AVGO thesis-map entry.
 
 ## Completed Repo-Local Slices
 
@@ -48,6 +52,9 @@ enough to hand control back, using current repo state as evidence. It covers:
   What-to-Own, consider/core list, Top-5, and Bottom-5 sections; monthly
   ticker lists can update `top_prospects.json` without storing raw PDF or
   stock-price chart text.
+- AVGO thesis Research Queue seed: the older README note is now a durable
+  `research_queue.json` item that From Research can surface while AVGO remains
+  unassessed until the thesis is actually written.
 - Daily Synthesis structured action metadata: explicit action rows can now carry
   ticker aliases, urgency, sizing, timing, capital effect, goal channels, and
   missing-evidence fields without broad prose guessing.
@@ -71,7 +78,8 @@ finds older refinement notes in `src/ARCHITECTURE.md` and `src/README.md`.
 Completed notes now include From-Research priority labeling, shared ActionCard,
 L2-to-L3 validation, Signal Log lane design, generated HTML summary safety, and
 conflict wording scope. Daily Synthesis structured action metadata is also
-supported for explicit rows.
+supported for explicit rows. The older AVGO thesis note is now represented by
+`src/research_queue.json` instead of being an unresolved prose-only queue item.
 
 No concrete queued follow-up candidate remains promoted from the older backlog
 notes. Future work should start with a fresh completion audit or new user/input
