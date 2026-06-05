@@ -29,8 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Published feed dashboard
-  render refresh.
+- Latest completed slice before this handoff refresh: Dark-lane next-step
+  guidance.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -69,6 +69,10 @@ Important recent state:
   clock it is fresh at 5 days old.
 - Source lane status now requires delivered dated items for `has_data`; a
   cleanly registered but empty source is `checked_clear`, not data.
+- Not-checked lane-status rows now carry structured `next_step` and
+  `missing_impact` metadata. The readiness report prioritizes Event Risk,
+  Catalysts, and Daily Synthesis in its next steps so fast-moving war/oil/rates
+  shocks do not get buried in optional-lane bookkeeping.
 - `src/heartbeat_status.py` writes `src/heartbeat.json` and
   `src/heartbeat_summary.json` from repo-local readiness evidence. It reports
   required-input, minimum-market-data, publish-gate, optional-lane, and daily
@@ -103,6 +107,9 @@ Important recent state:
 - Current live-readiness probe on the repo reports `rehearsal_ready: true`,
   `required_inputs_ready: true`, `live_data_ready: true`,
   `publish_ready: true`, and `go_live_ready: true`.
+- Current dark lanes are `catalysts`, `synthesis`, `signal_log`, and
+  `event_risk`. These are not hard go-live blockers, but the dashboard now
+  shows what input to supply next for each.
 - The first publish path succeeded:
   `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
   It wrote `src/latest_cockpit_feed.json` and updated
@@ -139,8 +146,9 @@ git log origin/main -5 --oneline
 ```
 
 Then read `docs/codex_build_queue.md`; there is currently no queued
-implementation slice. Promote the next slice only from fresh audit/user
-evidence.
+implementation slice. `src/system_improvement_queue.json` is also clean after
+post-basic queued-upgrade triage. Promote the next slice only from fresh
+audit/user evidence.
 
 Do not start with stock-specific research. If no concrete implementation slice
 is queued, run a fresh completion audit and promote the next system/routine/UI

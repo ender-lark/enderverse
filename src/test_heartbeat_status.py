@@ -27,6 +27,9 @@ def test_heartbeat_rows_show_missing_market_data_and_dark_lanes():
             missing_minimum_live_inputs=[{"key": "macro"}, {"key": "uw_prices"}],
             publish_gate_problems=["cannot verify stamp"],
             dark_lane_keys=["uw_price", "uw_macro", "signal_log"],
+            dark_lane_details=[
+                {"key": "signal_log", "next_step": "Supply the Morning Scan or Signal Log JSON."}
+            ],
         ),
         generated_at="2026-06-05T14:00:00+00:00",
     )
@@ -37,6 +40,7 @@ def test_heartbeat_rows_show_missing_market_data_and_dark_lanes():
     assert "macro" in by_layer["Minimum Market Data"]["note"]
     assert by_layer["Publish Gate"]["status"] == "down"
     assert by_layer["Optional Source Lanes"]["status"] == "stale"
+    assert "Morning Scan" in by_layer["Optional Source Lanes"]["note"]
     assert by_layer["Daily Full Build"]["status"] == "ok"
     assert validate_heartbeat(rows) == []
 

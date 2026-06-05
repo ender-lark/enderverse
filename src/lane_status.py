@@ -40,6 +40,34 @@ EXTERNAL_LANES = {
     "target_drift": "Target Drift",
 }
 
+LANE_NEXT_STEPS = {
+    "uw_price": "Run the UW price cache refresh before treating market rotation as live.",
+    "uw_macro": "Run the macro pulse refresh before treating regime and oil/rates risk as live.",
+    "fundstrat_bible": "Upload or ingest the latest monthly Fundstrat deck when the monthly view changes.",
+    "fundstrat_daily": "Ingest recent Fundstrat daily email/article updates before using the daily source lane.",
+    "catalysts": "Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows.",
+    "research": "Refresh the Research Queue when new dossiers or open thesis work should affect priorities.",
+    "synthesis": "Supply the Daily Synthesis JSON before relying on a top-down daily read.",
+    "signal_log": "Supply the Morning Scan or Signal Log JSON for watch-only intraday context.",
+    "event_risk": "Supply the daily or weekly Event Risk scan for sudden headlines such as war, oil, rates, or policy shocks.",
+    "top_prospects": "Refresh top prospects from compact source lists when a new monthly or daily prospect source arrives.",
+    "target_drift": "Refresh portfolio/targets when sizing drift should be rechecked.",
+}
+
+LANE_MISSING_IMPACT = {
+    "uw_price": "Rotation, trend, and live market-data reads are incomplete.",
+    "uw_macro": "Macro regime, oil/rates, and cross-asset risk reads are incomplete.",
+    "fundstrat_bible": "Monthly Fundstrat Top-5/Bottom-5 and theme context are absent.",
+    "fundstrat_daily": "Daily Fundstrat calls are absent; this is not a no-signal read.",
+    "catalysts": "Near-term event timing may be missing from Today's Actions.",
+    "research": "Research-priority rows may be stale or absent.",
+    "synthesis": "Top-down daily judgment is not checked.",
+    "signal_log": "Watch-only daily scan context is not checked.",
+    "event_risk": "Sudden market-moving event risk is not checked.",
+    "top_prospects": "Candidate/opportunity context is incomplete.",
+    "target_drift": "Sizing gap context is incomplete.",
+}
+
 
 @dataclass(frozen=True)
 class LaneInput:
@@ -76,7 +104,7 @@ def _count(value: object) -> int:
 
 def _row(key: str, label: str, status: str, *, detail: str = "", count: int = 0,
          checked_at: str | None = None) -> dict:
-    return {
+    row = {
         "key": key,
         "label": label,
         "status": status,
@@ -84,6 +112,10 @@ def _row(key: str, label: str, status: str, *, detail: str = "", count: int = 0,
         "count": count,
         "checked_at": checked_at or "",
     }
+    if status == STATUS_NOT_CHECKED:
+        row["next_step"] = LANE_NEXT_STEPS.get(key, "Supply the owning source before treating this lane as checked.")
+        row["missing_impact"] = LANE_MISSING_IMPACT.get(key, "This lane is not checked; absence is not a clear read.")
+    return row
 
 
 def source_rows(snapshot: dict, staleness: dict) -> list[dict]:

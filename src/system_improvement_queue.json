@@ -173,10 +173,11 @@
       "id": "post-basic-queued-upgrade-triage",
       "title": "Evaluate queued system upgrades after live feed is re-verified",
       "priority": "P2",
-      "status": "queued",
+      "status": "done",
       "area": "architecture",
       "why": "Queued Notion/Claude-build ideas should be promoted only when they improve conviction, actionability, risk control, sizing, timing, or usability.",
-      "done_when": "System Update Queue and CI Update Queue candidates are reviewed against the Investing OS goal, with only high-signal slices promoted and low-value complexity left deferred."
+      "done_when": "System Update Queue and CI Update Queue candidates are reviewed against the Investing OS goal, with only high-signal slices promoted and low-value complexity left deferred.",
+      "outcome": "Promoted event-risk intake, offensive catalyst review framing, compact monthly Fundstrat state, and dark-lane next-step guidance. Left Core List table ingestion, stock-specific AVGO work, and options/IV automation out of tonight's basic build."
     },
     {
       "id": "high-conviction-catalyst-offense-review",

@@ -64,6 +64,7 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
     missing_minimum = report.get("missing_minimum_live_inputs") or []
     publish_problems = report.get("publish_gate_problems") or []
     dark_lanes = report.get("dark_lane_keys") or []
+    dark_lane_details = report.get("dark_lane_details") or []
     required_status = "down" if missing_required else "stale" if stale_required else "ok"
     if missing_required:
         required_note = "missing: " + ", ".join(row.get("key", "") for row in missing_required)
@@ -71,6 +72,19 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
         required_note = "stale/unverified: " + ", ".join(row.get("key", "") for row in stale_required)
     else:
         required_note = "positions/theses convention inputs present and fresh"
+
+    optional_note = (
+        "dark lanes: " + ", ".join(str(key) for key in dark_lanes)
+        if dark_lanes else "all optional lanes supplied or checked clear"
+    )
+    if dark_lane_details:
+        fixes = [
+            str(row.get("next_step") or "").rstrip(".")
+            for row in dark_lane_details[:2]
+            if isinstance(row, dict) and row.get("next_step")
+        ]
+        if fixes:
+            optional_note += " | next: " + "; ".join(fixes)
 
     rows = [
         _row(
@@ -96,8 +110,7 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
         _row(
             "Optional Source Lanes",
             "stale" if dark_lanes else "ok",
-            "dark lanes: " + ", ".join(str(key) for key in dark_lanes)
-            if dark_lanes else "all optional lanes supplied or checked clear",
+            optional_note,
             last_run=ts,
         ),
         _row(

@@ -21,6 +21,12 @@ from uw_price_cache_intake import normalize_price_cache, validate_price_cache
 
 
 MINIMUM_LIVE_INPUTS = {"uw_prices", "macro"}
+DARK_LANE_NEXT_STEP_PRIORITY = {
+    "event_risk": 0,
+    "catalysts": 1,
+    "synthesis": 2,
+    "signal_log": 3,
+}
 
 
 def _lane_rows(feed: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -220,6 +226,21 @@ def readiness_report(
         for key, row in lane_rows.items()
         if row.get("status") == "not_checked"
     ]
+    dark_lane_details = [
+        {
+            "key": key,
+            "label": row.get("label") or key,
+            "detail": row.get("detail") or "",
+            "missing_impact": row.get("missing_impact") or "",
+            "next_step": row.get("next_step") or "",
+        }
+        for key, row in lane_rows.items()
+        if row.get("status") == "not_checked"
+    ]
+    dark_lane_details = sorted(
+        dark_lane_details,
+        key=lambda row: (DARK_LANE_NEXT_STEP_PRIORITY.get(str(row.get("key") or ""), 50), row.get("label") or ""),
+    )
     stale_or_failed_lane_keys = [
         key
         for key, row in lane_rows.items()
@@ -250,6 +271,9 @@ def readiness_report(
         next_steps.append(f"Fix invalid minimum live market inputs: {invalid}.")
     if dark_lane_keys:
         next_steps.append("Review dark lanes; missing optional lanes must stay visible, not checked clear.")
+        for row in dark_lane_details[:3]:
+            if row.get("next_step"):
+                next_steps.append(f"{row['label']}: {row['next_step']}")
     if not next_steps:
         next_steps.append("Run the daily full build with --publish.")
 
@@ -270,6 +294,7 @@ def readiness_report(
         "minimum_live_input_validations": minimum_live_validations,
         "invalid_minimum_live_inputs": invalid_minimum_live,
         "dark_lane_keys": dark_lane_keys,
+        "dark_lane_details": dark_lane_details,
         "stale_or_failed_lane_keys": stale_or_failed_lane_keys,
         "actions": len((feed or {}).get("actions") or []),
         "research_actions": len((feed or {}).get("research_actions") or []),

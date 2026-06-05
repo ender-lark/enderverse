@@ -328,13 +328,17 @@ def _lane_status_summary(lane_status: dict) -> str:
         status = r.get("status") or "not_checked"
         label = r.get("label") or r.get("key") or ""
         detail = r.get("detail") or ""
+        next_step = r.get("next_step") or ""
         count = r.get("count") or 0
         count_txt = f" ({count})" if count else ""
+        detail_txt = f"{detail}{count_txt}"
+        if next_step:
+            detail_txt = f"{detail_txt} | next: {next_step}"
         row_html += f"""
 <div class="lane-row">
   <span class="lane-key">{_e(label)}</span>
   <span class="lane-status ls-{_e(status)}">{_e(status.replace("_", " "))}</span>
-  <span class="summary-muted">{_e(detail)}{_e(count_txt)}</span>
+  <span class="summary-muted">{_e(detail_txt)}</span>
 </div>"""
     more = len(ordered) - len(visible)
     more_html = f'<div class="feedback-line">+{more} more lane rows in the canonical cockpit.</div>' if more > 0 else ""

@@ -438,6 +438,16 @@ def main(argv=None) -> int:
         for row in lane_rows
         if isinstance(row, dict) and row.get("status") == "not_checked"
     ]
+    dark_lane_details = [
+        {
+            "key": row.get("key"),
+            "label": row.get("label") or row.get("key"),
+            "next_step": row.get("next_step") or "",
+            "missing_impact": row.get("missing_impact") or "",
+        }
+        for row in lane_rows
+        if isinstance(row, dict) and row.get("status") == "not_checked"
+    ]
     input_rows = convention_input_status(
         args.src_dir,
         overrides={
@@ -453,6 +463,7 @@ def main(argv=None) -> int:
         "research_actions": len(feed.get("research_actions") or []),
         "dark_lanes": feed.get("lane_status", {}).get("counts", {}).get("not_checked", 0),
         "dark_lane_keys": dark_lane_keys,
+        "dark_lane_details": dark_lane_details,
         "missing_required_inputs": [row for row in input_rows if row["status"] == "missing_required"],
         "missing_optional_inputs": [row for row in input_rows if row["status"] == "missing_optional"],
     }, indent=2))

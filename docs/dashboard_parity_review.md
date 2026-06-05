@@ -2,8 +2,7 @@
 
 Generated: 2026-06-05
 
-Last refreshed: 2026-06-05 after the supplied Event Risk intake/action
-surfacing slice. No UI work was performed in this refresh.
+Last refreshed: 2026-06-05 after the dark-lane next-step guidance slice.
 
 ## Decision
 
@@ -33,15 +32,17 @@ Reason:
 Local command used for parity evidence:
 
 ```powershell
-python src\full_build_runner.py --feed-out tmp\dashboard_parity_feed.json
+python src\full_build_runner.py --src-dir src --feed-out tmp\dashboard_parity_feed.json
 ```
 
 Result summary:
 
 - Build succeeded.
-- `actions`: 0
+- `actions`: 2
 - `research_actions`: 0
-- `lane_status.counts.not_checked`: 8 when no Event Risk scan is supplied
+- `lane_status.counts.not_checked`: 4
+- Dark lane keys: `catalysts`, `synthesis`, `signal_log`, `event_risk`.
+- Not-checked rows carry structured `next_step` and `missing_impact` guidance.
 - Emitted feed keys: `generated_at`, `staleness`, `lane_status`, `hero`,
   `actions`, `fresh_signals`, `signal_log`, `event_risk`, `holdings`,
   `rotation`, `macro`, `catalysts`, `questions`, `research`,
@@ -58,12 +59,12 @@ Result summary:
 | --- | --- | --- | --- | --- |
 | `generated_at` | `full_build_runner.py` / `assemble_feed` | Header stamp via `toCockpit` | Header stamp | Full in both |
 | `staleness` | `collect` + `staleness_read` | Header stamp source dates | Header source line and stale warning | Full in both |
-| `lane_status` | `build_lane_status` | Header dark/stale lane counters and lane status rows | Summary caveat plus lane-status counts and top rows | Partial in HTML; enough to avoid all-clear ambiguity |
+| `lane_status` | `build_lane_status` | Header dark/stale lane counters, lane status rows, and dark-lane next-step tooltips | Summary caveat plus lane-status counts, top rows, and next-step text | Partial in HTML; enough to avoid all-clear ambiguity |
 | `hero` | `hero_needs_you_read` | Hero banner | Hero banner | Full in both |
 | `actions` | `actions_read` + decision aging + promoted research/prospects | Today's Actions | Today's actions when non-empty; summary caveat when empty/dark | Full enough in HTML for summary/export use |
 | `fresh_signals` | `fresh_signal_read` | Fresh signals / action context | Not rendered as its own lane | Missing in HTML |
 | `signal_log` | Morning Scan convention file `signal_log.json` / `morning_signal_log.json` | Signal Log watch-only lane | Not rendered | Missing in HTML; acceptable because it is watch-only context |
-| `event_risk` | Supplied Event Risk convention file `event_risks.json` / `event_risk.json` | Lane status plus promoted Today's Actions review prompts | Lane-status summary only; promoted actions render in Today's actions | Partial in HTML; acceptable because actions are review-only and lane status carries not-checked honesty |
+| `event_risk` | Supplied Event Risk convention file `event_risks.json` / `event_risk.json` | Lane status plus promoted Today's Actions review prompts and dark-lane next-step tooltip | Lane-status summary plus next-step text; promoted actions render in Today's actions | Partial in HTML; acceptable because actions are review-only and lane status carries not-checked honesty |
 | `holdings` | Portfolio source + thesis reads | Book tab holdings with conviction/detail expanders | Book table | Partial in HTML because details are truncated |
 | `rotation` | `rotation_read` | Market read and sleeve badges | Rotation table | Full enough in both |
 | `macro` | `macro_read` | Market read macro panel | Macro panel | Full enough in both |
@@ -113,7 +114,9 @@ Result summary:
   without a sharper action source.
 - `event_risk` is deliberately supplied-data-only external context. High and
   critical rows can promote into `actions`, but only as exposure-review prompts;
-  no buy/sell order is implied.
+  no buy/sell order is implied. When it is dark, lane status now tells the
+  operator to supply the daily/weekly Event Risk scan for sudden war, oil,
+  rates, policy, or volatility shocks.
 - `heartbeat` and `lane_status` overlap operational health. `heartbeat` says
   which routines ran; `lane_status` says which data lanes were checked, stale,
   failed, or dark. Both should stay; generated HTML now mirrors lane-status
@@ -127,8 +130,8 @@ Result summary:
 
 Highest impact gaps:
 
-- HTML now shows `lane_status` summary counts/top rows, but the canonical JSX
-  remains the full source for lane diagnostics.
+- HTML now shows `lane_status` summary counts/top rows and dark-lane next-step
+  guidance, but the canonical JSX remains the full source for lane diagnostics.
 - HTML now shows compact `feedback` lines and recommendations, but detailed
   source-call rows and clusters remain canonical JSX.
 - HTML omits `research_actions`, `prospects`, `bullish_flow`, and `radar`. These

@@ -67,6 +67,17 @@ def test_external_lanes_distinguish_not_checked_from_checked_clear():
     assert rows["event_risk"]["status"] == STATUS_CHECKED_CLEAR
     assert rows["top_prospects"]["status"] == STATUS_CHECKED_CLEAR
     assert lane["has_dark_lanes"] is True
+    assert rows["synthesis"]["next_step"]
+    assert "not checked" in rows["synthesis"]["missing_impact"].lower()
+
+
+def test_event_risk_dark_lane_names_event_scan_next_step():
+    lane = build_lane_status(_snapshot(), {"stale": []}, event_risk=None)
+    rows = {r["key"]: r for r in lane["rows"]}
+
+    assert rows["event_risk"]["status"] == STATUS_NOT_CHECKED
+    assert "Event Risk scan" in rows["event_risk"]["next_step"]
+    assert "Sudden market-moving event risk" in rows["event_risk"]["missing_impact"]
 
 
 def test_lane_status_feed_contract_accepts_rows():

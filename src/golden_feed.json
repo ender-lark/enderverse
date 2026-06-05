@@ -110,7 +110,9 @@
         "status": "not_checked",
         "detail": "not supplied",
         "count": 0,
-        "checked_at": ""
+        "checked_at": "",
+        "next_step": "Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows.",
+        "missing_impact": "Near-term event timing may be missing from Today's Actions."
       },
       {
         "key": "research",
@@ -118,7 +120,9 @@
         "status": "not_checked",
         "detail": "not supplied",
         "count": 0,
-        "checked_at": ""
+        "checked_at": "",
+        "next_step": "Refresh the Research Queue when new dossiers or open thesis work should affect priorities.",
+        "missing_impact": "Research-priority rows may be stale or absent."
       },
       {
         "key": "synthesis",
@@ -126,7 +130,9 @@
         "status": "not_checked",
         "detail": "not supplied",
         "count": 0,
-        "checked_at": ""
+        "checked_at": "",
+        "next_step": "Supply the Daily Synthesis JSON before relying on a top-down daily read.",
+        "missing_impact": "Top-down daily judgment is not checked."
       },
       {
         "key": "uw_opportunity",
@@ -134,7 +140,9 @@
         "status": "not_checked",
         "detail": "not supplied",
         "count": 0,
-        "checked_at": ""
+        "checked_at": "",
+        "next_step": "Supply the owning source before treating this lane as checked.",
+        "missing_impact": "This lane is not checked; absence is not a clear read."
       },
       {
         "key": "signal_log",
@@ -142,7 +150,9 @@
         "status": "not_checked",
         "detail": "not supplied",
         "count": 0,
-        "checked_at": ""
+        "checked_at": "",
+        "next_step": "Supply the Morning Scan or Signal Log JSON for watch-only intraday context.",
+        "missing_impact": "Watch-only daily scan context is not checked."
       },
       {
         "key": "event_risk",
@@ -150,7 +160,9 @@
         "status": "not_checked",
         "detail": "not supplied",
         "count": 0,
-        "checked_at": ""
+        "checked_at": "",
+        "next_step": "Supply the daily or weekly Event Risk scan for sudden headlines such as war, oil, rates, or policy shocks.",
+        "missing_impact": "Sudden market-moving event risk is not checked."
       },
       {
         "key": "top_prospects",
@@ -158,7 +170,9 @@
         "status": "not_checked",
         "detail": "not supplied",
         "count": 0,
-        "checked_at": ""
+        "checked_at": "",
+        "next_step": "Refresh top prospects from compact source lists when a new monthly or daily prospect source arrives.",
+        "missing_impact": "Candidate/opportunity context is incomplete."
       },
       {
         "key": "target_drift",
@@ -166,15 +180,17 @@
         "status": "not_checked",
         "detail": "not supplied",
         "count": 0,
-        "checked_at": ""
+        "checked_at": "",
+        "next_step": "Refresh portfolio/targets when sizing drift should be rechecked.",
+        "missing_impact": "Sizing gap context is incomplete."
       }
     ],
     "counts": {
-      "checked_clear": 0,
-      "stale": 0,
-      "has_data": 6,
       "failed": 0,
-      "not_checked": 8
+      "checked_clear": 0,
+      "not_checked": 8,
+      "stale": 0,
+      "has_data": 6
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false

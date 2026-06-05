@@ -183,7 +183,7 @@ def main(write: bool):
     if write:
         json.dump(bundle, open(os.path.join(HERE, "golden_snapshot.json"), "w"), indent=2)
         json.dump(feed, open(os.path.join(HERE, "golden_feed.json"), "w"), indent=2)
-        print("✅ froze golden_snapshot.json + golden_feed.json")
+        print("OK - froze golden_snapshot.json + golden_feed.json")
     else:
         print("--check: not written (drift-free).")
     return 0

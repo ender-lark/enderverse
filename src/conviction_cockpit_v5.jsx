@@ -791,7 +791,7 @@ function laneStatusRow(r){
   const m = LANE_STATUS_META[r.status] || { c:C.dim, label:r.status||"unknown" };
   return { key:r.key||"", label:r.label||r.key||"", c:m.c, statusLabel:m.label,
            detail:r.detail||"", count:(typeof r.count==="number"?r.count:0),
-           checkedAt:r.checked_at||"" };
+           checkedAt:r.checked_at||"", nextStep:r.next_step||"", missingImpact:r.missing_impact||"" };
 }
 // ── ⑨ Radar view-model: endorsed (daily-call) names not owned yet ──
 function radarRow(r){
@@ -1009,7 +1009,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           <div style={{ marginTop:8, display:"flex", flexWrap:"wrap", gap:6, alignItems:"center" }}>
             <span style={{ fontFamily:mono, fontSize:10, color:C.faint, marginRight:2 }}>CHECKS</span>
             {VM.laneStatus.map((r,i)=>(
-              <span key={i} title={`${r.detail}${r.checkedAt?` Â· checked ${r.checkedAt}`:""}`}
+              <span key={i} title={`${r.detail}${r.missingImpact?` · ${r.missingImpact}`:""}${r.nextStep?` · next: ${r.nextStep}`:""}${r.checkedAt?` Â· checked ${r.checkedAt}`:""}`}
                 style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"2px 8px", borderRadius:99,
                   fontSize:10.5, fontFamily:mono, color:r.c, border:`1px solid ${r.c}44`, background:`${r.c}10`, whiteSpace:"nowrap" }}>
                 {r.label} Â· {r.statusLabel}{r.count?` ${r.count}`:""}

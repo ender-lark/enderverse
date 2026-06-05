@@ -153,6 +153,8 @@ def test_readiness_go_live_ready_with_minimum_market_inputs(tmp_path):
     assert report["go_live_ready"] is True
     assert report["missing_minimum_live_inputs"] == []
     assert report["invalid_minimum_live_inputs"] == []
+    assert any(row["key"] == "event_risk" for row in report["dark_lane_details"])
+    assert any("Event Risk scan" in step for step in report["next_steps"])
 
 
 def test_readiness_rejects_present_but_incomplete_price_cache(tmp_path):

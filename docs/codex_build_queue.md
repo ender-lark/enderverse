@@ -15,6 +15,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dark-lane next-step guidance.
+  - Added structured `next_step` and `missing_impact` metadata to not-checked
+    lane-status rows so dark lanes explain what source to supply next.
+  - Prioritized sudden-event lanes in live-readiness next steps; Event Risk now
+    names the daily/weekly event scan route for war, oil, rates, policy, or
+    volatility shocks.
+  - Mirrored the guidance into heartbeat notes, the canonical cockpit check-row
+    tooltips, and the generated summary preview.
+  - Closed the post-basic queued-upgrade triage item after promoting the useful
+    upgrades and leaving low-signal complexity out of the basic build.
 - Fundstrat monthly PDF data-flow refresh.
   - Ingested the direct May 28, 2026 Fundstrat monthly PDF into compact
     `fundstrat_bible.json` state.
