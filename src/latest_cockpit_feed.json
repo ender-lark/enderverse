@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T08:56:28.621239+00:00",
+  "generated_at": "2026-06-05T08:59:55.522596+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T08:56:28.621239+00:00",
+        "date": "2026-06-05T08:59:55.522596+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T08:56:28.621239+00:00",
+        "date": "2026-06-05T08:59:55.522596+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -158,11 +158,11 @@
       }
     ],
     "counts": {
-      "failed": 0,
-      "checked_clear": 0,
+      "not_checked": 2,
       "has_data": 11,
-      "stale": 0,
-      "not_checked": 2
+      "checked_clear": 0,
+      "failed": 0,
+      "stale": 0
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -229,7 +229,7 @@
       "action_state": "ACT_NOW",
       "what": "Conviction gap: NVDA is under target",
       "confidence": "High",
-      "your_move": "NVDA is 6.6% vs 12.0% target. Review a funded add/rotation through the pre-trade gate; no auto-buy.",
+      "your_move": "NVDA is 6.6% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.",
       "gate": {
         "needs_gate": true,
         "preview": "\ud83d\udfe1 size \u2192 gate",
@@ -238,7 +238,7 @@
       },
       "source": "target_drift",
       "why": "Target drift shows a 5.4pp sizing gap vs the AI working model.",
-      "sizing": "Gap to target: 5.4pp; fund from approved trims/reservoirs.",
+      "sizing": "Gap to target: 5.4pp; target is directional, not an order.",
       "goal_channels": [
         "sizing_gap",
         "conviction",
@@ -247,10 +247,11 @@
       "goal_impact": "High",
       "goal_score": 85,
       "time_window": "1-3 trading days",
-      "capital_effect": "rotate",
+      "capital_effect": "review",
       "action_label": "SIZE GAP",
-      "why_it_moves_goal": "A high-conviction target gap can make the right thesis too small to matter.",
+      "why_it_moves_goal": "A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.",
       "missing_evidence": [
+        "live opportunity",
         "funding leg",
         "pre-trade gate"
       ]
@@ -869,31 +870,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T08:56:28.537087+00:00",
+      "last_run": "2026-06-05T08:59:55.443735+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T08:56:28.537087+00:00",
+      "last_run": "2026-06-05T08:59:55.443735+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T08:56:28.537087+00:00",
+      "last_run": "2026-06-05T08:59:55.443735+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T08:56:28.537087+00:00",
+      "last_run": "2026-06-05T08:59:55.443735+00:00",
       "note": "dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T08:56:28.537087+00:00",
+      "last_run": "2026-06-05T08:59:55.443735+00:00",
       "note": "rehearsal build can run"
     }
   ],

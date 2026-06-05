@@ -805,13 +805,14 @@ def target_drift_actions_read(target_drift, theses, *, max_items=2) -> list[dict
             "what": f"Conviction gap: {tk} is under target",
             "confidence": "High" if "ALARM_DRIFT" in flags else "Moderate",
             "your_move": (
-                f"{tk} is {actual:.1f}% vs {target:.1f}% target. Review a funded add/rotation "
-                "through the pre-trade gate; no auto-buy."
+                f"{tk} is {actual:.1f}% vs {target:.1f}% target. Decide: add with funding, "
+                "hold below target with a written reason, cut the target, or remove it from the model. "
+                "If adding, run the pre-trade gate; no auto-buy."
             ),
             "gate": _gate_hook(tk, by_ticker, default_action="ADD"),
             "source": "target_drift",
             "why": f"Target drift shows a {gap:.1f}pp sizing gap vs the AI working model.",
-            "sizing": f"Gap to target: {gap:.1f}pp; fund from approved trims/reservoirs.",
+            "sizing": f"Gap to target: {gap:.1f}pp; target is directional, not an order.",
         })
         if len(out) >= max_items:
             break

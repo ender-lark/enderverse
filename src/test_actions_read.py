@@ -324,7 +324,8 @@ def test_target_drift_actions_promotes_held_undersized_only():
 
     assert [row["ticker"] for row in promoted] == ["NVDA"]
     assert promoted[0]["confidence"] == "High"
-    assert "funded add/rotation" in promoted[0]["your_move"]
+    assert "hold below target with a written reason" in promoted[0]["your_move"]
+    assert "no auto-buy" in promoted[0]["your_move"]
     assert promoted[0]["gate"]["ticker"] == "NVDA"
 
 
@@ -344,8 +345,9 @@ def test_actions_read_promotes_conviction_gap_without_duplicate_ticker():
     assert row["kind"] == "conviction_gap"
     assert row["ticker"] == "NVDA"
     assert row["action_state"] == "ACT_NOW"
-    assert row["capital_effect"] == "rotate"
+    assert row["capital_effect"] == "review"
     assert row["sizing"].startswith("Gap to target")
+    assert "live opportunity" in row["missing_evidence"]
     assert validate_cockpit_feed({**_minimal_feed(), "actions": [row]}) == []
 
 
