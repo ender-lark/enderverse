@@ -2,6 +2,11 @@
 (v12.5, Issue #10 §3). The gauge logic lives in source_call_tracker and is tested
 separately; here we test the PRE-FLIGHT WIRING + the honest 'not checked' degrade."""
 
+import json
+import sys
+from types import SimpleNamespace
+
+import daily_preflight
 from daily_preflight import _calibration_chain_banner
 
 
@@ -52,3 +57,40 @@ def test_comment_rows_without_date_are_ignored():
     source_calls = [{"_comment": "header"}, {"date": "2026-05-19"}]
     banner = _calibration_chain_banner(source_calls, None, None)
     assert "2026-05-19" in banner
+
+
+def test_main_passes_live_call_dates_into_orchestrator(tmp_path, monkeypatch, capsys):
+    """Banner inputs must also reach persistence; otherwise P-WAKE-UP stays provisional."""
+    captured = {}
+
+    def fake_orchestrate(**kwargs):
+        captured.update(kwargs)
+        return {"ok": True}
+
+    fake_so = SimpleNamespace(
+        orchestrate=fake_orchestrate,
+        format_text=lambda dashboard: "dashboard",
+        format_json=lambda dashboard: json.dumps(dashboard),
+    )
+    monkeypatch.setitem(sys.modules, "session_orchestrator", fake_so)
+    monkeypatch.setattr(sys, "argv", [
+        "daily_preflight.py",
+        "--inputs-dir", str(tmp_path),
+    ])
+
+    (tmp_path / "positions.json").write_text(json.dumps({
+        "snapshot_date": daily_preflight.date.today().isoformat(),
+        "positions": [],
+    }), encoding="utf-8")
+    (tmp_path / "theses.json").write_text("[]", encoding="utf-8")
+    (tmp_path / "source_calls.json").write_text(json.dumps([
+        {"date": "2026-05-28", "ticker": "NVDA"}
+    ]), encoding="utf-8")
+    (tmp_path / "inbox_call_dates.json").write_text(json.dumps(["2026-05-28"]), encoding="utf-8")
+    (tmp_path / "log_call_dates.json").write_text(json.dumps(["2026-05-28"]), encoding="utf-8")
+
+    daily_preflight.main()
+
+    assert captured["inbox_call_dates"] == ["2026-05-28"]
+    assert captured["log_call_dates"] == ["2026-05-28"]
+    assert "dashboard" in capsys.readouterr().out

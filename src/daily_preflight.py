@@ -319,6 +319,8 @@ def main():
     # v12.5 Issue #10 §3: source-calibration chain staleness at boot. The gauges exist in
     # source_call_tracker (v11.35/11.36) but were unwired; surface them, or say "not checked"
     # when the live Inbox/Log dates aren't supplied. One small hardened read — never breaks boot.
+    _inbox_dates = None
+    _log_dates = None
     try:
         _inbox_dates = _load(paths["inbox_dates"]) if paths.get("inbox_dates") else None
         _log_dates   = _load(paths["log_dates"]) if paths.get("log_dates") else None
@@ -345,6 +347,8 @@ def main():
         catalysts=catalysts_data,
         source_calls=source_calls_data,
         parabolic_data=parabolic_data,
+        inbox_call_dates=_inbox_dates,
+        log_call_dates=_log_dates,
     )
 
     if args.json:
