@@ -245,6 +245,9 @@ Important recent state:
 - `python src/go_live_checklist.py --format text` includes a Cloud automation
   proof row. It should warn before the first scheduled receipt, then pass after
   `Cloud first scheduled run proven: true`.
+- `python src/go_live_checklist.py --format text` also includes a Live source
+  coverage row. It warns while live-capable optional inputs such as
+  `account_positions` and `meridian` are missing.
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.

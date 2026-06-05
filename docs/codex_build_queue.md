@@ -166,6 +166,12 @@ until the core logic is stable; Notion sync comes later.
     automation proof row derived from `cloud_ops_status.py`.
   - The row warns while the stack is schedule-ready but first scheduled proof
     is still pending, and will pass after the first scheduled receipt lands.
+- Go-live checklist live-source coverage row.
+  - `python src/go_live_checklist.py --format text` now includes a Live source
+    coverage row derived from live-source capability status.
+  - The row warns on missing live-capable optional inputs such as
+    `account_positions` and `meridian`, even when dashboard source lanes are
+    otherwise populated.
 - Go-live checklist event-watch parity.
   - `python src/go_live_checklist.py --format text` now includes an Active
     Event Watch row derived from the same live-status/feed evidence as the

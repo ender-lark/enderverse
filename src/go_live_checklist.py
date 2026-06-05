@@ -130,6 +130,30 @@ def _cloud_row_detail(cloud: dict[str, Any]) -> str:
     )
 
 
+def _source_capability_row_status(source_capability: dict[str, Any]) -> str:
+    if not source_capability.get("valid", True):
+        return "fail"
+    if int(source_capability.get("missing_live_capable_count") or 0):
+        return "warn"
+    return "pass"
+
+
+def _source_capability_row_detail(source_capability: dict[str, Any]) -> str:
+    missing = [
+        str(key)
+        for key in source_capability.get("missing_live_capable_keys") or []
+        if key
+    ]
+    detail = (
+        f"inputs={int(source_capability.get('present_inputs') or 0)}/"
+        f"{int(source_capability.get('total_inputs') or 0)}; "
+        f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}"
+    )
+    if missing:
+        detail += f" ({', '.join(missing)})"
+    return detail
+
+
 def build_go_live_checklist(
     *,
     src_dir: str | Path = DEFAULT_SRC,
@@ -151,6 +175,7 @@ def build_go_live_checklist(
     data_flow = status.get("data_flow") or {}
     event_watch = data_flow.get("event_watch") or {}
     source_calls = status.get("source_calls") or {}
+    source_capability = status.get("source_capability") or {}
     rows = [
         _row(
             "refresh",
@@ -189,6 +214,13 @@ def build_go_live_checklist(
                 f"top_action={data_flow.get('top_action', {}).get('kind') or 'none'}"
             ),
             "python src/live_status.py --format text",
+        ),
+        _row(
+            "source_capability",
+            "Live source coverage",
+            _source_capability_row_status(source_capability),
+            _source_capability_row_detail(source_capability),
+            "python src/live_source_capability.py --format text",
         ),
         _row(
             "preview",

@@ -90,6 +90,13 @@ def _fake_status(open_count=0, ready=True):
             "pending_count": 0,
             "overdue_count": 0,
         },
+        "source_capability": {
+            "valid": True,
+            "present_inputs": 19,
+            "total_inputs": 21,
+            "missing_live_capable_count": 2,
+            "missing_live_capable_keys": ["account_positions", "meridian"],
+        },
     }
 
 
@@ -118,6 +125,12 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
         for row in report["rows"]
     )
     assert any(row["key"] == "data_flow" and row["status"] == "pass" for row in report["rows"])
+    assert any(
+        row["key"] == "source_capability"
+        and row["status"] == "warn"
+        and "account_positions, meridian" in row["detail"]
+        for row in report["rows"]
+    )
     assert any(
         row["key"] == "cloud_ops"
         and row["status"] == "warn"
@@ -164,6 +177,32 @@ def test_build_go_live_checklist_passes_after_first_cloud_proof(monkeypatch, tmp
         row["key"] == "cloud_ops"
         and row["status"] == "pass"
         and "scheduled_success=1/10" in row["detail"]
+        for row in report["rows"]
+    )
+
+
+def test_build_go_live_checklist_passes_when_live_source_coverage_complete(monkeypatch, tmp_path):
+    status = _fake_status()
+    status["source_capability"] = {
+        "valid": True,
+        "present_inputs": 21,
+        "total_inputs": 21,
+        "missing_live_capable_count": 0,
+        "missing_live_capable_keys": [],
+    }
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: status)
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {"open_count": 0, "oldest_age_days": 0},
+    )
+
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+
+    assert any(
+        row["key"] == "source_capability"
+        and row["status"] == "pass"
+        and "missing_live_capable=0" in row["detail"]
         for row in report["rows"]
     )
 
@@ -246,6 +285,8 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
 
     assert "Go-live checklist: WARN" in text
     assert "[PASS] Live data flow" in text
+    assert "[WARN] Live source coverage" in text
+    assert "python src/live_source_capability.py --format text" in text
     assert "[WARN] Cloud automation proof" in text
     assert "python src/cloud_ops_status.py --format text" in text
     assert "[WARN] Source-call calibration" in text
