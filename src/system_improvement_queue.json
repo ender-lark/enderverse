@@ -65,7 +65,7 @@
       "id": "research-priority-label-clarity",
       "title": "Relabel From-Research priority so it is not confused with conviction",
       "priority": "P2",
-      "status": "active",
+      "status": "done",
       "area": "cockpit",
       "why": "The From-Research lane maps queue priority into the shared action row confidence field, which can blur research urgency with investment conviction.",
       "done_when": "The canonical dashboard labels From-Research priority distinctly while keeping action rows and Today's Actions conviction labels clear."

@@ -5,12 +5,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- From-Research priority label clarity.
-  - Relabel research-action confidence display so Research Queue priority is not confused with investment conviction.
-  - Keep the action row contract unchanged unless a small renderer-only mapping is enough.
+- Completion audit and next-slice discovery.
+  - Re-check older refinement notes after the From-Research priority-label slice.
+  - Promote the next self-contained repo slice if one remains.
 
 ## Recently Completed
 
+- From-Research priority label clarity.
+  - Added explicit `confBadgeLabel` display mapping in the canonical dashboard.
+  - From Research now labels queue priority separately from Today's Actions confidence.
+  - Kept the Contract-C action row shape unchanged.
 - Completion audit and next-slice discovery.
   - Added `docs/completion_audit.md`.
   - Verified queues, routine manifest, dashboard guardrail, and standard verification command.

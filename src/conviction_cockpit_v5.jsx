@@ -754,13 +754,14 @@ const GOAL_IMPACT_META = {
   Medium: { c:C.amber, label:"Goal: Med" },
   Low:    { c:C.faint, label:"Goal: Low" },
 };
-function actionRow(a){
+function actionRow(a, opts={}){
   const m = ACTION_KIND_META[a.kind] || { icon:"•", label:a.kind, c:C.dim };
   const cf = CONF_META[a.confidence] || { c:C.dim, label:a.confidence };
   const st = ACTION_STATE_META[a.action_state] || null;
   const gi = GOAL_IMPACT_META[a.goal_impact] || null;
   return { rank:a.rank, kind:a.kind, icon:m.icon, kindLabel:m.label, c:m.c,
-           ticker:a.ticker||"", what:a.what||"", confLabel:cf.label, confColor:cf.c,
+           ticker:a.ticker||"", what:a.what||"", confLabel:cf.label,
+           confBadgeLabel:opts.confBadgeLabel||"conf", confColor:cf.c,
            actionState:a.action_state||"", stateLabel:st&&st.label||"", stateColor:st&&st.c||"",
            goalImpact:a.goal_impact||"", goalLabel:gi&&gi.label||"", goalColor:gi&&gi.c||"",
            goalScore:(typeof a.goal_score==="number"?a.goal_score:null),
@@ -822,7 +823,7 @@ function actionVM(feed){
       opportunities: actions.filter(a=>a.actionState!=="ACT_NOW" && isOpp(a)),
       risks: actions.filter(a=>isRisk(a)),
     },
-    researchActions: (feed.research_actions||[]).map(actionRow),
+    researchActions: (feed.research_actions||[]).map(a=>actionRow(a, { confBadgeLabel:"priority" })),
     synthesis: feed.synthesis||{},
     radar: (feed.radar||[]).map(radarRow),
     freshSignals: (feed.fresh_signals||[]).map(freshSignalRow),
@@ -1026,7 +1027,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:urgent?C.text:C.dim, border:`1px solid ${(urgent?a.stateColor:C.line)}${urgent?"aa":""}`, borderRadius:99, padding:"1px 8px", background:urgent?`${a.stateColor}20`:C.panel2 }}>{a.actionLabel}</span>}
                     {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
                     <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
-                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>conf: {a.confLabel}</span>
+                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
                     {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
                     {a.ageDays!=null && <span title="how long this has been actionable — the cost of waiting" style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>🕒 open {a.ageDays}d{a.flagged?` · since ${a.flagged}`:""}{a.moveSince?` · ${a.moveSince}`:""}</span>}
                   </div>
@@ -1162,7 +1163,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:urgent?C.text:C.dim, border:`1px solid ${(urgent?a.stateColor:C.line)}${urgent?"aa":""}`, borderRadius:99, padding:"1px 8px", background:urgent?`${a.stateColor}20`:C.panel2 }}>{a.actionLabel}</span>}
                     {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
                     <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
-                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>priority: {a.confLabel}</span>
+                    <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
                     {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
                   </div>
                   <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
