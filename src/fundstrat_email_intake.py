@@ -62,10 +62,13 @@ BULLISH_WORDS = (
 )
 BEARISH_WORDS = (
     "sell", "trim", "reduce", "avoid", "short", "underweight", "bearish",
-    "breakdown", "resistance", "risk",
+    "breakdown", "resistance", "risk", "profit", "profits", "harvest",
+    "harvesting",
 )
 ACTION_WORDS = BULLISH_WORDS + BEARISH_WORDS + (
     "entry", "stop", "target", "tgt", "price objective", "upside",
+    "taking profits", "take profits", "rebalance", "rotation", "rotate",
+    "shift",
 )
 
 
@@ -350,10 +353,15 @@ def extract_tickers(text: str, *, universe: set[str] | None = None) -> list[str]
 
 def _context_for_ticker(text: str, ticker: str) -> str:
     ticker_re = re.compile(rf"(?<![A-Z])\$?{re.escape(ticker)}(?![A-Z])", re.I)
+    fallback = ""
     for chunk in RE_SENTENCE_SPLIT.split(text):
         if ticker_re.search(chunk):
-            return " ".join(chunk.split())[:500]
-    return ""
+            context = " ".join(chunk.split())[:500]
+            if _has_action_language(context):
+                return context
+            if not fallback:
+                fallback = context
+    return fallback
 
 
 def _has_action_language(text: str) -> bool:
@@ -363,6 +371,8 @@ def _has_action_language(text: str) -> bool:
 
 def infer_direction(text: str) -> str | None:
     low = text.lower()
+    if any(phrase in low for phrase in ("taking profits", "take profits", "harvest gains", "harvesting gains")):
+        return "sell"
     if any(word in low for word in BEARISH_WORDS):
         if any(word in low for word in ("sell", "trim", "reduce")):
             return "sell"

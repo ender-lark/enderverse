@@ -68,6 +68,27 @@ def test_extract_daily_calls_only_emits_action_like_context():
     assert calls[0]["target"] == 220.0
 
 
+def test_extract_daily_calls_prefers_later_action_context_over_header_mention():
+    entries = [{
+        "subject": "Sean Farrell crypto rebalance",
+        "body": (
+            "Tickers in Report: BTC HYPE MSTR. "
+            "BTC was mentioned in the market overview. "
+            "Given risk/reward, I am taking profits in HYPE and trimming miners."
+        ),
+        "date": "2026-06-05",
+        "author": "Farrell",
+    }]
+
+    calls, mentions = extract_daily_calls(entries, universe={"BTC", "HYPE", "MSTR"})
+    calls_by_ticker = {c["ticker"]: c for c in calls}
+
+    assert {m["ticker"] for m in mentions} == {"BTC", "HYPE", "MSTR"}
+    assert "BTC" not in calls_by_ticker
+    assert calls_by_ticker["HYPE"]["direction"] == "sell"
+    assert "taking profits" in calls_by_ticker["HYPE"]["quote"]
+
+
 def test_load_entries_accepts_gmail_like_json(tmp_path):
     p = tmp_path / "gmail.json"
     p.write_text(json.dumps({"messages": [{

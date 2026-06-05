@@ -38,7 +38,7 @@
       "id": "fundstrat-gmail-hardening",
       "title": "Harden Gmail-based Fundstrat intake",
       "priority": "P1",
-      "status": "active",
+      "status": "done",
       "area": "routines",
       "why": "Fundstrat is the source spine; full-body emails should feed source calls and top prospects without storing raw publication bodies.",
       "done_when": "Routine reliably searches, reads full bodies when permitted, redacts bodies, updates source calls/top prospects, and reports snippet-only discovery as not checked."

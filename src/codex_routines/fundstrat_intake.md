@@ -20,14 +20,20 @@ Accepted fallback file types:
 
 1. Check the repo is on `main` and up to date.
 2. If Gmail is available, search for Fundstrat emails since the last successful
-   intake. Validated search pattern:
+   intake with the Gmail connector `search_emails` tool. Validated search
+   pattern:
 
    ```text
    (from:fundstrat OR from:fsinsight OR Fundstrat OR FSInsight OR "Tom Lee" OR "Mark Newton" OR "Sean Farrell") newer_than:14d -in:spam -in:trash
    ```
 
-   Read shortlisted message bodies with the Gmail batch-read tool. Feed the
-   resulting Gmail connector JSON shape (`responses:[...]`) into:
+   Search results have the connector shape `{emails:[...]}` and are
+   snippet-only discovery. They may be useful for deciding which message IDs to
+   read, but they must not be treated as full-body checked.
+
+   Read shortlisted message bodies with the Gmail connector `batch_read_email`
+   tool in small batches, normally 5 messages or fewer. Feed the resulting
+   Gmail connector JSON shape (`responses:[...]`) into:
 
    ```bash
    python src/fundstrat_email_intake.py --stdin-json --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json
@@ -94,6 +100,7 @@ debugging, and do not commit raw publication bodies.
 
 - Preserve source date and author.
 - Do not commit raw Fundstrat email bodies.
+- Do not paste raw Fundstrat bodies into routine summaries.
 - Do not turn non-action mentions into daily-call rows.
 - Do not let snippet-only discovery update `top_prospects.json`.
 - Do not treat unfetched or unparsed emails as checked clear.
