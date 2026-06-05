@@ -12,6 +12,7 @@ Workspace path on this machine:
 Start by reading these files:
 
 - `AGENTS.md` if present in the workspace root.
+- `docs/investing_os_system_architecture.md`
 - `docs/codex_build_queue.md`
 - `src/state_ownership_map.json`
 - `src/full_build_runner.py`
@@ -21,11 +22,16 @@ Start by reading these files:
 
 Current priority:
 
-1. Read `docs/codex_build_queue.md` and promote only evidence-backed slices.
-2. Prioritize system/routine/dashboard buildout over stock-specific research.
-3. Keep dashboard parity classification current before any feed/dashboard UI work.
-4. Use `python src/verify_standard.py` as the standard verification command.
-5. Commit and push after each clean verified slice.
+1. Read `docs/investing_os_system_architecture.md` and
+   `docs/codex_build_queue.md`; promote only evidence-backed slices.
+2. Prioritize cloud routine proof, source intake reliability, and dashboard
+   action surfacing over stock-specific research.
+3. Keep missing source pulls visible as dark/not_checked lanes, never checked
+   clear.
+4. Do not work on Core List ingestion or open action reviews unless explicitly
+   requested.
+5. Use `python src/verify_standard.py` as the standard verification command.
+6. Commit and push after each clean verified slice.
 
 Current pushed snapshot (2026-06-05 14:19 ET live artifacts):
 

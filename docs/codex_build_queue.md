@@ -35,6 +35,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- System architecture reference.
+  - Added `docs/investing_os_system_architecture.md` as the durable map of the
+    current Investing OS operating system: source routines, convention files,
+    cloud receipts, safe write-back, live-source honesty, synthesis/action
+    promotion, dashboard refresh, and the module/function map.
+  - Linked the architecture reference from the new-chat handoff so future
+    Codex/Claude sessions start from the current cloud/dashboard design instead
+    of reconstructing it from scattered queue notes.
 - Dashboard summary-preview action usability.
   - Made the generated `dashboard_preview.html` action-first instead of
     status-first: Today's Actions now render immediately below the caveat with
