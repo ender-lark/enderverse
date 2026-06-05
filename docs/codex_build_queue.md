@@ -172,6 +172,13 @@ until the core logic is stable; Notion sync comes later.
   - The row warns on missing live-capable optional inputs such as
     `account_positions` and `meridian`, even when dashboard source lanes are
     otherwise populated.
+- Manual live-source drop support.
+  - `manual_source_drop.py` now accepts and validates explicit
+    `account_positions` and `meridian` sections, writing
+    `src/account_positions.json` and `src/meridian_items.json` only when the
+    supplied JSON is structurally valid.
+  - `docs/manual_live_source_drop.template.json` shows the expected shape and
+    validates with `python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir <tmp-or-src> --validate-only`.
 - Go-live checklist event-watch parity.
   - `python src/go_live_checklist.py --format text` now includes an Active
     Event Watch row derived from the same live-status/feed evidence as the

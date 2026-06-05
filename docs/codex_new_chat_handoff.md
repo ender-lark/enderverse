@@ -248,6 +248,10 @@ Important recent state:
 - `python src/go_live_checklist.py --format text` also includes a Live source
   coverage row. It warns while live-capable optional inputs such as
   `account_positions` and `meridian` are missing.
+- `manual_source_drop.py` can now validate and ingest explicit
+  `account_positions` and `meridian` sections. Use
+  `docs/manual_live_source_drop.template.json` for the expected shape; validate
+  first with `--validate-only`.
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.

@@ -12,7 +12,10 @@ from typing import Any
 import catalyst_calendar_intake as catalyst_intake
 import event_risk
 import event_risk_intake
+import meridian
+import position_reconciliation
 import signal_log_intake
+from validators import validate_items
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +24,8 @@ SECTION_ALIASES = {
     "event_risks": ("event_risks", "event_risk", "market_events", "sudden_events"),
     "signal_log": ("signal_log", "signals", "morning_scan"),
     "catalysts": ("catalysts", "catalyst_calendar"),
+    "account_positions": ("account_positions", "account_position_cache", "broker_accounts"),
+    "meridian": ("meridian", "meridian_items", "meridian_export"),
 }
 
 
@@ -154,6 +159,71 @@ def _merge_catalysts(
     return result
 
 
+def _write_account_positions(
+    payloads: list[Any],
+    *,
+    out: Path,
+    dry_run: bool,
+) -> dict[str, Any] | None:
+    incoming = None
+    for payload in payloads:
+        section = _section(payload, "account_positions")
+        if section is not None:
+            incoming = section
+    if incoming is None:
+        return None
+    cache = incoming if isinstance(incoming, dict) else {"account_positions": incoming}
+    problems = position_reconciliation.validate_account_positions(cache)
+    rows = cache.get("account_positions") if isinstance(cache, dict) else []
+    result = {
+        "valid": not problems,
+        "problems": problems,
+        "out": str(out),
+        "written": False,
+        "rows": len(rows) if isinstance(rows, list) else 0,
+    }
+    if not problems and not dry_run:
+        position_reconciliation._atomic_write_json(out, cache)
+        result["written"] = True
+    return result
+
+
+def _write_meridian(
+    payloads: list[Any],
+    *,
+    out: Path,
+    dry_run: bool,
+) -> dict[str, Any] | None:
+    incoming = None
+    for payload in payloads:
+        section = _section(payload, "meridian")
+        if section is not None:
+            incoming = section
+    if incoming is None:
+        return None
+    rows = incoming if isinstance(incoming, list) else [incoming]
+    cards = meridian.meridian_reader(rows)
+    source_items = meridian.build_meridian_source(rows).fetch()
+    problems: list[str] = []
+    if not isinstance(incoming, list):
+        problems.append("meridian section must be a list")
+    if len(cards) != len(rows):
+        problems.append("each Meridian row must include subject, ticker, or theme")
+    problems.extend(validate_items(source_items)["bad"])
+    result = {
+        "valid": not problems,
+        "problems": problems,
+        "out": str(out),
+        "written": False,
+        "rows": len(rows),
+        "cards": len(cards),
+    }
+    if not problems and not dry_run:
+        event_risk_intake._atomic_write_json(out, rows)
+        result["written"] = True
+    return result
+
+
 def ingest_manual_source_drop(
     payloads: list[Any],
     *,
@@ -186,6 +256,16 @@ def ingest_manual_source_drop(
             summary=src / "catalyst_intake_summary.json",
             merge_existing=merge_existing,
             default_source="Manual Source Drop",
+            dry_run=dry_run,
+        ),
+        "account_positions": _write_account_positions(
+            payloads,
+            out=src / "account_positions.json",
+            dry_run=dry_run,
+        ),
+        "meridian": _write_meridian(
+            payloads,
+            out=src / "meridian_items.json",
             dry_run=dry_run,
         ),
     }

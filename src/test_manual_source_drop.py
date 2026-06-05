@@ -31,6 +31,58 @@ def test_ingest_manual_source_drop_routes_explicit_sections(tmp_path):
     assert json.loads((tmp_path / "catalysts.json").read_text(encoding="utf-8"))[0]["label"] == "Supplier update"
 
 
+def test_ingest_manual_source_drop_accepts_live_source_exports(tmp_path):
+    payload = {
+        "account_positions": {
+            "snapshot_date": "2026-06-05",
+            "account_positions": [
+                {
+                    "ticker": "NVDA",
+                    "shares": 12,
+                    "market_value": 1200,
+                    "account": "Taxable",
+                    "owner": "SKB",
+                    "broker": "Fidelity",
+                    "tracked": True,
+                }
+            ],
+        },
+        "meridian": [
+            {
+                "subject": "LEU",
+                "item_type": "thesis",
+                "quote": "LEU - HALEU supply watch",
+                "theme": "nuclear fuel",
+                "date": "2026-06-05",
+            }
+        ],
+    }
+
+    report = manual_source_drop.ingest_manual_source_drop([payload], src_dir=tmp_path)
+
+    assert report["valid"] is True
+    assert report["sections_seen"] == ["account_positions", "meridian"]
+    assert json.loads((tmp_path / "account_positions.json").read_text(encoding="utf-8"))["account_positions"][0]["ticker"] == "NVDA"
+    assert json.loads((tmp_path / "meridian_items.json").read_text(encoding="utf-8"))[0]["subject"] == "LEU"
+
+
+def test_ingest_manual_source_drop_rejects_invalid_live_source_exports(tmp_path):
+    report = manual_source_drop.ingest_manual_source_drop(
+        [{
+            "account_positions": [{"ticker": "NVDA"}],
+            "meridian": [{"quote": "no subject"}],
+        }],
+        src_dir=tmp_path,
+        dry_run=True,
+    )
+
+    assert report["valid"] is False
+    assert any("account_positions" in problem for problem in report["problems"])
+    assert any("Meridian" in problem or "meridian" in problem for problem in report["problems"])
+    assert not (tmp_path / "account_positions.json").exists()
+    assert not (tmp_path / "meridian_items.json").exists()
+
+
 def test_ingest_manual_source_drop_dry_run_does_not_write(tmp_path):
     report = manual_source_drop.ingest_manual_source_drop(
         [{"event_risks": [{"title": "Policy shock", "severity": "critical", "source": "Manual"}]}],
@@ -141,6 +193,49 @@ def test_manual_source_drop_cli_validate_only_does_not_write(tmp_path):
     assert not (tmp_path / "event_risks.json").exists()
 
 
+def test_manual_source_drop_cli_validate_only_accepts_live_source_exports(tmp_path):
+    drop = tmp_path / "drop.json"
+    drop.write_text(json.dumps({
+        "account_positions": {
+            "account_positions": [
+                {
+                    "ticker": "NVDA",
+                    "shares": 12,
+                    "market_value": 1200,
+                    "account": "Taxable",
+                    "owner": "SKB",
+                    "broker": "Fidelity",
+                }
+            ]
+        },
+        "meridian": [
+            {"subject": "MP", "item_type": "thesis", "quote": "MP - rare earths watch"}
+        ],
+    }), encoding="utf-8")
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(Path(__file__).resolve().parent / "manual_source_drop.py"),
+            str(drop),
+            "--src-dir",
+            str(tmp_path),
+            "--validate-only",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    report = json.loads(proc.stdout)
+    assert report["sections_seen"] == ["account_positions", "meridian"]
+    assert report["sections"]["account_positions"]["written"] is False
+    assert report["sections"]["meridian"]["written"] is False
+    assert not (tmp_path / "account_positions.json").exists()
+    assert not (tmp_path / "meridian_items.json").exists()
+
+
 def test_manual_drop_template_validates_without_writing(tmp_path):
     template = Path(__file__).resolve().parents[1] / "docs" / "manual_drop.template.json"
 
@@ -165,3 +260,28 @@ def test_manual_drop_template_validates_without_writing(tmp_path):
     assert report["valid"] is True
     assert report["sections_seen"] == ["catalysts", "event_risks", "signal_log"]
     assert not (tmp_path / "event_risks.json").exists()
+
+
+def test_manual_live_source_drop_template_validates_without_writing(tmp_path):
+    template = Path(__file__).resolve().parents[1] / "docs" / "manual_live_source_drop.template.json"
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(Path(__file__).resolve().parent / "manual_source_drop.py"),
+            str(template),
+            "--src-dir",
+            str(tmp_path),
+            "--validate-only",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    report = json.loads(proc.stdout)
+    assert report["valid"] is True
+    assert report["sections_seen"] == ["account_positions", "meridian"]
+    assert not (tmp_path / "account_positions.json").exists()
+    assert not (tmp_path / "meridian_items.json").exists()
