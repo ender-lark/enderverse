@@ -44,6 +44,15 @@
       "done_when": "Routine reliably searches, reads full bodies when permitted, redacts bodies, updates source calls/top prospects, and reports snippet-only discovery as not checked."
     },
     {
+      "id": "fundstrat-source-call-upsert",
+      "title": "Merge Fundstrat source-call candidates during full-body intake",
+      "priority": "P1",
+      "status": "done",
+      "area": "routines",
+      "why": "Source-call calibration should not depend on a forgotten second command after full-body Fundstrat intake.",
+      "done_when": "The canonical Fundstrat intake command can update source_calls.json, log_call_dates.json, and source_call_cache_summary.json from classified full-body candidates while snippet-only discovery leaves those caches untouched."
+    },
+    {
       "id": "codex-routine-migration",
       "title": "Replace Claude cloud routines with Codex automations",
       "priority": "P1",

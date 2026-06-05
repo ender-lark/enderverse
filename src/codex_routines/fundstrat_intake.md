@@ -36,7 +36,7 @@ Accepted fallback file types:
    Gmail connector JSON shape (`responses:[...]`) into:
 
    ```bash
-   python src/fundstrat_email_intake.py --stdin-json --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json
+   python src/fundstrat_email_intake.py --stdin-json --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json --source-calls src/source_calls.json --log-call-dates src/log_call_dates.json --source-call-summary src/source_call_cache_summary.json
    ```
 
    The parser accepts direct search rows and nested batch-read envelopes:
@@ -49,14 +49,16 @@ Accepted fallback file types:
 3. If the drop folder has files, run:
 
    ```bash
-   python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json
+   python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json --source-calls src/source_calls.json --log-call-dates src/log_call_dates.json --source-call-summary src/source_call_cache_summary.json
    ```
 
 4. If only Gmail search snippets were available, write them only as discovery
    audit entries. Snippet-only entries do not populate `inbox_call_dates.json`
-   and must be reported as not full-body checked.
-5. After a full-body parse, merge classified source-call candidates into the
-   repo cache:
+   and must be reported as not full-body checked. They also do not update
+   `source_calls.json` or `log_call_dates.json`.
+5. The canonical intake commands above merge classified full-body source-call
+   candidates into the repo cache during the same run. If a manual remerge of
+   existing `source_call_candidates.json` is needed, run:
 
    ```bash
    python src/source_call_cache_merge.py --candidates src/source_call_candidates.json --source-calls src/source_calls.json --log-dates src/log_call_dates.json
@@ -111,6 +113,8 @@ debugging, and do not commit raw publication bodies.
 - Do not turn non-action mentions into daily-call rows.
 - Do not let snippet-only discovery update `top_prospects.json`.
 - Do not let snippet-only discovery update `inbox_call_dates.json`.
+- Do not let snippet-only discovery update `source_calls.json` or
+  `log_call_dates.json`.
 - Do not treat unfetched or unparsed emails as checked clear.
 - Do not make trade recommendations from this routine; it only prepares source
   inputs for the cockpit build.

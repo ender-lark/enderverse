@@ -33,8 +33,10 @@ not-checked instead of being treated as clear.
      `inbox_call_dates.json`, and `source_call_candidates.json`.
    - Merge full-body action-like daily calls into `top_prospects.json` so the
      prospects lane is produced before the full build.
-   - After a full-body parse, merge classified candidates into `source_calls.json`
-     and `log_call_dates.json` with `source_call_cache_merge.py`.
+   - In the same full-body intake run, merge classified candidates into
+     `source_calls.json` and `log_call_dates.json`. Use
+     `source_call_cache_merge.py` only for manual remerge of existing
+     candidates.
 
 2. Catalyst intake
    - Parse exported/uploaded Catalyst Calendar rows.

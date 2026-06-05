@@ -17,6 +17,7 @@ from fundstrat_email_intake import (
     normalize_email_entry,
     parse_date,
     update_state,
+    update_source_call_cache,
     update_top_prospects_cache,
     validate_intake_outputs,
     write_convention_files,
@@ -368,6 +369,64 @@ def test_write_convention_files_can_update_top_prospects(tmp_path):
     assert summary["top_prospects"]["updated"] is True
 
 
+def test_update_source_call_cache_from_full_body_candidates(tmp_path):
+    source_calls = tmp_path / "source_calls.json"
+    log_dates = tmp_path / "log_call_dates.json"
+    summary_path = tmp_path / "source_call_cache_summary.json"
+    candidates = [{
+        "source": "Newton",
+        "ticker": "NVDA",
+        "tier": "A",
+        "date": "2026-06-05",
+        "window_end": "2026-06-19",
+        "verbatim_quote": "Buy NVDA near 170.",
+    }]
+
+    summary = update_source_call_cache(
+        candidates,
+        source_calls,
+        log_dates_path=log_dates,
+        summary_path=summary_path,
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+    rows = json.loads(source_calls.read_text(encoding="utf-8"))
+    dates = json.loads(log_dates.read_text(encoding="utf-8"))
+    cache_summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+    assert summary["updated"] is True
+    assert summary["added"] == 1
+    assert rows[0]["ticker"] == "NVDA"
+    assert rows[0]["source"] == "newton"
+    assert dates == ["2026-06-05"]
+    assert cache_summary["stored"] == 1
+
+
+def test_write_convention_files_can_update_source_calls(tmp_path):
+    payload = build_intake_payload([{
+        "subject": "Mark Newton tech",
+        "body": "Buy NVDA near 170, stop 160, target 200.",
+        "date": "2026-06-05",
+        "author": "Newton",
+        "from": "Fundstrat",
+        "source_path": "x",
+    }], universe={"NVDA"}, generated_at="2026-06-05T14:00:00+00:00")
+    written = write_convention_files(
+        payload,
+        tmp_path,
+        source_calls_path=tmp_path / "source_calls.json",
+        log_dates_path=tmp_path / "log_call_dates.json",
+        source_call_summary_path=tmp_path / "source_call_cache_summary.json",
+    )
+    summary = json.loads((tmp_path / "fundstrat_intake_summary.json").read_text(encoding="utf-8"))
+    rows = json.loads((tmp_path / "source_calls.json").read_text(encoding="utf-8"))
+
+    assert "source_calls" in written
+    assert "log_call_dates" in written
+    assert "source_call_cache_summary" in written
+    assert summary["source_calls"]["candidates"] == 1
+    assert rows[0]["ticker"] == "NVDA"
+
+
 def test_snippet_only_entries_do_not_update_top_prospects(tmp_path):
     entries = entries_from_payload({"responses": [{
         "id": "abc",
@@ -388,6 +447,32 @@ def test_snippet_only_entries_do_not_update_top_prospects(tmp_path):
     assert "top_prospects" not in written
     assert not (tmp_path / "top_prospects.json").exists()
     assert summary["top_prospects"]["updated"] is False
+
+
+def test_snippet_only_entries_do_not_update_source_calls(tmp_path):
+    entries = entries_from_payload({"responses": [{
+        "id": "abc",
+        "subject": "Daily Technical Strategy",
+        "snippet": "Buy NVDA near support.",
+        "from_": "Mark Newton mark.newton@fundstratdirect.com",
+        "email_ts": "2026-06-04T23:35:18+00:00",
+    }]})
+    payload = build_intake_payload(entries, universe={"NVDA"},
+                                   generated_at="2026-06-05T14:00:00+00:00")
+    written = write_convention_files(
+        payload,
+        tmp_path,
+        source_calls_path=tmp_path / "source_calls.json",
+        log_dates_path=tmp_path / "log_call_dates.json",
+        source_call_summary_path=tmp_path / "source_call_cache_summary.json",
+    )
+    summary = json.loads((tmp_path / "fundstrat_intake_summary.json").read_text(encoding="utf-8"))
+
+    assert "source_calls" not in written
+    assert not (tmp_path / "source_calls.json").exists()
+    assert not (tmp_path / "log_call_dates.json").exists()
+    assert summary["source_calls"]["updated"] is False
+    assert summary["source_calls"]["candidates"] == 0
 
 
 def test_load_ticker_universe_uses_theses_and_positions(tmp_path):

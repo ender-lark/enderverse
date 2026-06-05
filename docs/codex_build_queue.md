@@ -12,6 +12,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat source-call upsert automation.
+  - Added optional one-step source-call cache/log-date merge to
+    `fundstrat_email_intake.py`.
+  - Updated the Fundstrat routine manifest/docs so full-body intake can write
+    daily calls, top prospects, source calls, and log dates in one path.
+  - Kept snippet-only discovery from updating source-call calibration state.
 - Dashboard parity refresh.
   - Re-ran the full build parity baseline after the synthesis metadata slice.
   - Confirmed every emitted feed block is classified before more UI work.

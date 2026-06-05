@@ -18,18 +18,17 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Evidence
 
 - Git working tree was clean before the audit slice.
-- `python src/system_improvement_queue.py` passed and reported 15 tracked queue
-  items as done after the structured synthesis metadata slice.
+- `python src/system_improvement_queue.py` passed and reported 16 tracked queue
+  items as done after the Fundstrat source-call upsert automation slice.
 - `python src/codex_routine_manifest.py` passed with six active routine
   definitions across source intake, market data refresh, and feed build/publish.
 - Dashboard parity guardrail tests passed.
-- `python src/verify_standard.py --include-js` passed:
-  - broad `src` suite excluding retired `src/test_reallocate.py`: 827 passed,
+- `python src/verify_standard.py` passed:
+  - broad `src` suite excluding retired `src/test_reallocate.py`: 830 passed,
     6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
-  - dashboard JSX bundle check: PASS
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -40,6 +39,10 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Dashboard parity review and dashboard feed-block guardrail.
 - Dashboard parity refresh: current emitted feed keys remain covered by
   `docs/dashboard_feed_block_classification.json`; no UI work was needed.
+- Fundstrat source-call upsert automation: full-body intake can now merge
+  classified source-call candidates into `source_calls.json`,
+  `log_call_dates.json`, and `source_call_cache_summary.json` in the same
+  routine path while snippet-only discovery leaves those caches untouched.
 - Daily Synthesis structured action metadata: explicit action rows can now carry
   ticker aliases, urgency, sizing, timing, capital effect, goal channels, and
   missing-evidence fields without broad prose guessing.
@@ -67,8 +70,7 @@ supported for explicit rows.
 
 Remaining feasible follow-up candidates include:
 
-- Continue Fundstrat intake v1.1 with richer monthly/Bible extraction and
-  stronger source-call-log upsert automation.
+- Continue Fundstrat intake v1.1 with richer monthly/Bible extraction.
 
 ## Conclusion
 

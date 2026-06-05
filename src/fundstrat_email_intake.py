@@ -629,11 +629,64 @@ def update_top_prospects_cache(daily_calls: list[dict], path: str | Path, *,
     return {"updated": True, "picks": len(picks), "path": str(cache_path)}
 
 
+def update_source_call_cache(candidates: list[dict], source_calls_path: str | Path, *,
+                             log_dates_path: str | Path | None = None,
+                             summary_path: str | Path | None = None,
+                             generated_at: str | None = None) -> dict:
+    """Merge classified candidates into source_calls/log_call_dates.
+
+    The caller passes `source_call_candidates`, which are produced only from
+    full-body daily calls. Snippet-only discovery therefore cannot update source
+    call calibration state through this helper.
+    """
+    candidate_rows = [c for c in candidates or [] if isinstance(c, dict)]
+    if not candidate_rows:
+        return {"updated": False, "candidates": 0}
+    try:
+        from source_call_cache_merge import (
+            _atomic_write_json as _write_source_call_json,
+            _read_json as _read_source_call_json,
+            merge_source_calls,
+        )
+    except Exception as exc:
+        return {"updated": False, "candidates": len(candidate_rows), "error": str(exc)}
+
+    source_path = Path(source_calls_path)
+    log_path = Path(log_dates_path) if log_dates_path else source_path.with_name("log_call_dates.json")
+    summary_out = (
+        Path(summary_path)
+        if summary_path
+        else source_path.with_name("source_call_cache_summary.json")
+    )
+    existing = _read_source_call_json(source_path, default=[])
+    merged, summary = merge_source_calls(
+        existing,
+        candidate_rows,
+        generated_at=generated_at,
+    )
+    _write_source_call_json(source_path, merged)
+    _write_source_call_json(log_path, summary["log_call_dates"])
+    _write_source_call_json(summary_out, summary)
+    return {
+        "updated": summary["added"] > 0,
+        "candidates": summary["candidates"],
+        "added": summary["added"],
+        "stored": summary["stored"],
+        "log_call_dates": len(summary["log_call_dates"]),
+        "path": str(source_path),
+        "log_dates_path": str(log_path),
+        "summary_path": str(summary_out),
+    }
+
+
 def write_convention_files(payload: dict, out_dir: str | Path, *,
                            merge_existing: bool = False,
                            state: dict | None = None,
                            redact_bodies: bool = True,
-                           top_prospects_path: str | Path | None = None) -> dict:
+                           top_prospects_path: str | Path | None = None,
+                           source_calls_path: str | Path | None = None,
+                           log_dates_path: str | Path | None = None,
+                           source_call_summary_path: str | Path | None = None) -> dict:
     out = Path(out_dir)
     entries = payload["entries"]
     daily_calls = payload["daily_calls"]
@@ -692,6 +745,21 @@ def write_convention_files(payload: dict, out_dir: str | Path, *,
         _atomic_write_json(out / "fundstrat_intake_summary.json", summary)
         if top_summary.get("updated"):
             written["top_prospects"] = Path(top_summary["path"])
+    if source_calls_path:
+        source_call_summary = update_source_call_cache(
+            candidates,
+            source_calls_path,
+            log_dates_path=log_dates_path,
+            summary_path=source_call_summary_path,
+            generated_at=payload.get("generated_at"),
+        )
+        summary["source_calls"] = source_call_summary
+        payload["summary"]["source_calls"] = source_call_summary
+        _atomic_write_json(out / "fundstrat_intake_summary.json", summary)
+        if source_call_summary.get("candidates"):
+            written["source_calls"] = Path(source_call_summary.get("path") or source_calls_path)
+            written["log_call_dates"] = Path(source_call_summary.get("log_dates_path") or log_dates_path or out / "log_call_dates.json")
+            written["source_call_cache_summary"] = Path(source_call_summary.get("summary_path") or source_call_summary_path or out / "source_call_cache_summary.json")
     return {k: str(v) for k, v in written.items()}
 
 
@@ -767,6 +835,12 @@ def main(argv=None) -> int:
                         help="Write raw email bodies to fundstrat_inbox_entries.json")
     parser.add_argument("--top-prospects", nargs="?", const=str(Path(__file__).resolve().parent / "top_prospects.json"),
                         help="Also merge full-body daily calls into top_prospects.json")
+    parser.add_argument("--source-calls", nargs="?", const=str(Path(__file__).resolve().parent / "source_calls.json"),
+                        help="Also merge full-body source-call candidates into source_calls.json")
+    parser.add_argument("--log-call-dates", default=str(Path(__file__).resolve().parent / "log_call_dates.json"),
+                        help="Path for log_call_dates.json when --source-calls is used")
+    parser.add_argument("--source-call-summary", default=str(Path(__file__).resolve().parent / "source_call_cache_summary.json"),
+                        help="Path for source_call_cache_summary.json when --source-calls is used")
     parser.add_argument("--validate", help="Validate an output directory without writing")
     parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
@@ -801,6 +875,9 @@ def main(argv=None) -> int:
         state=next_state,
         redact_bodies=not args.keep_bodies,
         top_prospects_path=args.top_prospects,
+        source_calls_path=args.source_calls,
+        log_dates_path=args.log_call_dates,
+        source_call_summary_path=args.source_call_summary,
     )
     print(json.dumps({
         "parsed": True,
