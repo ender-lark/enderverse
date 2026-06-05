@@ -24,7 +24,7 @@ enough to hand control back, using current repo state as evidence. It covers:
   definitions across source intake, market data refresh, and feed build/publish.
 - Dashboard parity guardrail tests passed.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite excluding retired `src/test_reallocate.py`: 838 passed,
+  - broad `src` suite excluding retired `src/test_reallocate.py`: 840 passed,
     6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
@@ -37,6 +37,10 @@ enough to hand control back, using current repo state as evidence. It covers:
   passed after seeding the AVGO thesis/sizing item.
 - `python src/full_build_runner.py --feed-out tmp/avgo_research_feed.json`
   emitted one `research_actions` item for AVGO and no AVGO thesis-map entry.
+- Direct dry-run against uploaded monthly PDF
+  `G:/My Drive/Claude/Investing OS/20260528-Market-UpdatevFSD-1.pdf` parsed
+  valid compact monthly state with 5 Top-5 ideas, 5 Bottom-5 ideas, 14
+  What-to-Own rows, and no stored Core List table.
 
 ## Completed Repo-Local Slices
 
@@ -49,9 +53,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   routine path while snippet-only discovery leaves those caches untouched.
 - Fundstrat monthly/Bible direct upload intake: direct monthly PDF/text/JSON
   uploads can write compact `fundstrat_bible.json` state for stance,
-  What-to-Own, consider/core list, Top-5, and Bottom-5 sections; monthly
-  ticker lists can update `top_prospects.json` without storing raw PDF or
-  stock-price chart text.
+  What-to-Own, separate consider-list, Top-5, and Bottom-5 sections; monthly
+  Top-5/Bottom-5 and separate consider rows can update `top_prospects.json`
+  without storing raw PDF text, Core List tables, or stock-price chart text.
+- Monthly Top/Bottom idea extraction and core-list deferral: real PDF text where
+  Top-5/Bottom-5 labels appear after ticker blocks is parsed correctly, while
+  Core List tables are intentionally left out for now to avoid overclutter.
 - AVGO thesis Research Queue seed: the older README note is now a durable
   `research_queue.json` item that From Research can surface while AVGO remains
   unassessed until the thesis is actually written.

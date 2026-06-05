@@ -80,11 +80,12 @@ Accepted monthly file types:
    ```
 
    The monthly parser is intentionally compact: it captures explicit summary
-   charts/core lists such as `What to Own`, `Core List` / `Consider List`,
-   `Top 5`, `Bottom 5`, and short stance text when present. Core-list names are
-   routed to `top_prospects.json` as consider-list candidates even if they do
-   not immediately affect the cockpit's Bible read. It does not store raw PDF
-   text, stock-price chart text, performance tables, or long numeric notes.
+   sections such as `What to Own`, separate `Consider List` rows, `Top 5`,
+   `Bottom 5`, and short stance text when present. Core List tables are left
+   out for now to avoid overclutter and fragile row extraction. Top-5/Bottom-5
+   and separate Consider List rows remain the prospect-signal path. It does not
+   store raw PDF text, stock-price chart text, performance tables, or long
+   numeric notes.
 
 7. Validate output shape and the raw-body redaction rule:
 

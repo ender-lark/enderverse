@@ -116,7 +116,7 @@ def _section_key(label: str) -> str | None:
         return "macro_stance"
     if low in {"what to own", "sector to own", "sectors to own"}:
         return "what_to_own"
-    if low in {"core list", "core lists", "consider list", "consider lists"}:
+    if low in {"consider list", "consider lists"}:
         return "consider"
     if low in {"top 5", "top five", "top5"}:
         return "top5"
@@ -196,6 +196,38 @@ def _ticker_items(text: str) -> list[str | dict]:
     return out
 
 
+def _cashtag_items(text: str) -> list[str]:
+    out: list[str] = []
+    seen: set[str] = set()
+    for ticker in RE_CASHTAG.findall(text or ""):
+        ticker = ticker.upper()
+        if ticker in BLACKLIST or ticker in seen:
+            continue
+        seen.add(ticker)
+        out.append(ticker)
+    return out
+
+
+def _large_cap_idea_lists(text: str) -> dict[str, list[str]]:
+    title = re.search(r"Top\s*5\s+and\s+Bottom\s*5\s+Large[-\s]+cap\s+Core\s+Ideas", text or "", re.I)
+    if not title:
+        return {}
+    segment = text[title.end():]
+    bottom_label = re.search(r"Bottom\s*5\s+Large[-\s]+cap\s+ideas", segment, re.I)
+    if not bottom_label:
+        return {}
+    top_label = re.search(r"Top\s*5\s+Large[-\s]+cap\s+ideas", segment[bottom_label.end():], re.I)
+    if not top_label:
+        return {}
+    bottom_block = segment[:bottom_label.start()]
+    top_block = segment[bottom_label.end():bottom_label.end() + top_label.start()]
+    out = {
+        "bottom5": _cashtag_items(bottom_block),
+        "top5": _cashtag_items(top_block),
+    }
+    return {k: v for k, v in out.items() if v}
+
+
 def _infer_date(text: str, fallback: str | None = None) -> str:
     match = RE_DATE.search(text or "")
     if match:
@@ -241,6 +273,11 @@ def parse_bible_text(text: str, *, source_file: str = "", as_of: str | None = No
             add(key, _ticker_items(body))
         else:
             add(key, _ticker_items(body))
+
+    ideas = _large_cap_idea_lists(text or "")
+    for key in ("top5", "bottom5"):
+        if not deck[key] and ideas.get(key):
+            add(key, ideas[key])
 
     if len(deck["macro_stance"]) == 1:
         deck["macro_stance"] = deck["macro_stance"][0]
@@ -378,10 +415,10 @@ def update_top_prospects_from_bible(deck: dict, path: str | Path, *,
         return {"updated": False, "picks": 0, "error": str(exc)}
 
     date_s = str(deck.get("deck_date") or (generated_at or "")[:10] or "")
-    for key, direction, provenance in (
-        ("top5", "long", "FS Top 5"),
-        ("bottom5", "avoid", "FS Bottom 5"),
-        ("consider", "long", "FS Consider List"),
+    for key, direction, provenance, category_hint in (
+        ("top5", "long", "FS Top 5", None),
+        ("bottom5", "avoid", "FS Bottom 5", None),
+        ("consider", "long", "FS Consider List", "consider_list"),
     ):
         for item in deck.get(key) or []:
             ticker = item.get("ticker") if isinstance(item, dict) else item
@@ -396,6 +433,7 @@ def update_top_prospects_from_bible(deck: dict, path: str | Path, *,
                 report_type="monthly",
                 provenance=f"{provenance} - {date_s}" if date_s else provenance,
                 substantive=isinstance(item, dict) and bool(item.get("note")),
+                category_hint=category_hint,
             ))
     if not picks:
         return {"updated": False, "picks": 0}
@@ -440,7 +478,8 @@ def _self_test() -> int:
     assert deck["deck_date"] == "2026-06"
     assert deck["macro_stance"] == "Risk-on, buy dips into mid-year."
     assert deck["what_to_own"] == ["Technology", "Industrials", "Financials"]
-    assert deck["consider"] == [{"ticker": "ANET", "note": "AI networking"}, "VRT"]
+    assert "core_list" not in deck
+    assert "consider" not in deck
     assert deck["top5"][0] == {"ticker": "NVDA", "note": "secular AI leader"}
     assert deck["bottom5"][1] == {"ticker": "ABC", "note": "funding source"}
     assert validate_bible_deck(deck) == []

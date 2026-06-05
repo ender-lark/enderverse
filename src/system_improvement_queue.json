@@ -59,7 +59,7 @@
       "status": "done",
       "area": "routines",
       "why": "Monthly Fundstrat updates arrive as uploaded PDFs and should update the source spine without storing noisy stock-price chart text.",
-      "done_when": "Direct monthly PDF/text/JSON uploads can write fundstrat_bible.json, preserve useful summary/core lists, route core-list names to top_prospects.json as consider candidates, and avoid raw PDF or stock-price chart clutter."
+      "done_when": "Direct monthly PDF/text/JSON uploads can write fundstrat_bible.json, preserve useful summary sections, route Top-5/Bottom-5 and separate consider-list rows to top_prospects.json, and avoid raw PDF text, Core List tables, or stock-price chart clutter."
     },
     {
       "id": "codex-routine-migration",

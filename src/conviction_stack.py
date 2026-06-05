@@ -55,6 +55,7 @@ STACK_WEIGHTS: Dict[str, object] = {
     # Working set; reconcile with the Two-Lens 8 categories over time.
     "category_base": {
         "analyst_named":  (10, 6),   # named BUY/pick from Lee / FS monthly
+        "consider_list":  (4, 0),    # monthly Consider List: track it, don't rush it
         "technical":      (6, 10),   # Newton technicals (timing-heavy -> high urgency)
         "crypto_read":    (7, 8),    # Farrell broad-crypto stance (BTC/ETH/alts)
         "flow":           (5, 6),    # unusual options flow
@@ -308,6 +309,11 @@ def _self_test() -> bool:
         SignalEvent("AAA", "FS-Monthly", "analyst_named", "2026-06-01"),
     ], now=NOW)
     check("flat same-source repeat decays (13.5)", r.conviction == 13.5)
+
+    # 3b. Monthly Consider List names are durable but not urgent by themselves.
+    r = compute_stack([SignalEvent("AAA", "FS-Monthly", "consider_list", "2026-06-05")], now=NOW)
+    check("single consider_list conviction==4", r.conviction == 4)
+    check("single consider_list stays quiet", r.conviction_level == "QUIET" and r.urgency == 0)
 
     # 4. Substantive repeat -> +10*0.7=7 -> 17.0
     r = compute_stack([

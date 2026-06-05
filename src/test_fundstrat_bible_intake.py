@@ -31,7 +31,8 @@ def test_parse_bible_text_keeps_only_useful_sections():
     assert deck["deck_date"] == "2026-06"
     assert deck["macro_stance"] == "Risk-on, buy dips into mid-year."
     assert deck["what_to_own"] == ["Technology", "Industrials", "Financials"]
-    assert deck["consider"] == [{"ticker": "ANET", "note": "AI networking"}, "VRT"]
+    assert "core_list" not in deck
+    assert "consider" not in deck
     assert deck["top5"] == [{"ticker": "NVDA", "note": "secular AI leader"}, "GOOGL", "GS"]
     assert deck["bottom5"] == ["XYZ", {"ticker": "ABC", "note": "funding source"}]
     assert "Fundstrat Monthly Strategy" not in json.dumps(deck)
@@ -62,7 +63,43 @@ def test_build_deck_from_text_file_and_write_outputs(tmp_path):
     assert saved["top5"][0]["ticker"] == "NVDA"
     assert saved_summary["valid"] is True
     assert saved_summary["top5"] == 3
-    assert saved_summary["consider"] == 2
+    assert saved_summary["consider"] == 0
+
+
+def test_core_list_summary_statistics_is_ignored_for_now():
+    deck = parse_bible_text("\n".join([
+        "Fundstrat Monthly 2026-05-28",
+        "Core List: Summary Statistics",
+        "● 1 AMD Advanced Micro Devices Inc Information Technology Semiconductors & Semiconductors $808,028 43.3% 121.5% 38.4x 17 1 120% 178% Y",
+        "2 CAT Caterpillar Inc Industrials Machinery $419,106 5.0% 49.0% 30.3x 16 5 103% 141% Y",
+        "Top 5: AMD; GOOGL",
+    ]))
+
+    assert "core_list" not in deck
+    assert deck["top5"] == ["AMD", "GOOGL"]
+
+
+def test_large_cap_top_bottom_idea_page_handles_pdf_text_order():
+    deck = parse_bible_text("\n".join([
+        "Macro Research",
+        "5/28/2026 For Exclusive Use of Fundstrat Direct Members Only",
+        "May 2026: Top 5 and Bottom 5 Large-cap Core Ideas",
+        "Deere & Co. ($DE)",
+        "Texas Pacific Land Corp. ($TPL)",
+        "Robinhood Markets Inc. ($HOOD)",
+        "Packaging Corp. of America ($PKG)",
+        "Echostar Corp. ($SATS)",
+        "Bottom 5 Large-cap ideas",
+        "Advanced Micro Devices ($AMD)",
+        "Arista Networks ($ANET)",
+        "Alphabet Inc. ($GOOGL)",
+        "Quanta Services Inc. ($PWR)",
+        "Goldman Sachs Group Inc. ($GS)",
+        "Top 5 Large-cap ideas",
+    ]))
+
+    assert deck["bottom5"] == ["DE", "TPL", "HOOD", "PKG", "SATS"]
+    assert deck["top5"] == ["AMD", "ANET", "GOOGL", "PWR", "GS"]
 
 
 def test_json_deck_passthrough_and_merge_existing(tmp_path):
@@ -102,8 +139,10 @@ def test_update_top_prospects_from_monthly_bible(tmp_path):
     assert summary["picks"] == 3
     assert cache["NVDA"]["events"][0]["source"] == "FS-Monthly"
     assert cache["NVDA"]["events"][0]["direction"] == "long"
-    assert cache["ANET"]["events"][0]["category"] == "analyst_named"
+    assert cache["ANET"]["events"][0]["category"] == "consider_list"
     assert cache["ANET"]["events"][0]["direction"] == "long"
+    assert cache["ANET"]["conviction_score"] == 4
+    assert cache["ANET"]["urgency_score"] == 0
     assert cache["XYZ"]["events"][0]["direction"] == "avoid"
     assert "Fundstrat Monthly Strategy" not in json.dumps(cache)
 

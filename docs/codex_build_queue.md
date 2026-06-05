@@ -12,6 +12,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Monthly Top/Bottom idea extraction and core-list deferral.
+  - Left Fundstrat monthly Core List tables out of stored state for now to avoid
+    overclutter and bad row extraction.
+  - Added a PDF-text fallback for monthly Large-cap Top-5/Bottom-5 pages where
+    extraction places labels after ticker blocks.
+  - Added an explicit low-pressure `consider_list` category for separate
+    monthly Consider List rows.
 - AVGO thesis Research Queue seed.
   - Added `src/research_queue.json` with one high-priority AVGO thesis/sizing
     research item from the README backlog note.
@@ -19,9 +26,9 @@ until the core logic is stable; Notion sync comes later.
   - Validated the queue so From Research can surface it.
 - Fundstrat monthly/Bible direct upload intake.
   - Added `fundstrat_bible_intake.py` for direct monthly PDF/text/JSON uploads.
-  - Writes compact `fundstrat_bible.json` deck shape for useful summary/core
-    lists: stance, What-to-Own, consider/core list, Top-5, and Bottom-5.
-  - Can merge monthly Top-5/Bottom-5 and consider-list names into
+  - Writes compact `fundstrat_bible.json` deck shape for useful summary lists:
+    stance, What-to-Own, separate consider list, Top-5, and Bottom-5.
+  - Can merge monthly Top-5/Bottom-5 and separate consider-list names into
     `top_prospects.json` without storing raw PDF text or stock-price chart
     clutter.
 - Fundstrat source-call upsert automation.
