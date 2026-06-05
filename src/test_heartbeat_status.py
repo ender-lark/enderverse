@@ -1,0 +1,90 @@
+import json
+import os
+import subprocess
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from heartbeat_status import heartbeat_rows, validate_heartbeat
+
+
+def _base_report(**overrides):
+    report = {
+        "build_ready": True,
+        "build_problem": "",
+        "publish_gate_problems": [],
+        "missing_required_inputs": [],
+        "missing_minimum_live_inputs": [],
+        "dark_lane_keys": [],
+    }
+    report.update(overrides)
+    return report
+
+
+def test_heartbeat_rows_show_missing_market_data_and_dark_lanes():
+    rows = heartbeat_rows(
+        _base_report(
+            missing_minimum_live_inputs=[{"key": "macro"}, {"key": "uw_prices"}],
+            publish_gate_problems=["cannot verify stamp"],
+            dark_lane_keys=["uw_price", "uw_macro", "signal_log"],
+        ),
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+    by_layer = {row["layer"]: row for row in rows}
+
+    assert by_layer["Required Inputs"]["status"] == "ok"
+    assert by_layer["Minimum Market Data"]["status"] == "down"
+    assert "macro" in by_layer["Minimum Market Data"]["note"]
+    assert by_layer["Publish Gate"]["status"] == "down"
+    assert by_layer["Optional Source Lanes"]["status"] == "stale"
+    assert by_layer["Daily Full Build"]["status"] == "ok"
+    assert validate_heartbeat(rows) == []
+
+
+def test_heartbeat_rows_all_ok_when_report_is_clean():
+    rows = heartbeat_rows(_base_report(), generated_at="2026-06-05T14:00:00+00:00")
+
+    assert {row["status"] for row in rows} == {"ok"}
+
+
+def test_validate_heartbeat_rejects_bad_status():
+    problems = validate_heartbeat([{"layer": "X", "status": "exploded"}])
+
+    assert any("status" in problem for problem in problems)
+
+
+def test_heartbeat_cli_no_write(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "positions.json").write_text(json.dumps({
+        "snapshot_date": "2026-06-05",
+        "positions": [{"ticker": "NVDA", "market_value": 100}],
+    }), encoding="utf-8")
+    (src / "theses.json").write_text(json.dumps([
+        {"ticker": "NVDA", "tier": "T2", "stance": "ACTIVE"}
+    ]), encoding="utf-8")
+    script = os.path.join(os.path.dirname(__file__), "heartbeat_status.py")
+    out = tmp_path / "heartbeat.json"
+    summary = tmp_path / "heartbeat_summary.json"
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            script,
+            "--src-dir",
+            str(src),
+            "--out",
+            str(out),
+            "--summary",
+            str(summary),
+            "--no-write",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    assert json.loads(proc.stdout)["valid"] is True
+    assert not out.exists()
+    assert not summary.exists()

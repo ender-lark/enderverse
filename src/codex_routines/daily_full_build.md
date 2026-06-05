@@ -21,26 +21,36 @@ This is the main replacement for Claude's FULL-build prompt.
 4. Run:
 
    ```bash
+   python src/heartbeat_status.py --src-dir src --out src/heartbeat.json --summary src/heartbeat_summary.json
+   python src/heartbeat_status.py --validate src/heartbeat.json
+   ```
+
+5. The heartbeat strip is operational status only. A `down` or `stale` heartbeat
+   row does not create a trade; it tells the dashboard why live confidence is
+   limited.
+6. Run:
+
+   ```bash
    python src/live_readiness.py --src-dir src
    ```
 
-5. If `go_live_ready` is false, treat the report as the current status and do
+7. If `go_live_ready` is false, treat the report as the current status and do
    not force-publish. `rehearsal_ready` means the build can run, not that the
    live market/source lanes are populated.
-6. When the readiness report is clean, run:
+8. When the readiness report is clean, run:
 
    ```bash
    python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish
    ```
 
-7. If publish fails, do not force-write a feed. Report the publish-gate problems.
-8. Run focused checks:
+9. If publish fails, do not force-write a feed. Report the publish-gate problems.
+10. Run focused checks:
 
    ```bash
-   python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_runtime_full.py src/test_cockpit_blocks.py -q
+   python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py -q
    ```
 
-9. Summarize:
+11. Summarize:
    - action count
    - ACT_NOW names
    - research-action count

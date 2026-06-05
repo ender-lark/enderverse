@@ -15,6 +15,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Heartbeat status writer.
+  - Added `heartbeat_status.py` to produce dashboard heartbeat rows from
+    repo-local live-readiness evidence without fetching or publishing.
+  - Wired `heartbeat.json` and `heartbeat_summary.json` into the daily
+    full-build routine manifest/docs.
+  - Reports required inputs, minimum market data, publish gate, optional source
+    lanes, and daily build readiness as operational status only.
 - Empty source lane status guardrail.
   - Changed source lane status so a cleanly registered but empty source is
     `checked_clear`, not `has_data`.

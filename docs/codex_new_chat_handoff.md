@@ -29,8 +29,7 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Empty source lane status
-  guardrail.
+- Latest completed slice before this handoff refresh: Heartbeat status writer.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -61,6 +60,10 @@ Important recent state:
   market-data blockers.
 - Source lane status now requires delivered dated items for `has_data`; a
   cleanly registered but empty source is `checked_clear`, not data.
+- `src/heartbeat_status.py` writes `src/heartbeat.json` and
+  `src/heartbeat_summary.json` from repo-local readiness evidence. It reports
+  required-input, minimum-market-data, publish-gate, optional-lane, and daily
+  build status; it does not fetch sources or create trade actions.
 - Absent optional price cache now leaves `uw_price` not checked instead of
   registering an empty price source as `has_data`.
 - `src/uw_price_cache_intake.py` can normalize supplied UW close-price responses
@@ -90,7 +93,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `871 passed, 6 skipped`.
+- `python -m pytest src -q` -> `875 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the same full pytest tree plus the standalone self-tests.
 

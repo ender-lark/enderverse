@@ -389,10 +389,20 @@
         }
       ],
       "owns": [
+        "src/heartbeat.json",
+        "src/heartbeat_summary.json",
         "src/latest_cockpit_feed.json",
         "src/open_opportunities.json"
       ],
       "commands": [
+        {
+          "id": "write_heartbeat_status",
+          "command": "python src/heartbeat_status.py --src-dir src --out src/heartbeat.json --summary src/heartbeat_summary.json"
+        },
+        {
+          "id": "validate_heartbeat_status",
+          "command": "python src/heartbeat_status.py --validate src/heartbeat.json"
+        },
         {
           "id": "readiness_check",
           "command": "python src/live_readiness.py --src-dir src"
@@ -402,7 +412,7 @@
           "command": "python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish"
         }
       ],
-      "verification": "python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_runtime_full.py src/test_cockpit_blocks.py -q",
+      "verification": "python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py -q",
       "no_input_behavior": "Missing optional source files remain dark lanes; publish gate prevents unsafe feed overwrite."
     },
     {

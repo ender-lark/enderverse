@@ -251,11 +251,11 @@
       "id": "heartbeat",
       "source_of_truth": "routine_status",
       "repo_artifact": "src/heartbeat.json",
-      "producer": "daily full build and cache routines",
+      "producer": "daily_full_build -> heartbeat_status.py",
       "feed_path": "full_build_runner.DEFAULT_FILES.heartbeat -> feed.heartbeat/lane_status",
       "dashboard_surface": "Heartbeat strip and lane status",
       "mirror_policy": "GitHub status cache is build input; routine logs may live elsewhere.",
-      "freshness_contract": "Each routine reports last_run/status/failure plainly.",
+      "freshness_contract": "heartbeat_status.py reports required input, market-data, publish-gate, optional-lane, and build status plainly.",
       "not_checked_behavior": "Absent heartbeat rows are not checked.",
       "action_surface": "Operational surface only; can block confidence in other action lanes."
     },
