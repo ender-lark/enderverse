@@ -7,27 +7,31 @@ import completion_audit
 
 
 def _live(*, ready=True, open_tickers=None):
+    tickers = ["ANET", "GOOGL"] if open_tickers is None else open_tickers
     return {
         "go_live_ready": ready,
         "actions": 5,
         "research_actions": 0,
         "data_flow": {"generated_at": "2026-06-05T23:30:00+00:00"},
-        "open_actions": {"tickers": open_tickers or ["ANET", "GOOGL"]},
+        "open_actions": {"tickers": tickers},
         "dark_lanes": {"keys": ["account_positions"]},
     }
 
 
-def _checklist(*, blockers=None):
+def _checklist(*, blockers=None, waiting_on_source=None, waiting_on_schedule=None):
     blockers = blockers or []
+    waiting_on_source = ["Account Positions"] if waiting_on_source is None else waiting_on_source
+    waiting_on_schedule = ["Cloud automation proof"] if waiting_on_schedule is None else waiting_on_schedule
     return {
         "fail_count": len(blockers),
         "operator_summary": {
             "build_blocker_count": len(blockers),
             "build_blockers": blockers,
-            "waiting_on_source_count": 1,
-            "waiting_on_source": ["Account Positions"],
-            "waiting_on_schedule_count": 1,
-            "waiting_on_schedule": ["Cloud automation proof"],
+            "waiting_on_source_count": len(waiting_on_source),
+            "waiting_on_source": waiting_on_source,
+            "waiting_on_schedule_count": len(waiting_on_schedule),
+            "waiting_on_schedule": waiting_on_schedule,
+            "monitoring_warning_count": 0,
         },
     }
 
@@ -90,12 +94,14 @@ def test_completion_audit_reports_clear_build_with_external_waits(monkeypatch, t
 
     assert report["state"] == "build_clear_waiting_external"
     assert report["build_clear"] is True
+    assert report["all_clear"] is False
     assert report["build_blocker_count"] == 0
     assert report["waiting_on_source"] == ["Account Positions"]
     assert report["cloud"]["scheduled_success"] == 3
     assert report["system_queue"]["valid"] is True
     assert report["open_review_tickers"] == ["ANET", "GOOGL"]
     assert "Completion audit: BUILD_CLEAR_WAITING_EXTERNAL" in text
+    assert "Build clear: True | all clear: False" in text
     assert "Cloud proof: 3/10 scheduled" in text
     assert "Queue: valid=True" in text
     assert "Next: No code blocker; wait for or supply source input: Account Positions." in text
@@ -125,7 +131,32 @@ def test_completion_audit_promotes_active_queue_before_external_waits(monkeypatc
     assert report["next_recommended_action"] == "Promote queued slice: slice - Slice."
 
 
+def test_completion_audit_reports_all_clear_when_external_waits_are_done(monkeypatch, tmp_path):
+    live = _live(open_tickers=[])
+    live["dark_lanes"] = {"keys": []}
+    _patch(
+        monkeypatch,
+        live=live,
+        checklist=_checklist(waiting_on_source=[], waiting_on_schedule=[]),
+        cloud=_cloud(scheduled=10, expected=10, live_run=True),
+    )
+
+    report = completion_audit.build_completion_audit(src_dir=tmp_path)
+    text = completion_audit.format_text(report)
+
+    assert report["state"] == "build_clear"
+    assert report["build_clear"] is True
+    assert report["all_clear"] is True
+    assert "Build clear: True | all clear: True" in text
+
+
 def test_completion_audit_cli_text_runs_against_current_repo():
     rc = completion_audit.main(["--format", "text"])
 
     assert rc == 0
+
+
+def test_completion_audit_cli_require_all_clear_fails_current_repo():
+    rc = completion_audit.main(["--require-all-clear"])
+
+    assert rc == 3

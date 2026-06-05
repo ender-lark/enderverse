@@ -64,9 +64,10 @@ Current pushed snapshot (2026-06-05 19:18 ET live artifacts; 19:01 ET cloud proo
   wait, and 1 review-backlog bucket. The warnings are Account Positions source
   input/manual drop/dark lane and open action reviews (`ANET`, `GOOGL`).
 - `python src/completion_audit.py --format text` reports
-  `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, go-live ready, 0 build blockers,
-  Account Positions as the source/user wait, cloud proof `3/10`, and open
-  reviews `ANET`, `GOOGL`.
+  `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, `all clear: False`, go-live
+  ready, 0 build blockers, Account Positions as the source/user wait, cloud
+  proof `3/10`, and open reviews `ANET`, `GOOGL`. Use
+  `--require-all-clear` only when external waits should fail the command.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
   `2026-06-05 19:26 ET`.

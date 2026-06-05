@@ -10,11 +10,13 @@ python src/completion_audit.py --format text
 ```
 
 Current command output classifies the build as
-`BUILD_CLEAR_WAITING_EXTERNAL`: local dashboard/go-live readiness is clear,
-there are 0 build blockers, Account Positions is the one source/user wait,
-cloud routine proof remains partial at `3/10` and should advance naturally, and
-`ANET`/`GOOGL` remain deferred open reviews until the build is explicitly
-resumed for stock-specific review.
+`BUILD_CLEAR_WAITING_EXTERNAL`: local dashboard/go-live readiness is clear and
+there are 0 build blockers, but `all_clear` remains false. Account Positions is
+the one source/user wait, cloud routine proof remains partial at `3/10` and
+should advance naturally, and `ANET`/`GOOGL` remain deferred open reviews until
+the build is explicitly resumed for stock-specific review. Use
+`python src/completion_audit.py --require-all-clear` only when external waits
+must fail the command.
 
 Generated: 2026-06-05
 

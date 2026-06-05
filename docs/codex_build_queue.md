@@ -42,6 +42,9 @@ until the core logic is stable; Notion sync comes later.
   - Added `python src/completion_audit.py --format text` as the non-mutating
     current-state audit for build blockers, source/user waits, natural cloud
     proof waits, open-review backlog, and the next recommended action.
+  - Added an explicit `all_clear` audit field and `--require-all-clear` gate so
+    local build readiness cannot be mistaken for complete external/source/cloud
+    clearance.
   - Updated the go-live checklist and dashboard Operator Status card so `WARN`
     no longer implies a code blocker. Current status is build-clear with waits:
     0 build blockers, Account Positions source wait, partial cloud proof

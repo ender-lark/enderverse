@@ -63,6 +63,26 @@ def _next_recommended_action(
     return "No promoted build slice remains; wait for new evidence or user direction."
 
 
+def _all_clear(
+    *,
+    build_clear: bool,
+    checklist_summary: dict[str, Any],
+    queue: dict[str, Any],
+    cloud_summary: dict[str, Any],
+    open_tickers: list[str],
+    dark_lanes: list[str],
+) -> bool:
+    return (
+        build_clear
+        and not checklist_summary.get("waiting_on_source")
+        and int(checklist_summary.get("monitoring_warning_count") or 0) == 0
+        and int(queue.get("active_or_queued") or 0) == 0
+        and bool(cloud_summary.get("live_run_proven"))
+        and not open_tickers
+        and not dark_lanes
+    )
+
+
 def build_completion_audit(*, src_dir: str | Path = DEFAULT_SRC) -> dict[str, Any]:
     src = Path(src_dir)
     live = live_status.live_status(src_dir=src)
@@ -93,6 +113,14 @@ def build_completion_audit(*, src_dir: str | Path = DEFAULT_SRC) -> dict[str, An
         and int(checklist.get("fail_count") or 0) == 0
         and int(queue.get("active_or_queued") or 0) == 0
     )
+    all_clear = _all_clear(
+        build_clear=build_clear,
+        checklist_summary=checklist_summary,
+        queue=queue,
+        cloud_summary=cloud_summary,
+        open_tickers=open_tickers,
+        dark_lanes=dark_lanes,
+    )
     state = "blocked" if not build_clear and checklist_summary.get("build_blocker_count") else "build_clear"
     if build_clear and (
         checklist_summary.get("waiting_on_source")
@@ -105,6 +133,7 @@ def build_completion_audit(*, src_dir: str | Path = DEFAULT_SRC) -> dict[str, An
     return {
         "state": state,
         "build_clear": build_clear,
+        "all_clear": all_clear,
         "go_live_ready": bool(live.get("go_live_ready")),
         "feed_generated_at": (live.get("data_flow") or {}).get("generated_at") or "",
         "actions": int(live.get("actions") or 0),
@@ -115,6 +144,7 @@ def build_completion_audit(*, src_dir: str | Path = DEFAULT_SRC) -> dict[str, An
         "waiting_on_source_count": int(checklist_summary.get("waiting_on_source_count") or 0),
         "waiting_on_schedule": checklist_summary.get("waiting_on_schedule") or [],
         "waiting_on_schedule_count": int(checklist_summary.get("waiting_on_schedule_count") or 0),
+        "monitoring_warning_count": int(checklist_summary.get("monitoring_warning_count") or 0),
         "open_review_tickers": open_tickers,
         "open_review_count": len(open_tickers),
         "dark_lanes": dark_lanes,
@@ -136,6 +166,7 @@ def format_text(report: dict[str, Any]) -> str:
         f"Completion audit: {str(report.get('state') or 'unknown').upper()}",
         (
             f"Build clear: {bool(report.get('build_clear'))} | "
+            f"all clear: {bool(report.get('all_clear'))} | "
             f"go-live ready: {bool(report.get('go_live_ready'))} | "
             f"build blockers: {int(report.get('build_blocker_count') or 0)}"
         ),
@@ -180,12 +211,19 @@ def main(argv=None) -> int:
     parser.add_argument("--src-dir", default=str(DEFAULT_SRC))
     parser.add_argument("--format", choices=["json", "text"], default="json")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero when build is not clear")
+    parser.add_argument(
+        "--require-all-clear",
+        action="store_true",
+        help="Exit non-zero until source waits, cloud proof waits, dark lanes, and open reviews are clear",
+    )
     args = parser.parse_args(argv)
     report = build_completion_audit(src_dir=args.src_dir)
     if args.format == "text":
         print(format_text(report))
     else:
         print(json.dumps(report, indent=2))
+    if args.require_all_clear and not report.get("all_clear"):
+        return 3
     return 2 if args.strict and not report.get("build_clear") else 0
 
 
