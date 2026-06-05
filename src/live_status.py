@@ -184,6 +184,20 @@ def _join_values(values: list[Any], *, empty: str = "none") -> str:
     return ", ".join(cleaned) if cleaned else empty
 
 
+def _dark_lane_commands(key: str) -> list[str]:
+    commands = {
+        "catalysts": [
+            "python src/catalyst_calendar_intake.py <catalyst-calendar.json> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing",
+            "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+        ],
+        "signal_log": [
+            "python src/signal_log_intake.py <signal-log.json> --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing",
+            "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+        ],
+    }
+    return commands.get(key, ["python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"])
+
+
 def format_text(status: dict[str, Any]) -> str:
     """Return a human-readable operator status without changing JSON output."""
     data_flow = status.get("data_flow") or {}
@@ -278,6 +292,15 @@ def format_text(status: dict[str, Any]) -> str:
             key = row.get("label") or row.get("key") or "unknown"
             next_step = row.get("next_step") or row.get("missing_impact") or "Supply source input."
             lines.append(f"- {key}: {next_step}")
+        lines.append("Dark lane intake commands:")
+        lines.append("- Start template: docs/manual_drop.template.json")
+        for row in details:
+            if not isinstance(row, dict):
+                continue
+            label = row.get("label") or row.get("key") or "Dark lane"
+            key = str(row.get("key") or "").strip()
+            for command in _dark_lane_commands(key):
+                lines.append(f"- {label}: {command}")
     else:
         lines.append("Dark lanes: none")
 

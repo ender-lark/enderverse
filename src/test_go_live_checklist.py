@@ -163,6 +163,7 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     assert "ANET" in text
     assert "Supply Catalyst Calendar rows." in text
     assert "python src/live_status.py --format text" in text
+    assert "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only" in text
     assert "python src/action_memory_resolve.py --review-report" in text
 
 

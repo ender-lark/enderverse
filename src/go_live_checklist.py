@@ -174,7 +174,7 @@ def build_go_live_checklist(
             "Optional dark lanes",
             "warn",
             _dark_lane_detail(status),
-            "python src/live_status.py --format text",
+            "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
         ))
     fail_count = sum(1 for row in rows if row["status"] == "fail")
     warn_count = sum(1 for row in rows if row["status"] == "warn")

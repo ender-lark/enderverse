@@ -15,6 +15,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dark-lane intake command surfacing.
+  - `python src/live_status.py --format text` now shows exact intake commands
+    for Catalyst Calendar, Signal Log, and manual source-drop validation when
+    those optional lanes are dark.
+  - `python src/go_live_checklist.py --format text` now points the dark-lane
+    warning at the manual source-drop validation command instead of only
+    sending the operator back to status.
 - Source-call candidate draft helper.
   - Added `python src/source_call_candidate_draft.py` to draft pending
     source-call candidates from compact daily-call observations already present

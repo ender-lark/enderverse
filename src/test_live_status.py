@@ -157,3 +157,8 @@ def test_format_text_is_operator_scannable():
     assert 'python src/action_memory_resolve.py --ticker ANET --status acted --reason "operator acted"' in text
     assert "- Catalysts: Supply Catalyst Calendar rows." in text
     assert "- Signal Log: Supply Morning Scan JSON." in text
+    assert "Dark lane intake commands:" in text
+    assert "- Start template: docs/manual_drop.template.json" in text
+    assert "python src/catalyst_calendar_intake.py <catalyst-calendar.json> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing" in text
+    assert "python src/signal_log_intake.py <signal-log.json> --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing" in text
+    assert "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only" in text
