@@ -157,6 +157,11 @@ until the core logic is stable; Notion sync comes later.
   - Missing Catalyst pulls remain visible as a dark lane instead of being
     treated as checked clear. Open action reviews remain visible as warnings,
     not cloud-ops blockers.
+- Go-live checklist cloud proof row.
+  - `python src/go_live_checklist.py --format text` now includes a Cloud
+    automation proof row derived from `cloud_ops_status.py`.
+  - The row warns while the stack is schedule-ready but first scheduled proof
+    is still pending, and will pass after the first scheduled receipt lands.
 - Go-live checklist event-watch parity.
   - `python src/go_live_checklist.py --format text` now includes an Active
     Event Watch row derived from the same live-status/feed evidence as the

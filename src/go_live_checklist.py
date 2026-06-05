@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 import action_memory_resolve
+import cloud_ops_status
 import live_status
 import manual_source_drop
 
@@ -105,6 +106,30 @@ def _event_watch_detail(event_watch: dict[str, Any]) -> str:
     return " | ".join(parts)
 
 
+def _cloud_row_status(cloud: dict[str, Any]) -> str:
+    if not cloud.get("schedule_ready_for_unattended_run"):
+        return "fail"
+    if cloud.get("first_scheduled_run_proven"):
+        return "pass"
+    return "warn"
+
+
+def _cloud_row_detail(cloud: dict[str, Any]) -> str:
+    receipts = ((cloud.get("routine_receipts") or {}).get("summary") or {})
+    due = cloud.get("routine_receipt_due") or {}
+    next_due = due.get("next_due") or {}
+    next_label = next_due.get("routine_name") or next_due.get("routine_id") or "none"
+    next_at = next_due.get("next_due_at") or ""
+    return (
+        f"state={cloud.get('cloud_operating_state') or 'unknown'}; "
+        f"schedule_ready={bool(cloud.get('schedule_ready_for_unattended_run'))}; "
+        f"first_scheduled_proof={bool(cloud.get('first_scheduled_run_proven'))}; "
+        f"scheduled_success={int(receipts.get('scheduled_success_count') or 0)}/"
+        f"{int(receipts.get('expected_count') or 0)}; "
+        f"next={next_label} {next_at}".rstrip()
+    )
+
+
 def build_go_live_checklist(
     *,
     src_dir: str | Path = DEFAULT_SRC,
@@ -112,6 +137,7 @@ def build_go_live_checklist(
 ) -> dict[str, Any]:
     src = Path(src_dir)
     status = live_status.live_status(src_dir=src)
+    cloud = cloud_ops_status.cloud_ops_status(src_dir=src)
     review = action_memory_resolve.review_report(store_path=src / "open_opportunities.json")
     manual_report = None
     if manual_drop:
@@ -141,6 +167,13 @@ def build_go_live_checklist(
             _status_from_bool(bool(status.get("go_live_ready"))),
             f"{status.get('live_summary')}; actions={status.get('actions')}; research_actions={status.get('research_actions')}",
             "python src/live_status.py --format text",
+        ),
+        _row(
+            "cloud_ops",
+            "Cloud automation proof",
+            _cloud_row_status(cloud),
+            _cloud_row_detail(cloud),
+            "python src/cloud_ops_status.py --format text",
         ),
         _row(
             "data_flow",

@@ -4,9 +4,36 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import go_live_checklist
+
+
+def _fake_cloud(first_proven=False, schedule_ready=True):
+    return {
+        "schedule_ready_for_unattended_run": schedule_ready,
+        "first_scheduled_run_proven": first_proven,
+        "cloud_operating_state": "partial_live_run_proven" if first_proven else "ready_pending_first_success",
+        "routine_receipts": {
+            "summary": {
+                "scheduled_success_count": 1 if first_proven else 0,
+                "expected_count": 10,
+            }
+        },
+        "routine_receipt_due": {
+            "next_due": {
+                "routine_name": "Investing OS Post-Close Refresh",
+                "next_due_at": "2026-06-05T16:30:00-04:00",
+            }
+        },
+    }
+
+
+@pytest.fixture(autouse=True)
+def _patch_cloud_status(monkeypatch):
+    monkeypatch.setattr(go_live_checklist.cloud_ops_status, "cloud_ops_status", lambda **kwargs: _fake_cloud())
 
 
 def _fake_status(open_count=0, ready=True):
@@ -92,6 +119,12 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
     )
     assert any(row["key"] == "data_flow" and row["status"] == "pass" for row in report["rows"])
     assert any(
+        row["key"] == "cloud_ops"
+        and row["status"] == "warn"
+        and "first_scheduled_proof=False" in row["detail"]
+        for row in report["rows"]
+    )
+    assert any(
         row["key"] == "event_watch" and row["status"] == "pass" and "Oil shock" in row["detail"]
         for row in report["rows"]
     )
@@ -110,6 +143,29 @@ def test_build_go_live_checklist_fails_when_readiness_blocked(monkeypatch, tmp_p
 
     assert report["status"] == "fail"
     assert report["fail_count"] >= 1
+
+
+def test_build_go_live_checklist_passes_after_first_cloud_proof(monkeypatch, tmp_path):
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: _fake_status())
+    monkeypatch.setattr(
+        go_live_checklist.cloud_ops_status,
+        "cloud_ops_status",
+        lambda **kwargs: _fake_cloud(first_proven=True),
+    )
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {"open_count": 0, "oldest_age_days": 0},
+    )
+
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+
+    assert any(
+        row["key"] == "cloud_ops"
+        and row["status"] == "pass"
+        and "scheduled_success=1/10" in row["detail"]
+        for row in report["rows"]
+    )
 
 
 def test_build_go_live_checklist_warns_when_no_event_watch(monkeypatch, tmp_path):
@@ -190,6 +246,8 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
 
     assert "Go-live checklist: WARN" in text
     assert "[PASS] Live data flow" in text
+    assert "[WARN] Cloud automation proof" in text
+    assert "python src/cloud_ops_status.py --format text" in text
     assert "[WARN] Source-call calibration" in text
     assert "[PASS] Sudden event refresh" in text
     assert "[PASS] Active event watch" in text
