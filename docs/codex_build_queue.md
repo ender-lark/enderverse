@@ -35,6 +35,20 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Codex cloud routine stack.
+  - Replaced the single generic daily cloud-refresh assumption with a split
+    Codex app automation stack: Pre-Market Source Intake (8:10 ET), Morning
+    Scan (8:35), Daily Synthesis (9:30), UW Opportunity Cache (10:00),
+    Parabolic Cache (10:05), Full Cockpit Build (10:30), Post-Close Refresh
+    (4:30 PM), Off-Hours Worker (1:45 AM daily), Deep Synthesis (Sunday
+    1:00 PM), and Weekly Pilot Run (Sunday 6:00 PM).
+  - Paused the old generic `investing-os-daily-cloud-refresh` automation as
+    superseded by the split routine stack.
+  - Updated `src/cloud_automation_status.json` to record the app-created
+    routine ids and updated `cloud_ops_status.py` so cloud readiness requires
+    the full expected stack to be installed and active.
+  - Missing connector/source pulls still remain visible as dark lanes instead
+    of checked clear; current optional dark lane remains Catalyst Calendar.
 - Signal Log / Morning Scan lane populated.
   - Used Notion search/fetch against the Signal Log data source, not the failed
     SQL query path, to source recent macro, oil/Hormuz, Iran escalation, and

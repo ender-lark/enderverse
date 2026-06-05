@@ -17,6 +17,68 @@ DEFAULT_SRC = ROOT / "src"
 DEFAULT_AUTOMATION_NAME = "Investing OS Daily Cloud Refresh"
 DEFAULT_AUTOMATION_ID = "investing-os-daily-cloud-refresh"
 DEFAULT_AUTOMATION_PROOF = "cloud_automation_status.json"
+DEFAULT_EXPECTED_AUTOMATIONS = [
+    {
+        "automation_id": "investing-os-pre-market-source-intake",
+        "automation_name": "Investing OS Pre-Market Source Intake",
+        "role": "pre_market_source_intake",
+        "schedule": "market weekdays 8:10 AM ET",
+    },
+    {
+        "automation_id": "investing-os-morning-scan",
+        "automation_name": "Investing OS Morning Scan",
+        "role": "morning_scan",
+        "schedule": "market weekdays 8:35 AM ET",
+    },
+    {
+        "automation_id": "investing-os-daily-synthesis",
+        "automation_name": "Investing OS Daily Synthesis",
+        "role": "daily_synthesis",
+        "schedule": "market weekdays 9:30 AM ET",
+    },
+    {
+        "automation_id": "investing-os-uw-opportunity-cache",
+        "automation_name": "Investing OS UW Opportunity Cache",
+        "role": "uw_opportunity_cache",
+        "schedule": "market weekdays 10:00 AM ET",
+    },
+    {
+        "automation_id": "investing-os-parabolic-cache",
+        "automation_name": "Investing OS Parabolic Cache",
+        "role": "parabolic_cache",
+        "schedule": "market weekdays 10:05 AM ET",
+    },
+    {
+        "automation_id": "investing-os-full-cockpit-build",
+        "automation_name": "Investing OS Full Cockpit Build",
+        "role": "full_cockpit_build",
+        "schedule": "market weekdays 10:30 AM ET",
+    },
+    {
+        "automation_id": "investing-os-post-close-refresh",
+        "automation_name": "Investing OS Post-Close Refresh",
+        "role": "post_close_refresh",
+        "schedule": "market weekdays 4:30 PM ET",
+    },
+    {
+        "automation_id": "investing-os-off-hours-worker",
+        "automation_name": "Investing OS Off-Hours Worker",
+        "role": "off_hours_worker",
+        "schedule": "daily 1:45 AM ET",
+    },
+    {
+        "automation_id": "investing-os-deep-synthesis",
+        "automation_name": "Investing OS Deep Synthesis",
+        "role": "deep_synthesis",
+        "schedule": "Sunday 1:00 PM ET",
+    },
+    {
+        "automation_id": "investing-os-weekly-pilot-run",
+        "automation_name": "Investing OS Weekly Pilot Run",
+        "role": "weekly_pilot_run",
+        "schedule": "Sunday 6:00 PM ET",
+    },
+]
 
 
 def _automation_dirs(base: Path) -> list[Path]:
@@ -37,48 +99,49 @@ def _status_is_active(value: Any) -> bool:
     return str(value or "").strip().upper() == "ACTIVE"
 
 
-def _automation_proof_summary(
-    proof_path: str | Path | None,
-    *,
-    automation_name: str,
-    automation_id: str,
-) -> dict[str, Any] | None:
+def _proof_rows(proof_path: str | Path | None) -> list[dict[str, Any]]:
     if proof_path is None:
-        return None
+        return []
     path = Path(proof_path)
     if not path.is_file():
-        return None
+        return []
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
-        return {
+        return [{
             "path": str(path),
             "active": False,
             "evidence_type": "repo_proof",
             "problem": str(exc),
-        }
+        }]
     if not isinstance(payload, dict):
-        return {
+        return [{
             "path": str(path),
             "active": False,
             "evidence_type": "repo_proof",
             "problem": "proof file must be a JSON object",
-        }
-    recorded_name = str(payload.get("automation_name") or payload.get("name") or "")
-    recorded_id = str(payload.get("automation_id") or payload.get("id") or "")
+        }]
+    raw_rows = payload.get("routines") if isinstance(payload.get("routines"), list) else [payload]
+    rows: list[dict[str, Any]] = []
+    for raw in raw_rows:
+        if not isinstance(raw, dict):
+            continue
+        row = dict(raw)
+        row["path"] = str(path)
+        row["active"] = _status_is_active(row.get("status"))
+        row["evidence_type"] = "repo_proof"
+        rows.append(row)
+    return rows
+
+
+def _automation_matches_expected(row: dict[str, Any], expected: dict[str, Any]) -> bool:
+    recorded_name = str(row.get("automation_name") or row.get("name") or "")
+    recorded_id = str(row.get("automation_id") or row.get("id") or "")
+    automation_name = str(expected.get("automation_name") or "")
+    automation_id = str(expected.get("automation_id") or "")
     name_matches = bool(recorded_name) and recorded_name.lower() == automation_name.lower()
     id_matches = bool(recorded_id) and recorded_id.lower() == automation_id.lower()
-    if not (name_matches or id_matches):
-        return None
-    return {
-        "path": str(path),
-        "active": _status_is_active(payload.get("status")),
-        "evidence_type": "repo_proof",
-        "automation_id": recorded_id,
-        "automation_name": recorded_name,
-        "verified_at": payload.get("verified_at") or "",
-        "verification_source": payload.get("verification_source") or "",
-    }
+    return name_matches or id_matches
 
 
 def _automation_summary(
@@ -87,6 +150,7 @@ def _automation_summary(
     automation_name: str = DEFAULT_AUTOMATION_NAME,
     automation_id: str = DEFAULT_AUTOMATION_ID,
     automation_proof: str | Path | None = None,
+    expected_automations: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     if automations_dir is None:
         home = os.environ.get("CODEX_HOME")
@@ -94,33 +158,59 @@ def _automation_summary(
     else:
         base = Path(automations_dir)
 
-    matches: list[dict[str, Any]] = []
+    expected = expected_automations or [{
+        "automation_id": automation_id,
+        "automation_name": automation_name,
+        "role": "daily_cloud_refresh",
+        "schedule": "",
+    }]
+    all_matches: list[dict[str, Any]] = []
+    proof_rows = _proof_rows(automation_proof)
+    routine_rows: list[dict[str, Any]] = []
+    local_texts: list[tuple[Path, str]] = []
     for path in _automation_dirs(base):
         text = path.read_text(encoding="utf-8", errors="replace")
-        if automation_name.lower() not in text.lower():
-            continue
-        matches.append({
-            "path": str(path),
-            "active": _toml_text_has_active_status(text),
-            "evidence_type": "local_toml",
+        local_texts.append((path, text))
+
+    for expected_row in expected:
+        matches: list[dict[str, Any]] = []
+        expected_name = str(expected_row.get("automation_name") or "")
+        for path, text in local_texts:
+            if expected_name and expected_name.lower() in text.lower():
+                matches.append({
+                    "path": str(path),
+                    "active": _toml_text_has_active_status(text),
+                    "evidence_type": "local_toml",
+                })
+        matches.extend(row for row in proof_rows if _automation_matches_expected(row, expected_row))
+        all_matches.extend(matches)
+        routine_rows.append({
+            "automation_id": expected_row.get("automation_id") or "",
+            "automation_name": expected_row.get("automation_name") or "",
+            "role": expected_row.get("role") or "",
+            "schedule": expected_row.get("schedule") or "",
+            "installed": bool(matches),
+            "active": any(row.get("active") for row in matches),
+            "matches": matches,
         })
 
-    proof = _automation_proof_summary(
-        automation_proof,
-        automation_name=automation_name,
-        automation_id=automation_id,
-    )
-    if proof is not None:
-        matches.append(proof)
+    missing = [row for row in routine_rows if not row["installed"]]
+    inactive = [row for row in routine_rows if row["installed"] and not row["active"]]
 
     return {
         "automation_id": automation_id,
         "automation_name": automation_name,
         "automations_dir": str(base) if str(base) else "",
         "automation_proof": str(automation_proof or ""),
-        "installed": bool(matches),
-        "active": any(row["active"] for row in matches),
-        "matches": matches,
+        "expected_count": len(routine_rows),
+        "installed_count": len(routine_rows) - len(missing),
+        "active_count": len([row for row in routine_rows if row["active"]]),
+        "installed": not missing,
+        "active": not missing and not inactive,
+        "missing": missing,
+        "inactive": inactive,
+        "routines": routine_rows,
+        "matches": all_matches,
     }
 
 
@@ -138,9 +228,21 @@ def _manifest_summary(src_dir: Path) -> dict[str, Any]:
 def _operating_gaps(status: dict[str, Any], automation: dict[str, Any], manifest: dict[str, Any]) -> list[str]:
     gaps: list[str] = []
     if not automation.get("installed"):
-        gaps.append("Daily Codex cloud automation is not installed.")
+        missing = [
+            str(row.get("automation_name") or row.get("automation_id") or "unknown")
+            for row in automation.get("missing") or []
+            if isinstance(row, dict)
+        ]
+        suffix = f": {', '.join(missing)}" if missing else "."
+        gaps.append(f"Codex cloud routine stack is incomplete{suffix}")
     elif not automation.get("active"):
-        gaps.append("Daily Codex cloud automation is installed but not active.")
+        inactive = [
+            str(row.get("automation_name") or row.get("automation_id") or "unknown")
+            for row in automation.get("inactive") or []
+            if isinstance(row, dict)
+        ]
+        suffix = f": {', '.join(inactive)}" if inactive else "."
+        gaps.append(f"Codex cloud routine stack has inactive routines{suffix}")
     if not manifest.get("valid"):
         gaps.append("Routine manifest is invalid.")
     if not status.get("go_live_ready"):
@@ -181,6 +283,7 @@ def cloud_ops_status(
         automation_name=automation_name,
         automation_id=automation_id,
         automation_proof=automation_proof,
+        expected_automations=DEFAULT_EXPECTED_AUTOMATIONS,
     )
     gaps = _operating_gaps(status, automation, manifest)
     return {
@@ -196,7 +299,7 @@ def cloud_ops_status(
         "open_actions": status.get("open_actions") or {},
         "gaps": gaps,
         "source_pull_note": (
-            "The scheduled routine can run the repo refresh and connector/supplied "
+            "The scheduled routines can run the repo refresh and connector/supplied "
             "intake attempts, but missing connector exports must remain visible as "
             "dark lanes instead of being treated as checked clear."
         ),
@@ -217,10 +320,11 @@ def format_text(report: dict[str, Any]) -> str:
             f"active={manifest_summary.get('active', 0)}"
         ),
         (
-            "Daily cloud automation: "
+            "Cloud routine stack: "
             f"installed={bool(automation.get('installed'))} | "
             f"active={bool(automation.get('active'))} | "
-            f"id={automation.get('automation_id') or ''}"
+            f"expected={int(automation.get('expected_count') or 0)} | "
+            f"active_count={int(automation.get('active_count') or 0)}"
         ),
         (
             "Dark source lanes: "

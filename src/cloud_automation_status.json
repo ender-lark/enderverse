@@ -1,7 +1,89 @@
 {
-  "automation_id": "investing-os-daily-cloud-refresh",
-  "automation_name": "Investing OS Daily Cloud Refresh",
-  "status": "ACTIVE",
-  "verified_at": "2026-06-05T10:12:39.1513115-04:00",
-  "verification_source": "Codex app automation view succeeded after user-created daily cloud refresh automation"
+  "schema_version": 2,
+  "verified_at": "2026-06-05T12:02:53.3459219-04:00",
+  "verification_source": "Codex app automation_update create/update calls succeeded in this thread",
+  "notes": [
+    "The previous generic daily refresh automation is paused and superseded by this split routine stack.",
+    "Missing connector/source pulls must remain dark/not_checked in the dashboard, never checked clear."
+  ],
+  "superseded": [
+    {
+      "automation_id": "investing-os-daily-cloud-refresh",
+      "automation_name": "Investing OS Daily Cloud Refresh (superseded by routine stack)",
+      "status": "PAUSED",
+      "role": "legacy_generic_daily_refresh"
+    }
+  ],
+  "routines": [
+    {
+      "automation_id": "investing-os-pre-market-source-intake",
+      "automation_name": "Investing OS Pre-Market Source Intake",
+      "status": "ACTIVE",
+      "role": "pre_market_source_intake",
+      "schedule": "market weekdays 8:10 AM ET"
+    },
+    {
+      "automation_id": "investing-os-morning-scan",
+      "automation_name": "Investing OS Morning Scan",
+      "status": "ACTIVE",
+      "role": "morning_scan",
+      "schedule": "market weekdays 8:35 AM ET"
+    },
+    {
+      "automation_id": "investing-os-daily-synthesis",
+      "automation_name": "Investing OS Daily Synthesis",
+      "status": "ACTIVE",
+      "role": "daily_synthesis",
+      "schedule": "market weekdays 9:30 AM ET"
+    },
+    {
+      "automation_id": "investing-os-uw-opportunity-cache",
+      "automation_name": "Investing OS UW Opportunity Cache",
+      "status": "ACTIVE",
+      "role": "uw_opportunity_cache",
+      "schedule": "market weekdays 10:00 AM ET"
+    },
+    {
+      "automation_id": "investing-os-parabolic-cache",
+      "automation_name": "Investing OS Parabolic Cache",
+      "status": "ACTIVE",
+      "role": "parabolic_cache",
+      "schedule": "market weekdays 10:05 AM ET"
+    },
+    {
+      "automation_id": "investing-os-full-cockpit-build",
+      "automation_name": "Investing OS Full Cockpit Build",
+      "status": "ACTIVE",
+      "role": "full_cockpit_build",
+      "schedule": "market weekdays 10:30 AM ET"
+    },
+    {
+      "automation_id": "investing-os-post-close-refresh",
+      "automation_name": "Investing OS Post-Close Refresh",
+      "status": "ACTIVE",
+      "role": "post_close_refresh",
+      "schedule": "market weekdays 4:30 PM ET"
+    },
+    {
+      "automation_id": "investing-os-off-hours-worker",
+      "automation_name": "Investing OS Off-Hours Worker",
+      "status": "ACTIVE",
+      "role": "off_hours_worker",
+      "schedule": "daily 1:45 AM ET"
+    },
+    {
+      "automation_id": "investing-os-deep-synthesis",
+      "automation_name": "Investing OS Deep Synthesis",
+      "status": "ACTIVE",
+      "role": "deep_synthesis",
+      "schedule": "Sunday 1:00 PM ET"
+    },
+    {
+      "automation_id": "investing-os-weekly-pilot-run",
+      "automation_name": "Investing OS Weekly Pilot Run",
+      "status": "ACTIVE",
+      "role": "weekly_pilot_run",
+      "schedule": "Sunday 6:00 PM ET"
+    }
+  ]
 }

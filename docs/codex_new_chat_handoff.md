@@ -179,13 +179,15 @@ Important recent state:
   dashboard keeps its missing-source input visible instead of treating it as
   checked clear.
 - `src/cloud_ops_status.py --format text` is the operator check for unattended
-  daily ops. It distinguishes local go-live readiness from a real installed
-  Codex cloud automation. The app-created daily automation id
-  `investing-os-daily-cloud-refresh` is recorded in
-  `src/cloud_automation_status.json`, so the command now reports cloud ops
-  ready=true. Catalyst gaps should remain visible as dark lanes if
-  connector/source pulls fail; open action reviews remain warnings, not
-  cloud-ops blockers.
+  cloud ops. It distinguishes local go-live readiness from the installed Codex
+  app automation stack. The previous generic
+  `investing-os-daily-cloud-refresh` automation is paused as superseded; the
+  active stack now records Pre-Market Source Intake, Morning Scan, Daily
+  Synthesis, UW Opportunity Cache, Parabolic Cache, Full Cockpit Build,
+  Post-Close Refresh, Off-Hours Worker, Deep Synthesis, and Weekly Pilot Run in
+  `src/cloud_automation_status.json`. Catalyst gaps should remain visible as
+  dark lanes if connector/source pulls fail; open action reviews remain
+  warnings, not cloud-ops blockers.
 - Target Drift now promotes held, materially undersized names into conservative
   `conviction_gap` actions. The current feed surfaces NVDA as a funded
   add/rotation review (`6.6%` actual versus `12.0%` target), while missing
