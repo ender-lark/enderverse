@@ -53,6 +53,9 @@ until the core logic is stable; Notion sync comes later.
   - `cloud_ops_status.py` now reads the default Codex app automation folder
     when `CODEX_HOME` is unset and fails the cloud schedule if a superseded
     legacy automation is still active.
+  - The cloud-ops check also validates active local automation prompts for
+    routine-specific receipt protocol. Current app state reports
+    `Cloud receipt protocol: checked=10 | ok=10 | missing=0`.
   - Updated `src/cloud_automation_status.json` to record the app-created
     routine ids and updated `cloud_ops_status.py` so cloud readiness requires
     the full expected stack to be installed and active.

@@ -203,7 +203,9 @@ Important recent state:
   connector/source pulls fail; open action reviews remain warnings, not
   cloud-ops blockers. The cloud-ops check reads the default Codex app
   automation folder when `CODEX_HOME` is unset and reports active superseded
-  jobs as schedule conflicts.
+  jobs as schedule conflicts. It also validates active local automation prompts
+  for routine-specific receipt protocol; current app state reports
+  `Cloud receipt protocol: checked=10 | ok=10 | missing=0`.
 - `src/cloud_routine_receipts.py` records scheduled-run receipts in
   `src/cloud_routine_receipts.json`. Each automation should append a
   started/success/failed receipt at the end of its run using

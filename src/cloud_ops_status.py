@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import tomllib
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -278,6 +279,57 @@ def _toml_text_matches(row: dict[str, Any], text: str) -> bool:
     )
 
 
+def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, Any]:
+    try:
+        payload = tomllib.loads(text)
+    except tomllib.TOMLDecodeError as exc:
+        return {
+            "path": str(path),
+            "routine_id": routine_id,
+            "ok": False,
+            "problem": f"automation TOML parse failed: {exc}",
+        }
+    prompt = str(payload.get("prompt") or "")
+    has_runner = "cloud_routine_runner.py" in prompt and routine_id in prompt
+    has_receipt = "cloud_routine_receipts.py" in prompt and routine_id in prompt
+    has_final_status = "success" in prompt.lower() and "failed" in prompt.lower()
+    ok = bool((has_runner or has_receipt) and has_final_status)
+    problem = "" if ok else "prompt does not include routine-specific started/final receipt protocol"
+    return {
+        "path": str(path),
+        "routine_id": routine_id,
+        "ok": ok,
+        "has_runner": has_runner,
+        "has_receipt_command": has_receipt,
+        "has_final_status": has_final_status,
+        "problem": problem,
+    }
+
+
+def _prompt_protocol_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    checked: list[dict[str, Any]] = []
+    for row in rows:
+        for match in row.get("matches") or []:
+            if not isinstance(match, dict):
+                continue
+            protocol = match.get("prompt_protocol")
+            if isinstance(protocol, dict):
+                checked.append({
+                    "routine_id": row.get("automation_id") or "",
+                    "routine_name": row.get("automation_name") or "",
+                    **protocol,
+                })
+    missing = [row for row in checked if not row.get("ok")]
+    return {
+        "checked_count": len(checked),
+        "ok_count": len(checked) - len(missing),
+        "missing_count": len(missing),
+        "rows": checked,
+        "missing": missing,
+        "ready": not missing,
+    }
+
+
 def _automation_summary(
     *,
     automations_dir: str | Path | None = None,
@@ -316,6 +368,11 @@ def _automation_summary(
                     "path": str(path),
                     "active": _toml_text_has_active_status(text),
                     "evidence_type": "local_toml",
+                    "prompt_protocol": _toml_prompt_protocol(
+                        path,
+                        text,
+                        str(expected_row.get("automation_id") or ""),
+                    ),
                 })
         matches.extend(row for row in proof_rows if _automation_matches_expected(row, expected_row))
         all_matches.extend(matches)
@@ -350,6 +407,7 @@ def _automation_summary(
     missing = [row for row in routine_rows if not row["installed"]]
     inactive = [row for row in routine_rows if row["installed"] and not row["active"]]
     active_superseded = [row for row in superseded_matches if row.get("active")]
+    prompt_protocol = _prompt_protocol_summary(routine_rows)
 
     return {
         "automation_id": automation_id,
@@ -366,6 +424,7 @@ def _automation_summary(
         "superseded": superseded_matches,
         "active_superseded": active_superseded,
         "active_superseded_count": len(active_superseded),
+        "prompt_protocol": prompt_protocol,
         "routines": routine_rows,
         "matches": all_matches,
     }
@@ -503,6 +562,12 @@ def _operating_gaps(
         problems = inactive + active_superseded
         suffix = f": {', '.join(problems)}" if problems else "."
         gaps.append(f"Codex cloud routine stack has schedule conflicts{suffix}")
+    prompt_protocol = automation.get("prompt_protocol") or {}
+    for row in prompt_protocol.get("missing") or []:
+        if not isinstance(row, dict):
+            continue
+        label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
+        gaps.append(f"{label} is missing cloud receipt protocol: {row.get('problem') or 'prompt incomplete'}.")
     if not manifest.get("valid"):
         gaps.append("Routine manifest is invalid.")
     if not receipts.get("valid"):
@@ -576,6 +641,7 @@ def cloud_ops_status(
         bool(status.get("go_live_ready"))
         and bool(manifest.get("valid"))
         and bool(automation.get("active"))
+        and bool((automation.get("prompt_protocol") or {}).get("ready", True))
         and bool(receipts.get("valid"))
         and int(receipt_due.get("overdue_count") or 0) == 0
     )
@@ -623,6 +689,7 @@ def format_text(report: dict[str, Any]) -> str:
     receipt_due = report.get("routine_receipt_due") or {}
     next_due = receipt_due.get("next_due") or {}
     dark = report.get("dark_lanes") or {}
+    prompt_protocol = automation.get("prompt_protocol") or {}
     source_capability = (
         (report.get("live_status") or {}).get("source_capability")
         or report.get("source_capability")
@@ -646,6 +713,12 @@ def format_text(report: dict[str, Any]) -> str:
             f"expected={int(automation.get('expected_count') or 0)} | "
             f"active_count={int(automation.get('active_count') or 0)} | "
             f"active_superseded={int(automation.get('active_superseded_count') or 0)}"
+        ),
+        (
+            "Cloud receipt protocol: "
+            f"checked={int(prompt_protocol.get('checked_count') or 0)} | "
+            f"ok={int(prompt_protocol.get('ok_count') or 0)} | "
+            f"missing={int(prompt_protocol.get('missing_count') or 0)}"
         ),
         (
             "Dark source lanes: "

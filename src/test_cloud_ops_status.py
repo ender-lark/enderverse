@@ -199,6 +199,46 @@ def test_cloud_ops_status_rejects_active_superseded_automation(monkeypatch, tmp_
     assert "active_superseded=1" in text
 
 
+def test_cloud_ops_status_rejects_active_prompt_without_receipt_protocol(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+    automation_dir = tmp_path / "automations" / "investing-os-morning-scan"
+    automation_dir.mkdir(parents=True)
+    (automation_dir / "automation.toml").write_text(
+        "\n".join([
+            'id = "investing-os-morning-scan"',
+            'name = "Investing OS Morning Scan"',
+            'status = "ACTIVE"',
+            'prompt = "Run the morning scan."',
+        ]),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "automations",
+        now="2026-06-05T12:20:00-04:00",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["ready_for_unattended_daily_run"] is False
+    assert report["cloud_automation"]["prompt_protocol"]["missing_count"] == 1
+    assert any("Investing OS Morning Scan is missing cloud receipt protocol" in gap for gap in report["gaps"])
+    assert "Cloud receipt protocol: checked=1 | ok=0 | missing=1" in text
+
+
 def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()
