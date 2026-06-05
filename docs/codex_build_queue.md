@@ -45,6 +45,10 @@ until the core logic is stable; Notion sync comes later.
     false until the Codex app scheduler successfully creates the daily cloud
     automation. Missing Signal Log / Catalyst pulls remain visible as dark
     lanes instead of being treated as checked clear.
+  - Immediate local cron creation was rejected by the Codex app scheduler; a
+    worktree-style daily automation proposal was rendered for operator review.
+    Treat it as proposed, not installed, until `cloud_ops_status.py` reports the
+    named automation as installed and active.
 - Go-live checklist event-watch parity.
   - `python src/go_live_checklist.py --format text` now includes an Active
     Event Watch row derived from the same live-status/feed evidence as the

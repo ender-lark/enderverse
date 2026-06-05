@@ -184,7 +184,9 @@ Important recent state:
   Codex cloud automation. Current local readiness is green, but cloud ops remain
   not ready until the daily scheduled automation is installed and active; Signal
   Log and Catalyst gaps should remain visible as dark lanes if connector/source
-  pulls fail.
+  pulls fail. A worktree-style Codex daily automation proposal was rendered for
+  operator review after immediate local cron creation was rejected; verify
+  installation with `python src/cloud_ops_status.py --format text`.
 - Target Drift now promotes held, materially undersized names into conservative
   `conviction_gap` actions. The current feed surfaces NVDA as a funded
   add/rotation review (`6.6%` actual versus `12.0%` target), while missing
