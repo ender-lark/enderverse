@@ -101,12 +101,51 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     )
 
     assert report["ready_for_unattended_daily_run"] is True
+    assert report["schedule_ready_for_unattended_run"] is True
+    assert report["live_run_proven"] is False
+    assert report["cloud_operating_state"] == "ready_pending_first_success"
     assert report["cloud_automation"]["installed"] is True
     assert report["cloud_automation"]["active"] is True
     assert report["cloud_automation"]["expected_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
     assert report["cloud_automation"]["active_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
     assert report["cloud_automation"]["matches"][0]["evidence_type"] == "repo_proof"
     assert report["gaps"] == []
+
+
+def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+    for row in cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS:
+        cloud_routine_receipts.append_receipt(
+            path=src / "cloud_routine_receipts.json",
+            routine_id=row["automation_id"],
+            status="success",
+            summary=f"{row['automation_name']} succeeded.",
+            recorded_at="2026-06-05T12:00:00Z",
+        )
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["ready_for_unattended_daily_run"] is True
+    assert report["live_run_proven"] is True
+    assert report["cloud_operating_state"] == "live_run_proven"
+    assert "Cloud live-run proven: True" in text
 
 
 def test_cloud_ops_status_keeps_dark_lanes_visible(monkeypatch, tmp_path):

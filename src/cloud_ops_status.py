@@ -332,13 +332,32 @@ def cloud_ops_status(
     )
     receipts = _receipt_summary(receipt_proof, DEFAULT_EXPECTED_AUTOMATIONS)
     gaps = _operating_gaps(status, automation, manifest, receipts)
+    schedule_ready = (
+        bool(status.get("go_live_ready"))
+        and bool(manifest.get("valid"))
+        and bool(automation.get("active"))
+        and bool(receipts.get("valid"))
+    )
+    receipt_summary = receipts.get("summary") or {}
+    live_run_proven = (
+        schedule_ready
+        and int(receipt_summary.get("success_count") or 0) >= int(receipt_summary.get("expected_count") or 0)
+        and int(receipt_summary.get("expected_count") or 0) > 0
+        and int(receipt_summary.get("failed_latest_count") or 0) == 0
+    )
+    if not schedule_ready:
+        operating_state = "not_ready"
+    elif live_run_proven:
+        operating_state = "live_run_proven"
+    elif int(receipt_summary.get("failed_latest_count") or 0):
+        operating_state = "run_failed"
+    else:
+        operating_state = "ready_pending_first_success"
     return {
-        "ready_for_unattended_daily_run": (
-            bool(status.get("go_live_ready"))
-            and bool(manifest.get("valid"))
-            and bool(automation.get("active"))
-            and bool(receipts.get("valid"))
-        ),
+        "ready_for_unattended_daily_run": schedule_ready,
+        "schedule_ready_for_unattended_run": schedule_ready,
+        "live_run_proven": live_run_proven,
+        "cloud_operating_state": operating_state,
         "local_go_live_ready": bool(status.get("go_live_ready")),
         "routine_manifest": manifest,
         "cloud_automation": automation,
@@ -360,7 +379,9 @@ def format_text(report: dict[str, Any]) -> str:
     receipts = ((report.get("routine_receipts") or {}).get("summary") or {})
     dark = report.get("dark_lanes") or {}
     lines = [
-        f"Cloud ops ready: {bool(report.get('ready_for_unattended_daily_run'))}",
+        f"Cloud schedule ready: {bool(report.get('schedule_ready_for_unattended_run'))}",
+        f"Cloud live-run proven: {bool(report.get('live_run_proven'))}",
+        f"Cloud operating state: {report.get('cloud_operating_state') or 'unknown'}",
         f"Local go-live ready: {bool(report.get('local_go_live_ready'))}",
         (
             "Routine manifest: "

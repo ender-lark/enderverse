@@ -57,6 +57,9 @@ until the core logic is stable; Notion sync comes later.
     routine stack and the current run-receipt proof count. A newly installed
     routine stack can be ready before first run, but no live run should be
     treated as proven until a success receipt appears.
+  - `cloud_ops_status.py` distinguishes `Cloud schedule ready` from
+    `Cloud live-run proven`; the current first-run-pending state should be
+    read as ready to run, not yet proven with live scheduled execution.
   - Latest failed receipts surface as operator gaps; first-run-pending receipts
     stay visible without marking a source lane checked clear.
 - Cloud routine runner.

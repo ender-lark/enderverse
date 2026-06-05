@@ -195,6 +195,8 @@ Important recent state:
   `cloud_ops_status.py --format text` now reports the receipt count separately
   from schedule readiness, so first-run-pending jobs are visible and failed
   latest receipts become operator gaps.
+  Treat `Cloud schedule ready: true` as installed/ready-to-run only; the live
+  scheduled system is not proven until `Cloud live-run proven: true`.
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.
