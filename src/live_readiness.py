@@ -9,9 +9,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
+from daily_preflight import _positions_freshness
 from full_build_runner import FullBuildError, build_full_feed_from_files, convention_input_status
 from macro_pulse_scan import validate_macro_state
 from publish_gate import validate_publish_gate
@@ -52,6 +54,90 @@ def _validation_result(key: str, path: str, *, valid: bool, problems: list[str])
         "valid": valid,
         "problems": problems,
     }
+
+
+def _report_date(*stamps: str | None) -> date:
+    for stamp in stamps:
+        if not stamp:
+            continue
+        try:
+            return datetime.strptime(str(stamp)[:10], "%Y-%m-%d").date()
+        except ValueError:
+            continue
+    return date.today()
+
+
+def _required_validation_result(
+    key: str,
+    path: str,
+    *,
+    valid: bool,
+    status: str,
+    problems: list[str],
+    age_days: int | None = None,
+) -> dict[str, Any]:
+    return {
+        "key": key,
+        "path": path,
+        "valid": valid,
+        "status": status,
+        "age_days": age_days,
+        "problems": problems,
+    }
+
+
+def _validate_required_live_input(row: dict[str, Any], *, today: date) -> dict[str, Any]:
+    key = str(row.get("key") or "")
+    path = str(row.get("resolved_path") or "")
+    if not path:
+        return _required_validation_result(
+            key,
+            path,
+            valid=False,
+            status="missing",
+            problems=["input file not found"],
+        )
+    try:
+        payload = _read_json(path)
+    except Exception as exc:  # noqa: BLE001 - readiness should report, not crash
+        return _required_validation_result(
+            key,
+            path,
+            valid=False,
+            status="invalid",
+            problems=[f"{type(exc).__name__}: {exc}"],
+        )
+
+    if key == "positions":
+        status, age_days, message = _positions_freshness(payload, today=today)
+        return _required_validation_result(
+            key,
+            path,
+            valid=status == "fresh",
+            status=status,
+            age_days=age_days,
+            problems=[] if status == "fresh" else [message],
+        )
+    return _required_validation_result(
+        key,
+        path,
+        valid=True,
+        status="checked",
+        problems=[],
+    )
+
+
+def _required_live_validations(
+    input_rows: list[dict[str, Any]],
+    *,
+    today: date,
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for row in input_rows:
+        if not row.get("required") or not row.get("present"):
+            continue
+        rows.append(_validate_required_live_input(row, today=today))
+    return rows
 
 
 def _validate_minimum_live_input(row: dict[str, Any]) -> dict[str, Any]:
@@ -100,6 +186,7 @@ def readiness_report(
 ) -> dict[str, Any]:
     src = Path(src_dir)
     minimum_live_inputs = minimum_live_inputs or set(MINIMUM_LIVE_INPUTS)
+    report_today = _report_date(as_of, generated_at, run_timestamp)
     input_rows = convention_input_status(src)
     missing_required = _missing_input_rows(input_rows, required=True)
     missing_optional = _missing_input_rows(input_rows, required=False)
@@ -109,6 +196,8 @@ def readiness_report(
         for key in sorted(minimum_live_inputs)
         if key in input_by_key and not input_by_key[key].get("present")
     ]
+    required_input_validations = _required_live_validations(input_rows, today=report_today)
+    stale_required_inputs = [row for row in required_input_validations if not row.get("valid")]
     minimum_live_validations = _minimum_live_validations(input_by_key, minimum_live_inputs)
     invalid_minimum_live = [row for row in minimum_live_validations if not row.get("valid")]
 
@@ -137,14 +226,18 @@ def readiness_report(
         if row.get("status") in {"stale", "failed"}
     ]
 
+    required_inputs_ready = not missing_required and not stale_required_inputs
     build_ready = feed is not None and not missing_required and not build_problem
-    publish_ready = build_ready and not publish_gate_problems
+    publish_ready = build_ready and required_inputs_ready and not publish_gate_problems
     live_data_ready = not missing_minimum_live and not invalid_minimum_live
     go_live_ready = publish_ready and live_data_ready
 
     next_steps: list[str] = []
     if missing_required:
         next_steps.append("Populate required convention files before any build.")
+    if stale_required_inputs:
+        stale = ", ".join(row["key"] for row in stale_required_inputs)
+        next_steps.append(f"Refresh stale or unverifiable required inputs: {stale}.")
     if build_problem:
         next_steps.append("Fix the full-build error before publishing.")
     if publish_gate_problems:
@@ -165,10 +258,13 @@ def readiness_report(
         "rehearsal_ready": build_ready,
         "build_ready": build_ready,
         "publish_ready": publish_ready,
+        "required_inputs_ready": required_inputs_ready,
         "live_data_ready": live_data_ready,
         "build_problem": build_problem,
         "publish_gate_problems": publish_gate_problems,
         "missing_required_inputs": missing_required,
+        "required_input_validations": required_input_validations,
+        "stale_required_inputs": stale_required_inputs,
         "missing_optional_inputs": missing_optional,
         "missing_minimum_live_inputs": missing_minimum_live,
         "minimum_live_input_validations": minimum_live_validations,

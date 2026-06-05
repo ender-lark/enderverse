@@ -47,6 +47,18 @@ def test_heartbeat_rows_all_ok_when_report_is_clean():
     assert {row["status"] for row in rows} == {"ok"}
 
 
+def test_heartbeat_rows_show_stale_required_inputs():
+    rows = heartbeat_rows(
+        _base_report(stale_required_inputs=[{"key": "positions"}]),
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+    by_layer = {row["layer"]: row for row in rows}
+
+    assert by_layer["Required Inputs"]["status"] == "stale"
+    assert "positions" in by_layer["Required Inputs"]["note"]
+    assert validate_heartbeat(rows) == []
+
+
 def test_validate_heartbeat_rejects_bad_status():
     problems = validate_heartbeat([{"layer": "X", "status": "exploded"}])
 

@@ -5,15 +5,8 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Required input freshness validation for live readiness.
-  - Fresh audit evidence shows the build is runnable and verified, but
-    `live_readiness.py` only gates missing required convention inputs by
-    presence/shape today.
-  - Add explicit stale/missing-date validation for required launch inputs,
-    starting with `positions.json` `snapshot_date`, so an old portfolio
-    snapshot cannot silently pass the live-readiness gate.
-  - Keep `rehearsal_ready` separate from `go_live_ready`; stale required inputs
-    may still allow rehearsal but must block live/publish confidence.
+- No active implementation slice.
+  - Promote the next slice from fresh audit/user evidence before editing.
   - Keep dashboard parity classification current before committing any new
     dashboard/feed meaning or UI work.
   - Prioritize system/routine/dashboard work over stock-specific research.
@@ -22,6 +15,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Required input freshness validation for live readiness.
+  - Extended `live_readiness.py` so present required convention inputs are
+    validated before live/publish readiness.
+  - Reused the existing positions freshness rule: `positions.json`
+    `snapshot_date` is fresh through 7 days, while stale, missing,
+    unparseable, future-dated, or bare-list snapshots block `go_live_ready`.
+  - Kept `rehearsal_ready` separate from required-input freshness so a build can
+    still rehearse while stale required inputs remain visibly blocking live use.
+  - Updated heartbeat Required Inputs rows so stale/unverified required inputs
+    show as `stale`, not `ok`.
 - Minimum live input validation.
   - Extended `live_readiness.py` so present UW price and macro caches must pass
     their existing validators before `live_data_ready` can turn true.

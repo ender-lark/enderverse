@@ -60,16 +60,23 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
     """
     ts = generated_at or _utc_now_iso()
     missing_required = report.get("missing_required_inputs") or []
+    stale_required = report.get("stale_required_inputs") or []
     missing_minimum = report.get("missing_minimum_live_inputs") or []
     publish_problems = report.get("publish_gate_problems") or []
     dark_lanes = report.get("dark_lane_keys") or []
+    required_status = "down" if missing_required else "stale" if stale_required else "ok"
+    if missing_required:
+        required_note = "missing: " + ", ".join(row.get("key", "") for row in missing_required)
+    elif stale_required:
+        required_note = "stale/unverified: " + ", ".join(row.get("key", "") for row in stale_required)
+    else:
+        required_note = "positions/theses convention inputs present and fresh"
 
     rows = [
         _row(
             "Required Inputs",
-            "down" if missing_required else "ok",
-            "missing: " + ", ".join(row.get("key", "") for row in missing_required)
-            if missing_required else "positions/theses convention inputs present",
+            required_status,
+            required_note,
             last_run=ts,
         ),
         _row(

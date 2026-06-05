@@ -89,6 +89,52 @@ def test_readiness_blocks_go_live_when_minimum_market_inputs_missing(tmp_path):
     assert "uw_macro" in report["dark_lane_keys"]
 
 
+def test_readiness_blocks_go_live_when_positions_snapshot_is_stale(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _market_files(src)
+    cache = json.loads((src / "positions.json").read_text(encoding="utf-8"))
+    cache["snapshot_date"] = "2026-05-20"
+    _write(src / "positions.json", cache)
+
+    report = readiness_report(
+        src,
+        run_timestamp="2026-06-05T14:00:00+00:00",
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+
+    assert report["rehearsal_ready"] is True
+    assert report["required_inputs_ready"] is False
+    assert report["publish_ready"] is False
+    assert report["go_live_ready"] is False
+    stale = {row["key"]: row for row in report["stale_required_inputs"]}
+    assert stale["positions"]["status"] == "stale"
+    assert stale["positions"]["age_days"] == 16
+
+
+def test_readiness_blocks_go_live_when_positions_snapshot_date_missing(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _market_files(src)
+    cache = json.loads((src / "positions.json").read_text(encoding="utf-8"))
+    cache.pop("snapshot_date")
+    _write(src / "positions.json", cache)
+
+    report = readiness_report(
+        src,
+        run_timestamp="2026-06-05T14:00:00+00:00",
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+
+    assert report["rehearsal_ready"] is True
+    assert report["required_inputs_ready"] is False
+    stale = {row["key"]: row for row in report["stale_required_inputs"]}
+    assert stale["positions"]["status"] == "unknown"
+    assert any("snapshot_date" in problem for problem in stale["positions"]["problems"])
+
+
 def test_readiness_go_live_ready_with_minimum_market_inputs(tmp_path):
     src = tmp_path / "src"
     src.mkdir()

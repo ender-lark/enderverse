@@ -29,8 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Minimum live input
-  validation.
+- Latest completed slice before this handoff refresh: Required input freshness
+  validation for live readiness.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -60,6 +60,13 @@ Important recent state:
   live-ready build and treats missing UW price/macro caches as minimum
   market-data blockers. If those files are present, it validates them with the
   existing UW price and macro validators before `live_data_ready` can turn true.
+- `src/live_readiness.py` also validates present required convention inputs
+  before live/publish readiness. It reuses the existing positions freshness
+  rule: `positions.json` `snapshot_date` is fresh through 7 days; stale,
+  missing-date, unparseable, future-dated, or bare-list snapshots block
+  `go_live_ready` while still allowing rehearsal when the build itself can run.
+- Current `positions.json` snapshot is `2026-05-31`; under the 2026-06-05
+  clock it is fresh at 5 days old.
 - Source lane status now requires delivered dated items for `has_data`; a
   cleanly registered but empty source is `checked_clear`, not data.
 - `src/heartbeat_status.py` writes `src/heartbeat.json` and
@@ -88,14 +95,14 @@ Important recent state:
 - `src/codex_routine_manifest.json` now has eight active routines, including
   `daily_synthesis_intake` and `signal_log_intake`; the current repo still has
   no populated `src/daily_synthesis.json` or `src/signal_log.json`.
-- Current live-readiness probe on the repo reports `rehearsal_ready: true` and
-  `go_live_ready: false` because `src/uw_closes.json` and
-  `src/macro_state.json` are absent and publish-gate clock verification cannot
-  pass without a live datetime source.
+- Current live-readiness probe on the repo reports `rehearsal_ready: true`,
+  `required_inputs_ready: true`, and `go_live_ready: false` because
+  `src/uw_closes.json` and `src/macro_state.json` are absent and publish-gate
+  clock verification cannot pass without a live datetime source.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `877 passed, 6 skipped`.
+- `python -m pytest src -q` -> `880 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the same full pytest tree plus the standalone self-tests.
 

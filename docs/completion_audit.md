@@ -53,9 +53,13 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Focused minimum-live-input validation tests passed: `python -m pytest
   src/test_live_readiness.py src/test_heartbeat_status.py
   src/test_full_build_runner.py -q` reported 20 passed.
+- Focused required-input freshness tests passed: `python -m pytest
+  src/test_live_readiness.py src/test_heartbeat_status.py -q` reported
+  12 passed.
 - Current `python src/live_readiness.py --src-dir src` reports
-  `rehearsal_ready: true` and `go_live_ready: false`; missing minimum live
-  market inputs are `macro` and `uw_prices`.
+  `rehearsal_ready: true`, `required_inputs_ready: true`, and
+  `go_live_ready: false`; `positions.json` is fresh at 5 days old, while
+  missing minimum live market inputs remain `macro` and `uw_prices`.
 - Dashboard parity guardrail tests passed.
 - `python src/uw_price_cache_intake.py --validate src/uw_closes.json` now
   returns a structured JSON failure when the price cache is absent instead of a
@@ -70,12 +74,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 877 passed, 6 skipped
+  - broad `src` suite: 880 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 877 passed, 6 skipped.
+  ignore workaround: 880 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -100,6 +104,11 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Required input freshness validation: `live_readiness.py` now validates
+  present required convention inputs before live/publish readiness; stale,
+  missing-date, unparseable, future-dated, or bare-list `positions.json`
+  snapshots keep rehearsal possible but block go-live, and heartbeat Required
+  Inputs rows surface stale/unverified required inputs.
 - Minimum live input validation: `live_readiness.py` now validates present
   `uw_closes.json` and `macro_state.json` with their existing validators before
   marking live market data ready.
