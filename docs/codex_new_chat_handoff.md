@@ -197,6 +197,9 @@ Important recent state:
   latest receipts become operator gaps.
   Treat `Cloud schedule ready: true` as installed/ready-to-run only; the live
   scheduled system is not proven until `Cloud live-run proven: true`.
+  The status command also prints the next expected receipt and marks a routine
+  overdue after a 30-minute grace window. The first expected proof target after
+  this activation is Post-Close Refresh at 2026-06-05 4:30 PM ET.
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.

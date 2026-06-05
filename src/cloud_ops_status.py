@@ -5,8 +5,10 @@ from __future__ import annotations
 import argparse
 import json
 import os
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import codex_routine_manifest
 import cloud_routine_receipts
@@ -25,62 +27,93 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "automation_name": "Investing OS Pre-Market Source Intake",
         "role": "pre_market_source_intake",
         "schedule": "market weekdays 8:10 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 8,
+        "minute": 10,
     },
     {
         "automation_id": "investing-os-morning-scan",
         "automation_name": "Investing OS Morning Scan",
         "role": "morning_scan",
         "schedule": "market weekdays 8:35 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 8,
+        "minute": 35,
     },
     {
         "automation_id": "investing-os-daily-synthesis",
         "automation_name": "Investing OS Daily Synthesis",
         "role": "daily_synthesis",
         "schedule": "market weekdays 9:30 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 9,
+        "minute": 30,
     },
     {
         "automation_id": "investing-os-uw-opportunity-cache",
         "automation_name": "Investing OS UW Opportunity Cache",
         "role": "uw_opportunity_cache",
         "schedule": "market weekdays 10:00 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 10,
+        "minute": 0,
     },
     {
         "automation_id": "investing-os-parabolic-cache",
         "automation_name": "Investing OS Parabolic Cache",
         "role": "parabolic_cache",
         "schedule": "market weekdays 10:05 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 10,
+        "minute": 5,
     },
     {
         "automation_id": "investing-os-full-cockpit-build",
         "automation_name": "Investing OS Full Cockpit Build",
         "role": "full_cockpit_build",
         "schedule": "market weekdays 10:30 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 10,
+        "minute": 30,
     },
     {
         "automation_id": "investing-os-post-close-refresh",
         "automation_name": "Investing OS Post-Close Refresh",
         "role": "post_close_refresh",
         "schedule": "market weekdays 4:30 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 16,
+        "minute": 30,
     },
     {
         "automation_id": "investing-os-off-hours-worker",
         "automation_name": "Investing OS Off-Hours Worker",
         "role": "off_hours_worker",
         "schedule": "daily 1:45 AM ET",
+        "days": [0, 1, 2, 3, 4, 5, 6],
+        "hour": 1,
+        "minute": 45,
     },
     {
         "automation_id": "investing-os-deep-synthesis",
         "automation_name": "Investing OS Deep Synthesis",
         "role": "deep_synthesis",
         "schedule": "Sunday 1:00 PM ET",
+        "days": [6],
+        "hour": 13,
+        "minute": 0,
     },
     {
         "automation_id": "investing-os-weekly-pilot-run",
         "automation_name": "Investing OS Weekly Pilot Run",
         "role": "weekly_pilot_run",
         "schedule": "Sunday 6:00 PM ET",
+        "days": [6],
+        "hour": 18,
+        "minute": 0,
     },
 ]
+ET = ZoneInfo("America/New_York")
 
 
 def _automation_dirs(base: Path) -> list[Path]:
@@ -99,6 +132,34 @@ def _toml_text_has_active_status(text: str) -> bool:
 
 def _status_is_active(value: Any) -> bool:
     return str(value or "").strip().upper() == "ACTIVE"
+
+
+def _parse_dt(value: Any) -> datetime | None:
+    if isinstance(value, datetime):
+        return value if value.tzinfo else value.replace(tzinfo=ET)
+    text = str(value or "").strip()
+    if not text:
+        return None
+    try:
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=ET)
+
+
+def _proof_metadata(proof_path: str | Path | None) -> dict[str, Any]:
+    if proof_path is None:
+        return {}
+    path = Path(proof_path)
+    if not path.is_file():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    return payload if isinstance(payload, dict) else {}
 
 
 def _proof_rows(proof_path: str | Path | None) -> list[dict[str, Any]]:
@@ -134,6 +195,51 @@ def _proof_rows(proof_path: str | Path | None) -> list[dict[str, Any]]:
         row["evidence_type"] = "repo_proof"
         rows.append(row)
     return rows
+
+
+def _scheduled_at(row: dict[str, Any], day: datetime) -> datetime:
+    return datetime(
+        day.year,
+        day.month,
+        day.day,
+        int(row.get("hour") or 0),
+        int(row.get("minute") or 0),
+        tzinfo=ET,
+    )
+
+
+def _next_run_after(row: dict[str, Any], after: datetime) -> datetime | None:
+    days = set(int(day) for day in row.get("days") or [])
+    if not days:
+        return None
+    cursor = after.astimezone(ET)
+    for offset in range(0, 14):
+        candidate_day = cursor + timedelta(days=offset)
+        if candidate_day.weekday() not in days:
+            continue
+        candidate = _scheduled_at(row, candidate_day)
+        if candidate > cursor:
+            return candidate
+    return None
+
+
+def _last_run_between(row: dict[str, Any], start: datetime, end: datetime) -> datetime | None:
+    days = set(int(day) for day in row.get("days") or [])
+    if not days:
+        return None
+    start_et = start.astimezone(ET)
+    end_et = end.astimezone(ET)
+    latest: datetime | None = None
+    for offset in range(0, 14):
+        candidate_day = start_et + timedelta(days=offset)
+        if candidate_day.date() > end_et.date():
+            break
+        if candidate_day.weekday() not in days:
+            continue
+        candidate = _scheduled_at(row, candidate_day)
+        if start_et < candidate <= end_et:
+            latest = candidate
+    return latest
 
 
 def _automation_matches_expected(row: dict[str, Any], expected: dict[str, Any]) -> bool:
@@ -253,11 +359,77 @@ def _receipt_summary(path: str | Path, expected_automations: list[dict[str, Any]
     return {"valid": not problems, "problems": problems, "summary": summary}
 
 
+def _receipt_due_summary(
+    receipts: dict[str, Any],
+    expected_automations: list[dict[str, Any]],
+    *,
+    activated_at: datetime | None,
+    now: datetime | None = None,
+    grace_minutes: int = 30,
+) -> dict[str, Any]:
+    if now is None:
+        now = datetime.now(ET)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=ET)
+    now_et = now.astimezone(ET)
+    activation = (activated_at or now_et).astimezone(ET)
+    receipt_rows = {
+        str(row.get("routine_id") or ""): row
+        for row in ((receipts.get("summary") or {}).get("rows") or [])
+        if isinstance(row, dict)
+    }
+    rows: list[dict[str, Any]] = []
+    for expected in expected_automations:
+        routine_id = str(expected.get("automation_id") or "")
+        receipt = receipt_rows.get(routine_id, {})
+        last_success = _parse_dt(receipt.get("last_success_at"))
+        last_due = _last_run_between(expected, activation, now_et)
+        next_due = _next_run_after(expected, now_et)
+        overdue_after = last_due + timedelta(minutes=grace_minutes) if last_due else None
+        if last_due is None:
+            state = "not_due_yet"
+        elif last_success and last_success.astimezone(ET) >= last_due:
+            state = "current"
+        elif overdue_after and now_et > overdue_after:
+            state = "overdue"
+        else:
+            state = "due_waiting"
+        rows.append({
+            "routine_id": routine_id,
+            "routine_name": expected.get("automation_name") or "",
+            "role": expected.get("role") or "",
+            "schedule": expected.get("schedule") or "",
+            "due_state": state,
+            "last_due_at": last_due.isoformat() if last_due else "",
+            "next_due_at": next_due.isoformat() if next_due else "",
+            "overdue_after": overdue_after.isoformat() if overdue_after else "",
+            "last_success_at": receipt.get("last_success_at") or "",
+        })
+    overdue = [row for row in rows if row["due_state"] == "overdue"]
+    due_waiting = [row for row in rows if row["due_state"] == "due_waiting"]
+    current = [row for row in rows if row["due_state"] == "current"]
+    next_candidates = [row for row in rows if row.get("next_due_at")]
+    next_target = sorted(next_candidates, key=lambda row: row["next_due_at"])[0] if next_candidates else {}
+    return {
+        "activated_at": activation.isoformat(),
+        "now": now_et.isoformat(),
+        "grace_minutes": grace_minutes,
+        "overdue_count": len(overdue),
+        "due_waiting_count": len(due_waiting),
+        "current_count": len(current),
+        "next_due": next_target,
+        "rows": rows,
+        "overdue": overdue,
+        "due_waiting": due_waiting,
+    }
+
+
 def _operating_gaps(
     status: dict[str, Any],
     automation: dict[str, Any],
     manifest: dict[str, Any],
     receipts: dict[str, Any],
+    receipt_due: dict[str, Any],
 ) -> list[str]:
     gaps: list[str] = []
     if not automation.get("installed"):
@@ -287,6 +459,11 @@ def _operating_gaps(
         label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
         summary = row.get("last_summary") or row.get("last_recorded_at") or "latest run failed"
         gaps.append(f"{label} latest run receipt failed: {summary}")
+    for row in receipt_due.get("overdue") or []:
+        if not isinstance(row, dict):
+            continue
+        label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
+        gaps.append(f"{label} run receipt is overdue after {row.get('overdue_after')}.")
     if not status.get("go_live_ready"):
         gaps.append("Dashboard is not go-live ready.")
     dark = (status.get("dark_lanes") or {}).get("details") or []
@@ -315,6 +492,7 @@ def cloud_ops_status(
     automation_id: str = DEFAULT_AUTOMATION_ID,
     automation_proof: str | Path | None = None,
     receipt_proof: str | Path | None = None,
+    now: str | datetime | None = None,
 ) -> dict[str, Any]:
     src = Path(src_dir)
     if automation_proof is None:
@@ -331,12 +509,20 @@ def cloud_ops_status(
         expected_automations=DEFAULT_EXPECTED_AUTOMATIONS,
     )
     receipts = _receipt_summary(receipt_proof, DEFAULT_EXPECTED_AUTOMATIONS)
-    gaps = _operating_gaps(status, automation, manifest, receipts)
+    proof_meta = _proof_metadata(automation_proof)
+    receipt_due = _receipt_due_summary(
+        receipts,
+        DEFAULT_EXPECTED_AUTOMATIONS,
+        activated_at=_parse_dt(proof_meta.get("verified_at")),
+        now=_parse_dt(now) if now is not None else None,
+    )
+    gaps = _operating_gaps(status, automation, manifest, receipts, receipt_due)
     schedule_ready = (
         bool(status.get("go_live_ready"))
         and bool(manifest.get("valid"))
         and bool(automation.get("active"))
         and bool(receipts.get("valid"))
+        and int(receipt_due.get("overdue_count") or 0) == 0
     )
     receipt_summary = receipts.get("summary") or {}
     live_run_proven = (
@@ -362,6 +548,7 @@ def cloud_ops_status(
         "routine_manifest": manifest,
         "cloud_automation": automation,
         "routine_receipts": receipts,
+        "routine_receipt_due": receipt_due,
         "dark_lanes": status.get("dark_lanes") or {},
         "open_actions": status.get("open_actions") or {},
         "gaps": gaps,
@@ -377,6 +564,8 @@ def format_text(report: dict[str, Any]) -> str:
     manifest_summary = (report.get("routine_manifest") or {}).get("summary") or {}
     automation = report.get("cloud_automation") or {}
     receipts = ((report.get("routine_receipts") or {}).get("summary") or {})
+    receipt_due = report.get("routine_receipt_due") or {}
+    next_due = receipt_due.get("next_due") or {}
     dark = report.get("dark_lanes") or {}
     lines = [
         f"Cloud schedule ready: {bool(report.get('schedule_ready_for_unattended_run'))}",
@@ -407,7 +596,16 @@ def format_text(report: dict[str, Any]) -> str:
             f"failed_latest={int(receipts.get('failed_latest_count') or 0)} | "
             f"missing_success={int(receipts.get('missing_success_count') or 0)}"
         ),
+        (
+            "Cloud receipt due state: "
+            f"overdue={int(receipt_due.get('overdue_count') or 0)} | "
+            f"waiting={int(receipt_due.get('due_waiting_count') or 0)} | "
+            f"current={int(receipt_due.get('current_count') or 0)}"
+        ),
     ]
+    if next_due:
+        label = next_due.get("routine_name") or next_due.get("routine_id") or "unknown"
+        lines.append(f"Next expected receipt: {label} at {next_due.get('next_due_at') or ''}")
     gaps = report.get("gaps") or []
     if gaps:
         lines.append("Gaps:")
@@ -426,6 +624,7 @@ def main(argv=None) -> int:
     parser.add_argument("--automation-id", default=DEFAULT_AUTOMATION_ID)
     parser.add_argument("--automation-proof")
     parser.add_argument("--receipt-proof")
+    parser.add_argument("--now", help="Override current time for testing, ISO format")
     parser.add_argument("--format", choices=["json", "text"], default="json")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero unless unattended daily ops are ready")
     args = parser.parse_args(argv)
@@ -437,6 +636,7 @@ def main(argv=None) -> int:
         automation_id=args.automation_id,
         automation_proof=args.automation_proof,
         receipt_proof=args.receipt_proof,
+        now=args.now,
     )
     if args.format == "text":
         print(format_text(report))

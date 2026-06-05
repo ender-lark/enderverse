@@ -60,6 +60,10 @@ until the core logic is stable; Notion sync comes later.
   - `cloud_ops_status.py` distinguishes `Cloud schedule ready` from
     `Cloud live-run proven`; the current first-run-pending state should be
     read as ready to run, not yet proven with live scheduled execution.
+  - It also computes the next expected receipt from the automation activation
+    time and marks a due routine overdue after a 30-minute grace window. The
+    first expected proof target after the current activation is Post-Close
+    Refresh at 2026-06-05 4:30 PM ET.
   - Latest failed receipts surface as operator gaps; first-run-pending receipts
     stay visible without marking a source lane checked clear.
 - Cloud routine runner.

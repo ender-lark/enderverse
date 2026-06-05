@@ -11,6 +11,7 @@ def _write_active_stack_proof(src: Path) -> None:
     (src / "cloud_automation_status.json").write_text(
         json.dumps({
             "schema_version": 2,
+            "verified_at": "2026-06-05T12:16:06-04:00",
             "routines": [
                 {
                     "automation_id": row["automation_id"],
@@ -44,6 +45,7 @@ def test_cloud_ops_status_reports_missing_automation(monkeypatch, tmp_path):
     report = cloud_ops_status.cloud_ops_status(
         src_dir=src,
         automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T12:20:00-04:00",
     )
 
     assert report["ready_for_unattended_daily_run"] is False
@@ -104,6 +106,8 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     assert report["schedule_ready_for_unattended_run"] is True
     assert report["live_run_proven"] is False
     assert report["cloud_operating_state"] == "ready_pending_first_success"
+    assert report["routine_receipt_due"]["overdue_count"] == 0
+    assert report["routine_receipt_due"]["next_due"]["routine_id"] == "investing-os-post-close-refresh"
     assert report["cloud_automation"]["installed"] is True
     assert report["cloud_automation"]["active"] is True
     assert report["cloud_automation"]["expected_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
@@ -139,6 +143,7 @@ def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(mon
     report = cloud_ops_status.cloud_ops_status(
         src_dir=src,
         automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T12:20:00-04:00",
     )
     text = cloud_ops_status.format_text(report)
 
@@ -207,9 +212,40 @@ def test_cloud_ops_status_surfaces_failed_run_receipt(monkeypatch, tmp_path):
     report = cloud_ops_status.cloud_ops_status(
         src_dir=src,
         automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T17:10:00-04:00",
     )
     text = cloud_ops_status.format_text(report)
 
     assert any("Investing OS Morning Scan latest run receipt failed" in gap for gap in report["gaps"])
     assert "Cloud run receipts: success=0/" in text
     assert "failed_latest=1" in text
+
+
+def test_cloud_ops_status_marks_due_receipt_overdue(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T17:10:00-04:00",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["ready_for_unattended_daily_run"] is False
+    assert report["routine_receipt_due"]["overdue_count"] == 1
+    assert report["routine_receipt_due"]["overdue"][0]["routine_id"] == "investing-os-post-close-refresh"
+    assert any("Investing OS Post-Close Refresh run receipt is overdue" in gap for gap in report["gaps"])
+    assert "Cloud receipt due state: overdue=1" in text
