@@ -15,6 +15,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Retired duplicate HTML generator path.
+  - Removed the stale tracked `src/cockpit html gen.py` copy so generated
+    dashboard summary work has a single canonical module:
+    `src/cockpit_html_gen.py`.
+  - Confirmed tests and docs already reference the canonical underscore path.
 - Dark-lane next-step guidance.
   - Added structured `next_step` and `missing_impact` metadata to not-checked
     lane-status rows so dark lanes explain what source to supply next.
