@@ -37,8 +37,9 @@ Current pushed snapshot (2026-06-05 14:19 ET live artifacts):
   `live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
   actions, 13 lanes with data, 2 dark optional lanes (`account_positions`,
   `meridian`), 2 open action reviews, and 3 pending / 0 overdue source calls.
-  It also reports `Live source config: configured=0/1 | missing=1` because
-  `UW_API_KEY` is not set in the current automation environment.
+  It also reports `Live source config: configured=1/1 | missing=0` after the
+  app Unusual Whales connector was verified through a market-wide
+  `get_market_tide` call and recorded in `src/live_source_config.json`.
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
   reports `WARN` with 0 failures and 2 warnings: open action reviews
   (`ANET`, `GOOGL`) and optional dark lane `catalysts`. It also includes a PASS
@@ -201,11 +202,11 @@ Important recent state:
   `python src/cloud_ops_status.py --format text` now include the same detailed
   missing live-capable input lines.
 - `python src/live_source_capability.py --format text` also prints live-fetch
-  configuration separately from cached readiness. Current local/cloud shell
-  state reports `UW_API_KEY` missing, so the dashboard Operator Status card
-  shows `Live fetch 0/1` and a visible live-source configuration warning for
-  UW opportunity/parabolic fetches. Existing UW caches can render, but they are
-  not proof of fresh live UW fetch capability.
+  configuration separately from cached readiness. Current repo state records a
+  verified app Unusual Whales connector in `src/live_source_config.json`, so
+  the dashboard Operator Status card shows `Live fetch 1/1`. Existing UW caches
+  can render, but they are not proof that a specific UW cache was freshly
+  rebuilt during the current routine run.
 - `src/cloud_ops_status.py --format text` is the operator check for unattended
   cloud ops. It distinguishes local go-live readiness from the installed Codex
   app automation stack. The previous generic

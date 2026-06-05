@@ -109,10 +109,11 @@ until the core logic is stable; Notion sync comes later.
   - Live-source configuration is now tracked separately from cached/local
     readiness. `live_source_capability.py`, `live_status.py`,
     `cloud_ops_status.py`, `go_live_checklist.py`, and the dashboard Operator
-    Status card show `UW_API_KEY` missing as `Live fetch 0/1` / a live-source
-    configuration warning. Existing UW caches may still render, but they are no
-    longer silent proof that the UW opportunity/parabolic routines can fetch
-    fresh live data.
+    Status card read `src/live_source_config.json` plus `UW_API_KEY` to decide
+    whether UW live fetch is configured. The current app connector proof
+    verifies the Unusual Whales connector without storing a secret, so the
+    dashboard shows `Live fetch 1/1`; existing UW caches are still not treated
+    as proof that a specific cache was freshly rebuilt.
   - `live_status.py` points those Account Positions/Meridian dark lanes at
     `docs/manual_live_source_drop.template.json`, while source-specific lanes
     such as Catalyst Calendar and Signal Log keep their specialized intake

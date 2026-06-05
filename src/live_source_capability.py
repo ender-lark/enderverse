@@ -14,6 +14,7 @@ from full_build_runner import convention_input_status
 
 DEFAULT_SRC = Path(__file__).resolve().parent
 DEFAULT_MANIFEST = DEFAULT_SRC / "codex_routine_manifest.json"
+DEFAULT_CONFIG = DEFAULT_SRC / "live_source_config.json"
 
 CONNECTOR_TOKENS = (
     "connector",
@@ -68,9 +69,10 @@ MODE_PRIORITY = ("connector_or_api", "supplied_or_export", "repo_cache_or_eviden
 LIVE_CONFIG_REQUIREMENTS = [
     {
         "key": "uw_api_key",
-        "label": "Unusual Whales API key",
-        "kind": "env",
+        "label": "Unusual Whales live access",
+        "kind": "env_or_connector",
         "env_var": "UW_API_KEY",
+        "connector_key": "unusual_whales",
         "affected_inputs": ["uw_opportunity", "parabolic"],
         "impact": (
             "Live UW opportunity/parabolic fetches cannot run; existing UW caches "
@@ -128,17 +130,45 @@ def _primary_mode(modes: list[str]) -> str:
     return "repo_manual"
 
 
-def live_config_report(environ: dict[str, str] | None = None) -> dict[str, Any]:
+def _read_json(path: str | Path) -> Any:
+    p = Path(path)
+    if not p.is_file():
+        return {}
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _connector_configured(config: dict[str, Any], connector_key: str) -> bool:
+    connectors = config.get("connectors") if isinstance(config, dict) else {}
+    connector = connectors.get(connector_key) if isinstance(connectors, dict) else {}
+    if not isinstance(connector, dict):
+        return False
+    return bool(connector.get("available") or connector.get("configured"))
+
+
+def live_config_report(
+    environ: dict[str, str] | None = None,
+    *,
+    config_path: str | Path | None = DEFAULT_CONFIG,
+) -> dict[str, Any]:
     """Return non-secret live-fetch configuration status."""
     env = os.environ if environ is None else environ
+    config = _read_json(config_path) if config_path else {}
     rows: list[dict[str, Any]] = []
     for requirement in LIVE_CONFIG_REQUIREMENTS:
         env_var = str(requirement.get("env_var") or "")
-        configured = bool(str(env.get(env_var) or "").strip()) if env_var else False
+        connector_key = str(requirement.get("connector_key") or "")
+        env_configured = bool(str(env.get(env_var) or "").strip()) if env_var else False
+        connector_configured = _connector_configured(config, connector_key) if connector_key else False
+        configured = env_configured or connector_configured
         rows.append({
             **requirement,
             "configured": configured,
             "present": configured,
+            "env_configured": env_configured,
+            "connector_configured": connector_configured,
         })
     missing = [row for row in rows if not row.get("configured")]
     return {
@@ -150,6 +180,7 @@ def live_config_report(environ: dict[str, str] | None = None) -> dict[str, Any]:
         "missing_keys": [row.get("key") for row in missing if row.get("key")],
         "rows": rows,
         "missing": missing,
+        "config_path": str(config_path or ""),
     }
 
 
@@ -157,6 +188,7 @@ def capability_report(
     src_dir: str | Path = DEFAULT_SRC,
     *,
     manifest_path: str | Path = DEFAULT_MANIFEST,
+    config_path: str | Path | None = None,
     input_rows: list[dict[str, Any]] | None = None,
     environ: dict[str, str] | None = None,
 ) -> dict[str, Any]:
@@ -218,7 +250,10 @@ def capability_report(
         "supplied_or_export_keys": supplied_keys,
         "missing_input_keys": missing_keys,
         "missing_live_capable_keys": missing_live_capable,
-        "live_source_config": live_config_report(environ),
+        "live_source_config": live_config_report(
+            environ,
+            config_path=config_path if config_path is not None else src / "live_source_config.json",
+        ),
         "rows": rows,
     }
 
@@ -309,7 +344,9 @@ def format_missing_live_config(report: dict[str, Any]) -> list[str]:
         ]
         suffix = f" ({', '.join(affected)})" if affected else ""
         if env_var:
-            lines.append(f"- {label}: {env_var} is not set{suffix}")
+            connector_key = str(row.get("connector_key") or "")
+            connector_note = f" and {connector_key} connector proof is absent" if connector_key else ""
+            lines.append(f"- {label}: {env_var} is not set{connector_note}{suffix}")
         else:
             lines.append(f"- {label}: not configured{suffix}")
         impact = str(row.get("impact") or "")
