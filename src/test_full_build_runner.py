@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -7,6 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from full_build_runner import (
     active_parabolic_tickers,
     build_full_feed_from_files,
+    convention_input_status,
     normalize_closes_cache,
     normalize_positions_cache,
 )
@@ -189,6 +191,71 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["catalysts"]["status"] == "not_checked"
     assert rows["signal_log"]["status"] == "not_checked"
     assert rows["synthesis"]["status"] == "not_checked"
+
+
+def test_full_build_runner_missing_price_file_is_dark_not_false_has_data(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    (src / "uw_closes.json").unlink()
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    rows = _lane_rows(feed)
+    assert rows["uw_price"]["status"] == "not_checked"
+    assert feed["lane_status"]["has_dark_lanes"] is True
+
+
+def test_convention_input_status_uses_manifest_contract(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    (src / "uw_closes.json").unlink()
+
+    rows = {row["key"]: row for row in convention_input_status(src)}
+
+    assert rows["positions"]["status"] == "present"
+    assert rows["theses"]["required"] is True
+    assert rows["uw_prices"]["status"] == "missing_optional"
+    assert "quiet tape" in rows["uw_prices"]["missing_behavior"]
+
+
+def test_full_build_cli_reports_dark_lanes_and_missing_inputs(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    (src / "uw_closes.json").unlink()
+    feed_out = tmp_path / "feed.json"
+    script = os.path.join(os.path.dirname(__file__), "full_build_runner.py")
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            script,
+            "--src-dir",
+            str(src),
+            "--feed-out",
+            str(feed_out),
+            "--as-of",
+            "2026-06-05",
+            "--run-timestamp",
+            "2026-06-05T14:00:00+00:00",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    payload = json.loads(proc.stdout)
+    assert "uw_price" in payload["dark_lane_keys"]
+    missing = {row["key"]: row for row in payload["missing_optional_inputs"]}
+    assert missing["uw_prices"]["source"] == "uw_cache_refresh_or_supplied_price_cache"
+    assert payload["missing_required_inputs"] == []
 
 
 def test_full_build_runner_adds_portfolio_views_when_account_positions_exist(tmp_path):

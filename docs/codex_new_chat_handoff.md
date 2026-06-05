@@ -29,8 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: daily full-build
-  convention input contract.
+- Latest completed slice before this handoff refresh: daily full-build input
+  status summary.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -51,10 +51,15 @@ Important recent state:
   `full_build_runner.DEFAULT_FILES` key has daily routine-manifest coverage.
 - `src/state_ownership_map.py` validates that every
   `full_build_runner.DEFAULT_FILES` key has state-ownership feed-path coverage.
+- `src/full_build_runner.py` now reports `dark_lane_keys`,
+  `missing_required_inputs`, and `missing_optional_inputs` in dry-run CLI
+  output, using the manifest convention-input contract.
+- Absent optional price cache now leaves `uw_price` not checked instead of
+  registering an empty price source as `has_data`.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `842 passed, 6 skipped`.
+- `python -m pytest src -q` -> `845 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` should run the same full pytest tree plus the standalone self-tests.
 

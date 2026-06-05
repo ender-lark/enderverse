@@ -71,6 +71,10 @@ def _src_dir() -> Path:
     return Path(__file__).resolve().parent
 
 
+def _manifest_path() -> Path:
+    return _src_dir() / "codex_routine_manifest.json"
+
+
 def _utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -118,6 +122,62 @@ def _resolve(src_dir: Path, key: str, override: str | Path | None = None) -> Pat
         if path.is_file():
             return path
     return None
+
+
+def _daily_convention_contract(manifest_path: str | Path | None = None) -> dict[str, dict]:
+    path = Path(manifest_path) if manifest_path else _manifest_path()
+    try:
+        manifest = _read_json(path, default={})
+    except Exception:
+        manifest = {}
+    routines = manifest.get("routines") if isinstance(manifest, dict) else []
+    daily = next(
+        (r for r in routines or [] if isinstance(r, dict) and r.get("id") == "daily_full_build"),
+        {},
+    )
+    rows = daily.get("convention_inputs") if isinstance(daily, dict) else []
+    return {
+        str(row.get("key")): row
+        for row in rows or []
+        if isinstance(row, dict) and row.get("key")
+    }
+
+
+def convention_input_status(
+    src_dir: str | Path | None = None,
+    *,
+    overrides: dict[str, str | Path | None] | None = None,
+    manifest_path: str | Path | None = None,
+) -> list[dict]:
+    """Report which daily full-build convention inputs are present.
+
+    This is routine-side evidence, not engine judgment: it explains why a lane is
+    dark and which source routine/cache owns the missing input.
+    """
+    src = Path(src_dir) if src_dir else _src_dir()
+    overrides = overrides or {}
+    contract = _daily_convention_contract(manifest_path)
+    rows: list[dict] = []
+    for key, default_names in DEFAULT_FILES.items():
+        row = contract.get(key, {})
+        if key in overrides and overrides[key]:
+            candidate_paths = [str(Path(overrides[key]))]
+        else:
+            candidate_paths = [str(src / name) for name in default_names]
+        resolved = _resolve(src, key, overrides.get(key))
+        required = bool(row.get("required")) if row else key in {"positions", "theses"}
+        present = bool(resolved and resolved.is_file())
+        rows.append({
+            "key": key,
+            "required": required,
+            "present": present,
+            "status": "present" if present else "missing_required" if required else "missing_optional",
+            "resolved_path": str(resolved) if present else "",
+            "candidate_paths": candidate_paths,
+            "source": row.get("source") or "",
+            "missing_behavior": row.get("missing_behavior") or "",
+        })
+    return rows
 
 
 def _load_optional(src_dir: Path, key: str, override: str | Path | None = None) -> Any:
@@ -251,7 +311,8 @@ def build_full_feed_from_files(
     if not positions:
         raise FullBuildError("positions cache produced no portfolio rows")
 
-    closes = normalize_closes_cache(_load_optional(src, "uw_prices", uw_prices_path))
+    closes_cache = _load_optional(src, "uw_prices", uw_prices_path)
+    closes = normalize_closes_cache(closes_cache)
     macro = _load_optional(src, "macro")
     fs_bible = _load_optional(src, "fs_bible")
     fs_daily = _load_optional(src, "fs_daily")
@@ -276,7 +337,8 @@ def build_full_feed_from_files(
 
     reg = SourceRegistry()
     reg.register(build_portfolio_source(positions, as_of=positions_as_of or now))
-    reg.register(build_uw_price_source(closes, as_of=now))
+    if closes_cache is not None:
+        reg.register(build_uw_price_source(closes, as_of=now))
     if macro is not None:
         reg.register(build_uw_macro_source(macro, as_of=now))
     if fs_bible is not None:
@@ -286,7 +348,8 @@ def build_full_feed_from_files(
     if meridian is not None:
         reg.register(build_meridian_source(meridian))
 
-    snap = collect(reg, run_timestamp=now)
+    critical_sources = ("portfolio", "uw_price") if closes_cache is not None else ("portfolio",)
+    snap = collect(reg, critical=critical_sources, run_timestamp=now)
     collection_problems = validate_collection_gate(snap)
     if collection_problems:
         raise FullBuildError(f"snapshot failed L2->L3 collection gate: {collection_problems}")
@@ -366,12 +429,29 @@ def main(argv=None) -> int:
 
     if args.feed_out:
         _atomic_write_json(Path(args.feed_out), feed)
+    lane_rows = feed.get("lane_status", {}).get("rows", [])
+    dark_lane_keys = [
+        row.get("key")
+        for row in lane_rows
+        if isinstance(row, dict) and row.get("status") == "not_checked"
+    ]
+    input_rows = convention_input_status(
+        args.src_dir,
+        overrides={
+            "positions": args.positions,
+            "theses": args.theses,
+            "uw_prices": args.uw_prices,
+        },
+    )
     print(json.dumps({
         "built": True,
         "feed_out": args.feed_out or "",
         "actions": len(feed.get("actions") or []),
         "research_actions": len(feed.get("research_actions") or []),
         "dark_lanes": feed.get("lane_status", {}).get("counts", {}).get("not_checked", 0),
+        "dark_lane_keys": dark_lane_keys,
+        "missing_required_inputs": [row for row in input_rows if row["status"] == "missing_required"],
+        "missing_optional_inputs": [row for row in input_rows if row["status"] == "missing_optional"],
     }, indent=2))
     return 0
 

@@ -13,6 +13,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Daily full-build input status summary.
+  - Extended full-build CLI output so successful dry runs name dark lane keys
+    and missing convention inputs instead of only counting them.
+  - Used the routine-manifest convention-input contract for required/optional
+    status, source, and missing-input behavior.
+  - Fixed absent optional price cache handling so `uw_price` stays not checked
+    instead of registering an empty source as `has_data`.
 - Daily full-build convention input contract.
   - Added a `daily_full_build.convention_inputs` contract covering all 20
     `full_build_runner.DEFAULT_FILES` keys.

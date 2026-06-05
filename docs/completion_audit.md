@@ -35,16 +35,23 @@ enough to hand control back, using current repo state as evidence. It covers:
   full-build convention-input coverage guardrail.
 - Dashboard parity guardrail tests passed.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 842 passed, 6 skipped
+  - broad `src` suite: 845 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 842 passed, 6 skipped.
+  ignore workaround: 845 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
   - `portfolio_views` remained conditional on `account_positions.json`
+- Daily full-build dry run passed after adding the convention-input status
+  summary:
+  - output reported `dark_lane_keys` instead of only a dark-lane count
+  - output reported no missing required inputs
+  - missing optional inputs included their source and missing-input behavior
+  - absent optional `uw_prices` now surfaces `uw_price` as not checked instead
+    of registering an empty price source as data
 - `python src/research_queue_intake.py --validate src/research_queue.json`
   passed after AVGO was downgraded to low-priority queued research.
 - `python src/full_build_runner.py --feed-out tmp/avgo_research_feed.json`
@@ -58,6 +65,10 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Daily full-build input status summary: the full-build CLI now reports dark
+  lane keys and missing convention inputs with required/optional status, source,
+  and missing-input behavior; absent optional price cache remains a dark lane
+  rather than a false `has_data` source.
 - Daily full-build convention input contract: the routine manifest now declares
   every `full_build_runner.DEFAULT_FILES` key consumed by daily full build,
   required versus optional status, and missing-input behavior; the validator now
