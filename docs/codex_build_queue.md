@@ -98,6 +98,9 @@ until the core logic is stable; Notion sync comes later.
     time and marks a due routine overdue after a 30-minute grace window. The
     first expected proof target after the current activation is Post-Close
     Refresh at 2026-06-05 4:30 PM ET.
+  - The status readout now separates due states into `overdue`,
+    `due_waiting`, `not_due_yet`, and `current`, and prints an explicit
+    first-scheduled-proof-pending line before the first expected receipt window.
   - Latest failed receipts surface as operator gaps; first-run-pending receipts
     stay visible without marking a source lane checked clear.
 - Cloud routine runner.

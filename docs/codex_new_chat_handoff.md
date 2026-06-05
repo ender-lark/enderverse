@@ -227,8 +227,11 @@ Important recent state:
   `partial_live_run_proven`, while full-stack proof requires every expected
   routine to have a scheduled success receipt.
   The status command also prints the next expected receipt and marks a routine
-  overdue after a 30-minute grace window. The first expected proof target after
-  this activation is Post-Close Refresh at 2026-06-05 4:30 PM ET.
+  overdue after a 30-minute grace window. Before the first receipt window it
+  reports `not_due_yet` counts and an explicit first-scheduled-proof-pending
+  line, so schedule readiness is not mistaken for run proof. The first expected
+  proof target after this activation is Post-Close Refresh at 2026-06-05
+  4:30 PM ET.
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.

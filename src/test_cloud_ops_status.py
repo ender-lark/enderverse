@@ -359,7 +359,10 @@ def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monke
     assert report["cloud_operating_state"] == "ready_pending_first_success"
     assert report["routine_receipts"]["summary"]["success_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
     assert report["routine_receipts"]["summary"]["scheduled_success_count"] == 0
+    assert report["routine_receipt_due"]["not_due_yet_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
     assert "Cloud run receipts: scheduled_success=0/" in text
+    assert "not_due_yet=" in text
+    assert "First scheduled proof pending: Investing OS Post-Close Refresh" in text
 
 
 def test_cloud_ops_status_keeps_dark_lanes_visible(monkeypatch, tmp_path):

@@ -523,6 +523,7 @@ def _receipt_due_summary(
     overdue = [row for row in rows if row["due_state"] == "overdue"]
     due_waiting = [row for row in rows if row["due_state"] == "due_waiting"]
     current = [row for row in rows if row["due_state"] == "current"]
+    not_due_yet = [row for row in rows if row["due_state"] == "not_due_yet"]
     next_candidates = [row for row in rows if row.get("next_due_at")]
     next_target = sorted(next_candidates, key=lambda row: row["next_due_at"])[0] if next_candidates else {}
     return {
@@ -532,10 +533,12 @@ def _receipt_due_summary(
         "overdue_count": len(overdue),
         "due_waiting_count": len(due_waiting),
         "current_count": len(current),
+        "not_due_yet_count": len(not_due_yet),
         "next_due": next_target,
         "rows": rows,
         "overdue": overdue,
         "due_waiting": due_waiting,
+        "not_due_yet": not_due_yet,
     }
 
 
@@ -763,12 +766,18 @@ def format_text(report: dict[str, Any]) -> str:
             "Cloud receipt due state: "
             f"overdue={int(receipt_due.get('overdue_count') or 0)} | "
             f"waiting={int(receipt_due.get('due_waiting_count') or 0)} | "
+            f"not_due_yet={int(receipt_due.get('not_due_yet_count') or 0)} | "
             f"current={int(receipt_due.get('current_count') or 0)}"
         ),
     ]
     if next_due:
         label = next_due.get("routine_name") or next_due.get("routine_id") or "unknown"
         lines.append(f"Next expected receipt: {label} at {next_due.get('next_due_at') or ''}")
+        if not report.get("first_scheduled_run_proven"):
+            lines.append(
+                "First scheduled proof pending: "
+                f"{label} has not reached its next scheduled receipt window yet."
+            )
     lines.append(f"Cloud runner drill: {report.get('drill_command') or DRILL_COMMAND}")
     gaps = report.get("gaps") or []
     if gaps:
