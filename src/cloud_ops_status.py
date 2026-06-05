@@ -816,7 +816,33 @@ def format_text(report: dict[str, Any]) -> str:
     ]
     lines.extend(live_source_capability.format_missing_live_capable(source_capability))
     lines.extend(live_source_capability.format_missing_live_config(source_capability))
-    if next_due:
+    due_waiting = [
+        row for row in receipt_due.get("due_waiting") or []
+        if isinstance(row, dict)
+    ]
+    overdue = [
+        row for row in receipt_due.get("overdue") or []
+        if isinstance(row, dict)
+    ]
+    if due_waiting:
+        row = due_waiting[0]
+        label = row.get("routine_name") or row.get("routine_id") or "unknown"
+        lines.append(
+            f"Due receipt waiting: {label} due at {row.get('last_due_at') or ''} "
+            f"| grace until {row.get('overdue_after') or ''}"
+        )
+        if not report.get("first_scheduled_run_proven"):
+            lines.append(f"First scheduled proof pending: waiting for {label} scheduled receipt.")
+    elif overdue:
+        row = overdue[0]
+        label = row.get("routine_name") or row.get("routine_id") or "unknown"
+        lines.append(
+            f"Overdue receipt: {label} due at {row.get('last_due_at') or ''} "
+            f"| overdue after {row.get('overdue_after') or ''}"
+        )
+        if not report.get("first_scheduled_run_proven"):
+            lines.append(f"First scheduled proof pending: {label} scheduled receipt is overdue.")
+    elif next_due:
         label = next_due.get("routine_name") or next_due.get("routine_id") or "unknown"
         lines.append(f"Next expected receipt: {label} at {next_due.get('next_due_at') or ''}")
         if not report.get("first_scheduled_run_proven"):

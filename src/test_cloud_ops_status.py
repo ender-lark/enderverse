@@ -478,6 +478,37 @@ def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monke
     assert "First scheduled proof pending: Investing OS Post-Close Refresh" in text
 
 
+def test_cloud_ops_status_reports_due_waiting_before_grace_expires(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T16:40:00-04:00",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["ready_for_unattended_daily_run"] is True
+    assert report["routine_receipt_due"]["due_waiting_count"] == 1
+    assert report["routine_receipt_due"]["due_waiting"][0]["routine_id"] == "investing-os-post-close-refresh"
+    assert "Due receipt waiting: Investing OS Post-Close Refresh due at 2026-06-05T16:30:00-04:00" in text
+    assert "First scheduled proof pending: waiting for Investing OS Post-Close Refresh scheduled receipt." in text
+    assert "has not reached its next scheduled receipt window yet" not in text
+
+
 def test_cloud_ops_status_keeps_dark_lanes_visible(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()
