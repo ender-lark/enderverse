@@ -57,10 +57,10 @@ def test_single_mention_does_not_fire():
     assert "none firing" in r.surface_line
 
 
-def test_orchestrator_runs_nine_subsystems_and_guards_by_default():
+def test_orchestrator_runs_ten_subsystems_and_guards_by_default():
     d = orchestrate(positions=[], theses=THESES, sleeve_total=1_000_000,
                     source_calls=_calls())
-    assert len(d.subsystems) == 9
+    assert len(d.subsystems) == 10
     p = next(s for s in d.subsystems if s.name == "SOURCE PERSISTENCE")
     # no live Inbox/Log supplied -> calibration not confirmed -> guarded/provisional
     assert p.payload["guarded"] is True

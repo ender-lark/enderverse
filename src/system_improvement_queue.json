@@ -20,7 +20,7 @@
       "id": "broker-pdf-position-reconciliation",
       "title": "Broker PDF intake and trade-diff reconciliation",
       "priority": "P1",
-      "status": "queued",
+      "status": "active",
       "area": "positions",
       "why": "The system needs current account positions after uploaded broker PDFs, including trade diffs since the last snapshot.",
       "done_when": "Uploaded account PDFs produce account-level positions, combined positions, and a clear diff of buys/sells/trims since the prior snapshot."

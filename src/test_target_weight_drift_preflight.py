@@ -53,7 +53,7 @@ def test_target_drift_subsystem_surfaces_in_priority_order():
     assert "NVDA undersized" in result.surface_line
 
 
-def test_orchestrator_runs_target_drift_as_ninth_subsystem():
+def test_orchestrator_runs_target_drift_subsystem():
     positions = [
         _pos("NVDA", 6.0),
         _pos("GOOGL", 1.0),
@@ -62,6 +62,6 @@ def test_orchestrator_runs_target_drift_as_ninth_subsystem():
     dashboard = orchestrate(positions=positions, theses=[], sleeve_total=BOOK)
     names = [s.name for s in dashboard.subsystems]
 
-    assert len(dashboard.subsystems) == 9
+    assert len(dashboard.subsystems) == 10
     assert "TARGET DRIFT" in names
     assert "TARGET DRIFT" in dashboard.priority_order

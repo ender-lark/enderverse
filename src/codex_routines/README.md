@@ -25,16 +25,22 @@ Core rule: routines gather and write convention files; the engine remains pure.
    - Held-name near-term catalysts surface through the full build as ACT_NOW
      pre-catalyst review actions.
 
-3. UW cache refresh
+3. Broker position intake
+   - Convert uploaded broker-position PDFs into extractor `combined.json`.
+   - Refresh `positions.json` for the engine.
+   - Refresh `account_positions.json` and `position_reconciliation.json` for
+     account-level holdings and trade diffs.
+
+4. UW cache refresh
    - Refresh `uw_opportunity_signals.json` and, when scheduled, `parabolic_setups.json`.
    - Run the UW orchestrator as a module from `src`.
 
-4. Daily full build
+5. Daily full build
    - Run `full_build_runner.py`.
    - Publish only through the publish gate.
    - Update action memory only after the feed is publish-safe.
 
-5. Off-hours research queue
+6. Off-hours research queue
    - Process queued research only after the daily action surface is trustworthy.
    - No trade actions from UW alone.
 
@@ -43,6 +49,7 @@ Core rule: routines gather and write convention files; the engine remains pure.
 - Repo: `C:\Users\suraj\Documents\Codex\2026-06-04\confirm-you-can-access-my-github\work\enderverse`
 - Fundstrat drop folder: `G:\My Drive\Codex\Investing OS Context\03_Inbox\Fundstrat_Email_Drop`
 - Catalyst drop folder: `G:\My Drive\Codex\Investing OS Context\03_Inbox\Catalyst_Calendar_Drop`
+- Broker PDF drop folder: `G:\My Drive\Codex\Investing OS Context\03_Inbox\Broker_Position_Drop`
 - Working notes: `G:\My Drive\Codex\Investing OS Context\06_Working_Notes`
 
 ## Activation State

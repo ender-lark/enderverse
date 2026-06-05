@@ -96,6 +96,7 @@ DEFAULT_FILES = {
     "parabolic":     "parabolic_setups.json",
     "inbox_dates":   "inbox_call_dates.json",
     "log_dates":     "log_call_dates.json",
+    "position_reconciliation": "position_reconciliation.json",
 }
 
 ENV_OVERRIDES = {
@@ -111,6 +112,7 @@ ENV_OVERRIDES = {
     "parabolic":    "INVEST_PARABOLIC",
     "inbox_dates":  "INVEST_INBOX_CALL_DATES",
     "log_dates":    "INVEST_LOG_CALL_DATES",
+    "position_reconciliation": "INVEST_POSITION_RECONCILIATION",
 }
 
 
@@ -328,6 +330,7 @@ def main():
     rationales_data   = _load(paths["rationales"])
     prior_data        = _load(paths["prior"])
     parabolic_data    = _load(paths["parabolic"])
+    position_reconciliation_data = _load(paths["position_reconciliation"])
 
     # v12.5 Issue #10 §3: source-calibration chain staleness at boot. The gauges exist in
     # source_call_tracker (v11.35/11.36) but were unwired; surface them, or say "not checked"
@@ -360,6 +363,7 @@ def main():
         catalysts=catalysts_data,
         source_calls=source_calls_data,
         parabolic_data=parabolic_data,
+        position_reconciliation=position_reconciliation_data,
         inbox_call_dates=_inbox_dates,
         log_call_dates=_log_dates,
     )

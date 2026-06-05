@@ -578,6 +578,77 @@ def _run_target_drift(positions: List[Dict], sleeve_total: float) -> SubsystemRe
     )
 
 
+def _run_position_diff(position_reconciliation: Optional[Dict]) -> SubsystemResult:
+    """POSITION DIFF - recent account-level changes from broker PDF ingest."""
+    if not position_reconciliation:
+        return SubsystemResult(
+            name="POSITION DIFF",
+            available=False,
+            surface_line="POSITION DIFF: (no position_reconciliation.json supplied)",
+            priority="INFO",
+        )
+    if position_reconciliation.get("status") == "not_checked":
+        reason = position_reconciliation.get("reason") or "not checked"
+        return SubsystemResult(
+            name="POSITION DIFF",
+            available=False,
+            surface_line=f"POSITION DIFF: ({reason})",
+            priority="INFO",
+            payload={"status": "not_checked", "reason": reason},
+        )
+    changes = position_reconciliation.get("changes") or []
+    if not isinstance(changes, list):
+        return SubsystemResult(
+            name="POSITION DIFF",
+            available=False,
+            surface_line="POSITION DIFF: malformed reconciliation file",
+            priority="MED",
+            actionable_count=1,
+            payload={"error": "changes must be a list"},
+        )
+    counts = position_reconciliation.get("counts") or {}
+    trade_actions = ["NEW", "EXIT", "ADD", "TRIM"]
+    trade_count = sum(int(counts.get(k, 0) or 0) for k in trade_actions)
+    value_count = int(counts.get("VALUE_CHANGE", 0) or 0)
+    if not changes:
+        return SubsystemResult(
+            name="POSITION DIFF",
+            available=True,
+            surface_line="POSITION DIFF: no account-level changes since prior snapshot",
+            priority="INFO",
+            actionable_count=0,
+            payload={"counts": counts},
+        )
+
+    top = []
+    for row in changes[:5]:
+        if not isinstance(row, dict):
+            continue
+        try:
+            delta = f"{float(row.get('share_delta') or 0):+g}sh"
+        except (TypeError, ValueError):
+            delta = "share change"
+        acct = row.get("account") or "account"
+        top.append(f"{row.get('ticker')} {row.get('action')} {delta} ({acct})")
+    more = max(0, len(changes) - len(top))
+    suffix = "; " + "; ".join(top) if top else ""
+    if more:
+        suffix += f"; +{more} more"
+    priority = "HIGH" if trade_count else "INFO"
+    return SubsystemResult(
+        name="POSITION DIFF",
+        available=True,
+        surface_line=(
+            "POSITION DIFF: "
+            f"{trade_count} trade-like change(s), {value_count} value-only change(s)"
+            f"{suffix}"
+        ),
+        priority=priority,
+        actionable_count=trade_count,
+        payload={"counts": counts, "changes": len(changes)},
+    )
+
+
 PRIORITY_RANK = {"CRIT": 0, "HIGH": 1, "MED": 2, "INFO": 3, "NONE": 4}
 
 
@@ -603,6 +674,7 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
                 catalysts: Optional[List[Dict]] = None,
                 source_calls: Optional[List[Dict]] = None,
                 parabolic_data: Optional[Dict] = None,
+                position_reconciliation: Optional[Dict] = None,
                 inbox_call_dates: Optional[List] = None,
                 log_call_dates: Optional[List] = None
                 ) -> SessionDashboard:
@@ -634,6 +706,7 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
                       macro_pulse, source_calls),
         _run_conviction(positions, theses, sleeve_total, macro_pulse, source_rates),
         _run_target_drift(positions, sleeve_total),
+        _run_position_diff(position_reconciliation),
         _run_factor(positions, theses, sleeve_total, macro_pulse),
         _run_insider(positions, insider_data, catalysts, theses, macro_pulse),
         _run_parabolic(parabolic_data),
@@ -723,7 +796,7 @@ def _self_test() -> bool:
     # ----- Test 1: minimal — empty everything → no actionable items
     d = orchestrate([], [], sleeve_total=1)
     assert_eq(len(d.priority_order), 0, "empty: no actionable items")
-    assert_eq(len(d.subsystems), 9, "9 subsystems always run")
+    assert_eq(len(d.subsystems), 10, "10 subsystems always run")
 
     # ----- Test 2: realistic operator portfolio
     positions = [
@@ -810,7 +883,7 @@ def _self_test() -> bool:
     js = format_json(d)
     parsed = json.loads(js)
     assert_eq(parsed["sleeve_total"], 1875000, "JSON sleeve_total")
-    assert_true(len(parsed["subsystems"]) == 9, "JSON has 9 subsystems")
+    assert_true(len(parsed["subsystems"]) == 10, "JSON has 10 subsystems")
 
     # ----- Test 10: all-none scenario
     d = orchestrate([], [], 1)
@@ -903,6 +976,7 @@ def main():
     p.add_argument("--source-calls", help="Pending source calls JSON (optional)")
     p.add_argument("--rationales", help="Active rationales JSON (optional)")
     p.add_argument("--parabolic", help="Parabolic setups JSON (optional)")
+    p.add_argument("--position-reconciliation", help="Position reconciliation JSON (optional)")
     p.add_argument("--json", action="store_true")
     p.add_argument("--self-test", action="store_true")
     args = p.parse_args()
@@ -927,6 +1001,7 @@ def main():
     source_calls = json.load(open(args.source_calls)) if args.source_calls else None
     rationales = json.load(open(args.rationales)) if args.rationales else None
     parabolic = json.load(open(args.parabolic)) if args.parabolic else None
+    position_reconciliation = json.load(open(args.position_reconciliation)) if args.position_reconciliation else None
 
     d = orchestrate(positions, theses, args.sleeve_total,
                     prior_snapshot=prior,
@@ -936,7 +1011,8 @@ def main():
                     insider_data=insider,
                     catalysts=catalysts,
                     source_calls=source_calls,
-                    parabolic_data=parabolic)
+                    parabolic_data=parabolic,
+                    position_reconciliation=position_reconciliation)
     if args.json:
         print(format_json(d))
     else:
