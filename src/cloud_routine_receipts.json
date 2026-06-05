@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-05T20:32:29.694662Z",
+  "updated_at": "2026-06-05T21:45:50.150086Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -1612,6 +1612,20 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-05T21:41:56.628245Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-05T21:45:50.150086Z",
+      "summary": "0 new FS rows; catalysts unchanged at 8; positions stale no broker input; event-risk unchanged; blocker: Notion structured catalyst query unavailable"
     }
   ]
 }
