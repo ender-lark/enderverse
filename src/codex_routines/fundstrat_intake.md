@@ -63,9 +63,14 @@ Accepted fallback file types:
 - `src/fundstrat_intake_summary.json`
 - `src/fundstrat_intake_state.json`
 
+`fundstrat_inbox_entries.json` redacts raw email bodies by default and stores
+only body length/hash metadata. Use `--keep-bodies` only for temporary local
+debugging, and do not commit raw publication bodies.
+
 ## Rules
 
 - Preserve source date and author.
+- Do not commit raw Fundstrat email bodies.
 - Do not turn non-action mentions into daily-call rows.
 - Do not treat unfetched or unparsed emails as checked clear.
 - Do not make trade recommendations from this routine; it only prepares source

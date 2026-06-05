@@ -159,8 +159,29 @@ def test_build_payload_and_write_convention_files(tmp_path):
     }
     calls = json.loads((tmp_path / "fundstrat_daily_calls.json").read_text(encoding="utf-8"))
     dates = json.loads((tmp_path / "inbox_call_dates.json").read_text(encoding="utf-8"))
+    inbox_entries = json.loads((tmp_path / "fundstrat_inbox_entries.json").read_text(encoding="utf-8"))
     assert calls[0]["ticker"] == "NVDA"
     assert dates == ["2026-06-05"]
+    assert "body" not in inbox_entries[0]
+    assert inbox_entries[0]["body_redacted"] is True
+    assert inbox_entries[0]["body_chars"] == len(entries[0]["body"])
+    assert len(inbox_entries[0]["body_sha256"]) == 64
+
+
+def test_write_convention_files_can_keep_bodies_for_local_debugging(tmp_path):
+    payload = build_intake_payload([{
+        "subject": "Mark Newton tech",
+        "body": "Buy NVDA near 170.",
+        "date": "2026-06-05",
+        "author": "Newton",
+        "from": "Fundstrat",
+        "source_path": "x",
+    }], universe={"NVDA"}, generated_at="2026-06-05T14:00:00+00:00")
+    write_convention_files(payload, tmp_path, redact_bodies=False)
+    inbox_entries = json.loads((tmp_path / "fundstrat_inbox_entries.json").read_text(encoding="utf-8"))
+    summary = json.loads((tmp_path / "fundstrat_intake_summary.json").read_text(encoding="utf-8"))
+    assert inbox_entries[0]["body"] == "Buy NVDA near 170."
+    assert summary["bodies_redacted"] is False
 
 
 def test_write_convention_files_can_merge_existing_and_write_state(tmp_path):

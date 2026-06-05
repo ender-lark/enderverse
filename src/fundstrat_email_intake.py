@@ -16,6 +16,7 @@ entries so the run is inspectable without polluting conviction.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -469,9 +470,30 @@ def _merge_by_key(existing: list[dict], new: list[dict], keys: tuple[str, ...]) 
     return out
 
 
+def _body_sha256(body: Any) -> str:
+    if not body:
+        return ""
+    return hashlib.sha256(str(body).encode("utf-8")).hexdigest()
+
+
+def redact_entry_body(entry: dict) -> dict:
+    """Remove raw email body text from saved audit rows."""
+    out = dict(entry)
+    body = out.pop("body", "")
+    out["body_redacted"] = bool(body)
+    out["body_chars"] = len(str(body or ""))
+    out["body_sha256"] = _body_sha256(body)
+    return out
+
+
+def redact_entry_bodies(entries: list[dict]) -> list[dict]:
+    return [redact_entry_body(e) if isinstance(e, dict) else e for e in entries]
+
+
 def write_convention_files(payload: dict, out_dir: str | Path, *,
                            merge_existing: bool = False,
-                           state: dict | None = None) -> dict:
+                           state: dict | None = None,
+                           redact_bodies: bool = True) -> dict:
     out = Path(out_dir)
     entries = payload["entries"]
     daily_calls = payload["daily_calls"]
@@ -498,13 +520,15 @@ def write_convention_files(payload: dict, out_dir: str | Path, *,
     summary = {
         **payload["summary"],
         "merged": bool(merge_existing),
+        "bodies_redacted": bool(redact_bodies),
         "stored_entries": len(entries),
         "stored_daily_calls": len(daily_calls),
         "stored_source_call_candidates": len(candidates),
     }
+    entries_to_write = redact_entry_bodies(entries) if redact_bodies else entries
     written = {
         "fundstrat_inbox_entries": _atomic_write_json(out / "fundstrat_inbox_entries.json",
-                                                      entries),
+                                                      entries_to_write),
         "fundstrat_daily_calls": _atomic_write_json(out / "fundstrat_daily_calls.json",
                                                     daily_calls),
         "inbox_call_dates": _atomic_write_json(out / "inbox_call_dates.json",
@@ -537,6 +561,8 @@ def main(argv=None) -> int:
                         help="Do not filter messages already listed in --state")
     parser.add_argument("--merge-existing", action="store_true",
                         help="Merge emitted rows with existing convention files")
+    parser.add_argument("--keep-bodies", action="store_true",
+                        help="Write raw email bodies to fundstrat_inbox_entries.json")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
@@ -560,10 +586,12 @@ def main(argv=None) -> int:
         args.out_dir,
         merge_existing=args.merge_existing,
         state=next_state,
+        redact_bodies=not args.keep_bodies,
     )
     print(json.dumps({
         "parsed": True,
         **payload["summary"],
+        "bodies_redacted": not args.keep_bodies,
         "state_updated": bool(next_state),
         "written": written,
     }, indent=2))
