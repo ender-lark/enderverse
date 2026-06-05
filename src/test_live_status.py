@@ -205,9 +205,10 @@ def test_format_text_is_operator_scannable():
     assert "- Signal Log: Supply Morning Scan JSON." in text
     assert "Dark lane intake commands:" in text
     assert "- Start template: docs/manual_drop.template.json" in text
-    assert "python src/catalyst_calendar_intake.py <catalyst-calendar.json> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing" in text
-    assert "python src/signal_log_intake.py <signal-log.json> --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing" in text
-    assert "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only" in text
+    assert "Catalysts apply: python src/catalyst_calendar_intake.py <catalyst-calendar.json> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing" in text
+    assert "Signal Log apply: python src/signal_log_intake.py <signal-log.json> --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing" in text
+    assert "Catalysts validate: python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only" in text
+    assert "Catalysts apply: python src/manual_source_drop.py <manual-drop.json> --src-dir src" in text
 
 
 def test_format_text_points_live_source_dark_lanes_at_live_template():
@@ -240,5 +241,7 @@ def test_format_text_points_live_source_dark_lanes_at_live_template():
 
     assert "- Start template: docs/manual_live_source_drop.template.json" in text
     assert "docs/manual_drop.template.json" not in text
-    assert "Account Positions: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in text
-    assert "Meridian: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in text
+    assert "Account Positions validate: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in text
+    assert "Account Positions apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src" in text
+    assert "Meridian validate: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in text
+    assert "Meridian apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src" in text

@@ -239,10 +239,15 @@ def _manual_drop_row_detail(
 def _manual_drop_command(source_capability: dict[str, Any]) -> str:
     if int(source_capability.get("missing_live_capable_count") or 0):
         return (
-            "python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
-            "--src-dir src --validate-only"
+            "validate: python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
+            "--src-dir src --validate-only | "
+            "apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
+            "--src-dir src"
         )
-    return "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"
+    return (
+        "validate: python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only | "
+        "apply: python src/manual_source_drop.py <manual-drop.json> --src-dir src"
+    )
 
 
 def _operator_summary(rows: list[dict[str, str]]) -> dict[str, Any]:

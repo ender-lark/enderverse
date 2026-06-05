@@ -77,10 +77,15 @@ Current pushed snapshot (2026-06-05 19:18 ET live artifacts; 19:01 ET cloud proo
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.
+- The dashboard Lane Status section also shows Account Positions validate/apply
+  commands for the remaining live-source dark lane:
+  `python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only`
+  and
+  `python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src`.
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `1032 passed, 6 skipped`, plus
+- Full standard verification last passed with `1033 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.

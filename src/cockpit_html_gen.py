@@ -109,11 +109,12 @@ a{color:#58a6ff;text-decoration:none}
 .summary-line:last-child{margin-bottom:0}
 .summary-muted{color:#8b949e}
 .lane-counts{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
-.lane-row{display:flex;align-items:center;gap:8px;font-size:12px;
+.lane-row{display:flex;align-items:center;gap:8px;font-size:12px;flex-wrap:wrap;
   padding:5px 0;border-bottom:1px solid #1c2128}
 .lane-row:last-child{border-bottom:none}
 .lane-key{font-weight:700;color:#c9d1d9;min-width:130px}
 .lane-status{font-family:monospace;font-size:10px;padding:1px 7px;border-radius:99px}
+.lane-command-list{flex:1 0 100%;display:flex;flex-direction:column;gap:4px;margin-left:138px}
 .ls-has_data{background:#0d2b16;color:#3fb950}
 .ls-checked_clear{background:#1c2128;color:#8b949e}
 .ls-not_checked{background:#2b1e0a;color:#d29922}
@@ -290,6 +291,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   .wrap{padding:10px 8px}
   .hdr{flex-direction:column}
   .hero-num{font-size:24px}
+  .lane-command-list{margin-left:0}
 }
 @media(min-width:720px){
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -377,6 +379,19 @@ def _quick_nav(feed: dict) -> str:
 </div>"""
 
 
+def _lane_intake_commands(key: str) -> list[tuple[str, str]]:
+    if key in {"account_positions", "meridian"}:
+        template = "docs/manual_live_source_drop.template.json"
+        return [
+            ("validate", f"python src/manual_source_drop.py {template} --src-dir src --validate-only"),
+            ("apply", f"python src/manual_source_drop.py {template} --src-dir src"),
+        ]
+    return [
+        ("validate", "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"),
+        ("apply", "python src/manual_source_drop.py <manual-drop.json> --src-dir src"),
+    ]
+
+
 def _lane_status_summary(lane_status: dict) -> str:
     rows = lane_status.get("rows") or []
     if not rows:
@@ -408,11 +423,21 @@ def _lane_status_summary(lane_status: dict) -> str:
         detail_txt = f"{detail}{count_txt}"
         if next_step:
             detail_txt = f"{detail_txt} | next: {next_step}"
+        command_html = ""
+        if status in {"not_checked", "stale", "failed"}:
+            for action, command in _lane_intake_commands(str(r.get("key") or "")):
+                command_html += (
+                    f'<div class="operator-command">{_e(label)} {_e(action)}: '
+                    f'{_e(command)}</div>'
+                )
+            if command_html:
+                command_html = f'<div class="lane-command-list">{command_html}</div>'
         row_html += f"""
 <div class="lane-row">
   <span class="lane-key">{_e(label)}</span>
   <span class="lane-status ls-{_e(status)}">{_e(status.replace("_", " "))}</span>
   <span class="summary-muted">{_e(detail_txt)}</span>
+  {command_html}
 </div>"""
     more = len(ordered) - len(visible)
     more_html = f'<div class="feedback-line">+{more} more lane rows in the canonical cockpit.</div>' if more > 0 else ""

@@ -50,11 +50,12 @@ a{color:#58a6ff;text-decoration:none}
 .summary-line:last-child{margin-bottom:0}
 .summary-muted{color:#8b949e}
 .lane-counts{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
-.lane-row{display:flex;align-items:center;gap:8px;font-size:12px;
+.lane-row{display:flex;align-items:center;gap:8px;font-size:12px;flex-wrap:wrap;
   padding:5px 0;border-bottom:1px solid #1c2128}
 .lane-row:last-child{border-bottom:none}
 .lane-key{font-weight:700;color:#c9d1d9;min-width:130px}
 .lane-status{font-family:monospace;font-size:10px;padding:1px 7px;border-radius:99px}
+.lane-command-list{flex:1 0 100%;display:flex;flex-direction:column;gap:4px;margin-left:138px}
 .ls-has_data{background:#0d2b16;color:#3fb950}
 .ls-checked_clear{background:#1c2128;color:#8b949e}
 .ls-not_checked{background:#2b1e0a;color:#d29922}
@@ -231,6 +232,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   .wrap{padding:10px 8px}
   .hdr{flex-direction:column}
   .hero-num{font-size:24px}
+  .lane-command-list{margin-left:0}
 }
 @media(min-width:720px){
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -244,7 +246,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-05 23:43 ET
+        built 2026-06-05 23:50 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28  fundstrat_daily 06-03</div>
@@ -535,51 +537,61 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="lane-key">Account Positions</span>
   <span class="lane-status ls-not_checked">not checked</span>
   <span class="summary-muted">missing live source input | next: Supply src\account_positions.json through the owning source routine or manual live-source drop.</span>
+  <div class="lane-command-list"><div class="operator-command">Account Positions validate: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only</div><div class="operator-command">Account Positions apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src</div></div>
 </div>
 <div class="lane-row">
   <span class="lane-key">Catalysts</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked (8)</span>
+
 </div>
 <div class="lane-row">
   <span class="lane-key">Daily Synthesis</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked (7)</span>
+
 </div>
 <div class="lane-row">
   <span class="lane-key">Event Risk</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked (3)</span>
+
 </div>
 <div class="lane-row">
   <span class="lane-key">FS Bible</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked</span>
+
 </div>
 <div class="lane-row">
   <span class="lane-key">FS Daily</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked</span>
+
 </div>
 <div class="lane-row">
   <span class="lane-key">Macro</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked</span>
+
 </div>
 <div class="lane-row">
   <span class="lane-key">Portfolio</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked</span>
+
 </div>
 <div class="lane-row">
   <span class="lane-key">Prices</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked</span>
+
 </div>
 <div class="lane-row">
   <span class="lane-key">Research Queue</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked (1)</span>
+
 </div>
   <div class="feedback-line">+4 more lane rows in the canonical cockpit.</div>
 </div>
@@ -611,7 +623,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T23:43:09.416430+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T23:43:09.416430+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T23:43:09.416430+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T23:43:09.416430+00:00 | dark lanes: account_positions | next: Supply src\account_positions.json through the owning source routine or manual live-source drop">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T23:43:09.416430+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T23:50:28.043269+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T23:50:28.043269+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T23:50:28.043269+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T23:50:28.043269+00:00 | dark lanes: account_positions | next: Supply src\account_positions.json through the owning source routine or manual live-source drop">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T23:50:28.043269+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

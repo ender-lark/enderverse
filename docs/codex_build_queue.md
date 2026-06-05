@@ -38,6 +38,17 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Account Positions source-wait usability.
+  - `live_status.py --format text` now shows both the no-write validation
+    command and the apply command for live-source dark lanes, so the remaining
+    Account Positions wait is actionable without implying the lane is checked.
+  - `go_live_checklist.py --format text` now presents the manual live-source
+    drop as explicit `validate:` and `apply:` steps instead of only a
+    validation command.
+  - The generated HTML dashboard Lane Status section now renders compact
+    validate/apply command rows for dark, stale, or failed lanes. Browser
+    verification confirmed the local preview shows Account Positions validate
+    and apply commands.
 - Build-readiness and completion-audit clarity.
   - Added `python src/completion_audit.py --format text` as the non-mutating
     current-state audit for build blockers, source/user waits, natural cloud

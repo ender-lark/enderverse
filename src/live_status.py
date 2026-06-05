@@ -189,23 +189,32 @@ def _join_values(values: list[Any], *, empty: str = "none") -> str:
 
 
 def _dark_lane_commands(key: str) -> list[str]:
-    live_source_command = (
+    live_source_validate = (
         "python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
         "--src-dir src --validate-only"
     )
+    live_source_apply = (
+        "python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
+        "--src-dir src"
+    )
     commands = {
-        "account_positions": [live_source_command],
-        "meridian": [live_source_command],
+        "account_positions": [live_source_validate, live_source_apply],
+        "meridian": [live_source_validate, live_source_apply],
         "catalysts": [
             "python src/catalyst_calendar_intake.py <catalyst-calendar.json> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing",
             "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+            "python src/manual_source_drop.py <manual-drop.json> --src-dir src",
         ],
         "signal_log": [
             "python src/signal_log_intake.py <signal-log.json> --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing",
             "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+            "python src/manual_source_drop.py <manual-drop.json> --src-dir src",
         ],
     }
-    return commands.get(key, ["python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"])
+    return commands.get(key, [
+        "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+        "python src/manual_source_drop.py <manual-drop.json> --src-dir src",
+    ])
 
 
 def _dark_lane_templates(keys: list[str]) -> list[str]:
@@ -367,8 +376,10 @@ def format_text(status: dict[str, Any]) -> str:
                 continue
             label = row.get("label") or row.get("key") or "Dark lane"
             key = str(row.get("key") or "").strip()
-            for command in _dark_lane_commands(key):
-                lines.append(f"- {label}: {command}")
+            commands = _dark_lane_commands(key)
+            for command in commands:
+                action = "validate" if "--validate-only" in command else "apply"
+                lines.append(f"- {label} {action}: {command}")
     else:
         lines.append("Dark lanes: none")
 

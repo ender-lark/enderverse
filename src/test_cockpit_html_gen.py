@@ -62,12 +62,20 @@ def _feed():
             "counts": {
                 "has_data": 2,
                 "checked_clear": 1,
-                "not_checked": 3,
+                "not_checked": 4,
                 "stale": 1,
                 "failed": 0,
             },
             "rows": [
                 {"key": "research", "label": "Research Queue", "status": "not_checked", "detail": "not supplied", "count": 0},
+                {
+                    "key": "account_positions",
+                    "label": "Account Positions",
+                    "status": "not_checked",
+                    "detail": "missing live source input",
+                    "next_step": "Supply src\\account_positions.json.",
+                    "count": 0,
+                },
                 {"key": "uw_price", "label": "Prices", "status": "stale", "detail": "past freshness window", "count": 0},
                 {"key": "portfolio", "label": "Portfolio", "status": "has_data", "detail": "checked", "count": 18},
             ],
@@ -286,6 +294,15 @@ def test_generated_html_separates_waits_from_build_blockers():
     assert "operator-value operator-pass\">0</div>" in html
     assert "cloud proof 2/10" in html
     assert "source waits" in html
+
+
+def test_generated_html_surfaces_dark_lane_validate_and_apply_commands():
+    html = generate_html(_feed())
+
+    assert "Account Positions validate" in html
+    assert "python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in html
+    assert "Account Positions apply" in html
+    assert "python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src" in html
 
 
 def test_generated_html_surfaces_opportunity_context():
