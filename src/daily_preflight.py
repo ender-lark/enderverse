@@ -50,6 +50,19 @@ from datetime import date, datetime
 from pathlib import Path
 
 
+def _configure_stdio():
+    """Prefer UTF-8 console output so warning symbols cannot crash preflight."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+
+_configure_stdio()
+
+
 # ============================================================================
 # DEFAULTS
 # ============================================================================

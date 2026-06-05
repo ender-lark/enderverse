@@ -54,10 +54,12 @@ try:
     import portfolio_factor_exposure as pfe
     import insider_activity_scan as ias
     import source_call_tracker as sct
+    import position_drift_check as pdc
 except ImportError as e:
     print(f"WARNING: import failure — {e}")
     ol = csc = pfe = ias = None
     sct = None
+    pdc = None
 
 try:
     from runtime_adapters import catalysts_from_calendar_rows
@@ -498,6 +500,84 @@ def _run_persistence(source_calls, theses, calibration_fresh,
                  "provisional": prov_n, "guarded": guarded})
 
 
+def _run_target_drift(positions: List[Dict], sleeve_total: float) -> SubsystemResult:
+    """TARGET DRIFT - current book vs explicit reallocation target model.
+
+    This is separate from conviction sizing. Conviction says how large a name can
+    reasonably be; target drift says whether the current book is actually lined
+    up with the operator's working model.
+    """
+    if pdc is None:
+        return SubsystemResult(
+            name="TARGET DRIFT",
+            available=False,
+            surface_line="TARGET DRIFT: (position_drift_check unavailable)",
+            priority="INFO",
+        )
+    if not positions or not sleeve_total:
+        return SubsystemResult(
+            name="TARGET DRIFT",
+            available=False,
+            surface_line="TARGET DRIFT: (no positions supplied)",
+            priority="INFO",
+        )
+
+    wrapper = {"positions": positions, "sleeve_value": sleeve_total}
+    drift, unmatched, _untracked = pdc.target_weight_drift(wrapper, sleeve_total)
+    flagged = [d for d in drift if d.is_flagged]
+    alarm = [d for d in flagged if "ALARM_DRIFT" in d.flags]
+    undersized = [d for d in flagged if d.direction == "UNDERSIZED"]
+    oversized = [d for d in flagged if d.direction == "OVERSIZED"]
+    missing = list(unmatched)
+    actionable = len(flagged) + len(missing)
+
+    if actionable == 0:
+        return SubsystemResult(
+            name="TARGET DRIFT",
+            available=True,
+            surface_line="TARGET DRIFT: book is within target-weight bands",
+            priority="INFO",
+            actionable_count=0,
+            payload={"flagged": 0, "missing_targets": 0},
+        )
+
+    priority = "HIGH" if (alarm or missing) else "MED"
+    top_bits = []
+    for d in sorted(flagged, key=lambda x: -abs(x.drift_relative))[:4]:
+        top_bits.append(
+            f"{d.ticker} {d.direction.lower()} "
+            f"{d.actual_pct*100:.1f}% vs {d.memory_baseline_pct*100:.1f}%"
+        )
+    remaining_slots = max(0, 4 - len(top_bits))
+    for b in missing[:remaining_slots]:
+        top_bits.append(f"{b.ticker} missing vs {b.baseline_pct*100:.1f}% target")
+    more = actionable - len(top_bits)
+    suffix = ("; " + "; ".join(top_bits)) if top_bits else ""
+    if more > 0:
+        suffix += f"; +{more} more"
+    surface = (
+        "TARGET DRIFT: "
+        f"{actionable} sizing gap(s) vs AI working model "
+        f"({len(undersized)} under, {len(oversized)} over, {len(missing)} missing)"
+        f"{suffix}"
+    )
+    return SubsystemResult(
+        name="TARGET DRIFT",
+        available=True,
+        surface_line=surface,
+        priority=priority,
+        actionable_count=actionable,
+        payload={
+            "flagged": len(flagged),
+            "alarm": len(alarm),
+            "undersized": len(undersized),
+            "oversized": len(oversized),
+            "missing_targets": len(missing),
+            "top": top_bits,
+        },
+    )
+
+
 PRIORITY_RANK = {"CRIT": 0, "HIGH": 1, "MED": 2, "INFO": 3, "NONE": 4}
 
 
@@ -553,6 +633,7 @@ def orchestrate(positions: List[Dict], theses: List[Dict],
         _run_outcomes(prior_snapshot, current_snapshot, rationales, theses,
                       macro_pulse, source_calls),
         _run_conviction(positions, theses, sleeve_total, macro_pulse, source_rates),
+        _run_target_drift(positions, sleeve_total),
         _run_factor(positions, theses, sleeve_total, macro_pulse),
         _run_insider(positions, insider_data, catalysts, theses, macro_pulse),
         _run_parabolic(parabolic_data),
@@ -642,7 +723,7 @@ def _self_test() -> bool:
     # ----- Test 1: minimal — empty everything → no actionable items
     d = orchestrate([], [], sleeve_total=1)
     assert_eq(len(d.priority_order), 0, "empty: no actionable items")
-    assert_eq(len(d.subsystems), 8, "8 subsystems always run")
+    assert_eq(len(d.subsystems), 9, "9 subsystems always run")
 
     # ----- Test 2: realistic operator portfolio
     positions = [
@@ -729,7 +810,7 @@ def _self_test() -> bool:
     js = format_json(d)
     parsed = json.loads(js)
     assert_eq(parsed["sleeve_total"], 1875000, "JSON sleeve_total")
-    assert_true(len(parsed["subsystems"]) == 8, "JSON has 8 subsystems")
+    assert_true(len(parsed["subsystems"]) == 9, "JSON has 9 subsystems")
 
     # ----- Test 10: all-none scenario
     d = orchestrate([], [], 1)

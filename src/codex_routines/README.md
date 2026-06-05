@@ -49,3 +49,11 @@ The first Codex automations are active on the local workspace. Routines must kee
 dark-lane honesty: search snippets are discovery-only, missing sources are not
 checked, and generated convention files should only be updated when the relevant
 source was actually fetched or supplied.
+
+## Preflight Surfacing
+
+- `daily_preflight.py` runs `session_orchestrator.orchestrate(...)`.
+- `TARGET DRIFT` compares `positions.json` against the explicit AI working model
+  in `reallocate_config.py` through `position_drift_check.target_weight_drift`.
+- Target drift is a sizing-gap surface. It can make "right idea, wrong size"
+  visible at session open, but it is not an automatic trade instruction.

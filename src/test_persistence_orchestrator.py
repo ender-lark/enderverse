@@ -1,4 +1,4 @@
-"""Tests for SOURCE PERSISTENCE wired as the 8th orchestrator subsystem (v12.5, Issue #10),
+"""Tests for SOURCE PERSISTENCE wired into the orchestrator subsystem stack (v12.5, Issue #10),
 with the calibration-staleness guard. persistence_scan itself is tested in source_call_tracker;
 here we test the WIRING + the guard (LOUD -> PROVISIONAL when calibration isn't confirmed fresh)
 + the core-quiet / MONITOR-loud escalation convention."""
@@ -57,10 +57,10 @@ def test_single_mention_does_not_fire():
     assert "none firing" in r.surface_line
 
 
-def test_orchestrator_runs_eight_subsystems_and_guards_by_default():
+def test_orchestrator_runs_nine_subsystems_and_guards_by_default():
     d = orchestrate(positions=[], theses=THESES, sleeve_total=1_000_000,
                     source_calls=_calls())
-    assert len(d.subsystems) == 8
+    assert len(d.subsystems) == 9
     p = next(s for s in d.subsystems if s.name == "SOURCE PERSISTENCE")
     # no live Inbox/Log supplied -> calibration not confirmed -> guarded/provisional
     assert p.payload["guarded"] is True

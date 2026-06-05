@@ -243,6 +243,94 @@ def load_actuals_from_portfolio(
     ]
 
 
+def load_actuals_from_positions_cache(
+    positions_json,
+    total_wealth: Optional[float] = None,
+) -> list[ActualPosition]:
+    """Aggregate positions.json-style data into per-ticker actual sizing.
+
+    Accepts either the canonical cache wrapper
+    {sleeve_value, positions:[{ticker, market_value}]} or a bare positions list.
+    This is the shape the session preflight already has, so target-weight drift
+    can run at boot without scraping operator memory text.
+    """
+    if isinstance(positions_json, dict):
+        rows = positions_json.get("positions") or []
+        if total_wealth is None:
+            total_wealth = positions_json.get("sleeve_value")
+    else:
+        rows = positions_json or []
+    if total_wealth is None:
+        total_wealth = sum((p.get("market_value") or p.get("current_value") or 0)
+                           for p in rows if isinstance(p, dict))
+    if not total_wealth or total_wealth <= 0:
+        return []
+
+    by_ticker = {}
+    for p in rows:
+        if not isinstance(p, dict):
+            continue
+        ticker = (p.get("ticker") or p.get("symbol") or "").strip().upper()
+        if not ticker:
+            continue
+        mv = p.get("market_value") or p.get("current_value") or 0
+        if mv <= 0:
+            continue
+        by_ticker[ticker] = by_ticker.get(ticker, 0) + mv
+
+    return [
+        ActualPosition(
+            ticker=t,
+            market_value=mv,
+            pct_of_portfolio=mv / total_wealth,
+        )
+        for t, mv in by_ticker.items()
+    ]
+
+
+def target_baselines_from_reallocate_model(model=None, include_etfs: bool = True) -> list[MemoryBaseline]:
+    """Turn the explicit reallocation target model into drift baselines.
+
+    The older drift checker reads percentages out of memory prose. The v2 path
+    uses the machine-readable working model instead, so "NVDA target 12%" and
+    similar sizing assumptions cannot remain session-memory only.
+    """
+    if model is None:
+        from reallocate_config import default_working_model
+        model = default_working_model()
+
+    out = []
+    for target in model.targets:
+        if not include_etfs and not getattr(target, "is_single_name", True):
+            continue
+        pct = float(target.target_pct) / 100.0
+        if pct <= 0:
+            continue
+        role = "ETF target" if not getattr(target, "is_single_name", True) else "single-name target"
+        out.append(MemoryBaseline(
+            ticker=target.ticker.upper(),
+            baseline_pct=pct,
+            source_text=(f"reallocate_config {role}: {target.target_pct:g}% "
+                         f"({target.tier}, {target.factor})"),
+            inferred_from_tier=False,
+        ))
+    return out
+
+
+def target_weight_drift(
+    positions_json,
+    total_wealth: Optional[float] = None,
+    model=None,
+    threshold: float = DEFAULT_DRIFT_THRESHOLD,
+    alarm_threshold: float = ALARM_DRIFT_THRESHOLD,
+    include_etfs: bool = True,
+) -> tuple[list[DriftResult], list[MemoryBaseline], list[ActualPosition]]:
+    """Compare current positions to the explicit target-weight model."""
+    baselines = target_baselines_from_reallocate_model(model=model, include_etfs=include_etfs)
+    actuals = load_actuals_from_positions_cache(positions_json, total_wealth)
+    return cross_reference(baselines, actuals, threshold, alarm_threshold)
+
+
 def compute_drift(
     baseline: MemoryBaseline,
     actual: ActualPosition,
