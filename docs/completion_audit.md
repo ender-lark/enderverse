@@ -68,6 +68,10 @@ enough to hand control back, using current repo state as evidence. It covers:
   `src/latest_cockpit_feed.json`, refreshed the rendered dashboard artifacts,
   and updated `src/open_opportunities.json` with 2 open watch/review items
   (`ANET`, `GOOGL`) and 0 history rows.
+- `python src/live_status.py` succeeded and reported `go_live_ready: true`, 4
+  actions, 0 research actions, 2 dark optional lanes (`catalysts`,
+  `signal_log`), 2 open action-memory reviews (`ANET`, `GOOGL`), preview
+  server running, and 0 active/queued system-improvement items.
 - `python src/dashboard_preview_server.py --check` succeeded and reported that
   `tmp/dashboard_preview.html` exists and the local preview server is running
   on `http://127.0.0.1:8765/dashboard_preview.html`.
@@ -110,12 +114,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 918 passed, 6 skipped
+  - broad `src` suite: 921 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 918 passed, 6 skipped.
+  ignore workaround: 921 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified

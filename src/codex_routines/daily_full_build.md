@@ -37,7 +37,15 @@ This is the main replacement for Claude's FULL-build prompt.
 7. If `go_live_ready` is false, treat the report as the current status and do
    not force-publish. `rehearsal_ready` means the build can run, not that the
    live market/source lanes are populated.
-8. When the readiness report is clean, run:
+8. For a compact status readout before or after the full refresh, run:
+
+   ```bash
+   python src/live_status.py
+   ```
+
+   This does not rebuild or publish. It combines live readiness, preview-server
+   state, unresolved action-memory rows, and the system-improvement queue.
+9. When the readiness report is clean, run:
 
    ```bash
    python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish
@@ -68,14 +76,14 @@ This is the main replacement for Claude's FULL-build prompt.
    python src/dashboard_preview_server.py
    ```
 
-9. If publish fails, do not force-write a feed. Report the publish-gate problems.
-10. Run focused checks:
+10. If publish fails, do not force-write a feed. Report the publish-gate problems.
+11. Run focused checks:
 
    ```bash
    python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py src/test_live_dashboard_refresh.py -q
    ```
 
-11. Summarize:
+12. Summarize:
    - action count
    - ACT_NOW names
    - research-action count
@@ -83,7 +91,7 @@ This is the main replacement for Claude's FULL-build prompt.
    - stale/failed source count
    - `go_live_ready`
    - whether `open_opportunities.json` was updated
-12. If open action-memory items remain after operator review, list or resolve
+13. If open action-memory items remain after operator review, list or resolve
     them explicitly:
 
    ```bash

@@ -39,6 +39,15 @@ python src\dashboard_preview_server.py
 
 If `go_live_ready` is false, treat the final summary as the status report and fix the named blocker before using the dashboard for live decisions.
 
+For a fast non-rebuilding status check:
+
+```powershell
+python src\live_status.py
+```
+
+This reports live readiness, preview-server state, unresolved action-memory
+items, and the implementation queue in one JSON readout.
+
 ## Resolving Open Review Items
 
 List unresolved action-memory items:
@@ -84,6 +93,7 @@ python src\verify_standard.py --include-js
 ## Important Entry Points
 
 - `src\live_dashboard_refresh.py`: one-command local live refresh.
+- `src\live_status.py`: non-rebuilding live status, preview, open-action, and queue readout.
 - `src\dashboard_preview_server.py`: check/start the local dashboard preview server.
 - `src\action_memory_resolve.py`: list or resolve open action-memory items.
 - `src\live_readiness.py`: non-publishing go/no-go report.

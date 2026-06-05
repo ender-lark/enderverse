@@ -381,15 +381,21 @@ until the core logic is stable; Notion sync comes later.
   - Make overdue source-call scoring visible.
   - Make repeated source-call persistence clusters durable in the feed/dashboard.
   - Keep stale or not-checked calibration visibly provisional.
+- Compact live-status readout.
+  - Added `live_status.py` as a non-rebuilding operator check for live
+    readiness, preview-server state, unresolved action-memory rows, and the
+    system-improvement queue.
+  - Current readout reports `go_live_ready: true`, 4 actions, 0 research
+    actions, 2 dark optional lanes, 2 open action-memory reviews, preview
+    server running, and 0 active/queued system-improvement items.
 
 ## Queued Slices
 
-- Post-basic queued-upgrade triage.
-  - After the live dashboard/feed path is re-verified, review System Update
-    Queue and CI Update Queue items only for conviction, actionability, and
-    usability lift.
-  - Do not promote items that add architecture or UI complexity without making
-    buy/sell/hold/research, sizing, risk, or timing clearer.
+- No active queued implementation slice.
+  - The current system-improvement queue is valid with 21 done items and 0
+    active or queued items.
+  - Promote the next slice only from fresh repo evidence or a new explicit user
+    request, and keep Core List ingestion out of scope.
 
 ## Working Rules
 

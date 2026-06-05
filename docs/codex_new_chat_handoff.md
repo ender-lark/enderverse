@@ -151,6 +151,10 @@ Important recent state:
   `python src/dashboard_preview_server.py --check` to inspect status, or
   `python src/dashboard_preview_server.py` to serve `tmp/dashboard_preview.html`
   on `http://127.0.0.1:8765/dashboard_preview.html`.
+- The compact non-rebuilding live status helper is:
+  `python src/live_status.py`.
+  It combines live readiness, preview-server state, unresolved action-memory
+  rows, and the system-improvement queue into one JSON readout.
 - The open action-memory resolver is:
   `python src/action_memory_resolve.py --list` to inspect unresolved items, or
   `python src/action_memory_resolve.py --ticker <TICKER> --status deferred --reason "..."`
@@ -158,15 +162,20 @@ Important recent state:
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T09:21:11.228075+00:00`.
+  `2026-06-05T09:31:19.713334+00:00`.
 - Current `src/open_opportunities.json` has 2 open watch/review items:
   `ANET` and `GOOGL`.
+- Current `python src/live_status.py` reports `live_summary:
+  live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
+  actions, 2 dark optional lanes (`catalysts`, `signal_log`), 2 open
+  action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
+  active/queued system-improvement items.
 - `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
   regression test covers cp1252 encoding of the caveat line.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `918 passed, 6 skipped`.
+- `python -m pytest src -q` -> `921 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 
