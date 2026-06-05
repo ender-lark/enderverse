@@ -182,12 +182,18 @@ Important recent state:
   cloud ops. It distinguishes local go-live readiness from the installed Codex
   app automation stack. The previous generic
   `investing-os-daily-cloud-refresh` automation is paused as superseded; the
-  active stack now records Pre-Market Source Intake, Morning Scan, Daily
-  Synthesis, UW Opportunity Cache, Parabolic Cache, Full Cockpit Build,
-  Post-Close Refresh, Off-Hours Worker, Deep Synthesis, and Weekly Pilot Run in
-  `src/cloud_automation_status.json`. Catalyst gaps should remain visible as
-  dark lanes if connector/source pulls fail; open action reviews remain
-  warnings, not cloud-ops blockers.
+  six older unreceipted local cron jobs are also paused as superseded by the
+  receipt-tracked stack. The active stack now records Pre-Market Source Intake,
+  Morning Scan, Daily Synthesis, UW Opportunity Cache, Parabolic Cache, Full
+  Cockpit Build, Post-Close Refresh, Off-Hours Worker, Deep Synthesis, and
+  Weekly Pilot Run in `src/cloud_automation_status.json`. Pre-Market Source
+  Intake now owns supplied broker-position uploads when valid input exists;
+  missing broker input keeps the position cache stale/not refreshed instead of
+  checked clear. Catalyst gaps should remain visible as dark lanes if
+  connector/source pulls fail; open action reviews remain warnings, not
+  cloud-ops blockers. The cloud-ops check reads the default Codex app
+  automation folder when `CODEX_HOME` is unset and reports active superseded
+  jobs as schedule conflicts.
 - `src/cloud_routine_receipts.py` records scheduled-run receipts in
   `src/cloud_routine_receipts.json`. Each automation should append a
   started/success/failed receipt at the end of its run using

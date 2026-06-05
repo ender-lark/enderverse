@@ -1,9 +1,10 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-05T12:16:06.4913902-04:00",
-  "verification_source": "Codex app automation_update create/update calls succeeded in this thread; Full Cockpit Build and Post-Close Refresh prompts now use cloud_routine_runner.py",
+  "verified_at": "2026-06-05T12:31:48.0587289-04:00",
+  "verification_source": "Codex app automation_update calls paused six legacy unreceipted jobs; Pre-Market Source Intake now covers supplied broker-position uploads; Full Cockpit Build and Post-Close Refresh prompts use cloud_routine_runner.py",
   "notes": [
-    "The previous generic daily refresh automation is paused and superseded by this split routine stack.",
+    "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
+    "Supplied broker-position uploads are handled by the active Pre-Market Source Intake routine; no valid broker input means positions remain stale/not refreshed rather than checked clear.",
     "Missing connector/source pulls must remain dark/not_checked in the dashboard, never checked clear.",
     "Each scheduled routine should append a cloud_routine_receipts.json receipt at the end of the run."
   ],
@@ -15,6 +16,42 @@
       "automation_name": "Investing OS Daily Cloud Refresh (superseded by routine stack)",
       "status": "PAUSED",
       "role": "legacy_generic_daily_refresh"
+    },
+    {
+      "automation_id": "investing-os-broker-position-intake",
+      "automation_name": "Investing OS Broker Position Intake",
+      "status": "PAUSED",
+      "role": "legacy_unreceipted_source_intake"
+    },
+    {
+      "automation_id": "investing-os-catalyst-intake",
+      "automation_name": "Investing OS Catalyst Intake",
+      "status": "PAUSED",
+      "role": "legacy_unreceipted_source_intake"
+    },
+    {
+      "automation_id": "investing-os-daily-full-build",
+      "automation_name": "Investing OS Daily Full Build",
+      "status": "PAUSED",
+      "role": "legacy_unreceipted_full_build"
+    },
+    {
+      "automation_id": "investing-os-fundstrat-intake",
+      "automation_name": "Investing OS Fundstrat Intake",
+      "status": "PAUSED",
+      "role": "legacy_unreceipted_source_intake"
+    },
+    {
+      "automation_id": "investing-os-off-hours-research-queue",
+      "automation_name": "Investing OS Off-Hours Research Queue",
+      "status": "PAUSED",
+      "role": "legacy_unreceipted_research_queue"
+    },
+    {
+      "automation_id": "investing-os-uw-cache-refresh",
+      "automation_name": "Investing OS UW Cache Refresh",
+      "status": "PAUSED",
+      "role": "legacy_unreceipted_uw_cache"
     }
   ],
   "routines": [

@@ -197,6 +197,21 @@ def _proof_rows(proof_path: str | Path | None) -> list[dict[str, Any]]:
     return rows
 
 
+def _proof_superseded_rows(proof_path: str | Path | None) -> list[dict[str, Any]]:
+    payload = _proof_metadata(proof_path)
+    raw_rows = payload.get("superseded") if isinstance(payload.get("superseded"), list) else []
+    rows: list[dict[str, Any]] = []
+    for raw in raw_rows:
+        if not isinstance(raw, dict):
+            continue
+        row = dict(raw)
+        row["active"] = _status_is_active(row.get("status"))
+        row["evidence_type"] = "repo_proof"
+        row["path"] = str(proof_path or "")
+        rows.append(row)
+    return rows
+
+
 def _scheduled_at(row: dict[str, Any], day: datetime) -> datetime:
     return datetime(
         day.year,
@@ -252,6 +267,17 @@ def _automation_matches_expected(row: dict[str, Any], expected: dict[str, Any]) 
     return name_matches or id_matches
 
 
+def _toml_text_matches(row: dict[str, Any], text: str) -> bool:
+    recorded_name = str(row.get("automation_name") or row.get("name") or "")
+    recorded_id = str(row.get("automation_id") or row.get("id") or "")
+    lowered = text.lower()
+    return (
+        bool(recorded_id) and recorded_id.lower() in lowered
+    ) or (
+        bool(recorded_name) and recorded_name.lower() in lowered
+    )
+
+
 def _automation_summary(
     *,
     automations_dir: str | Path | None = None,
@@ -262,7 +288,7 @@ def _automation_summary(
 ) -> dict[str, Any]:
     if automations_dir is None:
         home = os.environ.get("CODEX_HOME")
-        base = Path(home) / "automations" if home else Path()
+        base = Path(home) / "automations" if home else Path.home() / ".codex" / "automations"
     else:
         base = Path(automations_dir)
 
@@ -274,6 +300,7 @@ def _automation_summary(
     }]
     all_matches: list[dict[str, Any]] = []
     proof_rows = _proof_rows(automation_proof)
+    superseded_rows = _proof_superseded_rows(automation_proof)
     routine_rows: list[dict[str, Any]] = []
     local_texts: list[tuple[Path, str]] = []
     for path in _automation_dirs(base):
@@ -302,8 +329,27 @@ def _automation_summary(
             "matches": matches,
         })
 
+    superseded_matches: list[dict[str, Any]] = []
+    for superseded in superseded_rows:
+        matches: list[dict[str, Any]] = []
+        for path, text in local_texts:
+            if not _toml_text_matches(superseded, text):
+                continue
+            matches.append({
+                "automation_id": superseded.get("automation_id") or "",
+                "automation_name": superseded.get("automation_name") or "",
+                "role": superseded.get("role") or "",
+                "path": str(path),
+                "active": _toml_text_has_active_status(text),
+                "evidence_type": "local_toml",
+            })
+        if not matches:
+            matches.append(superseded)
+        superseded_matches.extend(matches)
+
     missing = [row for row in routine_rows if not row["installed"]]
     inactive = [row for row in routine_rows if row["installed"] and not row["active"]]
+    active_superseded = [row for row in superseded_matches if row.get("active")]
 
     return {
         "automation_id": automation_id,
@@ -314,9 +360,12 @@ def _automation_summary(
         "installed_count": len(routine_rows) - len(missing),
         "active_count": len([row for row in routine_rows if row["active"]]),
         "installed": not missing,
-        "active": not missing and not inactive,
+        "active": not missing and not inactive and not active_superseded,
         "missing": missing,
         "inactive": inactive,
+        "superseded": superseded_matches,
+        "active_superseded": active_superseded,
+        "active_superseded_count": len(active_superseded),
         "routines": routine_rows,
         "matches": all_matches,
     }
@@ -446,8 +495,14 @@ def _operating_gaps(
             for row in automation.get("inactive") or []
             if isinstance(row, dict)
         ]
-        suffix = f": {', '.join(inactive)}" if inactive else "."
-        gaps.append(f"Codex cloud routine stack has inactive routines{suffix}")
+        active_superseded = [
+            str(row.get("automation_name") or row.get("automation_id") or "unknown")
+            for row in automation.get("active_superseded") or []
+            if isinstance(row, dict)
+        ]
+        problems = inactive + active_superseded
+        suffix = f": {', '.join(problems)}" if problems else "."
+        gaps.append(f"Codex cloud routine stack has schedule conflicts{suffix}")
     if not manifest.get("valid"):
         gaps.append("Routine manifest is invalid.")
     if not receipts.get("valid"):
@@ -583,7 +638,8 @@ def format_text(report: dict[str, Any]) -> str:
             f"installed={bool(automation.get('installed'))} | "
             f"active={bool(automation.get('active'))} | "
             f"expected={int(automation.get('expected_count') or 0)} | "
-            f"active_count={int(automation.get('active_count') or 0)}"
+            f"active_count={int(automation.get('active_count') or 0)} | "
+            f"active_superseded={int(automation.get('active_superseded_count') or 0)}"
         ),
         (
             "Dark source lanes: "

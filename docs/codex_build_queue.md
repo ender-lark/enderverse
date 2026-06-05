@@ -44,6 +44,15 @@ until the core logic is stable; Notion sync comes later.
     1:00 PM), and Weekly Pilot Run (Sunday 6:00 PM).
   - Paused the old generic `investing-os-daily-cloud-refresh` automation as
     superseded by the split routine stack.
+  - Paused six older unreceipted local cron jobs as superseded by the active
+    receipt-tracked stack: Broker Position Intake, Catalyst Intake, Daily Full
+    Build, Fundstrat Intake, Off-Hours Research Queue, and UW Cache Refresh.
+    Supplied broker-position uploads now belong to Pre-Market Source Intake;
+    missing/invalid broker input keeps positions stale/not refreshed instead
+    of checked clear.
+  - `cloud_ops_status.py` now reads the default Codex app automation folder
+    when `CODEX_HOME` is unset and fails the cloud schedule if a superseded
+    legacy automation is still active.
   - Updated `src/cloud_automation_status.json` to record the app-created
     routine ids and updated `cloud_ops_status.py` so cloud readiness requires
     the full expected stack to be installed and active.

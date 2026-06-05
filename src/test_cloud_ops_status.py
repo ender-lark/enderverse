@@ -81,6 +81,32 @@ def test_automation_summary_accepts_active_named_automation(monkeypatch, tmp_pat
     assert report["active"] is True
 
 
+def test_automation_summary_defaults_to_codex_home_when_env_missing(monkeypatch, tmp_path):
+    monkeypatch.delenv("CODEX_HOME", raising=False)
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    automation_dir = tmp_path / ".codex" / "automations" / "daily"
+    automation_dir.mkdir(parents=True)
+    (automation_dir / "automation.toml").write_text(
+        "\n".join([
+            'name = "Investing OS Daily Cloud Refresh"',
+            'status = "ACTIVE"',
+        ]),
+        encoding="utf-8",
+    )
+
+    report = cloud_ops_status._automation_summary(
+        expected_automations=[{
+            "automation_id": "investing-os-daily-cloud-refresh",
+            "automation_name": "Investing OS Daily Cloud Refresh",
+            "role": "daily_cloud_refresh",
+            "schedule": "",
+        }],
+    )
+
+    assert report["automations_dir"] == str(tmp_path / ".codex" / "automations")
+    assert report["active"] is True
+
+
 def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()
@@ -114,6 +140,53 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     assert report["cloud_automation"]["active_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
     assert report["cloud_automation"]["matches"][0]["evidence_type"] == "repo_proof"
     assert report["gaps"] == []
+
+
+def test_cloud_ops_status_rejects_active_superseded_automation(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+    payload = json.loads((src / "cloud_automation_status.json").read_text(encoding="utf-8"))
+    payload["superseded"] = [{
+        "automation_id": "investing-os-daily-full-build",
+        "automation_name": "Investing OS Daily Full Build",
+        "status": "PAUSED",
+        "role": "legacy_unreceipted_full_build",
+    }]
+    (src / "cloud_automation_status.json").write_text(json.dumps(payload), encoding="utf-8")
+    automation_dir = tmp_path / "automations" / "investing-os-daily-full-build"
+    automation_dir.mkdir(parents=True)
+    (automation_dir / "automation.toml").write_text(
+        "\n".join([
+            'id = "investing-os-daily-full-build"',
+            'name = "Investing OS Daily Full Build"',
+            'status = "ACTIVE"',
+        ]),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "automations",
+        now="2026-06-05T12:20:00-04:00",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["ready_for_unattended_daily_run"] is False
+    assert report["cloud_automation"]["active_superseded_count"] == 1
+    assert any("schedule conflicts" in gap for gap in report["gaps"])
+    assert "active_superseded=1" in text
 
 
 def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(monkeypatch, tmp_path):
