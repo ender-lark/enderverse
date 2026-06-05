@@ -209,10 +209,12 @@ Important recent state:
 - `src/cloud_routine_receipts.py` records scheduled-run receipts in
   `src/cloud_routine_receipts.json`. Each automation should append a
   started/success/failed receipt at the end of its run using
-  `python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --summary "<short run result>"`.
-  `cloud_ops_status.py --format text` now reports the receipt count separately
-  from schedule readiness, so first-run-pending jobs are visible and failed
-  latest receipts become operator gaps.
+  `python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary "<short run result>"`.
+  Receipts carry `run_source`; manual rehearsal receipts do not prove cloud
+  live-run execution. `cloud_ops_status.py --format text` now reports the
+  scheduled receipt count separately from schedule readiness, so
+  first-run-pending jobs are visible and failed latest receipts become operator
+  gaps.
   Treat `Cloud schedule ready: true` as installed/ready-to-run only; the live
   scheduled system is not proven until `Cloud live-run proven: true`.
   The status command also prints the next expected receipt and marks a routine
@@ -221,7 +223,7 @@ Important recent state:
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.
-  `python src/cloud_routine_runner.py --routine-id investing-os-post-close-refresh --success-summary "post-close refresh succeeded" --failure-summary "post-close refresh failed" -- python src/live_dashboard_refresh.py`.
+  `python src/cloud_routine_runner.py --run-source scheduled --routine-id investing-os-post-close-refresh --success-summary "post-close refresh succeeded" --failure-summary "post-close refresh failed" -- python src/live_dashboard_refresh.py`.
 - Target Drift now promotes held, materially undersized names into conservative
   `conviction_gap` actions. The current feed surfaces NVDA as a funded
   add/rotation review (`6.6%` actual versus `12.0%` target), while missing

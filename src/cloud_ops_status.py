@@ -293,8 +293,9 @@ def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, A
     has_runner = "cloud_routine_runner.py" in prompt and routine_id in prompt
     has_receipt = "cloud_routine_receipts.py" in prompt and routine_id in prompt
     has_final_status = "success" in prompt.lower() and "failed" in prompt.lower()
-    ok = bool((has_runner or has_receipt) and has_final_status)
-    problem = "" if ok else "prompt does not include routine-specific started/final receipt protocol"
+    has_scheduled_source = "--run-source scheduled" in prompt
+    ok = bool((has_runner or has_receipt) and has_final_status and has_scheduled_source)
+    problem = "" if ok else "prompt does not include routine-specific scheduled started/final receipt protocol"
     return {
         "path": str(path),
         "routine_id": routine_id,
@@ -302,6 +303,7 @@ def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, A
         "has_runner": has_runner,
         "has_receipt_command": has_receipt,
         "has_final_status": has_final_status,
+        "has_scheduled_source": has_scheduled_source,
         "problem": problem,
     }
 
@@ -457,10 +459,13 @@ def _receipt_summary(path: str | Path, expected_automations: list[dict[str, Any]
                 "receipt_file_present": False,
                 "expected_count": len(expected_automations),
                 "success_count": 0,
+                "scheduled_success_count": 0,
                 "failed_latest_count": 0,
                 "missing_success_count": len(expected_automations),
+                "missing_scheduled_success_count": len(expected_automations),
                 "rows": [],
                 "missing_success": expected_automations,
+                "missing_scheduled_success": expected_automations,
                 "failed_latest": [],
             },
         }
@@ -490,7 +495,7 @@ def _receipt_due_summary(
     for expected in expected_automations:
         routine_id = str(expected.get("automation_id") or "")
         receipt = receipt_rows.get(routine_id, {})
-        last_success = _parse_dt(receipt.get("last_success_at"))
+        last_success = _parse_dt(receipt.get("last_scheduled_success_at"))
         last_due = _last_run_between(expected, activation, now_et)
         next_due = _next_run_after(expected, now_et)
         overdue_after = last_due + timedelta(minutes=grace_minutes) if last_due else None
@@ -512,6 +517,7 @@ def _receipt_due_summary(
             "next_due_at": next_due.isoformat() if next_due else "",
             "overdue_after": overdue_after.isoformat() if overdue_after else "",
             "last_success_at": receipt.get("last_success_at") or "",
+            "last_scheduled_success_at": receipt.get("last_scheduled_success_at") or "",
         })
     overdue = [row for row in rows if row["due_state"] == "overdue"]
     due_waiting = [row for row in rows if row["due_state"] == "due_waiting"]
@@ -648,7 +654,7 @@ def cloud_ops_status(
     receipt_summary = receipts.get("summary") or {}
     live_run_proven = (
         schedule_ready
-        and int(receipt_summary.get("success_count") or 0) >= int(receipt_summary.get("expected_count") or 0)
+        and int(receipt_summary.get("scheduled_success_count") or 0) >= int(receipt_summary.get("expected_count") or 0)
         and int(receipt_summary.get("expected_count") or 0) > 0
         and int(receipt_summary.get("failed_latest_count") or 0) == 0
     )
@@ -734,10 +740,10 @@ def format_text(report: dict[str, Any]) -> str:
         ),
         (
             "Cloud run receipts: "
-            f"success={int(receipts.get('success_count') or 0)}/"
+            f"scheduled_success={int(receipts.get('scheduled_success_count') or 0)}/"
             f"{int(receipts.get('expected_count') or 0)} | "
             f"failed_latest={int(receipts.get('failed_latest_count') or 0)} | "
-            f"missing_success={int(receipts.get('missing_success_count') or 0)}"
+            f"missing_scheduled_success={int(receipts.get('missing_scheduled_success_count') or 0)}"
         ),
         (
             "Cloud receipt due state: "

@@ -28,12 +28,14 @@ def test_append_receipt_writes_valid_store(tmp_path):
         path=path,
         routine_id="investing-os-morning-scan",
         status="success",
+        run_source="scheduled",
         summary="Signal Log rows landed.",
         recorded_at="2026-06-05T12:00:00Z",
     )
 
     payload = cloud_routine_receipts.load_receipts(path)
     assert receipt["status"] == "success"
+    assert receipt["run_source"] == "scheduled"
     assert payload["receipts"][0]["routine_id"] == "investing-os-morning-scan"
     assert cloud_routine_receipts.validate_receipts(payload) == []
 
@@ -44,6 +46,7 @@ def test_summarize_receipts_reports_missing_and_failed(tmp_path):
         path=path,
         routine_id="investing-os-morning-scan",
         status="success",
+        run_source="scheduled",
         summary="Rows landed.",
         recorded_at="2026-06-05T12:00:00Z",
     )
@@ -51,6 +54,7 @@ def test_summarize_receipts_reports_missing_and_failed(tmp_path):
         path=path,
         routine_id="investing-os-full-cockpit-build",
         status="failed",
+        run_source="scheduled",
         summary="Connector failed.",
         recorded_at="2026-06-05T14:30:00Z",
     )
@@ -62,8 +66,9 @@ def test_summarize_receipts_reports_missing_and_failed(tmp_path):
     text = cloud_routine_receipts.format_text(summary)
 
     assert summary["success_count"] == 1
+    assert summary["scheduled_success_count"] == 1
     assert summary["failed_latest_count"] == 1
-    assert summary["missing_success_count"] == 1
+    assert summary["missing_scheduled_success_count"] == 1
     assert summary["failed_latest"][0]["routine_id"] == "investing-os-full-cockpit-build"
     assert "Investing OS Full Cockpit Build: Connector failed." in text
 
@@ -77,6 +82,36 @@ def test_validate_rejects_bad_status():
     assert any("status must be one of" in problem for problem in problems)
 
 
+def test_manual_success_does_not_count_as_scheduled_success(tmp_path):
+    path = tmp_path / "receipts.json"
+    cloud_routine_receipts.append_receipt(
+        path=path,
+        routine_id="investing-os-morning-scan",
+        status="success",
+        run_source="manual",
+        summary="manual rehearsal",
+        recorded_at="2026-06-05T12:00:00Z",
+    )
+
+    summary = cloud_routine_receipts.summarize_receipts(
+        cloud_routine_receipts.load_receipts(path),
+        expected_automations=EXPECTED,
+    )
+
+    assert summary["success_count"] == 1
+    assert summary["scheduled_success_count"] == 0
+    assert summary["missing_scheduled_success"][0]["routine_id"] == "investing-os-morning-scan"
+
+
+def test_validate_rejects_bad_run_source():
+    problems = cloud_routine_receipts.validate_receipts({
+        "schema_version": 1,
+        "receipts": [{"routine_id": "x", "status": "success", "run_source": "local", "recorded_at": "2026-06-05T12:00:00Z"}],
+    })
+
+    assert any("run_source must be one of" in problem for problem in problems)
+
+
 def test_cli_records_receipt(tmp_path, capsys):
     path = tmp_path / "receipts.json"
 
@@ -84,6 +119,7 @@ def test_cli_records_receipt(tmp_path, capsys):
         "--out", str(path),
         "--routine-id", "investing-os-morning-scan",
         "--status", "started",
+        "--run-source", "scheduled",
         "--summary", "started run",
         "--format", "json",
     ])
@@ -92,3 +128,4 @@ def test_cli_records_receipt(tmp_path, capsys):
     assert rc == 0
     assert json.loads(captured)["valid"] is True
     assert cloud_routine_receipts.load_receipts(path)["receipts"][0]["status"] == "started"
+    assert cloud_routine_receipts.load_receipts(path)["receipts"][0]["run_source"] == "scheduled"

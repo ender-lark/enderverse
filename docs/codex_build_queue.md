@@ -76,6 +76,13 @@ until the core logic is stable; Notion sync comes later.
   - Added `src/cloud_routine_receipts.py` and
     `src/cloud_routine_receipts.json` so scheduled jobs can append auditable
     started/success/failed receipts after they run.
+  - Receipts now carry `run_source` (`scheduled` or `manual`). Cloud live-run
+    proof counts only scheduled success receipts, so a manual local rehearsal
+    cannot accidentally satisfy `Cloud live-run proven`.
+  - Updated all active Codex app routine prompts to use
+    `--run-source scheduled`; current cloud status reports
+    `scheduled_success=0/10` because the first scheduled proof run has not
+    happened yet.
   - `python src/cloud_ops_status.py --format text` now reports both the active
     routine stack and the current run-receipt proof count. A newly installed
     routine stack can be ready before first run, but no live run should be
@@ -94,7 +101,7 @@ until the core logic is stable; Notion sync comes later.
     can wrap their command with guaranteed started/final receipts instead of
     relying on prompt-only bookkeeping.
   - Full Cockpit Build and Post-Close Refresh should use
-    `python src/cloud_routine_runner.py --routine-id <id> -- python src/live_dashboard_refresh.py`
+    `python src/cloud_routine_runner.py --run-source scheduled --routine-id <id> -- python src/live_dashboard_refresh.py`
     as their core command before committing/pushing changed artifacts.
 - Signal Log / Morning Scan lane populated.
   - Used Notion search/fetch against the Signal Log data source, not the failed

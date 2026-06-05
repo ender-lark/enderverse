@@ -248,6 +248,7 @@ def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(mon
             path=src / "cloud_routine_receipts.json",
             routine_id=row["automation_id"],
             status="success",
+            run_source="scheduled",
             summary=f"{row['automation_name']} succeeded.",
             recorded_at="2026-06-05T12:00:00Z",
         )
@@ -274,6 +275,46 @@ def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(mon
     assert report["live_run_proven"] is True
     assert report["cloud_operating_state"] == "live_run_proven"
     assert "Cloud live-run proven: True" in text
+
+
+def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monkeypatch, tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+    for row in cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS:
+        cloud_routine_receipts.append_receipt(
+            path=src / "cloud_routine_receipts.json",
+            routine_id=row["automation_id"],
+            status="success",
+            run_source="manual",
+            summary=f"{row['automation_name']} manual rehearsal succeeded.",
+            recorded_at="2026-06-05T12:00:00Z",
+        )
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 9, "active": 9},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T12:20:00-04:00",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["ready_for_unattended_daily_run"] is True
+    assert report["live_run_proven"] is False
+    assert report["cloud_operating_state"] == "ready_pending_first_success"
+    assert report["routine_receipts"]["summary"]["success_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+    assert report["routine_receipts"]["summary"]["scheduled_success_count"] == 0
+    assert "Cloud run receipts: scheduled_success=0/" in text
 
 
 def test_cloud_ops_status_keeps_dark_lanes_visible(monkeypatch, tmp_path):
@@ -317,6 +358,7 @@ def test_cloud_ops_status_surfaces_failed_run_receipt(monkeypatch, tmp_path):
         path=src / "cloud_routine_receipts.json",
         routine_id="investing-os-morning-scan",
         status="failed",
+        run_source="scheduled",
         summary="Signal Log connector write failed.",
         recorded_at="2026-06-05T12:00:00Z",
     )
@@ -340,7 +382,7 @@ def test_cloud_ops_status_surfaces_failed_run_receipt(monkeypatch, tmp_path):
     text = cloud_ops_status.format_text(report)
 
     assert any("Investing OS Morning Scan latest run receipt failed" in gap for gap in report["gaps"])
-    assert "Cloud run receipts: success=0/" in text
+    assert "Cloud run receipts: scheduled_success=0/" in text
     assert "failed_latest=1" in text
 
 

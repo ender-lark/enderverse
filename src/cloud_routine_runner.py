@@ -22,6 +22,7 @@ def run_cloud_routine(
     receipt_path: str | Path | None = None,
     success_summary: str = "",
     failure_summary: str = "",
+    run_source: str = "manual",
     dry_run: bool = False,
 ) -> dict[str, object]:
     if not command:
@@ -33,11 +34,13 @@ def run_cloud_routine(
             "dry_run": True,
             "command": command,
             "receipt_path": str(receipt_file),
+            "run_source": run_source,
         }
     started = cloud_routine_receipts.append_receipt(
         path=receipt_file,
         routine_id=routine_id,
         status="started",
+        run_source=run_source,
         summary=f"{routine_id} started",
     )
 
@@ -50,6 +53,7 @@ def run_cloud_routine(
         path=receipt_file,
         routine_id=routine_id,
         status=status,
+        run_source=run_source,
         summary=summary,
         details={"returncode": proc.returncode, "command": command},
     )
@@ -69,6 +73,7 @@ def main(argv=None) -> int:
     parser.add_argument("--cwd", default=str(ROOT))
     parser.add_argument("--success-summary", default="")
     parser.add_argument("--failure-summary", default="")
+    parser.add_argument("--run-source", choices=sorted(cloud_routine_receipts.VALID_RUN_SOURCES), default="manual")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("command", nargs=argparse.REMAINDER, help="Command to run after --")
     args = parser.parse_args(argv)
@@ -86,6 +91,7 @@ def main(argv=None) -> int:
         receipt_path=args.receipt_path,
         success_summary=args.success_summary,
         failure_summary=args.failure_summary,
+        run_source=args.run_source,
         dry_run=args.dry_run,
     )
     print(json.dumps(result, indent=2))

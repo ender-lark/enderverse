@@ -19,6 +19,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "src" / "cloud_routine_receipts.json"
 VALID_STATUSES = {"started", "success", "failed"}
+VALID_RUN_SOURCES = {"manual", "scheduled"}
 
 
 def _now_utc() -> str:
@@ -72,6 +73,9 @@ def validate_receipts(payload: Any) -> list[str]:
         status = str(row.get("status") or "").strip().lower()
         if status not in VALID_STATUSES:
             problems.append(f"receipts[{idx}].status must be one of {sorted(VALID_STATUSES)}")
+        run_source = str(row.get("run_source") or "manual").strip().lower()
+        if run_source not in VALID_RUN_SOURCES:
+            problems.append(f"receipts[{idx}].run_source must be one of {sorted(VALID_RUN_SOURCES)}")
         if not str(row.get("recorded_at") or "").strip():
             problems.append(f"receipts[{idx}].recorded_at is required")
     return problems
@@ -83,6 +87,7 @@ def append_receipt(
     routine_id: str,
     status: str,
     summary: str = "",
+    run_source: str = "manual",
     details: dict[str, Any] | None = None,
     recorded_at: str | None = None,
     keep: int = 250,
@@ -90,11 +95,15 @@ def append_receipt(
     normalized_status = status.strip().lower()
     if normalized_status not in VALID_STATUSES:
         raise ValueError(f"status must be one of {sorted(VALID_STATUSES)}")
+    normalized_source = run_source.strip().lower()
+    if normalized_source not in VALID_RUN_SOURCES:
+        raise ValueError(f"run_source must be one of {sorted(VALID_RUN_SOURCES)}")
     payload = load_receipts(path)
     receipts = [row for row in payload.get("receipts") or [] if isinstance(row, dict)]
     receipt: dict[str, Any] = {
         "routine_id": routine_id.strip(),
         "status": normalized_status,
+        "run_source": normalized_source,
         "recorded_at": recorded_at or _now_utc(),
     }
     if summary:
@@ -131,7 +140,13 @@ def summarize_receipts(
         matching.sort(key=lambda row: str(row.get("recorded_at") or ""), reverse=True)
         last = matching[0] if matching else {}
         successes = [row for row in matching if str(row.get("status") or "").lower() == "success"]
+        scheduled_successes = [
+            row
+            for row in successes
+            if str(row.get("run_source") or "manual").lower() == "scheduled"
+        ]
         success = successes[0] if successes else {}
+        scheduled_success = scheduled_successes[0] if scheduled_successes else {}
         expected_row = next((row for row in expected if row.get("automation_id") == routine_id), {})
         rows.append({
             "routine_id": routine_id,
@@ -140,21 +155,27 @@ def summarize_receipts(
             "schedule": expected_row.get("schedule") or "",
             "receipt_count": len(matching),
             "last_status": last.get("status") or "no_receipt",
+            "last_run_source": last.get("run_source") or "manual",
             "last_recorded_at": last.get("recorded_at") or "",
             "last_success_at": success.get("recorded_at") or "",
+            "last_scheduled_success_at": scheduled_success.get("recorded_at") or "",
             "last_summary": last.get("summary") or "",
         })
 
     missing_success = [row for row in rows if not row.get("last_success_at")]
+    missing_scheduled_success = [row for row in rows if not row.get("last_scheduled_success_at")]
     failed_latest = [row for row in rows if row.get("last_status") == "failed"]
     return {
         "receipt_file_present": bool(receipts),
         "expected_count": len(rows),
         "success_count": len(rows) - len(missing_success),
+        "scheduled_success_count": len(rows) - len(missing_scheduled_success),
         "failed_latest_count": len(failed_latest),
         "missing_success_count": len(missing_success),
+        "missing_scheduled_success_count": len(missing_scheduled_success),
         "rows": rows,
         "missing_success": missing_success,
+        "missing_scheduled_success": missing_scheduled_success,
         "failed_latest": failed_latest,
     }
 
@@ -165,8 +186,10 @@ def format_text(summary: dict[str, Any]) -> str:
             "Cloud routine receipts: "
             f"success={int(summary.get('success_count') or 0)}/"
             f"{int(summary.get('expected_count') or 0)} | "
+            f"scheduled_success={int(summary.get('scheduled_success_count') or 0)}/"
+            f"{int(summary.get('expected_count') or 0)} | "
             f"failed_latest={int(summary.get('failed_latest_count') or 0)} | "
-            f"missing_success={int(summary.get('missing_success_count') or 0)}"
+            f"missing_scheduled_success={int(summary.get('missing_scheduled_success_count') or 0)}"
         )
     ]
     failed = summary.get("failed_latest") or []
@@ -190,6 +213,7 @@ def main(argv=None) -> int:
     parser.add_argument("--routine-id")
     parser.add_argument("--status", choices=sorted(VALID_STATUSES))
     parser.add_argument("--summary", default="")
+    parser.add_argument("--run-source", choices=sorted(VALID_RUN_SOURCES), default="manual")
     parser.add_argument("--details-json", help="Optional JSON object with run details")
     parser.add_argument("--validate", action="store_true")
     parser.add_argument("--format", choices=["json", "text"], default="json")
@@ -205,6 +229,7 @@ def main(argv=None) -> int:
             routine_id=args.routine_id,
             status=args.status,
             summary=args.summary,
+            run_source=args.run_source,
             details=details,
         )
 
