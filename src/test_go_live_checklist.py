@@ -48,6 +48,13 @@ def _fake_status(open_count=0, ready=True):
             "dark_lanes": 2,
             "top_action": {"kind": "event_risk"} if ready else {},
         },
+        "source_calls": {
+            "status": "not_checked",
+            "line": "Source-call calibration not checked; 3 unscored daily call(s) are flowing.",
+            "observed_count": 3,
+            "pending_count": 0,
+            "overdue_count": 0,
+        },
     }
 
 
@@ -76,6 +83,7 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
         for row in report["rows"]
     )
     assert any(row["key"] == "data_flow" and row["status"] == "pass" for row in report["rows"])
+    assert any(row["key"] == "source_calls" and row["status"] == "warn" for row in report["rows"])
 
 
 def test_build_go_live_checklist_fails_when_readiness_blocked(monkeypatch, tmp_path):
@@ -128,6 +136,7 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
 
     assert "Go-live checklist: WARN" in text
     assert "[PASS] Live data flow" in text
+    assert "[WARN] Source-call calibration" in text
     assert "[WARN] Open action reviews" in text
     assert "ANET" in text
     assert "Supply Catalyst Calendar rows." in text

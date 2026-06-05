@@ -63,6 +63,20 @@ def _dark_lane_detail(status: dict[str, Any]) -> str:
     return "; ".join(parts)
 
 
+def _source_call_row_status(source_calls: dict[str, Any]) -> str:
+    state = str(source_calls.get("status") or "not_checked")
+    observed = int(source_calls.get("observed_count") or 0)
+    overdue = int(source_calls.get("overdue_count") or 0)
+    pending = int(source_calls.get("pending_count") or 0)
+    if overdue:
+        return "fail"
+    if state == "not_checked" and observed:
+        return "warn"
+    if pending:
+        return "warn"
+    return "pass"
+
+
 def build_go_live_checklist(
     *,
     src_dir: str | Path = DEFAULT_SRC,
@@ -81,6 +95,7 @@ def build_go_live_checklist(
     preview = status.get("preview") or {}
     queue = status.get("system_queue") or {}
     data_flow = status.get("data_flow") or {}
+    source_calls = status.get("source_calls") or {}
     rows = [
         _row(
             "refresh",
@@ -119,6 +134,13 @@ def build_go_live_checklist(
             _status_from_bool(bool(preview.get("preview_exists") and preview.get("server_running")), warn=True),
             preview.get("url") or "Preview URL unavailable.",
             "python src/dashboard_preview_server.py --check",
+        ),
+        _row(
+            "source_calls",
+            "Source-call calibration",
+            _source_call_row_status(source_calls),
+            source_calls.get("line") or "Source-call calibration not checked.",
+            "python src/live_status.py --format text",
         ),
         _row(
             "manual_drop",

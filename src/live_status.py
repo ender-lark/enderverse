@@ -90,6 +90,22 @@ def _data_flow_summary(readiness: dict[str, Any], feed: dict[str, Any] | None) -
     }
 
 
+def _source_call_summary(feed: dict[str, Any] | None) -> dict[str, Any]:
+    feed = feed or {}
+    feedback = feed.get("feedback") if isinstance(feed, dict) else {}
+    source_calls = (feedback or {}).get("source_calls") if isinstance(feedback, dict) else {}
+    if not isinstance(source_calls, dict):
+        source_calls = {}
+    return {
+        "status": source_calls.get("status") or "not_checked",
+        "line": source_calls.get("line") or "Source-call calibration not checked.",
+        "observed_count": int(source_calls.get("observed_count") or 0),
+        "pending_count": int(source_calls.get("pending_count") or 0),
+        "overdue_count": int(source_calls.get("overdue_count") or 0),
+        "oldest_overdue_days": int(source_calls.get("oldest_overdue_days") or 0),
+    }
+
+
 def build_status_summary(
     *,
     readiness: dict[str, Any],
@@ -124,6 +140,7 @@ def build_status_summary(
         },
         "open_actions": open_actions,
         "data_flow": _data_flow_summary(readiness, feed),
+        "source_calls": _source_call_summary(feed),
         "preview": preview,
         "system_queue": queue_status,
         "next_steps": readiness.get("next_steps") or [],
@@ -173,6 +190,7 @@ def format_text(status: dict[str, Any]) -> str:
     open_actions = status.get("open_actions") or {}
     dark_lanes = status.get("dark_lanes") or {}
     queue = status.get("system_queue") or {}
+    source_calls = status.get("source_calls") or {}
     top_action = data_flow.get("top_action") or {}
 
     preview_url = preview.get("url") or "preview URL unavailable"
@@ -198,6 +216,11 @@ def format_text(status: dict[str, Any]) -> str:
             f"lanes_with_data={int(data_flow.get('lanes_with_data') or 0)} | "
             f"dark_lanes={int(data_flow.get('dark_lanes') or 0)} | "
             f"top_action={top_text}"
+        ),
+        (
+            f"Source calls: {source_calls.get('status') or 'not_checked'} | "
+            f"observed={int(source_calls.get('observed_count') or 0)} | "
+            f"overdue={int(source_calls.get('overdue_count') or 0)}"
         ),
         f"Preview: {preview_url} ({preview_state})",
         f"Open review tickers: {_join_values(open_actions.get('tickers') or [])}",

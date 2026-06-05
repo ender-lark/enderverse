@@ -15,6 +15,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Source-call calibration status in operator checks.
+  - `python src/live_status.py --format text` now reports source-call
+    calibration status, observed daily call count, and overdue count.
+  - `python src/go_live_checklist.py --format text` now includes a
+    Source-call calibration row, warning when unscored daily calls are flowing.
 - Open-review command visibility.
   - `python src/live_status.py --format text` now includes the review-report
     command and per-ticker defer/ignore/acted commands for open

@@ -59,6 +59,13 @@ def test_build_status_summary_reports_live_with_open_reviews():
             },
             "lane_status": {"counts": {"has_data": 11}},
             "actions": [{"kind": "event_risk", "what": "Review oil shock", "action_state": "ACT_NOW"}],
+            "feedback": {
+                "source_calls": {
+                    "status": "not_checked",
+                    "line": "Source-call calibration not checked; 3 unscored daily call(s) are flowing.",
+                    "observed_count": 3,
+                }
+            },
         },
     )
 
@@ -70,6 +77,8 @@ def test_build_status_summary_reports_live_with_open_reviews():
     assert status["data_flow"]["lanes_with_data"] == 11
     assert status["data_flow"]["source_dates"]["uw_price"] == "2026-06-05"
     assert status["data_flow"]["top_action"]["kind"] == "event_risk"
+    assert status["source_calls"]["status"] == "not_checked"
+    assert status["source_calls"]["observed_count"] == 3
 
 
 def test_build_status_summary_prioritizes_blocked_state():
@@ -121,6 +130,13 @@ def test_format_text_is_operator_scannable():
             "generated_at": "2026-06-05T10:03:31+00:00",
             "lane_status": {"counts": {"has_data": 11}},
             "actions": [{"kind": "event_risk", "what": "Review oil shock"}],
+            "feedback": {
+                "source_calls": {
+                    "status": "not_checked",
+                    "line": "Source-call calibration not checked; 3 unscored daily call(s) are flowing.",
+                    "observed_count": 3,
+                }
+            },
         },
     )
 
@@ -130,6 +146,7 @@ def test_format_text_is_operator_scannable():
     assert "Ready: True" in text
     assert "Data flow: feed=2026-06-05T10:03:31+00:00" in text
     assert "top_action=event_risk: Review oil shock" in text
+    assert "Source calls: not_checked | observed=3 | overdue=0" in text
     assert "Open review tickers: ANET" in text
     assert "Open review commands:" in text
     assert "python src/action_memory_resolve.py --review-report" in text
