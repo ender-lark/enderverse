@@ -9,6 +9,7 @@ enough to hand control back, using current repo state as evidence. It covers:
 
 - `docs/codex_build_queue.md`
 - `src/system_improvement_queue.json`
+- `src/state_ownership_map.json`
 - `src/codex_routine_manifest.json`
 - `docs/dashboard_feed_block_classification.json`
 - `docs/verification.md`
@@ -20,6 +21,8 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Git working tree was clean before the audit slice.
 - `python src/system_improvement_queue.py` passed and reported 17 tracked queue
   items as done after the Fundstrat monthly/Bible direct upload slice.
+- `python src/state_ownership_map.py` passed after adding monthly Fundstrat
+  Bible ownership.
 - `python src/codex_routine_manifest.py` passed with six active routine
   definitions across source intake, market data refresh, and feed build/publish.
 - Dashboard parity guardrail tests passed.
@@ -57,6 +60,10 @@ enough to hand control back, using current repo state as evidence. It covers:
   What-to-Own, separate consider-list, Top-5, and Bottom-5 sections; monthly
   Top-5/Bottom-5 and separate consider rows can update `top_prospects.json`
   without storing raw PDF text, Core List tables, or stock-price chart text.
+- Fundstrat monthly state ownership map: `fundstrat_bible.json` is now a
+  first-class compact monthly deck artifact in `src/state_ownership_map.json`,
+  and `top_prospects.json` ownership names monthly intake as a producer for
+  Top-5/Bottom-5 and separate Consider List rows.
 - Monthly Top/Bottom idea extraction and core-list deferral: real PDF text where
   Top-5/Bottom-5 labels appear after ticker blocks is parsed correctly, while
   Core List tables are intentionally left out for now to avoid overclutter.

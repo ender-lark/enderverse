@@ -1,10 +1,9 @@
 """Conviction Engine — the `fundstrat_bible` plug (Stage 1, S4).
 
-The first plug whose raw material is Claude-read PROSE (the monthly Fundstrat
-deck) rather than numbers. To keep it pure-logic and testable, the plug takes a
-**pre-structured deck dict** — the READ-FIRST summary off the FS Bible pointer
-page, parsed by the Claude-read step in Collection — and emits uniform fact-cards
-carrying the deck's content VERBATIM:
+The monthly Fundstrat update arrives as a direct PDF/text/JSON upload and is
+first reduced by `fundstrat_bible_intake.py` into a compact deck dict. To keep
+this plug pure-logic and testable, it accepts that **pre-structured deck dict**
+and emits uniform fact-cards carrying the deck's useful content VERBATIM:
   - macro stance        -> kind="stance"
   - What-to-Own sectors -> kind="what_to_own"  (one card per sector)
   - Top-5 / Bottom-5    -> kind="analyst_call"  (one card per ticker)
@@ -16,8 +15,8 @@ tape — that judgment is the Analyst. In particular `direction` here is just wh
 LIST a ticker came from (the deck's own framing); per the CI, Bottom-5 is a
 funding-source flag, NOT a sell signal — the Analyst makes that call.
 
-Pure-logic + injectable: pass a `deck` dict; in production Collection supplies it
-from the live pointer-page read, in tests a fake dict. Trust 0.70, group
+Pure-logic + injectable: pass a `deck` dict; in production the full build loads
+`fundstrat_bible.json`, in tests a fake dict. Trust 0.70, group
 fundstrat (all FS plugs share ONE echo-chamber group via the dials).
 
 Deck shape (every section optional; missing -> no cards, never faked):

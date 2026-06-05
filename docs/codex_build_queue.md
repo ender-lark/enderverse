@@ -12,6 +12,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat monthly state ownership map.
+  - Added `fundstrat_bible` to the state ownership map as the compact monthly
+    Fundstrat deck artifact.
+  - Updated `top_prospects` producer/freshness wording to include
+    `fundstrat_bible_intake.py` for monthly Top-5/Bottom-5 and separate
+    Consider List rows.
+  - Kept Core List tables explicitly excluded from the monthly ownership
+    contract for now.
 - Retired stale reallocation test workaround.
   - Removed the retired Chunk 1 `src/test_reallocate.py` artifact that blocked
     plain full-suite pytest collection.

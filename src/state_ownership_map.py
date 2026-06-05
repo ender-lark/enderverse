@@ -27,6 +27,7 @@ EXPECTED_ARTIFACT_IDS = {
     "positions",
     "theses",
     "fundstrat_daily_calls",
+    "fundstrat_bible",
     "research_queue",
     "catalysts",
     "uw_opportunity_signals",

@@ -68,6 +68,18 @@
       "action_surface": "Named BUY/SELL/trim calls can become source-call candidates, top prospects, or action context."
     },
     {
+      "id": "fundstrat_bible",
+      "source_of_truth": "direct_monthly_fundstrat_upload",
+      "repo_artifact": "src/fundstrat_bible.json",
+      "producer": "fundstrat_intake -> fundstrat_bible_intake.py",
+      "feed_path": "full_build_runner.DEFAULT_FILES.fs_bible -> fundstrat_bible source -> feed.radar/actions context",
+      "dashboard_surface": "Fundstrat Bible stance/What-to-Own context and monthly Top-5/Bottom-5 call cards",
+      "mirror_policy": "GitHub stores compact monthly deck state only; raw PDFs, raw text, stock-price chart text, and Core List tables are not committed.",
+      "freshness_contract": "Update only from a direct monthly PDF/text/JSON upload that validates through fundstrat_bible_intake.py.",
+      "not_checked_behavior": "No monthly upload means do not overwrite fundstrat_bible.json; report monthly upload not checked in routine evidence.",
+      "action_surface": "Top-5/Bottom-5 cards can inform analyst-call context; separate Consider List rows can feed low-pressure prospects through top_prospects.json."
+    },
+    {
       "id": "fundstrat_inbox_entries",
       "source_of_truth": "gmail_fundstrat",
       "repo_artifact": "src/fundstrat_inbox_entries.json",
@@ -95,11 +107,11 @@
       "id": "top_prospects",
       "source_of_truth": "fundstrat_and_research_routines",
       "repo_artifact": "src/top_prospects.json",
-      "producer": "top_prospects_feeder.py + fundstrat_email_intake.py",
+      "producer": "top_prospects_feeder.py + fundstrat_email_intake.py + fundstrat_bible_intake.py",
       "feed_path": "full_build_runner.DEFAULT_FILES.top_prospects -> feed.prospects/actions",
       "dashboard_surface": "Prospects lane and promoted ACT_NOW/sell-fast actions",
       "mirror_policy": "GitHub cache is canonical signal-event store; Notion may hold richer dossiers.",
-      "freshness_contract": "Update only from full-body source events or explicit research inputs.",
+      "freshness_contract": "Update only from full-body daily source events, direct monthly Top-5/Bottom-5/separate Consider List rows, or explicit research inputs.",
       "not_checked_behavior": "Missing/empty is lane_status not_checked or checked_clear depending routine evidence.",
       "action_surface": "High-priority prospects can promote into Today's Actions."
     },
