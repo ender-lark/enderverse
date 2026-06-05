@@ -3,7 +3,8 @@
 Generated: 2026-06-05
 
 Latest live refresh: 2026-06-05 11:17 ET after the active event-watch
-dashboard/status slice.
+dashboard/status slice. Latest verification includes the go-live checklist
+event-watch parity slice.
 
 Current live proof:
 
@@ -23,7 +24,7 @@ Current live proof:
   --format text` now includes a PASS Active Event Watch row for the current
   supplied oil/rates watch; if no supplied event watch exists, the row warns
   instead of implying sudden-event risk was checked clear.
-- `python src/verify_standard.py` last passed with `951 passed, 6 skipped`,
+- `python src/verify_standard.py` last passed with `952 passed, 6 skipped`,
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 

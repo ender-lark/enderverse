@@ -52,7 +52,7 @@ Current pushed snapshot (2026-06-05 11:17 ET live artifacts):
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `951 passed, 6 skipped`, plus
+- Full standard verification last passed with `952 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
