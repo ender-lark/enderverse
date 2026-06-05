@@ -24,11 +24,30 @@ def _strip_trailing_ws(text: str) -> str:
     return "\n".join(line.rstrip() for line in text.splitlines()) + "\n"
 
 
+_DISPLAY_REPLACEMENTS = (
+    ("Ã‚Â·", " | "),
+    ("Â·", " | "),
+    ("â€”", "-"),
+    ("â€“", "-"),
+    ("â†’", "->"),
+    ("â€¦", "..."),
+    ("Ã¢Å¡Â ", "!"),
+    ("Ã¢Å¡â„¢", "#"),
+)
+
+
+def _ascii_display_safe(text: str) -> str:
+    """Keep the generated export readable even if old symbols are mojibaked."""
+    for old, new in _DISPLAY_REPLACEMENTS:
+        text = text.replace(old, new)
+    return "".join(ch if ord(ch) < 128 else "" for ch in text)
+
+
 def _pct(v: Any) -> str:
     try:
         return f"{float(v):.1f}%"
     except Exception:
-        return str(v or "—")
+        return str(v or "-")
 
 
 def _rel(v: Any) -> str:
@@ -37,7 +56,7 @@ def _rel(v: Any) -> str:
         sign = "+" if f >= 0 else ""
         return f"{sign}{f:.1f}%"
     except Exception:
-        return "—"
+        return "-"
 
 
 # ─── CSS ─────────────────────────────────────────────────────────────────────
@@ -240,8 +259,8 @@ def _heartbeat(hb: list) -> str:
         cls = {"ok": "ok", "stale": "stale"}.get(st, "down")
         name = _e(layer.get("layer", ""))
         note = _e(layer.get("note") or "")
-        last = _e(layer.get("last_run") or "—")
-        title = f"{name} · {last}" + (f" · {note}" if note else "")
+        last = _e(layer.get("last_run") or "-")
+        title = f"{name} | {last}" + (f" | {note}" if note else "")
         badges += f'<span class="hb-badge {cls}" title="{title}">{name}</span>'
     return f"""
 <div class="card">
@@ -307,7 +326,7 @@ def _lane_status_summary(lane_status: dict) -> str:
         label = r.get("label") or r.get("key") or ""
         detail = r.get("detail") or ""
         count = r.get("count") or 0
-        count_txt = f" Â· {count}" if count else ""
+        count_txt = f" ({count})" if count else ""
         row_html += f"""
 <div class="lane-row">
   <span class="lane-key">{_e(label)}</span>
@@ -367,14 +386,14 @@ def _hero(hero: dict) -> str:
     items = needs.get("items") or []
     book_count = (hero.get("hero") or {}).get("count", 0)
     leading = ", ".join((hero.get("hero") or {}).get("leading_sleeves") or [])
-    leading_str = f" · leading: {_e(leading)}" if leading else ""
+    leading_str = f" | leading: {_e(leading)}" if leading else ""
 
     hero_items_html = ""
     for it in items:
         reason = _e(it.get("reason", "").replace("_", " ").title())
         detail = _e(it.get("detail", ""))
         note   = _e(it.get("note") or it.get("label") or "")
-        hero_items_html += f'<div class="hero-item"><strong>{detail}</strong> — {reason} · {note}</div>'
+        hero_items_html += f'<div class="hero-item"><strong>{detail}</strong> - {reason} | {note}</div>'
 
     return f"""
 <div class="hero">
@@ -597,7 +616,7 @@ def _book(holdings: list) -> str:
         for pos in (cat_block.get("pos") or []):
             t   = _e(pos.get("t", ""))
             pct = _pct(pos.get("pct"))
-            cv  = pos.get("cv") or "—"
+            cv  = pos.get("cv") or "-"
             lock = pos.get("lock") or ""
             nr  = _e(pos.get("nr") or "")
             cv_cls = "cv-yes" if cv == "Promising" else ""
@@ -605,8 +624,8 @@ def _book(holdings: list) -> str:
             rows += f"""<tr>
   <td><strong>{t}</strong>{lock_html}</td>
   <td>{pct}</td>
-  <td class="{cv_cls}">{_e(cv) if cv != "—" else "—"}</td>
-  <td style="color:#484f58;font-size:11px">{nr[:60]}{"…" if len(nr)>60 else ""}</td>
+  <td class="{cv_cls}">{_e(cv)}</td>
+  <td style="color:#484f58;font-size:11px">{nr[:60]}{"..." if len(nr)>60 else ""}</td>
 </tr>"""
 
     return f"""
@@ -649,7 +668,7 @@ def _book_tab(holdings: list, book_asof: str = "") -> str:
             pct = pos.get("pct", 0)
             total_pct += float(pct or 0)
             pct_str = _pct(pct)
-            cv  = pos.get("cv") or "—"
+            cv  = pos.get("cv") or "-"
             lock = pos.get("lock") or ""
             nr  = _e(pos.get("nr") or "")
             cv_cls = "cv-yes" if cv == "Promising" else ""
@@ -657,8 +676,8 @@ def _book_tab(holdings: list, book_asof: str = "") -> str:
             rows += f'''<tr>
   <td><strong>{t}</strong>{lock_html}</td>
   <td>{pct_str}</td>
-  <td class="{cv_cls}">{_e(cv) if cv != "—" else "—"}</td>
-  <td style="color:#484f58;font-size:11px">{nr[:72]}{"…" if len(nr)>72 else ""}</td>
+  <td class="{cv_cls}">{_e(cv)}</td>
+  <td style="color:#484f58;font-size:11px">{nr[:72]}{"..." if len(nr)>72 else ""}</td>
 </tr>'''
     asof_str = f'as-of {_e(book_asof)}' if book_asof else ""
     return f'''
@@ -784,7 +803,7 @@ def generate_html(feed: dict) -> str:
 
     cmds_html = _commands_tab()
 
-    return _strip_trailing_ws(f"""<!DOCTYPE html>
+    return _ascii_display_safe(_strip_trailing_ws(f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -807,7 +826,7 @@ def generate_html(feed: dict) -> str:
       {stale_warn}
     </div>
     <div style="text-align:right">
-      <div class="book-as-of">book as-of {book_asof}</div>
+      {f'<div class="book-as-of">book as-of {book_asof}</div>' if book_asof else ""}
       <div style="margin-top:4px">
         <a href="." style="font-size:11px;color:#484f58">↻ refresh</a>
       </div>
@@ -862,4 +881,4 @@ function showTab(name, btn) {{
 }}
 </script>
 </body>
-</html>""")
+</html>"""))

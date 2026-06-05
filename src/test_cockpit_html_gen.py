@@ -56,6 +56,7 @@ def test_generated_html_labels_summary_export_and_dark_lanes():
     assert "Lane status" in html
     assert "Research Queue" in html
     assert "not checked" in html
+    assert "checked (18)" in html
 
 
 def test_generated_html_surfaces_feedback_context():
@@ -65,3 +66,11 @@ def test_generated_html_surfaces_feedback_context():
     assert "Source-call scoring: 1 overdue." in html
     assert "Open action backlog: 1 open" in html
     assert "Resolve oldest open action." in html
+
+
+def test_generated_html_is_ascii_display_safe():
+    html = generate_html(_feed())
+
+    assert html.isascii()
+    for artifact in ("Ã", "â", "Â", "ðŸ"):
+        assert artifact not in html
