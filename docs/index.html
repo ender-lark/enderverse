@@ -63,6 +63,10 @@ a{color:#58a6ff;text-decoration:none}
 .operator-value{font-size:13px;font-weight:700;color:#f0f6fc}
 .operator-pass{color:#3fb950}.operator-warn{color:#d29922}.operator-fail{color:#f85149}
 .operator-command{font-family:monospace;font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:5px;padding:6px 8px;overflow-x:auto}
+.operator-event-watch{background:#2b1e0a;border:1px solid #d2992244;border-radius:6px;padding:7px 8px;margin:7px 0}
+.operator-event-title{font-size:12px;font-weight:700;color:#f0f6fc}
+.operator-event-meta{font-family:monospace;font-size:10px;color:#8b949e;margin-top:3px}
+.operator-event-trigger{font-size:11px;color:#8b949e;margin-top:4px}
 .context-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
 .context-col{background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:8px}
 .context-label{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#484f58;margin-bottom:6px}
@@ -212,7 +216,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-05 11:07 ET
+        built 2026-06-05 11:17 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28  fundstrat_daily 06-03</div>
@@ -251,6 +255,13 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="operator-pill"><div class="operator-label">Go-live check</div><div class="operator-value operator-warn">WARN</div></div>
   </div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
+
+  <div class="operator-event-watch">
+    <div class="operator-label">Active event watch</div>
+    <div class="operator-event-title">Middle East oil/rates shock can affect new-buy timing</div>
+    <div class="operator-event-meta">HIGH | oil, rates, volatility, energy, growth | XOP, XLE, TNX</div>
+    <div class="operator-event-trigger">Trigger: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
+  </div>
   <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
 </div>
 
@@ -320,7 +331,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T11:07:39.231776+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T11:07:39.231776+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T11:07:39.231776+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T11:07:39.231776+00:00 | dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T11:07:39.231776+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T11:17:38.370357+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T11:17:38.370357+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T11:17:38.370357+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T11:17:38.370357+00:00 | dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T11:17:38.370357+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

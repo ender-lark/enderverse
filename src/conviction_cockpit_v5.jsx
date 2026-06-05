@@ -806,6 +806,10 @@ function operatorStatus(feed){
   const sourceCallWarn = sourceCallStatus==="not_checked" && sourceCallObserved>0;
   const sourceCallFail = sourceCallOverdue>0;
   const actions = (feed.actions||[]).length;
+  const eventRows = (feed.event_risk||[]).filter(r=>r&&r.title);
+  const severityRank = {critical:0, high:1, medium:2, low:3};
+  eventRows.sort((a,b)=>(severityRank[a.severity]??9)-(severityRank[b.severity]??9));
+  const eventWatch = eventRows[0] || null;
   const dark = counts.not_checked||0;
   const stale = counts.stale||0;
   const failed = counts.failed||0;
@@ -815,6 +819,7 @@ function operatorStatus(feed){
   const sourceCall = sourceCallFail ? `${sourceCallOverdue} overdue` : sourceCallWarn ? `${sourceCallObserved} unscored` : sourceCallPending ? `${sourceCallPending} pending` : "clear";
   return {
     status, statusColor, actions, openActions, sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
+    eventWatch,
     command:"python src/go_live_checklist.py --format text",
     suddenEventCommand:'python src/sudden_event_refresh.py --title "<event headline>" --channels "oil,rates,volatility" --tickers "XOP,TNX" --why "<why exposure, hedges, or new-buy timing changes>" --trigger "<what confirms or changes the risk>"',
   };
@@ -1102,6 +1107,16 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 ))}
               </div>
               <div style={{ marginTop:8, fontFamily:mono, fontSize:10.5, color:C.faint }}>Verify: {op.command}</div>
+              {op.eventWatch && (
+                <div style={{ marginTop:6, border:`1px solid ${C.amber}44`, borderRadius:8, padding:"7px 8px", background:C.amber+"0a" }}>
+                  <div style={{ fontFamily:mono, fontSize:10, color:C.amber, textTransform:"uppercase", marginBottom:3 }}>Active event watch</div>
+                  <div style={{ fontSize:12.5, color:C.text, fontWeight:650 }}>{op.eventWatch.title}</div>
+                  <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>
+                    {(op.eventWatch.severity||"watch").toUpperCase()} {op.eventWatch.channels&&op.eventWatch.channels.length?`| ${op.eventWatch.channels.join(", ")}`:""} {op.eventWatch.tickers&&op.eventWatch.tickers.length?`| ${op.eventWatch.tickers.join(", ")}`:""}
+                  </div>
+                  {(op.eventWatch.trigger||op.eventWatch.summary) && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Trigger: {op.eventWatch.trigger||op.eventWatch.summary}</div>}
+                </div>
+              )}
               <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Sudden event: {op.suddenEventCommand}</div>
             </div>
           );

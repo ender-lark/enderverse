@@ -12,6 +12,7 @@ import dashboard_preview_server as preview_server
 import live_readiness
 import open_opportunities
 import system_improvement_queue as queue_mod
+from event_risk import active_event_watch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,6 +88,7 @@ def _data_flow_summary(readiness: dict[str, Any], feed: dict[str, Any] | None) -
             "what": top_action.get("what") or "",
             "action_state": top_action.get("action_state") or "",
         },
+        "event_watch": active_event_watch(feed.get("event_risk") or []),
     }
 
 
@@ -247,6 +249,20 @@ def format_text(status: dict[str, Any]) -> str:
             f"pending={int(source_calls.get('pending_count') or 0)} | "
             f"overdue={int(source_calls.get('overdue_count') or 0)}"
         ),
+    ]
+    event_watch = data_flow.get("event_watch") or {}
+    if event_watch.get("active"):
+        channels = _join_values(event_watch.get("channels") or [])
+        tickers = _join_values(event_watch.get("tickers") or [])
+        trigger = event_watch.get("trigger") or event_watch.get("summary") or "fresh confirmation needed"
+        lines.append(
+            f"Active event watch: {event_watch.get('severity') or 'watch'} | "
+            f"{event_watch.get('title') or 'event risk'} | channels={channels} | "
+            f"tickers={tickers} | trigger={trigger}"
+        )
+    else:
+        lines.append("Active event watch: none supplied")
+    lines.extend([
         f"Preview: {preview_url} ({preview_state})",
         f"Open review tickers: {_join_values(open_actions.get('tickers') or [])}",
         (
@@ -254,7 +270,7 @@ def format_text(status: dict[str, Any]) -> str:
             f"items={int(queue.get('items') or 0)} | "
             f"active_or_queued={int(queue.get('active_or_queued') or 0)}"
         ),
-    ]
+    ])
 
     blockers = status.get("blockers") or {}
     blocker_parts = []

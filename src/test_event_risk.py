@@ -5,6 +5,7 @@ from pathlib import Path
 
 from analyst_judgment import actions_read
 from event_risk import (
+    active_event_watch,
     event_risk_actions_read,
     normalize_event_risks,
     validate_event_risks,
@@ -83,6 +84,27 @@ def test_medium_event_risk_stays_context_only():
     ])
 
     assert event_risk_actions_read(rows) == []
+
+
+def test_active_event_watch_returns_highest_urgency_supplied_row():
+    watch = active_event_watch([
+        {"title": "Weekly policy watch", "severity": "medium", "source": "Daily event scan"},
+        {
+            "title": "Oil shock risk",
+            "severity": "critical",
+            "channels": ["oil", "rates"],
+            "tickers": ["XOP", "TNX"],
+            "source": "Daily event scan",
+            "trigger": "WTI spike",
+        },
+    ])
+
+    assert watch["active"] is True
+    assert watch["title"] == "Oil shock risk"
+    assert watch["severity"] == "critical"
+    assert watch["channels"] == ["oil", "rates"]
+    assert watch["tickers"] == ["XOP", "TNX"]
+    assert watch["trigger"] == "WTI spike"
 
 
 def test_event_risk_intake_writes_normalized_cache_and_summary(tmp_path):

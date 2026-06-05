@@ -122,6 +122,10 @@ a{color:#58a6ff;text-decoration:none}
 .operator-value{font-size:13px;font-weight:700;color:#f0f6fc}
 .operator-pass{color:#3fb950}.operator-warn{color:#d29922}.operator-fail{color:#f85149}
 .operator-command{font-family:monospace;font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:5px;padding:6px 8px;overflow-x:auto}
+.operator-event-watch{background:#2b1e0a;border:1px solid #d2992244;border-radius:6px;padding:7px 8px;margin:7px 0}
+.operator-event-title{font-size:12px;font-weight:700;color:#f0f6fc}
+.operator-event-meta{font-family:monospace;font-size:10px;color:#8b949e;margin-top:3px}
+.operator-event-trigger{font-size:11px;color:#8b949e;margin-top:4px}
 .context-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
 .context-col{background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:8px}
 .context-label{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#484f58;margin-bottom:6px}
@@ -445,6 +449,33 @@ def _operator_status(feed: dict) -> str:
     else:
         source_call_value = "clear"
     action_count = len(actions)
+    event_rows = [
+        row for row in (feed.get("event_risk") or [])
+        if isinstance(row, dict) and row.get("title")
+    ]
+    severity_rank = {"critical": 0, "high": 1, "medium": 2, "low": 3}
+    event_rows.sort(key=lambda row: severity_rank.get(str(row.get("severity") or "").lower(), 9))
+    event_watch = event_rows[0] if event_rows else {}
+    event_watch_html = ""
+    if event_watch:
+        channels = ", ".join(str(v) for v in (event_watch.get("channels") or []) if v)
+        tickers = ", ".join(str(v) for v in (event_watch.get("tickers") or []) if v)
+        meta = " | ".join(
+            part for part in [
+                str(event_watch.get("severity") or "watch").upper(),
+                channels,
+                tickers,
+            ] if part
+        )
+        trigger = event_watch.get("trigger") or event_watch.get("summary") or ""
+        trigger_html = f'<div class="operator-event-trigger">Trigger: {_e(trigger)}</div>' if trigger else ""
+        event_watch_html = f"""
+  <div class="operator-event-watch">
+    <div class="operator-label">Active event watch</div>
+    <div class="operator-event-title">{_e(event_watch.get("title") or "")}</div>
+    <div class="operator-event-meta">{_e(meta)}</div>
+    {trigger_html}
+  </div>"""
     status = "FAIL" if failed or source_call_fail else "WARN" if dark or stale or open_count or source_call_warn else "PASS"
     cls = {"PASS": "operator-pass", "WARN": "operator-warn", "FAIL": "operator-fail"}[status]
     lane_detail = []
@@ -468,6 +499,7 @@ def _operator_status(feed: dict) -> str:
     <div class="operator-pill"><div class="operator-label">Go-live check</div><div class="operator-value {_e(cls)}">{status}</div></div>
   </div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
+  {event_watch_html}
   <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
 </div>"""
 

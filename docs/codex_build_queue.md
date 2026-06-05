@@ -35,6 +35,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Active event-watch visibility.
+  - The live status readout and dashboard Operator Status cards now derive an
+    active event watch from the supplied Event Risk lane.
+  - The current preview shows the Middle East oil/rates watch, impacted
+    channels/tickers, and trigger evidence alongside the sudden-event refresh
+    command.
+  - This reduces sudden-event workflow fragility without scraping headlines or
+    inventing unsourced market narrative.
 - Dashboard sudden-event utility command.
   - The canonical JSX cockpit and generated HTML preview now surface the
     `sudden_event_refresh.py` command in Operator Status alongside the go-live

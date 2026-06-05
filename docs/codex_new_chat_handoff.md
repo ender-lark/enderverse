@@ -27,35 +27,41 @@ Current priority:
 4. Use `python src/verify_standard.py` as the standard verification command.
 5. Commit and push after each clean verified slice.
 
-Current pushed snapshot (2026-06-05 11:07 ET):
+Current pushed snapshot (2026-06-05 11:17 ET live artifacts):
 
-- Latest pushed commit: `0d1c515 Show sudden event command in dashboard`.
-- Working tree should be clean on `main...origin/main`.
+- Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
+  this handoff page's commit hash as runtime evidence.
+- Working tree should be clean on `main...origin/main` after the current slice
+  is committed and pushed.
 - `python src/live_status.py --format text` reports
   `live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
-  actions, 11 lanes with data, 2 dark optional lanes, 2 open action reviews,
-  and 3 pending / 0 overdue source calls.
+  actions, feed `2026-06-05T11:17:38.446606+00:00`, 11 lanes with data, 2 dark
+  optional lanes, 2 open action reviews, and 3 pending / 0 overdue source calls.
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
   reports `WARN` with 0 failures and 2 warnings: open action reviews
   (`ANET`, `GOOGL`) and optional dark lanes (`catalysts`, `signal_log`).
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-05 11:07 ET`.
+  `2026-06-05 11:17 ET`.
 - The dashboard Operator Status card now shows both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.
-- Full standard verification last passed with `950 passed, 6 skipped`, plus
+- It also shows the active Middle East oil/rates event watch, impacted
+  channels/tickers, and trigger evidence derived from the supplied Event Risk
+  lane.
+- Full standard verification last passed with `951 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
 
 Important recent state:
 
-- Latest completed slices before this handoff refresh: dashboard sudden-event
-  command visibility, live-status/go-live sudden-event command visibility,
-  source-call tracking during live refresh, external queue audit, position-cache
-  normalizer convergence, and dark-lane intake command surfacing.
+- Latest completed slices before this handoff refresh: active event-watch
+  visibility, dashboard sudden-event command visibility, live-status/go-live
+  sudden-event command visibility, source-call tracking during live refresh,
+  external queue audit, position-cache normalizer convergence, and dark-lane
+  intake command surfacing.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.

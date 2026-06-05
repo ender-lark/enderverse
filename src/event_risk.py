@@ -139,3 +139,23 @@ def event_risk_actions_read(event_risks: Any, *, max_items: int = 3) -> list[dic
         if len(actions) >= max_items:
             break
     return actions
+
+
+def active_event_watch(event_risks: Any) -> dict:
+    """Return the highest-urgency supplied event risk for operator watch surfaces."""
+    rows = normalize_event_risks(event_risks)
+    if not rows:
+        return {}
+    row = rows[0]
+    return {
+        "active": True,
+        "title": row.get("title") or "",
+        "severity": row.get("severity") or "",
+        "horizon": row.get("horizon") or "",
+        "channels": row.get("channels") or [],
+        "tickers": row.get("tickers") or [],
+        "summary": row.get("summary") or "",
+        "trigger": row.get("trigger") or "",
+        "source": row.get("source") or "",
+        "date": row.get("date") or "",
+    }

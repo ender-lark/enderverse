@@ -47,6 +47,16 @@ def _feed():
             },
             "recommendations": ["Resolve oldest open action."],
         },
+        "event_risk": [
+            {
+                "title": "Oil shock",
+                "severity": "high",
+                "channels": ["oil", "rates"],
+                "tickers": ["XOP", "TNX"],
+                "trigger": "WTI spike",
+                "source": "Manual",
+            }
+        ],
         "target_drift": {
             "rows": [
                 {"ticker": "NVDA", "direction": "UNDERSIZED", "actual_pct": 6.6, "target_pct": 12.0}
@@ -100,6 +110,10 @@ def test_generated_html_surfaces_operator_status_card():
     assert "Open reviews" in html
     assert "Source lanes" in html
     assert "Source calls" in html
+    assert "Active event watch" in html
+    assert "Oil shock" in html
+    assert "HIGH | oil, rates | XOP, TNX" in html
+    assert "Trigger: WTI spike" in html
     assert "1 overdue" in html
     assert "python src/go_live_checklist.py --format text" in html
     assert "python src/sudden_event_refresh.py --title" in html

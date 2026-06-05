@@ -59,6 +59,16 @@ def test_build_status_summary_reports_live_with_open_reviews():
             },
             "lane_status": {"counts": {"has_data": 11}},
             "actions": [{"kind": "event_risk", "what": "Review oil shock", "action_state": "ACT_NOW"}],
+            "event_risk": [
+                {
+                    "title": "Oil shock",
+                    "severity": "high",
+                    "channels": ["oil"],
+                    "tickers": ["XOP"],
+                    "source": "Manual",
+                    "trigger": "WTI spike",
+                }
+            ],
             "feedback": {
                 "source_calls": {
                     "status": "not_checked",
@@ -78,6 +88,7 @@ def test_build_status_summary_reports_live_with_open_reviews():
     assert status["data_flow"]["lanes_with_data"] == 11
     assert status["data_flow"]["source_dates"]["uw_price"] == "2026-06-05"
     assert status["data_flow"]["top_action"]["kind"] == "event_risk"
+    assert status["data_flow"]["event_watch"]["title"] == "Oil shock"
     assert status["source_calls"]["status"] == "not_checked"
     assert status["source_calls"]["observed_count"] == 3
 
@@ -131,6 +142,16 @@ def test_format_text_is_operator_scannable():
             "generated_at": "2026-06-05T10:03:31+00:00",
             "lane_status": {"counts": {"has_data": 11}},
             "actions": [{"kind": "event_risk", "what": "Review oil shock"}],
+            "event_risk": [
+                {
+                    "title": "Oil shock",
+                    "severity": "high",
+                    "channels": ["oil", "rates"],
+                    "tickers": ["XOP", "TNX"],
+                    "source": "Manual",
+                    "trigger": "WTI spike",
+                }
+            ],
             "feedback": {
                 "source_calls": {
                     "status": "not_checked",
@@ -149,6 +170,7 @@ def test_format_text_is_operator_scannable():
     assert "Data flow: feed=2026-06-05T10:03:31+00:00" in text
     assert "top_action=event_risk: Review oil shock" in text
     assert "Source calls: not_checked | observed=3 | pending=0 | overdue=0" in text
+    assert "Active event watch: high | Oil shock | channels=oil, rates | tickers=XOP, TNX | trigger=WTI spike" in text
     assert "Sudden event command:" in text
     assert "python src/sudden_event_refresh.py --title \"<event headline>\"" in text
     assert "Open review tickers: ANET" in text

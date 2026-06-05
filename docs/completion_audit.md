@@ -2,23 +2,24 @@
 
 Generated: 2026-06-05
 
-Latest refresh: 2026-06-05 after commit
-`0d1c515 Show sudden event command in dashboard`.
+Latest live refresh: 2026-06-05 11:17 ET after the active event-watch
+dashboard/status slice.
 
 Current live proof:
 
 - `python src/live_status.py --format text` reports
   `live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
-  actions, feed `2026-06-05T11:07:39.310084+00:00`, 11 lanes with data,
+  actions, feed `2026-06-05T11:17:38.446606+00:00`, 11 lanes with data,
   2 dark lanes, 3 pending / 0 overdue source calls, and preview running at
   `http://127.0.0.1:8765/dashboard_preview.html`.
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
   reports `WARN`, `Ready: True`, 0 failures, and 2 warnings: open reviews
   (`ANET`, `GOOGL`) and optional dark lanes (`catalysts`, `signal_log`).
-- The dashboard preview shows build `2026-06-05 11:07 ET` and includes the
+- The dashboard preview shows build `2026-06-05 11:17 ET` and includes the
   Operator Status command links for both go-live review and supplied-headline
-  sudden-event refresh.
-- `python src/verify_standard.py` last passed with `950 passed, 6 skipped`,
+  sudden-event refresh. It also shows the active Middle East oil/rates event
+  watch, impacted channels/tickers, and trigger evidence.
+- `python src/verify_standard.py` last passed with `951 passed, 6 skipped`,
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 
