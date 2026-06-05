@@ -275,11 +275,15 @@
           "command": "python src/event_risk_intake.py --title \"<event headline>\" --channels \"oil,rates,volatility\" --tickers \"XOP,TNX\" --why \"<why exposure or timing changes>\" --trigger \"<what to watch next>\" --out src/event_risks.json --summary src/event_risk_intake_summary.json --merge-existing"
         },
         {
+          "id": "append_sudden_event_and_refresh",
+          "command": "python src/sudden_event_refresh.py --title \"<event headline>\" --channels \"oil,rates,volatility\" --tickers \"XOP,TNX\" --why \"<why exposure or timing changes>\" --trigger \"<what to watch next>\""
+        },
+        {
           "id": "validate_event_risk_cache",
           "command": "python src/event_risk_intake.py --validate src/event_risks.json"
         }
       ],
-      "verification": "python -m pytest src/test_event_risk.py src/test_full_build_runner.py src/test_cockpit_blocks.py -q",
+      "verification": "python -m pytest src/test_event_risk.py src/test_sudden_event_refresh.py src/test_full_build_runner.py src/test_cockpit_blocks.py -q",
       "no_input_behavior": "Do not overwrite event_risks.json; report Event Risk as not checked."
     },
     {

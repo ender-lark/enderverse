@@ -32,6 +32,12 @@ Append one supplied sudden-event headline without shaping JSON first:
 python src/event_risk_intake.py --title "Iran/oil headline risk can change new-buy timing" --channels "oil,rates,volatility" --tickers "XOP,TNX" --why "Review exposure before adding risk." --trigger "WTI spike or Strait headlines accelerate." --out src/event_risks.json --summary src/event_risk_intake_summary.json --merge-existing
 ```
 
+Append one supplied headline and immediately refresh the live dashboard:
+
+```powershell
+python src/sudden_event_refresh.py --title "Iran/oil headline risk can change new-buy timing" --channels "oil,rates,volatility" --tickers "XOP,TNX" --why "Review exposure before adding risk." --trigger "WTI spike or Strait headlines accelerate."
+```
+
 Validate the cache:
 
 ```powershell

@@ -15,6 +15,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Sudden-event dashboard refresh command.
+  - Added `python src/sudden_event_refresh.py` to append one supplied
+    headline/event-risk row, run the live dashboard refresh, and print
+    `python src/live_status.py --format text`.
+  - This keeps fast war/oil/rates/policy shock handling supplied and
+    auditable, while avoiding scraping or invented market narrative.
 - Human-readable live status.
   - Added `python src/live_status.py --format text` for a fast operator readout
     of live readiness, data-flow proof, open-review tickers, preview state,

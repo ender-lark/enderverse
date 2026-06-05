@@ -50,6 +50,10 @@ Important recent state:
   row via CLI flags (`--title`, `--channels`, `--tickers`, `--why`,
   `--trigger`). Use this when a fast headline such as Iran/oil/rates risk needs
   to enter the dashboard before a full JSON event scan exists.
+- `src/sudden_event_refresh.py` wraps that supplied sudden-event intake with
+  `live_dashboard_refresh.py` and `live_status.py --format text`, so a breaking
+  headline can move into the refreshed preview in one command while staying
+  supplied/auditable.
 - `src/manual_source_drop.py` can route one supplied JSON file with explicit
   `event_risks`, `signal_log`, and/or `catalysts` sections through the existing
   intake normalizers. It supports dry-run checks and rejects ambiguous generic
