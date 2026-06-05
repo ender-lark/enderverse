@@ -27,6 +27,12 @@ This is the main replacement for Claude's FULL-build prompt.
 
    The drop must use explicit top-level keys: `event_risks`, `signal_log`,
    and/or `catalysts`. Do not route ambiguous generic `events` rows.
+   Start from `docs/manual_drop.template.json` and validate before writing when
+   the drop is new:
+
+   ```bash
+   python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only
+   ```
 5. Run:
 
    ```bash

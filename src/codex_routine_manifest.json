@@ -467,6 +467,10 @@
           "command": "python src/manual_source_drop.py <manual-drop.json> --src-dir src"
         },
         {
+          "id": "validate_manual_source_drop",
+          "command": "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"
+        },
+        {
           "id": "build_and_publish",
           "command": "python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish"
         },

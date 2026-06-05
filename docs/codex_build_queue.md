@@ -404,6 +404,12 @@ until the core logic is stable; Notion sync comes later.
     guessed into a lane.
   - The helper supports dry-run checks and merge-existing behavior for local
     operating flow.
+- Manual source-drop template and validation-only mode.
+  - Added `docs/manual_drop.template.json` as a tested starting point for
+    supplied event-risk, signal-log, and catalyst rows.
+  - Added `manual_source_drop.py --validate-only` as a clearer no-write check
+    before committing source-cache updates.
+  - Regression tests prove the template validates and does not write cache files.
 
 ## Queued Slices
 

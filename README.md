@@ -64,6 +64,11 @@ python src\manual_source_drop.py path\to\manual_drop.json --src-dir src
 ```
 
 Use explicit top-level keys: `event_risks`, `signal_log`, and/or `catalysts`.
+Start from `docs\manual_drop.template.json`, and check before writing with:
+
+```powershell
+python src\manual_source_drop.py docs\manual_drop.template.json --src-dir src --validate-only
+```
 
 ## Resolving Open Review Items
 

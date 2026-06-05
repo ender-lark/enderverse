@@ -41,6 +41,7 @@ def test_ingest_manual_source_drop_dry_run_does_not_write(tmp_path):
 
     assert report["valid"] is True
     assert report["sections"]["event_risks"]["written"] is False
+    assert report["written"] is False
     assert not (tmp_path / "event_risks.json").exists()
 
 
@@ -106,3 +107,61 @@ def test_manual_source_drop_cli_fails_without_supported_sections(tmp_path):
 
     assert proc.returncode == 2
     assert json.loads(proc.stdout)["sections_seen"] == []
+
+
+def test_manual_source_drop_cli_validate_only_does_not_write(tmp_path):
+    drop = tmp_path / "drop.json"
+    drop.write_text(json.dumps({
+        "event_risks": [{"title": "Oil shock", "severity": "high", "source": "Manual"}],
+        "signal_log": [{"signal": "Watch oil shock breadth"}],
+        "catalysts": [{"ticker": "NVDA", "date": "2026-06-06", "label": "Supplier update"}],
+    }), encoding="utf-8")
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(Path(__file__).resolve().parent / "manual_source_drop.py"),
+            str(drop),
+            "--src-dir",
+            str(tmp_path),
+            "--date",
+            "2026-06-05",
+            "--validate-only",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    report = json.loads(proc.stdout)
+    assert report["dry_run"] is True
+    assert report["written"] is False
+    assert report["sections_seen"] == ["catalysts", "event_risks", "signal_log"]
+    assert not (tmp_path / "event_risks.json").exists()
+
+
+def test_manual_drop_template_validates_without_writing(tmp_path):
+    template = Path(__file__).resolve().parents[1] / "docs" / "manual_drop.template.json"
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(Path(__file__).resolve().parent / "manual_source_drop.py"),
+            str(template),
+            "--src-dir",
+            str(tmp_path),
+            "--date",
+            "2026-06-05",
+            "--validate-only",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    report = json.loads(proc.stdout)
+    assert report["valid"] is True
+    assert report["sections_seen"] == ["catalysts", "event_risks", "signal_log"]
+    assert not (tmp_path / "event_risks.json").exists()

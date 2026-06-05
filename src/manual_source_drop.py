@@ -199,6 +199,7 @@ def ingest_manual_source_drop(
         "valid": not problems,
         "problems": problems,
         "dry_run": dry_run,
+        "written": any(bool(result.get("written")) for result in written.values()),
         "merge_existing": merge_existing,
         "sections_seen": sorted(written),
         "sections": written,
@@ -213,6 +214,7 @@ def main(argv=None) -> int:
     parser.add_argument("--date", default=date.today().isoformat())
     parser.add_argument("--no-merge-existing", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--validate-only", action="store_true", help="Validate and summarize without writing caches")
     args = parser.parse_args(argv)
 
     if not args.files and not args.stdin_json:
@@ -223,7 +225,7 @@ def main(argv=None) -> int:
         src_dir=args.src_dir,
         merge_existing=not args.no_merge_existing,
         default_date=args.date,
-        dry_run=args.dry_run,
+        dry_run=args.dry_run or args.validate_only,
     )
     print(json.dumps(report, indent=2))
     return 0 if report["valid"] and report["sections_seen"] else 2

@@ -54,6 +54,9 @@ Important recent state:
   `event_risks`, `signal_log`, and/or `catalysts` sections through the existing
   intake normalizers. It supports dry-run checks and rejects ambiguous generic
   `events` rows rather than guessing the lane.
+- `docs/manual_drop.template.json` is a tested starting template for manual
+  source drops. Validate without writing via:
+  `python src/manual_source_drop.py docs/manual_drop.template.json --src-dir src --validate-only`.
 - FS Daily now has compact full-body-derived data from Gmail evidence. The
   compact intake wrote `XOP`, `RYF`, and `TNX` daily-call rows, redacted audit
   entries, inbox dates, and state without committing raw email bodies. Empty
@@ -183,7 +186,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `928 passed, 6 skipped`.
+- `python -m pytest src -q` -> `930 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

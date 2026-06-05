@@ -1,0 +1,33 @@
+{
+  "event_risks": [
+    {
+      "title": "Iran/oil headline risk can change new-buy timing",
+      "severity": "high",
+      "horizon": "daily",
+      "channels": ["oil", "rates", "volatility"],
+      "tickers": ["XOP", "TNX"],
+      "affected": ["Energy", "Semiconductors", "High-duration growth"],
+      "source": "Manual source drop",
+      "summary": "Review exposure, hedges, and new buys before adding risk.",
+      "trigger": "WTI spike, 10Y yield jump, Strait disruption, or ceasefire headlines change abruptly.",
+      "direction": "risk_watch"
+    }
+  ],
+  "signal_log": [
+    {
+      "date": "2026-06-05",
+      "ticker": "NVDA",
+      "signal": "Watch semiconductor breadth and leadership reaction to oil/rates shock.",
+      "priority": "watch",
+      "source": "Manual source drop"
+    }
+  ],
+  "catalysts": [
+    {
+      "ticker": "NVDA",
+      "date": "2026-06-06",
+      "label": "Supplier or macro-linked risk review window",
+      "source": "Manual source drop"
+    }
+  ]
+}
