@@ -26,7 +26,7 @@ until the core logic is stable; Notion sync comes later.
     `fundstrat_bible_intake.py` for monthly Top-5/Bottom-5 and separate
     Consider List rows.
   - Kept Core List tables explicitly excluded from the monthly ownership
-    contract for now.
+    contract unless the user explicitly asks to revisit them later.
 - Retired stale reallocation test workaround.
   - Removed the retired Chunk 1 `src/test_reallocate.py` artifact that blocked
     plain full-suite pytest collection.
@@ -35,8 +35,9 @@ until the core logic is stable; Notion sync comes later.
   - Kept `src/test_reallocate_rebuild.py` as the canonical target-weight
     planner coverage.
 - Monthly Top/Bottom idea extraction and core-list deferral.
-  - Left Fundstrat monthly Core List tables out of stored state for now to avoid
-    overclutter and bad row extraction.
+  - Left Fundstrat monthly Core List tables out of stored state to avoid
+    overclutter and bad row extraction; do not revive this tonight unless the
+    user explicitly reopens it later.
   - Added a PDF-text fallback for monthly Large-cap Top-5/Bottom-5 pages where
     extraction places labels after ticker blocks.
   - Added an explicit low-pressure `consider_list` category for separate

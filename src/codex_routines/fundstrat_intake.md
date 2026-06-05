@@ -82,10 +82,10 @@ Accepted monthly file types:
    The monthly parser is intentionally compact: it captures explicit summary
    sections such as `What to Own`, separate `Consider List` rows, `Top 5`,
    `Bottom 5`, and short stance text when present. Core List tables are left
-   out for now to avoid overclutter and fragile row extraction. Top-5/Bottom-5
-   and separate Consider List rows remain the prospect-signal path. It does not
-   store raw PDF text, stock-price chart text, performance tables, or long
-   numeric notes.
+   out to avoid overclutter and fragile row extraction; do not reopen them
+   unless the user explicitly asks later. Top-5/Bottom-5 and separate Consider
+   List rows remain the prospect-signal path. It does not store raw PDF text,
+   stock-price chart text, performance tables, or long numeric notes.
 
 7. Validate output shape and the raw-body redaction rule:
 
