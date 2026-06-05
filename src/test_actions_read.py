@@ -16,7 +16,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from analyst_judgment import actions_read, synthesis_actions_read
+from analyst_judgment import actions_read, synthesis_actions_read, target_drift_actions_read
 from feed_assembler import assemble_feed
 from goal_impact import annotate_action
 from validators import validate_cockpit_feed
@@ -290,6 +290,79 @@ def test_uncorroborated_quiet_sell_fast_stays_in_prospects_not_actions():
     r = actions_read([], [], THESES, prospect_items=prospects)
 
     assert all(a.get("kind") != "sell_fast" for a in r["actions"])
+
+
+# --------------------------------------------------------------------------- #
+# Target-drift conviction-gap promotion
+# --------------------------------------------------------------------------- #
+def test_target_drift_actions_promotes_held_undersized_only():
+    target_drift = {"rows": [
+        {
+            "ticker": "NVDA",
+            "direction": "UNDERSIZED",
+            "actual_pct": 6.6,
+            "target_pct": 12.0,
+            "flags": ["P_UNDERSIZE_CANDIDATE", "ALARM_DRIFT"],
+        },
+        {
+            "ticker": "AVGO",
+            "direction": "MISSING",
+            "actual_pct": 0.0,
+            "target_pct": 6.0,
+            "flags": ["P_UNDERSIZE_CANDIDATE", "MISSING_TARGET"],
+        },
+        {
+            "ticker": "BMNR",
+            "direction": "UNDERSIZED",
+            "actual_pct": 3.5,
+            "target_pct": 10.0,
+            "flags": ["P_UNDERSIZE_CANDIDATE", "ALARM_DRIFT"],
+        },
+    ]}
+
+    promoted = target_drift_actions_read(target_drift, THESES)
+
+    assert [row["ticker"] for row in promoted] == ["NVDA"]
+    assert promoted[0]["confidence"] == "High"
+    assert "funded add/rotation" in promoted[0]["your_move"]
+    assert promoted[0]["gate"]["ticker"] == "NVDA"
+
+
+def test_actions_read_promotes_conviction_gap_without_duplicate_ticker():
+    target_drift = {"rows": [{
+        "ticker": "NVDA",
+        "direction": "UNDERSIZED",
+        "actual_pct": 6.6,
+        "target_pct": 12.0,
+        "flags": ["P_UNDERSIZE_CANDIDATE", "ALARM_DRIFT"],
+    }]}
+
+    promoted = target_drift_actions_read(target_drift, THESES)
+    out = actions_read([], [], THESES, target_drift_actions=promoted)
+
+    row = out["actions"][0]
+    assert row["kind"] == "conviction_gap"
+    assert row["ticker"] == "NVDA"
+    assert row["action_state"] == "ACT_NOW"
+    assert row["capital_effect"] == "rotate"
+    assert row["sizing"].startswith("Gap to target")
+    assert validate_cockpit_feed({**_minimal_feed(), "actions": [row]}) == []
+
+
+def test_actions_read_skips_conviction_gap_when_ticker_already_surfaced():
+    target_drift = {"rows": [{
+        "ticker": "NVDA",
+        "direction": "UNDERSIZED",
+        "actual_pct": 6.6,
+        "target_pct": 12.0,
+        "flags": ["P_UNDERSIZE_CANDIDATE", "ALARM_DRIFT"],
+    }]}
+
+    promoted = target_drift_actions_read(target_drift, THESES)
+    out = actions_read([_act("NVDA", "act")], [], THESES, target_drift_actions=promoted)
+
+    assert [row["ticker"] for row in out["actions"]].count("NVDA") == 1
+    assert out["actions"][0]["kind"] == "buy_now"
 
 
 # --------------------------------------------------------------------------- #

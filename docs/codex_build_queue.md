@@ -360,6 +360,12 @@ until the core logic is stable; Notion sync comes later.
     Synthesis from that feed, republishes, renders canonical JSX plus
     summary/preview HTML, and writes the parity feed.
   - Added routine-manifest coverage and focused tests for the refresh sequence.
+- Conviction-gap action surfacing.
+  - Promoted the useful part of the Notion System Update Queue E1 item.
+  - Target Drift now emits conservative `conviction_gap` action prompts for
+    held names materially below the working-model target.
+  - Missing target names stay context-only; MONITOR sleeves remain suppressed;
+    every prompt requires a funded add/rotation review and pre-trade gate.
 - Feedback/source-call tracking surfacing.
   - Make overdue source-call scoring visible.
   - Make repeated source-call persistence clusters durable in the feed/dashboard.

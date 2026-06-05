@@ -738,6 +738,7 @@ const ACTION_KIND_META = {
   stale_critical:  { icon:"⚠️", label:"Stale source",   c:C.dim   },
   synthesis:       { icon:"🧠", label:"Synthesis",      c:C.blue  },
   lean_in:          { icon:"📈", label:"Under-deployed", c:C.green },  // surfaces via Today's actions (actions_read promotes the strongest); feed.lean_in is the FULL lane, intentionally not a separate panel — item-6 disposition
+  conviction_gap:   { icon:"📈", label:"Size gap",       c:C.green },
   catalyst_imminent:{ icon:"📅", label:"Pre-catalyst",   c:C.blue  },
   decision_aging:   { icon:"🕒", label:"Aging — act",    c:C.amber },
   research_review:  { icon:"🔬", label:"Research",       c:C.blue  },

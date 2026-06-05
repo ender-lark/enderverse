@@ -115,6 +115,16 @@ _KIND_DEFAULTS = {
         "action_label": "ADD/ROTATE",
         "why_it_moves_goal": "A conviction-backed sizing gap can make a right call too small.",
     },
+    "conviction_gap": {
+        "goal_channels": ["sizing_gap", "conviction", "opportunity_cost"],
+        "goal_impact": "High",
+        "goal_score": 79,
+        "time_window": "1-3 trading days",
+        "capital_effect": "rotate",
+        "action_label": "SIZE GAP",
+        "why_it_moves_goal": "A high-conviction target gap can make the right thesis too small to matter.",
+        "missing_evidence": ["funding leg", "pre-trade gate"],
+    },
     "monitor_reentry": {
         "goal_channels": ["conviction", "upside"],
         "goal_impact": "Medium",

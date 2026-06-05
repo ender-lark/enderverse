@@ -509,6 +509,7 @@ _ACTION_PRIORITY = {
     "research_act_now": 1,  # time-sensitive research must not stay buried
     "reentry_zone": 2,     # a re-entry-zone touch (⏳ act, non-burned)
     "catalyst_imminent": 2,  # a near-term dated event on a HELD name (review-before)
+    "conviction_gap": 2,   # a held name materially below the working-model target
     "decision_aging": 2,   # an open, aging, un-acted opportunity (E2) — decide, don't let it run
     "monitor_reentry": 3,  # a burned-sleeve re-entry candidate (watch YOUR trigger)
     "lean_in": 3,          # a promoted lean-in — looks good, size it yourself (no trigger yet)
@@ -534,6 +535,7 @@ _ACTION_STATE_BY_KIND = {
     "research_act_now": "ACT_NOW",
     "reentry_zone": "ACT_NOW",
     "catalyst_imminent": "ACT_NOW",
+    "conviction_gap": "ACT_NOW",
     "decision_aging": "ACT_NOW",
     "synthesis": "ACT_NOW",
     "monitor_reentry": "MONITOR",
@@ -766,9 +768,60 @@ def catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7):
     return items
 
 
+def target_drift_actions_read(target_drift, theses, *, max_items=2) -> list[dict]:
+    """Promote held under-deployed target rows into conservative action prompts.
+
+    The full target-drift block remains context. This helper only promotes the
+    canonical "right but too small" failure mode: a held, non-MONITOR ticker that
+    is materially below the working-model target. Missing target names stay out
+    of Actions until another source supplies a thesis/entry.
+    """
+    if not isinstance(target_drift, dict):
+        return []
+    by_ticker = theses_by_ticker(theses)
+    out = []
+    for row in target_drift.get("rows") or []:
+        if not isinstance(row, dict):
+            continue
+        tk = str(row.get("ticker") or "").strip().upper()
+        if not tk or row.get("direction") != "UNDERSIZED":
+            continue
+        thesis = by_ticker.get(tk) or {}
+        if thesis.get("stance") == "MONITOR":
+            continue
+        try:
+            actual = float(row.get("actual_pct"))
+            target = float(row.get("target_pct"))
+        except (TypeError, ValueError):
+            continue
+        if target <= actual:
+            continue
+        gap = target - actual
+        flags = row.get("flags") or []
+        if gap < 1.0 and "ALARM_DRIFT" not in flags:
+            continue
+        out.append({
+            "ticker": tk,
+            "what": f"Conviction gap: {tk} is under target",
+            "confidence": "High" if "ALARM_DRIFT" in flags else "Moderate",
+            "your_move": (
+                f"{tk} is {actual:.1f}% vs {target:.1f}% target. Review a funded add/rotation "
+                "through the pre-trade gate; no auto-buy."
+            ),
+            "gate": _gate_hook(tk, by_ticker, default_action="ADD"),
+            "source": "target_drift",
+            "why": f"Target drift shows a {gap:.1f}pp sizing gap vs the AI working model.",
+            "sizing": f"Gap to target: {gap:.1f}pp; fund from approved trims/reservoirs.",
+        })
+        if len(out) >= max_items:
+            break
+    return out
+
+
 def actions_read(fresh_signals, needs_you_items, theses,
                  *, synthesis_actions=None, lean_in_items=None,
-                 prospect_items=None, event_risk_actions=None) -> dict:
+                 prospect_items=None, event_risk_actions=None,
+                 target_drift_actions=None) -> dict:
     """⑦b the prioritized Actions surface (cockpit `actions`).
 
     Pool = ⑦ fresh_signals (act/watch) + ⑧ hero needs_you items (red_gate /
@@ -782,6 +835,7 @@ def actions_read(fresh_signals, needs_you_items, theses,
     """
     synthesis_actions = synthesis_actions or []
     event_risk_actions = event_risk_actions or []
+    target_drift_actions = target_drift_actions or []
     by_ticker = theses_by_ticker(theses)
     rows = []
 
@@ -1059,6 +1113,29 @@ def actions_read(fresh_signals, needs_you_items, theses,
         rows.append(row)
 
     # (d) priority sort — kind tier, then confidence, then stable insertion order
+    # (c3) target-drift conviction gaps: held names that are materially below
+    # the working-model target become a funded-add review prompt. Missing target
+    # names remain context until another source creates a thesis/entry.
+    seen_tickers = {r.get("ticker") for r in rows if r.get("ticker")}
+    for td in target_drift_actions:
+        if not isinstance(td, dict):
+            continue
+        tk = td.get("ticker")
+        if not tk or tk in seen_tickers:
+            continue
+        rows.append({
+            "kind": "conviction_gap",
+            "ticker": tk,
+            "what": td.get("what") or "Conviction gap review",
+            "confidence": td.get("confidence") if td.get("confidence") in _CONFIDENCE_RANK else "Moderate",
+            "your_move": td.get("your_move") or "Review the funded sizing gap before acting.",
+            "gate": td.get("gate"),
+            "source": td.get("source") or "target_drift",
+            "why": td.get("why") or "",
+            "sizing": td.get("sizing"),
+        })
+        seen_tickers.add(tk)
+
     for idx, r in enumerate(rows):
         r["_order"] = idx
     rows.sort(key=lambda r: (_ACTION_PRIORITY.get(r["kind"], 9),

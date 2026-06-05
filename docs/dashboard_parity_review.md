@@ -2,7 +2,7 @@
 
 Generated: 2026-06-05
 
-Last refreshed: 2026-06-05 after the repo-evidence Daily Synthesis refresh.
+Last refreshed: 2026-06-05 after the conviction-gap action refresh.
 
 ## Decision
 
@@ -38,12 +38,14 @@ python src\full_build_runner.py --src-dir src --feed-out tmp\dashboard_parity_fe
 Result summary:
 
 - Build succeeded.
-- `actions`: 3
+- `actions`: 4
 - `research_actions`: 0
 - `lane_status.counts.not_checked`: 2
 - Dark lane keys: `catalysts`, `signal_log`.
 - Daily Synthesis is supplied from repo-evidence synthesis. It summarizes
   existing cockpit feed evidence and does not create structured action rows.
+- Target Drift promotes the current held NVDA undersize into a conservative
+  `conviction_gap` action; missing target names remain context-only.
 - Event Risk is supplied and has data; one conservative exposure-review action
   is promoted from the oil/rates shock row.
 - FS Daily is supplied and has data from compact full-body-derived Fundstrat

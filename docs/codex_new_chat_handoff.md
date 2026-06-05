@@ -130,6 +130,10 @@ Important recent state:
 - Current dark lanes are `catalysts` and `signal_log`. These are
   not hard go-live blockers, but the dashboard now shows what input to supply
   next for each.
+- Target Drift now promotes held, materially undersized names into conservative
+  `conviction_gap` actions. The current feed surfaces NVDA as a funded
+  add/rotation review (`6.6%` actual versus `12.0%` target), while missing
+  target names and MONITOR sleeves stay out of Today's Actions.
 - The first publish path succeeded:
   `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
   It wrote `src/latest_cockpit_feed.json` and updated
@@ -149,7 +153,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `906 passed, 6 skipped`.
+- `python -m pytest src -q` -> `909 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

@@ -23,6 +23,7 @@ from analyst_judgment import (conviction_read, conviction_direction_read,
                               net_read, fresh_signal_read, actions_read,
                               catalyst_needs_you, lean_in_read, research_actions_read,
                               apply_decision_aging, synthesis_actions_read,
+                              target_drift_actions_read,
                               promote_research_act_now_actions)
 from analyst_config import theses_by_ticker
 from feedback_summary import build_feedback_summary
@@ -225,11 +226,13 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     synthesis_action_items = synthesis_actions_read(synthesis)
     event_risk_block = normalize_event_risks(event_risk) if event_risk is not None else None
     event_risk_action_items = event_risk_actions_read(event_risk_block)
+    target_drift_action_items = target_drift_actions_read(target_drift, theses)
     actions = actions_read(fresh["fresh_signals"], hero["needs_you"]["items"], theses,
                            lean_in_items=lean_block,
                            prospect_items=prospects,
                            synthesis_actions=synthesis_action_items,
-                           event_risk_actions=event_risk_action_items)["actions"]
+                           event_risk_actions=event_risk_action_items,
+                           target_drift_actions=target_drift_action_items)["actions"]
 
     # ── ⑦b-aging (E2): age the open-opportunity store into the Actions strip.
     #    ENRICH any action row that's an open aging idea with age / first-flagged /
