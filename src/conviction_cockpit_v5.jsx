@@ -710,6 +710,7 @@ function rotationRow(s){ const w=overlayLabel(s); return { s:SLEEVE_DISPLAY[s.su
 function macroView(m){ const r=m.regime||{}, a=m.alerts||[]; return { line:m.line||"", tape:r.label||"", impl:m.implications||[], note:a.length?`${a.length} macro alert(s) firing`:"No macro alerts firing." }; }
 function groupPct(pos){ const s=pos.reduce((a,p)=>a+(typeof p.pct==="number"?p.pct:0),0); return Math.round(s); }
 function holdingGroup(h){ const w=(h.rot&&h.rot.w)||""; return { cat:`${h.cat} (~${groupPct(h.pos)}%)`, rot:{w,c:colorFor(w)}, pos:h.pos }; }
+function money(v){ if(typeof v!=="number") return ""; if(Math.abs(v)>=1000000) return `$${(v/1000000).toFixed(2)}M`; if(Math.abs(v)>=1000) return `$${Math.round(v/1000)}K`; return `$${Math.round(v)}`; }
 function freshSignalRow(sig){ return { t:sig.ticker, n:sig.ticker, urg:sig.urgency, urgLabel:FRESH_URG_LABEL[sig.urgency]||sig.urgency, when:sig.when||"", what:PRETTY_EVENT[sig.what]||sig.what||"", why:sig.why||"", detail:sig.detail||"" }; }
 function heroView(hero){ const h=(hero&&hero.hero)||{}, ny=(hero&&hero.needs_you)||{}; return { leadCount:h.count||0, leadNames:h.names||[], leadingSleeves:h.leading_sleeves||[], needsCount:ny.count||0, needsItems:ny.items||[] }; }
 function stamp(feed){
@@ -835,7 +836,7 @@ function actionVM(feed){
 // bookVM = the 📊 Book surface (dig into holdings). Built ONLY when mode==="book"
 // — this is the per-position map; on Action it is never called.
 function bookVM(feed){
-  return { holdings: (feed.holdings||[]).map(holdingGroup) };
+  return { holdings: (feed.holdings||[]).map(holdingGroup), portfolioViews: feed.portfolio_views||null };
 }
 // thin wrapper — preserves the full public VM shape for feed_to_cockpit.js + node tests.
 function toCockpit(feed){
@@ -920,6 +921,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
   const [legend, setLegend] = useState(false);
   const dirColor = (d)=> d==="up"?C.green : d==="down"?C.red : C.dim;
   const ownerFilter = (own) => view==="agg" ? true : view==="parents" ? own.includes("p") : own.includes("s");
+  const portfolioViewKey = view==="agg" ? "combined" : view;
+  const portfolioView = VM.portfolioViews && VM.portfolioViews.views ? VM.portfolioViews.views[portfolioViewKey] : null;
 
   return (
     <div style={{ background:C.bg, color:C.text, fontFamily:sans, minHeight:"100%", padding:"18px 13px 52px", lineHeight:1.45 }}>
@@ -1329,7 +1332,39 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
           {view!=="agg" && (
             <div style={{ ...card, marginBottom:8, fontSize:11.5, color:C.faint }}>
-              Showing names held by <b style={{ color:C.dim }}>{view==="parents"?"Parents":"SKB"}</b>. Exact per-owner $/% split isn't in the book snapshot yet. (% shown are book-aggregate.)
+              Showing names held by <b style={{ color:C.dim }}>{view==="parents"?"Parents":"SKB"}</b>. When account positions are available, the account view below uses exact direct $/% rows; the detailed holding rows remain conviction-oriented.
+            </div>
+          )}
+
+          {portfolioView && (
+            <div style={{ ...card, marginBottom:10, borderColor:C.blue+"55", background:C.blue+"08" }}>
+              <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:10, flexWrap:"wrap" }}>
+                <div>
+                  <div style={{ fontSize:12, fontWeight:700, color:C.text }}>{view==="agg"?"Combined":view==="parents"?"Parents":"SKB"} account view</div>
+                  <div style={{ ...muted, fontSize:11.5 }}>{VM.portfolioViews.caveat||"Direct holdings only."}</div>
+                </div>
+                <div style={{ fontFamily:mono, fontSize:16, fontWeight:700, color:C.text }}>{money(portfolioView.total_value)}</div>
+              </div>
+              <div style={{ marginTop:10, display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(150px, 1fr))", gap:8 }}>
+                {(portfolioView.categories||[]).slice(0,6).map((c,i)=>(
+                  <div key={i} style={{ border:`1px solid ${C.line}`, borderRadius:8, padding:"7px 8px", background:C.panel }}>
+                    <div style={{ display:"flex", justifyContent:"space-between", gap:8 }}>
+                      <span style={{ fontSize:11.5, color:C.text, fontWeight:600 }}>{c.category}</span>
+                      <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{typeof c.pct==="number"?`${c.pct.toFixed(1)}%`:""}</span>
+                    </div>
+                    <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.dim }}>{money(c.market_value)} · {(c.tickers||[]).slice(0,5).join(", ")}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop:10, borderTop:`1px solid ${C.line}`, paddingTop:8 }}>
+                {(portfolioView.rows||[]).slice(0,8).map((r,i)=>(
+                  <div key={`${r.ticker}${r.account}${i}`} style={{ display:"grid", gridTemplateColumns:"72px 1fr auto", gap:8, alignItems:"center", padding:"4px 0", borderTop:i?`1px solid ${C.line}`:"none" }}>
+                    <span style={{ fontFamily:mono, fontSize:12, fontWeight:700, color:C.text }}>{r.ticker}</span>
+                    <span style={{ fontSize:11.5, color:C.dim, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{r.account}{r.owner&&r.owner!=="Multiple"?` · ${r.owner}`:""}{r.category?` · ${r.category}`:""}</span>
+                    <span style={{ fontFamily:mono, fontSize:11.5, color:C.faint }}>{money(r.market_value)}{typeof r.pct==="number"?` · ${r.pct.toFixed(1)}%`:""}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

@@ -330,6 +330,27 @@ def test_feed_optional_blocks_absent_is_valid():
     assert validate_cockpit_feed(f) == []
 
 
+def test_feed_portfolio_views_optional_block_validates_when_present():
+    good = {
+        "views": {
+            "combined": {"total_value": 1000, "rows": [{"ticker": "NVDA", "market_value": 1000}], "categories": []},
+            "skb": {"total_value": 1000, "rows": [{"ticker": "NVDA", "market_value": 1000}], "categories": []},
+            "parents": {"total_value": 0, "rows": [], "categories": []},
+        }
+    }
+    assert validate_cockpit_feed(_feed(portfolio_views=good)) == []
+
+    bad = {
+        "views": {
+            "combined": {"total_value": -1, "rows": [{"ticker": "", "market_value": "x"}], "categories": []},
+            "skb": {"total_value": 0, "rows": [], "categories": []},
+            "parents": {"total_value": 0, "rows": [], "categories": []},
+        }
+    }
+    problems = validate_cockpit_feed(_feed(portfolio_views=bad))
+    assert any("portfolio_views" in p for p in problems)
+
+
 def test_feed_research_wrong_type_flagged():
     assert any("research" in prob for prob in validate_cockpit_feed(_feed(research="nope")))
 

@@ -31,9 +31,11 @@ import argparse
 import json
 import sys
 from datetime import datetime
+from pathlib import Path
 
-DEFAULT_TEMPLATE = "/mnt/project/conviction_cockpit_v5.jsx"
-DEFAULT_OUT = "/mnt/user-data/outputs/conviction_cockpit_v5.jsx"
+HERE = Path(__file__).resolve().parent
+DEFAULT_TEMPLATE = str(HERE / "conviction_cockpit_v5.jsx")
+DEFAULT_OUT = str(HERE / "rendered" / "conviction_cockpit_v5.jsx")
 
 ANCHOR = "const FEED = {"
 REQUIRED_EXPORT = "export default function ConvictionCockpit"

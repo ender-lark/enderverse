@@ -25,6 +25,7 @@ from feed_assembler import assemble_feed
 from fundstrat_bible import build_fundstrat_bible_source
 from fundstrat_daily import build_fundstrat_daily_source
 from meridian import build_meridian_source
+from portfolio_views import build_portfolio_views
 from portfolio import build_portfolio_source
 from publish_cockpit_feed import publish_cockpit_feed
 from runtime_adapters import catalysts_from_calendar_rows, closes_by_ticker_from_uw
@@ -42,6 +43,7 @@ _MISSING = object()
 
 DEFAULT_FILES = {
     "positions": ("positions.json",),
+    "account_positions": ("account_positions.json",),
     "theses": ("theses.json",),
     "uw_prices": ("uw_closes.json", "uw_price_responses.json", "prices.json"),
     "macro": ("macro_state.json",),
@@ -238,6 +240,7 @@ def build_full_feed_from_files(
     positions_file = _resolve(src, "positions", positions_path)
     theses_file = _resolve(src, "theses", theses_path)
     positions_cache = _read_json(positions_file, required=True)
+    account_positions = _load_optional(src, "account_positions")
     theses = _read_json(theses_file, required=True)
     positions, positions_as_of = normalize_positions_cache(positions_cache)
     if not positions:
@@ -296,6 +299,9 @@ def build_full_feed_from_files(
         top_prospects=top_prospects,
         source_calls=source_calls,
     )
+    portfolio_views = build_portfolio_views(account_positions)
+    if portfolio_views:
+        feed["portfolio_views"] = portfolio_views
     problems = validate_cockpit_feed(feed)
     if problems:
         raise FullBuildError(f"feed failed Contract-C validation: {problems}")

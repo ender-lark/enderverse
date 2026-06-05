@@ -242,6 +242,7 @@ _HEARTBEAT_REQUIRED = ("layer", "status")
 _VALID_HEARTBEAT_STATUS = {"ok", "stale", "down"}
 _VALID_LANE_STATUS = {"has_data", "checked_clear", "not_checked", "stale", "failed"}
 _VALID_FEEDBACK_STATUS = {"has_data", "checked_clear", "not_checked"}
+_PORTFOLIO_VIEW_KEYS = ("combined", "skb", "parents")
 # canonical lean-in-row field set (Contract C, OPTIONAL block ⑩ — the lean-in
 # opportunity lane). Validated only IF present (forward-compatible). Only the
 # ticker is required; the read fields may vary. Two HARD invariants are checked:
@@ -404,6 +405,40 @@ def _validate_feedback_block(fb: Any) -> list[str]:
     recs = fb.get("recommendations")
     if not isinstance(recs, list) or not all(isinstance(r, str) for r in recs):
         out.append("recommendations must be a list of strings")
+    return out
+
+
+def _validate_portfolio_views(pv: Any) -> list[str]:
+    if not isinstance(pv, dict):
+        return [f"must be a dict, got {type(pv).__name__}"]
+    out: list[str] = []
+    views = pv.get("views")
+    if not isinstance(views, dict):
+        return ["views must be a dict"]
+    for key in _PORTFOLIO_VIEW_KEYS:
+        view = views.get(key)
+        if not isinstance(view, dict):
+            out.append(f"views.{key} must be a dict")
+            continue
+        total = view.get("total_value")
+        if isinstance(total, bool) or not isinstance(total, (int, float)) or total < 0:
+            out.append(f"views.{key}.total_value must be a non-negative number")
+        rows = view.get("rows")
+        if not isinstance(rows, list):
+            out.append(f"views.{key}.rows must be a list")
+        else:
+            for idx, row in enumerate(rows):
+                if not isinstance(row, dict):
+                    out.append(f"views.{key}.rows[{idx}] must be a dict")
+                    continue
+                if not isinstance(row.get("ticker"), str) or not row.get("ticker").strip():
+                    out.append(f"views.{key}.rows[{idx}].ticker must be non-empty")
+                mv = row.get("market_value")
+                if isinstance(mv, bool) or not isinstance(mv, (int, float)) or mv < 0:
+                    out.append(f"views.{key}.rows[{idx}].market_value must be non-negative number")
+        cats = view.get("categories")
+        if not isinstance(cats, list):
+            out.append(f"views.{key}.categories must be a list")
     return out
 
 
@@ -587,6 +622,10 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
     feedback = feed.get("feedback", _MISSING)
     if feedback is not _MISSING:
         problems.extend(f"feedback {e}" for e in _validate_feedback_block(feedback))
+
+    portfolio_views = feed.get("portfolio_views", _MISSING)
+    if portfolio_views is not _MISSING:
+        problems.extend(f"portfolio_views {e}" for e in _validate_portfolio_views(portfolio_views))
 
     # OPTIONAL `radar` block (endorsed, not owned). A list of dicts; absent OR
     # empty is valid (feeds that predate it, or a day with no qualifying call).

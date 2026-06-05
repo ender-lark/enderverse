@@ -37,6 +37,17 @@ def _required_files(src):
     _write(src / "uw_closes.json", {"SMH": _series(400), "SPY": _series(600)})
 
 
+def _account_positions_file(src):
+    _write(src / "account_positions.json", {
+        "snapshot_date": "2026-06-04",
+        "sleeve_value": 100000,
+        "account_positions": [
+            {"ticker": "NVDA", "description": "NVIDIA", "shares": 10, "market_value": 12000, "account": "Taxable", "owner": "SKB", "broker": "Fidelity", "tracked": True},
+            {"ticker": "SMH", "description": "Semis ETF", "shares": 5, "market_value": 8000, "account": "IRA", "owner": "Parents", "broker": "Schwab", "tracked": True},
+        ],
+    })
+
+
 def _lane_rows(feed):
     return {r["key"]: r for r in feed["lane_status"]["rows"]}
 
@@ -143,3 +154,21 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["top_prospects"]["status"] == "not_checked"
     assert rows["catalysts"]["status"] == "not_checked"
     assert rows["synthesis"]["status"] == "not_checked"
+
+
+def test_full_build_runner_adds_portfolio_views_when_account_positions_exist(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _account_positions_file(src)
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    assert validate_cockpit_feed(feed) == []
+    assert feed["portfolio_views"]["views"]["combined"]["total_value"] == 100000
+    assert {r["ticker"] for r in feed["portfolio_views"]["views"]["skb"]["rows"]} == {"NVDA"}
+    assert {r["ticker"] for r in feed["portfolio_views"]["views"]["parents"]["rows"]} == {"SMH"}
