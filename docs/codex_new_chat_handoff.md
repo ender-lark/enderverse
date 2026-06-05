@@ -27,10 +27,35 @@ Current priority:
 4. Use `python src/verify_standard.py` as the standard verification command.
 5. Commit and push after each clean verified slice.
 
+Current pushed snapshot (2026-06-05 11:07 ET):
+
+- Latest pushed commit: `0d1c515 Show sudden event command in dashboard`.
+- Working tree should be clean on `main...origin/main`.
+- `python src/live_status.py --format text` reports
+  `live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
+  actions, 11 lanes with data, 2 dark optional lanes, 2 open action reviews,
+  and 3 pending / 0 overdue source calls.
+- `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
+  reports `WARN` with 0 failures and 2 warnings: open action reviews
+  (`ANET`, `GOOGL`) and optional dark lanes (`catalysts`, `signal_log`).
+- Local preview is running at
+  `http://127.0.0.1:8765/dashboard_preview.html` and shows build
+  `2026-06-05 11:07 ET`.
+- The dashboard Operator Status card now shows both:
+  `python src/go_live_checklist.py --format text`
+  and the supplied-headline emergency command
+  `python src/sudden_event_refresh.py --title "<event headline>" ...`.
+- Full standard verification last passed with `950 passed, 6 skipped`, plus
+  the reallocation direct check, cockpit injector self-test, and broker
+  extractor self-test.
+- The system-improvement queue is valid with 21 items done and 0 active/queued.
+
 Important recent state:
 
-- Latest completed slice before this handoff refresh: open action resolver and
-  dashboard preview server helper.
+- Latest completed slices before this handoff refresh: dashboard sudden-event
+  command visibility, live-status/go-live sudden-event command visibility,
+  source-call tracking during live refresh, external queue audit, position-cache
+  normalizer convergence, and dark-lane intake command surfacing.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -157,7 +182,8 @@ Important recent state:
 - The local one-command live dashboard refresh is now:
   `python src/live_dashboard_refresh.py`.
   It writes heartbeat status, publishes a feed, refreshes repo-evidence Daily
-  Synthesis from that feed, republishes, renders
+  Synthesis from that feed, drafts/merges pending source-call candidates from
+  feed observations, republishes, renders
   `src/rendered/conviction_cockpit_v5.jsx`, writes `docs/index.html`, refreshes
   `tmp/dashboard_preview.html`, writes `tmp/dashboard_parity_feed.json`, and
   prints a final operator summary with actions, data lanes, dark lanes,
@@ -202,7 +228,9 @@ Important recent state:
 - The canonical JSX cockpit and generated summary/preview dashboard both have
   an Operator Status card near the top. It summarizes action count, open
   reviews, source-lane warning state, and the
-  `python src/go_live_checklist.py --format text` command.
+  `python src/go_live_checklist.py --format text` command. It also shows the
+  `python src/sudden_event_refresh.py --title "<event headline>" ...` command
+  template for fast supplied war/oil/rates/policy shock handling.
 - The generated summary/preview dashboard now also has an Opportunity Context
   card. It summarizes existing Target Drift, Prospects, Radar, and Bullish Flow
   feed rows and is labeled context, not orders; detailed lane views remain in
@@ -218,14 +246,15 @@ Important recent state:
   actions, 2 dark optional lanes (`catalysts`, `signal_log`), 2 open
   action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
   active/queued system-improvement items. Its data-flow proof shows feed
-  `2026-06-05T10:20:13.403157+00:00`, 11 lanes with data, 2 dark lanes, and
-  top action `event_risk`.
+  `2026-06-05T11:07:39.310084+00:00`, 11 lanes with data, 2 dark lanes, and
+  top action `event_risk`. It also prints the sudden-event refresh command
+  template and the open-review resolution commands.
 - `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
   regression test covers cp1252 encoding of the caveat line.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `942 passed, 6 skipped`.
+- `python -m pytest src -q` -> `950 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 
