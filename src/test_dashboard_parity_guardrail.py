@@ -8,6 +8,15 @@ from validators import validate_cockpit_feed
 
 HERE = Path(__file__).resolve().parent
 CLASSIFICATION = HERE.parent / "docs" / "dashboard_feed_block_classification.json"
+SUMMARY_RENDERED_BLOCKS = {
+    "action_decision_groups",
+    "asymmetric_opportunities",
+    "fresh_signals",
+    "portfolio_views",
+    "research_actions",
+    "signal_log",
+    "source_audits",
+}
 
 
 def _write(path, payload):
@@ -105,3 +114,16 @@ def test_classification_names_canonical_dashboard_path():
     assert canonical["renderer"] == "src/conviction_cockpit_v5.jsx"
     assert canonical["injector"] == "src/render_cockpit.py"
     assert "docs/index.html" in canonical["summary_export"]
+
+
+def test_summary_rendered_blocks_are_not_documented_as_hidden():
+    payload = json.loads(CLASSIFICATION.read_text(encoding="utf-8"))
+    blocks = payload["blocks"]
+
+    problems = {
+        key: (blocks.get(key) or {}).get("summary_surface", "")
+        for key in sorted(SUMMARY_RENDERED_BLOCKS)
+        if "not rendered" in (blocks.get(key) or {}).get("summary_surface", "").lower()
+    }
+
+    assert problems == {}

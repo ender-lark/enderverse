@@ -159,6 +159,18 @@ def _feed():
                 {"ticker": "BMNR", "direction": "bullish", "strength": "strong", "signal_types": ["sweep"]}
             ]
         },
+        "portfolio_views": {
+            "views": {
+                "combined": {
+                    "total_value": 120000,
+                    "rows": [{"ticker": "NVDA"}, {"ticker": "SMH"}],
+                },
+                "skb": {
+                    "total_value": 80000,
+                    "rows": [{"ticker": "NVDA"}],
+                },
+            }
+        },
     }
 
 
@@ -286,6 +298,10 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert "Fresh Fundstrat Top 5." in html
     assert 'id="signal-log"' in html
     assert "AI leadership remains narrow" in html
+    assert 'id="portfolio-views"' in html
+    assert "Portfolio views" in html
+    assert "combined" in html
+    assert "total $120,000" in html
 
 
 def test_generated_html_is_ascii_display_safe():

@@ -241,8 +241,12 @@ Dark-lane rules:
 - Missing source pulls are never converted into checked-clear rows.
 - `checked_clear` is valid only after a source was actually checked and found
   empty under that lane's contract.
-- Account Positions and Meridian are optional source gaps today when their files
-  are absent. They should stay visible until valid source artifacts are supplied.
+- Account Positions is the current live-capable optional source gap when
+  `account_positions.json` is absent. It should stay visible until a valid
+  source artifact is supplied.
+- Meridian is stale thesis archive context after March 2026, not live tactical
+  evidence. Missing Meridian archive data should not count as a live-source
+  dark lane or a checked-clear signal.
 
 ## 10. Dashboard Refresh Sequence
 
@@ -362,8 +366,10 @@ As of the 2026-06-05 cloud-ops build:
 - Scheduled proof is partial: at least one scheduled success has landed, but
   full live-run proof requires all ten expected routines to write scheduled
   success receipts.
-- Account Positions and Meridian can remain dark optional lanes when their
-  source files are absent.
+- Account Positions can remain a dark optional lane when its source file is
+  absent.
+- Meridian can remain absent as archived thesis context; it is not a live
+  tactical source gap after March 2026.
 - Open action reviews can remain visible as warnings; they are not part of the
   cloud-routine build unless explicitly requested.
 - Core List ingestion is out of scope.

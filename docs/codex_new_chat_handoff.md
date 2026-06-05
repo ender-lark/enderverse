@@ -158,10 +158,9 @@ Important recent state:
   inputs, supplied/export-capable inputs, and repo-local/cache inputs. The
   live-status and cloud-ops text commands now include this count so
   `live_data_ready: true` cannot be misread as proof that every source was
-  freshly fetched. Current source-capability read shows 18/21 inputs present,
-  14 connector/API-capable inputs, 18 supplied/export-capable inputs, and 3
-  missing live-capable optional inputs (`account_positions`, `meridian`,
-  `catalysts`); only `catalysts` is currently a dark dashboard lane.
+  freshly fetched. Current source-capability read shows 19/21 inputs present,
+  14 connector/API-capable inputs, 17 supplied/export-capable inputs, and 1
+  missing live-capable optional input (`account_positions`).
 - Source lane status now requires delivered dated items for `has_data`; a
   cleanly registered but empty source is `checked_clear`, not data.
 - Not-checked lane-status rows now carry structured `next_step` and
@@ -175,7 +174,7 @@ Important recent state:
 - The current repo has a valid `src/heartbeat.json` and
   `src/heartbeat_summary.json` snapshot. It shows Required Inputs, Minimum
   Market Data, Publish Gate, and Daily Full Build as `ok`; Optional Source Lanes
-  remain `stale` because Catalyst Calendar is still dark/not checked.
+  remain `stale` because Account Positions is still dark/not checked.
 - Absent optional price cache now leaves `uw_price` not checked instead of
   registering an empty price source as `has_data`.
 - `src/uw_price_cache_intake.py` can normalize supplied UW close-price responses
@@ -210,13 +209,12 @@ Important recent state:
   Calendar page `35fc5031-4bb6-81c5-ae90-d8a84919999b`. Only exact
   future-dated rows were normalized into `src/catalysts.json`; vague/TBD rows
   were skipped rather than guessed.
-- Current dashboard dark lane count is 2. Missing `account_positions` and
-  `meridian` remain optional missing source inputs in live-source capability
-  and visible dashboard lane-status rows, not checked-clear claims.
+- Current dashboard dark lane count is 1. Missing `account_positions` remains
+  an optional missing source input in live-source capability and a visible
+  dashboard lane-status row, not a checked-clear claim.
 - `python src/live_source_capability.py --format text` prints the missing
   live-capable input owner, missing-data behavior, and expected repo path for
-  those optional source gaps. Current gaps are `src/account_positions.json` and
-  `src/meridian_items.json`.
+  that optional source gap. Current gap is `src/account_positions.json`.
 - `python src/live_status.py --format text` and
   `python src/cloud_ops_status.py --format text` now include the same detailed
   missing live-capable input lines.

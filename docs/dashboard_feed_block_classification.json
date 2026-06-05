@@ -49,12 +49,12 @@
     "fresh_signals": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Fresh signal cards and action context",
-      "summary_surface": "Not rendered as its own summary lane"
+      "summary_surface": "Fresh Signals card when non-empty, capped to summary rows"
     },
     "signal_log": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Signal Log watch-only lane in Action view",
-      "summary_surface": "Not rendered; watch-only external context"
+      "summary_surface": "Signal Log watch-only card when non-empty, capped to summary rows"
     },
     "event_risk": {
       "primary_status": "canonical-rendered",
@@ -94,7 +94,7 @@
     "research_actions": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "From Research lane",
-      "summary_surface": "Not rendered"
+      "summary_surface": "From Research card when non-empty, using action-card summary rendering"
     },
     "heartbeat": {
       "primary_status": "canonical-rendered",
@@ -144,7 +144,7 @@
     "portfolio_views": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Book tab account views and effective ETF look-through estimates when account_positions.json exists",
-      "summary_surface": "Not rendered"
+      "summary_surface": "Portfolio Views card when account-position views are present"
     },
     "source_audits": {
       "primary_status": "canonical-rendered",

@@ -182,10 +182,10 @@ until the core logic is stable; Notion sync comes later.
     present and fresh. A stale connector-only proof can leave cached dashboard
     artifacts renderable, but it no longer counts as unattended cloud-ready
     live operation.
-  - `live_status.py` points those Account Positions/Meridian dark lanes at
+  - `live_status.py` points the Account Positions dark lane at
     `docs/manual_live_source_drop.template.json`, while source-specific lanes
     such as Catalyst Calendar and Signal Log keep their specialized intake
-    commands.
+    commands. Meridian is archived thesis context, not a live dark lane.
 - Cloud routine run receipts.
   - Added `src/cloud_routine_receipts.py` and
     `src/cloud_routine_receipts.json` so scheduled jobs can append auditable
