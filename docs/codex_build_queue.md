@@ -114,6 +114,12 @@ until the core logic is stable; Notion sync comes later.
     verifies the Unusual Whales connector without storing a secret, so the
     dashboard shows `Live fetch 1/1`; existing UW caches are still not treated
     as proof that a specific cache was freshly rebuilt.
+  - Connector-only live-fetch proof is now time-bounded. Without `UW_API_KEY`,
+    the UW connector proof must be fresh within the configured proof window or
+    `live_source_capability.py`, `live_status.py`, and `cloud_ops_status.py`
+    show it as stale/missing instead of leaving `Live fetch 1/1` permanently
+    green. `src/live_source_config.json` is now a routine-owned safe-commit
+    path so scheduled routines can persist refreshed non-secret proof metadata.
   - `live_status.py` points those Account Positions/Meridian dark lanes at
     `docs/manual_live_source_drop.template.json`, while source-specific lanes
     such as Catalyst Calendar and Signal Log keep their specialized intake

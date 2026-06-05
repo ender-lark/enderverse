@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 from typing import Any
+from datetime import datetime, timezone
 
 import codex_routine_manifest
 from full_build_runner import convention_input_status
@@ -15,6 +16,7 @@ from full_build_runner import convention_input_status
 DEFAULT_SRC = Path(__file__).resolve().parent
 DEFAULT_MANIFEST = DEFAULT_SRC / "codex_routine_manifest.json"
 DEFAULT_CONFIG = DEFAULT_SRC / "live_source_config.json"
+DEFAULT_CONNECTOR_PROOF_MAX_AGE_HOURS = 36
 
 CONNECTOR_TOKENS = (
     "connector",
@@ -73,12 +75,13 @@ LIVE_CONFIG_REQUIREMENTS = [
         "kind": "env_or_connector",
         "env_var": "UW_API_KEY",
         "connector_key": "unusual_whales",
+        "connector_proof_max_age_hours": DEFAULT_CONNECTOR_PROOF_MAX_AGE_HOURS,
         "affected_inputs": ["uw_opportunity", "parabolic"],
         "impact": (
             "Live UW opportunity/parabolic fetches cannot run; existing UW caches "
             "may still render but must be treated as cached evidence."
         ),
-        "next_step": "Set UW_API_KEY in the automation environment before live UW cache runs.",
+        "next_step": "Set UW_API_KEY in the automation environment or refresh the Codex app connector proof before live UW cache runs.",
     },
 ]
 
@@ -140,28 +143,77 @@ def _read_json(path: str | Path) -> Any:
         return {}
 
 
-def _connector_configured(config: dict[str, Any], connector_key: str) -> bool:
+def _parse_dt(value: Any) -> datetime | None:
+    text = str(value or "").strip()
+    if not text:
+        return None
+    try:
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
+def _connector_row(config: dict[str, Any], connector_key: str) -> dict[str, Any]:
     connectors = config.get("connectors") if isinstance(config, dict) else {}
     connector = connectors.get(connector_key) if isinstance(connectors, dict) else {}
     if not isinstance(connector, dict):
-        return False
+        return {}
+    return connector
+
+
+def _connector_configured(config: dict[str, Any], connector_key: str) -> bool:
+    connector = _connector_row(config, connector_key)
     return bool(connector.get("available") or connector.get("configured"))
+
+
+def _connector_verified_at(config: dict[str, Any], connector: dict[str, Any]) -> datetime | None:
+    return _parse_dt(connector.get("verified_at") or config.get("verified_at"))
+
+
+def _connector_proof_fresh(
+    config: dict[str, Any],
+    connector: dict[str, Any],
+    *,
+    max_age_hours: int,
+    now: datetime | None,
+) -> tuple[bool, str, float | None]:
+    verified_at = _connector_verified_at(config, connector)
+    if verified_at is None:
+        return False, "", None
+    current = now or datetime.now(timezone.utc)
+    current = current if current.tzinfo else current.replace(tzinfo=timezone.utc)
+    age_hours = (current.astimezone(timezone.utc) - verified_at.astimezone(timezone.utc)).total_seconds() / 3600
+    return age_hours <= max_age_hours, verified_at.isoformat(), round(age_hours, 2)
 
 
 def live_config_report(
     environ: dict[str, str] | None = None,
     *,
     config_path: str | Path | None = DEFAULT_CONFIG,
+    now: datetime | str | None = None,
 ) -> dict[str, Any]:
     """Return non-secret live-fetch configuration status."""
     env = os.environ if environ is None else environ
     config = _read_json(config_path) if config_path else {}
+    parsed_now = _parse_dt(now) if isinstance(now, str) else now
     rows: list[dict[str, Any]] = []
     for requirement in LIVE_CONFIG_REQUIREMENTS:
         env_var = str(requirement.get("env_var") or "")
         connector_key = str(requirement.get("connector_key") or "")
+        max_age_hours = int(requirement.get("connector_proof_max_age_hours") or DEFAULT_CONNECTOR_PROOF_MAX_AGE_HOURS)
         env_configured = bool(str(env.get(env_var) or "").strip()) if env_var else False
-        connector_configured = _connector_configured(config, connector_key) if connector_key else False
+        connector = _connector_row(config, connector_key) if connector_key else {}
+        connector_available = _connector_configured(config, connector_key) if connector_key else False
+        proof_fresh, verified_at, proof_age_hours = _connector_proof_fresh(
+            config,
+            connector,
+            max_age_hours=max_age_hours,
+            now=parsed_now,
+        ) if connector_available else (False, "", None)
+        connector_configured = connector_available and proof_fresh
         configured = env_configured or connector_configured
         rows.append({
             **requirement,
@@ -169,8 +221,17 @@ def live_config_report(
             "present": configured,
             "env_configured": env_configured,
             "connector_configured": connector_configured,
+            "connector_available": connector_available,
+            "connector_proof_fresh": proof_fresh,
+            "connector_verified_at": verified_at,
+            "connector_proof_age_hours": proof_age_hours,
+            "connector_proof_max_age_hours": max_age_hours,
         })
     missing = [row for row in rows if not row.get("configured")]
+    stale = [
+        row for row in rows
+        if row.get("connector_available") and not row.get("connector_proof_fresh") and not row.get("env_configured")
+    ]
     return {
         "valid": True,
         "configured": not missing,
@@ -178,8 +239,11 @@ def live_config_report(
         "configured_count": len(rows) - len(missing),
         "missing_count": len(missing),
         "missing_keys": [row.get("key") for row in missing if row.get("key")],
+        "stale_count": len(stale),
+        "stale_keys": [row.get("key") for row in stale if row.get("key")],
         "rows": rows,
         "missing": missing,
+        "stale": stale,
         "config_path": str(config_path or ""),
     }
 
@@ -278,7 +342,8 @@ def format_text(report: dict[str, Any]) -> str:
             "Live source config: "
             f"configured={int((report.get('live_source_config') or {}).get('configured_count') or 0)}/"
             f"{int((report.get('live_source_config') or {}).get('total_count') or 0)} | "
-            f"missing={int((report.get('live_source_config') or {}).get('missing_count') or 0)}"
+            f"missing={int((report.get('live_source_config') or {}).get('missing_count') or 0)} | "
+            f"stale={int((report.get('live_source_config') or {}).get('stale_count') or 0)}"
         ),
     ]
     lines.extend(format_missing_live_capable(report))
@@ -345,7 +410,12 @@ def format_missing_live_config(report: dict[str, Any]) -> list[str]:
         suffix = f" ({', '.join(affected)})" if affected else ""
         if env_var:
             connector_key = str(row.get("connector_key") or "")
-            connector_note = f" and {connector_key} connector proof is absent" if connector_key else ""
+            if row.get("connector_available") and not row.get("connector_proof_fresh"):
+                age = row.get("connector_proof_age_hours")
+                max_age = row.get("connector_proof_max_age_hours")
+                connector_note = f" and {connector_key} connector proof is stale ({age}h old; max {max_age}h)"
+            else:
+                connector_note = f" and {connector_key} connector proof is absent" if connector_key else ""
             lines.append(f"- {label}: {env_var} is not set{connector_note}{suffix}")
         else:
             lines.append(f"- {label}: not configured{suffix}")

@@ -1,11 +1,14 @@
 {
   "schema_version": 1,
-  "verified_at": "2026-06-05T15:17:35-04:00",
+  "verified_at": "2026-06-05T15:30:00-04:00",
   "connectors": {
     "unusual_whales": {
       "available": true,
+      "verified_at": "2026-06-05T15:30:00-04:00",
       "verified_by": "Codex app Unusual Whales connector",
-      "verification": "get_market_tide date=2026-06-05 interval_5m=true returned market-wide rows through 15:15 ET",
+      "verification": "get_market_state returned market-wide daily options snapshot for 2026-06-05; get_market_tide date=2026-06-05 interval_5m=true returned market-wide rows through 15:30 ET",
+      "market_state_date": "2026-06-05",
+      "market_tide_latest_timestamp": "2026-06-05T15:30:00-04:00",
       "notes": [
         "No API key or secret is stored in this file.",
         "This proves connector availability, not that a specific cache was freshly rebuilt."

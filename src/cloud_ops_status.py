@@ -797,7 +797,8 @@ def format_text(report: dict[str, Any]) -> str:
             "Live source config: "
             f"configured={int((source_capability.get('live_source_config') or {}).get('configured_count') or 0)}/"
             f"{int((source_capability.get('live_source_config') or {}).get('total_count') or 0)} | "
-            f"missing={int((source_capability.get('live_source_config') or {}).get('missing_count') or 0)}"
+            f"missing={int((source_capability.get('live_source_config') or {}).get('missing_count') or 0)} | "
+            f"stale={int((source_capability.get('live_source_config') or {}).get('stale_count') or 0)}"
         ),
         (
             "Cloud run receipts: "

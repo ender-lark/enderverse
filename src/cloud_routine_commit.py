@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 DEFAULT_ALLOWED_PATHS = [
     "src/cloud_routine_receipts.json",
+    "src/live_source_config.json",
     "src/latest_cockpit_feed.json",
     "src/rendered/conviction_cockpit_v5.jsx",
     "docs/index.html",

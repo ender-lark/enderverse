@@ -60,6 +60,96 @@ def test_live_source_config_passes_when_uw_key_is_present(tmp_path):
     assert live_source_capability.format_missing_live_config(report) == []
 
 
+def test_live_source_config_accepts_fresh_connector_proof(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "live_source_config.json").write_text(
+        json.dumps({
+            "verified_at": "2026-06-05T15:00:00-04:00",
+            "connectors": {
+                "unusual_whales": {
+                    "available": True,
+                    "verified_by": "Codex app Unusual Whales connector",
+                }
+            },
+        }),
+        encoding="utf-8",
+    )
+
+    report = live_source_capability.live_config_report(
+        environ={},
+        config_path=src / "live_source_config.json",
+        now="2026-06-05T16:00:00-04:00",
+    )
+
+    assert report["configured"] is True
+    assert report["configured_count"] == 1
+    assert report["missing_count"] == 0
+    assert report["stale_count"] == 0
+    assert report["rows"][0]["connector_configured"] is True
+    assert report["rows"][0]["connector_proof_fresh"] is True
+
+
+def test_live_source_config_rejects_stale_connector_proof_without_api_key(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "live_source_config.json").write_text(
+        json.dumps({
+            "verified_at": "2026-06-03T09:00:00-04:00",
+            "connectors": {
+                "unusual_whales": {
+                    "available": True,
+                    "verified_by": "Codex app Unusual Whales connector",
+                }
+            },
+        }),
+        encoding="utf-8",
+    )
+
+    report = live_source_capability.live_config_report(
+        environ={},
+        config_path=src / "live_source_config.json",
+        now="2026-06-05T16:00:00-04:00",
+    )
+    lines = live_source_capability.format_missing_live_config({"live_source_config": report})
+
+    assert report["configured"] is False
+    assert report["missing_count"] == 1
+    assert report["stale_count"] == 1
+    assert report["rows"][0]["connector_available"] is True
+    assert report["rows"][0]["connector_proof_fresh"] is False
+    assert "connector proof is stale" in "\n".join(lines)
+
+
+def test_live_source_config_api_key_overrides_stale_connector_proof(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "live_source_config.json").write_text(
+        json.dumps({
+            "verified_at": "2026-06-03T09:00:00-04:00",
+            "connectors": {
+                "unusual_whales": {
+                    "available": True,
+                    "verified_by": "Codex app Unusual Whales connector",
+                }
+            },
+        }),
+        encoding="utf-8",
+    )
+
+    report = live_source_capability.live_config_report(
+        environ={"UW_API_KEY": "secret"},
+        config_path=src / "live_source_config.json",
+        now="2026-06-05T16:00:00-04:00",
+    )
+
+    assert report["configured"] is True
+    assert report["configured_count"] == 1
+    assert report["missing_count"] == 0
+    assert report["stale_count"] == 0
+    assert report["rows"][0]["env_configured"] is True
+
+
 def test_live_source_capability_cli_text(tmp_path):
     src = tmp_path / "src"
     src.mkdir()
