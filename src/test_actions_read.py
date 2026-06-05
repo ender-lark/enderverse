@@ -277,6 +277,21 @@ def test_sell_fast_promotes_above_buy_now():
     assert r["actions"][0]["action_state"] == "ACT_NOW"
 
 
+def test_uncorroborated_quiet_sell_fast_stays_in_prospects_not_actions():
+    prospects = {"hot": [], "sell_fast": [
+        {
+            "ticker": "DE",
+            "summary": "monthly bottom-5 avoid",
+            "urgency": "QUIET",
+            "corroboration": "Uncorroborated",
+        }
+    ]}
+
+    r = actions_read([], [], THESES, prospect_items=prospects)
+
+    assert all(a.get("kind") != "sell_fast" for a in r["actions"])
+
+
 # --------------------------------------------------------------------------- #
 # validator: optional block
 # --------------------------------------------------------------------------- #

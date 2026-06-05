@@ -963,6 +963,11 @@ def actions_read(fresh_signals, needs_you_items, theses,
     for sf in (prospects.get("sell_fast") or []):
         if not isinstance(sf, dict):
             continue
+        if (
+            sf.get("urgency") == "QUIET"
+            and sf.get("corroboration", "Uncorroborated") == "Uncorroborated"
+        ):
+            continue
         tk = sf.get("ticker")
         if not tk or tk in prospect_seen:
             continue

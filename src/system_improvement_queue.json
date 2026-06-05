@@ -186,6 +186,15 @@
       "area": "actions",
       "why": "Near-term catalysts on high-conviction names should force a ready offensive plan, not only a defensive risk check.",
       "done_when": "T1/T2 non-MONITOR held catalysts ask for add-to-target, defined-risk upside, and dip-ladder review while MONITOR catalysts remain watch-only and all actual sizing still goes through the gate."
+    },
+    {
+      "id": "fundstrat-monthly-pdf-live-refresh",
+      "title": "Populate compact monthly Fundstrat state from direct PDF upload",
+      "priority": "P1",
+      "status": "done",
+      "area": "routines",
+      "why": "The live cockpit should use the available monthly Fundstrat source without storing noisy Core List tables or chart text.",
+      "done_when": "The May 2026 monthly PDF writes compact fundstrat_bible and top_prospects convention files, dark lanes shrink, and uncorroborated quiet Bottom 5 rows stay out of Today's Actions."
     }
   ]
 }

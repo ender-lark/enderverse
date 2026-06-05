@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-05T07:39:23.976086+00:00",
+  "generated_at": "2026-06-05T07:56:07.330381+00:00",
   "staleness": {
-    "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05",
+    "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28",
     "entries": [
       {
         "source": "portfolio",
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T07:39:23.976086+00:00",
+        "date": "2026-06-05T07:56:07.330381+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,9 +21,17 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T07:39:23.976086+00:00",
+        "date": "2026-06-05T07:56:07.330381+00:00",
         "age_days": 0,
         "cadence": "daily",
+        "stale": false,
+        "flag": ""
+      },
+      {
+        "source": "fundstrat_bible",
+        "date": "2026-05-28",
+        "age_days": 8,
+        "cadence": "monthly",
         "stale": false,
         "flag": ""
       }
@@ -59,8 +67,8 @@
       {
         "key": "fundstrat_bible",
         "label": "FS Bible",
-        "status": "not_checked",
-        "detail": "not checked",
+        "status": "has_data",
+        "detail": "checked",
         "count": 0,
         "checked_at": ""
       },
@@ -123,9 +131,9 @@
       {
         "key": "top_prospects",
         "label": "Top Prospects",
-        "status": "not_checked",
-        "detail": "not supplied",
-        "count": 0,
+        "status": "has_data",
+        "detail": "checked",
+        "count": 10,
         "checked_at": ""
       },
       {
@@ -138,11 +146,11 @@
       }
     ],
     "counts": {
+      "has_data": 8,
+      "failed": 0,
       "stale": 0,
-      "not_checked": 6,
-      "checked_clear": 1,
-      "has_data": 6,
-      "failed": 0
+      "not_checked": 4,
+      "checked_clear": 1
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -175,7 +183,66 @@
       "items": []
     }
   },
-  "actions": [],
+  "actions": [
+    {
+      "rank": 1,
+      "kind": "lean_in",
+      "ticker": "ANET",
+      "action_state": "WATCH",
+      "what": "Lean-in \u2014 looks good",
+      "confidence": "Moderate",
+      "your_move": "ANET looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
+      "gate": {
+        "needs_gate": true,
+        "preview": "\ud83d\udfe1 size \u2192 gate",
+        "ticker": "ANET",
+        "default_action": "ADD"
+      },
+      "source": "lean_in",
+      "why": "ANET: Promising and the tape's with it (LEADING) \u2014 a place to start.",
+      "goal_channels": [
+        "sizing_gap",
+        "upside",
+        "opportunity_cost"
+      ],
+      "goal_impact": "High",
+      "goal_score": 76,
+      "time_window": "1-2 weeks",
+      "capital_effect": "add",
+      "action_label": "ADD/ROTATE",
+      "why_it_moves_goal": "A conviction-backed sizing gap can make a right call too small.",
+      "missing_evidence": []
+    },
+    {
+      "rank": 2,
+      "kind": "lean_in",
+      "ticker": "GOOGL",
+      "action_state": "WATCH",
+      "what": "Lean-in \u2014 looks good",
+      "confidence": "Moderate",
+      "your_move": "GOOGL looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
+      "gate": {
+        "needs_gate": true,
+        "preview": "\ud83d\udfe1 size \u2192 gate",
+        "ticker": "GOOGL",
+        "default_action": "ADD"
+      },
+      "source": "lean_in",
+      "why": "GOOGL: Promising and the tape's with it (LEADING) \u2014 a place to start.",
+      "goal_channels": [
+        "sizing_gap",
+        "upside",
+        "opportunity_cost"
+      ],
+      "goal_impact": "High",
+      "goal_score": 76,
+      "time_window": "1-2 weeks",
+      "capital_effect": "add",
+      "action_label": "ADD/ROTATE",
+      "why_it_moves_goal": "A conviction-backed sizing gap can make a right call too small.",
+      "missing_evidence": []
+    }
+  ],
   "fresh_signals": [],
   "signal_log": [],
   "event_risk": [],
@@ -646,37 +713,83 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T07:39:15.657687+00:00",
+      "last_run": "2026-06-05T07:54:38.443348+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T07:39:15.657687+00:00",
+      "last_run": "2026-06-05T07:54:38.443348+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T07:39:15.657687+00:00",
+      "last_run": "2026-06-05T07:54:38.443348+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T07:39:15.657687+00:00",
-      "note": "dark lanes: fundstrat_bible, catalysts, synthesis, signal_log, event_risk, top_prospects"
+      "last_run": "2026-06-05T07:54:38.443348+00:00",
+      "note": "dark lanes: catalysts, synthesis, signal_log, event_risk"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T07:39:15.657687+00:00",
+      "last_run": "2026-06-05T07:54:38.443348+00:00",
       "note": "rehearsal build can run"
     }
   ],
   "synthesis": {},
   "radar": [],
   "lean_in": [
+    {
+      "ticker": "ANET",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "flat",
+      "rotation": "LEADING",
+      "lean": "lean_in",
+      "headline": "ANET: Promising and the tape's with it (LEADING) \u2014 a place to start.",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Rotation: LEADING"
+      ],
+      "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
+      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [
+        "clustered: 1 independent source \u2014 not independent confirmation",
+        "already moved: entry less asymmetric (sleeve leading)"
+      ],
+      "freshness": "as-of 2026-06-05",
+      "action": "NONE"
+    },
+    {
+      "ticker": "GOOGL",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "flat",
+      "rotation": "LEADING",
+      "lean": "lean_in",
+      "headline": "GOOGL: Promising and the tape's with it (LEADING) \u2014 a place to start.",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Rotation: LEADING"
+      ],
+      "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
+      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [
+        "clustered: 1 independent source \u2014 not independent confirmation",
+        "already moved: entry less asymmetric (sleeve leading)"
+      ],
+      "freshness": "as-of 2026-06-05",
+      "action": "NONE"
+    },
     {
       "ticker": "GRNY",
       "owned": true,
@@ -828,6 +941,26 @@
       "action": "NONE"
     },
     {
+      "ticker": "GS",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "flat",
+      "rotation": "LAGGING",
+      "lean": "still_lagging",
+      "headline": "GS: Promising and endorsed, but still lagging \u2014 favorable entry only once the rotation turns (not owned).",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Rotation: LAGGING"
+      ],
+      "next_evidence": "Clears it: the rotation turning up (lagging -> turning up), confirming the catch-up.",
+      "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-05",
+      "action": "NONE"
+    },
+    {
       "ticker": "GRNJ",
       "owned": true,
       "stance_gate": "open",
@@ -868,6 +1001,26 @@
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-05",
+      "action": "NONE"
+    },
+    {
+      "ticker": "PWR",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "flat",
+      "rotation": "TURNING DOWN",
+      "lean": "cooling",
+      "headline": "PWR: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (not owned).",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Rotation: TURNING DOWN"
+      ],
+      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
+      "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
       "freshness": "as-of 2026-06-05",
@@ -1163,7 +1316,101 @@
       }
     ]
   },
-  "prospects": {},
+  "prospects": {
+    "hot": [],
+    "movers_best": [],
+    "movers_worst": [],
+    "sell_fast": [
+      {
+        "ticker": "DE",
+        "direction": "avoid",
+        "conviction": "BUILDING",
+        "urgency": "QUIET",
+        "conviction_score": 10.0,
+        "urgency_score": 6.0,
+        "pct_since_add": null,
+        "pct_vs_spy": null,
+        "sources": [
+          "FS-Monthly"
+        ],
+        "corroboration": "Uncorroborated",
+        "provenance": "FS Bottom 5 - 2026-05-28",
+        "summary": "DE: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      },
+      {
+        "ticker": "HOOD",
+        "direction": "avoid",
+        "conviction": "BUILDING",
+        "urgency": "QUIET",
+        "conviction_score": 10.0,
+        "urgency_score": 6.0,
+        "pct_since_add": null,
+        "pct_vs_spy": null,
+        "sources": [
+          "FS-Monthly"
+        ],
+        "corroboration": "Uncorroborated",
+        "provenance": "FS Bottom 5 - 2026-05-28",
+        "summary": "HOOD: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      },
+      {
+        "ticker": "PKG",
+        "direction": "avoid",
+        "conviction": "BUILDING",
+        "urgency": "QUIET",
+        "conviction_score": 10.0,
+        "urgency_score": 6.0,
+        "pct_since_add": null,
+        "pct_vs_spy": null,
+        "sources": [
+          "FS-Monthly"
+        ],
+        "corroboration": "Uncorroborated",
+        "provenance": "FS Bottom 5 - 2026-05-28",
+        "summary": "PKG: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      },
+      {
+        "ticker": "SATS",
+        "direction": "avoid",
+        "conviction": "BUILDING",
+        "urgency": "QUIET",
+        "conviction_score": 10.0,
+        "urgency_score": 6.0,
+        "pct_since_add": null,
+        "pct_vs_spy": null,
+        "sources": [
+          "FS-Monthly"
+        ],
+        "corroboration": "Uncorroborated",
+        "provenance": "FS Bottom 5 - 2026-05-28",
+        "summary": "SATS: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      },
+      {
+        "ticker": "TPL",
+        "direction": "avoid",
+        "conviction": "BUILDING",
+        "urgency": "QUIET",
+        "conviction_score": 10.0,
+        "urgency_score": 6.0,
+        "pct_since_add": null,
+        "pct_vs_spy": null,
+        "sources": [
+          "FS-Monthly"
+        ],
+        "corroboration": "Uncorroborated",
+        "provenance": "FS Bottom 5 - 2026-05-28",
+        "summary": "TPL: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      }
+    ],
+    "counts": {
+      "total": 10,
+      "long": 5,
+      "avoid": 5,
+      "act_now": 0,
+      "hot": 0,
+      "uncorroborated": 10
+    }
+  },
   "feedback": {
     "source_calls": {
       "status": "not_checked",
@@ -1175,15 +1422,32 @@
       "due": []
     },
     "open_actions": {
-      "status": "checked_clear",
-      "line": "Open action backlog clean.",
-      "count": 0,
+      "status": "has_data",
+      "line": "Open action backlog: 2 open; oldest 0 trading day(s).",
+      "count": 2,
       "oldest_age_days": 0,
-      "items": [],
+      "items": [
+        {
+          "ticker": "ANET",
+          "kind": "lean_in",
+          "source": "lean_in",
+          "first_flagged": "2026-06-05",
+          "age_days": 0,
+          "move_since": ""
+        },
+        {
+          "ticker": "GOOGL",
+          "kind": "lean_in",
+          "source": "lean_in",
+          "first_flagged": "2026-06-05",
+          "age_days": 0,
+          "move_since": ""
+        }
+      ],
       "recent_history": []
     },
     "recommendations": [
-      "No feedback-loop action required."
+      "Resolve oldest open action: act, invalidate, or keep watching explicitly."
     ]
   },
   "target_drift": {

@@ -15,6 +15,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat monthly PDF data-flow refresh.
+  - Ingested the direct May 28, 2026 Fundstrat monthly PDF into compact
+    `fundstrat_bible.json` state.
+  - Stored only useful monthly state: clean what-to-own themes, Top 5, and
+    Bottom 5; Core List tables, chart/table clutter, and local source paths are
+    excluded.
+  - Fed monthly Top 5/Bottom 5 into `top_prospects.json` while keeping
+    uncorroborated quiet Bottom 5 rows out of Today's Actions.
 - High-conviction catalyst offensive review framing.
   - Promoted the useful part of the Notion System Update Queue catalyst
     playbook without adding options/IV automation tonight.

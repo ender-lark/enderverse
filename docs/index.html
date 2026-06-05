@@ -198,10 +198,10 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-05 07:39 ET
+        built 2026-06-05 07:56 ET
 
       </div>
-      <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05</div>
+      <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28</div>
 
     </div>
     <div style="text-align:right">
@@ -222,12 +222,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card summary-caveat">
   <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
-  <div class="summary-line">Summary/export view. The action-complete operator dashboard is the canonical JSX cockpit.</div><div class="summary-line">No Today&#x27;s Actions are shown in this summary export.</div><div class="summary-line">6 dark/not-checked lanes means this is not an all-clear read.</div>
+  <div class="summary-line">Summary/export view. The action-complete operator dashboard is the canonical JSX cockpit.</div><div class="summary-line">4 dark/not-checked lanes means this is not an all-clear read.</div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> Lane status</div>
-  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 6</span><span class="lane-status ls-checked_clear">checked clear: 1</span><span class="lane-status ls-not_checked">not checked: 6</span><span class="lane-status ls-stale">stale: </span><span class="lane-status ls-failed">failed: </span></div>
+  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 8</span><span class="lane-status ls-checked_clear">checked clear: 1</span><span class="lane-status ls-not_checked">not checked: 4</span><span class="lane-status ls-stale">stale: </span><span class="lane-status ls-failed">failed: </span></div>
 
 <div class="lane-row">
   <span class="lane-key">Catalysts</span>
@@ -245,19 +245,14 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="summary-muted">not supplied</span>
 </div>
 <div class="lane-row">
-  <span class="lane-key">FS Bible</span>
-  <span class="lane-status ls-not_checked">not checked</span>
-  <span class="summary-muted">not checked</span>
-</div>
-<div class="lane-row">
   <span class="lane-key">Signal Log</span>
   <span class="lane-status ls-not_checked">not checked</span>
   <span class="summary-muted">not supplied</span>
 </div>
 <div class="lane-row">
-  <span class="lane-key">Top Prospects</span>
-  <span class="lane-status ls-not_checked">not checked</span>
-  <span class="summary-muted">not supplied</span>
+  <span class="lane-key">FS Bible</span>
+  <span class="lane-status ls-has_data">has data</span>
+  <span class="summary-muted">checked</span>
 </div>
 <div class="lane-row">
   <span class="lane-key">Macro</span>
@@ -279,19 +274,24 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked (1)</span>
 </div>
+<div class="lane-row">
+  <span class="lane-key">Target Drift</span>
+  <span class="lane-status ls-has_data">has data</span>
+  <span class="summary-muted">checked (6)</span>
+</div>
   <div class="feedback-line">+3 more lane rows in the canonical cockpit.</div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> Feedback loops
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">0 open signal(s)</span>
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2 open signal(s)</span>
   </div>
-  <div class="feedback-line">Source calls not checked.</div><div class="feedback-line">Open action backlog clean.</div><div class="feedback-rec">No feedback-loop action required.</div>
+  <div class="feedback-line">Source calls not checked.</div><div class="feedback-line">Open action backlog: 2 open; oldest 0 trading day(s).</div><div class="feedback-rec">Resolve oldest open action: act, invalidate, or keep watching explicitly.</div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T07:39:15.657687+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T07:39:15.657687+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T07:39:15.657687+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T07:39:15.657687+00:00 | dark lanes: fundstrat_bible, catalysts, synthesis, signal_log, event_risk, top_prospects">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T07:39:15.657687+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-05T07:54:38.443348+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-05T07:54:38.443348+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-05T07:54:38.443348+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-05T07:54:38.443348+00:00 | dark lanes: catalysts, synthesis, signal_log, event_risk">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-05T07:54:38.443348+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -307,6 +307,36 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 </div>
 
+<div class="card">
+  <div class="card-title"><span class="icon"></span> Today&#39;s actions</div>
+
+<div class="action">
+  <div class="action-header">
+    <span class="rank-badge">#1</span>
+    <span class="ticker-tag">ANET</span>
+    <span class="action-what">Lean-in  looks good</span>
+  </div>
+  <div class="tags">
+    <span class="tag t-cat">Lean In</span>
+    <span class="tag t-conf">conf: Moderate</span>
+    <span class="tag t-gate-a">size  gate</span>
+  </div>
+  <div class="action-move">ANET looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</div>
+</div>
+<div class="action">
+  <div class="action-header">
+    <span class="rank-badge">#2</span>
+    <span class="ticker-tag">GOOGL</span>
+    <span class="action-what">Lean-in  looks good</span>
+  </div>
+  <div class="tags">
+    <span class="tag t-cat">Lean In</span>
+    <span class="tag t-conf">conf: Moderate</span>
+    <span class="tag t-gate-a">size  gate</span>
+  </div>
+  <div class="action-move">GOOGL looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</div>
+</div>
+</div>
 
 
     <div class="two-col">
@@ -401,6 +431,18 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon"></span> Lean-in watchlist</div>
 
 <div class="lean-item">
+  <span class="lean-ticker">ANET</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">ANET: Promising and the tape&#x27;s with it (LEADING)  a place to start.</div>
+  <div class="lean-sub">Clears when: Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">GOOGL</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">GOOGL: Promising and the tape&#x27;s with it (LEADING)  a place to start.</div>
+  <div class="lean-sub">Clears when: Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.</div>
+</div>
+<div class="lean-item">
   <span class="lean-ticker">GRNY</span>
   <span class="tag inl" style="margin-left:6px">IN LINE</span>
   <div class="lean-headline">GRNY: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
@@ -437,6 +479,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
 <div class="lean-item">
+  <span class="lean-ticker">GS</span>
+  <span class="tag lag" style="margin-left:6px">LAGGING</span>
+  <div class="lean-headline">GS: Promising and endorsed, but still lagging  favorable entry only once the rotation turns (not owned).</div>
+  <div class="lean-sub">Clears when: Clears it: the rotation turning up (lagging -&gt; turning up), confirming the catch-up.</div>
+</div>
+<div class="lean-item">
   <span class="lean-ticker">GRNJ</span>
   <span class="tag inl" style="margin-left:6px">IN LINE</span>
   <div class="lean-headline">GRNJ: the case is cooling (IN LINE)  watch / reassess, don&#x27;t add (you own it).</div>
@@ -446,6 +494,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="lean-ticker">MU</span>
   <span class="tag lead" style="margin-left:6px">LEADING</span>
   <div class="lean-headline">MU: the case is cooling (LEADING)  watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">PWR</span>
+  <span class="tag inl" style="margin-left:6px">TURNING DOWN</span>
+  <div class="lean-headline">PWR: the case is cooling (TURNING DOWN)  watch / reassess, don&#x27;t add (not owned).</div>
   <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 <div class="lean-item">

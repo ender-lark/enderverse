@@ -48,6 +48,21 @@ def test_chart_like_notes_are_not_stored():
     assert deck["top5"] == ["NVDA", {"ticker": "GOOGL", "note": "AI search"}]
 
 
+def test_what_to_own_rejects_chart_table_clutter():
+    deck = parse_bible_text("\n".join([
+        "Fundstrat Monthly 2026-05-28",
+        "What to Own: Technology: Strongly leading since April Source: Fundstrat; "
+        "Bloomberg Rel. to S&P 500 Investment Ideas Last 8W YTD Large-Cap 4.1% -2.5% "
+        "$MAGS $IBIT $ETHA; Software • Industrials • Financials: Large-cap and regional banks; "
+        "FactSet Major Technology ETFs NTM P/E Past Year",
+        "Top 5: AMD; GOOGL",
+    ]))
+
+    assert deck["what_to_own"] == ["Technology", "Software", "Industrials", "Financials"]
+    assert "Bloomberg" not in json.dumps(deck)
+    assert "$MAGS" not in json.dumps(deck)
+
+
 def test_build_deck_from_text_file_and_write_outputs(tmp_path):
     src = tmp_path / "monthly.txt"
     out = tmp_path / "fundstrat_bible.json"
@@ -61,6 +76,7 @@ def test_build_deck_from_text_file_and_write_outputs(tmp_path):
 
     assert written["fundstrat_bible"] == str(out)
     assert saved["top5"][0]["ticker"] == "NVDA"
+    assert saved["source_file"] == "monthly.txt"
     assert saved_summary["valid"] is True
     assert saved_summary["top5"] == 3
     assert saved_summary["consider"] == 0

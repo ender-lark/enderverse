@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-06-05T07:53:59Z",
+  "source": "fundstrat_bible_intake",
+  "files": [
+    {
+      "source_file": "20260528-Market-UpdatevFSD-1.pdf",
+      "input_type": "pdf",
+      "text_chars": 320858,
+      "error": "",
+      "sections": [
+        "what_to_own",
+        "top5",
+        "bottom5"
+      ]
+    }
+  ],
+  "valid": true,
+  "problems": [],
+  "top5": 5,
+  "bottom5": 5,
+  "consider": 0,
+  "what_to_own": 7,
+  "top_prospects": {
+    "updated": true,
+    "picks": 10,
+    "path": "src\\top_prospects.json"
+  }
+}

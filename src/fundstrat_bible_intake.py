@@ -137,14 +137,35 @@ def _split_items(text: str) -> list[str]:
 def _sector_items(text: str) -> list[str]:
     out: list[str] = []
     seen: set[str] = set()
+    noisy_tokens = (
+        "bloomberg", "factset", "source:", "macro research", "for exclusive use",
+        "price history", "p/e", "relative to", "rel. to", "normalized 100",
+        "large-cap core list", "practical questions", "ranking tool",
+    )
     for item in _split_items(text):
-        item = re.sub(r"\s+[-\u2013\u2014:]\s+.*$", "", item).strip()
-        if not item or item.upper() in BLACKLIST:
-            continue
-        key = item.lower()
-        if key not in seen:
-            seen.add(key)
-            out.append(item)
+        for part in re.split(r"\s*[\u2022•]\s*", item):
+            part = re.sub(r"\s+[-\u2013\u2014]\s+.*$", "", part).strip()
+            if ":" in part:
+                head, tail = part.split(":", 1)
+                if len(head.strip()) <= 40 and tail.strip():
+                    part = head.strip()
+            part = _clean(part)
+            low = part.lower()
+            numeric_tokens = len(re.findall(r"\b\d+(?:\.\d+)?%?\b", part))
+            if (
+                not part
+                or part.upper() in BLACKLIST
+                or low in {"bloomberg", "factset", "fundstrat"}
+                or any(token in low for token in noisy_tokens)
+                or "$" in part
+                or len(part) > 80
+                or numeric_tokens > 1
+            ):
+                continue
+            key = low
+            if key not in seen:
+                seen.add(key)
+                out.append(part)
     return out
 
 
@@ -369,13 +390,13 @@ def load_deck_from_path(path: str | Path, *, as_of: str | None = None) -> tuple[
         deck = payload.get("fundstrat_bible") if isinstance(payload, dict) else None
         if deck is None:
             deck = payload
-        deck = normalize_deck(deck if isinstance(deck, dict) else {}, source_file=str(p), as_of=as_of)
-        return deck, {"source_file": str(p), "input_type": "json", "text_chars": 0, "error": ""}
+        deck = normalize_deck(deck if isinstance(deck, dict) else {}, source_file=p.name, as_of=as_of)
+        return deck, {"source_file": p.name, "input_type": "json", "text_chars": 0, "error": ""}
 
     text, error = extract_text(p)
-    deck = parse_bible_text(text, source_file=str(p), as_of=as_of)
+    deck = parse_bible_text(text, source_file=p.name, as_of=as_of)
     return deck, {
-        "source_file": str(p),
+        "source_file": p.name,
         "input_type": "pdf" if p.suffix.lower() == ".pdf" else "text",
         "text_chars": len(text or ""),
         "error": error or "",
