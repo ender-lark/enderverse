@@ -8,6 +8,15 @@ UW is a conviction/timing augmenter, not a standalone trade signal.
 
 ## Procedure
 
+First, record non-secret proof that the live UW connector is available from
+the market-wide connector outputs. This keeps `Live fetch` freshness auditable
+without storing raw market payloads:
+
+```bash
+python src/live_source_config_update.py <uw-market-state-or-market-tide-json> --out src/live_source_config.json
+python src/live_source_config_update.py --validate src/live_source_config.json
+```
+
 For the rotation/price cache, supply UW close-price responses for the default
 rotation tickers and write the normalized convention file:
 
@@ -54,12 +63,14 @@ python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabol
 python src/uw_opportunity_scan.py --self-test
 python src/parabolic_setup_screener.py --self-test
 python src/macro_pulse_scan.py --self-test
-python -m pytest src/test_uw_price_cache_intake.py src/test_macro_freshness.py src/test_uw_macro.py src/test_uw_macro_adapter.py src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q
+python -m pytest src/test_live_source_config_update.py src/test_uw_price_cache_intake.py src/test_macro_freshness.py src/test_uw_macro.py src/test_uw_macro_adapter.py src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q
 ```
 
 ## Rules
 
 - Keep raw UW JSON inside per-ticker worker files.
+- Store only connector proof metadata in `src/live_source_config.json`; do not
+  store market-tide rows, premiums, volumes, or other raw UW payload fields.
 - Do not paste raw API JSON into routine summaries.
 - Bounded concurrency only.
 - Report skipped or failed tickers explicitly.
