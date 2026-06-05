@@ -139,6 +139,9 @@ def capability_report(
             "required": bool(input_row.get("required")),
             "present": bool(input_row.get("present")),
             "source": input_row.get("source") or "",
+            "status": input_row.get("status") or "",
+            "candidate_paths": input_row.get("candidate_paths") or [],
+            "missing_behavior": input_row.get("missing_behavior") or "",
             "routine_id": routine.get("id") or "",
             "routine_title": routine.get("title") or "",
             "primary_mode": _primary_mode(modes),
@@ -198,7 +201,32 @@ def format_text(report: dict[str, Any]) -> str:
     missing = report.get("missing_live_capable_keys") or []
     if missing:
         lines.append("Missing live-capable inputs:")
-        lines.extend(f"- {key}" for key in missing)
+        rows_by_key = {
+            str(row.get("key") or ""): row
+            for row in report.get("rows") or []
+            if isinstance(row, dict)
+        }
+        for key in missing:
+            row = rows_by_key.get(str(key), {})
+            source = str(row.get("source") or "")
+            owner = str(row.get("routine_title") or row.get("routine_id") or source or "unowned")
+            bits = [
+                owner,
+                str(row.get("primary_mode") or ""),
+            ]
+            if source and source != owner:
+                bits.append(source)
+            lines.append(f"- {key}: " + " | ".join(bit for bit in bits if bit))
+            missing_behavior = str(row.get("missing_behavior") or "")
+            if missing_behavior:
+                lines.append(f"  missing behavior: {missing_behavior}")
+            candidate_paths = [
+                str(path)
+                for path in (row.get("candidate_paths") or [])[:3]
+                if path
+            ]
+            if candidate_paths:
+                lines.append("  expected path: " + ", ".join(candidate_paths))
     if report.get("problems"):
         lines.append("Problems:")
         lines.extend(f"- {problem}" for problem in report.get("problems") or [])

@@ -72,6 +72,9 @@ until the core logic is stable; Notion sync comes later.
   - Updated the routine manifest source-boundary text for Catalyst, Daily
     Synthesis, and Signal Log connector paths; missing source inputs still
     remain missing/dark rather than checked clear.
+  - The text readout now prints missing live-capable inputs with source/routine
+    ownership, missing-data behavior, and expected repo paths. Current missing
+    live-capable inputs are `account_positions` and `meridian`.
 - Cloud routine run receipts.
   - Added `src/cloud_routine_receipts.py` and
     `src/cloud_routine_receipts.json` so scheduled jobs can append auditable

@@ -40,6 +40,8 @@ def test_capability_report_tracks_present_inputs_without_marking_missing_clear(t
 
     assert by_key["positions"]["present"] is True
     assert by_key["theses"]["present"] is True
+    assert by_key["account_positions"]["candidate_paths"]
+    assert by_key["account_positions"]["missing_behavior"]
     assert "catalysts" in report["missing_live_capable_keys"]
     assert report["missing_live_capable_count"] > 0
 
@@ -59,6 +61,8 @@ def test_live_source_capability_cli_text(tmp_path):
     assert proc.returncode == 0
     assert "Live source capability valid: True" in proc.stdout
     assert "connector_or_api=" in proc.stdout
+    assert "missing behavior:" in proc.stdout
+    assert "expected path:" in proc.stdout
 
 
 def test_live_source_capability_cli_json(tmp_path):

@@ -192,6 +192,10 @@ Important recent state:
 - Current dark lane count is 0. Missing `account_positions` and `meridian`
   remain optional missing source inputs in live-source capability, not
   checked-clear claims.
+- `python src/live_source_capability.py --format text` prints the missing
+  live-capable input owner, missing-data behavior, and expected repo path for
+  those optional source gaps. Current gaps are `src/account_positions.json` and
+  `src/meridian_items.json`.
 - `src/cloud_ops_status.py --format text` is the operator check for unattended
   cloud ops. It distinguishes local go-live readiness from the installed Codex
   app automation stack. The previous generic
