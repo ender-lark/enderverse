@@ -39,6 +39,22 @@ python src\dashboard_preview_server.py
 
 If `go_live_ready` is false, treat the final summary as the status report and fix the named blocker before using the dashboard for live decisions.
 
+## Resolving Open Review Items
+
+List unresolved action-memory items:
+
+```powershell
+python src\action_memory_resolve.py --list
+```
+
+Resolve one after you decide:
+
+```powershell
+python src\action_memory_resolve.py --ticker ANET --status deferred --reason "wait for setup"
+```
+
+Allowed statuses are `acted`, `invalidated`, `ignored`, `deferred`, `missed`, `expired`, and `dropped`.
+
 ## Current Source Boundary
 
 Repo convention files in `src\*.json` are the local operational state for this workspace. Missing optional sources must stay visible as not checked; do not overwrite them with empty files just to make the dashboard look clean.
@@ -69,6 +85,7 @@ python src\verify_standard.py --include-js
 
 - `src\live_dashboard_refresh.py`: one-command local live refresh.
 - `src\dashboard_preview_server.py`: check/start the local dashboard preview server.
+- `src\action_memory_resolve.py`: list or resolve open action-memory items.
 - `src\live_readiness.py`: non-publishing go/no-go report.
 - `src\full_build_runner.py`: builds the Contract-C cockpit feed from convention files.
 - `src\render_cockpit.py`: injects the feed into the canonical JSX cockpit.

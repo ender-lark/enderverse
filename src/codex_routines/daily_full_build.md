@@ -83,6 +83,13 @@ This is the main replacement for Claude's FULL-build prompt.
    - stale/failed source count
    - `go_live_ready`
    - whether `open_opportunities.json` was updated
+12. If open action-memory items remain after operator review, list or resolve
+    them explicitly:
+
+   ```bash
+   python src/action_memory_resolve.py --list
+   python src/action_memory_resolve.py --ticker ANET --status deferred --reason "wait for setup"
+   ```
 
 ## Rules
 
