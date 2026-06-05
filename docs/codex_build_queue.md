@@ -15,6 +15,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Supplied Event Risk intake and action surfacing.
+  - Added `event_risk_intake.py` for supplied daily/weekly event-risk JSON so
+    sudden market-moving headlines can be checked without scraping or inventing
+    market narrative.
+  - Wired optional `event_risks.json` / `event_risk.json` through the full
+    build, lane status, feed validation, dashboard parity classification, and
+    Today's Actions promotion path.
+  - High/critical supplied events now promote to conservative exposure-review
+    actions only; missing scans stay not checked and empty supplied scans are
+    checked clear.
 - Published feed dashboard render refresh.
   - Rendered `src/latest_cockpit_feed.json` through the canonical JSX injector
     into `src/rendered/conviction_cockpit_v5.jsx`.
@@ -274,7 +284,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-No additional queued implementation slices. Add new deferred work here before starting another slice.
+- Post-basic queued-upgrade triage.
+  - After the live dashboard/feed path is re-verified, review System Update
+    Queue and CI Update Queue items only for conviction, actionability, and
+    usability lift.
+  - Do not promote items that add architecture or UI complexity without making
+    buy/sell/hold/research, sizing, risk, or timing clearer.
 
 ## Working Rules
 

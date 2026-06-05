@@ -27,6 +27,7 @@ EXPECTED_ARTIFACT_IDS = {
     "account_positions",
     "catalysts",
     "daily_synthesis",
+    "event_risk",
     "fundstrat_bible",
     "positions",
     "position_reconciliation",

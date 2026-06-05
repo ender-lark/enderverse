@@ -502,6 +502,7 @@ def fresh_signal_read(direction_reads, theses, reentry_touches=None,
 _ACTION_PRIORITY = {
     "red_gate": 0,         # a RED pre-trade flag — a hard stop you must see
     "sell_fast": 0,        # an avoid/sell-fast source call on a tracked name
+    "event_risk": 1,       # fast exogenous risk: review exposure before acting
     "buy_now": 1,          # a discrete entry trigger fired (⏳ act)
     "synthesis": 1,        # v1 placeholder: curated synthesis action (tune when wired)
     "top_prospect": 1,     # an external ACT_NOW candidate that must not stay buried
@@ -518,6 +519,7 @@ _ACTION_PRIORITY = {
 _ACTION_CONFIDENCE = {
     "red_gate": "High", "buy_now": "High", "reentry_zone": "High",
     "sell_fast": "High", "top_prospect": "High", "research_act_now": "High",
+    "event_risk": "Moderate",
     "monitor_reentry": "Moderate", "macro_alert": "Moderate", "lean_in": "Moderate",
     "watch_entry": "Moderate", "stale_critical": "Low",
     "decision_aging": "Moderate",
@@ -526,6 +528,7 @@ _CONFIDENCE_RANK = {"High": 0, "Moderate": 1, "Low": 2}
 _ACTION_STATE_BY_KIND = {
     "red_gate": "ACT_NOW",
     "sell_fast": "ACT_NOW",
+    "event_risk": "ACT_NOW",
     "buy_now": "ACT_NOW",
     "top_prospect": "ACT_NOW",
     "research_act_now": "ACT_NOW",
@@ -762,7 +765,7 @@ def catalyst_needs_you(catalysts, held_tickers, theses, *, horizon_days=7):
 
 def actions_read(fresh_signals, needs_you_items, theses,
                  *, synthesis_actions=None, lean_in_items=None,
-                 prospect_items=None) -> dict:
+                 prospect_items=None, event_risk_actions=None) -> dict:
     """⑦b the prioritized Actions surface (cockpit `actions`).
 
     Pool = ⑦ fresh_signals (act/watch) + ⑧ hero needs_you items (red_gate /
@@ -775,6 +778,7 @@ def actions_read(fresh_signals, needs_you_items, theses,
     priority-ranked list + counts.
     """
     synthesis_actions = synthesis_actions or []
+    event_risk_actions = event_risk_actions or []
     by_ticker = theses_by_ticker(theses)
     rows = []
 
@@ -995,6 +999,30 @@ def actions_read(fresh_signals, needs_you_items, theses,
         ):
             if sa.get(optional) not in (None, "", []):
                 row[optional] = sa[optional]
+        rows.append(row)
+
+    # (c2) supplied Event Risk rows: high/critical exogenous shocks become a
+    # review action so oil/war/rates shocks cannot stay buried in prose. These
+    # are exposure-review prompts only; no buy/sell order is implied.
+    for er in event_risk_actions:
+        if not isinstance(er, dict):
+            continue
+        row = {
+            "kind": "event_risk", "ticker": er.get("ticker"),
+            "what": er.get("what") or "Event risk review",
+            "confidence": er.get("confidence") if er.get("confidence") in _CONFIDENCE_RANK else "Moderate",
+            "your_move": er.get("your_move") or "Review exposure before acting.",
+            "gate": er.get("gate"),
+            "source": er.get("source") or "event_risk",
+            "why": er.get("why") or "",
+        }
+        for optional in (
+            "time_window", "capital_effect", "sizing", "goal_channels",
+            "goal_impact", "goal_score", "action_label", "why_it_moves_goal",
+            "missing_evidence",
+        ):
+            if er.get(optional) not in (None, "", []):
+                row[optional] = er[optional]
         rows.append(row)
 
     # (d) priority sort — kind tier, then confidence, then stable insertion order

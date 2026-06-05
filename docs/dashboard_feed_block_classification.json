@@ -46,6 +46,11 @@
       "canonical_surface": "Signal Log watch-only lane in Action view",
       "summary_surface": "Not rendered; watch-only external context"
     },
+    "event_risk": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Event Risk lane status plus promoted Today's Actions review prompts",
+      "summary_surface": "Lane-status summary only; promoted actions render in Today's actions"
+    },
     "holdings": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Book tab holdings with conviction detail expanders",

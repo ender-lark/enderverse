@@ -2,8 +2,8 @@
 
 Generated: 2026-06-05
 
-Last refreshed: 2026-06-05 after the Daily Synthesis structured action metadata
-slice. No UI work was performed in this refresh.
+Last refreshed: 2026-06-05 after the supplied Event Risk intake/action
+surfacing slice. No UI work was performed in this refresh.
 
 ## Decision
 
@@ -41,12 +41,12 @@ Result summary:
 - Build succeeded.
 - `actions`: 0
 - `research_actions`: 0
-- `lane_status.counts.not_checked`: 7
+- `lane_status.counts.not_checked`: 8 when no Event Risk scan is supplied
 - Emitted feed keys: `generated_at`, `staleness`, `lane_status`, `hero`,
-  `actions`, `fresh_signals`, `signal_log`, `holdings`, `rotation`, `macro`,
-  `catalysts`, `questions`, `research`, `research_actions`, `heartbeat`,
-  `synthesis`, `radar`, `lean_in`, `bullish_flow`, `prospects`, `feedback`,
-  `target_drift`
+  `actions`, `fresh_signals`, `signal_log`, `event_risk`, `holdings`,
+  `rotation`, `macro`, `catalysts`, `questions`, `research`,
+  `research_actions`, `heartbeat`, `synthesis`, `radar`, `lean_in`,
+  `bullish_flow`, `prospects`, `feedback`, `target_drift`
 - Every emitted feed key was already classified in
   `docs/dashboard_feed_block_classification.json`.
 - `portfolio_views` was absent in this local build because
@@ -63,6 +63,7 @@ Result summary:
 | `actions` | `actions_read` + decision aging + promoted research/prospects | Today's Actions | Today's actions when non-empty; summary caveat when empty/dark | Full enough in HTML for summary/export use |
 | `fresh_signals` | `fresh_signal_read` | Fresh signals / action context | Not rendered as its own lane | Missing in HTML |
 | `signal_log` | Morning Scan convention file `signal_log.json` / `morning_signal_log.json` | Signal Log watch-only lane | Not rendered | Missing in HTML; acceptable because it is watch-only context |
+| `event_risk` | Supplied Event Risk convention file `event_risks.json` / `event_risk.json` | Lane status plus promoted Today's Actions review prompts | Lane-status summary only; promoted actions render in Today's actions | Partial in HTML; acceptable because actions are review-only and lane status carries not-checked honesty |
 | `holdings` | Portfolio source + thesis reads | Book tab holdings with conviction/detail expanders | Book table | Partial in HTML because details are truncated |
 | `rotation` | `rotation_read` | Market read and sleeve badges | Rotation table | Full enough in both |
 | `macro` | `macro_read` | Market read macro panel | Macro panel | Full enough in both |
@@ -110,6 +111,9 @@ Result summary:
 - `signal_log` is deliberately watch-only external context. It can explain why a
   name deserves attention, but it must not promote directly into `actions`
   without a sharper action source.
+- `event_risk` is deliberately supplied-data-only external context. High and
+  critical rows can promote into `actions`, but only as exposure-review prompts;
+  no buy/sell order is implied.
 - `heartbeat` and `lane_status` overlap operational health. `heartbeat` says
   which routines ran; `lane_status` says which data lanes were checked, stale,
   failed, or dark. Both should stay; generated HTML now mirrors lane-status

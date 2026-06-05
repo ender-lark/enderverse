@@ -126,6 +126,17 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     _write(src / "signal_log.json", [
         {"ticker": "NVDA", "signal": "Morning scan flag", "priority": "watch", "date": "2026-06-05"}
     ])
+    _write(src / "event_risks.json", [
+        {
+            "date": "2026-06-05",
+            "title": "Oil shock risk from geopolitical escalation",
+            "severity": "high",
+            "horizon": "daily",
+            "channels": ["oil", "rates"],
+            "source": "Daily event scan",
+            "summary": "Crude spike can change new-buy timing and hedge posture.",
+        }
+    ])
 
     feed = build_full_feed_from_files(
         src_dir=src,
@@ -139,14 +150,17 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert rows["top_prospects"]["status"] == "has_data"
     assert rows["catalysts"]["status"] == "has_data"
     assert rows["signal_log"]["status"] == "has_data"
+    assert rows["event_risk"]["status"] == "has_data"
     assert rows["research"]["status"] == "not_checked"
     assert rows["target_drift"]["status"] == "has_data"
     assert feed["signal_log"][0]["signal"] == "Morning scan flag"
+    assert feed["event_risk"][0]["title"] == "Oil shock risk from geopolitical escalation"
     assert feed["bullish_flow"]["rows"]
     assert feed["prospects"]["counts"]["act_now"] == 1
     assert feed["target_drift"]["actionable_count"] > 0
     assert feed["target_drift"]["rows"]
     assert any(a.get("source") == "daily_synthesis" for a in feed["actions"])
+    assert any(a.get("kind") == "event_risk" for a in feed["actions"])
 
 
 def test_full_build_runner_threads_source_call_freshness_files(tmp_path):
@@ -191,6 +205,7 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["top_prospects"]["status"] == "not_checked"
     assert rows["catalysts"]["status"] == "not_checked"
     assert rows["signal_log"]["status"] == "not_checked"
+    assert rows["event_risk"]["status"] == "not_checked"
     assert rows["synthesis"]["status"] == "not_checked"
 
 

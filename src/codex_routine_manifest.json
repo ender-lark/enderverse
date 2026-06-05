@@ -236,6 +236,39 @@
       "no_input_behavior": "Do not overwrite signal_log.json; report Signal Log as not checked."
     },
     {
+      "id": "event_risk_intake",
+      "title": "Event Risk Intake",
+      "status": "active_safe_intake",
+      "cadence": "daily_or_weekly_when_event_scan_is_supplied",
+      "doc": "src/codex_routines/event_risk.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Supplied daily or weekly event-risk JSON",
+        "Supplied news-summary rows from user, Claude build, or an explicit market-event scan",
+        "No autonomous headline scraping or invented market narrative"
+      ],
+      "owns": [
+        "src/event_risks.json",
+        "src/event_risk_intake_summary.json"
+      ],
+      "commands": [
+        {
+          "id": "ingest_supplied_event_scan",
+          "command": "python src/event_risk_intake.py <event-risk-json> --out src/event_risks.json --summary src/event_risk_intake_summary.json --merge-existing"
+        },
+        {
+          "id": "stdin_supplied_event_scan",
+          "command": "python src/event_risk_intake.py --stdin-json --out src/event_risks.json --summary src/event_risk_intake_summary.json --merge-existing"
+        },
+        {
+          "id": "validate_event_risk_cache",
+          "command": "python src/event_risk_intake.py --validate src/event_risks.json"
+        }
+      ],
+      "verification": "python -m pytest src/test_event_risk.py src/test_full_build_runner.py src/test_cockpit_blocks.py -q",
+      "no_input_behavior": "Do not overwrite event_risks.json; report Event Risk as not checked."
+    },
+    {
       "id": "daily_full_build",
       "title": "Daily Full Build",
       "status": "active",
@@ -316,6 +349,13 @@
           "required": false,
           "source": "morning signal log export",
           "missing_behavior": "Signal Log is not checked; missing fetch is not no signals."
+        },
+        {
+          "key": "event_risk",
+          "paths": ["src/event_risks.json", "src/event_risk.json"],
+          "required": false,
+          "source": "event_risk_intake supplied daily/weekly event scan",
+          "missing_behavior": "Event Risk is not checked; missing headlines are not no event risk."
         },
         {
           "key": "synthesis",

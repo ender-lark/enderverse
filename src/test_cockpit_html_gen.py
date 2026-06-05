@@ -1,5 +1,7 @@
 """Tests for the generated HTML summary/export dashboard."""
+import json
 import os
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -74,3 +76,22 @@ def test_generated_html_is_ascii_display_safe():
     assert html.isascii()
     for artifact in ("Ã", "â", "Â", "ðŸ"):
         assert artifact not in html
+
+
+def test_cockpit_html_gen_cli_writes_output(tmp_path):
+    feed_path = tmp_path / "feed.json"
+    out_path = tmp_path / "dashboard.html"
+    feed_path.write_text(json.dumps(_feed()), encoding="utf-8")
+    script = os.path.join(os.path.dirname(__file__), "cockpit_html_gen.py")
+
+    proc = subprocess.run(
+        [sys.executable, script, str(feed_path), "--out", str(out_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    html = out_path.read_text(encoding="utf-8")
+    assert "Summary/export view" in html
+    assert "Lane status" in html

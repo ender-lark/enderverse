@@ -37,6 +37,7 @@ def test_manifest_rejects_duplicate_output_ownership():
             _routine("uw_cache_refresh", group="market_data_refresh", owns=["src/uw_opportunity_signals.json"]),
             _routine("daily_synthesis_intake", owns=["src/daily_synthesis.json"]),
             _routine("signal_log_intake", owns=["src/signal_log.json"]),
+            _routine("event_risk_intake", owns=["src/event_risks.json"]),
             _routine("daily_full_build", group="feed_build_publish", owns=["src/latest_cockpit_feed.json"]),
             _routine("off_hours_research_queue", owns=["src/research_queue.json"]),
         ],
@@ -57,6 +58,7 @@ def test_manifest_rejects_checked_clear_no_input_behavior():
             _routine("uw_cache_refresh", group="market_data_refresh"),
             _routine("daily_synthesis_intake"),
             _routine("signal_log_intake"),
+            _routine("event_risk_intake"),
             _routine("daily_full_build", group="feed_build_publish"),
             _routine("off_hours_research_queue"),
         ],
@@ -115,6 +117,7 @@ def _routine(routine_id, *, group="source_intake", owns=None, no_input="Report s
         "uw_cache_refresh": "src/codex_routines/uw_cache_refresh.md",
         "daily_synthesis_intake": "src/codex_routines/daily_synthesis.md",
         "signal_log_intake": "src/codex_routines/signal_log.md",
+        "event_risk_intake": "src/codex_routines/event_risk.md",
         "daily_full_build": "src/codex_routines/daily_full_build.md",
         "off_hours_research_queue": "src/codex_routines/off_hours_research.md",
     }

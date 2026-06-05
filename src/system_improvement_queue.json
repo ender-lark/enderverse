@@ -159,6 +159,24 @@
       "area": "synthesis",
       "why": "Daily Synthesis can become more actionable when explicit rows carry timing, sizing, capital effect, and evidence without requiring free-form prose guessing.",
       "done_when": "Structured synthesis actions accept explicit ticker aliases, recommendation text, urgency, time window, capital effect, sizing, goal channels, and missing evidence while vague prose remains unpromoted."
+    },
+    {
+      "id": "supplied-event-risk-intake",
+      "title": "Surface supplied daily/weekly event-risk scans",
+      "priority": "P1",
+      "status": "done",
+      "area": "routines",
+      "why": "Fast exogenous shocks such as oil, war, rates, or volatility events can move the book before normal source lanes update.",
+      "done_when": "Supplied event-risk rows write event_risks.json, report missing scans as not checked, and promote high/critical events into conservative exposure-review actions."
+    },
+    {
+      "id": "post-basic-queued-upgrade-triage",
+      "title": "Evaluate queued system upgrades after live feed is re-verified",
+      "priority": "P2",
+      "status": "queued",
+      "area": "architecture",
+      "why": "Queued Notion/Claude-build ideas should be promoted only when they improve conviction, actionability, risk control, sizing, timing, or usability.",
+      "done_when": "System Update Queue and CI Update Queue candidates are reviewed against the Investing OS goal, with only high-signal slices promoted and low-value complexity left deferred."
     }
   ]
 }

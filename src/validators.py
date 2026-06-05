@@ -225,7 +225,8 @@ _VALID_CONFIDENCE = {"High", "Moderate", "Low"}
 _VALID_ACTION_KINDS = {"buy_now", "reentry_zone", "monitor_reentry", "red_gate",
                        "macro_alert", "watch_entry", "stale_critical", "synthesis",
                        "catalyst_imminent", "lean_in", "research_review",
-                       "research_act_now", "decision_aging", "top_prospect", "sell_fast"}
+                       "research_act_now", "decision_aging", "top_prospect", "sell_fast",
+                       "event_risk"}
 _VALID_ACTION_STATES = {"ACT_NOW", "WATCH", "RESEARCH", "MONITOR"}
 _VALID_GOAL_CHANNELS = {"upside", "downside_protection", "sizing_gap", "leverage",
                         "conviction", "opportunity_cost", "data_quality"}
@@ -548,6 +549,21 @@ def _validate_signal_log_row(r: Any) -> list[str]:
     return []
 
 
+def _validate_event_risk_row(r: Any) -> list[str]:
+    if not isinstance(r, dict):
+        return ["must be a dict"]
+    out: list[str] = []
+    for field in ("title", "severity", "source"):
+        if not isinstance(r.get(field), str) or not r.get(field, "").strip():
+            out.append(f"{field} must be a non-empty string")
+    if r.get("severity") not in {"critical", "high", "medium", "low"}:
+        out.append("severity must be one of ['critical', 'high', 'low', 'medium']")
+    for field in ("channels", "tickers", "affected"):
+        if field in r and not isinstance(r.get(field), list):
+            out.append(f"{field} must be a list")
+    return out
+
+
 #----------------------------------------------------------------------
 def _validate_lean_in_row(r: Any) -> list[str]:
     """One `lean_in` row (Contract C, optional block ⑩ — the opportunity lane,
@@ -686,6 +702,14 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
         else:
             for i, r in enumerate(signal_log):
                 problems.extend(f"signal_log[{i}] {e}" for e in _validate_signal_log_row(r))
+
+    event_risk = feed.get("event_risk", _MISSING)
+    if event_risk is not _MISSING:
+        if not isinstance(event_risk, list):
+            problems.append(f"event_risk must be a list, got {type(event_risk).__name__}")
+        else:
+            for i, r in enumerate(event_risk):
+                problems.extend(f"event_risk[{i}] {e}" for e in _validate_event_risk_row(r))
 
     lane_status = feed.get("lane_status", _MISSING)
     if lane_status is not _MISSING:

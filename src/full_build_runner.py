@@ -54,6 +54,7 @@ DEFAULT_FILES = {
     "meridian": ("meridian_items.json",),
     "heartbeat": ("heartbeat.json",),
     "signal_log": ("signal_log.json", "morning_signal_log.json"),
+    "event_risk": ("event_risks.json", "event_risk.json"),
     "synthesis": ("daily_synthesis.json", "synthesis.json"),
     "research": ("research_queue.json", "research.json"),
     "catalysts": ("catalysts.json", "catalyst_calendar.json"),
@@ -319,6 +320,7 @@ def build_full_feed_from_files(
     meridian = _load_optional(src, "meridian")
     heartbeat = _load_optional(src, "heartbeat")
     signal_log = _load_optional(src, "signal_log")
+    event_risk = _load_optional(src, "event_risk")
     synthesis = _load_optional(src, "synthesis")
     research = _load_optional(src, "research")
     catalyst_rows = _load_optional(src, "catalysts")
@@ -364,6 +366,7 @@ def build_full_feed_from_files(
         generated_at=generated_at or now,
         heartbeat=heartbeat,
         signal_log=signal_log,
+        event_risk=event_risk,
         synthesis=synthesis,
         research=research,
         catalysts=catalysts,

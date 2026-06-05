@@ -11,7 +11,10 @@ Usage (from src/, after STEP 5):
     open("../docs/index.html", "w", encoding="utf-8").write(html)
 """
 from __future__ import annotations
+import argparse
 import html as _html
+import json
+from pathlib import Path
 from typing import Any
 
 
@@ -882,3 +885,22 @@ function showTab(name, btn) {{
 </script>
 </body>
 </html>"""))
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description="Generate static cockpit HTML from a feed JSON file")
+    parser.add_argument("feed_json")
+    parser.add_argument("--out", required=True)
+    args = parser.parse_args(argv)
+
+    with Path(args.feed_json).open(encoding="utf-8") as fh:
+        feed = json.load(fh)
+    html = generate_html(feed)
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(html, encoding="utf-8")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

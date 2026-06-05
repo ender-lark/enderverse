@@ -27,6 +27,7 @@ from analyst_judgment import (conviction_read, conviction_direction_read,
 from analyst_config import theses_by_ticker
 from feedback_summary import build_feedback_summary
 from lane_status import build_lane_status
+from event_risk import event_risk_actions_read, normalize_event_risks
 from uw_opportunity import uw_opportunity_cards, uw_opportunity_surface
 from prospect_surface import build_prospects_lane
 from open_opportunities import open_opportunity_aging
@@ -83,6 +84,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   heartbeat=None, synthesis=None, research=None, radar=None,
                   catalysts=None, lean_in=None, uw_opportunity=None,
                   signal_log=None,
+                  event_risk=None,
                   open_opportunities=None, opp_prices=None,
                   top_prospects=None, source_calls=None,
                   inbox_call_dates=None, log_call_dates=None,
@@ -221,10 +223,13 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
     #    deduped against fresh-signal actions; synthesis actions are extracted
     #    conservatively from structured rows or ticker-led actionable lines. ──
     synthesis_action_items = synthesis_actions_read(synthesis)
+    event_risk_block = normalize_event_risks(event_risk) if event_risk is not None else None
+    event_risk_action_items = event_risk_actions_read(event_risk_block)
     actions = actions_read(fresh["fresh_signals"], hero["needs_you"]["items"], theses,
                            lean_in_items=lean_block,
                            prospect_items=prospects,
-                           synthesis_actions=synthesis_action_items)["actions"]
+                           synthesis_actions=synthesis_action_items,
+                           event_risk_actions=event_risk_action_items)["actions"]
 
     # ── ⑦b-aging (E2): age the open-opportunity store into the Actions strip.
     #    ENRICH any action row that's an open aging idea with age / first-flagged /
@@ -292,6 +297,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         synthesis=synthesis,
         uw_opportunity=(uw_cards if uw_opportunity is not None else None),
         signal_log=signal_log,
+        event_risk=event_risk_block,
         top_prospects=top_prospects,
         target_drift=target_drift,
     )
@@ -317,6 +323,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "actions": actions,
         "fresh_signals": fresh["fresh_signals"],
         "signal_log": signal_log or [],
+        "event_risk": event_risk_block or [],
         "holdings": holdings,
         "rotation": rot["sleeves"],
         "macro": macro,

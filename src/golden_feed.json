@@ -145,6 +145,14 @@
         "checked_at": ""
       },
       {
+        "key": "event_risk",
+        "label": "Event Risk",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
         "key": "top_prospects",
         "label": "Top Prospects",
         "status": "not_checked",
@@ -162,11 +170,11 @@
       }
     ],
     "counts": {
+      "checked_clear": 0,
       "stale": 0,
       "has_data": 6,
       "failed": 0,
-      "checked_clear": 0,
-      "not_checked": 7
+      "not_checked": 8
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -278,6 +286,7 @@
     }
   ],
   "signal_log": [],
+  "event_risk": [],
   "holdings": [
     {
       "cat": "AI / Semiconductors",

@@ -272,6 +272,18 @@
       "action_surface": "Watch-only context; never directly promotes into actions."
     },
     {
+      "id": "event_risk",
+      "source_of_truth": "supplied_daily_or_weekly_event_scan",
+      "repo_artifact": "src/event_risks.json",
+      "producer": "event_risk_intake -> event_risk_intake.py",
+      "feed_path": "full_build_runner.DEFAULT_FILES.event_risk -> feed.event_risk/actions/lane_status",
+      "dashboard_surface": "Event Risk lane status plus promoted Today's Actions review prompts",
+      "mirror_policy": "GitHub stores compact structured event-risk rows only; raw news bodies and long source narratives stay outside repo.",
+      "freshness_contract": "Update only from supplied daily/weekly event scan rows when fast market-moving events are present or explicitly checked clear.",
+      "not_checked_behavior": "Missing event-risk scan is not checked, not no event risk.",
+      "action_surface": "High and critical event risks promote to exposure-review actions only; they do not create buy/sell orders."
+    },
+    {
       "id": "system_improvement_queue",
       "source_of_truth": "github",
       "repo_artifact": "src/system_improvement_queue.json",
