@@ -47,6 +47,14 @@ def _fake_status(open_count=0, ready=True):
             "lanes_with_data": 11 if ready else 0,
             "dark_lanes": 2,
             "top_action": {"kind": "event_risk"} if ready else {},
+            "event_watch": {
+                "active": True,
+                "title": "Oil shock",
+                "severity": "high",
+                "channels": ["oil", "rates"],
+                "tickers": ["XOP", "TNX"],
+                "trigger": "WTI spike",
+            } if ready else {},
         },
         "source_calls": {
             "status": "not_checked",
@@ -83,6 +91,10 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
         for row in report["rows"]
     )
     assert any(row["key"] == "data_flow" and row["status"] == "pass" for row in report["rows"])
+    assert any(
+        row["key"] == "event_watch" and row["status"] == "pass" and "Oil shock" in row["detail"]
+        for row in report["rows"]
+    )
     assert any(row["key"] == "source_calls" and row["status"] == "warn" for row in report["rows"])
 
 
@@ -98,6 +110,26 @@ def test_build_go_live_checklist_fails_when_readiness_blocked(monkeypatch, tmp_p
 
     assert report["status"] == "fail"
     assert report["fail_count"] >= 1
+
+
+def test_build_go_live_checklist_warns_when_no_event_watch(monkeypatch, tmp_path):
+    status = _fake_status()
+    status["data_flow"]["event_watch"] = {}
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: status)
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {"open_count": 0, "oldest_age_days": 0},
+    )
+
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+
+    assert any(
+        row["key"] == "event_watch"
+        and row["status"] == "warn"
+        and "No supplied active event watch" in row["detail"]
+        for row in report["rows"]
+    )
 
 
 def test_build_go_live_checklist_passes_tracked_pending_source_calls(monkeypatch, tmp_path):
@@ -160,6 +192,9 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     assert "[PASS] Live data flow" in text
     assert "[WARN] Source-call calibration" in text
     assert "[PASS] Sudden event refresh" in text
+    assert "[PASS] Active event watch" in text
+    assert "Oil shock" in text
+    assert "trigger=WTI spike" in text
     assert "[WARN] Open action reviews" in text
     assert "ANET" in text
     assert "Supply Catalyst Calendar rows." in text

@@ -35,6 +35,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Go-live checklist event-watch parity.
+  - `python src/go_live_checklist.py --format text` now includes an Active
+    Event Watch row derived from the same live-status/feed evidence as the
+    dashboard Operator Status card.
+  - If no supplied event watch is present, the checklist warns instead of
+    implying that sudden-event risk was checked clear.
 - Active event-watch visibility.
   - The live status readout and dashboard Operator Status cards now derive an
     active event watch from the supplied Event Risk lane.

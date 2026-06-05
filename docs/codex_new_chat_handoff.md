@@ -39,7 +39,9 @@ Current pushed snapshot (2026-06-05 11:17 ET live artifacts):
   optional lanes, 2 open action reviews, and 3 pending / 0 overdue source calls.
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
   reports `WARN` with 0 failures and 2 warnings: open action reviews
-  (`ANET`, `GOOGL`) and optional dark lanes (`catalysts`, `signal_log`).
+  (`ANET`, `GOOGL`) and optional dark lanes (`catalysts`, `signal_log`). It
+  also includes a PASS Active Event Watch row for the current supplied
+  oil/rates watch.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
   `2026-06-05 11:17 ET`.
@@ -57,11 +59,12 @@ Current pushed snapshot (2026-06-05 11:17 ET live artifacts):
 
 Important recent state:
 
-- Latest completed slices before this handoff refresh: active event-watch
-  visibility, dashboard sudden-event command visibility, live-status/go-live
-  sudden-event command visibility, source-call tracking during live refresh,
-  external queue audit, position-cache normalizer convergence, and dark-lane
-  intake command surfacing.
+- Latest completed slices before this handoff refresh: go-live checklist
+  event-watch parity, active event-watch visibility, dashboard sudden-event
+  command visibility, live-status/go-live sudden-event command visibility,
+  source-call tracking during live refresh, external queue audit,
+  position-cache normalizer convergence, and dark-lane intake command
+  surfacing.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.

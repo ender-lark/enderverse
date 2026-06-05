@@ -19,6 +19,10 @@ Current live proof:
   Operator Status command links for both go-live review and supplied-headline
   sudden-event refresh. It also shows the active Middle East oil/rates event
   watch, impacted channels/tickers, and trigger evidence.
+- `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json
+  --format text` now includes a PASS Active Event Watch row for the current
+  supplied oil/rates watch; if no supplied event watch exists, the row warns
+  instead of implying sudden-event risk was checked clear.
 - `python src/verify_standard.py` last passed with `951 passed, 6 skipped`,
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.

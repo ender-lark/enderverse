@@ -86,6 +86,25 @@ def _sudden_event_command() -> str:
     )
 
 
+def _event_watch_detail(event_watch: dict[str, Any]) -> str:
+    if not event_watch.get("active"):
+        return "No supplied active event watch in the current feed."
+    channels = ", ".join(str(v) for v in (event_watch.get("channels") or []) if v)
+    tickers = ", ".join(str(v) for v in (event_watch.get("tickers") or []) if v)
+    parts = [
+        str(event_watch.get("severity") or "watch"),
+        str(event_watch.get("title") or "event risk"),
+    ]
+    if channels:
+        parts.append(f"channels={channels}")
+    if tickers:
+        parts.append(f"tickers={tickers}")
+    trigger = event_watch.get("trigger") or event_watch.get("summary") or ""
+    if trigger:
+        parts.append(f"trigger={trigger}")
+    return " | ".join(parts)
+
+
 def build_go_live_checklist(
     *,
     src_dir: str | Path = DEFAULT_SRC,
@@ -104,6 +123,7 @@ def build_go_live_checklist(
     preview = status.get("preview") or {}
     queue = status.get("system_queue") or {}
     data_flow = status.get("data_flow") or {}
+    event_watch = data_flow.get("event_watch") or {}
     source_calls = status.get("source_calls") or {}
     rows = [
         _row(
@@ -167,6 +187,13 @@ def build_go_live_checklist(
             "Sudden event refresh",
             "pass",
             "One supplied market-moving headline can be appended to Event Risk and pushed through the live dashboard refresh.",
+            _sudden_event_command(),
+        ),
+        _row(
+            "event_watch",
+            "Active event watch",
+            "pass" if event_watch.get("active") else "warn",
+            _event_watch_detail(event_watch),
             _sudden_event_command(),
         ),
         _row(
