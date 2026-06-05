@@ -12,6 +12,7 @@ import go_live_checklist
 def _fake_status(open_count=0, ready=True):
     return {
         "go_live_ready": ready,
+        "live_data_ready": ready,
         "live_summary": "live_clear" if ready else "blocked",
         "actions": 4,
         "research_actions": 0,
@@ -33,6 +34,13 @@ def _fake_status(open_count=0, ready=True):
             "count": open_count,
             "tickers": ["ANET"] if open_count else [],
         },
+        "data_flow": {
+            "feed_present": ready,
+            "generated_at": "2026-06-05T10:03:31+00:00" if ready else "",
+            "lanes_with_data": 11 if ready else 0,
+            "dark_lanes": 2,
+            "top_action": {"kind": "event_risk"} if ready else {},
+        },
     }
 
 
@@ -49,6 +57,7 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
     assert report["status"] == "warn"
     assert report["go_live_ready"] is True
     assert any(row["key"] == "open_reviews" and row["status"] == "warn" for row in report["rows"])
+    assert any(row["key"] == "data_flow" and row["status"] == "pass" for row in report["rows"])
 
 
 def test_build_go_live_checklist_fails_when_readiness_blocked(monkeypatch, tmp_path):
@@ -96,6 +105,7 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     text = go_live_checklist.format_text(report)
 
     assert "Go-live checklist: WARN" in text
+    assert "[PASS] Live data flow" in text
     assert "[WARN] Open action reviews" in text
     assert "python src/action_memory_resolve.py --review-report" in text
 

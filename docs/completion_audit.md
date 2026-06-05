@@ -110,6 +110,16 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Browser verification of the local preview confirmed Operator Status, 4
   Today Actions, 2 Open Reviews, 2 dark Source Lanes, and
   `python src/go_live_checklist.py --format text`.
+- `python src/live_status.py` now includes a `data_flow` proof section. Current
+  output confirms feed `2026-06-05T10:03:31.604897+00:00`, source dates for
+  portfolio/UW price/UW macro/Fundstrat monthly/Fundstrat daily, 11 lanes with
+  data, 2 dark lanes, 4 actions, and top action `event_risk`.
+- `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json
+  --format text` now includes a PASS `Live data flow` row with feed timestamp,
+  lane count, dark-lane count, and top action.
+- Focused live-status/checklist tests passed after the data-flow proof slice:
+  `python -m pytest src/test_live_status.py src/test_go_live_checklist.py -q`
+  reported 9 passed.
 - `python src/dashboard_preview_server.py --check` succeeded and reported that
   `tmp/dashboard_preview.html` exists and the local preview server is running
   on `http://127.0.0.1:8765/dashboard_preview.html`.

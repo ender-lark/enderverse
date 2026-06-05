@@ -47,12 +47,54 @@ def _queue_summary(queue: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _load_feed(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def _data_flow_summary(readiness: dict[str, Any], feed: dict[str, Any] | None) -> dict[str, Any]:
+    feed = feed or {}
+    lane_counts = ((feed.get("lane_status") or {}).get("counts") or {})
+    entries = (feed.get("staleness") or {}).get("entries") or []
+    source_dates = {
+        str(entry.get("source")): str(entry.get("date"))
+        for entry in entries
+        if isinstance(entry, dict) and entry.get("source") and entry.get("date")
+    }
+    actions = feed.get("actions") or []
+    top_action = actions[0] if actions and isinstance(actions[0], dict) else {}
+    return {
+        "feed_present": bool(feed),
+        "generated_at": feed.get("generated_at") or "",
+        "staleness_stamp": (feed.get("staleness") or {}).get("stamp") or "",
+        "source_dates": source_dates,
+        "lanes_with_data": int(lane_counts.get("has_data") or 0),
+        "dark_lanes": len(readiness.get("dark_lane_keys") or []),
+        "dark_lane_keys": readiness.get("dark_lane_keys") or [],
+        "stale_or_failed_lanes": readiness.get("stale_or_failed_lane_keys") or [],
+        "actions": int(readiness.get("actions") or 0),
+        "research_actions": int(readiness.get("research_actions") or 0),
+        "top_action": {
+            "ticker": top_action.get("ticker") or "",
+            "kind": top_action.get("kind") or "",
+            "what": top_action.get("what") or "",
+            "action_state": top_action.get("action_state") or "",
+        },
+    }
+
+
 def build_status_summary(
     *,
     readiness: dict[str, Any],
     preview: dict[str, Any],
     open_store: dict[str, Any],
     queue: dict[str, Any],
+    feed: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Merge existing evidence into one operator-facing status object."""
     open_actions = _open_actions_summary(open_store)
@@ -79,6 +121,7 @@ def build_status_summary(
             "build_problem": readiness.get("build_problem") or "",
         },
         "open_actions": open_actions,
+        "data_flow": _data_flow_summary(readiness, feed),
         "preview": preview,
         "system_queue": queue_status,
         "next_steps": readiness.get("next_steps") or [],
@@ -100,16 +143,19 @@ def live_status(
     preview_dir: str | Path | None = None,
     queue_path: str | Path | None = None,
     open_store_path: str | Path | None = None,
+    feed_path: str | Path | None = None,
 ) -> dict[str, Any]:
     src = Path(src_dir)
     preview_root = Path(preview_dir) if preview_dir else ROOT / "tmp"
     queue_file = Path(queue_path) if queue_path else src / "system_improvement_queue.json"
     open_file = Path(open_store_path) if open_store_path else src / "open_opportunities.json"
+    feed_file = Path(feed_path) if feed_path else src / "latest_cockpit_feed.json"
     return build_status_summary(
         readiness=live_readiness.readiness_report(src),
         preview=preview_server.preview_status(directory=preview_root),
         open_store=open_opportunities.load_open_opportunities(open_file),
         queue=queue_mod.load_queue(queue_file),
+        feed=_load_feed(feed_file),
     )
 
 
@@ -119,6 +165,7 @@ def main(argv=None) -> int:
     parser.add_argument("--preview-dir")
     parser.add_argument("--queue")
     parser.add_argument("--open-store")
+    parser.add_argument("--feed")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero unless go_live_ready is true")
     args = parser.parse_args(argv)
 
@@ -127,6 +174,7 @@ def main(argv=None) -> int:
         preview_dir=args.preview_dir,
         queue_path=args.queue,
         open_store_path=args.open_store,
+        feed_path=args.feed,
     )
     print(json.dumps(status, indent=2))
     return 0 if status["go_live_ready"] or not args.strict else 2

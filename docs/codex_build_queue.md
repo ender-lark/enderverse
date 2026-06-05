@@ -15,6 +15,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Live data-flow proof in operator status.
+  - Extended `python src/live_status.py` with a `data_flow` section showing
+    the current feed timestamp, source dates, lanes with data, dark/stale lane
+    counts, action counts, and top action.
+  - Added a `Live data flow` PASS/WARN row to
+    `python src/go_live_checklist.py --format text`.
+  - Current proof shows feed `2026-06-05T10:03:31.604897+00:00`, 11 lanes with
+    data, 2 dark lanes, 4 actions, and top action `event_risk`.
 - Canonical dashboard operator-status parity.
   - Added the compact Operator Status read to the canonical JSX cockpit, not
     only the generated HTML preview.

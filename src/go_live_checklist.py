@@ -49,6 +49,7 @@ def build_go_live_checklist(
         )
     preview = status.get("preview") or {}
     queue = status.get("system_queue") or {}
+    data_flow = status.get("data_flow") or {}
     rows = [
         _row(
             "refresh",
@@ -64,6 +65,21 @@ def build_go_live_checklist(
             "Live readiness status",
             _status_from_bool(bool(status.get("go_live_ready"))),
             f"{status.get('live_summary')}; actions={status.get('actions')}; research_actions={status.get('research_actions')}",
+            "python src/live_status.py",
+        ),
+        _row(
+            "data_flow",
+            "Live data flow",
+            _status_from_bool(
+                bool(status.get("live_data_ready")) and bool(data_flow.get("feed_present")),
+                warn=True,
+            ),
+            (
+                f"feed={data_flow.get('generated_at') or 'missing'}; "
+                f"lanes_with_data={data_flow.get('lanes_with_data', 0)}; "
+                f"dark_lanes={data_flow.get('dark_lanes', 0)}; "
+                f"top_action={data_flow.get('top_action', {}).get('kind') or 'none'}"
+            ),
             "python src/live_status.py",
         ),
         _row(

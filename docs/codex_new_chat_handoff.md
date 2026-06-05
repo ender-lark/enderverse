@@ -165,13 +165,15 @@ Important recent state:
 - The compact non-rebuilding live status helper is:
   `python src/live_status.py`.
   It combines live readiness, preview-server state, unresolved action-memory
-  rows, and the system-improvement queue into one JSON readout.
+  rows, data-flow proof, and the system-improvement queue into one JSON
+  readout. Its `data_flow` section shows feed timestamp, source dates, lanes
+  with data, dark/stale lane counts, action counts, and top action.
 - The go-live checklist helper is:
   `python src/go_live_checklist.py`.
-  It is non-mutating and summarizes refresh/status, preview, manual
-  source-drop validation, open action reviews, queue state, and optional dark
-  lanes. With the current repo it reports `go_live_ready: true` and checklist
-  status `warn` because open reviews and optional dark lanes remain.
+  It is non-mutating and summarizes refresh/status, live data flow, preview,
+  manual source-drop validation, open action reviews, queue state, and optional
+  dark lanes. With the current repo it reports `go_live_ready: true` and
+  checklist status `warn` because open reviews and optional dark lanes remain.
   Use `python src/go_live_checklist.py --format text` for the human-readable
   PASS/WARN command checklist.
 - The open action-memory resolver is:
@@ -194,7 +196,9 @@ Important recent state:
   live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
   actions, 2 dark optional lanes (`catalysts`, `signal_log`), 2 open
   action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
-  active/queued system-improvement items.
+  active/queued system-improvement items. Its data-flow proof shows feed
+  `2026-06-05T10:03:31.604897+00:00`, 11 lanes with data, 2 dark lanes, and
+  top action `event_risk`.
 - `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
   regression test covers cp1252 encoding of the caveat line.
 

@@ -51,12 +51,25 @@ def test_build_status_summary_reports_live_with_open_reviews():
         preview={"preview_exists": True, "server_running": True},
         open_store={"opportunities": [{"ticker": "ANET", "status": "open", "first_flagged": "2026-06-05"}]},
         queue=_queue(),
+        feed={
+            "generated_at": "2026-06-05T10:03:31+00:00",
+            "staleness": {
+                "stamp": "sourced: uw_price 06-05",
+                "entries": [{"source": "uw_price", "date": "2026-06-05"}],
+            },
+            "lane_status": {"counts": {"has_data": 11}},
+            "actions": [{"kind": "event_risk", "what": "Review oil shock", "action_state": "ACT_NOW"}],
+        },
     )
 
     assert status["live_summary"] == "live_with_open_reviews"
     assert status["go_live_ready"] is True
     assert status["open_actions"]["tickers"] == ["ANET"]
     assert status["dark_lanes"]["keys"] == ["catalysts"]
+    assert status["data_flow"]["feed_present"] is True
+    assert status["data_flow"]["lanes_with_data"] == 11
+    assert status["data_flow"]["source_dates"]["uw_price"] == "2026-06-05"
+    assert status["data_flow"]["top_action"]["kind"] == "event_risk"
 
 
 def test_build_status_summary_prioritizes_blocked_state():
@@ -73,6 +86,7 @@ def test_build_status_summary_prioritizes_blocked_state():
     assert status["live_summary"] == "blocked"
     assert status["blockers"]["missing_minimum_live_inputs"] == ["macro"]
     assert status["system_queue"]["active_or_queued"] == 1
+    assert status["data_flow"]["feed_present"] is False
 
 
 def test_build_status_summary_reports_queue_when_live():
