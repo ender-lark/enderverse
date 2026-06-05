@@ -480,6 +480,42 @@ def _validate_portfolio_views(pv: Any) -> list[str]:
         cats = view.get("categories")
         if not isinstance(cats, list):
             out.append(f"views.{key}.categories must be a list")
+        effective = view.get("effective_exposure", _MISSING)
+        if effective is not _MISSING:
+            if not isinstance(effective, dict):
+                out.append(f"views.{key}.effective_exposure must be a dict")
+            else:
+                overlap_rows = effective.get("overlap_rows")
+                if not isinstance(overlap_rows, list):
+                    out.append(f"views.{key}.effective_exposure.overlap_rows must be a list")
+                else:
+                    for idx, row in enumerate(overlap_rows):
+                        if not isinstance(row, dict):
+                            out.append(f"views.{key}.effective_exposure.overlap_rows[{idx}] must be a dict")
+                            continue
+                        if not isinstance(row.get("ticker"), str) or not row.get("ticker").strip():
+                            out.append(f"views.{key}.effective_exposure.overlap_rows[{idx}].ticker must be non-empty")
+                        for fld in ("direct_market_value", "lookthrough_market_value",
+                                    "effective_market_value", "effective_pct"):
+                            val = row.get(fld)
+                            if isinstance(val, bool) or not isinstance(val, (int, float)) or val < 0:
+                                out.append(f"views.{key}.effective_exposure.overlap_rows[{idx}].{fld} must be non-negative number")
+                sleeves = effective.get("sleeves")
+                if not isinstance(sleeves, list):
+                    out.append(f"views.{key}.effective_exposure.sleeves must be a list")
+                else:
+                    for idx, row in enumerate(sleeves):
+                        if not isinstance(row, dict):
+                            out.append(f"views.{key}.effective_exposure.sleeves[{idx}] must be a dict")
+                            continue
+                        if not isinstance(row.get("category"), str) or not row.get("category").strip():
+                            out.append(f"views.{key}.effective_exposure.sleeves[{idx}].category must be non-empty")
+                        for fld in ("direct_market_value", "lookthrough_market_value",
+                                    "effective_market_value", "direct_pct",
+                                    "lookthrough_pct", "effective_pct"):
+                            val = row.get(fld)
+                            if isinstance(val, bool) or not isinstance(val, (int, float)) or val < 0:
+                                out.append(f"views.{key}.effective_exposure.sleeves[{idx}].{fld} must be non-negative number")
     return out
 
 

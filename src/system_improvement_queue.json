@@ -20,7 +20,7 @@
       "id": "broker-pdf-position-reconciliation",
       "title": "Broker PDF intake and trade-diff reconciliation",
       "priority": "P1",
-      "status": "active",
+      "status": "done",
       "area": "positions",
       "why": "The system needs current account positions after uploaded broker PDFs, including trade diffs since the last snapshot.",
       "done_when": "Uploaded account PDFs produce account-level positions, combined positions, and a clear diff of buys/sells/trims since the prior snapshot."
@@ -29,7 +29,7 @@
       "id": "etf-lookthrough-sleeves",
       "title": "ETF look-through and overlapping sleeve exposure",
       "priority": "P2",
-      "status": "queued",
+      "status": "done",
       "area": "portfolio",
       "why": "Sleeve concentration can be misleading when ETFs overlap with single-name AI, nuclear, or crypto exposure.",
       "done_when": "Dashboard distinguishes direct sleeve weights from effective look-through exposure and labels estimates clearly."

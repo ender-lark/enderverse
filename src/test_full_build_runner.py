@@ -201,3 +201,8 @@ def test_full_build_runner_adds_portfolio_views_when_account_positions_exist(tmp
     assert feed["portfolio_views"]["views"]["combined"]["total_value"] == 100000
     assert {r["ticker"] for r in feed["portfolio_views"]["views"]["skb"]["rows"]} == {"NVDA"}
     assert {r["ticker"] for r in feed["portfolio_views"]["views"]["parents"]["rows"]} == {"SMH"}
+    overlap = {
+        r["ticker"]: r
+        for r in feed["portfolio_views"]["views"]["combined"]["effective_exposure"]["overlap_rows"]
+    }
+    assert overlap["NVDA"]["lookthrough_market_value"] == 1600

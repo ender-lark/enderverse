@@ -924,6 +924,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
   const ownerFilter = (own) => view==="agg" ? true : view==="parents" ? own.includes("p") : own.includes("s");
   const portfolioViewKey = view==="agg" ? "combined" : view;
   const portfolioView = VM.portfolioViews && VM.portfolioViews.views ? VM.portfolioViews.views[portfolioViewKey] : null;
+  const effectiveExposure = portfolioView && portfolioView.effective_exposure ? portfolioView.effective_exposure : null;
 
   return (
     <div style={{ background:C.bg, color:C.text, fontFamily:sans, minHeight:"100%", padding:"18px 13px 52px", lineHeight:1.45 }}>
@@ -1393,6 +1394,37 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                 ))}
               </div>
+              {effectiveExposure && ((effectiveExposure.sleeves||[]).some(s=>s.lookthrough_market_value>0) || (effectiveExposure.overlap_rows||[]).length>0) && (
+                <div style={{ marginTop:10, borderTop:`1px solid ${C.line}`, paddingTop:9 }}>
+                  <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:10, flexWrap:"wrap", marginBottom:7 }}>
+                    <div style={{ fontSize:11.5, fontWeight:700, color:C.text }}>Effective exposure</div>
+                    <div style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{effectiveExposure.source||"ETF look-through estimate"}</div>
+                  </div>
+                  <div style={{ ...muted, fontSize:11, marginBottom:8 }}>{effectiveExposure.caveat||"Estimated ETF overlap; not additive to book weight."}</div>
+                  <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(170px, 1fr))", gap:8 }}>
+                    {(effectiveExposure.sleeves||[]).filter(s=>s.lookthrough_market_value>0).slice(0,4).map((s,i)=>(
+                      <div key={`${s.category}${i}`} style={{ border:`1px solid ${C.line}`, borderRadius:8, padding:"7px 8px", background:C.panel2 }}>
+                        <div style={{ display:"flex", justifyContent:"space-between", gap:8 }}>
+                          <span style={{ fontSize:11.5, color:C.text, fontWeight:600 }}>{s.category}</span>
+                          <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{typeof s.effective_pct==="number"?`${s.effective_pct.toFixed(1)}%`:""}</span>
+                        </div>
+                        <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.dim }}>direct {typeof s.direct_pct==="number"?s.direct_pct.toFixed(1):"0.0"}% + ETF {typeof s.lookthrough_pct==="number"?s.lookthrough_pct.toFixed(1):"0.0"}%</div>
+                      </div>
+                    ))}
+                  </div>
+                  {(effectiveExposure.overlap_rows||[]).length>0 && (
+                    <div style={{ marginTop:8 }}>
+                      {(effectiveExposure.overlap_rows||[]).slice(0,5).map((r,i)=>(
+                        <div key={`${r.ticker}${i}`} style={{ display:"grid", gridTemplateColumns:"72px 1fr auto", gap:8, alignItems:"center", padding:"4px 0", borderTop:i?`1px solid ${C.line}`:"none" }}>
+                          <span style={{ fontFamily:mono, fontSize:12, fontWeight:700, color:C.text }}>{r.ticker}</span>
+                          <span style={{ fontSize:11.5, color:C.dim, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{(r.sources||[]).map(s=>s.etf).join(", ")} overlap</span>
+                          <span style={{ fontFamily:mono, fontSize:11.5, color:C.faint }}>{money(r.effective_market_value)}{typeof r.effective_pct==="number"?` Â· ${r.effective_pct.toFixed(1)}%`:""}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
               <div style={{ marginTop:10, borderTop:`1px solid ${C.line}`, paddingTop:8 }}>
                 {(portfolioView.rows||[]).slice(0,8).map((r,i)=>(
                   <div key={`${r.ticker}${r.account}${i}`} style={{ display:"grid", gridTemplateColumns:"72px 1fr auto", gap:8, alignItems:"center", padding:"4px 0", borderTop:i?`1px solid ${C.line}`:"none" }}>

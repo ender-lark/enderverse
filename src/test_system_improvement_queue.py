@@ -76,4 +76,7 @@ def test_summary_is_json_serializable():
     data = summary(load_queue())
     json.dumps(data)
     assert data["items"] >= 1
-    assert data["next"]
+    if data["active_or_queued"]:
+        assert data["next"]
+    else:
+        assert data["next"] == []

@@ -5,11 +5,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- ETF look-through sleeves.
-  - Add holdings overlap and sleeve exposure only after dashboard parity and action surfacing are stable.
+- Completion audit and next-slice discovery.
+  - Check repo queues, manifests, and standard verification before declaring the current project backlog clear.
+  - If gaps remain, add the next concrete slice here before implementation.
 
 ## Recently Completed
 
+- ETF look-through sleeves.
+  - Added separate effective ETF look-through exposure to `portfolio_views`.
+  - Rendered effective sleeve estimates and top overlap rows in the canonical Book tab.
+  - Kept direct account rows/categories direct-only and labeled estimates clearly.
 - Fundstrat intake expansion.
   - Hardened `fundstrat_email_intake.py` for Gmail connector search and batch-read shapes.
   - Preserved snippet-only discovery as not full-body checked.

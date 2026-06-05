@@ -34,7 +34,32 @@ def test_portfolio_views_category_summary_is_direct_only():
 
     assert combined_categories["AI / Semiconductors"]["market_value"] == 5000
     assert combined_categories["AI / Semiconductors"]["pct"] == 50.0
-    assert "ETF look-through is not included" in views["caveat"]
+    assert "direct holdings only" in views["caveat"]
+
+
+def test_portfolio_views_effective_exposure_adds_etf_overlap_separately():
+    views = build_portfolio_views(ACCOUNT_CACHE)
+    effective = views["views"]["combined"]["effective_exposure"]
+    overlaps = {row["ticker"]: row for row in effective["overlap_rows"]}
+    sleeves = {row["category"]: row for row in effective["sleeves"]}
+
+    assert effective["basis"] == "direct_plus_estimated_etf_lookthrough"
+    assert overlaps["NVDA"]["direct_market_value"] == 3000
+    assert overlaps["NVDA"]["lookthrough_market_value"] == 400
+    assert overlaps["NVDA"]["effective_market_value"] == 3400
+    assert overlaps["NVDA"]["sources"] == [{"etf": "SMH", "fraction": 0.2, "market_value": 400.0}]
+    assert sleeves["AI / Semiconductors"]["direct_market_value"] == 5000
+    assert sleeves["AI / Semiconductors"]["lookthrough_market_value"] == 720
+    assert sleeves["AI / Semiconductors"]["effective_pct"] == 57.2
+
+
+def test_portfolio_views_effective_exposure_is_account_specific():
+    views = build_portfolio_views(ACCOUNT_CACHE)
+
+    assert views["views"]["skb"]["effective_exposure"]["overlap_rows"] == []
+    parent_overlap = {row["ticker"]: row for row in views["views"]["parents"]["effective_exposure"]["overlap_rows"]}
+    assert parent_overlap["NVDA"]["direct_market_value"] == 0
+    assert parent_overlap["NVDA"]["lookthrough_market_value"] == 400
 
 
 def test_empty_or_missing_account_cache_returns_none():

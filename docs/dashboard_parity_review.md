@@ -69,7 +69,7 @@ Result summary:
 | `bullish_flow` | UW opportunity cache | Bullish flow lane | Not rendered | Missing in HTML |
 | `prospects` | Top prospects cache | Top Prospects lane and action promotion | Not rendered | Missing in HTML |
 | `feedback` | `feedback_summary.py` | Feedback loops panel | Not rendered | Missing in HTML |
-| `portfolio_views` | `account_positions.json` -> `portfolio_views.py` | Book tab account views when present | Not rendered | Missing in HTML |
+| `portfolio_views` | `account_positions.json` -> `portfolio_views.py` | Book tab account views plus effective ETF look-through estimates when present | Not rendered | Missing in HTML |
 
 ## Static, Sample, Or Stale Surfaces
 

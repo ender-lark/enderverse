@@ -370,9 +370,28 @@ def test_feed_rejects_bad_target_drift_block():
 
 
 def test_feed_portfolio_views_optional_block_validates_when_present():
+    effective = {
+        "basis": "direct_plus_estimated_etf_lookthrough",
+        "overlap_rows": [{
+            "ticker": "NVDA",
+            "direct_market_value": 1000,
+            "lookthrough_market_value": 200,
+            "effective_market_value": 1200,
+            "effective_pct": 12.0,
+        }],
+        "sleeves": [{
+            "category": "AI / Semiconductors",
+            "direct_market_value": 1000,
+            "lookthrough_market_value": 200,
+            "effective_market_value": 1200,
+            "direct_pct": 10.0,
+            "lookthrough_pct": 2.0,
+            "effective_pct": 12.0,
+        }],
+    }
     good = {
         "views": {
-            "combined": {"total_value": 1000, "rows": [{"ticker": "NVDA", "market_value": 1000}], "categories": []},
+            "combined": {"total_value": 1000, "rows": [{"ticker": "NVDA", "market_value": 1000}], "categories": [], "effective_exposure": effective},
             "skb": {"total_value": 1000, "rows": [{"ticker": "NVDA", "market_value": 1000}], "categories": []},
             "parents": {"total_value": 0, "rows": [], "categories": []},
         }
@@ -381,13 +400,22 @@ def test_feed_portfolio_views_optional_block_validates_when_present():
 
     bad = {
         "views": {
-            "combined": {"total_value": -1, "rows": [{"ticker": "", "market_value": "x"}], "categories": []},
+            "combined": {
+                "total_value": -1,
+                "rows": [{"ticker": "", "market_value": "x"}],
+                "categories": [],
+                "effective_exposure": {
+                    "overlap_rows": [{"ticker": "", "lookthrough_market_value": "x"}],
+                    "sleeves": [{"category": "", "effective_pct": -1}],
+                },
+            },
             "skb": {"total_value": 0, "rows": [], "categories": []},
             "parents": {"total_value": 0, "rows": [], "categories": []},
         }
     }
     problems = validate_cockpit_feed(_feed(portfolio_views=bad))
     assert any("portfolio_views" in p for p in problems)
+    assert any("effective_exposure" in p for p in problems)
 
 
 def test_feed_research_wrong_type_flagged():
