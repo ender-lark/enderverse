@@ -130,11 +130,14 @@
       "separation_group": "market_data_refresh",
       "input_boundaries": [
         "Unusual Whales connector/API results gathered by bounded workers",
-        "Supplied UW close-price response JSON for rotation cache"
+        "Supplied UW close-price response JSON for rotation cache",
+        "Supplied yield-curve and cross-asset macro JSON for macro state"
       ],
       "owns": [
         "src/uw_closes.json",
         "src/uw_price_cache_summary.json",
+        "src/macro_state.json",
+        "src/macro_pulse_summary.json",
         "src/uw_opportunity_signals.json",
         "src/parabolic_setups.json"
       ],
@@ -148,6 +151,14 @@
           "command": "python src/uw_price_cache_intake.py --validate src/uw_closes.json"
         },
         {
+          "id": "macro_state_from_supplied_inputs",
+          "command": "python src/macro_pulse_scan.py --yield-data <yield-curve-json> --cross-asset <cross-asset-json> --emit-state src/macro_state.json --summary src/macro_pulse_summary.json"
+        },
+        {
+          "id": "validate_macro_state",
+          "command": "python src/macro_pulse_scan.py --validate src/macro_state.json"
+        },
+        {
           "id": "opportunity_cache",
           "command": "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1"
         },
@@ -156,7 +167,7 @@
           "command": "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1"
         }
       ],
-      "verification": "python src/uw_opportunity_scan.py --self-test && python src/parabolic_setup_screener.py --self-test && python -m pytest src/test_uw_price_cache_intake.py src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q",
+      "verification": "python src/uw_opportunity_scan.py --self-test && python src/parabolic_setup_screener.py --self-test && python src/macro_pulse_scan.py --self-test && python -m pytest src/test_uw_price_cache_intake.py src/test_macro_freshness.py src/test_uw_macro.py src/test_uw_macro_adapter.py src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q",
       "no_input_behavior": "Do not mark UW lanes checked clear; report missing UW input as not checked and skipped or failed tickers explicitly."
     },
     {

@@ -15,6 +15,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Macro state refresh routine wiring.
+  - Extended `macro_pulse_scan.py --emit-state` so `macro_state.json` carries
+    both session-preflight regime/freshness fields and the UW macro snapshot
+    shape consumed by the full cockpit build.
+  - Added `macro_pulse_scan.py --validate` and an atomic summary-writing path
+    for supplied yield-curve/cross-asset macro inputs.
+  - Wired `macro_state.json` and `macro_pulse_summary.json` into the UW market
+    data refresh routine manifest/docs and state ownership map.
 - Signal Log intake routine.
   - Added `signal_log_intake.py` to normalize supplied Signal Log or Morning
     Scan JSON into `src/signal_log.json`.

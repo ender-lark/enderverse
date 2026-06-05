@@ -1,5 +1,5 @@
 """
-macro_pulse_scan.py — P-MACRO-CONTEXT operational script (CI v11.25)
+macro_pulse_scan.py - P-MACRO-CONTEXT operational script (CI v11.25)
 
 Pulls cross-asset macro state and classifies regime. Surfaces structured
 macro block for session-open pre-flight + before every Tier A/B capital action.
@@ -15,9 +15,12 @@ CLI:
 import argparse
 import datetime
 import json
+import os
 import sys
+import tempfile
 from dataclasses import dataclass, field
-from typing import Optional
+from pathlib import Path
+from typing import Any, Optional
 
 
 # ---------- ALERT THRESHOLDS ----------
@@ -247,21 +250,21 @@ def format_macro_block(curve: YieldCurveSnapshot, cross: CrossAssetSnapshot,
     ten_y_delta = ""
     if prior_10y is not None:
         delta_bp = round((ten_y - prior_10y) * 100, 0)
-        ten_y_delta = f" (Δ {delta_bp:+.0f}bp 5d)"
+        ten_y_delta = f" (delta {delta_bp:+.0f}bp 5d)"
 
     dxy_str = f"DXY proxy UUP {cross.uup_price:.2f}"
     if dxy_5d_pct is not None:
-        dxy_str = f"DXY {cross.uup_price:.2f} (Δ {dxy_5d_pct:+.1f}%)"
+        dxy_str = f"DXY {cross.uup_price:.2f} (delta {dxy_5d_pct:+.1f}%)"
 
     move_str = f"MOVE {cross.move_index:.0f}" if cross.move_index else "MOVE n/a"
     fed_str = f"Fed Jun cut prob {fed_cut_prob_jun*100:.0f}%" if fed_cut_prob_jun else "Fed Jun cut prob n/a"
     real_str = f"Real 10Y {real_10y:.2f}%" if real_10y else ""
 
-    line1 = (f"MACRO: 10Y {ten_y:.2f}%{ten_y_delta} · 2s10s "
-             f"{curve.two_ten_spread_bp:+.0f}bp · {dxy_str} · "
-             f"VIX {cross.vix_level:.1f} · {move_str}")
-    line2 = (f"       WTI proxy USO ${cross.uso_price:.2f} · {fed_str}"
-             + (f" · {real_str}" if real_str else ""))
+    line1 = (f"MACRO: 10Y {ten_y:.2f}%{ten_y_delta} | 2s10s "
+             f"{curve.two_ten_spread_bp:+.0f}bp | {dxy_str} | "
+             f"VIX {cross.vix_level:.1f} | {move_str}")
+    line2 = (f"       WTI proxy USO ${cross.uso_price:.2f} | {fed_str}"
+             + (f" | {real_str}" if real_str else ""))
 
     output_lines = [
         "MACRO PULSE",
@@ -269,34 +272,85 @@ def format_macro_block(curve: YieldCurveSnapshot, cross: CrossAssetSnapshot,
         line1,
         line2,
         f"       REGIME: {regime.label}",
-        f"       Duration={regime.duration} · Credit={regime.credit} · "
-        f"Dollar={regime.dollar} · Vol={regime.vol_regime} · Inflation={regime.inflation_tape}",
+        f"       Duration={regime.duration} | Credit={regime.credit} | "
+        f"Dollar={regime.dollar} | Vol={regime.vol_regime} | Inflation={regime.inflation_tape}",
     ]
 
     if alerts.any_fired():
         output_lines.append("")
-        output_lines.append("🚨 MACRO ALERTS FIRING:")
+        output_lines.append("MACRO ALERTS FIRING:")
         for item in alerts.items:
-            output_lines.append(f"   • {item}")
+            output_lines.append(f"   - {item}")
 
     if regime.implications:
         output_lines.append("")
         output_lines.append("IMPLICATIONS (decision feed):")
         for imp in regime.implications:
-            output_lines.append(f"   • {imp}")
+            output_lines.append(f"   - {imp}")
 
     return "\n".join(output_lines)
 
 
-# ---------- SELF TEST ----------
+# ---------- STATE CACHE ----------
+
+def _atomic_write_json(path: str | Path, payload: Any) -> Path:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".macro_state.", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            json.dump(payload, fh, indent=2)
+            fh.write("\n")
+        os.replace(tmp, path)
+    finally:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+    return path
+
+
+def _read_json(path: str | Path) -> Any:
+    with Path(path).open(encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def _rate_slot(value: Optional[float]) -> dict | None:
+    if value is None:
+        return None
+    return {"value": float(value), "value_5d_ago": None}
+
+
+def _level_slot(value: Optional[float]) -> dict | None:
+    if value is None:
+        return None
+    return {"value": float(value), "value_5d_ago": None}
+
+
+def _uw_macro_snapshot(curve: YieldCurveSnapshot, cross: CrossAssetSnapshot) -> dict:
+    rates: dict[str, dict] = {}
+    for key, label in (("2y", "2Y"), ("10y", "10Y"), ("30y", "30Y")):
+        slot = _rate_slot(curve.yields.get(key))
+        if slot:
+            rates[label] = slot
+
+    levels: dict[str, dict] = {}
+    for label, value in (
+        ("DXY", cross.uup_price),
+        ("VIX", cross.vix_level),
+        ("MOVE", cross.move_index),
+    ):
+        slot = _level_slot(value)
+        if slot:
+            levels[label] = slot
+
+    return {"rates": rates, "levels": levels}
 
 def build_macro_state(curve: YieldCurveSnapshot, cross: CrossAssetSnapshot,
                       regime: MacroRegime, alerts: MacroAlerts) -> dict:
-    """Assemble the macro_state.json consumer cache — the schema that
+    """Assemble the macro_state.json consumer cache - the schema that
     daily_preflight -> session_orchestrator._run_macro reads. snapshot_date is the
     yield-curve date; the live pre-flight's freshness guard compares it to the
     current trading day and flags MACRO STALE if it isn't today's."""
-    return {
+    state = {
         "_comment": ("Generated by macro_pulse_scan --emit-state. snapshot_date = "
                      "yield-data date. Refresh each trading morning via the Morning "
                      "Scan routine; the pre-flight flags MACRO STALE otherwise."),
@@ -322,6 +376,57 @@ def build_macro_state(curve: YieldCurveSnapshot, cross: CrossAssetSnapshot,
         },
         "alerts": list(alerts.items),
         "implications": list(regime.implications),
+    }
+    state.update(_uw_macro_snapshot(curve, cross))
+    return state
+
+
+def validate_macro_state(state: Any) -> list[str]:
+    problems: list[str] = []
+    if not isinstance(state, dict):
+        return ["macro state must be an object"]
+    if not isinstance(state.get("snapshot_date"), str) or not state.get("snapshot_date").strip():
+        problems.append("snapshot_date must be a non-empty string")
+    if not isinstance(state.get("regime_label"), str) or not state.get("regime_label").strip():
+        problems.append("regime_label must be a non-empty string")
+    if not isinstance(state.get("indicators"), dict) or not state.get("indicators"):
+        problems.append("indicators must be a non-empty object")
+    if not isinstance(state.get("alerts"), list):
+        problems.append("alerts must be a list")
+    if not isinstance(state.get("implications"), list):
+        problems.append("implications must be a list")
+
+    rates = state.get("rates")
+    levels = state.get("levels")
+    if not isinstance(rates, dict) or not rates:
+        problems.append("rates must be a non-empty UW macro snapshot object")
+    else:
+        for label, row in rates.items():
+            value = row.get("value") if isinstance(row, dict) else None
+            if not isinstance(value, (int, float)) or isinstance(value, bool):
+                problems.append(f"rates.{label}.value must be numeric")
+    if levels is not None and not isinstance(levels, dict):
+        problems.append("levels must be an object when present")
+    elif isinstance(levels, dict):
+        for label, row in levels.items():
+            value = row.get("value") if isinstance(row, dict) else None
+            if not isinstance(value, (int, float)) or isinstance(value, bool):
+                problems.append(f"levels.{label}.value must be numeric")
+    return problems
+
+
+def macro_state_summary(state: dict, *, out: str | None = None, written: bool = False) -> dict:
+    problems = validate_macro_state(state)
+    return {
+        "valid": not problems,
+        "problems": problems,
+        "out": out or "",
+        "written": written,
+        "snapshot_date": state.get("snapshot_date", ""),
+        "rates": sorted((state.get("rates") or {}).keys()),
+        "levels": sorted((state.get("levels") or {}).keys()),
+        "alerts": len(state.get("alerts") or []),
+        "implications": len(state.get("implications") or []),
     }
 
 
@@ -361,10 +466,10 @@ def self_test() -> bool:
     def assert_eq(label, actual, expected):
         nonlocal assertions_passed, assertions_failed
         if actual == expected:
-            print(f"  ✓ {label}: {actual}")
+            print(f"  PASS {label}: {actual}")
             assertions_passed += 1
         else:
-            print(f"  ✗ {label}: got {actual}, expected {expected}")
+            print(f"  FAIL {label}: got {actual}, expected {expected}")
             assertions_failed += 1
 
     print("Assertions:")
@@ -412,21 +517,37 @@ def self_test() -> bool:
 # ---------- CLI ENTRY ----------
 
 def main():
-    parser = argparse.ArgumentParser(description="macro_pulse_scan — P-MACRO-CONTEXT")
+    parser = argparse.ArgumentParser(description="macro_pulse_scan - P-MACRO-CONTEXT")
     parser.add_argument("--self-test", action="store_true", help="Run self-test with synthetic 5/18/26 data")
     parser.add_argument("--yield-data", type=str, help="Path to JSON file with yield curve data")
     parser.add_argument("--cross-asset", type=str, help="Path to JSON file with cross-asset data")
     parser.add_argument("--prior-10y", type=float, help="Prior 10Y yield (for delta calc)")
-    parser.add_argument("--dxy-5d-pct", type=float, help="DXY 5-day change %")
+    parser.add_argument("--dxy-5d-pct", type=float, help="DXY 5-day change %%")
     parser.add_argument("--emit-state", type=str, metavar="PATH",
                         help="Write the macro_state.json consumer cache to PATH "
                              "(snapshot_date = yield-data date) instead of printing "
                              "the block")
+    parser.add_argument("--summary", type=str, help="Write a compact macro state summary JSON")
+    parser.add_argument("--validate", type=str, metavar="MACRO_STATE_JSON",
+                        help="Validate an existing macro_state.json cache")
     args = parser.parse_args()
 
     if args.self_test:
         ok = self_test()
         sys.exit(0 if ok else 1)
+
+    if args.validate:
+        if not Path(args.validate).is_file():
+            print(json.dumps({
+                "valid": False,
+                "path": args.validate,
+                "problems": ["cache file not found"],
+            }, indent=2))
+            sys.exit(2)
+        state = _read_json(args.validate)
+        summary = macro_state_summary(state)
+        print(json.dumps(summary, indent=2))
+        sys.exit(0 if summary["valid"] else 2)
 
     if not (args.yield_data and args.cross_asset):
         parser.print_help()
@@ -443,10 +564,17 @@ def main():
     regime = assemble_regime(curve, cross, dxy_5d_pct=args.dxy_5d_pct)
     if args.emit_state:
         state = build_macro_state(curve, cross, regime, alerts)
-        with open(args.emit_state, "w") as f:
-            json.dump(state, f, indent=2)
-        print(f"macro_state written -> {args.emit_state} "
-              f"(snapshot_date={curve.date}, {len(alerts.items)} alert(s))")
+        summary = macro_state_summary(state, out=args.emit_state, written=False)
+        if summary["problems"]:
+            if args.summary:
+                _atomic_write_json(args.summary, summary)
+            print(json.dumps(summary, indent=2))
+            sys.exit(2)
+        _atomic_write_json(args.emit_state, state)
+        summary["written"] = True
+        if args.summary:
+            _atomic_write_json(args.summary, summary)
+        print(json.dumps(summary, indent=2))
     else:
         print(format_macro_block(curve, cross, regime, alerts,
                                   prior_10y=args.prior_10y, dxy_5d_pct=args.dxy_5d_pct))

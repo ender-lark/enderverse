@@ -215,11 +215,11 @@
       "id": "macro_state",
       "source_of_truth": "uw_macro_or_market_data_routine",
       "repo_artifact": "src/macro_state.json",
-      "producer": "UW/macro routine",
+      "producer": "uw_cache_refresh -> macro_pulse_scan.py --emit-state",
       "feed_path": "full_build_runner.DEFAULT_FILES.macro -> uw_macro source -> feed.macro/actions",
       "dashboard_surface": "Macro panel and macro alert actions",
       "mirror_policy": "GitHub cache is build input; live routine should refresh before publish.",
-      "freshness_contract": "Macro values must pass plausibility gates before publish.",
+      "freshness_contract": "Macro values must pass macro_pulse_scan.py --validate and publish-gate plausibility before publish.",
       "not_checked_behavior": "Stale/missing macro must show as stale/not checked and can fail publish.",
       "action_surface": "Macro alerts can affect risk, sizing, and leverage posture."
     },

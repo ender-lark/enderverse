@@ -29,8 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Signal Log intake
-  routine.
+- Latest completed slice before this handoff refresh: Macro state refresh
+  routine wiring.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -60,9 +60,14 @@ Important recent state:
 - `src/uw_price_cache_intake.py` can normalize supplied UW close-price responses
   or close arrays into `src/uw_closes.json` and validates all default rotation
   tickers have enough history before writing.
-- The UW cache refresh routine manifest/docs now own `src/uw_closes.json` and
-  `src/uw_price_cache_summary.json`, but the current repo still has no
-  populated `src/uw_closes.json`.
+- `src/macro_pulse_scan.py --emit-state` writes a `src/macro_state.json` cache
+  that works for both session preflight regime/freshness checks and the full
+  cockpit `uw_macro` lane; `--validate` reports structured failures for absent
+  or malformed macro caches.
+- The UW cache refresh routine manifest/docs now own `src/uw_closes.json`,
+  `src/uw_price_cache_summary.json`, `src/macro_state.json`, and
+  `src/macro_pulse_summary.json`, but the current repo still has no populated
+  `src/uw_closes.json` or `src/macro_state.json`.
 - `src/daily_synthesis_intake.py` can normalize supplied Daily Synthesis JSON
   into `src/daily_synthesis.json`, preserving structured action metadata without
   generating market content.
@@ -75,9 +80,9 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `863 passed, 6 skipped`.
+- `python -m pytest src -q` -> `867 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
-- `python src\verify_standard.py` should run the same full pytest tree plus the standalone self-tests.
+- `python src\verify_standard.py` passed with the same full pytest tree plus the standalone self-tests.
 
 Working rules:
 

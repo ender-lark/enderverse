@@ -12,6 +12,7 @@ from full_build_runner import (
     normalize_closes_cache,
     normalize_positions_cache,
 )
+import macro_pulse_scan as mp
 from validators import validate_cockpit_feed
 
 
@@ -208,6 +209,44 @@ def test_full_build_runner_missing_price_file_is_dark_not_false_has_data(tmp_pat
     rows = _lane_rows(feed)
     assert rows["uw_price"]["status"] == "not_checked"
     assert feed["lane_status"]["has_dark_lanes"] is True
+
+
+def test_full_build_runner_accepts_macro_pulse_state(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    curve = mp.YieldCurveSnapshot(
+        date="2026-06-05",
+        yields={"2y": 4.00, "10y": 4.50, "30y": 5.00},
+    )
+    cross = mp.CrossAssetSnapshot(
+        tlt_price=83.0,
+        ief_price=93.0,
+        lqd_price=107.0,
+        hyg_price=79.0,
+        uup_price=27.0,
+        vix_level=18.0,
+        gld_price=417.0,
+        uso_price=148.0,
+        move_index=95.0,
+    )
+    _write(src / "macro_state.json", mp.build_macro_state(
+        curve,
+        cross,
+        mp.assemble_regime(curve, cross),
+        mp.check_alerts(curve, cross),
+    ))
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    rows = _lane_rows(feed)
+    assert rows["uw_macro"]["status"] == "has_data"
+    assert "10Y 4.50%" in feed["macro"]["line"]
+    assert "USD (UUP) 27" in feed["macro"]["line"]
 
 
 def test_convention_input_status_uses_manifest_contract(tmp_path):

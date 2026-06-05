@@ -65,6 +65,9 @@ not-checked instead of being treated as clear.
    - Normalize supplied UW close-price responses into `uw_closes.json` with
      `uw_price_cache_intake.py`; the intake refuses incomplete default rotation
      coverage unless an operator explicitly allows partial output.
+   - Build and validate `macro_state.json` from supplied yield-curve and
+     cross-asset macro inputs; the cache must work for both session preflight
+     freshness and the full-build macro lane.
    - Refresh `uw_opportunity_signals.json` and, when scheduled, `parabolic_setups.json`.
    - Run the UW orchestrator as a module from `src`.
 

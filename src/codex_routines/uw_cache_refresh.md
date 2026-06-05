@@ -22,6 +22,18 @@ as `responses`, `responses_by_ticker`, `uw_price_responses`, `prices`, or
 history for the 3-month rotation read, unless an operator explicitly uses
 `--allow-partial`.
 
+For the macro cache, supply the yield-curve JSON and cross-asset macro JSON.
+The emitted `macro_state.json` must contain both the session-preflight regime
+fields and the UW macro snapshot fields consumed by the full cockpit build:
+
+```bash
+python src/macro_pulse_scan.py --yield-data <yield-curve-json> --cross-asset <cross-asset-json> --emit-state src/macro_state.json --summary src/macro_pulse_summary.json
+python src/macro_pulse_scan.py --validate src/macro_state.json
+```
+
+If macro inputs are missing or validation fails, leave `macro_state.json`
+unchanged and report the macro lane as not checked.
+
 Run the orchestrator as a module from `src`:
 
 ```bash
@@ -41,7 +53,8 @@ python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabol
 ```bash
 python src/uw_opportunity_scan.py --self-test
 python src/parabolic_setup_screener.py --self-test
-python -m pytest src/test_uw_price_cache_intake.py src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q
+python src/macro_pulse_scan.py --self-test
+python -m pytest src/test_uw_price_cache_intake.py src/test_macro_freshness.py src/test_uw_macro.py src/test_uw_macro_adapter.py src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q
 ```
 
 ## Rules
@@ -52,5 +65,7 @@ python -m pytest src/test_uw_price_cache_intake.py src/test_uw_opportunity_scan.
 - Report skipped or failed tickers explicitly.
 - Do not write `uw_closes.json` from incomplete rotation inputs; leave
   `uw_price` not checked instead of publishing a partial cache by accident.
+- Do not write `macro_state.json` unless it validates for both regime/freshness
+  fields and full-build UW macro snapshot fields.
 - Empty/near-empty output with successful source data is a field-map mismatch
   until proven otherwise.

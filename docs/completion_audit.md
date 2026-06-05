@@ -33,6 +33,13 @@ enough to hand control back, using current repo state as evidence. It covers:
   it now reports 20 daily convention inputs.
 - `python src/codex_routine_manifest.py --self-test` passed with the daily
   full-build convention-input coverage guardrail.
+- `python src/macro_pulse_scan.py --self-test` passed after the macro-state
+  refresh slice; console output is ASCII-safe on Windows automation.
+- Focused macro/full-build tests passed after the macro-state refresh slice:
+  `python -m pytest src/test_macro_freshness.py src/test_full_build_runner.py
+  src/test_uw_macro.py src/test_uw_macro_adapter.py
+  src/test_codex_routine_manifest.py src/test_state_ownership_map.py -q`
+  reported 54 passed.
 - Dashboard parity guardrail tests passed.
 - `python src/uw_price_cache_intake.py --validate src/uw_closes.json` now
   returns a structured JSON failure when the price cache is absent instead of a
@@ -47,12 +54,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 863 passed, 6 skipped
+  - broad `src` suite: 867 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 863 passed, 6 skipped.
+  ignore workaround: 867 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -77,6 +84,11 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Macro state refresh routine wiring: `macro_pulse_scan.py --emit-state` now
+  writes a `macro_state.json` cache that supports both session preflight
+  freshness/regime checks and the full-build `uw_macro` lane; the routine
+  manifest/docs and state ownership map now make this cache a first-class UW
+  market-data refresh output with validation.
 - Signal Log intake routine: supplied Signal Log or Morning Scan JSON can now be
   normalized into `signal_log.json`, validated as watch-only context, and
   surfaced through the full build without direct action promotion.

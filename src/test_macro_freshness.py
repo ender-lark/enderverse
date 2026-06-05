@@ -11,8 +11,14 @@ First pytest coverage for either module — both previously had only internal
 # module-level sys.path.insert(0, "/mnt/project") for the live environment, which in
 # a dual-checkout sandbox (repo clone + project snapshot both present) can otherwise
 # shadow the repo copy with a stale one. Binding mp first caches it in sys.modules.
+import json
+import os
+import subprocess
+import sys
+
 import macro_pulse_scan as mp
 import session_orchestrator as so
+from uw_macro import uw_macro_reader
 
 
 # ---------- freshness helper ----------
@@ -104,6 +110,32 @@ def test_build_macro_state_schema_and_snapshot_date():
     assert state["indicators"]["yield_10y"] == 4.50
     assert state["indicators"]["spread_2s10s"] == 0.50
     assert isinstance(state["alerts"], list)
+    assert state["rates"]["10Y"]["value"] == 4.50
+    assert state["levels"]["VIX"]["value"] == 18.0
+    assert mp.validate_macro_state(state) == []
+
+
+def test_build_macro_state_is_full_build_macro_snapshot_compatible():
+    curve, cross = _sample_curve_cross()
+    state = mp.build_macro_state(curve, cross,
+                                 mp.assemble_regime(curve, cross),
+                                 mp.check_alerts(curve, cross))
+    rows = uw_macro_reader(state, as_of="2026-05-29")
+    subjects = {row["subject"] for row in rows}
+
+    assert {"2Y", "10Y", "30Y", "2s10s", "10s30s", "DXY", "VIX", "MOVE"} <= subjects
+
+
+def test_validate_macro_state_rejects_missing_snapshot_shape():
+    problems = mp.validate_macro_state({
+        "snapshot_date": "2026-05-29",
+        "regime_label": "duration_NEUTRAL",
+        "indicators": {"yield_10y": 4.5},
+        "alerts": [],
+        "implications": [],
+    })
+
+    assert any("rates" in problem for problem in problems)
 
 
 def test_build_macro_state_roundtrips_into_freshness_guard():
@@ -114,3 +146,25 @@ def test_build_macro_state_roundtrips_into_freshness_guard():
                                  mp.check_alerts(curve, cross))
     res = so._run_macro(state, today="2026-05-29")
     assert "STALE" not in res.surface_line
+
+
+def test_macro_state_validate_cli(tmp_path):
+    curve, cross = _sample_curve_cross()
+    state = mp.build_macro_state(curve, cross,
+                                 mp.assemble_regime(curve, cross),
+                                 mp.check_alerts(curve, cross))
+    path = tmp_path / "macro_state.json"
+    path.write_text(json.dumps(state), encoding="utf-8")
+    script = os.path.join(os.path.dirname(__file__), "macro_pulse_scan.py")
+
+    proc = subprocess.run(
+        [sys.executable, script, "--validate", str(path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    payload = json.loads(proc.stdout)
+    assert payload["valid"] is True
+    assert payload["rates"] == ["10Y", "2Y", "30Y"]
