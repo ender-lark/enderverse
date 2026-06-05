@@ -27,6 +27,7 @@ from fundstrat_daily import build_fundstrat_daily_source
 from meridian import build_meridian_source
 from portfolio_views import build_portfolio_views
 from portfolio import build_portfolio_source
+from position_drift_check import target_weight_drift_summary
 from publish_cockpit_feed import publish_cockpit_feed
 from runtime_adapters import catalysts_from_calendar_rows, closes_by_ticker_from_uw
 from sources import SourceRegistry
@@ -264,6 +265,7 @@ def build_full_feed_from_files(
     inbox_call_dates = _load_optional(src, "inbox_call_dates")
     log_call_dates = _load_optional(src, "log_call_dates")
     parabolic_cache = _load_optional(src, "parabolic")
+    target_drift = target_weight_drift_summary(positions_cache)
 
     catalysts = None
     if catalyst_rows is not None:
@@ -304,6 +306,7 @@ def build_full_feed_from_files(
         source_calls=source_calls,
         inbox_call_dates=inbox_call_dates,
         log_call_dates=log_call_dates,
+        target_drift=target_drift,
     )
     portfolio_views = build_portfolio_views(account_positions)
     if portfolio_views:

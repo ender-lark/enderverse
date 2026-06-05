@@ -143,14 +143,22 @@
         "detail": "not supplied",
         "count": 0,
         "checked_at": ""
+      },
+      {
+        "key": "target_drift",
+        "label": "Target Drift",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": ""
       }
     ],
     "counts": {
-      "checked_clear": 0,
-      "stale": 0,
       "has_data": 6,
       "failed": 0,
-      "not_checked": 5
+      "checked_clear": 0,
+      "stale": 0,
+      "not_checked": 6
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false

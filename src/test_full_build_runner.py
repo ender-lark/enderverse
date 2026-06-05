@@ -133,8 +133,11 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert rows["top_prospects"]["status"] == "has_data"
     assert rows["catalysts"]["status"] == "has_data"
     assert rows["research"]["status"] == "not_checked"
+    assert rows["target_drift"]["status"] == "has_data"
     assert feed["bullish_flow"]["rows"]
     assert feed["prospects"]["counts"]["act_now"] == 1
+    assert feed["target_drift"]["actionable_count"] > 0
+    assert feed["target_drift"]["rows"]
     assert any(a.get("source") == "daily_synthesis" for a in feed["actions"])
 
 

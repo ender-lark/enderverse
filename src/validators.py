@@ -408,6 +408,47 @@ def _validate_feedback_block(fb: Any) -> list[str]:
     return out
 
 
+def _validate_target_drift_block(td: Any) -> list[str]:
+    if not isinstance(td, dict):
+        return [f"must be a dict, got {type(td).__name__}"]
+    out: list[str] = []
+    status = td.get("status")
+    if status not in _VALID_FEEDBACK_STATUS:
+        out.append(f"status must be one of {sorted(_VALID_FEEDBACK_STATUS)}, got {status!r}")
+    line = td.get("line")
+    if not isinstance(line, str) or not line.strip():
+        out.append("line must be a non-empty string")
+    for key in (
+        "actionable_count",
+        "undersized_count",
+        "oversized_count",
+        "missing_count",
+        "alarm_count",
+    ):
+        val = td.get(key)
+        if not isinstance(val, int) or val < 0:
+            out.append(f"{key} must be a non-negative int")
+    rows = td.get("rows")
+    if not isinstance(rows, list):
+        out.append("rows must be a list")
+    else:
+        for i, row in enumerate(rows):
+            if not isinstance(row, dict):
+                out.append(f"rows[{i}] must be a dict")
+                continue
+            ticker = row.get("ticker")
+            if not isinstance(ticker, str) or not ticker.strip():
+                out.append(f"rows[{i}].ticker must be non-empty")
+            direction = row.get("direction")
+            if direction not in {"UNDERSIZED", "OVERSIZED", "MISSING"}:
+                out.append(f"rows[{i}].direction has invalid value {direction!r}")
+            for key in ("actual_pct", "target_pct", "drift_relative", "drift_absolute_pct"):
+                val = row.get(key)
+                if isinstance(val, bool) or not isinstance(val, (int, float)):
+                    out.append(f"rows[{i}].{key} must be numeric")
+    return out
+
+
 def _validate_portfolio_views(pv: Any) -> list[str]:
     if not isinstance(pv, dict):
         return [f"must be a dict, got {type(pv).__name__}"]
@@ -622,6 +663,10 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
     feedback = feed.get("feedback", _MISSING)
     if feedback is not _MISSING:
         problems.extend(f"feedback {e}" for e in _validate_feedback_block(feedback))
+
+    target_drift = feed.get("target_drift", _MISSING)
+    if target_drift is not _MISSING:
+        problems.extend(f"target_drift {e}" for e in _validate_target_drift_block(target_drift))
 
     portfolio_views = feed.get("portfolio_views", _MISSING)
     if portfolio_views is not _MISSING:

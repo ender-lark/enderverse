@@ -331,6 +331,114 @@ def target_weight_drift(
     return cross_reference(baselines, actuals, threshold, alarm_threshold)
 
 
+def target_weight_drift_summary(
+    positions_json,
+    total_wealth: Optional[float] = None,
+    model=None,
+    threshold: float = DEFAULT_DRIFT_THRESHOLD,
+    alarm_threshold: float = ALARM_DRIFT_THRESHOLD,
+    include_etfs: bool = True,
+    limit: int = 6,
+) -> dict:
+    """Operator-facing target drift block for the cockpit FEED.
+
+    This is the structured dashboard twin of the preflight TARGET DRIFT line:
+    current positions are compared to the explicit reallocation working model,
+    then undersized/oversized/missing AI-model targets are returned as data.
+    """
+    if positions_json is None:
+        return {
+            "status": "not_checked",
+            "line": "Target drift not checked.",
+            "actionable_count": 0,
+            "undersized_count": 0,
+            "oversized_count": 0,
+            "missing_count": 0,
+            "alarm_count": 0,
+            "rows": [],
+        }
+
+    drift, missing, _untracked = target_weight_drift(
+        positions_json,
+        total_wealth=total_wealth,
+        model=model,
+        threshold=threshold,
+        alarm_threshold=alarm_threshold,
+        include_etfs=include_etfs,
+    )
+    flagged = [d for d in drift if d.is_flagged]
+    alarms = [d for d in flagged if "ALARM_DRIFT" in d.flags]
+    undersized = [d for d in flagged if d.direction == "UNDERSIZED"]
+    oversized = [d for d in flagged if d.direction == "OVERSIZED"]
+    actionable = len(flagged) + len(missing)
+
+    if actionable == 0:
+        return {
+            "status": "checked_clear",
+            "line": "Target drift checked: book is within AI working-model bands.",
+            "actionable_count": 0,
+            "undersized_count": 0,
+            "oversized_count": 0,
+            "missing_count": 0,
+            "alarm_count": 0,
+            "rows": [],
+        }
+
+    rows = []
+    for d in sorted(flagged, key=lambda x: -abs(x.drift_relative)):
+        rows.append({
+            "ticker": d.ticker,
+            "direction": d.direction,
+            "actual_pct": round(d.actual_pct * 100.0, 4),
+            "target_pct": round(d.memory_baseline_pct * 100.0, 4),
+            "drift_relative": round(d.drift_relative, 6),
+            "drift_absolute_pct": round(d.drift_absolute_pct * 100.0, 4),
+            "flags": list(d.flags),
+            "source": "reallocate_config",
+        })
+    for b in missing:
+        rows.append({
+            "ticker": b.ticker,
+            "direction": "MISSING",
+            "actual_pct": 0.0,
+            "target_pct": round(b.baseline_pct * 100.0, 4),
+            "drift_relative": -1.0,
+            "drift_absolute_pct": round(-b.baseline_pct * 100.0, 4),
+            "flags": ["P_UNDERSIZE_CANDIDATE", "MISSING_TARGET"],
+            "source": "reallocate_config",
+        })
+
+    top = []
+    for r in rows[:limit]:
+        if r["direction"] == "MISSING":
+            top.append(f"{r['ticker']} missing vs {r['target_pct']:.1f}% target")
+        else:
+            top.append(
+                f"{r['ticker']} {r['direction'].lower()} "
+                f"{r['actual_pct']:.1f}% vs {r['target_pct']:.1f}%"
+            )
+    more = max(0, actionable - len(top))
+    suffix = "; " + "; ".join(top) if top else ""
+    if more:
+        suffix += f"; +{more} more"
+
+    return {
+        "status": "has_data",
+        "line": (
+            "Target drift: "
+            f"{actionable} sizing gap(s) vs AI working model "
+            f"({len(undersized)} under, {len(oversized)} over, {len(missing)} missing)"
+            f"{suffix}"
+        ),
+        "actionable_count": actionable,
+        "undersized_count": len(undersized),
+        "oversized_count": len(oversized),
+        "missing_count": len(missing),
+        "alarm_count": len(alarms),
+        "rows": rows[:limit],
+    }
+
+
 def compute_drift(
     baseline: MemoryBaseline,
     actual: ActualPosition,

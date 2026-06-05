@@ -5,12 +5,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Reallocation and target drift.
-  - Make target weights machine-readable.
-  - Surface undersized/oversized AI allocation gaps at preflight and dashboard.
+- PDF holdings ingest.
+  - Improve broker position extraction when selectable text is available.
+  - Keep screenshot/OCR PDFs honest-fail until OCR tooling exists.
 
 ## Recently Completed
 
+- Reallocation and target drift.
+  - Target weights are machine-readable through `reallocate_config.py`.
+  - `position_drift_check.py` emits a structured `target_drift` feed block.
+  - Full builds mark Target Drift in lane status and render it in the dashboard Action view.
 - Dashboard canonicalization guardrail.
   - Added `docs/dashboard_feed_block_classification.json`.
   - Added `src/test_dashboard_parity_guardrail.py`.
@@ -26,9 +30,6 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-- PDF holdings ingest.
-  - Improve broker position extraction when selectable text is available.
-  - Keep screenshot/OCR PDFs honest-fail until OCR tooling exists.
 - Verification command.
   - Add one repo-owned command for the standard focused checks.
   - Document any known expected failures explicitly.

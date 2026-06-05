@@ -67,6 +67,7 @@ The single artifact every layer agrees on. Validated by `validators.validate_coc
 | `heartbeat` | caller | `[{layer,status,last_run,note}]` | heartbeat strip |
 | `synthesis` | caller (Daily Synthesis) | `{state_of_play,delta,hanging[],source,date}` | today's read |
 | `radar` | caller (daily calls) | `[{ticker,author,direction,entry,stop,target,window,date,quote}]` | Radar |
+| `target_drift` | full build (positions vs reallocate_config) | `{status,line,actionable_count,rows[]}` | Target Drift |
 
 **The action-row shape** (`_ACTION_REQUIRED` in `validators.py`) — shared by `actions` **and** `research_actions`:
 ```

@@ -330,6 +330,45 @@ def test_feed_optional_blocks_absent_is_valid():
     assert validate_cockpit_feed(f) == []
 
 
+def test_feed_accepts_valid_target_drift_block():
+    f = _feed(target_drift={
+        "status": "has_data",
+        "line": "Target drift: 1 sizing gap.",
+        "actionable_count": 1,
+        "undersized_count": 1,
+        "oversized_count": 0,
+        "missing_count": 0,
+        "alarm_count": 1,
+        "rows": [{
+            "ticker": "NVDA",
+            "direction": "UNDERSIZED",
+            "actual_pct": 6.0,
+            "target_pct": 12.0,
+            "drift_relative": -0.5,
+            "drift_absolute_pct": -6.0,
+        }],
+    })
+    assert validate_cockpit_feed(f) == []
+
+
+def test_feed_rejects_bad_target_drift_block():
+    f = _feed(target_drift={
+        "status": "mystery",
+        "line": "",
+        "actionable_count": -1,
+        "undersized_count": 0,
+        "oversized_count": 0,
+        "missing_count": 0,
+        "alarm_count": 0,
+        "rows": [{"ticker": "", "direction": "SIDEWAYS", "actual_pct": "6"}],
+    })
+    problems = validate_cockpit_feed(f)
+    assert any("target_drift status" in p for p in problems)
+    assert any("target_drift line" in p for p in problems)
+    assert any("target_drift actionable_count" in p for p in problems)
+    assert any("target_drift rows[0].ticker" in p for p in problems)
+
+
 def test_feed_portfolio_views_optional_block_validates_when_present():
     good = {
         "views": {

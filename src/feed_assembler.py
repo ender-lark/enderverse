@@ -85,6 +85,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   open_opportunities=None, opp_prices=None,
                   top_prospects=None, source_calls=None,
                   inbox_call_dates=None, log_call_dates=None,
+                  target_drift=None,
                   aging_threshold_days=3) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
@@ -290,6 +291,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         synthesis=synthesis,
         uw_opportunity=(uw_cards if uw_opportunity is not None else None),
         top_prospects=top_prospects,
+        target_drift=target_drift,
     )
     feedback = build_feedback_summary(
         source_calls=source_calls,
@@ -305,7 +307,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         inbox_call_dates=inbox_call_dates,
         log_call_dates=log_call_dates,
     )
-    return {
+    feed = {
         "generated_at": generated_at or f"{as_of}T16:00:00",
         "staleness": stale,
         "lane_status": lane_status,
@@ -327,3 +329,6 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "prospects": prospects,
         "feedback": feedback,
     }
+    if target_drift is not None:
+        feed["target_drift"] = target_drift
+    return feed

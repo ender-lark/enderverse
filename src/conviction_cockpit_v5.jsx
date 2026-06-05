@@ -829,6 +829,7 @@ function actionVM(feed){
     bullishFlow: feed.bullish_flow||{},
     prospects: feed.prospects||{},
     feedback: feed.feedback||{},
+    targetDrift: feed.target_drift||{},
     hero: heroView(feed.hero||{}),
     catalysts: feed.catalysts||[], questions: feed.questions||[], research: feed.research||{},
   };
@@ -1054,6 +1055,35 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {/* TOP PROSPECTS — the conviction-stack watchlist (item 5): FS-sourced
             names ranked by conviction/urgency, with alpha-vs-SPY movers + a
             sell-fast strip. Candidate surface; not the held book. */}
+        <Section id="target-drift" title="Target drift" icon="🎯" badge={VM.targetDrift.actionable_count?`${VM.targetDrift.actionable_count}`:"0"} badgeColor={VM.targetDrift.actionable_count?C.amber:C.faint} openMap={open} setOpen={setOpen} defaultOpen={!!VM.targetDrift.actionable_count}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>CURRENT BOOK vs REALLOCATION WORKING MODEL — sizing gaps only; candidates, not orders.</div>
+          {!VM.targetDrift.line && <div style={{ ...card, fontSize:12, color:C.faint }}>Target drift not checked in this feed build.</div>}
+          {VM.targetDrift.line && (
+            <div style={{ ...card, marginBottom:8, borderColor:(VM.targetDrift.actionable_count?C.amber:C.line)+"44" }}>
+              <div style={{ fontSize:12.5, color:VM.targetDrift.actionable_count?C.amber:C.dim }}>{VM.targetDrift.line}</div>
+              <div style={{ marginTop:8, display:"flex", gap:6, flexWrap:"wrap" }}>
+                <span style={{ fontFamily:mono, fontSize:10.5, color:C.green, border:`1px solid ${C.green}44`, borderRadius:99, padding:"1px 7px" }}>under {VM.targetDrift.undersized_count||0}</span>
+                <span style={{ fontFamily:mono, fontSize:10.5, color:C.red, border:`1px solid ${C.red}44`, borderRadius:99, padding:"1px 7px" }}>over {VM.targetDrift.oversized_count||0}</span>
+                <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber, border:`1px solid ${C.amber}44`, borderRadius:99, padding:"1px 7px" }}>missing {VM.targetDrift.missing_count||0}</span>
+                {(VM.targetDrift.alarm_count||0)>0 && <span style={{ fontFamily:mono, fontSize:10.5, color:C.red, border:`1px solid ${C.red}66`, borderRadius:99, padding:"1px 7px" }}>alarm {VM.targetDrift.alarm_count}</span>}
+              </div>
+            </div>
+          )}
+          {(VM.targetDrift.rows||[]).map((r,i)=>{
+            const dc = r.direction==="OVERSIZED" ? C.red : (r.direction==="UNDERSIZED"||r.direction==="MISSING") ? C.green : C.dim;
+            return (
+              <div key={`${r.ticker}${i}`} style={{ ...card, marginBottom:7, display:"grid", gridTemplateColumns:"72px 1fr auto", gap:8, alignItems:"center", borderColor:dc+"33" }}>
+                <span style={{ fontFamily:mono, fontWeight:700, fontSize:13, color:C.text }}>{r.ticker}</span>
+                <div style={{ minWidth:0 }}>
+                  <div style={{ fontSize:12.5, color:dc, fontWeight:600 }}>{(r.direction||"").toLowerCase().replace("_"," ")}</div>
+                  <div style={{ marginTop:2, fontFamily:mono, fontSize:11, color:C.faint }}>actual {typeof r.actual_pct==="number"?r.actual_pct.toFixed(1):"?"}% · target {typeof r.target_pct==="number"?r.target_pct.toFixed(1):"?"}%</div>
+                </div>
+                <span style={{ fontFamily:mono, fontSize:11.5, color:C.dim }}>{typeof r.drift_absolute_pct==="number"?`${r.drift_absolute_pct>0?"+":""}${r.drift_absolute_pct.toFixed(1)}pp`:""}</span>
+              </div>
+            );
+          })}
+        </Section>
+
         <Section id="top-prospects" title="Top Prospects" icon="🎯" badge={(VM.prospects.counts&&VM.prospects.counts.total)?`${VM.prospects.counts.total}`:"0"} badgeColor={(VM.prospects.counts&&VM.prospects.counts.total)?C.accent:C.faint} openMap={open} setOpen={setOpen} defaultOpen={!!(VM.prospects.counts&&VM.prospects.counts.total)}>
           {(() => {
             const P = VM.prospects||{}, ct = P.counts||{};
