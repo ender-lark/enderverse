@@ -15,12 +15,24 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Live launch rehearsal and first publish.
+  - Populated validated minimum live market inputs:
+    `src/uw_closes.json` plus `src/uw_price_cache_summary.json`, and
+    `src/macro_state.json` plus `src/macro_pulse_summary.json`.
+  - Re-ran `heartbeat_status.py`; heartbeat now has 0 down, 4 ok, and 1 stale
+    optional-lane row.
+  - `live_readiness.py --src-dir src` now reports `go_live_ready: true`.
+  - Ran the publish path successfully:
+    `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
+  - Published `src/latest_cockpit_feed.json` and updated
+    `src/open_opportunities.json`; there are currently 0 action rows and 0
+    research-action rows.
 - Heartbeat cache snapshot.
   - Ran `heartbeat_status.py` against current repo-local readiness evidence and
     wrote `src/heartbeat.json` plus `src/heartbeat_summary.json`.
-  - The generated heartbeat is valid and intentionally shows launch blockers:
-    Required Inputs and Daily Full Build are `ok`, Minimum Market Data and
-    Publish Gate are `down`, and Optional Source Lanes are `stale`.
+  - The generated heartbeat is valid; after the live market cache refresh,
+    Required Inputs, Minimum Market Data, Publish Gate, and Daily Full Build are
+    `ok`, while Optional Source Lanes remain `stale` for dark optional lanes.
 - Required input freshness validation for live readiness.
   - Extended `live_readiness.py` so present required convention inputs are
     validated before live/publish readiness.
@@ -255,12 +267,7 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-- Live launch rehearsal with real minimum market inputs.
-  - Populate or supply validated `src/uw_closes.json` and `src/macro_state.json`.
-  - Re-run `live_readiness.py`, `heartbeat_status.py`, and
-    `verify_standard.py`.
-  - Only treat this as a publish candidate if `go_live_ready` turns true and no
-    required-input freshness blockers remain.
+No additional queued implementation slices. Add new deferred work here before starting another slice.
 
 ## Working Rules
 

@@ -29,7 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Heartbeat cache snapshot.
+- Latest completed slice before this handoff refresh: Live launch rehearsal and
+  first publish.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -73,9 +74,10 @@ Important recent state:
   required-input, minimum-market-data, publish-gate, optional-lane, and daily
   build status; it does not fetch sources or create trade actions.
 - The current repo has a valid `src/heartbeat.json` and
-  `src/heartbeat_summary.json` snapshot. It shows Required Inputs and Daily Full
-  Build as `ok`, Minimum Market Data and Publish Gate as `down`, and Optional
-  Source Lanes as `stale`.
+  `src/heartbeat_summary.json` snapshot. It shows Required Inputs, Minimum
+  Market Data, Publish Gate, and Daily Full Build as `ok`; Optional Source Lanes
+  remain `stale` because optional lanes such as Fundstrat Bible, Catalysts,
+  Synthesis, Signal Log, and Top Prospects are dark.
 - Absent optional price cache now leaves `uw_price` not checked instead of
   registering an empty price source as `has_data`.
 - `src/uw_price_cache_intake.py` can normalize supplied UW close-price responses
@@ -85,10 +87,10 @@ Important recent state:
   that works for both session preflight regime/freshness checks and the full
   cockpit `uw_macro` lane; `--validate` reports structured failures for absent
   or malformed macro caches.
-- The UW cache refresh routine manifest/docs now own `src/uw_closes.json`,
+- The UW cache refresh routine manifest/docs own `src/uw_closes.json`,
   `src/uw_price_cache_summary.json`, `src/macro_state.json`, and
-  `src/macro_pulse_summary.json`, but the current repo still has no populated
-  `src/uw_closes.json` or `src/macro_state.json`.
+  `src/macro_pulse_summary.json`. The current repo now has validated populated
+  versions of all four files.
 - `src/daily_synthesis_intake.py` can normalize supplied Daily Synthesis JSON
   into `src/daily_synthesis.json`, preserving structured action metadata without
   generating market content.
@@ -99,10 +101,12 @@ Important recent state:
   `daily_synthesis_intake` and `signal_log_intake`; the current repo still has
   no populated `src/daily_synthesis.json` or `src/signal_log.json`.
 - Current live-readiness probe on the repo reports `rehearsal_ready: true`,
-  `required_inputs_ready: true`, and `go_live_ready: false` because
-  `src/uw_closes.json` and `src/macro_state.json` are absent and publish-gate
-  clock verification cannot pass without a live datetime source. With
-  `src/heartbeat.json` present, heartbeat is no longer a missing optional input.
+  `required_inputs_ready: true`, `live_data_ready: true`,
+  `publish_ready: true`, and `go_live_ready: true`.
+- The first publish path succeeded:
+  `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
+  It wrote `src/latest_cockpit_feed.json` and updated
+  `src/open_opportunities.json` with 0 open action-memory items.
 
 Current verification baseline:
 
@@ -128,7 +132,9 @@ git status --short
 git log origin/main -5 --oneline
 ```
 
-Then read `docs/codex_build_queue.md` and start only the next promoted slice.
+Then read `docs/codex_build_queue.md`; there is currently no queued
+implementation slice. Promote the next slice only from fresh audit/user
+evidence.
 
 Do not start with stock-specific research. If no concrete implementation slice
 is queued, run a fresh completion audit and promote the next system/routine/UI

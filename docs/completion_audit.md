@@ -55,6 +55,23 @@ enough to hand control back, using current repo state as evidence. It covers:
   2 down, 2 ok, and 1 stale rows.
 - `python src/heartbeat_status.py --validate src/heartbeat.json` passed after
   writing the heartbeat snapshot.
+- `python src/uw_price_cache_intake.py --validate src/uw_closes.json` passed
+  after populating the UW close-price cache; all 10 required default rotation
+  tickers are present with at least 64 closes.
+- `python src/macro_pulse_scan.py --validate src/macro_state.json` passed after
+  populating the macro cache; the snapshot date is 2026-06-04 with 10Y, 2Y, and
+  30Y rates plus DXY/VIX levels.
+- Current `python src/live_readiness.py --src-dir src` reports
+  `go_live_ready: true`, with `required_inputs_ready: true`,
+  `live_data_ready: true`, and no publish-gate problems.
+- `python src/full_build_runner.py --src-dir src --feed-out
+  src/latest_cockpit_feed.json --publish` succeeded, wrote
+  `src/latest_cockpit_feed.json`, and updated `src/open_opportunities.json`
+  with 0 open opportunities and 0 history rows.
+- Focused daily full-build checks passed: `python -m pytest
+  src/test_full_build_runner.py src/test_live_readiness.py
+  src/test_heartbeat_status.py src/test_runtime_full.py
+  src/test_cockpit_blocks.py -q` reported 57 passed.
 - Focused minimum-live-input validation tests passed: `python -m pytest
   src/test_live_readiness.py src/test_heartbeat_status.py
   src/test_full_build_runner.py -q` reported 20 passed.
@@ -109,10 +126,14 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Live launch rehearsal and first publish: validated UW price and macro caches
+  are now present, `live_readiness.py` reports `go_live_ready: true`, the
+  heartbeat has 0 down rows, and `latest_cockpit_feed.json` was published
+  through the existing publish gate.
 - Heartbeat cache snapshot: the repo now contains a valid `heartbeat.json` and
   `heartbeat_summary.json` generated from current live-readiness evidence,
-  showing Required Inputs and Daily Full Build as `ok`, Minimum Market Data and
-  Publish Gate as `down`, and Optional Source Lanes as `stale`.
+  showing Required Inputs, Minimum Market Data, Publish Gate, and Daily Full
+  Build as `ok`, with Optional Source Lanes as `stale`.
 - Required input freshness validation: `live_readiness.py` now validates
   present required convention inputs before live/publish readiness; stale,
   missing-date, unparseable, future-dated, or bare-list `positions.json`

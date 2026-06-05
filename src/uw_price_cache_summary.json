@@ -1,0 +1,33 @@
+{
+  "valid": true,
+  "tickers": [
+    "GDX",
+    "GRNY",
+    "IBIT",
+    "IGV",
+    "REMX",
+    "SMH",
+    "SPY",
+    "URA",
+    "VOLT",
+    "XLF"
+  ],
+  "ticker_count": 10,
+  "required_tickers": [
+    "SMH",
+    "IGV",
+    "GRNY",
+    "IBIT",
+    "URA",
+    "REMX",
+    "XLF",
+    "GDX",
+    "VOLT",
+    "SPY"
+  ],
+  "missing_tickers": [],
+  "too_short": {},
+  "min_closes_required": 64,
+  "out": "src\\uw_closes.json",
+  "written": true
+}
