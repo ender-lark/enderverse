@@ -325,6 +325,19 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert "total $120,000" in html
 
 
+def test_generated_html_commands_tab_surfaces_system_checks():
+    html = generate_html(_feed())
+
+    assert "System checks" in html
+    assert "build audit" in html
+    assert "python src/completion_audit.py --format text" in html
+    assert "Current build blockers vs source/cloud/review waits" in html
+    assert "go-live check" in html
+    assert "python src/go_live_checklist.py --format text" in html
+    assert "live status" in html
+    assert "python src/live_status.py --format text" in html
+
+
 def test_generated_html_is_ascii_display_safe():
     html = generate_html(_feed())
 

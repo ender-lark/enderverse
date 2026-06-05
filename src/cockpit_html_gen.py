@@ -1253,6 +1253,12 @@ _COMMANDS = [
     ("fresh run",          "Full cockpit rebuild from live sources (manual fallback only)"),
 ]
 
+_SYSTEM_CHECKS = [
+    ("build audit", "python src/completion_audit.py --format text", "Current build blockers vs source/cloud/review waits"),
+    ("go-live check", "python src/go_live_checklist.py --format text", "Checklist for dashboard, source, event, and review readiness"),
+    ("live status", "python src/live_status.py --format text", "Fast current dashboard/source status"),
+]
+
 _NAV_LINKS = [
     ("📊 Portfolio",        "https://www.notion.so/35ac50314bb681fcb792e50bf86d63f4", ""),
     ("📈 Live Theses",      "https://www.notion.so/1286877d625f4b3eb2bedcce9bb81266", "type: theses"),
@@ -1276,6 +1282,10 @@ def _commands_tab() -> str:
         f'<div class="cmd-row"><span class="cmd-name">{_e(n)}</span><span class="cmd-desc">{_e(d)}</span></div>'
         for n, d in _COMMANDS
     )
+    system_rows = "".join(
+        f'<div class="cmd-row"><span class="cmd-name">{_e(name)}</span><span class="cmd-desc"><code>{_e(command)}</code><span class="context-sub">{_e(desc)}</span></span></div>'
+        for name, command, desc in _SYSTEM_CHECKS
+    )
     nav_rows = "".join(
         f'<div class="nav-row"><span class="nav-label"><a href="{_e(url)}" style="color:#c9d1d9">{_e(label)}</a></span>' +
         (f'<span class="nav-hint">{_e(hint)}</span>' if hint else "") + "</div>"
@@ -1286,6 +1296,10 @@ def _commands_tab() -> str:
   <div class="cmd-section">
     <div class="cmd-section-title">Claude commands</div>
     {cmd_rows}
+  </div>
+  <div class="cmd-section">
+    <div class="cmd-section-title">System checks</div>
+    {system_rows}
   </div>
   <div class="cmd-section">
     <div class="cmd-section-title">Notion quick links</div>
