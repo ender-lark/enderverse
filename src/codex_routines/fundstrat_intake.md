@@ -39,16 +39,21 @@ Accepted fallback file types:
    python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing
    ```
 
-4. If no Gmail results and no drop-folder files exist, do not overwrite
+4. If only Gmail search snippets were available, write them only as discovery
+   audit entries. Snippet-only entries do not populate `inbox_call_dates.json`
+   and must be reported as not full-body checked.
+5. If no Gmail results and no drop-folder files exist, do not overwrite
    `fundstrat_daily_calls.json`; report Fundstrat as not checked.
-5. Run focused checks:
+6. Run focused checks:
 
    ```bash
    python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily.py -q
    ```
 
-6. Summarize:
+7. Summarize:
    - emails parsed
+   - full-body emails parsed
+   - snippet-only emails discovered
    - daily calls emitted
    - source-call candidates emitted
    - inbox dates written

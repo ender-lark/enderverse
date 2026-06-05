@@ -117,6 +117,25 @@ def test_entries_from_payload_accepts_gmail_connector_responses_shape():
     assert entries[0]["subject"] == "Daily Technical Strategy"
     assert entries[0]["date"] == "2026-06-04"
     assert "RSPH" in entries[0]["body"]
+    assert entries[0]["body_source"] == "body"
+    assert entries[0]["body_fetched"] is True
+
+
+def test_snippet_only_entries_do_not_mark_inbox_checked():
+    entries = entries_from_payload({"responses": [{
+        "id": "abc",
+        "subject": "Daily Technical Strategy",
+        "snippet": "Buy NVDA near support.",
+        "from_": "Mark Newton mark.newton@fundstratdirect.com",
+        "email_ts": "2026-06-04T23:35:18+00:00",
+    }]})
+    payload = build_intake_payload(entries, universe={"NVDA"},
+                                   generated_at="2026-06-05T14:00:00+00:00")
+    assert entries[0]["body_source"] == "snippet"
+    assert entries[0]["body_fetched"] is False
+    assert payload["inbox_call_dates"] == []
+    assert payload["summary"]["snippet_only_entries"] == 1
+    assert payload["summary"]["daily_calls"] == 0
 
 
 def test_dedupe_and_state_filter_use_message_ids():

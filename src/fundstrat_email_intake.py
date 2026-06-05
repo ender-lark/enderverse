@@ -155,7 +155,15 @@ def normalize_email_entry(raw: Any, *, fallback_date: str | None = None,
         message_id = raw.get("id") or raw.get("message_id")
         thread_id = raw.get("thread_id")
         subject = raw.get("subject") or raw.get("title") or ""
-        body = raw.get("body") or raw.get("text") or raw.get("snippet") or ""
+        if raw.get("body"):
+            body = raw.get("body")
+            body_source = "body"
+        elif raw.get("text"):
+            body = raw.get("text")
+            body_source = "text"
+        else:
+            body = raw.get("snippet") or ""
+            body_source = "snippet" if body else "missing"
         sender = raw.get("from") or raw.get("from_") or raw.get("sender") or raw.get("author") or ""
         date_s = parse_date(
             raw.get("date") or raw.get("timestamp") or raw.get("email_ts") or raw.get("internalDate"),
@@ -171,6 +179,8 @@ def normalize_email_entry(raw: Any, *, fallback_date: str | None = None,
             "source_path": source_path,
             "message_id": str(message_id or ""),
             "thread_id": str(thread_id or ""),
+            "body_source": body_source,
+            "body_fetched": body_source in {"body", "text"},
         }
 
     text = str(raw or "")
@@ -197,6 +207,8 @@ def normalize_email_entry(raw: Any, *, fallback_date: str | None = None,
         "source_path": source_path,
         "message_id": str(message_id),
         "thread_id": "",
+        "body_source": "email" if message_id else "text",
+        "body_fetched": True,
     }
 
 
@@ -433,8 +445,10 @@ def build_intake_payload(entries: list[dict], *, universe: set[str] | None = Non
                          generated_at: str | None = None) -> dict:
     generated_at = generated_at or _utc_now_iso()
     entries = dedupe_entries(entries)
-    daily_calls, mentions = extract_daily_calls(entries, universe=universe)
-    dates = sorted({e.get("date") for e in entries if e.get("date")})
+    full_body_entries = [e for e in entries if e.get("body_fetched", True)]
+    snippet_entries = [e for e in entries if not e.get("body_fetched", True)]
+    daily_calls, mentions = extract_daily_calls(full_body_entries, universe=universe)
+    dates = sorted({e.get("date") for e in full_body_entries if e.get("date")})
     source_call_candidates = classify_source_call_candidates(
         daily_calls,
         now=generated_at[:10],
@@ -449,6 +463,8 @@ def build_intake_payload(entries: list[dict], *, universe: set[str] | None = Non
         "source_call_candidates": source_call_candidates,
         "summary": {
             "entries": len(entries),
+            "full_body_entries": len(full_body_entries),
+            "snippet_only_entries": len(snippet_entries),
             "mentions": len(mentions),
             "daily_calls": len(daily_calls),
             "source_call_candidates": len(source_call_candidates),
