@@ -13,6 +13,26 @@ until the core logic is stable; Notion sync comes later.
   - Do not promote Fundstrat Core List table ingestion; it is out of scope for
     the current system build and may never be needed.
 
+## External Queue Audit
+
+2026-06-05 Notion/Claude queued-upgrade audit:
+
+- `build_positions_cache -> outcome_logger.flatten_extractor_snapshot()` was the
+  one small repo-local system upgrade still worth shipping from the old Claude
+  queue. It is now complete.
+- CI/routine prompt push items from the 2026-06-03 Notion handoff are not active
+  repo work here because `ci/` and `routines/` folders are not present in this
+  checkout, and the current repo-owned routine manifest/docs already cover the
+  Codex-operated build paths.
+- Catalyst Calendar duplicate-DB resolution is an external Notion/database
+  cleanup, not a code blocker. Keep the lane dark until real catalyst rows are
+  supplied.
+- Principles/SKB authoring items are operator-side framework writing, not part
+  of the working-system build.
+- No additional Notion/Claude queued upgrade should be promoted without fresh
+  evidence that it increases actionability, conviction, usability, or data-flow
+  reliability.
+
 ## Recently Completed
 
 - Position-cache normalizer convergence.
