@@ -16,6 +16,7 @@ from fundstrat_email_intake import (
     normalize_email_entry,
     parse_date,
     update_state,
+    update_top_prospects_cache,
     write_convention_files,
 )
 
@@ -231,6 +232,78 @@ def test_write_convention_files_can_merge_existing_and_write_state(tmp_path):
     assert state["processed_message_ids"] == ["m1"]
     assert summary["merged"] is True
     assert summary["stored_daily_calls"] == 2
+
+
+def test_update_top_prospects_cache_from_full_body_daily_calls(tmp_path):
+    cache_path = tmp_path / "top_prospects.json"
+    daily_calls = [{
+        "author": "Newton",
+        "ticker": "NVDA",
+        "direction": "buy",
+        "entry": 170.0,
+        "stop": 160.0,
+        "target": 200.0,
+        "date": "2026-06-05",
+        "subject": "Daily Technical Strategy",
+        "quote": "Buy NVDA near 170, stop 160, target 200.",
+    }]
+
+    summary = update_top_prospects_cache(
+        daily_calls,
+        cache_path,
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+    cache = json.loads(cache_path.read_text(encoding="utf-8"))
+
+    assert summary["updated"] is True
+    assert summary["picks"] == 1
+    assert cache["NVDA"]["ticker"] == "NVDA"
+    assert cache["NVDA"]["events"][0]["source"] == "FS-Newton"
+    assert cache["NVDA"]["events"][0]["direction"] == "long"
+    assert "quote" not in json.dumps(cache)
+    assert "Buy NVDA" not in json.dumps(cache)
+
+
+def test_write_convention_files_can_update_top_prospects(tmp_path):
+    payload = build_intake_payload([{
+        "subject": "Mark Newton tech",
+        "body": "Buy NVDA near 170, stop 160, target 200.",
+        "date": "2026-06-05",
+        "author": "Newton",
+        "from": "Fundstrat",
+        "source_path": "x",
+    }], universe={"NVDA"}, generated_at="2026-06-05T14:00:00+00:00")
+    written = write_convention_files(
+        payload,
+        tmp_path,
+        top_prospects_path=tmp_path / "top_prospects.json",
+    )
+    summary = json.loads((tmp_path / "fundstrat_intake_summary.json").read_text(encoding="utf-8"))
+
+    assert "top_prospects" in written
+    assert summary["top_prospects"]["updated"] is True
+
+
+def test_snippet_only_entries_do_not_update_top_prospects(tmp_path):
+    entries = entries_from_payload({"responses": [{
+        "id": "abc",
+        "subject": "Daily Technical Strategy",
+        "snippet": "Buy NVDA near support.",
+        "from_": "Mark Newton mark.newton@fundstratdirect.com",
+        "email_ts": "2026-06-04T23:35:18+00:00",
+    }]})
+    payload = build_intake_payload(entries, universe={"NVDA"},
+                                   generated_at="2026-06-05T14:00:00+00:00")
+    written = write_convention_files(
+        payload,
+        tmp_path,
+        top_prospects_path=tmp_path / "top_prospects.json",
+    )
+    summary = json.loads((tmp_path / "fundstrat_intake_summary.json").read_text(encoding="utf-8"))
+
+    assert "top_prospects" not in written
+    assert not (tmp_path / "top_prospects.json").exists()
+    assert summary["top_prospects"]["updated"] is False
 
 
 def test_load_ticker_universe_uses_theses_and_positions(tmp_path):

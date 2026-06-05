@@ -13,6 +13,8 @@ Core rule: routines gather and write convention files; the engine remains pure.
      connector is available.
    - Write `fundstrat_daily_calls.json`, `fundstrat_inbox_entries.json`,
      `inbox_call_dates.json`, and `source_call_candidates.json`.
+   - Merge full-body action-like daily calls into `top_prospects.json` so the
+     prospects lane is produced before the full build.
    - After a full-body parse, merge classified candidates into `source_calls.json`
      and `log_call_dates.json` with `source_call_cache_merge.py`.
 

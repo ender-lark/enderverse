@@ -30,13 +30,13 @@ Accepted fallback file types:
    resulting Gmail connector JSON shape (`responses:[...]`) into:
 
    ```bash
-   python src/fundstrat_email_intake.py --stdin-json --out-dir src --state src/fundstrat_intake_state.json --merge-existing
+   python src/fundstrat_email_intake.py --stdin-json --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json
    ```
 
 3. If the drop folder has files, run:
 
    ```bash
-   python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing
+   python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json
    ```
 
 4. If only Gmail search snippets were available, write them only as discovery
@@ -78,6 +78,7 @@ Accepted fallback file types:
 - `src/source_call_cache_summary.json`
 - `src/fundstrat_intake_summary.json`
 - `src/fundstrat_intake_state.json`
+- `src/top_prospects.json` when full-body daily calls produced prospect events
 
 `fundstrat_inbox_entries.json` redacts raw email bodies by default and stores
 only body length/hash metadata. Use `--keep-bodies` only for temporary local
@@ -88,6 +89,7 @@ debugging, and do not commit raw publication bodies.
 - Preserve source date and author.
 - Do not commit raw Fundstrat email bodies.
 - Do not turn non-action mentions into daily-call rows.
+- Do not let snippet-only discovery update `top_prospects.json`.
 - Do not treat unfetched or unparsed emails as checked clear.
 - Do not make trade recommendations from this routine; it only prepares source
   inputs for the cockpit build.

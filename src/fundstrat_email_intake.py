@@ -506,10 +506,63 @@ def redact_entry_bodies(entries: list[dict]) -> list[dict]:
     return [redact_entry_body(e) if isinstance(e, dict) else e for e in entries]
 
 
+def _prospect_direction(direction: str | None) -> str | None:
+    if direction in {"sell", "avoid"}:
+        return "avoid"
+    if direction == "buy":
+        return "long"
+    return None
+
+
+def update_top_prospects_cache(daily_calls: list[dict], path: str | Path, *,
+                               generated_at: str | None = None) -> dict:
+    """Merge full-body Fundstrat daily calls into top_prospects.json.
+
+    This intentionally consumes only `daily_calls`, never snippet-only discovery
+    rows. It stores ticker/source/date/direction events and avoids storing raw
+    publication body text in the prospects cache.
+    """
+    picks = []
+    for call in daily_calls or []:
+        direction = _prospect_direction(call.get("direction"))
+        ticker = str(call.get("ticker") or "").strip().upper()
+        if not direction or not ticker:
+            continue
+        try:
+            from top_prospects_feeder import (
+                Pick,
+                load_cache,
+                merge_picks,
+                recompute,
+                save_cache,
+            )
+        except Exception as exc:
+            return {"updated": False, "picks": 0, "error": str(exc)}
+        picks.append(Pick(
+            ticker=ticker,
+            analyst=call.get("author") or "Fundstrat",
+            date=call.get("date") or "",
+            direction=direction,
+            report_type="note",
+            provenance=call.get("subject") or "Fundstrat daily call",
+            substantive=bool(call.get("entry") or call.get("stop") or call.get("target")),
+        ))
+    if not picks:
+        return {"updated": False, "picks": 0}
+
+    cache_path = Path(path)
+    cache = load_cache(cache_path)
+    cache = merge_picks(cache, picks)
+    cache = recompute(cache, now=(generated_at or "")[:10] or None)
+    save_cache(cache, cache_path)
+    return {"updated": True, "picks": len(picks), "path": str(cache_path)}
+
+
 def write_convention_files(payload: dict, out_dir: str | Path, *,
                            merge_existing: bool = False,
                            state: dict | None = None,
-                           redact_bodies: bool = True) -> dict:
+                           redact_bodies: bool = True,
+                           top_prospects_path: str | Path | None = None) -> dict:
     out = Path(out_dir)
     entries = payload["entries"]
     daily_calls = payload["daily_calls"]
@@ -557,6 +610,17 @@ def write_convention_files(payload: dict, out_dir: str | Path, *,
     if state is not None:
         written["fundstrat_intake_state"] = _atomic_write_json(out / "fundstrat_intake_state.json",
                                                                state)
+    if top_prospects_path:
+        top_summary = update_top_prospects_cache(
+            daily_calls,
+            top_prospects_path,
+            generated_at=payload.get("generated_at"),
+        )
+        summary["top_prospects"] = top_summary
+        payload["summary"]["top_prospects"] = top_summary
+        _atomic_write_json(out / "fundstrat_intake_summary.json", summary)
+        if top_summary.get("updated"):
+            written["top_prospects"] = Path(top_summary["path"])
     return {k: str(v) for k, v in written.items()}
 
 
@@ -579,6 +643,8 @@ def main(argv=None) -> int:
                         help="Merge emitted rows with existing convention files")
     parser.add_argument("--keep-bodies", action="store_true",
                         help="Write raw email bodies to fundstrat_inbox_entries.json")
+    parser.add_argument("--top-prospects", nargs="?", const=str(Path(__file__).resolve().parent / "top_prospects.json"),
+                        help="Also merge full-body daily calls into top_prospects.json")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
@@ -603,6 +669,7 @@ def main(argv=None) -> int:
         merge_existing=args.merge_existing,
         state=next_state,
         redact_bodies=not args.keep_bodies,
+        top_prospects_path=args.top_prospects,
     )
     print(json.dumps({
         "parsed": True,
