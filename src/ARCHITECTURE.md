@@ -40,7 +40,7 @@ unresolved opportunities durable across days.
 
 **External vs derived inputs** (critical distinction):
 - **Derived from the book** (the engine computes them): `holdings`, `rotation`, `hero`, `fresh_signals` (⑦), the needs-you list (⑧), `actions` (⑦b), `research_actions` (⑦c).
-- **External reads, passed in by the caller** (the engine only threads/shapes them): `synthesis`, `research`, `heartbeat`, `radar`, `catalysts`, `macro` (via the snapshot), `generated_at`.
+- **External reads, passed in by the caller** (the engine only threads/shapes them): `synthesis`, `research`, `heartbeat`, `radar`, `catalysts`, `signal_log`, `macro` (via the snapshot), `generated_at`.
 
 If an external input is `None`, the engine defaults it (`research or {}`, `catalysts or []`, …). So a quiet/empty external lane is **not** an engine bug — it's an empty input. (See §10, the canonical 6/1 lesson.)
 
@@ -59,6 +59,7 @@ The single artifact every layer agrees on. Validated by `validators.validate_coc
 | `rotation` | engine (prices) | `[{subject,label,rel_1m,rel_3m,…,note}]` | rotation |
 | `macro` | caller (UW) | `{line, regime:{…}, alerts[], implications[]}` | macro |
 | `fresh_signals` | engine ⑦ (book) | `[…]` | (feeds actions) |
+| `signal_log` | caller (Morning Scan) | `[{ticker?, signal/title/what/summary, ...}]` | Signal Log watch-only lane |
 | `actions` | engine ⑦b | `[action-row]` | **Today's actions** |
 | `research_actions` | engine ⑦c | `[action-row]` | **From Research** (new) |
 | `catalysts` | caller (Catalyst Calendar) | `[{ticker,label,date,days_out,source}]` | Upcoming catalysts |
@@ -192,7 +193,7 @@ Before "fixing" an empty lane: identify which of the three it is (and *which sea
 - **Extract a shared `ActionCard`** component -- done 2026-06-05. Today's Actions and From Research now share the canonical action-card renderer while preserving lane-specific footer copy, aging/sizing chips, and research priority labeling.
 - **Relabel the From-Research confidence badge** `"priority:"` (it maps from research priority, not signal conviction — avoid conflation).
 - **Live Catalyst Calendar fetch/intake** -- connector-shaped intake done 2026-06-05. `catalyst_calendar_intake.py` accepts exported files or live connector/stdin envelopes, including Notion-style `properties` rows, then writes `catalysts.json`; L5 still owns fetching/supplying rows before the pure engine normalizes them with `catalysts_from_calendar_rows(...)`.
-- **Signal-Log → cockpit lane** — open design question: should Morning-Scan Signal-Log items get a cockpit lane (they currently don't reach `actions`)? Tracked, not a bug.
+- **Signal-Log -> cockpit lane** -- done 2026-06-05. External `signal_log` rows are watch-only feed context, rendered as a separate Signal Log lane; they do not promote into `actions`.
 - **Synthesis Brain v1.1** — broaden structured extraction only after the Daily Synthesis routine emits richer fields (`ticker`, `action`, `urgency`, `capital_effect`, evidence). Avoid free-form prose guessing.
 - **Codex-owned routine orchestration** — replace Claude-only cloud routine prompts with repo-defined runners/automations that Codex can inspect and operate: build caches, gather inputs, build the feed, publish through the gate, and write action memory.
 - **Fundstrat email intake v1.1** — `fundstrat_email_intake.py` now parses forwarded/exported emails into `fundstrat_daily_calls.json`, `fundstrat_inbox_entries.json`, `inbox_call_dates.json`, and `source_call_candidates.json`. Follow-up: Gmail connector fetch/search, richer monthly/Bible extraction, and stronger source-call-log upsert automation.

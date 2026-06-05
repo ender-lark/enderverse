@@ -40,6 +40,7 @@ def test_external_lanes_distinguish_not_checked_from_checked_clear():
         research={"pending": []},
         synthesis=None,
         uw_opportunity={"signals": [{"ticker": "NVDA"}]},
+        signal_log=[{"signal": "Morning scan flag"}],
         top_prospects={},
     )
     rows = {r["key"]: r for r in lane["rows"]}
@@ -47,6 +48,7 @@ def test_external_lanes_distinguish_not_checked_from_checked_clear():
     assert rows["research"]["status"] == STATUS_CHECKED_CLEAR
     assert rows["synthesis"]["status"] == STATUS_NOT_CHECKED
     assert rows["uw_opportunity"]["status"] == STATUS_HAS_DATA
+    assert rows["signal_log"]["status"] == STATUS_HAS_DATA
     assert rows["top_prospects"]["status"] == STATUS_CHECKED_CLEAR
     assert lane["has_dark_lanes"] is True
 

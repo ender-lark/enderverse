@@ -34,6 +34,7 @@ EXTERNAL_LANES = {
     "research": "Research Queue",
     "synthesis": "Daily Synthesis",
     "uw_opportunity": "UW Flow",
+    "signal_log": "Signal Log",
     "top_prospects": "Top Prospects",
     "target_drift": "Target Drift",
 }

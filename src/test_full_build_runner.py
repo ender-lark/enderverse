@@ -120,6 +120,9 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
         "source": "Daily Synthesis",
         "hanging": ["NVDA add only if the gate clears."]
     })
+    _write(src / "signal_log.json", [
+        {"ticker": "NVDA", "signal": "Morning scan flag", "priority": "watch", "date": "2026-06-05"}
+    ])
 
     feed = build_full_feed_from_files(
         src_dir=src,
@@ -132,8 +135,10 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert rows["uw_opportunity"]["status"] == "has_data"
     assert rows["top_prospects"]["status"] == "has_data"
     assert rows["catalysts"]["status"] == "has_data"
+    assert rows["signal_log"]["status"] == "has_data"
     assert rows["research"]["status"] == "not_checked"
     assert rows["target_drift"]["status"] == "has_data"
+    assert feed["signal_log"][0]["signal"] == "Morning scan flag"
     assert feed["bullish_flow"]["rows"]
     assert feed["prospects"]["counts"]["act_now"] == 1
     assert feed["target_drift"]["actionable_count"] > 0
@@ -182,6 +187,7 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["uw_opportunity"]["status"] == "not_checked"
     assert rows["top_prospects"]["status"] == "not_checked"
     assert rows["catalysts"]["status"] == "not_checked"
+    assert rows["signal_log"]["status"] == "not_checked"
     assert rows["synthesis"]["status"] == "not_checked"
 
 

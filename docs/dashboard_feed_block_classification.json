@@ -41,6 +41,11 @@
       "canonical_surface": "Fresh signal cards and action context",
       "summary_surface": "Not rendered as its own summary lane"
     },
+    "signal_log": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Signal Log watch-only lane in Action view",
+      "summary_surface": "Not rendered; watch-only external context"
+    },
     "holdings": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Book tab holdings with conviction detail expanders",

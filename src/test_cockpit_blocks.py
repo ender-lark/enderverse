@@ -28,6 +28,9 @@ SY = {"date": "2026-06-01", "state_of_play": "AI leads everything.",
       "source": "Daily Synthesis"}
 RS = {"pending": [{"title": "AVGO thesis line", "priority": "high", "note": "Tier-A, time-sensitive"}],
       "done": [{"title": "Rotation engine live", "finding": "AI leads; burned sleeves lag."}]}
+SL = [
+    {"ticker": "NVDA", "signal": "Morning scan flag", "priority": "watch", "date": "2026-06-05"}
+]
 
 
 def _load_snapshot():
@@ -43,15 +46,17 @@ def test_assemble_feed_blocks_default_empty():
     assert feed["heartbeat"] == []
     assert feed["synthesis"] == {}
     assert feed["research"] == {}
+    assert feed["signal_log"] == []
     assert validate_cockpit_feed(feed) == []
 
 
 def test_assemble_feed_threads_supplied_blocks():
     feed = assemble_feed(_load_snapshot(), parabolic={"MU"},
-                         heartbeat=HB, synthesis=SY, research=RS)
+                         heartbeat=HB, synthesis=SY, research=RS, signal_log=SL)
     assert feed["heartbeat"] == HB
     assert feed["synthesis"] == SY
     assert feed["research"] == RS
+    assert feed["signal_log"] == SL
     assert validate_cockpit_feed(feed) == []
 
 
@@ -109,6 +114,21 @@ def test_validator_catches_non_dict_synthesis():
     assert any("synthesis must be a dict" in p for p in probs)
 
 
+def test_validator_accepts_valid_signal_log():
+    feed = _minimal_feed(); feed["signal_log"] = SL
+    assert validate_cockpit_feed(feed) == []
+
+
+def test_validator_catches_non_list_signal_log():
+    feed = _minimal_feed(); feed["signal_log"] = {"not": "a list"}
+    assert any("signal_log must be a list" in p for p in validate_cockpit_feed(feed))
+
+
+def test_validator_catches_empty_signal_log_card_text():
+    feed = _minimal_feed(); feed["signal_log"] = [{"ticker": "NVDA"}]
+    assert any("signal_log[0] must include non-empty signal/title/what/summary" in p for p in validate_cockpit_feed(feed))
+
+
 # --------------------------------------------------------------------------- #
 # build_full_feed threads all three through (the real integration seam)
 # --------------------------------------------------------------------------- #
@@ -123,11 +143,12 @@ _PAGE = """## Per-Ticker Aggregation (>= $500, by MV)
 def test_build_full_feed_threads_blocks():
     theses = [{"ticker": "NVDA", "tier": "T1", "stance": "ACTIVE", "factor_tags": ["AI_complex"]}]
     feed = build_full_feed(_PAGE, {}, theses,            # empty prices → NO-DATA rotation, no abort
-                           heartbeat=HB, synthesis=SY, research=RS,
+                           heartbeat=HB, synthesis=SY, research=RS, signal_log=SL,
                            as_of="2026-06-01", run_timestamp="2026-06-01T16:00:00")
     assert feed["heartbeat"] == HB
     assert feed["synthesis"] == SY
     assert feed["research"] == RS
+    assert feed["signal_log"] == SL
     assert validate_cockpit_feed(feed) == []
 
 

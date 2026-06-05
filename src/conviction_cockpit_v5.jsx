@@ -712,6 +712,11 @@ function groupPct(pos){ const s=pos.reduce((a,p)=>a+(typeof p.pct==="number"?p.p
 function holdingGroup(h){ const w=(h.rot&&h.rot.w)||""; return { cat:`${h.cat} (~${groupPct(h.pos)}%)`, rot:{w,c:colorFor(w)}, pos:h.pos }; }
 function money(v){ if(typeof v!=="number") return ""; if(Math.abs(v)>=1000000) return `$${(v/1000000).toFixed(2)}M`; if(Math.abs(v)>=1000) return `$${Math.round(v/1000)}K`; return `$${Math.round(v)}`; }
 function freshSignalRow(sig){ return { t:sig.ticker, n:sig.ticker, urg:sig.urgency, urgLabel:FRESH_URG_LABEL[sig.urgency]||sig.urgency, when:sig.when||"", what:PRETTY_EVENT[sig.what]||sig.what||"", why:sig.why||"", detail:sig.detail||"" }; }
+function signalLogRow(r){
+  const text = r.signal || r.what || r.title || r.summary || "";
+  return { ticker:r.ticker||"", signal:text, date:r.date||r.when||"", priority:r.priority||r.urgency||"",
+           source:r.source||"Signal Log", note:r.note||r.detail||r.why||"" };
+}
 function heroView(hero){ const h=(hero&&hero.hero)||{}, ny=(hero&&hero.needs_you)||{}; return { leadCount:h.count||0, leadNames:h.names||[], leadingSleeves:h.leading_sleeves||[], needsCount:ny.count||0, needsItems:ny.items||[] }; }
 function stamp(feed){
   const entries=(feed.staleness&&feed.staleness.entries)||[];
@@ -827,6 +832,7 @@ function actionVM(feed){
     synthesis: feed.synthesis||{},
     radar: (feed.radar||[]).map(radarRow),
     freshSignals: (feed.fresh_signals||[]).map(freshSignalRow),
+    signalLog: (feed.signal_log||[]).map(signalLogRow),
     bullishFlow: feed.bullish_flow||{},
     prospects: feed.prospects||{},
     feedback: feed.feedback||{},
@@ -1199,6 +1205,26 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               </div>
             );
           })}
+        </Section>
+
+        {/* SIGNAL LOG — external Morning Scan notes. Watch-only; never promoted into actions here. */}
+        <Section id="signal-log" title="Signal Log" icon="📡" badge={VM.signalLog.length?`${VM.signalLog.length}`:"0"} badgeColor={VM.signalLog.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.signalLog.length>0}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>MORNING SCAN LOG — watch-only items from the external signal log.</div>
+          {VM.signalLog.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Signal Log not supplied in this feed build.</div>}
+          {VM.signalLog.map((r,i)=>(
+            <div key={`${r.ticker||"sig"}${i}`} style={{ ...card, marginBottom:8, borderColor:C.blue+"33" }}>
+              <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                {r.ticker && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>}
+                <span style={{ fontSize:12.5, fontWeight:600, color:C.text }}>{r.signal}</span>
+              </div>
+              <div style={{ marginTop:7, display:"flex", gap:7, flexWrap:"wrap", alignItems:"center" }}>
+                {r.priority && <span style={{ fontFamily:mono, fontSize:11, color:C.blue, border:`1px solid ${C.blue}55`, borderRadius:99, padding:"1px 8px" }}>{r.priority}</span>}
+                {r.date && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.date}</span>}
+                <span style={{ fontFamily:mono, fontSize:11, color:C.dim }}>{r.source}</span>
+              </div>
+              {r.note && <div style={{ marginTop:8, fontSize:12.5, color:C.dim }}>{r.note}</div>}
+            </div>
+          ))}
         </Section>
 
         {/* BULLISH FLOW (UW) — read-only WATCH lane: the daily UW opportunity

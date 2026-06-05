@@ -37,11 +37,11 @@ Result summary:
 - Build succeeded.
 - `actions`: 0
 - `research_actions`: 0
-- `lane_status.counts.not_checked`: 6
+- `lane_status.counts.not_checked`: 7
 - Emitted feed keys: `generated_at`, `staleness`, `lane_status`, `hero`,
-  `actions`, `fresh_signals`, `holdings`, `rotation`, `macro`, `catalysts`,
-  `questions`, `research`, `research_actions`, `heartbeat`, `synthesis`,
-  `radar`, `lean_in`, `bullish_flow`, `prospects`, `feedback`
+  `actions`, `fresh_signals`, `signal_log`, `holdings`, `rotation`, `macro`,
+  `catalysts`, `questions`, `research`, `research_actions`, `heartbeat`,
+  `synthesis`, `radar`, `lean_in`, `bullish_flow`, `prospects`, `feedback`
 - `portfolio_views` was absent in this local build because
   `account_positions.json` was not present/resolved for the run.
 
@@ -55,6 +55,7 @@ Result summary:
 | `hero` | `hero_needs_you_read` | Hero banner | Hero banner | Full in both |
 | `actions` | `actions_read` + decision aging + promoted research/prospects | Today's Actions | Today's actions only when non-empty | Partial in HTML because empty state/caveat is missing |
 | `fresh_signals` | `fresh_signal_read` | Fresh signals / action context | Not rendered as its own lane | Missing in HTML |
+| `signal_log` | Morning Scan convention file `signal_log.json` / `morning_signal_log.json` | Signal Log watch-only lane | Not rendered | Missing in HTML; acceptable because it is watch-only context |
 | `holdings` | Portfolio source + thesis reads | Book tab holdings with conviction/detail expanders | Book table | Partial in HTML because details are truncated |
 | `rotation` | `rotation_read` | Market read and sleeve badges | Rotation table | Full enough in both |
 | `macro` | `macro_read` | Market read macro panel | Macro panel | Full enough in both |
@@ -99,6 +100,9 @@ Result summary:
 - `fresh_signals`, `lean_in`, `prospects`, `catalysts`, and `feedback` can all
   promote or explain action pressure. This is acceptable if the top strip stays
   ranked and the supporting lanes remain visibly separate.
+- `signal_log` is deliberately watch-only external context. It can explain why a
+  name deserves attention, but it must not promote directly into `actions`
+  without a sharper action source.
 - `heartbeat` and `lane_status` overlap operational health. `heartbeat` says
   which routines ran; `lane_status` says which data lanes were checked, stale,
   failed, or dark. Both should stay, but HTML currently shows only heartbeat.

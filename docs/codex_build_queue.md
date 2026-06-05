@@ -5,12 +5,20 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Completion audit and next-slice discovery.
-  - Re-check older refinement notes after the shared ActionCard refactor slice.
-  - Promote the next self-contained repo slice if one remains.
+- No active implementation slice.
+  - Run completion audit / next-slice discovery before starting the next change.
+  - Keep dashboard parity classification current before committing any new
+    dashboard/feed meaning.
 
 ## Recently Completed
 
+- Signal Log watch lane and parity classification.
+  - Added optional `signal_log.json` / `morning_signal_log.json` intake through
+    the full-build convention path.
+  - Rendered Signal Log as a watch-only canonical dashboard lane separate from
+    Today's Actions.
+  - Classified the new feed block in the dashboard parity guardrail and
+    documented that generated HTML remains a summary/export path.
 - Shared ActionCard refactor.
   - Extracted the duplicated Today's Actions and From Research row renderer into
     a shared `ActionCard` component in the canonical dashboard.

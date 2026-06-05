@@ -53,6 +53,7 @@ DEFAULT_FILES = {
     "fs_daily": ("fundstrat_daily_calls.json", "fs_daily_calls.json"),
     "meridian": ("meridian_items.json",),
     "heartbeat": ("heartbeat.json",),
+    "signal_log": ("signal_log.json", "morning_signal_log.json"),
     "synthesis": ("daily_synthesis.json", "synthesis.json"),
     "research": ("research_queue.json", "research.json"),
     "catalysts": ("catalysts.json", "catalyst_calendar.json"),
@@ -256,6 +257,7 @@ def build_full_feed_from_files(
     fs_daily = _load_optional(src, "fs_daily")
     meridian = _load_optional(src, "meridian")
     heartbeat = _load_optional(src, "heartbeat")
+    signal_log = _load_optional(src, "signal_log")
     synthesis = _load_optional(src, "synthesis")
     research = _load_optional(src, "research")
     catalyst_rows = _load_optional(src, "catalysts")
@@ -298,6 +300,7 @@ def build_full_feed_from_files(
         parabolic=active_parabolic_tickers(parabolic_cache),
         generated_at=generated_at or now,
         heartbeat=heartbeat,
+        signal_log=signal_log,
         synthesis=synthesis,
         research=research,
         catalysts=catalysts,

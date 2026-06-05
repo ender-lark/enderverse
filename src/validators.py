@@ -531,6 +531,23 @@ def _validate_radar_row(r: Any) -> list[str]:
         return ["ticker must be a non-empty string"]
     return []
 
+
+def _validate_signal_log_row(r: Any) -> list[str]:
+    """One `signal_log` row (optional watch-only Morning Scan lane).
+
+    Ticker may be absent for macro/process notes, but each row must carry at
+    least one readable signal/title/what field so the cockpit never renders an
+    empty card as if it were checked content.
+    """
+    if not isinstance(r, dict):
+        return ["must be a dict"]
+    if "ticker" in r and r.get("ticker") not in (None, "") and not isinstance(r.get("ticker"), str):
+        return ["ticker must be a string when present"]
+    if not any(isinstance(r.get(k), str) and r.get(k).strip() for k in ("signal", "title", "what", "summary")):
+        return ["must include non-empty signal/title/what/summary"]
+    return []
+
+
 #----------------------------------------------------------------------
 def _validate_lean_in_row(r: Any) -> list[str]:
     """One `lean_in` row (Contract C, optional block ⑩ — the opportunity lane,
@@ -661,6 +678,14 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
     synthesis = feed.get("synthesis", _MISSING)
     if synthesis is not _MISSING and not isinstance(synthesis, dict):
         problems.append(f"synthesis must be a dict, got {type(synthesis).__name__}")
+
+    signal_log = feed.get("signal_log", _MISSING)
+    if signal_log is not _MISSING:
+        if not isinstance(signal_log, list):
+            problems.append(f"signal_log must be a list, got {type(signal_log).__name__}")
+        else:
+            for i, r in enumerate(signal_log):
+                problems.extend(f"signal_log[{i}] {e}" for e in _validate_signal_log_row(r))
 
     lane_status = feed.get("lane_status", _MISSING)
     if lane_status is not _MISSING:

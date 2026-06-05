@@ -105,6 +105,15 @@
       "area": "cockpit",
       "why": "Today's Actions and From Research should not drift apart when action clarity, priority labels, aging, sizing, or goal-impact badges change.",
       "done_when": "Both lanes render through one ActionCard component while preserving lane-specific footer text, From Research priority labeling, and Today's Actions aging/sizing chips."
+    },
+    {
+      "id": "signal-log-watch-lane",
+      "title": "Surface Signal Log rows as watch-only cockpit context",
+      "priority": "P2",
+      "status": "done",
+      "area": "cockpit",
+      "why": "Morning Scan notes can explain attention and timing, but should not silently create buy/sell actions without a sharper source.",
+      "done_when": "Optional signal_log convention files feed a separately classified dashboard lane, validate row shape, report not-checked when absent, and never promote directly into Today's Actions."
     }
   ]
 }

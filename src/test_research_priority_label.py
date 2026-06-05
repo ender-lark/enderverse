@@ -15,3 +15,12 @@ def test_from_research_uses_priority_badge_label_without_changing_action_contrac
     assert "function ActionCard(" in text
     assert 'keyPrefix="act"' in text
     assert 'keyPrefix="rsch"' in text
+
+
+def test_signal_log_is_separate_watch_only_dashboard_lane():
+    text = JSX.read_text(encoding="utf-8")
+
+    assert "function signalLogRow(" in text
+    assert "signalLog: (feed.signal_log||[]).map(signalLogRow)" in text
+    assert '<Section id="signal-log" title="Signal Log"' in text
+    assert "watch-only items from the external signal log" in text

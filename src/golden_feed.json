@@ -137,6 +137,14 @@
         "checked_at": ""
       },
       {
+        "key": "signal_log",
+        "label": "Signal Log",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": ""
+      },
+      {
         "key": "top_prospects",
         "label": "Top Prospects",
         "status": "not_checked",
@@ -154,11 +162,11 @@
       }
     ],
     "counts": {
-      "has_data": 6,
-      "failed": 0,
-      "checked_clear": 0,
       "stale": 0,
-      "not_checked": 6
+      "not_checked": 7,
+      "checked_clear": 0,
+      "failed": 0,
+      "has_data": 6
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -269,6 +277,7 @@
       "detail": "05-28 fundstrat_daily breakout"
     }
   ],
+  "signal_log": [],
   "holdings": [
     {
       "cat": "AI / Semiconductors",
