@@ -239,9 +239,9 @@ def _manual_drop_row_detail(
 def _manual_drop_command(source_capability: dict[str, Any]) -> str:
     if int(source_capability.get("missing_live_capable_count") or 0):
         return (
-            "validate: python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
+            "validate: python src/manual_source_drop.py <manual-live-source-drop.json> "
             "--src-dir src --validate-only | "
-            "apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json "
+            "apply: python src/manual_source_drop.py <manual-live-source-drop.json> "
             "--src-dir src"
         )
     return (

@@ -381,10 +381,9 @@ def _quick_nav(feed: dict) -> str:
 
 def _lane_intake_commands(key: str) -> list[tuple[str, str]]:
     if key in {"account_positions", "meridian"}:
-        template = "docs/manual_live_source_drop.template.json"
         return [
-            ("validate", f"python src/manual_source_drop.py {template} --src-dir src --validate-only"),
-            ("apply", f"python src/manual_source_drop.py {template} --src-dir src"),
+            ("validate", "python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src --validate-only"),
+            ("apply", "python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src"),
         ]
     return [
         ("validate", "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"),

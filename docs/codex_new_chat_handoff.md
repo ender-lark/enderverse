@@ -79,10 +79,12 @@ Current pushed snapshot (2026-06-05 19:18 ET live artifacts; 19:01 ET cloud proo
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.
 - The dashboard Lane Status section also shows Account Positions validate/apply
-  commands for the remaining live-source dark lane:
-  `python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only`
+  commands for the remaining live-source dark lane. Use
+  `docs/manual_live_source_drop.template.json` only as the starting shape, then
+  run the filled drop file through:
+  `python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src --validate-only`
   and
-  `python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src`.
+  `python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src`.
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.

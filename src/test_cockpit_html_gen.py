@@ -300,9 +300,10 @@ def test_generated_html_surfaces_dark_lane_validate_and_apply_commands():
     html = generate_html(_feed())
 
     assert "Account Positions validate" in html
-    assert "python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src --validate-only" in html
+    assert "python src/manual_source_drop.py &lt;manual-live-source-drop.json&gt; --src-dir src --validate-only" in html
     assert "Account Positions apply" in html
-    assert "python src/manual_source_drop.py docs/manual_live_source_drop.template.json --src-dir src" in html
+    assert "python src/manual_source_drop.py &lt;manual-live-source-drop.json&gt; --src-dir src" in html
+    assert "Account Positions apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json" not in html
 
 
 def test_generated_html_surfaces_opportunity_context():

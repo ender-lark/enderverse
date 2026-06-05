@@ -49,6 +49,9 @@ until the core logic is stable; Notion sync comes later.
   - `live_status.py --format text` now shows both the no-write validation
     command and the apply command for live-source dark lanes, so the remaining
     Account Positions wait is actionable without implying the lane is checked.
+    The template is only a starting shape; validate/apply commands point at a
+    filled `<manual-live-source-drop.json>` file to avoid writing placeholder
+    data.
   - `go_live_checklist.py --format text` now presents the manual live-source
     drop as explicit `validate:` and `apply:` steps instead of only a
     validation command.
