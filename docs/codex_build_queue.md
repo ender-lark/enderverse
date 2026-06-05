@@ -6,11 +6,18 @@ until the core logic is stable; Notion sync comes later.
 ## Active Slice
 
 - Completion audit and next-slice discovery.
-  - Re-check older refinement notes after the From-Research priority-label slice.
+  - Re-check older refinement notes after the structured Research Queue ticker
+    field slice.
   - Promote the next self-contained repo slice if one remains.
 
 ## Recently Completed
 
+- Structured Research Queue ticker field.
+  - Research action promotion now trusts explicit dossier tickers before legacy
+    title parsing.
+  - Plain-title, dated, low-priority ticker dossiers can activate the near-term
+    date clause.
+  - Existing ticker-led research rows and process-item filtering remain intact.
 - From-Research priority label clarity.
   - Added explicit `confBadgeLabel` display mapping in the canonical dashboard.
   - From Research now labels queue priority separately from Today's Actions confidence.

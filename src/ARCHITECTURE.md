@@ -188,7 +188,7 @@ Before "fixing" an empty lane: identify which of the three it is (and *which sea
 
 ## 11 · Refinement backlog (v1 → v1.1)
 
-- **Structured ticker field** on Off-Hours dossiers (replaces the fragile free-text parse in ⑦c; also lets the date clause activate).
+- **Structured ticker field** on Off-Hours dossiers -- done 2026-06-05. ⑦c now prefers explicit `ticker`/`symbol` fields before legacy free-text parsing, and the structured date clause activates for plain-title ticker dossiers.
 - **Extract a shared `ActionCard`** component so Today's-actions + From-Research don't duplicate the row-render block.
 - **Relabel the From-Research confidence badge** `"priority:"` (it maps from research priority, not signal conviction — avoid conflation).
 - **Live Catalyst Calendar fetch** — L5 fetches the calendar, normalizes rows with `catalysts_from_calendar_rows(...)`, and passes `catalysts` → catalyst-imminent actions go live (and From-Research dedup yields to dated events).

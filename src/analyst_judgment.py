@@ -1048,13 +1048,11 @@ def promote_research_act_now_actions(actions, research_actions):
 #     action-row shape (kind "research_review") so the renderer's actionRow
 #     mapper is reused unchanged.
 #
-#     Filter (v1): a parsed ticker AND (priority high/med OR a structured
-#     near-term date within horizon). The DATE clause is DORMANT until the
-#     Research-Queue read carries a structured `days_out` -- today's feed items
-#     carry only {r, pr}, so only the priority clause fires (parsing a date out
-#     of free text is too fragile to gate on). Ticker is parsed from the leading
-#     "TICKER - ..." token; non-ticker process/governance items are NOT surfaced
-#     here (they stay in the Research panel).
+#     Filter (v1): a structured or parsed ticker AND (priority high/med OR a
+#     structured near-term date within horizon). Ticker-specific rows should
+#     carry an explicit `ticker`/`symbol`; legacy rows still fall back to the
+#     leading "TICKER - ..." token. Non-ticker process/governance items are NOT
+#     surfaced here (they stay in the Research panel).
 #
 #     Dedup (catalyst-precedence): an item whose ticker is already in the action
 #     OR catalyst lane is DROPPED -- so a name surfaces exactly once and
@@ -1085,6 +1083,17 @@ def _parse_research_ticker(text):
     return m.group(1) if m else None
 
 
+def _research_ticker_from_item(item, text):
+    for key in ("ticker", "symbol"):
+        raw = item.get(key)
+        if raw in (None, ""):
+            continue
+        ticker = str(raw).strip().upper()
+        if _re.fullmatch(r"[A-Z]{1,6}(?:\.[A-Z]{1,4})?", ticker):
+            return ticker
+    return _parse_research_ticker(text)
+
+
 def _research_is_act_now(item, dated_ok: bool) -> bool:
     if dated_ok:
         return True
@@ -1104,8 +1113,9 @@ def research_actions_read(research, theses, taken_tickers=None,
 
     `research` is the external Research-Queue read: a dict {pending:[...],
     done:[...]} (or a bare list, treated as `pending`). Each pending item is
-    {r: "<TICKER - summary>", pr: "high"|"med"|"low", ...}; a structured
-    `days_out` (int) is honored if present (dormant until the read emits it).
+    {ticker: "TICKER", r: "<summary>", pr: "high"|"med"|"low", ...}; legacy
+    ticker-led `r` values are still accepted. A structured `days_out` (int) is
+    honored if present.
 
     Returns {research_actions:[...], total_candidates:n}. Each row is the
     canonical action-row shape with kind "research_review", so the renderer's
@@ -1126,7 +1136,7 @@ def research_actions_read(research, theses, taken_tickers=None,
         if not isinstance(it, dict):
             continue
         text = it.get("r") or it.get("text") or ""
-        ticker = _parse_research_ticker(text)
+        ticker = _research_ticker_from_item(it, text)
         if not ticker:
             continue  # v1: ticker-specific research only (process items stay in the panel)
         pr = str(it.get("pr") or it.get("priority") or "").lower()

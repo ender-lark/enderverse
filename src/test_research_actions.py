@@ -110,6 +110,18 @@ def test_dated_low_priority_item_surfaces_via_date_clause():
     assert out["research_actions"][0]["action_state"] == "ACT_NOW"
 
 
+def test_structured_ticker_surfaces_non_ticker_led_dated_dossier():
+    out = research_actions_read(
+        {"pending": [{"ticker": "GS", "r": "post-print dossier", "pr": "low", "days_out": 2}]},
+        THESES,
+    )
+    row = out["research_actions"][0]
+
+    assert row["ticker"] == "GS"
+    assert row["kind"] == "research_act_now"
+    assert row["why"] == "post-print dossier"
+
+
 def test_explicit_act_now_research_gets_act_now_state():
     out = research_actions_read(
         {"pending": [{"r": "GS \u2014 urgent setup review", "pr": "high",

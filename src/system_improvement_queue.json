@@ -69,6 +69,15 @@
       "area": "cockpit",
       "why": "The From-Research lane maps queue priority into the shared action row confidence field, which can blur research urgency with investment conviction.",
       "done_when": "The canonical dashboard labels From-Research priority distinctly while keeping action rows and Today's Actions conviction labels clear."
+    },
+    {
+      "id": "structured-research-tickers",
+      "title": "Use structured ticker fields for Research Queue action promotion",
+      "priority": "P1",
+      "status": "done",
+      "area": "research",
+      "why": "Off-hours dossiers should promote actionable buy/sell/hold/research items from explicit ticker metadata instead of fragile title parsing.",
+      "done_when": "Research action promotion prefers ticker/symbol fields, preserves process-item filtering, and activates the near-term date clause for plain-title ticker dossiers."
     }
   ]
 }
