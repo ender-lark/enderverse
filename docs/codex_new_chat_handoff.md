@@ -174,6 +174,8 @@ Important recent state:
   manual source-drop validation, open action reviews, queue state, and optional
   dark lanes. With the current repo it reports `go_live_ready: true` and
   checklist status `warn` because open reviews and optional dark lanes remain.
+  Its warning rows name `ANET`/`GOOGL` and spell out the next Catalyst and
+  Signal Log source inputs.
   Use `python src/go_live_checklist.py --format text` for the human-readable
   PASS/WARN command checklist.
 - The open action-memory resolver is:

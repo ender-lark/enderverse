@@ -15,6 +15,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Actionable checklist warning detail.
+  - `python src/go_live_checklist.py --format text` now names open-review
+    tickers in the warning row.
+  - Optional dark-lane warnings now include the next source input for each lane
+    instead of only listing lane keys.
 - HTML preview opportunity-context summary.
   - Added a compact `Opportunity context` card to the generated summary/preview
     dashboard using existing feed lanes only: Target Drift, Prospects, Radar,

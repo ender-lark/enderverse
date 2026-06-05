@@ -32,6 +32,37 @@ def _status_from_bool(ok: bool, *, warn: bool = False) -> str:
     return "warn" if warn else "fail"
 
 
+def _open_review_detail(review: dict[str, Any]) -> str:
+    if not review.get("open_count"):
+        return "No open action-memory reviews."
+    tickers = [
+        str(row.get("ticker"))
+        for row in review.get("rows") or []
+        if isinstance(row, dict) and row.get("ticker")
+    ]
+    ticker_text = f" ({', '.join(tickers)})" if tickers else ""
+    return (
+        f"{review.get('open_count')} open review(s){ticker_text}; "
+        f"oldest {review.get('oldest_age_days')} trading day(s)."
+    )
+
+
+def _dark_lane_detail(status: dict[str, Any]) -> str:
+    dark = status.get("dark_lanes") or {}
+    details = [
+        row for row in dark.get("details") or []
+        if isinstance(row, dict)
+    ]
+    if not details:
+        return "Dark lanes: " + ", ".join(dark.get("keys") or [])
+    parts = []
+    for row in details:
+        label = row.get("label") or row.get("key") or "Dark lane"
+        next_step = row.get("next_step") or row.get("missing_impact") or "supply source input"
+        parts.append(f"{label}: {next_step}")
+    return "; ".join(parts)
+
+
 def build_go_live_checklist(
     *,
     src_dir: str | Path = DEFAULT_SRC,
@@ -104,11 +135,7 @@ def build_go_live_checklist(
             "open_reviews",
             "Open action reviews",
             "warn" if review.get("open_count") else "pass",
-            (
-                f"{review.get('open_count')} open review(s); oldest {review.get('oldest_age_days')} trading day(s)."
-                if review.get("open_count") else
-                "No open action-memory reviews."
-            ),
+            _open_review_detail(review),
             "python src/action_memory_resolve.py --review-report",
         ),
         _row(
@@ -124,7 +151,7 @@ def build_go_live_checklist(
             "dark_lanes",
             "Optional dark lanes",
             "warn",
-            "Dark lanes: " + ", ".join(status.get("dark_lanes", {}).get("keys") or []),
+            _dark_lane_detail(status),
             "python src/live_status.py",
         ))
     fail_count = sum(1 for row in rows if row["status"] == "fail")

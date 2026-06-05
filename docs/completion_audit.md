@@ -129,6 +129,8 @@ enough to hand control back, using current repo state as evidence. It covers:
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json
   --format text` now includes a PASS `Live data flow` row with feed timestamp,
   lane count, dark-lane count, and top action.
+- The go-live checklist warning rows now name open-review tickers (`ANET`,
+  `GOOGL`) and include the next source input for each optional dark lane.
 - Focused live-status/checklist tests passed after the data-flow proof slice:
   `python -m pytest src/test_live_status.py src/test_go_live_checklist.py -q`
   reported 9 passed.
