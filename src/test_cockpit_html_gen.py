@@ -70,6 +70,16 @@ def test_generated_html_surfaces_feedback_context():
     assert "Resolve oldest open action." in html
 
 
+def test_generated_html_surfaces_operator_status_card():
+    html = generate_html(_feed())
+
+    assert "Operator status" in html
+    assert "Today actions" in html
+    assert "Open reviews" in html
+    assert "Source lanes" in html
+    assert "python src/go_live_checklist.py --format text" in html
+
+
 def test_generated_html_is_ascii_display_safe():
     html = generate_html(_feed())
 

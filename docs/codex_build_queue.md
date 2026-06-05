@@ -426,6 +426,12 @@ until the core logic is stable; Notion sync comes later.
   - Added `go_live_checklist.py --format text` so the go-live check is
     scannable without reading JSON.
   - JSON remains the default for automation/backward compatibility.
+- Dashboard operator-status card.
+  - Added a compact Operator Status card to the generated dashboard
+    summary/preview HTML.
+  - It surfaces action count, open review count, dark/stale/failed lane status,
+    and the human-readable go-live checklist command near the top of the
+    preview.
 
 ## Queued Slices
 

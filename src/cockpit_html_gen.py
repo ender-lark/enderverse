@@ -115,6 +115,12 @@ a{color:#58a6ff;text-decoration:none}
 .ls-stale,.ls-failed{background:#2b0d0d;color:#f85149}
 .feedback-line{font-size:12px;color:#8b949e;margin:5px 0}
 .feedback-rec{font-size:12px;color:#c9d1d9;padding:4px 0;border-top:1px solid #1c2128}
+.operator-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-bottom:8px}
+.operator-pill{background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:7px 8px}
+.operator-label{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#484f58;margin-bottom:2px}
+.operator-value{font-size:13px;font-weight:700;color:#f0f6fc}
+.operator-pass{color:#3fb950}.operator-warn{color:#d29922}.operator-fail{color:#f85149}
+.operator-command{font-family:monospace;font-size:11px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:5px;padding:6px 8px;overflow-x:auto}
 
 /* ── needs-you hero ── */
 .hero{background:#161b22;border:1px solid #21262d;border-radius:8px;
@@ -384,6 +390,42 @@ def _feedback_summary(feedback: dict) -> str:
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{badge} open signal(s)</span>
   </div>
   {''.join(lines)}
+</div>"""
+
+
+def _operator_status(feed: dict) -> str:
+    lane = feed.get("lane_status") or {}
+    counts = lane.get("counts") or {}
+    feedback = feed.get("feedback") or {}
+    open_actions = feedback.get("open_actions") or {}
+    actions = feed.get("actions") or []
+    dark = int(counts.get("not_checked") or 0)
+    stale = int(counts.get("stale") or 0)
+    failed = int(counts.get("failed") or 0)
+    open_count = int(open_actions.get("count") or 0)
+    action_count = len(actions)
+    status = "FAIL" if failed else "WARN" if dark or stale or open_count else "PASS"
+    cls = {"PASS": "operator-pass", "WARN": "operator-warn", "FAIL": "operator-fail"}[status]
+    lane_detail = []
+    if dark:
+        lane_detail.append(f"{dark} dark")
+    if stale:
+        lane_detail.append(f"{stale} stale")
+    if failed:
+        lane_detail.append(f"{failed} failed")
+    lane_value = ", ".join(lane_detail) if lane_detail else "clear"
+    return f"""
+<div class="card">
+  <div class="card-title"><span class="icon">!</span> Operator status
+    <span class="{cls}" style="font-size:11px;margin-left:auto">{status}</span>
+  </div>
+  <div class="operator-grid">
+    <div class="operator-pill"><div class="operator-label">Today actions</div><div class="operator-value">{_e(action_count)}</div></div>
+    <div class="operator-pill"><div class="operator-label">Open reviews</div><div class="operator-value {_e('operator-warn' if open_count else 'operator-pass')}">{_e(open_count)}</div></div>
+    <div class="operator-pill"><div class="operator-label">Source lanes</div><div class="operator-value {_e('operator-warn' if lane_detail else 'operator-pass')}">{_e(lane_value)}</div></div>
+    <div class="operator-pill"><div class="operator-label">Go-live check</div><div class="operator-value {_e(cls)}">{status}</div></div>
+  </div>
+  <div class="operator-command">python src/go_live_checklist.py --format text</div>
 </div>"""
 
 
@@ -794,6 +836,7 @@ def generate_html(feed: dict) -> str:
 
     # sections
     summary_html = _summary_notice(feed)
+    operator_html = _operator_status(feed)
     lane_html   = _lane_status_summary(feed.get("lane_status") or {})
     feedback_html = _feedback_summary(feed.get("feedback") or {})
     hb_html     = _heartbeat(feed.get("heartbeat") or [])
@@ -848,6 +891,7 @@ def generate_html(feed: dict) -> str:
 
   <div id="tab-dashboard">
     {summary_html}
+    {operator_html}
     {lane_html}
     {feedback_html}
     {hb_html}
