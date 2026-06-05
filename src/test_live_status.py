@@ -149,6 +149,8 @@ def test_format_text_is_operator_scannable():
     assert "Data flow: feed=2026-06-05T10:03:31+00:00" in text
     assert "top_action=event_risk: Review oil shock" in text
     assert "Source calls: not_checked | observed=3 | pending=0 | overdue=0" in text
+    assert "Sudden event command:" in text
+    assert "python src/sudden_event_refresh.py --title \"<event headline>\"" in text
     assert "Open review tickers: ANET" in text
     assert "Open review commands:" in text
     assert "python src/action_memory_resolve.py --review-report" in text

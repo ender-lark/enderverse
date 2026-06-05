@@ -198,6 +198,15 @@ def _dark_lane_commands(key: str) -> list[str]:
     return commands.get(key, ["python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"])
 
 
+def _sudden_event_command() -> str:
+    return (
+        'python src/sudden_event_refresh.py --title "<event headline>" '
+        '--channels "oil,rates,volatility" --tickers "XOP,TNX" '
+        '--why "<why exposure, hedges, or new-buy timing changes>" '
+        '--trigger "<what confirms or changes the risk>"'
+    )
+
+
 def format_text(status: dict[str, Any]) -> str:
     """Return a human-readable operator status without changing JSON output."""
     data_flow = status.get("data_flow") or {}
@@ -263,6 +272,8 @@ def format_text(status: dict[str, Any]) -> str:
     if blockers.get("build_problem"):
         blocker_parts.append("build_problem=present")
     lines.append(f"Blockers: {'; '.join(blocker_parts) if blocker_parts else 'none'}")
+    lines.append("Sudden event command:")
+    lines.append(f"- {_sudden_event_command()}")
 
     review_rows = open_actions.get("review_rows") or []
     if review_rows:

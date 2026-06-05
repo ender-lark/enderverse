@@ -77,6 +77,15 @@ def _source_call_row_status(source_calls: dict[str, Any]) -> str:
     return "pass"
 
 
+def _sudden_event_command() -> str:
+    return (
+        'python src/sudden_event_refresh.py --title "<event headline>" '
+        '--channels "oil,rates,volatility" --tickers "XOP,TNX" '
+        '--why "<why exposure, hedges, or new-buy timing changes>" '
+        '--trigger "<what confirms or changes the risk>"'
+    )
+
+
 def build_go_live_checklist(
     *,
     src_dir: str | Path = DEFAULT_SRC,
@@ -152,6 +161,13 @@ def build_go_live_checklist(
                 "No manual drop supplied; optional event/signal/catalyst lanes may remain dark."
             ),
             "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+        ),
+        _row(
+            "sudden_event",
+            "Sudden event refresh",
+            "pass",
+            "One supplied market-moving headline can be appended to Event Risk and pushed through the live dashboard refresh.",
+            _sudden_event_command(),
         ),
         _row(
             "open_reviews",

@@ -35,6 +35,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Sudden-event command visibility.
+  - `python src/live_status.py --format text` and
+    `python src/go_live_checklist.py --format text` now show the
+    `sudden_event_refresh.py` command template for fast supplied
+    war/oil/rates/policy shock handling.
+  - This keeps the sudden-event lane actionable during go-live without adding
+    automated scraping or unsourced market narrative.
 - Live refresh source-call tracking.
   - `python src/live_dashboard_refresh.py` now runs
     `source_call_candidate_draft.py --merge-existing --merge-cache` after the
