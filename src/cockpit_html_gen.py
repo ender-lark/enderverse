@@ -115,6 +115,7 @@ a{color:#58a6ff;text-decoration:none}
 .ls-stale,.ls-failed{background:#2b0d0d;color:#f85149}
 .feedback-line{font-size:12px;color:#8b949e;margin:5px 0}
 .feedback-rec{font-size:12px;color:#c9d1d9;padding:4px 0;border-top:1px solid #1c2128}
+.feedback-item{font-size:12px;color:#c9d1d9;padding:4px 0 4px 8px;border-left:2px solid #d29922;margin:5px 0;background:#1c2128}
 .operator-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-bottom:8px}
 .operator-pill{background:#1c2128;border:1px solid #21262d;border-radius:6px;padding:7px 8px}
 .operator-label{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#484f58;margin-bottom:2px}
@@ -383,6 +384,19 @@ def _feedback_summary(feedback: dict) -> str:
             lines.append(f'<div class="feedback-line">{_e(line)}</div>')
     if recs:
         lines.extend(f'<div class="feedback-rec">{_e(r)}</div>' for r in recs[:4])
+    for item in (oa.get("items") or [])[:4]:
+        ticker = _e(item.get("ticker") or "")
+        age = item.get("age_days")
+        source = _e(item.get("source") or item.get("kind") or "")
+        move = _e(item.get("move_since") or "")
+        detail = f"{age}d open" if age is not None else "open"
+        if source:
+            detail += f" | {source}"
+        if move:
+            detail += f" | {move}"
+        lines.append(
+            f'<div class="feedback-item"><span class="context-ticker">{ticker}</span>{_e(detail)}</div>'
+        )
     if not lines:
         return ""
     badge = (

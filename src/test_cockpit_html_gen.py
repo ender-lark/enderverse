@@ -43,6 +43,7 @@ def _feed():
             "open_actions": {
                 "line": "Open action backlog: 1 open; oldest 3 trading day(s).",
                 "count": 1,
+                "items": [{"ticker": "ANET", "age_days": 3, "source": "lean_in"}],
             },
             "recommendations": ["Resolve oldest open action."],
         },
@@ -85,6 +86,8 @@ def test_generated_html_surfaces_feedback_context():
     assert "Feedback loops" in html
     assert "Source-call scoring: 1 overdue." in html
     assert "Open action backlog: 1 open" in html
+    assert "ANET" in html
+    assert "3d open | lean_in" in html
     assert "Resolve oldest open action." in html
 
 
