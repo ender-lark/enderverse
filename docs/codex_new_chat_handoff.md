@@ -27,7 +27,7 @@ Current priority:
 4. Use `python src/verify_standard.py` as the standard verification command.
 5. Commit and push after each clean verified slice.
 
-Current pushed snapshot (2026-06-05 11:17 ET live artifacts):
+Current pushed snapshot (2026-06-05 14:19 ET live artifacts):
 
 - Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
   this handoff page's commit hash as runtime evidence.
@@ -35,16 +35,16 @@ Current pushed snapshot (2026-06-05 11:17 ET live artifacts):
   is committed and pushed.
 - `python src/live_status.py --format text` reports
   `live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
-  actions, feed `2026-06-05T11:17:38.446606+00:00`, 11 lanes with data, 2 dark
-  optional lanes, 2 open action reviews, and 3 pending / 0 overdue source calls.
+  actions, feed `2026-06-05T14:19:26.904831+00:00`, 12 lanes with data, 1 dark
+  optional lane (`catalysts`), 2 open action reviews, and 3 pending / 0 overdue
+  source calls.
 - `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
   reports `WARN` with 0 failures and 2 warnings: open action reviews
-  (`ANET`, `GOOGL`) and optional dark lanes (`catalysts`, `signal_log`). It
-  also includes a PASS Active Event Watch row for the current supplied
-  oil/rates watch.
+  (`ANET`, `GOOGL`) and optional dark lane `catalysts`. It also includes a PASS
+  Active Event Watch row for the current supplied oil/rates watch.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-05 11:17 ET`.
+  `2026-06-05 14:19 ET`.
 - The dashboard Operator Status card now shows both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
@@ -52,7 +52,7 @@ Current pushed snapshot (2026-06-05 11:17 ET live artifacts):
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `952 passed, 6 skipped`, plus
+- Full standard verification last passed with `957 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
@@ -144,8 +144,7 @@ Important recent state:
 - The current repo has a valid `src/heartbeat.json` and
   `src/heartbeat_summary.json` snapshot. It shows Required Inputs, Minimum
   Market Data, Publish Gate, and Daily Full Build as `ok`; Optional Source Lanes
-  remain `stale` because optional lanes such as Fundstrat Bible, Catalysts,
-  Synthesis, Signal Log, and Top Prospects are dark.
+  remain `stale` because Catalyst Calendar is still dark/not checked.
 - Absent optional price cache now leaves `uw_price` not checked instead of
   registering an empty price source as `has_data`.
 - `src/uw_price_cache_intake.py` can normalize supplied UW close-price responses
@@ -164,28 +163,28 @@ Important recent state:
   generating market content.
 - `src/daily_synthesis_from_feed.py` can also build a conservative
   repo-evidence synthesis from `src/latest_cockpit_feed.json`. It writes no
-  structured synthesis actions and keeps missing Catalyst Calendar / Signal Log
-  lanes visible as unresolved.
+  structured synthesis actions and keeps missing Catalyst Calendar visible as
+  unresolved.
 - `src/signal_log_intake.py` can normalize supplied Signal Log or Morning Scan
   JSON into `src/signal_log.json`; rows are watch-only and never promote actions
   directly.
 - `src/codex_routine_manifest.json` now has nine active routines, including
   `daily_synthesis_intake` and `signal_log_intake`; the current repo has a
-  populated repo-evidence `src/daily_synthesis.json` and still has no populated
-  `src/signal_log.json`.
+  populated repo-evidence `src/daily_synthesis.json` and a populated
+  watch-only `src/signal_log.json` from recent Signal Log rows.
 - Current live-readiness probe on the repo reports `rehearsal_ready: true`,
   `required_inputs_ready: true`, `live_data_ready: true`,
   `publish_ready: true`, and `go_live_ready: true`.
-- Current dark lanes are `catalysts` and `signal_log`. These are
-  not hard go-live blockers, but the dashboard now shows what input to supply
-  next for each.
+- Current dark lane is `catalysts`. It is not a hard go-live blocker, but the
+  dashboard keeps its missing-source input visible instead of treating it as
+  checked clear.
 - `src/cloud_ops_status.py --format text` is the operator check for unattended
   daily ops. It distinguishes local go-live readiness from a real installed
   Codex cloud automation. The app-created daily automation id
   `investing-os-daily-cloud-refresh` is recorded in
   `src/cloud_automation_status.json`, so the command now reports cloud ops
-  ready=true. Signal Log and Catalyst gaps should remain visible as dark lanes
-  if connector/source pulls fail; open action reviews remain warnings, not
+  ready=true. Catalyst gaps should remain visible as dark lanes if
+  connector/source pulls fail; open action reviews remain warnings, not
   cloud-ops blockers.
 - Target Drift now promotes held, materially undersized names into conservative
   `conviction_gap` actions. The current feed surfaces NVDA as a funded
@@ -241,7 +240,7 @@ Important recent state:
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T11:17:38.446606+00:00`.
+  `2026-06-05T14:19:26.904831+00:00`.
 - The canonical JSX cockpit and generated summary/preview dashboard both have
   an Operator Status card near the top. It summarizes action count, open
   reviews, source-lane warning state, and the
@@ -261,10 +260,10 @@ Important recent state:
   `ANET` and `GOOGL`.
 - Current `python src/live_status.py` reports `live_summary:
   live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
-  actions, 2 dark optional lanes (`catalysts`, `signal_log`), 2 open
+  actions, 1 dark optional lane (`catalysts`), 2 open
   action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
   active/queued system-improvement items. Its data-flow proof shows feed
-  `2026-06-05T11:17:38.446606+00:00`, 11 lanes with data, 2 dark lanes, and
+  `2026-06-05T14:19:26.904831+00:00`, 12 lanes with data, 1 dark lane, and
   top action `event_risk`. It also prints the active Middle East oil/rates
   event watch, the sudden-event refresh command template, and the open-review
   resolution commands.
@@ -273,7 +272,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `952 passed, 6 skipped`.
+- `python -m pytest src -q` -> `957 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

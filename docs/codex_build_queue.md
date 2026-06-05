@@ -35,6 +35,17 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Signal Log / Morning Scan lane populated.
+  - Used Notion search/fetch against the Signal Log data source, not the failed
+    SQL query path, to source recent macro, oil/Hormuz, Iran escalation, and
+    metals-tariff rows.
+  - Normalized six compact watch-only rows into `src/signal_log.json` via
+    `python src/signal_log_intake.py tmp\signal_log_notion_compact_2026-06-05.json --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing`.
+  - Preserved distinct row notes in `signal_log_intake.py` so the dashboard can
+    show why each watch item matters without promoting direct buy/sell actions.
+  - Refreshed the live dashboard package. Current status shows 12 lanes with
+    data and 1 dark lane (`catalysts`); Signal Log is checked as has-data, while
+    Catalyst remains dark/not checked.
 - Daily cloud-ops readiness status.
   - Added `python src/cloud_ops_status.py --format text` to separate local
     go-live readiness from actual scheduled Codex cloud automation readiness.
@@ -47,9 +58,9 @@ until the core logic is stable; Notion sync comes later.
     `python src/cloud_ops_status.py --format text` reports installed=true,
     active=true, and cloud ops ready=true even when the app scheduler has not
     written a local `$CODEX_HOME/automations` TOML file.
-  - Missing Signal Log / Catalyst pulls remain visible as dark lanes instead
-    of being treated as checked clear. Open action reviews remain visible as
-    warnings, not cloud-ops blockers.
+  - Missing Catalyst pulls remain visible as a dark lane instead of being
+    treated as checked clear. Open action reviews remain visible as warnings,
+    not cloud-ops blockers.
 - Go-live checklist event-watch parity.
   - `python src/go_live_checklist.py --format text` now includes an Active
     Event Watch row derived from the same live-status/feed evidence as the
@@ -537,8 +548,8 @@ until the core logic is stable; Notion sync comes later.
     readiness, preview-server state, unresolved action-memory rows, and the
     system-improvement queue.
   - Current readout reports `go_live_ready: true`, 4 actions, 0 research
-    actions, 2 dark optional lanes, 2 open action-memory reviews, preview
-    server running, and 0 active/queued system-improvement items.
+    actions, 1 dark optional lane (`catalysts`), 2 open action-memory reviews,
+    preview server running, and 0 active/queued system-improvement items.
 - One-line sudden-event risk intake.
   - Extended `event_risk_intake.py` so a supplied headline can be appended with
     CLI flags instead of pre-shaped JSON.

@@ -35,6 +35,19 @@ def test_normalize_signal_log_accepts_wrappers_and_aliases():
     assert rows[1]["signal"] == "Market breadth improving"
 
 
+def test_normalize_signal_log_preserves_distinct_note_context():
+    rows = intake.normalize_signal_log([{
+        "signals": [{
+            "ticker": "USO",
+            "signal": "Oil spike watch",
+            "notes": "Watch rates and inflation impulse; context only.",
+        }]
+    }])
+
+    assert rows[0]["signal"] == "Oil spike watch"
+    assert rows[0]["note"] == "Watch rates and inflation impulse; context only."
+
+
 def test_validate_signal_log_rejects_empty_or_missing_text():
     assert intake.validate_signal_log([]) == ["signal log must include at least one row"]
     problems = intake.validate_signal_log([{"ticker": "NVDA"}])

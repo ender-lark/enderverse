@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T11:17:38.446606+00:00",
+  "generated_at": "2026-06-05T14:19:26.904831+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T11:17:38.446606+00:00",
+        "date": "2026-06-05T14:19:26.904831+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T11:17:38.446606+00:00",
+        "date": "2026-06-05T14:19:26.904831+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -125,12 +125,10 @@
       {
         "key": "signal_log",
         "label": "Signal Log",
-        "status": "not_checked",
-        "detail": "not supplied",
-        "count": 0,
-        "checked_at": "",
-        "next_step": "Supply the Morning Scan or Signal Log JSON for watch-only intraday context.",
-        "missing_impact": "Watch-only daily scan context is not checked."
+        "status": "has_data",
+        "detail": "checked",
+        "count": 6,
+        "checked_at": ""
       },
       {
         "key": "event_risk",
@@ -158,11 +156,11 @@
       }
     ],
     "counts": {
-      "not_checked": 2,
-      "stale": 0,
-      "checked_clear": 0,
       "failed": 0,
-      "has_data": 11
+      "has_data": 12,
+      "not_checked": 1,
+      "stale": 0,
+      "checked_clear": 0
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -316,7 +314,56 @@
     }
   ],
   "fresh_signals": [],
-  "signal_log": [],
+  "signal_log": [
+    {
+      "signal": "Macro: complacent vol plus steep curve cyclical tailwind",
+      "ticker": "XLF, GS, ITA",
+      "date": "2026-06-04",
+      "priority": "medium",
+      "source": "https://app.notion.com/p/375c50314bb681df8743efc9c7563019",
+      "note": "VIX near 16 and 2s10s near +41 bps create risk-on/financials tailwind context; hedge cost may be favorable. Watch-only."
+    },
+    {
+      "signal": "Iran escalation: US strikes plus prediction-market divergence",
+      "ticker": "ITA, BWXT, LEU, UUUU, GLD",
+      "date": "2026-06-04",
+      "priority": "high",
+      "source": "https://app.notion.com/p/375c50314bb681a29715f5ce022ede80",
+      "note": "Fresh strikes and whale prediction-market divergence create fast geopolitical risk context for defense, nuclear fuel, and safe-haven sleeves. Watch-only."
+    },
+    {
+      "signal": "Oil rallying on Iran/Hormuz, inflation and macro watch",
+      "ticker": "USO",
+      "date": "2026-06-02",
+      "priority": "medium",
+      "source": "https://app.notion.com/p/373c50314bb6819c98d2e9d9c57c3bf0",
+      "note": "USO rose roughly 5% week-over-week as Hormuz disruption stayed relevant; matters as inflation/rates input ahead of FOMC. Watch-only."
+    },
+    {
+      "signal": "Oil spike on renewed Iran-US strikes",
+      "ticker": "USO, ITA, LEU, UUUU, CCJ, BWXT, BE",
+      "date": "2026-06-01",
+      "priority": "high",
+      "source": "https://app.notion.com/p/372c50314bb6814c9314e3a0de7afd70",
+      "note": "Oil shock can pressure AI-heavy multiples through inflation/rates while supporting defense and nuclear/critical-minerals watch sleeves. Watch-only."
+    },
+    {
+      "signal": "Oil down on US-Iran de-escalation and nuclear-deal expectations",
+      "ticker": "LEU, UUUU, CCJ, BWXT, BE, ITA",
+      "date": "2026-06-01",
+      "priority": "medium",
+      "source": "https://app.notion.com/p/372c50314bb681a7b9feda6914bbb3b4",
+      "note": "Lower oil and yields create a risk-on book tailwind but mixed read for nuclear, energy-transition, and defense sleeves; oil direction is the hard tell. Watch-only."
+    },
+    {
+      "signal": "Metals tariffs raised, effective June 8",
+      "ticker": "NUE, MP, XLI, LEU, UUUU",
+      "date": "2026-06-02",
+      "priority": "medium",
+      "source": "https://app.notion.com/p/373c50314bb6818e9857f52cb4eda89b",
+      "note": "Higher metals tariffs and ended exemptions are a policy tailwind for domestic materials and critical-minerals exposure. Watch-only."
+    }
+  ],
   "event_risk": [
     {
       "date": "2026-06-03",
@@ -870,43 +917,42 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T11:17:38.370357+00:00",
+      "last_run": "2026-06-05T14:19:26.821502+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T11:17:38.370357+00:00",
+      "last_run": "2026-06-05T14:19:26.821502+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T11:17:38.370357+00:00",
+      "last_run": "2026-06-05T14:19:26.821502+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T11:17:38.370357+00:00",
-      "note": "dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context"
+      "last_run": "2026-06-05T14:19:26.821502+00:00",
+      "note": "dark lanes: catalysts | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T11:17:38.370357+00:00",
+      "last_run": "2026-06-05T14:19:26.821502+00:00",
       "note": "rehearsal build can run"
     }
   ],
   "synthesis": {
     "source": "Repo Evidence Synthesis",
     "date": "2026-06-05",
-    "state_of_play": "Repo evidence read: 11 lane(s) have data and 2 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (act_now, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+    "state_of_play": "Repo evidence read: 12 lane(s) have data and 1 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (act_now, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
     "delta": "Fundstrat Daily compact calls in radar: RYF avoid, TNX watch, XOP avoid. Target drift: 12 sizing gap(s) vs AI working model (1 under, 2 over, 9 missing); GRNY oversized 8.7% vs 3.0%; SMH oversized 8.9% vs 5.0%; NVDA undersized 6.6% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more",
     "hanging": [
       "Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.",
-      "Catalysts is not checked: Near-term event timing may be missing from Today's Actions.",
-      "Signal Log is not checked: Watch-only daily scan context is not checked."
+      "Catalysts is not checked: Near-term event timing may be missing from Today's Actions."
     ],
     "notes": [
       "Derived only from the existing cockpit feed.",

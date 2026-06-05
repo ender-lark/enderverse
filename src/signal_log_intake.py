@@ -22,6 +22,7 @@ TEXT_ALIASES = ("signal", "title", "what", "summary", "note", "notes", "descript
 TICKER_ALIASES = ("ticker", "symbol", "name")
 DATE_ALIASES = ("date", "as_of", "created_at", "timestamp")
 PRIORITY_ALIASES = ("priority", "urgency", "rank")
+NOTE_ALIASES = ("note", "notes", "detail", "why")
 
 
 def _read_json(path: str | Path) -> Any:
@@ -89,6 +90,9 @@ def normalize_signal_log(payloads: list[Any]) -> list[dict]:
             source = raw.get("source")
             if source:
                 row["source"] = str(source).strip()
+            note = _first(raw, NOTE_ALIASES)
+            if note and str(note).strip() != row["signal"]:
+                row["note"] = str(note).strip()
             key = (row.get("ticker", ""), row.get("date", ""), row["signal"])
             if key not in seen:
                 seen.add(key)
