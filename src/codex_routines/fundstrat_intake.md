@@ -30,13 +30,13 @@ Accepted fallback file types:
    resulting Gmail connector JSON shape (`responses:[...]`) into:
 
    ```bash
-   python src/fundstrat_email_intake.py --stdin-json --out-dir src
+   python src/fundstrat_email_intake.py --stdin-json --out-dir src --state src/fundstrat_intake_state.json --merge-existing
    ```
 
 3. If the drop folder has files, run:
 
    ```bash
-   python src/fundstrat_email_intake.py <files> --out-dir src
+   python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing
    ```
 
 4. If no Gmail results and no drop-folder files exist, do not overwrite
@@ -61,6 +61,7 @@ Accepted fallback file types:
 - `src/inbox_call_dates.json`
 - `src/source_call_candidates.json`
 - `src/fundstrat_intake_summary.json`
+- `src/fundstrat_intake_state.json`
 
 ## Rules
 

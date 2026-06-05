@@ -6,13 +6,16 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from fundstrat_email_intake import (
     build_intake_payload,
+    dedupe_entries,
     entries_from_payload,
     extract_daily_calls,
     extract_tickers,
+    filter_new_entries,
     load_entries,
     load_ticker_universe,
     normalize_email_entry,
     parse_date,
+    update_state,
     write_convention_files,
 )
 
@@ -76,6 +79,32 @@ def test_load_entries_accepts_gmail_like_json(tmp_path):
     assert entries[0]["date"] == "2026-06-05"
 
 
+def test_load_entries_accepts_gmail_responses_json_file(tmp_path):
+    p = tmp_path / "gmail_responses.json"
+    p.write_text(json.dumps({"responses": [{
+        "from_": "Mark Newton mark.newton@fundstratdirect.com",
+        "subject": "Daily Technical Strategy",
+        "body": "Buy RSPH.",
+        "email_ts": "2026-06-04T23:35:18+00:00",
+    }]}), encoding="utf-8")
+    entries = load_entries([p])
+    assert entries[0]["author"] == "Newton"
+    assert entries[0]["date"] == "2026-06-04"
+
+
+def test_load_entries_accepts_utf8_bom_json(tmp_path):
+    p = tmp_path / "gmail_bom.json"
+    p.write_text("\ufeff" + json.dumps({"messages": [{
+        "from": "Fundstrat",
+        "subject": "Mark Newton tech",
+        "body": "Buy NVDA.",
+        "date": "2026-06-05",
+    }]}), encoding="utf-8")
+    entries = load_entries([p])
+    assert entries[0]["author"] == "Newton"
+    assert entries[0]["date"] == "2026-06-05"
+
+
 def test_entries_from_payload_accepts_gmail_connector_responses_shape():
     entries = entries_from_payload({"responses": [{
         "from_": "Mark Newton mark.newton@fundstratdirect.com",
@@ -88,6 +117,21 @@ def test_entries_from_payload_accepts_gmail_connector_responses_shape():
     assert entries[0]["subject"] == "Daily Technical Strategy"
     assert entries[0]["date"] == "2026-06-04"
     assert "RSPH" in entries[0]["body"]
+
+
+def test_dedupe_and_state_filter_use_message_ids():
+    entries = entries_from_payload({"responses": [
+        {"id": "m1", "subject": "A", "body": "Buy NVDA.", "email_ts": "2026-06-04T12:00:00Z"},
+        {"id": "m1", "subject": "A", "body": "Buy NVDA.", "email_ts": "2026-06-04T12:00:00Z"},
+        {"id": "m2", "subject": "B", "body": "Buy GOOGL.", "email_ts": "2026-06-05T12:00:00Z"},
+    ]})
+    assert [e["message_id"] for e in dedupe_entries(entries)] == ["m1", "m2"]
+    new_entries = filter_new_entries(entries, {"processed_message_ids": ["m1"]})
+    assert [e["message_id"] for e in new_entries] == ["m2"]
+    state = update_state({"processed_message_ids": ["old"]}, new_entries,
+                         generated_at="2026-06-05T14:00:00+00:00")
+    assert state["processed_message_ids"] == ["m2", "old"]
+    assert state["last_inbox_date"] == "2026-06-05"
 
 
 def test_build_payload_and_write_convention_files(tmp_path):
@@ -117,6 +161,36 @@ def test_build_payload_and_write_convention_files(tmp_path):
     dates = json.loads((tmp_path / "inbox_call_dates.json").read_text(encoding="utf-8"))
     assert calls[0]["ticker"] == "NVDA"
     assert dates == ["2026-06-05"]
+
+
+def test_write_convention_files_can_merge_existing_and_write_state(tmp_path):
+    (tmp_path / "fundstrat_daily_calls.json").write_text(json.dumps([
+        {"author": "Newton", "ticker": "OLD", "date": "2026-06-04", "quote": "Buy OLD."}
+    ]), encoding="utf-8")
+    payload = build_intake_payload([{
+        "subject": "Mark Newton tech",
+        "body": "Buy NVDA near 170.",
+        "date": "2026-06-05",
+        "author": "Newton",
+        "from": "Fundstrat",
+        "source_path": "x",
+        "message_id": "m1",
+        "thread_id": "t1",
+    }], universe={"NVDA"}, generated_at="2026-06-05T14:00:00+00:00")
+    write_convention_files(
+        payload,
+        tmp_path,
+        merge_existing=True,
+        state={"last_run_at": "2026-06-05T14:00:00+00:00",
+               "processed_message_ids": ["m1"]},
+    )
+    calls = json.loads((tmp_path / "fundstrat_daily_calls.json").read_text(encoding="utf-8"))
+    state = json.loads((tmp_path / "fundstrat_intake_state.json").read_text(encoding="utf-8"))
+    summary = json.loads((tmp_path / "fundstrat_intake_summary.json").read_text(encoding="utf-8"))
+    assert [c["ticker"] for c in calls] == ["OLD", "NVDA"]
+    assert state["processed_message_ids"] == ["m1"]
+    assert summary["merged"] is True
+    assert summary["stored_daily_calls"] == 2
 
 
 def test_load_ticker_universe_uses_theses_and_positions(tmp_path):

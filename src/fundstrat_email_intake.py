@@ -84,7 +84,7 @@ def _strip_comments(obj: Any) -> Any:
 def _read_json(path: Path, default: Any = None) -> Any:
     if not path.is_file():
         return default
-    with path.open(encoding="utf-8") as fh:
+    with path.open(encoding="utf-8-sig") as fh:
         return _strip_comments(json.load(fh))
 
 
@@ -151,6 +151,8 @@ def normalize_email_entry(raw: Any, *, fallback_date: str | None = None,
                           source_path: str = "") -> dict:
     """Normalize one raw text or Gmail-like dict into {subject, body, date, ...}."""
     if isinstance(raw, dict):
+        message_id = raw.get("id") or raw.get("message_id")
+        thread_id = raw.get("thread_id")
         subject = raw.get("subject") or raw.get("title") or ""
         body = raw.get("body") or raw.get("text") or raw.get("snippet") or ""
         sender = raw.get("from") or raw.get("from_") or raw.get("sender") or raw.get("author") or ""
@@ -166,10 +168,13 @@ def normalize_email_entry(raw: Any, *, fallback_date: str | None = None,
             "date": date_s,
             "author": str(author),
             "source_path": source_path,
+            "message_id": str(message_id or ""),
+            "thread_id": str(thread_id or ""),
         }
 
     text = str(raw or "")
     msg = Parser(policy=policy.default).parsestr(text)
+    message_id = msg.get("Message-ID") or ""
     if msg.get("subject") or msg.get("from") or msg.get("date"):
         subject = msg.get("subject") or ""
         sender = msg.get("from") or ""
@@ -189,6 +194,8 @@ def normalize_email_entry(raw: Any, *, fallback_date: str | None = None,
         "date": date_s,
         "author": author,
         "source_path": source_path,
+        "message_id": str(message_id),
+        "thread_id": "",
     }
 
 
@@ -198,10 +205,8 @@ def load_entries(paths: list[str | Path], *, fallback_date: str | None = None) -
         path = Path(raw_path)
         if path.suffix.lower() == ".json":
             payload = _read_json(path, default=[])
-            rows = payload if isinstance(payload, list) else payload.get("messages", []) if isinstance(payload, dict) else []
-            for row in rows:
-                entries.append(normalize_email_entry(row, fallback_date=fallback_date,
-                                                     source_path=str(path)))
+            entries.extend(entries_from_payload(payload, fallback_date=fallback_date,
+                                                source_path=str(path)))
         else:
             text = path.read_text(encoding="utf-8", errors="replace")
             entries.append(normalize_email_entry(text, fallback_date=fallback_date,
@@ -233,6 +238,57 @@ def entries_from_payload(payload: Any, *, fallback_date: str | None = None,
         normalize_email_entry(row, fallback_date=fallback_date, source_path=source_path)
         for row in rows
     ]
+
+
+def _entry_key(entry: dict) -> str:
+    msg_id = str(entry.get("message_id") or "").strip()
+    if msg_id:
+        return f"id:{msg_id}"
+    return "|".join([
+        str(entry.get("date") or ""),
+        str(entry.get("from") or ""),
+        str(entry.get("subject") or ""),
+    ])
+
+
+def dedupe_entries(entries: list[dict]) -> list[dict]:
+    out: list[dict] = []
+    seen: set[str] = set()
+    for entry in entries:
+        key = _entry_key(entry)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(entry)
+    return out
+
+
+def filter_new_entries(entries: list[dict], state: dict | None) -> list[dict]:
+    processed = set((state or {}).get("processed_message_ids") or [])
+    if not processed:
+        return entries
+    out = []
+    for entry in entries:
+        msg_id = str(entry.get("message_id") or "").strip()
+        if msg_id and msg_id in processed:
+            continue
+        out.append(entry)
+    return out
+
+
+def update_state(state: dict | None, entries: list[dict], *, generated_at: str) -> dict:
+    prior = state if isinstance(state, dict) else {}
+    processed = set(prior.get("processed_message_ids") or [])
+    for entry in entries:
+        msg_id = str(entry.get("message_id") or "").strip()
+        if msg_id:
+            processed.add(msg_id)
+    dates = sorted({e.get("date") for e in entries if e.get("date")})
+    return {
+        "last_run_at": generated_at,
+        "last_inbox_date": max(dates) if dates else prior.get("last_inbox_date", ""),
+        "processed_message_ids": sorted(processed),
+    }
 
 
 def load_ticker_universe(theses_path: str | Path | None = None,
@@ -375,6 +431,7 @@ def classify_source_call_candidates(daily_calls: list[dict], *, now: str | None 
 def build_intake_payload(entries: list[dict], *, universe: set[str] | None = None,
                          generated_at: str | None = None) -> dict:
     generated_at = generated_at or _utc_now_iso()
+    entries = dedupe_entries(entries)
     daily_calls, mentions = extract_daily_calls(entries, universe=universe)
     dates = sorted({e.get("date") for e in entries if e.get("date")})
     source_call_candidates = classify_source_call_candidates(
@@ -398,20 +455,68 @@ def build_intake_payload(entries: list[dict], *, universe: set[str] | None = Non
     }
 
 
-def write_convention_files(payload: dict, out_dir: str | Path) -> dict:
+def _merge_by_key(existing: list[dict], new: list[dict], keys: tuple[str, ...]) -> list[dict]:
+    out: list[dict] = []
+    seen: set[tuple] = set()
+    for row in list(existing or []) + list(new or []):
+        if not isinstance(row, dict):
+            continue
+        key = tuple(row.get(k) for k in keys)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(row)
+    return out
+
+
+def write_convention_files(payload: dict, out_dir: str | Path, *,
+                           merge_existing: bool = False,
+                           state: dict | None = None) -> dict:
     out = Path(out_dir)
+    entries = payload["entries"]
+    daily_calls = payload["daily_calls"]
+    inbox_dates = payload["inbox_call_dates"]
+    candidates = payload["source_call_candidates"]
+    if merge_existing:
+        entries = _merge_by_key(
+            _read_json(out / "fundstrat_inbox_entries.json", default=[]),
+            entries,
+            ("message_id", "date", "subject"),
+        )
+        daily_calls = _merge_by_key(
+            _read_json(out / "fundstrat_daily_calls.json", default=[]),
+            daily_calls,
+            ("date", "author", "ticker", "quote"),
+        )
+        prior_dates = _read_json(out / "inbox_call_dates.json", default=[])
+        inbox_dates = sorted({*(d for d in prior_dates or [] if d), *(d for d in inbox_dates if d)})
+        candidates = _merge_by_key(
+            _read_json(out / "source_call_candidates.json", default=[]),
+            candidates,
+            ("date", "source", "ticker", "verbatim_quote"),
+        )
+    summary = {
+        **payload["summary"],
+        "merged": bool(merge_existing),
+        "stored_entries": len(entries),
+        "stored_daily_calls": len(daily_calls),
+        "stored_source_call_candidates": len(candidates),
+    }
     written = {
         "fundstrat_inbox_entries": _atomic_write_json(out / "fundstrat_inbox_entries.json",
-                                                      payload["entries"]),
+                                                      entries),
         "fundstrat_daily_calls": _atomic_write_json(out / "fundstrat_daily_calls.json",
-                                                    payload["daily_calls"]),
+                                                    daily_calls),
         "inbox_call_dates": _atomic_write_json(out / "inbox_call_dates.json",
-                                               payload["inbox_call_dates"]),
+                                               inbox_dates),
         "source_call_candidates": _atomic_write_json(out / "source_call_candidates.json",
-                                                     payload["source_call_candidates"]),
+                                                     candidates),
         "fundstrat_intake_summary": _atomic_write_json(out / "fundstrat_intake_summary.json",
-                                                       payload["summary"]),
+                                                       summary),
     }
+    if state is not None:
+        written["fundstrat_intake_state"] = _atomic_write_json(out / "fundstrat_intake_state.json",
+                                                               state)
     return {k: str(v) for k, v in written.items()}
 
 
@@ -427,9 +532,15 @@ def main(argv=None) -> int:
     parser.add_argument("--generated-at")
     parser.add_argument("--stdin-json", action="store_true",
                         help="Read Gmail-like message JSON from stdin")
+    parser.add_argument("--state", help="Optional processed-message state JSON path")
+    parser.add_argument("--include-seen", action="store_true",
+                        help="Do not filter messages already listed in --state")
+    parser.add_argument("--merge-existing", action="store_true",
+                        help="Merge emitted rows with existing convention files")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
+    state = _read_json(Path(args.state), default={}) if args.state else {}
     entries = []
     if args.stdin_json:
         entries.extend(entries_from_payload(json.load(os.sys.stdin), fallback_date=args.as_of))
@@ -437,13 +548,23 @@ def main(argv=None) -> int:
         entries.extend(load_entries(args.inputs, fallback_date=args.as_of))
     if not entries:
         parser.error("provide at least one input file or --stdin-json")
+    entries = dedupe_entries(entries)
+    if args.state and not args.include_seen:
+        entries = filter_new_entries(entries, state)
     universe = load_ticker_universe(args.theses, args.positions)
     payload = build_intake_payload(entries, universe=universe,
                                    generated_at=args.generated_at)
-    written = {} if args.dry_run else write_convention_files(payload, args.out_dir)
+    next_state = update_state(state, entries, generated_at=payload["generated_at"]) if args.state else None
+    written = {} if args.dry_run else write_convention_files(
+        payload,
+        args.out_dir,
+        merge_existing=args.merge_existing,
+        state=next_state,
+    )
     print(json.dumps({
         "parsed": True,
         **payload["summary"],
+        "state_updated": bool(next_state),
         "written": written,
     }, indent=2))
     return 0
