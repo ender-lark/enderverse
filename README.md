@@ -57,6 +57,14 @@ python src\event_risk_intake.py --title "Iran/oil headline risk can change new-b
 High and critical event-risk rows surface as exposure-review actions, not
 automatic buy/sell orders.
 
+For one supplied file containing multiple manual sections:
+
+```powershell
+python src\manual_source_drop.py path\to\manual_drop.json --src-dir src
+```
+
+Use explicit top-level keys: `event_risks`, `signal_log`, and/or `catalysts`.
+
 ## Resolving Open Review Items
 
 List unresolved action-memory items:
@@ -104,6 +112,7 @@ python src\verify_standard.py --include-js
 - `src\live_dashboard_refresh.py`: one-command local live refresh.
 - `src\live_status.py`: non-rebuilding live status, preview, open-action, and queue readout.
 - `src\event_risk_intake.py`: supplied daily/weekly or one-line sudden-event risk intake.
+- `src\manual_source_drop.py`: one-file manual drop router for event risk, signal log, and catalysts.
 - `src\dashboard_preview_server.py`: check/start the local dashboard preview server.
 - `src\action_memory_resolve.py`: list or resolve open action-memory items.
 - `src\live_readiness.py`: non-publishing go/no-go report.

@@ -78,6 +78,9 @@ enough to hand control back, using current repo state as evidence. It covers:
   tmp/event_risks_smoke.json --summary tmp/event_risk_smoke_summary.json --date
   2026-06-05` succeeded and wrote one valid promotable event-risk row; the tmp
   smoke files were removed afterward.
+- `python src/manual_source_drop.py tmp/manual_drop_smoke.json --src-dir tmp
+  --date 2026-06-05 --dry-run` succeeded with explicit `event_risks`,
+  `signal_log`, and `catalysts` sections and wrote no cache files.
 - `python src/dashboard_preview_server.py --check` succeeded and reported that
   `tmp/dashboard_preview.html` exists and the local preview server is running
   on `http://127.0.0.1:8765/dashboard_preview.html`.
@@ -120,12 +123,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 923 passed, 6 skipped
+  - broad `src` suite: 928 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 923 passed, 6 skipped.
+  ignore workaround: 928 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified

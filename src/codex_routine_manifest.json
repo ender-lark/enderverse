@@ -291,6 +291,7 @@
       "separation_group": "feed_build_publish",
       "input_boundaries": [
         "Repo convention files only",
+        "Manual source-drop JSON when explicitly supplied",
         "No live source acquisition"
       ],
       "convention_inputs": [
@@ -460,6 +461,10 @@
         {
           "id": "readiness_check",
           "command": "python src/live_readiness.py --src-dir src"
+        },
+        {
+          "id": "manual_source_drop",
+          "command": "python src/manual_source_drop.py <manual-drop.json> --src-dir src"
         },
         {
           "id": "build_and_publish",

@@ -396,6 +396,14 @@ until the core logic is stable; Notion sync comes later.
     conservative exposure-review action path.
   - It still does not scrape headlines, invent market narratives, or create
     automatic buy/sell orders.
+- Unified manual source-drop helper.
+  - Added `manual_source_drop.py` so one supplied JSON file can route explicit
+    `event_risks`, `signal_log`, and `catalysts` sections through the existing
+    safe intake normalizers.
+  - Ambiguous generic `events` rows are intentionally rejected instead of
+    guessed into a lane.
+  - The helper supports dry-run checks and merge-existing behavior for local
+    operating flow.
 
 ## Queued Slices
 

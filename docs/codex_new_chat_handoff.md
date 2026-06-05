@@ -50,6 +50,10 @@ Important recent state:
   row via CLI flags (`--title`, `--channels`, `--tickers`, `--why`,
   `--trigger`). Use this when a fast headline such as Iran/oil/rates risk needs
   to enter the dashboard before a full JSON event scan exists.
+- `src/manual_source_drop.py` can route one supplied JSON file with explicit
+  `event_risks`, `signal_log`, and/or `catalysts` sections through the existing
+  intake normalizers. It supports dry-run checks and rejects ambiguous generic
+  `events` rows rather than guessing the lane.
 - FS Daily now has compact full-body-derived data from Gmail evidence. The
   compact intake wrote `XOP`, `RYF`, and `TNX` daily-call rows, redacted audit
   entries, inbox dates, and state without committing raw email bodies. Empty
@@ -179,7 +183,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `923 passed, 6 skipped`.
+- `python -m pytest src -q` -> `928 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 
