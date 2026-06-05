@@ -111,10 +111,15 @@ Allowed statuses are `acted`, `invalidated`, `ignored`, `deferred`, `missed`, `e
 
 Repo convention files in `src\*.json` are the local operational state for this workspace. Missing optional sources must stay visible as not checked; do not overwrite them with empty files just to make the dashboard look clean.
 
-Current expected optional dark lanes may include:
+Current dashboard dark lanes:
 
 - `catalysts`: no Catalyst Calendar rows supplied.
 - `signal_log`: no Morning Scan or Signal Log supplied.
+
+Current missing optional context inputs that are not hard go-live blockers:
+
+- `account_positions`: account-level book views are not checked until a broker account-position cache is supplied.
+- `meridian`: Meridian context is not checked until a validated Meridian cache/export is supplied.
 - `source_calls` / `log_call_dates`: daily calls can be pre-registered as pending calls; the lane warns only when calibration is absent, stale, or overdue for scoring.
 
 Monthly Fundstrat PDF intake stores only useful summary state. Do not parse or store Core List tables unless the user explicitly reopens that requirement. Stock-price chart clutter is out of scope.
