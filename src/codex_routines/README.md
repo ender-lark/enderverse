@@ -6,6 +6,24 @@ entry points they should call.
 
 Core rule: routines gather and write convention files; the engine remains pure.
 
+## Machine-Readable Manifest
+
+`src/codex_routine_manifest.json` is the automation control plane. It records
+each routine's doc, cadence, input boundary, owned output files, allowed
+commands, verification command, and no-input behavior.
+
+Validate and list it with:
+
+```bash
+python src/codex_routine_manifest.py
+python src/codex_routine_manifest.py --list
+```
+
+Automation should read the manifest first, then the linked routine doc. The
+manifest is intentionally not a live runner: source acquisition still requires
+the relevant connector/drop-folder context, and missing inputs must remain
+not-checked instead of being treated as clear.
+
 ## Routine Order
 
 1. Fundstrat intake

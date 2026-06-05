@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "owner": "Codex Investing OS",
+  "rule": "Routines gather and write convention files; the engine remains pure.",
+  "routines": [
+    {
+      "id": "fundstrat_intake",
+      "title": "Fundstrat Intake",
+      "status": "active",
+      "cadence": "pre_market_or_on_new_email",
+      "doc": "src/codex_routines/fundstrat_intake.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Gmail connector full-body reads",
+        "Fundstrat drop-folder text, eml, or Gmail-shaped json"
+      ],
+      "owns": [
+        "src/fundstrat_daily_calls.json",
+        "src/fundstrat_inbox_entries.json",
+        "src/inbox_call_dates.json",
+        "src/log_call_dates.json",
+        "src/source_calls.json",
+        "src/source_call_candidates.json",
+        "src/source_call_cache_summary.json",
+        "src/fundstrat_intake_summary.json",
+        "src/fundstrat_intake_state.json",
+        "src/top_prospects.json"
+      ],
+      "commands": [
+        {
+          "id": "stdin_gmail_full_body",
+          "command": "python src/fundstrat_email_intake.py --stdin-json --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json"
+        },
+        {
+          "id": "drop_folder_files",
+          "command": "python src/fundstrat_email_intake.py <files> --out-dir src --state src/fundstrat_intake_state.json --merge-existing --top-prospects src/top_prospects.json"
+        },
+        {
+          "id": "merge_source_call_candidates",
+          "command": "python src/source_call_cache_merge.py --candidates src/source_call_candidates.json --source-calls src/source_calls.json --log-dates src/log_call_dates.json"
+        },
+        {
+          "id": "validate_outputs",
+          "command": "python src/fundstrat_email_intake.py --validate src"
+        }
+      ],
+      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q",
+      "no_input_behavior": "Do not overwrite Fundstrat caches; report Fundstrat as not checked."
+    },
+    {
+      "id": "catalyst_intake",
+      "title": "Catalyst Intake",
+      "status": "active",
+      "cadence": "pre_market_or_when_calendar_export_available",
+      "doc": "src/codex_routines/catalyst_intake.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Catalyst Calendar export json or csv",
+        "Catalyst drop-folder files"
+      ],
+      "owns": [
+        "src/catalysts.json",
+        "src/catalyst_intake_summary.json"
+      ],
+      "commands": [
+        {
+          "id": "ingest_calendar_rows",
+          "command": "python src/catalyst_calendar_intake.py <files> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing"
+        }
+      ],
+      "verification": "python -m pytest src/test_catalyst_calendar_intake.py src/test_catalyst_lane.py src/test_act_now_surfacing.py -q",
+      "no_input_behavior": "Do not overwrite catalysts.json; report catalysts as not checked."
+    },
+    {
+      "id": "broker_position_intake",
+      "title": "Broker Position Intake",
+      "status": "active",
+      "cadence": "when_broker_uploads_are_supplied",
+      "doc": "src/codex_routines/broker_position_intake.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Selectable-text broker PDFs",
+        "Broker text exports",
+        "Externally generated combined.json"
+      ],
+      "owns": [
+        "src/positions.json",
+        "src/account_positions.json",
+        "src/position_reconciliation.json"
+      ],
+      "commands": [
+        {
+          "id": "extract_combined",
+          "command": "python src/broker_pdf_extractor.py <pdfs-or-text-files> --out combined.json"
+        },
+        {
+          "id": "validate_combined",
+          "command": "python src/broker_pdf_extractor.py --validate combined.json"
+        },
+        {
+          "id": "build_engine_positions",
+          "command": "python src/build_positions_cache.py --combined combined.json --theses src/theses.json --out src/positions.json --strict"
+        },
+        {
+          "id": "build_account_reconciliation",
+          "command": "python src/position_reconciliation.py --combined combined.json --theses src/theses.json --prior-account-positions src/account_positions.json --account-out src/account_positions.json --reconcile-out src/position_reconciliation.json"
+        }
+      ],
+      "verification": "python -m pytest src/test_broker_pdf_extractor.py src/test_build_positions_cache.py src/test_build_positions_golden.py src/test_position_reconciliation.py src/test_positions_freshness.py -q",
+      "no_input_behavior": "Do not overwrite position caches; report position extraction as not checked."
+    },
+    {
+      "id": "uw_cache_refresh",
+      "title": "UW Cache Refresh",
+      "status": "active",
+      "cadence": "market_day_pre_build",
+      "doc": "src/codex_routines/uw_cache_refresh.md",
+      "separation_group": "market_data_refresh",
+      "input_boundaries": [
+        "Unusual Whales connector/API results gathered by bounded workers"
+      ],
+      "owns": [
+        "src/uw_opportunity_signals.json",
+        "src/parabolic_setups.json"
+      ],
+      "commands": [
+        {
+          "id": "opportunity_cache",
+          "command": "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1"
+        },
+        {
+          "id": "parabolic_cache",
+          "command": "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1"
+        }
+      ],
+      "verification": "python src/uw_opportunity_scan.py --self-test && python src/parabolic_setup_screener.py --self-test && python -m pytest src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q",
+      "no_input_behavior": "Do not mark UW lanes checked clear; report missing UW input as not checked and skipped or failed tickers explicitly."
+    },
+    {
+      "id": "daily_full_build",
+      "title": "Daily Full Build",
+      "status": "active",
+      "cadence": "after_source_intake_and_cache_refresh",
+      "doc": "src/codex_routines/daily_full_build.md",
+      "separation_group": "feed_build_publish",
+      "input_boundaries": [
+        "Repo convention files only",
+        "No live source acquisition"
+      ],
+      "owns": [
+        "src/latest_cockpit_feed.json",
+        "src/open_opportunities.json"
+      ],
+      "commands": [
+        {
+          "id": "build_and_publish",
+          "command": "python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish"
+        }
+      ],
+      "verification": "python -m pytest src/test_full_build_runner.py src/test_runtime_full.py src/test_cockpit_blocks.py -q",
+      "no_input_behavior": "Missing optional source files remain dark lanes; publish gate prevents unsafe feed overwrite."
+    },
+    {
+      "id": "off_hours_research_queue",
+      "title": "Off-Hours Research Queue",
+      "status": "active_safe_intake",
+      "cadence": "off_hours_when_queue_export_is_supplied",
+      "doc": "src/codex_routines/off_hours_research.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Research Queue json or csv export",
+        "Explicit queue rows only"
+      ],
+      "owns": [
+        "src/research_queue.json"
+      ],
+      "commands": [
+        {
+          "id": "ingest_queue_export",
+          "command": "python src/research_queue_intake.py <export.json|export.csv> --out src/research_queue.json --merge-existing"
+        },
+        {
+          "id": "validate_queue",
+          "command": "python src/research_queue_intake.py --validate src/research_queue.json"
+        }
+      ],
+      "verification": "python -m pytest src/test_research_queue_intake.py src/test_research_actions.py -q",
+      "no_input_behavior": "Do not overwrite research_queue.json; report Research Queue as not checked."
+    }
+  ]
+}

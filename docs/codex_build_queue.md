@@ -5,12 +5,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Codex-owned cloud routines.
-  - Replace prompt-only Claude routines with repo-owned routine docs and app automations.
-  - Keep Gmail/Fundstrat intake and UW cache refresh separated from full-build synthesis.
+- Fundstrat intake expansion.
+  - Prefer Gmail connector email ingestion first.
+  - Later add direct source/archive routes only if needed.
 
 ## Recently Completed
 
+- Codex-owned cloud routines.
+  - Added `src/codex_routine_manifest.json` as the machine-readable routine control plane.
+  - Added `src/codex_routine_manifest.py` validation/listing command and manifest tests.
+  - Preserved separation between source intake/cache refresh routines and daily full-build publishing.
 - Verification command.
   - Added `src/verify_standard.py` as the repo-owned standard verification command.
   - GitHub Actions now runs the same command.
@@ -38,9 +42,6 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-- Fundstrat intake expansion.
-  - Prefer Gmail connector email ingestion first.
-  - Later add direct source/archive routes only if needed.
 - ETF look-through sleeves.
   - Add holdings overlap and sleeve exposure only after dashboard parity and action surfacing are stable.
 
