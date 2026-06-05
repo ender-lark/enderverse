@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -17,6 +18,7 @@ from fundstrat_email_intake import (
     parse_date,
     update_state,
     update_top_prospects_cache,
+    validate_intake_outputs,
     write_convention_files,
 )
 
@@ -204,6 +206,25 @@ def test_write_convention_files_can_keep_bodies_for_local_debugging(tmp_path):
     assert summary["bodies_redacted"] is False
 
 
+def test_validate_intake_outputs_rejects_raw_bodies(tmp_path):
+    payload = build_intake_payload([{
+        "subject": "Mark Newton tech",
+        "body": "Buy NVDA near 170.",
+        "date": "2026-06-05",
+        "author": "Newton",
+        "from": "Fundstrat",
+        "source_path": "x",
+    }], universe={"NVDA"}, generated_at="2026-06-05T14:00:00+00:00")
+    write_convention_files(payload, tmp_path)
+    assert validate_intake_outputs(tmp_path) == []
+
+    rows = json.loads((tmp_path / "fundstrat_inbox_entries.json").read_text(encoding="utf-8"))
+    rows[0]["body"] = "Buy NVDA near 170."
+    (tmp_path / "fundstrat_inbox_entries.json").write_text(json.dumps(rows), encoding="utf-8")
+
+    assert "contains raw body" in validate_intake_outputs(tmp_path)[0]
+
+
 def test_write_convention_files_can_merge_existing_and_write_state(tmp_path):
     (tmp_path / "fundstrat_daily_calls.json").write_text(json.dumps([
         {"author": "Newton", "ticker": "OLD", "date": "2026-06-04", "quote": "Buy OLD."}
@@ -315,3 +336,14 @@ def test_load_ticker_universe_uses_theses_and_positions(tmp_path):
         "positions": [{"ticker": "SMH", "market_value": 10}],
     }), encoding="utf-8")
     assert load_ticker_universe(theses, positions) == {"NVDA", "SMH"}
+
+
+def test_cli_self_test_passes():
+    proc = subprocess.run(
+        [sys.executable, os.path.join(os.path.dirname(__file__), "fundstrat_email_intake.py"), "--self-test"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    assert proc.returncode == 0, proc.stderr
+    assert "self-test: PASS" in proc.stdout

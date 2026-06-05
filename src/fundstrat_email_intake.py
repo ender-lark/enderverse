@@ -624,6 +624,57 @@ def write_convention_files(payload: dict, out_dir: str | Path, *,
     return {k: str(v) for k, v in written.items()}
 
 
+def validate_intake_outputs(out_dir: str | Path) -> list[str]:
+    out = Path(out_dir)
+    problems: list[str] = []
+    expected = {
+        "fundstrat_inbox_entries.json": list,
+        "fundstrat_daily_calls.json": list,
+        "inbox_call_dates.json": list,
+        "source_call_candidates.json": list,
+        "fundstrat_intake_summary.json": dict,
+    }
+    for name, typ in expected.items():
+        path = out / name
+        if not path.is_file():
+            problems.append(f"{name} missing")
+            continue
+        data = _read_json(path, default=None)
+        if not isinstance(data, typ):
+            problems.append(f"{name} must be {typ.__name__}")
+            continue
+        if name == "fundstrat_inbox_entries.json":
+            for idx, row in enumerate(data):
+                if isinstance(row, dict) and "body" in row:
+                    problems.append(f"{name}[{idx}] contains raw body")
+    return problems
+
+
+def _self_test() -> int:
+    import tempfile as _tempfile
+
+    with _tempfile.TemporaryDirectory() as d:
+        entry = normalize_email_entry("\n".join([
+            "From: Mark Newton mark.newton@fundstratdirect.com",
+            "Date: Fri, 05 Jun 2026 09:30:00 -0400",
+            "Subject: Daily Technical Strategy",
+            "",
+            "Buy NVDA near 170, stop 160, target 200.",
+        ]))
+        payload = build_intake_payload(
+            [entry],
+            universe={"NVDA"},
+            generated_at="2026-06-05T14:00:00+00:00",
+        )
+        write_convention_files(payload, d)
+        problems = validate_intake_outputs(d)
+        assert not problems, problems
+        calls = _read_json(Path(d) / "fundstrat_daily_calls.json", default=[])
+        assert calls and calls[0]["ticker"] == "NVDA"
+    print("fundstrat_email_intake self-test: PASS")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
         description="Parse forwarded/exported Fundstrat emails into convention files."
@@ -645,8 +696,17 @@ def main(argv=None) -> int:
                         help="Write raw email bodies to fundstrat_inbox_entries.json")
     parser.add_argument("--top-prospects", nargs="?", const=str(Path(__file__).resolve().parent / "top_prospects.json"),
                         help="Also merge full-body daily calls into top_prospects.json")
+    parser.add_argument("--validate", help="Validate an output directory without writing")
+    parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
+
+    if args.self_test:
+        return _self_test()
+    if args.validate:
+        problems = validate_intake_outputs(args.validate)
+        print(json.dumps({"valid": not problems, "problems": problems}, indent=2))
+        return 0 if not problems else 2
 
     state = _read_json(Path(args.state), default={}) if args.state else {}
     entries = []

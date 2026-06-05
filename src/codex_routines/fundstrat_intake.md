@@ -49,15 +49,21 @@ Accepted fallback file types:
    python src/source_call_cache_merge.py --candidates src/source_call_candidates.json --source-calls src/source_calls.json --log-dates src/log_call_dates.json
    ```
 
-6. If no Gmail results and no drop-folder files exist, do not overwrite
+6. Validate output shape and the raw-body redaction rule:
+
+   ```bash
+   python src/fundstrat_email_intake.py --validate src
+   ```
+
+7. If no Gmail results and no drop-folder files exist, do not overwrite
    `fundstrat_daily_calls.json`; report Fundstrat as not checked.
-7. Run focused checks:
+8. Run focused checks:
 
    ```bash
    python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q
    ```
 
-8. Summarize:
+9. Summarize:
    - emails parsed
    - full-body emails parsed
    - snippet-only emails discovered
