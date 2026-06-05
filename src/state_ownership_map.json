@@ -263,11 +263,11 @@
       "id": "signal_log",
       "source_of_truth": "morning_signal_log_or_export",
       "repo_artifact": "src/signal_log.json",
-      "producer": "signal_log intake/export",
+      "producer": "signal_log_intake -> signal_log_intake.py",
       "feed_path": "full_build_runner.DEFAULT_FILES.signal_log -> feed.signal_log watch-only lane",
       "dashboard_surface": "Signal Log lane",
       "mirror_policy": "GitHub stores structured watch-only signal rows.",
-      "freshness_contract": "Update only when signal-log rows are supplied or fetched.",
+      "freshness_contract": "Update only from supplied Signal Log or Morning Scan JSON.",
       "not_checked_behavior": "Missing fetch is not checked, not no signals.",
       "action_surface": "Watch-only context; never directly promotes into actions."
     },

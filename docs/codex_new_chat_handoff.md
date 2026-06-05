@@ -29,7 +29,7 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Daily Synthesis intake
+- Latest completed slice before this handoff refresh: Signal Log intake
   routine.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
@@ -65,13 +65,16 @@ Important recent state:
 - `src/daily_synthesis_intake.py` can normalize supplied Daily Synthesis JSON
   into `src/daily_synthesis.json`, preserving structured action metadata without
   generating market content.
-- `src/codex_routine_manifest.json` now has seven active routines, including
-  `daily_synthesis_intake`; the current repo still has no populated
-  `src/daily_synthesis.json`.
+- `src/signal_log_intake.py` can normalize supplied Signal Log or Morning Scan
+  JSON into `src/signal_log.json`; rows are watch-only and never promote actions
+  directly.
+- `src/codex_routine_manifest.json` now has eight active routines, including
+  `daily_synthesis_intake` and `signal_log_intake`; the current repo still has
+  no populated `src/daily_synthesis.json` or `src/signal_log.json`.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `857 passed, 6 skipped`.
+- `python -m pytest src -q` -> `863 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` should run the same full pytest tree plus the standalone self-tests.
 

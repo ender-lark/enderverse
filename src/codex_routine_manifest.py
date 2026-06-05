@@ -32,6 +32,7 @@ EXPECTED_ROUTINES = {
     "broker_position_intake",
     "uw_cache_refresh",
     "daily_synthesis_intake",
+    "signal_log_intake",
     "daily_full_build",
     "off_hours_research_queue",
 }
@@ -267,6 +268,7 @@ def _self_test() -> bool:
             {**routine, "id": "broker_position_intake", "doc": "src/codex_routines/broker_position_intake.md", "owns": ["src/positions.json"]},
             {**routine, "id": "uw_cache_refresh", "doc": "src/codex_routines/uw_cache_refresh.md", "separation_group": "market_data_refresh", "owns": ["src/uw_opportunity_signals.json"]},
             {**routine, "id": "daily_synthesis_intake", "doc": "src/codex_routines/daily_synthesis.md", "owns": ["src/daily_synthesis.json"]},
+            {**routine, "id": "signal_log_intake", "doc": "src/codex_routines/signal_log.md", "owns": ["src/signal_log.json"]},
             {**routine, "id": "daily_full_build", "doc": "src/codex_routines/daily_full_build.md", "separation_group": "feed_build_publish", "owns": ["src/latest_cockpit_feed.json"], "convention_inputs": convention_inputs},
             {**routine, "id": "off_hours_research_queue", "doc": "src/codex_routines/off_hours_research.md", "owns": ["src/research_queue.json"]},
         ],

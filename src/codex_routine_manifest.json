@@ -192,6 +192,39 @@
       "no_input_behavior": "Do not overwrite daily_synthesis.json; report Daily Synthesis as not checked."
     },
     {
+      "id": "signal_log_intake",
+      "title": "Signal Log Intake",
+      "status": "active_safe_intake",
+      "cadence": "daily_when_morning_scan_or_signal_log_is_supplied",
+      "doc": "src/codex_routines/signal_log.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Supplied Signal Log JSON",
+        "Supplied Morning Scan JSON",
+        "Watch-only context; no action promotion"
+      ],
+      "owns": [
+        "src/signal_log.json",
+        "src/signal_log_intake_summary.json"
+      ],
+      "commands": [
+        {
+          "id": "ingest_supplied_signal_log",
+          "command": "python src/signal_log_intake.py <signal-log-json> --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing"
+        },
+        {
+          "id": "stdin_supplied_signal_log",
+          "command": "python src/signal_log_intake.py --stdin-json --out src/signal_log.json --summary src/signal_log_intake_summary.json --merge-existing"
+        },
+        {
+          "id": "validate_signal_log_cache",
+          "command": "python src/signal_log_intake.py --validate src/signal_log.json"
+        }
+      ],
+      "verification": "python -m pytest src/test_signal_log_intake.py src/test_cockpit_blocks.py src/test_research_priority_label.py -q",
+      "no_input_behavior": "Do not overwrite signal_log.json; report Signal Log as not checked."
+    },
+    {
       "id": "daily_full_build",
       "title": "Daily Full Build",
       "status": "active",

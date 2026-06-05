@@ -13,6 +13,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Signal Log intake routine.
+  - Added `signal_log_intake.py` to normalize supplied Signal Log or Morning
+    Scan JSON into `src/signal_log.json`.
+  - Validates watch-only row shape and rejects empty/textless rows instead of
+    publishing a false checked lane.
+  - Added `signal_log_intake` as an active safe-intake routine in the
+    manifest/docs.
 - Daily Synthesis intake routine.
   - Added `daily_synthesis_intake.py` to normalize supplied Daily Synthesis JSON
     into `src/daily_synthesis.json`.

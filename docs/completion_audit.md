@@ -28,7 +28,7 @@ enough to hand control back, using current repo state as evidence. It covers:
   `meridian`, and `signal_log`.
 - `python src/state_ownership_map.py --self-test` passed with the new
   full-build convention-file coverage guardrail.
-- `python src/codex_routine_manifest.py` passed with seven active routine
+- `python src/codex_routine_manifest.py` passed with eight active routine
   definitions across source intake, market data refresh, and feed build/publish;
   it now reports 20 daily convention inputs.
 - `python src/codex_routine_manifest.py --self-test` passed with the daily
@@ -43,13 +43,16 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Focused Daily Synthesis intake tests passed, including wrapper normalization,
   empty-cache rejection, merge behavior, missing-cache validation, and
   full-build action promotion from a valid supplied synthesis cache.
+- Focused Signal Log intake tests passed, including wrapper/alias
+  normalization, empty-row rejection, missing-cache validation, and full-build
+  lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 857 passed, 6 skipped
+  - broad `src` suite: 863 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 857 passed, 6 skipped.
+  ignore workaround: 863 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified
@@ -74,6 +77,9 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Signal Log intake routine: supplied Signal Log or Morning Scan JSON can now be
+  normalized into `signal_log.json`, validated as watch-only context, and
+  surfaced through the full build without direct action promotion.
 - Daily Synthesis intake routine: supplied structured Daily Synthesis JSON can
   now be normalized into `daily_synthesis.json`, validated, and surfaced through
   the full build without the intake routine inventing market content.

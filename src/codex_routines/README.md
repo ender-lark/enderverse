@@ -72,12 +72,17 @@ not-checked instead of being treated as clear.
    - Preserve structured action metadata without inventing market content.
    - Missing supplied synthesis remains not checked.
 
-6. Daily full build
+6. Signal Log intake
+   - Normalize supplied Signal Log or Morning Scan JSON into `signal_log.json`.
+   - Preserve watch-only context; this routine never promotes actions directly.
+   - Missing supplied signal log remains not checked.
+
+7. Daily full build
    - Run `full_build_runner.py`.
    - Publish only through the publish gate.
    - Update action memory only after the feed is publish-safe.
 
-7. Off-hours research queue
+8. Off-hours research queue
    - Normalize supplied/exported Research Queue rows with
      `research_queue_intake.py`.
    - Write `research_queue.json` only when queue rows were actually supplied.
