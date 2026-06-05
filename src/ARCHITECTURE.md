@@ -16,10 +16,13 @@ The engine is **deterministic and pure**: it turns supplied state into a validat
 
 ## 1 · The feed pipeline (entry points)
 
-All three live in `runtime_skeleton.py` → they wrap `assemble_feed` (`feed_assembler.py`). The **caller** (the L5 cloud routine, or a live preview) gathers state and passes it in; the engine assembles + the caller publishes.
+The pure engine entry points live in `runtime_skeleton.py` and wrap `assemble_feed` (`feed_assembler.py`). The repo-owned routine entry point is `full_build_runner.py`: it loads convention files from `src/`, adapts cached positions into the same source rails, normalizes catalyst rows, calls `assemble_feed`, and can publish through the existing gate.
+
+The **caller** (the L5 cloud routine, Codex runner, or a live preview) gathers state and passes it in; the engine assembles + the caller publishes.
 
 | Entry point | Used by | Builds |
 |---|---|---|
+| `full_build_runner.py --src-dir src ...` | Codex/FULL routine control point | loads convention files, builds a validated FEED, optionally publishes |
 | `build_full_feed(...)` | L5 FULL build (~10:30 AM ET) | the complete FEED — book, rotation, macro, all Tier-1 blocks, all lanes |
 | `build_skeleton_feed(...)` | the "Dashboard" fast-view | book + rotation only; Tier-1 panels in empty-state; dark lanes stamped |
 | `assemble_feed(bundle, *, parabolic, generated_at, heartbeat, synthesis, research, radar, catalysts)` | both of the above (+ tests) | the actual assembly; returns the FEED dict |
