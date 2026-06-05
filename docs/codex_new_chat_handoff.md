@@ -166,6 +166,12 @@ Important recent state:
   `python src/live_status.py`.
   It combines live readiness, preview-server state, unresolved action-memory
   rows, and the system-improvement queue into one JSON readout.
+- The go-live checklist helper is:
+  `python src/go_live_checklist.py`.
+  It is non-mutating and summarizes refresh/status, preview, manual
+  source-drop validation, open action reviews, queue state, and optional dark
+  lanes. With the current repo it reports `go_live_ready: true` and checklist
+  status `warn` because open reviews and optional dark lanes remain.
 - The open action-memory resolver is:
   `python src/action_memory_resolve.py --list` to inspect unresolved items, or
   `python src/action_memory_resolve.py --review-report` to inspect age,
@@ -188,7 +194,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `932 passed, 6 skipped`.
+- `python -m pytest src -q` -> `936 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

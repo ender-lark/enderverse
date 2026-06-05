@@ -85,6 +85,10 @@ enough to hand control back, using current repo state as evidence. It covers:
   tmp --date 2026-06-05 --validate-only` succeeded with explicit
   `event_risks`, `signal_log`, and `catalysts` sections and wrote no cache
   files.
+- `python src/go_live_checklist.py --manual-drop
+  docs/manual_drop.template.json` succeeded. It reported `go_live_ready: true`,
+  checklist status `warn`, 0 failures, and warnings for 2 open action reviews
+  plus optional dark lanes (`catalysts`, `signal_log`).
 - `python src/dashboard_preview_server.py --check` succeeded and reported that
   `tmp/dashboard_preview.html` exists and the local preview server is running
   on `http://127.0.0.1:8765/dashboard_preview.html`.
@@ -130,12 +134,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 932 passed, 6 skipped
+  - broad `src` suite: 936 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 932 passed, 6 skipped.
+  ignore workaround: 936 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified

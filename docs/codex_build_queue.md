@@ -416,6 +416,12 @@ until the core logic is stable; Notion sync comes later.
     commands.
   - This keeps the operator decision explicit while making the resolution loop
     easier to complete.
+- Go-live checklist command.
+  - Added `go_live_checklist.py` as a non-mutating operator checklist across
+    live refresh, live status, preview, manual source-drop validation, open
+    action reviews, queue state, and optional dark lanes.
+  - Current checklist is `warn`, not blocked: live readiness is green, with
+    warnings for open reviews and optional dark lanes.
 
 ## Queued Slices
 

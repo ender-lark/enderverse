@@ -56,10 +56,12 @@ This is the main replacement for Claude's FULL-build prompt.
 
    ```bash
    python src/live_status.py
+   python src/go_live_checklist.py
    ```
 
    This does not rebuild or publish. It combines live readiness, preview-server
-   state, unresolved action-memory rows, and the system-improvement queue.
+   state, unresolved action-memory rows, the system-improvement queue, and the
+   go-live operating checklist.
 10. When the readiness report is clean, run:
 
    ```bash

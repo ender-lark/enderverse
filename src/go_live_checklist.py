@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+"""Operator go-live checklist assembled from repo-local evidence."""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+from typing import Any
+
+import action_memory_resolve
+import live_status
+import manual_source_drop
+
+
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_SRC = ROOT / "src"
+
+
+def _row(key: str, label: str, status: str, detail: str, command: str = "") -> dict[str, str]:
+    return {
+        "key": key,
+        "label": label,
+        "status": status,
+        "detail": detail,
+        "command": command,
+    }
+
+
+def _status_from_bool(ok: bool, *, warn: bool = False) -> str:
+    if ok:
+        return "pass"
+    return "warn" if warn else "fail"
+
+
+def build_go_live_checklist(
+    *,
+    src_dir: str | Path = DEFAULT_SRC,
+    manual_drop: str | Path | None = None,
+) -> dict[str, Any]:
+    src = Path(src_dir)
+    status = live_status.live_status(src_dir=src)
+    review = action_memory_resolve.review_report(store_path=src / "open_opportunities.json")
+    manual_report = None
+    if manual_drop:
+        manual_report = manual_source_drop.ingest_manual_source_drop(
+            [manual_source_drop._read_json(manual_drop)],
+            src_dir=src,
+            dry_run=True,
+        )
+    preview = status.get("preview") or {}
+    queue = status.get("system_queue") or {}
+    rows = [
+        _row(
+            "refresh",
+            "Refresh dashboard artifacts",
+            "pass" if status.get("go_live_ready") else "fail",
+            "Run the live refresh before relying on the dashboard; current readiness is green."
+            if status.get("go_live_ready")
+            else "Readiness is blocked; run refresh/status and fix blockers before relying on the dashboard.",
+            "python src/live_dashboard_refresh.py",
+        ),
+        _row(
+            "status",
+            "Live readiness status",
+            _status_from_bool(bool(status.get("go_live_ready"))),
+            f"{status.get('live_summary')}; actions={status.get('actions')}; research_actions={status.get('research_actions')}",
+            "python src/live_status.py",
+        ),
+        _row(
+            "preview",
+            "Dashboard preview",
+            _status_from_bool(bool(preview.get("preview_exists") and preview.get("server_running")), warn=True),
+            preview.get("url") or "Preview URL unavailable.",
+            "python src/dashboard_preview_server.py --check",
+        ),
+        _row(
+            "manual_drop",
+            "Manual source drop",
+            "pass" if manual_report and manual_report.get("valid") else "warn",
+            (
+                f"Validated supplied drop sections: {', '.join(manual_report.get('sections_seen') or [])}."
+                if manual_report else
+                "No manual drop supplied; optional event/signal/catalyst lanes may remain dark."
+            ),
+            "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only",
+        ),
+        _row(
+            "open_reviews",
+            "Open action reviews",
+            "warn" if review.get("open_count") else "pass",
+            (
+                f"{review.get('open_count')} open review(s); oldest {review.get('oldest_age_days')} trading day(s)."
+                if review.get("open_count") else
+                "No open action-memory reviews."
+            ),
+            "python src/action_memory_resolve.py --review-report",
+        ),
+        _row(
+            "queue",
+            "Implementation queue",
+            _status_from_bool(bool(queue.get("valid")) and not bool(queue.get("active_or_queued")), warn=True),
+            f"{queue.get('items', 0)} item(s), {queue.get('active_or_queued', 0)} active/queued.",
+            "python src/system_improvement_queue.py",
+        ),
+    ]
+    if status.get("dark_lanes", {}).get("count"):
+        rows.append(_row(
+            "dark_lanes",
+            "Optional dark lanes",
+            "warn",
+            "Dark lanes: " + ", ".join(status.get("dark_lanes", {}).get("keys") or []),
+            "python src/live_status.py",
+        ))
+    fail_count = sum(1 for row in rows if row["status"] == "fail")
+    warn_count = sum(1 for row in rows if row["status"] == "warn")
+    return {
+        "go_live_ready": bool(status.get("go_live_ready")) and fail_count == 0,
+        "status": "fail" if fail_count else "warn" if warn_count else "pass",
+        "fail_count": fail_count,
+        "warn_count": warn_count,
+        "rows": rows,
+        "preview_url": preview.get("url") or "",
+        "manual_drop_checked": manual_report is not None,
+    }
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description="Print non-mutating go-live operator checklist")
+    parser.add_argument("--src-dir", default=str(DEFAULT_SRC))
+    parser.add_argument("--manual-drop", help="Optional manual source-drop JSON to validate without writing")
+    parser.add_argument("--strict", action="store_true", help="Exit non-zero on warnings as well as failures")
+    args = parser.parse_args(argv)
+
+    report = build_go_live_checklist(src_dir=args.src_dir, manual_drop=args.manual_drop)
+    print(json.dumps(report, indent=2))
+    if report["fail_count"]:
+        return 2
+    if args.strict and report["warn_count"]:
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

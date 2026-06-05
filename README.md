@@ -43,10 +43,11 @@ For a fast non-rebuilding status check:
 
 ```powershell
 python src\live_status.py
+python src\go_live_checklist.py
 ```
 
-This reports live readiness, preview-server state, unresolved action-memory
-items, and the implementation queue in one JSON readout.
+These report live readiness, preview-server state, unresolved action-memory
+items, the implementation queue, and the go-live operating checklist.
 
 To add a supplied sudden market event before the refresh:
 
@@ -117,6 +118,7 @@ python src\verify_standard.py --include-js
 
 - `src\live_dashboard_refresh.py`: one-command local live refresh.
 - `src\live_status.py`: non-rebuilding live status, preview, open-action, and queue readout.
+- `src\go_live_checklist.py`: non-mutating go-live checklist across refresh/status/source/review steps.
 - `src\event_risk_intake.py`: supplied daily/weekly or one-line sudden-event risk intake.
 - `src\manual_source_drop.py`: one-file manual drop router for event risk, signal log, and catalysts.
 - `src\dashboard_preview_server.py`: check/start the local dashboard preview server.
