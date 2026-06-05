@@ -64,6 +64,11 @@ Accepted monthly file types:
    audit entries. Snippet-only entries do not populate `inbox_call_dates.json`
    and must be reported as not full-body checked. They also do not update
    `source_calls.json` or `log_call_dates.json`.
+   State handling must preserve the upgrade path: snippet-only message IDs go
+   into `snippet_discovery_message_ids`, while only full-body rows go into
+   `processed_full_body_message_ids` / `processed_message_ids`. A later
+   `batch_read_email` result for the same message ID must not be filtered out
+   just because the snippet was already discovered.
 5. The canonical intake commands above merge classified full-body source-call
    candidates into the repo cache during the same run. If a manual remerge of
    existing `source_call_candidates.json` is needed, run:

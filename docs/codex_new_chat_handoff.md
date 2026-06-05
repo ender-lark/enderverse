@@ -29,13 +29,19 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Dark-lane next-step
-  guidance.
+- Latest completed slice before this handoff refresh: Fundstrat
+  snippet-to-full-body state hardening.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
 - Dashboard parity review is complete; JSX injection is canonical, generated HTML is a summary/export path.
 - Fundstrat daily email intake and direct monthly PDF/text/JSON upload intake are supported.
+- Fundstrat Gmail snippet discovery and full-body ingestion now use separate
+  state fields. Snippet-only rows are tracked in
+  `snippet_discovery_message_ids`; only full-body rows are tracked in
+  `processed_full_body_message_ids` / `processed_message_ids`. The current
+  state was migrated so the 10 old snippet-only messages are not blocked from a
+  later `batch_read_email` full-body intake.
 - Monthly Core List tables are intentionally not stored. Treat Core List table
   ingestion as out of scope for the current system build and do not assume it is
   a future requirement; only a new explicit user request should reopen it.

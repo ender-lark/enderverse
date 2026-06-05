@@ -15,6 +15,15 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat snippet-to-full-body state hardening.
+  - Fixed daily Fundstrat email intake state so snippet-only Gmail discovery no
+    longer marks message IDs as full-body processed.
+  - Added `processed_full_body_message_ids` and `snippet_discovery_message_ids`
+    semantics, preserving the ability to later upgrade the same Gmail message
+    through `batch_read_email`.
+  - Migrated the current snippet-only state so the 10 previously discovered
+    messages remain discovery audit rows but are no longer blocked from
+    full-body ingestion.
 - Retired duplicate HTML generator path.
   - Removed the stale tracked `src/cockpit html gen.py` copy so generated
     dashboard summary work has a single canonical module:

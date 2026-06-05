@@ -217,7 +217,39 @@ def test_dedupe_and_state_filter_use_message_ids():
     state = update_state({"processed_message_ids": ["old"]}, new_entries,
                          generated_at="2026-06-05T14:00:00+00:00")
     assert state["processed_message_ids"] == ["m2", "old"]
+    assert state["processed_full_body_message_ids"] == ["m2", "old"]
     assert state["last_inbox_date"] == "2026-06-05"
+
+
+def test_snippet_discovery_state_does_not_block_later_full_body_read():
+    snippet_entries = entries_from_payload({"emails": [{
+        "id": "same-id",
+        "subject": "Daily Technical Strategy",
+        "snippet": "Buy NVDA near support.",
+        "email_ts": "2026-06-04T23:35:18+00:00",
+    }]})
+    state = update_state(None, snippet_entries, generated_at="2026-06-05T14:00:00+00:00")
+
+    assert state["processed_message_ids"] == []
+    assert state["processed_full_body_message_ids"] == []
+    assert state["snippet_discovery_message_ids"] == ["same-id"]
+    assert state["last_inbox_date"] == ""
+    assert state["last_discovery_date"] == "2026-06-04"
+    assert filter_new_entries(snippet_entries, state) == []
+
+    full_body_entries = entries_from_payload({"responses": [{
+        "id": "same-id",
+        "subject": "Daily Technical Strategy",
+        "body": "Buy NVDA near 170, stop 160, target 200.",
+        "email_ts": "2026-06-04T23:35:18+00:00",
+    }]})
+    assert [e["message_id"] for e in filter_new_entries(full_body_entries, state)] == ["same-id"]
+
+    upgraded = update_state(state, full_body_entries, generated_at="2026-06-05T15:00:00+00:00")
+    assert upgraded["processed_message_ids"] == ["same-id"]
+    assert upgraded["processed_full_body_message_ids"] == ["same-id"]
+    assert upgraded["snippet_discovery_message_ids"] == ["same-id"]
+    assert upgraded["last_inbox_date"] == "2026-06-04"
 
 
 def test_build_payload_and_write_convention_files(tmp_path):

@@ -341,13 +341,17 @@ def dedupe_entries(entries: list[dict]) -> list[dict]:
 
 
 def filter_new_entries(entries: list[dict], state: dict | None) -> list[dict]:
-    processed = set((state or {}).get("processed_message_ids") or [])
-    if not processed:
+    state = state or {}
+    processed = set(state.get("processed_full_body_message_ids") or state.get("processed_message_ids") or [])
+    snippet_seen = set(state.get("snippet_discovery_message_ids") or [])
+    if not processed and not snippet_seen:
         return entries
     out = []
     for entry in entries:
         msg_id = str(entry.get("message_id") or "").strip()
         if msg_id and msg_id in processed:
+            continue
+        if msg_id and msg_id in snippet_seen and not entry.get("body_fetched", True):
             continue
         out.append(entry)
     return out
@@ -355,16 +359,29 @@ def filter_new_entries(entries: list[dict], state: dict | None) -> list[dict]:
 
 def update_state(state: dict | None, entries: list[dict], *, generated_at: str) -> dict:
     prior = state if isinstance(state, dict) else {}
-    processed = set(prior.get("processed_message_ids") or [])
+    processed = set(prior.get("processed_full_body_message_ids") or prior.get("processed_message_ids") or [])
+    snippet_seen = set(prior.get("snippet_discovery_message_ids") or [])
     for entry in entries:
         msg_id = str(entry.get("message_id") or "").strip()
-        if msg_id:
+        if not msg_id:
+            continue
+        if entry.get("body_fetched", True):
             processed.add(msg_id)
-    dates = sorted({e.get("date") for e in entries if e.get("date")})
+        else:
+            snippet_seen.add(msg_id)
+    full_body_dates = sorted({
+        e.get("date") for e in entries
+        if e.get("date") and e.get("body_fetched", True)
+    })
+    discovery_dates = sorted({e.get("date") for e in entries if e.get("date")})
+    last_discovery = max(discovery_dates) if discovery_dates else prior.get("last_discovery_date", "")
     return {
         "last_run_at": generated_at,
-        "last_inbox_date": max(dates) if dates else prior.get("last_inbox_date", ""),
+        "last_inbox_date": max(full_body_dates) if full_body_dates else prior.get("last_inbox_date", ""),
+        "last_discovery_date": last_discovery,
         "processed_message_ids": sorted(processed),
+        "processed_full_body_message_ids": sorted(processed),
+        "snippet_discovery_message_ids": sorted(snippet_seen),
     }
 
 
