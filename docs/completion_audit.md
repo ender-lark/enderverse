@@ -30,10 +30,16 @@ enough to hand control back, using current repo state as evidence. It covers:
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
   - dashboard JSX bundle check: PASS
+- Dashboard parity refresh passed after the synthesis metadata slice:
+  - fresh local feed emitted `target_drift`
+  - every emitted feed block was classified
+  - `portfolio_views` remained conditional on `account_positions.json`
 
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Dashboard parity refresh: current emitted feed keys remain covered by
+  `docs/dashboard_feed_block_classification.json`; no UI work was needed.
 - Daily Synthesis structured action metadata: explicit action rows can now carry
   ticker aliases, urgency, sizing, timing, capital effect, goal channels, and
   missing-evidence fields without broad prose guessing.

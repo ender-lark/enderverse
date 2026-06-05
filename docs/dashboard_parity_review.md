@@ -2,6 +2,9 @@
 
 Generated: 2026-06-05
 
+Last refreshed: 2026-06-05 after the Daily Synthesis structured action metadata
+slice. No UI work was performed in this refresh.
+
 ## Decision
 
 The canonical dashboard path is the Contract-C FEED rendered through
@@ -42,7 +45,10 @@ Result summary:
 - Emitted feed keys: `generated_at`, `staleness`, `lane_status`, `hero`,
   `actions`, `fresh_signals`, `signal_log`, `holdings`, `rotation`, `macro`,
   `catalysts`, `questions`, `research`, `research_actions`, `heartbeat`,
-  `synthesis`, `radar`, `lean_in`, `bullish_flow`, `prospects`, `feedback`
+  `synthesis`, `radar`, `lean_in`, `bullish_flow`, `prospects`, `feedback`,
+  `target_drift`
+- Every emitted feed key was already classified in
+  `docs/dashboard_feed_block_classification.json`.
 - `portfolio_views` was absent in this local build because
   `account_positions.json` was not present/resolved for the run.
 
@@ -147,21 +153,10 @@ whether the HTML summary should mirror it.
 
 Recommended next implementation slice:
 
-Add a small dashboard canonicalization guardrail before deeper UI expansion:
+Run next-slice discovery from the completion audit rather than starting more UI
+work. The old canonicalization guardrail and previously queued product slices
+are complete; current parity evidence says the dashboard contract is classified
+and the canonical JSX path remains the operator surface.
 
-- Update docs/README language so `conviction_cockpit_v5.jsx` + `render_cockpit.py`
-  is explicitly canonical and `docs/index.html` is summary/export only.
-- Add a focused parity test or script that fails when a new feed block is emitted
-  but not classified as `canonical-rendered`, `summary-rendered`, or
-  `intentionally-hidden`.
-- Completed 2026-06-05: generated HTML now shows a summary/export caveat,
-  `lane_status` summary rows, compact `feedback`, and an empty-action caveat.
-
-After that guardrail, resume the queued product slices in this order:
-
-1. Reallocation and target drift.
-2. PDF holdings ingest.
-3. Standard verification command.
-4. Codex-owned routines.
-5. Fundstrat intake expansion.
-6. ETF look-through sleeves.
+The remaining feasible follow-up candidate is Fundstrat intake v1.1: richer
+monthly/Bible extraction and stronger source-call-log upsert automation.

@@ -12,6 +12,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dashboard parity refresh.
+  - Re-ran the full build parity baseline after the synthesis metadata slice.
+  - Confirmed every emitted feed block is classified before more UI work.
+  - Updated `docs/dashboard_parity_review.md` for current `target_drift`
+    emission and conditional `portfolio_views` absence.
 - Daily Synthesis structured action metadata.
   - Added aliases for structured synthesis action rows such as `symbol`,
     `recommendation`, `next_step`, and `urgency`.
