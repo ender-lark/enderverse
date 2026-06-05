@@ -38,9 +38,10 @@ enough to hand control back, using current repo state as evidence. It covers:
   - every emitted feed block was classified
   - `portfolio_views` remained conditional on `account_positions.json`
 - `python src/research_queue_intake.py --validate src/research_queue.json`
-  passed after seeding the AVGO thesis/sizing item.
+  passed after AVGO was downgraded to low-priority queued research.
 - `python src/full_build_runner.py --feed-out tmp/avgo_research_feed.json`
-  emitted one `research_actions` item for AVGO and no AVGO thesis-map entry.
+  emitted no `research_actions` item for AVGO after the important timing date
+  passed; AVGO still has no thesis-map entry.
 - Direct dry-run against uploaded monthly PDF
   `G:/My Drive/Claude/Investing OS/20260528-Market-UpdatevFSD-1.pdf` parsed
   valid compact monthly state with 5 Top-5 ideas, 5 Bottom-5 ideas, 14
@@ -72,8 +73,11 @@ enough to hand control back, using current repo state as evidence. It covers:
   run the full repo pytest tree directly while `src/test_reallocate_rebuild.py`
   remains the canonical planner coverage.
 - AVGO thesis Research Queue seed: the older README note is now a durable
-  `research_queue.json` item that From Research can surface while AVGO remains
-  unassessed until the thesis is actually written.
+  `research_queue.json` item while AVGO remains unassessed until the thesis is
+  actually written.
+- AVGO research priority downgrade: after the important timing date passed, the
+  AVGO thesis item remains durable in `research_queue.json` but is now
+  low-priority queued research rather than an immediate From Research action.
 - Daily Synthesis structured action metadata: explicit action rows can now carry
   ticker aliases, urgency, sizing, timing, capital effect, goal channels, and
   missing-evidence fields without broad prose guessing.
@@ -98,7 +102,8 @@ Completed notes now include From-Research priority labeling, shared ActionCard,
 L2-to-L3 validation, Signal Log lane design, generated HTML summary safety, and
 conflict wording scope. Daily Synthesis structured action metadata is also
 supported for explicit rows. The older AVGO thesis note is now represented by
-`src/research_queue.json` instead of being an unresolved prose-only queue item.
+`src/research_queue.json` as a low-priority queued item instead of being an
+unresolved prose-only queue item.
 
 No concrete queued follow-up candidate remains promoted from the older backlog
 notes. Future work should start with a fresh completion audit or new user/input

@@ -22,18 +22,23 @@ Start by reading these files:
 Current priority:
 
 1. Read `docs/codex_build_queue.md` and promote only evidence-backed slices.
-2. Keep dashboard parity classification current before any feed/dashboard UI work.
-3. Use `python src/verify_standard.py` as the standard verification command.
-4. Commit and push after each clean verified slice.
+2. Prioritize system/routine/dashboard buildout over stock-specific research.
+3. Keep dashboard parity classification current before any feed/dashboard UI work.
+4. Use `python src/verify_standard.py` as the standard verification command.
+5. Commit and push after each clean verified slice.
 
 Important recent state:
 
-- Latest completed slice: retired stale reallocation test workaround.
+- Latest completed slice before this handoff refresh: Fundstrat monthly state ownership map.
 - `docs/codex_build_queue.md` is the canonical queue.
+- The user explicitly said to focus on building the working system first and not
+  spend time on stock research such as AVGO.
 - Dashboard parity review is complete; JSX injection is canonical, generated HTML is a summary/export path.
 - Fundstrat daily email intake and direct monthly PDF/text/JSON upload intake are supported.
 - Monthly Core List tables are intentionally not stored for now; Top-5/Bottom-5 and separate Consider List rows are the monthly prospect-signal path.
-- AVGO is represented as a high-priority Research Queue item and remains unassessed until an actual thesis is written.
+- AVGO remains unassessed until an actual thesis is written, but its timing
+  catalyst has passed; it is now a low-priority queued Research Queue item, not
+  an immediate From Research action.
 - The stale retired `src/test_reallocate.py` workaround has been removed; plain full-suite pytest passes.
 
 Current verification baseline:
@@ -61,6 +66,10 @@ git log origin/main -5 --oneline
 ```
 
 Then read `docs/codex_build_queue.md` and start only the next promoted slice.
+
+Do not start with stock-specific research. If no concrete implementation slice
+is queued, run a fresh completion audit and promote the next system/routine/UI
+gap from current repo evidence.
 
 ## Dashboard Parity Status
 

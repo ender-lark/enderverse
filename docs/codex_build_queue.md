@@ -9,9 +9,16 @@ until the core logic is stable; Notion sync comes later.
   - Promote the next slice from fresh audit/user evidence before editing.
   - Keep dashboard parity classification current before committing any new
     dashboard/feed meaning or UI work.
+  - Prioritize system/routine/dashboard work over stock-specific research.
 
 ## Recently Completed
 
+- AVGO research priority downgrade.
+  - Lowered the AVGO thesis item from high-priority Working to low-priority
+    Queued because the important timing date has passed.
+  - Kept the thesis task durable in `research_queue.json` without surfacing it
+    as an immediate From Research action.
+  - Updated repo notes/handoff so AVGO is no longer described as high priority.
 - Fundstrat monthly state ownership map.
   - Added `fundstrat_bible` to the state ownership map as the compact monthly
     Fundstrat deck artifact.
@@ -35,10 +42,11 @@ until the core logic is stable; Notion sync comes later.
   - Added an explicit low-pressure `consider_list` category for separate
     monthly Consider List rows.
 - AVGO thesis Research Queue seed.
-  - Added `src/research_queue.json` with one high-priority AVGO thesis/sizing
-    research item from the README backlog note.
+  - Added `src/research_queue.json` with an AVGO thesis/sizing research item
+    from the README backlog note.
   - Kept AVGO unassessed in source/golden logic; no thesis was invented.
-  - Validated the queue so From Research can surface it.
+  - Validated the queue so the item can be tracked without hand-grading the
+    thesis.
 - Fundstrat monthly/Bible direct upload intake.
   - Added `fundstrat_bible_intake.py` for direct monthly PDF/text/JSON uploads.
   - Writes compact `fundstrat_bible.json` deck shape for useful summary lists:
