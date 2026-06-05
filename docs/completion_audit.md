@@ -19,8 +19,8 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Evidence
 
 - Git working tree was clean before the audit slice.
-- `python src/system_improvement_queue.py` passed and reported 17 tracked queue
-  items as done after the Fundstrat monthly/Bible direct upload slice.
+- `python src/system_improvement_queue.py` passed and reported 21 tracked queue
+  items as done, with 0 active or queued items.
 - `python src/state_ownership_map.py` passed after adding monthly Fundstrat
   Bible ownership.
 - `python src/state_ownership_map.py` passed after adding full-build
@@ -28,9 +28,9 @@ enough to hand control back, using current repo state as evidence. It covers:
   `meridian`, and `signal_log`.
 - `python src/state_ownership_map.py --self-test` passed with the new
   full-build convention-file coverage guardrail.
-- `python src/codex_routine_manifest.py` passed with eight active routine
+- `python src/codex_routine_manifest.py` passed with nine active routine
   definitions across source intake, market data refresh, and feed build/publish;
-  it now reports 20 daily convention inputs.
+  it now reports 21 daily convention inputs.
 - `python src/codex_routine_manifest.py --self-test` passed with the daily
   full-build convention-input coverage guardrail.
 - `python src/macro_pulse_scan.py --self-test` passed after the macro-state
@@ -48,11 +48,11 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Focused heartbeat status tests passed: `python -m pytest
   src/test_heartbeat_status.py -q` reported 4 passed.
 - Current `python src/heartbeat_status.py --src-dir src --no-write` reports a
-  valid five-row heartbeat with 2 down, 2 ok, and 1 stale rows without
+  valid five-row heartbeat with 0 down, 4 ok, and 1 stale row without
   modifying the existing heartbeat files.
 - `python src/heartbeat_status.py --src-dir src --out src/heartbeat.json
   --summary src/heartbeat_summary.json` wrote a valid heartbeat snapshot with
-  2 down, 2 ok, and 1 stale rows.
+  0 down, 4 ok, and 1 stale row.
 - `python src/heartbeat_status.py --validate src/heartbeat.json` passed after
   writing the heartbeat snapshot.
 - `python src/uw_price_cache_intake.py --validate src/uw_closes.json` passed
@@ -64,10 +64,10 @@ enough to hand control back, using current repo state as evidence. It covers:
 - Current `python src/live_readiness.py --src-dir src` reports
   `go_live_ready: true`, with `required_inputs_ready: true`,
   `live_data_ready: true`, and no publish-gate problems.
-- `python src/full_build_runner.py --src-dir src --feed-out
-  src/latest_cockpit_feed.json --publish` succeeded, wrote
-  `src/latest_cockpit_feed.json`, and updated `src/open_opportunities.json`
-  with 0 open opportunities and 0 history rows.
+- `python src/live_dashboard_refresh.py` succeeded, wrote
+  `src/latest_cockpit_feed.json`, refreshed the rendered dashboard artifacts,
+  and updated `src/open_opportunities.json` with 2 open watch/review items
+  (`ANET`, `GOOGL`) and 0 history rows.
 - Focused daily full-build checks passed: `python -m pytest
   src/test_full_build_runner.py src/test_live_readiness.py
   src/test_heartbeat_status.py src/test_runtime_full.py
@@ -87,13 +87,14 @@ enough to hand control back, using current repo state as evidence. It covers:
   src/test_live_readiness.py src/test_heartbeat_status.py -q` reported
   12 passed.
 - Current `python src/live_readiness.py --src-dir src` reports
-  `rehearsal_ready: true`, `required_inputs_ready: true`, and
-  `go_live_ready: false`; `positions.json` is fresh at 5 days old, while
-  missing minimum live market inputs remain `macro` and `uw_prices`.
+  `rehearsal_ready: true`, `required_inputs_ready: true`,
+  `live_data_ready: true`, `publish_ready: true`, and `go_live_ready: true`;
+  `positions.json` is fresh at 5 days old and minimum live market inputs are
+  present and valid.
 - Dashboard parity guardrail tests passed.
 - `python src/uw_price_cache_intake.py --validate src/uw_closes.json` now
-  returns a structured JSON failure when the price cache is absent instead of a
-  traceback; the current repo still has no `src/uw_closes.json`.
+  returns structured validation output; the current repo has a populated valid
+  `src/uw_closes.json`.
 - Focused UW price-cache intake tests passed, including response normalization,
   incomplete-cache rejection, missing-cache validation, and full-build rotation
   lane use from a valid supplied cache.
@@ -104,12 +105,12 @@ enough to hand control back, using current repo state as evidence. It covers:
   normalization, empty-row rejection, missing-cache validation, and full-build
   lane surfacing from a valid supplied signal log.
 - `python src/verify_standard.py` passed:
-  - broad `src` suite: 881 passed, 6 skipped
+  - broad `src` suite: 911 passed, 6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
   - broker PDF extractor self-test: PASS
 - `python -m pytest src -q` passed without the old retired reallocation-test
-  ignore workaround: 881 passed, 6 skipped.
+  ignore workaround: 911 passed, 6 skipped.
 - Dashboard parity refresh passed after the synthesis metadata slice:
   - fresh local feed emitted `target_drift`
   - every emitted feed block was classified

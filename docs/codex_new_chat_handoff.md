@@ -29,8 +29,8 @@ Current priority:
 
 Important recent state:
 
-- Latest completed slice before this handoff refresh: Fundstrat Daily compact
-  live refresh.
+- Latest completed slice before this handoff refresh: live-operations docs and
+  readiness-summary refresh.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
@@ -120,7 +120,7 @@ Important recent state:
 - `src/signal_log_intake.py` can normalize supplied Signal Log or Morning Scan
   JSON into `src/signal_log.json`; rows are watch-only and never promote actions
   directly.
-- `src/codex_routine_manifest.json` now has eight active routines, including
+- `src/codex_routine_manifest.json` now has nine active routines, including
   `daily_synthesis_intake` and `signal_log_intake`; the current repo has a
   populated repo-evidence `src/daily_synthesis.json` and still has no populated
   `src/signal_log.json`.
@@ -143,17 +143,19 @@ Important recent state:
   It writes heartbeat status, publishes a feed, refreshes repo-evidence Daily
   Synthesis from that feed, republishes, renders
   `src/rendered/conviction_cockpit_v5.jsx`, writes `docs/index.html`, refreshes
-  `tmp/dashboard_preview.html`, and writes `tmp/dashboard_parity_feed.json`.
+  `tmp/dashboard_preview.html`, writes `tmp/dashboard_parity_feed.json`, and
+  prints a final operator summary with actions, data lanes, dark lanes,
+  source-call status, and `go_live_ready`.
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
-  `2026-06-05T07:01:39.270529+00:00`.
+  `2026-06-05T09:13:56.366738+00:00`.
 - `render_cockpit.py` console caveat output is ASCII-safe for Windows; a
   regression test covers cp1252 encoding of the caveat line.
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `909 passed, 6 skipped`.
+- `python -m pytest src -q` -> `911 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 
