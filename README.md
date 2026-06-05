@@ -48,6 +48,15 @@ python src\live_status.py
 This reports live readiness, preview-server state, unresolved action-memory
 items, and the implementation queue in one JSON readout.
 
+To add a supplied sudden market event before the refresh:
+
+```powershell
+python src\event_risk_intake.py --title "Iran/oil headline risk can change new-buy timing" --channels "oil,rates,volatility" --tickers "XOP,TNX" --why "Review exposure before adding risk." --trigger "WTI spike or Strait headlines accelerate." --out src\event_risks.json --summary src\event_risk_intake_summary.json --merge-existing
+```
+
+High and critical event-risk rows surface as exposure-review actions, not
+automatic buy/sell orders.
+
 ## Resolving Open Review Items
 
 List unresolved action-memory items:
@@ -94,6 +103,7 @@ python src\verify_standard.py --include-js
 
 - `src\live_dashboard_refresh.py`: one-command local live refresh.
 - `src\live_status.py`: non-rebuilding live status, preview, open-action, and queue readout.
+- `src\event_risk_intake.py`: supplied daily/weekly or one-line sudden-event risk intake.
 - `src\dashboard_preview_server.py`: check/start the local dashboard preview server.
 - `src\action_memory_resolve.py`: list or resolve open action-memory items.
 - `src\live_readiness.py`: non-publishing go/no-go report.

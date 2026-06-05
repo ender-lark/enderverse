@@ -271,6 +271,10 @@
           "command": "python src/event_risk_intake.py --stdin-json --out src/event_risks.json --summary src/event_risk_intake_summary.json --merge-existing"
         },
         {
+          "id": "append_supplied_sudden_event",
+          "command": "python src/event_risk_intake.py --title \"<event headline>\" --channels \"oil,rates,volatility\" --tickers \"XOP,TNX\" --why \"<why exposure or timing changes>\" --trigger \"<what to watch next>\" --out src/event_risks.json --summary src/event_risk_intake_summary.json --merge-existing"
+        },
+        {
           "id": "validate_event_risk_cache",
           "command": "python src/event_risk_intake.py --validate src/event_risks.json"
         }

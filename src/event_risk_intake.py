@@ -51,6 +51,29 @@ def _merge(existing: list[dict], incoming: list[dict]) -> list[dict]:
     return out
 
 
+def supplied_event_from_args(args) -> dict | None:
+    """Build one supplied event-risk row from CLI flags.
+
+    This is intentionally just a shape helper. The normal event-risk normalizer
+    still owns aliases, defaults, validation, and promotion rules.
+    """
+    if not args.title:
+        return None
+    return {
+        "date": args.date,
+        "title": args.title,
+        "severity": args.severity,
+        "horizon": args.horizon,
+        "channels": args.channels,
+        "tickers": args.tickers,
+        "affected": args.affected,
+        "source": args.source,
+        "summary": args.why,
+        "trigger": args.trigger,
+        "direction": args.direction,
+    }
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Normalize supplied Event Risk JSON")
     parser.add_argument("files", nargs="*")
@@ -59,6 +82,16 @@ def main(argv=None) -> int:
     parser.add_argument("--summary", default=str(DEFAULT_SUMMARY))
     parser.add_argument("--merge-existing", action="store_true")
     parser.add_argument("--date", default=date.today().isoformat())
+    parser.add_argument("--title", help="One supplied sudden-event headline/title to append")
+    parser.add_argument("--severity", default="high", choices=["critical", "high", "medium", "low"])
+    parser.add_argument("--horizon", default="daily")
+    parser.add_argument("--channels", default="", help="Comma/semicolon separated affected channels")
+    parser.add_argument("--tickers", default="", help="Comma/semicolon separated symbols or ETFs")
+    parser.add_argument("--affected", default="", help="Comma/semicolon separated affected sleeves")
+    parser.add_argument("--source", default="Supplied sudden-event note")
+    parser.add_argument("--why", default="", help="Why this matters for exposure, hedges, or new-buy timing")
+    parser.add_argument("--trigger", default="", help="What to watch next")
+    parser.add_argument("--direction", default="risk_watch")
     parser.add_argument("--validate", metavar="EVENT_RISKS_JSON")
     args = parser.parse_args(argv)
 
@@ -71,13 +104,16 @@ def main(argv=None) -> int:
         print(json.dumps({"valid": not problems, "problems": problems, "rows": len(rows)}, indent=2))
         return 0 if not problems else 2
 
-    if not args.files and not args.stdin_json:
-        print("no input files or --stdin-json supplied", file=sys.stderr)
+    supplied_event = supplied_event_from_args(args)
+    if not args.files and not args.stdin_json and supplied_event is None:
+        print("no input files, --stdin-json, or --title supplied", file=sys.stderr)
         return 2
 
     payloads = [_read_json(path) for path in args.files]
     if args.stdin_json:
         payloads.append(json.load(sys.stdin))
+    if supplied_event is not None:
+        payloads.append(supplied_event)
 
     incoming: list[dict] = []
     for payload in payloads:

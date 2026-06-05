@@ -119,3 +119,66 @@ def test_event_risk_intake_writes_normalized_cache_and_summary(tmp_path):
     assert payload[0]["date"] == "2026-06-05"
     assert status["written"] is True
     assert status["promoted"] == 1
+
+
+def test_event_risk_intake_accepts_one_line_sudden_event(tmp_path):
+    out = tmp_path / "event_risks.json"
+    summary = tmp_path / "summary.json"
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(Path(__file__).resolve().parent / "event_risk_intake.py"),
+            "--title",
+            "Iran/oil headline risk can change new-buy timing",
+            "--channels",
+            "oil, rates, volatility",
+        "--tickers",
+        "XOP, TNX",
+        "--why",
+        "Review exposure before adding risk.",
+            "--trigger",
+            "WTI spike or Strait headlines accelerate.",
+            "--out",
+            str(out),
+            "--summary",
+            str(summary),
+            "--date",
+            "2026-06-05",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    rows = json.loads(out.read_text(encoding="utf-8"))
+    status = json.loads(summary.read_text(encoding="utf-8"))
+    assert rows[0]["title"] == "Iran/oil headline risk can change new-buy timing"
+    assert rows[0]["severity"] == "high"
+    assert rows[0]["channels"] == ["oil", "rates", "volatility"]
+    assert rows[0]["tickers"] == ["XOP", "TNX"]
+    assert rows[0]["source"] == "Supplied sudden-event note"
+    assert status["promoted"] == 1
+
+
+def test_supplied_event_cli_row_uses_normal_validation_path():
+    class Args:
+        title = "Policy shock"
+        date = "2026-06-05"
+        severity = "critical"
+        horizon = "daily"
+        channels = "rates; dollar"
+        tickers = "TNX,DXY"
+        affected = "Growth, hedges"
+        source = "Manual scan"
+        why = "Review sizing."
+        trigger = "Yield spike"
+        direction = "risk_watch"
+
+    rows = normalize_event_risks([__import__("event_risk_intake").supplied_event_from_args(Args())])
+
+    assert rows[0]["severity"] == "critical"
+    assert rows[0]["channels"] == ["rates", "dollar"]
+    assert rows[0]["tickers"] == ["TNX", "DXY"]
+    assert validate_event_risks(rows) == []

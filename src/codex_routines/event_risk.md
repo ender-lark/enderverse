@@ -26,6 +26,12 @@ Ingest supplied stdin JSON:
 python src/event_risk_intake.py --stdin-json --out src/event_risks.json --summary src/event_risk_intake_summary.json --merge-existing
 ```
 
+Append one supplied sudden-event headline without shaping JSON first:
+
+```powershell
+python src/event_risk_intake.py --title "Iran/oil headline risk can change new-buy timing" --channels "oil,rates,volatility" --tickers "XOP,TNX" --why "Review exposure before adding risk." --trigger "WTI spike or Strait headlines accelerate." --out src/event_risks.json --summary src/event_risk_intake_summary.json --merge-existing
+```
+
 Validate the cache:
 
 ```powershell

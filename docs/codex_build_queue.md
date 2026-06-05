@@ -388,6 +388,14 @@ until the core logic is stable; Notion sync comes later.
   - Current readout reports `go_live_ready: true`, 4 actions, 0 research
     actions, 2 dark optional lanes, 2 open action-memory reviews, preview
     server running, and 0 active/queued system-improvement items.
+- One-line sudden-event risk intake.
+  - Extended `event_risk_intake.py` so a supplied headline can be appended with
+    CLI flags instead of pre-shaped JSON.
+  - This starts fixing the sudden-event fragility: Iran/oil/rates-style shocks
+    can enter `event_risks.json` directly, then promote through the existing
+    conservative exposure-review action path.
+  - It still does not scrape headlines, invent market narratives, or create
+    automatic buy/sell orders.
 
 ## Queued Slices
 

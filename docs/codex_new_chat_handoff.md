@@ -46,6 +46,10 @@ Important recent state:
   evidence. `src/event_risks.json` stores only metadata/brief summaries, not raw
   email bodies. The lane promotes one conservative exposure-review action for
   oil/rates shock risk; no buy/sell order is implied.
+- `src/event_risk_intake.py` now also accepts a one-line supplied sudden-event
+  row via CLI flags (`--title`, `--channels`, `--tickers`, `--why`,
+  `--trigger`). Use this when a fast headline such as Iran/oil/rates risk needs
+  to enter the dashboard before a full JSON event scan exists.
 - FS Daily now has compact full-body-derived data from Gmail evidence. The
   compact intake wrote `XOP`, `RYF`, and `TNX` daily-call rows, redacted audit
   entries, inbox dates, and state without committing raw email bodies. Empty
@@ -175,7 +179,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `921 passed, 6 skipped`.
+- `python -m pytest src -q` -> `923 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 
