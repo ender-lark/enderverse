@@ -225,6 +225,9 @@ Important recent state:
   "<routine scheduled run>" --push --format text` for write-back. The helper
   stages only allowlisted routine-owned files and leaves unrelated dirty files,
   including the existing Fundstrat generated files, untouched.
+  It reports git status/add/commit/push failures as structured output; if only
+  push fails after a commit, the report keeps the commit id and marks
+  `pushed=false`.
 - The active automation timing was checked against Notion's "Scheduled Cloud
   Routines - Master Reference" and the 2026-06-02 "Routine schedule reconcile"
   note. Current intent: Morning Scan at 8:35 ET, Daily Synthesis at 9:30 ET

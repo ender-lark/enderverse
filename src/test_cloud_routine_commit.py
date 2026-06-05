@@ -74,3 +74,38 @@ def test_default_allowlist_excludes_raw_fundstrat_intake_bookkeeping():
     assert "src/fundstrat_intake_state.json" not in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_intake_summary.json" not in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_daily_calls.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+
+
+def test_cloud_routine_commit_reports_push_failure_after_commit(tmp_path):
+    repo = _repo(tmp_path)
+    (repo / "src" / "cloud_routine_receipts.json").write_text('{"receipts":[{"status":"success"}]}\n', encoding="utf-8")
+
+    report = cloud_routine_commit.cloud_routine_commit(
+        message="cloud receipt",
+        allowed_paths=["src/cloud_routine_receipts.json"],
+        cwd=repo,
+        push=True,
+    )
+
+    assert report["valid"] is False
+    assert report["committed"] is True
+    assert report["pushed"] is False
+    assert report["git_step"] == "push"
+    assert "push failed" in report["reason"]
+    assert _git(repo, "show", "--name-only", "--format=", "HEAD") == "src/cloud_routine_receipts.json"
+
+
+def test_cloud_routine_commit_reports_status_failure(tmp_path):
+    not_repo = tmp_path / "not-repo"
+    not_repo.mkdir()
+
+    report = cloud_routine_commit.cloud_routine_commit(
+        message="cloud receipt",
+        allowed_paths=["src/cloud_routine_receipts.json"],
+        cwd=not_repo,
+    )
+
+    assert report["valid"] is False
+    assert report["committed"] is False
+    assert report["git_step"] == "status"
+    assert "git status failed" == report["reason"]

@@ -65,6 +65,17 @@ def _run_git(args: list[str], *, cwd: Path, check: bool = True) -> subprocess.Co
     )
 
 
+def _git_failure(exc: subprocess.CalledProcessError, *, step: str) -> dict[str, Any]:
+    return {
+        "valid": False,
+        "git_step": step,
+        "returncode": exc.returncode,
+        "stdout": (exc.stdout or "").strip(),
+        "stderr": (exc.stderr or "").strip(),
+        "error": f"git {step} failed with exit code {exc.returncode}",
+    }
+
+
 def _normalize(path: str | Path) -> str:
     return str(path).replace("\\", "/").strip().lstrip("./")
 
@@ -102,7 +113,22 @@ def cloud_routine_commit(
     """Stage/commit/push only the allowed changed paths."""
     repo = Path(cwd)
     allowed = {_normalize(path) for path in (allowed_paths or DEFAULT_ALLOWED_PATHS)}
-    rows = _status_rows(repo)
+    try:
+        rows = _status_rows(repo)
+    except subprocess.CalledProcessError as exc:
+        report = _git_failure(exc, step="status")
+        report.update({
+            "dry_run": dry_run,
+            "message": message,
+            "allowed_count": len(allowed),
+            "selected_paths": [],
+            "unrelated_dirty_paths": [],
+            "committed": False,
+            "pushed": False,
+            "commit": "",
+            "reason": "git status failed",
+        })
+        return report
     selected = _selected_paths(rows, allowed)
     unrelated = _unrelated_paths(rows, set(selected))
     report: dict[str, Any] = {
@@ -124,17 +150,36 @@ def cloud_routine_commit(
         report["reason"] = "dry run"
         return report
 
-    _run_git(["add", "--", *selected], cwd=repo)
-    staged = _run_git(["diff", "--cached", "--name-only"], cwd=repo).stdout.splitlines()
+    try:
+        _run_git(["add", "--", *selected], cwd=repo)
+        staged = _run_git(["diff", "--cached", "--name-only"], cwd=repo).stdout.splitlines()
+    except subprocess.CalledProcessError as exc:
+        report.update(_git_failure(exc, step="add/diff"))
+        report["reason"] = "git add/diff failed"
+        return report
     staged_selected = sorted(_normalize(path) for path in staged if _normalize(path) in set(selected))
     if not staged_selected:
         report["reason"] = "allowed paths had no staged diff"
         return report
-    _run_git(["commit", "-m", message], cwd=repo)
+    try:
+        _run_git(["commit", "-m", message], cwd=repo)
+    except subprocess.CalledProcessError as exc:
+        report.update(_git_failure(exc, step="commit"))
+        report["reason"] = "git commit failed"
+        return report
     report["committed"] = True
-    report["commit"] = _run_git(["rev-parse", "--short", "HEAD"], cwd=repo).stdout.strip()
+    try:
+        report["commit"] = _run_git(["rev-parse", "--short", "HEAD"], cwd=repo).stdout.strip()
+    except subprocess.CalledProcessError:
+        report["commit"] = ""
     if push:
-        _run_git(["push"], cwd=repo)
+        try:
+            _run_git(["push"], cwd=repo)
+        except subprocess.CalledProcessError as exc:
+            report.update(_git_failure(exc, step="push"))
+            report["committed"] = True
+            report["reason"] = "git push failed after commit"
+            return report
         report["pushed"] = True
     report["reason"] = "committed"
     return report
@@ -150,6 +195,10 @@ def format_text(report: dict[str, Any]) -> str:
         lines.append(f"Commit: {report.get('commit')}")
     if report.get("reason"):
         lines.append(f"Reason: {report.get('reason')}")
+    if report.get("error"):
+        lines.append(f"Error: {report.get('error')}")
+    if report.get("stderr"):
+        lines.append(f"Git stderr: {report.get('stderr')}")
     if report.get("selected_paths"):
         lines.append("Allowed changed paths:")
         lines.extend(f"- {path}" for path in report.get("selected_paths") or [])

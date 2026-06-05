@@ -73,6 +73,10 @@ until the core logic is stable; Notion sync comes later.
     push only allowlisted routine-owned outputs while leaving unrelated dirty
     generated files untouched. Active routine prompts now call this helper for
     write-back instead of relying on generic git staging.
+  - The helper reports git status/add/commit/push failures as structured
+    output, preserving a successful commit id when only the push fails, so
+    scheduled routines can report write-back problems without hiding them in a
+    stack trace.
   - Updated `src/cloud_automation_status.json` to record the app-created
     routine ids and updated `cloud_ops_status.py` so cloud readiness requires
     the full expected stack to be installed and active.
