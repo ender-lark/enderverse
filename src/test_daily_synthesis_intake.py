@@ -6,6 +6,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import daily_synthesis_intake as intake
+import daily_synthesis_from_feed as from_feed
 from full_build_runner import build_full_feed_from_files
 
 
@@ -122,3 +123,94 @@ def test_valid_synthesis_cache_feeds_full_build_actions(tmp_path):
     rows = {row["key"]: row for row in feed["lane_status"]["rows"]}
     assert rows["synthesis"]["status"] == "has_data"
     assert any(row.get("source") == "daily_synthesis" for row in feed["actions"])
+
+
+def test_build_synthesis_from_feed_preserves_dark_lane_caveats_without_actions():
+    feed = {
+        "generated_at": "2026-06-05T12:00:00+00:00",
+        "lane_status": {
+            "counts": {"has_data": 10, "not_checked": 3},
+            "rows": [
+                {
+                    "key": "catalysts",
+                    "label": "Catalysts",
+                    "status": "not_checked",
+                    "missing_impact": "Near-term event timing may be missing.",
+                },
+                {
+                    "key": "synthesis",
+                    "label": "Daily Synthesis",
+                    "status": "not_checked",
+                    "missing_impact": "Top-down daily judgment is not checked.",
+                },
+                {
+                    "key": "signal_log",
+                    "label": "Signal Log",
+                    "status": "not_checked",
+                    "next_step": "Supply Morning Scan JSON.",
+                },
+            ],
+        },
+        "actions": [
+            {
+                "what": "Event risk: oil/rates shock",
+                "action_state": "ACT_NOW",
+                "confidence": "Moderate",
+                "source": "event_risk",
+                "your_move": "Review exposure before new buys.",
+            }
+        ],
+        "event_risk": [
+            {
+                "title": "Middle East oil/rates shock can affect new-buy timing",
+                "severity": "high",
+                "trigger": "WTI approaches 99-101.",
+            }
+        ],
+        "target_drift": {"line": "Target drift: NVDA undersized."},
+        "radar": [
+            {"ticker": "RYF", "direction": "avoid", "author": "Newton"},
+            {"ticker": "TNX", "direction": "watch", "author": "Newton"},
+        ],
+    }
+
+    synthesis = from_feed.build_synthesis_from_feed(feed)
+
+    assert synthesis["source"] == "Repo Evidence Synthesis"
+    assert synthesis["date"] == "2026-06-05"
+    assert "11 lane(s) have data" in synthesis["state_of_play"]
+    assert "2 optional lane(s) are not checked" in synthesis["state_of_play"]
+    assert "Middle East oil/rates shock" in synthesis["state_of_play"]
+    assert "RYF avoid" in synthesis["delta"]
+    assert "TNX watch" in synthesis["delta"]
+    assert "Target drift: NVDA undersized." in synthesis["delta"]
+    assert "Catalysts is not checked" in synthesis["hanging"][1]
+    assert "Signal Log is not checked" in synthesis["hanging"][2]
+    assert not any("Daily Synthesis is not checked" in row for row in synthesis["hanging"])
+    assert "actions" not in synthesis
+    assert intake.validate_synthesis(synthesis) == []
+
+
+def test_daily_synthesis_from_feed_cli_writes_summary(tmp_path):
+    feed_path = tmp_path / "feed.json"
+    out = tmp_path / "daily_synthesis.json"
+    summary = tmp_path / "summary.json"
+    feed_path.write_text(json.dumps({
+        "generated_at": "2026-06-05T12:00:00+00:00",
+        "lane_status": {"counts": {"has_data": 1, "not_checked": 0}, "rows": []},
+        "actions": [],
+    }), encoding="utf-8")
+    script = os.path.join(os.path.dirname(__file__), "daily_synthesis_from_feed.py")
+
+    proc = subprocess.run(
+        [sys.executable, script, "--feed", str(feed_path), "--out", str(out), "--summary", str(summary)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    assert json.loads(proc.stdout)["written"] is True
+    written = json.loads(out.read_text(encoding="utf-8"))
+    assert written["source"] == "Repo Evidence Synthesis"
+    assert json.loads(summary.read_text(encoding="utf-8"))["action_count"] == 0

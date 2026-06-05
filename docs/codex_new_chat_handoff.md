@@ -113,16 +113,21 @@ Important recent state:
 - `src/daily_synthesis_intake.py` can normalize supplied Daily Synthesis JSON
   into `src/daily_synthesis.json`, preserving structured action metadata without
   generating market content.
+- `src/daily_synthesis_from_feed.py` can also build a conservative
+  repo-evidence synthesis from `src/latest_cockpit_feed.json`. It writes no
+  structured synthesis actions and keeps missing Catalyst Calendar / Signal Log
+  lanes visible as unresolved.
 - `src/signal_log_intake.py` can normalize supplied Signal Log or Morning Scan
   JSON into `src/signal_log.json`; rows are watch-only and never promote actions
   directly.
 - `src/codex_routine_manifest.json` now has eight active routines, including
-  `daily_synthesis_intake` and `signal_log_intake`; the current repo still has
-  no populated `src/daily_synthesis.json` or `src/signal_log.json`.
+  `daily_synthesis_intake` and `signal_log_intake`; the current repo has a
+  populated repo-evidence `src/daily_synthesis.json` and still has no populated
+  `src/signal_log.json`.
 - Current live-readiness probe on the repo reports `rehearsal_ready: true`,
   `required_inputs_ready: true`, `live_data_ready: true`,
   `publish_ready: true`, and `go_live_ready: true`.
-- Current dark lanes are `catalysts`, `synthesis`, and `signal_log`. These are
+- Current dark lanes are `catalysts` and `signal_log`. These are
   not hard go-live blockers, but the dashboard now shows what input to supply
   next for each.
 - The first publish path succeeded:

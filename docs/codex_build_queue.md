@@ -347,6 +347,13 @@ until the core logic is stable; Notion sync comes later.
   - Added `docs/dashboard_parity_review.md`.
   - Decided JSX injection is canonical; generated HTML is summary/export.
   - Mapped feed blocks to JSX and generated HTML surfaces.
+- Repo-evidence Daily Synthesis.
+  - Added `daily_synthesis_from_feed.py` to build a conservative synthesis
+    cache from the already-built cockpit feed.
+  - Kept Catalyst Calendar and Signal Log as visible dark lanes; Daily
+    Synthesis no longer needs separate supplied JSON just to show the current
+    repo-evidence read.
+  - The repo-evidence path writes no structured synthesis actions.
 - Feedback/source-call tracking surfacing.
   - Make overdue source-call scoring visible.
   - Make repeated source-call persistence clusters durable in the feed/dashboard.

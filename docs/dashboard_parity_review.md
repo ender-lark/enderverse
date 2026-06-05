@@ -2,7 +2,7 @@
 
 Generated: 2026-06-05
 
-Last refreshed: 2026-06-05 after the Fundstrat Daily compact live refresh.
+Last refreshed: 2026-06-05 after the repo-evidence Daily Synthesis refresh.
 
 ## Decision
 
@@ -40,8 +40,10 @@ Result summary:
 - Build succeeded.
 - `actions`: 3
 - `research_actions`: 0
-- `lane_status.counts.not_checked`: 3
-- Dark lane keys: `catalysts`, `synthesis`, `signal_log`.
+- `lane_status.counts.not_checked`: 2
+- Dark lane keys: `catalysts`, `signal_log`.
+- Daily Synthesis is supplied from repo-evidence synthesis. It summarizes
+  existing cockpit feed evidence and does not create structured action rows.
 - Event Risk is supplied and has data; one conservative exposure-review action
   is promoted from the oil/rates shock row.
 - FS Daily is supplied and has data from compact full-body-derived Fundstrat

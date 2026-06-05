@@ -184,6 +184,7 @@
       "separation_group": "source_intake",
       "input_boundaries": [
         "Supplied Daily Synthesis JSON",
+        "Repo-evidence synthesis generated only from an existing cockpit feed",
         "No autonomous market narrative generation"
       ],
       "owns": [
@@ -198,6 +199,10 @@
         {
           "id": "stdin_supplied_synthesis",
           "command": "python src/daily_synthesis_intake.py --stdin-json --out src/daily_synthesis.json --summary src/daily_synthesis_intake_summary.json --merge-existing"
+        },
+        {
+          "id": "repo_evidence_synthesis",
+          "command": "python src/daily_synthesis_from_feed.py --feed src/latest_cockpit_feed.json --out src/daily_synthesis.json --summary src/daily_synthesis_intake_summary.json"
         },
         {
           "id": "validate_synthesis_cache",

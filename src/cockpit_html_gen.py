@@ -535,7 +535,7 @@ def _synthesis(synth: dict) -> str:
     {f'<span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{date}</span>' if date else ""}
   </div>
   {f'<div class="s-label">State of play</div><div class="s-body">{sop}</div>' if sop else ""}
-  {f'<div class="s-label">24–48h delta</div><div class="s-body">{delta}</div>' if delta else ""}
+  {f'<div class="s-label">24-48h delta</div><div class="s-body">{delta}</div>' if delta else ""}
   {hang_html}
 </div>"""
 

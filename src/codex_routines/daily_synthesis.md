@@ -6,8 +6,9 @@ Normalize supplied Daily Synthesis JSON into `daily_synthesis.json` so the
 cockpit can show the Synthesis panel and promote only explicit/conservative
 synthesis actions.
 
-This routine is a safe intake lane. It does not generate the synthesis read,
-invent actions, or research stocks.
+This routine is a safe intake lane. It does not invent actions or research
+stocks. It can either normalize a supplied synthesis JSON, or create a
+conservative repo-evidence synthesis from an already-built cockpit feed.
 
 ## Procedure
 
@@ -28,6 +29,16 @@ Validate the current cache:
 ```bash
 python src/daily_synthesis_intake.py --validate src/daily_synthesis.json
 ```
+
+From the current cockpit feed only:
+
+```bash
+python src/daily_synthesis_from_feed.py --feed src/latest_cockpit_feed.json --out src/daily_synthesis.json --summary src/daily_synthesis_intake_summary.json
+```
+
+The repo-evidence path summarizes existing lane status, the current action
+stack, event-risk rows, Fundstrat Daily radar items, and target drift. It does
+not write structured synthesis actions.
 
 ## Accepted Shape
 
@@ -65,3 +76,5 @@ python -m pytest src/test_daily_synthesis_intake.py src/test_actions_read.py src
 - Empty input is not checked, not a clean synthesis read.
 - This routine may preserve supplied structured action metadata, but it must not
   create market recommendations.
+- Repo-evidence synthesis must label itself `Repo Evidence Synthesis` and keep
+  any missing Catalyst Calendar or Signal Log lanes visible as unresolved.

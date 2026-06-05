@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T08:31:02.223735+00:00",
+  "generated_at": "2026-06-05T08:42:38.456373+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T08:31:02.223735+00:00",
+        "date": "2026-06-05T08:42:38.456373+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T08:31:02.223735+00:00",
+        "date": "2026-06-05T08:42:38.456373+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -109,12 +109,10 @@
       {
         "key": "synthesis",
         "label": "Daily Synthesis",
-        "status": "not_checked",
-        "detail": "not supplied",
-        "count": 0,
-        "checked_at": "",
-        "next_step": "Supply the Daily Synthesis JSON before relying on a top-down daily read.",
-        "missing_impact": "Top-down daily judgment is not checked."
+        "status": "has_data",
+        "detail": "checked",
+        "count": 6,
+        "checked_at": ""
       },
       {
         "key": "uw_opportunity",
@@ -160,10 +158,10 @@
       }
     ],
     "counts": {
-      "checked_clear": 0,
-      "has_data": 10,
-      "not_checked": 3,
+      "has_data": 11,
       "failed": 0,
+      "not_checked": 2,
+      "checked_clear": 0,
       "stale": 0
     },
     "has_dark_lanes": true,
@@ -838,35 +836,49 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T08:31:02.141564+00:00",
+      "last_run": "2026-06-05T08:42:26.888467+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T08:31:02.141564+00:00",
+      "last_run": "2026-06-05T08:42:26.888467+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T08:31:02.141564+00:00",
+      "last_run": "2026-06-05T08:42:26.888467+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T08:31:02.141564+00:00",
-      "note": "dark lanes: catalysts, synthesis, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Daily Synthesis JSON before relying on a top-down daily read"
+      "last_run": "2026-06-05T08:42:26.888467+00:00",
+      "note": "dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T08:31:02.141564+00:00",
+      "last_run": "2026-06-05T08:42:26.888467+00:00",
       "note": "rehearsal build can run"
     }
   ],
-  "synthesis": {},
+  "synthesis": {
+    "source": "Repo Evidence Synthesis",
+    "date": "2026-06-05",
+    "state_of_play": "Repo evidence read: 11 lane(s) have data and 2 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (act_now, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+    "delta": "Fundstrat Daily compact calls in radar: RYF avoid, TNX watch, XOP avoid. Target drift: 12 sizing gap(s) vs AI working model (1 under, 2 over, 9 missing); GRNY oversized 8.7% vs 3.0%; SMH oversized 8.9% vs 5.0%; NVDA undersized 6.6% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more",
+    "hanging": [
+      "Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.",
+      "Catalysts is not checked: Near-term event timing may be missing from Today's Actions.",
+      "Signal Log is not checked: Watch-only daily scan context is not checked."
+    ],
+    "notes": [
+      "Derived only from the existing cockpit feed.",
+      "No standalone market fetch or autonomous trade recommendation was generated."
+    ]
+  },
   "radar": [
     {
       "ticker": "RYF",
