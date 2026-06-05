@@ -354,6 +354,12 @@ until the core logic is stable; Notion sync comes later.
     Synthesis no longer needs separate supplied JSON just to show the current
     repo-evidence read.
   - The repo-evidence path writes no structured synthesis actions.
+- One-command live dashboard refresh.
+  - Added `live_dashboard_refresh.py` as the repo-local live refresh runner.
+  - It writes heartbeat status, publishes a feed, refreshes repo-evidence Daily
+    Synthesis from that feed, republishes, renders canonical JSX plus
+    summary/preview HTML, and writes the parity feed.
+  - Added routine-manifest coverage and focused tests for the refresh sequence.
 - Feedback/source-call tracking surfacing.
   - Make overdue source-call scoring visible.
   - Make repeated source-call persistence clusters durable in the feed/dashboard.

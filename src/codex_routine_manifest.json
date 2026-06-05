@@ -460,9 +460,13 @@
         {
           "id": "build_and_publish",
           "command": "python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish"
+        },
+        {
+          "id": "refresh_live_dashboard",
+          "command": "python src/live_dashboard_refresh.py"
         }
       ],
-      "verification": "python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py -q",
+      "verification": "python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py src/test_live_dashboard_refresh.py -q",
       "no_input_behavior": "Missing optional source files remain dark lanes; publish gate prevents unsafe feed overwrite."
     },
     {

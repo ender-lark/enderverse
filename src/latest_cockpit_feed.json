@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T08:42:38.456373+00:00",
+  "generated_at": "2026-06-05T08:46:50.976461+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T08:42:38.456373+00:00",
+        "date": "2026-06-05T08:46:50.976461+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T08:42:38.456373+00:00",
+        "date": "2026-06-05T08:46:50.976461+00:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -161,8 +161,8 @@
       "has_data": 11,
       "failed": 0,
       "not_checked": 2,
-      "checked_clear": 0,
-      "stale": 0
+      "stale": 0,
+      "checked_clear": 0
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -836,31 +836,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-05T08:42:26.888467+00:00",
+      "last_run": "2026-06-05T08:46:50.894530+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-05T08:42:26.888467+00:00",
+      "last_run": "2026-06-05T08:46:50.894530+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-05T08:42:26.888467+00:00",
+      "last_run": "2026-06-05T08:46:50.894530+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-05T08:42:26.888467+00:00",
+      "last_run": "2026-06-05T08:46:50.894530+00:00",
       "note": "dark lanes: catalysts, signal_log | next: Supply Catalyst Calendar rows for dated earnings, events, or company-specific review windows; Supply the Morning Scan or Signal Log JSON for watch-only intraday context"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-05T08:42:26.888467+00:00",
+      "last_run": "2026-06-05T08:46:50.894530+00:00",
       "note": "rehearsal build can run"
     }
   ],

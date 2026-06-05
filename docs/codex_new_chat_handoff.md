@@ -134,6 +134,12 @@ Important recent state:
   `python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish`.
   It wrote `src/latest_cockpit_feed.json` and updated
   `src/open_opportunities.json` with 0 open action-memory items.
+- The local one-command live dashboard refresh is now:
+  `python src/live_dashboard_refresh.py`.
+  It writes heartbeat status, publishes a feed, refreshes repo-evidence Daily
+  Synthesis from that feed, republishes, renders
+  `src/rendered/conviction_cockpit_v5.jsx`, writes `docs/index.html`, refreshes
+  `tmp/dashboard_preview.html`, and writes `tmp/dashboard_parity_feed.json`.
 - The published feed has been rendered through the canonical JSX injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
@@ -143,7 +149,7 @@ Important recent state:
 
 Current verification baseline:
 
-- `python -m pytest src -q` -> `881 passed, 6 skipped`.
+- `python -m pytest src -q` -> `906 passed, 6 skipped`.
 - `python src\test_reallocate_rebuild.py` -> passed.
 - `python src\verify_standard.py` passed with the full pytest tree plus the standalone self-tests.
 

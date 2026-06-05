@@ -43,11 +43,21 @@ This is the main replacement for Claude's FULL-build prompt.
    python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish
    ```
 
+   For the local live dashboard path, prefer the one-command refresh:
+
+   ```bash
+   python src/live_dashboard_refresh.py
+   ```
+
+   This writes heartbeat status, publishes a feed, refreshes repo-evidence
+   Daily Synthesis from that feed, republishes, and renders both the canonical
+   JSX artifact and the summary/preview HTML.
+
 9. If publish fails, do not force-write a feed. Report the publish-gate problems.
 10. Run focused checks:
 
    ```bash
-   python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py -q
+   python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py src/test_live_dashboard_refresh.py -q
    ```
 
 11. Summarize:
