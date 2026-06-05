@@ -138,6 +138,32 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert any(a.get("source") == "daily_synthesis" for a in feed["actions"])
 
 
+def test_full_build_runner_threads_source_call_freshness_files(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "source_calls.json", [
+        {"source": "newton", "ticker": "FN", "tier": "A", "outcome": "Pending",
+         "date": "2026-06-01", "window_end": "2026-06-15"},
+        {"source": "newton", "ticker": "FN", "tier": "B", "outcome": "Pending",
+         "date": "2026-06-04", "window_end": "2026-06-18"},
+    ])
+    _write(src / "inbox_call_dates.json", ["2026-06-04"])
+    _write(src / "log_call_dates.json", ["2026-06-04"])
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    assert validate_cockpit_feed(feed) == []
+    sc = feed["feedback"]["source_calls"]
+    assert sc["calibration"]["status"] == "checked_fresh"
+    assert sc["persistence"]["loud_count"] == 1
+    assert sc["persistence"]["clusters"][0]["ticker"] == "FN"
+
+
 def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     src = tmp_path / "src"
     src.mkdir()

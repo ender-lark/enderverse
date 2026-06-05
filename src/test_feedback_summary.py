@@ -12,6 +12,13 @@ CALLS = [
      "date": "2026-04-01", "window_end": "2026-04-15"},
 ]
 
+PERSISTENCE_CALLS = [
+    {"source": "newton", "ticker": "FN", "tier": "A", "outcome": "Pending",
+     "date": "2026-05-27", "window_end": "2026-06-10"},
+    {"source": "newton", "ticker": "FN", "tier": "B", "outcome": "Pending",
+     "date": "2026-06-02", "window_end": "2026-06-16"},
+]
+
 
 def test_source_call_feedback_flags_overdue_scoring():
     fb = source_call_feedback(CALLS, as_of="2026-05-31")
@@ -25,6 +32,29 @@ def test_source_call_feedback_not_checked_when_omitted():
     fb = source_call_feedback(None, as_of="2026-05-31")
     assert fb["status"] == "not_checked"
     assert fb["overdue_count"] == 0
+
+
+def test_source_call_feedback_surfaces_loud_persistence_when_calibration_fresh():
+    fb = source_call_feedback(
+        PERSISTENCE_CALLS,
+        as_of="2026-06-05",
+        inbox_call_dates=["2026-06-02"],
+        log_call_dates=["2026-06-02"],
+    )
+    persistence = fb["persistence"]
+    assert fb["calibration"]["status"] == "checked_fresh"
+    assert persistence["loud_count"] == 1
+    assert persistence["clusters"][0]["ticker"] == "FN"
+    assert "P-WAKE-UP" in persistence["line"]
+
+
+def test_source_call_feedback_keeps_persistence_provisional_when_not_checked():
+    fb = source_call_feedback(PERSISTENCE_CALLS, as_of="2026-06-05")
+    persistence = fb["persistence"]
+    assert fb["calibration"]["status"] == "not_checked"
+    assert persistence["loud_count"] == 0
+    assert persistence["provisional_count"] == 1
+    assert persistence["clusters"][0]["provisional"] is True
 
 
 def test_open_action_feedback_surfaces_oldest_backlog():

@@ -58,6 +58,8 @@ DEFAULT_FILES = {
     "open_opportunities": ("open_opportunities.json",),
     "top_prospects": ("top_prospects.json",),
     "source_calls": ("source_calls.json",),
+    "inbox_call_dates": ("inbox_call_dates.json",),
+    "log_call_dates": ("log_call_dates.json",),
     "parabolic": ("parabolic_setups.json",),
 }
 
@@ -259,6 +261,8 @@ def build_full_feed_from_files(
     open_opportunities = _load_optional(src, "open_opportunities")
     top_prospects = _load_optional(src, "top_prospects")
     source_calls = _load_optional(src, "source_calls")
+    inbox_call_dates = _load_optional(src, "inbox_call_dates")
+    log_call_dates = _load_optional(src, "log_call_dates")
     parabolic_cache = _load_optional(src, "parabolic")
 
     catalysts = None
@@ -298,6 +302,8 @@ def build_full_feed_from_files(
         opp_prices=latest_prices_from_closes(closes),
         top_prospects=top_prospects,
         source_calls=source_calls,
+        inbox_call_dates=inbox_call_dates,
+        log_call_dates=log_call_dates,
     )
     portfolio_views = build_portfolio_views(account_positions)
     if portfolio_views:

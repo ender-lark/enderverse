@@ -84,6 +84,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                   catalysts=None, lean_in=None, uw_opportunity=None,
                   open_opportunities=None, opp_prices=None,
                   top_prospects=None, source_calls=None,
+                  inbox_call_dates=None, log_call_dates=None,
                   aging_threshold_days=3) -> dict:
     """bundle = {as_of, snapshot:<CollectedSnapshot>, theses:[...with stance]}.
     Returns a Contract-C CockpitFeed (passes validate_cockpit_feed).
@@ -295,6 +296,14 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         open_opportunities=open_opportunities,
         prices=opp_prices,
         as_of=as_of,
+        core_tickers={
+            (t.get("ticker") or "").upper()
+            for t in theses
+            if (t.get("stance") or "").upper() != "MONITOR"
+            and (t.get("tier") or "").upper() in ("T1", "T2")
+        },
+        inbox_call_dates=inbox_call_dates,
+        log_call_dates=log_call_dates,
     )
     return {
         "generated_at": generated_at or f"{as_of}T16:00:00",

@@ -38,7 +38,92 @@ def _source_rates(calls: list) -> list[dict]:
     return rows
 
 
-def source_call_feedback(source_calls, *, as_of=None) -> dict:
+def _calibration_feedback(calls: list, *, inbox_call_dates=None, log_call_dates=None,
+                          as_of=None) -> tuple[dict, bool]:
+    cache_dates = [c.get("date") for c in calls if isinstance(c, dict) and c.get("date")]
+    newest_cache = max(cache_dates) if cache_dates else ""
+    if not inbox_call_dates and not log_call_dates:
+        return ({
+            "status": "not_checked",
+            "line": (
+                "Calibration chain not checked; source persistence is provisional "
+                f"(cache as-of {newest_cache or 'unknown'})."
+            ),
+            "worst_days_behind": 0,
+            "cache_as_of": newest_cache,
+        }, False)
+
+    chain = sct.calibration_chain_staleness(
+        inbox_call_dates or [], log_call_dates or [], cache_dates, now=_today(as_of)
+    )
+    if not chain.get("stale"):
+        return ({
+            "status": "checked_fresh",
+            "line": "Calibration chain checked fresh.",
+            "worst_days_behind": 0,
+            "cache_as_of": newest_cache,
+        }, True)
+    return ({
+        "status": "stale",
+        "line": f"Calibration chain stale: {chain.get('worst_days_behind', 0)}d behind.",
+        "worst_days_behind": chain.get("worst_days_behind", 0),
+        "cache_as_of": newest_cache,
+    }, False)
+
+
+def _persistence_feedback(calls: list, *, core_tickers=None, calibration_fresh=False,
+                          as_of=None) -> dict:
+    clusters = sct.persistence_scan(calls, core_tickers=core_tickers, now=_today(as_of))
+    guarded = False
+    rows = []
+    for c in clusters:
+        row = dict(c)
+        if not calibration_fresh and row.get("loud"):
+            row["loud"] = False
+            row["quiet_reason"] = "calib_provisional"
+            row["provisional"] = True
+            guarded = True
+        rows.append({
+            "source": row.get("source") or "",
+            "ticker": row.get("ticker") or "",
+            "count": row.get("count", 0),
+            "within_days": row.get("within_days", 0),
+            "has_ab": bool(row.get("has_ab")),
+            "loud": bool(row.get("loud")),
+            "provisional": bool(row.get("provisional")),
+            "quiet_reason": row.get("quiet_reason") or "",
+            "fired_on": row.get("fired_on") or "",
+        })
+
+    if not rows:
+        return {
+            "status": "checked_clear",
+            "line": "Source persistence checked: no repeated-call clusters.",
+            "cluster_count": 0,
+            "loud_count": 0,
+            "provisional_count": 0,
+            "guarded": guarded,
+            "clusters": [],
+        }
+
+    loud_n = sum(1 for r in rows if r["loud"])
+    provisional_n = sum(1 for r in rows if r["provisional"])
+    line = sct.persistence_surface_line(rows)
+    if guarded:
+        line += " PROVISIONAL: calibration chain not confirmed fresh."
+    return {
+        "status": "has_data",
+        "line": line,
+        "cluster_count": len(rows),
+        "loud_count": loud_n,
+        "provisional_count": provisional_n,
+        "guarded": guarded,
+        "clusters": rows[:5],
+    }
+
+
+def source_call_feedback(source_calls, *, as_of=None, core_tickers=None,
+                         inbox_call_dates=None, log_call_dates=None) -> dict:
     """Summarize source calibration health from source_calls.json-shaped rows."""
     if source_calls is None:
         return {
@@ -62,6 +147,18 @@ def source_call_feedback(source_calls, *, as_of=None) -> dict:
             "due": [],
         }
     sweep = sct.scoring_lag_sweep(calls, now=_today(as_of))
+    calibration, calibration_fresh = _calibration_feedback(
+        calls,
+        inbox_call_dates=inbox_call_dates,
+        log_call_dates=log_call_dates,
+        as_of=as_of,
+    )
+    persistence = _persistence_feedback(
+        calls,
+        core_tickers=core_tickers,
+        calibration_fresh=calibration_fresh,
+        as_of=as_of,
+    )
     pending = sum(1 for c in calls if isinstance(c, dict) and (c.get("outcome") or "Pending") == "Pending")
     due = [{
         "source": c.get("source") or "",
@@ -78,6 +175,8 @@ def source_call_feedback(source_calls, *, as_of=None) -> dict:
         "oldest_overdue_days": sweep.get("oldest_overdue_days", 0),
         "rates": _source_rates(calls),
         "due": due,
+        "calibration": calibration,
+        "persistence": persistence,
     }
 
 
@@ -147,12 +246,24 @@ def _recent_history(store, limit=5):
 
 
 def build_feedback_summary(*, source_calls=None, open_opportunities=None,
-                           prices=None, as_of=None) -> dict:
-    source = source_call_feedback(source_calls, as_of=as_of)
+                           prices=None, as_of=None, core_tickers=None,
+                           inbox_call_dates=None, log_call_dates=None) -> dict:
+    source = source_call_feedback(
+        source_calls,
+        as_of=as_of,
+        core_tickers=core_tickers,
+        inbox_call_dates=inbox_call_dates,
+        log_call_dates=log_call_dates,
+    )
     actions = open_action_feedback(open_opportunities, prices=prices, as_of=as_of)
     recommendations = []
     if source["overdue_count"]:
         recommendations.append("Score overdue source calls Win/Loss/Push.")
+    persistence = source.get("persistence") or {}
+    if persistence.get("loud_count"):
+        recommendations.append("Escalate LOUD source-persistence cluster into research/action review.")
+    elif persistence.get("provisional_count"):
+        recommendations.append("Refresh calibration chain, then review provisional source-persistence cluster.")
     if actions["count"]:
         recommendations.append("Resolve oldest open action: act, invalidate, or keep watching explicitly.")
     if not recommendations:

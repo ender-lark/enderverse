@@ -1248,15 +1248,22 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* RADAR — endorsed names not owned yet (engine ⑨ radar block) */}
-        <Section id="feedback" title="Feedback loops" icon="🔁" badge={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, oa=f.open_actions||{}; const n=(sc.overdue_count||0)+(oa.count||0); return n?`${n}`:"0"; })()} badgeColor={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, oa=f.open_actions||{}; return ((sc.overdue_count||0)+(oa.count||0))?C.amber:C.faint; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        <Section id="feedback" title="Feedback loops" icon="🔁" badge={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, sp=sc.persistence||{}, oa=f.open_actions||{}; const n=(sc.overdue_count||0)+(sp.loud_count||0)+(sp.provisional_count||0)+(oa.count||0); return n?`${n}`:"0"; })()} badgeColor={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, sp=sc.persistence||{}, oa=f.open_actions||{}; return (sp.loud_count||0)?C.red:((sc.overdue_count||0)+(sp.provisional_count||0)+(oa.count||0))?C.amber:C.faint; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
-            const f=VM.feedback||{}, sc=f.source_calls||{}, oa=f.open_actions||{}, recs=f.recommendations||[];
+            const f=VM.feedback||{}, sc=f.source_calls||{}, cal=sc.calibration||{}, sp=sc.persistence||{}, oa=f.open_actions||{}, recs=f.recommendations||[];
             return (
               <div>
                 <div style={{ ...card, marginBottom:8, borderColor:(sc.overdue_count?C.amber:C.line)+"44" }}>
                   <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>Source scoring</div>
                   <div style={{ fontSize:12.5, color:sc.overdue_count?C.amber:C.dim }}>{sc.line||"Source calls not checked."}</div>
                   {(sc.rates||[]).length>0 && <div style={{ marginTop:7, display:"flex", gap:6, flexWrap:"wrap" }}>{(sc.rates||[]).slice(0,4).map((r,i)=>(<span key={i} style={{ fontFamily:mono, fontSize:10.5, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 7px" }}>{r.source}: {r.hit_rate==null?"n/a":`${Math.round(r.hit_rate*100)}%`} n={r.n}</span>))}</div>}
+                  {(sc.due||[]).length>0 && <div style={{ marginTop:7 }}>{(sc.due||[]).map((it,i)=>(<div key={i} style={{ fontSize:12, color:C.dim, marginBottom:3 }}><span style={{ fontFamily:mono, fontWeight:700, color:C.text }}>{it.ticker}</span> {it.source}{it.tier?` ${it.tier}`:""} scoring overdue {it.overdue_days}d <span style={{ color:C.faint }}>window {it.window_end||"n/a"}</span></div>))}</div>}
+                  {cal.line && <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, fontSize:11.5, color:cal.status==="checked_fresh"?C.green:cal.status==="stale"?C.red:C.amber }}>{cal.line}</div>}
+                  {sp.line && <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}` }}>
+                    <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:4 }}>Source persistence</div>
+                    <div style={{ fontSize:12.5, color:(sp.loud_count||0)?C.red:(sp.provisional_count||0)?C.amber:C.dim }}>{sp.line}</div>
+                    {(sp.clusters||[]).length>0 && <div style={{ marginTop:7 }}>{(sp.clusters||[]).map((it,i)=>(<div key={i} style={{ fontSize:12, color:C.dim, marginBottom:3 }}><span style={{ fontFamily:mono, fontWeight:700, color:it.loud?C.red:it.provisional?C.amber:C.text }}>{it.ticker}</span> {it.source} {it.count}x/{it.within_days}d{it.has_ab?" A/B":""} <span style={{ color:C.faint }}>{it.loud?"LOUD":it.provisional?"PROVISIONAL":it.quiet_reason||"quiet"}</span></div>))}</div>}
+                  </div>}
                 </div>
                 <div style={{ ...card, marginBottom:8, borderColor:(oa.count?C.amber:C.line)+"44" }}>
                   <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>Open action backlog</div>
