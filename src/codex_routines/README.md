@@ -41,7 +41,9 @@ Core rule: routines gather and write convention files; the engine remains pure.
    - Update action memory only after the feed is publish-safe.
 
 6. Off-hours research queue
-   - Process queued research only after the daily action surface is trustworthy.
+   - Normalize supplied/exported Research Queue rows with
+     `research_queue_intake.py`.
+   - Write `research_queue.json` only when queue rows were actually supplied.
    - No trade actions from UW alone.
 
 ## Shared Paths
@@ -50,6 +52,7 @@ Core rule: routines gather and write convention files; the engine remains pure.
 - Fundstrat drop folder: `G:\My Drive\Codex\Investing OS Context\03_Inbox\Fundstrat_Email_Drop`
 - Catalyst drop folder: `G:\My Drive\Codex\Investing OS Context\03_Inbox\Catalyst_Calendar_Drop`
 - Broker PDF drop folder: `G:\My Drive\Codex\Investing OS Context\03_Inbox\Broker_Position_Drop`
+- Research Queue drop folder: `G:\My Drive\Codex\Investing OS Context\03_Inbox\Research_Queue_Drop`
 - Working notes: `G:\My Drive\Codex\Investing OS Context\06_Working_Notes`
 
 ## Activation State

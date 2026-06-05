@@ -47,7 +47,7 @@
       "id": "codex-routine-migration",
       "title": "Replace Claude cloud routines with Codex automations",
       "priority": "P1",
-      "status": "active",
+      "status": "done",
       "area": "routines",
       "why": "Recurring acquisition, synthesis, and research queue work should run from repo-owned Codex routine definitions.",
       "done_when": "All daily/off-hours routines have active Codex automations, repo-owned prompts, and clear not-checked behavior."
