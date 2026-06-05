@@ -14,6 +14,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+from dashboard_preview_server import preview_status
 from live_readiness import readiness_report
 
 
@@ -134,6 +135,7 @@ def build_refresh_summary(
     *,
     preview_out: str | Path | None = None,
     readiness: dict | None = None,
+    preview_server: dict | None = None,
 ) -> dict:
     feed_file = Path(feed_path)
     feed = json.loads(feed_file.read_text(encoding="utf-8"))
@@ -183,6 +185,7 @@ def build_refresh_summary(
             "observed_count": int((source_calls or {}).get("observed_count") or 0),
         },
         "readiness": _readiness_brief(readiness),
+        "preview_server": preview_server or {},
         "dark_lane_details": dark_rows[:5],
     }
 
@@ -215,7 +218,12 @@ def main(argv=None) -> int:
     feed = Path(args.feed_out) if args.feed_out else Path(args.src_dir) / "latest_cockpit_feed.json"
     preview = Path(args.preview_out) if args.preview_out else ROOT / "tmp" / "dashboard_preview.html"
     readiness = readiness_report(args.src_dir)
-    summary = build_refresh_summary(feed, preview_out=preview, readiness=readiness)
+    summary = build_refresh_summary(
+        feed,
+        preview_out=preview,
+        readiness=readiness,
+        preview_server=preview_status(directory=preview.parent),
+    )
     print(json.dumps({"refreshed": True, "steps": results, "summary": summary}, indent=2))
     return 0
 

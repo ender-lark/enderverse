@@ -91,6 +91,11 @@ def test_build_refresh_summary_surfaces_live_state(tmp_path):
             "live_data_ready": True,
             "next_steps": ["Review dark lanes."],
         },
+        preview_server={
+            "url": "http://127.0.0.1:8765/dashboard_preview.html",
+            "preview_exists": True,
+            "server_running": True,
+        },
     )
 
     assert summary["actions"]["count"] == 1
@@ -102,3 +107,4 @@ def test_build_refresh_summary_surfaces_live_state(tmp_path):
     assert summary["source_calls"]["observed_count"] == 3
     assert summary["readiness"]["go_live_ready"] is True
     assert summary["readiness"]["next_steps"] == ["Review dark lanes."]
+    assert summary["preview_server"]["server_running"] is True

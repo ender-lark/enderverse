@@ -62,6 +62,12 @@ This is the main replacement for Claude's FULL-build prompt.
    http://127.0.0.1:8765/dashboard_preview.html
    ```
 
+   If the preview URL is not already being served, run:
+
+   ```bash
+   python src/dashboard_preview_server.py
+   ```
+
 9. If publish fails, do not force-write a feed. Report the publish-gate problems.
 10. Run focused checks:
 

@@ -30,6 +30,13 @@ Local preview:
 http://127.0.0.1:8765/dashboard_preview.html
 ```
 
+To check or start the local preview server:
+
+```powershell
+python src\dashboard_preview_server.py --check
+python src\dashboard_preview_server.py
+```
+
 If `go_live_ready` is false, treat the final summary as the status report and fix the named blocker before using the dashboard for live decisions.
 
 ## Current Source Boundary
@@ -61,6 +68,7 @@ python src\verify_standard.py --include-js
 ## Important Entry Points
 
 - `src\live_dashboard_refresh.py`: one-command local live refresh.
+- `src\dashboard_preview_server.py`: check/start the local dashboard preview server.
 - `src\live_readiness.py`: non-publishing go/no-go report.
 - `src\full_build_runner.py`: builds the Contract-C cockpit feed from convention files.
 - `src\render_cockpit.py`: injects the feed into the canonical JSX cockpit.
