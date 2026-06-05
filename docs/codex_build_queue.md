@@ -175,6 +175,12 @@ until the core logic is stable; Notion sync comes later.
     routine id through scheduled-style receipt mechanics in a temp store and
     verifies the real `src/cloud_routine_receipts.json` proof store is
     untouched; it validates mechanics but does not prove a scheduled run.
+  - Added `python src/cloud_routine_manual_run.py --format text --strict` as
+    the repeatable "run the routines now" path. It runs the active stack with
+    `run_source=manual` receipts, so it proves the routine paths can execute
+    immediately without satisfying scheduled cloud proof. Empty local UW
+    bundles are treated as skipped validation evidence instead of overwriting a
+    populated UW cache with a false checked-clear day.
   - Full Cockpit Build and Post-Close Refresh should use
     `python src/cloud_routine_runner.py --run-source scheduled --routine-id <id> -- python src/live_dashboard_refresh.py`
     as their core command before committing/pushing changed artifacts.

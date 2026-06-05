@@ -297,6 +297,12 @@ Important recent state:
   through scheduled-style receipt mechanics in a temp store and verifies the
   real `src/cloud_routine_receipts.json` proof store is untouched. It validates
   mechanics but does not count as scheduled cloud proof.
+- `src/cloud_routine_manual_run.py --format text --strict` is the repeatable
+  manual "run the routines now" path. It appends `run_source=manual` receipts,
+  runs all ten active routine paths, refreshes the dashboard, and keeps manual
+  execution proof separate from scheduled cloud proof. Empty local UW bundles
+  are skipped instead of overwriting a populated UW cache with checked-clear
+  output.
 - Target Drift now promotes held, materially undersized names into conservative
   `conviction_gap` actions. The current feed surfaces NVDA as a funded
   add/rotation review (`6.6%` actual versus `12.0%` target), while missing

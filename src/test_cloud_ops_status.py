@@ -163,6 +163,7 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     assert "- account_positions: Broker Position Intake | supplied_or_export | broker_position_intake" in text
     assert "missing behavior: Account views are not checked" in text
     assert "Cloud runner drill: python src/cloud_routine_drill.py --format text --strict" in text
+    assert "Manual routine run: python src/cloud_routine_manual_run.py --format text --strict" in text
     assert report["gaps"] == []
 
 

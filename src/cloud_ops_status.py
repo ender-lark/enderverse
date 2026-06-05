@@ -24,6 +24,7 @@ DEFAULT_AUTOMATION_ID = "investing-os-daily-cloud-refresh"
 DEFAULT_AUTOMATION_PROOF = "cloud_automation_status.json"
 DEFAULT_RECEIPT_PROOF = "cloud_routine_receipts.json"
 DRILL_COMMAND = "python src/cloud_routine_drill.py --format text --strict"
+MANUAL_RUN_COMMAND = "python src/cloud_routine_manual_run.py --format text --strict"
 DEFAULT_EXPECTED_AUTOMATIONS = [
     {
         "automation_id": "investing-os-pre-market-source-intake",
@@ -748,6 +749,7 @@ def cloud_ops_status(
             "dark lanes instead of being treated as checked clear."
         ),
         "drill_command": DRILL_COMMAND,
+        "manual_run_command": MANUAL_RUN_COMMAND,
     }
 
 
@@ -861,6 +863,7 @@ def format_text(report: dict[str, Any]) -> str:
                 f"{label} has not reached its next scheduled receipt window yet."
             )
     lines.append(f"Cloud runner drill: {report.get('drill_command') or DRILL_COMMAND}")
+    lines.append(f"Manual routine run: {report.get('manual_run_command') or MANUAL_RUN_COMMAND}")
     gaps = report.get("gaps") or []
     if gaps:
         lines.append("Gaps:")
