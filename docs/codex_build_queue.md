@@ -15,6 +15,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Position-cache normalizer convergence.
+  - `build_positions_cache.py` now uses
+    `outcome_logger.flatten_extractor_snapshot()` for the extractor-to-flat
+    schema bridge before applying the cockpit-specific thesis filter and account
+    aggregation rules.
+  - This closes the older Notion/Claude queue item to wire broker position
+    ingest to the same normalized snapshot seam used by trade-outcome logging.
 - Dark-lane intake command surfacing.
   - `python src/live_status.py --format text` now shows exact intake commands
     for Catalyst Calendar, Signal Log, and manual source-drop validation when

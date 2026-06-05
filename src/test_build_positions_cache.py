@@ -55,6 +55,31 @@ def test_filters_to_thesis_universe():
     assert {p["ticker"] for p in out["positions"]} == {"NVDA"}
 
 
+def test_uses_outcome_logger_flatten_bridge(monkeypatch):
+    called = {"value": False}
+
+    def fake_flatten(doc):
+        called["value"] = True
+        assert doc == {"source": "extractor"}
+        return {
+            "snapshot_date": "2026-05-31",
+            "sleeve_value": 1000,
+            "positions": [
+                {"ticker": "NVDA", "market_value": 500.0, "shares": 2, "account": "Joint"},
+            ],
+        }
+
+    monkeypatch.setattr(bpc.outcome_logger, "flatten_extractor_snapshot", fake_flatten)
+
+    out = bpc.build_positions({"source": "extractor"}, [{"ticker": "NVDA"}])
+
+    assert called["value"] is True
+    assert out["snapshot_date"] == "2026-05-31"
+    assert out["positions"] == [
+        {"ticker": "NVDA", "shares": 2.0, "market_value": 500, "account": "Joint"},
+    ]
+
+
 def test_sleeve_value_includes_cash():
     combined = {"files": [_file([{"symbol": "NVDA", "market_value": 5.0, "quantity": 1, "account_name": "A"}])],
                 "portfolio_summary": {"total_market_value": 1909389.0, "total_cash": 12545.0, "as_of": "2026-05-31"}}

@@ -54,6 +54,8 @@ import sys
 from collections import defaultdict
 from typing import Any, Dict, List, Optional, Tuple
 
+import outcome_logger
+
 
 # ----------------------------------------------------------------------------- helpers
 def _date_only(as_of: Optional[str]) -> Optional[str]:
@@ -71,13 +73,6 @@ def _thesis_universe(theses: List[Dict[str, Any]]) -> set:
         if tk:
             out.add(tk)
     return out
-
-
-def _iter_position_rows(combined: Dict[str, Any]):
-    """Yield every position row across all files (positions live in files[]->positions[])."""
-    for f in combined.get("files", []) or []:
-        for p in f.get("positions", []) or []:
-            yield p
 
 
 def _validation_warnings(combined: Dict[str, Any]) -> List[str]:
@@ -106,27 +101,34 @@ def _validation_warnings(combined: Dict[str, Any]) -> List[str]:
 # ----------------------------------------------------------------------------- core
 def build_positions(combined: Dict[str, Any],
                     theses: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """Pure transform: combined-extractor-JSON + theses -> positions.json dict."""
+    """Pure transform: combined-extractor-JSON + theses -> positions.json dict.
+
+    The extractor-to-flat schema bridge is owned by outcome_logger so position
+    ingest and trade-diff logging cannot drift on symbol/share/account mapping.
+    This function then applies the engine-specific rules: thesis-universe
+    filtering, ticker aggregation, and the Multiple-account convention.
+    """
     universe = _thesis_universe(theses)
+    flat = outcome_logger.flatten_extractor_snapshot(combined)
 
     mv_by_ticker: Dict[str, float] = defaultdict(float)
     sh_by_ticker: Dict[str, float] = defaultdict(float)
     accts_by_ticker: Dict[str, set] = defaultdict(set)
 
-    for p in _iter_position_rows(combined):
-        sym = (p.get("symbol") or "").upper().strip()
+    for p in flat.get("positions", []) or []:
+        sym = (p.get("ticker") or "").upper().strip()
         if not sym or sym not in universe:
             continue
         mv = p.get("market_value")
-        if mv is None:
+        if mv is None or float(mv) <= 0:
             # unpriced rights/warrants -> no MV to aggregate; skip from the cache
             continue
         mv_by_ticker[sym] += float(mv)
-        q = p.get("quantity")
+        q = p.get("shares")
         if q is not None:
             sh_by_ticker[sym] += float(q)
-        acct = (p.get("account_name") or "").strip()
-        if acct:
+        acct = (p.get("account") or "").strip()
+        if acct and acct.lower() != "aggregate":
             accts_by_ticker[sym].add(acct)
 
     positions: List[Dict[str, Any]] = []
@@ -145,13 +147,9 @@ def build_positions(combined: Dict[str, Any],
             "account": account,
         })
 
-    summary = combined.get("portfolio_summary", {}) or {}
-    total_mv = float(summary.get("total_market_value", 0) or 0)
-    total_cash = float(summary.get("total_cash", 0) or 0)
-
     return {
-        "snapshot_date": _date_only(summary.get("as_of")),
-        "sleeve_value": round(total_mv + total_cash),
+        "snapshot_date": _date_only(flat.get("snapshot_date")),
+        "sleeve_value": round(float(flat.get("sleeve_value") or 0)),
         "positions": positions,
     }
 
