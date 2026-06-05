@@ -196,6 +196,9 @@ Important recent state:
   live-capable input owner, missing-data behavior, and expected repo path for
   those optional source gaps. Current gaps are `src/account_positions.json` and
   `src/meridian_items.json`.
+- `python src/live_status.py --format text` and
+  `python src/cloud_ops_status.py --format text` now include the same detailed
+  missing live-capable input lines.
 - `src/cloud_ops_status.py --format text` is the operator check for unattended
   cloud ops. It distinguishes local go-live readiness from the installed Codex
   app automation stack. The previous generic

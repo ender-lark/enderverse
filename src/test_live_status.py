@@ -29,6 +29,16 @@ def _readiness(**overrides):
             "connector_or_api_count": 5,
             "supplied_or_export_count": 8,
             "missing_live_capable_count": 1,
+            "missing_live_capable_keys": ["account_positions"],
+            "rows": [{
+                "key": "account_positions",
+                "present": False,
+                "source": "broker_position_intake",
+                "routine_title": "Broker Position Intake",
+                "primary_mode": "supplied_or_export",
+                "candidate_paths": ["src/account_positions.json"],
+                "missing_behavior": "Account views are not checked; do not imply no account-level breakdown.",
+            }],
         },
         "next_steps": ["Review dark lanes."],
     }
@@ -179,6 +189,9 @@ def test_format_text_is_operator_scannable():
     assert "top_action=event_risk: Review oil shock" in text
     assert "Source calls: not_checked | observed=3 | pending=0 | overdue=0" in text
     assert "Live source capability: inputs=18/21 | connector_or_api=5 | supplied_or_export=8 | missing_live_capable=1" in text
+    assert "- account_positions: Broker Position Intake | supplied_or_export | broker_position_intake" in text
+    assert "missing behavior: Account views are not checked" in text
+    assert "expected path: src/account_positions.json" in text
     assert "Active event watch: high | Oil shock | channels=oil, rates | tickers=XOP, TNX | trigger=WTI spike" in text
     assert "Sudden event command:" in text
     assert "python src/sudden_event_refresh.py --title \"<event headline>\"" in text

@@ -126,6 +126,16 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
             "connector_or_api_count": 5,
             "supplied_or_export_count": 8,
             "missing_live_capable_count": 1,
+            "missing_live_capable_keys": ["account_positions"],
+            "rows": [{
+                "key": "account_positions",
+                "present": False,
+                "source": "broker_position_intake",
+                "routine_title": "Broker Position Intake",
+                "primary_mode": "supplied_or_export",
+                "candidate_paths": ["src/account_positions.json"],
+                "missing_behavior": "Account views are not checked; do not imply no account-level breakdown.",
+            }],
         },
         "open_actions": {"count": 0, "tickers": []},
     })
@@ -150,6 +160,8 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     assert report["cloud_automation"]["matches"][0]["evidence_type"] == "repo_proof"
     assert report["source_capability"]["connector_or_api_count"] == 5
     assert "Live source capability: inputs=18/21 | connector_or_api=5 | supplied_or_export=8 | missing_live_capable=1" in text
+    assert "- account_positions: Broker Position Intake | supplied_or_export | broker_position_intake" in text
+    assert "missing behavior: Account views are not checked" in text
     assert "Cloud runner drill: python src/cloud_routine_drill.py --format text --strict" in text
     assert report["gaps"] == []
 

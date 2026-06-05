@@ -75,6 +75,10 @@ until the core logic is stable; Notion sync comes later.
   - The text readout now prints missing live-capable inputs with source/routine
     ownership, missing-data behavior, and expected repo paths. Current missing
     live-capable inputs are `account_positions` and `meridian`.
+  - `python src/live_status.py --format text` and
+    `python src/cloud_ops_status.py --format text` also surface those detailed
+    missing live-source lines, so operator/cloud checks do not require a
+    separate command to know which source file is absent.
 - Cloud routine run receipts.
   - Added `src/cloud_routine_receipts.py` and
     `src/cloud_routine_receipts.json` so scheduled jobs can append auditable

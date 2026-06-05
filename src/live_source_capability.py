@@ -198,39 +198,46 @@ def format_text(report: dict[str, Any]) -> str:
             f"missing_live_capable={int(report.get('missing_live_capable_count') or 0)}"
         ),
     ]
-    missing = report.get("missing_live_capable_keys") or []
-    if missing:
-        lines.append("Missing live-capable inputs:")
-        rows_by_key = {
-            str(row.get("key") or ""): row
-            for row in report.get("rows") or []
-            if isinstance(row, dict)
-        }
-        for key in missing:
-            row = rows_by_key.get(str(key), {})
-            source = str(row.get("source") or "")
-            owner = str(row.get("routine_title") or row.get("routine_id") or source or "unowned")
-            bits = [
-                owner,
-                str(row.get("primary_mode") or ""),
-            ]
-            if source and source != owner:
-                bits.append(source)
-            lines.append(f"- {key}: " + " | ".join(bit for bit in bits if bit))
-            missing_behavior = str(row.get("missing_behavior") or "")
-            if missing_behavior:
-                lines.append(f"  missing behavior: {missing_behavior}")
-            candidate_paths = [
-                str(path)
-                for path in (row.get("candidate_paths") or [])[:3]
-                if path
-            ]
-            if candidate_paths:
-                lines.append("  expected path: " + ", ".join(candidate_paths))
+    lines.extend(format_missing_live_capable(report))
     if report.get("problems"):
         lines.append("Problems:")
         lines.extend(f"- {problem}" for problem in report.get("problems") or [])
     return "\n".join(lines)
+
+
+def format_missing_live_capable(report: dict[str, Any]) -> list[str]:
+    """Return human-readable detail lines for missing live-capable inputs."""
+    missing = report.get("missing_live_capable_keys") or []
+    if not missing:
+        return []
+    lines = ["Missing live-capable inputs:"]
+    rows_by_key = {
+        str(row.get("key") or ""): row
+        for row in report.get("rows") or []
+        if isinstance(row, dict)
+    }
+    for key in missing:
+        row = rows_by_key.get(str(key), {})
+        source = str(row.get("source") or "")
+        owner = str(row.get("routine_title") or row.get("routine_id") or source or "unowned")
+        bits = [
+            owner,
+            str(row.get("primary_mode") or ""),
+        ]
+        if source and source != owner:
+            bits.append(source)
+        lines.append(f"- {key}: " + " | ".join(bit for bit in bits if bit))
+        missing_behavior = str(row.get("missing_behavior") or "")
+        if missing_behavior:
+            lines.append(f"  missing behavior: {missing_behavior}")
+        candidate_paths = [
+            str(path)
+            for path in (row.get("candidate_paths") or [])[:3]
+            if path
+        ]
+        if candidate_paths:
+            lines.append("  expected path: " + ", ".join(candidate_paths))
+    return lines
 
 
 def main(argv=None) -> int:

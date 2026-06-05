@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 import codex_routine_manifest
 import cloud_routine_receipts
 import live_status as live_status_mod
+import live_source_capability
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -770,6 +771,7 @@ def format_text(report: dict[str, Any]) -> str:
             f"current={int(receipt_due.get('current_count') or 0)}"
         ),
     ]
+    lines.extend(live_source_capability.format_missing_live_capable(source_capability))
     if next_due:
         label = next_due.get("routine_name") or next_due.get("routine_id") or "unknown"
         lines.append(f"Next expected receipt: {label} at {next_due.get('next_due_at') or ''}")

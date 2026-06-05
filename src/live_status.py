@@ -10,6 +10,7 @@ from typing import Any
 import action_memory_resolve as action_resolver
 import dashboard_preview_server as preview_server
 import live_readiness
+import live_source_capability
 import open_opportunities
 import system_improvement_queue as queue_mod
 from event_risk import active_event_watch
@@ -260,6 +261,7 @@ def format_text(status: dict[str, Any]) -> str:
             f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}"
         ),
     ]
+    lines.extend(live_source_capability.format_missing_live_capable(source_capability))
     event_watch = data_flow.get("event_watch") or {}
     if event_watch.get("active"):
         channels = _join_values(event_watch.get("channels") or [])
