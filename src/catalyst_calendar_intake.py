@@ -11,6 +11,7 @@ import argparse
 import csv
 import json
 import os
+import sys
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -54,19 +55,74 @@ def _atomic_write_json(path: str | Path, payload: Any) -> Path:
 
 
 def _date_text(value: Any) -> str:
+    value = _property_value(value)
     if isinstance(value, dict):
         value = value.get("start") or value.get("date") or value.get("plain_text")
     text = str(value or "").strip()
     return text[:10] if text else ""
 
 
+def _text_from_chunks(chunks: Any) -> str:
+    if not isinstance(chunks, list):
+        return ""
+    out = []
+    for chunk in chunks:
+        if not isinstance(chunk, dict):
+            continue
+        text = chunk.get("plain_text")
+        if text is None and isinstance(chunk.get("text"), dict):
+            text = chunk["text"].get("content")
+        if text:
+            out.append(str(text))
+    return "".join(out).strip()
+
+
+def _property_value(value: Any) -> Any:
+    """Collapse common Notion/connector property envelopes into scalar values."""
+    if not isinstance(value, dict):
+        return value
+    typ = value.get("type")
+    if typ == "title" or "title" in value:
+        text = _text_from_chunks(value.get("title"))
+        if text:
+            return text
+    if typ == "rich_text" or "rich_text" in value:
+        text = _text_from_chunks(value.get("rich_text"))
+        if text:
+            return text
+    if typ == "date" or "date" in value:
+        date_value = value.get("date")
+        if isinstance(date_value, dict):
+            return date_value.get("start") or date_value.get("end") or ""
+        return date_value
+    if typ == "select" or "select" in value:
+        selected = value.get("select")
+        if isinstance(selected, dict):
+            return selected.get("name") or selected.get("plain_text") or ""
+    if typ == "multi_select" or "multi_select" in value:
+        selected = value.get("multi_select")
+        if isinstance(selected, list):
+            return ", ".join(str(v.get("name")) for v in selected if isinstance(v, dict) and v.get("name"))
+    if "plain_text" in value:
+        return value.get("plain_text")
+    return value
+
+
+def _row_props(row: dict) -> dict:
+    props = row.get("properties")
+    return props if isinstance(props, dict) else {}
+
+
 def _first(row: dict, keys: tuple[str, ...]) -> Any:
-    for key in keys:
-        if key in row and row.get(key) not in (None, ""):
-            return row.get(key)
-        for actual in row:
-            if str(actual).strip().lower() == key.lower() and row.get(actual) not in (None, ""):
-                return row.get(actual)
+    for source in (row, _row_props(row)):
+        for key in keys:
+            if key in source and _property_value(source.get(key)) not in (None, ""):
+                return _property_value(source.get(key))
+            for actual in source:
+                if str(actual).strip().lower() == key.lower():
+                    value = _property_value(source.get(actual))
+                    if value not in (None, ""):
+                        return value
     return None
 
 
@@ -92,7 +148,11 @@ def _rows_from_payload(payload: Any) -> list[dict]:
     if isinstance(payload, list):
         return [r for r in payload if isinstance(r, dict)]
     if isinstance(payload, dict):
-        for key in ("catalysts", "events", "rows", "results", "data"):
+        if isinstance(payload.get("result"), list):
+            return [r for r in payload["result"] if isinstance(r, dict)]
+        if isinstance(payload.get("result"), dict):
+            return _rows_from_payload(payload["result"])
+        for key in ("catalysts", "events", "rows", "results", "data", "items", "pages", "records"):
             rows = payload.get(key)
             if isinstance(rows, list):
                 return [r for r in rows if isinstance(r, dict)]
@@ -110,6 +170,13 @@ def load_catalyst_rows(paths: list[str | Path]) -> list[dict]:
         else:
             rows.extend(_rows_from_payload(_read_json(path, default=[])))
     return rows
+
+
+def load_catalyst_rows_from_stdin() -> list[dict]:
+    text = sys.stdin.read()
+    if not text.strip():
+        return []
+    return _rows_from_payload(_strip_comments(json.loads(text)))
 
 
 def merge_catalysts(existing: list[dict] | None, new_rows: list[dict] | None,
@@ -164,12 +231,17 @@ def main(argv=None) -> int:
     parser.add_argument("--merge-existing", action="store_true")
     parser.add_argument("--default-source", default="Catalyst Calendar")
     parser.add_argument("--generated-at")
+    parser.add_argument("--stdin-json", action="store_true",
+                        help="Read Catalyst Calendar rows/envelope from stdin")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
-    if not args.inputs:
-        parser.error("provide at least one Catalyst Calendar JSON/CSV input")
-    incoming = load_catalyst_rows(args.inputs)
+    if not args.inputs and not args.stdin_json:
+        parser.error("provide at least one Catalyst Calendar JSON/CSV input or --stdin-json")
+    incoming = []
+    if args.stdin_json:
+        incoming.extend(load_catalyst_rows_from_stdin())
+    incoming.extend(load_catalyst_rows(args.inputs))
     existing = _read_json(args.out, default=[]) if args.merge_existing else []
     merged, summary = merge_catalysts(
         existing,

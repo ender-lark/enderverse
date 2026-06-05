@@ -87,6 +87,15 @@
       "area": "architecture",
       "why": "Bad source stamps or inconsistent collection metadata can silently contaminate action surfacing before the publish gate ever sees a feed.",
       "done_when": "Full-build and runtime skeleton paths fail closed on malformed Contract-B snapshots, bad run/source stamps, critical missing sources, and staleness/source-failure drift."
+    },
+    {
+      "id": "connector-shaped-catalyst-intake",
+      "title": "Accept live connector-shaped Catalyst Calendar rows",
+      "priority": "P1",
+      "status": "done",
+      "area": "routines",
+      "why": "Near-term catalysts should become durable ACT_NOW review items without requiring a manual calendar export shape.",
+      "done_when": "Catalyst intake accepts stdin connector envelopes, flattens Notion-style properties, writes catalysts.json, and preserves full-build ownership of action promotion."
     }
   ]
 }

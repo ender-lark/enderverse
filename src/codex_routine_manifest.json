@@ -66,6 +66,10 @@
         {
           "id": "ingest_calendar_rows",
           "command": "python src/catalyst_calendar_intake.py <files> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing"
+        },
+        {
+          "id": "stdin_connector_rows",
+          "command": "python src/catalyst_calendar_intake.py --stdin-json --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing"
         }
       ],
       "verification": "python -m pytest src/test_catalyst_calendar_intake.py src/test_catalyst_lane.py src/test_act_now_surfacing.py -q",

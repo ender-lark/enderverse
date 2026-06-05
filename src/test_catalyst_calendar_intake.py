@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -49,6 +50,36 @@ def test_normalize_catalyst_row_accepts_export_aliases():
     }
 
 
+def test_normalize_catalyst_row_accepts_notion_properties():
+    row = normalize_catalyst_row({
+        "properties": {
+            "Tickers": {
+                "type": "multi_select",
+                "multi_select": [{"name": "AVGO"}, {"name": "NVDA"}],
+            },
+            "Event Date": {
+                "type": "date",
+                "date": {"start": "2026-06-06T00:00:00+00:00"},
+            },
+            "Name": {
+                "type": "title",
+                "title": [{"plain_text": "Q2 earnings"}],
+            },
+            "Source": {
+                "type": "select",
+                "select": {"name": "Company calendar"},
+            },
+        }
+    })
+
+    assert row == {
+        "ticker": "AVGO, NVDA",
+        "date": "2026-06-06",
+        "label": "Q2 earnings",
+        "source": "Company calendar",
+    }
+
+
 def test_load_catalyst_rows_accepts_json_and_csv(tmp_path):
     js = tmp_path / "catalysts.json"
     csvp = tmp_path / "catalysts.csv"
@@ -89,6 +120,44 @@ def test_cli_writes_catalysts_and_summary(tmp_path):
     ]) == 0
     assert json.loads(out.read_text(encoding="utf-8"))[0]["ticker"] == "AVGO"
     assert json.loads(summary.read_text(encoding="utf-8"))["stored"] == 1
+
+
+def test_cli_stdin_accepts_connector_result_envelope(tmp_path):
+    out = tmp_path / "catalysts.json"
+    summary = tmp_path / "summary.json"
+    payload = json.dumps({
+        "result": [{
+            "properties": {
+                "Ticker": {"type": "title", "title": [{"plain_text": "AVGO"}]},
+                "Date": {"type": "date", "date": {"start": "2026-06-06"}},
+                "Event": {"type": "rich_text", "rich_text": [{"plain_text": "Q2 earnings"}]},
+            }
+        }]
+    })
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            os.path.join(os.path.dirname(__file__), "catalyst_calendar_intake.py"),
+            "--stdin-json",
+            "--out", str(out),
+            "--summary", str(summary),
+            "--generated-at", "2026-06-05T14:00:00+00:00",
+        ],
+        input=payload,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    assert json.loads(out.read_text(encoding="utf-8"))[0] == {
+        "ticker": "AVGO",
+        "date": "2026-06-06",
+        "label": "Q2 earnings",
+        "source": "Catalyst Calendar",
+    }
+    assert json.loads(summary.read_text(encoding="utf-8"))["input_rows"] == 1
 
 
 def test_intake_output_reaches_full_build_actions(tmp_path):

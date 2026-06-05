@@ -10,12 +10,15 @@ catalyst inside the action horizon must become a durable cockpit action through
 
 - Preferred: exported Catalyst Calendar rows from Notion or another calendar
   source.
+- Live connector rows may be piped as JSON via stdin. The intake accepts flat
+  rows or Notion-style rows with a `properties` envelope.
 - Fallback: files in
   `G:\My Drive\Codex\Investing OS Context\03_Inbox\Catalyst_Calendar_Drop`.
 
 Accepted file types:
 
 - `.json` containing a list or `{events:[...]}` / `{rows:[...]}`
+- connector envelopes such as `{result:[...]}` / `{results:[...]}`
 - `.csv` with ticker/date/label-like headers
 
 ## Procedure
@@ -27,6 +30,12 @@ Accepted file types:
 
    ```bash
    python src/catalyst_calendar_intake.py <files> --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing
+   ```
+
+   For live connector rows, pipe the connector result:
+
+   ```bash
+   python src/catalyst_calendar_intake.py --stdin-json --out src/catalysts.json --summary src/catalyst_intake_summary.json --merge-existing
    ```
 
 4. Run focused checks:

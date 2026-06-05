@@ -6,11 +6,19 @@ until the core logic is stable; Notion sync comes later.
 ## Active Slice
 
 - Completion audit and next-slice discovery.
-  - Re-check older refinement notes after the L2-to-L3 collection gate slice.
+  - Re-check older refinement notes after the connector-shaped Catalyst intake
+    slice.
   - Promote the next self-contained repo slice if one remains.
 
 ## Recently Completed
 
+- Connector-shaped Catalyst intake.
+  - `catalyst_calendar_intake.py` now accepts live connector/stdin JSON
+    envelopes as well as exported JSON/CSV files.
+  - Notion-style `properties` rows are flattened for ticker/date/label/source
+    fields.
+  - Catalyst rows still flow through `catalysts.json`; full build owns action
+    promotion and MONITOR guardrails.
 - L2-to-L3 collection gate.
   - Added `collection_gate.py` as the Collection-to-Analyst handoff validator.
   - Layered Contract-B shape, parseable run/source stamps, critical-source
