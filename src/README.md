@@ -206,9 +206,10 @@ Dashboard canonicalization:
   `feed_to_cockpit.js` (the node-tested source of truth). A drift check (extract v5's seam →
   deep-compare) keeps them identical. Future option: have the repo build `import` the seam to drop
   the copy entirely.
-- **③ conflict wording.** The conflict headline says "cross-source split" even when the split is
-  intra-source (e.g. BMNR = Lee vs Farrell, both Fundstrat = one independence group). The enums are
-  correct (Mixed / flat); the wording refinement is pending.
+- **Conflict wording** -- refined 2026-06-05. The net-read now distinguishes a
+  true cross-source split from same-source analyst disagreement (for example,
+  BMNR Lee vs Farrell inside Fundstrat), while preserving the same Mixed / flat
+  enums.
 - **Macro implications are empty on a calm regime** (honest). Richer per-sector implications are a
   future enhancement.
 - **v4 hand-curated content** (rich rotation notes, macro sector-implications, catalyst taglines) is

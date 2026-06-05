@@ -71,6 +71,28 @@ def test_conviction_mixed_on_cross_source_conflict():
     ]
     out = conviction_read("UUUU", th, cards)
     assert out["cv"] == "Mixed" and out["conflict"] is True
+    assert out["conflict_scope"] == "cross_source"
+    assert "cross-source split" in out["reason"]
+
+
+def test_conviction_mixed_same_source_conflict_is_not_cross_source():
+    # Lee vs Farrell are two Fundstrat voices inside one independence group.
+    th = _thesis("BMNR", source="operator", lane="Generational", tier="T1",
+                 stance="MONITOR", tags=("crypto",))
+    cards = [
+        _call("BMNR", "bottom_in", source="fundstrat_daily", grp="fundstrat",
+              trust=0.70, event="bottom_in"),
+        _call("BMNR", "struggling", source="fundstrat_daily", grp="fundstrat",
+              trust=0.65, event="unfavorable_shift"),
+    ]
+    cards[0].data["analyst"] = "Lee"
+    cards[1].data["analyst"] = "Farrell"
+    out = conviction_read("BMNR", th, cards)
+    assert out["cv"] == "Mixed" and out["conflict"] is True
+    assert out["conflict_scope"] == "same_source"
+    assert out["conflict_detail"] == "Lee vs Farrell"
+    assert "same-source split" in out["reason"]
+    assert "cross-source split" not in out["reason"]
 
 
 def test_conviction_burned_single_source_capped_from_strong():
@@ -214,9 +236,11 @@ def test_direction_ignores_model_and_other_tickers():
 from analyst_judgment import net_read, fresh_signal_read
 
 
-def _conv(cv, conflict=False, burned=False, durable=False):
+def _conv(cv, conflict=False, burned=False, durable=False, conflict_scope="", conflict_label="", conflict_detail=""):
     return {"ticker": "X", "cv": cv, "streams": 1, "conflict": conflict,
-            "burned": burned, "durable": durable, "reason": ""}
+            "burned": burned, "durable": durable, "reason": "",
+            "conflict_scope": conflict_scope, "conflict_label": conflict_label,
+            "conflict_detail": conflict_detail}
 
 
 def test_net_no_thesis_asks_for_a_line():
@@ -238,6 +262,18 @@ def test_net_burned_surfaces_split_when_conflicted():
     weighted = {"voices": [{"source": "meridian"}, {"source": "fundstrat_bible"}]}
     out = net_read("UUUU", th, _conv("Mixed", conflict=True, burned=True), weighted=weighted)
     assert out["basis"] == "burned_override" and "split" in out["nr"]
+
+
+def test_net_burned_same_source_split_uses_same_source_wording():
+    th = _thesis("BMNR", source="operator", lane="Generational", tier="T1", stance="MONITOR")
+    conv = _conv("Mixed", conflict=True, burned=True,
+                 conflict_scope="same_source",
+                 conflict_label="same-source split",
+                 conflict_detail="Lee vs Farrell")
+    out = net_read("BMNR", th, conv, weighted={"voices": [{"source": "fundstrat_daily"}]})
+    assert out["basis"] == "burned_override"
+    assert "same-source split (Lee vs Farrell)" in out["nr"]
+    assert "cross-source split" not in out["nr"]
 
 
 def test_net_parabolic_dont_trim_on_move():

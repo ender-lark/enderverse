@@ -12,6 +12,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Conflict wording refinement.
+  - Preserved `Mixed` conflict handling while adding source-scope/detail to the
+    conviction read.
+  - Cross-source examples still say cross-source split; same-source Lee/Farrell
+    disagreement now says same-source split.
+  - Refreshed the golden feed so BMNR no longer reads like independent-source
+    disagreement.
 - Generated HTML summary safety.
   - Added a summary/export caveat to the generated GitHub Pages dashboard.
   - Rendered lane-status counts/top rows and compact feedback-loop lines.

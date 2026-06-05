@@ -123,6 +123,15 @@
       "area": "dashboard",
       "why": "The static GitHub Pages summary can be seen before the canonical cockpit, so empty actions plus not-checked lanes must not look like a clean day.",
       "done_when": "Generated HTML labels itself as a summary/export view, surfaces lane-status and feedback context, and shows a caveat when Today's Actions is empty with dark or stale lanes."
+    },
+    {
+      "id": "conflict-wording-scope",
+      "title": "Distinguish cross-source from same-source conflict wording",
+      "priority": "P2",
+      "status": "done",
+      "area": "analyst",
+      "why": "Mixed conviction can come from independent source disagreement or from two analysts inside one source group; the action read should not overstate independence.",
+      "done_when": "The analyst read preserves conflict scope/detail, cross-source cases still say cross-source split, and same-source Lee/Farrell disagreement renders as same-source split without changing Mixed/flat logic."
     }
   ]
 }

@@ -95,6 +95,25 @@ def _sentiment(card) -> str:
     return "neutral"
 
 
+def _voice_name(card) -> str:
+    data = getattr(card, "data", None) or {}
+    return str(data.get("analyst") or getattr(card, "source", None)
+               or getattr(card, "independence_group", None) or "source")
+
+
+def _conflict_profile(cards) -> dict:
+    bull = [c for c in cards if _sentiment(c) == "bullish"]
+    bear = [c for c in cards if _sentiment(c) == "bearish"]
+    bull_groups = {getattr(c, "independence_group", None) for c in bull}
+    bear_groups = {getattr(c, "independence_group", None) for c in bear}
+    cross_source = any(bg != rg for bg in bull_groups for rg in bear_groups)
+    left = _voice_name(bull[0]) if bull else "bullish voice"
+    right = _voice_name(bear[0]) if bear else "bearish voice"
+    scope = "cross_source" if cross_source else "same_source"
+    label = "cross-source split" if cross_source else "same-source split"
+    return {"scope": scope, "label": label, "detail": f"{left} vs {right}"}
+
+
 # =========================================================================== #
 # ① Conviction (quality) — Strong / Promising / Mixed / Weak / —  (cockpit `cv`)
 # =========================================================================== #
@@ -119,7 +138,7 @@ def _has_durable_anchor(thesis, endorsements) -> bool:
 def conviction_read(ticker, thesis, cards) -> dict:
     """① quality grade for one held name. Encoded procedure (Build Plan Part-2b):
       • no backing (no thesis, no endorsement)          → "—"  (never fabricate)
-      • cross-source conflict (a bull AND a bear voice)  → Mixed
+      • source conflict (a bull AND a bear voice)        → Mixed
       • durable anchor, not burned                       → Strong
       • durable anchor, burned: ≥2 streams Strong else   → Promising  (burned cap)
       • real named backing (a thesis or endorsement)     → Promising
@@ -138,13 +157,14 @@ def conviction_read(ticker, thesis, cards) -> dict:
     streams = len({getattr(c, "independence_group", None) for c in endorsements})
     sentiments = {_sentiment(c) for c in endorsements}
     conflict = "bullish" in sentiments and "bearish" in sentiments
+    conflict_profile = _conflict_profile(endorsements) if conflict else {}
     burned = bool(thesis and thesis.get("stance") == "MONITOR")
     durable = _has_durable_anchor(thesis, endorsements)
     src = (thesis or {}).get("source")
 
     if conflict:
         cv = "Mixed"
-        reason = ("real but offsetting — cross-source split"
+        reason = ("real but offsetting — " + conflict_profile.get("label", "source split")
                   + (" (burned sleeve)" if burned else "") + "; hold, no add")
     elif durable and not burned:
         # a durable anchor resting on a SINGLE correlated source with no thesis of
@@ -171,6 +191,9 @@ def conviction_read(ticker, thesis, cards) -> dict:
                   if cv == "Promising" else "thin / low-trust signal only — small or skip")
 
     return {"ticker": ticker, "cv": cv, "streams": streams, "conflict": conflict,
+            "conflict_scope": conflict_profile.get("scope", ""),
+            "conflict_label": conflict_profile.get("label", ""),
+            "conflict_detail": conflict_profile.get("detail", ""),
             "burned": burned, "durable": durable, "reason": reason}
 
 
@@ -303,9 +326,19 @@ def conviction_direction_read(ticker, cards, as_of,
 # =========================================================================== #
 # ③ Net-read — the plain "what to do" headline (cockpit `nr`)
 # =========================================================================== #
-def _conflict_detail(weighted) -> str:
-    """A short 'X vs Y' naming the two sides of a cross-source split, from the
-    ⑩ weighted voices. Falls back gracefully when voices aren't supplied."""
+def _conflict_label(conviction: dict) -> str:
+    return conviction.get("conflict_label") or "cross-source split"
+
+
+def _conflict_detail(weighted, conviction: dict | None = None) -> str:
+    """A short 'X vs Y' naming the two sides of a source split.
+
+    Prefer the conviction profile because it preserves same-source analyst
+    splits before ⑩ weighting collapses voices by independence group. Falls back
+    gracefully to weighted voices when older callers don't provide that profile.
+    """
+    if conviction and conviction.get("conflict_detail"):
+        return conviction["conflict_detail"]
     if not weighted:
         return "two sides"
     voices = weighted.get("voices") or []
@@ -324,7 +357,7 @@ def net_read(ticker, thesis, conviction, rotation_label=None,
                                            catch-up; surfaces the split if conflicted)
       3. parabolic                       → don't-trim-on-the-move (a trim is your
                                            de-concentration call, not weakness)
-      4. cross-source conflict           → hold, the split is X, no add
+      4. source conflict                 → hold, the split is X, no add
       5. endorsed + lagging              → catch-up, favorable entry, no rush  (lagging ≠ bearish)
       6. endorsed + leading              → ride it (+ under-sizing lens on the AI sleeve)
 
@@ -342,9 +375,10 @@ def net_read(ticker, thesis, conviction, rotation_label=None,
                 "nr": "Core hold but undocumented — give me a line."}
 
     if burned:
-        split = _conflict_detail(weighted) if conflict else None
+        split = _conflict_detail(weighted, conviction) if conflict else None
+        label = _conflict_label(conviction)
         nr = ("Hold light — burned sleeve"
-              + (f" + cross-source split ({split})" if split else "")
+              + (f" + {label} ({split})" if split else "")
               + "; watch for YOUR re-entry trigger, no add on a source call.")
         return {"ticker": ticker, "basis": "burned_override", "nr": nr}
 
@@ -353,9 +387,10 @@ def net_read(ticker, thesis, conviction, rotation_label=None,
                 "nr": "Hold — parabolic; do NOT trim on the move, only on a named break (your rule)."}
 
     if conflict:
-        split = _conflict_detail(weighted)
+        split = _conflict_detail(weighted, conviction)
+        label = _conflict_label(conviction)
         return {"ticker": ticker, "basis": "conflict",
-                "nr": f"Hold — cross-source split ({split}); no add until it resolves."}
+                "nr": f"Hold — {label} ({split}); no add until it resolves."}
 
     if rotation_label in CATCH_UP_ROTATION_LABELS:
         return {"ticker": ticker, "basis": "catch_up",

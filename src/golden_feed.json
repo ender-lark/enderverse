@@ -163,10 +163,10 @@
     ],
     "counts": {
       "stale": 0,
-      "not_checked": 7,
-      "checked_clear": 0,
+      "has_data": 6,
       "failed": 0,
-      "has_data": 6
+      "checked_clear": 0,
+      "not_checked": 7
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -561,7 +561,7 @@
           "fresh": false,
           "cd": "down",
           "cdNote": "05-28 fundstrat_bible new_bottom5",
-          "nr": "Hold light \u2014 burned sleeve + cross-source split (fundstrat_bible vs meridian); watch for YOUR re-entry trigger, no add on a source call.",
+          "nr": "Hold light \u2014 burned sleeve + cross-source split (meridian vs fundstrat_bible); watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
               "Meridian \u00b7 critical_minerals, uranium"
@@ -617,7 +617,7 @@
           "fresh": false,
           "cd": "flat",
           "cdNote": "05-28 fundstrat_daily bottom_in vs 05-28 fundstrat_daily unfavorable_shift \u2014 net flat",
-          "nr": "Hold light \u2014 burned sleeve + cross-source split (fundstrat_daily); watch for YOUR re-entry trigger, no add on a source call.",
+          "nr": "Hold light \u2014 burned sleeve + same-source split (Lee vs Farrell); watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
               "operator \u00b7 crypto, eth"

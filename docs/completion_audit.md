@@ -18,13 +18,13 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Evidence
 
 - Git working tree was clean before the audit slice.
-- `python src/system_improvement_queue.py` passed and reported 13 tracked queue
-  items as done after the generated HTML summary-safety slice.
+- `python src/system_improvement_queue.py` passed and reported 14 tracked queue
+  items as done after the conflict wording slice.
 - `python src/codex_routine_manifest.py` passed with six active routine
   definitions across source intake, market data refresh, and feed build/publish.
 - Dashboard parity guardrail tests passed.
 - `python src/verify_standard.py --include-js` passed:
-  - broad `src` suite excluding retired `src/test_reallocate.py`: 823 passed,
+  - broad `src` suite excluding retired `src/test_reallocate.py`: 825 passed,
     6 skipped
   - rebuilt reallocate direct check: OK
   - cockpit injector self-test: PASS
@@ -34,6 +34,8 @@ enough to hand control back, using current repo state as evidence. It covers:
 ## Completed Repo-Local Slices
 
 - Dashboard parity review and dashboard feed-block guardrail.
+- Conflict wording refinement: same-source analyst disagreement no longer
+  displays as a cross-source split.
 - Generated HTML summary/export safety: empty actions plus dark lanes now render
   a caveat, lane-status counts/top rows, and compact feedback-loop context.
 - Signal Log watch-only lane and dashboard parity classification.
@@ -50,12 +52,11 @@ enough to hand control back, using current repo state as evidence. It covers:
 The active build queue has no queued implementation slice, but discovery still
 finds older refinement notes in `src/ARCHITECTURE.md` and `src/README.md`.
 Completed notes now include From-Research priority labeling, shared ActionCard,
-L2-to-L3 validation, Signal Log lane design, and generated HTML summary safety.
+L2-to-L3 validation, Signal Log lane design, generated HTML summary safety, and
+conflict wording scope.
 
 Remaining feasible follow-up candidates include:
 
-- Refine the conflict wording so intra-source disagreement does not display as
-  a cross-source split.
 - Broaden Daily Synthesis extraction only after richer structured fields are
   emitted.
 - Continue Fundstrat intake v1.1 with richer monthly/Bible extraction and
