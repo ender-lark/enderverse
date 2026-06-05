@@ -24,5 +24,4 @@ jobs:
 
       - name: Run tests
         run: |
-          cd src
-          python -m pytest test_*.py -q
+          python src/verify_standard.py

@@ -82,10 +82,19 @@ That's it. No terminal, no local git install required.
 
 ---
 
-## Running tests locally (optional)
+## Running Verification Locally
 
-```bash
-cd src
-pip install pytest
-python -m pytest test_*.py -q
+```powershell
+pip install pytest requests
+python src/verify_standard.py
 ```
+
+For dashboard JSX edits, also run:
+
+```powershell
+python src/verify_standard.py --include-js
+```
+
+The standard command intentionally excludes the retired
+`src/test_reallocate.py` tests and runs `src/test_reallocate_rebuild.py` instead.
+See `docs/verification.md` for the exact check list and known expected failure.

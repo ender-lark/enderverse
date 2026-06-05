@@ -5,12 +5,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- Verification command.
-  - Add one repo-owned command for the standard focused checks.
-  - Document any known expected failures explicitly.
+- Codex-owned cloud routines.
+  - Replace prompt-only Claude routines with repo-owned routine docs and app automations.
+  - Keep Gmail/Fundstrat intake and UW cache refresh separated from full-build synthesis.
 
 ## Recently Completed
 
+- Verification command.
+  - Added `src/verify_standard.py` as the repo-owned standard verification command.
+  - GitHub Actions now runs the same command.
+  - Documented the known retired `src/test_reallocate.py` failure and optional JSX bundle check.
 - PDF holdings ingest.
   - `broker_pdf_extractor.py` now handles ticker-led and description-before-symbol selectable text rows.
   - Added focused text-export and optional selectable-PDF tests.
@@ -34,9 +38,6 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-- Codex-owned cloud routines.
-  - Replace prompt-only Claude routines with repo-owned routine docs and app automations.
-  - Keep Gmail/Fundstrat intake and UW cache refresh separated from full-build synthesis.
 - Fundstrat intake expansion.
   - Prefer Gmail connector email ingestion first.
   - Later add direct source/archive routes only if needed.
