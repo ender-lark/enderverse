@@ -115,7 +115,7 @@ Current expected optional dark lanes may include:
 
 - `catalysts`: no Catalyst Calendar rows supplied.
 - `signal_log`: no Morning Scan or Signal Log supplied.
-- `source_calls` / `log_call_dates`: daily calls may be flowing, but calibration is not checked until scored source-call caches exist.
+- `source_calls` / `log_call_dates`: daily calls can be pre-registered as pending calls; the lane warns only when calibration is absent, stale, or overdue for scoring.
 
 Monthly Fundstrat PDF intake stores only useful summary state. Do not parse or store Core List tables unless the user explicitly reopens that requirement. Stock-price chart clutter is out of scope.
 
