@@ -816,6 +816,7 @@ function operatorStatus(feed){
   return {
     status, statusColor, actions, openActions, sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
     command:"python src/go_live_checklist.py --format text",
+    suddenEventCommand:'python src/sudden_event_refresh.py --title "<event headline>" --channels "oil,rates,volatility" --tickers "XOP,TNX" --why "<why exposure, hedges, or new-buy timing changes>" --trigger "<what confirms or changes the risk>"',
   };
 }
 // ── ⑨ Radar view-model: endorsed (daily-call) names not owned yet ──
@@ -1101,6 +1102,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 ))}
               </div>
               <div style={{ marginTop:8, fontFamily:mono, fontSize:10.5, color:C.faint }}>Verify: {op.command}</div>
+              <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Sudden event: {op.suddenEventCommand}</div>
             </div>
           );
         })()}

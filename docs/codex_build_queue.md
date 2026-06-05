@@ -35,6 +35,12 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dashboard sudden-event utility command.
+  - The canonical JSX cockpit and generated HTML preview now surface the
+    `sudden_event_refresh.py` command in Operator Status alongside the go-live
+    checklist command.
+  - This makes the fast supplied-headline workflow visible in the dashboard
+    itself without changing feed semantics or creating event-risk rows.
 - Sudden-event command visibility.
   - `python src/live_status.py --format text` and
     `python src/go_live_checklist.py --format text` now show the

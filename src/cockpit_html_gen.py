@@ -468,6 +468,7 @@ def _operator_status(feed: dict) -> str:
     <div class="operator-pill"><div class="operator-label">Go-live check</div><div class="operator-value {_e(cls)}">{status}</div></div>
   </div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
+  <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
 </div>"""
 
 
