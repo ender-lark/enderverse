@@ -293,9 +293,10 @@ Important recent state:
   Post-Close Refresh, e.g.
   `python src/cloud_routine_runner.py --run-source scheduled --routine-id investing-os-post-close-refresh --success-summary "post-close refresh succeeded" --failure-summary "post-close refresh failed" -- python src/live_dashboard_refresh.py`.
 - `src/cloud_routine_drill.py --format text --strict` is a safe non-mutating
-  runner drill. It writes scheduled-style receipts only to a temp store and
-  verifies the real `src/cloud_routine_receipts.json` proof store is untouched.
-  It validates mechanics but does not count as scheduled cloud proof.
+  full-stack runner drill. By default it runs every expected cloud routine id
+  through scheduled-style receipt mechanics in a temp store and verifies the
+  real `src/cloud_routine_receipts.json` proof store is untouched. It validates
+  mechanics but does not count as scheduled cloud proof.
 - Target Drift now promotes held, materially undersized names into conservative
   `conviction_gap` actions. The current feed surfaces NVDA as a funded
   add/rotation review (`6.6%` actual versus `12.0%` target), while missing
