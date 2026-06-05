@@ -48,7 +48,8 @@ Current pushed snapshot (2026-06-05 19:18 ET live artifacts; 19:01 ET cloud proo
 - `python src/live_status.py --format text` reports
   `live_with_open_reviews`, `go_live_ready: true`, 5 actions, 0 research
   actions, 13 lanes with data, 1 dark optional lane (`account_positions`), 2
-  open action reviews, and 3 pending / 0 overdue source calls. It also reports
+  open action reviews, and source calls `new=0`, `scoring=3`, `overdue=0`.
+  It also reports
   `Live source config: configured=1/1 | missing=0` after the app Unusual
   Whales connector proof was recorded in `src/live_source_config.json`.
 - Meridian is stale thesis archive context after March 2026. Missing Meridian

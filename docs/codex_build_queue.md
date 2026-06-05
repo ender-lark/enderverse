@@ -38,6 +38,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Source-call scoring wording clarity.
+  - `live_status.py --format text` now labels source-call counts as
+    `new=<latest observations>` and `scoring=<stored calls awaiting outcome>`
+    instead of mixing `observed` and `pending`.
+  - The generated dashboard quick link and Operator Status pill now show
+    `3 scoring` for stored source-call candidates awaiting future scoring
+    windows, so the count is not mistaken for a source-intake blocker.
 - Account Positions source-wait usability.
   - `live_status.py --format text` now shows both the no-write validation
     command and the apply command for live-source dark lanes, so the remaining

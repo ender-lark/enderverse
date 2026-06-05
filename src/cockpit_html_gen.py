@@ -363,7 +363,7 @@ def _quick_nav(feed: dict) -> str:
     source_label = (
         f"{source_call_overdue} overdue"
         if source_call_overdue
-        else f"{source_call_pending} pending"
+        else f"{source_call_pending} scoring"
         if source_call_pending
         else "clear"
     )
@@ -536,7 +536,7 @@ def _operator_status(feed: dict) -> str:
     elif source_call_warn:
         source_call_value = f"{source_call_observed} unscored"
     elif source_call_pending:
-        source_call_value = f"{source_call_pending} pending"
+        source_call_value = f"{source_call_pending} scoring"
     else:
         source_call_value = "clear"
     action_count = len(actions)
