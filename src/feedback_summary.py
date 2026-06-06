@@ -250,21 +250,35 @@ def open_action_feedback(open_opportunities, *, prices=None, as_of=None) -> dict
         age = oo.age_business_days(r.get("first_flagged"), today)
         tk = r.get("ticker")
         move = oo.compute_move_since(r.get("flag_price"), prices.get(tk)) if tk else ""
+        age_days = age if age is not None else 0
         items.append({
             "ticker": tk,
             "kind": r.get("kind") or "",
             "source": r.get("source") or "",
             "first_flagged": r.get("first_flagged") or "",
-            "age_days": age if age is not None else 0,
+            "age_days": age_days,
             "move_since": move,
+            **oo.review_age_state(age_days),
         })
-    items.sort(key=lambda x: -x["age_days"])
-    oldest = items[0]["age_days"] if items else 0
+    priority_rank = {"high": 0, "medium": 1, "low": 2}
+    items.sort(key=lambda x: (
+        priority_rank.get(str(x.get("cleanup_priority") or "low"), 9),
+        -x["age_days"],
+        str(x.get("ticker") or ""),
+    ))
+    oldest = max([int(item.get("age_days") or 0) for item in items], default=0)
+    due_count = sum(1 for item in items if item.get("due"))
+    stale_count = sum(1 for item in items if item.get("review_state") == "stale")
     return {
         "status": "has_data",
-        "line": f"Open action backlog: {len(items)} open; oldest {oldest} trading day(s).",
+        "line": (
+            f"Open action backlog: {len(items)} open; {due_count} due; "
+            f"{stale_count} stale; oldest {oldest} trading day(s)."
+        ),
         "count": len(items),
         "oldest_age_days": oldest,
+        "due_count": due_count,
+        "stale_count": stale_count,
         "items": items[:5],
         "recent_history": _recent_history(open_opportunities),
     }
@@ -310,7 +324,12 @@ def build_feedback_summary(*, source_calls=None, open_opportunities=None,
     if source.get("observed_count") and source.get("status") == "not_checked":
         recommendations.append("Classify daily source calls into the calibration cache before using persistence.")
     if actions["count"]:
-        recommendations.append("Resolve oldest open action: act, invalidate, or keep watching explicitly.")
+        if actions.get("stale_count"):
+            recommendations.append("Resolve stale open actions first: act, invalidate, ignore, miss, expire, or explicitly defer.")
+        elif actions.get("due_count"):
+            recommendations.append("Review due open actions: act, invalidate, ignore, or keep watching explicitly.")
+        else:
+            recommendations.append("Keep new open actions visible until their review window.")
     if not recommendations:
         recommendations.append("No feedback-loop action required.")
     return {

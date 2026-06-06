@@ -31,11 +31,21 @@ def _keys(rows: list[dict[str, Any]], key: str = "key") -> list[str]:
 def _open_actions_summary(store: dict[str, Any]) -> dict[str, Any]:
     rows = action_resolver.open_action_rows(store)
     review_rows = action_resolver.review_rows(store)
+    oldest = max([int(row.get("age_days") or 0) for row in review_rows], default=0)
+    due_count = sum(1 for row in review_rows if row.get("due"))
+    stale_count = sum(1 for row in review_rows if row.get("review_state") == "stale")
     return {
         "count": len(rows),
         "tickers": [row.get("ticker") for row in rows if row.get("ticker")],
         "rows": rows,
         "review_rows": review_rows,
+        "oldest_age_days": oldest,
+        "due_count": due_count,
+        "stale_count": stale_count,
+        "line": (
+            f"Open action reviews: {len(review_rows)} open; {due_count} due; "
+            f"{stale_count} stale; oldest {oldest} trading day(s)."
+        ),
     }
 
 
@@ -308,7 +318,12 @@ def format_text(status: dict[str, Any]) -> str:
         lines.append("Active event watch: none supplied")
     lines.extend([
         f"Preview: {preview_url} ({preview_state})",
-        f"Open review tickers: {_join_values(open_actions.get('tickers') or [])}",
+        (
+            f"Open review tickers: {_join_values(open_actions.get('tickers') or [])} | "
+            f"due={int(open_actions.get('due_count') or 0)} | "
+            f"stale={int(open_actions.get('stale_count') or 0)} | "
+            f"oldest={int(open_actions.get('oldest_age_days') or 0)}d"
+        ),
         (
             f"Queue: valid={bool(queue.get('valid'))} | "
             f"items={int(queue.get('items') or 0)} | "
@@ -343,16 +358,25 @@ def format_text(status: dict[str, Any]) -> str:
             if not isinstance(row, dict):
                 continue
             ticker = row.get("ticker") or "UNKNOWN"
+            label = row.get("review_label") or "open review"
+            age = int(row.get("age_days") or 0)
             commands = row.get("commands") or {}
             defer = commands.get("defer") or ""
             ignore = commands.get("ignore") or ""
             acted = commands.get("acted") or ""
+            invalidated = commands.get("invalidated") or ""
+            missed = commands.get("missed") or ""
+            lines.append(f"- {ticker}: {label}; {age}d open; {row.get('next_step') or 'review explicitly'}")
             if defer:
                 lines.append(f"- {ticker} defer: {defer}")
             if ignore:
                 lines.append(f"- {ticker} ignore: {ignore}")
             if acted:
                 lines.append(f"- {ticker} acted: {acted}")
+            if invalidated:
+                lines.append(f"- {ticker} invalidated: {invalidated}")
+            if missed:
+                lines.append(f"- {ticker} missed: {missed}")
 
     details = dark_lanes.get("details") or []
     if details:

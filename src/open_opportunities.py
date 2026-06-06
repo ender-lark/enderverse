@@ -67,6 +67,8 @@ TRACKABLE_KINDS = ("buy_now", "lean_in", "reentry_zone")
 
 VALID_STATUS = ("open", "acted", "invalidated", "ignored", "deferred", "missed", "expired", "dropped")
 RESOLVED_STATUS = ("acted", "invalidated", "ignored", "deferred", "missed", "expired", "dropped")
+REVIEW_DUE_DAYS = 2
+REVIEW_STALE_DAYS = 5
 
 # Position statuses (feed holdings `pos[].st`) that count as actually HELD — used to
 # detect "acted" (an opportunity that became a position).
@@ -116,6 +118,40 @@ def compute_move_since(flag_price, current_price) -> str:
     pct = (cp - fp) / fp * 100.0
     sign = "+" if pct >= 0 else ""
     return f"{sign}{pct:.0f}% since flag"
+
+
+def review_age_state(age_days, *, due_days=REVIEW_DUE_DAYS, stale_days=REVIEW_STALE_DAYS) -> dict:
+    """Classify an open action-memory row for backlog cleanup surfaces."""
+    try:
+        age = int(age_days)
+    except (TypeError, ValueError):
+        age = 0
+    if age >= stale_days:
+        return {
+            "review_state": "stale",
+            "review_label": "stale review",
+            "cleanup_priority": "high",
+            "stale": True,
+            "due": True,
+            "next_step": "Resolve now: acted, invalidated, ignored, missed, expired, or explicitly defer.",
+        }
+    if age >= due_days:
+        return {
+            "review_state": "review_due",
+            "review_label": "review due",
+            "cleanup_priority": "medium",
+            "stale": False,
+            "due": True,
+            "next_step": "Review soon: act, invalidate, ignore, or explicitly defer.",
+        }
+    return {
+        "review_state": "new",
+        "review_label": "new",
+        "cleanup_priority": "low",
+        "stale": False,
+        "due": False,
+        "next_step": "Keep visible; no cleanup pressure yet.",
+    }
 
 
 def _clean_opp(o):

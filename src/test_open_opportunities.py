@@ -129,6 +129,18 @@ def test_explicit_resolution_ignored_deferred_missed_persist_to_history():
     assert hist["MU"]["status"] == "missed"
 
 
+def test_review_age_state_classifies_new_due_and_stale_backlog():
+    assert oo.review_age_state(0)["review_state"] == "new"
+    due = oo.review_age_state(2)
+    stale = oo.review_age_state(5)
+
+    assert due["review_state"] == "review_due"
+    assert due["cleanup_priority"] == "medium"
+    assert stale["review_state"] == "stale"
+    assert stale["cleanup_priority"] == "high"
+    assert stale["stale"] is True
+
+
 def test_max_age_expiry_optional():
     store = _seed_fn()  # FN flagged 5/28 → 3 trading days by 6/2
     # no expiry by default

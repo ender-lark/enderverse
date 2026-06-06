@@ -115,6 +115,8 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
         lambda **kwargs: {
             "open_count": 1,
             "oldest_age_days": 2,
+            "due_count": 1,
+            "stale_count": 0,
             "rows": [{"ticker": "ANET"}],
         },
     )
@@ -128,7 +130,10 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
     assert report["operator_summary"]["waiting_on_source_count"] >= 1
     assert report["operator_summary"]["review_backlog_count"] == 1
     assert any(
-        row["key"] == "open_reviews" and row["status"] == "warn" and "ANET" in row["detail"]
+        row["key"] == "open_reviews"
+        and row["status"] == "warn"
+        and "ANET" in row["detail"]
+        and "1 due; 0 stale" in row["detail"]
         for row in report["rows"]
     )
     assert any(

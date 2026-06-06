@@ -81,7 +81,10 @@ def test_open_action_feedback_surfaces_oldest_backlog():
     fb = open_action_feedback(store, prices={"FN": 660}, as_of="2026-06-04")
     assert fb["status"] == "has_data"
     assert fb["count"] == 1
+    assert fb["due_count"] == 1
+    assert fb["stale_count"] == 1
     assert fb["items"][0]["ticker"] == "FN"
+    assert fb["items"][0]["review_state"] == "stale"
     assert fb["items"][0]["move_since"] == "+10% since flag"
 
 
@@ -99,9 +102,23 @@ def test_feedback_summary_recommends_scoring_and_resolution():
     store = {"opportunities": [
         {"ticker": "FN", "first_flagged": "2026-05-28", "kind": "lean_in", "status": "open"},
     ]}
-    fb = build_feedback_summary(source_calls=CALLS, open_opportunities=store, as_of="2026-05-31")
+    fb = build_feedback_summary(source_calls=CALLS, open_opportunities=store, as_of="2026-06-02")
     assert any("Score overdue" in r for r in fb["recommendations"])
-    assert any("Resolve oldest" in r for r in fb["recommendations"])
+    assert any("Review due open actions" in r for r in fb["recommendations"])
+
+
+def test_feedback_summary_prioritizes_stale_open_actions():
+    store = {"opportunities": [
+        {"ticker": "OLD", "first_flagged": "2026-06-04", "kind": "lean_in", "status": "open"},
+        {"ticker": "NEW", "first_flagged": "2026-06-11", "kind": "lean_in", "status": "open"},
+    ]}
+
+    fb = build_feedback_summary(source_calls=[], open_opportunities=store, as_of="2026-06-12")
+
+    assert fb["open_actions"]["items"][0]["ticker"] == "OLD"
+    assert fb["open_actions"]["items"][0]["review_state"] == "stale"
+    assert fb["open_actions"]["stale_count"] == 1
+    assert any("Resolve stale open actions first" in r for r in fb["recommendations"])
 
 
 def test_assemble_feed_emits_valid_feedback_block():

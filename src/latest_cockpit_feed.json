@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-06T00:11:09.287001+00:00",
+  "generated_at": "2026-06-06T00:20:10.713713+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T20:11:09.287001-04:00",
+        "date": "2026-06-05T20:20:10.713713-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T20:11:09.287001-04:00",
+        "date": "2026-06-05T20:20:10.713713-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1103,31 +1103,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-06T00:11:09.194817+00:00",
+      "last_run": "2026-06-06T00:20:10.620563+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-06T00:11:09.194817+00:00",
+      "last_run": "2026-06-06T00:20:10.620563+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-06T00:11:09.194817+00:00",
+      "last_run": "2026-06-06T00:20:10.620563+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-06T00:11:09.194817+00:00",
+      "last_run": "2026-06-06T00:20:10.620563+00:00",
       "note": "dark lanes: account_positions | next: Supply src\\account_positions.json through the owning source routine or manual live-source drop"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-06T00:11:09.194817+00:00",
+      "last_run": "2026-06-06T00:20:10.620563+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1908,9 +1908,11 @@
     },
     "open_actions": {
       "status": "has_data",
-      "line": "Open action backlog: 2 open; oldest 0 trading day(s).",
+      "line": "Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).",
       "count": 2,
       "oldest_age_days": 0,
+      "due_count": 0,
+      "stale_count": 0,
       "items": [
         {
           "ticker": "ANET",
@@ -1918,7 +1920,13 @@
           "source": "lean_in",
           "first_flagged": "2026-06-05",
           "age_days": 0,
-          "move_since": ""
+          "move_since": "",
+          "review_state": "new",
+          "review_label": "new",
+          "cleanup_priority": "low",
+          "stale": false,
+          "due": false,
+          "next_step": "Keep visible; no cleanup pressure yet."
         },
         {
           "ticker": "GOOGL",
@@ -1926,13 +1934,19 @@
           "source": "lean_in",
           "first_flagged": "2026-06-05",
           "age_days": 0,
-          "move_since": ""
+          "move_since": "",
+          "review_state": "new",
+          "review_label": "new",
+          "cleanup_priority": "low",
+          "stale": false,
+          "due": false,
+          "next_step": "Keep visible; no cleanup pressure yet."
         }
       ],
       "recent_history": []
     },
     "recommendations": [
-      "Resolve oldest open action: act, invalidate, or keep watching explicitly."
+      "Keep new open actions visible until their review window."
     ]
   },
   "target_drift": {
@@ -2179,7 +2193,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-05T16:14:00-04:00",
-        "connector_proof_age_hours": 3.95
+        "connector_proof_age_hours": 4.1
       }
     ],
     "missing": [],

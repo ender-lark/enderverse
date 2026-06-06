@@ -246,7 +246,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-05 20:11 ET
+        built 2026-06-05 20:20 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28  fundstrat_daily 06-03</div>
@@ -618,12 +618,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon"></span> Feedback loops
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2 open signal(s)</span>
   </div>
-  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">Source persistence checked: no repeated-call clusters.</div><div class="feedback-line">Open action backlog: 2 open; oldest 0 trading day(s).</div><div class="feedback-rec">Resolve oldest open action: act, invalidate, or keep watching explicitly.</div><div class="feedback-item"><span class="context-ticker">ANET</span>0d open | lean_in<span class="context-sub">python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;</span></div><div class="feedback-item"><span class="context-ticker">GOOGL</span>0d open | lean_in<span class="context-sub">python src/action_memory_resolve.py --ticker GOOGL --status deferred --reason &quot;keep watching&quot;</span></div>
+  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">Source persistence checked: no repeated-call clusters.</div><div class="feedback-line">Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).</div><div class="feedback-rec">Keep new open actions visible until their review window.</div><div class="feedback-item"><span class="context-ticker">ANET</span>0d open | new | lean_in<span class="context-sub">Keep visible; no cleanup pressure yet.</span><span class="context-sub">python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;</span></div><div class="feedback-item"><span class="context-ticker">GOOGL</span>0d open | new | lean_in<span class="context-sub">Keep visible; no cleanup pressure yet.</span><span class="context-sub">python src/action_memory_resolve.py --ticker GOOGL --status deferred --reason &quot;keep watching&quot;</span></div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-06T00:11:09.194817+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-06T00:11:09.194817+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-06T00:11:09.194817+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-06T00:11:09.194817+00:00 | dark lanes: account_positions | next: Supply src\account_positions.json through the owning source routine or manual live-source drop">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-06T00:11:09.194817+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-06T00:20:10.620563+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-06T00:20:10.620563+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-06T00:20:10.620563+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-06T00:20:10.620563+00:00 | dark lanes: account_positions | next: Supply src\account_positions.json through the owning source routine or manual live-source drop">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-06T00:20:10.620563+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

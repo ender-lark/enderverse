@@ -50,9 +50,11 @@ def _open_review_detail(review: dict[str, Any]) -> str:
         if isinstance(row, dict) and row.get("ticker")
     ]
     ticker_text = f" ({', '.join(tickers)})" if tickers else ""
+    due = int(review.get("due_count") or 0)
+    stale = int(review.get("stale_count") or 0)
     return (
         f"{review.get('open_count')} open review(s){ticker_text}; "
-        f"oldest {review.get('oldest_age_days')} trading day(s)."
+        f"{due} due; {stale} stale; oldest {review.get('oldest_age_days')} trading day(s)."
     )
 
 

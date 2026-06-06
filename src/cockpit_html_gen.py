@@ -494,7 +494,14 @@ def _feedback_summary(feedback: dict) -> str:
         age = item.get("age_days")
         source = _e(item.get("source") or item.get("kind") or "")
         move = _e(item.get("move_since") or "")
+        review_label = _e(item.get("review_label") or "")
+        priority = _e(item.get("cleanup_priority") or "")
+        next_step = _e(item.get("next_step") or "")
         detail = f"{age}d open" if age is not None else "open"
+        if review_label:
+            detail += f" | {review_label}"
+        if priority and priority != "low":
+            detail += f" | {priority} priority"
         if source:
             detail += f" | {source}"
         if move:
@@ -503,8 +510,10 @@ def _feedback_summary(feedback: dict) -> str:
             f'python src/action_memory_resolve.py --ticker {ticker} '
             f'--status deferred --reason "keep watching"'
         )
+        next_step_html = f'<span class="context-sub">{next_step}</span>' if next_step else ""
         lines.append(
             f'<div class="feedback-item"><span class="context-ticker">{ticker}</span>{_e(detail)}'
+            f'{next_step_html}'
             f'<span class="context-sub">{_e(command)}</span></div>'
         )
     if not lines:

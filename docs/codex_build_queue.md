@@ -38,6 +38,19 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Open-review backlog hygiene.
+  - Added a shared action-memory review-age policy: new, review due, and stale
+    review states based on trading-day age.
+  - `action_memory_resolve.py --review-report` now reports due/stale counts,
+    cleanup priority, next-step language, and fuller resolution commands
+    including invalidated and missed, while keeping all resolutions audited in
+    `open_opportunities.json` history.
+  - The cockpit feedback block now shows open-action cleanup pressure inline:
+    open count, due count, stale count, review label, priority, and the next
+    cleanup step. Same-day ANET/GOOGL prompts correctly show as new, not stale.
+  - `live_status.py --format text` and the go-live checklist now separate
+    open-review count from due/stale cleanup pressure, so backlog warnings are
+    actionable without implying a build blocker.
 - Eastern-date freshness correctness for evening builds.
   - Full cockpit builds now derive the operator-facing operating day from the
     run timestamp in America/New_York, so an evening ET build that crosses

@@ -100,6 +100,8 @@ def test_build_status_summary_reports_live_with_open_reviews():
     assert status["live_summary"] == "live_with_open_reviews"
     assert status["go_live_ready"] is True
     assert status["open_actions"]["tickers"] == ["ANET"]
+    assert status["open_actions"]["due_count"] == 0
+    assert status["open_actions"]["stale_count"] == 0
     assert status["dark_lanes"]["keys"] == ["catalysts"]
     assert status["data_flow"]["feed_present"] is True
     assert status["data_flow"]["lanes_with_data"] == 11
@@ -195,12 +197,15 @@ def test_format_text_is_operator_scannable():
     assert "Active event watch: high | Oil shock | channels=oil, rates | tickers=XOP, TNX | trigger=WTI spike" in text
     assert "Sudden event command:" in text
     assert "python src/sudden_event_refresh.py --title \"<event headline>\"" in text
-    assert "Open review tickers: ANET" in text
+    assert "Open review tickers: ANET | due=0 | stale=0 | oldest=0d" in text
     assert "Open review commands:" in text
     assert "python src/action_memory_resolve.py --review-report" in text
+    assert "- ANET: new; 0d open; Keep visible; no cleanup pressure yet." in text
     assert 'python src/action_memory_resolve.py --ticker ANET --status deferred --reason "keep watching"' in text
     assert 'python src/action_memory_resolve.py --ticker ANET --status ignored --reason "no edge"' in text
     assert 'python src/action_memory_resolve.py --ticker ANET --status acted --reason "operator acted"' in text
+    assert 'python src/action_memory_resolve.py --ticker ANET --status invalidated --reason "setup invalidated"' in text
+    assert 'python src/action_memory_resolve.py --ticker ANET --status missed --reason "missed before action"' in text
     assert "- Catalysts: Supply Catalyst Calendar rows." in text
     assert "- Signal Log: Supply Morning Scan JSON." in text
     assert "Dark lane intake commands:" in text

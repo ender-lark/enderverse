@@ -62,23 +62,34 @@ def review_rows(store: dict, *, as_of: str | None = None) -> list[dict[str, Any]
     for row in open_action_rows(store):
         ticker = row.get("ticker") or ""
         age = oo.age_business_days(row.get("first_flagged"), today)
+        age_days = age if age is not None else 0
+        age_state = oo.review_age_state(age_days)
         rows.append({
             "ticker": ticker,
             "kind": row.get("kind") or "",
             "source": row.get("source") or "",
             "first_flagged": row.get("first_flagged") or "",
             "last_seen": row.get("last_seen") or "",
-            "age_days": age if age is not None else 0,
+            "age_days": age_days,
+            **age_state,
             "review_prompt": (
-                f"Decide whether {ticker} was acted, invalidated, ignored, deferred, missed, expired, or dropped."
+                f"{age_state['review_label']}: decide whether {ticker} was acted, "
+                "invalidated, ignored, deferred, missed, expired, or dropped."
             ),
             "commands": {
                 "defer": f"python src/action_memory_resolve.py --ticker {ticker} --status deferred --reason \"keep watching\"",
                 "ignore": f"python src/action_memory_resolve.py --ticker {ticker} --status ignored --reason \"no edge\"",
                 "acted": f"python src/action_memory_resolve.py --ticker {ticker} --status acted --reason \"operator acted\"",
+                "invalidated": f"python src/action_memory_resolve.py --ticker {ticker} --status invalidated --reason \"setup invalidated\"",
+                "missed": f"python src/action_memory_resolve.py --ticker {ticker} --status missed --reason \"missed before action\"",
             },
         })
-    rows.sort(key=lambda r: (-int(r.get("age_days") or 0), r.get("ticker") or ""))
+    priority_rank = {"high": 0, "medium": 1, "low": 2}
+    rows.sort(key=lambda r: (
+        priority_rank.get(str(r.get("cleanup_priority") or "low"), 9),
+        -int(r.get("age_days") or 0),
+        r.get("ticker") or "",
+    ))
     return rows
 
 
@@ -90,14 +101,27 @@ def review_report(
     path = Path(store_path)
     store = oo.load_open_opportunities(path)
     rows = review_rows(store, as_of=as_of)
+    stale_count = sum(1 for row in rows if row.get("review_state") == "stale")
+    due_count = sum(1 for row in rows if row.get("due"))
+    oldest = max([int(row.get("age_days") or 0) for row in rows], default=0)
     return {
         "store_path": str(path),
         "as_of": str(as_of or date.today().isoformat())[:10],
         "open_count": len(rows),
-        "oldest_age_days": max([int(row.get("age_days") or 0) for row in rows], default=0),
+        "oldest_age_days": oldest,
+        "due_count": due_count,
+        "stale_count": stale_count,
         "rows": rows,
+        "line": (
+            f"Open action reviews: {len(rows)} open; {due_count} due; "
+            f"{stale_count} stale; oldest {oldest} trading day(s)."
+        ),
         "next_step": (
-            "Resolve each row after operator review; use deferred to keep watching explicitly."
+            "Resolve stale rows first; use deferred only when the watch remains intentional."
+            if stale_count else
+            "Review due rows; use deferred only when the watch remains intentional."
+            if due_count else
+            "No stale reviews; keep new rows visible until the review window."
             if rows else
             "No open action-memory reviews."
         ),

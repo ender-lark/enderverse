@@ -105,9 +105,18 @@ def _feed():
                 },
             },
             "open_actions": {
-                "line": "Open action backlog: 1 open; oldest 3 trading day(s).",
+                "line": "Open action backlog: 1 open; 1 due; 0 stale; oldest 3 trading day(s).",
                 "count": 1,
-                "items": [{"ticker": "ANET", "age_days": 3, "source": "lean_in"}],
+                "due_count": 1,
+                "stale_count": 0,
+                "items": [{
+                    "ticker": "ANET",
+                    "age_days": 3,
+                    "source": "lean_in",
+                    "review_label": "review due",
+                    "cleanup_priority": "medium",
+                    "next_step": "Review soon: act, invalidate, ignore, or explicitly defer.",
+                }],
             },
             "recommendations": ["Resolve oldest open action."],
         },
@@ -247,9 +256,10 @@ def test_generated_html_surfaces_feedback_context():
 
     assert "Feedback loops" in html
     assert "Source-call scoring: 1 overdue." in html
-    assert "Open action backlog: 1 open" in html
+    assert "Open action backlog: 1 open; 1 due; 0 stale" in html
     assert "ANET" in html
-    assert "3d open | lean_in" in html
+    assert "3d open | review due | medium priority | lean_in" in html
+    assert "Review soon: act, invalidate, ignore, or explicitly defer." in html
     assert "python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;" in html
     assert "Resolve oldest open action." in html
 

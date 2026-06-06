@@ -84,9 +84,30 @@ def test_review_report_includes_age_and_resolution_commands(tmp_path):
 
     assert report["open_count"] == 2
     assert report["oldest_age_days"] == 3
+    assert report["due_count"] == 2
+    assert report["stale_count"] == 0
     assert report["rows"][0]["ticker"] == "ANET"
+    assert report["rows"][0]["review_state"] == "review_due"
+    assert report["rows"][0]["cleanup_priority"] == "medium"
     assert "--status deferred" in report["rows"][0]["commands"]["defer"]
     assert "--status acted" in report["rows"][0]["commands"]["acted"]
+    assert "--status invalidated" in report["rows"][0]["commands"]["invalidated"]
+
+
+def test_review_report_prioritizes_stale_backlog(tmp_path):
+    store_path = tmp_path / "open_opportunities.json"
+    store = oo.seed_open_opportunities([
+        {"ticker": "NEW", "first_flagged": "2026-06-11", "source": "lean_in"},
+        {"ticker": "OLD", "first_flagged": "2026-06-04", "source": "lean_in"},
+    ], as_of="2026-06-11")
+    store_path.write_text(json.dumps(store), encoding="utf-8")
+
+    report = resolver.review_report(store_path=store_path, as_of="2026-06-12")
+
+    assert report["rows"][0]["ticker"] == "OLD"
+    assert report["rows"][0]["review_state"] == "stale"
+    assert report["stale_count"] == 1
+    assert "Resolve stale rows first" in report["next_step"]
 
 
 def test_cli_review_report_outputs_next_step(tmp_path, capsys):
@@ -98,5 +119,5 @@ def test_cli_review_report_outputs_next_step(tmp_path, capsys):
 
     assert resolver.main(["--store", str(store_path), "--as-of", "2026-06-06", "--review-report"]) == 0
     out = capsys.readouterr().out
-    assert "Resolve each row after operator review" in out
+    assert "No stale reviews" in out
     assert "python src/action_memory_resolve.py --ticker ANET" in out
