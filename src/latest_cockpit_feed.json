@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-06T02:19:01.705217+00:00",
+  "generated_at": "2026-06-06T02:36:33.145366+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-05 \u00b7 uw_macro 06-05 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-05T22:19:01.705217-04:00",
+        "date": "2026-06-05T22:36:33.145366-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-05T22:19:01.705217-04:00",
+        "date": "2026-06-05T22:36:33.145366-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -109,7 +109,7 @@
         "label": "Daily Synthesis",
         "status": "has_data",
         "detail": "checked",
-        "count": 7,
+        "count": 6,
         "checked_at": ""
       },
       {
@@ -194,43 +194,6 @@
   "actions": [
     {
       "rank": 1,
-      "kind": "synthesis",
-      "ticker": null,
-      "action_state": "ACT_NOW",
-      "what": "Review Growth-to-Value and Healthcare rotation",
-      "confidence": "Moderate",
-      "your_move": "Before adding new Growth/AI risk, review current Growth versus Value/Healthcare/Financials exposure. Decide whether to rotate funding, hold current mix with a written reason, or wait for SPX/QQQ weekly-low confirmation. No auto-trade.",
-      "gate": null,
-      "source": "daily_synthesis",
-      "why": "Fresh Fundstrat/Newton evidence changes the portfolio-level exposure question: broadening into Value, Healthcare, Financials, and Industrials may matter more than another Growth add today.",
-      "time_window": "1-3 trading days",
-      "capital_effect": "rotate",
-      "goal_channels": [
-        "opportunity_cost",
-        "downside_protection",
-        "conviction"
-      ],
-      "goal_impact": "Medium",
-      "missing_evidence": [
-        "Confirm current account-level exposure once Account Positions lane is supplied."
-      ],
-      "goal_score": 54,
-      "action_label": "REVIEW",
-      "why_it_moves_goal": "Synthesis identified a decision candidate that needs operator review.",
-      "freshness_judgment": {
-        "label": "fresh",
-        "evidence_date": "2026-06-05",
-        "last_checked": "2026-06-05",
-        "decay_window": "1-3 trading days",
-        "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
-      },
-      "freshness": "fresh: evidence 2026-06-05; decays 1-3 trading days",
-      "why_this_matters": "Synthesis identified a decision candidate that needs operator review.",
-      "decision_group": "key_now",
-      "decision_group_label": "Key Now"
-    },
-    {
-      "rank": 2,
       "kind": "event_risk",
       "ticker": null,
       "action_state": "ACT_NOW",
@@ -267,7 +230,7 @@
       "decision_group_label": "Re-check Before Acting"
     },
     {
-      "rank": 3,
+      "rank": 2,
       "kind": "conviction_gap",
       "ticker": "NVDA",
       "action_state": "ACT_NOW",
@@ -312,7 +275,7 @@
       "decision_group_label": "Key Now"
     },
     {
-      "rank": 4,
+      "rank": 3,
       "kind": "lean_in",
       "ticker": "ANET",
       "action_state": "WATCH",
@@ -352,7 +315,7 @@
       "decision_group_label": "Important Backlog"
     },
     {
-      "rank": 5,
+      "rank": 4,
       "kind": "lean_in",
       "ticker": "GOOGL",
       "action_state": "WATCH",
@@ -1093,64 +1056,41 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-06T02:19:01.611725+00:00",
+      "last_run": "2026-06-06T02:36:33.046122+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-06T02:19:01.611725+00:00",
+      "last_run": "2026-06-06T02:36:33.046122+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-06T02:19:01.611725+00:00",
+      "last_run": "2026-06-06T02:36:33.046122+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-06T02:19:01.611725+00:00",
+      "last_run": "2026-06-06T02:36:33.046122+00:00",
       "note": "no dark lanes reported in lane-status block"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-06T02:19:01.611725+00:00",
+      "last_run": "2026-06-06T02:36:33.046122+00:00",
       "note": "rehearsal build can run"
     }
   ],
   "synthesis": {
     "source": "Repo Evidence Synthesis",
     "date": "2026-06-05",
-    "state_of_play": "Repo evidence read: 13 lane(s) have data and 0 optional lane(s) are not checked. Top action is Review Growth-to-Value and Healthcare rotation (act_now, moderate confidence, source daily_synthesis). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+    "state_of_play": "Repo evidence read: 13 lane(s) have data and 0 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (act_now, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
     "delta": "Fundstrat Daily compact calls in radar: RYF avoid, TNX watch, XOP avoid. Target drift: 13 sizing gap(s) vs AI working model (1 under, 3 over, 9 missing); GRNY oversized 8.8% vs 3.0%; SMH oversized 9.4% vs 5.0%; NVDA undersized 6.6% vs 12.0%; MU oversized 3.3% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; +7 more",
     "hanging": [
-      "Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.",
-      "Account Positions is not checked: Account views are not checked; do not imply no account-level breakdown.",
-      "Meridian is not checked: Meridian source is not checked; missing data is not a no-signal read.",
-      "Follow through from Newton's June 4 rotation note: check whether the book is too Growth-heavy before new risk adds.",
-      "Operator review still required: Before adding new Growth/AI risk, review current Growth versus Value/Healthcare/Financials exposure. Decide whether to rotate funding, hold current mix with a written reason, or wait for SPX/QQQ weekly-low confirmation. No auto-trade."
-    ],
-    "actions": [
-      {
-        "what": "Review Growth-to-Value and Healthcare rotation",
-        "why": "Fresh Fundstrat/Newton evidence changes the portfolio-level exposure question: broadening into Value, Healthcare, Financials, and Industrials may matter more than another Growth add today.",
-        "your_move": "Before adding new Growth/AI risk, review current Growth versus Value/Healthcare/Financials exposure. Decide whether to rotate funding, hold current mix with a written reason, or wait for SPX/QQQ weekly-low confirmation. No auto-trade.",
-        "default_action": "REVIEW",
-        "capital_effect": "rotate",
-        "time_window": "1-3 trading days",
-        "goal_impact": "Medium",
-        "goal_channels": [
-          "opportunity_cost",
-          "downside_protection",
-          "conviction"
-        ],
-        "missing_evidence": [
-          "Confirm current account-level exposure once Account Positions lane is supplied."
-        ]
-      }
+      "Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait."
     ],
     "notes": [
       "Derived only from the existing cockpit feed.",
@@ -2033,10 +1973,9 @@
         "key": "key_now",
         "label": "Key Now",
         "description": "Decision pressure that is current, time-sensitive, or goal-moving.",
-        "count": 2,
+        "count": 1,
         "ranks": [
-          1,
-          3
+          2
         ]
       },
       {
@@ -2045,7 +1984,7 @@
         "description": "Items where a missing source, stale source, or gate must be checked first.",
         "count": 1,
         "ranks": [
-          2
+          1
         ]
       },
       {
@@ -2054,8 +1993,8 @@
         "description": "Still-important decisions that should stay visible but are not the loudest current item.",
         "count": 2,
         "ranks": [
-          4,
-          5
+          3,
+          4
         ]
       },
       {
@@ -2067,7 +2006,7 @@
       }
     ],
     "counts": {
-      "key_now": 2,
+      "key_now": 1,
       "recheck_before_acting": 1,
       "important_backlog": 2,
       "quiet_watch": 0
@@ -8790,7 +8729,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-05T16:14:00-04:00",
-        "connector_proof_age_hours": 6.08
+        "connector_proof_age_hours": 6.38
       }
     ],
     "missing": [],
@@ -8842,7 +8781,7 @@
           "routine_id": "investing-os-full-cockpit-build",
           "routine_name": "Investing OS Full Cockpit Build",
           "schedule": "market weekdays 10:30 AM ET",
-          "last_status": "success"
+          "last_status": "started"
         },
         {
           "routine_id": "investing-os-off-hours-worker",
@@ -8895,11 +8834,11 @@
           "routine_name": "Investing OS Daily Synthesis",
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
-          "receipt_count": 8,
+          "receipt_count": 10,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-05T20:11:59.280082Z",
-          "last_success_at": "2026-06-05T20:11:59.280082Z",
+          "last_recorded_at": "2026-06-06T02:36:31.895406Z",
+          "last_success_at": "2026-06-06T02:36:31.895406Z",
           "last_scheduled_success_at": "",
           "last_summary": "daily synthesis manual run completed from current cockpit feed evidence"
         },
@@ -8908,11 +8847,11 @@
           "routine_name": "Investing OS UW Opportunity Cache",
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "receipt_count": 8,
+          "receipt_count": 10,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-05T20:11:59.453951Z",
-          "last_success_at": "2026-06-05T20:11:59.453951Z",
+          "last_recorded_at": "2026-06-06T02:36:32.063325Z",
+          "last_success_at": "2026-06-06T02:36:32.063325Z",
           "last_scheduled_success_at": "",
           "last_summary": "UW opportunity cache manual run completed"
         },
@@ -8921,11 +8860,11 @@
           "routine_name": "Investing OS Parabolic Cache",
           "role": "parabolic_cache",
           "schedule": "market weekdays 10:05 AM ET",
-          "receipt_count": 10,
+          "receipt_count": 12,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-05T20:11:59.716110Z",
-          "last_success_at": "2026-06-05T20:11:59.716110Z",
+          "last_recorded_at": "2026-06-06T02:36:32.352242Z",
+          "last_success_at": "2026-06-06T02:36:32.352242Z",
           "last_scheduled_success_at": "",
           "last_summary": "parabolic cache manual run completed"
         },
@@ -8934,13 +8873,13 @@
           "routine_name": "Investing OS Full Cockpit Build",
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
-          "receipt_count": 8,
-          "last_status": "success",
+          "receipt_count": 9,
+          "last_status": "started",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-05T20:12:00.785694Z",
+          "last_recorded_at": "2026-06-06T02:36:32.363867Z",
           "last_success_at": "2026-06-05T20:12:00.785694Z",
           "last_scheduled_success_at": "",
-          "last_summary": "full cockpit build manual run refreshed dashboard artifacts"
+          "last_summary": "investing-os-full-cockpit-build manual run started"
         },
         {
           "routine_id": "investing-os-post-close-refresh",
