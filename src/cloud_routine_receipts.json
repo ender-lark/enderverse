@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-06T02:52:04.787630Z",
+  "updated_at": "2026-06-06T02:57:22.863220Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -2018,6 +2018,27 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:54:23.069091Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:55:56.714155Z",
+      "summary": "deep synthesis started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:57:22.863220Z",
+      "summary": "drained AVGO + working-pile triage drafts; 2 Notion writes verified; SQL/query fallback used"
     }
   ]
 }
