@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-06T02:36:34.125152Z",
+  "updated_at": "2026-06-06T02:45:59.272994Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -1955,6 +1955,27 @@
           }
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:42:47.610720Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:44:46.930464Z",
+      "summary": "uw opportunity cache started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:45:59.272994Z",
+      "summary": "repo synthesis refreshed; event-risk watch + 13 target gaps; 1 hanging review; Notion page written; no failures"
     }
   ]
 }
