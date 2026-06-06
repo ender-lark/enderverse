@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-06T02:49:56.648783Z",
+  "updated_at": "2026-06-06T02:52:04.787630Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -1997,6 +1997,27 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-06T02:49:56.648783Z",
       "summary": "cache unchanged; UW_API_KEY missing; UW connector proof available for 2026-06-05; no tmp/uw/parabolic_entries or parabolic_bundle; existing cache remains as_of 2026-06-04"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:52:03.547676Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:52:04.787630Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ]
 }

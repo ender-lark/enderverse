@@ -246,7 +246,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-05 22:36 ET
+        built 2026-06-05 22:52 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-05  uw_macro 06-05  fundstrat_bible 05-28  fundstrat_daily 06-03</div>
@@ -398,9 +398,9 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">clear</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">3 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-fail">1</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 3/10</div>
+  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | no waits</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -580,7 +580,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Background cloud proof: 3/10 scheduled receipts proven; failed latest=0.
+  <span class="audit-k">Cloud routines</span>Background cloud proof: 4/10 scheduled receipts proven; failed latest=2.
 </div>
 <div class="audit-row">
   <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/21; missing live-capable=0.
@@ -591,7 +591,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="audit-row">
   <span class="audit-k">Notion/writeback</span>Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.
 </div>
-  <div class="feedback-line">Background scheduled receipts pending: Investing OS Daily Synthesis, Investing OS UW Opportunity Cache, Investing OS Parabolic Cache, Investing OS Full Cockpit Build, Investing OS Off-Hours Worker, Investing OS Deep Synthesis +1 more</div>
+  <div class="feedback-line">Background scheduled receipts pending: Investing OS UW Opportunity Cache, Investing OS Parabolic Cache, Investing OS Full Cockpit Build, Investing OS Off-Hours Worker, Investing OS Deep Synthesis, Investing OS Weekly Pilot Run</div>
 </div>
 
 <div class="card" id="feedback-loops">
@@ -603,7 +603,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-06T02:36:33.046122+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-06T02:36:33.046122+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-06T02:36:33.046122+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-06T02:36:33.046122+00:00 | no dark lanes reported in lane-status block">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-06T02:36:33.046122+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-06T02:52:04.208341+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-06T02:52:04.208341+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-06T02:52:04.208341+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-06T02:52:04.208341+00:00 | no dark lanes reported in lane-status block">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-06T02:52:04.208341+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
