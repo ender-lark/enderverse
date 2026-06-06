@@ -39,7 +39,7 @@ Current priority:
    slice is queued; it separates build blockers from source/user waits,
    background natural cloud-proof waits, and deferred stock-review backlog.
 
-Current verified snapshot (2026-06-05 20:26 ET live artifacts; 19:01 ET cloud proof):
+Current verified snapshot (2026-06-05 20:33 ET live artifacts; background cloud proof 3/10):
 
 - Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
   this handoff page's commit hash as runtime evidence.
@@ -67,13 +67,13 @@ Current verified snapshot (2026-06-05 20:26 ET live artifacts; 19:01 ET cloud pr
   (`ANET`, `GOOGL`) remain visible but pass while due=0 and stale=0.
 - `python src/completion_audit.py --format text` reports
   `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, `all clear: False`, go-live
-  ready, 0 build blockers, Account Positions as the source/user wait, cloud
-  proof `3/10`, and open reviews `ANET`, `GOOGL` with
+  ready, 0 build blockers, Account Positions as the source/user wait,
+  background cloud proof `3/10`, and open reviews `ANET`, `GOOGL` with
   `due=0 | stale=0 | oldest=0d`. Use
   `--require-all-clear` only when external waits should fail the command.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-05 20:26 ET`.
+  `2026-06-05 20:33 ET`.
 - The dashboard Operator Status card now shows `Build blockers 0`, `Open reviews
   2 new` in pass styling, the wait summary
   `Build clear, not all clear | 1 source wait; background cloud proof 3/10`,
@@ -314,9 +314,9 @@ Important recent state:
   `--strict` checks schedule readiness only; use `--require-first-proof` after
   the first expected run window, and `--require-live-run` when the whole routine
   stack must be proven.
-- `python src/go_live_checklist.py --format text` includes a Cloud automation
-  proof row. It should warn before the first scheduled receipt, then pass after
-  `Cloud first scheduled run proven: true`.
+- `python src/go_live_checklist.py --format text` includes a Cloud proof
+  background-monitor row. Normal pending scheduled receipts pass as background
+  monitoring; overdue or failed scheduled receipts warn as monitoring issues.
 - `python src/go_live_checklist.py --format text` also includes a Live source
   coverage row. It warns while live-capable optional inputs such as
   `account_positions` are missing.

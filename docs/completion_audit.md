@@ -12,37 +12,37 @@ python src/completion_audit.py --format text
 Current command output classifies the build as
 `BUILD_CLEAR_WAITING_EXTERNAL`: local dashboard/go-live readiness is clear and
 there are 0 build blockers, but `all_clear` remains false. Account Positions is
-the one source/user wait, cloud routine proof remains partial at `3/10` and
-should advance naturally, and `ANET`/`GOOGL` remain deferred open reviews until
-the build is explicitly resumed for stock-specific review. Use
+the one source/user wait, cloud routine proof remains partial at `3/10` and is
+tracked as a background natural-schedule monitor, and `ANET`/`GOOGL` remain
+visible as fresh open reviews with `0 due / 0 stale`. Use
 `python src/completion_audit.py --require-all-clear` only when external waits
-must fail the command.
+and background monitors must fail the command.
 
 Generated: 2026-06-05
 
-Latest live refresh: 2026-06-05 11:17 ET after the active event-watch
-dashboard/status slice. Latest verification includes the go-live checklist
-event-watch parity slice.
+Latest live refresh: 2026-06-05 20:33 ET after the background cloud-proof
+wording/checklist slice. Latest verification includes the standard verifier
+with full pytest plus standalone self-tests.
 
 Current live proof:
 
 - `python src/live_status.py --format text` reports
-  `live_with_open_reviews`, `go_live_ready: true`, 4 actions, 0 research
-  actions, feed `2026-06-05T11:17:38.446606+00:00`, 11 lanes with data,
-  2 dark lanes, 3 pending / 0 overdue source calls, and preview running at
+  `live_with_open_reviews`, `go_live_ready: true`, 5 actions, 0 research
+  actions, feed `2026-06-06T00:33:51.380052+00:00`, 13 lanes with data,
+  1 dark lane (`account_positions`), 3 scoring / 0 overdue source calls, and
+  preview running at
   `http://127.0.0.1:8765/dashboard_preview.html`.
-- `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json --format text`
-  reports `WARN`, `Ready: True`, 0 failures, and 2 warnings: open reviews
-  (`ANET`, `GOOGL`) and optional dark lanes (`catalysts`, `signal_log`).
-- The dashboard preview shows build `2026-06-05 11:17 ET` and includes the
-  Operator Status command links for both go-live review and supplied-headline
-  sudden-event refresh. It also shows the active Middle East oil/rates event
-  watch, impacted channels/tickers, and trigger evidence.
-- `python src/go_live_checklist.py --manual-drop docs\manual_drop.template.json
-  --format text` now includes a PASS Active Event Watch row for the current
-  supplied oil/rates watch; if no supplied event watch exists, the row warns
-  instead of implying sudden-event risk was checked clear.
-- `python src/verify_standard.py` last passed with `952 passed, 6 skipped`,
+- `python src/go_live_checklist.py --format text` reports `WARN`,
+  `Ready: True`, 0 failures, and 3 warnings, all tied to the missing Account
+  Positions source path: live source coverage, manual source drop, and optional
+  dark lane. It reports `schedule waits=0` and `background monitors=1`; the
+  cloud proof background monitor passes unless a receipt is overdue or failed.
+- The dashboard preview shows build `2026-06-05 20:33 ET` and includes the
+  Operator Status command links for build audit, go-live review, and
+  supplied-headline sudden-event refresh. It also shows the active Middle East
+  oil/rates event watch, impacted channels/tickers, trigger evidence, and
+  Account Positions validate/apply commands.
+- `python src/verify_standard.py` last passed with `1045 passed, 6 skipped`,
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 
