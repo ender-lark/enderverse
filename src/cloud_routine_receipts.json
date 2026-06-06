@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-06T03:01:18.988327Z",
+  "updated_at": "2026-06-06T05:52:45.265784Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -2053,6 +2053,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-06T03:01:18.988327Z",
       "summary": "30d repo+Notion-page deep review; semis/event-risk and NVDA gap still hang; pilots first-run evidenced but thin; Notion deep page written; blocker: Notion DB query unavailable"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T05:46:54.412595Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T05:52:45.265784Z",
+      "summary": "archived 2 done items; drafted GEO + TSM dossiers; 2 Notion writes verified; AI Labor left queued; SQL/query fallback used"
     }
   ]
 }
