@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-06T02:45:59.272994Z",
+  "updated_at": "2026-06-06T02:46:55.122144Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -1976,6 +1976,13 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-06T02:45:59.272994Z",
       "summary": "repo synthesis refreshed; event-risk watch + 13 target gaps; 1 hanging review; Notion page written; no failures"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-06T02:46:55.122144Z",
+      "summary": "scanned 14 tickers; 0 fresh signals; cache unchanged; 14 worker failures (UW_API_KEY missing); live proof refreshed"
     }
   ]
 }
