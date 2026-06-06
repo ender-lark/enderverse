@@ -20,9 +20,11 @@ def _fake_cloud(first_proven=False, schedule_ready=True):
             "summary": {
                 "scheduled_success_count": 1 if first_proven else 0,
                 "expected_count": 10,
+                "failed_latest_count": 0,
             }
         },
         "routine_receipt_due": {
+            "overdue_count": 0,
             "next_due": {
                 "routine_name": "Investing OS Post-Close Refresh",
                 "next_due_at": "2026-06-05T16:30:00-04:00",
@@ -165,8 +167,8 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
     )
     assert any(
         row["key"] == "cloud_ops"
-        and row["status"] == "warn"
-        and row["category"] == "natural_schedule"
+        and row["status"] == "pass"
+        and row["category"] == "background_monitor"
         and "first_scheduled_proof=False" in row["detail"]
         and "mode=background_natural" in row["detail"]
         for row in report["rows"]
@@ -235,9 +237,36 @@ def test_build_go_live_checklist_passes_after_first_cloud_proof(monkeypatch, tmp
     assert any(
         row["key"] == "cloud_ops"
         and row["status"] == "pass"
+        and row["category"] == "background_monitor"
         and "scheduled_success=1/10" in row["detail"]
         for row in report["rows"]
     )
+
+
+def test_build_go_live_checklist_warns_on_overdue_background_cloud_receipt(monkeypatch, tmp_path):
+    cloud = _fake_cloud(first_proven=True)
+    cloud["routine_receipt_due"]["overdue_count"] = 1
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: _fake_status())
+    monkeypatch.setattr(
+        go_live_checklist.cloud_ops_status,
+        "cloud_ops_status",
+        lambda **kwargs: cloud,
+    )
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {"open_count": 0, "oldest_age_days": 0},
+    )
+
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+
+    assert any(
+        row["key"] == "cloud_ops"
+        and row["status"] == "warn"
+        and row["category"] == "monitoring"
+        for row in report["rows"]
+    )
+    assert "Cloud proof background monitor" in report["operator_summary"]["monitoring"]
 
 
 def test_build_go_live_checklist_passes_when_live_source_coverage_complete(monkeypatch, tmp_path):
@@ -388,13 +417,14 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     assert "Go-live checklist: WARN" in text
     assert "Build status: build_ready_with_waits | no build blockers" in text
     assert "source waits=" in text
-    assert "schedule waits=1" in text
+    assert "schedule waits=0" in text
+    assert "background monitors=1" in text
     assert "review backlog=1" in text
     assert "[PASS] Live data flow" in text
     assert "[WARN] Live source coverage" in text
     assert "[WARN] Live source configuration" in text
     assert "python src/live_source_capability.py --format text" in text
-    assert "[WARN] Cloud proof background monitor" in text
+    assert "[PASS] Cloud proof background monitor" in text
     assert "python src/cloud_ops_status.py --format text" in text
     assert "[WARN] Source-call calibration" in text
     assert "[PASS] Sudden event refresh" in text

@@ -43,6 +43,10 @@ until the core logic is stable; Notion sync comes later.
     go-live checklist, and completion audit now label incomplete routine proof
     as background natural-schedule monitoring instead of a foreground build
     task.
+  - The go-live checklist summary now separates `schedule waits` from
+    `background monitors`, so ordinary unproven cloud receipts do not read like
+    foreground work. Overdue or failed scheduled receipts still warn as
+    monitoring issues.
   - Account Positions manual live-source drop was re-verified: the shape
     template validates, `--validate-only` does not write, and existing tests
     cover Account Positions/Meridian apply and validation behavior.

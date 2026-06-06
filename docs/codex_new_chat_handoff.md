@@ -60,10 +60,11 @@ Current verified snapshot (2026-06-05 20:26 ET live artifacts; 19:01 ET cloud pr
   Refresh, Pre-Market Source Intake, and Morning Scan. Remaining routine proof
   should advance through natural schedules, not active acceleration.
 - `python src/go_live_checklist.py --format text` reports `WARN` with 0
-  failures and 4 warnings, but its build summary is
-  `build_ready_with_waits`: 0 build blockers, 1 source wait, 1 natural schedule
-  wait, and 1 review-backlog bucket. The warnings are Account Positions source
-  input/manual drop/dark lane and open action reviews (`ANET`, `GOOGL`).
+  failures and 3 warnings, but its build summary is
+  `build_ready_with_waits`: 0 build blockers, 1 source wait, 0 schedule waits,
+  1 background monitor, and no stale review backlog. The warnings are Account
+  Positions source input/manual drop/dark lane; fresh open action reviews
+  (`ANET`, `GOOGL`) remain visible but pass while due=0 and stale=0.
 - `python src/completion_audit.py --format text` reports
   `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, `all clear: False`, go-live
   ready, 0 build blockers, Account Positions as the source/user wait, cloud

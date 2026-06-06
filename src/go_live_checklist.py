@@ -127,9 +127,13 @@ def _event_watch_detail(event_watch: dict[str, Any]) -> str:
 def _cloud_row_status(cloud: dict[str, Any]) -> str:
     if not cloud.get("schedule_ready_for_unattended_run"):
         return "fail"
+    receipts = ((cloud.get("routine_receipts") or {}).get("summary") or {})
+    due = cloud.get("routine_receipt_due") or {}
+    if int(receipts.get("failed_latest_count") or 0) or int(due.get("overdue_count") or 0):
+        return "warn"
     if cloud.get("first_scheduled_run_proven"):
         return "pass"
-    return "warn"
+    return "pass"
 
 
 def _cloud_row_detail(cloud: dict[str, Any]) -> str:
@@ -152,9 +156,11 @@ def _cloud_row_detail(cloud: dict[str, Any]) -> str:
 def _cloud_row_category(cloud: dict[str, Any]) -> str:
     if not cloud.get("schedule_ready_for_unattended_run"):
         return "build"
-    if cloud.get("live_run_proven"):
-        return "build"
-    return "natural_schedule"
+    receipts = ((cloud.get("routine_receipts") or {}).get("summary") or {})
+    due = cloud.get("routine_receipt_due") or {}
+    if int(receipts.get("failed_latest_count") or 0) or int(due.get("overdue_count") or 0):
+        return "monitoring"
+    return "background_monitor"
 
 
 def _source_capability_row_status(source_capability: dict[str, Any]) -> str:
@@ -283,6 +289,10 @@ def _operator_summary(rows: list[dict[str, str]]) -> dict[str, Any]:
         row for row in rows
         if row.get("status") == "warn" and row.get("category") == "monitoring"
     ]
+    background_monitors = [
+        row for row in rows
+        if row.get("category") == "background_monitor"
+    ]
     source_wait_labels = _source_wait_labels(waiting_on_source)
     state = "blocked" if build_blockers else "build_ready"
     if not build_blockers and (waiting_on_source or waiting_on_schedule or review_backlog or monitoring):
@@ -294,11 +304,13 @@ def _operator_summary(rows: list[dict[str, str]]) -> dict[str, Any]:
         "waiting_on_schedule_count": len(waiting_on_schedule),
         "review_backlog_count": len(review_backlog),
         "monitoring_warning_count": len(monitoring),
+        "background_monitor_count": len(background_monitors),
         "build_blockers": [row["label"] for row in build_blockers],
         "waiting_on_source": source_wait_labels,
         "waiting_on_schedule": [row["label"] for row in waiting_on_schedule],
         "review_backlog": [row["label"] for row in review_backlog],
         "monitoring": [row["label"] for row in monitoring],
+        "background_monitors": [row["label"] for row in background_monitors],
     }
 
 
@@ -497,6 +509,7 @@ def format_text(report: dict[str, Any]) -> str:
             f"{summary.get('state') or 'unknown'} | {build_label} | "
             f"source waits={summary.get('waiting_on_source_count', 0)} | "
             f"schedule waits={summary.get('waiting_on_schedule_count', 0)} | "
+            f"background monitors={summary.get('background_monitor_count', 0)} | "
             f"review backlog={summary.get('review_backlog_count', 0)}"
         )
     preview_url = report.get("preview_url") or ""
