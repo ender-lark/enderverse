@@ -168,6 +168,7 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
         and row["status"] == "warn"
         and row["category"] == "natural_schedule"
         and "first_scheduled_proof=False" in row["detail"]
+        and "mode=background_natural" in row["detail"]
         for row in report["rows"]
     )
     assert any(
@@ -393,7 +394,7 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
     assert "[WARN] Live source coverage" in text
     assert "[WARN] Live source configuration" in text
     assert "python src/live_source_capability.py --format text" in text
-    assert "[WARN] Cloud automation proof" in text
+    assert "[WARN] Cloud proof background monitor" in text
     assert "python src/cloud_ops_status.py --format text" in text
     assert "[WARN] Source-call calibration" in text
     assert "[PASS] Sudden event refresh" in text

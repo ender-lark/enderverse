@@ -36,8 +36,8 @@ Current priority:
    normal schedules produce remaining `run_source=scheduled` receipts unless
    the user explicitly asks to accelerate again.
 8. Use `python src/completion_audit.py --format text` when no implementation
-   slice is queued; it separates build blockers from source/user waits, natural
-   cloud proof waits, and deferred stock-review backlog.
+   slice is queued; it separates build blockers from source/user waits,
+   background natural cloud-proof waits, and deferred stock-review backlog.
 
 Current verified snapshot (2026-06-05 20:26 ET live artifacts; 19:01 ET cloud proof):
 
@@ -75,7 +75,8 @@ Current verified snapshot (2026-06-05 20:26 ET live artifacts; 19:01 ET cloud pr
   `2026-06-05 20:26 ET`.
 - The dashboard Operator Status card now shows `Build blockers 0`, `Open reviews
   2 new` in pass styling, the wait summary
-  `Build clear, not all clear | 1 source wait; cloud proof 3/10`, and both:
+  `Build clear, not all clear | 1 source wait; background cloud proof 3/10`,
+  and both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.

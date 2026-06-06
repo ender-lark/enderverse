@@ -38,7 +38,7 @@ def _feed():
         },
         "source_audits": {
             "cloud_routines": {
-                "line": "Cloud scheduled proof: 2/10 routines proven; failed latest=0.",
+                "line": "Background cloud proof: 2/10 scheduled receipts proven; failed latest=0.",
                 "scheduled_success_count": 2,
                 "expected_count": 10,
                 "missing_scheduled_success": [
@@ -276,7 +276,7 @@ def test_generated_html_surfaces_operator_status_card():
     assert "Live fetch" in html
     assert "Build blockers" in html
     assert "Blocked" in html
-    assert "cloud proof 2/10" in html
+    assert "background cloud proof 2/10" in html
     assert "Live source configuration" in html
     assert "Unusual Whales API key" in html
     assert "Active event watch" in html
@@ -330,7 +330,7 @@ def test_generated_html_separates_waits_from_build_blockers():
 
     assert "Build clear, not all clear" in html
     assert "operator-value operator-pass\">0</div>" in html
-    assert "cloud proof 2/10" in html
+    assert "background cloud proof 2/10" in html
     assert "source waits" in html
 
 
@@ -380,7 +380,7 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert "Asymmetric opportunities" in html
     assert "High-conviction target gap" in html
     assert 'id="source-audits"' in html
-    assert "Cloud scheduled proof: 2/10 routines proven" in html
+    assert "Background cloud proof: 2/10 scheduled receipts proven" in html
     assert "Fundstrat intake: 4 full-body" in html
     assert "Notion/writeback audit" in html
     assert 'id="research-actions"' in html

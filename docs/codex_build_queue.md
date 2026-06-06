@@ -38,6 +38,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Background cloud-proof wording.
+  - Cloud proof remains tracked and auditable, but the visible dashboard,
+    go-live checklist, and completion audit now label incomplete routine proof
+    as background natural-schedule monitoring instead of a foreground build
+    task.
+  - Account Positions manual live-source drop was re-verified: the shape
+    template validates, `--validate-only` does not write, and existing tests
+    cover Account Positions/Meridian apply and validation behavior.
 - Completion-audit review pressure parity.
   - `python src/completion_audit.py --format text` now prints open-review
     due/stale/oldest-age counts, matching `live_status.py` and the go-live

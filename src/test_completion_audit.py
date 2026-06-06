@@ -109,7 +109,7 @@ def test_completion_audit_reports_clear_build_with_external_waits(monkeypatch, t
     assert report["open_review_stale_count"] == 0
     assert "Completion audit: BUILD_CLEAR_WAITING_EXTERNAL" in text
     assert "Build clear: True | all clear: False" in text
-    assert "Cloud proof: 3/10 scheduled" in text
+    assert "Cloud proof (background): 3/10 scheduled" in text
     assert "Open reviews: ANET, GOOGL | due=0 | stale=0 | oldest=0d" in text
     assert "Queue: valid=True" in text
     assert "Next: No code blocker; wait for or supply source input: Account Positions." in text

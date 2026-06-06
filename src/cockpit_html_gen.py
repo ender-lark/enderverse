@@ -637,7 +637,7 @@ def _operator_status(feed: dict) -> str:
     if source_waits:
         wait_parts.append(f"{source_waits} source wait{'s' if source_waits != 1 else ''}")
     if schedule_wait:
-        wait_parts.append(f"cloud proof {cloud_scheduled}/{cloud_expected}")
+        wait_parts.append(f"background cloud proof {cloud_scheduled}/{cloud_expected}")
     if open_stale:
         wait_parts.append(f"{open_stale} stale review{'s' if open_stale != 1 else ''}")
     if open_due:
@@ -1203,7 +1203,7 @@ def _source_audits(audits: dict) -> str:
     if missing:
         names = ", ".join(_e(row.get("routine_name") or row.get("routine_id") or "") for row in missing[:6])
         more = len(missing) - min(len(missing), 6)
-        missing_html = f'<div class="feedback-line">Unproven scheduled routines: {names}{f" +{more} more" if more else ""}</div>'
+        missing_html = f'<div class="feedback-line">Background scheduled receipts pending: {names}{f" +{more} more" if more else ""}</div>'
     return f"""
 <div class="card" id="source-audits">
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>

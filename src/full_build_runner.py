@@ -391,7 +391,7 @@ def _build_cloud_routine_audit(src_dir: Path) -> dict[str, Any]:
     )
     return {
         "status": status,
-        "line": f"Cloud scheduled proof: {scheduled}/{expected_count} routines proven; failed latest={failed}.",
+        "line": f"Background cloud proof: {scheduled}/{expected_count} scheduled receipts proven; failed latest={failed}.",
         "scheduled_success_count": scheduled,
         "expected_count": expected_count,
         "failed_latest_count": failed,

@@ -1440,7 +1440,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     <div style={{ fontSize:12.5, color:C.text }}>{line}</div>
                   </div>
                 ))}
-                {(((A.cloud_routines||{}).missing_scheduled_success)||[]).length>0 && <div style={{ fontSize:11.5, color:C.dim }}>Unproven scheduled routines: {((A.cloud_routines||{}).missing_scheduled_success||[]).slice(0,6).map(r=>r.routine_name||r.routine_id).join(", ")}</div>}
+                {(((A.cloud_routines||{}).missing_scheduled_success)||[]).length>0 && <div style={{ fontSize:11.5, color:C.dim }}>Background scheduled receipts pending: {((A.cloud_routines||{}).missing_scheduled_success||[]).slice(0,6).map(r=>r.routine_name||r.routine_id).join(", ")}</div>}
               </div>
             );
           })()}

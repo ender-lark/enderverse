@@ -187,7 +187,7 @@ def format_text(report: dict[str, Any]) -> str:
             + (f" ({', '.join(report.get('waiting_on_source') or [])})" if report.get("waiting_on_source") else "")
         ),
         (
-            f"Cloud proof: {int(cloud.get('scheduled_success') or 0)}/"
+            f"Cloud proof (background): {int(cloud.get('scheduled_success') or 0)}/"
             f"{int(cloud.get('expected') or 0)} scheduled | "
             f"live_run_proven={bool(cloud.get('live_run_proven'))} | "
             f"next={cloud.get('next_due_name') or 'none'} {cloud.get('next_due_at') or ''}".rstrip()
@@ -227,7 +227,7 @@ def main(argv=None) -> int:
     parser.add_argument(
         "--require-all-clear",
         action="store_true",
-        help="Exit non-zero until source waits, cloud proof waits, dark lanes, and open reviews are clear",
+        help="Exit non-zero until source waits, background cloud proof waits, dark lanes, and open reviews are clear",
     )
     args = parser.parse_args(argv)
     report = build_completion_audit(src_dir=args.src_dir)

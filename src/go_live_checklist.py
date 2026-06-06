@@ -144,6 +144,7 @@ def _cloud_row_detail(cloud: dict[str, Any]) -> str:
         f"first_scheduled_proof={bool(cloud.get('first_scheduled_run_proven'))}; "
         f"scheduled_success={int(receipts.get('scheduled_success_count') or 0)}/"
         f"{int(receipts.get('expected_count') or 0)}; "
+        "mode=background_natural; "
         f"next={next_label} {next_at}".rstrip()
     )
 
@@ -368,7 +369,7 @@ def build_go_live_checklist(
         ),
         _row(
             "cloud_ops",
-            "Cloud automation proof",
+            "Cloud proof background monitor",
             _cloud_row_status(cloud),
             _cloud_row_detail(cloud),
             "python src/cloud_ops_status.py --format text",
