@@ -38,6 +38,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Open-review warning severity parity.
+  - Fresh same-day open reviews now remain visible without becoming a warning
+    bucket. Due or stale reviews still warn.
+  - The go-live checklist now reports `review backlog=0` when open reviews are
+    only new and have `0 due; 0 stale`, while still listing the review-report
+    command and tickers.
+  - The generated HTML dashboard and canonical JSX Operator Status card now
+    show `2 new` in pass styling for same-day ANET/GOOGL reviews. Overall
+    operator status remains `WARN` only because Account Positions and natural
+    cloud proof are still waits.
 - Open-review backlog hygiene.
   - Added a shared action-memory review-age policy: new, review due, and stale
     review states based on trading-day age.

@@ -13,6 +13,8 @@ def test_canonical_cockpit_surfaces_operator_status():
     assert "Operator status" in text
     assert "Today actions" in text
     assert "Open reviews" in text
+    assert "openReviewPressure" in text
+    assert "openReviewValue" in text
     assert "Source lanes" in text
     assert "Source calls" in text
     assert "Live fetch" in text

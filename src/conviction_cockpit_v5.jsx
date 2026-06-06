@@ -800,7 +800,11 @@ function laneStatusRow(r){
 function operatorStatus(feed){
   const counts = ((feed.lane_status||{}).counts)||{};
   const feedback = feed.feedback||{};
-  const openActions = ((feedback.open_actions)||{}).count||0;
+  const openFeedback = (feedback.open_actions)||{};
+  const openActions = openFeedback.count||0;
+  const openDue = openFeedback.due_count||0;
+  const openStale = openFeedback.stale_count||0;
+  const openReviewPressure = openDue + openStale;
   const sourceCalls = feedback.source_calls||{};
   const sourceCallStatus = sourceCalls.status||"not_checked";
   const sourceCallObserved = sourceCalls.observed_count||0;
@@ -820,13 +824,15 @@ function operatorStatus(feed){
   const dark = counts.not_checked||0;
   const stale = counts.stale||0;
   const failed = counts.failed||0;
-  const status = (failed||sourceCallFail) ? "FAIL" : ((dark||stale||openActions||sourceCallWarn||liveConfigMissing) ? "WARN" : "PASS");
+  const status = (failed||sourceCallFail) ? "FAIL" : ((dark||stale||openReviewPressure||sourceCallWarn||liveConfigMissing) ? "WARN" : "PASS");
   const statusColor = (failed||sourceCallFail) ? C.red : (status==="WARN" ? C.amber : C.green);
   const sourceLane = failed ? `${failed} failed` : dark ? `${dark} dark` : stale ? `${stale} stale` : "clear";
   const sourceCall = sourceCallFail ? `${sourceCallOverdue} overdue` : sourceCallWarn ? `${sourceCallObserved} unscored` : sourceCallPending ? `${sourceCallPending} pending` : "clear";
+  const openReviewValue = openStale ? `${openStale} stale` : openDue ? `${openDue} due` : openActions ? `${openActions} new` : "0";
   const liveFetch = liveConfigTotal ? `${liveConfigured}/${liveConfigTotal}` : "unknown";
   return {
-    status, statusColor, actions, openActions, sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
+    status, statusColor, actions, openActions, openDue, openStale, openReviewPressure, openReviewValue,
+    sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
     liveFetch, liveConfigMissing, liveConfig,
     eventWatch,
     command:"python src/go_live_checklist.py --format text",
@@ -1104,7 +1110,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           const op = VM.operatorStatus;
           const items = [
             ["Today actions", String(op.actions), op.actions?C.amber:C.dim],
-            ["Open reviews", String(op.openActions), op.openActions?C.amber:C.green],
+            ["Open reviews", op.openReviewValue, op.openReviewPressure?C.amber:C.green],
             ["Source lanes", op.sourceLane, op.sourceLane==="clear"?C.green:C.amber],
             ["Source calls", op.sourceCall, op.sourceCallFail?C.red:op.sourceCallWarn?C.amber:C.green],
             ["Live fetch", op.liveFetch, op.liveConfigMissing?C.amber:C.green],

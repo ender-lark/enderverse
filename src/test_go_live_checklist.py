@@ -177,6 +177,29 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
     assert any(row["key"] == "source_calls" and row["status"] == "warn" for row in report["rows"])
 
 
+def test_build_go_live_checklist_keeps_new_open_reviews_visible_without_warning(monkeypatch, tmp_path):
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: _fake_status(open_count=1))
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {
+            "open_count": 1,
+            "oldest_age_days": 0,
+            "due_count": 0,
+            "stale_count": 0,
+            "rows": [{"ticker": "ANET"}],
+        },
+    )
+
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+    row = next(row for row in report["rows"] if row["key"] == "open_reviews")
+
+    assert row["status"] == "pass"
+    assert "ANET" in row["detail"]
+    assert "0 due; 0 stale" in row["detail"]
+    assert report["operator_summary"]["review_backlog_count"] == 0
+
+
 def test_build_go_live_checklist_fails_when_readiness_blocked(monkeypatch, tmp_path):
     monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: _fake_status(ready=False))
     monkeypatch.setattr(
@@ -352,6 +375,8 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
         lambda **kwargs: {
             "open_count": 1,
             "oldest_age_days": 2,
+            "due_count": 1,
+            "stale_count": 0,
             "rows": [{"ticker": "ANET"}],
         },
     )

@@ -544,6 +544,9 @@ def _operator_status(feed: dict) -> str:
     stale = int(counts.get("stale") or 0)
     failed = int(counts.get("failed") or 0)
     open_count = int(open_actions.get("count") or 0)
+    open_due = int(open_actions.get("due_count") or 0)
+    open_stale = int(open_actions.get("stale_count") or 0)
+    open_review_pressure = open_due + open_stale
     source_call_status = source_calls.get("status") or "not_checked"
     source_call_observed = int(source_calls.get("observed_count") or 0)
     source_call_pending = int(source_calls.get("pending_count") or 0)
@@ -617,7 +620,7 @@ def _operator_status(feed: dict) -> str:
         "FAIL"
         if failed or source_call_fail
         else "WARN"
-        if dark or stale or open_count or source_call_warn or live_config_missing
+        if dark or stale or open_review_pressure or source_call_warn or live_config_missing
         else "PASS"
     )
     cls = {"PASS": "operator-pass", "WARN": "operator-warn", "FAIL": "operator-fail"}[status]
@@ -635,8 +638,10 @@ def _operator_status(feed: dict) -> str:
         wait_parts.append(f"{source_waits} source wait{'s' if source_waits != 1 else ''}")
     if schedule_wait:
         wait_parts.append(f"cloud proof {cloud_scheduled}/{cloud_expected}")
-    if open_count:
-        wait_parts.append(f"{open_count} review{'s' if open_count != 1 else ''}")
+    if open_stale:
+        wait_parts.append(f"{open_stale} stale review{'s' if open_stale != 1 else ''}")
+    if open_due:
+        wait_parts.append(f"{open_due} due review{'s' if open_due != 1 else ''}")
     if stale:
         wait_parts.append(f"{stale} re-check{'s' if stale != 1 else ''}")
     if source_call_warn:
@@ -657,6 +662,14 @@ def _operator_status(feed: dict) -> str:
     if failed:
         lane_detail.append(f"{failed} failed")
     lane_value = ", ".join(lane_detail) if lane_detail else "clear"
+    if open_stale:
+        open_review_value = f"{open_stale} stale"
+    elif open_due:
+        open_review_value = f"{open_due} due"
+    elif open_count:
+        open_review_value = f"{open_count} new"
+    else:
+        open_review_value = "0"
     return f"""
 <div class="card" id="operator-status">
   <div class="card-title"><span class="icon">!</span> Operator status
@@ -664,7 +677,7 @@ def _operator_status(feed: dict) -> str:
   </div>
   <div class="operator-grid">
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">{_e(action_count)}</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value {_e('operator-warn' if open_count else 'operator-pass')}">{_e(open_count)}</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value {_e('operator-warn' if open_review_pressure else 'operator-pass')}">{_e(open_review_value)}</div></a>
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value {_e('operator-warn' if lane_detail else 'operator-pass')}">{_e(lane_value)}</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value {_e('operator-fail' if source_call_fail else 'operator-warn' if source_call_warn else 'operator-pass')}">{_e(source_call_value)}</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value {_e('operator-warn' if live_config_missing else 'operator-pass')}">{_e(f'{live_configured}/{live_config_total}' if live_config_total else 'unknown')}</div></a>

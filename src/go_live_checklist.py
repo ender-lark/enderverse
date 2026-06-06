@@ -58,6 +58,14 @@ def _open_review_detail(review: dict[str, Any]) -> str:
     )
 
 
+def _open_review_row_status(review: dict[str, Any]) -> str:
+    if not review.get("open_count"):
+        return "pass"
+    due = int(review.get("due_count") or 0)
+    stale = int(review.get("stale_count") or 0)
+    return "warn" if due or stale else "pass"
+
+
 def _dark_lane_detail(status: dict[str, Any]) -> str:
     dark = status.get("dark_lanes") or {}
     details = [
@@ -438,7 +446,7 @@ def build_go_live_checklist(
         _row(
             "open_reviews",
             "Open action reviews",
-            "warn" if review.get("open_count") else "pass",
+            _open_review_row_status(review),
             _open_review_detail(review),
             "python src/action_memory_resolve.py --review-report",
             "review_backlog",

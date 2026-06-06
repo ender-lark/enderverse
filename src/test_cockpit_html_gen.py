@@ -270,6 +270,7 @@ def test_generated_html_surfaces_operator_status_card():
     assert "Operator status" in html
     assert "Today actions" in html
     assert "Open reviews" in html
+    assert 'operator-value operator-warn">1 due</div>' in html
     assert "Source lanes" in html
     assert "Source calls" in html
     assert "Live fetch" in html
@@ -286,6 +287,33 @@ def test_generated_html_surfaces_operator_status_card():
     assert "python src/completion_audit.py --format text" in html
     assert "python src/go_live_checklist.py --format text" in html
     assert "python src/sudden_event_refresh.py --title" in html
+
+
+def test_generated_html_keeps_new_open_reviews_visible_without_warning():
+    feed = _feed()
+    feed["feedback"]["open_actions"] = {
+        "line": "Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).",
+        "count": 2,
+        "oldest_age_days": 0,
+        "due_count": 0,
+        "stale_count": 0,
+        "items": [
+            {
+                "ticker": "ANET",
+                "age_days": 0,
+                "source": "lean_in",
+                "review_label": "new",
+                "cleanup_priority": "low",
+                "next_step": "Keep visible; no cleanup pressure yet.",
+            }
+        ],
+    }
+
+    html = generate_html(feed)
+
+    assert 'operator-value operator-pass">2 new</div>' in html
+    assert "Open action backlog: 2 open; 0 due; 0 stale" in html
+    assert "0d open | new | lean_in" in html
 
 
 def test_generated_html_separates_waits_from_build_blockers():
