@@ -38,6 +38,11 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dashboard manual-drop template guidance.
+  - The generated Lane Status command block now shows
+    `docs/manual_live_source_drop.template.json` as shape-only guidance before
+    the Account Positions validate/apply commands. The apply command still
+    points at a filled `<manual-live-source-drop.json>` file, not the template.
 - Source-call scoring wording clarity.
   - `live_status.py --format text` now labels source-call counts as
     `new=<latest observations>` and `scoring=<stored calls awaiting outcome>`

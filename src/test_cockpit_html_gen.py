@@ -299,6 +299,8 @@ def test_generated_html_separates_waits_from_build_blockers():
 def test_generated_html_surfaces_dark_lane_validate_and_apply_commands():
     html = generate_html(_feed())
 
+    assert "Account Positions template" in html
+    assert "docs/manual_live_source_drop.template.json (shape only; fill a separate drop file)" in html
     assert "Account Positions validate" in html
     assert "python src/manual_source_drop.py &lt;manual-live-source-drop.json&gt; --src-dir src --validate-only" in html
     assert "Account Positions apply" in html
