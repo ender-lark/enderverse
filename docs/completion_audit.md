@@ -11,44 +11,40 @@ python src/completion_audit.py --format text
 
 Current command output classifies the build as
 `BUILD_CLEAR_WAITING_EXTERNAL`: local dashboard/go-live readiness is clear and
-there are 0 build blockers, but `all_clear` remains false. Account Positions is
-the one source/user wait, cloud routine proof remains partial at `3/10` and is
-tracked as a background natural-schedule monitor, and `ANET`/`GOOGL` remain
-visible as fresh open reviews with `0 due / 0 stale`. Use
+there are 0 build blockers, but `all_clear` remains false while background
+cloud routine proof remains partial at `3/10`. Source waits are now 0, and
+`ANET`/`GOOGL` remain visible as fresh open reviews with `0 due / 0 stale`. Use
 `python src/completion_audit.py --require-all-clear` only when external waits
 and background monitors must fail the command.
 
 Generated: 2026-06-05
 
-Latest live refresh: 2026-06-05 20:33 ET after the background cloud-proof
-wording/checklist slice. Latest verification includes the standard verifier
-with full pytest plus standalone self-tests.
+Latest live refresh: 2026-06-05 21:06 ET after Account Positions source-cache
+refresh. Latest verification includes focused broker/reconciliation tests; run
+the standard verifier after any new code/docs slice.
 
 Current live proof:
 
 - `python src/live_status.py --format text` reports
   `live_with_open_reviews`, `go_live_ready: true`, 5 actions, 0 research
-  actions, feed `2026-06-06T00:33:51.380052+00:00`, 13 lanes with data,
-  1 dark lane (`account_positions`), 3 scoring / 0 overdue source calls, and
+  actions, feed `2026-06-06T01:06:32.488993+00:00`, 13 lanes with data,
+  0 dark lanes, 3 scoring / 0 overdue source calls, and
   preview running at
   `http://127.0.0.1:8765/dashboard_preview.html`.
-- `python src/go_live_checklist.py --format text` reports `WARN`,
-  `Ready: True`, 0 failures, and 3 warnings, all tied to the missing Account
-  Positions source path: live source coverage, manual source drop, and optional
-  dark lane. It reports `schedule waits=0` and `background monitors=1`; the
-  cloud proof background monitor passes unless a receipt is overdue or failed.
-- The dashboard preview shows build `2026-06-05 20:33 ET` and includes the
+- `python src/go_live_checklist.py --format text` reports `PASS`,
+  `Ready: True`, 0 failures, and 0 warnings. It reports `source waits=0`,
+  `schedule waits=0`, and `background monitors=1`; the cloud proof background
+  monitor passes unless a receipt is overdue or failed.
+- The dashboard preview shows build `2026-06-05 21:06 ET` and includes the
   Operator Status command links for build audit, go-live review, and
   supplied-headline sudden-event refresh. It also shows the active Middle East
-  oil/rates event watch, impacted channels/tickers, trigger evidence, and
-  Account Positions validate/apply commands.
-- `python src/verify_standard.py` last passed with `1048 passed, 6 skipped`,
+  oil/rates event watch, impacted channels/tickers, and trigger evidence.
+- `python src/verify_standard.py` last passed with `1051 passed, 6 skipped`,
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
-- Account Positions extractor hardening is verified. The current Drive PDFs now
-  produce clean Schwab/Robinhood rows while marking both Fidelity PDFs failed
-  because their selectable text separates value rows from symbol rows; strict
-  cache refresh refuses to write from that partial state.
+- Account Positions source-cache refresh is verified. The current Drive PDFs
+  produced 225 rows across Fidelity, Schwab, and Robinhood with 0 failed files;
+  strict `positions.json` generation and account-position validation passed.
 
 ## Scope
 

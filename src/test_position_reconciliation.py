@@ -46,6 +46,29 @@ def test_account_position_rows_preserve_owner_broker_account_and_tracking():
     assert by[("Aggregate", "XLF")]["tracked"] is False
 
 
+def test_account_position_rows_infer_owner_from_short_drive_prefixes():
+    combined = {
+        "files": [
+            {
+                "source_file": "G:/My Drive/Claude/Investing OS/Account Positions/s-fidelity.pdf",
+                "broker": "Fidelity",
+                "positions": [{"symbol": "NVDA", "market_value": 1000, "quantity": 5, "account_name": "Individual"}],
+            },
+            {
+                "source_file": "G:/My Drive/Claude/Investing OS/Account Positions/p-schwabb.pdf",
+                "broker": "Schwab",
+                "positions": [{"symbol": "SMH", "market_value": 2000, "quantity": 3, "account_name": "Retirement"}],
+            },
+        ],
+        "portfolio_summary": {"total_market_value": 3000, "as_of": "2026-05-31"},
+    }
+
+    rows = pr.account_position_rows(combined, THESES)
+    owners = {row["ticker"]: row["owner"] for row in rows}
+
+    assert owners == {"NVDA": "SKB", "SMH": "Parents"}
+
+
 def test_build_account_positions_outputs_combined_and_tracked_combined():
     cache = pr.build_account_positions(CURRENT_COMBINED, THESES)
 

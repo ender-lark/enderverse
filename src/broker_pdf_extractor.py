@@ -26,6 +26,8 @@ MONEY_RE = re.compile(r"\(?\$?\s*-?\d[\d,]*(?:\.\d{2})?\)?")
 CURRENCY_RE = re.compile(r"\(?\$\s*-?\d[\d,]*(?:\.\d+)?\)?")
 NUMBER_RE = re.compile(r"^-?\d[\d,]*(?:\.\d+)?$")
 PERCENT_RE = re.compile(r"^[+\-]?\d[\d,]*(?:\.\d+)?%$")
+SIGNED_MONEY_TOKEN_RE = re.compile(r"^\(?[+\-]?\$\s*\d[\d,]*(?:\.\d+)?[A-Z]?\)?$")
+NUMBER_FLAG_RE = re.compile(r"^[+\-]?\d[\d,]*(?:\.\d+)?[A-Z]?$")
 
 HEADER_WORDS = {
     "symbol", "ticker", "description", "quantity", "qty", "price", "value",
@@ -39,17 +41,18 @@ SECURITY_WORDS = {
     "TECNOL", "LARG", "SMAL",
 }
 CONCAT_DESCRIPTION_STARTERS = (
-    "ACOUSTIS", "ADVISORSHARES", "ALPHABET", "AMAZON", "ARDEA", "ASML",
+    "ACOUSTIS", "ADVISORSHARES", "ALPHABET", "AMAZON", "ARDEA", "ARISTA", "ASML",
     "AST", "BITMINE", "BLOOM", "BROADCOM", "BWX", "CAMECO", "CENTRUS",
-    "CIES", "COINBASE", "COMFORT", "DAN", "ENERGY", "FABRINET",
+    "CIES", "COINBASE", "COMFORT", "COSTCO", "DAN", "ENERGY", "FABRINET",
     "FIDELITY", "FIRST", "FUCORE", "FUNDSTRAT", "GE", "GLOBAL",
     "GOLDMAN", "HELD", "ISHARES", "INTUITIVE", "INVESCO", "JPMORGAN",
-    "LUMENTUM", "LYNAS", "MICROSOFT", "MICRON", "MP", "NEBIUS",
+    "LISTED", "LUMENTUM", "LYNAS", "MATERIALS", "MICROSOFT", "MICRON", "NEBIUS",
     "NVIDIA", "NEXTPOWER", "ORACLE", "PALANTIR", "PERSHING", "POET",
-    "QUANTA", "REDDIT", "ROUNDHILL", "SELECT", "SOFI", "STATE",
+    "QUANTA", "REDDIT", "ROUNDHILL", "SELECT", "SOFI", "STATE", "STREET",
     "STERLING", "TALON", "TEMA", "TEMPUS", "TIDAL", "UNUSUAL", "VANECK",
     "WEDBUSH", "WHEATON",
 )
+FIDELITY_CASH_SYMBOLS = {"FCASH", "FDRXX", "SPAXX"}
 
 
 def _utc_now_iso() -> str:
@@ -71,6 +74,21 @@ def _num(value: Any) -> float | None:
     except ValueError:
         return None
     return -n if neg else n
+
+
+def _num_token(value: Any) -> float | None:
+    text = str(value or "").strip()
+    if not text:
+        return None
+    text = re.sub(r"([0-9)])([A-Z])$", r"\1", text)
+    text = text.replace("$", "").replace(",", "").replace("(", "").replace(")", "").strip()
+    text = text.replace("+", "")
+    if not text:
+        return None
+    try:
+        return float(text)
+    except ValueError:
+        return None
 
 
 def _date_iso(value: str) -> str | None:
@@ -148,6 +166,221 @@ def _looks_like_schwab_account_pdf(text: str) -> bool:
     )
 
 
+def _split_fidelity_pages(text: str) -> list[list[str]]:
+    pages: list[list[str]] = []
+    current: list[str] = []
+    for raw_line in (text or "").splitlines():
+        line = " ".join(raw_line.split())
+        if not line:
+            continue
+        current.append(line)
+        if "digital.fidelity.com/ftgw/digital/portfolio/positions" in line:
+            pages.append(current)
+            current = []
+    if current:
+        pages.append(current)
+    return pages
+
+
+def _is_fidelity_account_heading(line: str) -> bool:
+    text = line.strip()
+    low = text.lower()
+    if not text or low in {"all accounts", "positions"}:
+        return False
+    if low.startswith(("account total", "grand total", "pending activity")):
+        return False
+    return bool(re.search(
+        r"(joint wros|rollover ira|roth ira|traditional ira|individual|health savings account|bank of america)",
+        text,
+        re.I,
+    ))
+
+
+def _fidelity_page_style(lines: list[str]) -> str | None:
+    head = "\n".join(lines[:16]).lower()
+    if "currentvalue % ofaccount quantity averagecostbasis" in head:
+        return "lastprice_first"
+    if "symbol currentvalue" in head:
+        return "current_first"
+    return None
+
+
+def _is_signed_money_token(token: str) -> bool:
+    return bool(SIGNED_MONEY_TOKEN_RE.match(str(token or "").replace(" ", "")))
+
+
+def _parse_fidelity_current_first_value(line: str) -> dict[str, float] | None:
+    tokens = line.split()
+    if not tokens or not _is_signed_money_token(tokens[0]):
+        return None
+    market_value = _num_token(tokens[0])
+    if market_value is None:
+        return None
+    quantity = None
+    for idx in range(len(tokens) - 2, 0, -1):
+        if NUMBER_FLAG_RE.match(tokens[idx]) and _is_signed_money_token(tokens[idx + 1]):
+            quantity = _num_token(tokens[idx])
+            break
+    if quantity is None:
+        return None
+    return {"market_value": market_value, "quantity": quantity}
+
+
+def _parse_fidelity_lastprice_first_value(line: str) -> dict[str, float] | None:
+    tokens = line.split()
+    money_idx = [idx for idx, token in enumerate(tokens) if _is_signed_money_token(token)]
+    if len(money_idx) < 6:
+        return None
+    market_value_idx = money_idx[-2]
+    if market_value_idx + 2 >= len(tokens):
+        return None
+    if not PERCENT_RE.match(tokens[market_value_idx + 1]):
+        return None
+    market_value = _num_token(tokens[market_value_idx])
+    quantity = _num_token(tokens[market_value_idx + 2])
+    if market_value is None or quantity is None:
+        return None
+    return {"market_value": market_value, "quantity": quantity}
+
+
+def _parse_fidelity_value_line(line: str, style: str | None) -> dict[str, float] | None:
+    if style == "current_first":
+        return _parse_fidelity_current_first_value(line)
+    if style == "lastprice_first":
+        return _parse_fidelity_lastprice_first_value(line)
+    return None
+
+
+def _fidelity_option_payload(symbol: str, description: str) -> dict[str, Any] | None:
+    match = re.search(
+        r"\b(?P<strike>\d+(?:\.\d+)?)\s+(?P<cp>Call|Put)(?P<mon>[A-Z][a-z]{2})-(?P<day>\d{1,2})-(?P<year>\d{4})",
+        description,
+    )
+    if not match:
+        return None
+    month = {
+        "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04",
+        "May": "05", "Jun": "06", "Jul": "07", "Aug": "08",
+        "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12",
+    }.get(match.group("mon"))
+    if not month:
+        return None
+    return {
+        "underlying": symbol,
+        "strike": float(match.group("strike")),
+        "call_put": match.group("cp").lower(),
+        "expiry": f"{match.group('year')}-{month}-{int(match.group('day')):02d}",
+    }
+
+
+def _fidelity_symbol_entry(line: str) -> dict[str, Any] | None:
+    text = line.strip()
+    if not text or text in {"D", "E", "L", "M", "W"}:
+        return None
+    if text[0].isdigit():
+        return None
+    low = text.lower()
+    if (
+        text.startswith(("$", "+$", "-$", "--"))
+        or _clean_token(text) in {word.upper() for word in HEADER_WORDS}
+        or _clean_token(text) in {"LASTPRICE", "LASTPRICECHANGE", "CURRENTVALUE", "COST", "BASISTOTAL", "AVERAGECOSTBASIS"}
+        or low.startswith(("https://", "account total", "grand total", "pending activity"))
+        or low.startswith(("securities priced", "some securities", "cash ", "important information"))
+        or _is_fidelity_account_heading(text)
+        or DATE_RE.search(text)
+    ):
+        return None
+    option_match = re.match(r"^([A-Z]{1,6})\s+(.+(?:Call|Put).+)$", text)
+    if option_match:
+        symbol = option_match.group(1)
+        description = option_match.group(2).strip()
+        if not _looks_like_ticker(symbol):
+            return None
+        row: dict[str, Any] = {"symbol": symbol, "description": description}
+        option = _fidelity_option_payload(symbol, description)
+        if option:
+            row["asset_type"] = "option"
+            row["option"] = option
+        return row
+    tokens = text.split()
+    first_token = tokens[0] if tokens else text
+    split = _split_leading_concatenated_symbol(first_token)
+    if not split:
+        simple = re.match(r"^([A-Z]{1,6})\s+(.+)$", text)
+        if not simple:
+            return None
+        symbol, description = simple.group(1), simple.group(2).strip()
+        if not _looks_like_ticker(symbol):
+            return None
+    else:
+        symbol, first_description = split
+        description = " ".join([first_description, *tokens[1:]]).strip()
+    if symbol in FIDELITY_CASH_SYMBOLS:
+        return None
+    return {"symbol": symbol, "description": description.strip(" ?")}
+
+
+def _finalize_nonempty_groups(groups: list[list[Any]], current: list[Any]) -> None:
+    if current:
+        groups.append(current)
+
+
+def _parse_fidelity_lines(text: str, *, account_name: str | None = None) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    current_account = account_name or "Fidelity"
+    for page in _split_fidelity_pages(text):
+        style = _fidelity_page_style(page)
+        if not style:
+            for line in page:
+                if _is_fidelity_account_heading(line):
+                    current_account = line[:120]
+            continue
+
+        value_groups: list[list[dict[str, Any]]] = []
+        current_values: list[dict[str, Any]] = []
+        for line in page:
+            if _is_fidelity_account_heading(line):
+                _finalize_nonempty_groups(value_groups, current_values)
+                current_values = []
+                current_account = line[:120]
+                continue
+            value = _parse_fidelity_value_line(line, style)
+            if value is not None:
+                current_values.append({**value, "account_name": current_account})
+        _finalize_nonempty_groups(value_groups, current_values)
+
+        symbol_groups: list[list[dict[str, Any]]] = []
+        current_symbols: list[dict[str, Any]] = []
+        for line in page:
+            if line.lower().startswith("account total"):
+                _finalize_nonempty_groups(symbol_groups, current_symbols)
+                current_symbols = []
+                continue
+            symbol = _fidelity_symbol_entry(line)
+            if symbol is not None:
+                current_symbols.append(symbol)
+        _finalize_nonempty_groups(symbol_groups, current_symbols)
+
+        value_groups = [group for group in value_groups if group]
+        symbol_groups = [group for group in symbol_groups if group]
+        if not value_groups:
+            continue
+        if len(value_groups) != len(symbol_groups):
+            return []
+        for values, symbols in zip(value_groups, symbol_groups):
+            if len(values) != len(symbols):
+                return []
+            for value, symbol in zip(values, symbols):
+                row = {
+                    **symbol,
+                    "quantity": value["quantity"],
+                    "market_value": value["market_value"],
+                    "account_name": value["account_name"],
+                }
+                rows.append(row)
+    return rows
+
+
 def infer_account_name(text: str, source_file: str) -> str:
     for line in text.splitlines():
         m = ACCOUNT_RE.search(line.strip())
@@ -193,9 +426,11 @@ def _first_money_value(line: str) -> float | None:
 
 
 def _split_leading_concatenated_symbol(token: str) -> tuple[str, str] | None:
-    cleaned = _clean_token(token)
-    if not cleaned.isalpha() or len(cleaned) <= 6:
+    cleaned = re.sub(r"[^A-Z]", "", _clean_token(token))
+    if not cleaned or len(cleaned) <= 2:
         return None
+    if cleaned.startswith("MPMP"):
+        return "MP", cleaned[2:]
     for idx in range(min(6, len(cleaned) - 2), 0, -1):
         symbol = cleaned[:idx]
         description_start = cleaned[idx:]
@@ -420,7 +655,7 @@ def parse_position_lines(
     if broker_key == "schwab" and _looks_like_schwab_account_pdf(text):
         return _parse_schwab_lines(text, account_name=account_name)
     if broker_key == "fidelity" and _looks_like_fidelity_portfolio_pdf(text):
-        return []
+        return _parse_fidelity_lines(text, account_name=account_name)
 
     rows: list[dict[str, Any]] = []
     seen: set[tuple[str, float, float]] = set()
@@ -479,7 +714,7 @@ def extract_file(path: str | Path, *, as_of: str | None = None) -> dict[str, Any
     if error:
         validation["error"] = error
     elif broker == "Fidelity" and _looks_like_fidelity_portfolio_pdf(text) and not positions:
-        validation["error"] = "Fidelity selectable text uses separated value/symbol blocks; stronger extractor required"
+        validation["error"] = "Fidelity separated value/symbol blocks did not pair exactly"
     if text.strip() and not positions:
         validation.setdefault("error", "no confident ticker/symbol position rows found")
     return {

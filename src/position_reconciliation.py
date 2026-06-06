@@ -69,9 +69,14 @@ def _owner_from(source_file: str, account: str, row: dict[str, Any], file_row: d
     if explicit:
         return str(explicit).strip()
     text = f"{source_file} {account}".lower()
+    stem = Path(source_file or "").stem.lower()
+    if stem.startswith(("s-", "s_", "suraj")):
+        return "SKB"
+    if stem.startswith(("p-", "p_", "parent", "parents")):
+        return "Parents"
     if "skb" in text or "suraj" in text:
         return "SKB"
-    if "parent" in text or "parents" in text:
+    if "parent" in text or "parents" in text or "rambalusu" in text:
         return "Parents"
     return "Unknown"
 

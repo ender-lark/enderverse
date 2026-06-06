@@ -47,6 +47,27 @@ SCHWAB_TEXT = "\n".join([
     "(-0.15%) $83,850.20 -$126.00",
 ])
 
+FIDELITY_SEPARATED_TEXT = "\n".join([
+    "Positions",
+    "Overview As of May-31-20262:47 p.m. ET",
+    "Symbol Currentvalue",
+    "Today'sgain/loss%",
+    "Today'sgain/loss $",
+    "Totalgain/loss%",
+    "Totalgain/loss $ Quantity Lastprice",
+    "Lastpricechange",
+    "Cost basistotal",
+    "Joint WROS - TODX84632063",
+    "$62,225.64 -0.23% -$140.81 +6.06% +$3,557.37 880.012M $70.71 -$0.16 $58,668.27W",
+    "$52,785.00 -1.46% -$777.50 +14.62% +$6,733.18 250M $211.14 -$3.11 $46,051.82",
+    "$370.00 +5.71% +$20.00 -55.61% -$463.36 5 $0.74 +$0.04 $833.36",
+    "MAGSLISTED FD TR ROU?",
+    "NVDANVIDIA CORPORAT?",
+    "BMNR 30 CallAug-21-2026",
+    "5/31/26, 2:47 PM Portfolio Positions",
+    "https://digital.fidelity.com/ftgw/digital/portfolio/positions 1/1",
+])
+
 
 def test_parse_position_lines_extracts_ticker_quantity_and_market_value():
     rows = bpe.parse_position_lines(TEXT, account_name="SKB Fidelity Taxable")
@@ -99,6 +120,30 @@ def test_fidelity_disclosure_prose_is_not_a_position():
         "The price from the prior market day resets before the market opens.",
         "Portfolio Positions Currentvalue",
     ])
+
+    rows = bpe.parse_position_lines(text, account_name="Fidelity", broker="Fidelity")
+
+    assert rows == []
+
+
+def test_fidelity_separated_value_and_symbol_blocks_pair_by_page():
+    rows = bpe.parse_position_lines(
+        FIDELITY_SEPARATED_TEXT,
+        account_name="Fidelity",
+        broker="Fidelity",
+    )
+
+    assert [row["symbol"] for row in rows] == ["MAGS", "NVDA", "BMNR"]
+    assert rows[0]["quantity"] == 880.012
+    assert rows[0]["market_value"] == 62225.64
+    assert rows[0]["account_name"] == "Joint WROS - TODX84632063"
+    assert rows[2]["asset_type"] == "option"
+    assert rows[2]["option"]["expiry"] == "2026-08-21"
+    assert rows[2]["option"]["call_put"] == "call"
+
+
+def test_fidelity_separated_blocks_fail_closed_on_count_mismatch():
+    text = FIDELITY_SEPARATED_TEXT.replace("NVDANVIDIA CORPORAT?\n", "")
 
     rows = bpe.parse_position_lines(text, account_name="Fidelity", broker="Fidelity")
 

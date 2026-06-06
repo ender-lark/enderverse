@@ -478,5 +478,5 @@ def test_go_live_checklist_cli_text_format_runs_against_current_repo():
     )
 
     assert proc.returncode == 0
-    assert "Go-live checklist: WARN" in proc.stdout
+    assert "Go-live checklist: PASS" in proc.stdout
     assert "Dashboard preview" in proc.stdout

@@ -39,7 +39,7 @@ Current priority:
    slice is queued; it separates build blockers from source/user waits,
    background natural cloud-proof waits, and deferred stock-review backlog.
 
-Current verified snapshot (2026-06-05 20:54 ET verification; 20:33 ET live artifacts; background cloud proof 3/10):
+Current verified snapshot (2026-06-05 21:06 ET live artifacts; background cloud proof 3/10):
 
 - Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
   this handoff page's commit hash as runtime evidence.
@@ -47,7 +47,7 @@ Current verified snapshot (2026-06-05 20:54 ET verification; 20:33 ET live artif
   is committed and pushed.
 - `python src/live_status.py --format text` reports
   `live_with_open_reviews`, `go_live_ready: true`, 5 actions, 0 research
-  actions, 13 lanes with data, 1 dark optional lane (`account_positions`), 2
+  actions, 13 lanes with data, 0 dark lanes, 2
   open action reviews, and source calls `new=0`, `scoring=3`, `overdue=0`.
   It also reports
   `Live source config: configured=1/1 | missing=0` after the app Unusual
@@ -59,39 +59,34 @@ Current verified snapshot (2026-06-05 20:54 ET verification; 20:33 ET live artif
   `scheduled_success=3/10` after real scheduled successes for Post-Close
   Refresh, Pre-Market Source Intake, and Morning Scan. Remaining routine proof
   should advance through natural schedules, not active acceleration.
-- `python src/go_live_checklist.py --format text` reports `WARN` with 0
-  failures and 3 warnings, but its build summary is
-  `build_ready_with_waits`: 0 build blockers, 1 source wait, 0 schedule waits,
-  1 background monitor, and no stale review backlog. The warnings are Account
-  Positions source input/manual drop/dark lane; fresh open action reviews
-  (`ANET`, `GOOGL`) remain visible but pass while due=0 and stale=0.
+- `python src/go_live_checklist.py --format text` reports `PASS` with 0
+  failures and 0 warnings. Its build summary is `build_ready`: 0 build
+  blockers, 0 source waits, 0 schedule waits, 1 background monitor, and no
+  stale review backlog. Fresh open action reviews (`ANET`, `GOOGL`) remain
+  visible but pass while due=0 and stale=0.
 - `python src/completion_audit.py --format text` reports
   `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, `all clear: False`, go-live
-  ready, 0 build blockers, Account Positions as the source/user wait,
-  background cloud proof `3/10`, and open reviews `ANET`, `GOOGL` with
+  ready, 0 build blockers, 0 source waits, background cloud proof `3/10`, and
+  open reviews `ANET`, `GOOGL` with
   `due=0 | stale=0 | oldest=0d`. Use
   `--require-all-clear` only when external waits should fail the command.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-05 20:33 ET`.
+  `2026-06-05 21:06 ET`.
 - The dashboard Operator Status card now shows `Build blockers 0`, `Open reviews
   2 new` in pass styling, the wait summary
-  `Build clear, not all clear | 1 source wait; background cloud proof 3/10`,
+  `Build clear, not all clear | background cloud proof 3/10`,
   and both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.
-- The dashboard Lane Status section also shows Account Positions validate/apply
-  commands for the remaining live-source dark lane. Use
-  `docs/manual_live_source_drop.template.json` only as the starting shape, then
-  run the filled drop file through:
-  `python src/manual_source_drop.py manual-live-source-drop.json --src-dir src --validate-only`
-  and
-  `python src/manual_source_drop.py manual-live-source-drop.json --src-dir src`.
+- The dashboard Lane Status section has no dark lanes. Account Positions is now
+  supplied by `src/account_positions.json`; manual source drop is not required
+  unless a future run creates a new dark lane.
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `1048 passed, 6 skipped`, plus
+- Full standard verification last passed with `1051 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
@@ -116,12 +111,11 @@ Important recent state:
   evidence date predates the build now lands in Re-check Before Acting instead
   of plain Key Now; midnight-UTC generated timestamps no longer create next-day
   operator-facing evidence dates or negative source ages.
-- Account Positions extractor hardening is complete, but Account Positions is
-  still not checked clear. The current Drive PDFs prove that Schwab and
-  Robinhood selectable-text rows can be extracted cleanly, while both Fidelity
-  PDFs are intentionally marked failed because their text separates value rows
-  from symbol rows. `--strict` correctly refuses to write source caches in that
-  partial state.
+- Account Positions source-cache refresh is complete. The current 7 Drive PDFs
+  produced 225 extracted rows across Fidelity, Schwab, and Robinhood with 0
+  failed files; `src/positions.json`, `src/account_positions.json`, and
+  `src/position_reconciliation.json` were refreshed from that strict-validated
+  source path.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.

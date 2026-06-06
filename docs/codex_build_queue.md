@@ -38,6 +38,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Account Positions source wait resolved.
+  - Current 7-file Drive proof extracted 225 broker rows across Fidelity,
+    Schwab, and Robinhood with `failed_files=0`, then refreshed
+    `src/positions.json`, `src/account_positions.json`, and
+    `src/position_reconciliation.json`.
+  - `live_dashboard_refresh.py` now reports `dark_lanes=0`; Account Positions
+    is checked through the source cache instead of remaining a source wait.
+  - `go_live_checklist.py --format text` reports `PASS`, 0 failures, and 0
+    warnings. Remaining cloud routine proof is background natural-schedule
+    monitoring only.
 - Broker position extractor hardening.
   - `broker_pdf_extractor.py` now prefers true symbol-before-quantity matches
     over company-name text, blocks Fidelity disclosure/value-table prose from
@@ -46,11 +56,8 @@ until the core logic is stable; Notion sync comes later.
   - Added narrow selectable-text parsers for Robinhood `Name Symbol Shares`
     rows and Schwab wrapped/compact account rows, including compact
     ticker/name strings such as `SMHVANECK...`.
-  - Live Drive proof on the current 7 Account Positions PDFs extracted clean
-    Schwab/Robinhood rows while marking both Fidelity PDFs failed because their
-    text separates value rows from symbol rows. `--strict` correctly refused to
-    write `positions.json`, so Account Positions remains a visible source wait
-    instead of a false checked-clear lane.
+  - Added Fidelity separated value/symbol page pairing that succeeds only when
+    every page/account group has matching value-row and symbol-row counts.
 - Background cloud-proof wording.
   - Cloud proof remains tracked and auditable, but the visible dashboard,
     go-live checklist, and completion audit now label incomplete routine proof
