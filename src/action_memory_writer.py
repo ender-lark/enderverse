@@ -13,17 +13,36 @@ import argparse
 import json
 import os
 import tempfile
-from datetime import date
+from datetime import date, datetime, timezone
+from zoneinfo import ZoneInfo
 
 import open_opportunities as oo
 
 
 DEFAULT_STORE_PATH = "open_opportunities.json"
+ET = ZoneInfo("America/New_York")
+
+
+def _et_day(value) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return date.today().isoformat()
+    if "T" not in text:
+        return text[:10]
+    try:
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(text)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(ET).date().isoformat()
+    except ValueError:
+        return text[:10]
 
 
 def _as_of(feed, fallback=None):
     stamp = (feed or {}).get("generated_at") or fallback or date.today().isoformat()
-    return str(stamp)[:10]
+    return _et_day(stamp)
 
 
 def _atomic_write_json(path, payload):

@@ -19,6 +19,7 @@ import tempfile
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from collection import collect
 from collection_gate import validate_collection_gate
@@ -170,6 +171,42 @@ def _manifest_path() -> Path:
 
 def _utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+ET = ZoneInfo("America/New_York")
+
+
+def _et_day(value: str | None = None) -> str:
+    if value:
+        text = str(value).strip()
+        try:
+            if text.endswith("Z"):
+                text = text[:-1] + "+00:00"
+            parsed = datetime.fromisoformat(text)
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=ET)
+            return parsed.astimezone(ET).date().isoformat()
+        except ValueError:
+            try:
+                return date.fromisoformat(text[:10]).isoformat()
+            except ValueError:
+                pass
+    return datetime.now(ET).date().isoformat()
+
+
+def _et_timestamp(value: str | None = None) -> str:
+    text = str(value or "").strip()
+    if text:
+        try:
+            if text.endswith("Z"):
+                text = text[:-1] + "+00:00"
+            parsed = datetime.fromisoformat(text)
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=ET)
+            return parsed.astimezone(ET).isoformat()
+        except ValueError:
+            pass
+    return datetime.now(ET).isoformat()
 
 
 def _strip_comments(obj: Any) -> Any:
@@ -573,7 +610,8 @@ def build_full_feed_from_files(
     """Load convention files and build a validated cockpit feed."""
     src = Path(src_dir) if src_dir else _src_dir()
     now = run_timestamp or _utc_now_iso()
-    today = as_of or date.today().isoformat()
+    today = as_of or _et_day(now)
+    live_source_stamp = _et_timestamp(now)
 
     positions_file = _resolve(src, "positions", positions_path)
     theses_file = _resolve(src, "theses", theses_path)
@@ -612,9 +650,9 @@ def build_full_feed_from_files(
     reg = SourceRegistry()
     reg.register(build_portfolio_source(positions, as_of=positions_as_of or now))
     if closes_cache is not None:
-        reg.register(build_uw_price_source(closes, as_of=now))
+        reg.register(build_uw_price_source(closes, as_of=live_source_stamp))
     if macro is not None:
-        reg.register(build_uw_macro_source(macro, as_of=now))
+        reg.register(build_uw_macro_source(macro, as_of=live_source_stamp))
     if fs_bible is not None:
         reg.register(build_fundstrat_bible_source(fs_bible))
     if fs_daily is not None and _fundstrat_daily_checked(src, fs_daily):

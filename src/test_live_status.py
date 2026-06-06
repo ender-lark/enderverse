@@ -241,8 +241,9 @@ def test_format_text_points_live_source_dark_lanes_at_live_template():
 
     assert "- Start template: docs/manual_live_source_drop.template.json" in text
     assert "docs/manual_drop.template.json" not in text
-    assert "Account Positions validate: python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src --validate-only" in text
-    assert "Account Positions apply: python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src" in text
-    assert "Meridian validate: python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src --validate-only" in text
-    assert "Meridian apply: python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src" in text
+    assert "Account Positions validate: python src/manual_source_drop.py manual-live-source-drop.json --src-dir src --validate-only" in text
+    assert "Account Positions apply: python src/manual_source_drop.py manual-live-source-drop.json --src-dir src" in text
+    assert "Meridian validate: python src/manual_source_drop.py manual-live-source-drop.json --src-dir src --validate-only" in text
+    assert "Meridian apply: python src/manual_source_drop.py manual-live-source-drop.json --src-dir src" in text
+    assert "<manual-live-source-drop.json>" not in text
     assert "apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json" not in text

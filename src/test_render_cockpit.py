@@ -120,6 +120,24 @@ def test_caveat_is_windows_console_safe():
     rc.build_caveat(feed).encode("cp1252")
 
 
+def test_caveat_formats_utc_midnight_build_as_eastern_time():
+    feed = {
+        "generated_at": "2026-06-06T00:10:00+00:00",
+        "actions": [],
+        "fresh_signals": [],
+        "catalysts": [],
+        "questions": [],
+        "hero": {"needs_you": {"count": 0, "items": []}},
+        "heartbeat": [],
+        "holdings": [],
+    }
+
+    caveat = rc.build_caveat(feed)
+
+    assert "built 2026-06-05 20:10 ET" in caveat
+    assert "built 2026-06-06 00:10" not in caveat
+
+
 @requires_template
 def test_main_stdin_writes_artifact(tmp_path, monkeypatch, capsys):
     out = tmp_path / "cockpit.jsx"

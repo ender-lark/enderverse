@@ -163,6 +163,32 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert any(a.get("kind") == "event_risk" for a in feed["actions"])
 
 
+def test_full_build_runner_uses_eastern_as_of_for_utc_midnight_run(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "macro_state.json", {
+        "rates": {"10Y": {"value": 4.2, "value_5d_ago": 4.1}},
+        "levels": {"DXY": {"value": 99.0, "value_5d_ago": 98.5}},
+    })
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        run_timestamp="2026-06-06T00:03:00+00:00",
+        generated_at="2026-06-06T00:03:00+00:00",
+    )
+
+    entries = {
+        row["source"]: row
+        for row in feed["staleness"]["entries"]
+        if isinstance(row, dict)
+    }
+    assert entries["uw_price"]["date"].startswith("2026-06-05T20:03:00")
+    assert entries["uw_price"]["age_days"] == 0
+    assert entries["uw_macro"]["date"].startswith("2026-06-05T20:03:00")
+    assert entries["uw_macro"]["age_days"] == 0
+
+
 def test_full_build_runner_threads_source_call_freshness_files(tmp_path):
     src = tmp_path / "src"
     src.mkdir()

@@ -191,6 +191,18 @@ def test_build_synthesis_from_feed_preserves_dark_lane_caveats_without_actions()
     assert intake.validate_synthesis(synthesis) == []
 
 
+def test_build_synthesis_from_feed_uses_eastern_day_for_utc_midnight_feed():
+    feed = {
+        "generated_at": "2026-06-06T00:07:00+00:00",
+        "lane_status": {"counts": {"has_data": 1, "not_checked": 0}, "rows": []},
+        "actions": [],
+    }
+
+    synthesis = from_feed.build_synthesis_from_feed(feed)
+
+    assert synthesis["date"] == "2026-06-05"
+
+
 def test_daily_synthesis_from_feed_cli_writes_summary(tmp_path):
     feed_path = tmp_path / "feed.json"
     out = tmp_path / "daily_synthesis.json"

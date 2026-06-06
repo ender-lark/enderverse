@@ -30,12 +30,14 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_TEMPLATE = str(HERE / "conviction_cockpit_v5.jsx")
 DEFAULT_OUT = str(HERE / "rendered" / "conviction_cockpit_v5.jsx")
+ET = ZoneInfo("America/New_York")
 
 ANCHOR = "const FEED = {"
 REQUIRED_EXPORT = "export default function ConvictionCockpit"
@@ -153,10 +155,11 @@ def _fmt_stamp(generated_at: str) -> str:
     if not generated_at:
         return "build stamp unknown"
     try:
-        dt = datetime.fromisoformat(generated_at)
-        off = dt.utcoffset()
-        zone = "ET" if off is not None and off.total_seconds() in (-4 * 3600, -5 * 3600) else ""
-        return f"{dt.strftime('%Y-%m-%d %H:%M')}{(' ' + zone) if zone else (' ' + generated_at[19:25] if len(generated_at) > 19 else '')}".rstrip()
+        text = generated_at[:-1] + "+00:00" if generated_at.endswith("Z") else generated_at
+        dt = datetime.fromisoformat(text)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(ET).strftime("%Y-%m-%d %H:%M ET")
     except (ValueError, TypeError):
         return generated_at
 

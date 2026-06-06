@@ -11,9 +11,10 @@ import argparse
 import json
 import os
 import tempfile
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from daily_synthesis_intake import merge_synthesis, normalize_synthesis, validate_synthesis
 
@@ -21,6 +22,24 @@ from daily_synthesis_intake import merge_synthesis, normalize_synthesis, validat
 DEFAULT_FEED = Path(__file__).resolve().parent / "latest_cockpit_feed.json"
 DEFAULT_OUT = Path(__file__).resolve().parent / "daily_synthesis.json"
 DEFAULT_SUMMARY = Path(__file__).resolve().parent / "daily_synthesis_intake_summary.json"
+ET = ZoneInfo("America/New_York")
+
+
+def _et_day(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return date.today().isoformat()
+    if "T" not in text:
+        return text[:10]
+    try:
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(text)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(ET).date().isoformat()
+    except ValueError:
+        return text[:10]
 
 
 def _read_json(path: str | Path) -> Any:
@@ -157,7 +176,7 @@ def _dark_lane_hanging(feed: dict[str, Any]) -> list[str]:
 
 def build_synthesis_from_feed(feed: dict[str, Any], *, as_of: str | None = None) -> dict[str, Any]:
     generated = _text(feed.get("generated_at"))
-    synthesis_date = as_of or generated[:10] or date.today().isoformat()
+    synthesis_date = as_of or _et_day(generated)
     actions = [row for row in feed.get("actions") or [] if isinstance(row, dict)]
     has_data, dark_count = _prospective_lane_counts(feed)
 

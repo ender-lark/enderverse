@@ -190,11 +190,11 @@ def _join_values(values: list[Any], *, empty: str = "none") -> str:
 
 def _dark_lane_commands(key: str) -> list[str]:
     live_source_validate = (
-        "python src/manual_source_drop.py <manual-live-source-drop.json> "
+        "python src/manual_source_drop.py manual-live-source-drop.json "
         "--src-dir src --validate-only"
     )
     live_source_apply = (
-        "python src/manual_source_drop.py <manual-live-source-drop.json> "
+        "python src/manual_source_drop.py manual-live-source-drop.json "
         "--src-dir src"
     )
     commands = {

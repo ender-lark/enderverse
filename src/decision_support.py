@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from datetime import datetime, date, timezone
 from typing import Any
+from zoneinfo import ZoneInfo
 
 
 GROUPS = (
@@ -48,6 +49,7 @@ SOURCE_ALIASES = {
     "research": "research",
     "research_queue": "research",
 }
+ET = ZoneInfo("America/New_York")
 
 
 def _parse_dt(value: Any) -> datetime | None:
@@ -70,6 +72,16 @@ def _parse_dt(value: Any) -> datetime | None:
 def _iso_day(value: Any) -> str:
     parsed = _parse_dt(value)
     return parsed.date().isoformat() if parsed else str(value or "")[:10]
+
+
+def _et_day(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    if "T" not in text:
+        return _iso_day(text)
+    parsed = _parse_dt(text)
+    return parsed.astimezone(ET).date().isoformat() if parsed else text[:10]
 
 
 def _date_index(staleness: dict[str, Any], synthesis: dict[str, Any] | None, event_risk: list[dict] | None) -> dict[str, str]:
@@ -131,7 +143,7 @@ def _freshness_judgment(action: dict[str, Any], *, staleness: dict[str, Any], da
     )
     label = _freshness_label(kind, source, evidence_date, staleness)
     decay = _decay_window(kind, source)
-    last_checked = _iso_day(generated_at)
+    last_checked = _et_day(generated_at)
     if label == "archive":
         judgment = "Thesis context only; do not treat as fresh tactical evidence."
     elif label == "fast-moving":

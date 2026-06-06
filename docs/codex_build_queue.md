@@ -38,11 +38,25 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Eastern-date freshness correctness for evening builds.
+  - Full cockpit builds now derive the operator-facing operating day from the
+    run timestamp in America/New_York, so an evening ET build that crosses
+    midnight UTC does not create next-day evidence dates or negative source
+    ages.
+  - UW price and macro staleness entries keep ET-aware datetime stamps, which
+    preserves publish-gate freshness checks while rendering source ages against
+    the correct ET session day.
+  - Action freshness, open-opportunity memory, repo-evidence synthesis,
+    generated HTML, and canonical JSX render caveats now format midnight-UTC
+    builds as the prior evening ET build time.
+  - Added regression coverage for the full-build source stamps,
+    decision-support freshness, action-memory as-of date, repo-evidence
+    synthesis date, generated HTML header, and canonical JSX render caveat.
 - Dashboard manual-drop template guidance.
   - The generated Lane Status command block now shows
     `docs/manual_live_source_drop.template.json` as shape-only guidance before
     the Account Positions validate/apply commands. The apply command still
-    points at a filled `<manual-live-source-drop.json>` file, not the template.
+    points at a filled `manual-live-source-drop.json` file, not the template.
 - Source-call scoring wording clarity.
   - `live_status.py --format text` now labels source-call counts as
     `new=<latest observations>` and `scoring=<stored calls awaiting outcome>`
@@ -55,7 +69,7 @@ until the core logic is stable; Notion sync comes later.
     command and the apply command for live-source dark lanes, so the remaining
     Account Positions wait is actionable without implying the lane is checked.
     The template is only a starting shape; validate/apply commands point at a
-    filled `<manual-live-source-drop.json>` file to avoid writing placeholder
+    filled `manual-live-source-drop.json` file to avoid writing placeholder
     data.
   - `go_live_checklist.py --format text` now presents the manual live-source
     drop as explicit `validate:` and `apply:` steps instead of only a

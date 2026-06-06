@@ -302,10 +302,21 @@ def test_generated_html_surfaces_dark_lane_validate_and_apply_commands():
     assert "Account Positions template" in html
     assert "docs/manual_live_source_drop.template.json (shape only; fill a separate drop file)" in html
     assert "Account Positions validate" in html
-    assert "python src/manual_source_drop.py &lt;manual-live-source-drop.json&gt; --src-dir src --validate-only" in html
+    assert "python src/manual_source_drop.py manual-live-source-drop.json --src-dir src --validate-only" in html
     assert "Account Positions apply" in html
-    assert "python src/manual_source_drop.py &lt;manual-live-source-drop.json&gt; --src-dir src" in html
+    assert "python src/manual_source_drop.py manual-live-source-drop.json --src-dir src" in html
+    assert "&lt;manual-live-source-drop.json&gt;" not in html
     assert "Account Positions apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json" not in html
+
+
+def test_generated_html_formats_utc_midnight_build_as_eastern_time():
+    feed = _feed()
+    feed["generated_at"] = "2026-06-06T00:03:00+00:00"
+
+    html = generate_html(feed)
+
+    assert "built 2026-06-05 20:03 ET" in html
+    assert "built 2026-06-06 00:03 ET" not in html
 
 
 def test_generated_html_surfaces_opportunity_context():

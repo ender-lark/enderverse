@@ -14,8 +14,10 @@ from __future__ import annotations
 import argparse
 import html as _html
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 
 def _e(s: Any) -> str:
@@ -25,6 +27,24 @@ def _e(s: Any) -> str:
 
 def _strip_trailing_ws(text: str) -> str:
     return "\n".join(line.rstrip() for line in text.splitlines()) + "\n"
+
+
+ET = ZoneInfo("America/New_York")
+
+
+def _fmt_et_stamp(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    try:
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(text)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(ET).strftime("%Y-%m-%d %H:%M ET")
+    except ValueError:
+        return f"{text[:16].replace('T', ' ')} ET"
 
 
 _DISPLAY_REPLACEMENTS = (
@@ -383,8 +403,8 @@ def _lane_intake_commands(key: str) -> list[tuple[str, str]]:
     if key in {"account_positions", "meridian"}:
         return [
             ("template", "docs/manual_live_source_drop.template.json (shape only; fill a separate drop file)"),
-            ("validate", "python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src --validate-only"),
-            ("apply", "python src/manual_source_drop.py <manual-live-source-drop.json> --src-dir src"),
+            ("validate", "python src/manual_source_drop.py manual-live-source-drop.json --src-dir src --validate-only"),
+            ("apply", "python src/manual_source_drop.py manual-live-source-drop.json --src-dir src"),
         ]
     return [
         ("validate", "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"),
@@ -1357,6 +1377,7 @@ def generate_html(feed: dict) -> str:
     """Generate a self-contained HTML dashboard from a conviction feed dict."""
 
     gen_at   = _e(feed.get("generated_at") or "")
+    built_at = _e(_fmt_et_stamp(feed.get("generated_at") or ""))
     btype    = _e(feed.get("build_type") or "")
     book_asof = _e(feed.get("book_as_of") or "")
     stamp_str = (feed.get("staleness") or {}).get("stamp") or ""
@@ -1411,7 +1432,7 @@ def generate_html(feed: dict) -> str:
     <div class="hdr-left">
       <h1>⚡ Conviction Cockpit</h1>
       <div class="stamp">
-        {f'built {gen_at[:16].replace("T"," ")} ET' if gen_at else ""}
+        {f'built {built_at}' if built_at else ""}
         {f' · {btype}' if btype else ""}
       </div>
       {f'<div class="stamp">{_e(stamp_str)}</div>' if stamp_str else ""}

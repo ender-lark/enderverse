@@ -34,6 +34,18 @@ def test_writer_adds_trackable_actions_to_store(tmp_path):
     assert saved["history"] == []
 
 
+def test_writer_uses_eastern_day_for_utc_midnight_feed(tmp_path):
+    path = tmp_path / "open_opportunities.json"
+    feed = _feed(actions=[_buy("AVGO")])
+    feed["generated_at"] = "2026-06-06T00:07:00+00:00"
+
+    summary = amw.update_action_memory_from_feed(feed, store_path=str(path))
+
+    assert summary["as_of"] == "2026-06-05"
+    saved = json.load(open(path))
+    assert saved["opportunities"][0]["first_flagged"] == "2026-06-05"
+
+
 def test_writer_marks_prior_open_as_acted_when_now_held(tmp_path):
     path = tmp_path / "open_opportunities.json"
     store = oo.seed_open_opportunities([

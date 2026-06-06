@@ -76,6 +76,30 @@ def test_fast_moving_old_evidence_requires_recheck_before_acting():
     assert groups["counts"]["recheck_before_acting"] == 1
 
 
+def test_freshness_last_checked_uses_eastern_day_for_utc_midnight():
+    actions = [
+        {
+            "rank": 1,
+            "kind": "event_risk",
+            "action_state": "ACT_NOW",
+            "source": "event_risk",
+            "time_window": "today",
+            "goal_impact": "High",
+        },
+    ]
+
+    enriched, groups = enrich_actions(
+        actions,
+        staleness={"entries": [], "stale": []},
+        event_risk=[{"date": "2026-06-05", "title": "Oil shock"}],
+        generated_at="2026-06-06T00:03:00+00:00",
+    )
+
+    assert enriched[0]["freshness_judgment"]["last_checked"] == "2026-06-05"
+    assert enriched[0]["decision_group"] == "key_now"
+    assert groups["counts"]["key_now"] == 1
+
+
 def test_asymmetric_opportunities_dedupes_to_strongest_source():
     feed = {
         "actions": [
