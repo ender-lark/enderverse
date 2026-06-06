@@ -13,7 +13,12 @@ def _live(*, ready=True, open_tickers=None):
         "actions": 5,
         "research_actions": 0,
         "data_flow": {"generated_at": "2026-06-05T23:30:00+00:00"},
-        "open_actions": {"tickers": tickers},
+        "open_actions": {
+            "tickers": tickers,
+            "due_count": 0,
+            "stale_count": 0,
+            "oldest_age_days": 0,
+        },
         "dark_lanes": {"keys": ["account_positions"]},
     }
 
@@ -100,9 +105,12 @@ def test_completion_audit_reports_clear_build_with_external_waits(monkeypatch, t
     assert report["cloud"]["scheduled_success"] == 3
     assert report["system_queue"]["valid"] is True
     assert report["open_review_tickers"] == ["ANET", "GOOGL"]
+    assert report["open_review_due_count"] == 0
+    assert report["open_review_stale_count"] == 0
     assert "Completion audit: BUILD_CLEAR_WAITING_EXTERNAL" in text
     assert "Build clear: True | all clear: False" in text
     assert "Cloud proof: 3/10 scheduled" in text
+    assert "Open reviews: ANET, GOOGL | due=0 | stale=0 | oldest=0d" in text
     assert "Queue: valid=True" in text
     assert "Next: No code blocker; wait for or supply source input: Account Positions." in text
 

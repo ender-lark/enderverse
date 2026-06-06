@@ -67,7 +67,8 @@ Current verified snapshot (2026-06-05 20:26 ET live artifacts; 19:01 ET cloud pr
 - `python src/completion_audit.py --format text` reports
   `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, `all clear: False`, go-live
   ready, 0 build blockers, Account Positions as the source/user wait, cloud
-  proof `3/10`, and open reviews `ANET`, `GOOGL`. Use
+  proof `3/10`, and open reviews `ANET`, `GOOGL` with
+  `due=0 | stale=0 | oldest=0d`. Use
   `--require-all-clear` only when external waits should fail the command.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
@@ -108,9 +109,10 @@ Important recent state:
   hygiene: new/review-due/stale states, due/stale counts, cleanup priority, and
   fuller resolution command hints. The follow-up slice made review-warning
   severity match that hygiene: same-day `0 due / 0 stale` reviews stay visible
-  as new without creating a warning bucket. Fast-moving evidence whose evidence
-  date predates the build now lands in Re-check Before Acting instead of plain
-  Key Now; midnight-UTC generated timestamps no longer create next-day
+  as new without creating a warning bucket. The completion-audit text now also
+  prints review due/stale/oldest-age counts. Fast-moving evidence whose
+  evidence date predates the build now lands in Re-check Before Acting instead
+  of plain Key Now; midnight-UTC generated timestamps no longer create next-day
   operator-facing evidence dates or negative source ages.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not

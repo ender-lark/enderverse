@@ -102,6 +102,10 @@ def build_completion_audit(*, src_dir: str | Path = DEFAULT_SRC) -> dict[str, An
         for ticker in ((live.get("open_actions") or {}).get("tickers") or [])
         if ticker
     ]
+    open_actions = live.get("open_actions") or {}
+    open_review_due_count = int(open_actions.get("due_count") or 0)
+    open_review_stale_count = int(open_actions.get("stale_count") or 0)
+    open_review_oldest_age_days = int(open_actions.get("oldest_age_days") or 0)
     dark_lanes = [
         str(key)
         for key in ((live.get("dark_lanes") or {}).get("keys") or [])
@@ -147,6 +151,9 @@ def build_completion_audit(*, src_dir: str | Path = DEFAULT_SRC) -> dict[str, An
         "monitoring_warning_count": int(checklist_summary.get("monitoring_warning_count") or 0),
         "open_review_tickers": open_tickers,
         "open_review_count": len(open_tickers),
+        "open_review_due_count": open_review_due_count,
+        "open_review_stale_count": open_review_stale_count,
+        "open_review_oldest_age_days": open_review_oldest_age_days,
         "dark_lanes": dark_lanes,
         "cloud": cloud_summary,
         "system_queue": queue,
@@ -188,6 +195,12 @@ def format_text(report: dict[str, Any]) -> str:
         (
             "Open reviews: "
             + (", ".join(report.get("open_review_tickers") or []) or "none")
+            + (
+                f" | due={int(report.get('open_review_due_count') or 0)}"
+                f" | stale={int(report.get('open_review_stale_count') or 0)}"
+                f" | oldest={int(report.get('open_review_oldest_age_days') or 0)}d"
+                if report.get("open_review_tickers") else ""
+            )
         ),
         (
             f"Queue: valid={bool(queue.get('valid'))} | items={int(queue.get('items') or 0)} | "

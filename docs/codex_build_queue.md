@@ -38,6 +38,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Completion-audit review pressure parity.
+  - `python src/completion_audit.py --format text` now prints open-review
+    due/stale/oldest-age counts, matching `live_status.py` and the go-live
+    checklist.
+  - Current ANET/GOOGL review rows remain visible as open reviews, but the audit
+    now states `due=0 | stale=0 | oldest=0d` so fresh prompts are not confused
+    with stale backlog.
 - Open-review warning severity parity.
   - Fresh same-day open reviews now remain visible without becoming a warning
     bucket. Due or stale reviews still warn.
