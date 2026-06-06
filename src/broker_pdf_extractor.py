@@ -3,9 +3,9 @@
 
 This is the first repo-owned extractor stage for broker position uploads. It is
 deliberately narrow: it extracts selectable PDF text when pypdf is available,
-parses rows that begin with an explicit ticker, and marks each file failed when
-the text or row confidence is insufficient. Downstream cache writers already
-honor validation.passed == False under --strict.
+parses only high-confidence selectable-text rows, and marks each file failed
+when the text or row confidence is insufficient. Downstream cache writers
+already honor validation.passed == False under --strict.
 """
 from __future__ import annotations
 
@@ -23,7 +23,9 @@ TICKER_RE = re.compile(r"^[A-Z]{1,6}(?:\.[A-Z]{1,4})?$")
 DATE_RE = re.compile(r"\b(20\d{2}-\d{2}-\d{2}|\d{1,2}/\d{1,2}/20\d{2})\b")
 ACCOUNT_RE = re.compile(r"\b(?:account|acct)\s*(?:name|number|#)?\s*[:\-]\s*(.+)$", re.I)
 MONEY_RE = re.compile(r"\(?\$?\s*-?\d[\d,]*(?:\.\d{2})?\)?")
+CURRENCY_RE = re.compile(r"\(?\$\s*-?\d[\d,]*(?:\.\d+)?\)?")
 NUMBER_RE = re.compile(r"^-?\d[\d,]*(?:\.\d+)?$")
+PERCENT_RE = re.compile(r"^[+\-]?\d[\d,]*(?:\.\d+)?%$")
 
 HEADER_WORDS = {
     "symbol", "ticker", "description", "quantity", "qty", "price", "value",
@@ -33,7 +35,21 @@ SECURITY_WORDS = {
     "INC", "CORP", "LTD", "PLC", "CO", "COMPANY", "CLASS", "CL", "COM",
     "ETF", "ETN", "FUND", "TRUST", "ISHARES", "VANGUARD", "FIDELITY",
     "SCHWAB", "SPDR", "INVESCO", "ISH", "ADR", "ORD", "UNIT",
+    "THE", "MARCH", "SHARES", "SHARE", "RATINGS", "MORE", "PRICE",
+    "TECNOL", "LARG", "SMAL",
 }
+CONCAT_DESCRIPTION_STARTERS = (
+    "ACOUSTIS", "ADVISORSHARES", "ALPHABET", "AMAZON", "ARDEA", "ASML",
+    "AST", "BITMINE", "BLOOM", "BROADCOM", "BWX", "CAMECO", "CENTRUS",
+    "CIES", "COINBASE", "COMFORT", "DAN", "ENERGY", "FABRINET",
+    "FIDELITY", "FIRST", "FUCORE", "FUNDSTRAT", "GE", "GLOBAL",
+    "GOLDMAN", "HELD", "ISHARES", "INTUITIVE", "INVESCO", "JPMORGAN",
+    "LUMENTUM", "LYNAS", "MICROSOFT", "MICRON", "MP", "NEBIUS",
+    "NVIDIA", "NEXTPOWER", "ORACLE", "PALANTIR", "PERSHING", "POET",
+    "QUANTA", "REDDIT", "ROUNDHILL", "SELECT", "SOFI", "STATE",
+    "STERLING", "TALON", "TEMA", "TEMPUS", "TIDAL", "UNUSUAL", "VANECK",
+    "WEDBUSH", "WHEATON",
+)
 
 
 def _utc_now_iso() -> str:
@@ -84,6 +100,19 @@ def _clean_token(token: str) -> str:
     return token.strip().upper().strip(",:;()[]{}").replace("$", "")
 
 
+def _symbol_from_token(token: str) -> str | None:
+    cleaned = _clean_token(token)
+    if _looks_like_ticker(cleaned):
+        return cleaned
+    if cleaned.isalpha():
+        return None
+    matches = re.findall(r"[A-Z]{1,6}(?:\.[A-Z]{1,4})?", cleaned)
+    for match in reversed(matches):
+        if _looks_like_ticker(match):
+            return match
+    return None
+
+
 def _looks_like_ticker(token: str) -> bool:
     token = _clean_token(token)
     if token.lower() in HEADER_WORDS or token in SECURITY_WORDS or token in {"CASH", "USD"}:
@@ -97,7 +126,26 @@ def _is_noise_line(line: str) -> bool:
         return True
     if any(text.startswith(word) for word in ("page ", "total ", "cash ", "account ")):
         return True
+    if text in {"--", "?", "? ?", "good"}:
+        return True
     return False
+
+
+def _looks_like_fidelity_portfolio_pdf(text: str) -> bool:
+    low = (text or "").lower()
+    return (
+        "digital.fidelity.com" in low
+        and "portfolio positions" in low
+        and "currentvalue" in low
+    )
+
+
+def _looks_like_schwab_account_pdf(text: str) -> bool:
+    low = (text or "").lower()
+    return (
+        "client.schwab.com" in low
+        or ("symbol / name" in low and "ratings" in low and "reinvest" in low)
+    )
 
 
 def infer_account_name(text: str, source_file: str) -> str:
@@ -139,6 +187,144 @@ def infer_cash(text: str) -> float:
     return 0.0
 
 
+def _first_money_value(line: str) -> float | None:
+    match = CURRENCY_RE.search(line or "")
+    return _num(match.group(0)) if match else None
+
+
+def _split_leading_concatenated_symbol(token: str) -> tuple[str, str] | None:
+    cleaned = _clean_token(token)
+    if not cleaned.isalpha() or len(cleaned) <= 6:
+        return None
+    for idx in range(min(6, len(cleaned) - 2), 0, -1):
+        symbol = cleaned[:idx]
+        description_start = cleaned[idx:]
+        if not _looks_like_ticker(symbol):
+            continue
+        if any(description_start.startswith(starter) for starter in CONCAT_DESCRIPTION_STARTERS):
+            return symbol, description_start
+    return None
+
+
+def _quantity_before_first_money(line: str) -> tuple[float, list[str]] | None:
+    money = CURRENCY_RE.search(line or "")
+    if not money:
+        return None
+    before = line[:money.start()].strip()
+    tokens = before.split()
+    if len(tokens) < 2:
+        return None
+    quantity = _num(tokens[-1])
+    if quantity is None:
+        return None
+    return quantity, tokens[:-1]
+
+
+def _position_from_robinhood_line(line: str, *, account_name: str | None = None) -> dict[str, Any] | None:
+    money_matches = list(MONEY_RE.finditer(line or ""))
+    if len(money_matches) < 4:
+        return None
+    market_value = _num(money_matches[-1].group(0))
+    if market_value is None or market_value <= 0:
+        return None
+    quantity_info = _quantity_before_first_money(line)
+    if not quantity_info:
+        return None
+    quantity, before_quantity_tokens = quantity_info
+    if not before_quantity_tokens:
+        return None
+    symbol = _symbol_from_token(before_quantity_tokens[-1])
+    if not symbol:
+        return None
+    description = " ".join(before_quantity_tokens[:-1]).strip()
+    if not description:
+        return None
+    return {
+        "symbol": symbol,
+        "description": description,
+        "quantity": quantity,
+        "market_value": market_value,
+        "account_name": account_name or "Unknown",
+    }
+
+
+def _position_from_schwab_compact_line(
+    line: str,
+    next_line: str,
+    *,
+    account_name: str | None = None,
+) -> dict[str, Any] | None:
+    quantity_info = _quantity_before_first_money(line)
+    if not quantity_info:
+        return None
+    quantity, before_quantity_tokens = quantity_info
+    if not before_quantity_tokens:
+        return None
+    first = before_quantity_tokens[0]
+    split = _split_leading_concatenated_symbol(first)
+    if split:
+        symbol, first_description = split
+        description_tokens = [first_description] + before_quantity_tokens[1:]
+    else:
+        symbol = _symbol_from_token(first)
+        description_tokens = before_quantity_tokens[1:]
+    if not symbol or not description_tokens:
+        return None
+    market_value = _first_money_value(next_line)
+    if market_value is None or market_value <= 0:
+        return None
+    return {
+        "symbol": symbol,
+        "description": " ".join(description_tokens).strip(),
+        "quantity": quantity,
+        "market_value": market_value,
+        "account_name": account_name or "Unknown",
+    }
+
+
+def _parse_schwab_lines(text: str, *, account_name: str | None = None) -> list[dict[str, Any]]:
+    source_lines = [" ".join(line.split()) for line in (text or "").splitlines()]
+    lines = [line for line in source_lines if line and not _is_noise_line(line)]
+    rows: list[dict[str, Any]] = []
+    seen: set[tuple[str, float, float]] = set()
+    consumed: set[int] = set()
+    for idx, line in enumerate(lines):
+        if idx in consumed:
+            continue
+        if idx + 1 >= len(lines):
+            continue
+        low = line.lower()
+        if (
+            "total" in low
+            or "symbol / name" in low
+            or line.startswith("(")
+            or PERCENT_RE.match(_clean_token(line))
+        ):
+            continue
+
+        row: dict[str, Any] | None = None
+        symbol = _symbol_from_token(line)
+        if symbol and line.strip() == symbol and idx + 2 < len(lines):
+            row = _position_from_schwab_compact_line(
+                f"{symbol} {lines[idx + 1]}",
+                lines[idx + 2],
+                account_name=account_name,
+            )
+            if row:
+                consumed.update({idx + 1, idx + 2})
+        else:
+            row = _position_from_schwab_compact_line(line, lines[idx + 1], account_name=account_name)
+
+        if not row:
+            continue
+        key = (row["symbol"], round(row["quantity"], 6), round(row["market_value"], 2))
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append(row)
+    return rows
+
+
 def _position_from_line(line: str, *, account_name: str | None = None) -> dict[str, Any] | None:
     """Parse one selectable-text position row.
 
@@ -161,8 +347,8 @@ def _position_from_line(line: str, *, account_name: str | None = None) -> dict[s
     tokens_before_value = before_value.split()
     candidates: list[tuple[int, int, str, float, int]] = []
     for ticker_idx, token in enumerate(tokens_before_value):
-        ticker = _clean_token(token)
-        if not _looks_like_ticker(ticker):
+        ticker = _symbol_from_token(token)
+        if not ticker:
             continue
         if len(ticker) == 1 and ticker_idx > 0:
             continue
@@ -178,10 +364,12 @@ def _position_from_line(line: str, *, account_name: str | None = None) -> dict[s
                 break
         if quantity is None or quantity_idx is None:
             continue
-        if ticker_idx == 0 and trailing and _clean_token(trailing[0]) not in SECURITY_WORDS:
+        if quantity_idx == 0 and ticker_idx > 0:
             priority = 0
-        elif quantity_idx == 0:
+        elif ticker_idx == 0 and quantity_idx > 0 and trailing and _clean_token(trailing[0]) not in SECURITY_WORDS:
             priority = 1
+        elif quantity_idx == 0:
+            priority = 2
         else:
             continue
         candidates.append((priority, ticker_idx, ticker, quantity, quantity_idx))
@@ -206,7 +394,34 @@ def _position_from_line(line: str, *, account_name: str | None = None) -> dict[s
     return None
 
 
-def parse_position_lines(text: str, *, account_name: str | None = None) -> list[dict[str, Any]]:
+def parse_position_lines(
+    text: str,
+    *,
+    account_name: str | None = None,
+    broker: str | None = None,
+) -> list[dict[str, Any]]:
+    broker_key = (broker or "").strip().lower()
+    if broker_key == "robinhood":
+        rows = []
+        seen: set[tuple[str, float, float]] = set()
+        for raw_line in (text or "").splitlines():
+            line = " ".join(raw_line.split())
+            if _is_noise_line(line):
+                continue
+            row = _position_from_robinhood_line(line, account_name=account_name)
+            if not row:
+                continue
+            key = (row["symbol"], round(row["quantity"], 6), round(row["market_value"], 2))
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(row)
+        return rows
+    if broker_key == "schwab" and _looks_like_schwab_account_pdf(text):
+        return _parse_schwab_lines(text, account_name=account_name)
+    if broker_key == "fidelity" and _looks_like_fidelity_portfolio_pdf(text):
+        return []
+
     rows: list[dict[str, Any]] = []
     seen: set[tuple[str, float, float]] = set()
     for raw_line in (text or "").splitlines():
@@ -253,7 +468,8 @@ def extract_file(path: str | Path, *, as_of: str | None = None) -> dict[str, Any
     p = Path(path)
     text, error = extract_text(p)
     account = infer_account_name(text, str(p))
-    positions = parse_position_lines(text, account_name=account)
+    broker = infer_broker(str(p), text)
+    positions = parse_position_lines(text, account_name=account, broker=broker)
     passed = bool(text.strip()) and bool(positions) and error is None
     validation = {
         "passed": passed,
@@ -262,11 +478,13 @@ def extract_file(path: str | Path, *, as_of: str | None = None) -> dict[str, Any
     }
     if error:
         validation["error"] = error
+    elif broker == "Fidelity" and _looks_like_fidelity_portfolio_pdf(text) and not positions:
+        validation["error"] = "Fidelity selectable text uses separated value/symbol blocks; stronger extractor required"
     if text.strip() and not positions:
-        validation["error"] = "no confident ticker/symbol position rows found"
+        validation.setdefault("error", "no confident ticker/symbol position rows found")
     return {
         "source_file": str(p),
-        "broker": infer_broker(str(p), text),
+        "broker": broker,
         "positions_scope": "per_account",
         "account_name": account,
         "as_of": infer_as_of(text, fallback=as_of),
@@ -331,7 +549,7 @@ def validate_combined(combined: dict[str, Any]) -> list[str]:
             if not isinstance(row, dict):
                 problems.append(f"files[{idx}].positions[{j}] must be an object")
                 continue
-            if not TICKER_RE.match(str(row.get("symbol") or "")):
+            if not _looks_like_ticker(str(row.get("symbol") or "")):
                 problems.append(f"files[{idx}].positions[{j}].symbol invalid")
             for field in ("quantity", "market_value"):
                 value = row.get(field)

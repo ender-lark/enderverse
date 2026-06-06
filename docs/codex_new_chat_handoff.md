@@ -39,7 +39,7 @@ Current priority:
    slice is queued; it separates build blockers from source/user waits,
    background natural cloud-proof waits, and deferred stock-review backlog.
 
-Current verified snapshot (2026-06-05 20:33 ET live artifacts; background cloud proof 3/10):
+Current verified snapshot (2026-06-05 20:54 ET verification; 20:33 ET live artifacts; background cloud proof 3/10):
 
 - Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
   this handoff page's commit hash as runtime evidence.
@@ -91,7 +91,7 @@ Current verified snapshot (2026-06-05 20:33 ET live artifacts; background cloud 
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `1044 passed, 6 skipped`, plus
+- Full standard verification last passed with `1048 passed, 6 skipped`, plus
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
@@ -116,6 +116,12 @@ Important recent state:
   evidence date predates the build now lands in Re-check Before Acting instead
   of plain Key Now; midnight-UTC generated timestamps no longer create next-day
   operator-facing evidence dates or negative source ages.
+- Account Positions extractor hardening is complete, but Account Positions is
+  still not checked clear. The current Drive PDFs prove that Schwab and
+  Robinhood selectable-text rows can be extracted cleanly, while both Fidelity
+  PDFs are intentionally marked failed because their text separates value rows
+  from symbol rows. `--strict` correctly refuses to write source caches in that
+  partial state.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.

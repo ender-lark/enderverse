@@ -42,9 +42,13 @@ Current live proof:
   supplied-headline sudden-event refresh. It also shows the active Middle East
   oil/rates event watch, impacted channels/tickers, trigger evidence, and
   Account Positions validate/apply commands.
-- `python src/verify_standard.py` last passed with `1045 passed, 6 skipped`,
+- `python src/verify_standard.py` last passed with `1048 passed, 6 skipped`,
   the reallocation direct check, cockpit injector self-test, and broker
   extractor self-test.
+- Account Positions extractor hardening is verified. The current Drive PDFs now
+  produce clean Schwab/Robinhood rows while marking both Fidelity PDFs failed
+  because their selectable text separates value rows from symbol rows; strict
+  cache refresh refuses to write from that partial state.
 
 ## Scope
 

@@ -30,6 +30,23 @@ DESCRIPTION_FIRST_TEXT = "\n".join([
     "NVIDIA CORP 12 170.00 $2,040.00",
 ])
 
+ROBINHOOD_TEXT = "\n".join([
+    "Individual investing",
+    "Name Symbol Shares Price Average cost Total return Equity",
+    "NVIDIA NVDA 36 $212.49 $120.20 $3,322.55 $7,649.64",
+    "Fundstrat Granny Shots US S?GRNJ 400 $32.04 $27.00 $2,015.50 $12,816.00",
+    "GE Vernova GEV 2 $968.99 $854.76 $228.47 $1,937.99",
+])
+
+SCHWAB_TEXT = "\n".join([
+    "Symbol / Name Ratings  Reinvest % of Holdings",
+    "MSFT",
+    "MICROSOFT CORP 2 $450.24 +5.45%",
+    "(5.45%) $900.48 +$46.50",
+    "SMHVANECK SEMICONDUCTOR ETF 140 $598.93 -0.15%",
+    "(-0.15%) $83,850.20 -$126.00",
+])
+
 
 def test_parse_position_lines_extracts_ticker_quantity_and_market_value():
     rows = bpe.parse_position_lines(TEXT, account_name="SKB Fidelity Taxable")
@@ -50,6 +67,42 @@ def test_parse_position_lines_handles_description_before_symbol():
     assert rows[0]["quantity"] == 12.0
     assert rows[0]["market_value"] == 2040.0
     assert rows[0]["account_name"] == "Parents Schwab IRA"
+
+
+def test_parse_position_lines_does_not_treat_company_name_as_symbol():
+    rows = bpe.parse_position_lines(ROBINHOOD_TEXT, account_name="RH Individual", broker="Robinhood")
+
+    assert [row["symbol"] for row in rows] == ["NVDA", "GRNJ", "GEV"]
+    assert rows[0]["description"] == "NVIDIA"
+    assert rows[0]["quantity"] == 36.0
+    assert rows[0]["market_value"] == 7649.64
+
+
+def test_parse_position_lines_handles_schwab_wrapped_and_compact_rows():
+    rows = bpe.parse_position_lines(SCHWAB_TEXT, account_name="Schwab Brokerage", broker="Schwab")
+
+    assert [row["symbol"] for row in rows] == ["MSFT", "SMH"]
+    assert rows[0]["description"] == "MICROSOFT CORP"
+    assert rows[0]["quantity"] == 2.0
+    assert rows[0]["market_value"] == 900.48
+    assert rows[1]["description"] == "VANECK SEMICONDUCTOR ETF"
+    assert rows[1]["quantity"] == 140.0
+    assert rows[1]["market_value"] == 83850.2
+
+
+def test_fidelity_disclosure_prose_is_not_a_position():
+    text = "\n".join([
+        "https://digital.fidelity.com/ftgw/digital/portfolio/positions",
+        "Symbol Currentvalue Quantity Lastprice",
+        "Adjusted due to previous wash sale disallowed loss within the 61 day period.",
+        "cost basis information related to newly-purchased shares when a wash sale occurs.",
+        "The price from the prior market day resets before the market opens.",
+        "Portfolio Positions Currentvalue",
+    ])
+
+    rows = bpe.parse_position_lines(text, account_name="Fidelity", broker="Fidelity")
+
+    assert rows == []
 
 
 def test_build_combined_from_text_file_matches_downstream_contracts(tmp_path):

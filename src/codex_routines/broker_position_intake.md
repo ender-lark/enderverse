@@ -23,8 +23,11 @@ change report before the daily cockpit/preflight uses the book.
    ```
 
    For PDFs, this extractor requires selectable PDF text and the `pypdf`
-   package. It handles both ticker-led rows and selectable text tables where the
-   broker prints description before symbol. If `python` cannot import `pypdf`,
+   package. It handles high-confidence generic ticker rows, Robinhood
+   `Name Symbol Shares` rows, and Schwab wrapped/compact selectable-text rows.
+   Fidelity's current portfolio PDF export separates value rows from symbol
+   rows; the repo extractor must mark those files failed until a stronger
+   parser can pair rows without guesswork. If `python` cannot import `pypdf`,
    run it with the bundled Codex dependency Python. If extraction reports failed
    files, do not continue to cache refresh; report position extraction as not
    checked.
@@ -69,6 +72,9 @@ change report before the daily cockpit/preflight uses the book.
   `--strict` fails.
 - The repo-owned PDF extractor is selectable-text-table only. Image-only PDFs
   are not checked until OCR or a stronger external extractor is added.
+- Do not treat partial broker extraction as a clean Account Positions refresh.
+  Schwab/Robinhood rows may be accurate while Fidelity remains failed; strict
+  cache refresh must still stop in that state.
 - Account-level output may include untracked holdings; engine-facing
   `positions.json` remains thesis-filtered.
 - A share change is a trade diff. A market-value-only change is reported as
