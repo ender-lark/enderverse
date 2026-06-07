@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T18:04:04.069862+00:00",
+  "generated_at": "2026-06-07T18:11:51.223268+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T14:04:04.069862-04:00",
+        "date": "2026-06-07T14:11:51.223268-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T14:04:04.069862-04:00",
+        "date": "2026-06-07T14:11:51.223268-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1179,31 +1179,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T18:04:03.956563+00:00",
+      "last_run": "2026-06-07T18:11:51.096555+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T18:04:03.956563+00:00",
+      "last_run": "2026-06-07T18:11:51.096555+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T18:04:03.956563+00:00",
+      "last_run": "2026-06-07T18:11:51.096555+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-07T18:04:03.956563+00:00",
+      "last_run": "2026-06-07T18:11:51.096555+00:00",
       "note": "dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T18:04:03.956563+00:00",
+      "last_run": "2026-06-07T18:11:51.096555+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -8969,7 +8969,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 2.67
+        "connector_proof_age_hours": 2.8
       }
     ],
     "missing": [],
@@ -9530,12 +9530,68 @@
     },
     "uw_routing": {
       "status": "has_data",
-      "line": "UW routing: 4 scenario profile(s) recommended; top=Event-risk and political macro.",
+      "line": "UW routing: 5 scenario profile(s) recommended; top=Pre-market crash triage.",
       "rows": [
+        {
+          "mode": "pre_market_crash_triage",
+          "label": "Pre-market crash triage",
+          "priority": 1,
+          "reason": "High-volatility or re-check posture needs broad tape triage before single-name action.",
+          "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
+          "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
+          "top_endpoints": [
+            "MARKET_TIDE",
+            "TOP_NET_IMPACT",
+            "TOTAL_OPTIONS_VOLUME",
+            "ETF_TIDE",
+            "SECTOR_TIDE",
+            "TICKER_FLOW_RECENT",
+            "TICKER_FLOW_ALERTS",
+            "TICKER_OPTIONS_VOLUME"
+          ],
+          "groups": [
+            {
+              "key": "broad_tape",
+              "priority": 1,
+              "scope": "market",
+              "endpoints": [
+                "MARKET_TIDE",
+                "TOP_NET_IMPACT",
+                "TOTAL_OPTIONS_VOLUME",
+                "MARKET_MOVERS",
+                "MARKET_CORRELATIONS"
+              ],
+              "decision_use": "Classify the morning as risk-off continuation, relief bounce, or mixed tape."
+            },
+            {
+              "key": "index_and_sector_pressure",
+              "priority": 2,
+              "scope": "sector_or_etf",
+              "endpoints": [
+                "ETF_TIDE",
+                "SECTOR_TIDE"
+              ],
+              "decision_use": "Identify whether exposure should be cut by factor wrapper, single name, or not at all."
+            },
+            {
+              "key": "position_specific_flow",
+              "priority": 3,
+              "scope": "ticker",
+              "endpoints": [
+                "TICKER_FLOW_RECENT",
+                "TICKER_FLOW_ALERTS",
+                "TICKER_OPTIONS_VOLUME",
+                "DARKPOOL_TICKER",
+                "TICKER_OI_CHANGE"
+              ],
+              "decision_use": "Promote only evidence-backed trim/add/recheck prompts for owned names."
+            }
+          ]
+        },
         {
           "mode": "event_risk_political_macro",
           "label": "Event-risk and political macro",
-          "priority": 1,
+          "priority": 2,
           "reason": "Active event-risk lane can overpower normal thesis and flow signals.",
           "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
           "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
@@ -9590,7 +9646,7 @@
         {
           "mode": "portfolio_reallocation",
           "label": "Portfolio reallocation",
-          "priority": 2,
+          "priority": 3,
           "reason": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
           "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
           "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
@@ -9647,7 +9703,7 @@
         {
           "mode": "fundstrat_signal_confirmation",
           "label": "Fundstrat signal confirmation",
-          "priority": 3,
+          "priority": 4,
           "reason": "Fundstrat-derived calls should be checked against live market structure before action.",
           "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
           "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
@@ -9705,7 +9761,7 @@
         {
           "mode": "asymmetric_discovery",
           "label": "Asymmetric discovery",
-          "priority": 4,
+          "priority": 5,
           "reason": "Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
           "operator_question": "What deserves scarce review time because the upside/downside skew may be unusually large?",
           "freshness_requirement": "Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.",
@@ -9768,12 +9824,63 @@
     },
     "uw_action_runbook": {
       "status": "has_data",
-      "line": "UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
+      "line": "UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
       "rows": [
+        {
+          "mode": "pre_market_crash_triage",
+          "label": "Pre-market crash triage",
+          "priority": 1,
+          "why": "High-volatility or re-check posture needs broad tape triage before single-name action.",
+          "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
+          "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
+          "ticker_scope": [
+            "XOP",
+            "XLE",
+            "TNX",
+            "RYF",
+            "XLF",
+            "COIN",
+            "HOOD",
+            "BX",
+            "KKR",
+            "MAGS",
+            "SMH",
+            "SPY",
+            "GRNY",
+            "NVDA"
+          ],
+          "market_checks": [
+            "MARKET_TIDE",
+            "TOP_NET_IMPACT",
+            "TOTAL_OPTIONS_VOLUME",
+            "MARKET_MOVERS",
+            "MARKET_CORRELATIONS",
+            "ETF_TIDE",
+            "SECTOR_TIDE"
+          ],
+          "ticker_checks": [
+            "TICKER_FLOW_RECENT",
+            "TICKER_FLOW_ALERTS",
+            "TICKER_OPTIONS_VOLUME",
+            "DARKPOOL_TICKER",
+            "TICKER_OI_CHANGE",
+            "TICKER_GREEK_EXPOSURE_STRIKE",
+            "TICKER_SPOT_EXPOSURES_STRIKE",
+            "TICKER_IV_RANK",
+            "TICKER_VOL_TERM_STRUCTURE",
+            "TICKER_REALIZED_VOL",
+            "TICKER_OHLC",
+            "TICKER_STOCK_STATE",
+            "TICKER_TECHNICAL_INDICATOR"
+          ],
+          "blocks_action_if": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open",
+          "promote_when": "broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage",
+          "downgrade_when": "the shock stabilizes, pre-market pressure fades, or current flow contradicts crash-triage urgency"
+        },
         {
           "mode": "event_risk_political_macro",
           "label": "Event-risk and political macro",
-          "priority": 1,
+          "priority": 2,
           "why": "Active event-risk lane can overpower normal thesis and flow signals.",
           "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
           "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
@@ -9814,7 +9921,7 @@
         {
           "mode": "portfolio_reallocation",
           "label": "Portfolio reallocation",
-          "priority": 2,
+          "priority": 3,
           "why": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
           "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
           "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
@@ -9856,7 +9963,7 @@
         {
           "mode": "fundstrat_signal_confirmation",
           "label": "Fundstrat signal confirmation",
-          "priority": 3,
+          "priority": 4,
           "why": "Fundstrat-derived calls should be checked against live market structure before action.",
           "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
           "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
@@ -9894,7 +10001,7 @@
         {
           "mode": "asymmetric_discovery",
           "label": "Asymmetric discovery",
-          "priority": 4,
+          "priority": 5,
           "why": "Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
           "operator_question": "What deserves scarce review time because the upside/downside skew may be unusually large?",
           "freshness_requirement": "Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.",
@@ -9964,12 +10071,68 @@
   },
   "uw_routing": {
     "status": "has_data",
-    "line": "UW routing: 4 scenario profile(s) recommended; top=Event-risk and political macro.",
+    "line": "UW routing: 5 scenario profile(s) recommended; top=Pre-market crash triage.",
     "rows": [
+      {
+        "mode": "pre_market_crash_triage",
+        "label": "Pre-market crash triage",
+        "priority": 1,
+        "reason": "High-volatility or re-check posture needs broad tape triage before single-name action.",
+        "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
+        "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
+        "top_endpoints": [
+          "MARKET_TIDE",
+          "TOP_NET_IMPACT",
+          "TOTAL_OPTIONS_VOLUME",
+          "ETF_TIDE",
+          "SECTOR_TIDE",
+          "TICKER_FLOW_RECENT",
+          "TICKER_FLOW_ALERTS",
+          "TICKER_OPTIONS_VOLUME"
+        ],
+        "groups": [
+          {
+            "key": "broad_tape",
+            "priority": 1,
+            "scope": "market",
+            "endpoints": [
+              "MARKET_TIDE",
+              "TOP_NET_IMPACT",
+              "TOTAL_OPTIONS_VOLUME",
+              "MARKET_MOVERS",
+              "MARKET_CORRELATIONS"
+            ],
+            "decision_use": "Classify the morning as risk-off continuation, relief bounce, or mixed tape."
+          },
+          {
+            "key": "index_and_sector_pressure",
+            "priority": 2,
+            "scope": "sector_or_etf",
+            "endpoints": [
+              "ETF_TIDE",
+              "SECTOR_TIDE"
+            ],
+            "decision_use": "Identify whether exposure should be cut by factor wrapper, single name, or not at all."
+          },
+          {
+            "key": "position_specific_flow",
+            "priority": 3,
+            "scope": "ticker",
+            "endpoints": [
+              "TICKER_FLOW_RECENT",
+              "TICKER_FLOW_ALERTS",
+              "TICKER_OPTIONS_VOLUME",
+              "DARKPOOL_TICKER",
+              "TICKER_OI_CHANGE"
+            ],
+            "decision_use": "Promote only evidence-backed trim/add/recheck prompts for owned names."
+          }
+        ]
+      },
       {
         "mode": "event_risk_political_macro",
         "label": "Event-risk and political macro",
-        "priority": 1,
+        "priority": 2,
         "reason": "Active event-risk lane can overpower normal thesis and flow signals.",
         "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
         "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
@@ -10024,7 +10187,7 @@
       {
         "mode": "portfolio_reallocation",
         "label": "Portfolio reallocation",
-        "priority": 2,
+        "priority": 3,
         "reason": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
         "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
         "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
@@ -10081,7 +10244,7 @@
       {
         "mode": "fundstrat_signal_confirmation",
         "label": "Fundstrat signal confirmation",
-        "priority": 3,
+        "priority": 4,
         "reason": "Fundstrat-derived calls should be checked against live market structure before action.",
         "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
         "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
@@ -10139,7 +10302,7 @@
       {
         "mode": "asymmetric_discovery",
         "label": "Asymmetric discovery",
-        "priority": 4,
+        "priority": 5,
         "reason": "Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
         "operator_question": "What deserves scarce review time because the upside/downside skew may be unusually large?",
         "freshness_requirement": "Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.",
@@ -10202,12 +10365,63 @@
   },
   "uw_action_runbook": {
     "status": "has_data",
-    "line": "UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
+    "line": "UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
     "rows": [
+      {
+        "mode": "pre_market_crash_triage",
+        "label": "Pre-market crash triage",
+        "priority": 1,
+        "why": "High-volatility or re-check posture needs broad tape triage before single-name action.",
+        "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
+        "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
+        "ticker_scope": [
+          "XOP",
+          "XLE",
+          "TNX",
+          "RYF",
+          "XLF",
+          "COIN",
+          "HOOD",
+          "BX",
+          "KKR",
+          "MAGS",
+          "SMH",
+          "SPY",
+          "GRNY",
+          "NVDA"
+        ],
+        "market_checks": [
+          "MARKET_TIDE",
+          "TOP_NET_IMPACT",
+          "TOTAL_OPTIONS_VOLUME",
+          "MARKET_MOVERS",
+          "MARKET_CORRELATIONS",
+          "ETF_TIDE",
+          "SECTOR_TIDE"
+        ],
+        "ticker_checks": [
+          "TICKER_FLOW_RECENT",
+          "TICKER_FLOW_ALERTS",
+          "TICKER_OPTIONS_VOLUME",
+          "DARKPOOL_TICKER",
+          "TICKER_OI_CHANGE",
+          "TICKER_GREEK_EXPOSURE_STRIKE",
+          "TICKER_SPOT_EXPOSURES_STRIKE",
+          "TICKER_IV_RANK",
+          "TICKER_VOL_TERM_STRUCTURE",
+          "TICKER_REALIZED_VOL",
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_TECHNICAL_INDICATOR"
+        ],
+        "blocks_action_if": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open",
+        "promote_when": "broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage",
+        "downgrade_when": "the shock stabilizes, pre-market pressure fades, or current flow contradicts crash-triage urgency"
+      },
       {
         "mode": "event_risk_political_macro",
         "label": "Event-risk and political macro",
-        "priority": 1,
+        "priority": 2,
         "why": "Active event-risk lane can overpower normal thesis and flow signals.",
         "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
         "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
@@ -10248,7 +10462,7 @@
       {
         "mode": "portfolio_reallocation",
         "label": "Portfolio reallocation",
-        "priority": 2,
+        "priority": 3,
         "why": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
         "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
         "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
@@ -10290,7 +10504,7 @@
       {
         "mode": "fundstrat_signal_confirmation",
         "label": "Fundstrat signal confirmation",
-        "priority": 3,
+        "priority": 4,
         "why": "Fundstrat-derived calls should be checked against live market structure before action.",
         "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
         "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
@@ -10328,7 +10542,7 @@
       {
         "mode": "asymmetric_discovery",
         "label": "Asymmetric discovery",
-        "priority": 4,
+        "priority": 5,
         "why": "Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
         "operator_question": "What deserves scarce review time because the upside/downside skew may be unusually large?",
         "freshness_requirement": "Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.",
@@ -11036,6 +11250,16 @@
       {
         "priority": 4,
         "kind": "uw_check",
+        "label": "Run UW check set: Pre-market crash triage",
+        "why": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
+        "next_step": "Use the listed endpoint group before promoting any capital-sized action.",
+        "blocks": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open",
+        "source": "uw_action_runbook",
+        "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
+      },
+      {
+        "priority": 5,
+        "kind": "uw_check",
         "label": "Run UW check set: Event-risk and political macro",
         "why": "Is the external shock changing new-buy timing, hedges, or position sizing?",
         "next_step": "Use the listed endpoint group before promoting any capital-sized action.",
@@ -11044,7 +11268,7 @@
         "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
       },
       {
-        "priority": 5,
+        "priority": 6,
         "kind": "uw_check",
         "label": "Run UW check set: Portfolio reallocation",
         "why": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
@@ -11054,7 +11278,7 @@
         "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
       },
       {
-        "priority": 6,
+        "priority": 7,
         "kind": "dark_lane",
         "label": "Social Watch is not checked",
         "why": "Reddit/social early-signal anomalies are not checked; absence is not no social signal.",
@@ -11064,7 +11288,7 @@
         "command": "python src/social_watch.py --cache src/social_watch.json --format text"
       },
       {
-        "priority": 7,
+        "priority": 8,
         "kind": "open_reviews",
         "label": "Open reviews: 2 item(s)",
         "why": "Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).",

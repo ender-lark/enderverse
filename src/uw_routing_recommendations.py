@@ -38,29 +38,46 @@ def _profile_row(mode: str, *, reason: str, priority: int) -> dict[str, Any]:
     }
 
 
+def _high_volatility_posture(feed: dict[str, Any], actions: list[dict[str, Any]]) -> bool:
+    for row in feed.get("event_risk") or []:
+        if isinstance(row, dict) and str(row.get("severity") or "").lower() in {"high", "critical"}:
+            return True
+    if any(row.get("decision_group") == "recheck_before_acting" for row in actions):
+        return True
+    freshness_rows = (((feed.get("operator_hardening") or {}).get("freshness_downgrades") or {}).get("rows") or [])
+    return any(isinstance(row, dict) for row in freshness_rows)
+
+
 def build_uw_routing_recommendations(feed: dict[str, Any]) -> dict[str, Any]:
     actions = [row for row in feed.get("actions") or [] if isinstance(row, dict)]
     rows: list[dict[str, Any]] = []
+
+    if _high_volatility_posture(feed, actions):
+        rows.append(_profile_row(
+            "pre_market_crash_triage",
+            reason="High-volatility or re-check posture needs broad tape triage before single-name action.",
+            priority=1,
+        ))
 
     if any(row.get("kind") == "event_risk" for row in actions) or feed.get("event_risk"):
         rows.append(_profile_row(
             "event_risk_political_macro",
             reason="Active event-risk lane can overpower normal thesis and flow signals.",
-            priority=1,
+            priority=2,
         ))
 
     if any(row.get("kind") == "conviction_gap" or row.get("source") == "target_drift" for row in actions):
         rows.append(_profile_row(
             "portfolio_reallocation",
             reason="Sizing-gap actions need current exposure, funding, factor, and flow checks.",
-            priority=2,
+            priority=3,
         ))
 
     if any(str(row.get("source") or "").startswith("fundstrat") for row in actions) or (feed.get("source_audits") or {}).get("fundstrat"):
         rows.append(_profile_row(
             "fundstrat_signal_confirmation",
             reason="Fundstrat-derived calls should be checked against live market structure before action.",
-            priority=3,
+            priority=4,
         ))
 
     asym = feed.get("asymmetric_opportunities") or {}
@@ -68,14 +85,14 @@ def build_uw_routing_recommendations(feed: dict[str, Any]) -> dict[str, Any]:
         rows.append(_profile_row(
             "asymmetric_discovery",
             reason="Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
-            priority=4,
+            priority=5,
         ))
 
     if any(row.get("source") == "reddit" for row in actions) or feed.get("reddit_watch"):
         rows.append(_profile_row(
             "reddit_escalation_vetting",
             reason="Social anomalies require independent UW/news/price vetting before escalation.",
-            priority=5,
+            priority=6,
         ))
 
     rows = sorted(rows, key=lambda row: row["priority"])

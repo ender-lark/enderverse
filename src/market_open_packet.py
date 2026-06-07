@@ -113,7 +113,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
             command=str(reallocation.get("command") or ""),
         ))
 
-    for uw in [row for row in uw_rows if isinstance(row, dict)][:2]:
+    for uw in [row for row in uw_rows if isinstance(row, dict)][:3]:
         rows.append(_packet_row(
             priority=4 + len([r for r in rows if r.get("kind") == "uw_check"]),
             kind="uw_check",
@@ -127,7 +127,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
 
     if social.get("status") == "not_checked":
         rows.append(_packet_row(
-            priority=6,
+            priority=max([int(row.get("priority") or 0) for row in rows] or [0]) + 1,
             kind="dark_lane",
             label="Social Watch is not checked",
             why=str((next((row.get("missing_impact") for row in dark_lanes if row.get("key") == "social_watch"), "")) or social.get("line") or ""),
@@ -140,7 +140,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
     open_actions = (feed.get("feedback") or {}).get("open_actions") or {}
     if open_actions.get("count"):
         rows.append(_packet_row(
-            priority=7,
+            priority=max([int(row.get("priority") or 0) for row in rows] or [0]) + 1,
             kind="open_reviews",
             label=f"Open reviews: {open_actions.get('count')} item(s)",
             why=str(open_actions.get("line") or ""),

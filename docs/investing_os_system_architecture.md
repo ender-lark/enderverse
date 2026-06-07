@@ -175,6 +175,14 @@ The dashboard shows the feed plus operator state:
     Fundstrat intake proof, Notion writeback evidence, and Notion collision
     risk when shared pages may have been written by another agent.
 
+- UW routing and action runbook:
+  - `feed.uw_routing` and `feed.uw_action_runbook` translate dashboard state
+    into scenario-specific Unusual Whales endpoint groups.
+  - High-volatility or Re-check Before Acting posture activates pre-market crash
+    triage first, before single-name conviction or reallocation decisions.
+  - Routing/runbook rows are endpoint instructions only; they are not proof that
+    the endpoints were fetched or confirmed the action.
+
 - Preview/export artifacts:
   - Canonical injected JSX: `src/rendered/conviction_cockpit_v5.jsx`
   - Published summary HTML: `docs/index.html`

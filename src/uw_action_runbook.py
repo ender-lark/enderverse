@@ -151,6 +151,11 @@ def _endpoints_by_scope(mode: str) -> tuple[list[str], list[str]]:
 
 def _rules_for_mode(mode: str) -> dict[str, str]:
     rules = {
+        "pre_market_crash_triage": {
+            "blocks_action_if": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open",
+            "promote_when": "broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage",
+            "downgrade_when": "the shock stabilizes, pre-market pressure fades, or current flow contradicts crash-triage urgency",
+        },
         "event_risk_political_macro": {
             "blocks_action_if": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory",
             "promote_when": "macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing",
@@ -186,7 +191,11 @@ def _rules_for_mode(mode: str) -> dict[str, str]:
 
 def _scope_for_mode(mode: str, feed: dict[str, Any]) -> list[str]:
     out: list[str] = []
-    if mode == "event_risk_political_macro":
+    if mode == "pre_market_crash_triage":
+        _extend_unique(out, _event_tickers(feed), limit=12)
+        _extend_unique(out, _portfolio_tickers(feed)[:8], limit=12)
+        _extend_unique(out, _action_tickers(feed), limit=12)
+    elif mode == "event_risk_political_macro":
         _extend_unique(out, _event_tickers(feed), limit=12)
         _extend_unique(out, _portfolio_tickers(feed)[:5], limit=12)
     elif mode == "portfolio_reallocation":

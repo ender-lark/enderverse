@@ -35,11 +35,20 @@ data is checked clear.
 - Cloud routine proof is background monitoring. Missing natural scheduled receipts
   are audit items, not foreground build blockers unless they are overdue or failed.
 - Existing reallocation engine is candidate-only and does not place trades.
+- The Market-Open Packet now sits above Today's Actions. It sequences re-check
+  work, Key Now gating, reallocation blockers, UW check sets, dark lanes, and
+  open reviews so scarce morning attention goes to the right next action.
 - Reddit/social is a watch-only dashboard lane backed by a normalized cache shape;
-  the repo still does not fetch Reddit live data until OAuth/API intake is added.
+  the repo still does not fetch Reddit live data until compliant OAuth/API intake
+  is added. Missing Social Watch is visible as `not_checked`, not as "no signal."
 - Existing Unusual Whales endpoint catalog prevents common hallucinated endpoint
-  paths, but the system needs scenario-specific routing so it uses the right UW
-  endpoints at the right time.
+  paths. Scenario-specific routing now exists in `src/uw_endpoint_router.py` and
+  dashboard runbooks now activate profiles such as pre-market crash triage,
+  event-risk macro, portfolio reallocation, Fundstrat confirmation, asymmetric
+  discovery, post-close review, and Reddit-signal vetting.
+- Current live build after commit `09058cd`: go-live ready, publish ready, live
+  data ready; 4 actions, 2 open reviews, 1 dark lane (`social_watch`), and no
+  build blockers. Standard verification passed with 1078 tests and 6 skipped.
 
 ## High-Level Reassessment
 
@@ -50,10 +59,10 @@ interaction design during high-volatility periods.
 
 Highest-value gaps:
 
-1. UW endpoint utilization is too bundle-oriented. The system needs scenario-aware
-   endpoint routing: crash triage, Fundstrat confirmation, asymmetric discovery,
-   portfolio reallocation, post-close review, event-risk macro, and Reddit-signal
-   vetting.
+1. UW endpoint utilization has a routing map, but the next gap is proof and
+   result capture: after a runbook says which endpoints to use, the system should
+   know which endpoint results actually landed, their timestamps, and whether
+   they confirmed or contradicted the action.
 2. Dashboard interaction still needs more operator compression. The user should be
    able to answer: what changed, what matters now, why, how fresh, what disconfirms
    it, what condition would flip it, and what action is blocked by missing evidence.
@@ -66,7 +75,10 @@ Highest-value gaps:
 5. Disconfirmation needs to be explicit. Every Key Now action should show the fastest
    way it could be wrong, the evidence that would invalidate it, and the trigger
    that changes the recommendation.
-6. Stale-action cleanup needs an operating ritual. After a volatile backlog build-up,
+6. Market-open crash triage should be first-class during high-volatility regimes:
+   broad tape, factor pressure, owned-name flow, dealer/volatility context, and
+   live price state should be checked before single-name conviction dominates.
+7. Stale-action cleanup needs an operating ritual. After a volatile backlog build-up,
    the system should run a one-time review to expire old prompts, downgrade stale
    opportunities, and keep open ANET/GOOGL-style reviews visible without treating
    them as build blockers.
@@ -110,6 +122,13 @@ System description:
   audit trail.
 - The current urgency is preparing for the next market open after a fast AI/crypto
   drawdown where delayed Fundstrat sell-signal handling caused real portfolio pain.
+- Current dashboard state: 4 actions, including one Re-check Before Acting event
+  risk row and one Key Now NVDA sizing-gap row; 2 fresh open reviews (ANET/GOOGL);
+  Social Watch dark; reallocation candidate brief remains test-data-only until
+  current positions are supplied.
+- The Market-Open Packet should be treated as the first operator surface:
+  re-check fast-moving event risk, gate Key Now, unblock current positions, run
+  UW check sets, keep dark lanes visible, then resolve open reviews.
 
 Please critique this system and propose improvements.
 
@@ -120,7 +139,7 @@ Questions to answer:
 3. What dashboard interaction design would best help a busy user act on only the
    highest-impact decisions while still seeing all important backlog items?
 4. How should Unusual Whales endpoints be routed by scenario, and what endpoint
-   groups are missing from the current design?
+   groups or result-capture proofs are missing from the current design?
 5. How should a portfolio reallocation workflow rank trim/add/hold/hedge candidates
    using current positions, Fundstrat, UW, source-call history, catalysts, and risk?
 6. How should Reddit or other social feeds be used without creating pump/chase risk?
@@ -145,8 +164,9 @@ Output format:
 
 ## Immediate Improvement Priorities
 
-1. Use `src/uw_endpoint_router.py` as the canonical scenario routing map for UW
-   endpoint selection.
+1. Use `src/uw_endpoint_router.py` and `src/uw_action_runbook.py` as the canonical
+   scenario routing map for UW endpoint selection, then add endpoint-result proof
+   so the dashboard knows what actually ran.
 2. Add a dashboard affordance for "what would invalidate this?" on every Key Now
    and Re-check Before Acting item.
 3. Run a stale-action cleanup pass before Monday open: expire old prompts, downgrade

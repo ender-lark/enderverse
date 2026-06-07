@@ -38,6 +38,15 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Pre-market crash-triage UW routing.
+  - `uw_routing_recommendations.py` now activates the `pre_market_crash_triage`
+    profile when the feed is in a high-volatility or re-check posture.
+  - `uw_action_runbook.py` now scopes that profile to event-risk tickers, top
+    portfolio exposure, and current action tickers, with explicit broad-tape,
+    sector, owned-name flow, and vol/gamma checks.
+  - The Market-Open Packet now keeps up to three UW check sets visible so crash
+    triage, event-risk macro, and portfolio reallocation can all appear before
+    Social Watch/open-review cleanup.
 - Market-Open Packet.
   - Added `market_open_packet.py` to sequence the current dashboard state into a
     compact market-open review order: re-check first, gate Key Now, unblock

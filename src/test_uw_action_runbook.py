@@ -46,18 +46,22 @@ def test_uw_action_runbook_scopes_current_dashboard_scenarios():
     assert "endpoint results not claimed" in block["line"]
     modes = [row["mode"] for row in block["rows"]]
     assert modes == [
+        "pre_market_crash_triage",
         "event_risk_political_macro",
         "portfolio_reallocation",
         "fundstrat_signal_confirmation",
         "asymmetric_discovery",
     ]
     by_mode = {row["mode"]: row for row in block["rows"]}
+    assert {"XOP", "XLE", "TNX", "NVDA", "ANET"}.issubset(set(by_mode["pre_market_crash_triage"]["ticker_scope"]))
     assert {"XOP", "XLE", "TNX"}.issubset(set(by_mode["event_risk_political_macro"]["ticker_scope"]))
     assert {"NVDA", "SMH", "ANET"}.issubset(set(by_mode["portfolio_reallocation"]["ticker_scope"]))
     assert {"QQQ", "RSP", "NVDA"}.issubset(set(by_mode["fundstrat_signal_confirmation"]["ticker_scope"]))
     assert {"GOOGL", "AVGO"}.issubset(set(by_mode["asymmetric_discovery"]["ticker_scope"]))
     assert "MARKET_TIDE" in by_mode["event_risk_political_macro"]["market_checks"]
+    assert "TOP_NET_IMPACT" in by_mode["pre_market_crash_triage"]["market_checks"]
     assert "TICKER_FLOW_RECENT" in by_mode["portfolio_reallocation"]["ticker_checks"]
+    assert "risk-off continuation" in by_mode["pre_market_crash_triage"]["promote_when"]
     assert "not proof" in block["honesty_rule"]
 
 
