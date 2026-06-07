@@ -212,6 +212,93 @@ def _requires_recheck_before_capital(freshness: dict[str, Any]) -> bool:
     )
 
 
+def _dedupe_text(values: list[str]) -> list[str]:
+    out: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        text = str(value or "").strip()
+        if not text or text in seen:
+            continue
+        seen.add(text)
+        out.append(text)
+    return out
+
+
+def _disconfirmation(action: dict[str, Any], freshness: dict[str, Any]) -> dict[str, Any]:
+    """Explain what would make the action wrong before the operator acts."""
+    existing = action.get("disconfirmation")
+    if isinstance(existing, dict) and existing.get("summary"):
+        return dict(existing)
+
+    kind = str(action.get("kind") or "")
+    source = str(action.get("source") or "")
+    ticker = str(action.get("ticker") or "").strip().upper()
+    missing = [str(v).strip() for v in action.get("missing_evidence") or [] if str(v).strip()]
+    label = str(freshness.get("label") or "")
+    stale_or_missing = label in {"stale", "not checked"} or _requires_recheck_before_capital(freshness)
+    confirm: list[str] = []
+    invalidates: list[str] = []
+
+    if stale_or_missing:
+        invalidates.append("Evidence is stale, missing, or too fast-moving for a capital action without a live re-check.")
+        confirm.append("Refresh the evidence lane and confirm the action still survives with same-session data.")
+
+    if kind == "event_risk":
+        invalidates.extend([
+            "The listed event trigger does not occur or reverses.",
+            "Affected exposures stabilize while rates, oil, volatility, or headlines stop worsening.",
+        ])
+        confirm.extend(missing or ["Check the event trigger, affected tickers, and latest headlines before changing exposure."])
+    elif kind == "conviction_gap" or source == "target_drift":
+        invalidates.extend([
+            "The target weight or thesis is outdated relative to the current portfolio.",
+            "The funding leg creates more risk or opportunity cost than the add solves.",
+            "The pre-trade gate fails on live price, source freshness, or sizing.",
+        ])
+        confirm.extend(missing or ["Confirm current position size, live entry, funding source, and pre-trade gate."])
+    elif kind == "lean_in":
+        invalidates.extend([
+            "The live tape no longer confirms leadership or flow strength.",
+            "Current sizing is already large enough after account and wrapper exposure.",
+            "A better funding use ranks higher after fresh portfolio review.",
+        ])
+        confirm.extend(missing or ["Confirm same-session price/flow, current sizing, and funding source."])
+    elif source.startswith("fundstrat") or source in {"radar", "top_prospects"}:
+        invalidates.extend([
+            "The Fundstrat/source call is stale, superseded, or contradicted by live tape.",
+            "The name has already moved enough that the entry is no longer asymmetric.",
+        ])
+        confirm.extend(missing or ["Confirm latest source date, live entry, and whether the call was superseded."])
+    elif kind in {"research", "research_queue", "top_prospect"}:
+        invalidates.extend([
+            "The research item lacks decision-grade evidence or a current catalyst.",
+            "Independent source checks do not confirm the thesis or timing.",
+        ])
+        confirm.extend(missing or ["Promote only after a dated thesis, catalyst, and independent confirmation."])
+    else:
+        invalidates.extend([
+            "The source evidence is stale, contradictory, or not decision-grade.",
+            "Live price, flow, or portfolio context changes the action's risk/reward.",
+        ])
+        confirm.extend(missing or ["Run the relevant source, freshness, and pre-action checks."])
+
+    if ticker:
+        confirm.append(f"Check same-session price/flow and current exposure for {ticker}.")
+    if action.get("gate"):
+        confirm.append("Run the pre-trade gate; no auto-trade from the dashboard.")
+
+    invalidates = _dedupe_text(invalidates)
+    confirm = _dedupe_text(confirm)
+    downgrade = "Re-check Before Acting" if stale_or_missing or missing else "Quiet Watch"
+    return {
+        "question": "What would make this wrong?",
+        "summary": f"Do not act if {invalidates[0][0].lower() + invalidates[0][1:] if invalidates else 'the evidence fails live checks.'}",
+        "invalidates_if": invalidates,
+        "confirm_before_acting": confirm,
+        "downgrade_to": downgrade,
+    }
+
+
 def enrich_actions(
     actions: list[dict[str, Any]] | None,
     *,
@@ -245,6 +332,7 @@ def enrich_actions(
             or row.get("why")
             or "This is surfaced because it may affect conviction, sizing, timing, or risk."
         )
+        row["disconfirmation"] = _disconfirmation(row, freshness)
         group = _group_for(row)
         row["decision_group"] = group
         row["decision_group_label"] = next(g["label"] for g in GROUPS if g["key"] == group)

@@ -246,7 +246,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 12:08 ET
+        built 2026-06-07 12:52 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
@@ -310,7 +310,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.<br><strong>Rationale:</strong> Target drift shows a 5.4pp sizing gap vs the AI working model.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-05-31; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / conviction / opportunity_cost | capital review | score 85/100<br><strong>Missing/re-check:</strong> live opportunity / funding leg / pre-trade gate</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.<br><strong>Rationale:</strong> Target drift shows a 5.4pp sizing gap vs the AI working model.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-05-31; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / conviction / opportunity_cost | capital review | score 85/100<br><strong>Missing/re-check:</strong> live opportunity / funding leg / pre-trade gate<br><strong>What could make this wrong?</strong> Do not act if the target weight or thesis is outdated relative to the current portfolio.<br>Invalidates if: The target weight or thesis is outdated relative to the current portfolio. / The funding leg creates more risk or opportunity cost than the add solves. / The pre-trade gate fails on live price, source freshness, or sizing.<br>Confirm: live opportunity / funding leg / pre-trade gate / Check same-session price/flow and current exposure for NVDA. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Re-check Before Acting</div>
   </details>
   <div class="action-foot">target_drift | fresh: evidence 2026-05-31; decays until position, price, thesis, or target changes</div>
 </div>
@@ -336,7 +336,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.<br><strong>Rationale:</strong> Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.<br><strong>Freshness:</strong> Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action. (2026-06-03; intraday to 1 trading day)<br><strong>Goal/capital:</strong> downside_protection / opportunity_cost / data_quality | capital review | score 75/100<br><strong>Missing/re-check:</strong> WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.<br><strong>Rationale:</strong> Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.<br><strong>Freshness:</strong> Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action. (2026-06-03; intraday to 1 trading day)<br><strong>Goal/capital:</strong> downside_protection / opportunity_cost / data_quality | capital review | score 75/100<br><strong>Missing/re-check:</strong> WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br><strong>What could make this wrong?</strong> Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.<br>Invalidates if: Evidence is stale, missing, or too fast-moving for a capital action without a live re-check. / The listed event trigger does not occur or reverses. / Affected exposures stabilize while rates, oil, volatility, or headlines stop worsening.<br>Confirm: Refresh the evidence lane and confirm the action still survives with same-session data. / WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br>Downgrade to: Re-check Before Acting</div>
   </details>
   <div class="action-foot">event_risk | fast-moving: evidence 2026-06-03; decays intraday to 1 trading day</div>
 </div>
@@ -362,7 +362,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> ANET: Promising and the tape&#x27;s with it (LEADING)  a place to start.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> ANET: Promising and the tape&#x27;s with it (LEADING)  a place to start.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for ANET. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
@@ -382,7 +382,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> GOOGL: Promising and the tape&#x27;s with it (LEADING)  a place to start.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> GOOGL: Promising and the tape&#x27;s with it (LEADING)  a place to start.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for GOOGL. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
@@ -423,7 +423,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="small-item">
   <span class="context-ticker">NVDA</span>
   <span class="tag t-conf">score 85</span>
-  <span class="tag t-cat">bullish_flow, target_drift</span>
+  <span class="tag t-cat">target_drift</span>
   <span class="small-muted">A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.</span>
   <span class="small-muted">Evidence: Conviction gap: NVDA is under target</span>
   <span class="small-muted">Decay: until position, price, thesis, or target changes | review setup; no auto-trade</span>
@@ -453,35 +453,35 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Decay: until account/target changes | review setup; no auto-trade</span>
 </div>
 <div class="small-item">
-  <span class="context-ticker">BMNR</span>
-  <span class="tag t-conf">score 68</span>
-  <span class="tag t-cat">bullish_flow</span>
-  <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call sweeps $1.1M, 3:1 c/p, call OI +2056% at 24/18.5/25 strikes</span>
-  <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
-</div>
-<div class="small-item">
   <span class="context-ticker">GRNY</span>
   <span class="tag t-conf">score 68</span>
   <span class="tag t-cat">bullish_flow</span>
   <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call sweeps $1.6M, 16:1 c/p, call OI +143% at 27/29/28 strikes</span>
+  <span class="small-muted">Evidence: ask-side call flow $0.0M, 8:1 c/p, call OI +143% at 27/29/28 strikes</span>
   <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
 </div>
 <div class="small-item">
-  <span class="context-ticker">IGV</span>
+  <span class="context-ticker">MAGS</span>
   <span class="tag t-conf">score 68</span>
   <span class="tag t-cat">bullish_flow</span>
   <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call sweeps $1.7M, 2:1 c/p, call OI +1400% at 105/105/101 strikes</span>
+  <span class="small-muted">Evidence: ask-side call flow $0.1M, c/p 0.17, call OI +1250% at 69/100/69.5 strikes</span>
   <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
 </div>
 <div class="small-item">
-  <span class="context-ticker">LEU</span>
+  <span class="context-ticker">SMH</span>
   <span class="tag t-conf">score 68</span>
   <span class="tag t-cat">bullish_flow</span>
   <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call sweeps $2.5M, 1:1 c/p, call OI +144% at 160/400/220 strikes</span>
+  <span class="small-muted">Evidence: ask-side call sweeps $1.2M, c/p 0.28, put OI +135000% at 560/430/500 strikes</span>
+  <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">UUUU</span>
+  <span class="tag t-conf">score 68</span>
+  <span class="tag t-cat">bullish_flow</span>
+  <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
+  <span class="small-muted">Evidence: ask-side call sweeps $0.2M, 8:1 c/p, call OI +21800% at 22/18/22.5 strikes</span>
   <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
 </div></div>
 </div>
@@ -604,7 +604,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 <div class="context-col">
   <div class="context-label">Bullish flow</div>
-  <div class="context-row"><span class="context-ticker">BMNR</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">IGV</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div>
+  <div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">call_flow, oi_build</span></div><div class="context-row"><span class="context-ticker">MAGS</span>bullish strong<span class="context-sub">call_flow, oi_build</span></div><div class="context-row"><span class="context-ticker">SMH</span>bullish strong<span class="context-sub">sweep, oi_build</span></div>
 </div></div>
 </div>
 
@@ -705,7 +705,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T16:08:05.247410+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T16:08:05.247410+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T16:08:05.247410+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-07T16:08:05.247410+00:00 | no dark lanes reported in lane-status block">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T16:08:05.247410+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T16:52:02.545836+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T16:52:02.545836+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T16:52:02.545836+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-07T16:52:02.545836+00:00 | no dark lanes reported in lane-status block">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T16:52:02.545836+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -962,18 +962,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="tag lag" style="margin-left:6px">LAGGING</span>
   <div class="lean-headline">GS: Promising and endorsed, but still lagging  favorable entry only once the rotation turns (not owned).</div>
   <div class="lean-sub">Clears when: Clears it: the rotation turning up (lagging -&gt; turning up), confirming the catch-up.</div>
-</div>
-<div class="lean-item">
-  <span class="lean-ticker">GRNJ</span>
-  <span class="tag inl" style="margin-left:6px">IN LINE</span>
-  <div class="lean-headline">GRNJ: the case is cooling (IN LINE)  watch / reassess, don&#x27;t add (you own it).</div>
-  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
-</div>
-<div class="lean-item">
-  <span class="lean-ticker">IVES</span>
-  <span class="tag lead" style="margin-left:6px">LEADING</span>
-  <div class="lean-headline">IVES: the case is cooling (LEADING)  watch / reassess, don&#x27;t add (you own it).</div>
-  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 <div class="lean-item">
   <span class="lean-ticker">MU</span>

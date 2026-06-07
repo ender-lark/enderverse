@@ -760,6 +760,7 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
     freshness = _e(a.get("freshness") or "")
     freshness_judgment = a.get("freshness_judgment") or {}
     why_matters = _e(a.get("why_this_matters") or a.get("why_it_moves_goal") or "")
+    disconfirmation = a.get("disconfirmation") or {}
     gate = _gate_tag(a.get("gate"))
     cls = "action-act" if a.get("action_state") == "ACT_NOW" else "action-watch"
     meta = ""
@@ -797,6 +798,30 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
         )
     if missing:
         detail_lines.append(f"<strong>Missing/re-check:</strong> {_e(missing)}")
+    disconfirm_bits = []
+    if disconfirmation.get("summary"):
+        disconfirm_bits.append(_e(disconfirmation.get("summary")))
+    invalidates = [
+        str(v)
+        for v in (disconfirmation.get("invalidates_if") or [])
+        if str(v).strip()
+    ]
+    confirm = [
+        str(v)
+        for v in (disconfirmation.get("confirm_before_acting") or [])
+        if str(v).strip()
+    ]
+    if invalidates:
+        disconfirm_bits.append("Invalidates if: " + _e(" / ".join(invalidates)))
+    if confirm:
+        disconfirm_bits.append("Confirm: " + _e(" / ".join(confirm)))
+    if disconfirmation.get("downgrade_to"):
+        disconfirm_bits.append("Downgrade to: " + _e(disconfirmation.get("downgrade_to")))
+    if disconfirm_bits:
+        detail_lines.append(
+            "<strong>What could make this wrong?</strong> "
+            + "<br>".join(disconfirm_bits)
+        )
     details = ""
     if detail_lines:
         details = f"""

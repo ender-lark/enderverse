@@ -42,6 +42,8 @@ def test_enrich_actions_groups_and_adds_freshness_judgment():
     assert enriched[0]["decision_group"] == "key_now"
     assert enriched[0]["freshness_judgment"]["label"] == "fast-moving"
     assert enriched[0]["freshness_judgment"]["evidence_date"] == "2026-06-05"
+    assert enriched[0]["disconfirmation"]["question"] == "What would make this wrong?"
+    assert "event trigger" in " ".join(enriched[0]["disconfirmation"]["invalidates_if"])
     assert enriched[1]["decision_group"] == "important_backlog"
     assert groups["counts"]["key_now"] == 1
     assert groups["counts"]["important_backlog"] == 1
@@ -74,6 +76,8 @@ def test_fast_moving_old_evidence_requires_recheck_before_acting():
     assert enriched[0]["action_state"] == "WATCH"
     assert enriched[0]["action_label"] == "RE-CHECK"
     assert enriched[0]["decision_group"] == "recheck_before_acting"
+    assert enriched[0]["disconfirmation"]["downgrade_to"] == "Re-check Before Acting"
+    assert "Refresh the evidence lane" in enriched[0]["disconfirmation"]["confirm_before_acting"][0]
     assert groups["sections"][1]["key"] == "recheck_before_acting"
     assert groups["counts"]["recheck_before_acting"] == 1
 
@@ -99,6 +103,36 @@ def test_freshness_last_checked_uses_eastern_day_for_utc_midnight():
 
     assert enriched[0]["freshness_judgment"]["last_checked"] == "2026-06-05"
     assert enriched[0]["decision_group"] == "key_now"
+    assert groups["counts"]["key_now"] == 1
+
+
+def test_target_drift_disconfirmation_requires_funding_and_gate():
+    actions = [
+        {
+            "rank": 1,
+            "kind": "conviction_gap",
+            "ticker": "NVDA",
+            "action_state": "ACT_NOW",
+            "source": "target_drift",
+            "time_window": "1-3 trading days",
+            "goal_impact": "High",
+            "goal_channels": ["sizing_gap", "conviction"],
+            "missing_evidence": ["funding leg"],
+            "gate": {"needs_gate": True},
+        },
+    ]
+
+    enriched, groups = enrich_actions(
+        actions,
+        staleness={"entries": [{"source": "portfolio", "date": "2026-05-31"}], "stale": []},
+        generated_at="2026-06-07T14:00:00+00:00",
+    )
+
+    disconfirmation = enriched[0]["disconfirmation"]
+    assert enriched[0]["decision_group"] == "key_now"
+    assert "funding leg" in disconfirmation["confirm_before_acting"]
+    assert "Run the pre-trade gate; no auto-trade from the dashboard." in disconfirmation["confirm_before_acting"]
+    assert any("target weight" in row for row in disconfirmation["invalidates_if"])
     assert groups["counts"]["key_now"] == 1
 
 

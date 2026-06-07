@@ -281,6 +281,12 @@ def test_generated_html_surfaces_action_cards_first():
             "judgment": "Fresh enough for a decision prompt.",
         },
         "why_this_matters": "A high-conviction target gap can make the right thesis too small.",
+        "disconfirmation": {
+            "summary": "Do not act if the funding leg makes risk worse.",
+            "invalidates_if": ["The target weight is outdated."],
+            "confirm_before_acting": ["Run the pre-trade gate."],
+            "downgrade_to": "Re-check Before Acting",
+        },
     }]
 
     html = generate_html(feed)
@@ -292,6 +298,9 @@ def test_generated_html_surfaces_action_cards_first():
     assert "Key Now" in html
     assert "Why this matters" in html
     assert "Fresh enough for a decision prompt." in html
+    assert "What could make this wrong?" in html
+    assert "Do not act if the funding leg makes risk worse." in html
+    assert "Run the pre-trade gate." in html
     assert html.index('id="today-actions"') < html.index('id="operator-status"')
 
 

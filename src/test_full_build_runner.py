@@ -161,6 +161,7 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert feed["target_drift"]["rows"]
     assert any(a.get("source") == "daily_synthesis" for a in feed["actions"])
     assert any(a.get("kind") == "event_risk" for a in feed["actions"])
+    assert all(a["disconfirmation"]["question"] == "What would make this wrong?" for a in feed["actions"])
 
 
 def test_full_build_runner_uses_eastern_as_of_for_utc_midnight_run(tmp_path):

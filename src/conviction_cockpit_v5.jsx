@@ -777,7 +777,7 @@ function actionRow(a, opts={}){
            yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"",
            decisionGroup:a.decision_group||"", decisionGroupLabel:a.decision_group_label||"",
            freshness:a.freshness||"", freshnessJudgment:a.freshness_judgment||{},
-           whyThisMatters:a.why_this_matters||"",
+           whyThisMatters:a.why_this_matters||"", disconfirmation:a.disconfirmation||{},
            ageDays:(typeof a.age_days==="number"?a.age_days:null), flagged:a.first_flagged||"",
            moveSince:a.move_since||"", sizing:a.sizing||"" };
 }
@@ -958,6 +958,9 @@ const muted = { color:C.dim, fontSize:12.5 };
 
 function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, showAging=false, showSizing=false }) {
   const key = keyPrefix + a.rank + (a.ticker || a.kind), isO = posOpen[key];
+  const disconfirmation = a.disconfirmation || {};
+  const hasDisconfirmation = !!(disconfirmation.summary || (disconfirmation.invalidates_if||[]).length || (disconfirmation.confirm_before_acting||[]).length);
+  const hasDetail = !!(a.why || a.whyThisMatters || (a.freshnessJudgment&&a.freshnessJudgment.judgment) || a.missingEvidence.length || hasDisconfirmation);
   const urgent = a.actionState === "ACT_NOW";
   const highGoal = a.goalImpact === "High";
   const edge = urgent ? C.red : (highGoal ? (a.goalColor || a.c) : a.c);
@@ -966,7 +969,7 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
       borderColor: urgent ? edge+"aa" : edge+"44",
       background: urgent ? edge+"18" : (highGoal ? edge+"10" : a.c+"0a"),
       boxShadow: urgent ? `0 0 0 1px ${edge}55 inset` : "none" }}>
-      <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:a.why?"pointer":"default" }}>
+      <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:hasDetail?"pointer":"default" }}>
         <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
           <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{a.rank}</span>
           {a.ticker && <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{a.ticker}</span>}
@@ -987,17 +990,26 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
         <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Your move:</span> {a.yourMove}</div>
         {a.goalWhy && <div style={{ marginTop:5, fontSize:12.2, color:a.goalColor }}><span style={{ color:C.dim, fontWeight:600 }}>Goal impact:</span> {a.goalWhy}</div>}
         {showSizing && a.sizing && <div style={{ marginTop:5, fontSize:12, color:C.dim }}><span style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5 }}>Size </span>{a.sizing}</div>}
-        {a.why && (
+        {hasDetail && (
           <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
             <span style={{ fontSize:11, color:a.c }}>{isO?"hide why ▲":"why ▾"}</span>
           </div>
         )}
       </div>
-      {isO && a.why && (
+      {isO && hasDetail && (
         <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
           {a.whyThisMatters && <div style={{ marginBottom:6, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Why this matters:</span> {a.whyThisMatters}</div>}
-          {a.why}
+          {a.why && <div>{a.why}</div>}
           {a.freshnessJudgment && a.freshnessJudgment.judgment && <div style={{ marginTop:6, fontFamily:mono, fontSize:10, color:C.faint }}>freshness: {a.freshnessJudgment.judgment} | evidence {a.freshnessJudgment.evidence_date||"n/a"} | decays {a.freshnessJudgment.decay_window||"source dependent"}</div>}
+          {hasDisconfirmation && (
+            <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
+              <div style={{ fontWeight:700, color:C.amber }}>What could make this wrong?</div>
+              {disconfirmation.summary && <div style={{ marginTop:4 }}>{disconfirmation.summary}</div>}
+              {(disconfirmation.invalidates_if||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>invalidates: {(disconfirmation.invalidates_if||[]).join(" / ")}</div>}
+              {(disconfirmation.confirm_before_acting||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>confirm: {(disconfirmation.confirm_before_acting||[]).join(" / ")}</div>}
+              {disconfirmation.downgrade_to && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>downgrade: {disconfirmation.downgrade_to}</div>}
+            </div>
+          )}
           {(a.goalChannels.length>0 || a.capitalEffect) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}</div>}
           {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
           <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{stamp} · {footerLabel} · drill in chat to run the gate</div>

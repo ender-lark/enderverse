@@ -38,6 +38,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Action-card disconfirmation surfacing.
+  - `decision_support.enrich_actions()` now adds a structured
+    `disconfirmation` block to every action, including what could make the item
+    wrong, what must be confirmed before acting, and where to downgrade the item
+    when evidence fails.
+  - The generated HTML summary and canonical JSX action drawer now render
+    "What could make this wrong?" alongside why/freshness/rationale so Key Now
+    and Re-check items have explicit invalidation pressure.
+  - Added focused coverage for event-risk, target-drift/funding/gate
+    disconfirmation, HTML rendering, and full-build feed integration.
 - External-review, UW-routing, Reddit, and reallocation design slice.
   - Added `docs/system_improvement_external_review.md` with a high-level system
     reassessment, gap list, Claude/Gemini critique prompt, immediate priorities,
