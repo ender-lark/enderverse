@@ -395,6 +395,7 @@ def _quick_nav(feed: dict) -> str:
     return f"""
 <div class="quick-nav">
   <a class="quick-link" href="#today-actions"><strong>{len(feed.get("actions") or [])}</strong> actions</a>
+  <a class="quick-link" href="#market-open-packet"><strong>open</strong> packet</a>
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>{_e((feed.get("asymmetric_opportunities") or {}).get("count") or 0)}</strong> asymmetry</a>
   <a class="quick-link" href="#social-watch"><strong>{_e((feed.get("social_watch") or {}).get("count") or 0)}</strong> social</a>
@@ -907,6 +908,36 @@ def _actions(actions: list, groups: dict | None = None) -> str:
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{len(actions)} ranked item{'s' if len(actions) != 1 else ''}; no auto-trade</span>
   </div>
   {group_html}
+</div>"""
+
+
+def _market_open_packet(block: dict) -> str:
+    if not block:
+        return ""
+    rows = block.get("rows") or []
+    status = block.get("status") or "ready"
+    status_cls = "t-conf" if status == "ready" else "t-warn"
+    body = ""
+    for row in rows[:8]:
+        body += f"""
+<div class="small-item">
+  <span class="tag {status_cls}">#{_e(row.get("priority") or "")}</span>
+  <span class="context-ticker">{_e(row.get("label") or "")}</span>
+  {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}
+  {f'<span class="small-muted">Next: {_e(row.get("next_step") or "")}</span>' if row.get("next_step") else ""}
+  {f'<span class="small-muted">Blocks: {_e(row.get("blocks") or "")}</span>' if row.get("blocks") else ""}
+</div>"""
+    if not body:
+        body = '<div class="feedback-line">No market-open review rows in this feed build.</div>'
+    return f"""
+<div class="card" id="market-open-packet">
+  <div class="card-title"><span class="icon">!</span> Market-open packet
+    <span class="tag {status_cls}" style="margin-left:auto">{_e(status.replace("_", " "))}</span>
+  </div>
+  <div class="feedback-line">{_e(block.get("line") or "")}</div>
+  <div class="small-list">{body}</div>
+  {f'<div class="feedback-line">{_e(block.get("honesty_rule") or "")}</div>' if block.get("honesty_rule") else ""}
+  <div class="cmd-row"><span class="cmd-name">print packet</span><span class="cmd-desc"><code>python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
 </div>"""
 
 
@@ -1686,6 +1717,7 @@ def generate_html(feed: dict) -> str:
     hb_html     = _heartbeat(feed.get("heartbeat") or [])
     hero_html   = _hero(feed.get("hero") or {})
     actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
+    market_open_packet_html = _market_open_packet(feed.get("market_open_packet") or {})
     asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
     social_watch_html = _social_watch(feed.get("social_watch") or {})
     uw_action_runbook_html = _uw_action_runbook(feed.get("uw_action_runbook") or {})
@@ -1747,6 +1779,7 @@ def generate_html(feed: dict) -> str:
   <div id="tab-dashboard">
     {summary_html}
     {quick_html}
+    {market_open_packet_html}
     {actions_html}
     {operator_html}
     {asymmetric_html}

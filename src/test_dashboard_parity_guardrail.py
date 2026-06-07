@@ -12,6 +12,7 @@ SUMMARY_RENDERED_BLOCKS = {
     "action_decision_groups",
     "asymmetric_opportunities",
     "fresh_signals",
+    "market_open_packet",
     "portfolio_views",
     "reallocation_brief",
     "research_actions",

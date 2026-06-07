@@ -872,6 +872,7 @@ function actionVM(feed){
     rotation: (feed.rotation||[]).map(rotationRow),
     actions,
     actionGroups: feed.action_decision_groups||{},
+    marketOpenPacket: feed.market_open_packet||{},
     asymmetricOpportunities: feed.asymmetric_opportunities||{},
     socialWatch: feed.social_watch||{},
     uwActionRunbook: feed.uw_action_runbook||{},
@@ -1180,6 +1181,37 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             </div>
           );
         })()}
+
+        <Section id="market-open-packet" title="Market-Open Packet" icon="!" badge={(VM.marketOpenPacket&&VM.marketOpenPacket.counts)?`${(VM.marketOpenPacket.counts.key_now||0)} key / ${(VM.marketOpenPacket.counts.recheck||0)} re-check`:"packet"} badgeColor={(VM.marketOpenPacket&&VM.marketOpenPacket.status)==="ready"?C.green:C.amber} openMap={open} setOpen={setOpen} defaultOpen={!!((VM.marketOpenPacket&&VM.marketOpenPacket.rows)||[]).length}>
+          {(() => {
+            const P=VM.marketOpenPacket||{}, rows=P.rows||[];
+            if(!rows.length) return <div style={{ ...card, fontSize:12, color:C.faint }}>No market-open packet in this feed build.</div>;
+            return (
+              <div>
+                <div style={{ ...card, marginBottom:8, borderColor:((P.status==="ready"?C.green:C.amber)+"44"), background:(P.status==="ready"?C.green:C.amber)+"0a" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+                    <div style={{ fontSize:12.5, color:C.text, fontWeight:650 }}>{P.line}</div>
+                    <span style={{ fontFamily:mono, fontSize:11, color:P.status==="ready"?C.green:C.amber, border:`1px solid ${(P.status==="ready"?C.green:C.amber)}55`, borderRadius:99, padding:"1px 8px" }}>{(P.status||"ready").replaceAll("_"," ")}</span>
+                  </div>
+                  {P.honesty_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{P.honesty_rule}</div>}
+                </div>
+                {rows.slice(0,8).map((r,i)=>(
+                  <div key={`${r.kind||"packet"}${i}`} style={{ ...card, marginBottom:7, borderColor:C.amber+"33" }}>
+                    <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                      <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{r.priority}</span>
+                      <span style={{ fontSize:12.5, fontWeight:700, color:C.text }}>{r.label}</span>
+                      {r.source && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.source}</span>}
+                    </div>
+                    {r.why && <div style={{ marginTop:5, fontSize:11.8, color:C.dim }}>Why: {r.why}</div>}
+                    {r.next_step && <div style={{ marginTop:4, fontSize:11.8, color:C.text }}>Next: {r.next_step}</div>}
+                    {r.blocks && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Blocks: {r.blocks}</div>}
+                  </div>
+                ))}
+                <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text</div>
+              </div>
+            );
+          })()}
+        </Section>
 
         <Section id="actions" title="Today's actions" icon="🟢" badge={VM.actions.length?`${Math.min(VM.actions.length,5)}${VM.actions.length>5?` of ${VM.actions.length}`:""}`:"0 live"} badgeColor={VM.actions.length?C.amber:C.faint} openMap={open} setOpen={setOpen}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>PRIORITIZED — confidence-led. Gate badges are provisional; the real 🟢/🟡/🔴 runs when you act on it in chat.</div>

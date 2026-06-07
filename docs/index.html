@@ -247,7 +247,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 13:52 ET
+        built 2026-06-07 14:04 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
@@ -276,6 +276,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="quick-nav">
   <a class="quick-link" href="#today-actions"><strong>4</strong> actions</a>
+  <a class="quick-link" href="#market-open-packet"><strong>open</strong> packet</a>
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>8</strong> asymmetry</a>
   <a class="quick-link" href="#social-watch"><strong>0</strong> social</a>
@@ -286,6 +287,65 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <a class="quick-link" href="#lane-status"><strong>1</strong> source gaps</a>
   <a class="quick-link" href="#feedback-loops"><strong>6 scoring</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
+</div>
+
+<div class="card" id="market-open-packet">
+  <div class="card-title"><span class="icon">!</span> Market-open packet
+    <span class="tag t-warn" style="margin-left:auto">recheck first</span>
+  </div>
+  <div class="feedback-line">Market-open packet: 1 key, 1 re-check, 2 backlog; 3 blocker(s).</div>
+  <div class="small-list">
+<div class="small-item">
+  <span class="tag t-warn">#1</span>
+  <span class="context-ticker">Re-check first: EVENT: Event risk: Middle East oil/rates shock can affect new-buy timing</span>
+  <span class="small-muted">Why: Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.</span>
+  <span class="small-muted">Next: Refresh the evidence lane and confirm the action still survives with same-session data.</span>
+  <span class="small-muted">Blocks: Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#2</span>
+  <span class="context-ticker">Gate Key Now: NVDA: Conviction gap: NVDA is under target</span>
+  <span class="small-muted">Why: Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.</span>
+  <span class="small-muted">Next: NVDA is 6.6% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</span>
+  <span class="small-muted">Blocks: The target weight or thesis is outdated relative to the current portfolio.</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#3</span>
+  <span class="context-ticker">Reallocation waits for current positions</span>
+  <span class="small-muted">Why: Reallocation brief: test data only from 2026-05-31 positions; 9 add candidate(s), 6 funding trim(s); allocated $679,812; shortfall $69,635.</span>
+  <span class="small-muted">Next: Supply current positions before treating trim/add legs as current.</span>
+  <span class="small-muted">Blocks: positions snapshot 2026-05-31 is 7 day(s) old; use as test-data only until current positions are supplied</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#4</span>
+  <span class="context-ticker">Run UW check set: Event-risk and political macro</span>
+  <span class="small-muted">Why: Is the external shock changing new-buy timing, hedges, or position sizing?</span>
+  <span class="small-muted">Next: Use the listed endpoint group before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: same-session headlines, rates/oil levels, or sector tape are missing or contradictory</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#5</span>
+  <span class="context-ticker">Run UW check set: Portfolio reallocation</span>
+  <span class="small-muted">Why: Which portfolio changes maximize early-retirement impact per unit of risk and time?</span>
+  <span class="small-muted">Next: Use the listed endpoint group before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: latest positions, same-session price/flow, or funding source are missing</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#6</span>
+  <span class="context-ticker">Social Watch is not checked</span>
+  <span class="small-muted">Why: Reddit/social early-signal anomalies are not checked; absence is not no social signal.</span>
+  <span class="small-muted">Next: Do not infer no social anomaly; populate social_watch.json only through compliant API/cache intake.</span>
+  <span class="small-muted">Blocks: Social evidence cannot promote a trade without independent confirmation.</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#7</span>
+  <span class="context-ticker">Open reviews: 2 item(s)</span>
+  <span class="small-muted">Why: Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).</span>
+  <span class="small-muted">Next: Keep visible; resolve only after act, invalidate, defer, ignore, or miss is explicit.</span>
+  <span class="small-muted">Blocks: Open reviews are not build blockers unless due or stale.</span>
+</div></div>
+  <div class="feedback-line">Decision packet sequences review work only; it does not execute or recommend un-gated trades.</div>
+  <div class="cmd-row"><span class="cmd-name">print packet</span><span class="cmd-desc"><code>python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
 </div>
 
 <div class="card" id="today-actions">
@@ -842,7 +902,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T17:52:23.948450+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T17:52:23.948450+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T17:52:23.948450+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-07T17:52:23.948450+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T17:52:23.948450+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T18:04:03.956563+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T18:04:03.956563+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T18:04:03.956563+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-07T18:04:03.956563+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T18:04:03.956563+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

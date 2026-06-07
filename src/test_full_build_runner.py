@@ -472,6 +472,10 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "reallocation_brief" in feed
     assert "Reallocation brief:" in feed["reallocation_brief"]["line"]
     assert feed["reallocation_brief"]["candidate_only"] is True
+    assert "market_open_packet" in feed
+    assert feed["market_open_packet"]["line"].startswith("Market-open packet:")
+    assert feed["market_open_packet"]["rows"]
+    assert "key_now" in feed["market_open_packet"]["counts"]
     assert "fundstrat_signal_confirmation" in {
         row["mode"] for row in feed["uw_routing"]["rows"]
     }

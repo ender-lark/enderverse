@@ -42,6 +42,7 @@ from uw_routing_recommendations import build_uw_routing_recommendations
 from uw_action_runbook import build_uw_action_runbook
 from reallocation_brief import build_reallocation_brief
 from social_watch import build_social_watch
+from market_open_packet import build_market_open_packet
 import cloud_routine_receipts
 
 
@@ -777,6 +778,7 @@ def build_full_feed_from_files(
     feed["uw_routing"] = build_uw_routing_recommendations(feed)
     feed["uw_action_runbook"] = build_uw_action_runbook(feed)
     feed["reallocation_brief"] = build_reallocation_brief(feed, positions_cache, as_of=today)
+    feed["market_open_packet"] = build_market_open_packet(feed)
     feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     feed["source_audits"]["uw_action_runbook"] = feed.get("uw_action_runbook") or {}
     problems = validate_cockpit_feed(feed)

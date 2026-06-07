@@ -124,6 +124,17 @@ The dashboard shows the feed plus operator state:
   - The top action is shown immediately in the preview summary and in
     `live_status.py`.
 
+- Market-Open Packet: `feed.market_open_packet`
+  - Sequences the current operator work before the action list: re-check stale
+    or fast-moving evidence first, gate the top Key Now item, identify
+    reallocation blockers, route UW check sets, keep dark lanes visible, and
+    preserve open review pressure.
+  - The packet is a capital-efficiency and timing-balance aid. It helps avoid
+    parking money in a merely good opportunity when a better use is live, while
+    also discouraging indefinite waiting for a perfect entry when fresh evidence
+    supports staged exposure.
+  - It never executes trades and never treats dark or stale evidence as checked.
+
 - From Research: `feed.research_actions`
   - Separate from Today's Actions so research does not blend with sharper
     catalyst or event drivers.

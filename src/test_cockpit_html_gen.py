@@ -20,6 +20,23 @@ def _feed():
             ],
             "counts": {"key_now": 1, "important_backlog": 0},
         },
+        "market_open_packet": {
+            "status": "recheck_first",
+            "line": "Market-open packet: 1 key, 1 re-check, 0 backlog; 2 blocker(s).",
+            "counts": {"key_now": 1, "recheck": 1, "backlog": 0, "blockers": 2},
+            "honesty_rule": "Decision packet sequences review work only; it does not execute or recommend un-gated trades.",
+            "rows": [
+                {
+                    "priority": 1,
+                    "kind": "recheck_first",
+                    "label": "Re-check first: EVENT: Oil/rates shock can change new-buy timing",
+                    "why": "Fast-moving tape; same-session confirmation required.",
+                    "next_step": "Refresh WTI, 10Y, and current headlines.",
+                    "blocks": "Do not act until fast-moving evidence is fresh.",
+                    "source": "event_risk",
+                }
+            ],
+        },
         "asymmetric_opportunities": {
             "status": "has_data",
             "count": 1,
@@ -414,6 +431,35 @@ def test_generated_html_surfaces_action_cards_first():
     assert "Avoid waiting for a perfect bottom" in html
     assert "Compare against: higher-ranked Key Now actions / funded reallocation legs" in html
     assert html.index('id="today-actions"') < html.index('id="operator-status"')
+
+
+def test_generated_html_surfaces_market_open_packet_before_actions():
+    feed = _feed()
+    feed["actions"] = [{
+        "rank": 1,
+        "ticker": "NVDA",
+        "kind": "conviction_gap",
+        "action_state": "WATCH",
+        "action_label": "SIZE GAP",
+        "confidence": "High",
+        "goal_impact": "High",
+        "what": "NVDA is under target",
+        "your_move": "Gate before sizing.",
+        "why": "Position is below target.",
+        "source": "target_drift",
+        "decision_group": "key_now",
+        "decision_group_label": "Key Now",
+    }]
+    html = generate_html(feed)
+
+    assert 'href="#market-open-packet"' in html
+    assert 'id="market-open-packet"' in html
+    assert "Market-open packet" in html
+    assert "Market-open packet: 1 key, 1 re-check, 0 backlog; 2 blocker(s)." in html
+    assert "Re-check first: EVENT: Oil/rates shock can change new-buy timing" in html
+    assert "Decision packet sequences review work only" in html
+    assert "python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text" in html
+    assert html.index('id="market-open-packet"') < html.index('id="today-actions"')
 
 
 def test_generated_html_surfaces_feedback_context():

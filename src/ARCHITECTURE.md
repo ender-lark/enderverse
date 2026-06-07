@@ -62,6 +62,7 @@ The single artifact every layer agrees on. Validated by `validators.validate_coc
 | `signal_log` | caller (Morning Scan) | `[{ticker?, signal/title/what/summary, ...}]` | Signal Log watch-only lane |
 | `social_watch` | caller (`social_watch.py` normalized cache) | `{status,line,count,rows[]}` | Social Watch, watch-only Reddit/social anomaly lane |
 | `actions` | engine ⑦b | `[action-row]` | **Today's actions** |
+| `market_open_packet` | full build (`market_open_packet.py`) | `{status,line,counts,rows[]}` | **Market-Open Packet** sequencing/re-check aid |
 | `research_actions` | engine ⑦c | `[action-row]` | **From Research** (new) |
 | `catalysts` | caller (Catalyst Calendar) | `[{ticker,label,date,days_out,source}]` | Upcoming catalysts |
 | `questions` | caller / curated | `[…]` | open questions |
@@ -78,8 +79,9 @@ rank:int · kind:str · ticker:str|None · what:str · confidence:"High"|"Modera
 ```
 Reusing one row shape is deliberate — it lets the renderer's single `actionRow` mapper render both lanes (see §5).
 The full dashboard enrichment layer may add optional decision metadata such as
-`freshness_judgment`, `disconfirmation`, and `capital_efficiency`; these fields
-are operator guidance, not order instructions.
+`freshness_judgment`, `disconfirmation`, `capital_efficiency`, and
+`market_open_packet`; these fields are operator guidance, not order
+instructions.
 
 **Optional-block pattern (forward-compat).** `actions`, `catalysts`, `questions`, and `research_actions` are **validated-if-present**: absent → still valid. *Why:* a feed built by an older routine (before a key existed) must still pass the publish gate and render. This is what let `research_actions` land without breaking any stored/old feed. When you add a lane, follow this pattern — never make a new key required.
 

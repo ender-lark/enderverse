@@ -38,6 +38,16 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Market-Open Packet.
+  - Added `market_open_packet.py` to sequence the current dashboard state into a
+    compact market-open review order: re-check first, gate Key Now, unblock
+    current positions, run UW check sets, keep dark lanes visible, and preserve
+    open reviews.
+  - Wired `feed.market_open_packet` through full-build output, canonical JSX,
+    HTML summary/export, and dashboard parity classification.
+  - The packet is a capital-efficiency operator aid only. It helps compare
+    better uses of scarce capital and avoid both stale action and over-precise
+    timing, but it never executes or recommends an un-gated trade.
 - Social Watch dashboard lane.
   - Added `social_watch.py` to normalize future Reddit/social API output or a
     supplied cache into a watch-only `feed.social_watch` block.
