@@ -44,6 +44,7 @@ from uw_endpoint_result_proof import build_uw_endpoint_result_proof, load_uw_end
 from reallocation_brief import build_reallocation_brief
 from social_watch import build_social_watch
 from market_open_packet import build_market_open_packet
+from alert_policy import build_alert_policy
 import cloud_routine_receipts
 
 
@@ -794,6 +795,7 @@ def build_full_feed_from_files(
     }
     feed["reallocation_brief"] = build_reallocation_brief(feed, positions_cache, as_of=today)
     feed["market_open_packet"] = build_market_open_packet(feed)
+    feed["alert_policy"] = build_alert_policy(feed)
     feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     feed["source_audits"]["uw_action_runbook"] = feed.get("uw_action_runbook") or {}
     feed["source_audits"]["uw_endpoint_proof"] = feed.get("uw_endpoint_proof") or {}

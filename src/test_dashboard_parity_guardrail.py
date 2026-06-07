@@ -10,6 +10,7 @@ HERE = Path(__file__).resolve().parent
 CLASSIFICATION = HERE.parent / "docs" / "dashboard_feed_block_classification.json"
 SUMMARY_RENDERED_BLOCKS = {
     "action_decision_groups",
+    "alert_policy",
     "asymmetric_opportunities",
     "fresh_signals",
     "market_open_packet",

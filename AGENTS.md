@@ -42,6 +42,17 @@ technical elegance.
 
 - Missing, stale, or failed lanes remain dark, stale, or `not_checked`; they are
   never treated as checked clear.
+- Macro and news inputs should be distilled into portfolio and action
+  implications before surfacing. Raw signals are useful only when they change
+  decision timing, sizing, risk, or research priority.
+- Treat Fundstrat as the primary baseline, but question it with evidence and
+  invalidation checks rather than blindly following it or dismissing
+  counterintuitive calls because they conflict with normal market logic.
+- Treat Fundstrat as separate lanes: Tom Lee for macro, Mark Newton for
+  technical/timing with variable confidence, and the crypto analyst lane for
+  crypto-specific analysis. Weight each lane by its domain, freshness, and
+  stated confidence instead of treating Fundstrat as one undifferentiated
+  source.
 - Meridian is stale thesis archive context after March 2026, not live tactical
   evidence.
 - SnapTrade is the preferred read-only Account Positions source after staged

@@ -832,6 +832,8 @@ function operatorStatus(feed){
   const sourceCallPending = sourceCalls.pending_count||0;
   const sourceCallOverdue = sourceCalls.overdue_count||0;
   const liveConfig = feed.live_source_config||{};
+  const alertPolicy = feed.alert_policy||{};
+  const alertRows = alertPolicy.rows||[];
   const liveConfigMissing = liveConfig.missing_count||0;
   const liveConfigTotal = liveConfig.total_count||0;
   const liveConfigured = liveConfig.configured_count||0;
@@ -853,6 +855,7 @@ function operatorStatus(feed){
   const liveFetch = liveConfigTotal ? `${liveConfigured}/${liveConfigTotal}` : "unknown";
   return {
     status, statusColor, actions, openActions, openDue, openStale, openReviewPressure, openReviewValue,
+    alertPolicy, alertCount:alertRows.length, alertStatus:alertPolicy.status||"quiet", alertLine:alertPolicy.line||"", alertPolicyText:alertPolicy.policy||"",
     sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
     liveFetch, liveConfigMissing, liveConfig,
     eventWatch,
@@ -894,6 +897,7 @@ function actionVM(feed){
     actions,
     actionGroups: feed.action_decision_groups||{},
     marketOpenPacket: feed.market_open_packet||{},
+    alertPolicy: feed.alert_policy||{},
     asymmetricOpportunities: feed.asymmetric_opportunities||{},
     socialWatch: feed.social_watch||{},
     uwActionRunbook: feed.uw_action_runbook||{},
@@ -1254,6 +1258,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             ["Source lanes", op.sourceLane, op.sourceLane==="clear"?C.green:C.amber],
             ["Source calls", op.sourceCall, op.sourceCallFail?C.red:op.sourceCallWarn?C.amber:C.green],
             ["Live fetch", op.liveFetch, op.liveConfigMissing?C.amber:C.green],
+            ["Alerts", op.alertStatus==="notify"?`${op.alertCount} alert${op.alertCount===1?"":"s"}`:"quiet", op.alertStatus==="notify"?C.red:C.green],
           ];
           return (
             <div style={{ marginTop:10, ...card, borderColor:op.statusColor+"55", background:op.statusColor+"0d" }}>
@@ -1270,6 +1275,13 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 ))}
               </div>
               <div style={{ marginTop:8, fontFamily:mono, fontSize:10.5, color:C.faint }}>Verify: {op.command}</div>
+              {op.alertLine && (
+                <div style={{ marginTop:6, border:`1px solid ${(op.alertStatus==="notify"?C.red:C.green)}44`, borderRadius:8, padding:"7px 8px", background:(op.alertStatus==="notify"?C.red:C.green)+"0a" }}>
+                  <div style={{ fontFamily:mono, fontSize:10, color:op.alertStatus==="notify"?C.red:C.green, textTransform:"uppercase", marginBottom:3 }}>Alert policy</div>
+                  <div style={{ fontSize:12.3, color:C.text, fontWeight:650 }}>{op.alertLine}</div>
+                  {op.alertPolicyText && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>{op.alertPolicyText}</div>}
+                </div>
+              )}
               {op.liveConfigMissing>0 && (
                 <div style={{ marginTop:6, border:`1px solid ${C.amber}44`, borderRadius:8, padding:"7px 8px", background:C.amber+"0a" }}>
                   <div style={{ fontFamily:mono, fontSize:10, color:C.amber, textTransform:"uppercase", marginBottom:3 }}>Live source configuration</div>

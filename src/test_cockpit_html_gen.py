@@ -37,6 +37,20 @@ def _feed():
                 }
             ],
         },
+        "alert_policy": {
+            "status": "quiet",
+            "line": "Alert policy: quiet - no blocker or urgent invalidation qualifies for notification.",
+            "policy": "Only blockers, failed proof, stale reviews, critical event risk, or urgent invalidations can alert; routine dashboard updates stay quiet.",
+            "delivery": "review_only_no_send",
+            "rows": [],
+            "suppressed": [
+                {
+                    "reason": "background_cloud_proof",
+                    "count": 4,
+                    "why": "Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue.",
+                }
+            ],
+        },
         "asymmetric_opportunities": {
             "status": "has_data",
             "count": 1,
@@ -482,6 +496,15 @@ def test_generated_html_surfaces_market_open_packet_before_actions():
     assert "Decision packet sequences review work only" in html
     assert "python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text" in html
     assert html.index('id="market-open-packet"') < html.index('id="today-actions"')
+
+
+def test_generated_html_surfaces_blocker_only_alert_policy():
+    html = generate_html(_feed())
+
+    assert "Alert policy: quiet" in html
+    assert "routine dashboard updates stay quiet" in html
+    assert "background cloud proof" in html
+    assert "python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" in html
 
 
 def test_generated_html_surfaces_feedback_context():

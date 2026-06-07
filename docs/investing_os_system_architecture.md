@@ -389,6 +389,23 @@ Fundstrat-specific safety windows:
   rows, must redact raw email bodies from repo files, and must run the same
   source-call merge/validation path before their data can count as checked.
 
+Fundstrat evidence should be preserved as separate lanes instead of collapsed
+into one generic source:
+
+- Tom Lee / Fundstrat macro is the primary macro baseline, but still needs
+  freshness, live-tape checks, and explicit invalidation conditions.
+- Mark Newton / technical is timing and technical evidence. Its weight should
+  vary with the confidence of the specific call and should not automatically
+  dominate thesis, macro, or portfolio evidence.
+- The Fundstrat crypto analyst lane is crypto-specific evidence for the crypto
+  complex and related exposures.
+- Counterintuitive Fundstrat calls should be tested through assumptions,
+  source freshness, and invalidation triggers rather than rejected simply
+  because they conflict with normal market logic.
+- Macro/news signals should surface only after being distilled into the
+  portfolio implication: what changes about sizing, timing, risk, hold/add/trim
+  decisions, or research priority.
+
 ## 8.1 Notion Writeback And Collision Rules
 
 Notion pages can be touched by scheduled Codex routines and by other agents.

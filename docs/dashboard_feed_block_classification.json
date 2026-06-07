@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05",
+  "generated_at": "2026-06-07",
   "canonical_dashboard": {
     "renderer": "src/conviction_cockpit_v5.jsx",
     "injector": "src/render_cockpit.py",
@@ -50,6 +50,11 @@
       "primary_status": "canonical-rendered",
       "canonical_surface": "Market-Open Packet section in the Action view, before Today's Actions",
       "summary_surface": "Market-open packet card above Today's actions"
+    },
+    "alert_policy": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Operator Status alert row and blocker-only alert policy card",
+      "summary_surface": "Alert policy card above Today's actions"
     },
     "fresh_signals": {
       "primary_status": "canonical-rendered",

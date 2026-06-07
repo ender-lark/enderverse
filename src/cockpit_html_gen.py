@@ -980,6 +980,43 @@ def _market_open_packet(block: dict) -> str:
 </div>"""
 
 
+def _alert_policy(block: dict) -> str:
+    if not block:
+        return ""
+    rows = block.get("rows") or []
+    suppressed = block.get("suppressed") or []
+    status = block.get("status") or "quiet"
+    status_cls = "t-warn" if status == "notify" else "t-conf"
+    body = f'<div class="feedback-line">{_e(block.get("policy") or "")}</div>' if block.get("policy") else ""
+    for row in rows[:6]:
+        body += f"""
+<div class="small-item">
+  <span class="tag t-warn">{_e(row.get("severity") or "alert")}</span>
+  {f'<span class="context-ticker">{_e(row.get("ticker") or "")}</span>' if row.get("ticker") else ""}
+  <span>{_e(row.get("title") or "")}</span>
+  {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}
+  {f'<span class="small-muted">Trigger: {_e(row.get("trigger") or "")}</span>' if row.get("trigger") else ""}
+</div>"""
+    if not rows:
+        for row in suppressed[:6]:
+            body += f"""
+<div class="small-item">
+  <span class="tag t-conf">quiet</span>
+  <span>{_e(str(row.get("reason") or "").replace("_", " "))}</span>
+  {f'<span class="small-muted">Count: {_e(row.get("count"))}</span>' if row.get("count") is not None else ""}
+  {f'<span class="small-muted">{_e(row.get("why") or "")}</span>' if row.get("why") else ""}
+</div>"""
+    return f"""
+<div class="card" id="alert-policy">
+  <div class="card-title"><span class="icon">!</span> Alert policy
+    <span class="tag {status_cls}" style="margin-left:auto">{_e(status)}</span>
+  </div>
+  <div class="feedback-line">{_e(block.get("line") or "")}</div>
+  <div class="small-list">{body}</div>
+  <div class="cmd-row"><span class="cmd-name">print alert policy</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
+</div>"""
+
+
 def _rotation(rot: list) -> str:
     if not rot:
         return ""
@@ -1894,6 +1931,7 @@ def generate_html(feed: dict) -> str:
     hero_html   = _hero(feed.get("hero") or {})
     actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
     market_open_packet_html = _market_open_packet(feed.get("market_open_packet") or {})
+    alert_policy_html = _alert_policy(feed.get("alert_policy") or {})
     asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
     social_watch_html = _social_watch(feed.get("social_watch") or {})
     uw_action_runbook_html = _uw_action_runbook(feed.get("uw_action_runbook") or {})
@@ -1956,6 +1994,7 @@ def generate_html(feed: dict) -> str:
     {summary_html}
     {quick_html}
     {market_open_packet_html}
+    {alert_policy_html}
     {actions_html}
     {context_html}
     {asymmetric_html}

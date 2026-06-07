@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T22:15:00.822063+00:00",
+  "generated_at": "2026-06-07T22:33:40.540902+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T18:15:00.822063-04:00",
+        "date": "2026-06-07T18:33:40.540902-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T18:15:00.822063-04:00",
+        "date": "2026-06-07T18:33:40.540902-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1340,31 +1340,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T22:15:00.704450+00:00",
+      "last_run": "2026-06-07T22:33:40.399276+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T22:15:00.704450+00:00",
+      "last_run": "2026-06-07T22:33:40.399276+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T22:15:00.704450+00:00",
+      "last_run": "2026-06-07T22:33:40.399276+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-07T22:15:00.704450+00:00",
+      "last_run": "2026-06-07T22:33:40.399276+00:00",
       "note": "dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T22:15:00.704450+00:00",
+      "last_run": "2026-06-07T22:33:40.399276+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -12315,7 +12315,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 6.86
+        "connector_proof_age_hours": 7.17
       }
     ],
     "missing": [],
@@ -15049,5 +15049,39 @@
       "Social evidence cannot promote a trade without independent confirmation."
     ],
     "honesty_rule": "Decision packet sequences review work only; it does not execute or recommend un-gated trades."
+  },
+  "alert_policy": {
+    "status": "quiet",
+    "line": "Alert policy: quiet - no blocker or urgent invalidation qualifies for notification.",
+    "rows": [],
+    "suppressed": [
+      {
+        "reason": "optional_dark_lane",
+        "count": 1,
+        "why": "Social Watch is intentionally queued/dark; absence is not an alert."
+      },
+      {
+        "reason": "dashboard_recheck",
+        "ticker": "EVENT",
+        "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked."
+      },
+      {
+        "reason": "dashboard_recheck",
+        "ticker": "NVDA",
+        "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked."
+      },
+      {
+        "reason": "fresh_open_reviews",
+        "count": 2,
+        "why": "Fresh open reviews stay visible but do not alert until due/stale or invalidated."
+      },
+      {
+        "reason": "background_cloud_proof",
+        "count": 4,
+        "why": "Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue."
+      }
+    ],
+    "policy": "Only blockers, failed proof, stale reviews, critical event risk, or urgent invalidations can alert; routine dashboard updates stay quiet.",
+    "delivery": "review_only_no_send"
   }
 }
