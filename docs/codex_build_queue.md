@@ -38,6 +38,14 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- UW routing surfaced in Source Proof.
+  - Added `uw_routing_recommendations.py` to translate the current feed state
+    into next UW scenario profiles, such as event-risk macro, portfolio
+    reallocation, Fundstrat confirmation, and asymmetric discovery.
+  - The block is explicit that routing recommends endpoint groups only and is
+    not proof that those endpoints were fetched.
+  - Source Proof now renders the UW routing line and compact "UW next checks"
+    endpoint list in both generated HTML and canonical JSX.
 - Action-card disconfirmation surfacing.
   - `decision_support.enrich_actions()` now adds a structured
     `disconfirmation` block to every action, including what could make the item

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-07T15:31:30.102732Z",
+  "updated_at": "2026-06-07T17:01:19.819628Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -2202,6 +2202,13 @@
           }
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-07T17:01:19.819628Z",
+      "summary": "deep synthesis started"
     }
   ]
 }

@@ -446,3 +446,5 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "source_audits" in feed
     assert "fundstrat" in feed["source_audits"]
     assert "cloud_routines" in feed["source_audits"]
+    assert "uw_routing" in feed["source_audits"]
+    assert "UW routing:" in feed["source_audits"]["uw_routing"]["line"]

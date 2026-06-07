@@ -1276,6 +1276,7 @@ def _source_audits(audits: dict) -> str:
     for key, label in (
         ("cloud_routines", "Cloud routines"),
         ("connector_evidence", "Connector evidence"),
+        ("uw_routing", "UW routing"),
         ("fundstrat", "Fundstrat intake"),
         ("notion_writeback", "Notion/writeback"),
         ("notion_collision", "Notion collision"),
@@ -1296,11 +1297,25 @@ def _source_audits(audits: dict) -> str:
         names = ", ".join(_e(row.get("routine_name") or row.get("routine_id") or "") for row in missing[:6])
         more = len(missing) - min(len(missing), 6)
         missing_html = f'<div class="feedback-line">Background scheduled receipts pending: {names}{f" +{more} more" if more else ""}</div>'
+    uw = audits.get("uw_routing") or {}
+    routing_rows = uw.get("rows") or []
+    routing_html = ""
+    if routing_rows:
+        bits = []
+        for row in routing_rows[:3]:
+            endpoints = ", ".join(str(v) for v in (row.get("top_endpoints") or [])[:5])
+            bits.append(
+                f"{_e(row.get('label') or row.get('mode') or '')}: "
+                f"{_e(row.get('reason') or '')}"
+                f"{f' [{_e(endpoints)}]' if endpoints else ''}"
+            )
+        routing_html = f'<div class="feedback-line">UW next checks: {"<br>".join(bits)}</div>'
     return f"""
 <div class="card" id="source-audits">
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
   {''.join(rows)}
   {missing_html}
+  {routing_html}
 </div>"""
 
 

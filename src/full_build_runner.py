@@ -38,6 +38,7 @@ from uw_price import build_uw_price_source
 from validators import validate_cockpit_feed
 from decision_support import enrich_actions, build_asymmetric_opportunities
 from operator_hardening import build_operator_hardening
+from uw_routing_recommendations import build_uw_routing_recommendations
 import cloud_routine_receipts
 
 
@@ -737,6 +738,7 @@ def build_full_feed_from_files(
     )
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
     feed["operator_hardening"] = build_operator_hardening(feed)
+    feed["uw_routing"] = build_uw_routing_recommendations(feed)
     portfolio_views = build_portfolio_views(account_positions)
     if portfolio_views:
         feed["portfolio_views"] = portfolio_views
@@ -745,6 +747,7 @@ def build_full_feed_from_files(
 
     feed["live_source_config"] = live_source_capability.live_config_report()
     feed["source_audits"] = _build_source_audits(src, live_source_capability)
+    feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     problems = validate_cockpit_feed(feed)
     if problems:
         raise FullBuildError(f"feed failed Contract-C validation: {problems}")

@@ -49,6 +49,21 @@ def _feed():
             "connector_evidence": {
                 "line": "Connector/supplied evidence: present=19/21; missing live-capable=1.",
             },
+            "uw_routing": {
+                "line": "UW routing: 2 scenario profile(s) recommended; top=Event-risk and political macro.",
+                "rows": [
+                    {
+                        "label": "Event-risk and political macro",
+                        "reason": "Active event-risk lane can overpower normal thesis and flow signals.",
+                        "top_endpoints": ["MARKET_TIDE", "TOP_NET_IMPACT"],
+                    },
+                    {
+                        "label": "Portfolio reallocation",
+                        "reason": "Sizing-gap actions need current exposure checks.",
+                        "top_endpoints": ["TICKER_OHLC", "ETF_TIDE"],
+                    },
+                ],
+            },
             "fundstrat": {
                 "line": "Fundstrat intake: 4 full-body, 1 snippet-only, 0 daily calls, 3 stored source-call candidates.",
             },
@@ -462,6 +477,9 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert 'id="source-audits"' in html
     assert "Background cloud proof: 2/10 scheduled receipts proven" in html
     assert "Fundstrat intake: 4 full-body" in html
+    assert "UW routing: 2 scenario profile" in html
+    assert "UW next checks" in html
+    assert "MARKET_TIDE" in html
     assert "Notion/writeback audit" in html
     assert "Notion collision audit" in html
     assert 'id="research-actions"' in html

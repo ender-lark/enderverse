@@ -1440,6 +1440,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             const rows=[
               ["Cloud routines", (A.cloud_routines||{}).line],
               ["Connector evidence", (A.connector_evidence||{}).line],
+              ["UW routing", (A.uw_routing||{}).line],
               ["Fundstrat intake", (A.fundstrat||{}).line],
               ["Notion/writeback", (A.notion_writeback||{}).line],
             ].filter(r=>r[1]);
@@ -1453,6 +1454,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                 ))}
                 {(((A.cloud_routines||{}).missing_scheduled_success)||[]).length>0 && <div style={{ fontSize:11.5, color:C.dim }}>Background scheduled receipts pending: {((A.cloud_routines||{}).missing_scheduled_success||[]).slice(0,6).map(r=>r.routine_name||r.routine_id).join(", ")}</div>}
+                {(((A.uw_routing||{}).rows)||[]).length>0 && <div style={{ fontSize:11.5, color:C.dim, marginTop:6 }}>UW next checks: {((A.uw_routing||{}).rows||[]).slice(0,3).map(r=>`${r.label||r.mode}: ${(r.top_endpoints||[]).slice(0,5).join(", ")}`).join(" | ")}</div>}
               </div>
             );
           })()}
