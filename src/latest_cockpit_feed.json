@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T18:26:25.468012+00:00",
+  "generated_at": "2026-06-07T18:35:25.553476+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T14:26:25.468012-04:00",
+        "date": "2026-06-07T14:35:25.553476-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T14:26:25.468012-04:00",
+        "date": "2026-06-07T14:35:25.553476-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1179,31 +1179,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T18:26:25.296947+00:00",
+      "last_run": "2026-06-07T18:35:25.421908+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T18:26:25.296947+00:00",
+      "last_run": "2026-06-07T18:35:25.421908+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T18:26:25.296947+00:00",
+      "last_run": "2026-06-07T18:35:25.421908+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-07T18:26:25.296947+00:00",
+      "last_run": "2026-06-07T18:35:25.421908+00:00",
       "note": "dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T18:26:25.296947+00:00",
+      "last_run": "2026-06-07T18:35:25.421908+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -8969,7 +8969,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 3.05
+        "connector_proof_age_hours": 3.2
       }
     ],
     "missing": [],
@@ -10068,26 +10068,152 @@
       "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
       "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
       "endpoint_proof": {
-        "status": "not_checked",
-        "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+        "status": "has_data",
+        "line": "UW endpoint proof: 13 captured result(s); confirmed=0, contradicted=0, neutral=10, missing/failed=3; stale=0. newest=2026-06-07 14:35 ET.",
         "blockers": [
-          "captured UW endpoint results are missing"
+          "missing/failed endpoint result(s) keep related actions blocked"
         ],
-        "newest_checked_at": ""
+        "newest_checked_at": "2026-06-07T18:35:12.325101+00:00"
       }
     },
     "uw_endpoint_proof": {
-      "status": "not_checked",
-      "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
-      "count": 0,
-      "counts": {},
-      "rows": [],
+      "status": "has_data",
+      "line": "UW endpoint proof: 13 captured result(s); confirmed=0, contradicted=0, neutral=10, missing/failed=3; stale=0. newest=2026-06-07 14:35 ET.",
+      "count": 13,
+      "counts": {
+        "missing": 2,
+        "neutral": 10,
+        "failed": 1
+      },
+      "newest_checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "same_session_date": "2026-06-07",
+      "stale_count": 0,
+      "off_runbook_count": 0,
+      "rows": [
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "SECTOR_TIDE",
+          "ticker": "",
+          "status": "missing",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "unsupported path parameter(s): sector",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "MARKET_TIDE",
+          "ticker": "",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TOP_NET_IMPACT",
+          "ticker": "",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TOTAL_OPTIONS_VOLUME",
+          "ticker": "",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "MARKET_MOVERS",
+          "ticker": "",
+          "status": "failed",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "MARKET_CORRELATIONS",
+          "ticker": "",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "ETF_TIDE",
+          "ticker": "XOP",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "ETF_TIDE",
+          "ticker": "XLE",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "ETF_TIDE",
+          "ticker": "TNX",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "ETF_TIDE",
+          "ticker": "RYF",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "XOP",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "XLE",
+          "status": "neutral",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "TNX",
+          "status": "missing",
+          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
+          "source": "uw_endpoint_result_capture"
+        }
+      ],
       "blockers": [
-        "captured UW endpoint results are missing"
+        "missing/failed endpoint result(s) keep related actions blocked"
       ],
       "problems": [],
-      "result_path": "",
-      "honesty_rule": "Runbook instructions do not count as UW endpoint proof."
+      "result_path": "src\\uw_endpoint_results.json",
+      "honesty_rule": "Only captured endpoint result rows count as UW proof; runbook rows are instructions."
     }
   },
   "uw_routing": {
@@ -10630,26 +10756,152 @@
     "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
     "endpoint_proof": {
-      "status": "not_checked",
-      "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+      "status": "has_data",
+      "line": "UW endpoint proof: 13 captured result(s); confirmed=0, contradicted=0, neutral=10, missing/failed=3; stale=0. newest=2026-06-07 14:35 ET.",
       "blockers": [
-        "captured UW endpoint results are missing"
+        "missing/failed endpoint result(s) keep related actions blocked"
       ],
-      "newest_checked_at": ""
+      "newest_checked_at": "2026-06-07T18:35:12.325101+00:00"
     }
   },
   "uw_endpoint_proof": {
-    "status": "not_checked",
-    "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
-    "count": 0,
-    "counts": {},
-    "rows": [],
+    "status": "has_data",
+    "line": "UW endpoint proof: 13 captured result(s); confirmed=0, contradicted=0, neutral=10, missing/failed=3; stale=0. newest=2026-06-07 14:35 ET.",
+    "count": 13,
+    "counts": {
+      "missing": 2,
+      "neutral": 10,
+      "failed": 1
+    },
+    "newest_checked_at": "2026-06-07T18:35:12.325101+00:00",
+    "same_session_date": "2026-06-07",
+    "stale_count": 0,
+    "off_runbook_count": 0,
+    "rows": [
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "SECTOR_TIDE",
+        "ticker": "",
+        "status": "missing",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "unsupported path parameter(s): sector",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "MARKET_TIDE",
+        "ticker": "",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TOP_NET_IMPACT",
+        "ticker": "",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TOTAL_OPTIONS_VOLUME",
+        "ticker": "",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "MARKET_MOVERS",
+        "ticker": "",
+        "status": "failed",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "MARKET_CORRELATIONS",
+        "ticker": "",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "ETF_TIDE",
+        "ticker": "XOP",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "ETF_TIDE",
+        "ticker": "XLE",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "ETF_TIDE",
+        "ticker": "TNX",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "ETF_TIDE",
+        "ticker": "RYF",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "XOP",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "XLE",
+        "status": "neutral",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "TNX",
+        "status": "missing",
+        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
+        "source": "uw_endpoint_result_capture"
+      }
+    ],
     "blockers": [
-      "captured UW endpoint results are missing"
+      "missing/failed endpoint result(s) keep related actions blocked"
     ],
     "problems": [],
-    "result_path": "",
-    "honesty_rule": "Runbook instructions do not count as UW endpoint proof."
+    "result_path": "src\\uw_endpoint_results.json",
+    "honesty_rule": "Only captured endpoint result rows count as UW proof; runbook rows are instructions."
   },
   "reallocation_brief": {
     "status": "test_data_only",
@@ -11294,8 +11546,8 @@
         "kind": "uw_check",
         "label": "Run UW check set: Pre-market crash triage",
         "why": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
-        "next_step": "Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.",
-        "blocks": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; Endpoint result proof not captured; runbook is instructions only.",
+        "next_step": "Use the captured endpoint result proof before promoting any capital-sized action.",
+        "blocks": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked",
         "source": "uw_action_runbook",
         "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
       },
@@ -11304,8 +11556,8 @@
         "kind": "uw_check",
         "label": "Run UW check set: Event-risk and political macro",
         "why": "Is the external shock changing new-buy timing, hedges, or position sizing?",
-        "next_step": "Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.",
-        "blocks": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; Endpoint result proof not captured; runbook is instructions only.",
+        "next_step": "Use the captured endpoint result proof before promoting any capital-sized action.",
+        "blocks": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked",
         "source": "uw_action_runbook",
         "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
       },
@@ -11314,8 +11566,8 @@
         "kind": "uw_check",
         "label": "Run UW check set: Portfolio reallocation",
         "why": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
-        "next_step": "Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.",
-        "blocks": "latest positions, same-session price/flow, or funding source are missing; Endpoint result proof not captured; runbook is instructions only.",
+        "next_step": "Use the captured endpoint result proof before promoting any capital-sized action.",
+        "blocks": "latest positions, same-session price/flow, or funding source are missing; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked",
         "source": "uw_action_runbook",
         "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
       },
@@ -11350,9 +11602,9 @@
     "blockers": [
       "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
       "positions snapshot 2026-05-31 is 7 day(s) old; use as test-data only until current positions are supplied",
-      "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; Endpoint result proof not captured; runbook is instructions only.",
-      "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; Endpoint result proof not captured; runbook is instructions only.",
-      "latest positions, same-session price/flow, or funding source are missing; Endpoint result proof not captured; runbook is instructions only.",
+      "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked",
+      "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked",
+      "latest positions, same-session price/flow, or funding source are missing; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked",
       "Social evidence cannot promote a trade without independent confirmation."
     ],
     "honesty_rule": "Decision packet sequences review work only; it does not execute or recommend un-gated trades."

@@ -28,6 +28,19 @@ class UWRequestError(RuntimeError):
     pass
 
 
+def _windows_user_env(name: str) -> Optional[str]:
+    if os.name != "nt":
+        return None
+    try:
+        import winreg  # type: ignore
+
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as key:
+            value, _ = winreg.QueryValueEx(key, name)
+            return str(value) if value else None
+    except Exception:
+        return None
+
+
 @dataclass(frozen=True)
 class UWResponseSummary:
     endpoint: str
@@ -59,7 +72,7 @@ class UWRestClient:
         retries: int = 1,
         user_agent: str = "InvestingOS-Codex/1.0",
     ):
-        token = token or os.environ.get("UW_API_KEY")
+        token = token or os.environ.get("UW_API_KEY") or _windows_user_env("UW_API_KEY")
         if not token:
             raise UWConfigError("UW_API_KEY is not set")
         self._token = token

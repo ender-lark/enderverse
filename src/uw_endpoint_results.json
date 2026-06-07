@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-06-07T18:35:12.325101+00:00",
+  "source": "uw_endpoint_result_capture",
+  "runbook_line": "UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
+  "planned_checks": 12,
+  "rows": [
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "SECTOR_TIDE",
+      "ticker": "",
+      "status": "missing",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "unsupported path parameter(s): sector",
+      "source": "uw_endpoint_result_capture"
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "MARKET_TIDE",
+      "ticker": "",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 81
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TOP_NET_IMPACT",
+      "ticker": "",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 20
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TOTAL_OPTIONS_VOLUME",
+      "ticker": "",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 1
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "MARKET_MOVERS",
+      "ticker": "",
+      "status": "failed",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade, ",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 0
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "MARKET_CORRELATIONS",
+      "ticker": "",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 2
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "ETF_TIDE",
+      "ticker": "XOP",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 390
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "ETF_TIDE",
+      "ticker": "XLE",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 390
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "ETF_TIDE",
+      "ticker": "TNX",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 390
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "ETF_TIDE",
+      "ticker": "RYF",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 390
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "XOP",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "XLE",
+      "status": "neutral",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "TNX",
+      "status": "missing",
+      "checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 0
+    }
+  ],
+  "counts": {
+    "missing": 2,
+    "neutral": 10,
+    "failed": 1
+  },
+  "honesty_rule": "Rows prove endpoint fetch status only; neutral rows do not confirm a trade thesis."
+}

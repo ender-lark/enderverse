@@ -192,6 +192,16 @@ The dashboard shows the feed plus operator state:
     capital-sized promotion until clean endpoint proof is captured.
   - Malformed proof files fail closed in Source Proof instead of counting as
     successful UW endpoint evidence.
+  - `src/uw_endpoint_result_capture.py` is the bounded live capture runner. It
+    reads the current runbook, calls only approved UW endpoint constants through
+    `codex_uw.rest_client.UWRestClient`, and writes redacted proof rows to
+    `src/uw_endpoint_results.json`.
+  - Captured rows prove endpoint fetch status only. Successful fetches are
+    `neutral` until a separate interpretation step explicitly confirms or
+    contradicts the dashboard thesis; they never auto-promote trades.
+  - On Windows, `UWRestClient` can read `UW_API_KEY` from the current user's
+    saved environment variable when the running Codex process did not inherit
+    it. The key is not printed or committed.
 
 - Preview/export artifacts:
   - Canonical injected JSX: `src/rendered/conviction_cockpit_v5.jsx`

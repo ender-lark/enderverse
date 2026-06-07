@@ -176,6 +176,18 @@
       "action_surface": "UW confirms timing/conviction but is not sufficient alone for capital action."
     },
     {
+      "id": "uw_endpoint_results",
+      "source_of_truth": "unusual_whales_api_bounded_runbook_capture",
+      "repo_artifact": "src/uw_endpoint_results.json",
+      "producer": "uw_endpoint_result_capture.py",
+      "feed_path": "full_build_runner -> uw_endpoint_result_proof -> feed.uw_endpoint_proof/source_audits",
+      "dashboard_surface": "UW Action Runbook endpoint-proof banner, Market-Open Packet blockers, Source Proof row",
+      "mirror_policy": "GitHub stores redacted endpoint status summaries and row counts only; raw UW payloads and API keys are not committed.",
+      "freshness_contract": "Rows must include mode, endpoint, status, checked_at, and summary; same-session proof is required for active high-volatility promotion.",
+      "not_checked_behavior": "Missing cache leaves UW endpoint proof not_checked; malformed rows fail closed and do not count as successful endpoint evidence.",
+      "action_surface": "Captured endpoint status can remove the 'not checked' gap, but neutral rows do not confirm a trade thesis or execute action."
+    },
+    {
       "id": "parabolic_setups",
       "source_of_truth": "unusual_whales_api",
       "repo_artifact": "src/parabolic_setups.json",
