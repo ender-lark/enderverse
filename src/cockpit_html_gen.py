@@ -1022,9 +1022,10 @@ def _opportunity_context(feed: dict) -> str:
             ticker = _e(row.get("ticker") or "")
             direction = _e(row.get("direction") or row.get("urgency") or "")
             summary = _e(row.get("summary") or row.get("provenance") or "")
+            sub_html = f'<span class="context-sub">{summary}</span>' if summary else ""
             rows.append(
                 f'<div class="context-row"><span class="context-ticker">{ticker}</span>{direction}'
-                f'{f"<span class=\"context-sub\">{summary}</span>" if summary else ""}</div>'
+                f'{sub_html}</div>'
             )
         columns.append(("Prospects", rows))
 
@@ -1036,9 +1037,10 @@ def _opportunity_context(feed: dict) -> str:
             direction = _e(row.get("direction") or "")
             author = _e(row.get("author") or "")
             detail = " | ".join(part for part in (author, _e(row.get("date") or "")) if part)
+            detail_html = f'<span class="context-sub">{detail}</span>' if detail else ""
             rows.append(
                 f'<div class="context-row"><span class="context-ticker">{ticker}</span>{direction}'
-                f'{f"<span class=\"context-sub\">{detail}</span>" if detail else ""}</div>'
+                f'{detail_html}</div>'
             )
         columns.append(("Radar", rows))
 
@@ -1050,9 +1052,10 @@ def _opportunity_context(feed: dict) -> str:
             direction = _e(row.get("direction") or "")
             strength = _e(row.get("strength") or "")
             types = ", ".join(row.get("signal_types") or [])
+            types_html = f'<span class="context-sub">{_e(types)}</span>' if types else ""
             rows.append(
                 f'<div class="context-row"><span class="context-ticker">{ticker}</span>{direction} {strength}'
-                f'{f"<span class=\"context-sub\">{_e(types)}</span>" if types else ""}</div>'
+                f'{types_html}</div>'
             )
         columns.append(("Bullish flow", rows))
 
@@ -1408,7 +1411,7 @@ def generate_html(feed: dict) -> str:
     stale_entries = (feed.get("staleness") or {}).get("stale") or []
     stale_warn = ""
     if stale_entries:
-        names = ", ".join(_e(s.get("source","")) for s in stale_entries)
+        names = ", ".join(_e(s.get("source","") if isinstance(s, dict) else s) for s in stale_entries)
         stale_warn = f'<div class="stale-warn">⚠ Stale sources: {names}</div>'
 
     # sections
