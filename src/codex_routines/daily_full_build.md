@@ -82,7 +82,13 @@ This is the main replacement for Claude's FULL-build prompt.
    market-data status, action count/top actions, data-lane count, dark lanes,
    source-call calibration status, and the preview path.
 
-   Current local preview:
+   Current canonical local preview:
+
+   ```text
+   http://127.0.0.1:8765/cockpit_jsx_preview.html
+   ```
+
+   Generated HTML remains a mirror/export preview:
 
    ```text
    http://127.0.0.1:8765/dashboard_preview.html
