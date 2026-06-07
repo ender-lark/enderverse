@@ -131,6 +131,18 @@ The dashboard shows the feed plus operator state:
   - Live-source configuration, missing inputs, go-live readiness, open reviews,
     source-call status, cloud proof, and emergency command hints.
 
+- Operator Hardening:
+  - `feed.operator_hardening` surfaces freshness downgrades, stale action
+    cleanup, pre-action condition checks, and watch-only reasons.
+  - These panels are not new trade engines. They show what needs a re-check,
+    what should be resolved or deferred, and why some important signals remain
+    context rather than action.
+
+- Source proof and audits:
+  - `feed.source_audits` shows cloud routine proof, connector evidence,
+    Fundstrat intake proof, Notion writeback evidence, and Notion collision
+    risk when shared pages may have been written by another agent.
+
 - Preview/export artifacts:
   - Canonical injected JSX: `src/rendered/conviction_cockpit_v5.jsx`
   - Published summary HTML: `docs/index.html`
@@ -145,12 +157,14 @@ timing matches how the investment day works.
 | Routine id | Role | Normal schedule |
 |---|---|---|
 | `investing-os-pre-market-source-intake` | Pre-market source intake, including valid supplied broker uploads | Market weekdays 8:10 AM ET |
+| `investing-os-fundstrat-pre-market-safety-sweep` | Last safety sweep for overnight / early Fundstrat timing calls before the main pre-market stack | Market weekdays 7:45 AM ET |
 | `investing-os-morning-scan` | Morning Signal Log / macro scan validation | Market weekdays 8:35 AM ET |
 | `investing-os-daily-synthesis` | Daily Synthesis after the Morning Scan | Market weekdays 9:30 AM ET |
 | `investing-os-uw-opportunity-cache` | UW opportunity cache and non-secret connector proof | Market weekdays 10:00 AM ET |
 | `investing-os-parabolic-cache` | Parabolic/chase-risk cache | Market weekdays 10:05 AM ET |
 | `investing-os-full-cockpit-build` | Full dashboard build after source/synthesis/UW buffer | Market weekdays 10:30 AM ET |
 | `investing-os-post-close-refresh` | Post-close dashboard refresh and proof path | Market weekdays 4:30 PM ET |
+| `investing-os-fundstrat-after-hours-catch-up` | After-hours Fundstrat catch-up for late notes and next-session prep | Market weekdays 7:00 PM ET |
 | `investing-os-off-hours-worker` | Overnight status/research support checks | Daily 1:45 AM ET |
 | `investing-os-deep-synthesis` | Weekly deeper synthesis support | Sunday 1:00 PM ET |
 | `investing-os-weekly-pilot-run` | Weekly pilot/status run | Sunday 6:00 PM ET |
@@ -195,6 +209,34 @@ python src/cloud_routine_manual_run.py --format text --strict
 
 Manual runs prove that local command paths execute now. They do not prove that
 the cloud scheduler fired at the scheduled time.
+
+Fundstrat-specific safety windows:
+
+- The after-hours catch-up looks for late Fundstrat notes after the close so the
+  next dashboard does not wait until the main morning stack.
+- The pre-market safety sweep looks for overnight and early-morning Fundstrat
+  notes before the normal 8:10 AM source intake.
+- Both routines must use full-body Gmail evidence or compact full-body-derived
+  rows, must redact raw email bodies from repo files, and must run the same
+  source-call merge/validation path before their data can count as checked.
+
+## 8.1 Notion Writeback And Collision Rules
+
+Notion pages can be touched by scheduled Codex routines and by other agents.
+The repo must therefore separate three states:
+
+- Local cache updated: a repo JSON file changed.
+- Connector write attempted: a routine tried to write to Notion.
+- Live write verified: the routine fetched the live Notion page after the write
+  and confirmed the content landed.
+
+Only live write verification should be treated as a proven Notion writeback.
+If Claude or another routine may have written the same Notion surface, the
+dashboard's Notion collision audit should stay visible until the relevant live
+page is searched/fetched and reconciled.
+
+The active scheduled prompts that write or may write to Notion now require live
+page readback before reporting write success or updating page status.
 
 ## 8. Safe Write-Back
 

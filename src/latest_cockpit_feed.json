@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T15:44:48.720502+00:00",
+  "generated_at": "2026-06-07T16:08:05.368251+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T11:44:48.720502-04:00",
+        "date": "2026-06-07T12:08:05.368251-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T11:44:48.720502-04:00",
+        "date": "2026-06-07T12:08:05.368251-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1056,31 +1056,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T15:44:48.589977+00:00",
+      "last_run": "2026-06-07T16:08:05.247410+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T15:44:48.589977+00:00",
+      "last_run": "2026-06-07T16:08:05.247410+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T15:44:48.589977+00:00",
+      "last_run": "2026-06-07T16:08:05.247410+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-07T15:44:48.589977+00:00",
+      "last_run": "2026-06-07T16:08:05.247410+00:00",
       "note": "no dark lanes reported in lane-status block"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T15:44:48.589977+00:00",
+      "last_run": "2026-06-07T16:08:05.247410+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1835,7 +1835,7 @@
     "source_calls": {
       "status": "has_data",
       "line": "SCORING LAG: clean \u2014 no calls past window-end awaiting a score.",
-      "pending_count": 3,
+      "pending_count": 6,
       "overdue_count": 0,
       "oldest_overdue_days": 0,
       "rates": [
@@ -1852,10 +1852,10 @@
       ],
       "due": [],
       "calibration": {
-        "status": "stale",
-        "line": "Calibration chain stale: 2d behind.",
-        "worst_days_behind": 2,
-        "cache_as_of": "2026-06-03"
+        "status": "checked_fresh",
+        "line": "Calibration chain checked fresh.",
+        "worst_days_behind": 0,
+        "cache_as_of": "2026-06-05"
       },
       "persistence": {
         "status": "checked_clear",
@@ -2134,6 +2134,171 @@
       }
     ],
     "dedupe_rule": "One row per ticker; strongest evidence wins while source names are merged."
+  },
+  "operator_hardening": {
+    "freshness_downgrades": {
+      "status": "has_data",
+      "count": 1,
+      "line": "Freshness downgrade audit: 1 action(s) require re-check before capital action.",
+      "rows": [
+        {
+          "ticker": "EVENT",
+          "kind": "event_risk",
+          "what": "Event risk: Middle East oil/rates shock can affect new-buy timing",
+          "action_state": "WATCH",
+          "action_label": "RE-CHECK",
+          "freshness_label": "fast-moving",
+          "evidence_date": "2026-06-03",
+          "last_checked": "2026-06-07",
+          "decay_window": "intraday to 1 trading day",
+          "judgment": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
+        }
+      ]
+    },
+    "stale_action_cleanup": {
+      "status": "checked_clear",
+      "count": 0,
+      "line": "Stale-action cleanup: no due or stale open reviews.",
+      "rows": []
+    },
+    "condition_checklist": {
+      "status": "has_data",
+      "date": "2026-06-07",
+      "line": "Condition checklist: 8 pre-action level/headline check(s).",
+      "rows": [
+        {
+          "source": "event_risk",
+          "ticker": "XOP, XLE, TNX",
+          "date": "2026-06-03",
+          "title": "Middle East oil/rates shock can affect new-buy timing",
+          "check": "WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+          "why": "Fast-moving event evidence can expire before the next market session."
+        },
+        {
+          "source": "event_risk",
+          "ticker": "RYF, XLF, COIN, HOOD, BX, KKR",
+          "date": "2026-06-03",
+          "title": "Financials breakdown and crypto-linked weakness weigh on tape breadth",
+          "check": "RYF remains below support near 74.40, crypto-linked financials fail to stabilize, or XLF/RYF relative weakness accelerates.",
+          "why": "Fast-moving event evidence can expire before the next market session."
+        },
+        {
+          "source": "event_risk",
+          "ticker": "MAGS, SMH, SPY, RSP",
+          "date": "2026-06-03",
+          "title": "Narrow AI leadership versus improving equal-weight participation",
+          "check": "Mag 7/AI leadership weakens while equal-weight participation improves, or oil swings disrupt growth leadership.",
+          "why": "Fast-moving event evidence can expire before the next market session."
+        },
+        {
+          "source": "fundstrat_daily",
+          "ticker": "QQQ",
+          "date": "2026-06-05",
+          "title": "QQQ watch",
+          "check": "June 5 technical note makes 695-705 the first support check; failure shifts risk toward a 675 second-leg target. Re-check Monday pre-market before adding AI beta.",
+          "why": "Use as a pre-market condition check, not as an automatic trade."
+        },
+        {
+          "source": "fundstrat_daily",
+          "ticker": "RSP",
+          "date": "2026-06-05",
+          "title": "RSP watch",
+          "check": "June 5 read favors equal-weighted/value/cyclical participation over tech-heavy cap-weighted exposure while growth consolidates. Use as rotation context, not an auto-trade.",
+          "why": "Use as a pre-market condition check, not as an automatic trade."
+        },
+        {
+          "source": "fundstrat_daily",
+          "ticker": "SOX",
+          "date": "2026-06-05",
+          "title": "SOX watch",
+          "check": "SOX held near 12,114 base-line support after the June 5 break; a daily close below it would raise tech-underperformance risk. Re-check before semi adds.",
+          "why": "Use as a pre-market condition check, not as an automatic trade."
+        },
+        {
+          "source": "fundstrat_daily",
+          "ticker": "RYF",
+          "date": "2026-06-03",
+          "title": "RYF avoid",
+          "check": "Break below 74.40 keeps the path of least resistance lower toward 71.",
+          "why": "Use as a pre-market condition check, not as an automatic trade."
+        },
+        {
+          "source": "fundstrat_daily",
+          "ticker": "TNX",
+          "date": "2026-06-03",
+          "title": "TNX watch",
+          "check": "Corrective bounce toward 4.554-4.586% should precede a turn lower if the ceasefire path holds.",
+          "why": "Use as a pre-market condition check, not as an automatic trade."
+        }
+      ]
+    },
+    "watch_only_why": {
+      "status": "has_data",
+      "count": 17,
+      "line": "Why-not-acting lane: 17 watch-only signal(s) kept out of trade prompts.",
+      "rows": [
+        {
+          "ticker": "XLF, GS, ITA",
+          "title": "Macro: complacent vol plus steep curve cyclical tailwind",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "ITA, BWXT, LEU, UUUU, GLD",
+          "title": "Iran escalation: US strikes plus prediction-market divergence",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "USO",
+          "title": "Oil rallying on Iran/Hormuz, inflation and macro watch",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "USO, ITA, LEU, UUUU, CCJ, BWXT, BE",
+          "title": "Oil spike on renewed Iran-US strikes",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "LEU, UUUU, CCJ, BWXT, BE, ITA",
+          "title": "Oil down on US-Iran de-escalation and nuclear-deal expectations",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "NUE, MP, XLI, LEU, UUUU",
+          "title": "Metals tariffs raised, effective June 8",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "SMH, NVDA, MU, MAGS, GRNY, GRNJ, IGV, IVES, VOLT, QQQ",
+          "title": "Growth-to-value rotation is pressuring held semis/AI exposure",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "QQQ, SMH, NVDA, MU",
+          "title": "QQQ and SOX support bands define next-week damage-control watch",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "SPY, QQQ, SMH, NVDA",
+          "title": "UW market tide stayed deeply risk-off into the June 5 close",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        },
+        {
+          "ticker": "QQQ, NVDA, MU, XLF, TNX",
+          "title": "Strong jobs plus higher yields widened the broad tech drawdown",
+          "source": "signal_log",
+          "why_not_acting": "Signal Log is watch-only context; require explicit setup, sizing, and gate before action."
+        }
+      ]
+    }
   },
   "portfolio_views": {
     "snapshot_date": "2026-05-31",
@@ -8773,7 +8938,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 0.35
+        "connector_proof_age_hours": 0.74
       }
     ],
     "missing": [],
@@ -8797,12 +8962,18 @@
     },
     "cloud_routines": {
       "status": "partial_live_run_proven",
-      "line": "Background cloud proof: 7/10 scheduled receipts proven; failed latest=0.",
+      "line": "Background cloud proof: 7/12 scheduled receipts proven; failed latest=0.",
       "scheduled_success_count": 7,
-      "expected_count": 10,
+      "expected_count": 12,
       "failed_latest_count": 0,
-      "missing_scheduled_success_count": 3,
+      "missing_scheduled_success_count": 5,
       "missing_scheduled_success": [
+        {
+          "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+          "routine_name": "Investing OS Fundstrat Pre-Market Safety Sweep",
+          "schedule": "market weekdays 7:45 AM ET",
+          "last_status": "no_receipt"
+        },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
           "routine_name": "Investing OS UW Opportunity Cache",
@@ -8814,6 +8985,12 @@
           "routine_name": "Investing OS Parabolic Cache",
           "schedule": "market weekdays 10:05 AM ET",
           "last_status": "success"
+        },
+        {
+          "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+          "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
+          "schedule": "market weekdays 7:00 PM ET",
+          "last_status": "no_receipt"
         },
         {
           "routine_id": "investing-os-weekly-pilot-run",
@@ -8835,6 +9012,19 @@
           "last_success_at": "2026-06-05T21:45:50.150086Z",
           "last_scheduled_success_at": "2026-06-05T21:45:50.150086Z",
           "last_summary": "0 new FS rows; catalysts unchanged at 8; positions stale no broker input; event-risk unchanged; blocker: Notion structured catalyst query unavailable"
+        },
+        {
+          "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+          "routine_name": "Investing OS Fundstrat Pre-Market Safety Sweep",
+          "role": "fundstrat_pre_market_safety_sweep",
+          "schedule": "market weekdays 7:45 AM ET",
+          "receipt_count": 0,
+          "last_status": "no_receipt",
+          "last_run_source": "manual",
+          "last_recorded_at": "",
+          "last_success_at": "",
+          "last_scheduled_success_at": "",
+          "last_summary": ""
         },
         {
           "routine_id": "investing-os-morning-scan",
@@ -8915,6 +9105,19 @@
           "last_summary": "post-close refresh succeeded"
         },
         {
+          "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+          "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
+          "role": "fundstrat_after_hours_catchup",
+          "schedule": "market weekdays 7:00 PM ET",
+          "receipt_count": 0,
+          "last_status": "no_receipt",
+          "last_run_source": "manual",
+          "last_recorded_at": "",
+          "last_success_at": "",
+          "last_scheduled_success_at": "",
+          "last_summary": ""
+        },
+        {
           "routine_id": "investing-os-off-hours-worker",
           "routine_name": "Investing OS Off-Hours Worker",
           "role": "off_hours_worker",
@@ -8990,6 +9193,33 @@
         }
       ],
       "honesty_rule": "A repo cache write is not the same as a verified Notion connector write."
+    },
+    "notion_collision": {
+      "status": "watch",
+      "line": "Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.",
+      "rows": [
+        {
+          "surface": "Signal Log",
+          "risk": "shared routine write target",
+          "check": "Search/fetch live page rows before resolving or de-duping signal rows."
+        },
+        {
+          "surface": "Research Queue",
+          "risk": "shared routine write target",
+          "check": "Fetch live queue item before marking a dossier/status as current."
+        },
+        {
+          "surface": "Pilot Dashboard",
+          "risk": "shared routine write target",
+          "check": "Verify latest live status before trusting repo-side weekly pilot cache."
+        },
+        {
+          "surface": "Daily Synthesis / FS Inbox",
+          "risk": "shared routine write target",
+          "check": "Prefer latest full-body Gmail evidence and live Notion state over stale local rows."
+        }
+      ],
+      "honesty_rule": "Live Notion verification wins over local cache assumptions."
     },
     "connector_evidence": {
       "status": "has_data",

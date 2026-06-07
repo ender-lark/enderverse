@@ -36,6 +36,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "minute": 10,
     },
     {
+        "automation_id": "investing-os-fundstrat-pre-market-safety-sweep",
+        "automation_name": "Investing OS Fundstrat Pre-Market Safety Sweep",
+        "role": "fundstrat_pre_market_safety_sweep",
+        "schedule": "market weekdays 7:45 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 7,
+        "minute": 45,
+        "expected_since": "2026-06-07T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-morning-scan",
         "automation_name": "Investing OS Morning Scan",
         "role": "morning_scan",
@@ -88,6 +98,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "days": [0, 1, 2, 3, 4],
         "hour": 16,
         "minute": 30,
+    },
+    {
+        "automation_id": "investing-os-fundstrat-after-hours-catch-up",
+        "automation_name": "Investing OS Fundstrat After-Hours Catch-Up",
+        "role": "fundstrat_after_hours_catchup",
+        "schedule": "market weekdays 7:00 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 19,
+        "minute": 0,
+        "expected_since": "2026-06-07T00:00:00-04:00",
     },
     {
         "automation_id": "investing-os-off-hours-worker",
@@ -528,7 +548,11 @@ def _receipt_due_summary(
         routine_id = str(expected.get("automation_id") or "")
         receipt = receipt_rows.get(routine_id, {})
         last_success = _parse_dt(receipt.get("last_scheduled_success_at"))
-        last_due = _last_run_between(expected, activation, now_et)
+        routine_activation = _parse_dt(expected.get("expected_since")) or activation
+        if routine_activation.tzinfo is None:
+            routine_activation = routine_activation.replace(tzinfo=ET)
+        routine_activation = max(activation, routine_activation.astimezone(ET))
+        last_due = _last_run_between(expected, routine_activation, now_et)
         next_due = _next_run_after(expected, now_et)
         overdue_after = last_due + timedelta(minutes=grace_minutes) if last_due else None
         if last_due is None:
@@ -545,6 +569,7 @@ def _receipt_due_summary(
             "role": expected.get("role") or "",
             "schedule": expected.get("schedule") or "",
             "due_state": state,
+            "expected_since": routine_activation.isoformat(),
             "last_due_at": last_due.isoformat() if last_due else "",
             "next_due_at": next_due.isoformat() if next_due else "",
             "overdue_after": overdue_after.isoformat() if overdue_after else "",

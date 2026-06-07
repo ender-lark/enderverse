@@ -468,6 +468,31 @@ def test_cloud_ops_status_reports_partial_live_run_after_first_scheduled_success
     assert "Cloud live-run proven: False" in text
 
 
+def test_receipt_due_summary_respects_routine_expected_since():
+    receipts = {"summary": {"rows": []}}
+    expected = [{
+        "automation_id": "new-routine",
+        "automation_name": "New Routine",
+        "role": "new",
+        "schedule": "market weekdays 7:00 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 19,
+        "minute": 0,
+        "expected_since": "2026-06-07T00:00:00-04:00",
+    }]
+
+    report = cloud_ops_status._receipt_due_summary(
+        receipts,
+        expected,
+        activated_at=cloud_ops_status._parse_dt("2026-06-05T12:00:00-04:00"),
+        now=cloud_ops_status._parse_dt("2026-06-07T12:00:00-04:00"),
+    )
+
+    assert report["overdue_count"] == 0
+    assert report["not_due_yet_count"] == 1
+    assert report["rows"][0]["expected_since"] == "2026-06-07T00:00:00-04:00"
+
+
 def test_cloud_ops_status_cli_can_require_first_scheduled_proof(monkeypatch, capsys):
     monkeypatch.setattr(cloud_ops_status, "cloud_ops_status", lambda **kwargs: {
         "ready_for_unattended_daily_run": True,

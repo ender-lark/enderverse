@@ -38,6 +38,25 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Dashboard hardening and Fundstrat safety routines.
+  - Added operator-hardening dashboard panels for freshness downgrades,
+    stale-action cleanup, pre-action condition checks, and watch-only
+    why-not-acting context.
+  - Added a Notion collision audit convention file and dashboard audit row for
+    shared Notion surfaces that may have been written by other agents.
+  - Added two active Codex automations: Fundstrat Pre-Market Safety Sweep
+    (7:45 AM ET market weekdays) and Fundstrat After-Hours Catch-Up (7:00 PM ET
+    market weekdays). Both require scheduled receipts, full-body-derived
+    compact evidence, validation, safe commit/push, and dark-lane honesty.
+  - Updated Notion-writing active routine prompts so Notion write success
+    requires live page readback before page status/write status is reported as
+    successful.
+  - Added source-call candidate fallback from current Fundstrat radar rows so
+    fresh dated/quoted radar calls can enter calibration instead of remaining
+    passive context.
+  - Cloud status now expects 12 active routines and reports the two new
+    Fundstrat routines as expected since 2026-06-07, so old windows before
+    creation are not counted as missed receipts.
 - Account Positions source wait resolved.
   - Current 7-file Drive proof extracted 225 broker rows across Fidelity,
     Schwab, and Robinhood with `failed_files=0`, then refreshed

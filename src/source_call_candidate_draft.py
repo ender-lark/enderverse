@@ -29,6 +29,24 @@ def observations_from_feed(feed: dict[str, Any]) -> list[dict[str, Any]]:
     source_calls = (feedback or {}).get("source_calls") if isinstance(feedback, dict) else {}
     observations = source_calls.get("observations") if isinstance(source_calls, dict) else []
     rows: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str, str]] = set()
+
+    def add_observation(*, source: str, ticker: str, text: str, date: str) -> None:
+        source = source.strip()
+        ticker = ticker.strip().upper()
+        text = text.strip()
+        date = date[:10]
+        key = (source.lower(), ticker, date, text)
+        if not source or not text or key in seen:
+            return
+        seen.add(key)
+        rows.append({
+            "source": source,
+            "ticker": ticker or None,
+            "text": text,
+            "date": date,
+        })
+
     for row in observations or []:
         if not isinstance(row, dict):
             continue
@@ -37,12 +55,20 @@ def observations_from_feed(feed: dict[str, Any]) -> list[dict[str, Any]]:
         ticker = str(row.get("ticker") or "").strip().upper()
         if not quote or not source:
             continue
-        rows.append({
-            "source": source,
-            "ticker": ticker or None,
-            "text": quote,
-            "date": str(row.get("date") or "")[:10],
-        })
+        add_observation(source=source, ticker=ticker, text=quote, date=str(row.get("date") or ""))
+    for row in feed.get("radar") or []:
+        if not isinstance(row, dict):
+            continue
+        quote = str(row.get("quote") or row.get("call_summary") or "").strip()
+        source = str(row.get("author") or row.get("source") or "").strip()
+        if not quote or not source:
+            continue
+        add_observation(
+            source=source,
+            ticker=str(row.get("ticker") or ""),
+            text=quote,
+            date=str(row.get("date") or ""),
+        )
     return rows
 
 

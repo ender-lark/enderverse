@@ -55,6 +55,9 @@ def _feed():
             "notion_writeback": {
                 "line": "Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.",
             },
+            "notion_collision": {
+                "line": "Notion collision audit: verify live shared pages before trusting repo caches.",
+            },
         },
         "hero": {"hero": {"count": 0}, "needs_you": {"count": 0, "items": []}},
         "holdings": [],
@@ -136,6 +139,47 @@ def _feed():
         "signal_log": [
             {"ticker": "NVDA", "signal": "AI leadership remains narrow", "source": "Morning Scan"}
         ],
+        "operator_hardening": {
+            "freshness_downgrades": {
+                "line": "Freshness downgrade audit: 1 action(s) require re-check before capital action.",
+                "rows": [{
+                    "ticker": "QQQ",
+                    "what": "Re-check QQQ support before acting",
+                    "judgment": "Re-check before capital action.",
+                    "evidence_date": "2026-06-05",
+                    "action_state": "WATCH",
+                }],
+            },
+            "stale_action_cleanup": {
+                "line": "Stale-action cleanup: 1 due/stale open review(s).",
+                "rows": [{
+                    "ticker": "ANET",
+                    "kind": "review",
+                    "age_days": 3,
+                    "state": "due",
+                    "next_step": "Review due item before it becomes stale.",
+                }],
+            },
+            "condition_checklist": {
+                "line": "Condition checklist: 1 pre-action level/headline check(s).",
+                "rows": [{
+                    "source": "fundstrat_daily",
+                    "ticker": "SOX",
+                    "date": "2026-06-05",
+                    "title": "SOX support",
+                    "check": "Check support before adding.",
+                }],
+            },
+            "watch_only_why": {
+                "line": "Why-not-acting lane: 1 watch-only signal(s) kept out of trade prompts.",
+                "rows": [{
+                    "source": "signal_log",
+                    "ticker": "NVDA",
+                    "title": "AI leadership remains narrow",
+                    "why_not_acting": "Signal Log is watch-only context.",
+                }],
+            },
+        },
         "research_actions": [
             {
                 "rank": 1,
@@ -396,12 +440,21 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     html = generate_html(_feed())
 
     assert 'id="asymmetric-opportunities"' in html
+    assert 'href="#operator-hardening"' in html
+    assert 'id="operator-hardening"' in html
+    assert "Freshness downgrades" in html
+    assert "Stale-action cleanup" in html
+    assert "Pre-action condition checklist" in html
+    assert "Why not acting" in html
+    assert "Re-check QQQ support before acting" in html
+    assert "Check support before adding." in html
     assert "Asymmetric opportunities" in html
     assert "High-conviction target gap" in html
     assert 'id="source-audits"' in html
     assert "Background cloud proof: 2/10 scheduled receipts proven" in html
     assert "Fundstrat intake: 4 full-body" in html
     assert "Notion/writeback audit" in html
+    assert "Notion collision audit" in html
     assert 'id="research-actions"' in html
     assert "Research AVGO thesis" in html
     assert 'id="fresh-signals"' in html

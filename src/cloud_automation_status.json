@@ -9,7 +9,8 @@
     "Each scheduled routine should append cloud_routine_receipts.json receipts with run_source=scheduled; manual rehearsal receipts do not prove cloud live-run execution.",
     "UW Opportunity Cache should start by checking live Unusual Whales connector access and updating src/live_source_config.json through live_source_config_update.py with compact proof metadata only, never raw tide rows or premiums.",
     "Each active routine prompt should also include cloud_routine_commit.py safe write-back and missing-source honesty instructions so changed receipt/output files persist without committing unrelated dirty files, and missing source pulls are not treated as checked clear.",
-    "Notion schedule reconcile basis: Daily Synthesis should run after the 8:35 AM ET Morning Scan, 9:15-9:30 AM ET is acceptable, UW Opportunity Cache should stay no earlier than roughly 9:45 AM ET, and Full Cockpit Build should run at 10:30 AM ET for buffer."
+    "Notion schedule reconcile basis: Daily Synthesis should run after the 8:35 AM ET Morning Scan, 9:15-9:30 AM ET is acceptable, UW Opportunity Cache should stay no earlier than roughly 9:45 AM ET, and Full Cockpit Build should run at 10:30 AM ET for buffer.",
+    "Fundstrat after-hours catch-up and pre-market safety sweep are expected proof targets because Fundstrat timing calls can arrive outside the original 8:10 AM source intake window."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
@@ -66,6 +67,14 @@
       "schedule": "market weekdays 8:10 AM ET"
     },
     {
+      "automation_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "automation_name": "Investing OS Fundstrat Pre-Market Safety Sweep",
+      "status": "ACTIVE",
+      "role": "fundstrat_pre_market_safety_sweep",
+      "schedule": "market weekdays 7:45 AM ET",
+      "expected_since": "2026-06-07T00:00:00-04:00"
+    },
+    {
       "automation_id": "investing-os-morning-scan",
       "automation_name": "Investing OS Morning Scan",
       "status": "ACTIVE",
@@ -106,6 +115,14 @@
       "status": "ACTIVE",
       "role": "post_close_refresh",
       "schedule": "market weekdays 4:30 PM ET"
+    },
+    {
+      "automation_id": "investing-os-fundstrat-after-hours-catch-up",
+      "automation_name": "Investing OS Fundstrat After-Hours Catch-Up",
+      "status": "ACTIVE",
+      "role": "fundstrat_after_hours_catchup",
+      "schedule": "market weekdays 7:00 PM ET",
+      "expected_since": "2026-06-07T00:00:00-04:00"
     },
     {
       "automation_id": "investing-os-off-hours-worker",

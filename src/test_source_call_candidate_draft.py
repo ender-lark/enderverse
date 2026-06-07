@@ -65,6 +65,50 @@ def test_draft_candidates_from_feed_classifies_pending_rows():
     assert rows[0]["window_end"] >= "2026-06-03"
 
 
+def test_observations_from_feed_falls_back_to_fundstrat_radar_rows():
+    feed = {
+        "feedback": {"source_calls": {"observations": []}},
+        "radar": [
+            {
+                "author": "Newton",
+                "ticker": "QQQ",
+                "date": "2026-06-05",
+                "direction": "support",
+                "quote": "QQQ support must hold before leaning into growth.",
+            },
+            {
+                "author": "Newton",
+                "ticker": "QQQ",
+                "date": "2026-06-05",
+                "quote": "QQQ support must hold before leaning into growth.",
+            },
+            {
+                "author": "Tom Lee",
+                "ticker": "RSP",
+                "date": "2026-06-05",
+                "quote": "Broadening would support a constructive risk backdrop.",
+            },
+        ],
+    }
+
+    rows = draft.observations_from_feed(feed)
+
+    assert rows == [
+        {
+            "source": "Newton",
+            "ticker": "QQQ",
+            "text": "QQQ support must hold before leaning into growth.",
+            "date": "2026-06-05",
+        },
+        {
+            "source": "Tom Lee",
+            "ticker": "RSP",
+            "text": "Broadening would support a constructive risk backdrop.",
+            "date": "2026-06-05",
+        },
+    ]
+
+
 def test_source_call_candidate_draft_cli_dry_run(tmp_path):
     feed = tmp_path / "feed.json"
     out = tmp_path / "source_call_candidates.json"

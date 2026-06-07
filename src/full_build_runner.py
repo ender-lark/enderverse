@@ -37,6 +37,7 @@ from uw_macro import build_uw_macro_source
 from uw_price import build_uw_price_source
 from validators import validate_cockpit_feed
 from decision_support import enrich_actions, build_asymmetric_opportunities
+from operator_hardening import build_operator_hardening
 import cloud_routine_receipts
 
 
@@ -452,6 +453,42 @@ def _build_notion_writeback_audit(src_dir: Path) -> dict[str, Any]:
     }
 
 
+def _build_notion_collision_audit(src_dir: Path) -> dict[str, Any]:
+    path = src_dir / "notion_collision_audit.json"
+    if not path.is_file():
+        return {
+            "status": "not_checked",
+            "line": (
+                "Notion collision audit: not checked; if another agent wrote shared "
+                "Notion pages, verify live page state before treating repo caches as current."
+            ),
+            "rows": [],
+            "honesty_rule": "Repo cache recency does not prove live Notion page ownership.",
+        }
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    except Exception as exc:
+        return {
+            "status": "failed",
+            "line": f"Notion collision audit: failed to read {path.name}: {exc}",
+            "rows": [],
+        }
+    if not isinstance(payload, dict):
+        return {
+            "status": "failed",
+            "line": f"Notion collision audit: {path.name} must be a JSON object.",
+            "rows": [],
+        }
+    rows = payload.get("rows") if isinstance(payload.get("rows"), list) else []
+    return {
+        "status": payload.get("status") or "has_data",
+        "line": payload.get("line") or f"Notion collision audit: {len(rows)} monitored shared page(s).",
+        "rows": rows,
+        "honesty_rule": payload.get("honesty_rule")
+            or "Live Notion verification wins over local cache assumptions.",
+    }
+
+
 def _build_connector_evidence(src_dir: Path, live_source_capability_module: Any) -> dict[str, Any]:
     report = live_source_capability_module.capability_report(src_dir)
     rows = [
@@ -493,6 +530,7 @@ def _build_source_audits(src_dir: Path, live_source_capability_module: Any) -> d
         "fundstrat": _build_fundstrat_audit(src_dir),
         "cloud_routines": _build_cloud_routine_audit(src_dir),
         "notion_writeback": _build_notion_writeback_audit(src_dir),
+        "notion_collision": _build_notion_collision_audit(src_dir),
         "connector_evidence": _build_connector_evidence(src_dir, live_source_capability_module),
     }
 
@@ -698,6 +736,7 @@ def build_full_feed_from_files(
         generated_at=feed.get("generated_at") or now,
     )
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
+    feed["operator_hardening"] = build_operator_hardening(feed)
     portfolio_views = build_portfolio_views(account_positions)
     if portfolio_views:
         feed["portfolio_views"] = portfolio_views

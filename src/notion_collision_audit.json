@@ -1,0 +1,27 @@
+{
+  "status": "watch",
+  "line": "Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.",
+  "honesty_rule": "Live Notion verification wins over local cache assumptions.",
+  "rows": [
+    {
+      "surface": "Signal Log",
+      "risk": "shared routine write target",
+      "check": "Search/fetch live page rows before resolving or de-duping signal rows."
+    },
+    {
+      "surface": "Research Queue",
+      "risk": "shared routine write target",
+      "check": "Fetch live queue item before marking a dossier/status as current."
+    },
+    {
+      "surface": "Pilot Dashboard",
+      "risk": "shared routine write target",
+      "check": "Verify latest live status before trusting repo-side weekly pilot cache."
+    },
+    {
+      "surface": "Daily Synthesis / FS Inbox",
+      "risk": "shared routine write target",
+      "check": "Prefer latest full-body Gmail evidence and live Notion state over stale local rows."
+    }
+  ]
+}

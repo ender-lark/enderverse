@@ -397,6 +397,7 @@ def _quick_nav(feed: dict) -> str:
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>{_e((feed.get("asymmetric_opportunities") or {}).get("count") or 0)}</strong> asymmetry</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(open_actions)}</strong> open reviews</a>
+  <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>{_e(lane_gaps)}</strong> source gaps</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(source_label)}</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
@@ -1160,6 +1161,64 @@ def _signal_log(rows: list) -> str:
 </div>"""
 
 
+def _operator_hardening(block: dict) -> str:
+    if not block:
+        return ""
+    cards = []
+    specs = [
+        ("freshness_downgrades", "Freshness downgrades"),
+        ("stale_action_cleanup", "Stale-action cleanup"),
+        ("condition_checklist", "Pre-action condition checklist"),
+        ("watch_only_why", "Why not acting"),
+    ]
+    for key, label in specs:
+        section = block.get(key) or {}
+        rows = section.get("rows") or []
+        line = section.get("line") or ""
+        if not line and not rows:
+            continue
+        body = f'<div class="feedback-line">{_e(line)}</div>' if line else ""
+        for row in rows[:6]:
+            if not isinstance(row, dict):
+                continue
+            title = row.get("title") or row.get("what") or row.get("ticker") or row.get("kind") or ""
+            detail = (
+                row.get("judgment")
+                or row.get("check")
+                or row.get("why_not_acting")
+                or row.get("next_step")
+                or row.get("why")
+                or ""
+            )
+            meta = " | ".join(
+                str(part)
+                for part in (
+                    row.get("source") or row.get("kind") or "",
+                    row.get("date") or row.get("evidence_date") or "",
+                    row.get("state") or row.get("action_state") or "",
+                )
+                if part
+            )
+            body += f"""
+<div class="small-item">
+  <span class="context-ticker">{_e(row.get("ticker") or "")}</span>
+  <span>{_e(title)}</span>
+  {f'<span class="small-muted">{_e(detail)}</span>' if detail else ""}
+  {f'<span class="small-muted">{_e(meta)}</span>' if meta else ""}
+</div>"""
+        cards.append(f"""
+<div class="card">
+  <div class="card-title"><span class="icon">!</span> {_e(label)}</div>
+  <div class="small-list">{body}</div>
+</div>""")
+    if not cards:
+        return ""
+    return f"""
+<div id="operator-hardening">
+  {''.join(cards)}
+</div>"""
+
+
 def _portfolio_views_summary(portfolio_views: dict | None) -> str:
     views = (portfolio_views or {}).get("views") or {}
     if not views:
@@ -1194,6 +1253,7 @@ def _source_audits(audits: dict) -> str:
         ("connector_evidence", "Connector evidence"),
         ("fundstrat", "Fundstrat intake"),
         ("notion_writeback", "Notion/writeback"),
+        ("notion_collision", "Notion collision"),
     ):
         block = audits.get(key) or {}
         if not block:
@@ -1428,6 +1488,7 @@ def generate_html(feed: dict) -> str:
     hero_html   = _hero(feed.get("hero") or {})
     actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
     asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
+    operator_hardening_html = _operator_hardening(feed.get("operator_hardening") or {})
     research_actions_html = _research_actions(feed.get("research_actions") or [])
     fresh_html = _fresh_signals(feed.get("fresh_signals") or [])
     signal_log_html = _signal_log(feed.get("signal_log") or [])
@@ -1487,6 +1548,7 @@ def generate_html(feed: dict) -> str:
     {actions_html}
     {operator_html}
     {asymmetric_html}
+    {operator_hardening_html}
     {research_actions_html}
     {context_html}
     {lane_html}

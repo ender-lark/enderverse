@@ -11,6 +11,9 @@ import cloud_routine_drill
 import cloud_routine_receipts
 
 
+EXPECTED_ROUTINES = len(cloud_routine_drill.cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+
+
 def test_drill_writes_scheduled_temp_receipts_without_touching_real_store(tmp_path):
     real = tmp_path / "real_receipts.json"
     cloud_routine_receipts.append_receipt(
@@ -27,10 +30,10 @@ def test_drill_writes_scheduled_temp_receipts_without_touching_real_store(tmp_pa
 
     assert report["valid"] is True
     assert report["routine_id"] == "all_expected"
-    assert report["routine_count"] == len(cloud_routine_drill.cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+    assert report["routine_count"] == EXPECTED_ROUTINES
     assert report["real_receipt_untouched"] is True
-    assert report["temp_receipt_count"] == 20
-    assert report["scheduled_success_count"] == 10
+    assert report["temp_receipt_count"] == EXPECTED_ROUTINES * 2
+    assert report["scheduled_success_count"] == EXPECTED_ROUTINES
     assert report["failed_latest_count"] == 0
     assert real.read_text(encoding="utf-8") == before
 
@@ -73,7 +76,7 @@ def test_drill_cli_text(tmp_path):
 
     assert proc.returncode == 0
     assert "Cloud routine drill valid: True" in proc.stdout
-    assert "Routines checked: 10" in proc.stdout
+    assert f"Routines checked: {EXPECTED_ROUTINES}" in proc.stdout
     assert "Real receipt store untouched: True" in proc.stdout
 
 
@@ -91,4 +94,4 @@ def test_drill_cli_json(tmp_path):
     assert proc.returncode == 0
     payload = json.loads(proc.stdout)
     assert payload["routine_id"] == "all_expected"
-    assert payload["scheduled_success_count"] == 10
+    assert payload["scheduled_success_count"] == EXPECTED_ROUTINES
