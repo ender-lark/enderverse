@@ -1,8 +1,27 @@
 {
   "schema_version": "1.0",
   "as_of": "2026-06-07",
-  "generated_at": "2026-06-07T14:39:36.496735+00:00",
-  "opportunities": [],
+  "generated_at": "2026-06-07T15:31:38.071229+00:00",
+  "opportunities": [
+    {
+      "ticker": "ANET",
+      "first_flagged": "2026-06-07",
+      "flag_price": null,
+      "source": "lean_in",
+      "kind": "lean_in",
+      "last_seen": "2026-06-07",
+      "status": "open"
+    },
+    {
+      "ticker": "GOOGL",
+      "first_flagged": "2026-06-07",
+      "flag_price": null,
+      "source": "lean_in",
+      "kind": "lean_in",
+      "last_seen": "2026-06-07",
+      "status": "open"
+    }
+  ],
   "history": [
     {
       "ticker": "ANET",
