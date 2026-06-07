@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-07T17:01:19.819628Z",
+  "updated_at": "2026-06-07T17:10:36.318046Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -2209,6 +2209,13 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-07T17:01:19.819628Z",
       "summary": "deep synthesis started"
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-07T17:10:36.318046Z",
+      "summary": "30d weekly deep: semis damage-control, closure gaps outrun new signals, pilots evidenced but thin; Notion page written+verified; blocker: Notion query endpoint unavailable"
     }
   ]
 }
