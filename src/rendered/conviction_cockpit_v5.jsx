@@ -1322,7 +1322,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {mode==="action" && (<>
 
         {/* MARKET READ — rotation + macro (from FEED) */}
-        <Section id="market" title="Market read — rotation + macro" icon="🌐" summary={compactJoin([VM.macro&&VM.macro.line, VM.rotation&&VM.rotation[0]&&`lead: ${VM.rotation[0].s} ${VM.rotation[0].w}`]) || "No market read loaded."} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        <Section id="market" title="Market read — rotation + macro" icon="🌐" summary={compactJoin([VM.macro&&VM.macro.impl&&VM.macro.impl[0]&&clipText(VM.macro.impl[0],96), VM.rotation&&VM.rotation[0]&&`lead: ${VM.rotation[0].s} ${VM.rotation[0].w}`]) || "No market read loaded."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ ...card, marginBottom:8 }}>
             <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SLEEVE LEADERSHIP (relative strength vs market)</div>
             {VM.rotation.map((r,i)=>(
