@@ -30,6 +30,22 @@ Local preview:
 http://127.0.0.1:8765/dashboard_preview.html
 ```
 
+Canonical JSX preview for v1 validation:
+
+```powershell
+python src\cockpit_jsx_preview.py
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8765/cockpit_jsx_preview.html
+```
+
+Build workflow rule: validate operator usefulness in the canonical JSX cockpit
+first, then check that the generated HTML/GitHub Pages mirror does not hide
+required operating information.
+
 To check or start the local preview server:
 
 ```powershell

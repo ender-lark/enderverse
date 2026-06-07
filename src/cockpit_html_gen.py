@@ -1646,12 +1646,73 @@ def _book(holdings: list) -> str:
 </details>"""
 
 
+def _portfolio_book_tab(portfolio_views: dict | None) -> str:
+    views = (portfolio_views or {}).get("views") or {}
+    if not views:
+        return ""
+
+    caveat = _e((portfolio_views or {}).get("caveat") or "Direct account rows from the current account-position source.")
+    snapshot = _e((portfolio_views or {}).get("snapshot_date") or "")
+    sections = []
+    for key, label in (
+        ("combined", "Combined account portfolio"),
+        ("skb", "SKB account portfolio"),
+        ("parents", "Parents account portfolio"),
+    ):
+        view = views.get(key) or {}
+        rows = view.get("rows") or []
+        if not rows:
+            continue
+        body = ""
+        for row in rows:
+            ticker = _e(row.get("ticker") or "")
+            desc = _e(row.get("description") or "")
+            account = _e(row.get("account") or "")
+            owner = _e(row.get("owner") or "")
+            category = _e(row.get("category") or row.get("sleeve") or "")
+            try:
+                shares = f"{float(row.get('shares')):,.2f}".rstrip("0").rstrip(".")
+            except (TypeError, ValueError):
+                shares = ""
+            body += f"""<tr>
+  <td><strong>{ticker}</strong>{f'<div style="color:#484f58;font-size:10.5px">{desc}</div>' if desc else ""}</td>
+  <td>{account}{f'<div style="color:#484f58;font-size:10.5px">{owner}</div>' if owner and owner != "Multiple" else ""}</td>
+  <td>{category}</td>
+  <td style="font-family:monospace">{_e(shares)}</td>
+  <td style="font-family:monospace">{_usd(row.get("market_value"))}</td>
+  <td style="font-family:monospace">{_pct(row.get("pct"))}</td>
+</tr>"""
+        total = view.get("total_value")
+        total_text = f" | total {_usd(total)}" if total is not None else ""
+        sections.append(f"""
+<div class="card" style="margin-bottom:10px">
+  <div class="card-title">
+    <span class="icon">#</span> {_e(label)}
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{len(rows)} direct row{'s' if len(rows) != 1 else ''}{total_text}</span>
+  </div>
+  <div class="book-wrap">
+    <table class="book">
+      <tr><th>Name</th><th>Account</th><th>Sleeve</th><th>Shares</th><th>Value</th><th>Weight</th></tr>
+      {body}
+    </table>
+  </div>
+</div>""")
+    if not sections:
+        return ""
+    return f"""
+<div class="card" style="margin-bottom:10px;border-color:#1f6feb55;background:#1f6feb08">
+  <div class="card-title"><span class="icon">#</span> Account portfolio source</div>
+  <div style="font-size:11.5px;color:#8b949e">{caveat}{f' Snapshot {snapshot}.' if snapshot else ''}</div>
+</div>
+{''.join(sections)}"""
 
 
-def _book_tab(holdings: list, book_asof: str = "") -> str:
+def _book_tab(holdings: list, portfolio_views: dict | None = None, book_asof: str = "") -> str:
     """Full book as a flat table for the Book tab — no collapsible wrapper."""
+    portfolio_html = _portfolio_book_tab(portfolio_views)
     if not holdings:
-        return '<div style="padding:20px;text-align:center;color:#484f58;font-size:12px">No holdings data in this feed build.</div>'
+        holdings_html = '<div style="padding:20px;text-align:center;color:#484f58;font-size:12px">No conviction-book data in this feed build.</div>'
+        return portfolio_html + holdings_html if portfolio_html else holdings_html
     rows = ""
     total_pct = 0.0
     for cat_block in holdings:
@@ -1679,10 +1740,10 @@ def _book_tab(holdings: list, book_asof: str = "") -> str:
   <td style="color:#484f58;font-size:11px">{nr[:72]}{"..." if len(nr)>72 else ""}</td>
 </tr>'''
     asof_str = f'as-of {_e(book_asof)}' if book_asof else ""
-    return f'''
+    holdings_html = f'''
 <div class="card" style="margin-bottom:10px">
   <div class="card-title">
-    <span class="icon">📚</span> Full book
+    <span class="icon">📚</span> Full conviction book
     {f'<span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{asof_str}</span>' if asof_str else ""}
   </div>
   <div class="book-wrap">
@@ -1697,45 +1758,44 @@ def _book_tab(holdings: list, book_asof: str = "") -> str:
     </table>
   </div>
 </div>'''
+    return portfolio_html + holdings_html
 
 
 _COMMANDS = [
-    ("dash / dashboard",   "Live conviction cockpit — gist-first, instant render"),
-    ("pulse",              "What changed since last build — FS Inbox, Signal Log, catalysts, synthesis delta"),
-    ("top 5",              "Today's ranked action list with gate badges"),
-    ("deepdive [ticker]",  "Full due-diligence on a stock — or just start talking about it"),
-    ("reallocate",         "Full-book reallocation candidates (trim ETF wrappers → single names)"),
-    ("fs digest",          "Process a Fundstrat note — act / watch / no-action verdict"),
-    ("queue",              "Research Queue Working items, ranked by priority + age"),
-    ("theses",             "Live Theses ACTIVE/MONITOR breakdown, flags no-stop names"),
-    ("nav",                "Tappable Notion links — all key pages, instant, no fetch"),
-    ("reconcile [Nd]",     "Triage open chat threads — DONE / OPEN-MATERIAL / OPEN-MINOR / DEAD"),
-    ("morning scan",       "Manual full world sweep — weekends / ad-hoc re-sweep"),
-    ("menu",               "This command list (auto-shows on short opening messages)"),
-    ("fresh run",          "Full cockpit rebuild from live sources (manual fallback only)"),
+    ("open canonical cockpit", "Use the JSX preview first for v1 validation and deepest drilldowns."),
+    ("open live dashboard", "Use GitHub Pages as the published HTML mirror/shareable surface."),
+    ("refresh dashboard", "Run the full local refresh package, then validate JSX first and HTML parity second."),
+    ("review market-open packet", "Start with Key Now, Re-check Before Acting, blockers, and assumption-refresh notes."),
+    ("review full book", "Use Book for full SnapTrade account rows, then the conviction book below it."),
+    ("review reallocation brief", "Candidate-only add/trim plan; run same-session gates before any capital action."),
+    ("run UW check set", "Use the UW action runbook for same-session price, flow, tape, and event-risk confirmation."),
+    ("inspect source proof", "Check source audits, dark lanes, routine receipts, and connector evidence before trusting outputs."),
+    ("resolve action memory", "Only close ANET/GOOGL/etc. after act, invalidate, defer, ignore, or miss is explicit."),
 ]
 
 _SYSTEM_CHECKS = [
-    ("build audit", "python src/completion_audit.py --format text", "Current build blockers vs source/cloud/review waits"),
-    ("go-live check", "python src/go_live_checklist.py --format text", "Checklist for dashboard, source, event, and review readiness"),
-    ("live status", "python src/live_status.py --format text", "Fast current dashboard/source status"),
+    ("canonical JSX preview", "python src/cockpit_jsx_preview.py", "Builds tmp/cockpit_jsx_preview.html for full cockpit validation."),
+    ("preview server", "python src/dashboard_preview_server.py --check", "Confirms local preview server and HTML artifact availability."),
+    ("full refresh", "python src/live_dashboard_refresh.py", "Rebuilds feed, rendered JSX, local HTML, and GitHub Pages HTML."),
+    ("live status", "python src/live_status.py --format text", "Fast readiness, dark-lane, source-call, and preview status."),
+    ("go-live checklist", "python src/go_live_checklist.py --format text", "Operating checklist for source, dashboard, event, and review gates."),
+    ("action memory", "python src/action_memory_resolve.py --review-report", "Lists open reviews and stale/due cleanup candidates."),
+    ("UW runbook", "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text", "Same-session check sets; instructions only until endpoint proof is captured."),
+    ("SnapTrade staged pull", "python src/snaptrade_positions_import.py --pull --profiles src/snaptrade_profiles.local.json --raw-out tmp/snaptrade_raw.json --combined-out tmp/snaptrade_combined.json", "Preferred read-only position source; promote only after validation."),
+    ("SnapTrade validate", "python src/broker_pdf_extractor.py --validate tmp/snaptrade_combined.json", "Strict shape check before account-position promotion."),
 ]
 
 _NAV_LINKS = [
-    ("📊 Portfolio",        "https://www.notion.so/35ac50314bb681fcb792e50bf86d63f4", ""),
-    ("📈 Live Theses",      "https://www.notion.so/1286877d625f4b3eb2bedcce9bb81266", "type: theses"),
-    ("🎯 Trade Rationales", "https://www.notion.so/c854a4187c7a438ea9e31ed9137cb448", ""),
-    ("🚨 Exit Triggers",    "https://www.notion.so/b739b1210584411fabab06ad87bf5603", ""),
-    ("📡 Signal Log",       "https://www.notion.so/4bf2f38e30dc4088bb314912167f052e", ""),
-    ("📞 Source Calls",     "https://www.notion.so/7aa11ab3219d4373996e5b3e756375dd", ""),
-    ("📧 FS Inbox",         "https://www.notion.so/354c50314bb681b5b88cf7cdb0e81731", "type: fs digest"),
-    ("📚 Research Queue",   "https://www.notion.so/16b90c918e6a44049a8ba2b658943f25", "type: queue"),
-    ("📖 Decisions Log",    "https://www.notion.so/d287d06184a74b7793ad26b42f33fd40", ""),
-    ("💹 Trade Outcomes",   "https://www.notion.so/ab0817a74c654694ba834089febe1c74", ""),
-    ("🧠 Synthesis Log",    "https://www.notion.so/c414bc41c37248d09df2591ab160fe0f", ""),
-    ("🛰️ Routines Hub",     "https://www.notion.so/36ec50314bb681eb84bee946ef956048", ""),
-    ("🛸 Pilot Status",     "https://www.notion.so/36dc50314bb681a5913bf0f70da71ae9", ""),
-    ("🏗️ Command Center",   "https://www.notion.so/36dc50314bb68163ad59dc2fbfac6cad", ""),
+    ("Portfolio", "https://www.notion.so/35ac50314bb681fcb792e50bf86d63f4", "source of portfolio records when Notion is used"),
+    ("Live Theses", "https://www.notion.so/1286877d625f4b3eb2bedcce9bb81266", "thesis context, not live tactical proof by itself"),
+    ("Research Queue", "https://www.notion.so/16b90c918e6a44049a8ba2b658943f25", "research backlog and working items"),
+    ("Signal Log", "https://www.notion.so/4bf2f38e30dc4088bb314912167f052e", "watch-only context, not direct trade promotion"),
+    ("Source Calls", "https://www.notion.so/7aa11ab3219d4373996e5b3e756375dd", "analyst/source-call tracking"),
+    ("FS Inbox", "https://www.notion.so/354c50314bb681b5b88cf7cdb0e81731", "Fundstrat intake and review queue"),
+    ("Decisions Log", "https://www.notion.so/d287d06184a74b7793ad26b42f33fd40", "explicit operator decisions"),
+    ("Routines Hub", "https://www.notion.so/36ec50314bb681eb84bee946ef956048", "cloud routine reference and secrets page neighborhood"),
+    ("Pilot Status", "https://www.notion.so/36dc50314bb681a5913bf0f70da71ae9", "pilot/calibration state"),
+    ("GitHub repo", "https://github.com/ender-lark/enderverse", "code and published artifact source"),
 ]
 
 
@@ -1756,7 +1816,7 @@ def _commands_tab() -> str:
     return f"""
 <div id="tab-commands" style="display:none">
   <div class="cmd-section">
-    <div class="cmd-section-title">Claude commands</div>
+    <div class="cmd-section-title">Current operating actions</div>
     {cmd_rows}
   </div>
   <div class="cmd-section">
@@ -1764,18 +1824,34 @@ def _commands_tab() -> str:
     {system_rows}
   </div>
   <div class="cmd-section">
-    <div class="cmd-section-title">Notion quick links</div>
+    <div class="cmd-section-title">Useful links</div>
     {nav_rows}
   </div>
   <div class="cmd-section">
-    <div class="cmd-section-title">GitHub Pages dashboard</div>
+    <div class="cmd-section-title">Dashboard surfaces</div>
+    <div class="nav-row">
+      <span class="nav-label">
+        <a href="http://127.0.0.1:8765/cockpit_jsx_preview.html" style="color:#c9d1d9">
+          Canonical JSX cockpit
+        </a>
+      </span>
+      <span class="nav-hint">primary v1 validation surface</span>
+    </div>
+    <div class="nav-row">
+      <span class="nav-label">
+        <a href="http://127.0.0.1:8765/dashboard_preview.html" style="color:#c9d1d9">
+          Local HTML mirror
+        </a>
+      </span>
+      <span class="nav-hint">parity check before publishing</span>
+    </div>
     <div class="nav-row">
       <span class="nav-label">
         <a href="https://ender-lark.github.io/enderverse/" style="color:#c9d1d9">
-          ⚡ Live dashboard
+          GitHub Pages dashboard
         </a>
       </span>
-      <span class="nav-hint">auto-refreshes hourly</span>
+      <span class="nav-hint">published static mirror</span>
     </div>
   </div>
 </div>"""
@@ -1827,7 +1903,7 @@ def generate_html(feed: dict) -> str:
     res_html    = _research(feed.get("research") or {})
     lean_html   = _lean_in(feed.get("lean_in") or [])
     book_html     = _book(feed.get("holdings") or [])
-    book_tab_html = _book_tab(feed.get("holdings") or [], book_asof)
+    book_tab_html = _book_tab(feed.get("holdings") or [], feed.get("portfolio_views") or {}, book_asof)
 
     cmds_html = _commands_tab()
 

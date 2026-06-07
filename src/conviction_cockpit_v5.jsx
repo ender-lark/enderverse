@@ -1764,7 +1764,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 <div style={{ fontFamily:mono, fontSize:16, fontWeight:700, color:C.text }}>{money(portfolioView.total_value)}</div>
               </div>
               <div style={{ marginTop:10, display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(150px, 1fr))", gap:8 }}>
-                {(portfolioView.categories||[]).slice(0,6).map((c,i)=>(
+                {(portfolioView.categories||[]).map((c,i)=>(
                   <div key={i} style={{ border:`1px solid ${C.line}`, borderRadius:8, padding:"7px 8px", background:C.panel }}>
                     <div style={{ display:"flex", justifyContent:"space-between", gap:8 }}>
                       <span style={{ fontSize:11.5, color:C.text, fontWeight:600 }}>{c.category}</span>
@@ -1782,7 +1782,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   <div style={{ ...muted, fontSize:11, marginBottom:8 }}>{effectiveExposure.caveat||"Estimated ETF overlap; not additive to book weight."}</div>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(170px, 1fr))", gap:8 }}>
-                    {(effectiveExposure.sleeves||[]).filter(s=>s.lookthrough_market_value>0).slice(0,4).map((s,i)=>(
+                    {(effectiveExposure.sleeves||[]).filter(s=>s.lookthrough_market_value>0).map((s,i)=>(
                       <div key={`${s.category}${i}`} style={{ border:`1px solid ${C.line}`, borderRadius:8, padding:"7px 8px", background:C.panel2 }}>
                         <div style={{ display:"flex", justifyContent:"space-between", gap:8 }}>
                           <span style={{ fontSize:11.5, color:C.text, fontWeight:600 }}>{s.category}</span>
@@ -1794,7 +1794,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   {(effectiveExposure.overlap_rows||[]).length>0 && (
                     <div style={{ marginTop:8 }}>
-                      {(effectiveExposure.overlap_rows||[]).slice(0,5).map((r,i)=>(
+                      {(effectiveExposure.overlap_rows||[]).map((r,i)=>(
                         <div key={`${r.ticker}${i}`} style={{ display:"grid", gridTemplateColumns:"72px 1fr auto", gap:8, alignItems:"center", padding:"4px 0", borderTop:i?`1px solid ${C.line}`:"none" }}>
                           <span style={{ fontFamily:mono, fontSize:12, fontWeight:700, color:C.text }}>{r.ticker}</span>
                           <span style={{ fontSize:11.5, color:C.dim, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{(r.sources||[]).map(s=>s.etf).join(", ")} overlap</span>
@@ -1806,7 +1806,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 </div>
               )}
               <div style={{ marginTop:10, borderTop:`1px solid ${C.line}`, paddingTop:8 }}>
-                {(portfolioView.rows||[]).slice(0,8).map((r,i)=>(
+                <div style={{ fontFamily:mono, fontSize:10.5, color:C.faint, marginBottom:6 }}>{(portfolioView.rows||[]).length} direct account row{(portfolioView.rows||[]).length===1?"":"s"}</div>
+                {(portfolioView.rows||[]).map((r,i)=>(
                   <div key={`${r.ticker}${r.account}${i}`} style={{ display:"grid", gridTemplateColumns:"72px 1fr auto", gap:8, alignItems:"center", padding:"4px 0", borderTop:i?`1px solid ${C.line}`:"none" }}>
                     <span style={{ fontFamily:mono, fontSize:12, fontWeight:700, color:C.text }}>{r.ticker}</span>
                     <span style={{ fontSize:11.5, color:C.dim, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{r.account}{r.owner&&r.owner!=="Multiple"?` · ${r.owner}`:""}{r.category?` · ${r.category}`:""}</span>

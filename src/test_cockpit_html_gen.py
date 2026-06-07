@@ -352,14 +352,23 @@ def _feed():
             ]
         },
         "portfolio_views": {
+            "caveat": "SnapTrade direct rows; ETF look-through is separate.",
+            "snapshot_date": "2026-06-07",
             "views": {
                 "combined": {
                     "total_value": 120000,
-                    "rows": [{"ticker": "NVDA"}, {"ticker": "SMH"}],
+                    "rows": [
+                        {"ticker": "NVDA", "description": "NVIDIA", "account": "Fidelity Individual", "owner": "SKB", "category": "AI / Semiconductors", "shares": 10, "market_value": 100000, "pct": 83.3},
+                        {"ticker": "SMH", "description": "VanEck Semiconductor ETF", "account": "Schwab Trust", "owner": "Parents", "category": "AI / Semiconductors", "shares": 20, "market_value": 20000, "pct": 16.7},
+                    ],
                 },
                 "skb": {
                     "total_value": 80000,
-                    "rows": [{"ticker": "NVDA"}],
+                    "rows": [{"ticker": "NVDA", "account": "Fidelity Individual", "owner": "SKB", "market_value": 80000, "pct": 100}],
+                },
+                "parents": {
+                    "total_value": 20000,
+                    "rows": [{"ticker": "SMH", "account": "Schwab Trust", "owner": "Parents", "market_value": 20000, "pct": 100}],
                 },
             }
         },
@@ -677,17 +686,50 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert "total $120,000" in html
 
 
+def test_book_tab_renders_full_account_portfolio_rows():
+    feed = _feed()
+    feed["portfolio_views"]["views"]["combined"]["rows"] = [
+        {
+            "ticker": f"TICK{i:02d}",
+            "description": f"Position {i}",
+            "account": "SnapTrade Account",
+            "owner": "SKB",
+            "category": "Test Sleeve",
+            "shares": i + 1,
+            "market_value": 1000 + i,
+            "pct": i,
+        }
+        for i in range(10)
+    ]
+
+    html = generate_html(feed)
+
+    assert 'id="tab-book"' in html
+    assert "Account portfolio source" in html
+    assert "Combined account portfolio" in html
+    assert "10 direct rows" in html
+    assert "TICK09" in html
+    assert "SKB account portfolio" in html
+    assert "Parents account portfolio" in html
+    assert "No conviction-book data" in html
+
+
 def test_generated_html_commands_tab_surfaces_system_checks():
     html = generate_html(_feed())
 
     assert "System checks" in html
-    assert "build audit" in html
-    assert "python src/completion_audit.py --format text" in html
-    assert "Current build blockers vs source/cloud/review waits" in html
-    assert "go-live check" in html
+    assert "Current operating actions" in html
+    assert "open canonical cockpit" in html
+    assert "review full book" in html
+    assert "python src/cockpit_jsx_preview.py" in html
+    assert "primary v1 validation surface" in html
+    assert "SnapTrade staged pull" in html
+    assert "python src/live_dashboard_refresh.py" in html
+    assert "go-live checklist" in html
     assert "python src/go_live_checklist.py --format text" in html
     assert "live status" in html
     assert "python src/live_status.py --format text" in html
+    assert "Claude commands" not in html
 
 
 def test_generated_html_is_ascii_display_safe():
