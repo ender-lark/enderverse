@@ -38,6 +38,17 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- SnapTrade read-only broker-position importer.
+  - Added `snaptrade_positions_import.py` to support SnapTrade credential
+    checks, user registration, read-only connection portal links, profile pulls,
+    and staged combined broker-position JSON output.
+  - Confirmed personal SnapTrade keys can only register one SnapTrade user, so
+    this lane supports one personal user with multiple brokerage-login
+    connections and account-level owner override rules.
+  - Added `snaptrade_profiles.example.json` while keeping
+    `snaptrade_profiles.local.json` and all user secrets out of git.
+  - The importer does not mutate live `positions.json`; promotion still runs
+    through the existing broker-position validation/cache path.
 - Pre-market crash-triage UW routing.
   - `uw_routing_recommendations.py` now activates the `pre_market_crash_triage`
     profile when the feed is in a high-volatility or re-check posture.

@@ -1,0 +1,20 @@
+{
+  "profiles": [
+    {
+      "profile": "household",
+      "owner": "Unassigned",
+      "user_id": "investing-os-suraj",
+      "user_secret_env": "SNAPTRADE_INVESTING_OS_SURAJ_USER_SECRET",
+      "account_owner_overrides": [
+        {
+          "account_id": "fill-after-first-pull",
+          "owner": "SKB"
+        },
+        {
+          "account_name_contains": "parents",
+          "owner": "Parents"
+        }
+      ]
+    }
+  ]
+}

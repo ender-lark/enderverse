@@ -5,6 +5,7 @@ config_local.py
 .env
 *.key
 *.pem
+src/snaptrade_profiles.local.json
 
 # Python
 __pycache__/
