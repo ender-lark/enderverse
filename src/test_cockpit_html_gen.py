@@ -373,6 +373,25 @@ def test_generated_html_surfaces_opportunity_context():
     assert "BMNR" in html
 
 
+def test_opportunity_context_radar_prefers_latest_rows():
+    feed = _feed()
+    feed["radar"] = [
+        {"ticker": "XOP", "direction": "avoid", "author": "Newton", "date": "2026-06-03"},
+        {"ticker": "RYF", "direction": "avoid", "author": "Newton", "date": "2026-06-03"},
+        {"ticker": "QQQ", "direction": "watch", "author": "Newton", "date": "2026-06-05"},
+        {"ticker": "SOX", "direction": "watch", "author": "Newton", "date": "2026-06-05"},
+        {"ticker": "RSP", "direction": "watch", "author": "Newton", "date": "2026-06-05"},
+    ]
+
+    html = generate_html(feed)
+    radar_section = html[html.index("Radar"):html.index("Bullish flow")]
+
+    assert "QQQ" in radar_section
+    assert "SOX" in radar_section
+    assert "RSP" in radar_section
+    assert "XOP" not in radar_section
+
+
 def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     html = generate_html(_feed())
 

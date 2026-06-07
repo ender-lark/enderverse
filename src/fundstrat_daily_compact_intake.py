@@ -220,10 +220,11 @@ def write_compact_outputs(
     ]
     prior_entries = _read_json(out / "fundstrat_inbox_entries.json", default=[]) if merge_existing else []
     audit_entries = _merge_audit_entries(prior_entries, new_audit_entries) if merge_existing else new_audit_entries
+    source_call_candidates = _read_json(out / "source_call_candidates.json", default=[]) if merge_existing else []
     written = {
         "fundstrat_daily_calls": _atomic_write_json(out / "fundstrat_daily_calls.json", stored_calls),
         "inbox_call_dates": _atomic_write_json(out / "inbox_call_dates.json", dates),
-        "source_call_candidates": _atomic_write_json(out / "source_call_candidates.json", []),
+        "source_call_candidates": _atomic_write_json(out / "source_call_candidates.json", source_call_candidates),
         "fundstrat_inbox_entries": _atomic_write_json(out / "fundstrat_inbox_entries.json", audit_entries),
         "fundstrat_intake_summary": _atomic_write_json(out / "fundstrat_intake_summary.json", summary),
         "fundstrat_intake_state": _atomic_write_json(out / "fundstrat_intake_state.json", state),

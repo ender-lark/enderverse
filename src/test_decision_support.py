@@ -71,6 +71,8 @@ def test_fast_moving_old_evidence_requires_recheck_before_acting():
 
     assert enriched[0]["freshness_judgment"]["label"] == "fast-moving"
     assert "re-check" in enriched[0]["freshness_judgment"]["judgment"].lower()
+    assert enriched[0]["action_state"] == "WATCH"
+    assert enriched[0]["action_label"] == "RE-CHECK"
     assert enriched[0]["decision_group"] == "recheck_before_acting"
     assert groups["sections"][1]["key"] == "recheck_before_acting"
     assert groups["counts"]["recheck_before_acting"] == 1

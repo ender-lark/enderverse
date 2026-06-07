@@ -100,6 +100,31 @@ def test_write_compact_outputs_merge_preserves_existing_audit_entries(tmp_path):
     assert dates == ["2026-06-02", "2026-06-03"]
 
 
+def test_write_compact_outputs_merge_preserves_source_call_candidates(tmp_path):
+    existing_candidates = [{
+        "source": "newton",
+        "ticker": "TNX",
+        "tier": "B",
+        "date": "2026-06-03",
+        "outcome": "Pending",
+    }]
+    (tmp_path / "source_call_candidates.json").write_text(json.dumps(existing_candidates), encoding="utf-8")
+    calls = normalize_compact_calls([{
+        "author": "Newton",
+        "ticker": "QQQ",
+        "direction": "watch",
+        "quote": "Support-zone check from a compact full-body-derived daily note.",
+        "date": "2026-06-05",
+        "source_message_id": "read-2",
+        "source": "Fundstrat full-body read",
+    }])
+
+    write_compact_outputs(calls, tmp_path, merge_existing=True, generated_at="2026-06-07T16:00:00+00:00")
+
+    candidates = json.loads((tmp_path / "source_call_candidates.json").read_text(encoding="utf-8"))
+    assert candidates == existing_candidates
+
+
 def test_compact_outputs_make_full_build_fundstrat_daily_has_data(tmp_path):
     src = tmp_path / "src"
     src.mkdir()

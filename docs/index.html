@@ -246,11 +246,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 11:31 ET
+        built 2026-06-07 11:44 ET
 
       </div>
-      <div class="stamp">sourced: portfolio 05-31  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-03 </div>
-      <div class="stale-warn"> Stale sources: fundstrat_daily</div>
+      <div class="stamp">sourced: portfolio 05-31  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
+
     </div>
     <div style="text-align:right">
 
@@ -270,7 +270,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card summary-caveat">
   <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
-  <div class="summary-line">Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">1 stale lane means this is not an all-clear read.</div>
+  <div class="summary-line">Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">No dark, stale, or failed lanes reported in the feed lane-status block.</div>
 </div>
 
 <div class="quick-nav">
@@ -278,7 +278,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>8</strong> asymmetry</a>
   <a class="quick-link" href="#feedback-loops"><strong>2</strong> open reviews</a>
-  <a class="quick-link" href="#lane-status"><strong>1</strong> source gaps</a>
+  <a class="quick-link" href="#lane-status"><strong>0</strong> source gaps</a>
   <a class="quick-link" href="#feedback-loops"><strong>3 scoring</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
 </div>
@@ -319,7 +319,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span>Items where a missing source, stale source, or gate must be checked first.</span>
   </div>
 
-<div class="action action-act" id="action-1">
+<div class="action action-watch" id="action-1">
   <div class="action-header">
     <span class="rank-badge">#1</span>
     <span class="ticker-tag">EVENT</span>
@@ -329,7 +329,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span class="tag t-cat">Event Risk</span>
     <span class="tag t-conf">conf: Moderate</span>
 
-    <span class="tag t-cat">ACT_NOW</span><span class="tag t-cat">EVENT RISK</span><span class="tag t-gate-a">review</span><span class="tag t-conf">goal: Medium</span><span class="tag t-cat">Re-check Before Acting</span>
+    <span class="tag t-cat">WATCH</span><span class="tag t-cat">RE-CHECK</span><span class="tag t-gate-a">review</span><span class="tag t-conf">goal: Medium</span><span class="tag t-cat">Re-check Before Acting</span>
   </div>
   <div class="action-move">Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.</div>
 
@@ -390,17 +390,17 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="operator-status">
   <div class="card-title"><span class="icon">!</span> Operator status
-    <span class="operator-warn" style="font-size:11px;margin-left:auto">WARN</span>
+    <span class="operator-pass" style="font-size:11px;margin-left:auto">PASS</span>
   </div>
   <div class="operator-grid">
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">4</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">2 new</div></a>
-    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 stale</div></a>
+    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">clear</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">3 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 7/10; 1 re-check</div>
+  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 7/10</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -501,7 +501,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 <div class="context-col">
   <div class="context-label">Radar</div>
-  <div class="context-row"><span class="context-ticker">RYF</span>avoid<span class="context-sub">Newton | 2026-06-03</span></div><div class="context-row"><span class="context-ticker">TNX</span>watch<span class="context-sub">Newton | 2026-06-03</span></div><div class="context-row"><span class="context-ticker">XOP</span>avoid<span class="context-sub">Newton | 2026-06-03</span></div>
+  <div class="context-row"><span class="context-ticker">QQQ</span>watch<span class="context-sub">Newton | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">RSP</span>watch<span class="context-sub">Newton | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">SOX</span>watch<span class="context-sub">Newton | 2026-06-05</span></div>
 </div>
 <div class="context-col">
   <div class="context-label">Bullish flow</div>
@@ -511,14 +511,8 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="lane-status">
   <div class="card-title"><span class="icon"></span> Lane status</div>
-  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 12</span><span class="lane-status ls-checked_clear">checked clear: 0</span><span class="lane-status ls-not_checked">not checked: 0</span><span class="lane-status ls-stale">stale: 1</span><span class="lane-status ls-failed">failed: 0</span></div>
+  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 13</span><span class="lane-status ls-checked_clear">checked clear: 0</span><span class="lane-status ls-not_checked">not checked: 0</span><span class="lane-status ls-stale">stale: 0</span><span class="lane-status ls-failed">failed: 0</span></div>
 
-<div class="lane-row">
-  <span class="lane-key">FS Daily</span>
-  <span class="lane-status ls-stale">stale</span>
-  <span class="summary-muted">past freshness window</span>
-  <div class="lane-command-list"><div class="operator-command">FS Daily validate: python src/manual_source_drop.py &lt;manual-drop.json&gt; --src-dir src --validate-only</div><div class="operator-command">FS Daily apply: python src/manual_source_drop.py &lt;manual-drop.json&gt; --src-dir src</div></div>
-</div>
 <div class="lane-row">
   <span class="lane-key">Catalysts</span>
   <span class="lane-status ls-has_data">has data</span>
@@ -539,6 +533,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 <div class="lane-row">
   <span class="lane-key">FS Bible</span>
+  <span class="lane-status ls-has_data">has data</span>
+  <span class="summary-muted">checked</span>
+
+</div>
+<div class="lane-row">
+  <span class="lane-key">FS Daily</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked</span>
 
@@ -586,7 +586,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/21; missing live-capable=0.
 </div>
 <div class="audit-row">
-  <span class="audit-k">Fundstrat intake</span>Fundstrat intake: 4 full-body, 1 snippet-only, 0 daily calls, 3 stored source-call candidates.
+  <span class="audit-k">Fundstrat intake</span>Fundstrat intake: 1 full-body, 0 snippet-only, 3 daily calls, 0 stored source-call candidates.
 </div>
 <div class="audit-row">
   <span class="audit-k">Notion/writeback</span>Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.
@@ -598,12 +598,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon"></span> Feedback loops
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2 open signal(s)</span>
   </div>
-  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">Source persistence checked: no repeated-call clusters.</div><div class="feedback-line">Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).</div><div class="feedback-rec">Keep new open actions visible until their review window.</div><div class="feedback-item"><span class="context-ticker">ANET</span>0d open | new | lean_in<span class="context-sub">Keep visible; no cleanup pressure yet.</span><span class="context-sub">python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;</span></div><div class="feedback-item"><span class="context-ticker">GOOGL</span>0d open | new | lean_in<span class="context-sub">Keep visible; no cleanup pressure yet.</span><span class="context-sub">python src/action_memory_resolve.py --ticker GOOGL --status deferred --reason &quot;keep watching&quot;</span></div>
+  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain stale: 2d behind.</div><div class="feedback-line">Source persistence checked: no repeated-call clusters.</div><div class="feedback-line">Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).</div><div class="feedback-rec">Keep new open actions visible until their review window.</div><div class="feedback-item"><span class="context-ticker">ANET</span>0d open | new | lean_in<span class="context-sub">Keep visible; no cleanup pressure yet.</span><span class="context-sub">python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;</span></div><div class="feedback-item"><span class="context-ticker">GOOGL</span>0d open | new | lean_in<span class="context-sub">Keep visible; no cleanup pressure yet.</span><span class="context-sub">python src/action_memory_resolve.py --ticker GOOGL --status deferred --reason &quot;keep watching&quot;</span></div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T15:31:37.913436+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T15:31:37.913436+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T15:31:37.913436+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-07T15:31:37.913436+00:00 | no dark lanes reported in lane-status block">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T15:31:37.913436+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T15:44:48.589977+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T15:44:48.589977+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T15:44:48.589977+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-07T15:44:48.589977+00:00 | no dark lanes reported in lane-status block">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T15:44:48.589977+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -623,8 +623,8 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon"></span> Today&#39;s read
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2026-06-07</span>
   </div>
-  <div class="s-label">State of play</div><div class="s-body">Repo evidence read: 12 lane(s) have data and 0 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (act_now, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
-  <div class="s-label">24-48h delta</div><div class="s-body">Fundstrat Daily compact calls in radar: RYF avoid, TNX watch, XOP avoid. Target drift: 13 sizing gap(s) vs AI working model (1 under, 3 over, 9 missing); GRNY oversized 8.8% vs 3.0%; SMH oversized 9.4% vs 5.0%; NVDA undersized 6.6% vs 12.0%; MU oversized 3.3% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; +7 more</div>
+  <div class="s-label">State of play</div><div class="s-body">Repo evidence read: 13 lane(s) have data and 0 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (watch, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
+  <div class="s-label">24-48h delta</div><div class="s-body">Latest Fundstrat Daily compact calls in radar: QQQ watch, RSP watch, SOX watch. Target drift: 13 sizing gap(s) vs AI working model (1 under, 3 over, 9 missing); GRNY oversized 8.8% vs 3.0%; SMH oversized 9.4% vs 5.0%; NVDA undersized 6.6% vs 12.0%; MU oversized 3.3% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; +7 more</div>
 
 <div class="s-label">Hanging / unresolved</div>
 <ul class="hang-list"><li>Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.</li></ul>

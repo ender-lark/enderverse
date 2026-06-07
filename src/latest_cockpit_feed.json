@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-07T15:31:38.036470+00:00",
+  "generated_at": "2026-06-07T15:44:48.720502+00:00",
   "staleness": {
-    "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-03 \u26a0\ufe0f",
+    "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
       {
         "source": "portfolio",
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T11:31:38.036470-04:00",
+        "date": "2026-06-07T11:44:48.720502-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T11:31:38.036470-04:00",
+        "date": "2026-06-07T11:44:48.720502-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -37,16 +37,14 @@
       },
       {
         "source": "fundstrat_daily",
-        "date": "2026-06-03",
-        "age_days": 4,
+        "date": "2026-06-05",
+        "age_days": 2,
         "cadence": "daily",
-        "stale": true,
-        "flag": "\u26a0\ufe0f"
+        "stale": false,
+        "flag": ""
       }
     ],
-    "stale": [
-      "fundstrat_daily"
-    ]
+    "stale": []
   },
   "lane_status": {
     "rows": [
@@ -85,8 +83,8 @@
       {
         "key": "fundstrat_daily",
         "label": "FS Daily",
-        "status": "stale",
-        "detail": "past freshness window",
+        "status": "has_data",
+        "detail": "checked",
         "count": 0,
         "checked_at": ""
       },
@@ -158,12 +156,12 @@
     "counts": {
       "failed": 0,
       "not_checked": 0,
-      "has_data": 12,
-      "stale": 1,
+      "has_data": 13,
+      "stale": 0,
       "checked_clear": 0
     },
     "has_dark_lanes": false,
-    "has_stale_or_failed": true
+    "has_stale_or_failed": false
   },
   "hero": {
     "hero": {
@@ -198,7 +196,7 @@
       "rank": 1,
       "kind": "event_risk",
       "ticker": null,
-      "action_state": "ACT_NOW",
+      "action_state": "WATCH",
       "what": "Event risk: Middle East oil/rates shock can affect new-buy timing",
       "confidence": "Moderate",
       "your_move": "Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.",
@@ -214,7 +212,7 @@
       ],
       "goal_impact": "Medium",
       "goal_score": 75,
-      "action_label": "EVENT RISK",
+      "action_label": "RE-CHECK",
       "why_it_moves_goal": "Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.",
       "missing_evidence": [
         "WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly."
@@ -1058,39 +1056,39 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T15:31:37.913436+00:00",
+      "last_run": "2026-06-07T15:44:48.589977+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T15:31:37.913436+00:00",
+      "last_run": "2026-06-07T15:44:48.589977+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T15:31:37.913436+00:00",
+      "last_run": "2026-06-07T15:44:48.589977+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-07T15:31:37.913436+00:00",
+      "last_run": "2026-06-07T15:44:48.589977+00:00",
       "note": "no dark lanes reported in lane-status block"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T15:31:37.913436+00:00",
+      "last_run": "2026-06-07T15:44:48.589977+00:00",
       "note": "rehearsal build can run"
     }
   ],
   "synthesis": {
     "source": "Repo Evidence Synthesis",
     "date": "2026-06-07",
-    "state_of_play": "Repo evidence read: 12 lane(s) have data and 0 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (act_now, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
-    "delta": "Fundstrat Daily compact calls in radar: RYF avoid, TNX watch, XOP avoid. Target drift: 13 sizing gap(s) vs AI working model (1 under, 3 over, 9 missing); GRNY oversized 8.8% vs 3.0%; SMH oversized 9.4% vs 5.0%; NVDA undersized 6.6% vs 12.0%; MU oversized 3.3% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; +7 more",
+    "state_of_play": "Repo evidence read: 13 lane(s) have data and 0 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (watch, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+    "delta": "Latest Fundstrat Daily compact calls in radar: QQQ watch, RSP watch, SOX watch. Target drift: 13 sizing gap(s) vs AI working model (1 under, 3 over, 9 missing); GRNY oversized 8.8% vs 3.0%; SMH oversized 9.4% vs 5.0%; NVDA undersized 6.6% vs 12.0%; MU oversized 3.3% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; +7 more",
     "hanging": [
       "Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait."
     ],
@@ -1132,6 +1130,39 @@
       "window": null,
       "date": "2026-06-03",
       "quote": "Bounce only; resistance near 175.72 should repel price toward 162."
+    },
+    {
+      "ticker": "QQQ",
+      "author": "Newton",
+      "direction": "watch",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-05",
+      "quote": "June 5 technical note makes 695-705 the first support check; failure shifts risk toward a 675 second-leg target. Re-check Monday pre-market before adding AI beta."
+    },
+    {
+      "ticker": "RSP",
+      "author": "Newton",
+      "direction": "watch",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-05",
+      "quote": "June 5 read favors equal-weighted/value/cyclical participation over tech-heavy cap-weighted exposure while growth consolidates. Use as rotation context, not an auto-trade."
+    },
+    {
+      "ticker": "SOX",
+      "author": "Newton",
+      "direction": "watch",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-05",
+      "quote": "SOX held near 12,114 base-line support after the June 5 break; a daily close below it would raise tech-underperformance risk. Re-check before semi adds."
     }
   ],
   "lean_in": [
@@ -1821,9 +1852,9 @@
       ],
       "due": [],
       "calibration": {
-        "status": "checked_fresh",
-        "line": "Calibration chain checked fresh.",
-        "worst_days_behind": 0,
+        "status": "stale",
+        "line": "Calibration chain stale: 2d behind.",
+        "worst_days_behind": 2,
         "cache_as_of": "2026-06-03"
       },
       "persistence": {
@@ -8742,7 +8773,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 0.13
+        "connector_proof_age_hours": 0.35
       }
     ],
     "missing": [],
@@ -8752,15 +8783,15 @@
   "source_audits": {
     "fundstrat": {
       "status": "has_data",
-      "line": "Fundstrat intake: 4 full-body, 1 snippet-only, 0 daily calls, 3 stored source-call candidates.",
-      "entries": 5,
-      "full_body_entries": 4,
-      "snippet_only_entries": 1,
-      "daily_calls": 0,
+      "line": "Fundstrat intake: 1 full-body, 0 snippet-only, 3 daily calls, 0 stored source-call candidates.",
+      "entries": 3,
+      "full_body_entries": 1,
+      "snippet_only_entries": 0,
+      "daily_calls": 3,
       "source_call_candidates": 0,
-      "stored_entries": 15,
-      "stored_daily_calls": 3,
-      "stored_source_call_candidates": 3,
+      "stored_entries": 3,
+      "stored_daily_calls": 6,
+      "stored_source_call_candidates": 0,
       "bodies_redacted": true,
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },

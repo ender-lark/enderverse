@@ -143,13 +143,16 @@ def _fs_daily_line(feed: dict[str, Any]) -> str:
                 items.extend(row for row in value if isinstance(row, dict))
     else:
         return ""
+    fundstrat_authors = {"FUNDSTRAT", "NEWTON", "LEE", "FARRELL", "BLOCK"}
     fs_items = [
         row for row in items
         if "fundstrat" in str(row.get("source") or row.get("provenance") or "").lower()
+        or str(row.get("author") or "").upper() in fundstrat_authors
         or str(row.get("ticker") or "").upper() in {"RYF", "TNX", "XOP"}
     ]
     if not fs_items:
         return ""
+    fs_items.sort(key=lambda row: _text(row.get("date")), reverse=True)
     labels = []
     for row in fs_items[:3]:
         ticker = _text(row.get("ticker")).upper()
@@ -160,7 +163,7 @@ def _fs_daily_line(feed: dict[str, Any]) -> str:
             labels.append(ticker)
     if not labels:
         return ""
-    return "Fundstrat Daily compact calls in radar: " + ", ".join(labels) + "."
+    return "Latest Fundstrat Daily compact calls in radar: " + ", ".join(labels) + "."
 
 
 def _dark_lane_hanging(feed: dict[str, Any]) -> list[str]:

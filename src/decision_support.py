@@ -202,6 +202,16 @@ def _group_for(action: dict[str, Any]) -> str:
     return "quiet_watch"
 
 
+def _requires_recheck_before_capital(freshness: dict[str, Any]) -> bool:
+    label = str(freshness.get("label") or "")
+    return (
+        label == "fast-moving"
+        and bool(freshness.get("evidence_date"))
+        and bool(freshness.get("last_checked"))
+        and freshness.get("evidence_date") != freshness.get("last_checked")
+    )
+
+
 def enrich_actions(
     actions: list[dict[str, Any]] | None,
     *,
@@ -223,6 +233,9 @@ def enrich_actions(
             generated_at=generated_at,
         )
         row["freshness_judgment"] = freshness
+        if row.get("action_state") == "ACT_NOW" and _requires_recheck_before_capital(freshness):
+            row["action_state"] = "WATCH"
+            row["action_label"] = "RE-CHECK"
         row["freshness"] = (
             f"{freshness['label']}: evidence {freshness.get('evidence_date') or 'n/a'}; "
             f"decays {freshness['decay_window']}"

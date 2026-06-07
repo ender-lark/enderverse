@@ -82,6 +82,10 @@ def _rel(v: Any) -> str:
         return "-"
 
 
+def _newest_first(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(rows, key=lambda row: str(row.get("date") or row.get("evidence_date") or ""), reverse=True)
+
+
 # ─── CSS ─────────────────────────────────────────────────────────────────────
 
 _CSS = """
@@ -1029,7 +1033,7 @@ def _opportunity_context(feed: dict) -> str:
             )
         columns.append(("Prospects", rows))
 
-    radar_rows = (feed.get("radar") or [])[:3]
+    radar_rows = _newest_first([row for row in (feed.get("radar") or []) if isinstance(row, dict)])[:3]
     if radar_rows:
         rows = []
         for row in radar_rows:
