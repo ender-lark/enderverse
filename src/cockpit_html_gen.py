@@ -1784,8 +1784,8 @@ _COMMANDS = [
 
 _SYSTEM_CHECKS = [
     ("canonical JSX preview", "python src/cockpit_jsx_preview.py", "Builds tmp/cockpit_jsx_preview.html for full cockpit validation."),
-    ("preview server", "python src/dashboard_preview_server.py --check", "Confirms local preview server and HTML artifact availability."),
-    ("full refresh", "python src/live_dashboard_refresh.py", "Rebuilds feed, rendered JSX, local HTML, and GitHub Pages HTML."),
+    ("preview server", "python src/dashboard_preview_server.py --check", "Confirms canonical JSX preview, local server, and HTML mirror availability."),
+    ("full refresh", "python src/live_dashboard_refresh.py", "Rebuilds feed, rendered JSX, JSX preview, local HTML, and GitHub Pages HTML."),
     ("live status", "python src/live_status.py --format text", "Fast readiness, dark-lane, source-call, and preview status."),
     ("go-live checklist", "python src/go_live_checklist.py --format text", "Operating checklist for source, dashboard, event, and review gates."),
     ("action memory", "python src/action_memory_resolve.py --review-report", "Lists open reviews and stale/due cleanup candidates."),

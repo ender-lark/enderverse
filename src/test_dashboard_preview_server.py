@@ -8,13 +8,17 @@ import dashboard_preview_server as server
 
 
 def test_preview_status_reports_file_and_url(tmp_path):
+    (tmp_path / "cockpit_jsx_preview.html").write_text("<html>jsx</html>", encoding="utf-8")
     (tmp_path / "dashboard_preview.html").write_text("<html>ok</html>", encoding="utf-8")
 
     status = server.preview_status(directory=tmp_path, host="127.0.0.1", port=8765)
 
     assert status["preview_exists"] is True
-    assert status["url"] == "http://127.0.0.1:8765/dashboard_preview.html"
-    assert status["preview_file"].endswith("dashboard_preview.html")
+    assert status["url"] == "http://127.0.0.1:8765/cockpit_jsx_preview.html"
+    assert status["canonical_url"] == "http://127.0.0.1:8765/cockpit_jsx_preview.html"
+    assert status["html_url"] == "http://127.0.0.1:8765/dashboard_preview.html"
+    assert status["preview_file"].endswith("cockpit_jsx_preview.html")
+    assert status["html_preview_exists"] is True
 
 
 def test_port_is_open_detects_listener():

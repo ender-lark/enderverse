@@ -48,7 +48,9 @@ def _fake_status(open_count=0, ready=True):
         "preview": {
             "preview_exists": True,
             "server_running": True,
-            "url": "http://127.0.0.1:8765/dashboard_preview.html",
+            "url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "canonical_url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "html_url": "http://127.0.0.1:8765/dashboard_preview.html",
         },
         "system_queue": {
             "valid": True,
@@ -482,4 +484,4 @@ def test_go_live_checklist_cli_text_format_runs_against_current_repo():
         "Go-live checklist: WARN" in proc.stdout
         and "Ready: True | failures: 0" in proc.stdout
     )
-    assert "Dashboard preview" in proc.stdout
+    assert "Canonical JSX cockpit" in proc.stdout

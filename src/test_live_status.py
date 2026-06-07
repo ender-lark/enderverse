@@ -154,7 +154,9 @@ def test_format_text_is_operator_scannable():
         preview={
             "preview_exists": True,
             "server_running": True,
-            "url": "http://127.0.0.1:8765/dashboard_preview.html",
+            "url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "canonical_url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "html_url": "http://127.0.0.1:8765/dashboard_preview.html",
         },
         open_store={"opportunities": [{"ticker": "ANET", "status": "open", "first_flagged": "2026-06-05"}]},
         queue=_queue(),
@@ -195,6 +197,8 @@ def test_format_text_is_operator_scannable():
     assert "missing behavior: Account views are not checked" in text
     assert "expected path: src/account_positions.json" in text
     assert "Active event watch: high | Oil shock | channels=oil, rates | tickers=XOP, TNX | trigger=WTI spike" in text
+    assert "Canonical JSX cockpit: http://127.0.0.1:8765/cockpit_jsx_preview.html" in text
+    assert "HTML mirror: http://127.0.0.1:8765/dashboard_preview.html" in text
     assert "Sudden event command:" in text
     assert "python src/sudden_event_refresh.py --title \"<event headline>\"" in text
     assert "Open review tickers: ANET | due=0 | stale=0 | oldest=0d" in text
@@ -236,7 +240,9 @@ def test_format_text_points_live_source_dark_lanes_at_live_template():
         preview={
             "preview_exists": True,
             "server_running": True,
-            "url": "http://127.0.0.1:8765/dashboard_preview.html",
+            "url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "canonical_url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "html_url": "http://127.0.0.1:8765/dashboard_preview.html",
         },
         open_store={"opportunities": []},
         queue=_queue(),

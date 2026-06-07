@@ -89,6 +89,9 @@ def refresh_plan(
         Step("render_canonical_jsx", [
             py, "src/render_cockpit.py", _rel(feed), "--out", _rel(jsx),
         ]),
+        Step("build_canonical_jsx_preview", [
+            py, "src/cockpit_jsx_preview.py",
+        ]),
         Step("render_summary_html", [
             py, "src/cockpit_html_gen.py", _rel(feed), "--out", _rel(html),
         ]),

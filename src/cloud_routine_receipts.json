@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-07T17:10:36.318046Z",
+  "updated_at": "2026-06-07T22:09:16.173250Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -2216,6 +2216,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-07T17:10:36.318046Z",
       "summary": "30d weekly deep: semis damage-control, closure gaps outrun new signals, pilots evidenced but thin; Notion page written+verified; blocker: Notion query endpoint unavailable"
+    },
+    {
+      "routine_id": "investing-os-weekly-pilot-run",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-07T22:02:42.797093Z",
+      "summary": "weekly pilot run started"
+    },
+    {
+      "routine_id": "investing-os-weekly-pilot-run",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-07T22:09:16.173250Z",
+      "summary": "pilot dashboard updated; Sunday summary written; v0 1 row unchanged; gamma refreshed with GRNJ gap; 13F outside window and manager file missing"
     }
   ]
 }

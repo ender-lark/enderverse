@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Any
 
 from feed_assembler import NAME_SLEEVE, SLEEVE_CAT
-from reallocate_config import ETF_LOOKTHROUGH
+from reallocate_config import ETF_LOOKTHROUGH, default_working_model
 
 
 def _num(value: Any) -> float | None:
@@ -35,6 +35,69 @@ def _owner_key(owner: Any) -> str:
 def _sleeve_for(ticker: str) -> tuple[str, str]:
     sleeve = NAME_SLEEVE.get(ticker, "_other")
     return sleeve, SLEEVE_CAT.get(sleeve, "Other holdings")
+
+
+def _working_model_targets_by_category() -> dict[str, float]:
+    targets: dict[str, float] = defaultdict(float)
+    for target in default_working_model().targets:
+        _, category = _sleeve_for(target.ticker)
+        targets[category] += float(target.target_pct or 0.0)
+    return {category: round(pct, 2) for category, pct in targets.items()}
+
+
+def _fundstrat_category_cues(fundstrat_bible: dict[str, Any] | None) -> dict[str, dict[str, Any]]:
+    if not isinstance(fundstrat_bible, dict):
+        return {}
+    deck_date = str(fundstrat_bible.get("deck_date") or "").strip()
+    what_to_own = {str(v).strip().lower() for v in fundstrat_bible.get("what_to_own") or [] if v}
+    top5 = {str(v).strip().upper() for v in fundstrat_bible.get("top5") or [] if v}
+    bottom5 = {str(v).strip().upper() for v in fundstrat_bible.get("bottom5") or [] if v}
+    theme_to_categories = {
+        "mag7": ["AI / Semiconductors", "Software"],
+        "ethereum": ["Crypto"],
+        "software": ["Software"],
+        "industrials": ["Electrification"],
+        "financials": ["Financials"],
+        "small-caps": ["Quality core"],
+        "energy/basic materials": ["Nuclear", "Critical minerals"],
+    }
+    cues: dict[str, dict[str, Any]] = {}
+    for theme, categories in theme_to_categories.items():
+        if theme not in what_to_own:
+            continue
+        for category in categories:
+            cues.setdefault(category, {
+                "cue": "favored",
+                "source_date": deck_date,
+                "reason": f"Fundstrat what-to-own theme: {theme}",
+                "tickers": [],
+            })
+    for ticker in sorted(top5 | bottom5):
+        _, category = _sleeve_for(ticker)
+        top = ticker in top5
+        bottom = ticker in bottom5
+        existing = cues.get(category)
+        if top and bottom:
+            cue = "mixed"
+        elif top:
+            cue = "favored"
+        else:
+            cue = "avoid"
+        if existing:
+            if existing.get("cue") != cue and cue != "favored":
+                existing["cue"] = "mixed"
+            existing.setdefault("tickers", []).append(ticker)
+            existing["reason"] = "Fundstrat what-to-own/top-bottom cue"
+        else:
+            cues[category] = {
+                "cue": cue,
+                "source_date": deck_date,
+                "reason": "Fundstrat top/bottom cue",
+                "tickers": [ticker],
+            }
+    for row in cues.values():
+        row["tickers"] = sorted(set(row.get("tickers") or []))
+    return cues
 
 
 def _account_rows(account_cache: dict[str, Any]) -> list[dict[str, Any]]:
@@ -108,7 +171,13 @@ def _combined_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
-def _category_summary(rows: list[dict[str, Any]], total_value: float) -> list[dict[str, Any]]:
+def _category_summary(
+    rows: list[dict[str, Any]],
+    total_value: float,
+    *,
+    target_by_category: dict[str, float] | None = None,
+    fundstrat_cues: dict[str, dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     by_category: dict[str, dict[str, Any]] = {}
     tickers: dict[str, set[str]] = defaultdict(set)
     for row in rows:
@@ -125,17 +194,32 @@ def _category_summary(rows: list[dict[str, Any]], total_value: float) -> list[di
     out = []
     for category, rec in by_category.items():
         mv = round(rec["market_value"], 2)
+        pct = round((mv / total_value * 100.0), 2) if total_value else 0.0
+        target = (target_by_category or {}).get(category)
+        cue = (fundstrat_cues or {}).get(category) or {}
         out.append({
             **rec,
             "market_value": mv,
-            "pct": round((mv / total_value * 100.0), 2) if total_value else 0.0,
+            "pct": pct,
             "tickers": sorted(t for t in tickers[category] if t),
+            "working_model_target_pct": target,
+            "working_model_gap_pct": round((target or 0.0) - pct, 2) if target is not None else None,
+            "fundstrat_cue": cue.get("cue") or "no_current_cue",
+            "fundstrat_source_date": cue.get("source_date") or "",
+            "fundstrat_reason": cue.get("reason") or "",
+            "fundstrat_tickers": cue.get("tickers") or [],
         })
     out.sort(key=lambda r: (-r["market_value"], r["category"]))
     return out
 
 
-def _effective_exposure(rows: list[dict[str, Any]], total_value: float) -> dict[str, Any]:
+def _effective_exposure(
+    rows: list[dict[str, Any]],
+    total_value: float,
+    *,
+    target_by_category: dict[str, float] | None = None,
+    fundstrat_cues: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     direct_by_ticker: dict[str, float] = defaultdict(float)
     implied_by_ticker: dict[str, float] = defaultdict(float)
     sources_by_ticker: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -198,15 +282,25 @@ def _effective_exposure(rows: list[dict[str, Any]], total_value: float) -> dict[
         direct = round(float(rec["direct_market_value"]), 2)
         implied = round(float(rec["lookthrough_market_value"]), 2)
         effective = round(float(rec["effective_market_value"]), 2)
+        category = rec["category"]
+        effective_pct = round((effective / total_value * 100.0), 2) if total_value else 0.0
+        target = (target_by_category or {}).get(category)
+        cue = (fundstrat_cues or {}).get(category) or {}
         sleeve_out.append({
-            "category": rec["category"],
+            "category": category,
             "sleeve": rec["sleeve"],
             "direct_market_value": direct,
             "lookthrough_market_value": implied,
             "effective_market_value": effective,
             "direct_pct": round((direct / total_value * 100.0), 2) if total_value else 0.0,
             "lookthrough_pct": round((implied / total_value * 100.0), 2) if total_value else 0.0,
-            "effective_pct": round((effective / total_value * 100.0), 2) if total_value else 0.0,
+            "effective_pct": effective_pct,
+            "working_model_target_pct": target,
+            "working_model_gap_pct": round((target or 0.0) - effective_pct, 2) if target is not None else None,
+            "fundstrat_cue": cue.get("cue") or "no_current_cue",
+            "fundstrat_source_date": cue.get("source_date") or "",
+            "fundstrat_reason": cue.get("reason") or "",
+            "fundstrat_tickers": cue.get("tickers") or [],
             "tickers": sorted(t for t in rec["tickers"] if t),
             "etfs": sorted(t for t in rec["etfs"] if t),
         })
@@ -222,7 +316,14 @@ def _effective_exposure(rows: list[dict[str, Any]], total_value: float) -> dict[
     }
 
 
-def _view(name: str, rows: list[dict[str, Any]], total_value: float | None = None) -> dict[str, Any]:
+def _view(
+    name: str,
+    rows: list[dict[str, Any]],
+    total_value: float | None = None,
+    *,
+    target_by_category: dict[str, float] | None = None,
+    fundstrat_cues: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     total = float(total_value) if total_value is not None else sum(float(r["market_value"]) for r in rows)
     total = round(total, 2)
     out_rows = []
@@ -236,12 +337,26 @@ def _view(name: str, rows: list[dict[str, Any]], total_value: float | None = Non
         "key": name,
         "total_value": total,
         "rows": out_rows,
-        "categories": _category_summary(out_rows, total),
-        "effective_exposure": _effective_exposure(out_rows, total),
+        "categories": _category_summary(
+            out_rows,
+            total,
+            target_by_category=target_by_category,
+            fundstrat_cues=fundstrat_cues,
+        ),
+        "effective_exposure": _effective_exposure(
+            out_rows,
+            total,
+            target_by_category=target_by_category,
+            fundstrat_cues=fundstrat_cues,
+        ),
     }
 
 
-def build_portfolio_views(account_cache: dict[str, Any] | None) -> dict[str, Any] | None:
+def build_portfolio_views(
+    account_cache: dict[str, Any] | None,
+    *,
+    fundstrat_bible: dict[str, Any] | None = None,
+) -> dict[str, Any] | None:
     """Build direct-holding views from account_positions.json shape.
 
     Direct rows/categories remain direct-only. Each view also carries a separate
@@ -256,14 +371,21 @@ def build_portfolio_views(account_cache: dict[str, Any] | None) -> dict[str, Any
     combined = _combined_rows(rows)
     skb_rows = [r for r in rows if r["owner_key"] == "skb"]
     parents_rows = [r for r in rows if r["owner_key"] == "parents"]
+    target_by_category = _working_model_targets_by_category()
+    fundstrat_cues = _fundstrat_category_cues(fundstrat_bible)
     return {
         "snapshot_date": account_cache.get("snapshot_date"),
         "basis": "direct_holdings_only",
         "caveat": "Rows and category weights are direct holdings only; effective_exposure is a separate ETF look-through estimate.",
+        "allocation_guidance": {
+            "working_model": "default_working_model",
+            "basis": "visual guidance only; not an instruction to trade",
+            "fundstrat_source_date": str((fundstrat_bible or {}).get("deck_date") or ""),
+        },
         "views": {
-            "combined": _view("combined", combined, sleeve_value),
-            "skb": _view("skb", skb_rows),
-            "parents": _view("parents", parents_rows),
+            "combined": _view("combined", combined, sleeve_value, target_by_category=target_by_category, fundstrat_cues=fundstrat_cues),
+            "skb": _view("skb", skb_rows, target_by_category=target_by_category, fundstrat_cues=fundstrat_cues),
+            "parents": _view("parents", parents_rows, target_by_category=target_by_category, fundstrat_cues=fundstrat_cues),
         },
     }
 

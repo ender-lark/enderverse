@@ -768,7 +768,7 @@ def build_full_feed_from_files(
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
     feed["social_watch"] = social_watch
     feed["operator_hardening"] = build_operator_hardening(feed)
-    portfolio_views = build_portfolio_views(account_positions)
+    portfolio_views = build_portfolio_views(account_positions, fundstrat_bible=fs_bible)
     if portfolio_views:
         feed["portfolio_views"] = portfolio_views
     _append_missing_source_gap_rows(feed, convention_input_status(src))

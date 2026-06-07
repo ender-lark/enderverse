@@ -11,6 +11,12 @@ safe write-back, live status, and dashboard publishing.
 Notion mirror:
 `https://app.notion.com/p/376c50314bb681d4b04cda8e73d6c34b`
 
+Active build plan:
+`docs/monday_go_live_build_plan.md`
+
+Monday plan Notion mirror:
+`https://app.notion.com/p/378c50314bb681afb39bcb82efce9d47`
+
 ## 1. Operating Principle
 
 The Investing OS is built to surface actionable buy/sell/hold/research reviews
@@ -48,14 +54,20 @@ Connectors / supplied files / repo caches
   -> src/latest_cockpit_feed.json
   -> src/live_dashboard_refresh.py second pass
   -> src/rendered/conviction_cockpit_v5.jsx
-  -> docs/index.html and tmp/dashboard_preview.html
-  -> http://127.0.0.1:8765/dashboard_preview.html
+  -> tmp/cockpit_jsx_preview.html as the canonical v1 test cockpit
+  -> docs/index.html and tmp/dashboard_preview.html as mirrors/exports
+  -> http://127.0.0.1:8765/cockpit_jsx_preview.html
 ```
 
 The live dashboard is a view of the latest feed and routine state. It is not a
 separate source of truth. The source of truth for engine-consumed state is the
 repo convention files plus the ownership contract in
 `src/state_ownership_map.json`.
+
+During the v1 build, the canonical operator/testing surface is the local JSX
+cockpit. The generated HTML and GitHub Pages copies remain useful for sharing,
+export, and parity checks, but they should not lead product validation while the
+system is still being finalized.
 
 ## 3. System Layers
 
@@ -284,9 +296,12 @@ The dashboard shows the feed plus operator state:
 
 - Preview/export artifacts:
   - Canonical injected JSX: `src/rendered/conviction_cockpit_v5.jsx`
+  - Canonical local JSX cockpit: `tmp/cockpit_jsx_preview.html`
+  - Canonical local cockpit URL:
+    `http://127.0.0.1:8765/cockpit_jsx_preview.html`
   - Published summary HTML: `docs/index.html`
   - Local preview HTML: `tmp/dashboard_preview.html`
-  - Preview URL: `http://127.0.0.1:8765/dashboard_preview.html`
+  - HTML mirror URL: `http://127.0.0.1:8765/dashboard_preview.html`
 
 - Candidate Reallocation Brief: `feed.reallocation_brief`
   - Uses current promoted positions when available. With SnapTrade current, it

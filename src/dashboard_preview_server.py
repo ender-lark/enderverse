@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Serve or check the local dashboard preview.
 
-The live refresh writes tmp/dashboard_preview.html. This helper owns the local
-HTTP surface used by the in-app browser: http://127.0.0.1:8765/dashboard_preview.html
+During v1 buildout the canonical test surface is the JSX cockpit preview. The
+generated HTML dashboard remains a mirror/export surface.
 """
 from __future__ import annotations
 
@@ -18,11 +18,20 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIR = ROOT / "tmp"
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8765
-PREVIEW_FILE = "dashboard_preview.html"
+CANONICAL_PREVIEW_FILE = "cockpit_jsx_preview.html"
+HTML_MIRROR_FILE = "dashboard_preview.html"
 
 
 def preview_url(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> str:
-    return f"http://{host}:{port}/{PREVIEW_FILE}"
+    return canonical_preview_url(host, port)
+
+
+def canonical_preview_url(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> str:
+    return f"http://{host}:{port}/{CANONICAL_PREVIEW_FILE}"
+
+
+def html_mirror_url(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> str:
+    return f"http://{host}:{port}/{HTML_MIRROR_FILE}"
 
 
 def port_is_open(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT, *, timeout: float = 0.25) -> bool:
@@ -40,12 +49,21 @@ def preview_status(
     port: int = DEFAULT_PORT,
 ) -> dict:
     root = Path(directory)
-    preview = root / PREVIEW_FILE
+    canonical = root / CANONICAL_PREVIEW_FILE
+    html = root / HTML_MIRROR_FILE
     return {
-        "url": preview_url(host, port),
+        "primary_surface": "canonical_jsx",
+        "url": canonical_preview_url(host, port),
+        "canonical_url": canonical_preview_url(host, port),
+        "html_url": html_mirror_url(host, port),
+        "mirror_url": html_mirror_url(host, port),
         "directory": str(root),
-        "preview_file": str(preview),
-        "preview_exists": preview.is_file(),
+        "preview_file": str(canonical),
+        "preview_exists": canonical.is_file(),
+        "canonical_file": str(canonical),
+        "canonical_exists": canonical.is_file(),
+        "html_preview_file": str(html),
+        "html_preview_exists": html.is_file(),
         "server_running": port_is_open(host, port),
     }
 
@@ -65,7 +83,7 @@ def serve_preview(
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Serve or check the local dashboard preview")
-    parser.add_argument("--dir", default=str(DEFAULT_DIR), help="Directory containing dashboard_preview.html")
+    parser.add_argument("--dir", default=str(DEFAULT_DIR), help="Directory containing cockpit_jsx_preview.html and dashboard_preview.html")
     parser.add_argument("--host", default=DEFAULT_HOST)
     parser.add_argument("--port", default=DEFAULT_PORT, type=int)
     parser.add_argument("--check", action="store_true", help="Print status and exit")
@@ -79,7 +97,7 @@ def main(argv=None) -> int:
         print(json.dumps({**status, "serving": False, "reason": "server already running"}, indent=2))
         return 0
     if not status["preview_exists"]:
-        print(json.dumps({**status, "serving": False, "reason": "preview file missing"}, indent=2))
+        print(json.dumps({**status, "serving": False, "reason": "canonical JSX preview file missing"}, indent=2))
         return 2
     serve_preview(directory=args.dir, host=args.host, port=args.port)
     return 0

@@ -12,6 +12,7 @@ Workspace path on this machine:
 Start by reading these files:
 
 - `AGENTS.md` if present in the workspace root.
+- `docs/monday_go_live_build_plan.md`
 - `docs/investing_os_system_architecture.md`
 - `docs/codex_build_queue.md`
 - `src/state_ownership_map.json`
@@ -23,7 +24,8 @@ Start by reading these files:
 Current priority:
 
 1. Read `docs/investing_os_system_architecture.md` and
-   `docs/codex_build_queue.md`; promote only evidence-backed slices.
+   `docs/codex_build_queue.md`; follow
+   `docs/monday_go_live_build_plan.md` while it is active.
 2. Prioritize live SnapTrade Account Positions, dashboard action surfacing,
    assumption refresh, capital-efficiency/reallocation gates, and source-proof
    honesty over stock-specific research.
@@ -33,10 +35,16 @@ Current priority:
    requested.
 5. Use `python src/verify_standard.py` as the standard verification command.
 6. Commit and push after each clean verified slice.
-7. Cloud routine proof is end-of-queue background monitoring now; let the
+7. Use the canonical local JSX cockpit during v1 testing/building:
+   `http://127.0.0.1:8765/cockpit_jsx_preview.html`. Generated HTML/GitHub
+   Pages is a mirror/export check until v1 is finalized.
+8. Store important plans, architecture decisions, operating protocols, and
+   unresolved queue items in repo/GitHub docs first; mirror important source of
+   truth material to Notion when useful.
+9. Cloud routine proof is end-of-queue background monitoring now; let the
    normal schedules produce remaining `run_source=scheduled` receipts unless
    the user explicitly asks to accelerate again.
-8. Use `python src/completion_audit.py --format text` when no implementation
+10. Use `python src/completion_audit.py --format text` when no implementation
    slice is queued; it separates build blockers from source/user waits,
    background natural cloud-proof waits, and deferred stock-review backlog.
 
@@ -66,9 +74,10 @@ Current verified snapshot (2026-06-07 15:22 ET live artifacts; background cloud 
   open reviews `ANET`, `GOOGL` with
   `due=0 | stale=0 | oldest=0d`. Use
   `--require-all-clear` only when external waits should fail the command.
-- Local preview is running at
-  `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-07 15:22 ET`.
+- Canonical local JSX cockpit is the default v1 testing surface:
+  `http://127.0.0.1:8765/cockpit_jsx_preview.html`. Local generated HTML at
+  `http://127.0.0.1:8765/dashboard_preview.html` and GitHub Pages are
+  mirror/export checks.
 - The dashboard Operator Status card now shows `Build blockers 0`, `Open reviews
   2 new` in pass styling, the wait summary
   `Build clear, not all clear | background cloud proof 3/10`,

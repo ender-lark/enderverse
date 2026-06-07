@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 // ───────────────────────────────────────────────────────────────
 // CONVICTION COCKPIT — v5
@@ -799,6 +799,25 @@ function laneStatusRow(r){
            detail:r.detail||"", count:(typeof r.count==="number"?r.count:0),
            checkedAt:r.checked_at||"", nextStep:r.next_step||"", missingImpact:r.missing_impact||"" };
 }
+function eventPortfolioRead(eventWatch){
+  if(!eventWatch) return null;
+  const channels = (eventWatch.channels||[]).map(x=>String(x).toLowerCase());
+  const tickers = eventWatch.tickers||[];
+  const macro = ["rates","oil","volatility"].some(c=>channels.includes(c));
+  const title = eventWatch.title || "Active event risk";
+  if(macro){
+    return {
+      headline:"Portfolio impact: re-check sizing and new-buy timing before adding beta.",
+      implication:"Rates/oil/volatility matter only if they change your portfolio action: stage adds, reduce chase risk, preserve cash for better entries, or hedge/trim if confirmation turns against current exposure.",
+      blocker:`Do not act from this headline alone. Unblock with same-session levels/headlines and affected sleeve tape${tickers.length?` (${tickers.join(", ")})`:""}.`,
+    };
+  }
+  return {
+    headline:`Portfolio impact: ${title} may change timing or risk posture.`,
+    implication:"Use this as an action filter: does it change add/trim/hold, sizing, hedge, or research priority? If not, keep it collapsed.",
+    blocker:"Do not act until the specific affected exposure and confirming evidence are clear.",
+  };
+}
 function operatorStatus(feed){
   const counts = ((feed.lane_status||{}).counts)||{};
   const feedback = feed.feedback||{};
@@ -837,6 +856,7 @@ function operatorStatus(feed){
     sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
     liveFetch, liveConfigMissing, liveConfig,
     eventWatch,
+    eventPortfolio: eventPortfolioRead(eventWatch),
     command:"python src/go_live_checklist.py --format text",
     suddenEventCommand:'python src/sudden_event_refresh.py --title "<event headline>" --channels "oil,rates,volatility" --tickers "XOP,TNX" --why "<why exposure, hedges, or new-buy timing changes>" --trigger "<what confirms or changes the risk>"',
   };
@@ -982,6 +1002,25 @@ function Section({ id, title, icon, badge, badgeColor, summary, children, openMa
 }
 const card = { background:C.panel, border:`1px solid ${C.line}`, borderRadius:11, padding:"12px 14px" };
 const muted = { color:C.dim, fontSize:12.5 };
+const OPEN_STORAGE_KEY = "convictionCockpit.openSections";
+function loadStoredOpen(){
+  if(typeof window === "undefined" || !window.localStorage) return {};
+  try {
+    const raw = window.localStorage.getItem(OPEN_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (_) {
+    return {};
+  }
+}
+function cueColor(cue){
+  return cue==="favored" ? C.green : cue==="avoid" ? C.red : cue==="mixed" ? C.amber : C.faint;
+}
+function targetGapLabel(row){
+  if(row.working_model_target_pct==null) return "";
+  const gap = row.working_model_gap_pct;
+  const sign = gap>0 ? "+" : "";
+  return `target ${row.working_model_target_pct.toFixed(1)}% | gap ${sign}${gap.toFixed(1)}pp`;
+}
 
 function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, showAging=false, showSizing=false }) {
   const key = keyPrefix + a.rank + (a.ticker || a.kind), isO = posOpen[key];
@@ -1085,16 +1124,28 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
     e: `${c.ticker?`${c.ticker} · `:""}${c.label||"Catalyst"}`,
     note: `${c.days_out!=null?`in ~${c.days_out}d · `:""}${c.source||"Catalyst Calendar"}`
   }));
-  const [open, setOpen] = useState({});
+  const [open, setOpen] = useState(loadStoredOpen);
   const [posOpen, setPosOpen] = useState({});
   const [collapsed, setCollapsed] = useState({});
   const [view, setView] = useState("agg");
   const [legend, setLegend] = useState(false);
+  useEffect(() => {
+    if(typeof window === "undefined" || !window.localStorage) return;
+    try {
+      window.localStorage.setItem(OPEN_STORAGE_KEY, JSON.stringify(open));
+    } catch (_) {}
+  }, [open]);
   const dirColor = (d)=> d==="up"?C.green : d==="down"?C.red : C.dim;
   const ownerFilter = (own) => view==="agg" ? true : view==="parents" ? own.includes("p") : own.includes("s");
   const portfolioViewKey = view==="agg" ? "combined" : view;
   const portfolioView = VM.portfolioViews && VM.portfolioViews.views ? VM.portfolioViews.views[portfolioViewKey] : null;
   const effectiveExposure = portfolioView && portfolioView.effective_exposure ? portfolioView.effective_exposure : null;
+  const layerIssues = VM.heartbeat.filter(h=>h.statusLabel!=="ok");
+  const checkIssues = VM.laneStatus.filter(r=>!["data","clear"].includes(r.statusLabel));
+  const statusSummary = compactJoin([
+    `${VM.heartbeat.length} layers${layerIssues.length?`, ${layerIssues.length} issue${layerIssues.length===1?"":"s"}`:", green"}`,
+    `${VM.laneStatus.length} checks${checkIssues.length?`, ${checkIssues.map(r=>`${r.label} ${r.statusLabel}`).slice(0,3).join(", ")}${checkIssues.length>3?` +${checkIssues.length-3}`:""}`:", green"}`
+  ]);
 
   return (
     <div style={{ background:C.bg, color:C.text, fontFamily:sans, minHeight:"100%", padding:"18px 13px 52px", lineHeight:1.45 }}>
@@ -1106,8 +1157,35 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           <div style={{ fontFamily:mono, fontSize:11.5, color:C.faint }}>{VM.stamp}</div>
         </div>
 
+        <Section id="status-checks" title="Status & Checks" icon="!" badge={checkIssues.length||layerIssues.length?`${checkIssues.length+layerIssues.length} issue${checkIssues.length+layerIssues.length===1?"":"s"}`:"green"} badgeColor={checkIssues.length||layerIssues.length?C.amber:C.green} summary={statusSummary} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {VM.heartbeat.length>0 && (
+            <div style={{ display:"flex", flexWrap:"wrap", gap:6, alignItems:"center" }}>
+              <span style={{ fontFamily:mono, fontSize:10, color:C.faint, marginRight:2 }}>LAYERS</span>
+              {VM.heartbeat.map((h,i)=>(
+                <span key={i} title={`${h.note}${h.lastRun?` | last ${h.lastRun}`:""}`}
+                  style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"2px 8px", borderRadius:99,
+                    fontSize:10.5, fontFamily:mono, color:h.c, border:`1px solid ${h.c}44`, background:`${h.c}12`, whiteSpace:"nowrap" }}>
+                  <span style={{ width:6, height:6, borderRadius:99, background:h.c }} />{h.layer}{h.statusLabel!=="ok"?` | ${h.statusLabel}`:""}
+                </span>
+              ))}
+            </div>
+          )}
+          {VM.laneStatus.length>0 && (
+            <div style={{ marginTop:8, display:"flex", flexWrap:"wrap", gap:6, alignItems:"center" }}>
+              <span style={{ fontFamily:mono, fontSize:10, color:C.faint, marginRight:2 }}>CHECKS</span>
+              {VM.laneStatus.map((r,i)=>(
+                <span key={i} title={`${r.detail}${r.missingImpact?` | ${r.missingImpact}`:""}${r.nextStep?` | next: ${r.nextStep}`:""}${r.checkedAt?` | checked ${r.checkedAt}`:""}`}
+                  style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"2px 8px", borderRadius:99,
+                    fontSize:10.5, fontFamily:mono, color:r.c, border:`1px solid ${r.c}44`, background:`${r.c}10`, whiteSpace:"nowrap" }}>
+                  {r.label} | {r.statusLabel}{r.count?` ${r.count}`:""}
+                </span>
+              ))}
+            </div>
+          )}
+        </Section>
+
         {/* HEARTBEAT — layer run-status strip (Tier-1: see the machine ran) */}
-        {VM.heartbeat.length>0 && (
+        {false && VM.heartbeat.length>0 && (
           <div style={{ marginTop:10, display:"flex", flexWrap:"wrap", gap:6, alignItems:"center" }}>
             <span style={{ fontFamily:mono, fontSize:10, color:C.faint, marginRight:2 }}>LAYERS</span>
             {VM.heartbeat.map((h,i)=>(
@@ -1121,7 +1199,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         )}
 
         {/* VIEW TOGGLE — shared chrome (sticky): ⚡ Action ⇄ 📊 Book */}
-        {VM.laneStatus.length>0 && (
+        {false && VM.laneStatus.length>0 && (
           <div style={{ marginTop:8, display:"flex", flexWrap:"wrap", gap:6, alignItems:"center" }}>
             <span style={{ fontFamily:mono, fontSize:10, color:C.faint, marginRight:2 }}>CHECKS</span>
             {VM.laneStatus.map((r,i)=>(
@@ -1205,6 +1283,13 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 <div style={{ marginTop:6, border:`1px solid ${C.amber}44`, borderRadius:8, padding:"7px 8px", background:C.amber+"0a" }}>
                   <div style={{ fontFamily:mono, fontSize:10, color:C.amber, textTransform:"uppercase", marginBottom:3 }}>Active event watch</div>
                   <div style={{ fontSize:12.5, color:C.text, fontWeight:650 }}>{op.eventWatch.title}</div>
+                  {op.eventPortfolio && (
+                    <div style={{ marginTop:6, borderTop:`1px solid ${C.line}`, paddingTop:6 }}>
+                      <div style={{ fontSize:12, color:C.text, fontWeight:700 }}>{op.eventPortfolio.headline}</div>
+                      <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>{op.eventPortfolio.implication}</div>
+                      <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>{op.eventPortfolio.blocker}</div>
+                    </div>
+                  )}
                   <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>
                     {(op.eventWatch.severity||"watch").toUpperCase()} {op.eventWatch.channels&&op.eventWatch.channels.length?`| ${op.eventWatch.channels.join(", ")}`:""} {op.eventWatch.tickers&&op.eventWatch.tickers.length?`| ${op.eventWatch.tickers.join(", ")}`:""}
                   </div>
@@ -1749,6 +1834,12 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                       <span style={{ fontSize:11.5, color:C.text, fontWeight:600 }}>{c.category}</span>
                       <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{typeof c.pct==="number"?`${c.pct.toFixed(1)}%`:""}</span>
                     </div>
+                    {targetGapLabel(c) && <div style={{ marginTop:3, fontFamily:mono, fontSize:10.5, color:c.working_model_gap_pct>1?C.green:c.working_model_gap_pct<-1?C.red:C.faint }}>{targetGapLabel(c)}</div>}
+                    <div style={{ marginTop:4, display:"flex", gap:5, flexWrap:"wrap", alignItems:"center" }}>
+                      <span style={{ fontFamily:mono, fontSize:10.5, color:cueColor(c.fundstrat_cue||"no_current_cue"), border:`1px solid ${cueColor(c.fundstrat_cue||"no_current_cue")}55`, borderRadius:99, padding:"0px 6px" }}>FS {String(c.fundstrat_cue||"no_current_cue").replaceAll("_"," ")}</span>
+                      {c.fundstrat_source_date && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{c.fundstrat_source_date}</span>}
+                    </div>
+                    {c.fundstrat_reason && <div style={{ marginTop:3, fontSize:10.8, color:C.faint }}>{c.fundstrat_reason}{(c.fundstrat_tickers||[]).length?` (${(c.fundstrat_tickers||[]).slice(0,4).join(", ")})`:""}</div>}
                     <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.dim }}>{money(c.market_value)} · {(c.tickers||[]).slice(0,5).join(", ")}</div>
                   </div>
                 ))}
@@ -1767,6 +1858,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                           <span style={{ fontSize:11.5, color:C.text, fontWeight:600 }}>{s.category}</span>
                           <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{typeof s.effective_pct==="number"?`${s.effective_pct.toFixed(1)}%`:""}</span>
                         </div>
+                        {targetGapLabel(s) && <div style={{ marginTop:3, fontFamily:mono, fontSize:10.5, color:s.working_model_gap_pct>1?C.green:s.working_model_gap_pct<-1?C.red:C.faint }}>{targetGapLabel(s)}</div>}
+                        {(s.fundstrat_cue && s.fundstrat_cue!=="no_current_cue") && <div style={{ marginTop:3, fontFamily:mono, fontSize:10.5, color:cueColor(s.fundstrat_cue) }}>FS {String(s.fundstrat_cue).replaceAll("_"," ")}{s.fundstrat_source_date?` | ${s.fundstrat_source_date}`:""}</div>}
                         <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.dim }}>direct {typeof s.direct_pct==="number"?s.direct_pct.toFixed(1):"0.0"}% + ETF {typeof s.lookthrough_pct==="number"?s.lookthrough_pct.toFixed(1):"0.0"}%</div>
                       </div>
                     ))}

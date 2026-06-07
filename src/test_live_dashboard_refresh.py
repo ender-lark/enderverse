@@ -20,6 +20,7 @@ def test_refresh_plan_tracks_source_calls_before_final_build():
         "heartbeat_post_synthesis",
         "build_publish_final",
         "render_canonical_jsx",
+        "build_canonical_jsx_preview",
         "render_summary_html",
         "render_preview_html",
         "write_parity_feed",
@@ -99,7 +100,9 @@ def test_build_refresh_summary_surfaces_live_state(tmp_path):
             "next_steps": ["Review dark lanes."],
         },
         preview_server={
-            "url": "http://127.0.0.1:8765/dashboard_preview.html",
+            "url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "canonical_url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "html_url": "http://127.0.0.1:8765/dashboard_preview.html",
             "preview_exists": True,
             "server_running": True,
         },

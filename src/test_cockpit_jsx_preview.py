@@ -7,7 +7,7 @@ from cockpit_jsx_preview import html_source, runtime_source
 
 
 def test_runtime_source_mounts_canonical_cockpit_with_cdn_react():
-    src = '''import React, { useState, useMemo } from "react";
+    src = '''import React, { useEffect, useState, useMemo } from "react";
 export default function ConvictionCockpit() {
   return <div>ok</div>;
 }
@@ -15,6 +15,7 @@ export default function ConvictionCockpit() {
 
     out = runtime_source(src)
 
+    assert "useEffect" in out
     assert "https://esm.sh/react@18.3.1" in out
     assert "https://esm.sh/react-dom@18.3.1/client" in out
     assert 'createRoot(rootEl).render(<ConvictionCockpit />);' in out

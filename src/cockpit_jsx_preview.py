@@ -20,9 +20,9 @@ DEFAULT_OUT_DIR = ROOT / "tmp"
 RUNTIME_SOURCE = "cockpit_jsx_preview.runtime.jsx"
 RUNTIME_JS = "cockpit_jsx_preview.js"
 HTML_FILE = "cockpit_jsx_preview.html"
-REACT_IMPORT = 'import React, { useState, useMemo } from "react";'
+REACT_IMPORT = 'import React, { useEffect, useState, useMemo } from "react";'
 CDN_IMPORTS = (
-    'import React, { useState, useMemo } from "https://esm.sh/react@18.3.1";\n'
+    'import React, { useEffect, useState, useMemo } from "https://esm.sh/react@18.3.1";\n'
     'import { createRoot } from "https://esm.sh/react-dom@18.3.1/client";'
 )
 MOUNT_CODE = """

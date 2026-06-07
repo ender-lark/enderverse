@@ -5,13 +5,18 @@ until the core logic is stable; Notion sync comes later.
 
 ## Active Slice
 
-- No active implementation slice.
-  - Promote the next slice from fresh audit/user evidence before editing.
+- Monday go-live build slice is active.
+  - Follow `docs/monday_go_live_build_plan.md`.
+  - GitHub/repo docs are canonical implementation storage; mirror important
+    source-of-truth notes to Notion for readability and recovery.
+  - Canonical dashboard for v1 testing is
+    `http://127.0.0.1:8765/cockpit_jsx_preview.html`. Generated HTML/GitHub
+    Pages remains a mirror/export surface until v1 is finalized.
+  - Current priority: Stage 0 continuity, Stage 1 cockpit usability, Stage 1.5
+    synthesis-quality review, then Stage 2 Book/allocation usability.
   - Cloud routine proof remains end-of-queue background monitoring. Let normal
     schedules produce remaining `run_source=scheduled` receipts unless the user
     explicitly asks to accelerate again.
-  - Keep dashboard parity classification current before committing any new
-    dashboard/feed meaning or UI work.
   - Prioritize system/routine/dashboard work over stock-specific research.
   - Do not promote Fundstrat Core List table ingestion; it is out of scope for
     the current system build and may never be needed.
