@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,3 +27,12 @@ def test_html_source_points_to_jsx_preview_bundle():
 
     assert '<div id="root"></div>' in out
     assert 'import("./preview.js?v=" + Date.now());' in out
+
+
+def test_canonical_jsx_has_current_commands_tab():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert '["commands","Commands"]' in src
+    assert "python src/live_dashboard_refresh.py" in src
+    assert "python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" in src
+    assert "Social Watch remains queued/dark" in src

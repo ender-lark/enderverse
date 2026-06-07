@@ -188,6 +188,10 @@ The dashboard shows the feed plus operator state:
   - Reddit/social remains last until the compliant feed is implemented. Missing
     social data is still visible as `not_checked`, but it should not compete for
     first-screen attention or promote an action without independent proof.
+  - The canonical JSX cockpit includes a Commands view with current operator
+    actions, system checks, source links, and the Social Watch queued/dark
+    rule. Generated HTML may mirror commands, but it must not be the only place
+    current commands live during v1 validation.
 
 - Today's Actions: `feed.actions`
   - Includes engine actions, catalyst/event-risk review prompts, and
