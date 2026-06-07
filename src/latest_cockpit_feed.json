@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T22:00:31.396984+00:00",
+  "generated_at": "2026-06-07T22:15:00.822063+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T18:00:31.396984-04:00",
+        "date": "2026-06-07T18:15:00.822063-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T18:00:31.396984-04:00",
+        "date": "2026-06-07T18:15:00.822063-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1252,7 +1252,9 @@
       "label": "duration_flat \u00b7 vol_calm \u00b7 dollar_neutral"
     },
     "alerts": [],
-    "implications": []
+    "implications": [
+      "portfolio read: no standalone macro action; keep rates/vol as a same-session check before adding beta, then collapse this lane if it does not change sizing, hedge, hold/add/trim, or research priority"
+    ]
   },
   "catalysts": [
     {
@@ -1338,31 +1340,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T22:00:31.254918+00:00",
+      "last_run": "2026-06-07T22:15:00.704450+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T22:00:31.254918+00:00",
+      "last_run": "2026-06-07T22:15:00.704450+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T22:00:31.254918+00:00",
+      "last_run": "2026-06-07T22:15:00.704450+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-07T22:00:31.254918+00:00",
+      "last_run": "2026-06-07T22:15:00.704450+00:00",
       "note": "dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T22:00:31.254918+00:00",
+      "last_run": "2026-06-07T22:15:00.704450+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -12313,7 +12315,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 6.61
+        "connector_proof_age_hours": 6.86
       }
     ],
     "missing": [],
@@ -12337,11 +12339,11 @@
     },
     "cloud_routines": {
       "status": "partial_live_run_proven",
-      "line": "Background cloud proof: 7/12 scheduled receipts proven; failed latest=0.",
-      "scheduled_success_count": 7,
+      "line": "Background cloud proof: 8/12 scheduled receipts proven; failed latest=0.",
+      "scheduled_success_count": 8,
       "expected_count": 12,
       "failed_latest_count": 0,
-      "missing_scheduled_success_count": 5,
+      "missing_scheduled_success_count": 4,
       "missing_scheduled_success": [
         {
           "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
@@ -12366,12 +12368,6 @@
           "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
           "schedule": "market weekdays 7:00 PM ET",
           "last_status": "no_receipt"
-        },
-        {
-          "routine_id": "investing-os-weekly-pilot-run",
-          "routine_name": "Investing OS Weekly Pilot Run",
-          "schedule": "Sunday 6:00 PM ET",
-          "last_status": "started"
         }
       ],
       "rows": [
@@ -12523,13 +12519,13 @@
           "routine_name": "Investing OS Weekly Pilot Run",
           "role": "weekly_pilot_run",
           "schedule": "Sunday 6:00 PM ET",
-          "receipt_count": 11,
-          "last_status": "started",
+          "receipt_count": 13,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-06T02:59:32.823541Z",
-          "last_success_at": "2026-06-06T02:36:34.125152Z",
-          "last_scheduled_success_at": "",
-          "last_summary": "weekly pilot run started"
+          "last_recorded_at": "2026-06-07T22:09:16.173250Z",
+          "last_success_at": "2026-06-07T22:09:16.173250Z",
+          "last_scheduled_success_at": "2026-06-07T22:09:16.173250Z",
+          "last_summary": "pilot dashboard updated; Sunday summary written; v0 1 row unchanged; gamma refreshed with GRNJ gap; 13F outside window and manager file missing"
         }
       ]
     },

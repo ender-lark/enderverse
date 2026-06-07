@@ -163,6 +163,20 @@ def test_macro_implications():
     imp = macro_read(_macro_set())["implications"]
     assert "headwind: long-duration growth (NVDA/SMH/MAGS)" in imp   # rising / 10Y alert
     assert "tailwind: critical minerals (LEU/MP/UUUU)" in imp        # dollar weak
+    assert any("portfolio read: use macro as a sizing/timing gate" in row for row in imp)
+
+
+def test_macro_quiet_regime_still_explains_decision_use():
+    imp = macro_read([
+        _macro("10Y", "10Y 4.47% (0bp 5d)", value=4.47, chg_5d=0.0),
+        _macro("VIX", "VIX 16.0", value=16.0),
+        _macro("DXY", "USD (UUP) 27.84", value=27.84, chg_5d=0.0),
+    ])["implications"]
+    assert imp == [
+        "portfolio read: no standalone macro action; keep rates/vol as a same-session "
+        "check before adding beta, then collapse this lane if it does not change sizing, "
+        "hedge, hold/add/trim, or research priority"
+    ]
 
 
 # =========================================================================== #

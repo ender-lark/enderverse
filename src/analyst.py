@@ -141,6 +141,17 @@ def _macro_implications(regime: dict, alerts_fired: list) -> list:
         imp.append("curve signal: watch cyclicals/financials (XLF)")
     if "Real 10Y" in alert_subjects:
         imp.append("headwind: crypto (BMNR)")
+    if imp:
+        imp.append(
+            "portfolio read: use macro as a sizing/timing gate, not a standalone trade; "
+            "stage confirmed adds, avoid chasing, and re-check hedges if rates/vol keep moving"
+        )
+    else:
+        imp.append(
+            "portfolio read: no standalone macro action; keep rates/vol as a same-session "
+            "check before adding beta, then collapse this lane if it does not change sizing, "
+            "hedge, hold/add/trim, or research priority"
+        )
     return imp
 
 

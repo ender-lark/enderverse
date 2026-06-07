@@ -196,11 +196,11 @@
       }
     ],
     "counts": {
-      "not_checked": 9,
       "checked_clear": 0,
+      "has_data": 6,
       "stale": 0,
-      "failed": 0,
-      "has_data": 6
+      "not_checked": 9,
+      "failed": 0
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -832,7 +832,9 @@
       "label": "duration_flat \u00b7 vol_calm \u00b7 dollar_neutral"
     },
     "alerts": [],
-    "implications": []
+    "implications": [
+      "portfolio read: no standalone macro action; keep rates/vol as a same-session check before adding beta, then collapse this lane if it does not change sizing, hedge, hold/add/trim, or research priority"
+    ]
   },
   "catalysts": [],
   "questions": [],
