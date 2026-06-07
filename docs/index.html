@@ -246,7 +246,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 13:01 ET
+        built 2026-06-07 13:21 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
@@ -277,6 +277,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <a class="quick-link" href="#today-actions"><strong>4</strong> actions</a>
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>8</strong> asymmetry</a>
+  <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
   <a class="quick-link" href="#feedback-loops"><strong>2</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>0</strong> source gaps</a>
@@ -486,6 +487,56 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div></div>
 </div>
 
+<div class="card" id="uw-action-runbook">
+  <div class="card-title"><span class="icon">?</span> UW action runbook
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
+  </div>
+  <div class="feedback-line">UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.</div>
+  <div class="small-list">
+<div class="small-item">
+  <span class="context-ticker">Event-risk and political macro</span>
+  <span class="tag t-conf">priority 1</span>
+  <span class="small-muted">Active event-risk lane can overpower normal thesis and flow signals.</span>
+  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, GRNY</span>
+  <span class="small-muted">Market checks: MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, ECONOMIC_CALENDAR, NEWS_HEADLINES, SECTOR_TIDE, ETF_TIDE, MARKET_CORRELATIONS</span>
+  <span class="small-muted">Ticker checks: CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES</span>
+  <span class="small-muted">Blocks action if: same-session headlines, rates/oil levels, or sector tape are missing or contradictory</span>
+  <span class="small-muted">Promote when: macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">Portfolio reallocation</span>
+  <span class="tag t-conf">priority 2</span>
+  <span class="small-muted">Sizing-gap actions need current exposure, funding, factor, and flow checks.</span>
+  <span class="small-muted">Tickers: GRNY, NVDA, SMH, GOOGL, AVGO, MU, ANET</span>
+  <span class="small-muted">Market checks: ETF_TIDE, SECTOR_TIDE, MARKET_CORRELATIONS, TOTAL_OPTIONS_VOLUME</span>
+  <span class="small-muted">Ticker checks: TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, COMPANY_PROFILE, ANALYST_RATINGS, INSTITUTION_OWNERSHIP, TICKER_INSIDERS, TICKER_INSIDER_FLOW, NEWS_HEADLINES, TICKER_FLOW_RECENT, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_IV_RANK, TICKER_VOL_STATS</span>
+  <span class="small-muted">Blocks action if: latest positions, same-session price/flow, or funding source are missing</span>
+  <span class="small-muted">Promote when: current positions, factor wrapper context, and ticker flow support the trim/add leg</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">Fundstrat signal confirmation</span>
+  <span class="tag t-conf">priority 3</span>
+  <span class="small-muted">Fundstrat-derived calls should be checked against live market structure before action.</span>
+  <span class="small-muted">Tickers: QQQ, RSP, SOX, RYF, TNX, NVDA, ANET, GOOGL</span>
+
+  <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO</span>
+  <span class="small-muted">Blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing</span>
+  <span class="small-muted">Promote when: Fundstrat call and live market structure point in the same direction</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">Asymmetric discovery</span>
+  <span class="tag t-conf">priority 4</span>
+  <span class="small-muted">Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.</span>
+  <span class="small-muted">Tickers: NVDA, GOOGL, ANET, AVGO, GRNY, MAGS, SMH, UUUU</span>
+  <span class="small-muted">Market checks: FLOW_ALERTS, TOP_NET_IMPACT, DARKPOOL_RECENT, LIT_FLOW_RECENT, MARKET_MOVERS, OPTION_CONTRACT_SCREENER, STOCK_SCREENER</span>
+  <span class="small-muted">Ticker checks: ANALYST_RATINGS, INSIDER_TRANSACTIONS, CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES, TICKER_FLOW_PER_EXPIRY, TICKER_FLOW_PER_STRIKE, TICKER_GREEK_FLOW, TICKER_VOL_TERM_STRUCTURE, TICKER_INFO</span>
+  <span class="small-muted">Blocks action if: the setup is only flow/social/context without independent confirmation</span>
+  <span class="small-muted">Promote when: fresh flow plus thesis, sponsor, price, or news evidence creates review-worthy skew</span>
+</div></div>
+  <div class="feedback-line">Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.</div>
+  <div class="cmd-row"><span class="cmd-name">print runbook</span><span class="cmd-desc"><code>python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
+</div>
+
 <div id="operator-hardening">
 
 <div class="card">
@@ -685,7 +736,10 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/21; missing live-capable=0.
 </div>
 <div class="audit-row">
-  <span class="audit-k">UW routing</span>UW routing: 3 scenario profile(s) recommended; top=Event-risk and political macro.
+  <span class="audit-k">UW routing</span>UW routing: 4 scenario profile(s) recommended; top=Event-risk and political macro.
+</div>
+<div class="audit-row">
+  <span class="audit-k">UW action runbook</span>UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.
 </div>
 <div class="audit-row">
   <span class="audit-k">Fundstrat intake</span>Fundstrat intake: 1 full-body, 0 snippet-only, 3 daily calls, 0 stored source-call candidates.
@@ -697,7 +751,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
   <div class="feedback-line">Background scheduled receipts pending: Investing OS Fundstrat Pre-Market Safety Sweep, Investing OS UW Opportunity Cache, Investing OS Parabolic Cache, Investing OS Fundstrat After-Hours Catch-Up, Investing OS Weekly Pilot Run</div>
-  <div class="feedback-line">UW next checks: Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Portfolio reallocation: Sizing-gap actions need current exposure, funding, factor, and flow checks. [TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, ETF_TIDE, SECTOR_TIDE]<br>Asymmetric discovery: Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow. [FLOW_ALERTS, TOP_NET_IMPACT, DARKPOOL_RECENT, ANALYST_RATINGS, INSIDER_TRANSACTIONS]</div>
+  <div class="feedback-line">UW next checks: Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Portfolio reallocation: Sizing-gap actions need current exposure, funding, factor, and flow checks. [TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, ETF_TIDE, SECTOR_TIDE]<br>Fundstrat signal confirmation: Fundstrat-derived calls should be checked against live market structure before action. [TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OHLC, TICKER_STOCK_STATE]</div>
 </div>
 
 <div class="card" id="feedback-loops">
@@ -709,7 +763,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T17:01:57.674661+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T17:01:57.674661+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T17:01:57.674661+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-07T17:01:57.674661+00:00 | no dark lanes reported in lane-status block">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T17:01:57.674661+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T17:21:55.110918+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T17:21:55.110918+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T17:21:55.110918+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-07T17:21:55.110918+00:00 | no dark lanes reported in lane-status block">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T17:21:55.110918+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

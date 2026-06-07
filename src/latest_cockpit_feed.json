@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T17:01:58.110971+00:00",
+  "generated_at": "2026-06-07T17:21:55.227823+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T13:01:58.110971-04:00",
+        "date": "2026-06-07T13:21:55.227823-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T13:01:58.110971-04:00",
+        "date": "2026-06-07T13:21:55.227823-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1117,31 +1117,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T17:01:57.674661+00:00",
+      "last_run": "2026-06-07T17:21:55.110918+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T17:01:57.674661+00:00",
+      "last_run": "2026-06-07T17:21:55.110918+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T17:01:57.674661+00:00",
+      "last_run": "2026-06-07T17:21:55.110918+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-07T17:01:57.674661+00:00",
+      "last_run": "2026-06-07T17:21:55.110918+00:00",
       "note": "no dark lanes reported in lane-status block"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T17:01:57.674661+00:00",
+      "last_run": "2026-06-07T17:21:55.110918+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -2267,186 +2267,6 @@
         }
       ]
     }
-  },
-  "uw_routing": {
-    "status": "has_data",
-    "line": "UW routing: 3 scenario profile(s) recommended; top=Event-risk and political macro.",
-    "rows": [
-      {
-        "mode": "event_risk_political_macro",
-        "label": "Event-risk and political macro",
-        "priority": 1,
-        "reason": "Active event-risk lane can overpower normal thesis and flow signals.",
-        "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
-        "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
-        "top_endpoints": [
-          "MARKET_TIDE",
-          "TOP_NET_IMPACT",
-          "MARKET_MOVERS",
-          "SECTOR_TIDE",
-          "ETF_TIDE",
-          "MARKET_CORRELATIONS",
-          "CONGRESS_RECENT_TRADES",
-          "CONGRESS_UNUSUAL_BY_TICKERS"
-        ],
-        "groups": [
-          {
-            "key": "macro_tape",
-            "priority": 1,
-            "scope": "market",
-            "endpoints": [
-              "MARKET_TIDE",
-              "TOP_NET_IMPACT",
-              "MARKET_MOVERS",
-              "ECONOMIC_CALENDAR",
-              "NEWS_HEADLINES"
-            ],
-            "decision_use": "Determine whether to keep actions in watch/re-check or promote protective action."
-          },
-          {
-            "key": "factor_transmission",
-            "priority": 2,
-            "scope": "sector_or_etf",
-            "endpoints": [
-              "SECTOR_TIDE",
-              "ETF_TIDE",
-              "MARKET_CORRELATIONS"
-            ],
-            "decision_use": "Identify which exposure sleeves are actually at risk."
-          },
-          {
-            "key": "policy_and_sponsor_context",
-            "priority": 3,
-            "scope": "market_or_ticker",
-            "endpoints": [
-              "CONGRESS_RECENT_TRADES",
-              "CONGRESS_UNUSUAL_BY_TICKERS",
-              "NEWS_HEADLINES"
-            ],
-            "decision_use": "Add context to rationale drawers without using it as standalone tactical proof."
-          }
-        ]
-      },
-      {
-        "mode": "portfolio_reallocation",
-        "label": "Portfolio reallocation",
-        "priority": 2,
-        "reason": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
-        "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
-        "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
-        "top_endpoints": [
-          "TICKER_OHLC",
-          "TICKER_STOCK_STATE",
-          "TICKER_INFO",
-          "ETF_TIDE",
-          "SECTOR_TIDE",
-          "MARKET_CORRELATIONS",
-          "ANALYST_RATINGS",
-          "INSTITUTION_OWNERSHIP"
-        ],
-        "groups": [
-          {
-            "key": "exposure_and_price_state",
-            "priority": 1,
-            "scope": "ticker",
-            "endpoints": [
-              "TICKER_OHLC",
-              "TICKER_STOCK_STATE",
-              "TICKER_INFO",
-              "COMPANY_PROFILE"
-            ],
-            "decision_use": "Build the current exposure, drawdown, and entry-quality map for each material holding."
-          },
-          {
-            "key": "factor_and_wrapper_context",
-            "priority": 2,
-            "scope": "sector_or_etf",
-            "endpoints": [
-              "ETF_TIDE",
-              "SECTOR_TIDE",
-              "MARKET_CORRELATIONS",
-              "TOTAL_OPTIONS_VOLUME"
-            ],
-            "decision_use": "Separate factor-flat rotations from net-new risk increases."
-          },
-          {
-            "key": "conviction_and_sponsorship",
-            "priority": 3,
-            "scope": "ticker_or_company",
-            "endpoints": [
-              "ANALYST_RATINGS",
-              "INSTITUTION_OWNERSHIP",
-              "TICKER_INSIDERS",
-              "TICKER_INSIDER_FLOW",
-              "NEWS_HEADLINES"
-            ],
-            "decision_use": "Rank add/trim legs by conviction, disconfirmation, and impact rather than gap size alone."
-          }
-        ]
-      },
-      {
-        "mode": "asymmetric_discovery",
-        "label": "Asymmetric discovery",
-        "priority": 4,
-        "reason": "Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
-        "operator_question": "What deserves scarce review time because the upside/downside skew may be unusually large?",
-        "freshness_requirement": "Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.",
-        "top_endpoints": [
-          "FLOW_ALERTS",
-          "TOP_NET_IMPACT",
-          "DARKPOOL_RECENT",
-          "ANALYST_RATINGS",
-          "INSIDER_TRANSACTIONS",
-          "CONGRESS_RECENT_TRADES",
-          "TICKER_FLOW_PER_EXPIRY",
-          "TICKER_FLOW_PER_STRIKE"
-        ],
-        "groups": [
-          {
-            "key": "market_wide_unusual_activity",
-            "priority": 1,
-            "scope": "market",
-            "endpoints": [
-              "FLOW_ALERTS",
-              "TOP_NET_IMPACT",
-              "DARKPOOL_RECENT",
-              "LIT_FLOW_RECENT",
-              "MARKET_MOVERS",
-              "OPTION_CONTRACT_SCREENER",
-              "STOCK_SCREENER"
-            ],
-            "decision_use": "Create review prompts, not trade instructions, until thesis and freshness checks pass."
-          },
-          {
-            "key": "sponsor_and_information_edge",
-            "priority": 2,
-            "scope": "market_or_ticker",
-            "endpoints": [
-              "ANALYST_RATINGS",
-              "INSIDER_TRANSACTIONS",
-              "CONGRESS_RECENT_TRADES",
-              "CONGRESS_UNUSUAL_BY_TICKERS",
-              "NEWS_HEADLINES"
-            ],
-            "decision_use": "Boost review priority only when independent evidence supports the flow anomaly."
-          },
-          {
-            "key": "ticker_followup",
-            "priority": 3,
-            "scope": "ticker",
-            "endpoints": [
-              "TICKER_FLOW_PER_EXPIRY",
-              "TICKER_FLOW_PER_STRIKE",
-              "TICKER_GREEK_FLOW",
-              "TICKER_VOL_TERM_STRUCTURE",
-              "TICKER_INFO"
-            ],
-            "decision_use": "Decide whether to send to Research Queue, Quiet Watch, or Key Now re-check."
-          }
-        ]
-      }
-    ],
-    "honesty_rule": "Routing recommends endpoint groups only; it is not proof that those endpoints were fetched."
   },
   "portfolio_views": {
     "snapshot_date": "2026-05-31",
@@ -9086,7 +8906,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 1.64
+        "connector_proof_age_hours": 1.97
       }
     ],
     "missing": [],
@@ -9283,13 +9103,13 @@
           "routine_name": "Investing OS Deep Synthesis",
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
-          "receipt_count": 13,
-          "last_status": "started",
+          "receipt_count": 14,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-07T17:01:19.819628Z",
-          "last_success_at": "2026-06-06T03:01:18.988327Z",
-          "last_scheduled_success_at": "2026-06-06T03:01:18.988327Z",
-          "last_summary": "deep synthesis started"
+          "last_recorded_at": "2026-06-07T17:10:36.318046Z",
+          "last_success_at": "2026-06-07T17:10:36.318046Z",
+          "last_scheduled_success_at": "2026-06-07T17:10:36.318046Z",
+          "last_summary": "30d weekly deep: semis damage-control, closure gaps outrun new signals, pilots evidenced but thin; Notion page written+verified; blocker: Notion query endpoint unavailable"
         },
         {
           "routine_id": "investing-os-weekly-pilot-run",
@@ -9633,7 +9453,7 @@
     },
     "uw_routing": {
       "status": "has_data",
-      "line": "UW routing: 3 scenario profile(s) recommended; top=Event-risk and political macro.",
+      "line": "UW routing: 4 scenario profile(s) recommended; top=Event-risk and political macro.",
       "rows": [
         {
           "mode": "event_risk_political_macro",
@@ -9748,6 +9568,64 @@
           ]
         },
         {
+          "mode": "fundstrat_signal_confirmation",
+          "label": "Fundstrat signal confirmation",
+          "priority": 3,
+          "reason": "Fundstrat-derived calls should be checked against live market structure before action.",
+          "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
+          "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
+          "top_endpoints": [
+            "TICKER_FLOW_RECENT",
+            "TICKER_FLOW_ALERTS",
+            "DARKPOOL_TICKER",
+            "TICKER_OHLC",
+            "TICKER_STOCK_STATE",
+            "TICKER_GREEK_EXPOSURE_STRIKE",
+            "ANALYST_RATINGS",
+            "NEWS_HEADLINES"
+          ],
+          "groups": [
+            {
+              "key": "tactical_confirmation",
+              "priority": 1,
+              "scope": "ticker",
+              "endpoints": [
+                "TICKER_FLOW_RECENT",
+                "TICKER_FLOW_ALERTS",
+                "DARKPOOL_TICKER",
+                "TICKER_OPTIONS_VOLUME",
+                "TICKER_OI_CHANGE"
+              ],
+              "decision_use": "Upgrade to Key Now only when flow/price evidence supports the call or the risk of delay is high."
+            },
+            {
+              "key": "entry_quality",
+              "priority": 2,
+              "scope": "ticker",
+              "endpoints": [
+                "TICKER_OHLC",
+                "TICKER_STOCK_STATE",
+                "TICKER_GREEK_EXPOSURE_STRIKE",
+                "TICKER_SPOT_EXPOSURES_STRIKE",
+                "TICKER_IV_RANK"
+              ],
+              "decision_use": "Tag recommendation timing as act now, scale, wait for pullback, or re-check before acting."
+            },
+            {
+              "key": "thesis_context",
+              "priority": 3,
+              "scope": "ticker_or_company",
+              "endpoints": [
+                "ANALYST_RATINGS",
+                "NEWS_HEADLINES",
+                "COMPANY_PROFILE",
+                "TICKER_INFO"
+              ],
+              "decision_use": "Populate rationale drawers and disconfirmation notes."
+            }
+          ]
+        },
+        {
           "mode": "asymmetric_discovery",
           "label": "Asymmetric discovery",
           "priority": 4,
@@ -9810,6 +9688,634 @@
         }
       ],
       "honesty_rule": "Routing recommends endpoint groups only; it is not proof that those endpoints were fetched."
+    },
+    "uw_action_runbook": {
+      "status": "has_data",
+      "line": "UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
+      "rows": [
+        {
+          "mode": "event_risk_political_macro",
+          "label": "Event-risk and political macro",
+          "priority": 1,
+          "why": "Active event-risk lane can overpower normal thesis and flow signals.",
+          "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
+          "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
+          "ticker_scope": [
+            "XOP",
+            "XLE",
+            "TNX",
+            "RYF",
+            "XLF",
+            "COIN",
+            "HOOD",
+            "BX",
+            "KKR",
+            "MAGS",
+            "SMH",
+            "SPY",
+            "GRNY"
+          ],
+          "market_checks": [
+            "MARKET_TIDE",
+            "TOP_NET_IMPACT",
+            "MARKET_MOVERS",
+            "ECONOMIC_CALENDAR",
+            "NEWS_HEADLINES",
+            "SECTOR_TIDE",
+            "ETF_TIDE",
+            "MARKET_CORRELATIONS"
+          ],
+          "ticker_checks": [
+            "CONGRESS_RECENT_TRADES",
+            "CONGRESS_UNUSUAL_BY_TICKERS",
+            "NEWS_HEADLINES"
+          ],
+          "blocks_action_if": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory",
+          "promote_when": "macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing",
+          "downgrade_when": "the shock is stale, headlines reverse, or affected sectors stabilize against the warning"
+        },
+        {
+          "mode": "portfolio_reallocation",
+          "label": "Portfolio reallocation",
+          "priority": 2,
+          "why": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
+          "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
+          "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
+          "ticker_scope": [
+            "GRNY",
+            "NVDA",
+            "SMH",
+            "GOOGL",
+            "AVGO",
+            "MU",
+            "ANET"
+          ],
+          "market_checks": [
+            "ETF_TIDE",
+            "SECTOR_TIDE",
+            "MARKET_CORRELATIONS",
+            "TOTAL_OPTIONS_VOLUME"
+          ],
+          "ticker_checks": [
+            "TICKER_OHLC",
+            "TICKER_STOCK_STATE",
+            "TICKER_INFO",
+            "COMPANY_PROFILE",
+            "ANALYST_RATINGS",
+            "INSTITUTION_OWNERSHIP",
+            "TICKER_INSIDERS",
+            "TICKER_INSIDER_FLOW",
+            "NEWS_HEADLINES",
+            "TICKER_FLOW_RECENT",
+            "DARKPOOL_TICKER",
+            "TICKER_OPTIONS_VOLUME",
+            "TICKER_IV_RANK",
+            "TICKER_VOL_STATS"
+          ],
+          "blocks_action_if": "latest positions, same-session price/flow, or funding source are missing",
+          "promote_when": "current positions, factor wrapper context, and ticker flow support the trim/add leg",
+          "downgrade_when": "the target gap is stale, already funded, or live flow/price argues for waiting"
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "label": "Fundstrat signal confirmation",
+          "priority": 3,
+          "why": "Fundstrat-derived calls should be checked against live market structure before action.",
+          "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
+          "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
+          "ticker_scope": [
+            "QQQ",
+            "RSP",
+            "SOX",
+            "RYF",
+            "TNX",
+            "NVDA",
+            "ANET",
+            "GOOGL"
+          ],
+          "market_checks": [],
+          "ticker_checks": [
+            "TICKER_FLOW_RECENT",
+            "TICKER_FLOW_ALERTS",
+            "DARKPOOL_TICKER",
+            "TICKER_OPTIONS_VOLUME",
+            "TICKER_OI_CHANGE",
+            "TICKER_OHLC",
+            "TICKER_STOCK_STATE",
+            "TICKER_GREEK_EXPOSURE_STRIKE",
+            "TICKER_SPOT_EXPOSURES_STRIKE",
+            "TICKER_IV_RANK",
+            "ANALYST_RATINGS",
+            "NEWS_HEADLINES",
+            "COMPANY_PROFILE",
+            "TICKER_INFO"
+          ],
+          "blocks_action_if": "Fundstrat evidence is dated and same-day UW/price confirmation is missing",
+          "promote_when": "Fundstrat call and live market structure point in the same direction",
+          "downgrade_when": "price/flow contradicts the call or the call was already absorbed by the tape"
+        },
+        {
+          "mode": "asymmetric_discovery",
+          "label": "Asymmetric discovery",
+          "priority": 4,
+          "why": "Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
+          "operator_question": "What deserves scarce review time because the upside/downside skew may be unusually large?",
+          "freshness_requirement": "Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.",
+          "ticker_scope": [
+            "NVDA",
+            "GOOGL",
+            "ANET",
+            "AVGO",
+            "GRNY",
+            "MAGS",
+            "SMH",
+            "UUUU"
+          ],
+          "market_checks": [
+            "FLOW_ALERTS",
+            "TOP_NET_IMPACT",
+            "DARKPOOL_RECENT",
+            "LIT_FLOW_RECENT",
+            "MARKET_MOVERS",
+            "OPTION_CONTRACT_SCREENER",
+            "STOCK_SCREENER"
+          ],
+          "ticker_checks": [
+            "ANALYST_RATINGS",
+            "INSIDER_TRANSACTIONS",
+            "CONGRESS_RECENT_TRADES",
+            "CONGRESS_UNUSUAL_BY_TICKERS",
+            "NEWS_HEADLINES",
+            "TICKER_FLOW_PER_EXPIRY",
+            "TICKER_FLOW_PER_STRIKE",
+            "TICKER_GREEK_FLOW",
+            "TICKER_VOL_TERM_STRUCTURE",
+            "TICKER_INFO"
+          ],
+          "blocks_action_if": "the setup is only flow/social/context without independent confirmation",
+          "promote_when": "fresh flow plus thesis, sponsor, price, or news evidence creates review-worthy skew",
+          "downgrade_when": "the anomaly is late, promotional, or unsupported by follow-up endpoints"
+        }
+      ],
+      "scoped_tickers": [
+        "ANET",
+        "AVGO",
+        "BX",
+        "COIN",
+        "GOOGL",
+        "GRNY",
+        "HOOD",
+        "KKR",
+        "MAGS",
+        "MU",
+        "NVDA",
+        "QQQ",
+        "RSP",
+        "RYF",
+        "SMH",
+        "SOX",
+        "SPY",
+        "TNX",
+        "UUUU",
+        "XLE",
+        "XLF",
+        "XOP"
+      ],
+      "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
+      "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched."
     }
+  },
+  "uw_routing": {
+    "status": "has_data",
+    "line": "UW routing: 4 scenario profile(s) recommended; top=Event-risk and political macro.",
+    "rows": [
+      {
+        "mode": "event_risk_political_macro",
+        "label": "Event-risk and political macro",
+        "priority": 1,
+        "reason": "Active event-risk lane can overpower normal thesis and flow signals.",
+        "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
+        "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
+        "top_endpoints": [
+          "MARKET_TIDE",
+          "TOP_NET_IMPACT",
+          "MARKET_MOVERS",
+          "SECTOR_TIDE",
+          "ETF_TIDE",
+          "MARKET_CORRELATIONS",
+          "CONGRESS_RECENT_TRADES",
+          "CONGRESS_UNUSUAL_BY_TICKERS"
+        ],
+        "groups": [
+          {
+            "key": "macro_tape",
+            "priority": 1,
+            "scope": "market",
+            "endpoints": [
+              "MARKET_TIDE",
+              "TOP_NET_IMPACT",
+              "MARKET_MOVERS",
+              "ECONOMIC_CALENDAR",
+              "NEWS_HEADLINES"
+            ],
+            "decision_use": "Determine whether to keep actions in watch/re-check or promote protective action."
+          },
+          {
+            "key": "factor_transmission",
+            "priority": 2,
+            "scope": "sector_or_etf",
+            "endpoints": [
+              "SECTOR_TIDE",
+              "ETF_TIDE",
+              "MARKET_CORRELATIONS"
+            ],
+            "decision_use": "Identify which exposure sleeves are actually at risk."
+          },
+          {
+            "key": "policy_and_sponsor_context",
+            "priority": 3,
+            "scope": "market_or_ticker",
+            "endpoints": [
+              "CONGRESS_RECENT_TRADES",
+              "CONGRESS_UNUSUAL_BY_TICKERS",
+              "NEWS_HEADLINES"
+            ],
+            "decision_use": "Add context to rationale drawers without using it as standalone tactical proof."
+          }
+        ]
+      },
+      {
+        "mode": "portfolio_reallocation",
+        "label": "Portfolio reallocation",
+        "priority": 2,
+        "reason": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
+        "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
+        "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
+        "top_endpoints": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "ETF_TIDE",
+          "SECTOR_TIDE",
+          "MARKET_CORRELATIONS",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP"
+        ],
+        "groups": [
+          {
+            "key": "exposure_and_price_state",
+            "priority": 1,
+            "scope": "ticker",
+            "endpoints": [
+              "TICKER_OHLC",
+              "TICKER_STOCK_STATE",
+              "TICKER_INFO",
+              "COMPANY_PROFILE"
+            ],
+            "decision_use": "Build the current exposure, drawdown, and entry-quality map for each material holding."
+          },
+          {
+            "key": "factor_and_wrapper_context",
+            "priority": 2,
+            "scope": "sector_or_etf",
+            "endpoints": [
+              "ETF_TIDE",
+              "SECTOR_TIDE",
+              "MARKET_CORRELATIONS",
+              "TOTAL_OPTIONS_VOLUME"
+            ],
+            "decision_use": "Separate factor-flat rotations from net-new risk increases."
+          },
+          {
+            "key": "conviction_and_sponsorship",
+            "priority": 3,
+            "scope": "ticker_or_company",
+            "endpoints": [
+              "ANALYST_RATINGS",
+              "INSTITUTION_OWNERSHIP",
+              "TICKER_INSIDERS",
+              "TICKER_INSIDER_FLOW",
+              "NEWS_HEADLINES"
+            ],
+            "decision_use": "Rank add/trim legs by conviction, disconfirmation, and impact rather than gap size alone."
+          }
+        ]
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "label": "Fundstrat signal confirmation",
+        "priority": 3,
+        "reason": "Fundstrat-derived calls should be checked against live market structure before action.",
+        "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
+        "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
+        "top_endpoints": [
+          "TICKER_FLOW_RECENT",
+          "TICKER_FLOW_ALERTS",
+          "DARKPOOL_TICKER",
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_GREEK_EXPOSURE_STRIKE",
+          "ANALYST_RATINGS",
+          "NEWS_HEADLINES"
+        ],
+        "groups": [
+          {
+            "key": "tactical_confirmation",
+            "priority": 1,
+            "scope": "ticker",
+            "endpoints": [
+              "TICKER_FLOW_RECENT",
+              "TICKER_FLOW_ALERTS",
+              "DARKPOOL_TICKER",
+              "TICKER_OPTIONS_VOLUME",
+              "TICKER_OI_CHANGE"
+            ],
+            "decision_use": "Upgrade to Key Now only when flow/price evidence supports the call or the risk of delay is high."
+          },
+          {
+            "key": "entry_quality",
+            "priority": 2,
+            "scope": "ticker",
+            "endpoints": [
+              "TICKER_OHLC",
+              "TICKER_STOCK_STATE",
+              "TICKER_GREEK_EXPOSURE_STRIKE",
+              "TICKER_SPOT_EXPOSURES_STRIKE",
+              "TICKER_IV_RANK"
+            ],
+            "decision_use": "Tag recommendation timing as act now, scale, wait for pullback, or re-check before acting."
+          },
+          {
+            "key": "thesis_context",
+            "priority": 3,
+            "scope": "ticker_or_company",
+            "endpoints": [
+              "ANALYST_RATINGS",
+              "NEWS_HEADLINES",
+              "COMPANY_PROFILE",
+              "TICKER_INFO"
+            ],
+            "decision_use": "Populate rationale drawers and disconfirmation notes."
+          }
+        ]
+      },
+      {
+        "mode": "asymmetric_discovery",
+        "label": "Asymmetric discovery",
+        "priority": 4,
+        "reason": "Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
+        "operator_question": "What deserves scarce review time because the upside/downside skew may be unusually large?",
+        "freshness_requirement": "Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.",
+        "top_endpoints": [
+          "FLOW_ALERTS",
+          "TOP_NET_IMPACT",
+          "DARKPOOL_RECENT",
+          "ANALYST_RATINGS",
+          "INSIDER_TRANSACTIONS",
+          "CONGRESS_RECENT_TRADES",
+          "TICKER_FLOW_PER_EXPIRY",
+          "TICKER_FLOW_PER_STRIKE"
+        ],
+        "groups": [
+          {
+            "key": "market_wide_unusual_activity",
+            "priority": 1,
+            "scope": "market",
+            "endpoints": [
+              "FLOW_ALERTS",
+              "TOP_NET_IMPACT",
+              "DARKPOOL_RECENT",
+              "LIT_FLOW_RECENT",
+              "MARKET_MOVERS",
+              "OPTION_CONTRACT_SCREENER",
+              "STOCK_SCREENER"
+            ],
+            "decision_use": "Create review prompts, not trade instructions, until thesis and freshness checks pass."
+          },
+          {
+            "key": "sponsor_and_information_edge",
+            "priority": 2,
+            "scope": "market_or_ticker",
+            "endpoints": [
+              "ANALYST_RATINGS",
+              "INSIDER_TRANSACTIONS",
+              "CONGRESS_RECENT_TRADES",
+              "CONGRESS_UNUSUAL_BY_TICKERS",
+              "NEWS_HEADLINES"
+            ],
+            "decision_use": "Boost review priority only when independent evidence supports the flow anomaly."
+          },
+          {
+            "key": "ticker_followup",
+            "priority": 3,
+            "scope": "ticker",
+            "endpoints": [
+              "TICKER_FLOW_PER_EXPIRY",
+              "TICKER_FLOW_PER_STRIKE",
+              "TICKER_GREEK_FLOW",
+              "TICKER_VOL_TERM_STRUCTURE",
+              "TICKER_INFO"
+            ],
+            "decision_use": "Decide whether to send to Research Queue, Quiet Watch, or Key Now re-check."
+          }
+        ]
+      }
+    ],
+    "honesty_rule": "Routing recommends endpoint groups only; it is not proof that those endpoints were fetched."
+  },
+  "uw_action_runbook": {
+    "status": "has_data",
+    "line": "UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
+    "rows": [
+      {
+        "mode": "event_risk_political_macro",
+        "label": "Event-risk and political macro",
+        "priority": 1,
+        "why": "Active event-risk lane can overpower normal thesis and flow signals.",
+        "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
+        "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
+        "ticker_scope": [
+          "XOP",
+          "XLE",
+          "TNX",
+          "RYF",
+          "XLF",
+          "COIN",
+          "HOOD",
+          "BX",
+          "KKR",
+          "MAGS",
+          "SMH",
+          "SPY",
+          "GRNY"
+        ],
+        "market_checks": [
+          "MARKET_TIDE",
+          "TOP_NET_IMPACT",
+          "MARKET_MOVERS",
+          "ECONOMIC_CALENDAR",
+          "NEWS_HEADLINES",
+          "SECTOR_TIDE",
+          "ETF_TIDE",
+          "MARKET_CORRELATIONS"
+        ],
+        "ticker_checks": [
+          "CONGRESS_RECENT_TRADES",
+          "CONGRESS_UNUSUAL_BY_TICKERS",
+          "NEWS_HEADLINES"
+        ],
+        "blocks_action_if": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory",
+        "promote_when": "macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing",
+        "downgrade_when": "the shock is stale, headlines reverse, or affected sectors stabilize against the warning"
+      },
+      {
+        "mode": "portfolio_reallocation",
+        "label": "Portfolio reallocation",
+        "priority": 2,
+        "why": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
+        "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
+        "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
+        "ticker_scope": [
+          "GRNY",
+          "NVDA",
+          "SMH",
+          "GOOGL",
+          "AVGO",
+          "MU",
+          "ANET"
+        ],
+        "market_checks": [
+          "ETF_TIDE",
+          "SECTOR_TIDE",
+          "MARKET_CORRELATIONS",
+          "TOTAL_OPTIONS_VOLUME"
+        ],
+        "ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW",
+          "NEWS_HEADLINES",
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "TICKER_VOL_STATS"
+        ],
+        "blocks_action_if": "latest positions, same-session price/flow, or funding source are missing",
+        "promote_when": "current positions, factor wrapper context, and ticker flow support the trim/add leg",
+        "downgrade_when": "the target gap is stale, already funded, or live flow/price argues for waiting"
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "label": "Fundstrat signal confirmation",
+        "priority": 3,
+        "why": "Fundstrat-derived calls should be checked against live market structure before action.",
+        "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
+        "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
+        "ticker_scope": [
+          "QQQ",
+          "RSP",
+          "SOX",
+          "RYF",
+          "TNX",
+          "NVDA",
+          "ANET",
+          "GOOGL"
+        ],
+        "market_checks": [],
+        "ticker_checks": [
+          "TICKER_FLOW_RECENT",
+          "TICKER_FLOW_ALERTS",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_OI_CHANGE",
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_GREEK_EXPOSURE_STRIKE",
+          "TICKER_SPOT_EXPOSURES_STRIKE",
+          "TICKER_IV_RANK",
+          "ANALYST_RATINGS",
+          "NEWS_HEADLINES",
+          "COMPANY_PROFILE",
+          "TICKER_INFO"
+        ],
+        "blocks_action_if": "Fundstrat evidence is dated and same-day UW/price confirmation is missing",
+        "promote_when": "Fundstrat call and live market structure point in the same direction",
+        "downgrade_when": "price/flow contradicts the call or the call was already absorbed by the tape"
+      },
+      {
+        "mode": "asymmetric_discovery",
+        "label": "Asymmetric discovery",
+        "priority": 4,
+        "why": "Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.",
+        "operator_question": "What deserves scarce review time because the upside/downside skew may be unusually large?",
+        "freshness_requirement": "Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.",
+        "ticker_scope": [
+          "NVDA",
+          "GOOGL",
+          "ANET",
+          "AVGO",
+          "GRNY",
+          "MAGS",
+          "SMH",
+          "UUUU"
+        ],
+        "market_checks": [
+          "FLOW_ALERTS",
+          "TOP_NET_IMPACT",
+          "DARKPOOL_RECENT",
+          "LIT_FLOW_RECENT",
+          "MARKET_MOVERS",
+          "OPTION_CONTRACT_SCREENER",
+          "STOCK_SCREENER"
+        ],
+        "ticker_checks": [
+          "ANALYST_RATINGS",
+          "INSIDER_TRANSACTIONS",
+          "CONGRESS_RECENT_TRADES",
+          "CONGRESS_UNUSUAL_BY_TICKERS",
+          "NEWS_HEADLINES",
+          "TICKER_FLOW_PER_EXPIRY",
+          "TICKER_FLOW_PER_STRIKE",
+          "TICKER_GREEK_FLOW",
+          "TICKER_VOL_TERM_STRUCTURE",
+          "TICKER_INFO"
+        ],
+        "blocks_action_if": "the setup is only flow/social/context without independent confirmation",
+        "promote_when": "fresh flow plus thesis, sponsor, price, or news evidence creates review-worthy skew",
+        "downgrade_when": "the anomaly is late, promotional, or unsupported by follow-up endpoints"
+      }
+    ],
+    "scoped_tickers": [
+      "ANET",
+      "AVGO",
+      "BX",
+      "COIN",
+      "GOOGL",
+      "GRNY",
+      "HOOD",
+      "KKR",
+      "MAGS",
+      "MU",
+      "NVDA",
+      "QQQ",
+      "RSP",
+      "RYF",
+      "SMH",
+      "SOX",
+      "SPY",
+      "TNX",
+      "UUUU",
+      "XLE",
+      "XLF",
+      "XOP"
+    ],
+    "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
+    "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched."
   }
 }

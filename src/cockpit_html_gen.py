@@ -396,6 +396,7 @@ def _quick_nav(feed: dict) -> str:
   <a class="quick-link" href="#today-actions"><strong>{len(feed.get("actions") or [])}</strong> actions</a>
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>{_e((feed.get("asymmetric_opportunities") or {}).get("count") or 0)}</strong> asymmetry</a>
+  <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(open_actions)}</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>{_e(lane_gaps)}</strong> source gaps</a>
@@ -1131,6 +1132,38 @@ def _asymmetric_opportunities(block: dict) -> str:
 </div>"""
 
 
+def _uw_action_runbook(block: dict) -> str:
+    rows = block.get("rows") or []
+    if not rows:
+        return ""
+    body = ""
+    for row in rows[:5]:
+        tickers = ", ".join(row.get("ticker_scope") or [])
+        market_checks = ", ".join(row.get("market_checks") or [])
+        ticker_checks = ", ".join(row.get("ticker_checks") or [])
+        body += f"""
+<div class="small-item">
+  <span class="context-ticker">{_e(row.get("label") or row.get("mode") or "")}</span>
+  <span class="tag t-conf">priority {_e(row.get("priority") or "")}</span>
+  <span class="small-muted">{_e(row.get("why") or "")}</span>
+  {f'<span class="small-muted">Tickers: {_e(tickers)}</span>' if tickers else ""}
+  {f'<span class="small-muted">Market checks: {_e(market_checks)}</span>' if market_checks else ""}
+  {f'<span class="small-muted">Ticker checks: {_e(ticker_checks)}</span>' if ticker_checks else ""}
+  <span class="small-muted">Blocks action if: {_e(row.get("blocks_action_if") or "")}</span>
+  <span class="small-muted">Promote when: {_e(row.get("promote_when") or "")}</span>
+</div>"""
+    return f"""
+<div class="card" id="uw-action-runbook">
+  <div class="card-title"><span class="icon">?</span> UW action runbook
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
+  </div>
+  <div class="feedback-line">{_e(block.get("line") or "")}</div>
+  <div class="small-list">{body}</div>
+  {f'<div class="feedback-line">{_e(block.get("honesty_rule") or "")}</div>' if block.get("honesty_rule") else ""}
+  {f'<div class="cmd-row"><span class="cmd-name">print runbook</span><span class="cmd-desc"><code>{_e(block.get("command") or "")}</code></span></div>' if block.get("command") else ""}
+</div>"""
+
+
 def _research_actions(actions: list) -> str:
     if not actions:
         return ""
@@ -1277,6 +1310,7 @@ def _source_audits(audits: dict) -> str:
         ("cloud_routines", "Cloud routines"),
         ("connector_evidence", "Connector evidence"),
         ("uw_routing", "UW routing"),
+        ("uw_action_runbook", "UW action runbook"),
         ("fundstrat", "Fundstrat intake"),
         ("notion_writeback", "Notion/writeback"),
         ("notion_collision", "Notion collision"),
@@ -1528,6 +1562,7 @@ def generate_html(feed: dict) -> str:
     hero_html   = _hero(feed.get("hero") or {})
     actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
     asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
+    uw_action_runbook_html = _uw_action_runbook(feed.get("uw_action_runbook") or {})
     operator_hardening_html = _operator_hardening(feed.get("operator_hardening") or {})
     research_actions_html = _research_actions(feed.get("research_actions") or [])
     fresh_html = _fresh_signals(feed.get("fresh_signals") or [])
@@ -1588,6 +1623,7 @@ def generate_html(feed: dict) -> str:
     {actions_html}
     {operator_html}
     {asymmetric_html}
+    {uw_action_runbook_html}
     {operator_hardening_html}
     {research_actions_html}
     {context_html}

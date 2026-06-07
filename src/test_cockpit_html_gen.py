@@ -36,6 +36,36 @@ def _feed():
                 }
             ],
         },
+        "uw_action_runbook": {
+            "status": "has_data",
+            "line": "UW action runbook: 2 check set(s), 3 scoped ticker(s); endpoint results not claimed.",
+            "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
+            "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
+            "rows": [
+                {
+                    "mode": "event_risk_political_macro",
+                    "label": "Event-risk and political macro",
+                    "priority": 1,
+                    "why": "Active event-risk lane can overpower normal thesis and flow signals.",
+                    "ticker_scope": ["XOP", "TNX"],
+                    "market_checks": ["MARKET_TIDE", "TOP_NET_IMPACT"],
+                    "ticker_checks": ["NEWS_HEADLINES"],
+                    "blocks_action_if": "same-session headlines are missing",
+                    "promote_when": "macro tape confirms the risk",
+                },
+                {
+                    "mode": "portfolio_reallocation",
+                    "label": "Portfolio reallocation",
+                    "priority": 2,
+                    "why": "Sizing-gap actions need current exposure checks.",
+                    "ticker_scope": ["NVDA"],
+                    "market_checks": ["ETF_TIDE"],
+                    "ticker_checks": ["TICKER_OHLC", "TICKER_FLOW_RECENT"],
+                    "blocks_action_if": "latest positions are missing",
+                    "promote_when": "current positions and live flow support the leg",
+                },
+            ],
+        },
         "source_audits": {
             "cloud_routines": {
                 "line": "Background cloud proof: 2/10 scheduled receipts proven; failed latest=0.",
@@ -63,6 +93,9 @@ def _feed():
                         "top_endpoints": ["TICKER_OHLC", "ETF_TIDE"],
                     },
                 ],
+            },
+            "uw_action_runbook": {
+                "line": "UW action runbook: 2 check set(s), 3 scoped ticker(s); endpoint results not claimed.",
             },
             "fundstrat": {
                 "line": "Fundstrat intake: 4 full-body, 1 snippet-only, 0 daily calls, 3 stored source-call candidates.",
@@ -474,6 +507,11 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert "Check support before adding." in html
     assert "Asymmetric opportunities" in html
     assert "High-conviction target gap" in html
+    assert 'id="uw-action-runbook"' in html
+    assert "UW action runbook: 2 check set" in html
+    assert "Event-risk and political macro" in html
+    assert "TICKER_FLOW_RECENT" in html
+    assert "checks, not proof" in html
     assert 'id="source-audits"' in html
     assert "Background cloud proof: 2/10 scheduled receipts proven" in html
     assert "Fundstrat intake: 4 full-body" in html

@@ -38,6 +38,15 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- UW action runbook.
+  - Added `uw_action_runbook.py` to turn the current cockpit feed into
+    scenario-specific UW check sets with ticker scopes, market checks, ticker
+    checks, promotion rules, downgrade rules, and action blockers.
+  - Fixed UW routing build order so Fundstrat source-audit evidence can
+    correctly trigger the Fundstrat-confirmation profile.
+  - Rendered the runbook in the canonical dashboard and HTML summary/export,
+    while keeping the honesty rule explicit: this is endpoint/check routing,
+    not proof that UW endpoint results were fetched.
 - UW routing surfaced in Source Proof.
   - Added `uw_routing_recommendations.py` to translate the current feed state
     into next UW scenario profiles, such as event-risk macro, portfolio

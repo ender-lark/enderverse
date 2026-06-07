@@ -16,6 +16,7 @@ SUMMARY_RENDERED_BLOCKS = {
     "research_actions",
     "signal_log",
     "source_audits",
+    "uw_action_runbook",
 }
 
 

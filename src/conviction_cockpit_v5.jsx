@@ -872,6 +872,7 @@ function actionVM(feed){
     actions,
     actionGroups: feed.action_decision_groups||{},
     asymmetricOpportunities: feed.asymmetric_opportunities||{},
+    uwActionRunbook: feed.uw_action_runbook||{},
     sourceAudits: feed.source_audits||{},
     actionSplit: {
       actNow: actions.filter(a=>a.actionState==="ACT_NOW"),
@@ -1221,6 +1222,28 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           ))}
         </Section>
 
+        <Section id="uw-action-runbook" title="UW Action Runbook" icon="?" badge={((VM.uwActionRunbook||{}).rows||[]).length?`${((VM.uwActionRunbook||{}).rows||[]).length}`:"0"} badgeColor={((VM.uwActionRunbook||{}).rows||[]).length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={((VM.uwActionRunbook||{}).rows||[]).length>0}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SCENARIO CHECKLIST FROM THE CURRENT DASHBOARD. It recommends UW endpoint groups and ticker scopes; it is not proof any endpoint was fetched.</div>
+          {!(((VM.uwActionRunbook||{}).rows||[]).length) && <div style={{ ...card, fontSize:12, color:C.faint }}>No active UW check set in this feed build.</div>}
+          {((VM.uwActionRunbook||{}).rows||[]).map((r,i)=>(
+            <div key={`${r.mode||r.label}${i}`} style={{ ...card, marginBottom:8, borderColor:C.blue+"33" }}>
+              <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.label||r.mode}</span>
+                <span style={{ fontFamily:mono, fontSize:11, color:C.blue, border:`1px solid ${C.blue}55`, borderRadius:99, padding:"1px 8px" }}>priority {r.priority||i+1}</span>
+              </div>
+              {r.why && <div style={{ marginTop:6, fontSize:12.5, color:C.text }}>{r.why}</div>}
+              {r.operator_question && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Question: {r.operator_question}</div>}
+              {(r.ticker_scope||[]).length>0 && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>tickers: {(r.ticker_scope||[]).join(", ")}</div>}
+              {(r.market_checks||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>market checks: {(r.market_checks||[]).join(", ")}</div>}
+              {(r.ticker_checks||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>ticker checks: {(r.ticker_checks||[]).join(", ")}</div>}
+              <div style={{ marginTop:7, paddingTop:7, borderTop:`1px solid ${C.line}`, fontSize:11.5, color:C.amber }}>Blocks action if: {r.blocks_action_if||"fresh confirming evidence is missing"}</div>
+              <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Promote when: {r.promote_when||"routed checks confirm the dashboard thesis"}</div>
+              <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Downgrade when: {r.downgrade_when||"fresh evidence fails or contradicts"}</div>
+            </div>
+          ))}
+          {(VM.uwActionRunbook||{}).command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {(VM.uwActionRunbook||{}).command}</div>}
+        </Section>
+
         {/* TOP PROSPECTS — the conviction-stack watchlist (item 5): FS-sourced
             names ranked by conviction/urgency, with alpha-vs-SPY movers + a
             sell-fast strip. Candidate surface; not the held book. */}
@@ -1441,6 +1464,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               ["Cloud routines", (A.cloud_routines||{}).line],
               ["Connector evidence", (A.connector_evidence||{}).line],
               ["UW routing", (A.uw_routing||{}).line],
+              ["UW action runbook", (A.uw_action_runbook||{}).line],
               ["Fundstrat intake", (A.fundstrat||{}).line],
               ["Notion/writeback", (A.notion_writeback||{}).line],
             ].filter(r=>r[1]);
