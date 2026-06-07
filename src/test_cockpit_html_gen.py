@@ -605,6 +605,7 @@ def test_generated_html_formats_utc_midnight_build_as_eastern_time():
 def test_generated_html_surfaces_opportunity_context():
     html = generate_html(_feed())
 
+    assert 'id="opportunity-context"' in html
     assert "Opportunity context" in html
     assert "context, not orders" in html
     assert "Target drift" in html
@@ -616,6 +617,38 @@ def test_generated_html_surfaces_opportunity_context():
     assert "JETS" in html
     assert "Bullish flow" in html
     assert "BMNR" in html
+
+
+def test_generated_html_prioritizes_prospects_and_pushes_social_to_bottom():
+    feed = _feed()
+    feed["actions"] = [{
+        "rank": 1,
+        "ticker": "NVDA",
+        "kind": "conviction_gap",
+        "action_state": "WATCH",
+        "confidence": "High",
+        "goal_impact": "High",
+        "what": "NVDA is under target",
+        "your_move": "Gate before sizing.",
+        "decision_group": "key_now",
+        "decision_group_label": "Key Now",
+    }]
+    html = generate_html(feed)
+
+    assert 'href="#opportunity-context"' in html
+    assert html.index('href="#opportunity-context"') < html.index('href="#social-watch"')
+    assert html.index('id="today-actions"') < html.index('id="opportunity-context"')
+    assert html.index('id="opportunity-context"') < html.index('id="operator-status"')
+    assert html.index('id="social-watch"') > html.index('id="portfolio-views"')
+
+
+def test_generated_html_has_collapsible_dashboard_cards():
+    html = generate_html(_feed())
+
+    assert ".card.is-collapsible.is-collapsed" in html
+    assert "function setupCollapsibleCards()" in html
+    assert "card-mini" in html
+    assert "const keepOpen = new Set([]);" in html
 
 
 def test_opportunity_context_radar_prefers_latest_rows():

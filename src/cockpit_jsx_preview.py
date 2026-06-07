@@ -60,7 +60,9 @@ html, body, #root {{ margin:0; min-height:100%; background:#0c0e12; }}
 </head>
 <body>
 <div id="root"></div>
-<script type="module" src="./{js_name}"></script>
+<script type="module">
+import("./{js_name}?v=" + Date.now());
+</script>
 </body>
 </html>
 """

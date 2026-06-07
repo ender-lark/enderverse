@@ -118,6 +118,14 @@ a{color:#58a6ff;text-decoration:none}
   letter-spacing:.9px;color:#8b949e;margin-bottom:9px;display:flex;
   align-items:center;gap:6px}
 .card-title .icon{font-size:14px}
+.card.is-collapsible>.card-title{cursor:pointer;margin-bottom:4px}
+.card.is-collapsible>.card-title:before{content:"v";font-family:monospace;
+  font-size:10px;color:#484f58;margin-right:2px}
+.card.is-collapsible.is-collapsed>.card-title:before{content:">"}
+.card.is-collapsible.is-collapsed>:not(.card-title):not(.card-mini){display:none}
+.card.is-collapsible:not(.is-collapsed)>.card-mini{display:none}
+.card-mini{font-size:12px;color:#8b949e;margin-top:4px;line-height:1.4;
+  font-weight:400;text-transform:none;letter-spacing:0}
 
 /* ── heartbeat strip ── */
 .hb{display:flex;flex-wrap:wrap;gap:5px}
@@ -398,17 +406,18 @@ def _quick_nav(feed: dict) -> str:
 <div class="quick-nav">
   <a class="quick-link" href="#today-actions"><strong>{len(feed.get("actions") or [])}</strong> actions</a>
   <a class="quick-link" href="#market-open-packet"><strong>open</strong> packet</a>
-  <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
+  <a class="quick-link" href="#opportunity-context"><strong>top</strong> prospects</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>{_e((feed.get("asymmetric_opportunities") or {}).get("count") or 0)}</strong> asymmetry</a>
-  <a class="quick-link" href="#social-watch"><strong>{_e((feed.get("social_watch") or {}).get("count") or 0)}</strong> social</a>
+  <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
+  <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
   <a class="quick-link" href="#source-audits"><strong>{_e(uw_proof_label)}</strong> UW results</a>
-  <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(open_actions)}</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>{_e(lane_gaps)}</strong> source gaps</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(source_label)}</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
+  <a class="quick-link" href="#social-watch"><strong>{_e((feed.get("social_watch") or {}).get("count") or 0)}</strong> social dark</a>
 </div>"""
 
 
@@ -1189,7 +1198,7 @@ def _opportunity_context(feed: dict) -> str:
   {''.join(rows)}
 </div>"""
     return f"""
-<div class="card">
+<div class="card" id="opportunity-context">
   <div class="card-title"><span class="icon">+</span> Opportunity context
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">context, not orders</span>
   </div>
@@ -1948,14 +1957,13 @@ def generate_html(feed: dict) -> str:
     {quick_html}
     {market_open_packet_html}
     {actions_html}
-    {operator_html}
+    {context_html}
     {asymmetric_html}
-    {social_watch_html}
-    {uw_action_runbook_html}
     {reallocation_brief_html}
+    {operator_html}
+    {uw_action_runbook_html}
     {operator_hardening_html}
     {research_actions_html}
-    {context_html}
     {lane_html}
     {source_audits_html}
     {feedback_html}
@@ -1976,6 +1984,7 @@ def generate_html(feed: dict) -> str:
     {res_html}
     {lean_html}
     {portfolio_views_html}
+    {social_watch_html}
   </div>
 
   <div id="tab-book" style="display:none">
@@ -1997,6 +2006,33 @@ function showTab(name, btn) {{
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }}
+function cardSummary(card) {{
+  const explicit = card.getAttribute('data-summary');
+  if (explicit) return explicit;
+  const pieces = Array.from(card.children)
+    .filter(el => !(el.classList && (el.classList.contains('card-title') || el.classList.contains('card-mini'))))
+    .map(el => (el.textContent || '').replace(/\\s+/g, ' ').trim())
+    .filter(Boolean);
+  const text = pieces[0] || 'Open for details.';
+  return text.length > 130 ? text.slice(0, 127).trim() + '...' : text;
+}}
+function setupCollapsibleCards() {{
+  const keepOpen = new Set([]);
+  document.querySelectorAll('#tab-dashboard > .card[id]').forEach(card => {{
+    if (card.dataset.collapseReady) return;
+    const title = Array.from(card.children).find(el => el.classList && el.classList.contains('card-title'));
+    if (!title) return;
+    card.dataset.collapseReady = '1';
+    card.classList.add('is-collapsible');
+    const mini = document.createElement('div');
+    mini.className = 'card-mini';
+    mini.textContent = cardSummary(card);
+    title.insertAdjacentElement('afterend', mini);
+    if (!keepOpen.has(card.id)) card.classList.add('is-collapsed');
+    title.addEventListener('click', () => card.classList.toggle('is-collapsed'));
+  }});
+}}
+setupCollapsibleCards();
 </script>
 </body>
 </html>"""))

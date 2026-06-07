@@ -160,6 +160,23 @@ The system synthesizes only from explicit source or repo evidence:
 
 The dashboard shows the feed plus operator state:
 
+- Layout contract:
+  - Validate the canonical JSX cockpit first. `docs/index.html` is a generated
+    HTML mirror/export and must not carry operator meaning that the JSX cockpit
+    lacks.
+  - The Action surface is scan-first by default. Major categories render as
+    compact rows with a useful summary, then expand independently for details.
+    The first screen should answer what matters today, what assumptions need a
+    refresh, what capital-allocation opportunities exist, and what evidence is
+    missing.
+  - Time-sensitive and capital-allocation sections stay high in this order:
+    Market-Open Packet, Today's Actions, Top Prospects, Asymmetric
+    Opportunities, UW/reallocation/target-drift gates, then research/watch/proof
+    context.
+  - Reddit/social remains last until the compliant feed is implemented. Missing
+    social data is still visible as `not_checked`, but it should not compete for
+    first-screen attention or promote an action without independent proof.
+
 - Today's Actions: `feed.actions`
   - Includes engine actions, catalyst/event-risk review prompts, and
     conservative synthesis actions.

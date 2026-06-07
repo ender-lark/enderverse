@@ -24,4 +24,4 @@ def test_html_source_points_to_jsx_preview_bundle():
     out = html_source("preview.js")
 
     assert '<div id="root"></div>' in out
-    assert '<script type="module" src="./preview.js"></script>' in out
+    assert 'import("./preview.js?v=" + Date.now());' in out

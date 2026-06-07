@@ -943,10 +943,25 @@ function Pill({ label, color, title }) {
     </span>
   );
 }
-function Section({ id, title, icon, badge, badgeColor, children, openMap, setOpen, defaultOpen=true }) {
+function compactJoin(parts){
+  return parts.filter(p=>p!==undefined && p!==null && String(p).trim()).join(" | ");
+}
+function clipText(value, max=120){
+  const s = String(value||"").replace(/\s+/g, " ").trim();
+  return s.length > max ? `${s.slice(0, max-1).trim()}...` : s;
+}
+function tickerSummary(rows, max=3){
+  const tickers = (rows||[]).map(r=>r&&(r.ticker||r.t||r.entity)).filter(Boolean);
+  return tickers.length ? tickers.slice(0,max).join(", ") + (tickers.length>max ? ` +${tickers.length-max}` : "") : "";
+}
+function prospectRows(P){
+  return [ ...((P||{}).hot||[]), ...((P||{}).movers_best||[]), ...((P||{}).sell_fast||[]) ];
+}
+function Section({ id, title, icon, badge, badgeColor, summary, children, openMap, setOpen, defaultOpen=true }) {
   const isOpen = openMap[id] === undefined ? defaultOpen : openMap[id];
+  const summaryNode = typeof summary === "function" ? summary({ isOpen }) : summary;
   return (
-    <div style={{ marginTop:14 }}>
+    <div id={id} style={{ marginTop:14 }}>
       <div onClick={()=>setOpen(s=>({...s,[id]: !(s[id]===undefined?defaultOpen:s[id])}))}
         style={{ display:"flex", alignItems:"center", gap:9, cursor:"pointer", padding:"7px 2px", userSelect:"none" }}>
         <span style={{ color:C.faint, fontFamily:mono, fontSize:11, transform:isOpen?"none":"rotate(-90deg)", transition:"transform .15s" }}>▾</span>
@@ -956,6 +971,11 @@ function Section({ id, title, icon, badge, badgeColor, children, openMap, setOpe
           <span style={{ fontFamily:mono, fontSize:11, color:badgeColor||C.faint, border:`1px solid ${(badgeColor||C.faint)}55`, borderRadius:99, padding:"1px 8px" }}>{badge}</span>
         )}
       </div>
+      {!isOpen && summaryNode && (
+        <div style={{ margin:"-2px 0 5px 31px", color:C.dim, fontSize:11.7, lineHeight:1.35, overflow:"hidden" }}>
+          {summaryNode}
+        </div>
+      )}
       {isOpen && <div style={{ marginTop:4 }}>{children}</div>}
     </div>
   );
@@ -1196,7 +1216,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           );
         })()}
 
-        <Section id="market-open-packet" title="Market-Open Packet" icon="!" badge={(VM.marketOpenPacket&&VM.marketOpenPacket.counts)?`${(VM.marketOpenPacket.counts.key_now||0)} key / ${(VM.marketOpenPacket.counts.recheck||0)} re-check`:"packet"} badgeColor={(VM.marketOpenPacket&&VM.marketOpenPacket.status)==="ready"?C.green:C.amber} openMap={open} setOpen={setOpen} defaultOpen={!!((VM.marketOpenPacket&&VM.marketOpenPacket.rows)||[]).length}>
+        <Section id="market-open-packet" title="Market-Open Packet" icon="!" badge={(VM.marketOpenPacket&&VM.marketOpenPacket.counts)?`${(VM.marketOpenPacket.counts.key_now||0)} key / ${(VM.marketOpenPacket.counts.recheck||0)} re-check`:"packet"} badgeColor={(VM.marketOpenPacket&&VM.marketOpenPacket.status)==="ready"?C.green:C.amber} summary={clipText((VM.marketOpenPacket||{}).line || "No market-open packet in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const P=VM.marketOpenPacket||{}, rows=P.rows||[];
             if(!rows.length) return <div style={{ ...card, fontSize:12, color:C.faint }}>No market-open packet in this feed build.</div>;
@@ -1229,7 +1249,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })()}
         </Section>
 
-        <Section id="actions" title="Today's actions" icon="🟢" badge={VM.actions.length?`${Math.min(VM.actions.length,5)}${VM.actions.length>5?` of ${VM.actions.length}`:""}`:"0 live"} badgeColor={VM.actions.length?C.amber:C.faint} openMap={open} setOpen={setOpen}>
+        <Section id="actions" title="Today's actions" icon="🟢" badge={VM.actions.length?`${Math.min(VM.actions.length,5)}${VM.actions.length>5?` of ${VM.actions.length}`:""}`:"0 live"} badgeColor={VM.actions.length?C.amber:C.faint} summary={(() => { const c=((VM.actionGroups||{}).counts)||{}, first=VM.actions[0]; return VM.actions.length ? compactJoin([`${VM.actions.length} live`, `${c.key_now||0} key now`, `${c.recheck_before_acting||0} re-check`, `${c.important_backlog||0} backlog`, first&&`top: ${first.ticker?`${first.ticker} `:""}${clipText(first.what,64)}`]) : "No live action rows."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>PRIORITIZED — confidence-led. Gate badges are provisional; the real 🟢/🟡/🔴 runs when you act on it in chat.</div>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>
             ACT_NOW {VM.actionSplit.actNow.length} · OPPORTUNITIES {VM.actionSplit.opportunities.length} · RISKS {VM.actionSplit.risks.length}
@@ -1267,7 +1287,55 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })()}
         </Section>
 
-        <Section id="asymmetric-opportunities" title="Asymmetric Opportunities" icon="+" badge={(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count)?`${VM.asymmetricOpportunities.count}`:"0"} badgeColor={(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count)?C.green:C.faint} openMap={open} setOpen={setOpen} defaultOpen={!!(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count)}>
+        <Section id="top-prospects" title="Top Prospects" icon="+" badge={(VM.prospects.counts&&VM.prospects.counts.total)?`${VM.prospects.counts.total}`:"0"} badgeColor={(VM.prospects.counts&&VM.prospects.counts.total)?C.accent:C.faint} summary={(() => { const P=VM.prospects||{}, ct=P.counts||{}, rows=prospectRows(P), top=rows[0]||{}; return ct.total ? compactJoin([`${ct.total} tracked`, `${ct.act_now||0} act-now`, `${ct.hot||0} hot`, `${ct.uncorroborated||0} uncorroborated`, top.ticker&&`top: ${top.ticker} ${top.urgency||top.direction||""}`]) : "No tracked prospects in this feed."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {(() => {
+            const P = VM.prospects||{}, ct = P.counts||{};
+            if(!ct.total) return <div style={{ ...card, fontSize:12, color:C.faint }}>No prospects tracked in this feed build.</div>;
+            const URG = { ACT_NOW:C.red, HOT:C.amber, BUILDING:C.blue, QUIET:C.faint };
+            const CORR = (c)=> c==="Vetted-Buy"?C.green : c==="Uncorroborated"?C.faint : C.blue;
+            const pctxt = (x)=> x==null?"" : `${x>=0?"+":""}${(x*100).toFixed(1)}% vs SPY`;
+            const pcol = (x)=> x==null?C.faint : x>=0?C.green:C.red;
+            const prow = (r)=>{
+              const key="prosp"+(r.ticker||""), isO=posOpen[key], uc=URG[r.urgency]||C.faint;
+              return (
+                <div key={key} style={{ ...card, marginBottom:7, borderColor:uc+"33" }}>
+                  <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:r.summary?"pointer":"default" }}>
+                    <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                      <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
+                      <span style={{ fontFamily:mono, fontSize:11, color:uc, border:`1px solid ${uc}55`, borderRadius:99, padding:"1px 8px" }}>{r.urgency}</span>
+                      {r.pct_vs_spy!=null && <span style={{ fontFamily:mono, fontSize:11, color:pcol(r.pct_vs_spy) }}>{pctxt(r.pct_vs_spy)}</span>}
+                      <span style={{ fontFamily:mono, fontSize:11, color:CORR(r.corroboration), border:`1px solid ${CORR(r.corroboration)}55`, borderRadius:99, padding:"1px 8px" }}>{r.corroboration}</span>
+                    </div>
+                    {(r.sources&&r.sources.length>0) && <div style={{ marginTop:6, display:"flex", gap:5, flexWrap:"wrap" }}>{r.sources.map((s,j)=>(<span key={j} style={{ fontFamily:mono, fontSize:10, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 7px" }}>{s}</span>))}</div>}
+                  </div>
+                  {isO && r.summary && <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>{r.summary}</div>}
+                </div>
+              );
+            };
+            return (
+              <div>
+                <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>{ct.total} tracked | {ct.act_now||0} act-now | {ct.hot||0} hot | {ct.uncorroborated||0} uncorroborated | candidate surface, not the book</div>
+                {(P.hot||[]).length>0 && <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:4 }}>Hot</div>}
+                {(P.hot||[]).map(prow)}
+                {((P.movers_best||[]).length>0 || (P.movers_worst||[]).length>0) && (
+                  <div style={{ ...card, marginBottom:7, marginTop:2 }}>
+                    <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>Movers | vs SPY</div>
+                    {(P.movers_best||[]).map((r,j)=>(<div key={"mb"+j} style={{ fontSize:12, color:C.text, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:pcol(r.pct_vs_spy), fontFamily:mono }}>{pctxt(r.pct_vs_spy)}</span></div>))}
+                    {(P.movers_worst||[]).map((r,j)=>(<div key={"mw"+j} style={{ fontSize:12, color:C.dim, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:pcol(r.pct_vs_spy), fontFamily:mono }}>{pctxt(r.pct_vs_spy)}</span></div>))}
+                  </div>
+                )}
+                {(P.sell_fast||[]).length>0 && (
+                  <div style={{ ...card, marginBottom:7, borderColor:C.red+"44", background:C.red+"0a" }}>
+                    <div style={{ fontFamily:mono, fontSize:10, color:C.red, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>Sell-fast - FS dropped a name you may hold</div>
+                    {(P.sell_fast||[]).map((r,j)=>(<div key={"sf"+j} style={{ fontSize:12.5, color:C.text, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:C.dim }}>{r.summary||"avoid"}</span></div>))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+        </Section>
+
+        <Section id="asymmetric-opportunities" title="Asymmetric Opportunities" icon="+" badge={(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count)?`${VM.asymmetricOpportunities.count}`:"0"} badgeColor={(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count)?C.green:C.faint} summary={(() => { const O=VM.asymmetricOpportunities||{}, rows=O.rows||[]; return O.count ? compactJoin([`${O.count} review prompts`, tickerSummary(rows), rows[0]&&clipText(rows[0].reason,72)]) : "No evidence-backed asymmetric prompt."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>DEDUPED ACROSS ACTIONS / TARGET DRIFT / PROSPECTS / RADAR / UW FLOW. Review prompts only; no auto-trade.</div>
           {!(VM.asymmetricOpportunities&&VM.asymmetricOpportunities.count) && <div style={{ ...card, fontSize:12, color:C.faint }}>No asymmetric opportunity row cleared the evidence filter in this feed build.</div>}
           {((VM.asymmetricOpportunities&&VM.asymmetricOpportunities.rows)||[]).map((r,i)=>(
@@ -1284,45 +1352,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           ))}
         </Section>
 
-        <Section id="social-watch" title="Social Watch" icon="*" badge={(VM.socialWatch&&VM.socialWatch.count)?`${VM.socialWatch.count}`:"0"} badgeColor={(VM.socialWatch&&VM.socialWatch.status)==="has_data"?C.amber:C.faint} openMap={open} setOpen={setOpen} defaultOpen={(VM.socialWatch&&VM.socialWatch.status)==="has_data" || (VM.socialWatch&&VM.socialWatch.status)==="not_checked"}>
-          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>REDDIT / SOCIAL EARLY-SIGNAL WATCH. Watch-only until independently confirmed by UW, price/news, Fundstrat, catalyst, or source-call evidence.</div>
-          {(() => {
-            const S=VM.socialWatch||{}, rows=S.rows||[];
-            if(!rows.length) return (
-              <div style={{ ...card, fontSize:12, color:S.status==="not_checked"?C.amber:C.faint }}>
-                {S.line||"No social anomalies in this feed build."}
-                {S.honesty_rule && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.honesty_rule}</div>}
-                {S.command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {S.command}</div>}
-              </div>
-            );
-            return (
-              <div>
-                <div style={{ ...card, marginBottom:8, borderColor:C.amber+"44", background:C.amber+"0a" }}>
-                  <div style={{ fontSize:12.5, color:C.text }}>{S.line}</div>
-                  {S.honesty_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.honesty_rule}</div>}
-                  {S.promotion_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.promotion_rule}</div>}
-                </div>
-                {rows.slice(0,6).map((r,i)=>(
-                  <div key={`${r.ticker||r.entity||"social"}${i}`} style={{ ...card, marginBottom:7, borderColor:C.amber+"33" }}>
-                    <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-                      <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker||r.entity||"SOCIAL"}</span>
-                      <span style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>score {r.score}</span>
-                      <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.escalation||"Quiet Watch"}</span>
-                    </div>
-                    {r.summary && <div style={{ marginTop:6, fontSize:12.5, color:C.text }}>{r.summary}</div>}
-                    {(r.subreddits||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>subreddits: {(r.subreddits||[]).join(", ")}</div>}
-                    {(r.evidence||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>evidence: {(r.evidence||[]).join(" / ")}</div>}
-                    {(r.independent_confirmation||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>independent confirmation: {(r.independent_confirmation||[]).join(" / ")}</div>}
-                    <div style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Risk: {r.risk}</div>
-                  </div>
-                ))}
-                {S.command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {S.command}</div>}
-              </div>
-            );
-          })()}
-        </Section>
-
-        <Section id="uw-action-runbook" title="UW Action Runbook" icon="?" badge={((VM.uwActionRunbook||{}).rows||[]).length?`${((VM.uwActionRunbook||{}).rows||[]).length}`:"0"} badgeColor={((VM.uwActionRunbook||{}).rows||[]).length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={((VM.uwActionRunbook||{}).rows||[]).length>0}>
+        <Section id="uw-action-runbook" title="UW Action Runbook" icon="?" badge={((VM.uwActionRunbook||{}).rows||[]).length?`${((VM.uwActionRunbook||{}).rows||[]).length}`:"0"} badgeColor={((VM.uwActionRunbook||{}).rows||[]).length?C.blue:C.faint} summary={(() => { const U=VM.uwActionRunbook||{}, P=U.endpoint_proof||VM.uwEndpointProof||{}; return compactJoin([U.line||"No active UW check set.", P.line&&clipText(P.line,88)]); })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SCENARIO CHECKLIST FROM THE CURRENT DASHBOARD. It recommends UW endpoint groups and ticker scopes; it is not proof any endpoint was fetched.</div>
           {(() => {
             const P=(VM.uwActionRunbook||{}).endpoint_proof || VM.uwEndpointProof || {};
@@ -1363,7 +1393,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           {(VM.uwActionRunbook||{}).command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {(VM.uwActionRunbook||{}).command}</div>}
         </Section>
 
-        <Section id="reallocation-brief" title="Candidate Reallocation Brief" icon="#" badge={((VM.reallocationBrief||{}).counts||{}).adds?`${((VM.reallocationBrief||{}).counts||{}).adds} adds`:"0"} badgeColor={(VM.reallocationBrief||{}).status==="test_data_only"?C.amber:(((VM.reallocationBrief||{}).counts||{}).adds?C.green:C.faint)} openMap={open} setOpen={setOpen} defaultOpen={!!(((VM.reallocationBrief||{}).rows||[]).length)}>
+        <Section id="reallocation-brief" title="Candidate Reallocation Brief" icon="#" badge={((VM.reallocationBrief||{}).counts||{}).adds?`${((VM.reallocationBrief||{}).counts||{}).adds} adds`:"0"} badgeColor={(VM.reallocationBrief||{}).status==="test_data_only"?C.amber:(((VM.reallocationBrief||{}).counts||{}).adds?C.green:C.faint)} summary={clipText((VM.reallocationBrief||{}).line || "No reallocation brief in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const R=VM.reallocationBrief||{}, rows=R.rows||[], trims=R.trims||[], funding=R.funding||{}, special=R.special_reviews||[], capital=R.capital_efficiency||{}, optionsGate=R.options_gate||{};
             const warn=R.status==="test_data_only";
@@ -1418,10 +1448,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })()}
         </Section>
 
-        {/* TOP PROSPECTS — the conviction-stack watchlist (item 5): FS-sourced
-            names ranked by conviction/urgency, with alpha-vs-SPY movers + a
-            sell-fast strip. Candidate surface; not the held book. */}
-        <Section id="target-drift" title="Target drift" icon="🎯" badge={VM.targetDrift.actionable_count?`${VM.targetDrift.actionable_count}`:"0"} badgeColor={VM.targetDrift.actionable_count?C.amber:C.faint} openMap={open} setOpen={setOpen} defaultOpen={!!VM.targetDrift.actionable_count}>
+        <Section id="target-drift" title="Target drift" icon="🎯" badge={VM.targetDrift.actionable_count?`${VM.targetDrift.actionable_count}`:"0"} badgeColor={VM.targetDrift.actionable_count?C.amber:C.faint} summary={clipText(VM.targetDrift.line || "Target drift not checked in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>CURRENT BOOK vs REALLOCATION WORKING MODEL — sizing gaps only; candidates, not orders.</div>
           {!VM.targetDrift.line && <div style={{ ...card, fontSize:12, color:C.faint }}>Target drift not checked in this feed build.</div>}
           {VM.targetDrift.line && (
@@ -1450,59 +1477,11 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })}
         </Section>
 
-        <Section id="top-prospects" title="Top Prospects" icon="🎯" badge={(VM.prospects.counts&&VM.prospects.counts.total)?`${VM.prospects.counts.total}`:"0"} badgeColor={(VM.prospects.counts&&VM.prospects.counts.total)?C.accent:C.faint} openMap={open} setOpen={setOpen} defaultOpen={!!(VM.prospects.counts&&VM.prospects.counts.total)}>
-          {(() => {
-            const P = VM.prospects||{}, ct = P.counts||{};
-            if(!ct.total) return <div style={{ ...card, fontSize:12, color:C.faint }}>No prospects tracked in this feed build.</div>;
-            const URG = { ACT_NOW:C.red, HOT:C.amber, BUILDING:C.blue, QUIET:C.faint };
-            const CORR = (c)=> c==="Vetted-Buy"?C.green : c==="Uncorroborated"?C.faint : C.blue;
-            const pctxt = (x)=> x==null?"" : `${x>=0?"+":""}${(x*100).toFixed(1)}% vs SPY`;
-            const pcol = (x)=> x==null?C.faint : x>=0?C.green:C.red;
-            const prow = (r)=>{
-              const key="prosp"+(r.ticker||""), isO=posOpen[key], uc=URG[r.urgency]||C.faint;
-              return (
-                <div key={key} style={{ ...card, marginBottom:7, borderColor:uc+"33" }}>
-                  <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:r.summary?"pointer":"default" }}>
-                    <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-                      <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
-                      <span style={{ fontFamily:mono, fontSize:11, color:uc, border:`1px solid ${uc}55`, borderRadius:99, padding:"1px 8px" }}>{r.urgency}</span>
-                      {r.pct_vs_spy!=null && <span style={{ fontFamily:mono, fontSize:11, color:pcol(r.pct_vs_spy) }}>{pctxt(r.pct_vs_spy)}</span>}
-                      <span style={{ fontFamily:mono, fontSize:11, color:CORR(r.corroboration), border:`1px solid ${CORR(r.corroboration)}55`, borderRadius:99, padding:"1px 8px" }}>{r.corroboration}</span>
-                    </div>
-                    {(r.sources&&r.sources.length>0) && <div style={{ marginTop:6, display:"flex", gap:5, flexWrap:"wrap" }}>{r.sources.map((s,j)=>(<span key={j} style={{ fontFamily:mono, fontSize:10, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 7px" }}>{s}</span>))}</div>}
-                  </div>
-                  {isO && r.summary && <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>{r.summary}</div>}
-                </div>
-              );
-            };
-            return (
-              <div>
-                <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>{ct.total} tracked · {ct.act_now||0} act-now · {ct.hot||0} hot · {ct.uncorroborated||0} uncorroborated · candidate surface, not the book</div>
-                {(P.hot||[]).length>0 && <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:4 }}>Hot</div>}
-                {(P.hot||[]).map(prow)}
-                {((P.movers_best||[]).length>0 || (P.movers_worst||[]).length>0) && (
-                  <div style={{ ...card, marginBottom:7, marginTop:2 }}>
-                    <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>Movers · vs SPY</div>
-                    {(P.movers_best||[]).map((r,j)=>(<div key={"mb"+j} style={{ fontSize:12, color:C.text, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:pcol(r.pct_vs_spy), fontFamily:mono }}>{pctxt(r.pct_vs_spy)}</span></div>))}
-                    {(P.movers_worst||[]).map((r,j)=>(<div key={"mw"+j} style={{ fontSize:12, color:C.dim, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:pcol(r.pct_vs_spy), fontFamily:mono }}>{pctxt(r.pct_vs_spy)}</span></div>))}
-                  </div>
-                )}
-                {(P.sell_fast||[]).length>0 && (
-                  <div style={{ ...card, marginBottom:7, borderColor:C.red+"44", background:C.red+"0a" }}>
-                    <div style={{ fontFamily:mono, fontSize:10, color:C.red, textTransform:"uppercase", letterSpacing:0.5, marginBottom:5 }}>⚠️ Sell-fast — FS dropped a name you may hold</div>
-                    {(P.sell_fast||[]).map((r,j)=>(<div key={"sf"+j} style={{ fontSize:12.5, color:C.text, marginBottom:2 }}><span style={{ fontFamily:mono, fontWeight:700 }}>{r.ticker}</span> <span style={{ color:C.dim }}>{r.summary||"avoid"}</span></div>))}
-                  </div>
-                )}
-              </div>
-            );
-          })()}
-        </Section>
-
         {/* FROM RESEARCH — ticker-specific Research-Queue items as their OWN
             candidate-action category (engine ⑦c research_actions), SEPARATE from
             Today's actions; deduped against the action+catalyst lanes
             (catalyst-precedence). Default-open when populated. */}
-        <Section id="research-actions" title="From Research" icon="🔎" badge={VM.researchActions.length?`${VM.researchActions.length}`:"0"} badgeColor={VM.researchActions.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.researchActions.length>0}>
+        <Section id="research-actions" title="From Research" icon="🔎" badge={VM.researchActions.length?`${VM.researchActions.length}`:"0"} badgeColor={VM.researchActions.length?C.blue:C.faint} summary={VM.researchActions.length ? compactJoin([`${VM.researchActions.length} review items`, VM.researchActions[0]&&`${VM.researchActions[0].ticker?`${VM.researchActions[0].ticker} `:""}${clipText(VM.researchActions[0].what,70)}`]) : "No high-priority Research Queue action rows."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>FROM YOUR RESEARCH QUEUE — high-priority / dated dossiers as candidate reviews. SEPARATE from Today's actions; a name on the catalyst lane shows there, not here. Drill in chat to act.</div>
           {VM.researchActions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing from research right now — no high-priority or dated Research-Queue items in this feed build.</div>}
           {VM.researchActions.map((a)=>(
@@ -1520,7 +1499,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         {/* FRESH SIGNALS — Morning-Scan ⑦ signals not yet promoted to an action.
             A scan/watch surface, not a gated action. */}
-        <Section id="fresh-signals" title="Fresh signals" icon="📨" badge={VM.freshSignals.length?`${VM.freshSignals.length}`:"0"} badgeColor={VM.freshSignals.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.freshSignals.length>0}>
+        <Section id="fresh-signals" title="Fresh signals" icon="📨" badge={VM.freshSignals.length?`${VM.freshSignals.length}`:"0"} badgeColor={VM.freshSignals.length?C.blue:C.faint} summary={VM.freshSignals.length ? compactJoin([`${VM.freshSignals.length} fresh`, tickerSummary(VM.freshSignals), VM.freshSignals[0]&&clipText(VM.freshSignals[0].what,64)]) : "No fresh signal rows in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>MORNING-SCAN SIGNALS (⑦) — fresh movement / new names, not yet a fired action. A watch surface; promote in chat.</div>
           {VM.freshSignals.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No fresh signals in this feed build.</div>}
           {VM.freshSignals.map((s,i)=>{
@@ -1552,7 +1531,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* SIGNAL LOG — external Morning Scan notes. Watch-only; never promoted into actions here. */}
-        <Section id="signal-log" title="Signal Log" icon="📡" badge={VM.signalLog.length?`${VM.signalLog.length}`:"0"} badgeColor={VM.signalLog.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={VM.signalLog.length>0}>
+        <Section id="signal-log" title="Signal Log" icon="📡" badge={VM.signalLog.length?`${VM.signalLog.length}`:"0"} badgeColor={VM.signalLog.length?C.blue:C.faint} summary={VM.signalLog.length ? compactJoin([`${VM.signalLog.length} watch rows`, tickerSummary(VM.signalLog), VM.signalLog[0]&&clipText(VM.signalLog[0].signal,72)]) : "Signal Log not supplied in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>MORNING SCAN LOG — watch-only items from the external signal log.</div>
           {VM.signalLog.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Signal Log not supplied in this feed build.</div>}
           {VM.signalLog.map((r,i)=>(
@@ -1574,7 +1553,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {/* BULLISH FLOW (UW) — read-only WATCH lane: the daily UW opportunity
             cache (Strand-3 surfacing / B1), grouped by ticker (uw_flow = one
             name, one bucket). NOT conviction — the gated Chunk-2 hook is separate. */}
-        <Section id="bullish-flow" title="Bullish flow (UW)" icon="🌊" badge={(VM.bullishFlow.rows||[]).length?`${VM.bullishFlow.tickers} · ${VM.bullishFlow.count}`:"0"} badgeColor={(VM.bullishFlow.rows||[]).length?C.green:C.faint} openMap={open} setOpen={setOpen} defaultOpen={(VM.bullishFlow.rows||[]).length>0}>
+        <Section id="bullish-flow" title="Bullish flow (UW)" icon="🌊" badge={(VM.bullishFlow.rows||[]).length?`${VM.bullishFlow.tickers} · ${VM.bullishFlow.count}`:"0"} badgeColor={(VM.bullishFlow.rows||[]).length?C.green:C.faint} summary={((VM.bullishFlow.rows||[]).length) ? compactJoin([`${VM.bullishFlow.tickers||0} tickers`, `${VM.bullishFlow.count||0} signals`, VM.bullishFlow.as_of&&`as of ${VM.bullishFlow.as_of}`, tickerSummary(VM.bullishFlow.rows)]) : "No bullish-flow signals in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>DAILY UW OPTIONS RADAR — fresh bullish flow / sweeps / OI build / dark-pool, grouped by name (5 sweeps = one bucket). A WATCH surface, not conviction; not a fired action.{VM.bullishFlow.as_of?` · as-of ${VM.bullishFlow.as_of}`:""}</div>
           {(VM.bullishFlow.rows||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No bullish-flow signals in this feed build.</div>}
           {(VM.bullishFlow.rows||[]).map((r,i)=>{
@@ -1609,7 +1588,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* SYNTHESIS — today's read / state-of-play (Daily Synthesis; Tier-1) */}
-        <Section id="synthesis" title="Today's read — synthesis" icon="🧠" badge={VM.synthesis&&VM.synthesis.date?VM.synthesis.date:""} badgeColor={C.blue} openMap={open} setOpen={setOpen} defaultOpen={true}>
+        <Section id="synthesis" title="Today's read — synthesis" icon="🧠" badge={VM.synthesis&&VM.synthesis.date?VM.synthesis.date:""} badgeColor={C.blue} summary={clipText((VM.synthesis||{}).state_of_play || (VM.synthesis||{}).delta || "No synthesis loaded in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const s = VM.synthesis || {};
             const empty = !s.state_of_play && !s.delta && !(s.hanging&&s.hanging.length);
@@ -1631,7 +1610,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* RADAR — endorsed names not owned yet (engine ⑨ radar block) */}
-        <Section id="source-audits" title="Source Proof" icon="!" badge={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.expected_count?`${c.scheduled_success_count||0}/${c.expected_count}`:"audit"; })()} badgeColor={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.expected_count && (c.scheduled_success_count||0) >= c.expected_count ? C.green : C.amber; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        <Section id="source-audits" title="Source Proof" icon="!" badge={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.expected_count?`${c.scheduled_success_count||0}/${c.expected_count}`:"audit"; })()} badgeColor={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.expected_count && (c.scheduled_success_count||0) >= c.expected_count ? C.green : C.amber; })()} summary={(() => { const A=VM.sourceAudits||{}, c=A.cloud_routines||{}, u=A.uw_endpoint_proof||VM.uwEndpointProof||{}; return compactJoin([c.line&&clipText(c.line,72), u.line&&clipText(u.line,72)]); })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const A=VM.sourceAudits||{};
             const rows=[
@@ -1659,7 +1638,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })()}
         </Section>
 
-        <Section id="feedback" title="Feedback loops" icon="🔁" badge={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, sp=sc.persistence||{}, oa=f.open_actions||{}; const n=(sc.overdue_count||0)+(sp.loud_count||0)+(sp.provisional_count||0)+(oa.count||0); return n?`${n}`:"0"; })()} badgeColor={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, sp=sc.persistence||{}, oa=f.open_actions||{}; return (sp.loud_count||0)?C.red:((sc.overdue_count||0)+(sp.provisional_count||0)+(oa.count||0))?C.amber:C.faint; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        <Section id="feedback" title="Feedback loops" icon="🔁" badge={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, sp=sc.persistence||{}, oa=f.open_actions||{}; const n=(sc.overdue_count||0)+(sp.loud_count||0)+(sp.provisional_count||0)+(oa.count||0); return n?`${n}`:"0"; })()} badgeColor={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, sp=sc.persistence||{}, oa=f.open_actions||{}; return (sp.loud_count||0)?C.red:((sc.overdue_count||0)+(sp.provisional_count||0)+(oa.count||0))?C.amber:C.faint; })()} summary={(() => { const f=VM.feedback||{}, sc=f.source_calls||{}, oa=f.open_actions||{}; return compactJoin([oa.line&&clipText(oa.line,72), sc.line&&clipText(sc.line,72)]); })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const f=VM.feedback||{}, sc=f.source_calls||{}, cal=sc.calibration||{}, sp=sc.persistence||{}, oa=f.open_actions||{}, recs=f.recommendations||[];
             return (
@@ -1691,7 +1670,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })()}
         </Section>
 
-        <Section id="radar" title="Radar — endorsed, not owned" icon="📡" badge={VM.radar.length?`${VM.radar.length}`:"0"} badgeColor={VM.radar.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={true}>
+        <Section id="radar" title="Radar — endorsed, not owned" icon="📡" badge={VM.radar.length?`${VM.radar.length}`:"0"} badgeColor={VM.radar.length?C.blue:C.faint} summary={VM.radar.length ? compactJoin([`${VM.radar.length} endorsed/unowned`, tickerSummary(VM.radar), VM.radar[0]&&clipText(VM.radar[0].direction||VM.radar[0].author,64)]) : "No endorsed unowned radar rows."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>ENDORSED by a daily analyst call · NOT in the book · not a parked 🔒 MONITOR sleeve. A watch surface — not a position.</div>
           {VM.radar.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing on the radar — no endorsed, un-owned names in the latest daily calls.</div>}
           {VM.radar.map((r,i)=>{
@@ -1726,7 +1705,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {mode==="book" && (<>
 
         {/* HOLDINGS (from FEED) */}
-        <Section id="holdings" title="Holdings" icon="📊" openMap={open} setOpen={setOpen} defaultOpen={true}>
+        <Section id="holdings" title="Holdings" icon="📊" summary={portfolioView ? compactJoin([`${view==="agg"?"Combined":view==="parents"?"Parents":"SKB"} ${money(portfolioView.total_value)}`, `${(portfolioView.rows||[]).length} direct rows`, (VM.portfolioViews||{}).as_of&&`as of ${(VM.portfolioViews||{}).as_of}`]) : compactJoin([`${(VM.holdings||[]).length} sleeve groups`, "account view pending"])} openMap={open} setOpen={setOpen} defaultOpen={true}>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8, marginBottom:8 }}>
             <div style={{ display:"flex", gap:4, background:C.panel, border:`1px solid ${C.line}`, borderRadius:8, padding:3 }}>
               {[["agg","Aggregate"],["parents","Parents"],["skb","SKB"]].map(([k,l])=>(
@@ -1892,7 +1871,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {mode==="action" && (<>
 
         {/* MARKET READ — rotation + macro (from FEED) */}
-        <Section id="market" title="Market read — rotation + macro" icon="🌐" openMap={open} setOpen={setOpen} defaultOpen={true}>
+        <Section id="market" title="Market read — rotation + macro" icon="🌐" summary={compactJoin([VM.macro&&VM.macro.line, VM.rotation&&VM.rotation[0]&&`lead: ${VM.rotation[0].s} ${VM.rotation[0].w}`]) || "No market read loaded."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ ...card, marginBottom:8 }}>
             <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SLEEVE LEADERSHIP (relative strength vs market)</div>
             {VM.rotation.map((r,i)=>(
@@ -1918,8 +1897,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* RESEARCH — live Research Queue (R = VM.research when present, else curated) */}
-        <Section id="research" title="Research" icon="🔬" badge={(R.pending||[]).length+(R.done||[]).length} badgeColor={C.blue} openMap={open} setOpen={setOpen} defaultOpen={((R.pending||[]).length+(R.done||[]).length)>0}>
-          <Section id="rpending" title="Pending — you prioritize" icon="⏳" badge={(R.pending||[]).length} badgeColor={C.blue} openMap={open} setOpen={setOpen}>
+        <Section id="research" title="Research" icon="🔬" badge={(R.pending||[]).length+(R.done||[]).length} badgeColor={C.blue} summary={compactJoin([`${(R.pending||[]).length} pending`, `${(R.done||[]).length} completed`, (R.pending||[])[0]&&clipText((R.pending||[])[0].title||(R.pending||[])[0].r,72)])} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          <Section id="rpending" title="Pending — you prioritize" icon="⏳" badge={(R.pending||[]).length} badgeColor={C.blue} summary={(R.pending||[]).length ? clipText((R.pending||[])[0].title||(R.pending||[])[0].r,88) : "Nothing pending."} openMap={open} setOpen={setOpen} defaultOpen={false}>
             {(R.pending||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing pending.</div>}
             {(R.pending||[]).map((x,i)=>{ const pr=x.priority||x.pr||""; return (
               <div key={i} style={{ ...card, marginBottom:7, display:"flex", gap:10, alignItems:"flex-start" }}>
@@ -1928,7 +1907,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               </div>
             ); })}
           </Section>
-          <Section id="rdone" title="Completed — significant findings" icon="✅" badge={(R.done||[]).length} badgeColor={C.green} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          <Section id="rdone" title="Completed — significant findings" icon="✅" badge={(R.done||[]).length} badgeColor={C.green} summary={(R.done||[]).length ? clipText((R.done||[])[0].title||(R.done||[])[0].r,88) : "No completed findings."} openMap={open} setOpen={setOpen} defaultOpen={false}>
             {(R.done||[]).map((x,i)=>(
               <div key={i} style={{ ...card, marginBottom:7, borderColor:C.green+"33" }}>
                 <div style={{ fontSize:13, color:C.text }}>{x.title||x.r}</div>
@@ -1939,7 +1918,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* CATALYSTS - live feed rows from Catalyst Calendar / catalyst intake */}
-        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={CATS.length} badgeColor={CATS.length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={CATS.length>0}>
+        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={CATS.length} badgeColor={CATS.length?C.blue:C.faint} summary={CATS.length ? compactJoin([`${CATS.length} catalysts`, `${CATS[0].d} ${clipText(CATS[0].e,62)}`]) : "No catalysts supplied in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {CATS.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No catalysts supplied in this feed build.</div>}
           {CATS.map((x,i)=>(
             <div key={i} style={{ ...card, marginBottom:7, display:"flex", gap:12, alignItems:"baseline" }}>
@@ -1950,7 +1929,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         {/* QUESTIONS (cockpit-curated; swap CURATED.questions → VM.questions when the feed emits them) */}
-        <Section id="questions" title="Questions for you" icon="❓" badge={`${CURATED.questions.length}`} badgeColor={C.dim} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        <Section id="questions" title="Questions for you" icon="❓" badge={`${CURATED.questions.length}`} badgeColor={C.dim} summary={CURATED.questions.length ? clipText(CURATED.questions[0].q,88) : "No open questions."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {CURATED.questions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No open questions.</div>}
           {CURATED.questions.map((x,i)=>(
             <div key={i} style={{ ...card, marginBottom:7 }}>
@@ -1958,6 +1937,44 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{x.tag} · {x.d}</div>
             </div>
           ))}
+        </Section>
+
+        <Section id="social-watch" title="Social Watch" icon="*" badge={(VM.socialWatch&&VM.socialWatch.count)?`${VM.socialWatch.count}`:"0"} badgeColor={(VM.socialWatch&&VM.socialWatch.status)==="has_data"?C.amber:C.faint} summary={(() => { const S=VM.socialWatch||{}; return compactJoin([String(S.status||"not_checked").replaceAll("_"," "), S.line||"Reddit/social feed is not implemented yet.", "watch-only"]); })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>REDDIT / SOCIAL EARLY-SIGNAL WATCH. Watch-only until independently confirmed by UW, price/news, Fundstrat, catalyst, or source-call evidence.</div>
+          {(() => {
+            const S=VM.socialWatch||{}, rows=S.rows||[];
+            if(!rows.length) return (
+              <div style={{ ...card, fontSize:12, color:S.status==="not_checked"?C.amber:C.faint }}>
+                {S.line||"No social anomalies in this feed build."}
+                {S.honesty_rule && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.honesty_rule}</div>}
+                {S.command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {S.command}</div>}
+              </div>
+            );
+            return (
+              <div>
+                <div style={{ ...card, marginBottom:8, borderColor:C.amber+"44", background:C.amber+"0a" }}>
+                  <div style={{ fontSize:12.5, color:C.text }}>{S.line}</div>
+                  {S.honesty_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.honesty_rule}</div>}
+                  {S.promotion_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.promotion_rule}</div>}
+                </div>
+                {rows.slice(0,6).map((r,i)=>(
+                  <div key={`${r.ticker||r.entity||"social"}${i}`} style={{ ...card, marginBottom:7, borderColor:C.amber+"33" }}>
+                    <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                      <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker||r.entity||"SOCIAL"}</span>
+                      <span style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>score {r.score}</span>
+                      <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.escalation||"Quiet Watch"}</span>
+                    </div>
+                    {r.summary && <div style={{ marginTop:6, fontSize:12.5, color:C.text }}>{r.summary}</div>}
+                    {(r.subreddits||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>subreddits: {(r.subreddits||[]).join(", ")}</div>}
+                    {(r.evidence||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>evidence: {(r.evidence||[]).join(" / ")}</div>}
+                    {(r.independent_confirmation||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>independent confirmation: {(r.independent_confirmation||[]).join(" / ")}</div>}
+                    <div style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Risk: {r.risk}</div>
+                  </div>
+                ))}
+                {S.command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {S.command}</div>}
+              </div>
+            );
+          })()}
         </Section>
 
         <div style={{ marginTop:18, fontSize:11, color:C.faint, textAlign:"center", fontFamily:mono }}>

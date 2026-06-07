@@ -35,6 +35,14 @@ a{color:#58a6ff;text-decoration:none}
   letter-spacing:.9px;color:#8b949e;margin-bottom:9px;display:flex;
   align-items:center;gap:6px}
 .card-title .icon{font-size:14px}
+.card.is-collapsible>.card-title{cursor:pointer;margin-bottom:4px}
+.card.is-collapsible>.card-title:before{content:"v";font-family:monospace;
+  font-size:10px;color:#484f58;margin-right:2px}
+.card.is-collapsible.is-collapsed>.card-title:before{content:">"}
+.card.is-collapsible.is-collapsed>:not(.card-title):not(.card-mini){display:none}
+.card.is-collapsible:not(.is-collapsed)>.card-mini{display:none}
+.card-mini{font-size:12px;color:#8b949e;margin-top:4px;line-height:1.4;
+  font-weight:400;text-transform:none;letter-spacing:0}
 
 /*  heartbeat strip  */
 .hb{display:flex;flex-wrap:wrap;gap:5px}
@@ -277,17 +285,18 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="quick-nav">
   <a class="quick-link" href="#today-actions"><strong>5</strong> actions</a>
   <a class="quick-link" href="#market-open-packet"><strong>open</strong> packet</a>
-  <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
+  <a class="quick-link" href="#opportunity-context"><strong>top</strong> prospects</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>8</strong> asymmetry</a>
-  <a class="quick-link" href="#social-watch"><strong>0</strong> social</a>
+  <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
+  <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
   <a class="quick-link" href="#source-audits"><strong>proof</strong> UW results</a>
-  <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
   <a class="quick-link" href="#feedback-loops"><strong>2</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>1</strong> source gaps</a>
   <a class="quick-link" href="#feedback-loops"><strong>6 scoring</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
+  <a class="quick-link" href="#social-watch"><strong>0</strong> social dark</a>
 </div>
 
 <div class="card" id="market-open-packet">
@@ -536,30 +545,27 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 </div>
 
-<div class="card" id="operator-status">
-  <div class="card-title"><span class="icon">!</span> Operator status
-    <span class="operator-warn" style="font-size:11px;margin-left:auto">WARN</span>
+<div class="card" id="opportunity-context">
+  <div class="card-title"><span class="icon">+</span> Opportunity context
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">context, not orders</span>
   </div>
-  <div class="operator-grid">
-    <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">5</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">2 new</div></a>
-    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 dark</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">6 scoring</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
-  </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | 1 source wait; background cloud proof 7/12</div>
-  <div class="operator-command">python src/completion_audit.py --format text</div>
-  <div class="operator-command">python src/go_live_checklist.py --format text</div>
-
-
-  <div class="operator-event-watch">
-    <div class="operator-label">Active event watch</div>
-    <div class="operator-event-title">Middle East oil/rates shock can affect new-buy timing</div>
-    <div class="operator-event-meta">HIGH | oil, rates, volatility, energy, growth | XOP, XLE, TNX</div>
-    <div class="operator-event-trigger">Trigger: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
-  </div>
-  <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
+  <div class="context-grid">
+<div class="context-col">
+  <div class="context-label">Target drift</div>
+  <div class="context-row"><span class="context-ticker">GRNY</span>OVERSIZED<span class="context-sub">9.5% actual vs 3.0% target</span></div><div class="context-row"><span class="context-ticker">SMH</span>OVERSIZED<span class="context-sub">8.8% actual vs 5.0% target</span></div><div class="context-row"><span class="context-ticker">NVDA</span>UNDERSIZED<span class="context-sub">7.1% actual vs 12.0% target</span></div>
+</div>
+<div class="context-col">
+  <div class="context-label">Prospects</div>
+  <div class="context-row"><span class="context-ticker">DE</span>avoid<span class="context-sub">DE: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div><div class="context-row"><span class="context-ticker">HOOD</span>avoid<span class="context-sub">HOOD: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div><div class="context-row"><span class="context-ticker">PKG</span>avoid<span class="context-sub">PKG: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div>
+</div>
+<div class="context-col">
+  <div class="context-label">Radar</div>
+  <div class="context-row"><span class="context-ticker">QQQ</span>watch<span class="context-sub">Newton | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">RSP</span>watch<span class="context-sub">Newton | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">SOX</span>watch<span class="context-sub">Newton | 2026-06-05</span></div>
+</div>
+<div class="context-col">
+  <div class="context-label">Bullish flow</div>
+  <div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">call_flow, oi_build</span></div><div class="context-row"><span class="context-ticker">MAGS</span>bullish strong<span class="context-sub">call_flow, oi_build</span></div><div class="context-row"><span class="context-ticker">SMH</span>bullish strong<span class="context-sub">sweep, oi_build</span></div>
+</div></div>
 </div>
 
 <div class="card" id="asymmetric-opportunities">
@@ -631,85 +637,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Evidence: ask-side call sweeps $1.2M, c/p 0.28, put OI +135000% at 560/430/500 strikes</span>
   <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
 </div></div>
-</div>
-
-<div class="card" id="social-watch">
-  <div class="card-title"><span class="icon">*</span> Social Watch
-    <span class="tag t-warn" style="margin-left:auto">not checked</span>
-  </div>
-
-  <div class="small-list"><div class="feedback-line">Social watch not checked: no Reddit/social cache supplied.</div></div>
-  <div class="feedback-line">Watch-only until independently confirmed; never a standalone trade signal.</div>
-
-  <div class="cmd-row"><span class="cmd-name">print social watch</span><span class="cmd-desc"><code>python src/social_watch.py --cache src/social_watch.json --format text</code></span></div>
-</div>
-
-<div class="card" id="uw-action-runbook">
-  <div class="card-title"><span class="icon">?</span> UW action runbook
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
-  </div>
-  <div class="feedback-line">UW action runbook: 5 check set(s), 21 scoped ticker(s); endpoint results not claimed.</div>
-
-<div class="small-item">
-  <span class="tag t-warn">endpoint proof has_data</span>
-  <span class="small-muted">UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.</span>
-
-  <span class="small-muted">Proof blocker: inconclusive endpoint result(s) cannot promote related actions</span><span class="small-muted">Proof blocker: missing/failed endpoint result(s) keep related actions blocked</span>
-
-</div>
-  <div class="small-list">
-<div class="small-item">
-  <span class="context-ticker">Pre-market crash triage</span>
-  <span class="tag t-conf">priority 1</span>
-  <span class="small-muted">High-volatility or re-check posture needs broad tape triage before single-name action.</span>
-  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, GRNY, NVDA</span>
-  <span class="small-muted">Market checks: MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, MARKET_MOVERS, MARKET_CORRELATIONS, ETF_TIDE, SECTOR_TIDE</span>
-  <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, TICKER_OPTIONS_VOLUME, DARKPOOL_TICKER, TICKER_OI_CHANGE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, TICKER_VOL_TERM_STRUCTURE, TICKER_REALIZED_VOL, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_TECHNICAL_INDICATOR</span>
-  <span class="small-muted">Blocks action if: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open</span>
-  <span class="small-muted">Promote when: broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">Event-risk and political macro</span>
-  <span class="tag t-conf">priority 2</span>
-  <span class="small-muted">Active event-risk lane can overpower normal thesis and flow signals.</span>
-  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, GRNY</span>
-  <span class="small-muted">Market checks: MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, ECONOMIC_CALENDAR, NEWS_HEADLINES, SECTOR_TIDE, ETF_TIDE, MARKET_CORRELATIONS</span>
-  <span class="small-muted">Ticker checks: CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES</span>
-  <span class="small-muted">Blocks action if: same-session headlines, rates/oil levels, or sector tape are missing or contradictory</span>
-  <span class="small-muted">Promote when: macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">Portfolio reallocation</span>
-  <span class="tag t-conf">priority 3</span>
-  <span class="small-muted">Sizing-gap actions need current exposure, funding, factor, and flow checks.</span>
-  <span class="small-muted">Tickers: GRNY, NVDA, SMH, GOOGL, AVGO, MSFT, ANET, MAGS</span>
-  <span class="small-muted">Market checks: ETF_TIDE, SECTOR_TIDE, MARKET_CORRELATIONS, TOTAL_OPTIONS_VOLUME</span>
-  <span class="small-muted">Ticker checks: TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, COMPANY_PROFILE, ANALYST_RATINGS, INSTITUTION_OWNERSHIP, TICKER_INSIDERS, TICKER_INSIDER_FLOW, NEWS_HEADLINES, TICKER_FLOW_RECENT, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_IV_RANK, TICKER_VOL_STATS</span>
-  <span class="small-muted">Blocks action if: latest positions, same-session price/flow, or funding source are missing</span>
-  <span class="small-muted">Promote when: current positions, factor wrapper context, and ticker flow support the trim/add leg</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">Fundstrat signal confirmation</span>
-  <span class="tag t-conf">priority 4</span>
-  <span class="small-muted">Fundstrat-derived calls should be checked against live market structure before action.</span>
-  <span class="small-muted">Tickers: QQQ, RSP, SOX, RYF, TNX, NVDA, ANET, GOOGL, MAGS</span>
-
-  <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO</span>
-  <span class="small-muted">Blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing</span>
-  <span class="small-muted">Promote when: Fundstrat call and live market structure point in the same direction</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">Asymmetric discovery</span>
-  <span class="tag t-conf">priority 5</span>
-  <span class="small-muted">Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.</span>
-  <span class="small-muted">Tickers: NVDA, GOOGL, ANET, AVGO, MAGS, MSFT, GRNY, SMH</span>
-  <span class="small-muted">Market checks: FLOW_ALERTS, TOP_NET_IMPACT, DARKPOOL_RECENT, LIT_FLOW_RECENT, MARKET_MOVERS, OPTION_CONTRACT_SCREENER, STOCK_SCREENER</span>
-  <span class="small-muted">Ticker checks: ANALYST_RATINGS, INSIDER_TRANSACTIONS, CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES, TICKER_FLOW_PER_EXPIRY, TICKER_FLOW_PER_STRIKE, TICKER_GREEK_FLOW, TICKER_VOL_TERM_STRUCTURE, TICKER_INFO</span>
-  <span class="small-muted">Blocks action if: the setup is only flow/social/context without independent confirmation</span>
-  <span class="small-muted">Promote when: fresh flow plus thesis, sponsor, price, or news evidence creates review-worthy skew</span>
-</div></div>
-  <div class="feedback-line">Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.</div>
-  <div class="cmd-row"><span class="cmd-name">print runbook</span><span class="cmd-desc"><code>python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
 </div>
 
 <div class="card" id="reallocation-brief">
@@ -797,6 +724,100 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div><div class="feedback-line"><strong>Funding trims:</strong> GRNJ $155,783 -&gt; MSFT $89,807, AMZN $65,976; GRNY $121,220 -&gt; AMZN $8,186, AVGO $103,826, TSM $9,209; IVES $82,137 -&gt; GOOGL $82,137; MAGS $70,839 -&gt; GOOGL $66,185, NVDA $4,654; SMH $69,687 -&gt; NVDA $66,793, MSFT $2,894</div><div class="feedback-line"><strong>Special re-checks:</strong> BMNR undecided_recheck: Re-check fresh crypto/BMNR evidence before adding, trimming, or treating the old thesis as current.</div></div>
   <div class="feedback-line">Candidate reallocation brief only; no trades are executed. Same-day positions still require gates before action.</div>
   <div class="cmd-row"><span class="cmd-name">print brief</span><span class="cmd-desc"><code>python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text</code></span></div>
+</div>
+
+<div class="card" id="operator-status">
+  <div class="card-title"><span class="icon">!</span> Operator status
+    <span class="operator-warn" style="font-size:11px;margin-left:auto">WARN</span>
+  </div>
+  <div class="operator-grid">
+    <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">5</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">2 new</div></a>
+    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 dark</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">6 scoring</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
+  </div>
+  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | 1 source wait; background cloud proof 7/12</div>
+  <div class="operator-command">python src/completion_audit.py --format text</div>
+  <div class="operator-command">python src/go_live_checklist.py --format text</div>
+
+
+  <div class="operator-event-watch">
+    <div class="operator-label">Active event watch</div>
+    <div class="operator-event-title">Middle East oil/rates shock can affect new-buy timing</div>
+    <div class="operator-event-meta">HIGH | oil, rates, volatility, energy, growth | XOP, XLE, TNX</div>
+    <div class="operator-event-trigger">Trigger: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
+  </div>
+  <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
+</div>
+
+<div class="card" id="uw-action-runbook">
+  <div class="card-title"><span class="icon">?</span> UW action runbook
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
+  </div>
+  <div class="feedback-line">UW action runbook: 5 check set(s), 21 scoped ticker(s); endpoint results not claimed.</div>
+
+<div class="small-item">
+  <span class="tag t-warn">endpoint proof has_data</span>
+  <span class="small-muted">UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.</span>
+
+  <span class="small-muted">Proof blocker: inconclusive endpoint result(s) cannot promote related actions</span><span class="small-muted">Proof blocker: missing/failed endpoint result(s) keep related actions blocked</span>
+
+</div>
+  <div class="small-list">
+<div class="small-item">
+  <span class="context-ticker">Pre-market crash triage</span>
+  <span class="tag t-conf">priority 1</span>
+  <span class="small-muted">High-volatility or re-check posture needs broad tape triage before single-name action.</span>
+  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, GRNY, NVDA</span>
+  <span class="small-muted">Market checks: MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, MARKET_MOVERS, MARKET_CORRELATIONS, ETF_TIDE, SECTOR_TIDE</span>
+  <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, TICKER_OPTIONS_VOLUME, DARKPOOL_TICKER, TICKER_OI_CHANGE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, TICKER_VOL_TERM_STRUCTURE, TICKER_REALIZED_VOL, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_TECHNICAL_INDICATOR</span>
+  <span class="small-muted">Blocks action if: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open</span>
+  <span class="small-muted">Promote when: broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">Event-risk and political macro</span>
+  <span class="tag t-conf">priority 2</span>
+  <span class="small-muted">Active event-risk lane can overpower normal thesis and flow signals.</span>
+  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, GRNY</span>
+  <span class="small-muted">Market checks: MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, ECONOMIC_CALENDAR, NEWS_HEADLINES, SECTOR_TIDE, ETF_TIDE, MARKET_CORRELATIONS</span>
+  <span class="small-muted">Ticker checks: CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES</span>
+  <span class="small-muted">Blocks action if: same-session headlines, rates/oil levels, or sector tape are missing or contradictory</span>
+  <span class="small-muted">Promote when: macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">Portfolio reallocation</span>
+  <span class="tag t-conf">priority 3</span>
+  <span class="small-muted">Sizing-gap actions need current exposure, funding, factor, and flow checks.</span>
+  <span class="small-muted">Tickers: GRNY, NVDA, SMH, GOOGL, AVGO, MSFT, ANET, MAGS</span>
+  <span class="small-muted">Market checks: ETF_TIDE, SECTOR_TIDE, MARKET_CORRELATIONS, TOTAL_OPTIONS_VOLUME</span>
+  <span class="small-muted">Ticker checks: TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, COMPANY_PROFILE, ANALYST_RATINGS, INSTITUTION_OWNERSHIP, TICKER_INSIDERS, TICKER_INSIDER_FLOW, NEWS_HEADLINES, TICKER_FLOW_RECENT, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_IV_RANK, TICKER_VOL_STATS</span>
+  <span class="small-muted">Blocks action if: latest positions, same-session price/flow, or funding source are missing</span>
+  <span class="small-muted">Promote when: current positions, factor wrapper context, and ticker flow support the trim/add leg</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">Fundstrat signal confirmation</span>
+  <span class="tag t-conf">priority 4</span>
+  <span class="small-muted">Fundstrat-derived calls should be checked against live market structure before action.</span>
+  <span class="small-muted">Tickers: QQQ, RSP, SOX, RYF, TNX, NVDA, ANET, GOOGL, MAGS</span>
+
+  <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO</span>
+  <span class="small-muted">Blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing</span>
+  <span class="small-muted">Promote when: Fundstrat call and live market structure point in the same direction</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">Asymmetric discovery</span>
+  <span class="tag t-conf">priority 5</span>
+  <span class="small-muted">Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.</span>
+  <span class="small-muted">Tickers: NVDA, GOOGL, ANET, AVGO, MAGS, MSFT, GRNY, SMH</span>
+  <span class="small-muted">Market checks: FLOW_ALERTS, TOP_NET_IMPACT, DARKPOOL_RECENT, LIT_FLOW_RECENT, MARKET_MOVERS, OPTION_CONTRACT_SCREENER, STOCK_SCREENER</span>
+  <span class="small-muted">Ticker checks: ANALYST_RATINGS, INSIDER_TRANSACTIONS, CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES, TICKER_FLOW_PER_EXPIRY, TICKER_FLOW_PER_STRIKE, TICKER_GREEK_FLOW, TICKER_VOL_TERM_STRUCTURE, TICKER_INFO</span>
+  <span class="small-muted">Blocks action if: the setup is only flow/social/context without independent confirmation</span>
+  <span class="small-muted">Promote when: fresh flow plus thesis, sponsor, price, or news evidence creates review-worthy skew</span>
+</div></div>
+  <div class="feedback-line">Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.</div>
+  <div class="cmd-row"><span class="cmd-name">print runbook</span><span class="cmd-desc"><code>python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
 </div>
 
 <div id="operator-hardening">
@@ -903,29 +924,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 </div>
 
-
-<div class="card">
-  <div class="card-title"><span class="icon">+</span> Opportunity context
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">context, not orders</span>
-  </div>
-  <div class="context-grid">
-<div class="context-col">
-  <div class="context-label">Target drift</div>
-  <div class="context-row"><span class="context-ticker">GRNY</span>OVERSIZED<span class="context-sub">9.5% actual vs 3.0% target</span></div><div class="context-row"><span class="context-ticker">SMH</span>OVERSIZED<span class="context-sub">8.8% actual vs 5.0% target</span></div><div class="context-row"><span class="context-ticker">NVDA</span>UNDERSIZED<span class="context-sub">7.1% actual vs 12.0% target</span></div>
-</div>
-<div class="context-col">
-  <div class="context-label">Prospects</div>
-  <div class="context-row"><span class="context-ticker">DE</span>avoid<span class="context-sub">DE: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div><div class="context-row"><span class="context-ticker">HOOD</span>avoid<span class="context-sub">HOOD: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div><div class="context-row"><span class="context-ticker">PKG</span>avoid<span class="context-sub">PKG: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).</span></div>
-</div>
-<div class="context-col">
-  <div class="context-label">Radar</div>
-  <div class="context-row"><span class="context-ticker">QQQ</span>watch<span class="context-sub">Newton | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">RSP</span>watch<span class="context-sub">Newton | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">SOX</span>watch<span class="context-sub">Newton | 2026-06-05</span></div>
-</div>
-<div class="context-col">
-  <div class="context-label">Bullish flow</div>
-  <div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">call_flow, oi_build</span></div><div class="context-row"><span class="context-ticker">MAGS</span>bullish strong<span class="context-sub">call_flow, oi_build</span></div><div class="context-row"><span class="context-ticker">SMH</span>bullish strong<span class="context-sub">sweep, oi_build</span></div>
-</div></div>
-</div>
 
 <div class="card" id="lane-status">
   <div class="card-title"><span class="icon"></span> Lane status</div>
@@ -1327,6 +1325,17 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">parents</span>
   126 rows | total $1,226,078
 </div>
+</div>
+
+<div class="card" id="social-watch">
+  <div class="card-title"><span class="icon">*</span> Social Watch
+    <span class="tag t-warn" style="margin-left:auto">not checked</span>
+  </div>
+
+  <div class="small-list"><div class="feedback-line">Social watch not checked: no Reddit/social cache supplied.</div></div>
+  <div class="feedback-line">Watch-only until independently confirmed; never a standalone trade signal.</div>
+
+  <div class="cmd-row"><span class="cmd-name">print social watch</span><span class="cmd-desc"><code>python src/social_watch.py --cache src/social_watch.json --format text</code></span></div>
 </div>
   </div>
 
@@ -4341,6 +4350,33 @@ function showTab(name, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
+function cardSummary(card) {
+  const explicit = card.getAttribute('data-summary');
+  if (explicit) return explicit;
+  const pieces = Array.from(card.children)
+    .filter(el => !(el.classList && (el.classList.contains('card-title') || el.classList.contains('card-mini'))))
+    .map(el => (el.textContent || '').replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
+  const text = pieces[0] || 'Open for details.';
+  return text.length > 130 ? text.slice(0, 127).trim() + '...' : text;
+}
+function setupCollapsibleCards() {
+  const keepOpen = new Set([]);
+  document.querySelectorAll('#tab-dashboard > .card[id]').forEach(card => {
+    if (card.dataset.collapseReady) return;
+    const title = Array.from(card.children).find(el => el.classList && el.classList.contains('card-title'));
+    if (!title) return;
+    card.dataset.collapseReady = '1';
+    card.classList.add('is-collapsible');
+    const mini = document.createElement('div');
+    mini.className = 'card-mini';
+    mini.textContent = cardSummary(card);
+    title.insertAdjacentElement('afterend', mini);
+    if (!keepOpen.has(card.id)) card.classList.add('is-collapsed');
+    title.addEventListener('click', () => card.classList.toggle('is-collapsed'));
+  });
+}
+setupCollapsibleCards();
 </script>
 </body>
 </html>
