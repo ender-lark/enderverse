@@ -61,7 +61,7 @@ repo convention files plus the ownership contract in
 
 | Layer | Owns | Key files |
 |---|---|---|
-| Source access | Connector reads, supplied drops, manual exports | Gmail, Notion, Unusual Whales app/API, broker uploads, manual JSON drops |
+| Source access | Connector reads, supplied drops, manual exports | Gmail, Notion, Unusual Whales app/API, SnapTrade read-only broker pulls, broker uploads, manual JSON drops |
 | Intake | Normalize and validate external evidence | `fundstrat_email_intake.py`, `signal_log_intake.py`, `catalyst_calendar_intake.py`, `daily_synthesis_intake.py`, `event_risk_intake.py`, `live_source_config_update.py` |
 | Convention state | Machine-readable source facts | `src/*.json` convention files, `state_ownership_map.json`, `codex_routine_manifest.json` |
 | Feed engine | Deterministic read/assembly/validation | `full_build_runner.py`, `feed_assembler.py`, `analyst_judgment.py`, `validators.py`, `publish_gate.py` |
@@ -110,6 +110,36 @@ The system synthesizes only from explicit source or repo evidence:
     connector-proof context.
   - These confirm or challenge timing and risk. They are not standalone capital
     allocation instructions.
+
+- Account Positions / SnapTrade:
+  - SnapTrade is the preferred read-only Account Positions source once staged,
+    owner-labeled, validated, and promoted.
+  - The manual PDF/text broker extractor remains the fallback path.
+  - `snaptrade_positions_import.py` writes staged raw and combined outputs under
+    `tmp/`; it must not directly replace `src/positions.json`,
+    `src/account_positions.json`, or `src/position_reconciliation.json`.
+  - Promotion still runs through the existing strict broker-position cache and
+    reconciliation path so dashboard reallocation never treats an unvalidated
+    pull as live portfolio truth.
+  - `src/snaptrade_profiles.local.json` is local-only and ignored. It holds
+    account-owner overrides for labels such as `Parents` and `SKB`.
+  - `src/snaptrade_profiles.example.json` documents the shape that can be
+    committed. SnapTrade credentials stay in Windows user environment and are
+    not printed or committed.
+  - If SnapTrade fails and no fallback extract validates, Account Positions
+    remains stale or `not_checked`; it must not be marked checked clear from old
+    PDF-era cache data.
+  - Include Robinhood Crypto in the Investing OS account universe when the
+    staged pull validates.
+
+  Staged pull and validation sequence:
+
+  ```powershell
+  python src\snaptrade_positions_import.py --pull --profiles src\snaptrade_profiles.local.json --raw-out tmp\snaptrade_raw.json --combined-out tmp\snaptrade_combined.json
+  python src\broker_pdf_extractor.py --validate tmp\snaptrade_combined.json
+  python src\build_positions_cache.py --combined tmp\snaptrade_combined.json --theses src\theses.json --stdout
+  python src\position_reconciliation.py --combined tmp\snaptrade_combined.json --theses src\theses.json --prior-account-positions src\account_positions.json --account-out tmp\snaptrade_account_positions.json --reconcile-out tmp\snaptrade_position_reconciliation.json
+  ```
 
 ## 5. What Is Pushed To The Dashboard
 
