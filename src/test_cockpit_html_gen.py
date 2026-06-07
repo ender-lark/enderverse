@@ -36,6 +36,26 @@ def _feed():
                 }
             ],
         },
+        "social_watch": {
+            "status": "has_data",
+            "line": "Social watch: 1 anomaly candidate(s); watch-only until independently confirmed.",
+            "count": 1,
+            "honesty_rule": "Watch-only until independently confirmed; never a standalone trade signal.",
+            "promotion_rule": "Key Now is allowed only when Reddit is not primary evidence and same-day UW, price/news, Fundstrat, catalyst, or source-call evidence confirms the setup.",
+            "command": "python src/social_watch.py --cache src/social_watch.json --format text",
+            "rows": [
+                {
+                    "ticker": "NVDA",
+                    "score": 34,
+                    "summary": "Reddit channel-check rumor needs vetting.",
+                    "subreddits": ["stocks", "wallstreetbets"],
+                    "evidence": ["Blackwell lead time"],
+                    "independent_confirmation": ["UW flow pending"],
+                    "escalation": "Re-check Before Acting candidate",
+                    "risk": "Pump/chase and echo risk.",
+                }
+            ],
+        },
         "uw_action_runbook": {
             "status": "has_data",
             "line": "UW action runbook: 2 check set(s), 3 scoped ticker(s); endpoint results not claimed.",
@@ -429,6 +449,18 @@ def test_generated_html_surfaces_operator_status_card():
     assert "HIGH | oil, rates | XOP, TNX" in html
     assert "Trigger: WTI spike" in html
     assert "1 overdue" in html
+
+
+def test_generated_html_surfaces_social_watch_as_watch_only():
+    html = generate_html(_feed())
+
+    assert 'id="social-watch"' in html
+    assert "Social Watch" in html
+    assert "watch-only until independently confirmed" in html
+    assert "Reddit channel-check rumor needs vetting." in html
+    assert "Re-check Before Acting candidate" in html
+    assert "never a standalone trade signal" in html
+    assert "Key Now is allowed only when Reddit is not primary evidence" in html
     assert "python src/completion_audit.py --format text" in html
     assert "python src/go_live_checklist.py --format text" in html
     assert "python src/sudden_event_refresh.py --title" in html

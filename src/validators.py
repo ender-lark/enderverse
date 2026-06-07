@@ -549,6 +549,28 @@ def _validate_signal_log_row(r: Any) -> list[str]:
     return []
 
 
+def _validate_social_watch_row(r: Any) -> list[str]:
+    """One `social_watch` row.
+
+    Social rows are watch-only anomalies. They can identify a ticker or broader
+    entity, but must carry readable context and must not pretend to be actions.
+    """
+    if not isinstance(r, dict):
+        return ["must be a dict"]
+    out: list[str] = []
+    if not any(isinstance(r.get(k), str) and r.get(k).strip() for k in ("ticker", "entity", "summary")):
+        out.append("must include ticker, entity, or summary")
+    if "subreddits" in r and not isinstance(r.get("subreddits"), list):
+        out.append("subreddits must be a list")
+    if "evidence" in r and not isinstance(r.get("evidence"), list):
+        out.append("evidence must be a list")
+    if "independent_confirmation" in r and not isinstance(r.get("independent_confirmation"), list):
+        out.append("independent_confirmation must be a list")
+    if str(r.get("escalation") or "").lower() in {"buy", "sell", "trade", "key now"}:
+        out.append("social_watch escalation must stay watch/research/re-check, not direct trade")
+    return out
+
+
 def _validate_event_risk_row(r: Any) -> list[str]:
     if not isinstance(r, dict):
         return ["must be a dict"]
@@ -702,6 +724,18 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
         else:
             for i, r in enumerate(signal_log):
                 problems.extend(f"signal_log[{i}] {e}" for e in _validate_signal_log_row(r))
+
+    social_watch = feed.get("social_watch", _MISSING)
+    if social_watch is not _MISSING:
+        if not isinstance(social_watch, dict):
+            problems.append(f"social_watch must be a dict, got {type(social_watch).__name__}")
+        else:
+            rows = social_watch.get("rows", [])
+            if not isinstance(rows, list):
+                problems.append(f"social_watch.rows must be a list, got {type(rows).__name__}")
+            else:
+                for i, r in enumerate(rows):
+                    problems.extend(f"social_watch.rows[{i}] {e}" for e in _validate_social_watch_row(r))
 
     event_risk = feed.get("event_risk", _MISSING)
     if event_risk is not _MISSING:

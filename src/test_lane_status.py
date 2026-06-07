@@ -55,6 +55,7 @@ def test_external_lanes_distinguish_not_checked_from_checked_clear():
         synthesis=None,
         uw_opportunity={"signals": [{"ticker": "NVDA"}]},
         signal_log=[{"signal": "Morning scan flag"}],
+        social_watch=[{"ticker": "NVDA", "summary": "Social anomaly"}],
         event_risk=[],
         top_prospects={},
     )
@@ -64,6 +65,7 @@ def test_external_lanes_distinguish_not_checked_from_checked_clear():
     assert rows["synthesis"]["status"] == STATUS_NOT_CHECKED
     assert rows["uw_opportunity"]["status"] == STATUS_HAS_DATA
     assert rows["signal_log"]["status"] == STATUS_HAS_DATA
+    assert rows["social_watch"]["status"] == STATUS_HAS_DATA
     assert rows["event_risk"]["status"] == STATUS_CHECKED_CLEAR
     assert rows["top_prospects"]["status"] == STATUS_CHECKED_CLEAR
     assert lane["has_dark_lanes"] is True
@@ -78,6 +80,15 @@ def test_event_risk_dark_lane_names_event_scan_next_step():
     assert rows["event_risk"]["status"] == STATUS_NOT_CHECKED
     assert "Event Risk scan" in rows["event_risk"]["next_step"]
     assert "Sudden market-moving event risk" in rows["event_risk"]["missing_impact"]
+
+
+def test_social_watch_dark_lane_names_api_cache_next_step():
+    lane = build_lane_status(_snapshot(), {"stale": []}, social_watch=None)
+    rows = {r["key"]: r for r in lane["rows"]}
+
+    assert rows["social_watch"]["status"] == STATUS_NOT_CHECKED
+    assert "social_watch.json" in rows["social_watch"]["next_step"]
+    assert "Reddit/social" in rows["social_watch"]["missing_impact"]
 
 
 def test_lane_status_feed_contract_accepts_rows():

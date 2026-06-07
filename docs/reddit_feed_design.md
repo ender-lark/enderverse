@@ -120,13 +120,24 @@ Reddit item -> Key Now only when:
 
 ## Dashboard Surface
 
-Add a "Social Watch" block under source audits or opportunity discovery:
+Add a "Social Watch" block under opportunity discovery:
 
 - Count of new eligible anomalies.
 - Top three anomalies by impact-adjusted score.
 - Ticker/entity, subreddit mix, first seen, last seen, velocity, and freshness.
 - A clear label: `watch-only until independently confirmed`.
 - Buttons or commands for "send to Research Queue", "quiet watch", and "dismiss".
+
+Current repo state:
+
+- `src/social_watch.py` normalizes a future Reddit/social cache into
+  `feed.social_watch`.
+- `src/full_build_runner.py` loads `src/social_watch.json`, `src/reddit_watch.json`,
+  or `src/reddit_signals.json`.
+- The dashboard renders Social Watch in the Action view and summary export.
+- If no cache exists, the lane is visible as `not_checked`; this is not a
+  no-social-signal read.
+- Social rows fail validation if they attempt direct buy/sell/trade escalation.
 
 ## Failure Modes
 
@@ -140,11 +151,10 @@ Add a "Social Watch" block under source audits or opportunity discovery:
 
 ## Implementation Order
 
-1. Credential and compliance config: OAuth, User-Agent, rate-limit tracking, and
+1. Watch-only dashboard block and normalizer. Done 2026-06-07.
+2. Credential and compliance config: OAuth, User-Agent, rate-limit tracking, and
    content expiry.
-2. Read-only fetcher for a small subreddit allowlist.
-3. Normalizer with ticker/entity matching and snippet redaction.
-4. Integration with `reddit_signal_core.py`.
-5. Watch-only dashboard block.
-6. Research Queue escalation command.
-7. Backtest/calibration log before any Key Now promotion path.
+3. Read-only fetcher for a small subreddit allowlist.
+4. Ticker/entity matching and snippet redaction upstream of `social_watch.py`.
+5. Research Queue escalation command.
+6. Backtest/calibration log before any Key Now promotion path.

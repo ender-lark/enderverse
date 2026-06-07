@@ -56,6 +56,11 @@
       "canonical_surface": "Signal Log watch-only lane in Action view",
       "summary_surface": "Signal Log watch-only card when non-empty, capped to summary rows"
     },
+    "social_watch": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Social Watch watch-only lane in Action view, including not-checked state when no cache is supplied",
+      "summary_surface": "Social Watch card with watch-only rule, confirmation requirements, and top anomaly rows"
+    },
     "event_risk": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Event Risk lane status plus promoted Today's Actions review prompts",

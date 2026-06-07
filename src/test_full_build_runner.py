@@ -126,6 +126,19 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     _write(src / "signal_log.json", [
         {"ticker": "NVDA", "signal": "Morning scan flag", "priority": "watch", "date": "2026-06-05"}
     ])
+    _write(src / "social_watch.json", {
+        "generated_at": "2026-06-05T13:30:00Z",
+        "items": [
+            {
+                "ticker": "NVDA",
+                "subreddit": "stocks",
+                "title_snippet": "NVDA channel-check rumor",
+                "mentions": 20,
+                "velocity_z": 2.5,
+                "independent_confirmation": ["UW flow pending"],
+            }
+        ],
+    })
     _write(src / "event_risks.json", [
         {
             "date": "2026-06-05",
@@ -150,10 +163,13 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert rows["top_prospects"]["status"] == "has_data"
     assert rows["catalysts"]["status"] == "has_data"
     assert rows["signal_log"]["status"] == "has_data"
+    assert rows["social_watch"]["status"] == "has_data"
     assert rows["event_risk"]["status"] == "has_data"
     assert rows["research"]["status"] == "not_checked"
     assert rows["target_drift"]["status"] == "has_data"
     assert feed["signal_log"][0]["signal"] == "Morning scan flag"
+    assert feed["social_watch"]["rows"][0]["ticker"] == "NVDA"
+    assert feed["social_watch"]["honesty_rule"].startswith("Watch-only")
     assert feed["event_risk"][0]["title"] == "Oil shock risk from geopolitical escalation"
     assert feed["bullish_flow"]["rows"]
     assert feed["prospects"]["counts"]["act_now"] == 1
@@ -233,12 +249,13 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["top_prospects"]["status"] == "not_checked"
     assert rows["catalysts"]["status"] == "not_checked"
     assert rows["signal_log"]["status"] == "not_checked"
+    assert rows["social_watch"]["status"] == "not_checked"
     assert rows["event_risk"]["status"] == "not_checked"
     assert rows["synthesis"]["status"] == "not_checked"
     assert rows["account_positions"]["status"] == "not_checked"
     assert rows["account_positions"]["detail"] == "missing live source input"
     assert "meridian" not in rows
-    assert feed["lane_status"]["counts"]["not_checked"] >= 7
+    assert feed["lane_status"]["counts"]["not_checked"] >= 8
 
 
 def test_missing_source_gap_rows_do_not_duplicate_existing_lanes(tmp_path):

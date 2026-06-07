@@ -272,6 +272,18 @@
       "action_surface": "Watch-only context; never directly promotes into actions."
     },
     {
+      "id": "social_watch",
+      "source_of_truth": "reddit_social_api_or_supplied_normalized_cache",
+      "repo_artifact": "src/social_watch.json",
+      "producer": "future social_watch_intake -> social_watch.py normalizer",
+      "feed_path": "full_build_runner.DEFAULT_FILES.social_watch -> feed.social_watch watch-only lane",
+      "dashboard_surface": "Social Watch lane under Action view and summary export",
+      "mirror_policy": "GitHub stores minimal normalized snippets, tickers/entities, timestamps, subreddits, derived scores, and expiry metadata; raw social content should not accumulate.",
+      "freshness_contract": "Use compliant API/OAuth intake, rate-limit tracking, and short retention; deleted or expired social content must not persist as current evidence.",
+      "not_checked_behavior": "Missing social cache is not checked, not no social anomalies.",
+      "action_surface": "Watch-only early-signal context; can route to Research Queue or Re-check only after independent non-social confirmation."
+    },
+    {
       "id": "event_risk",
       "source_of_truth": "supplied_daily_or_weekly_event_scan",
       "repo_artifact": "src/event_risks.json",

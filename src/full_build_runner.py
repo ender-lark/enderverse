@@ -41,6 +41,7 @@ from operator_hardening import build_operator_hardening
 from uw_routing_recommendations import build_uw_routing_recommendations
 from uw_action_runbook import build_uw_action_runbook
 from reallocation_brief import build_reallocation_brief
+from social_watch import build_social_watch
 import cloud_routine_receipts
 
 
@@ -61,6 +62,7 @@ DEFAULT_FILES = {
     "meridian": ("meridian_items.json",),
     "heartbeat": ("heartbeat.json",),
     "signal_log": ("signal_log.json", "morning_signal_log.json"),
+    "social_watch": ("social_watch.json", "reddit_watch.json", "reddit_signals.json"),
     "event_risk": ("event_risks.json", "event_risk.json"),
     "synthesis": ("daily_synthesis.json", "synthesis.json"),
     "research": ("research_queue.json", "research.json"),
@@ -626,6 +628,23 @@ def latest_prices_from_closes(closes: dict) -> dict:
     return prices
 
 
+def material_tickers_from_state(positions_cache: dict[str, Any], theses: list[dict[str, Any]] | None) -> set[str]:
+    tickers = {
+        str(row.get("ticker") or "").strip().upper()
+        for row in (positions_cache.get("positions") or [])
+        if isinstance(row, dict) and row.get("ticker")
+    }
+    tickers |= {
+        str(row.get("ticker") or "").strip().upper()
+        for row in (theses or [])
+        if isinstance(row, dict)
+        and row.get("ticker")
+        and str(row.get("stance") or "").upper() != "MONITOR"
+        and str(row.get("tier") or "").upper() in {"T1", "T2", "T3"}
+    }
+    return {ticker for ticker in tickers if ticker}
+
+
 def active_parabolic_tickers(cache: Any, tiers=("AUTOFIRE", "WATCHLIST")) -> set[str]:
     if not isinstance(cache, dict):
         return set()
@@ -671,6 +690,7 @@ def build_full_feed_from_files(
     meridian = _load_optional(src, "meridian")
     heartbeat = _load_optional(src, "heartbeat")
     signal_log = _load_optional(src, "signal_log")
+    social_watch_cache = _load_optional(src, "social_watch")
     event_risk = _load_optional(src, "event_risk")
     synthesis = _load_optional(src, "synthesis")
     research = _load_optional(src, "research")
@@ -683,6 +703,10 @@ def build_full_feed_from_files(
     log_call_dates = _load_optional(src, "log_call_dates")
     parabolic_cache = _load_optional(src, "parabolic")
     target_drift = target_weight_drift_summary(positions_cache)
+    social_watch = build_social_watch(
+        social_watch_cache,
+        material_tickers=material_tickers_from_state(positions_cache, theses),
+    )
 
     catalysts = None
     if catalyst_rows is not None:
@@ -717,6 +741,7 @@ def build_full_feed_from_files(
         generated_at=generated_at or now,
         heartbeat=heartbeat,
         signal_log=signal_log,
+        social_watch=(social_watch.get("rows") or []) if social_watch_cache is not None else None,
         event_risk=event_risk,
         synthesis=synthesis,
         research=research,
@@ -739,6 +764,7 @@ def build_full_feed_from_files(
         generated_at=feed.get("generated_at") or now,
     )
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
+    feed["social_watch"] = social_watch
     feed["operator_hardening"] = build_operator_hardening(feed)
     portfolio_views = build_portfolio_views(account_positions)
     if portfolio_views:

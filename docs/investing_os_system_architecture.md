@@ -88,6 +88,13 @@ The system synthesizes only from explicit source or repo evidence:
   - Watch-only context. It can explain the tape, risks, and setup background,
     but it does not directly create buy/sell actions.
 
+- Social Watch / Reddit: `src/social_watch.json`
+  - Normalized by `social_watch.py` from a future compliant API/OAuth intake or
+    supplied normalized cache.
+  - Watch-only anomaly context. It can identify something to vet, but cannot
+    create buy/sell actions and cannot reach Key Now unless non-social evidence
+    confirms the setup through another lane.
+
 - Source-call candidates: `src/source_call_candidates.json`
   - Drafted from current feed observations by `source_call_candidate_draft.py`.
   - Merged into source-call calibration only through the explicit merge path.
@@ -132,6 +139,11 @@ The dashboard shows the feed plus operator state:
 
 - Signal Log panel: `feed.signal_log`
   - Watch-only rows from Morning Scan / Signal Log.
+
+- Social Watch panel: `feed.social_watch`
+  - Watch-only Reddit/social anomaly rows with subreddit mix, velocity/score,
+    independent-confirmation requirements, and pump/chase risk.
+  - Missing cache remains visible as `not_checked`, not as no social signal.
 
 - Event Risk / Active Watch:
   - Sudden market risks and trigger conditions are visible in dashboard status.

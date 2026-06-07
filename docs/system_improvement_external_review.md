@@ -35,8 +35,8 @@ data is checked clear.
 - Cloud routine proof is background monitoring. Missing natural scheduled receipts
   are audit items, not foreground build blockers unless they are overdue or failed.
 - Existing reallocation engine is candidate-only and does not place trades.
-- Existing Reddit module is a pure-logic measurement harness; it does not ingest
-  Reddit live data yet.
+- Reddit/social is a watch-only dashboard lane backed by a normalized cache shape;
+  the repo still does not fetch Reddit live data until OAuth/API intake is added.
 - Existing Unusual Whales endpoint catalog prevents common hallucinated endpoint
   paths, but the system needs scenario-specific routing so it uses the right UW
   endpoints at the right time.
@@ -61,8 +61,8 @@ Highest-value gaps:
    positions, current source state, thesis strength, drawdown/risk, Fundstrat calls,
    UW confirmation, and funding constraints, then output candidate trim/add/hold
    plans with timing and disconfirmation.
-4. Reddit should be watch-only early-signal intake. It can propose things to vet,
-   but should not promote trades without independent confirmation.
+4. Reddit/social should remain watch-only early-signal intake. It can propose
+   things to vet, but should not promote trades without independent confirmation.
 5. Disconfirmation needs to be explicit. Every Key Now action should show the fastest
    way it could be wrong, the evidence that would invalidate it, and the trigger
    that changes the recommendation.
@@ -155,8 +155,9 @@ Output format:
 4. Add portfolio reallocation mode that waits for latest positions, then ranks
    candidate legs by impact, risk, time sensitivity, thesis strength, source
    confirmation, and funding constraints.
-5. Add Reddit API intake only as watch-only anomaly detection feeding Research Queue
-   or Quiet Watch unless UW/Fundstrat/news confirmation exists.
+5. Add Reddit API intake only as watch-only anomaly detection feeding the existing
+   Social Watch lane, Research Queue, or Quiet Watch unless UW/Fundstrat/news
+   confirmation exists.
 
 ## Clarifying Questions For The User
 

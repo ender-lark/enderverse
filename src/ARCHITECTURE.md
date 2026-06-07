@@ -40,7 +40,7 @@ unresolved opportunities durable across days.
 
 **External vs derived inputs** (critical distinction):
 - **Derived from the book** (the engine computes them): `holdings`, `rotation`, `hero`, `fresh_signals` (⑦), the needs-you list (⑧), `actions` (⑦b), `research_actions` (⑦c).
-- **External reads, passed in by the caller** (the engine only threads/shapes them): `synthesis`, `research`, `heartbeat`, `radar`, `catalysts`, `signal_log`, `macro` (via the snapshot), `generated_at`.
+- **External reads, passed in by the caller** (the engine only threads/shapes them): `synthesis`, `research`, `heartbeat`, `radar`, `catalysts`, `signal_log`, `social_watch`, `macro` (via the snapshot), `generated_at`.
 
 If an external input is `None`, the engine defaults it (`research or {}`, `catalysts or []`, …). So a quiet/empty external lane is **not** an engine bug — it's an empty input. (See §10, the canonical 6/1 lesson.)
 
@@ -60,6 +60,7 @@ The single artifact every layer agrees on. Validated by `validators.validate_coc
 | `macro` | caller (UW) | `{line, regime:{…}, alerts[], implications[]}` | macro |
 | `fresh_signals` | engine ⑦ (book) | `[…]` | (feeds actions) |
 | `signal_log` | caller (Morning Scan) | `[{ticker?, signal/title/what/summary, ...}]` | Signal Log watch-only lane |
+| `social_watch` | caller (`social_watch.py` normalized cache) | `{status,line,count,rows[]}` | Social Watch, watch-only Reddit/social anomaly lane |
 | `actions` | engine ⑦b | `[action-row]` | **Today's actions** |
 | `research_actions` | engine ⑦c | `[action-row]` | **From Research** (new) |
 | `catalysts` | caller (Catalyst Calendar) | `[{ticker,label,date,days_out,source}]` | Upcoming catalysts |

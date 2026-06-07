@@ -38,6 +38,15 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Social Watch dashboard lane.
+  - Added `social_watch.py` to normalize future Reddit/social API output or a
+    supplied cache into a watch-only `feed.social_watch` block.
+  - Wired `social_watch` through full-build convention inputs, lane-status dark
+    lane handling, canonical JSX, HTML summary/export, source ownership, and
+    dashboard parity classification.
+  - Added validation so Social Watch rows cannot escalate directly to buy, sell,
+    trade, or Key Now; independent non-social confirmation is required before
+    any action-lane promotion elsewhere.
 - Candidate reallocation brief.
   - Added `reallocation_brief.py` to wrap the existing funded-rotation planner
     into a dashboard feed block with candidate adds, funding trims, funding

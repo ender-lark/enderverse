@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T17:37:18.718477+00:00",
+  "generated_at": "2026-06-07T17:52:24.090447+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T13:37:18.718477-04:00",
+        "date": "2026-06-07T13:52:24.090447-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T13:37:18.718477-04:00",
+        "date": "2026-06-07T13:52:24.090447-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -129,6 +129,16 @@
         "checked_at": ""
       },
       {
+        "key": "social_watch",
+        "label": "Social Watch",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": "",
+        "next_step": "Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.",
+        "missing_impact": "Reddit/social early-signal anomalies are not checked; absence is not no social signal."
+      },
+      {
         "key": "event_risk",
         "label": "Event Risk",
         "status": "has_data",
@@ -155,12 +165,12 @@
     ],
     "counts": {
       "failed": 0,
-      "not_checked": 0,
+      "not_checked": 1,
       "has_data": 13,
       "stale": 0,
       "checked_clear": 0
     },
-    "has_dark_lanes": false,
+    "has_dark_lanes": true,
     "has_stale_or_failed": false
   },
   "hero": {
@@ -551,6 +561,14 @@
       "note": "Fundstrat Flash Insights argued yields could peak into next week and crude could keep easing if negotiation progress arrives in the Persian Gulf. This keeps rates/oil headline sensitivity live for financials, energy, and nuclear sleeves. Watch-only until confirmed."
     }
   ],
+  "social_watch": {
+    "status": "not_checked",
+    "line": "Social watch not checked: no Reddit/social cache supplied.",
+    "rows": [],
+    "count": 0,
+    "honesty_rule": "Watch-only until independently confirmed; never a standalone trade signal.",
+    "command": "python src/social_watch.py --cache src/social_watch.json --format text"
+  },
   "event_risk": [
     {
       "date": "2026-06-03",
@@ -1161,41 +1179,42 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T17:37:18.604445+00:00",
+      "last_run": "2026-06-07T17:52:23.948450+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T17:37:18.604445+00:00",
+      "last_run": "2026-06-07T17:52:23.948450+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T17:37:18.604445+00:00",
+      "last_run": "2026-06-07T17:52:23.948450+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
-      "status": "ok",
-      "last_run": "2026-06-07T17:37:18.604445+00:00",
-      "note": "no dark lanes reported in lane-status block"
+      "status": "stale",
+      "last_run": "2026-06-07T17:52:23.948450+00:00",
+      "note": "dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T17:37:18.604445+00:00",
+      "last_run": "2026-06-07T17:52:23.948450+00:00",
       "note": "rehearsal build can run"
     }
   ],
   "synthesis": {
     "source": "Repo Evidence Synthesis",
     "date": "2026-06-07",
-    "state_of_play": "Repo evidence read: 13 lane(s) have data and 0 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (watch, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+    "state_of_play": "Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (watch, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
     "delta": "Latest Fundstrat Daily compact calls in radar: QQQ watch, RSP watch, SOX watch. Target drift: 13 sizing gap(s) vs AI working model (1 under, 3 over, 9 missing); GRNY oversized 8.8% vs 3.0%; SMH oversized 9.4% vs 5.0%; NVDA undersized 6.6% vs 12.0%; MU oversized 3.3% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; +7 more",
     "hanging": [
-      "Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait."
+      "Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.",
+      "Social Watch is not checked: Reddit/social early-signal anomalies are not checked; absence is not no social signal."
     ],
     "notes": [
       "Derived only from the existing cockpit feed.",
@@ -8950,7 +8969,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 2.23
+        "connector_proof_age_hours": 2.48
       }
     ],
     "missing": [],
@@ -9190,8 +9209,8 @@
           "label": "Daily Synthesis cache",
           "status": "has_data",
           "written": true,
-          "count": 1,
-          "line": "Daily Synthesis cache: written; count=1.",
+          "count": 2,
+          "line": "Daily Synthesis cache: written; count=2.",
           "problems": []
         },
         {
@@ -9235,11 +9254,13 @@
     },
     "connector_evidence": {
       "status": "has_data",
-      "line": "Connector/supplied evidence: present=20/21; missing live-capable=0.",
+      "line": "Connector/supplied evidence: present=20/22; missing live-capable=1.",
       "present_inputs": 20,
-      "total_inputs": 21,
-      "missing_live_capable_count": 0,
-      "missing_live_capable_keys": [],
+      "total_inputs": 22,
+      "missing_live_capable_count": 1,
+      "missing_live_capable_keys": [
+        "social_watch"
+      ],
       "live_source_config": {
         "configured_count": 1,
         "total_count": 1,
@@ -9361,6 +9382,18 @@
           ],
           "source": "morning signal log export",
           "missing_behavior": "Signal Log is not checked; missing fetch is not no signals."
+        },
+        {
+          "key": "social_watch",
+          "status": "missing_optional",
+          "present": false,
+          "primary_mode": "connector_or_api",
+          "modes": [
+            "connector_or_api",
+            "supplied_or_export"
+          ],
+          "source": "reddit/social API or supplied normalized social cache",
+          "missing_behavior": "Social Watch is not checked; missing Reddit/social fetch is not no social anomalies."
         },
         {
           "key": "event_risk",

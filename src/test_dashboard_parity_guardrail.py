@@ -16,6 +16,7 @@ SUMMARY_RENDERED_BLOCKS = {
     "reallocation_brief",
     "research_actions",
     "signal_log",
+    "social_watch",
     "source_audits",
     "uw_action_runbook",
 }

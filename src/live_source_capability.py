@@ -55,6 +55,7 @@ ROUTINE_BY_INPUT_KEY = {
     "fs_bible": "fundstrat_intake",
     "fs_daily": "fundstrat_intake",
     "signal_log": "signal_log_intake",
+    "social_watch": "social_watch_intake",
     "event_risk": "event_risk_intake",
     "synthesis": "daily_synthesis_intake",
     "research": "off_hours_research_queue",

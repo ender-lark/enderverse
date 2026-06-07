@@ -873,6 +873,7 @@ function actionVM(feed){
     actions,
     actionGroups: feed.action_decision_groups||{},
     asymmetricOpportunities: feed.asymmetric_opportunities||{},
+    socialWatch: feed.social_watch||{},
     uwActionRunbook: feed.uw_action_runbook||{},
     reallocationBrief: feed.reallocation_brief||{},
     sourceAudits: feed.source_audits||{},
@@ -1233,6 +1234,44 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>decays {r.decay_window||"source dependent"} | {r.action||"review"}</div>
             </div>
           ))}
+        </Section>
+
+        <Section id="social-watch" title="Social Watch" icon="*" badge={(VM.socialWatch&&VM.socialWatch.count)?`${VM.socialWatch.count}`:"0"} badgeColor={(VM.socialWatch&&VM.socialWatch.status)==="has_data"?C.amber:C.faint} openMap={open} setOpen={setOpen} defaultOpen={(VM.socialWatch&&VM.socialWatch.status)==="has_data" || (VM.socialWatch&&VM.socialWatch.status)==="not_checked"}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>REDDIT / SOCIAL EARLY-SIGNAL WATCH. Watch-only until independently confirmed by UW, price/news, Fundstrat, catalyst, or source-call evidence.</div>
+          {(() => {
+            const S=VM.socialWatch||{}, rows=S.rows||[];
+            if(!rows.length) return (
+              <div style={{ ...card, fontSize:12, color:S.status==="not_checked"?C.amber:C.faint }}>
+                {S.line||"No social anomalies in this feed build."}
+                {S.honesty_rule && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.honesty_rule}</div>}
+                {S.command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {S.command}</div>}
+              </div>
+            );
+            return (
+              <div>
+                <div style={{ ...card, marginBottom:8, borderColor:C.amber+"44", background:C.amber+"0a" }}>
+                  <div style={{ fontSize:12.5, color:C.text }}>{S.line}</div>
+                  {S.honesty_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.honesty_rule}</div>}
+                  {S.promotion_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{S.promotion_rule}</div>}
+                </div>
+                {rows.slice(0,6).map((r,i)=>(
+                  <div key={`${r.ticker||r.entity||"social"}${i}`} style={{ ...card, marginBottom:7, borderColor:C.amber+"33" }}>
+                    <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                      <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker||r.entity||"SOCIAL"}</span>
+                      <span style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>score {r.score}</span>
+                      <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.escalation||"Quiet Watch"}</span>
+                    </div>
+                    {r.summary && <div style={{ marginTop:6, fontSize:12.5, color:C.text }}>{r.summary}</div>}
+                    {(r.subreddits||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>subreddits: {(r.subreddits||[]).join(", ")}</div>}
+                    {(r.evidence||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>evidence: {(r.evidence||[]).join(" / ")}</div>}
+                    {(r.independent_confirmation||[]).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>independent confirmation: {(r.independent_confirmation||[]).join(" / ")}</div>}
+                    <div style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Risk: {r.risk}</div>
+                  </div>
+                ))}
+                {S.command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {S.command}</div>}
+              </div>
+            );
+          })()}
         </Section>
 
         <Section id="uw-action-runbook" title="UW Action Runbook" icon="?" badge={((VM.uwActionRunbook||{}).rows||[]).length?`${((VM.uwActionRunbook||{}).rows||[]).length}`:"0"} badgeColor={((VM.uwActionRunbook||{}).rows||[]).length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={((VM.uwActionRunbook||{}).rows||[]).length>0}>

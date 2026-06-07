@@ -397,6 +397,7 @@ def _quick_nav(feed: dict) -> str:
   <a class="quick-link" href="#today-actions"><strong>{len(feed.get("actions") or [])}</strong> actions</a>
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>{_e((feed.get("asymmetric_opportunities") or {}).get("count") or 0)}</strong> asymmetry</a>
+  <a class="quick-link" href="#social-watch"><strong>{_e((feed.get("social_watch") or {}).get("count") or 0)}</strong> social</a>
   <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
   <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(open_actions)}</strong> open reviews</a>
@@ -413,6 +414,12 @@ def _lane_intake_commands(key: str) -> list[tuple[str, str]]:
             ("template", "docs/manual_live_source_drop.template.json (shape only; fill a separate drop file)"),
             ("validate", "python src/manual_source_drop.py manual-live-source-drop.json --src-dir src --validate-only"),
             ("apply", "python src/manual_source_drop.py manual-live-source-drop.json --src-dir src"),
+        ]
+    if key == "social_watch":
+        return [
+            ("cache", "write normalized cache to src/social_watch.json"),
+            ("preview", "python src/social_watch.py --cache src/social_watch.json --format text"),
+            ("refresh", "python src/live_dashboard_refresh.py"),
         ]
     return [
         ("validate", "python src/manual_source_drop.py <manual-drop.json> --src-dir src --validate-only"),
@@ -1185,6 +1192,45 @@ def _uw_action_runbook(block: dict) -> str:
 </div>"""
 
 
+def _social_watch(block: dict) -> str:
+    if not block:
+        return ""
+    rows = block.get("rows") or []
+    status = block.get("status") or "not_checked"
+    status_cls = "t-conf" if status == "has_data" else "t-warn" if status == "not_checked" else "t-cat"
+    body = ""
+    if rows:
+        for row in rows[:6]:
+            label = row.get("ticker") or row.get("entity") or "SOCIAL"
+            subreddits = ", ".join(row.get("subreddits") or [])
+            evidence = "; ".join(row.get("evidence") or [])
+            confirms = "; ".join(row.get("independent_confirmation") or [])
+            body += f"""
+<div class="small-item">
+  <span class="context-ticker">{_e(label)}</span>
+  <span class="tag {status_cls}">score {_e(row.get("score") or "")}</span>
+  <span class="tag t-cat">{_e(row.get("escalation") or "Quiet Watch")}</span>
+  <span class="small-muted">{_e(row.get("summary") or "")}</span>
+  {f'<span class="small-muted">Subreddits: {_e(subreddits)}</span>' if subreddits else ""}
+  {f'<span class="small-muted">Evidence: {_e(evidence)}</span>' if evidence else ""}
+  {f'<span class="small-muted">Independent confirmation: {_e(confirms)}</span>' if confirms else ""}
+  <span class="small-muted">Risk: {_e(row.get("risk") or "")}</span>
+</div>"""
+    else:
+        body = f'<div class="feedback-line">{_e(block.get("line") or "Social Watch not checked.")}</div>'
+    return f"""
+<div class="card" id="social-watch">
+  <div class="card-title"><span class="icon">*</span> Social Watch
+    <span class="tag {status_cls}" style="margin-left:auto">{_e(status.replace("_", " "))}</span>
+  </div>
+  {f'<div class="feedback-line">{_e(block.get("line") or "")}</div>' if rows and block.get("line") else ""}
+  <div class="small-list">{body}</div>
+  {f'<div class="feedback-line">{_e(block.get("honesty_rule") or "")}</div>' if block.get("honesty_rule") else ""}
+  {f'<div class="feedback-line">{_e(block.get("promotion_rule") or "")}</div>' if block.get("promotion_rule") else ""}
+  {f'<div class="cmd-row"><span class="cmd-name">print social watch</span><span class="cmd-desc"><code>{_e(block.get("command") or "")}</code></span></div>' if block.get("command") else ""}
+</div>"""
+
+
 def _usd(value) -> str:
     try:
         return f"${float(value):,.0f}"
@@ -1641,6 +1687,7 @@ def generate_html(feed: dict) -> str:
     hero_html   = _hero(feed.get("hero") or {})
     actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
     asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
+    social_watch_html = _social_watch(feed.get("social_watch") or {})
     uw_action_runbook_html = _uw_action_runbook(feed.get("uw_action_runbook") or {})
     reallocation_brief_html = _reallocation_brief(feed.get("reallocation_brief") or {})
     operator_hardening_html = _operator_hardening(feed.get("operator_hardening") or {})
@@ -1703,6 +1750,7 @@ def generate_html(feed: dict) -> str:
     {actions_html}
     {operator_html}
     {asymmetric_html}
+    {social_watch_html}
     {uw_action_runbook_html}
     {reallocation_brief_html}
     {operator_hardening_html}

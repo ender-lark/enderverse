@@ -386,6 +386,13 @@
           "missing_behavior": "Signal Log is not checked; missing fetch is not no signals."
         },
         {
+          "key": "social_watch",
+          "paths": ["src/social_watch.json", "src/reddit_watch.json", "src/reddit_signals.json"],
+          "required": false,
+          "source": "reddit/social API or supplied normalized social cache",
+          "missing_behavior": "Social Watch is not checked; missing Reddit/social fetch is not no social anomalies."
+        },
+        {
           "key": "event_risk",
           "paths": ["src/event_risks.json", "src/event_risk.json"],
           "required": false,
