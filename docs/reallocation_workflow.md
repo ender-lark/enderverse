@@ -98,6 +98,50 @@ data:
 - Use it to validate planner mechanics, dashboard formatting, and source routing.
 - Clearly label any output as `test-data only`.
 
+### 2026-06-07 Sanity Pass
+
+Repo snapshot used:
+
+- `src/positions.json`
+- `snapshot_date`: 2026-05-31
+- `sleeve_value`: $1,909,537
+
+Result:
+
+- 15 candidate legs: 9 adds, 6 trims.
+- Funding pool: $679,812.
+- Allocated: $679,812.
+- Funding shortfall: $69,635.
+- Warnings:
+  - No run-up data supplied, so chase-gate timing is inactive.
+  - Entries must be verified live before acting.
+  - Not every target gap can be funded from the convertible pool while keeping the
+    rotation AI-flat.
+
+Top test-data adds:
+
+- GOOGL: $152,763, sequence now, AMBER.
+- NVDA: $83,974, sequence after 2026-06-03, AMBER.
+- MSFT: $95,477, sequence now, AMBER.
+- AMZN: $76,381, sequence now, AMBER.
+- AVGO: $106,934, sequence after 2026-06-03, AMBER.
+- TSM: $65,879, sequence after 2026-06-03, AMBER.
+- ANET: $57,286, sequence now, AMBER.
+- FN: $38,191, sequence now, AMBER.
+
+Top test-data trims:
+
+- MAGS: $172,152, funding GOOGL/NVDA.
+- GRNJ: $139,887, funding AVGO/TSM.
+- GRNY: $110,367, funding TSM/ANET/FN/VRT.
+- IGV: $98,106, funding NVDA/MSFT.
+- SMH: $84,812, funding MSFT/AMZN.
+- IVES: $74,487, funding AMZN/AVGO.
+
+Important caveat: this was a mechanics test only. It is stale for Monday planning
+because the snapshot predates the Friday AI/crypto drawdown and uses no current
+run-up, live price, UW, Fundstrat-confirmation, tax/account, or hedge constraints.
+
 ## Monday Readiness Checklist
 
 - Latest positions loaded and reconciled.
