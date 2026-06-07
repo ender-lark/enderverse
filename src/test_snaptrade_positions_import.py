@@ -155,6 +155,52 @@ def test_option_position_uses_underlying_and_contract_multiplier():
     assert pos["option"]["call_put"] == "call"
 
 
+def test_zero_value_custody_placeholders_are_not_positions():
+    payload = {
+        "profiles": [
+            {
+                "profile": "parents",
+                "owner": "Parents",
+                "accounts": [
+                    {
+                        "account": {
+                            "id": "acct-3",
+                            "name": "Fidelity IRA",
+                            "institution_name": "Fidelity",
+                        },
+                        "positions": [
+                            {
+                                **_symbol("NVDA", "NVIDIA CORP"),
+                                "units": 2,
+                                "price": 200,
+                            },
+                            {
+                                **_symbol("L0C990030", "COLLATERAL DELV TO COMPUTERSHARE"),
+                                "units": 10,
+                                "price": 0,
+                                "market_value": 0,
+                            },
+                            {
+                                **_symbol("715ESC018", "PERSHING SQUAR ESCROW"),
+                                "units": 10,
+                                "price": 0,
+                                "market_value": 0,
+                            },
+                        ],
+                        "option_positions": [],
+                        "balances": [],
+                    }
+                ],
+            }
+        ]
+    }
+
+    combined = spi.build_combined_from_snaptrade(payload)
+    positions = combined["files"][0]["positions"]
+
+    assert [pos["symbol"] for pos in positions] == ["NVDA"]
+
+
 def test_resolve_profile_secret_reads_named_env(monkeypatch):
     monkeypatch.setenv("SNAPTRADE_TEST_USER_SECRET", "secret-value")
 

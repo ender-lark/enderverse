@@ -28,6 +28,12 @@ DEFAULT_PROFILES_PATH = Path(__file__).with_name("snaptrade_profiles.local.json"
 EXAMPLE_PROFILES_PATH = Path(__file__).with_name("snaptrade_profiles.example.json")
 CLIENT_ID_ENV = "SNAPTRADE_CLIENT_ID"
 CONSUMER_KEY_ENV = "SNAPTRADE_CONSUMER_KEY"
+NON_TRADABLE_SYMBOL_PREFIXES = ("L0C",)
+NON_TRADABLE_DESCRIPTION_TERMS = (
+    "COLLATERAL DELV",
+    "ESCROW",
+    "RESTRICTED WTS",
+)
 
 
 class SnapTradeError(RuntimeError):
@@ -109,6 +115,19 @@ def _nested(row: dict[str, Any], path: list[str]) -> Any:
     return cur
 
 
+def _is_non_tradable_placeholder(ticker: str,
+                                 description: str,
+                                 market_value: float | None) -> bool:
+    """Return true for SnapTrade custody placeholders, not live holdings."""
+    if market_value not in (None, 0, 0.0):
+        return False
+    symbol = ticker.strip().upper()
+    desc = description.strip().upper()
+    if any(symbol.startswith(prefix) for prefix in NON_TRADABLE_SYMBOL_PREFIXES):
+        return True
+    return any(term in desc for term in NON_TRADABLE_DESCRIPTION_TERMS)
+
+
 def _symbol_payload(position: dict[str, Any]) -> dict[str, Any]:
     symbol = position.get("symbol")
     if isinstance(symbol, dict):
@@ -182,9 +201,12 @@ def normalize_equity_position(position: dict[str, Any],
     )
     if market_value is None and units is not None and price is not None:
         market_value = units * price
+    description = str(symbol_info.get("description") or position.get("description") or "").strip()
+    if _is_non_tradable_placeholder(ticker, description, market_value):
+        return None
     return {
         "symbol": ticker,
-        "description": str(symbol_info.get("description") or position.get("description") or "").strip(),
+        "description": description,
         "quantity": units,
         "market_value": market_value,
         "account_name": account_name,

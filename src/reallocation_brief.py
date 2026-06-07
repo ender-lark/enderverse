@@ -74,6 +74,7 @@ def _add_row(leg, *, stale_positions: bool, uw_checks: dict[str, Any], operating
     sequence_state = "past_gate" if _past_sequence_date(str(leg.sequence or ""), operating_day) else "current_or_unspecified"
     if sequence_state == "past_gate":
         blockers.append("legacy catalyst sequencing date has passed; verify current post-catalyst setup")
+
     return {
         "ticker": leg.ticker,
         "rank": leg.rank,
@@ -182,6 +183,12 @@ def build_reallocation_brief(
     else:
         line += "."
 
+    honesty_rule = "Candidate reallocation brief only; no trades are executed."
+    if stale_positions:
+        honesty_rule += " Stale positions remain test-data only."
+    else:
+        honesty_rule += " Same-day positions still require gates before action."
+
     return {
         "status": status,
         "line": line,
@@ -209,7 +216,7 @@ def build_reallocation_brief(
         "uw_market_checks": (uw_checks.get("market_checks") or [])[:8],
         "uw_ticker_checks": (uw_checks.get("ticker_checks") or [])[:10],
         "command": "python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text",
-        "honesty_rule": "Candidate reallocation brief only; no trades are executed and stale positions remain test-data only.",
+        "honesty_rule": honesty_rule,
     }
 
 

@@ -70,5 +70,7 @@ def test_reallocation_brief_same_day_positions_are_candidate_only_not_final():
 
     assert block["status"] == "candidate_only"
     assert block["candidate_only"] is True
+    assert "Same-day positions" in block["honesty_rule"]
+    assert "test-data" not in block["honesty_rule"]
     assert all("latest current positions" not in row["blockers"] for row in block["rows"])
     assert any("tax/account constraints" in blocker for blocker in block["blockers"])

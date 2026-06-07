@@ -247,10 +247,10 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 14:35 ET
+        built 2026-06-07 15:01 ET
 
       </div>
-      <div class="stamp">sourced: portfolio 05-31  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
+      <div class="stamp">sourced: portfolio 06-07  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
 
     </div>
     <div style="text-align:right">
@@ -275,7 +275,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 
 <div class="quick-nav">
-  <a class="quick-link" href="#today-actions"><strong>4</strong> actions</a>
+  <a class="quick-link" href="#today-actions"><strong>6</strong> actions</a>
   <a class="quick-link" href="#market-open-packet"><strong>open</strong> packet</a>
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#asymmetric-opportunities"><strong>8</strong> asymmetry</a>
@@ -294,7 +294,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">!</span> Market-open packet
     <span class="tag t-warn" style="margin-left:auto">recheck first</span>
   </div>
-  <div class="feedback-line">Market-open packet: 1 key, 1 re-check, 2 backlog; 6 blocker(s).</div>
+  <div class="feedback-line">Market-open packet: 1 key, 1 re-check, 4 backlog; 5 blocker(s).</div>
   <div class="small-list">
 <div class="small-item">
   <span class="tag t-warn">#1</span>
@@ -305,17 +305,10 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 <div class="small-item">
   <span class="tag t-warn">#2</span>
-  <span class="context-ticker">Gate Key Now: NVDA: Conviction gap: NVDA is under target</span>
+  <span class="context-ticker">Gate Key Now: MU: Conviction gap: MU is under target</span>
   <span class="small-muted">Why: Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.</span>
-  <span class="small-muted">Next: NVDA is 6.6% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</span>
+  <span class="small-muted">Next: MU is 1.6% vs 3.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</span>
   <span class="small-muted">Blocks: The target weight or thesis is outdated relative to the current portfolio.</span>
-</div>
-<div class="small-item">
-  <span class="tag t-warn">#3</span>
-  <span class="context-ticker">Reallocation waits for current positions</span>
-  <span class="small-muted">Why: Reallocation brief: test data only from 2026-05-31 positions; 9 add candidate(s), 6 funding trim(s); allocated $679,812; shortfall $69,635.</span>
-  <span class="small-muted">Next: Supply current positions before treating trim/add legs as current.</span>
-  <span class="small-muted">Blocks: positions snapshot 2026-05-31 is 7 day(s) old; use as test-data only until current positions are supplied</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#4</span>
@@ -358,7 +351,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="today-actions">
   <div class="card-title"><span class="icon">!</span> Today&#39;s actions
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">4 ranked items; no auto-trade</span>
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">6 ranked items; no auto-trade</span>
   </div>
 
 <div class="action-group">
@@ -369,8 +362,8 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="action action-act" id="action-2">
   <div class="action-header">
     <span class="rank-badge">#2</span>
-    <span class="ticker-tag">NVDA</span>
-    <span class="action-what">Conviction gap: NVDA is under target</span>
+    <span class="ticker-tag">MU</span>
+    <span class="action-what">Conviction gap: MU is under target</span>
   </div>
   <div class="tags">
     <span class="tag t-cat">Conviction Gap</span>
@@ -378,13 +371,13 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span class="tag t-gate-a">size  gate</span>
     <span class="tag t-cat">ACT_NOW</span><span class="tag t-cat">SIZE GAP</span><span class="tag t-gate-a">review</span><span class="tag t-warn">capital: compare and stage</span><span class="tag t-conf">goal: High</span><span class="tag t-cat">Key Now</span>
   </div>
-  <div class="action-move">NVDA is 6.6% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</div>
+  <div class="action-move">MU is 1.6% vs 3.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</div>
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.<br><strong>Rationale:</strong> Target drift shows a 5.4pp sizing gap vs the AI working model.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-05-31; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / conviction / opportunity_cost | capital review | score 85/100<br><strong>Capital efficiency:</strong> Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.<br>Timing balance: Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 85/100<br><strong>Missing/re-check:</strong> live opportunity / funding leg / pre-trade gate<br><strong>What could make this wrong?</strong> Do not act if the target weight or thesis is outdated relative to the current portfolio.<br>Invalidates if: The target weight or thesis is outdated relative to the current portfolio. / The funding leg creates more risk or opportunity cost than the add solves. / The pre-trade gate fails on live price, source freshness, or sizing.<br>Confirm: live opportunity / funding leg / pre-trade gate / Check same-session price/flow and current exposure for NVDA. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Re-check Before Acting</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.<br><strong>Rationale:</strong> Target drift shows a 1.4pp sizing gap vs the AI working model.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / conviction / opportunity_cost | capital review | score 85/100<br><strong>Capital efficiency:</strong> Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.<br>Timing balance: Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 85/100<br><strong>Missing/re-check:</strong> live opportunity / funding leg / pre-trade gate<br><strong>What could make this wrong?</strong> Do not act if the target weight or thesis is outdated relative to the current portfolio.<br>Invalidates if: The target weight or thesis is outdated relative to the current portfolio. / The funding leg creates more risk or opportunity cost than the add solves. / The pre-trade gate fails on live price, source freshness, or sizing.<br>Confirm: live opportunity / funding leg / pre-trade gate / Check same-session price/flow and current exposure for MU. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Re-check Before Acting</div>
   </details>
-  <div class="action-foot">target_drift | fresh: evidence 2026-05-31; decays until position, price, thesis, or target changes</div>
+  <div class="action-foot">target_drift | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
 </div>
 <div class="action-group">
@@ -458,6 +451,46 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
+<div class="action action-watch" id="action-5">
+  <div class="action-header">
+    <span class="rank-badge">#5</span>
+    <span class="ticker-tag">MAGS</span>
+    <span class="action-what">Lean-in  looks good</span>
+  </div>
+  <div class="tags">
+    <span class="tag t-cat">Lean In</span>
+    <span class="tag t-conf">conf: Moderate</span>
+    <span class="tag t-gate-a">size  gate</span>
+    <span class="tag t-cat">WATCH</span><span class="tag t-cat">ADD/ROTATE</span><span class="tag t-gate-a">add</span><span class="tag t-warn">capital: opportunity-cost watch</span><span class="tag t-conf">goal: High</span><span class="tag t-cat">Important Backlog</span>
+  </div>
+  <div class="action-move">MAGS looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</div>
+
+  <details class="action-details">
+    <summary>Why this matters</summary>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> MAGS: Promising and the tape&#x27;s with it (LEADING)  under your conviction  room to add.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for MAGS. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
+  </details>
+  <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
+</div>
+<div class="action action-watch" id="action-6">
+  <div class="action-header">
+    <span class="rank-badge">#6</span>
+    <span class="ticker-tag">NVDA</span>
+    <span class="action-what">Lean-in  looks good</span>
+  </div>
+  <div class="tags">
+    <span class="tag t-cat">Lean In</span>
+    <span class="tag t-conf">conf: Moderate</span>
+    <span class="tag t-gate-a">size  gate</span>
+    <span class="tag t-cat">WATCH</span><span class="tag t-cat">ADD/ROTATE</span><span class="tag t-gate-a">add</span><span class="tag t-warn">capital: opportunity-cost watch</span><span class="tag t-conf">goal: High</span><span class="tag t-cat">Important Backlog</span>
+  </div>
+  <div class="action-move">NVDA looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</div>
+
+  <details class="action-details">
+    <summary>Why this matters</summary>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> NVDA: Promising and the tape&#x27;s with it (LEADING)  under your conviction  room to add.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for NVDA. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
+  </details>
+  <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
+</div>
 </div>
 </div>
 
@@ -466,7 +499,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span class="operator-warn" style="font-size:11px;margin-left:auto">WARN</span>
   </div>
   <div class="operator-grid">
-    <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">4</div></a>
+    <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">6</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">2 new</div></a>
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 dark</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">6 scoring</div></a>
@@ -493,11 +526,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </div>
   <div class="small-list">
 <div class="small-item">
-  <span class="context-ticker">NVDA</span>
+  <span class="context-ticker">MU</span>
   <span class="tag t-conf">score 85</span>
   <span class="tag t-cat">target_drift</span>
   <span class="small-muted">A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.</span>
-  <span class="small-muted">Evidence: Conviction gap: NVDA is under target</span>
+  <span class="small-muted">Evidence: Conviction gap: MU is under target</span>
   <span class="small-muted">Decay: until position, price, thesis, or target changes | review setup; no auto-trade</span>
 </div>
 <div class="small-item">
@@ -506,6 +539,14 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="tag t-cat">target_drift</span>
   <span class="small-muted">High-conviction target gap can make the right thesis too small.</span>
   <span class="small-muted">Evidence: MISSING vs target</span>
+  <span class="small-muted">Decay: until account/target changes | review setup; no auto-trade</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">NVDA</span>
+  <span class="tag t-conf">score 78</span>
+  <span class="tag t-cat">target_drift</span>
+  <span class="small-muted">High-conviction target gap can make the right thesis too small.</span>
+  <span class="small-muted">Evidence: UNDERSIZED vs target</span>
   <span class="small-muted">Decay: until account/target changes | review setup; no auto-trade</span>
 </div>
 <div class="small-item">
@@ -525,35 +566,27 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Decay: until account/target changes | review setup; no auto-trade</span>
 </div>
 <div class="small-item">
+  <span class="context-ticker">MAGS</span>
+  <span class="tag t-conf">score 76</span>
+  <span class="tag t-cat">bullish_flow, lean_in</span>
+  <span class="small-muted">A conviction-backed sizing gap can make a right call too small.</span>
+  <span class="small-muted">Evidence: Lean-in  looks good</span>
+  <span class="small-muted">Decay: until position, price, thesis, or target changes | review setup; no auto-trade</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">MSFT</span>
+  <span class="tag t-conf">score 75</span>
+  <span class="tag t-cat">target_drift</span>
+  <span class="small-muted">High-conviction target gap can make the right thesis too small.</span>
+  <span class="small-muted">Evidence: MISSING vs target</span>
+  <span class="small-muted">Decay: until account/target changes | review setup; no auto-trade</span>
+</div>
+<div class="small-item">
   <span class="context-ticker">GRNY</span>
   <span class="tag t-conf">score 68</span>
   <span class="tag t-cat">bullish_flow</span>
   <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
   <span class="small-muted">Evidence: ask-side call flow $0.0M, 8:1 c/p, call OI +143% at 27/29/28 strikes</span>
-  <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">MAGS</span>
-  <span class="tag t-conf">score 68</span>
-  <span class="tag t-cat">bullish_flow</span>
-  <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call flow $0.1M, c/p 0.17, call OI +1250% at 69/100/69.5 strikes</span>
-  <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">SMH</span>
-  <span class="tag t-conf">score 68</span>
-  <span class="tag t-cat">bullish_flow</span>
-  <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call sweeps $1.2M, c/p 0.28, put OI +135000% at 560/430/500 strikes</span>
-  <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">UUUU</span>
-  <span class="tag t-conf">score 68</span>
-  <span class="tag t-cat">bullish_flow</span>
-  <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call sweeps $0.2M, 8:1 c/p, call OI +21800% at 22/18/22.5 strikes</span>
   <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
 </div></div>
 </div>
@@ -573,7 +606,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">?</span> UW action runbook
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
   </div>
-  <div class="feedback-line">UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.</div>
+  <div class="feedback-line">UW action runbook: 5 check set(s), 23 scoped ticker(s); endpoint results not claimed.</div>
 
 <div class="small-item">
   <span class="tag t-conf">endpoint proof has_data</span>
@@ -585,7 +618,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="context-ticker">Pre-market crash triage</span>
   <span class="tag t-conf">priority 1</span>
   <span class="small-muted">High-volatility or re-check posture needs broad tape triage before single-name action.</span>
-  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, GRNY, NVDA</span>
+  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, BMNR, MU</span>
   <span class="small-muted">Market checks: MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, MARKET_MOVERS, MARKET_CORRELATIONS, ETF_TIDE, SECTOR_TIDE</span>
   <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, TICKER_OPTIONS_VOLUME, DARKPOOL_TICKER, TICKER_OI_CHANGE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, TICKER_VOL_TERM_STRUCTURE, TICKER_REALIZED_VOL, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_TECHNICAL_INDICATOR</span>
   <span class="small-muted">Blocks action if: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open</span>
@@ -595,7 +628,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="context-ticker">Event-risk and political macro</span>
   <span class="tag t-conf">priority 2</span>
   <span class="small-muted">Active event-risk lane can overpower normal thesis and flow signals.</span>
-  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, GRNY</span>
+  <span class="small-muted">Tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, BMNR</span>
   <span class="small-muted">Market checks: MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, ECONOMIC_CALENDAR, NEWS_HEADLINES, SECTOR_TIDE, ETF_TIDE, MARKET_CORRELATIONS</span>
   <span class="small-muted">Ticker checks: CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES</span>
   <span class="small-muted">Blocks action if: same-session headlines, rates/oil levels, or sector tape are missing or contradictory</span>
@@ -605,7 +638,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="context-ticker">Portfolio reallocation</span>
   <span class="tag t-conf">priority 3</span>
   <span class="small-muted">Sizing-gap actions need current exposure, funding, factor, and flow checks.</span>
-  <span class="small-muted">Tickers: GRNY, NVDA, SMH, GOOGL, AVGO, MU, ANET</span>
+  <span class="small-muted">Tickers: NVDA, GRNY, MU, GOOGL, AVGO, MSFT, ANET, MAGS</span>
   <span class="small-muted">Market checks: ETF_TIDE, SECTOR_TIDE, MARKET_CORRELATIONS, TOTAL_OPTIONS_VOLUME</span>
   <span class="small-muted">Ticker checks: TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, COMPANY_PROFILE, ANALYST_RATINGS, INSTITUTION_OWNERSHIP, TICKER_INSIDERS, TICKER_INSIDER_FLOW, NEWS_HEADLINES, TICKER_FLOW_RECENT, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_IV_RANK, TICKER_VOL_STATS</span>
   <span class="small-muted">Blocks action if: latest positions, same-session price/flow, or funding source are missing</span>
@@ -615,7 +648,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="context-ticker">Fundstrat signal confirmation</span>
   <span class="tag t-conf">priority 4</span>
   <span class="small-muted">Fundstrat-derived calls should be checked against live market structure before action.</span>
-  <span class="small-muted">Tickers: QQQ, RSP, SOX, RYF, TNX, NVDA, ANET, GOOGL</span>
+  <span class="small-muted">Tickers: QQQ, RSP, SOX, RYF, TNX, MU, ANET, GOOGL, MAGS, NVDA</span>
 
   <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO</span>
   <span class="small-muted">Blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing</span>
@@ -625,7 +658,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="context-ticker">Asymmetric discovery</span>
   <span class="tag t-conf">priority 5</span>
   <span class="small-muted">Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.</span>
-  <span class="small-muted">Tickers: NVDA, GOOGL, ANET, AVGO, GRNY, MAGS, SMH, UUUU</span>
+  <span class="small-muted">Tickers: MU, GOOGL, NVDA, ANET, AVGO, MAGS, MSFT, GRNY</span>
   <span class="small-muted">Market checks: FLOW_ALERTS, TOP_NET_IMPACT, DARKPOOL_RECENT, LIT_FLOW_RECENT, MARKET_MOVERS, OPTION_CONTRACT_SCREENER, STOCK_SCREENER</span>
   <span class="small-muted">Ticker checks: ANALYST_RATINGS, INSIDER_TRANSACTIONS, CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES, TICKER_FLOW_PER_EXPIRY, TICKER_FLOW_PER_STRIKE, TICKER_GREEK_FLOW, TICKER_VOL_TERM_STRUCTURE, TICKER_INFO</span>
   <span class="small-muted">Blocks action if: the setup is only flow/social/context without independent confirmation</span>
@@ -637,66 +670,30 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="reallocation-brief">
   <div class="card-title"><span class="icon">#</span> Candidate reallocation brief
-    <span class="tag t-warn" style="margin-left:auto">test data only</span>
+    <span class="tag t-conf" style="margin-left:auto">candidate only</span>
   </div>
-  <div class="feedback-line">Reallocation brief: test data only from 2026-05-31 positions; 9 add candidate(s), 6 funding trim(s); allocated $679,812; shortfall $69,635.</div>
-  <div class="feedback-line">pool $679,812; allocated $679,812; shortfall $69,635</div>
-  <div class="small-list"><div class="feedback-line"><strong>Blocker:</strong> positions snapshot 2026-05-31 is 7 day(s) old; use as test-data only until current positions are supplied</div><div class="feedback-line"><strong>Blocker:</strong> same-session UW price/flow confirmation required before any capital action</div><div class="feedback-line"><strong>Blocker:</strong> tax/account constraints and user max-action capacity not supplied</div>
+  <div class="feedback-line">Reallocation brief: candidate only from 2026-06-07 positions; 2 add candidate(s), 4 funding trim(s); allocated $378,225; shortfall $1,174,367.</div>
+  <div class="feedback-line">pool $378,225; allocated $378,225; shortfall $1,174,367</div>
+  <div class="small-list"><div class="feedback-line"><strong>Blocker:</strong> same-session UW price/flow confirmation required before any capital action</div><div class="feedback-line"><strong>Blocker:</strong> tax/account constraints and user max-action capacity not supplied</div>
 <div class="small-item">
   <span class="context-ticker">GOOGL</span>
-  <span class="tag t-warn">add $152,763</span>
+  <span class="tag t-conf">add $286,331</span>
   <span class="tag t-cat">now</span>
   <span class="small-muted">size now (constructive/ok entry)</span>
-  <span class="small-muted">Funded by: MAGS $152,763</span>
-  <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate</span>
+  <span class="small-muted">Funded by: IVES $82,138, MAGS $70,838, GRNJ $133,355</span>
+  <span class="small-muted">Blocks: same-session UW price/flow, funding source confirmation, pre-trade gate</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
 </div>
 <div class="small-item">
   <span class="context-ticker">NVDA</span>
-  <span class="tag t-warn">add $83,974</span>
+  <span class="tag t-conf">add $91,894</span>
   <span class="tag t-cat">after 2026-06-03</span>
   <span class="small-muted">size AFTER the AVGO 2026-06-03 print (correlated semis read)</span>
-  <span class="small-muted">Funded by: MAGS $19,389, IGV $64,584</span>
-  <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate, legacy catalyst sequencing date has passed; verify current post-catalyst setup</span>
+  <span class="small-muted">Funded by: GRNJ $22,427, GRNY $69,467</span>
+  <span class="small-muted">Blocks: same-session UW price/flow, funding source confirmation, pre-trade gate, legacy catalyst sequencing date has passed; verify current post-catalyst setup</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">MSFT</span>
-  <span class="tag t-warn">add $95,477</span>
-  <span class="tag t-cat">now</span>
-  <span class="small-muted">size now (constructive/ok entry)</span>
-  <span class="small-muted">Funded by: IGV $33,522, SMH $61,955</span>
-  <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate</span>
-  <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">AMZN</span>
-  <span class="tag t-warn">add $76,381</span>
-  <span class="tag t-cat">now</span>
-  <span class="small-muted">size now (constructive/ok entry)</span>
-  <span class="small-muted">Funded by: SMH $22,857, IVES $53,524</span>
-  <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate</span>
-  <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">AVGO</span>
-  <span class="tag t-warn">add $106,934</span>
-  <span class="tag t-cat">after 2026-06-03</span>
-  <span class="small-muted">size AFTER the 2026-06-03 print</span>
-  <span class="small-muted">Funded by: IVES $20,963, GRNJ $85,971</span>
-  <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate, legacy catalyst sequencing date has passed; verify current post-catalyst setup</span>
-  <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">TSM</span>
-  <span class="tag t-warn">add $65,879</span>
-  <span class="tag t-cat">after 2026-06-03</span>
-  <span class="small-muted">size AFTER the AVGO 2026-06-03 print (correlated semis read)</span>
-  <span class="small-muted">Funded by: GRNJ $53,916, GRNY $11,963</span>
-  <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate, legacy catalyst sequencing date has passed; verify current post-catalyst setup</span>
-  <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
-</div><div class="feedback-line"><strong>Funding trims:</strong> MAGS $172,152 -&gt; GOOGL $152,763, NVDA $19,389; GRNJ $139,887 -&gt; AVGO $85,971, TSM $53,916; GRNY $110,367 -&gt; TSM $11,963, ANET $57,286, FN $38,191, VRT $2,927; IGV $98,106 -&gt; NVDA $64,584, MSFT $33,522; SMH $84,812 -&gt; MSFT $61,955, AMZN $22,857; IVES $74,487 -&gt; AMZN $53,524, AVGO $20,963</div></div>
-  <div class="feedback-line">Candidate reallocation brief only; no trades are executed and stale positions remain test-data only.</div>
+</div><div class="feedback-line"><strong>Funding trims:</strong> GRNJ $155,782 -&gt; GOOGL $133,355, NVDA $22,427; IVES $82,138 -&gt; GOOGL $82,138; MAGS $70,838 -&gt; GOOGL $70,838; GRNY $69,467 -&gt; NVDA $69,467</div></div>
+  <div class="feedback-line">Candidate reallocation brief only; no trades are executed. Same-day positions still require gates before action.</div>
   <div class="cmd-row"><span class="cmd-name">print brief</span><span class="cmd-desc"><code>python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text</code></span></div>
 </div>
 
@@ -806,7 +803,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="context-grid">
 <div class="context-col">
   <div class="context-label">Target drift</div>
-  <div class="context-row"><span class="context-ticker">GRNY</span>OVERSIZED<span class="context-sub">8.8% actual vs 3.0% target</span></div><div class="context-row"><span class="context-ticker">SMH</span>OVERSIZED<span class="context-sub">9.4% actual vs 5.0% target</span></div><div class="context-row"><span class="context-ticker">NVDA</span>UNDERSIZED<span class="context-sub">6.6% actual vs 12.0% target</span></div>
+  <div class="context-row"><span class="context-ticker">NVDA</span>UNDERSIZED<span class="context-sub">3.7% actual vs 12.0% target</span></div><div class="context-row"><span class="context-ticker">GRNY</span>OVERSIZED<span class="context-sub">4.9% actual vs 3.0% target</span></div><div class="context-row"><span class="context-ticker">MU</span>UNDERSIZED<span class="context-sub">1.6% actual vs 3.0% target</span></div>
 </div>
 <div class="context-col">
   <div class="context-label">Prospects</div>
@@ -902,7 +899,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">UW routing</span>UW routing: 5 scenario profile(s) recommended; top=Pre-market crash triage.
 </div>
 <div class="audit-row">
-  <span class="audit-k">UW action runbook</span>UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.
+  <span class="audit-k">UW action runbook</span>UW action runbook: 5 check set(s), 23 scoped ticker(s); endpoint results not claimed.
 </div>
 <div class="audit-row">
   <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); confirmed=0, contradicted=0, neutral=10, missing/failed=3; stale=0. newest=2026-06-07 14:35 ET.
@@ -929,7 +926,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T18:35:25.421908+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T18:35:25.421908+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T18:35:25.421908+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-07T18:35:25.421908+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T18:35:25.421908+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T19:01:43.410622+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T19:01:43.410622+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T19:01:43.410622+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-07T19:01:43.410622+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T19:01:43.410622+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -939,7 +936,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
       <div style="font-size:13px;font-weight:600;color:#f0f6fc">
         things need you
       </div>
-      <div class="hero-label">14 names on the book | leading: SMH</div>
+      <div class="hero-label">13 names on the book | leading: SMH</div>
     </div>
   </div>
 
@@ -950,7 +947,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2026-06-07</span>
   </div>
   <div class="s-label">State of play</div><div class="s-body">Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (watch, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
-  <div class="s-label">24-48h delta</div><div class="s-body">Latest Fundstrat Daily compact calls in radar: QQQ watch, RSP watch, SOX watch. Target drift: 13 sizing gap(s) vs AI working model (1 under, 3 over, 9 missing); GRNY oversized 8.8% vs 3.0%; SMH oversized 9.4% vs 5.0%; NVDA undersized 6.6% vs 12.0%; MU oversized 3.3% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; +7 more</div>
+  <div class="s-label">24-48h delta</div><div class="s-body">Latest Fundstrat Daily compact calls in radar: QQQ watch, RSP watch, SOX watch. Target drift: 12 sizing gap(s) vs AI working model (2 under, 1 over, 9 missing); NVDA undersized 3.7% vs 12.0%; GRNY oversized 4.9% vs 3.0%; MU undersized 1.6% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more</div>
 
 <div class="s-label">Hanging / unresolved</div>
 <ul class="hang-list"><li>Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.</li><li>Social Watch is not checked: Reddit/social early-signal anomalies are not checked; absence is not no social signal.</li></ul>
@@ -1152,27 +1149,21 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="lean-sub">Clears when: Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.</div>
 </div>
 <div class="lean-item">
-  <span class="lean-ticker">GRNY</span>
-  <span class="tag inl" style="margin-left:6px">IN LINE</span>
-  <div class="lean-headline">GRNY: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
-  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
-</div>
-<div class="lean-item">
-  <span class="lean-ticker">IGV</span>
-  <span class="tag inl" style="margin-left:6px">IN LINE</span>
-  <div class="lean-headline">IGV: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
-  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
-</div>
-<div class="lean-item">
   <span class="lean-ticker">MAGS</span>
   <span class="tag lead" style="margin-left:6px">LEADING</span>
-  <div class="lean-headline">MAGS: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
-  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+  <div class="lean-headline">MAGS: Promising and the tape&#x27;s with it (LEADING)  under your conviction  room to add.</div>
+  <div class="lean-sub">Clears when: Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.</div>
 </div>
 <div class="lean-item">
   <span class="lean-ticker">NVDA</span>
   <span class="tag lead" style="margin-left:6px">LEADING</span>
-  <div class="lean-headline">NVDA: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
+  <div class="lean-headline">NVDA: Promising and the tape&#x27;s with it (LEADING)  under your conviction  room to add.</div>
+  <div class="lean-sub">Clears when: Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">GRNY</span>
+  <span class="tag inl" style="margin-left:6px">IN LINE</span>
+  <div class="lean-headline">GRNY: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
   <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
 <div class="lean-item">
@@ -1218,15 +1209,15 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="audit-row">
   <span class="audit-k">combined</span>
-  78 rows | total $1,909,537
+  84 rows | total $3,579,133
 </div>
 <div class="audit-row">
   <span class="audit-k">skb</span>
-  106 rows | total $613,233
+  154 rows | total $2,315,054
 </div>
 <div class="audit-row">
   <span class="audit-k">parents</span>
-  118 rows | total $1,305,717
+  126 rows | total $1,226,078
 </div>
 </div>
   </div>
@@ -1242,52 +1233,44 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <table class="book">
       <tr><th>Name</th><th>Weight</th><th>Conviction</th><th>Read</th></tr>
       <tr class="book-cat-row">
-  <td colspan="4">AI / Semiconductors
-    <span class="lead" style="font-size:10px;margin-left:6px">LEADING</span>
-  </td></tr><tr>
-  <td><strong>SMH</strong></td>
-  <td>9.4%</td>
-  <td class="cv-yes">Promising</td>
-  <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>MAGS</strong></td>
-  <td>9.0%</td>
-  <td class="cv-yes">Promising</td>
-  <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>NVDA</strong></td>
-  <td>6.6%</td>
-  <td class="cv-yes">Promising</td>
-  <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>IVES</strong></td>
-  <td>3.9%</td>
-  <td class="cv-yes">Promising</td>
-  <td style="color:#484f58;font-size:11px">Core hold  operator-endorsed, leading; ride it.</td>
-</tr><tr>
-  <td><strong>MU</strong></td>
-  <td>3.3%</td>
-  <td class="cv-yes">Promising</td>
-  <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it.</td>
-</tr><tr class="book-cat-row">
   <td colspan="4">Quality core
     <span class="inl" style="font-size:10px;margin-left:6px">IN LINE</span>
   </td></tr><tr>
   <td><strong>GRNY</strong></td>
-  <td>8.8%</td>
+  <td>4.9%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it.</td>
 </tr><tr>
   <td><strong>GRNJ</strong></td>
-  <td>7.3%</td>
+  <td>4.4%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it.</td>
 </tr><tr class="book-cat-row">
-  <td colspan="4">Software
-    <span class="inl" style="font-size:10px;margin-left:6px">IN LINE</span>
+  <td colspan="4">AI / Semiconductors
+    <span class="lead" style="font-size:10px;margin-left:6px">LEADING</span>
   </td></tr><tr>
-  <td><strong>IGV</strong></td>
-  <td>5.1%</td>
+  <td><strong>SMH</strong></td>
+  <td>4.5%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>NVDA</strong></td>
+  <td>3.7%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it. You&#x27;re underweight to c...</td>
+</tr><tr>
+  <td><strong>IVES</strong></td>
+  <td>2.3%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold  operator-endorsed, leading; ride it.</td>
+</tr><tr>
+  <td><strong>MAGS</strong></td>
+  <td>2.0%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it. You&#x27;re underweight to c...</td>
+</tr><tr>
+  <td><strong>MU</strong></td>
+  <td>1.6%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Core hold  Lee-endorsed, leading; ride it.</td>
 </tr><tr class="book-cat-row">
@@ -1295,36 +1278,36 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
   </td></tr><tr>
   <td><strong>LEU</strong><span class="lock-tag"></span></td>
-  <td>4.9%</td>
+  <td>2.5%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Hold light  burned sleeve; watch for YOUR re-entry trigger, no add on a...</td>
 </tr><tr>
   <td><strong>UUUU</strong></td>
-  <td>2.1%</td>
+  <td>0.9%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Hold light  burned sleeve; watch for YOUR re-entry trigger, no add on a...</td>
-</tr><tr class="book-cat-row">
-  <td colspan="4">Electrification
-    <span class="inl" style="font-size:10px;margin-left:6px">TURNING DOWN</span>
-  </td></tr><tr>
-  <td><strong>VOLT</strong></td>
-  <td>4.0%</td>
-  <td class="cv-yes">Promising</td>
-  <td style="color:#484f58;font-size:11px">Core hold  operator-endorsed, leading; ride it.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Financials
     <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
   </td></tr><tr>
   <td><strong>XLF</strong></td>
-  <td>3.9%</td>
+  <td>2.1%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Catch-up  Lee-endorsed laggard; favorable entry, no rush.</td>
+</tr><tr class="book-cat-row">
+  <td colspan="4">Electrification
+    <span class="inl" style="font-size:10px;margin-left:6px">TURNING DOWN</span>
+  </td></tr><tr>
+  <td><strong>VOLT</strong></td>
+  <td>2.1%</td>
+  <td class="cv-yes">Promising</td>
+  <td style="color:#484f58;font-size:11px">Core hold  operator-endorsed, leading; ride it.</td>
 </tr><tr class="book-cat-row">
   <td colspan="4">Crypto
     <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
   </td></tr><tr>
   <td><strong>BMNR</strong><span class="lock-tag"></span></td>
-  <td>3.5%</td>
+  <td>1.5%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Hold light  burned sleeve; watch for YOUR re-entry trigger, no add on a...</td>
 </tr><tr class="book-cat-row">
@@ -1332,13 +1315,13 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span class="lag" style="font-size:10px;margin-left:6px">LAGGING</span>
   </td></tr><tr>
   <td><strong>MP</strong></td>
-  <td>1.0%</td>
+  <td>0.5%</td>
   <td class="cv-yes">Promising</td>
   <td style="color:#484f58;font-size:11px">Hold light  burned sleeve; watch for YOUR re-entry trigger, no add on a...</td>
 </tr>
       <tr style="border-top:1px solid #30363d">
         <td style="color:#8b949e;font-size:11px">Total shown</td>
-        <td style="font-family:monospace;color:#8b949e">73.0%</td>
+        <td style="font-family:monospace;color:#8b949e">33.1%</td>
         <td colspan="2"></td>
       </tr>
     </table>
