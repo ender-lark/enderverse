@@ -20,6 +20,7 @@ SUMMARY_RENDERED_BLOCKS = {
     "social_watch",
     "source_audits",
     "uw_action_runbook",
+    "uw_endpoint_proof",
 }
 
 

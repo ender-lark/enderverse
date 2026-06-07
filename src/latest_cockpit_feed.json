@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T18:11:51.223268+00:00",
+  "generated_at": "2026-06-07T18:26:25.468012+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T14:11:51.223268-04:00",
+        "date": "2026-06-07T14:26:25.468012-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T14:11:51.223268-04:00",
+        "date": "2026-06-07T14:26:25.468012-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1179,31 +1179,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T18:11:51.096555+00:00",
+      "last_run": "2026-06-07T18:26:25.296947+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T18:11:51.096555+00:00",
+      "last_run": "2026-06-07T18:26:25.296947+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T18:11:51.096555+00:00",
+      "last_run": "2026-06-07T18:26:25.296947+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-07T18:11:51.096555+00:00",
+      "last_run": "2026-06-07T18:26:25.296947+00:00",
       "note": "dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T18:11:51.096555+00:00",
+      "last_run": "2026-06-07T18:26:25.296947+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -8969,7 +8969,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 2.8
+        "connector_proof_age_hours": 3.05
       }
     ],
     "missing": [],
@@ -10066,7 +10066,28 @@
         "XOP"
       ],
       "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
-      "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched."
+      "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
+      "endpoint_proof": {
+        "status": "not_checked",
+        "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+        "blockers": [
+          "captured UW endpoint results are missing"
+        ],
+        "newest_checked_at": ""
+      }
+    },
+    "uw_endpoint_proof": {
+      "status": "not_checked",
+      "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+      "count": 0,
+      "counts": {},
+      "rows": [],
+      "blockers": [
+        "captured UW endpoint results are missing"
+      ],
+      "problems": [],
+      "result_path": "",
+      "honesty_rule": "Runbook instructions do not count as UW endpoint proof."
     }
   },
   "uw_routing": {
@@ -10607,7 +10628,28 @@
       "XOP"
     ],
     "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
-    "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched."
+    "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
+    "endpoint_proof": {
+      "status": "not_checked",
+      "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+      "blockers": [
+        "captured UW endpoint results are missing"
+      ],
+      "newest_checked_at": ""
+    }
+  },
+  "uw_endpoint_proof": {
+    "status": "not_checked",
+    "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+    "count": 0,
+    "counts": {},
+    "rows": [],
+    "blockers": [
+      "captured UW endpoint results are missing"
+    ],
+    "problems": [],
+    "result_path": "",
+    "honesty_rule": "Runbook instructions do not count as UW endpoint proof."
   },
   "reallocation_brief": {
     "status": "test_data_only",
@@ -11215,7 +11257,7 @@
   },
   "market_open_packet": {
     "status": "recheck_first",
-    "line": "Market-open packet: 1 key, 1 re-check, 2 backlog; 3 blocker(s).",
+    "line": "Market-open packet: 1 key, 1 re-check, 2 backlog; 6 blocker(s).",
     "rows": [
       {
         "priority": 1,
@@ -11252,8 +11294,8 @@
         "kind": "uw_check",
         "label": "Run UW check set: Pre-market crash triage",
         "why": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
-        "next_step": "Use the listed endpoint group before promoting any capital-sized action.",
-        "blocks": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open",
+        "next_step": "Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.",
+        "blocks": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; Endpoint result proof not captured; runbook is instructions only.",
         "source": "uw_action_runbook",
         "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
       },
@@ -11262,8 +11304,8 @@
         "kind": "uw_check",
         "label": "Run UW check set: Event-risk and political macro",
         "why": "Is the external shock changing new-buy timing, hedges, or position sizing?",
-        "next_step": "Use the listed endpoint group before promoting any capital-sized action.",
-        "blocks": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory",
+        "next_step": "Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.",
+        "blocks": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; Endpoint result proof not captured; runbook is instructions only.",
         "source": "uw_action_runbook",
         "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
       },
@@ -11272,8 +11314,8 @@
         "kind": "uw_check",
         "label": "Run UW check set: Portfolio reallocation",
         "why": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
-        "next_step": "Use the listed endpoint group before promoting any capital-sized action.",
-        "blocks": "latest positions, same-session price/flow, or funding source are missing",
+        "next_step": "Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.",
+        "blocks": "latest positions, same-session price/flow, or funding source are missing; Endpoint result proof not captured; runbook is instructions only.",
         "source": "uw_action_runbook",
         "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text"
       },
@@ -11303,11 +11345,14 @@
       "recheck": 1,
       "backlog": 2,
       "dark_lanes": 1,
-      "blockers": 3
+      "blockers": 6
     },
     "blockers": [
       "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
       "positions snapshot 2026-05-31 is 7 day(s) old; use as test-data only until current positions are supplied",
+      "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; Endpoint result proof not captured; runbook is instructions only.",
+      "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; Endpoint result proof not captured; runbook is instructions only.",
+      "latest positions, same-session price/flow, or funding source are missing; Endpoint result proof not captured; runbook is instructions only.",
       "Social evidence cannot promote a trade without independent confirmation."
     ],
     "honesty_rule": "Decision packet sequences review work only; it does not execute or recommend un-gated trades."

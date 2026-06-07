@@ -876,6 +876,7 @@ function actionVM(feed){
     asymmetricOpportunities: feed.asymmetric_opportunities||{},
     socialWatch: feed.social_watch||{},
     uwActionRunbook: feed.uw_action_runbook||{},
+    uwEndpointProof: feed.uw_endpoint_proof||{},
     reallocationBrief: feed.reallocation_brief||{},
     sourceAudits: feed.source_audits||{},
     actionSplit: {
@@ -1308,6 +1309,21 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         <Section id="uw-action-runbook" title="UW Action Runbook" icon="?" badge={((VM.uwActionRunbook||{}).rows||[]).length?`${((VM.uwActionRunbook||{}).rows||[]).length}`:"0"} badgeColor={((VM.uwActionRunbook||{}).rows||[]).length?C.blue:C.faint} openMap={open} setOpen={setOpen} defaultOpen={((VM.uwActionRunbook||{}).rows||[]).length>0}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SCENARIO CHECKLIST FROM THE CURRENT DASHBOARD. It recommends UW endpoint groups and ticker scopes; it is not proof any endpoint was fetched.</div>
+          {(() => {
+            const P=(VM.uwActionRunbook||{}).endpoint_proof || VM.uwEndpointProof || {};
+            if(!P.line) return null;
+            const ok=P.status==="has_data", fail=P.status==="failed";
+            const col=ok?C.green:(fail?C.red:C.amber);
+            return (
+              <div style={{ ...card, marginBottom:8, borderColor:col+"44", background:col+"0a" }}>
+                <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                  <span style={{ fontFamily:mono, fontSize:11, color:col, border:`1px solid ${col}55`, borderRadius:99, padding:"1px 8px" }}>endpoint proof {(P.status||"unknown").replaceAll("_"," ")}</span>
+                  <span style={{ fontSize:12.3, color:C.text }}>{P.line}</span>
+                </div>
+                {(P.blockers||[]).slice(0,3).map((b,i)=>(<div key={i} style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Proof blocker: {b}</div>))}
+              </div>
+            );
+          })()}
           {!(((VM.uwActionRunbook||{}).rows||[]).length) && <div style={{ ...card, fontSize:12, color:C.faint }}>No active UW check set in this feed build.</div>}
           {((VM.uwActionRunbook||{}).rows||[]).map((r,i)=>(
             <div key={`${r.mode||r.label}${i}`} style={{ ...card, marginBottom:8, borderColor:C.blue+"33" }}>
@@ -1591,6 +1607,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               ["Connector evidence", (A.connector_evidence||{}).line],
               ["UW routing", (A.uw_routing||{}).line],
               ["UW action runbook", (A.uw_action_runbook||{}).line],
+              ["UW endpoint proof", (A.uw_endpoint_proof||{}).line],
               ["Fundstrat intake", (A.fundstrat||{}).line],
               ["Notion/writeback", (A.notion_writeback||{}).line],
             ].filter(r=>r[1]);

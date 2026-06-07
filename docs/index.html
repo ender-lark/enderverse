@@ -247,7 +247,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 14:11 ET
+        built 2026-06-07 14:26 ET
 
       </div>
       <div class="stamp">sourced: portfolio 05-31  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
@@ -281,6 +281,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <a class="quick-link" href="#asymmetric-opportunities"><strong>8</strong> asymmetry</a>
   <a class="quick-link" href="#social-watch"><strong>0</strong> social</a>
   <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
+  <a class="quick-link" href="#source-audits"><strong>no proof</strong> UW results</a>
   <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
   <a class="quick-link" href="#feedback-loops"><strong>2</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
@@ -293,7 +294,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">!</span> Market-open packet
     <span class="tag t-warn" style="margin-left:auto">recheck first</span>
   </div>
-  <div class="feedback-line">Market-open packet: 1 key, 1 re-check, 2 backlog; 3 blocker(s).</div>
+  <div class="feedback-line">Market-open packet: 1 key, 1 re-check, 2 backlog; 6 blocker(s).</div>
   <div class="small-list">
 <div class="small-item">
   <span class="tag t-warn">#1</span>
@@ -320,22 +321,22 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="tag t-warn">#4</span>
   <span class="context-ticker">Run UW check set: Pre-market crash triage</span>
   <span class="small-muted">Why: Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?</span>
-  <span class="small-muted">Next: Use the listed endpoint group before promoting any capital-sized action.</span>
-  <span class="small-muted">Blocks: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open</span>
+  <span class="small-muted">Next: Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; Endpoint result proof not captured; runbook is instructions only.</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#5</span>
   <span class="context-ticker">Run UW check set: Event-risk and political macro</span>
   <span class="small-muted">Why: Is the external shock changing new-buy timing, hedges, or position sizing?</span>
-  <span class="small-muted">Next: Use the listed endpoint group before promoting any capital-sized action.</span>
-  <span class="small-muted">Blocks: same-session headlines, rates/oil levels, or sector tape are missing or contradictory</span>
+  <span class="small-muted">Next: Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: same-session headlines, rates/oil levels, or sector tape are missing or contradictory; Endpoint result proof not captured; runbook is instructions only.</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#6</span>
   <span class="context-ticker">Run UW check set: Portfolio reallocation</span>
   <span class="small-muted">Why: Which portfolio changes maximize early-retirement impact per unit of risk and time?</span>
-  <span class="small-muted">Next: Use the listed endpoint group before promoting any capital-sized action.</span>
-  <span class="small-muted">Blocks: latest positions, same-session price/flow, or funding source are missing</span>
+  <span class="small-muted">Next: Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: latest positions, same-session price/flow, or funding source are missing; Endpoint result proof not captured; runbook is instructions only.</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#7</span>
@@ -573,6 +574,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
   </div>
   <div class="feedback-line">UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.</div>
+
+<div class="small-item">
+  <span class="tag t-warn">endpoint proof not_checked</span>
+  <span class="small-muted">UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.</span>
+  <span class="small-muted">Proof blocker: captured UW endpoint results are missing</span>
+</div>
   <div class="small-list">
 <div class="small-item">
   <span class="context-ticker">Pre-market crash triage</span>
@@ -898,6 +905,9 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">UW action runbook</span>UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.
 </div>
 <div class="audit-row">
+  <span class="audit-k">UW endpoint proof</span>UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.
+</div>
+<div class="audit-row">
   <span class="audit-k">Fundstrat intake</span>Fundstrat intake: 1 full-body, 0 snippet-only, 3 daily calls, 0 stored source-call candidates.
 </div>
 <div class="audit-row">
@@ -919,7 +929,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T18:11:51.096555+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T18:11:51.096555+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T18:11:51.096555+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-07T18:11:51.096555+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T18:11:51.096555+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T18:26:25.296947+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T18:26:25.296947+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T18:26:25.296947+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-07T18:26:25.296947+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T18:26:25.296947+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

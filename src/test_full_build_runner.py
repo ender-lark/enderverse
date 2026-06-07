@@ -469,6 +469,11 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "uw_action_runbook" in feed
     assert "uw_action_runbook" in feed["source_audits"]
     assert "UW action runbook:" in feed["source_audits"]["uw_action_runbook"]["line"]
+    assert "uw_endpoint_proof" in feed
+    assert feed["uw_endpoint_proof"]["status"] == "not_checked"
+    assert "uw_endpoint_proof" in feed["source_audits"]
+    assert "runbook remains instructions only" in feed["source_audits"]["uw_endpoint_proof"]["line"]
+    assert "endpoint_proof" in feed["uw_action_runbook"]
     assert "reallocation_brief" in feed
     assert "Reallocation brief:" in feed["reallocation_brief"]["line"]
     assert feed["reallocation_brief"]["candidate_only"] is True
@@ -479,3 +484,32 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "fundstrat_signal_confirmation" in {
         row["mode"] for row in feed["uw_routing"]["rows"]
     }
+
+
+def test_full_build_runner_wires_captured_uw_endpoint_proof(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "uw_endpoint_results.json", {
+        "results": [
+            {
+                "mode": "fundstrat_signal_confirmation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:45:00+00:00",
+                "status": "confirmed",
+                "summary": "Flow supports the Fundstrat confirmation check.",
+            }
+        ]
+    })
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    assert feed["uw_endpoint_proof"]["status"] == "has_data"
+    assert feed["uw_endpoint_proof"]["counts"]["confirmed"] == 1
+    assert "confirmed=1" in feed["source_audits"]["uw_endpoint_proof"]["line"]
+    assert feed["uw_action_runbook"]["endpoint_proof"]["status"] == "has_data"

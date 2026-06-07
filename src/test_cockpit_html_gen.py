@@ -78,6 +78,11 @@ def _feed():
             "line": "UW action runbook: 2 check set(s), 3 scoped ticker(s); endpoint results not claimed.",
             "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
             "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
+            "endpoint_proof": {
+                "status": "not_checked",
+                "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+                "blockers": ["captured UW endpoint results are missing"],
+            },
             "rows": [
                 {
                     "mode": "event_risk_political_macro",
@@ -167,6 +172,9 @@ def _feed():
             "uw_action_runbook": {
                 "line": "UW action runbook: 2 check set(s), 3 scoped ticker(s); endpoint results not claimed.",
             },
+            "uw_endpoint_proof": {
+                "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+            },
             "fundstrat": {
                 "line": "Fundstrat intake: 4 full-body, 1 snippet-only, 0 daily calls, 3 stored source-call candidates.",
             },
@@ -176,6 +184,11 @@ def _feed():
             "notion_collision": {
                 "line": "Notion collision audit: verify live shared pages before trusting repo caches.",
             },
+        },
+        "uw_endpoint_proof": {
+            "status": "not_checked",
+            "line": "UW endpoint proof: no captured endpoint result proof; runbook remains instructions only.",
+            "blockers": ["captured UW endpoint results are missing"],
         },
         "hero": {"hero": {"count": 0}, "needs_you": {"count": 0, "items": []}},
         "holdings": [],
@@ -631,6 +644,9 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert "High-conviction target gap" in html
     assert 'id="uw-action-runbook"' in html
     assert "UW action runbook: 2 check set" in html
+    assert "endpoint proof not_checked" in html
+    assert "runbook remains instructions only" in html
+    assert "Proof blocker: captured UW endpoint results are missing" in html
     assert "Event-risk and political macro" in html
     assert "TICKER_FLOW_RECENT" in html
     assert "checks, not proof" in html
@@ -644,6 +660,7 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert "Background cloud proof: 2/10 scheduled receipts proven" in html
     assert "Fundstrat intake: 4 full-body" in html
     assert "UW routing: 2 scenario profile" in html
+    assert "UW endpoint proof: no captured endpoint result proof" in html
     assert "UW next checks" in html
     assert "MARKET_TIDE" in html
     assert "Notion/writeback audit" in html

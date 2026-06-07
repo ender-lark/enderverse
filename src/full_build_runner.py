@@ -40,6 +40,7 @@ from decision_support import enrich_actions, build_asymmetric_opportunities
 from operator_hardening import build_operator_hardening
 from uw_routing_recommendations import build_uw_routing_recommendations
 from uw_action_runbook import build_uw_action_runbook
+from uw_endpoint_result_proof import build_uw_endpoint_result_proof, load_uw_endpoint_results
 from reallocation_brief import build_reallocation_brief
 from social_watch import build_social_watch
 from market_open_packet import build_market_open_packet
@@ -777,10 +778,25 @@ def build_full_feed_from_files(
     feed["source_audits"] = _build_source_audits(src, live_source_capability)
     feed["uw_routing"] = build_uw_routing_recommendations(feed)
     feed["uw_action_runbook"] = build_uw_action_runbook(feed)
+    uw_result_payload, uw_result_path, uw_result_problems = load_uw_endpoint_results(src)
+    feed["uw_endpoint_proof"] = build_uw_endpoint_result_proof(
+        uw_result_payload,
+        feed.get("uw_action_runbook") or {},
+        generated_at=feed.get("generated_at") or now,
+        result_path=uw_result_path,
+        load_problems=uw_result_problems,
+    )
+    feed["uw_action_runbook"]["endpoint_proof"] = {
+        "status": feed["uw_endpoint_proof"].get("status") or "",
+        "line": feed["uw_endpoint_proof"].get("line") or "",
+        "blockers": feed["uw_endpoint_proof"].get("blockers") or [],
+        "newest_checked_at": feed["uw_endpoint_proof"].get("newest_checked_at") or "",
+    }
     feed["reallocation_brief"] = build_reallocation_brief(feed, positions_cache, as_of=today)
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     feed["source_audits"]["uw_action_runbook"] = feed.get("uw_action_runbook") or {}
+    feed["source_audits"]["uw_endpoint_proof"] = feed.get("uw_endpoint_proof") or {}
     problems = validate_cockpit_feed(feed)
     if problems:
         raise FullBuildError(f"feed failed Contract-C validation: {problems}")

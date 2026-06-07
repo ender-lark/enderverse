@@ -101,7 +101,7 @@ def test_market_open_packet_sequences_recheck_capital_and_dark_lanes():
     packet = build_market_open_packet(_feed())
 
     assert packet["status"] == "recheck_first"
-    assert packet["line"] == "Market-open packet: 1 key, 1 re-check, 0 backlog; 3 blocker(s)."
+    assert packet["line"] == "Market-open packet: 1 key, 1 re-check, 0 backlog; 5 blocker(s)."
     assert packet["counts"]["key_now"] == 1
     assert packet["counts"]["recheck"] == 1
     assert "un-gated trades" in packet["honesty_rule"]
@@ -119,4 +119,6 @@ def test_market_open_packet_sequences_recheck_capital_and_dark_lanes():
     assert packet["rows"][0]["label"].startswith("Re-check first: EVENT")
     assert packet["rows"][1]["why"] == "Compare against higher-ranked uses of capital before adding."
     assert packet["rows"][2]["blocks"] == "current positions are missing"
+    assert "runbook is instructions only" in packet["rows"][3]["blocks"]
+    assert "runbook is instructions only" in packet["rows"][4]["blocks"]
     assert packet["rows"][5]["source"] == "social_watch"

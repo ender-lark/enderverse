@@ -182,6 +182,16 @@ The dashboard shows the feed plus operator state:
     triage first, before single-name conviction or reallocation decisions.
   - Routing/runbook rows are endpoint instructions only; they are not proof that
     the endpoints were fetched or confirmed the action.
+  - `feed.uw_endpoint_proof` is the separate proof layer. It reads captured
+    result caches such as `src/uw_endpoint_results.json` or
+    `src/uw_endpoint_result_proof.json`, validates mode/endpoint/status/date
+    fields, and summarizes confirmed, contradicted, neutral, missing, failed,
+    stale, and off-runbook evidence.
+  - If no captured result proof exists, UW remains visible as `not_checked`.
+    The Market-Open Packet treats the runbook as instructions only and blocks
+    capital-sized promotion until clean endpoint proof is captured.
+  - Malformed proof files fail closed in Source Proof instead of counting as
+    successful UW endpoint evidence.
 
 - Preview/export artifacts:
   - Canonical injected JSX: `src/rendered/conviction_cockpit_v5.jsx`

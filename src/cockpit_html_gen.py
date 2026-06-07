@@ -392,6 +392,8 @@ def _quick_nav(feed: dict) -> str:
         if source_call_pending
         else "clear"
     )
+    uw_proof = feed.get("uw_endpoint_proof") or {}
+    uw_proof_label = "proof" if uw_proof.get("status") == "has_data" else "no proof"
     return f"""
 <div class="quick-nav">
   <a class="quick-link" href="#today-actions"><strong>{len(feed.get("actions") or [])}</strong> actions</a>
@@ -400,6 +402,7 @@ def _quick_nav(feed: dict) -> str:
   <a class="quick-link" href="#asymmetric-opportunities"><strong>{_e((feed.get("asymmetric_opportunities") or {}).get("count") or 0)}</strong> asymmetry</a>
   <a class="quick-link" href="#social-watch"><strong>{_e((feed.get("social_watch") or {}).get("count") or 0)}</strong> social</a>
   <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
+  <a class="quick-link" href="#source-audits"><strong>{_e(uw_proof_label)}</strong> UW results</a>
   <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(open_actions)}</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
@@ -1195,6 +1198,27 @@ def _uw_action_runbook(block: dict) -> str:
     rows = block.get("rows") or []
     if not rows:
         return ""
+    proof = block.get("endpoint_proof") or {}
+    proof_cls = (
+        "t-conf"
+        if proof.get("status") == "has_data"
+        else "t-warn"
+        if proof.get("status") == "not_checked"
+        else "t-gate-r"
+    )
+    proof_html = ""
+    if proof.get("line"):
+        blockers = proof.get("blockers") or []
+        blocker_html = "".join(
+            f'<span class="small-muted">Proof blocker: {_e(blocker)}</span>'
+            for blocker in blockers[:3]
+        )
+        proof_html = f"""
+<div class="small-item">
+  <span class="tag {proof_cls}">endpoint proof {_e(proof.get("status") or "unknown")}</span>
+  <span class="small-muted">{_e(proof.get("line") or "")}</span>
+  {blocker_html}
+</div>"""
     body = ""
     for row in rows[:5]:
         tickers = ", ".join(row.get("ticker_scope") or [])
@@ -1217,6 +1241,7 @@ def _uw_action_runbook(block: dict) -> str:
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
   </div>
   <div class="feedback-line">{_e(block.get("line") or "")}</div>
+  {proof_html}
   <div class="small-list">{body}</div>
   {f'<div class="feedback-line">{_e(block.get("honesty_rule") or "")}</div>' if block.get("honesty_rule") else ""}
   {f'<div class="cmd-row"><span class="cmd-name">print runbook</span><span class="cmd-desc"><code>{_e(block.get("command") or "")}</code></span></div>' if block.get("command") else ""}
@@ -1467,6 +1492,7 @@ def _source_audits(audits: dict) -> str:
         ("connector_evidence", "Connector evidence"),
         ("uw_routing", "UW routing"),
         ("uw_action_runbook", "UW action runbook"),
+        ("uw_endpoint_proof", "UW endpoint proof"),
         ("fundstrat", "Fundstrat intake"),
         ("notion_writeback", "Notion/writeback"),
         ("notion_collision", "Notion collision"),

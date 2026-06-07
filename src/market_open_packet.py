@@ -69,7 +69,21 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
     dark_lanes = _dark_lanes(feed)
     reallocation = feed.get("reallocation_brief") or {}
     social = feed.get("social_watch") or {}
-    uw_rows = (feed.get("uw_action_runbook") or {}).get("rows") or []
+    uw_runbook = feed.get("uw_action_runbook") or {}
+    uw_rows = uw_runbook.get("rows") or []
+    uw_proof = uw_runbook.get("endpoint_proof") or feed.get("uw_endpoint_proof") or {}
+    uw_proof_status = str(uw_proof.get("status") or "")
+    uw_proof_blockers = [str(item) for item in (uw_proof.get("blockers") or []) if str(item or "").strip()]
+    uw_proof_blocking = bool(uw_rows) and (uw_proof_status != "has_data" or bool(uw_proof_blockers))
+    uw_proof_gap = (
+        "Endpoint result proof not captured; runbook is instructions only."
+        if uw_proof_blocking and uw_proof_status not in {"failed", "has_data"}
+        else "Endpoint result proof is malformed or failed; do not promote without clean proof."
+        if uw_proof_blocking and uw_proof_status == "failed"
+        else f"UW endpoint proof has blocker: {uw_proof_blockers[0]}"
+        if uw_proof_blocking and uw_proof_blockers
+        else ""
+    )
     rows: list[dict[str, Any]] = []
 
     if rechecks:
@@ -114,15 +128,22 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
         ))
 
     for uw in [row for row in uw_rows if isinstance(row, dict)][:3]:
+        blocks = str(uw.get("blocks_action_if") or "")
+        if uw_proof_gap:
+            blocks = f"{blocks}; {uw_proof_gap}" if blocks else uw_proof_gap
         rows.append(_packet_row(
             priority=4 + len([r for r in rows if r.get("kind") == "uw_check"]),
             kind="uw_check",
             label=f"Run UW check set: {uw.get('label') or uw.get('mode') or 'UW'}",
             why=str(uw.get("operator_question") or uw.get("why") or ""),
-            next_step="Use the listed endpoint group before promoting any capital-sized action.",
-            blocks=str(uw.get("blocks_action_if") or ""),
+            next_step=(
+                "Capture endpoint results, then use the listed endpoint group before promoting any capital-sized action."
+                if uw_proof_status != "has_data" else
+                "Use the captured endpoint result proof before promoting any capital-sized action."
+            ),
+            blocks=blocks,
             source="uw_action_runbook",
-            command=str((feed.get("uw_action_runbook") or {}).get("command") or ""),
+            command=str(uw_runbook.get("command") or ""),
         ))
 
     if social.get("status") == "not_checked":
@@ -150,9 +171,12 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
         ))
 
     rows = sorted(rows, key=lambda row: int(row.get("priority") or 99))[:8]
+    blocker_kinds = {"recheck_first", "positions_blocker", "dark_lane"}
+    if uw_proof_blocking:
+        blocker_kinds.add("uw_check")
     blockers = [
         row.get("blocks") for row in rows
-        if row.get("blocks") and row.get("kind") in {"recheck_first", "positions_blocker", "dark_lane"}
+        if row.get("blocks") and row.get("kind") in blocker_kinds
     ]
     status = "recheck_first" if rechecks else "ready_with_blockers" if blockers else "ready"
     line = (
