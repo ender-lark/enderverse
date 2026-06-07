@@ -7,9 +7,9 @@ until the core logic is stable; Notion sync comes later.
 
 - No active implementation slice.
   - Promote the next slice from fresh audit/user evidence before editing.
-  - Cloud routine proof is now end-of-queue background monitoring. Let the
-    normal schedules produce remaining `run_source=scheduled` receipts unless
-    the user explicitly asks to accelerate again.
+  - Cloud routine proof remains end-of-queue background monitoring. Let normal
+    schedules produce remaining `run_source=scheduled` receipts unless the user
+    explicitly asks to accelerate again.
   - Keep dashboard parity classification current before committing any new
     dashboard/feed meaning or UI work.
   - Prioritize system/routine/dashboard work over stock-specific research.
@@ -38,6 +38,22 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- External-review, UW-routing, Reddit, and reallocation design slice.
+  - Added `docs/system_improvement_external_review.md` with a high-level system
+    reassessment, gap list, Claude/Gemini critique prompt, immediate priorities,
+    and user clarifying questions for the future reallocation plan.
+  - Added `src/uw_endpoint_router.py` as the scenario-aware UW endpoint router
+    for crash triage, Fundstrat confirmation, asymmetric discovery, portfolio
+    reallocation, post-close review, event-risk macro, and Reddit escalation
+    vetting.
+  - Added router tests that validate all routed paths against the approved UW
+    endpoint catalog and assert the required crash-triage, reallocation, and
+    Reddit-vetting lanes.
+  - Added `docs/reddit_feed_design.md` to keep Reddit as compliant,
+    watch-only early-signal intake with minimal retention and independent
+    confirmation before action escalation.
+  - Added `docs/reallocation_workflow.md` so the final current-positions plan
+    can be produced as candidate-only output once the user supplies positions.
 - Dashboard hardening and Fundstrat safety routines.
   - Added operator-hardening dashboard panels for freshness downgrades,
     stale-action cleanup, pre-action condition checks, and watch-only
