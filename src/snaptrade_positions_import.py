@@ -217,10 +217,33 @@ def normalize_equity_position(position: dict[str, Any],
     }
 
 
+def _option_market_value(
+    *,
+    broker: str,
+    units: float | None,
+    price: float | None,
+    multiplier: int,
+) -> float | None:
+    """Normalize SnapTrade option value across broker price conventions.
+
+    Fidelity/Schwab option rows observed through SnapTrade report option price
+    per underlying share, so contract value is units * price * multiplier.
+    Robinhood option rows observed through SnapTrade report contract-level
+    value in the price field, so applying the multiplier again overstates value
+    by 100x.
+    """
+    if units is None or price is None:
+        return None
+    if "robinhood" in str(broker or "").lower():
+        return units * price
+    return units * price * multiplier
+
+
 def normalize_option_position(position: dict[str, Any],
                               *,
                               account_name: str,
-                              owner: str) -> dict[str, Any] | None:
+                              owner: str,
+                              broker: str = "") -> dict[str, Any] | None:
     option_info = _symbol_payload(position)
     underlying = option_info.get("underlying_symbol") if isinstance(option_info, dict) else None
     underlying_ticker = ""
@@ -234,7 +257,7 @@ def normalize_option_position(position: dict[str, Any],
     multiplier = 10 if option_info.get("is_mini_option") else 100
     market_value = _json_number(position.get("market_value"))
     if market_value is None and units is not None and price is not None:
-        market_value = units * price * multiplier
+        market_value = _option_market_value(broker=broker, units=units, price=price, multiplier=multiplier)
     option_type = str(option_info.get("option_type") or "").strip().lower()
     strike = _json_number(option_info.get("strike_price"))
     expiry = option_info.get("expiration_date")
@@ -254,6 +277,7 @@ def normalize_option_position(position: dict[str, Any],
         "account_name": account_name,
         "owner": owner,
         "asset_type": "option",
+        "price": price,
         "option": {
             "occ_symbol": option_info.get("ticker"),
             "underlying": ticker,
@@ -261,6 +285,7 @@ def normalize_option_position(position: dict[str, Any],
             "call_put": option_type or None,
             "strike": strike,
             "multiplier": multiplier,
+            "price_convention": "contract" if "robinhood" in str(broker or "").lower() else "underlying_share",
         },
         "average_purchase_price": _json_number(position.get("average_purchase_price")),
     }
@@ -303,7 +328,7 @@ def build_combined_from_snaptrade(payload: dict[str, Any],
                 if normalized:
                     positions.append(normalized)
             for position in account.get("option_positions", []) or []:
-                normalized = normalize_option_position(position, account_name=account_name, owner=owner)
+                normalized = normalize_option_position(position, account_name=account_name, owner=owner, broker=broker)
                 if normalized:
                     positions.append(normalized)
 

@@ -127,6 +127,15 @@ The system synthesizes only from explicit source or repo evidence:
   - Promotion still runs through the existing strict broker-position cache and
     reconciliation path so dashboard reallocation never treats an unvalidated
     pull as live portfolio truth.
+  - Option valuation is broker-aware. SnapTrade Fidelity/Schwab option rows
+    observed in this system use per-underlying-share option prices, so value is
+    `contracts * price * multiplier`. SnapTrade Robinhood option rows observed
+    in this system use contract-level prices, so value is `contracts * price`;
+    applying the multiplier again overstates those option values by 100x.
+  - Account-level option rows preserve option metadata. Combined Book views
+    group options by ticker plus option series/description, not ticker alone,
+    so common shares and separate option contracts do not collapse into one
+    misleading row.
   - `src/snaptrade_profiles.local.json` is local-only and ignored. It holds
     account-owner overrides for labels such as `Parents` and `SKB`.
   - `src/snaptrade_profiles.example.json` documents the shape that can be

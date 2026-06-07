@@ -46,6 +46,35 @@ def test_account_position_rows_preserve_owner_broker_account_and_tracking():
     assert by[("Aggregate", "XLF")]["tracked"] is False
 
 
+def test_account_position_rows_preserve_option_metadata():
+    combined = {
+        "files": [
+            {
+                "source_file": "snaptrade://SKB/Robinhood/acct",
+                "broker": "Robinhood",
+                "owner": "SKB",
+                "account_name": "Robinhood Individual",
+                "positions": [
+                    {
+                        "symbol": "BMNR",
+                        "description": "30 Call 2028-01-21",
+                        "market_value": 1792,
+                        "quantity": 4,
+                        "asset_type": "option",
+                        "option": {"underlying": "BMNR", "expiry": "2028-01-21", "strike": 30},
+                    }
+                ],
+            }
+        ],
+        "portfolio_summary": {"total_market_value": 1792, "as_of": "2026-06-07"},
+    }
+
+    rows = pr.account_position_rows(combined, THESES)
+
+    assert rows[0]["asset_type"] == "option"
+    assert rows[0]["option"]["expiry"] == "2028-01-21"
+
+
 def test_account_position_rows_infer_owner_from_short_drive_prefixes():
     combined = {
         "files": [

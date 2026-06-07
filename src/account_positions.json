@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-06-07",
-  "sleeve_value": 3579120,
+  "sleeve_value": 1854029,
   "account_positions": [
     {
       "ticker": "AMD",
@@ -11,7 +11,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "AMZN",
@@ -22,7 +24,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ARRRF",
@@ -33,7 +37,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "AVGO",
@@ -44,7 +50,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BE",
@@ -55,7 +63,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -66,7 +76,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -77,7 +89,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00050000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 50.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -88,7 +110,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00025000",
+        "underlying": "BMNR",
+        "expiry": "2026-08-21",
+        "call_put": "call",
+        "strike": 25.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -99,7 +131,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00050000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 50.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -110,7 +152,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260618C00030000",
+        "underlying": "BMNR",
+        "expiry": "2026-06-18",
+        "call_put": "call",
+        "strike": 30.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -121,7 +173,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00030000",
+        "underlying": "BMNR",
+        "expiry": "2026-08-21",
+        "call_put": "call",
+        "strike": 30.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -132,7 +194,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00080000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -143,7 +215,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00080000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BWXT",
@@ -154,7 +236,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "CCJ",
@@ -165,7 +249,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "COST",
@@ -176,7 +262,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "CRS",
@@ -187,7 +275,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "CRWD",
@@ -198,7 +288,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "FIX",
@@ -209,7 +301,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "FN",
@@ -220,7 +314,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GDX",
@@ -231,7 +327,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GEV",
@@ -242,7 +340,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GOOGL",
@@ -253,7 +353,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -264,7 +366,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -275,7 +379,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GS",
@@ -286,7 +392,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "IESC",
@@ -297,7 +405,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "IVES",
@@ -308,7 +418,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "LEU",
@@ -319,7 +431,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "LIT",
@@ -330,7 +444,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "LITE",
@@ -341,7 +457,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MSFT",
@@ -352,7 +470,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MU",
@@ -363,7 +483,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NBIS",
@@ -374,7 +496,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NVDA",
@@ -385,7 +509,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NXT",
@@ -396,7 +522,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ORCL",
@@ -407,7 +535,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "PANW",
@@ -418,7 +548,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "PLTR",
@@ -429,7 +561,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "PWR",
@@ -440,7 +574,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "RDDT",
@@ -451,7 +587,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "SIL",
@@ -462,7 +600,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -473,7 +613,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -484,7 +626,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SPAXX",
@@ -495,7 +639,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Open Ended Fund",
+      "option": null
     },
     {
       "ticker": "STRL",
@@ -506,7 +652,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "TLOFF",
@@ -517,7 +665,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "UMAC",
@@ -528,7 +678,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "UURAF",
@@ -539,7 +691,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "UUUU",
@@ -550,7 +704,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "VOLT",
@@ -561,7 +717,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "WPM",
@@ -572,7 +730,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "XLF",
@@ -583,7 +743,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "XLI",
@@ -594,7 +756,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "AMZN",
@@ -605,7 +769,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ANET",
@@ -616,7 +782,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ASTS",
@@ -627,7 +795,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -638,7 +808,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -649,7 +821,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00030000",
+        "underlying": "BMNR",
+        "expiry": "2026-08-21",
+        "call_put": "call",
+        "strike": 30.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -660,7 +842,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00060000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 60.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -671,7 +863,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00050000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 50.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BMNR",
@@ -682,7 +884,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00030000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 30.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "BWXT",
@@ -693,7 +905,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "CCJ",
@@ -704,7 +918,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "CGC",
@@ -715,7 +931,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "CGC   270115C00010000",
+        "underlying": "CGC",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 10.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "CIBR",
@@ -726,7 +952,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "COIN",
@@ -737,7 +965,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ETHA",
@@ -748,7 +978,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "FDRXX",
@@ -759,7 +991,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Open Ended Fund",
+      "option": null
     },
     {
       "ticker": "GDX",
@@ -770,7 +1004,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GOOGL",
@@ -781,7 +1017,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -792,7 +1030,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -803,7 +1043,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -814,7 +1056,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  270115C00031000",
+        "underlying": "GRNY",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 31.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "HOOD",
@@ -825,7 +1077,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "HOOD  260918C00100000",
+        "underlying": "HOOD",
+        "expiry": "2026-09-18",
+        "call_put": "call",
+        "strike": 100.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "IBIT",
@@ -836,7 +1098,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "ITA",
@@ -847,7 +1111,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "IVES",
@@ -858,7 +1124,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "LEU",
@@ -869,7 +1137,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "LEU",
@@ -880,7 +1150,17 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "LEU   280121C00300000",
+        "underlying": "LEU",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 300.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
     },
     {
       "ticker": "LITE",
@@ -891,7 +1171,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "LUNR",
@@ -902,7 +1184,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "LYSDY",
@@ -913,7 +1197,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "American Depositary Receipt",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -924,7 +1210,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "MP",
@@ -935,7 +1223,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MSFT",
@@ -946,7 +1236,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MSOS",
@@ -957,7 +1249,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "NBIS",
@@ -968,7 +1262,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NVDA",
@@ -979,7 +1275,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "PBW",
@@ -990,7 +1288,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "POET",
@@ -1001,7 +1301,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "RDDT",
@@ -1012,7 +1314,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "SIL",
@@ -1023,7 +1327,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -1034,7 +1340,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SOFI",
@@ -1045,7 +1353,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "TEM",
@@ -1056,7 +1366,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "UURAF",
@@ -1067,7 +1379,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "UUUU",
@@ -1078,7 +1392,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "VOLT",
@@ -1089,7 +1405,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "XLF",
@@ -1100,7 +1418,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -1111,7 +1431,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ETHA",
@@ -1122,7 +1444,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -1133,7 +1457,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -1144,7 +1470,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "IBIT",
@@ -1155,7 +1483,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "LEU",
@@ -1166,7 +1496,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -1177,7 +1509,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "MU",
@@ -1188,7 +1522,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NVDA",
@@ -1199,7 +1535,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -1210,7 +1548,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SPAXX",
@@ -1221,7 +1561,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Open Ended Fund",
+      "option": null
     },
     {
       "ticker": "UUUU",
@@ -1232,7 +1574,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "VOLT",
@@ -1243,7 +1587,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "XLF",
@@ -1254,7 +1600,9 @@
       "owner": "Parents",
       "broker": "Fidelity",
       "source_file": "snaptrade://Parents/Fidelity/87b2c0bb-a998-4654-9a19-4d480a99eed2",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GDX",
@@ -1265,7 +1613,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -1276,7 +1626,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -1287,7 +1639,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "IVES",
@@ -1298,7 +1652,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "LIT",
@@ -1309,7 +1665,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -1320,7 +1678,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "RPG",
@@ -1331,7 +1691,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SIL",
@@ -1342,7 +1704,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -1353,7 +1717,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SOXX",
@@ -1364,7 +1730,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "VOLT",
@@ -1375,7 +1743,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "XLF",
@@ -1386,7 +1756,9 @@
       "owner": "Parents",
       "broker": "Schwab",
       "source_file": "snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "FBGKX",
@@ -1397,7 +1769,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/fb496722-4428-4402-9c35-7c1250ff2cdf",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Open Ended Fund",
+      "option": null
     },
     {
       "ticker": "FDRXX",
@@ -1408,7 +1782,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/fb496722-4428-4402-9c35-7c1250ff2cdf",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Open Ended Fund",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -1419,7 +1795,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/fb496722-4428-4402-9c35-7c1250ff2cdf",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -1430,7 +1808,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/fb496722-4428-4402-9c35-7c1250ff2cdf",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "LEU",
@@ -1441,7 +1821,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/fb496722-4428-4402-9c35-7c1250ff2cdf",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -1452,7 +1834,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/fb496722-4428-4402-9c35-7c1250ff2cdf",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -1463,7 +1847,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/fb496722-4428-4402-9c35-7c1250ff2cdf",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "ANET",
@@ -1474,7 +1860,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ASML",
@@ -1485,7 +1873,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "American Depositary Receipt",
+      "option": null
     },
     {
       "ticker": "AVGO",
@@ -1496,7 +1886,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -1507,7 +1899,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BWXT",
@@ -1518,7 +1912,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "DRIV",
@@ -1529,7 +1925,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "FCASH",
@@ -1540,7 +1938,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Security type is not defined",
+      "option": null
     },
     {
       "ticker": "GOOGL",
@@ -1551,7 +1951,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -1562,7 +1964,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GS",
@@ -1573,7 +1977,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "LEU",
@@ -1584,7 +1990,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -1595,7 +2003,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "MP",
@@ -1606,7 +2016,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MU",
@@ -1617,7 +2029,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NVDA",
@@ -1628,7 +2042,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ORCL",
@@ -1639,7 +2055,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -1650,7 +2068,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SNSR",
@@ -1661,7 +2081,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "UUUU",
@@ -1672,7 +2094,9 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "XLF",
@@ -1683,18 +2107,22 @@
       "owner": "SKB",
       "broker": "Fidelity",
       "source_file": "snaptrade://SKB/Fidelity/3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "AAVE",
       "description": "Aave",
       "shares": 1.2613,
-      "market_value": 77.78,
+      "market_value": 77.42,
       "account": "Robinhood Crypto 8794",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Cryptocurrency",
+      "option": null
     },
     {
       "ticker": "ETH",
@@ -1705,18 +2133,22 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Cryptocurrency",
+      "option": null
     },
     {
       "ticker": "HYPE",
       "description": "Hyperliquid",
       "shares": 18.0197,
-      "market_value": 1048.43,
+      "market_value": 1033.65,
       "account": "Robinhood Crypto 8794",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Cryptocurrency",
+      "option": null
     },
     {
       "ticker": "SOL",
@@ -1727,18 +2159,22 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Cryptocurrency",
+      "option": null
     },
     {
       "ticker": "TRUMP",
       "description": "OFFICIAL TRUMP",
       "shares": 13.0548,
-      "market_value": 20.99,
+      "market_value": 20.85,
       "account": "Robinhood Crypto 8794",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Cryptocurrency",
+      "option": null
     },
     {
       "ticker": "ACON",
@@ -1749,7 +2185,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "AMZN",
@@ -1760,7 +2198,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ASML",
@@ -1771,7 +2211,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "American Depositary Receipt",
+      "option": null
     },
     {
       "ticker": "AVGO",
@@ -1782,7 +2224,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -1793,139 +2237,261 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
       "description": "29 Call 2026-07-17",
       "shares": 5.0,
-      "market_value": 7500.0,
+      "market_value": 75.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260717C00029000",
+        "underlying": "BMNR",
+        "expiry": "2026-07-17",
+        "call_put": "call",
+        "strike": 29.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "25 Call 2026-08-21",
       "shares": 5.0,
-      "market_value": 33500.0,
+      "market_value": 335.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00025000",
+        "underlying": "BMNR",
+        "expiry": "2026-08-21",
+        "call_put": "call",
+        "strike": 25.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "30 Call 2027-01-15",
       "shares": 4.0,
-      "market_value": 65600.0,
+      "market_value": 656.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00030000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 30.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "30 Call 2028-01-21",
       "shares": 4.0,
-      "market_value": 179200.0,
+      "market_value": 1792.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00030000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 30.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "80 Call 2028-01-21",
       "shares": 4.0,
-      "market_value": 71600.0,
+      "market_value": 716.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00080000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "80 Call 2027-01-15",
       "shares": 20.0,
-      "market_value": 64000.0,
+      "market_value": 640.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00080000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "40 Call 2026-08-21",
       "shares": 2.0,
-      "market_value": 3800.0,
+      "market_value": 38.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00040000",
+        "underlying": "BMNR",
+        "expiry": "2026-08-21",
+        "call_put": "call",
+        "strike": 40.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "30 Call 2026-08-21",
       "shares": 14.0,
-      "market_value": 60200.0,
+      "market_value": 602.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00030000",
+        "underlying": "BMNR",
+        "expiry": "2026-08-21",
+        "call_put": "call",
+        "strike": 30.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "25 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 22600.0,
+      "market_value": 226.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00025000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 25.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "44 Call 2026-08-21",
       "shares": 11.0,
-      "market_value": 17600.0,
+      "market_value": 176.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00044000",
+        "underlying": "BMNR",
+        "expiry": "2026-08-21",
+        "call_put": "call",
+        "strike": 44.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "50 Call 2027-01-15",
       "shares": 5.0,
-      "market_value": 34000.0,
+      "market_value": 340.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00050000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 50.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "95 Call 2028-01-21",
       "shares": 3.0,
-      "market_value": 42300.0,
+      "market_value": 423.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00095000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 95.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BWXT",
@@ -1936,7 +2502,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "CCJ",
@@ -1947,7 +2515,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "DRIV",
@@ -1958,7 +2528,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GEV",
@@ -1969,7 +2541,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GOOGL",
@@ -1980,7 +2554,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -1991,7 +2567,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -2002,40 +2580,72 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
       "description": "35 Call 2028-01-21",
       "shares": 5.0,
-      "market_value": 51500.0,
+      "market_value": 515.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  280121C00035000",
+        "underlying": "GRNY",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 35.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "34 Call 2028-01-21",
       "shares": 1.0,
-      "market_value": 13000.0,
+      "market_value": 130.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  280121C00034000",
+        "underlying": "GRNY",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 34.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "34 Call 2027-01-15",
       "shares": 16.0,
-      "market_value": 1600.0,
+      "market_value": 16.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  270115C00034000",
+        "underlying": "GRNY",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 34.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "LEU",
@@ -2046,7 +2656,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -2057,7 +2669,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "MP",
@@ -2068,18 +2682,30 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MSOS",
       "description": "10 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 5500.0,
+      "market_value": 55.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "MSOS  270115C00010000",
+        "underlying": "MSOS",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 10.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "MSTR",
@@ -2090,7 +2716,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MU",
@@ -2101,7 +2729,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NUE",
@@ -2112,7 +2742,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NVDA",
@@ -2123,7 +2755,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ORBS",
@@ -2134,18 +2768,30 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "POET",
       "description": "5 Call 2027-01-15",
       "shares": 4.0,
-      "market_value": 313200.0,
+      "market_value": 3132.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "POET  270115C00005000",
+        "underlying": "POET",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 5.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "PWR",
@@ -2156,7 +2802,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "STRL",
@@ -2167,29 +2815,51 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "TSLA",
       "description": "460 Call 2026-07-17",
       "shares": 1.0,
-      "market_value": 69800.0,
+      "market_value": 698.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "TSLA  260717C00460000",
+        "underlying": "TSLA",
+        "expiry": "2026-07-17",
+        "call_put": "call",
+        "strike": 460.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "TSLA",
       "description": "450 Call 2026-07-17",
       "shares": 1.0,
-      "market_value": 84300.0,
+      "market_value": 843.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "TSLA  260717C00450000",
+        "underlying": "TSLA",
+        "expiry": "2026-07-17",
+        "call_put": "call",
+        "strike": 450.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "UUUU",
@@ -2200,7 +2870,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "VOLT",
@@ -2211,7 +2883,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/edcc0c25-ed99-448a-a23e-24f7b89ba26c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "AMD",
@@ -2222,7 +2896,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "AMZN",
@@ -2233,7 +2909,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "AVGO",
@@ -2244,7 +2922,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -2255,62 +2935,114 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
       "description": "50 Call 2028-01-21",
       "shares": 2.0,
-      "market_value": 56400.0,
+      "market_value": 564.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00050000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 50.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "35 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 12500.0,
+      "market_value": 125.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00035000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 35.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "40 Call 2027-01-15",
       "shares": 2.0,
-      "market_value": 19400.0,
+      "market_value": 194.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00040000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 40.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "80 Call 2027-01-15",
       "shares": 12.0,
-      "market_value": 38400.0,
+      "market_value": 384.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00080000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "80 Call 2028-01-21",
       "shares": 8.0,
-      "market_value": 143200.0,
+      "market_value": 1432.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00080000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GOOGL",
@@ -2321,7 +3053,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -2332,7 +3066,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -2343,7 +3079,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "LEU",
@@ -2354,7 +3092,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -2365,7 +3105,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "NVDA",
@@ -2376,7 +3118,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "PWR",
@@ -2387,7 +3131,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -2398,7 +3144,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "XLF",
@@ -2409,7 +3157,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/3dee317b-32a4-45e4-a230-71a74526f8ad",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "AMD",
@@ -2420,7 +3170,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "AMZN",
@@ -2431,7 +3183,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "ASML",
@@ -2442,7 +3196,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "American Depositary Receipt",
+      "option": null
     },
     {
       "ticker": "ASTS",
@@ -2453,7 +3209,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "AVGO",
@@ -2464,7 +3222,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -2475,128 +3235,240 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
       "description": "28 Call 2026-08-21",
       "shares": 1.0,
-      "market_value": 4700.0,
+      "market_value": 47.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00028000",
+        "underlying": "BMNR",
+        "expiry": "2026-08-21",
+        "call_put": "call",
+        "strike": 28.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "35 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 12500.0,
+      "market_value": 125.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00035000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 35.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "40 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 9700.0,
+      "market_value": 97.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00040000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 40.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "80 Call 2028-01-21",
       "shares": 3.0,
-      "market_value": 53700.0,
+      "market_value": 537.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00080000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "50 Call 2028-01-21",
       "shares": 2.0,
-      "market_value": 56400.0,
+      "market_value": 564.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00050000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 50.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "60 Call 2028-01-21",
       "shares": 1.0,
-      "market_value": 23400.0,
+      "market_value": 234.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00060000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 60.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "55 Call 2028-01-21",
       "shares": 1.0,
-      "market_value": 25300.0,
+      "market_value": 253.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00055000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 55.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "45 Call 2027-01-15",
       "shares": 2.0,
-      "market_value": 16200.0,
+      "market_value": 162.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00045000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 45.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "85 Call 2027-01-15",
       "shares": 2.0,
-      "market_value": 6000.0,
+      "market_value": 60.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00085000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 85.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "95 Call 2028-01-21",
       "shares": 4.0,
-      "market_value": 56400.0,
+      "market_value": 564.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00095000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 95.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "BMNR",
       "description": "80 Call 2027-01-15",
       "shares": 10.0,
-      "market_value": 32000.0,
+      "market_value": 320.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00080000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GOOGL",
@@ -2607,7 +3479,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -2618,7 +3492,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -2629,117 +3505,219 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
       "description": "35 Call 2026-09-18",
       "shares": 1.0,
-      "market_value": 100.0,
+      "market_value": 1.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  260918C00035000",
+        "underlying": "GRNY",
+        "expiry": "2026-09-18",
+        "call_put": "call",
+        "strike": 35.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "34 Call 2026-09-18",
       "shares": 1.0,
-      "market_value": 100.0,
+      "market_value": 1.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  260918C00034000",
+        "underlying": "GRNY",
+        "expiry": "2026-09-18",
+        "call_put": "call",
+        "strike": 34.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "33 Call 2026-09-18",
       "shares": 1.0,
-      "market_value": 100.0,
+      "market_value": 1.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  260918C00033000",
+        "underlying": "GRNY",
+        "expiry": "2026-09-18",
+        "call_put": "call",
+        "strike": 33.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "32 Call 2026-09-18",
       "shares": 5.0,
-      "market_value": 500.0,
+      "market_value": 5.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  260918C00032000",
+        "underlying": "GRNY",
+        "expiry": "2026-09-18",
+        "call_put": "call",
+        "strike": 32.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "35 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 3800.0,
+      "market_value": 38.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  270115C00035000",
+        "underlying": "GRNY",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 35.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "34 Call 2027-01-15",
       "shares": 5.0,
-      "market_value": 500.0,
+      "market_value": 5.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  270115C00034000",
+        "underlying": "GRNY",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 34.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "33 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 5800.0,
+      "market_value": 58.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  270115C00033000",
+        "underlying": "GRNY",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 33.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "28 Call 2026-09-18",
       "shares": 1.0,
-      "market_value": 10800.0,
+      "market_value": 108.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  260918C00028000",
+        "underlying": "GRNY",
+        "expiry": "2026-09-18",
+        "call_put": "call",
+        "strike": 28.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "32 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 5300.0,
+      "market_value": 53.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  270115C00032000",
+        "underlying": "GRNY",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 32.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "GRNY",
       "description": "31 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 7500.0,
+      "market_value": 75.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "GRNY  270115C00031000",
+        "underlying": "GRNY",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 31.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "IVES",
@@ -2750,7 +3728,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "LEU",
@@ -2761,7 +3741,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -2772,7 +3754,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "MP",
@@ -2783,7 +3767,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MSFT",
@@ -2794,7 +3780,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "MSTR",
@@ -2805,7 +3793,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NVDA",
@@ -2816,7 +3806,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "PWR",
@@ -2827,7 +3819,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -2838,7 +3832,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "UUUU",
@@ -2849,7 +3845,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "VOLT",
@@ -2860,18 +3858,30 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "WOLF",
       "description": "40 Call 2026-06-18",
       "shares": 10.0,
-      "market_value": 1000.0,
+      "market_value": 10.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "WOLF  260618C00040000",
+        "underlying": "WOLF",
+        "expiry": "2026-06-18",
+        "call_put": "call",
+        "strike": 40.0,
+        "multiplier": 100,
+        "price_convention": "contract"
+      }
     },
     {
       "ticker": "XLF",
@@ -2882,7 +3892,9 @@
       "owner": "SKB",
       "broker": "Robinhood",
       "source_file": "snaptrade://SKB/Robinhood/d6b49a50-106a-4eca-986a-7029927f640c",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "AVGO",
@@ -2893,7 +3905,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "BMNR",
@@ -2904,7 +3918,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "CCJ",
@@ -2915,7 +3931,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "DRIV",
@@ -2926,7 +3944,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "FN",
@@ -2937,7 +3957,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "FTXL",
@@ -2948,7 +3970,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GDX",
@@ -2959,7 +3983,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GOOGL",
@@ -2970,7 +3996,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "GRNJ",
@@ -2981,7 +4009,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "GRNY",
@@ -2992,7 +4022,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "JPM",
@@ -3003,7 +4035,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "LYSDY",
@@ -3014,7 +4048,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "American Depositary Receipt",
+      "option": null
     },
     {
       "ticker": "MAGS",
@@ -3025,7 +4061,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "MSFT",
@@ -3036,7 +4074,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "NVDA",
@@ -3047,7 +4087,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "Common Stock",
+      "option": null
     },
     {
       "ticker": "PBW",
@@ -3058,7 +4100,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SMH",
@@ -3069,7 +4113,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "SOXX",
@@ -3080,7 +4126,9 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": false
+      "tracked": false,
+      "asset_type": "ETF",
+      "option": null
     },
     {
       "ticker": "VOLT",
@@ -3091,36 +4139,16 @@
       "owner": "SKB",
       "broker": "Schwab",
       "source_file": "snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e",
-      "tracked": true
+      "tracked": true,
+      "asset_type": "ETF",
+      "option": null
     }
   ],
   "combined_positions": [
     {
-      "ticker": "BMNR",
-      "shares": 3671.0,
-      "market_value": 1228418,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": true
-    },
-    {
-      "ticker": "POET",
-      "shares": 104.0,
-      "market_value": 314386,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": false
-    },
-    {
       "ticker": "GRNY",
       "shares": 6619.0,
-      "market_value": 277866,
+      "market_value": 178272,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -3149,16 +4177,6 @@
         "SKB"
       ],
       "tracked": true
-    },
-    {
-      "ticker": "TSLA",
-      "shares": 2.0,
-      "market_value": 154100,
-      "account": "Robinhood Individual 6550",
-      "owners": [
-        "SKB"
-      ],
-      "tracked": false
     },
     {
       "ticker": "NVDA",
@@ -3208,6 +4226,17 @@
       "ticker": "VOLT",
       "shares": 1971.983,
       "market_value": 75717,
+      "account": "Multiple",
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "tracked": true
+    },
+    {
+      "ticker": "BMNR",
+      "shares": 3671.0,
+      "market_value": 71999,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -3598,17 +4627,6 @@
       "tracked": false
     },
     {
-      "ticker": "MSOS",
-      "shares": 1.39,
-      "market_value": 5502,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": false
-    },
-    {
       "ticker": "PANW",
       "shares": 20.0,
       "market_value": 5441,
@@ -3675,6 +4693,17 @@
       "account": "Multiple",
       "owners": [
         "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "POET",
+      "shares": 104.0,
+      "market_value": 4318,
+      "account": "Multiple",
+      "owners": [
+        "Parents",
+        "SKB"
       ],
       "tracked": false
     },
@@ -3790,6 +4819,16 @@
       "tracked": false
     },
     {
+      "ticker": "TSLA",
+      "shares": 2.0,
+      "market_value": 1541,
+      "account": "Robinhood Individual 6550",
+      "owners": [
+        "SKB"
+      ],
+      "tracked": false
+    },
+    {
       "ticker": "UURAF",
       "shares": 400.0,
       "market_value": 1538,
@@ -3822,7 +4861,7 @@
     {
       "ticker": "HYPE",
       "shares": 18.0197,
-      "market_value": 1048,
+      "market_value": 1034,
       "account": "Robinhood Crypto 8794",
       "owners": [
         "SKB"
@@ -3834,16 +4873,6 @@
       "shares": 3.328,
       "market_value": 1016,
       "account": "Health Savings Account *****7284",
-      "owners": [
-        "SKB"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "WOLF",
-      "shares": 10.0,
-      "market_value": 1000,
-      "account": "Robinhood Traditional Ira 1369",
       "owners": [
         "SKB"
       ],
@@ -3913,9 +4942,20 @@
     {
       "ticker": "AAVE",
       "shares": 1.2613,
-      "market_value": 78,
+      "market_value": 77,
       "account": "Robinhood Crypto 8794",
       "owners": [
+        "SKB"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "MSOS",
+      "shares": 1.39,
+      "market_value": 57,
+      "account": "Multiple",
+      "owners": [
+        "Parents",
         "SKB"
       ],
       "tracked": false
@@ -3947,6 +4987,16 @@
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "WOLF",
+      "shares": 10.0,
+      "market_value": 10,
+      "account": "Robinhood Traditional Ira 1369",
+      "owners": [
+        "SKB"
       ],
       "tracked": false
     },
@@ -3983,20 +5033,9 @@
   ],
   "tracked_combined_positions": [
     {
-      "ticker": "BMNR",
-      "shares": 3671.0,
-      "market_value": 1228418,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": true
-    },
-    {
       "ticker": "GRNY",
       "shares": 6619.0,
-      "market_value": 277866,
+      "market_value": 178272,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4074,6 +5113,17 @@
       "ticker": "VOLT",
       "shares": 1971.983,
       "market_value": 75717,
+      "account": "Multiple",
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "tracked": true
+    },
+    {
+      "ticker": "BMNR",
+      "shares": 3671.0,
+      "market_value": 71999,
       "account": "Multiple",
       "owners": [
         "Parents",

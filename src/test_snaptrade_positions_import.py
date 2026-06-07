@@ -153,6 +153,57 @@ def test_option_position_uses_underlying_and_contract_multiplier():
     assert pos["market_value"] == 1775.0
     assert pos["option"]["multiplier"] == 100
     assert pos["option"]["call_put"] == "call"
+    assert pos["option"]["price_convention"] == "underlying_share"
+
+
+def test_robinhood_option_price_is_contract_value_not_share_price():
+    payload = {
+        "profiles": [
+            {
+                "profile": "suraj",
+                "owner": "SKB",
+                "accounts": [
+                    {
+                        "account": {
+                            "id": "acct-rh",
+                            "name": "Robinhood Individual",
+                            "institution_name": "Robinhood",
+                        },
+                        "positions": [],
+                        "option_positions": [
+                            {
+                                "symbol": {
+                                    "option_symbol": {
+                                        "ticker": "BMNR  280121C00030000",
+                                        "option_type": "CALL",
+                                        "strike_price": 30,
+                                        "expiration_date": "2028-01-21",
+                                        "is_mini_option": False,
+                                        "underlying_symbol": {
+                                            "symbol": "BMNR",
+                                            "raw_symbol": "BMNR",
+                                        },
+                                    }
+                                },
+                                "units": 4,
+                                "price": 448.0,
+                            }
+                        ],
+                        "balances": [],
+                    }
+                ],
+            }
+        ]
+    }
+
+    combined = spi.build_combined_from_snaptrade(payload)
+    pos = combined["files"][0]["positions"][0]
+
+    assert pos["symbol"] == "BMNR"
+    assert pos["description"] == "30 Call 2028-01-21"
+    assert pos["quantity"] == 4.0
+    assert pos["market_value"] == 1792.0
+    assert pos["option"]["price_convention"] == "contract"
 
 
 def test_zero_value_custody_placeholders_are_not_positions():

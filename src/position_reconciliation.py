@@ -140,6 +140,8 @@ def account_position_rows(combined: dict[str, Any],
                 "broker": broker,
                 "source_file": source_file,
                 "tracked": (ticker in universe) if universe else None,
+                "asset_type": pos.get("asset_type"),
+                "option": pos.get("option") if isinstance(pos.get("option"), dict) else None,
             })
     rows.sort(key=lambda r: (r["owner"], r["broker"], r["account"], r["ticker"]))
     return rows
@@ -310,6 +312,8 @@ def validate_account_positions(cache: dict[str, Any]) -> list[str]:
             value = row.get(field)
             if isinstance(value, bool) or not isinstance(value, (int, float)):
                 problems.append(f"account_positions[{idx}].{field} must be numeric")
+        if row.get("option") is not None and not isinstance(row.get("option"), dict):
+            problems.append(f"account_positions[{idx}].option must be an object when present")
     return problems
 
 

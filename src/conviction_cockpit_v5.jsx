@@ -1810,7 +1810,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 {(portfolioView.rows||[]).map((r,i)=>(
                   <div key={`${r.ticker}${r.account}${i}`} style={{ display:"grid", gridTemplateColumns:"72px 1fr auto", gap:8, alignItems:"center", padding:"4px 0", borderTop:i?`1px solid ${C.line}`:"none" }}>
                     <span style={{ fontFamily:mono, fontSize:12, fontWeight:700, color:C.text }}>{r.ticker}</span>
-                    <span style={{ fontSize:11.5, color:C.dim, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{r.account}{r.owner&&r.owner!=="Multiple"?` · ${r.owner}`:""}{r.category?` · ${r.category}`:""}</span>
+                    <span style={{ fontSize:11.5, color:C.dim, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{r.description?`${r.description} · `:""}{r.account}{r.owner&&r.owner!=="Multiple"?` · ${r.owner}`:""}{r.category?` · ${r.category}`:""}</span>
                     <span style={{ fontFamily:mono, fontSize:11.5, color:C.faint }}>{money(r.market_value)}{typeof r.pct==="number"?` · ${r.pct.toFixed(1)}%`:""}</span>
                   </div>
                 ))}

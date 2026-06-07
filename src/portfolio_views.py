@@ -58,6 +58,8 @@ def _account_rows(account_cache: dict[str, Any]) -> list[dict[str, Any]]:
             "owner_key": _owner_key(row.get("owner")),
             "broker": str(row.get("broker") or "Unknown").strip(),
             "tracked": row.get("tracked"),
+            "asset_type": row.get("asset_type"),
+            "option": row.get("option") if isinstance(row.get("option"), dict) else None,
             "sleeve": sleeve,
             "category": category,
         })
@@ -66,30 +68,35 @@ def _account_rows(account_cache: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def _combined_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    by_ticker: dict[str, dict[str, Any]] = {}
-    accounts: dict[str, set[str]] = defaultdict(set)
-    owners: dict[str, set[str]] = defaultdict(set)
+    by_key: dict[tuple[str, str], dict[str, Any]] = {}
+    accounts: dict[tuple[str, str], set[str]] = defaultdict(set)
+    owners: dict[tuple[str, str], set[str]] = defaultdict(set)
     for row in rows:
         ticker = row["ticker"]
-        rec = by_ticker.setdefault(ticker, {
+        is_option = row.get("asset_type") == "option" or bool(row.get("option"))
+        description = row.get("description") or ""
+        key = (ticker, description) if is_option and description else (ticker, "")
+        rec = by_key.setdefault(key, {
             "ticker": ticker,
-            "description": row.get("description") or "",
+            "description": description,
             "shares": 0.0,
             "market_value": 0.0,
             "tracked": row.get("tracked"),
+            "asset_type": row.get("asset_type"),
+            "option": row.get("option") if isinstance(row.get("option"), dict) else None,
             "sleeve": row.get("sleeve"),
             "category": row.get("category"),
         })
         rec["shares"] += float(row.get("shares") or 0.0)
         rec["market_value"] += float(row.get("market_value") or 0.0)
-        accounts[ticker].add(row.get("account") or "Unknown")
-        owners[ticker].add(row.get("owner") or "Unknown")
+        accounts[key].add(row.get("account") or "Unknown")
+        owners[key].add(row.get("owner") or "Unknown")
         if row.get("tracked") is not None:
             rec["tracked"] = bool(row.get("tracked"))
     out = []
-    for ticker, rec in by_ticker.items():
-        acct = sorted(accounts[ticker])
-        own = sorted(owners[ticker])
+    for key, rec in by_key.items():
+        acct = sorted(accounts[key])
+        own = sorted(owners[key])
         out.append({
             **rec,
             "shares": round(rec["shares"], 4),
