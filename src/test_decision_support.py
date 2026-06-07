@@ -39,16 +39,21 @@ def test_enrich_actions_groups_and_adds_freshness_judgment():
         generated_at="2026-06-05T20:00:00+00:00",
     )
 
-    assert enriched[0]["decision_group"] == "key_now"
+    assert enriched[0]["decision_group"] == "recheck_before_acting"
+    assert enriched[0]["action_state"] == "WATCH"
+    assert enriched[0]["action_label"] == "RE-CHECK"
     assert enriched[0]["freshness_judgment"]["label"] == "fast-moving"
     assert enriched[0]["freshness_judgment"]["evidence_date"] == "2026-06-05"
+    assert enriched[0]["assumption_refresh"]["status"] == "changed_recheck"
+    assert "WTI trigger" in " ".join(enriched[0]["assumption_refresh"]["what_changed"])
     assert enriched[0]["disconfirmation"]["question"] == "What would make this wrong?"
     assert "event trigger" in " ".join(enriched[0]["disconfirmation"]["invalidates_if"])
     assert enriched[0]["capital_efficiency"]["label"] == "protect capital"
     assert "not adding risk" in enriched[0]["capital_efficiency"]["summary"]
     assert enriched[1]["decision_group"] == "important_backlog"
     assert enriched[1]["capital_efficiency"]["label"] == "opportunity-cost watch"
-    assert groups["counts"]["key_now"] == 1
+    assert groups["counts"]["key_now"] == 0
+    assert groups["counts"]["recheck_before_acting"] == 1
     assert groups["counts"]["important_backlog"] == 1
 
 
@@ -132,7 +137,11 @@ def test_target_drift_disconfirmation_requires_funding_and_gate():
     )
 
     disconfirmation = enriched[0]["disconfirmation"]
-    assert enriched[0]["decision_group"] == "key_now"
+    assert enriched[0]["decision_group"] == "recheck_before_acting"
+    assert enriched[0]["action_state"] == "WATCH"
+    assert enriched[0]["action_label"] == "RE-CHECK"
+    assert enriched[0]["assumption_refresh"]["status"] == "changed_recheck"
+    assert "funding leg" in " ".join(enriched[0]["assumption_refresh"]["what_changed"])
     assert "funding leg" in disconfirmation["confirm_before_acting"]
     assert "Run the pre-trade gate; no auto-trade from the dashboard." in disconfirmation["confirm_before_acting"]
     assert any("target weight" in row for row in disconfirmation["invalidates_if"])
@@ -141,7 +150,8 @@ def test_target_drift_disconfirmation_requires_funding_and_gate():
     assert "Do not park capital" in capital_efficiency["summary"]
     assert "perfect bottom" in capital_efficiency["timing_balance"]
     assert "funded reallocation legs" in capital_efficiency["compare_against"]
-    assert groups["counts"]["key_now"] == 1
+    assert groups["counts"]["key_now"] == 0
+    assert groups["counts"]["recheck_before_acting"] == 1
 
 
 def test_asymmetric_opportunities_dedupes_to_strongest_source():

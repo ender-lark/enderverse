@@ -247,7 +247,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 15:01 ET
+        built 2026-06-07 15:22 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-07  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
@@ -294,53 +294,130 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">!</span> Market-open packet
     <span class="tag t-warn" style="margin-left:auto">recheck first</span>
   </div>
-  <div class="feedback-line">Market-open packet: 1 key, 1 re-check, 4 backlog; 5 blocker(s).</div>
+  <div class="feedback-line">Market-open packet: 0 key, 2 re-check, 4 backlog, 6 urgent visible; 8 blocker(s).</div>
   <div class="small-list">
 <div class="small-item">
   <span class="tag t-warn">#1</span>
-  <span class="context-ticker">Re-check first: EVENT: Event risk: Middle East oil/rates shock can affect new-buy timing</span>
+  <span class="context-ticker">Re-check: EVENT: Event risk: Middle East oil/rates shock can affect new-buy timing</span>
+  <span class="small-muted">Refresh: changed recheck</span>
+  <span class="small-muted">Changed: Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.</span>
   <span class="small-muted">Why: Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.</span>
   <span class="small-muted">Next: Refresh the evidence lane and confirm the action still survives with same-session data.</span>
   <span class="small-muted">Blocks: Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#2</span>
-  <span class="context-ticker">Gate Key Now: MU: Conviction gap: MU is under target</span>
-  <span class="small-muted">Why: Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.</span>
-  <span class="small-muted">Next: MU is 1.6% vs 3.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</span>
-  <span class="small-muted">Blocks: The target weight or thesis is outdated relative to the current portfolio.</span>
+  <span class="context-ticker">Re-check: MU: Conviction gap: MU is under target</span>
+  <span class="small-muted">Refresh: changed recheck</span>
+  <span class="small-muted">Changed: Required live checks are missing: live opportunity; funding leg; pre-trade gate</span>
+  <span class="small-muted">Why: Fresh enough for a decision prompt; still run the gate before capital moves.</span>
+  <span class="small-muted">Next: live opportunity</span>
+  <span class="small-muted">Blocks: Do not act if the target weight or thesis is outdated relative to the current portfolio.</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#3</span>
+  <span class="context-ticker">Review current-position reallocation candidates</span>
+  <span class="small-muted">Refresh: changed recheck</span>
+  <span class="small-muted">Changed: Current SnapTrade positions replaced stale PDF-era position assumptions.</span>
+  <span class="small-muted">Why: Reallocation brief: candidate only from 2026-06-07 positions; 2 add candidate(s), 4 funding trim(s); allocated $378,227; shortfall $1,174,359.</span>
+  <span class="small-muted">Next: Review funded add/trim legs, then run same-session UW/price and tax/account gates before acting.</span>
+  <span class="small-muted">Blocks: same-session UW price/flow confirmation required before any capital action</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#4</span>
-  <span class="context-ticker">Run UW check set: Pre-market crash triage</span>
-  <span class="small-muted">Why: Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?</span>
-  <span class="small-muted">Next: Use the captured endpoint result proof before promoting any capital-sized action.</span>
-  <span class="small-muted">Blocks: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked</span>
+  <span class="context-ticker">Review backlog: ANET: Lean-in  looks good</span>
+  <span class="small-muted">Refresh: still valid</span>
+  <span class="small-muted">Changed: No material assumption break detected from available feed evidence.</span>
+  <span class="small-muted">Why: A conviction-backed sizing gap can make a right call too small.</span>
+  <span class="small-muted">Next: ANET looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</span>
+  <span class="small-muted">Blocks: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#5</span>
-  <span class="context-ticker">Run UW check set: Event-risk and political macro</span>
-  <span class="small-muted">Why: Is the external shock changing new-buy timing, hedges, or position sizing?</span>
-  <span class="small-muted">Next: Use the captured endpoint result proof before promoting any capital-sized action.</span>
-  <span class="small-muted">Blocks: same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked</span>
+  <span class="context-ticker">Review backlog: GOOGL: Lean-in  looks good</span>
+  <span class="small-muted">Refresh: still valid</span>
+  <span class="small-muted">Changed: No material assumption break detected from available feed evidence.</span>
+  <span class="small-muted">Why: A conviction-backed sizing gap can make a right call too small.</span>
+  <span class="small-muted">Next: GOOGL looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</span>
+  <span class="small-muted">Blocks: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#6</span>
-  <span class="context-ticker">Run UW check set: Portfolio reallocation</span>
-  <span class="small-muted">Why: Which portfolio changes maximize early-retirement impact per unit of risk and time?</span>
-  <span class="small-muted">Next: Use the captured endpoint result proof before promoting any capital-sized action.</span>
-  <span class="small-muted">Blocks: latest positions, same-session price/flow, or funding source are missing; UW endpoint proof has blocker: missing/failed endpoint result(s) keep related actions blocked</span>
+  <span class="context-ticker">Review backlog: MAGS: Lean-in  looks good</span>
+  <span class="small-muted">Refresh: still valid</span>
+  <span class="small-muted">Changed: No material assumption break detected from available feed evidence.</span>
+  <span class="small-muted">Why: A conviction-backed sizing gap can make a right call too small.</span>
+  <span class="small-muted">Next: MAGS looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</span>
+  <span class="small-muted">Blocks: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.</span>
 </div>
 <div class="small-item">
   <span class="tag t-warn">#7</span>
+  <span class="context-ticker">Review backlog: NVDA: Lean-in  looks good</span>
+  <span class="small-muted">Refresh: still valid</span>
+  <span class="small-muted">Changed: No material assumption break detected from available feed evidence.</span>
+  <span class="small-muted">Why: A conviction-backed sizing gap can make a right call too small.</span>
+  <span class="small-muted">Next: NVDA looks good (Promising, LEADING)  size it yourself and run the pre-trade gate. No auto-buy.</span>
+  <span class="small-muted">Blocks: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#8</span>
+  <span class="context-ticker">Run UW check set: Pre-market crash triage</span>
+
+
+  <span class="small-muted">Why: Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?</span>
+  <span class="small-muted">Next: Use the captured endpoint result proof before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#9</span>
+  <span class="context-ticker">Run UW check set: Event-risk and political macro</span>
+
+
+  <span class="small-muted">Why: Is the external shock changing new-buy timing, hedges, or position sizing?</span>
+  <span class="small-muted">Next: Use the captured endpoint result proof before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#10</span>
+  <span class="context-ticker">Run UW check set: Portfolio reallocation</span>
+
+
+  <span class="small-muted">Why: Which portfolio changes maximize early-retirement impact per unit of risk and time?</span>
+  <span class="small-muted">Next: Use the captured endpoint result proof before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: latest positions, same-session price/flow, or funding source are missing; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#11</span>
+  <span class="context-ticker">Run UW check set: Fundstrat signal confirmation</span>
+
+
+  <span class="small-muted">Why: Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?</span>
+  <span class="small-muted">Next: Use the captured endpoint result proof before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: Fundstrat evidence is dated and same-day UW/price confirmation is missing; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#12</span>
+  <span class="context-ticker">Run UW check set: Asymmetric discovery</span>
+
+
+  <span class="small-muted">Why: What deserves scarce review time because the upside/downside skew may be unusually large?</span>
+  <span class="small-muted">Next: Use the captured endpoint result proof before promoting any capital-sized action.</span>
+  <span class="small-muted">Blocks: the setup is only flow/social/context without independent confirmation; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
+</div>
+<div class="small-item">
+  <span class="tag t-warn">#13</span>
   <span class="context-ticker">Social Watch is not checked</span>
+
+
   <span class="small-muted">Why: Reddit/social early-signal anomalies are not checked; absence is not no social signal.</span>
   <span class="small-muted">Next: Do not infer no social anomaly; populate social_watch.json only through compliant API/cache intake.</span>
   <span class="small-muted">Blocks: Social evidence cannot promote a trade without independent confirmation.</span>
 </div>
 <div class="small-item">
-  <span class="tag t-warn">#8</span>
+  <span class="tag t-warn">#14</span>
   <span class="context-ticker">Open reviews: 2 item(s)</span>
+
+
   <span class="small-muted">Why: Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).</span>
   <span class="small-muted">Next: Keep visible; resolve only after act, invalidate, defer, ignore, or miss is explicit.</span>
   <span class="small-muted">Blocks: Open reviews are not build blockers unless due or stale.</span>
@@ -354,32 +431,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">6 ranked items; no auto-trade</span>
   </div>
 
-<div class="action-group">
-  <div class="action-group-title">Key Now
-    <span>Decision pressure that is current, time-sensitive, or goal-moving.</span>
-  </div>
-
-<div class="action action-act" id="action-2">
-  <div class="action-header">
-    <span class="rank-badge">#2</span>
-    <span class="ticker-tag">MU</span>
-    <span class="action-what">Conviction gap: MU is under target</span>
-  </div>
-  <div class="tags">
-    <span class="tag t-cat">Conviction Gap</span>
-    <span class="tag t-conf">conf: High</span>
-    <span class="tag t-gate-a">size  gate</span>
-    <span class="tag t-cat">ACT_NOW</span><span class="tag t-cat">SIZE GAP</span><span class="tag t-gate-a">review</span><span class="tag t-warn">capital: compare and stage</span><span class="tag t-conf">goal: High</span><span class="tag t-cat">Key Now</span>
-  </div>
-  <div class="action-move">MU is 1.6% vs 3.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</div>
-
-  <details class="action-details">
-    <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.<br><strong>Rationale:</strong> Target drift shows a 1.4pp sizing gap vs the AI working model.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / conviction / opportunity_cost | capital review | score 85/100<br><strong>Capital efficiency:</strong> Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.<br>Timing balance: Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 85/100<br><strong>Missing/re-check:</strong> live opportunity / funding leg / pre-trade gate<br><strong>What could make this wrong?</strong> Do not act if the target weight or thesis is outdated relative to the current portfolio.<br>Invalidates if: The target weight or thesis is outdated relative to the current portfolio. / The funding leg creates more risk or opportunity cost than the add solves. / The pre-trade gate fails on live price, source freshness, or sizing.<br>Confirm: live opportunity / funding leg / pre-trade gate / Check same-session price/flow and current exposure for MU. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Re-check Before Acting</div>
-  </details>
-  <div class="action-foot">target_drift | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
-</div>
-</div>
 <div class="action-group">
   <div class="action-group-title">Re-check Before Acting
     <span>Items where a missing source, stale source, or gate must be checked first.</span>
@@ -401,9 +452,29 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.<br><strong>Rationale:</strong> Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.<br><strong>Freshness:</strong> Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action. (2026-06-03; intraday to 1 trading day)<br><strong>Goal/capital:</strong> downside_protection / opportunity_cost / data_quality | capital review | score 75/100<br><strong>Capital efficiency:</strong> Efficient capital use can mean not adding risk until the shock is re-checked.<br>Timing balance: Re-check first, but do not turn that into indefinite waiting; once fresh evidence confirms, stage rather than chase perfection.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 75/100<br><strong>Missing/re-check:</strong> WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br><strong>What could make this wrong?</strong> Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.<br>Invalidates if: Evidence is stale, missing, or too fast-moving for a capital action without a live re-check. / The listed event trigger does not occur or reverses. / Affected exposures stabilize while rates, oil, volatility, or headlines stop worsening.<br>Confirm: Refresh the evidence lane and confirm the action still survives with same-session data. / WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br>Downgrade to: Re-check Before Acting</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.<br><strong>Rationale:</strong> Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.<br><strong>Freshness:</strong> Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action. (2026-06-03; intraday to 1 trading day)<br><strong>Goal/capital:</strong> downside_protection / opportunity_cost / data_quality | capital review | score 75/100<br><strong>Capital efficiency:</strong> Efficient capital use can mean not adding risk until the shock is re-checked.<br>Timing balance: Re-check first, but do not turn that into indefinite waiting; once fresh evidence confirms, stage rather than chase perfection.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 75/100<br><strong>Assumption refresh:</strong> Status: changed recheck<br>Next: Refresh assumptions before acting; do not treat the old setup as still valid.<br>Changed: Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action. / Required live checks are missing: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br>Invalidates if: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.<br><strong>Missing/re-check:</strong> WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br><strong>What could make this wrong?</strong> Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.<br>Invalidates if: Evidence is stale, missing, or too fast-moving for a capital action without a live re-check. / The listed event trigger does not occur or reverses. / Affected exposures stabilize while rates, oil, volatility, or headlines stop worsening.<br>Confirm: Refresh the evidence lane and confirm the action still survives with same-session data. / WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br>Downgrade to: Re-check Before Acting</div>
   </details>
   <div class="action-foot">event_risk | fast-moving: evidence 2026-06-03; decays intraday to 1 trading day</div>
+</div>
+<div class="action action-watch" id="action-2">
+  <div class="action-header">
+    <span class="rank-badge">#2</span>
+    <span class="ticker-tag">MU</span>
+    <span class="action-what">Conviction gap: MU is under target</span>
+  </div>
+  <div class="tags">
+    <span class="tag t-cat">Conviction Gap</span>
+    <span class="tag t-conf">conf: High</span>
+    <span class="tag t-gate-a">size  gate</span>
+    <span class="tag t-cat">WATCH</span><span class="tag t-cat">RE-CHECK</span><span class="tag t-gate-a">review</span><span class="tag t-warn">capital: compare and stage</span><span class="tag t-conf">goal: High</span><span class="tag t-cat">Re-check Before Acting</span>
+  </div>
+  <div class="action-move">MU is 1.6% vs 3.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</div>
+
+  <details class="action-details">
+    <summary>Why this matters</summary>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.<br><strong>Rationale:</strong> Target drift shows a 1.4pp sizing gap vs the AI working model.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / conviction / opportunity_cost | capital review | score 85/100<br><strong>Capital efficiency:</strong> Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.<br>Timing balance: Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 85/100<br><strong>Assumption refresh:</strong> Status: changed recheck<br>Next: Refresh assumptions before acting; do not treat the old setup as still valid.<br>Changed: Required live checks are missing: live opportunity; funding leg; pre-trade gate<br>Invalidates if: Live price or flow moved enough that the original entry/setup is no longer asymmetric. / Current positions, target weights, or funding legs changed.<br><strong>Missing/re-check:</strong> live opportunity / funding leg / pre-trade gate<br><strong>What could make this wrong?</strong> Do not act if the target weight or thesis is outdated relative to the current portfolio.<br>Invalidates if: The target weight or thesis is outdated relative to the current portfolio. / The funding leg creates more risk or opportunity cost than the add solves. / The pre-trade gate fails on live price, source freshness, or sizing.<br>Confirm: live opportunity / funding leg / pre-trade gate / Check same-session price/flow and current exposure for MU. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Re-check Before Acting</div>
+  </details>
+  <div class="action-foot">target_drift | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
 </div>
 <div class="action-group">
@@ -427,7 +498,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> ANET: Promising and the tape&#x27;s with it (LEADING)  a place to start.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for ANET. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> ANET: Promising and the tape&#x27;s with it (LEADING)  a place to start.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>Assumption refresh:</strong> Status: still valid<br>Next: Keep in its current group; run normal gate before acting.<br>Changed: No material assumption break detected from available feed evidence.<br>Invalidates if: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for ANET. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
@@ -447,7 +518,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> GOOGL: Promising and the tape&#x27;s with it (LEADING)  a place to start.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for GOOGL. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> GOOGL: Promising and the tape&#x27;s with it (LEADING)  a place to start.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>Assumption refresh:</strong> Status: still valid<br>Next: Keep in its current group; run normal gate before acting.<br>Changed: No material assumption break detected from available feed evidence.<br>Invalidates if: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for GOOGL. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
@@ -467,7 +538,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> MAGS: Promising and the tape&#x27;s with it (LEADING)  under your conviction  room to add.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for MAGS. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> MAGS: Promising and the tape&#x27;s with it (LEADING)  under your conviction  room to add.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>Assumption refresh:</strong> Status: still valid<br>Next: Keep in its current group; run normal gate before acting.<br>Changed: No material assumption break detected from available feed evidence.<br>Invalidates if: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for MAGS. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
@@ -487,7 +558,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> NVDA: Promising and the tape&#x27;s with it (LEADING)  under your conviction  room to add.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for NVDA. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> A conviction-backed sizing gap can make a right call too small.<br><strong>Rationale:</strong> NVDA: Promising and the tape&#x27;s with it (LEADING)  under your conviction  room to add.<br><strong>Freshness:</strong> Fresh enough for a decision prompt; still run the gate before capital moves. (2026-06-07; until position, price, thesis, or target changes)<br><strong>Goal/capital:</strong> sizing_gap / upside / opportunity_cost | capital add | score 76/100<br><strong>Capital efficiency:</strong> Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.<br>Timing balance: Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100<br><strong>Assumption refresh:</strong> Status: still valid<br>Next: Keep in its current group; run normal gate before acting.<br>Changed: No material assumption break detected from available feed evidence.<br>Invalidates if: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.<br><strong>What could make this wrong?</strong> Do not act if the live tape no longer confirms leadership or flow strength.<br>Invalidates if: The live tape no longer confirms leadership or flow strength. / Current sizing is already large enough after account and wrapper exposure. / A better funding use ranks higher after fresh portfolio review.<br>Confirm: Confirm same-session price/flow, current sizing, and funding source. / Check same-session price/flow and current exposure for NVDA. / Run the pre-trade gate; no auto-trade from the dashboard.<br>Downgrade to: Quiet Watch</div>
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
@@ -609,9 +680,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="feedback-line">UW action runbook: 5 check set(s), 23 scoped ticker(s); endpoint results not claimed.</div>
 
 <div class="small-item">
-  <span class="tag t-conf">endpoint proof has_data</span>
-  <span class="small-muted">UW endpoint proof: 13 captured result(s); confirmed=0, contradicted=0, neutral=10, missing/failed=3; stale=0. newest=2026-06-07 14:35 ET.</span>
-  <span class="small-muted">Proof blocker: missing/failed endpoint result(s) keep related actions blocked</span>
+  <span class="tag t-warn">endpoint proof has_data</span>
+  <span class="small-muted">UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.</span>
+
+  <span class="small-muted">Proof blocker: inconclusive endpoint result(s) cannot promote related actions</span><span class="small-muted">Proof blocker: missing/failed endpoint result(s) keep related actions blocked</span>
+
 </div>
   <div class="small-list">
 <div class="small-item">
@@ -672,27 +745,37 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">#</span> Candidate reallocation brief
     <span class="tag t-conf" style="margin-left:auto">candidate only</span>
   </div>
-  <div class="feedback-line">Reallocation brief: candidate only from 2026-06-07 positions; 2 add candidate(s), 4 funding trim(s); allocated $378,225; shortfall $1,174,367.</div>
-  <div class="feedback-line">pool $378,225; allocated $378,225; shortfall $1,174,367</div>
-  <div class="small-list"><div class="feedback-line"><strong>Blocker:</strong> same-session UW price/flow confirmation required before any capital action</div><div class="feedback-line"><strong>Blocker:</strong> tax/account constraints and user max-action capacity not supplied</div>
+  <div class="feedback-line">Reallocation brief: candidate only from 2026-06-07 positions; 2 add candidate(s), 4 funding trim(s); allocated $378,227; shortfall $1,174,359.</div>
+  <div class="feedback-line">pool $378,227; allocated $378,227; shortfall $1,174,359</div>
+  <div class="feedback-line"><strong>Capital efficiency:</strong> Reallocation ranks scarce capital by thesis impact, target gap, funding source, and live evidence gates.</div>
+  <div class="feedback-line"><strong>Timing:</strong> The brief avoids perfect-market-timing paralysis by staging candidates, but every add still must beat competing uses of capital now.</div>
+  <div class="feedback-line"><strong>Do nothing:</strong> Doing nothing preserves current exposure and avoids churn, but leaves confirmed sizing gaps under-deployed if fresh evidence supports them.</div>
+  <div class="feedback-line"><strong>Options gate:</strong> Options are allowed only as defined-risk review prompts; no contract selection or execution is produced.</div>
+  <div class="small-list"><div class="feedback-line"><strong>Blocker:</strong> same-session UW price/flow confirmation required before any capital action</div><div class="feedback-line"><strong>Blocker:</strong> tax/account constraints not supplied; all urgent items remain visible rather than capped</div>
 <div class="small-item">
   <span class="context-ticker">GOOGL</span>
-  <span class="tag t-conf">add $286,331</span>
+  <span class="tag t-conf">add $286,330</span>
   <span class="tag t-cat">now</span>
   <span class="small-muted">size now (constructive/ok entry)</span>
-  <span class="small-muted">Funded by: IVES $82,138, MAGS $70,838, GRNJ $133,355</span>
+  <span class="small-muted">Funded by: IVES $82,137, MAGS $70,838, GRNJ $133,354</span>
+  <span class="small-muted">Capital: Use this candidate only if it beats the other current uses of capital after funding, tax/account, and same-session price/flow gates.</span>
+  <span class="small-muted">Do nothing: GOOGL remains below the working target; upside participation may stay too small if the thesis is right and live evidence confirms.</span>
+  <span class="small-muted">Options: defined-risk option review only; Maximum loss must be written before entry and fit within the intended add budget.</span>
   <span class="small-muted">Blocks: same-session UW price/flow, funding source confirmation, pre-trade gate</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
 </div>
 <div class="small-item">
   <span class="context-ticker">NVDA</span>
-  <span class="tag t-conf">add $91,894</span>
+  <span class="tag t-conf">add $91,897</span>
   <span class="tag t-cat">after 2026-06-03</span>
   <span class="small-muted">size AFTER the AVGO 2026-06-03 print (correlated semis read)</span>
-  <span class="small-muted">Funded by: GRNJ $22,427, GRNY $69,467</span>
+  <span class="small-muted">Funded by: GRNJ $22,430, GRNY $69,467</span>
+  <span class="small-muted">Capital: Use this candidate only if it beats the other current uses of capital after funding, tax/account, and same-session price/flow gates.</span>
+  <span class="small-muted">Do nothing: NVDA remains below the working target; upside participation may stay too small if the thesis is right and live evidence confirms.</span>
+  <span class="small-muted">Options: defined-risk option review only; Maximum loss must be written before entry and fit within the intended add budget.</span>
   <span class="small-muted">Blocks: same-session UW price/flow, funding source confirmation, pre-trade gate, legacy catalyst sequencing date has passed; verify current post-catalyst setup</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
-</div><div class="feedback-line"><strong>Funding trims:</strong> GRNJ $155,782 -&gt; GOOGL $133,355, NVDA $22,427; IVES $82,138 -&gt; GOOGL $82,138; MAGS $70,838 -&gt; GOOGL $70,838; GRNY $69,467 -&gt; NVDA $69,467</div></div>
+</div><div class="feedback-line"><strong>Funding trims:</strong> GRNJ $155,785 -&gt; GOOGL $133,354, NVDA $22,430; IVES $82,137 -&gt; GOOGL $82,137; MAGS $70,838 -&gt; GOOGL $70,838; GRNY $69,467 -&gt; NVDA $69,467</div><div class="feedback-line"><strong>Special re-checks:</strong> BMNR undecided_recheck: Re-check fresh crypto/BMNR evidence before adding, trimming, or treating the old thesis as current.</div></div>
   <div class="feedback-line">Candidate reallocation brief only; no trades are executed. Same-day positions still require gates before action.</div>
   <div class="cmd-row"><span class="cmd-name">print brief</span><span class="cmd-desc"><code>python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text</code></span></div>
 </div>
@@ -701,12 +784,18 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon">!</span> Freshness downgrades</div>
-  <div class="small-list"><div class="feedback-line">Freshness downgrade audit: 1 action(s) require re-check before capital action.</div>
+  <div class="small-list"><div class="feedback-line">Freshness downgrade audit: 2 action(s) require re-check before capital action.</div>
 <div class="small-item">
   <span class="context-ticker">EVENT</span>
   <span>Event risk: Middle East oil/rates shock can affect new-buy timing</span>
   <span class="small-muted">Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.</span>
   <span class="small-muted">event_risk | 2026-06-03 | WATCH</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">MU</span>
+  <span>Conviction gap: MU is under target</span>
+  <span class="small-muted">Fresh enough for a decision prompt; still run the gate before capital moves.</span>
+  <span class="small-muted">conviction_gap | 2026-06-07 | WATCH</span>
 </div></div>
 </div>
 <div class="card">
@@ -902,7 +991,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">UW action runbook</span>UW action runbook: 5 check set(s), 23 scoped ticker(s); endpoint results not claimed.
 </div>
 <div class="audit-row">
-  <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); confirmed=0, contradicted=0, neutral=10, missing/failed=3; stale=0. newest=2026-06-07 14:35 ET.
+  <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.
 </div>
 <div class="audit-row">
   <span class="audit-k">Fundstrat intake</span>Fundstrat intake: 1 full-body, 0 snippet-only, 3 daily calls, 0 stored source-call candidates.
@@ -926,7 +1015,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T19:01:43.410622+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T19:01:43.410622+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T19:01:43.410622+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-07T19:01:43.410622+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T19:01:43.410622+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-07T19:22:57.654696+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-07T19:22:57.654696+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-07T19:22:57.654696+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-07T19:22:57.654696+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-07T19:22:57.654696+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -1209,11 +1298,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="audit-row">
   <span class="audit-k">combined</span>
-  84 rows | total $3,579,133
+  84 rows | total $3,579,120
 </div>
 <div class="audit-row">
   <span class="audit-k">skb</span>
-  154 rows | total $2,315,054
+  154 rows | total $2,315,040
 </div>
 <div class="audit-row">
   <span class="audit-k">parents</span>

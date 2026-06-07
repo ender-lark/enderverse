@@ -37,6 +37,7 @@ GROUPS = (
 FAST_DECAY_KINDS = {"event_risk", "macro_alert", "buy_now", "reentry_zone"}
 SLOW_DECAY_KINDS = {"conviction_gap", "lean_in", "decision_aging", "top_prospect"}
 ARCHIVE_SOURCES = {"meridian"}
+CRYPTO_COMPLEX = {"BMNR", "IBIT", "ETHA", "MSTR", "COIN", "HYPE", "BTC", "ETH", "SOL"}
 SOURCE_ALIASES = {
     "daily_synthesis": "synthesis",
     "synthesis": "synthesis",
@@ -353,6 +354,91 @@ def _capital_efficiency(action: dict[str, Any], freshness: dict[str, Any]) -> di
     }
 
 
+def _action_assumption_refresh(action: dict[str, Any],
+                               freshness: dict[str, Any],
+                               capital: dict[str, Any],
+                               generated_at: str) -> dict[str, Any]:
+    """Snapshot and re-check assumptions that make an action valid."""
+    ticker = str(action.get("ticker") or "").strip().upper()
+    missing = _dedupe_text([str(v) for v in action.get("missing_evidence") or []])
+    label = str(freshness.get("label") or "")
+    state = str(action.get("action_state") or "")
+    source = str(action.get("source") or action.get("kind") or "")
+    blockers: list[str] = []
+    changed: list[str] = []
+    invalidates_if: list[str] = []
+
+    if label in {"stale", "not checked"}:
+        blockers.append("source freshness")
+        changed.append(str(freshness.get("judgment") or "Source evidence is stale or not checked."))
+    elif _requires_recheck_before_capital(freshness):
+        blockers.append("same-session refresh")
+        changed.append(str(freshness.get("judgment") or "Fast-moving evidence must be re-checked."))
+
+    if missing:
+        blockers.append("missing evidence")
+        changed.append("Required live checks are missing: " + "; ".join(missing[:3]))
+
+    dependency_text = " ".join(missing).lower()
+    if any(term in dependency_text for term in ("price", "flow", "live", "same-session", "pre-trade")):
+        invalidates_if.append("Live price or flow moved enough that the original entry/setup is no longer asymmetric.")
+    if source in {"target_drift", "portfolio"} or action.get("kind") == "conviction_gap":
+        invalidates_if.append("Current positions, target weights, or funding legs changed.")
+    if source.startswith("fundstrat"):
+        invalidates_if.append("The Fundstrat call was superseded, absorbed by the tape, or contradicted by live evidence.")
+    if ticker in CRYPTO_COMPLEX:
+        blockers.append("crypto re-check")
+        changed.append(f"{ticker} is in the crypto/BMNR complex; keep undecided until fresh evidence resolves defend versus reduce.")
+        invalidates_if.append("Crypto/BMNR evidence remains split, stale, or contradicted by price/flow.")
+
+    if label == "stale":
+        status = "stale"
+    elif blockers:
+        status = "changed_recheck"
+    elif state == "ACT_NOW" and action.get("goal_score") and int(action.get("goal_score") or 0) >= 85:
+        status = "upgraded"
+    else:
+        status = "still_valid"
+
+    if status == "still_valid":
+        changed.append("No material assumption break detected from available feed evidence.")
+    elif status == "upgraded":
+        changed.append("Action remains high-impact with fresh enough evidence; still run the gate.")
+
+    if not invalidates_if:
+        invalidates_if = [
+            "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
+        ]
+
+    next_step = {
+        "still_valid": "Keep in its current group; run normal gate before acting.",
+        "upgraded": "Keep loud, but confirm same-session gate before any capital move.",
+        "changed_recheck": "Refresh assumptions before acting; do not treat the old setup as still valid.",
+        "stale": "Downgrade until fresh evidence is supplied.",
+        "invalidated": "Move out of action lanes unless a new setup appears.",
+    }.get(status, "Refresh assumptions before acting.")
+
+    return {
+        "status": status,
+        "checked_at": _et_day(generated_at),
+        "snapshot": {
+            "ticker": ticker,
+            "action_state": state,
+            "source": source,
+            "evidence_date": freshness.get("evidence_date") or "",
+            "freshness": label,
+            "decay_window": freshness.get("decay_window") or "",
+            "capital_label": capital.get("label") or "",
+            "time_window": action.get("time_window") or "",
+        },
+        "what_changed": _dedupe_text(changed),
+        "blockers": _dedupe_text(blockers),
+        "invalidates_if": _dedupe_text(invalidates_if),
+        "next_step": next_step,
+        "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades.",
+    }
+
+
 def enrich_actions(
     actions: list[dict[str, Any]] | None,
     *,
@@ -388,6 +474,15 @@ def enrich_actions(
         )
         row["disconfirmation"] = _disconfirmation(row, freshness)
         row["capital_efficiency"] = _capital_efficiency(row, freshness)
+        row["assumption_refresh"] = _action_assumption_refresh(
+            row,
+            freshness,
+            row["capital_efficiency"],
+            generated_at,
+        )
+        if row["assumption_refresh"]["status"] in {"changed_recheck", "stale"} and row.get("action_state") == "ACT_NOW":
+            row["action_state"] = "WATCH"
+            row["action_label"] = "RE-CHECK"
         group = _group_for(row)
         row["decision_group"] = group
         row["decision_group_label"] = next(g["label"] for g in GROUPS if g["key"] == group)

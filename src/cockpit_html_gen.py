@@ -776,6 +776,7 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
     why_matters = _e(a.get("why_this_matters") or a.get("why_it_moves_goal") or "")
     disconfirmation = a.get("disconfirmation") or {}
     capital_efficiency = a.get("capital_efficiency") or {}
+    assumption_refresh = a.get("assumption_refresh") or {}
     gate = _gate_tag(a.get("gate"))
     cls = "action-act" if a.get("action_state") == "ACT_NOW" else "action-watch"
     meta = ""
@@ -828,6 +829,30 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
         detail_lines.append(
             "<strong>Capital efficiency:</strong> "
             + "<br>".join(capital_bits)
+        )
+    refresh_bits = []
+    if assumption_refresh.get("status"):
+        refresh_bits.append("Status: " + _e(str(assumption_refresh.get("status")).replace("_", " ")))
+    if assumption_refresh.get("next_step"):
+        refresh_bits.append("Next: " + _e(assumption_refresh.get("next_step")))
+    changed = [
+        str(v)
+        for v in (assumption_refresh.get("what_changed") or [])
+        if str(v).strip()
+    ]
+    if changed:
+        refresh_bits.append("Changed: " + _e(" / ".join(changed)))
+    invalidates_refresh = [
+        str(v)
+        for v in (assumption_refresh.get("invalidates_if") or [])
+        if str(v).strip()
+    ]
+    if invalidates_refresh:
+        refresh_bits.append("Invalidates if: " + _e(" / ".join(invalidates_refresh)))
+    if refresh_bits:
+        detail_lines.append(
+            "<strong>Assumption refresh:</strong> "
+            + "<br>".join(refresh_bits)
         )
     if missing:
         detail_lines.append(f"<strong>Missing/re-check:</strong> {_e(missing)}")
@@ -921,11 +946,13 @@ def _market_open_packet(block: dict) -> str:
     status = block.get("status") or "ready"
     status_cls = "t-conf" if status == "ready" else "t-warn"
     body = ""
-    for row in rows[:8]:
+    for row in rows:
         body += f"""
 <div class="small-item">
   <span class="tag {status_cls}">#{_e(row.get("priority") or "")}</span>
   <span class="context-ticker">{_e(row.get("label") or "")}</span>
+  {f'<span class="small-muted">Refresh: {_e(str(row.get("refresh_status") or "").replace("_", " "))}</span>' if row.get("refresh_status") else ""}
+  {f'<span class="small-muted">Changed: {_e(row.get("what_changed") or "")}</span>' if row.get("what_changed") else ""}
   {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}
   {f'<span class="small-muted">Next: {_e(row.get("next_step") or "")}</span>' if row.get("next_step") else ""}
   {f'<span class="small-muted">Blocks: {_e(row.get("blocks") or "")}</span>' if row.get("blocks") else ""}
@@ -1199,25 +1226,44 @@ def _uw_action_runbook(block: dict) -> str:
     if not rows:
         return ""
     proof = block.get("endpoint_proof") or {}
+    blockers = proof.get("blockers") or []
     proof_cls = (
-        "t-conf"
-        if proof.get("status") == "has_data"
-        else "t-warn"
-        if proof.get("status") == "not_checked"
+        "t-conf" if proof.get("status") == "has_data" and not blockers
+        else "t-warn" if proof.get("status") in {"has_data", "not_checked"}
         else "t-gate-r"
     )
     proof_html = ""
     if proof.get("line"):
-        blockers = proof.get("blockers") or []
         blocker_html = "".join(
             f'<span class="small-muted">Proof blocker: {_e(blocker)}</span>'
             for blocker in blockers[:3]
         )
+        interpretation = proof.get("interpretation_counts") or {}
+        interpretation_html = ""
+        if interpretation:
+            interpretation_html = (
+                f'<span class="small-muted">Interpretation: '
+                f'supports {_e(interpretation.get("supports") or 0)} | '
+                f'contradicts {_e(interpretation.get("contradicts") or 0)} | '
+                f'inconclusive {_e(interpretation.get("inconclusive") or 0)} | '
+                f'missing {_e(interpretation.get("missing") or 0)}</span>'
+            )
+        proof_rows_html = ""
+        for proof_row in (proof.get("rows") or [])[:5]:
+            ticker = f' {_e(proof_row.get("ticker") or "")}' if proof_row.get("ticker") else ""
+            proof_rows_html += (
+                '<span class="small-muted">Endpoint: '
+                f'{_e(proof_row.get("mode") or "")} / {_e(proof_row.get("endpoint") or "")}{ticker} - '
+                f'{_e(proof_row.get("decision_interpretation") or proof_row.get("status") or "")} '
+                f'({_e(proof_row.get("status") or "")})</span>'
+            )
         proof_html = f"""
 <div class="small-item">
   <span class="tag {proof_cls}">endpoint proof {_e(proof.get("status") or "unknown")}</span>
   <span class="small-muted">{_e(proof.get("line") or "")}</span>
+  {interpretation_html}
   {blocker_html}
+  {proof_rows_html}
 </div>"""
     body = ""
     for row in rows[:5]:
@@ -1297,10 +1343,13 @@ def _usd(value) -> str:
 def _reallocation_brief(block: dict) -> str:
     rows = block.get("rows") or []
     trims = block.get("trims") or []
+    special_reviews = block.get("special_reviews") or []
     if not rows and not trims and not block.get("line"):
         return ""
     status = block.get("status") or "candidate_only"
     status_cls = "t-warn" if status == "test_data_only" else "t-conf"
+    capital = block.get("capital_efficiency") or {}
+    options_gate = block.get("options_gate") or {}
     body = ""
     for blocker in (block.get("blockers") or [])[:4]:
         body += f'<div class="feedback-line"><strong>Blocker:</strong> {_e(blocker)}</div>'
@@ -1310,6 +1359,8 @@ def _reallocation_brief(block: dict) -> str:
             for item in row.get("funded_by") or []
         )
         blockers = ", ".join(row.get("blockers") or [])
+        row_capital = row.get("capital_efficiency") or {}
+        options = row.get("options_review_prompt") or {}
         body += f"""
 <div class="small-item">
   <span class="context-ticker">{_e(row.get("ticker") or "")}</span>
@@ -1317,6 +1368,9 @@ def _reallocation_brief(block: dict) -> str:
   <span class="tag t-cat">{_e(row.get("sequence") or "")}</span>
   <span class="small-muted">{_e(row.get("entry_note") or "")}</span>
   {f'<span class="small-muted">Funded by: {_e(funded)}</span>' if funded else ""}
+  {f'<span class="small-muted">Capital: {_e(row_capital.get("summary") or "")}</span>' if row_capital.get("summary") else ""}
+  {f'<span class="small-muted">Do nothing: {_e(row_capital.get("consequence_of_doing_nothing") or "")}</span>' if row_capital.get("consequence_of_doing_nothing") else ""}
+  {f'<span class="small-muted">Options: {_e(options.get("label") or "")}; {_e(options.get("max_loss_gate") or "")}</span>' if options else ""}
   {f'<span class="small-muted">Blocks: {_e(blockers)}</span>' if blockers else ""}
   {f'<span class="small-muted">Disconfirm: {_e(row.get("disconfirmation") or "")}</span>' if row.get("disconfirmation") else ""}
 </div>"""
@@ -1326,6 +1380,13 @@ def _reallocation_brief(block: dict) -> str:
             funds = ", ".join(f"{item.get('ticker')} {_usd(item.get('notional_usd'))}" for item in row.get("funds") or [])
             trim_bits.append(f"{row.get('ticker')} {_usd(row.get('notional_usd'))}{f' -> {funds}' if funds else ''}")
         body += f'<div class="feedback-line"><strong>Funding trims:</strong> {_e("; ".join(trim_bits))}</div>'
+    if special_reviews:
+        special_bits = []
+        for row in special_reviews[:5]:
+            special_bits.append(
+                f"{row.get('ticker')} {row.get('status')}: {row.get('next_step')}"
+            )
+        body += f'<div class="feedback-line"><strong>Special re-checks:</strong> {_e("; ".join(special_bits))}</div>'
     funding = block.get("funding") or {}
     funding_line = (
         f"pool {_usd(funding.get('pool_total_usd'))}; allocated {_usd(funding.get('allocated_usd'))}; "
@@ -1339,6 +1400,10 @@ def _reallocation_brief(block: dict) -> str:
   </div>
   <div class="feedback-line">{_e(block.get("line") or "")}</div>
   {f'<div class="feedback-line">{_e(funding_line)}</div>' if funding_line else ""}
+  {f'<div class="feedback-line"><strong>Capital efficiency:</strong> {_e(capital.get("summary") or "")}</div>' if capital.get("summary") else ""}
+  {f'<div class="feedback-line"><strong>Timing:</strong> {_e(capital.get("timing_balance") or "")}</div>' if capital.get("timing_balance") else ""}
+  {f'<div class="feedback-line"><strong>Do nothing:</strong> {_e(capital.get("do_nothing_risk") or "")}</div>' if capital.get("do_nothing_risk") else ""}
+  {f'<div class="feedback-line"><strong>Options gate:</strong> {_e(options_gate.get("line") or "")}</div>' if options_gate.get("line") else ""}
   <div class="small-list">{body}</div>
   {f'<div class="feedback-line">{_e(block.get("honesty_rule") or "")}</div>' if block.get("honesty_rule") else ""}
   {f'<div class="cmd-row"><span class="cmd-name">print brief</span><span class="cmd-desc"><code>{_e(block.get("command") or "")}</code></span></div>' if block.get("command") else ""}

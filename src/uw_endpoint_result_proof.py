@@ -18,6 +18,13 @@ from zoneinfo import ZoneInfo
 
 RESULT_FILE_NAMES = ("uw_endpoint_results.json", "uw_endpoint_result_proof.json")
 VALID_RESULT_STATUSES = {"confirmed", "contradicted", "neutral", "missing", "failed"}
+DECISION_INTERPRETATION = {
+    "confirmed": "supports",
+    "contradicted": "contradicts",
+    "neutral": "inconclusive",
+    "missing": "missing",
+    "failed": "missing",
+}
 ET = ZoneInfo("America/New_York")
 
 
@@ -110,6 +117,7 @@ def _normalize_row(row: Any, index: int) -> tuple[dict[str, Any] | None, list[st
         "endpoint": endpoint,
         "ticker": _text(row, "ticker", "symbol"),
         "status": status,
+        "decision_interpretation": DECISION_INTERPRETATION.get(status, "inconclusive"),
         "checked_at": checked_at,
         "summary": summary,
         "source": _text(row, "source", "evidence_url", "url"),
@@ -200,6 +208,7 @@ def build_uw_endpoint_result_proof(
 
     build_day = _et_day(generated_at or _now_iso())
     counts = dict(Counter(row["status"] for row in rows))
+    interpretation_counts = dict(Counter(row["decision_interpretation"] for row in rows))
     stale_rows = [row for row in rows if _et_day(row.get("checked_at")) != build_day]
     off_runbook = [
         row for row in rows
@@ -210,9 +219,12 @@ def build_uw_endpoint_result_proof(
         default=None,
     )
     missing_or_failed = int(counts.get("missing") or 0) + int(counts.get("failed") or 0)
+    inconclusive_count = int(interpretation_counts.get("inconclusive") or 0)
     blockers: list[str] = []
-    if counts.get("contradicted"):
+    if interpretation_counts.get("contradicts"):
         blockers.append("contradicted endpoint evidence requires re-check before acting")
+    if inconclusive_count:
+        blockers.append("inconclusive endpoint result(s) cannot promote related actions")
     if missing_or_failed:
         blockers.append("missing/failed endpoint result(s) keep related actions blocked")
     if stale_rows:
@@ -225,10 +237,10 @@ def build_uw_endpoint_result_proof(
     line = (
         "UW endpoint proof: "
         f"{len(rows)} captured result(s); "
-        f"confirmed={int(counts.get('confirmed') or 0)}, "
-        f"contradicted={int(counts.get('contradicted') or 0)}, "
-        f"neutral={int(counts.get('neutral') or 0)}, "
-        f"missing/failed={missing_or_failed}; "
+        f"supports={int(interpretation_counts.get('supports') or 0)}, "
+        f"contradicts={int(interpretation_counts.get('contradicts') or 0)}, "
+        f"inconclusive={inconclusive_count}, "
+        f"missing={int(interpretation_counts.get('missing') or 0)}; "
         f"stale={len(stale_rows)}."
     )
     if newest:
@@ -238,6 +250,7 @@ def build_uw_endpoint_result_proof(
         "line": line,
         "count": len(rows),
         "counts": counts,
+        "interpretation_counts": interpretation_counts,
         "newest_checked_at": newest.isoformat() if newest else "",
         "same_session_date": build_day,
         "stale_count": len(stale_rows),
@@ -246,7 +259,7 @@ def build_uw_endpoint_result_proof(
         "blockers": blockers,
         "problems": problems,
         "result_path": str(result_path or ""),
-        "honesty_rule": "Only captured endpoint result rows count as UW proof; runbook rows are instructions.",
+        "honesty_rule": "Only interpreted endpoint result rows count as UW proof; neutral fetch success is inconclusive and cannot promote actions.",
     }
 
 
@@ -260,7 +273,8 @@ def _format_text(block: dict[str, Any]) -> str:
         ticker = f" {row.get('ticker')}" if row.get("ticker") else ""
         lines.append(
             f"- {row.get('mode')} {row.get('endpoint')}{ticker}: "
-            f"{row.get('status')} at {row.get('checked_at')} - {row.get('summary')}"
+            f"{row.get('decision_interpretation') or row.get('status')} "
+            f"({row.get('status')}) at {row.get('checked_at')} - {row.get('summary')}"
         )
     return "\n".join(lines)
 

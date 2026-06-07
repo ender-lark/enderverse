@@ -511,5 +511,6 @@ def test_full_build_runner_wires_captured_uw_endpoint_proof(tmp_path):
 
     assert feed["uw_endpoint_proof"]["status"] == "has_data"
     assert feed["uw_endpoint_proof"]["counts"]["confirmed"] == 1
-    assert "confirmed=1" in feed["source_audits"]["uw_endpoint_proof"]["line"]
+    assert feed["uw_endpoint_proof"]["interpretation_counts"]["supports"] == 1
+    assert "supports=1" in feed["source_audits"]["uw_endpoint_proof"]["line"]
     assert feed["uw_action_runbook"]["endpoint_proof"]["status"] == "has_data"

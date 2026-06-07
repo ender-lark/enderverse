@@ -28,6 +28,11 @@ def _feed():
                     "confirm_before_acting": ["Refresh WTI, 10Y, and current headlines."],
                     "invalidates_if": ["Headlines de-escalate or yields reverse."],
                 },
+                "assumption_refresh": {
+                    "status": "changed_recheck",
+                    "what_changed": ["Fast-moving evidence must be refreshed."],
+                    "next_step": "Refresh assumptions before acting.",
+                },
             },
             {
                 "rank": 2,
@@ -43,6 +48,11 @@ def _feed():
                 },
                 "disconfirmation": {
                     "invalidates_if": ["The target weight is outdated."],
+                },
+                "assumption_refresh": {
+                    "status": "still_valid",
+                    "what_changed": ["No material assumption break detected."],
+                    "next_step": "Keep in current group.",
                 },
             },
         ],
@@ -101,7 +111,7 @@ def test_market_open_packet_sequences_recheck_capital_and_dark_lanes():
     packet = build_market_open_packet(_feed())
 
     assert packet["status"] == "recheck_first"
-    assert packet["line"] == "Market-open packet: 1 key, 1 re-check, 0 backlog; 5 blocker(s)."
+    assert packet["line"] == "Market-open packet: 1 key, 1 re-check, 0 backlog, 2 urgent visible; 5 blocker(s)."
     assert packet["counts"]["key_now"] == 1
     assert packet["counts"]["recheck"] == 1
     assert "un-gated trades" in packet["honesty_rule"]
@@ -116,8 +126,11 @@ def test_market_open_packet_sequences_recheck_capital_and_dark_lanes():
         "dark_lane",
         "open_reviews",
     ]
-    assert packet["rows"][0]["label"].startswith("Re-check first: EVENT")
+    assert packet["rows"][0]["label"].startswith("Re-check: EVENT")
+    assert packet["rows"][0]["refresh_status"] == "changed_recheck"
+    assert packet["rows"][0]["what_changed"] == "Fast-moving evidence must be refreshed."
     assert packet["rows"][1]["why"] == "Compare against higher-ranked uses of capital before adding."
+    assert packet["rows"][1]["refresh_status"] == "still_valid"
     assert packet["rows"][2]["blocks"] == "current positions are missing"
     assert "runbook is instructions only" in packet["rows"][3]["blocks"]
     assert "runbook is instructions only" in packet["rows"][4]["blocks"]

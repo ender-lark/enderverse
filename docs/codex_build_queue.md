@@ -49,6 +49,11 @@ until the core logic is stable; Notion sync comes later.
     `snaptrade_profiles.local.json` and all user secrets out of git.
   - The importer does not mutate live `positions.json`; promotion still runs
     through the existing broker-position validation/cache path.
+  - 2026-06-07 live activation: a staged SnapTrade pull validated cleanly and
+    was promoted through the broker-position cache path. Current promoted
+    Account Positions cover 11 accounts, 281 account-position rows, 85
+    combined holdings, and 13 thesis-tracked holdings, with owner labels mapped
+    to `Parents` and `SKB`. Manual PDFs are fallback only.
 - Pre-market crash-triage UW routing.
   - `uw_routing_recommendations.py` now activates the `pre_market_crash_triage`
     profile when the feed is in a high-volatility or re-check posture.
@@ -68,6 +73,9 @@ until the core logic is stable; Notion sync comes later.
   - The packet is a capital-efficiency operator aid only. It helps compare
     better uses of scarce capital and avoid both stale action and over-precise
     timing, but it never executes or recommends an un-gated trade.
+  - 2026-06-07 upgrade: the packet surfaces all urgent Key Now,
+    Re-check Before Acting, and Important Backlog rows rather than only the top
+    few rows. Rows show assumption-refresh status and what changed.
 - Social Watch dashboard lane.
   - Added `social_watch.py` to normalize future Reddit/social API output or a
     supplied cache into a watch-only `feed.social_watch` block.
@@ -89,6 +97,12 @@ until the core logic is stable; Notion sync comes later.
   - Added capital-efficiency judgment to every enriched action so the cockpit
     distinguishes "good opportunity" from "best use of capital now" and favors
     staged exposure over indefinite perfect-entry timing when evidence is fresh.
+  - 2026-06-07 upgrade: same-day SnapTrade positions make the brief
+    `candidate_only` rather than `test_data_only`. Add rows now include
+    capital-efficiency rationale, consequence of doing nothing, review-only
+    defined-risk options gates, blockers, and disconfirmation. BMNR/crypto
+    complex exposure is kept as `undecided_recheck` until fresh evidence
+    resolves defend versus reduce.
 - UW action runbook.
   - Added `uw_action_runbook.py` to turn the current cockpit feed into
     scenario-specific UW check sets with ticker scopes, market checks, ticker
@@ -98,6 +112,14 @@ until the core logic is stable; Notion sync comes later.
   - Rendered the runbook in the canonical dashboard and HTML summary/export,
     while keeping the honesty rule explicit: this is endpoint/check routing,
     not proof that UW endpoint results were fetched.
+- UW endpoint proof and interpretation.
+  - Added `uw_endpoint_result_proof.py` to read captured endpoint-result rows
+    separately from the no-fetch runbook.
+  - Missing proof remains `not_checked`; malformed proof fails closed.
+  - 2026-06-07 upgrade: captured raw statuses map to decision interpretations:
+    `supports`, `contradicts`, `inconclusive`, and `missing`. Neutral fetch
+    success is `inconclusive` and blocks action promotion until a real
+    interpretation supports the setup.
 - UW routing surfaced in Source Proof.
   - Added `uw_routing_recommendations.py` to translate the current feed state
     into next UW scenario profiles, such as event-risk macro, portfolio
@@ -116,6 +138,14 @@ until the core logic is stable; Notion sync comes later.
     and Re-check items have explicit invalidation pressure.
   - Added focused coverage for event-risk, target-drift/funding/gate
     disconfirmation, HTML rendering, and full-build feed integration.
+- Action Assumption Refresh.
+  - 2026-06-07 upgrade: every important action now carries
+    `assumption_refresh`, including checked date, snapshot, status,
+    `what_changed`, blockers, invalidation conditions, and next step.
+  - Actions can be `still_valid`, `changed_recheck`, `invalidated`, `stale`,
+    or `upgraded`. Missing live evidence or fast-moving stale evidence
+    downgrades `ACT_NOW` rows into Re-check Before Acting while keeping them
+    visible.
 - External-review, UW-routing, Reddit, and reallocation design slice.
   - Added `docs/system_improvement_external_review.md` with a high-level system
     reassessment, gap list, Claude/Gemini critique prompt, immediate priorities,

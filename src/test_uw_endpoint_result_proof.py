@@ -71,11 +71,41 @@ def test_uw_endpoint_proof_summarizes_captured_results_and_blockers():
     assert block["counts"]["confirmed"] == 1
     assert block["counts"]["contradicted"] == 1
     assert block["counts"]["missing"] == 1
+    assert block["rows"][0]["decision_interpretation"] == "supports"
+    assert block["rows"][1]["decision_interpretation"] == "contradicts"
+    assert block["rows"][2]["decision_interpretation"] == "missing"
+    assert block["interpretation_counts"]["supports"] == 1
+    assert block["interpretation_counts"]["contradicts"] == 1
     assert block["stale_count"] == 1
-    assert "confirmed=1" in block["line"]
-    assert "missing/failed=1" in block["line"]
+    assert "supports=1" in block["line"]
+    assert "missing=1" in block["line"]
     assert "contradicted endpoint evidence" in block["blockers"][0]
     assert any("not same-session" in blocker for blocker in block["blockers"])
+
+
+def test_uw_endpoint_proof_neutral_fetch_is_inconclusive_and_blocks_promotion():
+    block = build_uw_endpoint_result_proof(
+        {
+            "results": [
+                {
+                    "mode": "pre_market_crash_triage",
+                    "endpoint": "MARKET_TIDE",
+                    "checked_at": "2026-06-07T13:30:00+00:00",
+                    "status": "neutral",
+                    "summary": "Fetched rows, but result needs operator interpretation.",
+                },
+            ]
+        },
+        RUNBOOK,
+        generated_at="2026-06-07T14:00:00+00:00",
+    )
+
+    assert block["status"] == "has_data"
+    assert block["rows"][0]["decision_interpretation"] == "inconclusive"
+    assert block["interpretation_counts"]["inconclusive"] == 1
+    assert "inconclusive=1" in block["line"]
+    assert any("inconclusive endpoint result" in blocker for blocker in block["blockers"])
+    assert "neutral fetch success is inconclusive" in block["honesty_rule"]
 
 
 def test_uw_endpoint_proof_invalid_rows_fail_closed():

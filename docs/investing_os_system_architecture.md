@@ -115,6 +115,12 @@ The system synthesizes only from explicit source or repo evidence:
   - SnapTrade is the preferred read-only Account Positions source once staged,
     owner-labeled, validated, and promoted.
   - The manual PDF/text broker extractor remains the fallback path.
+  - As of the 2026-06-07 build, the promoted live source is SnapTrade:
+    one household SnapTrade user with 11 visible accounts across Parents
+    Fidelity, Parents Schwab, SKB Fidelity, SKB Schwab, and Robinhood,
+    including Robinhood Crypto. The promoted caches are
+    `src/positions.json`, `src/account_positions.json`, and
+    `src/position_reconciliation.json`.
   - `snaptrade_positions_import.py` writes staged raw and combined outputs under
     `tmp/`; it must not directly replace `src/positions.json`,
     `src/account_positions.json`, or `src/position_reconciliation.json`.
@@ -151,14 +157,27 @@ The dashboard shows the feed plus operator state:
   - Every enriched action carries freshness, disconfirmation, and
     capital-efficiency judgment so the dashboard compares "good idea" against
     "best use of scarce capital now" before any review prompt is promoted.
+  - Every important action also carries `assumption_refresh`, a refresh-time
+    snapshot and revalidation result with status `still_valid`,
+    `changed_recheck`, `invalidated`, `stale`, or `upgraded`. This is how an
+    old buy/add/review idea is downgraded when price, flow, funding, thesis,
+    event-risk, or source freshness no longer supports the original setup.
+  - Missing live evidence or fast-moving stale evidence moves an `ACT_NOW`
+    action into Re-check Before Acting instead of leaving stale urgency in Key
+    Now. The action stays visible, but the dashboard tells the operator what
+    changed and what would invalidate it.
   - The top action is shown immediately in the preview summary and in
     `live_status.py`.
 
 - Market-Open Packet: `feed.market_open_packet`
   - Sequences the current operator work before the action list: re-check stale
-    or fast-moving evidence first, gate the top Key Now item, identify
-    reallocation blockers, route UW check sets, keep dark lanes visible, and
-    preserve open review pressure.
+    or fast-moving evidence first, gate Key Now items, identify reallocation
+    blockers, route UW check sets, keep dark lanes visible, and preserve open
+    review pressure.
+  - It shows all urgent items from Key Now, Re-check Before Acting, and
+    Important Backlog rather than capping the packet to the top few rows.
+    Rows include refresh status and what changed when assumptions are stale,
+    missing, or still valid.
   - The packet is a capital-efficiency and timing-balance aid. It helps avoid
     parking money in a merely good opportunity when a better use is live, while
     also discouraging indefinite waiting for a perfect entry when fresh evidence
@@ -215,8 +234,12 @@ The dashboard shows the feed plus operator state:
   - `feed.uw_endpoint_proof` is the separate proof layer. It reads captured
     result caches such as `src/uw_endpoint_results.json` or
     `src/uw_endpoint_result_proof.json`, validates mode/endpoint/status/date
-    fields, and summarizes confirmed, contradicted, neutral, missing, failed,
-    stale, and off-runbook evidence.
+    fields, and maps raw endpoint statuses into decision interpretations:
+    `supports`, `contradicts`, `inconclusive`, and `missing`.
+  - Raw `neutral` fetch success becomes `inconclusive`. It proves that an
+    endpoint was fetched, but it cannot promote a capital action. The
+    Market-Open Packet treats inconclusive or missing rows as blockers until an
+    explicit interpretation supports the action.
   - If no captured result proof exists, UW remains visible as `not_checked`.
     The Market-Open Packet treats the runbook as instructions only and blocks
     capital-sized promotion until clean endpoint proof is captured.
@@ -226,9 +249,9 @@ The dashboard shows the feed plus operator state:
     reads the current runbook, calls only approved UW endpoint constants through
     `codex_uw.rest_client.UWRestClient`, and writes redacted proof rows to
     `src/uw_endpoint_results.json`.
-  - Captured rows prove endpoint fetch status only. Successful fetches are
-    `neutral` until a separate interpretation step explicitly confirms or
-    contradicts the dashboard thesis; they never auto-promote trades.
+  - Captured rows prove endpoint fetch status only. Successful fetches remain
+    inconclusive until interpretation explicitly supports or contradicts the
+    dashboard thesis; they never auto-promote trades.
   - On Windows, `UWRestClient` can read `UW_API_KEY` from the current user's
     saved environment variable when the running Codex process did not inherit
     it. The key is not printed or committed.
@@ -238,6 +261,21 @@ The dashboard shows the feed plus operator state:
   - Published summary HTML: `docs/index.html`
   - Local preview HTML: `tmp/dashboard_preview.html`
   - Preview URL: `http://127.0.0.1:8765/dashboard_preview.html`
+
+- Candidate Reallocation Brief: `feed.reallocation_brief`
+  - Uses current promoted positions when available. With SnapTrade current, it
+    is `candidate_only`, not `test_data_only`.
+  - Ranks funded add/trim candidates by target gap, thesis impact, funding
+    source, risk transformation, UW/price gates, and capital-efficiency
+    context. It does not execute trades.
+  - Every add row now includes capital-efficiency rationale, consequence of
+    doing nothing, blockers, disconfirmation, and a defined-risk options review
+    prompt. Options are review-only: max loss, liquidity, expiry, sizing, and
+    thesis/flow confirmation gates must all be written before any option idea
+    can be considered.
+  - BMNR and the crypto complex are kept in a special `undecided_recheck` lane
+    until fresh evidence resolves defend versus reduce. Stale or split crypto
+    evidence must not promote an add or trim.
 
 ## 6. Cloud Routine Stack
 
@@ -373,9 +411,10 @@ Dark-lane rules:
 - Missing source pulls are never converted into checked-clear rows.
 - `checked_clear` is valid only after a source was actually checked and found
   empty under that lane's contract.
-- Account Positions is the current live-capable optional source gap when
-  `account_positions.json` is absent. It should stay visible until a valid
-  source artifact is supplied.
+- Account Positions is live-capable through SnapTrade when the staged pull
+  validates and is promoted through the broker-position cache. If SnapTrade
+  fails and the fallback extractor is not validated, Account Positions should
+  revert to stale or `not_checked`, not checked clear.
 - Meridian is stale thesis archive context after March 2026, not live tactical
   evidence. Missing Meridian archive data should not count as a live-source
   dark lane or a checked-clear signal.

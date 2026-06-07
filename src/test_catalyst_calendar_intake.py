@@ -180,4 +180,7 @@ def test_intake_output_reaches_full_build_actions(tmp_path):
     )
     by_ticker = {a.get("ticker"): a for a in feed["actions"] if a.get("ticker")}
     assert by_ticker["AVGO"]["kind"] == "catalyst_imminent"
-    assert by_ticker["AVGO"]["action_state"] == "ACT_NOW"
+    assert by_ticker["AVGO"]["action_state"] == "WATCH"
+    assert by_ticker["AVGO"]["action_label"] == "RE-CHECK"
+    assert by_ticker["AVGO"]["decision_group"] == "recheck_before_acting"
+    assert by_ticker["AVGO"]["assumption_refresh"]["status"] == "changed_recheck"

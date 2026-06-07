@@ -15,6 +15,8 @@ from typing import Any
 
 from reallocate import ADD, TRIM, reallocate
 
+CRYPTO_COMPLEX = {"BMNR", "IBIT", "ETHA", "MSTR", "COIN", "HYPE", "BTC", "ETH", "SOL"}
+
 
 def _parse_date(value: Any):
     if not value:
@@ -55,6 +57,44 @@ def _funds(rows: list[tuple[str, float]]) -> list[dict[str, Any]]:
     return [{"ticker": ticker, "notional_usd": round(float(notional), 2)} for ticker, notional in rows]
 
 
+def _capital_efficiency_note(leg) -> dict[str, Any]:
+    return {
+        "summary": (
+            "Use this candidate only if it beats the other current uses of capital after funding, "
+            "tax/account, and same-session price/flow gates."
+        ),
+        "timing_balance": (
+            "Do not over-wait for a perfect bottom, but do not park capital in a merely good setup "
+            "when a better live opportunity or risk-reduction use ranks higher."
+        ),
+        "compare_against": [
+            "all other urgent dashboard actions",
+            "funding trims and factor concentration",
+            "cash, hedges, or doing nothing through event risk",
+        ],
+        "consequence_of_doing_nothing": (
+            f"{leg.ticker} remains below the working target; upside participation may stay too small "
+            "if the thesis is right and live evidence confirms."
+        ),
+    }
+
+
+def _options_review_prompt(leg) -> dict[str, Any]:
+    return {
+        "status": "review_only",
+        "label": "defined-risk option review only",
+        "why": (
+            "If the share entry is valid but timing/volatility risk is high, options may be reviewed "
+            "as a capped-loss expression. The dashboard does not choose contracts."
+        ),
+        "max_loss_gate": "Maximum loss must be written before entry and fit within the intended add budget.",
+        "liquidity_gate": "Reject illiquid chains, wide spreads, or weak open interest/volume.",
+        "expiry_gate": "Use enough time for the thesis/catalyst to play out; avoid near-dated lottery tickets.",
+        "sizing_gate": "Option premium must be sized as risk capital, not as synthetic over-leverage.",
+        "disconfirmation": "Do not use options if live price/flow, volatility, or thesis evidence argues for waiting.",
+    }
+
+
 def _past_sequence_date(sequence: str, operating_day) -> bool:
     if not sequence.startswith("after "):
         return False
@@ -93,6 +133,8 @@ def _add_row(leg, *, stale_positions: bool, uw_checks: dict[str, Any], operating
         "rationale": leg.rationale,
         "caveats": list(leg.caveats),
         "blockers": blockers,
+        "capital_efficiency": _capital_efficiency_note(leg),
+        "options_review_prompt": _options_review_prompt(leg),
         "disconfirmation": (
             uw_checks.get("downgrade_when")
             or "live price, flow, funding, or thesis evidence argues for waiting"
@@ -115,6 +157,25 @@ def _trim_row(leg) -> dict[str, Any]:
         "rationale": leg.rationale,
         "caveats": list(leg.caveats),
     }
+
+
+def _crypto_reviews(positions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    reviews: list[dict[str, Any]] = []
+    for row in positions:
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").strip().upper()
+        if ticker not in CRYPTO_COMPLEX:
+            continue
+        reviews.append({
+            "ticker": ticker,
+            "status": "undecided_recheck",
+            "market_value": round(float(row.get("market_value") or 0.0), 2),
+            "why": "Crypto/BMNR complex stays undecided until fresh price, flow, thesis, and risk evidence resolves defend versus reduce.",
+            "next_step": "Re-check fresh crypto/BMNR evidence before adding, trimming, or treating the old thesis as current.",
+            "disconfirmation": "If fresh evidence is split, stale, or contradicted, keep it out of promoted action lanes.",
+        })
+    return reviews
 
 
 def build_reallocation_brief(
@@ -167,7 +228,7 @@ def build_reallocation_brief(
         age_text = f"{age_days} day(s) old" if age_days is not None else "unknown age"
         blockers.append(f"positions snapshot {date_text} is {age_text}; use as test-data only until current positions are supplied")
     blockers.append("same-session UW price/flow confirmation required before any capital action")
-    blockers.append("tax/account constraints and user max-action capacity not supplied")
+    blockers.append("tax/account constraints not supplied; all urgent items remain visible rather than capped")
 
     funding = result.funding
     line = (
@@ -188,6 +249,8 @@ def build_reallocation_brief(
         honesty_rule += " Stale positions remain test-data only."
     else:
         honesty_rule += " Same-day positions still require gates before action."
+
+    crypto_reviews = _crypto_reviews(positions)
 
     return {
         "status": status,
@@ -210,6 +273,23 @@ def build_reallocation_brief(
         },
         "rows": adds[:10],
         "trims": trims[:8],
+        "special_reviews": crypto_reviews,
+        "capital_efficiency": {
+            "summary": "Reallocation ranks scarce capital by thesis impact, target gap, funding source, and live evidence gates.",
+            "timing_balance": "The brief avoids perfect-market-timing paralysis by staging candidates, but every add still must beat competing uses of capital now.",
+            "do_nothing_risk": "Doing nothing preserves current exposure and avoids churn, but leaves confirmed sizing gaps under-deployed if fresh evidence supports them.",
+        },
+        "options_gate": {
+            "status": "review_only",
+            "line": "Options are allowed only as defined-risk review prompts; no contract selection or execution is produced.",
+            "required_gates": [
+                "max loss written before entry",
+                "liquid chain and acceptable spread",
+                "expiry long enough for thesis/catalyst",
+                "premium sized as risk capital",
+                "live price/flow and thesis still confirm",
+            ],
+        },
         "blockers": blockers,
         "warnings": list(result.warnings),
         "notes": list(result.notes),
@@ -246,7 +326,16 @@ def _format_text(block: dict[str, Any]) -> str:
             )
             if funded:
                 lines.append(f"   funded by: {funded}")
+            if row.get("capital_efficiency"):
+                lines.append(f"   capital: {row['capital_efficiency'].get('summary')}")
+            if row.get("options_review_prompt"):
+                lines.append(f"   options: {row['options_review_prompt'].get('label')} - {row['options_review_prompt'].get('max_loss_gate')}")
             lines.append(f"   blocks: {', '.join(row.get('blockers') or [])}")
+    if block.get("special_reviews"):
+        lines.append("")
+        lines.append("special re-checks:")
+        for row in block["special_reviews"]:
+            lines.append(f"- {row.get('ticker')} {row.get('status')}: {row.get('next_step')}")
     if block.get("trims"):
         lines.append("")
         lines.append("funding trims:")

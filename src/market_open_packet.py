@@ -48,6 +48,8 @@ def _packet_row(
     blocks: str = "",
     source: str = "",
     command: str = "",
+    refresh_status: str = "",
+    what_changed: str = "",
 ) -> dict[str, Any]:
     return {
         "priority": priority,
@@ -58,6 +60,8 @@ def _packet_row(
         "blocks": blocks,
         "source": source,
         "command": command,
+        "refresh_status": refresh_status,
+        "what_changed": what_changed,
     }
 
 
@@ -85,39 +89,50 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
         else ""
     )
     rows: list[dict[str, Any]] = []
+    priority = 1
 
-    if rechecks:
-        action = rechecks[0]
+    def next_priority() -> int:
+        nonlocal priority
+        value = priority
+        priority += 1
+        return value
+
+    for action in rechecks:
         freshness = action.get("freshness_judgment") or {}
         disconfirmation = action.get("disconfirmation") or {}
+        refresh = action.get("assumption_refresh") or {}
         rows.append(_packet_row(
-            priority=1,
+            priority=next_priority(),
             kind="recheck_first",
-            label=f"Re-check first: {_action_label(action)}",
+            label=f"Re-check: {_action_label(action)}",
             why=str(freshness.get("judgment") or action.get("why_this_matters") or action.get("why") or ""),
             next_step=_first_text(disconfirmation.get("confirm_before_acting") or action.get("missing_evidence") or [])
             or "Refresh same-session evidence before any capital move.",
             blocks=str(disconfirmation.get("summary") or "Do not act until fast-moving evidence is fresh."),
             source=str(action.get("source") or ""),
+            refresh_status=str(refresh.get("status") or ""),
+            what_changed=_first_text(refresh.get("what_changed") or []),
         ))
 
-    if key_now:
-        action = key_now[0]
+    for action in key_now:
         capital = action.get("capital_efficiency") or {}
         disconfirmation = action.get("disconfirmation") or {}
+        refresh = action.get("assumption_refresh") or {}
         rows.append(_packet_row(
-            priority=2,
+            priority=next_priority(),
             kind="gate_key_now",
             label=f"Gate Key Now: {_action_label(action)}",
             why=str(capital.get("summary") or action.get("why_this_matters") or action.get("why") or ""),
             next_step=str(action.get("your_move") or "Run the pre-action gate and decide explicitly."),
             blocks=_first_text(disconfirmation.get("invalidates_if") or action.get("missing_evidence") or []),
             source=str(action.get("source") or ""),
+            refresh_status=str(refresh.get("status") or ""),
+            what_changed=_first_text(refresh.get("what_changed") or []),
         ))
 
     if reallocation.get("status") == "test_data_only":
         rows.append(_packet_row(
-            priority=3,
+            priority=next_priority(),
             kind="positions_blocker",
             label="Reallocation waits for current positions",
             why=str(reallocation.get("line") or "Reallocation brief is test-data only."),
@@ -126,13 +141,41 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
             source="reallocation_brief",
             command=str(reallocation.get("command") or ""),
         ))
+    elif reallocation.get("status") == "candidate_only":
+        rows.append(_packet_row(
+            priority=next_priority(),
+            kind="reallocation_review",
+            label="Review current-position reallocation candidates",
+            why=str(reallocation.get("line") or "Same-day positions are available for candidate reallocation."),
+            next_step="Review funded add/trim legs, then run same-session UW/price and tax/account gates before acting.",
+            blocks=_first_text(reallocation.get("blockers") or []),
+            source="reallocation_brief",
+            command=str(reallocation.get("command") or ""),
+            refresh_status="changed_recheck" if reallocation.get("blockers") else "still_valid",
+            what_changed="Current SnapTrade positions replaced stale PDF-era position assumptions.",
+        ))
 
-    for uw in [row for row in uw_rows if isinstance(row, dict)][:3]:
+    for action in backlog:
+        refresh = action.get("assumption_refresh") or {}
+        disconfirmation = action.get("disconfirmation") or {}
+        rows.append(_packet_row(
+            priority=next_priority(),
+            kind="important_backlog",
+            label=f"Review backlog: {_action_label(action)}",
+            why=str(action.get("why_this_matters") or action.get("why") or ""),
+            next_step=str(action.get("your_move") or refresh.get("next_step") or "Decide whether to defer, keep watching, or promote after fresh checks."),
+            blocks=_first_text((refresh.get("invalidates_if") or []) + (disconfirmation.get("invalidates_if") or [])),
+            source=str(action.get("source") or ""),
+            refresh_status=str(refresh.get("status") or ""),
+            what_changed=_first_text(refresh.get("what_changed") or []),
+        ))
+
+    for uw in [row for row in uw_rows if isinstance(row, dict)]:
         blocks = str(uw.get("blocks_action_if") or "")
         if uw_proof_gap:
             blocks = f"{blocks}; {uw_proof_gap}" if blocks else uw_proof_gap
         rows.append(_packet_row(
-            priority=4 + len([r for r in rows if r.get("kind") == "uw_check"]),
+            priority=next_priority(),
             kind="uw_check",
             label=f"Run UW check set: {uw.get('label') or uw.get('mode') or 'UW'}",
             why=str(uw.get("operator_question") or uw.get("why") or ""),
@@ -148,7 +191,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
 
     if social.get("status") == "not_checked":
         rows.append(_packet_row(
-            priority=max([int(row.get("priority") or 0) for row in rows] or [0]) + 1,
+            priority=next_priority(),
             kind="dark_lane",
             label="Social Watch is not checked",
             why=str((next((row.get("missing_impact") for row in dark_lanes if row.get("key") == "social_watch"), "")) or social.get("line") or ""),
@@ -161,7 +204,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
     open_actions = (feed.get("feedback") or {}).get("open_actions") or {}
     if open_actions.get("count"):
         rows.append(_packet_row(
-            priority=max([int(row.get("priority") or 0) for row in rows] or [0]) + 1,
+            priority=next_priority(),
             kind="open_reviews",
             label=f"Open reviews: {open_actions.get('count')} item(s)",
             why=str(open_actions.get("line") or ""),
@@ -170,7 +213,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
             source="action_memory",
         ))
 
-    rows = sorted(rows, key=lambda row: int(row.get("priority") or 99))[:8]
+    rows = sorted(rows, key=lambda row: int(row.get("priority") or 99))
     blocker_kinds = {"recheck_first", "positions_blocker", "dark_lane"}
     if uw_proof_blocking:
         blocker_kinds.add("uw_check")
@@ -178,10 +221,11 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
         row.get("blocks") for row in rows
         if row.get("blocks") and row.get("kind") in blocker_kinds
     ]
+    urgent_count = len(key_now) + len(rechecks) + len(backlog)
     status = "recheck_first" if rechecks else "ready_with_blockers" if blockers else "ready"
     line = (
         f"Market-open packet: {len(key_now)} key, {len(rechecks)} re-check, "
-        f"{len(backlog)} backlog; {len(blockers)} blocker(s)."
+        f"{len(backlog)} backlog, {urgent_count} urgent visible; {len(blockers)} blocker(s)."
     )
     return {
         "status": status,
@@ -193,6 +237,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
             "backlog": len(backlog),
             "dark_lanes": len(dark_lanes),
             "blockers": len(blockers),
+            "urgent_visible": urgent_count,
         },
         "blockers": blockers,
         "honesty_rule": "Decision packet sequences review work only; it does not execute or recommend un-gated trades.",
@@ -205,6 +250,10 @@ def _format_text(block: dict[str, Any]) -> str:
         lines.append(f"honesty: {block['honesty_rule']}")
     for row in block.get("rows") or []:
         lines.append(f"{row.get('priority')}. {row.get('label')}")
+        if row.get("refresh_status"):
+            lines.append(f"   refresh: {str(row.get('refresh_status')).replace('_', ' ')}")
+        if row.get("what_changed"):
+            lines.append(f"   changed: {row.get('what_changed')}")
         if row.get("why"):
             lines.append(f"   why: {row.get('why')}")
         if row.get("next_step"):

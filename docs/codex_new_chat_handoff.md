@@ -24,8 +24,9 @@ Current priority:
 
 1. Read `docs/investing_os_system_architecture.md` and
    `docs/codex_build_queue.md`; promote only evidence-backed slices.
-2. Prioritize source intake reliability, dashboard action surfacing, and
-   source-proof honesty over stock-specific research.
+2. Prioritize live SnapTrade Account Positions, dashboard action surfacing,
+   assumption refresh, capital-efficiency/reallocation gates, and source-proof
+   honesty over stock-specific research.
 3. Keep missing source pulls visible as dark/not_checked lanes, never checked
    clear.
 4. Do not work on Core List ingestion or open action reviews unless explicitly
@@ -39,19 +40,16 @@ Current priority:
    slice is queued; it separates build blockers from source/user waits,
    background natural cloud-proof waits, and deferred stock-review backlog.
 
-Current verified snapshot (2026-06-05 21:06 ET live artifacts; background cloud proof 3/10):
+Current verified snapshot (2026-06-07 15:22 ET live artifacts; background cloud proof remains a background wait):
 
 - Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
   this handoff page's commit hash as runtime evidence.
 - Working tree should be clean on `main...origin/main` after the current slice
   is committed and pushed.
-- `python src/live_status.py --format text` reports
-  `live_with_open_reviews`, `go_live_ready: true`, 5 actions, 0 research
-  actions, 13 lanes with data, 0 dark lanes, 2
-  open action reviews, and source calls `new=0`, `scoring=3`, `overdue=0`.
-  It also reports
-  `Live source config: configured=1/1 | missing=0` after the app Unusual
-  Whales connector proof was recorded in `src/live_source_config.json`.
+- `python src/live_status.py --format text` should be checked live rather than
+  inferred from this handoff. The latest refreshed feed is go-live ready,
+  publish ready, required-input ready, and live-data ready with 13 lanes with
+  data and one optional dark lane: `social_watch`.
 - Meridian is stale thesis archive context after March 2026. Missing Meridian
   archive data must not count as fresh tactical evidence or as a live-source
   dark lane.
@@ -59,11 +57,9 @@ Current verified snapshot (2026-06-05 21:06 ET live artifacts; background cloud 
   `scheduled_success=3/10` after real scheduled successes for Post-Close
   Refresh, Pre-Market Source Intake, and Morning Scan. Remaining routine proof
   should advance through natural schedules, not active acceleration.
-- `python src/go_live_checklist.py --format text` reports `PASS` with 0
-  failures and 0 warnings. Its build summary is `build_ready`: 0 build
-  blockers, 0 source waits, 0 schedule waits, 1 background monitor, and no
-  stale review backlog. Fresh open action reviews (`ANET`, `GOOGL`) remain
-  visible but pass while due=0 and stale=0.
+- `python src/go_live_checklist.py --format text` should be run before any
+  final claim. The latest refresh had no missing required inputs and only
+  optional `social_watch` dark-lane visibility.
 - `python src/completion_audit.py --format text` reports
   `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, `all clear: False`, go-live
   ready, 0 build blockers, 0 source waits, background cloud proof `3/10`, and
@@ -72,7 +68,7 @@ Current verified snapshot (2026-06-05 21:06 ET live artifacts; background cloud 
   `--require-all-clear` only when external waits should fail the command.
 - Local preview is running at
   `http://127.0.0.1:8765/dashboard_preview.html` and shows build
-  `2026-06-05 21:06 ET`.
+  `2026-06-07 15:22 ET`.
 - The dashboard Operator Status card now shows `Build blockers 0`, `Open reviews
   2 new` in pass styling, the wait summary
   `Build clear, not all clear | background cloud proof 3/10`,
@@ -80,15 +76,19 @@ Current verified snapshot (2026-06-05 21:06 ET live artifacts; background cloud 
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.
-- The dashboard Lane Status section has no dark lanes. Account Positions is now
-  supplied by `src/account_positions.json`; manual source drop is not required
-  unless a future run creates a new dark lane.
+- Account Positions is now supplied by validated live SnapTrade pulls, not by
+  the old PDF cache. The latest live pull produced one household profile,
+  11 visible accounts, 281 account-position rows, 85 combined holdings, and 13
+  thesis-tracked holdings. Owner labels are mapped to `Parents` and `SKB`,
+  including Robinhood Crypto. Manual PDF/text broker extraction remains a
+  fallback only.
 - It also shows the active Middle East oil/rates event watch, impacted
   channels/tickers, and trigger evidence derived from the supplied Event Risk
   lane.
-- Full standard verification last passed with `1051 passed, 6 skipped`, plus
-  the reallocation direct check, cockpit injector self-test, and broker
-  extractor self-test.
+- Full standard verification must be re-run after the current slice. Focused
+  tests for action refresh, market-open packet, UW proof interpretation,
+  full-build wiring, reallocation brief, and HTML rendering passed during the
+  2026-06-07 upgrade slice.
 - The system-improvement queue is valid with 21 items done and 0 active/queued.
 
 Important recent state:
@@ -111,11 +111,10 @@ Important recent state:
   evidence date predates the build now lands in Re-check Before Acting instead
   of plain Key Now; midnight-UTC generated timestamps no longer create next-day
   operator-facing evidence dates or negative source ages.
-- Account Positions source-cache refresh is complete. The current 7 Drive PDFs
-  produced 225 extracted rows across Fidelity, Schwab, and Robinhood with 0
-  failed files; `src/positions.json`, `src/account_positions.json`, and
-  `src/position_reconciliation.json` were refreshed from that strict-validated
-  source path.
+- Account Positions live-source refresh is complete through SnapTrade. The old
+  7-PDF cache path is now backup only and should not be treated as current
+  portfolio truth unless a future SnapTrade pull fails and a fallback extract is
+  explicitly validated.
 - `docs/codex_build_queue.md` is the canonical queue.
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.

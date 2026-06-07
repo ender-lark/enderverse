@@ -32,6 +32,7 @@ def _positions(snapshot_date="2026-05-31"):
         "NVDA": 6.0,
         "MU": 3.0,
         "LEU": 4.0,
+        "BMNR": 2.0,
     }
     return {
         "snapshot_date": snapshot_date,
@@ -55,6 +56,10 @@ def test_reallocation_brief_labels_stale_positions_as_test_data():
     assert any("positions snapshot 2026-05-31" in blocker for blocker in block["blockers"])
     assert "same-session UW price/flow" in block["rows"][0]["blockers"]
     assert "TICKER_FLOW_RECENT" in block["rows"][0]["uw_ticker_checks"]
+    assert block["rows"][0]["capital_efficiency"]["summary"]
+    assert "perfect bottom" in block["rows"][0]["capital_efficiency"]["timing_balance"]
+    assert block["rows"][0]["options_review_prompt"]["status"] == "review_only"
+    assert "Maximum loss" in block["rows"][0]["options_review_prompt"]["max_loss_gate"]
     assert block["rows"][0]["disconfirmation"] == "live flow/price argues for waiting"
     past_sequence_rows = [row for row in block["rows"] if row["sequence_state"] == "past_gate"]
     assert past_sequence_rows
@@ -63,6 +68,10 @@ def test_reallocation_brief_labels_stale_positions_as_test_data():
         for blocker in past_sequence_rows[0]["blockers"]
     )
     assert "no trades are executed" in block["honesty_rule"]
+    assert block["options_gate"]["status"] == "review_only"
+    assert "defined-risk review prompts" in block["options_gate"]["line"]
+    assert block["capital_efficiency"]["summary"]
+    assert any(row["ticker"] == "BMNR" and row["status"] == "undecided_recheck" for row in block["special_reviews"])
 
 
 def test_reallocation_brief_same_day_positions_are_candidate_only_not_final():
@@ -74,3 +83,4 @@ def test_reallocation_brief_same_day_positions_are_candidate_only_not_final():
     assert "test-data" not in block["honesty_rule"]
     assert all("latest current positions" not in row["blockers"] for row in block["rows"])
     assert any("tax/account constraints" in blocker for blocker in block["blockers"])
+    assert not any("max-action capacity not supplied" in blocker for blocker in block["blockers"])

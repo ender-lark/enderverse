@@ -779,6 +779,7 @@ function actionRow(a, opts={}){
            freshness:a.freshness||"", freshnessJudgment:a.freshness_judgment||{},
            whyThisMatters:a.why_this_matters||"", disconfirmation:a.disconfirmation||{},
            capitalEfficiency:a.capital_efficiency||{},
+           assumptionRefresh:a.assumption_refresh||{},
            ageDays:(typeof a.age_days==="number"?a.age_days:null), flagged:a.first_flagged||"",
            moveSince:a.move_since||"", sizing:a.sizing||"" };
 }
@@ -966,9 +967,11 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
   const key = keyPrefix + a.rank + (a.ticker || a.kind), isO = posOpen[key];
   const disconfirmation = a.disconfirmation || {};
   const capitalEfficiency = a.capitalEfficiency || {};
+  const assumptionRefresh = a.assumptionRefresh || {};
   const hasDisconfirmation = !!(disconfirmation.summary || (disconfirmation.invalidates_if||[]).length || (disconfirmation.confirm_before_acting||[]).length);
   const hasCapitalEfficiency = !!(capitalEfficiency.summary || capitalEfficiency.timing_balance || (capitalEfficiency.compare_against||[]).length);
-  const hasDetail = !!(a.why || a.whyThisMatters || (a.freshnessJudgment&&a.freshnessJudgment.judgment) || a.missingEvidence.length || hasDisconfirmation || hasCapitalEfficiency);
+  const hasAssumptionRefresh = !!(assumptionRefresh.status || assumptionRefresh.next_step || (assumptionRefresh.what_changed||[]).length || (assumptionRefresh.invalidates_if||[]).length);
+  const hasDetail = !!(a.why || a.whyThisMatters || (a.freshnessJudgment&&a.freshnessJudgment.judgment) || a.missingEvidence.length || hasDisconfirmation || hasCapitalEfficiency || hasAssumptionRefresh);
   const urgent = a.actionState === "ACT_NOW";
   const highGoal = a.goalImpact === "High";
   const edge = urgent ? C.red : (highGoal ? (a.goalColor || a.c) : a.c);
@@ -990,6 +993,7 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
           {a.decisionGroupLabel && <span style={{ fontFamily:mono, fontSize:11, color:C.text, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.decisionGroupLabel}</span>}
           {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
           {a.freshnessJudgment && a.freshnessJudgment.label && <span title={a.freshnessJudgment.judgment||""} style={{ fontFamily:mono, fontSize:11, color:a.freshnessJudgment.label==="stale"?C.red:a.freshnessJudgment.label==="fast-moving"?C.amber:C.faint }}>{a.freshnessJudgment.label}</span>}
+          {assumptionRefresh.status && <span title={assumptionRefresh.next_step||""} style={{ fontFamily:mono, fontSize:11, color:["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green, border:`1px solid ${(["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px", background:`${(["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green)}10` }}>refresh: {String(assumptionRefresh.status).replace("_"," ")}</span>}
           {capitalEfficiency.label && <span title={capitalEfficiency.summary||""} style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px", background:`${C.amber}10` }}>capital: {capitalEfficiency.label}</span>}
           <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
           <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
@@ -1016,6 +1020,15 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
               {capitalEfficiency.summary && <div style={{ marginTop:4 }}>{capitalEfficiency.summary}</div>}
               {capitalEfficiency.timing_balance && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>timing: {capitalEfficiency.timing_balance}</div>}
               {(capitalEfficiency.compare_against||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>compare: {(capitalEfficiency.compare_against||[]).join(" / ")}</div>}
+            </div>
+          )}
+          {hasAssumptionRefresh && (
+            <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
+              <div style={{ fontWeight:700, color:C.amber }}>Assumption refresh</div>
+              {assumptionRefresh.status && <div style={{ marginTop:4 }}>status: {String(assumptionRefresh.status).replace("_"," ")}</div>}
+              {assumptionRefresh.next_step && <div style={{ marginTop:4 }}>{assumptionRefresh.next_step}</div>}
+              {(assumptionRefresh.what_changed||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>changed: {(assumptionRefresh.what_changed||[]).join(" / ")}</div>}
+              {(assumptionRefresh.invalidates_if||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>invalidates: {(assumptionRefresh.invalidates_if||[]).join(" / ")}</div>}
             </div>
           )}
           {hasDisconfirmation && (
@@ -1196,13 +1209,15 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   {P.honesty_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{P.honesty_rule}</div>}
                 </div>
-                {rows.slice(0,8).map((r,i)=>(
+                {rows.map((r,i)=>(
                   <div key={`${r.kind||"packet"}${i}`} style={{ ...card, marginBottom:7, borderColor:C.amber+"33" }}>
                     <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
                       <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{r.priority}</span>
                       <span style={{ fontSize:12.5, fontWeight:700, color:C.text }}>{r.label}</span>
+                      {r.refresh_status && <span style={{ fontFamily:mono, fontSize:10.5, color:["changed_recheck","stale","invalidated"].includes(r.refresh_status)?C.amber:C.green, border:`1px solid ${(["changed_recheck","stale","invalidated"].includes(r.refresh_status)?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px" }}>refresh: {String(r.refresh_status).replace("_"," ")}</span>}
                       {r.source && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.source}</span>}
                     </div>
+                    {r.what_changed && <div style={{ marginTop:5, fontSize:11.5, color:C.amber }}>Changed: {r.what_changed}</div>}
                     {r.why && <div style={{ marginTop:5, fontSize:11.8, color:C.dim }}>Why: {r.why}</div>}
                     {r.next_step && <div style={{ marginTop:4, fontSize:11.8, color:C.text }}>Next: {r.next_step}</div>}
                     {r.blocks && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Blocks: {r.blocks}</div>}
@@ -1313,14 +1328,18 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             const P=(VM.uwActionRunbook||{}).endpoint_proof || VM.uwEndpointProof || {};
             if(!P.line) return null;
             const ok=P.status==="has_data", fail=P.status==="failed";
-            const col=ok?C.green:(fail?C.red:C.amber);
+            const hasBlockers=(P.blockers||[]).length>0;
+            const col=ok&&!hasBlockers?C.green:(fail?C.red:C.amber);
+            const interp=P.interpretation_counts||{};
             return (
               <div style={{ ...card, marginBottom:8, borderColor:col+"44", background:col+"0a" }}>
                 <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
                   <span style={{ fontFamily:mono, fontSize:11, color:col, border:`1px solid ${col}55`, borderRadius:99, padding:"1px 8px" }}>endpoint proof {(P.status||"unknown").replaceAll("_"," ")}</span>
                   <span style={{ fontSize:12.3, color:C.text }}>{P.line}</span>
                 </div>
+                {Object.keys(interp).length>0 && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>interpretation: supports {interp.supports||0} | contradicts {interp.contradicts||0} | inconclusive {interp.inconclusive||0} | missing {interp.missing||0}</div>}
                 {(P.blockers||[]).slice(0,3).map((b,i)=>(<div key={i} style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Proof blocker: {b}</div>))}
+                {(P.rows||[]).slice(0,5).map((r,i)=>(<div key={`${r.mode||""}${r.endpoint||""}${r.ticker||""}${i}`} style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>endpoint: {r.mode} / {r.endpoint}{r.ticker?` ${r.ticker}`:""} - {r.decision_interpretation||r.status} ({r.status})</div>))}
               </div>
             );
           })()}
@@ -1346,7 +1365,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         <Section id="reallocation-brief" title="Candidate Reallocation Brief" icon="#" badge={((VM.reallocationBrief||{}).counts||{}).adds?`${((VM.reallocationBrief||{}).counts||{}).adds} adds`:"0"} badgeColor={(VM.reallocationBrief||{}).status==="test_data_only"?C.amber:(((VM.reallocationBrief||{}).counts||{}).adds?C.green:C.faint)} openMap={open} setOpen={setOpen} defaultOpen={!!(((VM.reallocationBrief||{}).rows||[]).length)}>
           {(() => {
-            const R=VM.reallocationBrief||{}, rows=R.rows||[], trims=R.trims||[], funding=R.funding||{};
+            const R=VM.reallocationBrief||{}, rows=R.rows||[], trims=R.trims||[], funding=R.funding||{}, special=R.special_reviews||[], capital=R.capital_efficiency||{}, optionsGate=R.options_gate||{};
             const warn=R.status==="test_data_only";
             if(!R.line) return <div style={{ ...card, fontSize:12, color:C.faint }}>No reallocation brief in this feed build.</div>;
             return (
@@ -1357,10 +1376,16 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     <span style={{ fontFamily:mono, fontSize:11, color:warn?C.amber:C.green, border:`1px solid ${(warn?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px" }}>{(R.status||"candidate").replaceAll("_"," ")}</span>
                   </div>
                   <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>pool {money(funding.pool_total_usd)} | allocated {money(funding.allocated_usd)} | shortfall {money(funding.shortfall_usd)}</div>
+                  {capital.summary && <div style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Capital efficiency: {capital.summary}</div>}
+                  {capital.timing_balance && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Timing: {capital.timing_balance}</div>}
+                  {capital.do_nothing_risk && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Do nothing: {capital.do_nothing_risk}</div>}
+                  {optionsGate.line && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Options gate: {optionsGate.line}</div>}
                   {(R.blockers||[]).slice(0,4).map((b,i)=>(<div key={i} style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Blocker: {b}</div>))}
                 </div>
                 {rows.slice(0,6).map((r,i)=>{
                   const funded=(r.funded_by||[]).map(f=>`${f.ticker} ${money(f.notional_usd)}`).join(", ");
+                  const cap=r.capital_efficiency||{};
+                  const opt=r.options_review_prompt||{};
                   return (
                     <div key={`${r.ticker}${i}`} style={{ ...card, marginBottom:7, borderColor:C.green+"33" }}>
                       <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
@@ -1371,6 +1396,9 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                       </div>
                       {r.entry_note && <div style={{ marginTop:5, fontSize:12, color:C.text }}>{r.entry_note}</div>}
                       {funded && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>funded by: {funded}</div>}
+                      {cap.summary && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Capital: {cap.summary}</div>}
+                      {cap.consequence_of_doing_nothing && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Do nothing: {cap.consequence_of_doing_nothing}</div>}
+                      {opt.label && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Options: {opt.label}; {opt.max_loss_gate}</div>}
                       {(r.blockers||[]).length>0 && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Blocks: {(r.blockers||[]).join(", ")}</div>}
                       {r.disconfirmation && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Disconfirm: {r.disconfirmation}</div>}
                     </div>
@@ -1379,6 +1407,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 {trims.length>0 && <div style={{ ...card, marginTop:8 }}>
                   <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", marginBottom:5 }}>Funding trims</div>
                   {trims.slice(0,6).map((r,i)=>(<div key={`${r.ticker}${i}`} style={{ fontSize:12, color:C.dim, marginBottom:3 }}><span style={{ fontFamily:mono, fontWeight:700, color:C.text }}>{r.ticker}</span> trim {money(r.notional_usd)} <span style={{ color:C.faint }}>{(r.funds||[]).map(f=>`${f.ticker} ${money(f.notional_usd)}`).join(", ")}</span></div>))}
+                </div>}
+                {special.length>0 && <div style={{ ...card, marginTop:8 }}>
+                  <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", marginBottom:5 }}>Special re-checks</div>
+                  {special.slice(0,5).map((r,i)=>(<div key={`${r.ticker}${i}`} style={{ fontSize:12, color:C.dim, marginBottom:4 }}><span style={{ fontFamily:mono, fontWeight:700, color:C.text }}>{r.ticker}</span> <span style={{ color:C.amber }}>{(r.status||"").replaceAll("_"," ")}</span> - {r.next_step}</div>))}
                 </div>}
                 {R.command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {R.command}</div>}
               </div>
