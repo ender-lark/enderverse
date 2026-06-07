@@ -17,6 +17,12 @@ The Investing OS is built to surface actionable buy/sell/hold/research reviews
 with timing, conviction, sizing, risk, and early-retirement impact. It is not a
 generic market-news collector.
 
+Capital efficiency is a first-class decision rule. A good opportunity is not
+automatically the right use of money if a better current use, funding leg,
+hedge, or risk-reduction move ranks higher. The system should also avoid false
+precision on timing: when fresh evidence confirms a high-impact setup, staged
+exposure is preferred over waiting indefinitely for a perfect entry.
+
 The system separates gather, normalize, decide, and display:
 
 1. Source routines gather connector or supplied evidence.
@@ -105,6 +111,9 @@ The dashboard shows the feed plus operator state:
 - Today's Actions: `feed.actions`
   - Includes engine actions, catalyst/event-risk review prompts, and
     conservative synthesis actions.
+  - Every enriched action carries freshness, disconfirmation, and
+    capital-efficiency judgment so the dashboard compares "good idea" against
+    "best use of scarce capital now" before any review prompt is promoted.
   - The top action is shown immediately in the preview summary and in
     `live_status.py`.
 

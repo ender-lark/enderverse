@@ -44,7 +44,10 @@ def test_enrich_actions_groups_and_adds_freshness_judgment():
     assert enriched[0]["freshness_judgment"]["evidence_date"] == "2026-06-05"
     assert enriched[0]["disconfirmation"]["question"] == "What would make this wrong?"
     assert "event trigger" in " ".join(enriched[0]["disconfirmation"]["invalidates_if"])
+    assert enriched[0]["capital_efficiency"]["label"] == "protect capital"
+    assert "not adding risk" in enriched[0]["capital_efficiency"]["summary"]
     assert enriched[1]["decision_group"] == "important_backlog"
+    assert enriched[1]["capital_efficiency"]["label"] == "opportunity-cost watch"
     assert groups["counts"]["key_now"] == 1
     assert groups["counts"]["important_backlog"] == 1
 
@@ -133,6 +136,11 @@ def test_target_drift_disconfirmation_requires_funding_and_gate():
     assert "funding leg" in disconfirmation["confirm_before_acting"]
     assert "Run the pre-trade gate; no auto-trade from the dashboard." in disconfirmation["confirm_before_acting"]
     assert any("target weight" in row for row in disconfirmation["invalidates_if"])
+    capital_efficiency = enriched[0]["capital_efficiency"]
+    assert capital_efficiency["label"] == "compare and stage"
+    assert "Do not park capital" in capital_efficiency["summary"]
+    assert "perfect bottom" in capital_efficiency["timing_balance"]
+    assert "funded reallocation legs" in capital_efficiency["compare_against"]
     assert groups["counts"]["key_now"] == 1
 
 

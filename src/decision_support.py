@@ -299,6 +299,60 @@ def _disconfirmation(action: dict[str, Any], freshness: dict[str, Any]) -> dict[
     }
 
 
+def _capital_efficiency(action: dict[str, Any], freshness: dict[str, Any]) -> dict[str, Any]:
+    """Describe whether this is the best current use of scarce capital."""
+    channels = set(action.get("goal_channels") or [])
+    effect = str(action.get("capital_effect") or "")
+    kind = str(action.get("kind") or "")
+    state = str(action.get("action_state") or "")
+    window = str(action.get("time_window") or "")
+    score = action.get("goal_score")
+    requires_capital = effect in {"start", "add", "trim", "sell", "hedge", "rotate", "review"}
+    opportunity_sensitive = bool(channels.intersection({"opportunity_cost", "sizing_gap", "upside", "downside_protection"}))
+    stale_or_recheck = _requires_recheck_before_capital(freshness) or str(freshness.get("label") or "") in {"stale", "not checked"}
+
+    if kind == "event_risk" or "downside_protection" in channels:
+        label = "protect capital"
+        summary = "Efficient capital use can mean not adding risk until the shock is re-checked."
+    elif state == "ACT_NOW" and opportunity_sensitive:
+        label = "compare and stage"
+        summary = "Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs."
+    elif opportunity_sensitive:
+        label = "opportunity-cost watch"
+        summary = "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher."
+    elif requires_capital:
+        label = "capital check"
+        summary = "Any capital move should be compared with the current best alternative use."
+    else:
+        label = "no capital move"
+        summary = "No capital should move until this becomes decision-grade."
+
+    timing_balance = (
+        "Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing."
+        if window in {"today", "1-3 trading days"} or state == "ACT_NOW"
+        else
+        "Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup."
+    )
+    if stale_or_recheck:
+        timing_balance = (
+            "Re-check first, but do not turn that into indefinite waiting; once fresh evidence confirms, stage rather than chase perfection."
+        )
+
+    compare_against = [
+        "higher-ranked Key Now actions",
+        "funded reallocation legs",
+        "risk reduction or hedging if event risk is active",
+    ]
+    if score is not None:
+        compare_against.append(f"goal score {score}/100")
+    return {
+        "label": label,
+        "summary": summary,
+        "timing_balance": timing_balance,
+        "compare_against": compare_against,
+    }
+
+
 def enrich_actions(
     actions: list[dict[str, Any]] | None,
     *,
@@ -333,6 +387,7 @@ def enrich_actions(
             or "This is surfaced because it may affect conviction, sizing, timing, or risk."
         )
         row["disconfirmation"] = _disconfirmation(row, freshness)
+        row["capital_efficiency"] = _capital_efficiency(row, freshness)
         group = _group_for(row)
         row["decision_group"] = group
         row["decision_group_label"] = next(g["label"] for g in GROUPS if g["key"] == group)

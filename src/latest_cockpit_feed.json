@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T17:21:55.227823+00:00",
+  "generated_at": "2026-06-07T17:37:18.718477+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 05-31 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T13:21:55.227823-04:00",
+        "date": "2026-06-07T13:37:18.718477-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T13:21:55.227823-04:00",
+        "date": "2026-06-07T13:37:18.718477-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -240,6 +240,17 @@
         ],
         "downgrade_to": "Re-check Before Acting"
       },
+      "capital_efficiency": {
+        "label": "protect capital",
+        "summary": "Efficient capital use can mean not adding risk until the shock is re-checked.",
+        "timing_balance": "Re-check first, but do not turn that into indefinite waiting; once fresh evidence confirms, stage rather than chase perfection.",
+        "compare_against": [
+          "higher-ranked Key Now actions",
+          "funded reallocation legs",
+          "risk reduction or hedging if event risk is active",
+          "goal score 75/100"
+        ]
+      },
       "decision_group": "recheck_before_acting",
       "decision_group_label": "Re-check Before Acting"
     },
@@ -302,6 +313,17 @@
         ],
         "downgrade_to": "Re-check Before Acting"
       },
+      "capital_efficiency": {
+        "label": "compare and stage",
+        "summary": "Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.",
+        "timing_balance": "Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.",
+        "compare_against": [
+          "higher-ranked Key Now actions",
+          "funded reallocation legs",
+          "risk reduction or hedging if event risk is active",
+          "goal score 85/100"
+        ]
+      },
       "decision_group": "key_now",
       "decision_group_label": "Key Now"
     },
@@ -357,6 +379,17 @@
         ],
         "downgrade_to": "Quiet Watch"
       },
+      "capital_efficiency": {
+        "label": "opportunity-cost watch",
+        "summary": "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.",
+        "timing_balance": "Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.",
+        "compare_against": [
+          "higher-ranked Key Now actions",
+          "funded reallocation legs",
+          "risk reduction or hedging if event risk is active",
+          "goal score 76/100"
+        ]
+      },
       "decision_group": "important_backlog",
       "decision_group_label": "Important Backlog"
     },
@@ -411,6 +444,17 @@
           "Run the pre-trade gate; no auto-trade from the dashboard."
         ],
         "downgrade_to": "Quiet Watch"
+      },
+      "capital_efficiency": {
+        "label": "opportunity-cost watch",
+        "summary": "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.",
+        "timing_balance": "Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.",
+        "compare_against": [
+          "higher-ranked Key Now actions",
+          "funded reallocation legs",
+          "risk reduction or hedging if event risk is active",
+          "goal score 76/100"
+        ]
       },
       "decision_group": "important_backlog",
       "decision_group_label": "Important Backlog"
@@ -1117,31 +1161,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-07T17:21:55.110918+00:00",
+      "last_run": "2026-06-07T17:37:18.604445+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-07T17:21:55.110918+00:00",
+      "last_run": "2026-06-07T17:37:18.604445+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-07T17:21:55.110918+00:00",
+      "last_run": "2026-06-07T17:37:18.604445+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-07T17:21:55.110918+00:00",
+      "last_run": "2026-06-07T17:37:18.604445+00:00",
       "note": "no dark lanes reported in lane-status block"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-07T17:21:55.110918+00:00",
+      "last_run": "2026-06-07T17:37:18.604445+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -8906,7 +8950,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 1.97
+        "connector_proof_age_hours": 2.23
       }
     ],
     "missing": [],
@@ -10317,5 +10361,609 @@
     ],
     "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched."
+  },
+  "reallocation_brief": {
+    "status": "test_data_only",
+    "line": "Reallocation brief: test data only from 2026-05-31 positions; 9 add candidate(s), 6 funding trim(s); allocated $679,812; shortfall $69,635.",
+    "positions_snapshot_date": "2026-05-31",
+    "positions_age_days": 7,
+    "total_book_value": 1909537.0,
+    "candidate_only": true,
+    "counts": {
+      "adds": 9,
+      "trims": 6,
+      "sequence_now": 6,
+      "sequence_later": 3
+    },
+    "funding": {
+      "pool_total_usd": 679812.36,
+      "allocated_usd": 679812.36,
+      "remaining_usd": 0.0,
+      "shortfall_usd": 69635.09
+    },
+    "rows": [
+      {
+        "ticker": "GOOGL",
+        "rank": 1,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 152762.96,
+        "current_pct": 0.0,
+        "target_pct": 8.0,
+        "effective_current_pct": 0.0,
+        "delta_pct": 8.0,
+        "sequence": "now",
+        "sequence_state": "current_or_unspecified",
+        "entry_note": "size now (constructive/ok entry)",
+        "gate": "AMBER",
+        "gate_reason": "funded $-for-$ by AI-factor wrapper trim -> net-factor-flat (override + log)",
+        "funded_by": [
+          {
+            "ticker": "MAGS",
+            "notional_usd": 152762.96
+          }
+        ],
+        "rationale": "full-stack incl TPUs; capex-confirmed; constructive entry",
+        "caveats": [
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      },
+      {
+        "ticker": "NVDA",
+        "rank": 2,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 83973.8,
+        "current_pct": 6.6024,
+        "target_pct": 12.0,
+        "effective_current_pct": 7.6024,
+        "delta_pct": 4.3976,
+        "sequence": "after 2026-06-03",
+        "sequence_state": "past_gate",
+        "entry_note": "size AFTER the AVGO 2026-06-03 print (correlated semis read)",
+        "gate": "AMBER",
+        "gate_reason": "funded $-for-$ by AI-factor wrapper trim -> net-factor-flat (override + log)",
+        "funded_by": [
+          {
+            "ticker": "MAGS",
+            "notional_usd": 19389.44
+          },
+          {
+            "ticker": "IGV",
+            "notional_usd": 64584.36
+          }
+        ],
+        "rationale": "compute moat; ~19x fwd / PEG<0.3 \u2014 the T1 promotion",
+        "caveats": [
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate",
+          "legacy catalyst sequencing date has passed; verify current post-catalyst setup"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      },
+      {
+        "ticker": "MSFT",
+        "rank": 3,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 95476.85,
+        "current_pct": 0.0,
+        "target_pct": 5.0,
+        "effective_current_pct": 0.0,
+        "delta_pct": 5.0,
+        "sequence": "now",
+        "sequence_state": "current_or_unspecified",
+        "entry_note": "size now (constructive/ok entry)",
+        "gate": "AMBER",
+        "gate_reason": "funded $-for-$ by AI-factor wrapper trim -> net-factor-flat (override + log)",
+        "funded_by": [
+          {
+            "ticker": "IGV",
+            "notional_usd": 33521.92
+          },
+          {
+            "ticker": "SMH",
+            "notional_usd": 61954.93
+          }
+        ],
+        "rationale": "hyperscaler; cheap laggard",
+        "caveats": [
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      },
+      {
+        "ticker": "AMZN",
+        "rank": 4,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 76381.48,
+        "current_pct": 0.0,
+        "target_pct": 4.0,
+        "effective_current_pct": 0.0,
+        "delta_pct": 4.0,
+        "sequence": "now",
+        "sequence_state": "current_or_unspecified",
+        "entry_note": "size now (constructive/ok entry)",
+        "gate": "AMBER",
+        "gate_reason": "funded $-for-$ by AI-factor wrapper trim -> net-factor-flat (override + log)",
+        "funded_by": [
+          {
+            "ticker": "SMH",
+            "notional_usd": 22857.16
+          },
+          {
+            "ticker": "IVES",
+            "notional_usd": 53524.32
+          }
+        ],
+        "rationale": "AWS; mild pullback",
+        "caveats": [
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      },
+      {
+        "ticker": "AVGO",
+        "rank": 5,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 106934.07,
+        "current_pct": 0.0,
+        "target_pct": 6.0,
+        "effective_current_pct": 0.4,
+        "delta_pct": 5.6,
+        "sequence": "after 2026-06-03",
+        "sequence_state": "past_gate",
+        "entry_note": "size AFTER the 2026-06-03 print",
+        "gate": "AMBER",
+        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNJ -> increases net AI factor; deliberate overweight, log it",
+        "funded_by": [
+          {
+            "ticker": "IVES",
+            "notional_usd": 20962.9
+          },
+          {
+            "ticker": "GRNJ",
+            "notional_usd": 85971.17
+          }
+        ],
+        "rationale": "custom ASIC + networking; size AFTER 6/3 print",
+        "caveats": [
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate",
+          "legacy catalyst sequencing date has passed; verify current post-catalyst setup"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      },
+      {
+        "ticker": "TSM",
+        "rank": 6,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 65879.03,
+        "current_pct": 0.0,
+        "target_pct": 4.0,
+        "effective_current_pct": 0.55,
+        "delta_pct": 3.45,
+        "sequence": "after 2026-06-03",
+        "sequence_state": "past_gate",
+        "entry_note": "size AFTER the AVGO 2026-06-03 print (correlated semis read)",
+        "gate": "AMBER",
+        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNJ, GRNY -> increases net AI factor; deliberate overweight, log it",
+        "funded_by": [
+          {
+            "ticker": "GRNJ",
+            "notional_usd": 53915.78
+          },
+          {
+            "ticker": "GRNY",
+            "notional_usd": 11963.25
+          }
+        ],
+        "rationale": "foundry near-monopoly; extended",
+        "caveats": [
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate",
+          "legacy catalyst sequencing date has passed; verify current post-catalyst setup"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      },
+      {
+        "ticker": "ANET",
+        "rank": 7,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 57286.11,
+        "current_pct": 0.0,
+        "target_pct": 3.0,
+        "effective_current_pct": 0.0,
+        "delta_pct": 3.0,
+        "sequence": "now",
+        "sequence_state": "current_or_unspecified",
+        "entry_note": "size now (constructive/ok entry)",
+        "gate": "AMBER",
+        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNY -> increases net AI factor; deliberate overweight, log it",
+        "funded_by": [
+          {
+            "ticker": "GRNY",
+            "notional_usd": 57286.11
+          }
+        ],
+        "rationale": "AI networking fabric; constructive",
+        "caveats": [
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      },
+      {
+        "ticker": "FN",
+        "rank": 8,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 38190.74,
+        "current_pct": 0.0,
+        "target_pct": 2.0,
+        "effective_current_pct": 0.0,
+        "delta_pct": 2.0,
+        "sequence": "now",
+        "sequence_state": "current_or_unspecified",
+        "entry_note": "size now (constructive/ok entry)",
+        "gate": "AMBER",
+        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNY -> increases net AI factor; deliberate overweight, log it",
+        "funded_by": [
+          {
+            "ticker": "GRNY",
+            "notional_usd": 38190.74
+          }
+        ],
+        "rationale": "optical interconnect; constructive on dips",
+        "caveats": [
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      },
+      {
+        "ticker": "VRT",
+        "rank": 9,
+        "action": "ADD_CANDIDATE",
+        "notional_usd": 2927.32,
+        "current_pct": 0.0,
+        "target_pct": 2.0,
+        "effective_current_pct": 0.0,
+        "delta_pct": 0.1533,
+        "sequence": "now",
+        "sequence_state": "current_or_unspecified",
+        "entry_note": "size now (constructive/ok entry)",
+        "gate": "",
+        "gate_reason": "",
+        "funded_by": [
+          {
+            "ticker": "GRNY",
+            "notional_usd": 2927.32
+          }
+        ],
+        "rationale": "datacenter power/thermal; least chip-correlated",
+        "caveats": [
+          "partially funded: $2,927 of $38,191 gap",
+          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
+        ],
+        "blockers": [
+          "latest current positions",
+          "same-session UW price/flow",
+          "funding source confirmation",
+          "pre-trade gate"
+        ],
+        "disconfirmation": "the target gap is stale, already funded, or live flow/price argues for waiting",
+        "uw_ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_INFO",
+          "COMPANY_PROFILE",
+          "ANALYST_RATINGS",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW"
+        ]
+      }
+    ],
+    "trims": [
+      {
+        "ticker": "MAGS",
+        "action": "TRIM_FUNDING_CANDIDATE",
+        "notional_usd": 172152.4,
+        "current_pct": 9.0154,
+        "target_pct": 0.0,
+        "delta_pct": -9.0154,
+        "gate": "GREEN",
+        "gate_reason": "trim reduces concentration",
+        "funds": [
+          {
+            "ticker": "GOOGL",
+            "notional_usd": 152762.96
+          },
+          {
+            "ticker": "NVDA",
+            "notional_usd": 19389.44
+          }
+        ],
+        "rationale": "wrapper trimmed to fund same-factor singles",
+        "caveats": []
+      },
+      {
+        "ticker": "GRNJ",
+        "action": "TRIM_FUNDING_CANDIDATE",
+        "notional_usd": 139886.95,
+        "current_pct": 7.3257,
+        "target_pct": 0.0,
+        "delta_pct": -7.3257,
+        "gate": "GREEN",
+        "gate_reason": "trim reduces concentration",
+        "funds": [
+          {
+            "ticker": "AVGO",
+            "notional_usd": 85971.17
+          },
+          {
+            "ticker": "TSM",
+            "notional_usd": 53915.78
+          }
+        ],
+        "rationale": "reservoir drawn to fund the names above",
+        "caveats": [
+          "broad reservoir \u2014 trimming this raises net AI exposure (deliberate)"
+        ]
+      },
+      {
+        "ticker": "GRNY",
+        "action": "TRIM_FUNDING_CANDIDATE",
+        "notional_usd": 110367.42,
+        "current_pct": 8.7798,
+        "target_pct": 3.0,
+        "delta_pct": -5.7798,
+        "gate": "GREEN",
+        "gate_reason": "trim reduces concentration",
+        "funds": [
+          {
+            "ticker": "TSM",
+            "notional_usd": 11963.25
+          },
+          {
+            "ticker": "ANET",
+            "notional_usd": 57286.11
+          },
+          {
+            "ticker": "FN",
+            "notional_usd": 38190.74
+          },
+          {
+            "ticker": "VRT",
+            "notional_usd": 2927.32
+          }
+        ],
+        "rationale": "reservoir drawn to fund the names above",
+        "caveats": [
+          "broad reservoir \u2014 trimming this raises net AI exposure (deliberate)"
+        ]
+      },
+      {
+        "ticker": "IGV",
+        "action": "TRIM_FUNDING_CANDIDATE",
+        "notional_usd": 98106.28,
+        "current_pct": 5.1377,
+        "target_pct": 0.0,
+        "delta_pct": -5.1377,
+        "gate": "GREEN",
+        "gate_reason": "trim reduces concentration",
+        "funds": [
+          {
+            "ticker": "NVDA",
+            "notional_usd": 64584.36
+          },
+          {
+            "ticker": "MSFT",
+            "notional_usd": 33521.92
+          }
+        ],
+        "rationale": "wrapper trimmed to fund same-factor singles",
+        "caveats": []
+      },
+      {
+        "ticker": "SMH",
+        "action": "TRIM_FUNDING_CANDIDATE",
+        "notional_usd": 84812.09,
+        "current_pct": 9.4415,
+        "target_pct": 5.0,
+        "delta_pct": -4.4415,
+        "gate": "GREEN",
+        "gate_reason": "trim reduces concentration",
+        "funds": [
+          {
+            "ticker": "MSFT",
+            "notional_usd": 61954.93
+          },
+          {
+            "ticker": "AMZN",
+            "notional_usd": 22857.16
+          }
+        ],
+        "rationale": "wrapper trimmed to fund same-factor singles",
+        "caveats": []
+      },
+      {
+        "ticker": "IVES",
+        "action": "TRIM_FUNDING_CANDIDATE",
+        "notional_usd": 74487.22,
+        "current_pct": 3.9008,
+        "target_pct": 0.0,
+        "delta_pct": -3.9008,
+        "gate": "GREEN",
+        "gate_reason": "trim reduces concentration",
+        "funds": [
+          {
+            "ticker": "AMZN",
+            "notional_usd": 53524.32
+          },
+          {
+            "ticker": "AVGO",
+            "notional_usd": 20962.9
+          }
+        ],
+        "rationale": "wrapper trimmed to fund same-factor singles",
+        "caveats": []
+      }
+    ],
+    "blockers": [
+      "positions snapshot 2026-05-31 is 7 day(s) old; use as test-data only until current positions are supplied",
+      "same-session UW price/flow confirmation required before any capital action",
+      "tax/account constraints and user max-action capacity not supplied"
+    ],
+    "warnings": [
+      "no run-up data supplied -> chase-gate inactive; verify entries live before acting",
+      "funding shortfall $69,635: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
+    ],
+    "notes": [
+      "ASML: gap 1.8% unfunded (pool exhausted)",
+      "PREMISE-GATE: each single-name add assumes a NAME-LEVEL edge (the model includes it); if a name lacks a research/source tag, treat its add as research-only.",
+      "Change any dial in reallocate_config.py (NVDA target, SMH approach, ETF keep-levels, the rail, the chase gate) and re-run to see the plan change."
+    ],
+    "uw_market_checks": [
+      "ETF_TIDE",
+      "SECTOR_TIDE",
+      "MARKET_CORRELATIONS",
+      "TOTAL_OPTIONS_VOLUME"
+    ],
+    "uw_ticker_checks": [
+      "TICKER_OHLC",
+      "TICKER_STOCK_STATE",
+      "TICKER_INFO",
+      "COMPANY_PROFILE",
+      "ANALYST_RATINGS",
+      "INSTITUTION_OWNERSHIP",
+      "TICKER_INSIDERS",
+      "TICKER_INSIDER_FLOW",
+      "NEWS_HEADLINES",
+      "TICKER_FLOW_RECENT"
+    ],
+    "command": "python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text",
+    "honesty_rule": "Candidate reallocation brief only; no trades are executed and stale positions remain test-data only."
   }
 }

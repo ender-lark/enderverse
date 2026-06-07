@@ -38,6 +38,18 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Candidate reallocation brief.
+  - Added `reallocation_brief.py` to wrap the existing funded-rotation planner
+    into a dashboard feed block with candidate adds, funding trims, funding
+    summary, blockers, disconfirmation, and UW reallocation check linkage.
+  - The brief is explicitly candidate-only and labels non-same-session position
+    snapshots as test-data only until current positions are supplied.
+  - Added stale-sequence blockers for old catalyst dates such as "after
+    2026-06-03" so outdated planner sequencing cannot read like current timing
+    guidance.
+  - Added capital-efficiency judgment to every enriched action so the cockpit
+    distinguishes "good opportunity" from "best use of capital now" and favors
+    staged exposure over indefinite perfect-entry timing when evidence is fresh.
 - UW action runbook.
   - Added `uw_action_runbook.py` to turn the current cockpit feed into
     scenario-specific UW check sets with ticker scopes, market checks, ticker

@@ -76,6 +76,9 @@ rank:int · kind:str · ticker:str|None · what:str · confidence:"High"|"Modera
 · your_move:str · gate:dict|None · source:str · why:str   (+ optional days_to_catalyst:int)
 ```
 Reusing one row shape is deliberate — it lets the renderer's single `actionRow` mapper render both lanes (see §5).
+The full dashboard enrichment layer may add optional decision metadata such as
+`freshness_judgment`, `disconfirmation`, and `capital_efficiency`; these fields
+are operator guidance, not order instructions.
 
 **Optional-block pattern (forward-compat).** `actions`, `catalysts`, `questions`, and `research_actions` are **validated-if-present**: absent → still valid. *Why:* a feed built by an older routine (before a key existed) must still pass the publish gate and render. This is what let `research_actions` land without breaking any stored/old feed. When you add a lane, follow this pattern — never make a new key required.
 
@@ -119,7 +122,7 @@ Pure functions over the book + the external plugs. The numbering (⑦, ⑧, …)
 Pure render of the injected `feed`. Default export `ConvictionCockpit({ feed = FEED })` — `FEED` is a baked golden literal (the default/example); a live feed is injected at render time (see §6).
 
 - **`toCockpit(feed)`** — the view-model. Maps each feed key to a render-ready shape: `actions:(feed.actions||[]).map(actionRow)`, `researchActions:(feed.research_actions||[]).map(actionRow)`, `holdings`, `rotation`, `radar`, `heartbeat`, `synthesis`, `hero`, `macro`, plus raw `catalysts`/`questions`/`research`.
-- **`actionRow(a)`** — maps an action-row → render props via `ACTION_KIND_META` (icon/label/color per kind; `research_review` → 🔬 blue) and `CONF_META`. Shared by both action lanes.
+- **`actionRow(a)`** — maps an action-row → render props via `ACTION_KIND_META` (icon/label/color per kind; `research_review` → 🔬 blue), `CONF_META`, and optional decision metadata such as freshness, disconfirmation, and capital-efficiency guidance. Shared by both action lanes.
 - **`<Section>`** — the collapsible primitive: `id`, `title`, `icon`, `badge`, `badgeColor`, `openMap/setOpen`, `defaultOpen`. Reused for every panel; nest-able.
 - **`CURATED`** (≈ the back of the file) — the **fallback** content for `questions`/`research`/`catalysts` "until the feed emits them." Today `research` and `catalysts` ARE feed-emitted, so the render prefers the feed and falls back to curated only when empty (`R = VM.research when populated else CURATED.research`). Reconcile-as-you-go: as a lane goes live, prefer the feed.
 

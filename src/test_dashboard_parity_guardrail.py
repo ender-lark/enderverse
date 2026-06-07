@@ -13,6 +13,7 @@ SUMMARY_RENDERED_BLOCKS = {
     "asymmetric_opportunities",
     "fresh_signals",
     "portfolio_views",
+    "reallocation_brief",
     "research_actions",
     "signal_log",
     "source_audits",

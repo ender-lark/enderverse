@@ -778,6 +778,7 @@ function actionRow(a, opts={}){
            decisionGroup:a.decision_group||"", decisionGroupLabel:a.decision_group_label||"",
            freshness:a.freshness||"", freshnessJudgment:a.freshness_judgment||{},
            whyThisMatters:a.why_this_matters||"", disconfirmation:a.disconfirmation||{},
+           capitalEfficiency:a.capital_efficiency||{},
            ageDays:(typeof a.age_days==="number"?a.age_days:null), flagged:a.first_flagged||"",
            moveSince:a.move_since||"", sizing:a.sizing||"" };
 }
@@ -873,6 +874,7 @@ function actionVM(feed){
     actionGroups: feed.action_decision_groups||{},
     asymmetricOpportunities: feed.asymmetric_opportunities||{},
     uwActionRunbook: feed.uw_action_runbook||{},
+    reallocationBrief: feed.reallocation_brief||{},
     sourceAudits: feed.source_audits||{},
     actionSplit: {
       actNow: actions.filter(a=>a.actionState==="ACT_NOW"),
@@ -960,8 +962,10 @@ const muted = { color:C.dim, fontSize:12.5 };
 function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, showAging=false, showSizing=false }) {
   const key = keyPrefix + a.rank + (a.ticker || a.kind), isO = posOpen[key];
   const disconfirmation = a.disconfirmation || {};
+  const capitalEfficiency = a.capitalEfficiency || {};
   const hasDisconfirmation = !!(disconfirmation.summary || (disconfirmation.invalidates_if||[]).length || (disconfirmation.confirm_before_acting||[]).length);
-  const hasDetail = !!(a.why || a.whyThisMatters || (a.freshnessJudgment&&a.freshnessJudgment.judgment) || a.missingEvidence.length || hasDisconfirmation);
+  const hasCapitalEfficiency = !!(capitalEfficiency.summary || capitalEfficiency.timing_balance || (capitalEfficiency.compare_against||[]).length);
+  const hasDetail = !!(a.why || a.whyThisMatters || (a.freshnessJudgment&&a.freshnessJudgment.judgment) || a.missingEvidence.length || hasDisconfirmation || hasCapitalEfficiency);
   const urgent = a.actionState === "ACT_NOW";
   const highGoal = a.goalImpact === "High";
   const edge = urgent ? C.red : (highGoal ? (a.goalColor || a.c) : a.c);
@@ -983,6 +987,7 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
           {a.decisionGroupLabel && <span style={{ fontFamily:mono, fontSize:11, color:C.text, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.decisionGroupLabel}</span>}
           {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
           {a.freshnessJudgment && a.freshnessJudgment.label && <span title={a.freshnessJudgment.judgment||""} style={{ fontFamily:mono, fontSize:11, color:a.freshnessJudgment.label==="stale"?C.red:a.freshnessJudgment.label==="fast-moving"?C.amber:C.faint }}>{a.freshnessJudgment.label}</span>}
+          {capitalEfficiency.label && <span title={capitalEfficiency.summary||""} style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px", background:`${C.amber}10` }}>capital: {capitalEfficiency.label}</span>}
           <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
           <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
           {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
@@ -1002,6 +1007,14 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
           {a.whyThisMatters && <div style={{ marginBottom:6, color:C.text }}><span style={{ color:C.dim, fontWeight:600 }}>Why this matters:</span> {a.whyThisMatters}</div>}
           {a.why && <div>{a.why}</div>}
           {a.freshnessJudgment && a.freshnessJudgment.judgment && <div style={{ marginTop:6, fontFamily:mono, fontSize:10, color:C.faint }}>freshness: {a.freshnessJudgment.judgment} | evidence {a.freshnessJudgment.evidence_date||"n/a"} | decays {a.freshnessJudgment.decay_window||"source dependent"}</div>}
+          {hasCapitalEfficiency && (
+            <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
+              <div style={{ fontWeight:700, color:C.amber }}>Capital efficiency</div>
+              {capitalEfficiency.summary && <div style={{ marginTop:4 }}>{capitalEfficiency.summary}</div>}
+              {capitalEfficiency.timing_balance && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>timing: {capitalEfficiency.timing_balance}</div>}
+              {(capitalEfficiency.compare_against||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>compare: {(capitalEfficiency.compare_against||[]).join(" / ")}</div>}
+            </div>
+          )}
           {hasDisconfirmation && (
             <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
               <div style={{ fontWeight:700, color:C.amber }}>What could make this wrong?</div>
@@ -1242,6 +1255,48 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             </div>
           ))}
           {(VM.uwActionRunbook||{}).command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {(VM.uwActionRunbook||{}).command}</div>}
+        </Section>
+
+        <Section id="reallocation-brief" title="Candidate Reallocation Brief" icon="#" badge={((VM.reallocationBrief||{}).counts||{}).adds?`${((VM.reallocationBrief||{}).counts||{}).adds} adds`:"0"} badgeColor={(VM.reallocationBrief||{}).status==="test_data_only"?C.amber:(((VM.reallocationBrief||{}).counts||{}).adds?C.green:C.faint)} openMap={open} setOpen={setOpen} defaultOpen={!!(((VM.reallocationBrief||{}).rows||[]).length)}>
+          {(() => {
+            const R=VM.reallocationBrief||{}, rows=R.rows||[], trims=R.trims||[], funding=R.funding||{};
+            const warn=R.status==="test_data_only";
+            if(!R.line) return <div style={{ ...card, fontSize:12, color:C.faint }}>No reallocation brief in this feed build.</div>;
+            return (
+              <div>
+                <div style={{ ...card, marginBottom:8, borderColor:(warn?C.amber:C.green)+"44", background:(warn?C.amber:C.green)+"0a" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+                    <div style={{ fontSize:12.5, color:warn?C.amber:C.text, fontWeight:650 }}>{R.line}</div>
+                    <span style={{ fontFamily:mono, fontSize:11, color:warn?C.amber:C.green, border:`1px solid ${(warn?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px" }}>{(R.status||"candidate").replaceAll("_"," ")}</span>
+                  </div>
+                  <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>pool {money(funding.pool_total_usd)} | allocated {money(funding.allocated_usd)} | shortfall {money(funding.shortfall_usd)}</div>
+                  {(R.blockers||[]).slice(0,4).map((b,i)=>(<div key={i} style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Blocker: {b}</div>))}
+                </div>
+                {rows.slice(0,6).map((r,i)=>{
+                  const funded=(r.funded_by||[]).map(f=>`${f.ticker} ${money(f.notional_usd)}`).join(", ");
+                  return (
+                    <div key={`${r.ticker}${i}`} style={{ ...card, marginBottom:7, borderColor:C.green+"33" }}>
+                      <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                        <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
+                        <span style={{ fontFamily:mono, fontSize:11, color:C.green, border:`1px solid ${C.green}55`, borderRadius:99, padding:"1px 8px" }}>add {money(r.notional_usd)}</span>
+                        <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.sequence}</span>
+                        {r.gate && <span style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>gate {r.gate}</span>}
+                      </div>
+                      {r.entry_note && <div style={{ marginTop:5, fontSize:12, color:C.text }}>{r.entry_note}</div>}
+                      {funded && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>funded by: {funded}</div>}
+                      {(r.blockers||[]).length>0 && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Blocks: {(r.blockers||[]).join(", ")}</div>}
+                      {r.disconfirmation && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Disconfirm: {r.disconfirmation}</div>}
+                    </div>
+                  );
+                })}
+                {trims.length>0 && <div style={{ ...card, marginTop:8 }}>
+                  <div style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", marginBottom:5 }}>Funding trims</div>
+                  {trims.slice(0,6).map((r,i)=>(<div key={`${r.ticker}${i}`} style={{ fontSize:12, color:C.dim, marginBottom:3 }}><span style={{ fontFamily:mono, fontWeight:700, color:C.text }}>{r.ticker}</span> trim {money(r.notional_usd)} <span style={{ color:C.faint }}>{(r.funds||[]).map(f=>`${f.ticker} ${money(f.notional_usd)}`).join(", ")}</span></div>))}
+                </div>}
+                {R.command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {R.command}</div>}
+              </div>
+            );
+          })()}
         </Section>
 
         {/* TOP PROSPECTS — the conviction-stack watchlist (item 5): FS-sourced

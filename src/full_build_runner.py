@@ -40,6 +40,7 @@ from decision_support import enrich_actions, build_asymmetric_opportunities
 from operator_hardening import build_operator_hardening
 from uw_routing_recommendations import build_uw_routing_recommendations
 from uw_action_runbook import build_uw_action_runbook
+from reallocation_brief import build_reallocation_brief
 import cloud_routine_receipts
 
 
@@ -749,6 +750,7 @@ def build_full_feed_from_files(
     feed["source_audits"] = _build_source_audits(src, live_source_capability)
     feed["uw_routing"] = build_uw_routing_recommendations(feed)
     feed["uw_action_runbook"] = build_uw_action_runbook(feed)
+    feed["reallocation_brief"] = build_reallocation_brief(feed, positions_cache, as_of=today)
     feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     feed["source_audits"]["uw_action_runbook"] = feed.get("uw_action_runbook") or {}
     problems = validate_cockpit_feed(feed)

@@ -162,6 +162,7 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert any(a.get("source") == "daily_synthesis" for a in feed["actions"])
     assert any(a.get("kind") == "event_risk" for a in feed["actions"])
     assert all(a["disconfirmation"]["question"] == "What would make this wrong?" for a in feed["actions"])
+    assert all(a.get("capital_efficiency", {}).get("summary") for a in feed["actions"])
 
 
 def test_full_build_runner_uses_eastern_as_of_for_utc_midnight_run(tmp_path):
@@ -451,6 +452,9 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "uw_action_runbook" in feed
     assert "uw_action_runbook" in feed["source_audits"]
     assert "UW action runbook:" in feed["source_audits"]["uw_action_runbook"]["line"]
+    assert "reallocation_brief" in feed
+    assert "Reallocation brief:" in feed["reallocation_brief"]["line"]
+    assert feed["reallocation_brief"]["candidate_only"] is True
     assert "fundstrat_signal_confirmation" in {
         row["mode"] for row in feed["uw_routing"]["rows"]
     }

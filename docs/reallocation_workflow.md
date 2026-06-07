@@ -7,7 +7,7 @@ Last updated: 2026-06-07.
 Turn latest account positions plus current source evidence into a candidate-only
 portfolio plan: trim, add, hold, hedge, research, or re-check. The workflow should
 optimize for early-retirement impact, time sensitivity, conviction, sizing, leverage,
-risk, and user attention.
+risk, efficient capital use, and user attention.
 
 No trade execution is added. The output is a review plan.
 
@@ -60,6 +60,8 @@ Helpful:
 
 5. Score candidate legs.
    - Impact: expected contribution to early-retirement objective.
+   - Capital efficiency: whether this is the best current use of scarce capital,
+     not merely whether the individual opportunity is good.
    - Risk: downside, concentration, leverage, factor crowding, gap risk.
    - Time sensitivity: decay speed, catalyst timing, market regime.
    - Conviction: thesis quality, source agreement, source-call history.
@@ -77,6 +79,8 @@ Helpful:
 7. Sequence actions.
    - `Act Now`: fresh evidence, high impact, clear trigger, acceptable risk.
    - `Stage`: good thesis but timing/entry still needs a level or confirmation.
+     Use staging to avoid both extremes: parking capital in a lower-ranked idea
+     and waiting so long for a perfect entry that a major up move is missed.
    - `Re-check`: evidence is stale, contradictory, or fast-moving.
    - `Hold`: existing sizing is acceptable.
    - `Trim`: thesis weakened, risk too high, or better funding use exists.
@@ -97,6 +101,19 @@ data:
 - Do not present the result as the final plan.
 - Use it to validate planner mechanics, dashboard formatting, and source routing.
 - Clearly label any output as `test-data only`.
+
+## Dashboard Brief
+
+`src/reallocation_brief.py` wraps the existing funded-rotation planner into a
+dashboard feed block called `reallocation_brief`. It shows candidate adds, funding
+trims, funding summary, blockers, disconfirmation, and the UW portfolio-reallocation
+checks from the current action runbook.
+
+The brief is not the final reallocation plan. If the position snapshot is not the
+same operating day as the dashboard build, it is labeled `test_data_only` and every
+add candidate carries a current-position blocker. Old planner sequencing dates are
+also blocked explicitly, so a stale catalyst label such as `after 2026-06-03` cannot
+read as current timing guidance.
 
 ### 2026-06-07 Sanity Pass
 

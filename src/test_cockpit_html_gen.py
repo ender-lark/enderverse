@@ -66,6 +66,39 @@ def _feed():
                 },
             ],
         },
+        "reallocation_brief": {
+            "status": "test_data_only",
+            "line": "Reallocation brief: test data only from 2026-05-31 positions; 2 add candidate(s), 1 funding trim(s); allocated $125,000; shortfall $10,000.",
+            "honesty_rule": "Candidate reallocation brief only; no trades are executed and stale positions remain test-data only.",
+            "command": "python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text",
+            "funding": {
+                "pool_total_usd": 150000,
+                "allocated_usd": 125000,
+                "shortfall_usd": 10000,
+            },
+            "blockers": [
+                "positions snapshot 2026-05-31 is 6 day(s) old; use as test-data only until current positions are supplied",
+                "same-session UW price/flow confirmation required before any capital action",
+            ],
+            "rows": [
+                {
+                    "ticker": "NVDA",
+                    "notional_usd": 80000,
+                    "sequence": "now",
+                    "entry_note": "size now (constructive/ok entry)",
+                    "funded_by": [{"ticker": "SMH", "notional_usd": 80000}],
+                    "blockers": ["latest current positions", "same-session UW price/flow"],
+                    "disconfirmation": "live flow/price argues for waiting",
+                }
+            ],
+            "trims": [
+                {
+                    "ticker": "SMH",
+                    "notional_usd": 80000,
+                    "funds": [{"ticker": "NVDA", "notional_usd": 80000}],
+                }
+            ],
+        },
         "source_audits": {
             "cloud_routines": {
                 "line": "Background cloud proof: 2/10 scheduled receipts proven; failed latest=0.",
@@ -335,6 +368,12 @@ def test_generated_html_surfaces_action_cards_first():
             "confirm_before_acting": ["Run the pre-trade gate."],
             "downgrade_to": "Re-check Before Acting",
         },
+        "capital_efficiency": {
+            "label": "compare and stage",
+            "summary": "Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.",
+            "timing_balance": "Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.",
+            "compare_against": ["higher-ranked Key Now actions", "funded reallocation legs"],
+        },
     }]
 
     html = generate_html(feed)
@@ -349,6 +388,11 @@ def test_generated_html_surfaces_action_cards_first():
     assert "What could make this wrong?" in html
     assert "Do not act if the funding leg makes risk worse." in html
     assert "Run the pre-trade gate." in html
+    assert "capital: compare and stage" in html
+    assert "Capital efficiency" in html
+    assert "Do not park capital here only because it is good" in html
+    assert "Avoid waiting for a perfect bottom" in html
+    assert "Compare against: higher-ranked Key Now actions / funded reallocation legs" in html
     assert html.index('id="today-actions"') < html.index('id="operator-status"')
 
 
@@ -512,6 +556,12 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert "Event-risk and political macro" in html
     assert "TICKER_FLOW_RECENT" in html
     assert "checks, not proof" in html
+    assert 'id="reallocation-brief"' in html
+    assert "Candidate reallocation brief" in html
+    assert "positions snapshot 2026-05-31" in html
+    assert "add $80,000" in html
+    assert "Funding trims" in html
+    assert "SMH $80,000 -&gt; NVDA $80,000" in html
     assert 'id="source-audits"' in html
     assert "Background cloud proof: 2/10 scheduled receipts proven" in html
     assert "Fundstrat intake: 4 full-body" in html
