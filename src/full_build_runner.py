@@ -26,6 +26,7 @@ from collection_gate import validate_collection_gate
 from feed_assembler import assemble_feed
 from fundstrat_bible import build_fundstrat_bible_source
 from fundstrat_daily import build_fundstrat_daily_source
+from fundstrat_news import build_fundstrat_news, build_if_i_were_you
 from meridian import build_meridian_source
 from portfolio_views import build_portfolio_views
 from portfolio import build_portfolio_source
@@ -337,7 +338,40 @@ def _fundstrat_daily_checked(src_dir: Path, calls: Any) -> bool:
 
 def _build_fundstrat_audit(src_dir: Path) -> dict[str, Any]:
     summary = _read_json(src_dir / "fundstrat_intake_summary.json", default={})
+    inbox_entries = _read_json(src_dir / "fundstrat_inbox_entries.json", default=[])
+    daily_calls_cache = _read_json(src_dir / "fundstrat_daily_calls.json", default=[])
+    inbox_entries = inbox_entries if isinstance(inbox_entries, list) else []
+    daily_calls_cache = daily_calls_cache if isinstance(daily_calls_cache, list) else []
+    stored_full_body = sum(
+        1
+        for row in inbox_entries
+        if isinstance(row, dict) and bool(row.get("body_fetched"))
+    )
+    stored_snippet = sum(
+        1
+        for row in inbox_entries
+        if isinstance(row, dict) and not bool(row.get("body_fetched"))
+    )
     if not isinstance(summary, dict) or not summary:
+        if inbox_entries or daily_calls_cache:
+            return {
+                "status": "has_data",
+                "line": (
+                    f"Fundstrat stored cache: {len(inbox_entries)} inbox entries "
+                    f"({stored_full_body} full-body, {stored_snippet} snippet-only), "
+                    f"{len(daily_calls_cache)} daily calls; latest intake summary is missing."
+                ),
+                "entries": 0,
+                "full_body_entries": 0,
+                "snippet_only_entries": 0,
+                "daily_calls": 0,
+                "stored_entries": len(inbox_entries),
+                "stored_full_body_entries": stored_full_body,
+                "stored_snippet_only_entries": stored_snippet,
+                "stored_daily_calls": len(daily_calls_cache),
+                "rows": [],
+                "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear.",
+            }
         return {
             "status": "not_checked",
             "line": "Fundstrat intake summary is not present.",
@@ -350,8 +384,10 @@ def _build_fundstrat_audit(src_dir: Path) -> dict[str, Any]:
     candidates = int(summary.get("source_call_candidates") or 0)
     stored_candidates = int(summary.get("stored_source_call_candidates") or 0)
     line = (
-        f"Fundstrat intake: {full_body} full-body, {snippets} snippet-only, "
-        f"{daily_calls} daily calls, {stored_candidates} stored source-call candidates."
+        f"Fundstrat latest intake: {full_body} full-body, {snippets} snippet-only, "
+        f"{daily_calls} daily calls; stored cache: {len(inbox_entries)} inbox entries "
+        f"({stored_full_body} full-body, {stored_snippet} snippet-only), "
+        f"{len(daily_calls_cache)} daily calls, {stored_candidates} stored source-call candidates."
     )
     return {
         "status": "has_data" if entries or full_body or snippets else "checked_clear",
@@ -362,7 +398,11 @@ def _build_fundstrat_audit(src_dir: Path) -> dict[str, Any]:
         "daily_calls": daily_calls,
         "source_call_candidates": candidates,
         "stored_entries": int(summary.get("stored_entries") or 0),
+        "stored_cache_entries": len(inbox_entries),
+        "stored_full_body_entries": stored_full_body,
+        "stored_snippet_only_entries": stored_snippet,
         "stored_daily_calls": int(summary.get("stored_daily_calls") or 0),
+        "stored_daily_call_rows": len(daily_calls_cache),
         "stored_source_call_candidates": stored_candidates,
         "bodies_redacted": bool(summary.get("bodies_redacted")),
         "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear.",
@@ -690,6 +730,7 @@ def build_full_feed_from_files(
     macro = _load_optional(src, "macro")
     fs_bible = _load_optional(src, "fs_bible")
     fs_daily = _load_optional(src, "fs_daily")
+    fs_intake_summary = _read_json(src / "fundstrat_intake_summary.json", default={})
     meridian = _load_optional(src, "meridian")
     heartbeat = _load_optional(src, "heartbeat")
     signal_log = _load_optional(src, "signal_log")
@@ -777,6 +818,13 @@ def build_full_feed_from_files(
 
     feed["live_source_config"] = live_source_capability.live_config_report()
     feed["source_audits"] = _build_source_audits(src, live_source_capability)
+    feed["fundstrat_news"] = build_fundstrat_news(
+        fundstrat_bible=fs_bible,
+        fundstrat_daily_calls=fs_daily,
+        top_prospects=top_prospects,
+        intake_summary=fs_intake_summary if isinstance(fs_intake_summary, dict) else {},
+        as_of=today,
+    )
     feed["uw_routing"] = build_uw_routing_recommendations(feed)
     feed["uw_action_runbook"] = build_uw_action_runbook(feed)
     uw_result_payload, uw_result_path, uw_result_problems = load_uw_endpoint_results(src)
@@ -796,6 +844,7 @@ def build_full_feed_from_files(
     feed["reallocation_brief"] = build_reallocation_brief(feed, positions_cache, as_of=today)
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["alert_policy"] = build_alert_policy(feed)
+    feed["if_i_were_you"] = build_if_i_were_you(feed)
     feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     feed["source_audits"]["uw_action_runbook"] = feed.get("uw_action_runbook") or {}
     feed["source_audits"]["uw_endpoint_proof"] = feed.get("uw_endpoint_proof") or {}

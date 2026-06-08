@@ -962,6 +962,55 @@ def test_generated_html_commands_tab_surfaces_system_checks():
     assert "Claude commands" not in html
 
 
+def test_generated_html_surfaces_fundstrat_news_tab():
+    feed = _feed()
+    feed["fundstrat_news"] = {
+        "status": "has_data",
+        "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID not captured.",
+        "honesty_rule": "Monthly list membership is not an execution trigger.",
+        "monthly": {
+            "deck_date": "2026-05-28",
+            "source_file": "may.pdf",
+            "freshness_label": "monthly baseline",
+            "freshness_judgment": "Use as thesis/allocation baseline.",
+            "allocation_plan": ["MAG7", "Financials"],
+            "top_large_cap": [
+                {"rank": 1, "ticker": "AMD", "add_date": "2026-05-28", "add_price_label": "not captured"}
+            ],
+            "top_smid": [],
+            "bottom5": [],
+        },
+        "daily": {
+            "latest_date": "2026-06-05",
+            "count": 1,
+            "freshness_judgment": "Daily calls are timing input.",
+            "rows": [
+                {"ticker": "QQQ", "date": "2026-06-05", "author": "Newton", "action_implication": "re-check timing", "quote": "Support matters."}
+            ],
+        },
+        "gaps": [
+            {"key": "missing_smid_top5", "line": "Top 5 SMID is not present.", "next_step": "Re-read source."}
+        ],
+    }
+    feed["if_i_were_you"] = {
+        "line": "If I were you: 1 review priority item.",
+        "honesty_rule": "Review only.",
+        "rows": [
+            {"rank": 1, "label": "Fix Fundstrat storage gaps", "posture": "research/store", "why": "SMID missing.", "what_i_would_do": "Backfill.", "source": "fundstrat_news"}
+        ],
+    }
+
+    html = generate_html(feed)
+
+    assert 'showTab(\'news\',this)' in html
+    assert 'id="tab-news"' in html
+    assert "Fundstrat News" in html
+    assert "Monthly Bible / Allocation" in html
+    assert "Top 5 SMID" in html
+    assert "not captured" in html
+    assert "If I Were You" in html
+
+
 def test_generated_html_is_ascii_display_safe():
     html = generate_html(_feed())
 

@@ -1971,6 +1971,116 @@ def _book_tab(holdings: list, portfolio_views: dict | None = None, book_asof: st
     return portfolio_html + holdings_html
 
 
+def _fundstrat_list_table(title: str, rows: list[dict[str, Any]], empty: str) -> str:
+    if not rows:
+        body = f'<div class="small-item" style="color:#d29922">{_e(empty)}</div>'
+    else:
+        trs = ""
+        for row in rows:
+            trs += f"""<tr>
+  <td>{_e(row.get("rank") or "")}</td>
+  <td><strong>{_e(row.get("ticker") or "")}</strong></td>
+  <td>{_e(row.get("add_date") or "date n/a")}</td>
+  <td>{_e(row.get("add_price_label") or "not captured")}</td>
+  <td>{_e(row.get("conviction") or "")}{f' / {_e(row.get("urgency") or "")}' if row.get("urgency") else ""}</td>
+</tr>"""
+        body = f"""<div class="book-wrap">
+  <table class="book">
+    <tr><th>#</th><th>Ticker</th><th>Added</th><th>Price when added</th><th>State</th></tr>
+    {trs}
+  </table>
+</div>"""
+    return f"""
+<div class="card">
+  <div class="card-title"><span class="icon">#</span> {_e(title)}</div>
+  {body}
+</div>"""
+
+
+def _if_i_were_you_html(block: dict[str, Any]) -> str:
+    rows = [row for row in block.get("rows") or [] if isinstance(row, dict)]
+    if not rows:
+        return ""
+    body = ""
+    for row in rows:
+        body += f"""
+<div class="small-item">
+  <strong>#{_e(row.get("rank") or "")} {_e(row.get("label") or "")}</strong>
+  <span class="small-muted">{_e(row.get("posture") or "review")} | source: {_e(row.get("source") or "")}</span>
+  <span class="small-muted">Why: {_e(row.get("why") or "")}</span>
+  <span class="small-muted">What I would do: {_e(row.get("what_i_would_do") or "")}</span>
+</div>"""
+    return f"""
+<div class="card">
+  <div class="card-title"><span class="icon">></span> If I Were You</div>
+  <div class="summary-line">{_e(block.get("line") or "")}</div>
+  <div class="summary-muted" style="font-size:11px;margin-bottom:8px">{_e(block.get("honesty_rule") or "")}</div>
+  <div class="small-list">{body}</div>
+</div>"""
+
+
+def _fundstrat_news_tab(news: dict[str, Any], if_i_were_you: dict[str, Any]) -> str:
+    if not isinstance(news, dict):
+        news = {}
+    monthly = news.get("monthly") if isinstance(news.get("monthly"), dict) else {}
+    daily = news.get("daily") if isinstance(news.get("daily"), dict) else {}
+    gaps = [gap for gap in news.get("gaps") or [] if isinstance(gap, dict)]
+    alloc = "".join(
+        f'<span class="tag t-cat">{_e(item)}</span>'
+        for item in monthly.get("allocation_plan") or []
+    )
+    daily_rows = ""
+    for row in (daily.get("rows") or [])[:12]:
+        if not isinstance(row, dict):
+            continue
+        daily_rows += f"""
+<div class="small-item">
+  <strong>{_e(row.get("ticker") or "")}</strong>
+  <span class="small-muted">{_e(row.get("date") or "")} | {_e(row.get("author") or "Fundstrat")} | {_e(row.get("action_implication") or "context")}</span>
+  <span class="small-muted">{_e(row.get("quote") or "")}</span>
+</div>"""
+    if not daily_rows:
+        daily_rows = '<div class="small-item">No full-body daily Fundstrat calls in this feed build.</div>'
+    gap_rows = ""
+    for gap in gaps:
+        gap_rows += f"""
+<div class="small-item">
+  <strong>{_e(gap.get("key") or "gap")}</strong>
+  <span class="small-muted">{_e(gap.get("line") or "")}</span>
+  <span class="small-muted">Next: {_e(gap.get("next_step") or "")}</span>
+</div>"""
+    if not gap_rows:
+        gap_rows = '<div class="small-item" style="color:#3fb950">No Fundstrat News gaps surfaced.</div>'
+    return f"""
+<div id="tab-news" style="display:none">
+  <div class="card">
+    <div class="card-title"><span class="icon">F</span> Fundstrat News</div>
+    <div class="summary-line">{_e(news.get("line") or "Fundstrat News is not checked.")}</div>
+    <div class="summary-muted" style="font-size:11px">{_e(news.get("honesty_rule") or "")}</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">M</span> Monthly Bible / Allocation</div>
+    <div class="summary-line">Deck {_e(monthly.get("deck_date") or "not checked")} | Source {_e(monthly.get("source_file") or "not captured")} | {_e(monthly.get("freshness_label") or "")}</div>
+    <div class="summary-muted" style="font-size:11px;margin-bottom:8px">{_e(monthly.get("freshness_judgment") or "")}</div>
+    <div class="tags">{alloc}</div>
+  </div>
+  {_fundstrat_list_table("Top 5 large cap", monthly.get("top_large_cap") or [], "Top 5 large cap is not captured in this feed.")}
+  {_fundstrat_list_table("Top 5 SMID", monthly.get("top_smid") or [], "Top 5 SMID is not captured in the live monthly/prospect caches yet.")}
+  {_fundstrat_list_table("Bottom 5", monthly.get("bottom5") or [], "Bottom 5 is not captured in this feed.")}
+  <div class="card">
+    <div class="card-title"><span class="icon">D</span> Daily Additions / Deltas</div>
+    <div class="summary-line">Latest {_e(daily.get("latest_date") or "n/a")} | stored {_e(daily.get("count") or 0)}</div>
+    <div class="summary-muted" style="font-size:11px;margin-bottom:8px">{_e(daily.get("freshness_judgment") or "")}</div>
+    <div class="small-list">{daily_rows}</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">!</span> Fundstrat Data Gaps</div>
+    <div class="small-list">{gap_rows}</div>
+  </div>
+  {_if_i_were_you_html(if_i_were_you if isinstance(if_i_were_you, dict) else {})}
+</div>"""
+
+
 _COMMANDS = [
     ("open canonical cockpit", "Use the JSX preview first for v1 validation and deepest drilldowns."),
     ("open live dashboard", "Use GitHub Pages as the published HTML mirror/shareable surface."),
@@ -2116,6 +2226,7 @@ def generate_html(feed: dict) -> str:
     lean_html   = _lean_in(feed.get("lean_in") or [])
     book_html     = _book(feed.get("holdings") or [])
     book_tab_html = _book_tab(feed.get("holdings") or [], feed.get("portfolio_views") or {}, book_asof)
+    news_tab_html = _fundstrat_news_tab(feed.get("fundstrat_news") or {}, feed.get("if_i_were_you") or {})
 
     cmds_html = _commands_tab()
 
@@ -2152,6 +2263,7 @@ def generate_html(feed: dict) -> str:
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('dashboard',this)">⚡ Cockpit</button>
     <button class="tab-btn" onclick="showTab('book',this)">📚 Book</button>
+    <button class="tab-btn" onclick="showTab('news',this)">News</button>
     <button class="tab-btn" onclick="showTab('commands',this)">📋 Commands</button>
   </div>
 
@@ -2195,6 +2307,8 @@ def generate_html(feed: dict) -> str:
   <div id="tab-book" style="display:none">
     {book_tab_html}
   </div>
+
+  {news_tab_html}
 
   {cmds_html}
 

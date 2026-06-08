@@ -320,6 +320,96 @@ def test_full_build_runner_full_body_fundstrat_daily_can_be_checked_clear(tmp_pa
     assert rows["fundstrat_daily"]["status"] == "checked_clear"
 
 
+def test_full_build_runner_threads_fundstrat_news_and_if_i_were_you(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "fundstrat_bible.json", {
+        "deck_date": "2026-05-28",
+        "what_to_own": ["MAG7", "Financials"],
+        "top5": ["AMD", "ANET"],
+        "bottom5": ["DE"],
+    })
+    _write(src / "fundstrat_daily_calls.json", [
+        {
+            "author": "Newton",
+            "ticker": "QQQ",
+            "direction": "watch",
+            "quote": "Support near 695-705 matters before adding beta.",
+            "date": "2026-06-05",
+            "subject": "Daily Technical Strategy",
+        }
+    ])
+    _write(src / "fundstrat_intake_summary.json", {
+        "entries": 1,
+        "full_body_entries": 1,
+        "snippet_only_entries": 0,
+        "daily_calls": 1,
+        "stored_daily_calls": 1,
+    })
+    _write(src / "top_prospects.json", {
+        "AMD": {
+            "ticker": "AMD",
+            "add_date": "2026-05-28",
+            "add_price": 120.5,
+            "provenance": "FS Top 5 - 2026-05-28",
+        },
+        "ANET": {
+            "ticker": "ANET",
+            "add_date": "2026-05-28",
+            "add_price": None,
+            "provenance": "FS Top 5 - 2026-05-28",
+        },
+    })
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-08",
+        run_timestamp="2026-06-08T14:00:00+00:00",
+    )
+
+    assert validate_cockpit_feed(feed) == []
+    assert feed["fundstrat_news"]["monthly"]["top_large_cap"][0]["ticker"] == "AMD"
+    assert feed["fundstrat_news"]["monthly"]["top_large_cap"][1]["add_price_label"] == "not captured"
+    assert any(gap["key"] == "missing_smid_top5" for gap in feed["fundstrat_news"]["gaps"])
+    assert feed["if_i_were_you"]["status"] == "review_only"
+    assert feed["if_i_were_you"]["rows"]
+
+
+def test_full_build_runner_fundstrat_audit_reports_stored_cache_counts(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "fundstrat_intake_summary.json", {
+        "entries": 1,
+        "full_body_entries": 1,
+        "snippet_only_entries": 0,
+        "daily_calls": 1,
+        "stored_daily_calls": 2,
+    })
+    _write(src / "fundstrat_inbox_entries.json", [
+        {"subject": "Daily", "body_fetched": True},
+        {"subject": "Snippet", "body_fetched": False},
+    ])
+    _write(src / "fundstrat_daily_calls.json", [
+        {"author": "Newton", "ticker": "QQQ", "direction": "watch", "quote": "Support near 700.", "date": "2026-06-05"},
+        {"author": "Newton", "ticker": "RSP", "direction": "watch", "quote": "Rotation context.", "date": "2026-06-05"},
+    ])
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-08",
+        run_timestamp="2026-06-08T14:00:00+00:00",
+    )
+
+    audit = feed["source_audits"]["fundstrat"]
+    assert audit["stored_cache_entries"] == 2
+    assert audit["stored_full_body_entries"] == 1
+    assert audit["stored_snippet_only_entries"] == 1
+    assert audit["stored_daily_call_rows"] == 2
+    assert "stored cache: 2 inbox entries" in audit["line"]
+
+
 def test_full_build_runner_missing_price_file_is_dark_not_false_has_data(tmp_path):
     src = tmp_path / "src"
     src.mkdir()

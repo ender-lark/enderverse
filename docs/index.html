@@ -255,7 +255,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 22:37 ET
+        built 2026-06-07 23:09 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-07  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
@@ -272,6 +272,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('dashboard',this)"> Cockpit</button>
     <button class="tab-btn" onclick="showTab('book',this)"> Book</button>
+    <button class="tab-btn" onclick="showTab('news',this)">News</button>
     <button class="tab-btn" onclick="showTab('commands',this)"> Commands</button>
   </div>
 
@@ -1149,7 +1150,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.
 </div>
 <div class="audit-row">
-  <span class="audit-k">Fundstrat intake</span>Fundstrat intake: 1 full-body, 0 snippet-only, 3 daily calls, 0 stored source-call candidates.
+  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 1 full-body, 0 snippet-only, 3 daily calls; stored cache: 16 inbox entries (5 full-body, 11 snippet-only), 6 daily calls, 0 stored source-call candidates.
 </div>
 <div class="audit-row">
   <span class="audit-k">Notion/writeback</span>Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.
@@ -1170,7 +1171,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T02:37:54.080940+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T02:37:54.080940+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T02:37:54.080940+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T02:37:54.080940+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T02:37:54.080940+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T03:09:40.248045+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T03:09:40.248045+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T03:09:40.248045+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T03:09:40.248045+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T03:09:40.248045+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -4602,6 +4603,193 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </div>
 </div>
   </div>
+
+
+<div id="tab-news" style="display:none">
+  <div class="card">
+    <div class="card-title"><span class="icon">F</span> Fundstrat News</div>
+    <div class="summary-line">Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID not captured, daily calls 6 latest 2026-06-05.</div>
+    <div class="summary-muted" style="font-size:11px">Fundstrat is the baseline source of truth, but monthly list membership is not an execution trigger; stale, missing, or snippet-only data stays labeled.</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">M</span> Monthly Bible / Allocation</div>
+    <div class="summary-line">Deck 2026-05-28 | Source 20260528-Market-UpdatevFSD-1.pdf | monthly baseline</div>
+    <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Use as thesis/allocation baseline; do not treat as fresh tactical evidence without daily/tape confirmation.</div>
+    <div class="tags"><span class="tag t-cat">MAG7</span><span class="tag t-cat">Ethereum</span><span class="tag t-cat">Software</span><span class="tag t-cat">Industrials</span><span class="tag t-cat">Financials</span><span class="tag t-cat">Small-caps</span><span class="tag t-cat">Energy/Basic Materials</span></div>
+  </div>
+
+<div class="card">
+  <div class="card-title"><span class="icon">#</span> Top 5 large cap</div>
+  <div class="book-wrap">
+  <table class="book">
+    <tr><th>#</th><th>Ticker</th><th>Added</th><th>Price when added</th><th>State</th></tr>
+    <tr>
+  <td>1</td>
+  <td><strong>AMD</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr><tr>
+  <td>2</td>
+  <td><strong>ANET</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr><tr>
+  <td>3</td>
+  <td><strong>GOOGL</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr><tr>
+  <td>4</td>
+  <td><strong>PWR</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr><tr>
+  <td>5</td>
+  <td><strong>GS</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr>
+  </table>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="icon">#</span> Top 5 SMID</div>
+  <div class="small-item" style="color:#d29922">Top 5 SMID is not captured in the live monthly/prospect caches yet.</div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="icon">#</span> Bottom 5</div>
+  <div class="book-wrap">
+  <table class="book">
+    <tr><th>#</th><th>Ticker</th><th>Added</th><th>Price when added</th><th>State</th></tr>
+    <tr>
+  <td>1</td>
+  <td><strong>DE</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr><tr>
+  <td>2</td>
+  <td><strong>TPL</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr><tr>
+  <td>3</td>
+  <td><strong>HOOD</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr><tr>
+  <td>4</td>
+  <td><strong>PKG</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr><tr>
+  <td>5</td>
+  <td><strong>SATS</strong></td>
+  <td>2026-05-28</td>
+  <td>not captured</td>
+  <td>BUILDING / QUIET</td>
+</tr>
+  </table>
+</div>
+</div>
+  <div class="card">
+    <div class="card-title"><span class="icon">D</span> Daily Additions / Deltas</div>
+    <div class="summary-line">Latest 2026-06-05 | stored 6</div>
+    <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing.</div>
+    <div class="small-list">
+<div class="small-item">
+  <strong>SOX</strong>
+  <span class="small-muted">2026-06-05 | Newton | re-check timing</span>
+  <span class="small-muted">SOX held near 12,114 base-line support after the June 5 break; a daily close below it would raise tech-underperformance risk. Re-check before semi adds.</span>
+</div>
+<div class="small-item">
+  <strong>RSP</strong>
+  <span class="small-muted">2026-06-05 | Newton | re-check timing</span>
+  <span class="small-muted">June 5 read favors equal-weighted/value/cyclical participation over tech-heavy cap-weighted exposure while growth consolidates. Use as rotation context, not an auto-trade.</span>
+</div>
+<div class="small-item">
+  <strong>QQQ</strong>
+  <span class="small-muted">2026-06-05 | Newton | re-check timing</span>
+  <span class="small-muted">June 5 technical note makes 695-705 the first support check; failure shifts risk toward a 675 second-leg target. Re-check Monday pre-market before adding AI beta.</span>
+</div>
+<div class="small-item">
+  <strong>XOP</strong>
+  <span class="small-muted">2026-06-03 | Newton | avoid/re-check</span>
+  <span class="small-muted">Bounce only; resistance near 175.72 should repel price toward 162.</span>
+</div>
+<div class="small-item">
+  <strong>TNX</strong>
+  <span class="small-muted">2026-06-03 | Newton | re-check timing</span>
+  <span class="small-muted">Corrective bounce toward 4.554-4.586% should precede a turn lower if the ceasefire path holds.</span>
+</div>
+<div class="small-item">
+  <strong>RYF</strong>
+  <span class="small-muted">2026-06-03 | Newton | avoid/re-check</span>
+  <span class="small-muted">Break below 74.40 keeps the path of least resistance lower toward 71.</span>
+</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">!</span> Fundstrat Data Gaps</div>
+    <div class="small-list">
+<div class="small-item">
+  <strong>missing_add_prices</strong>
+  <span class="small-muted">Price when added is not captured for 10 monthly list row(s): AMD, ANET, GOOGL, PWR, GS, DE, TPL, HOOD, PKG, SATS.</span>
+  <span class="small-muted">Next: Backfill from an approved historical price cache before using since-added performance.</span>
+</div>
+<div class="small-item">
+  <strong>missing_smid_top5</strong>
+  <span class="small-muted">Top 5 SMID is not present in the live monthly bible/prospect caches.</span>
+  <span class="small-muted">Next: Re-read the May 28 monthly material or supplied PDF text and store the SMID rows explicitly.</span>
+</div></div>
+  </div>
+
+<div class="card">
+  <div class="card-title"><span class="icon">></span> If I Were You</div>
+  <div class="summary-line">If I were you: 5 review priority item(s), no execution from this section.</div>
+  <div class="summary-muted" style="font-size:11px;margin-bottom:8px">This is decision prioritization only; it does not place trades or bypass gates.</div>
+  <div class="small-list">
+<div class="small-item">
+  <strong>#1 Start with NVDA: Conviction gap: NVDA is under target</strong>
+  <span class="small-muted">re-check/decide | source: target_drift</span>
+  <span class="small-muted">Why: A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.</span>
+  <span class="small-muted">What I would do: Refresh the assumptions and either act through the gate, defer with a reason, or invalidate it. I would not let it sit ambiguously.</span>
+</div>
+<div class="small-item">
+  <strong>#2 Clear the 2 re-check item(s) before moving meaningful capital.</strong>
+  <span class="small-muted">wait/re-check | source: market_open_packet</span>
+  <span class="small-muted">Why: Friday or fast-moving assumptions can become wrong after a Monday price/tape move.</span>
+  <span class="small-muted">What I would do: Treat stale price-sensitive prompts as pending until same-session data confirms they are still asymmetric.</span>
+</div>
+<div class="small-item">
+  <strong>#3 Compare the funded add candidates before parking capital: GOOGL leads the current reallocation brief.</strong>
+  <span class="small-muted">size/compare | source: reallocation_brief</span>
+  <span class="small-muted">Why: Reallocation brief: candidate only from 2026-06-07 positions; 6 add candidate(s), 5 funding trim(s); allocated $499,666; shortfall $217,910.</span>
+  <span class="small-muted">What I would do: Use the brief as a capital-efficiency screen: choose the best current use of capital, stage if confirmed, and do not add a merely good idea ahead of a better one.</span>
+</div>
+<div class="small-item">
+  <strong>#4 Fix Fundstrat storage gaps before over-weighting monthly list performance.</strong>
+  <span class="small-muted">research/store | source: fundstrat_news</span>
+  <span class="small-muted">Why: Price when added is not captured for 10 monthly list row(s): AMD, ANET, GOOGL, PWR, GS, DE, TPL, HOOD, PKG, SATS.; Top 5 SMID is not present in the live monthly bible/prospect caches.</span>
+  <span class="small-muted">What I would do: Use the May 28 list as baseline context today, but backfill SMID rows and add prices before judging missed opportunity or since-added returns.</span>
+</div>
+<div class="small-item">
+  <strong>#5 Use daily Fundstrat calls as timing filters, not standalone thesis changes.</strong>
+  <span class="small-muted">context/re-check | source: fundstrat_daily</span>
+  <span class="small-muted">Why: The current stored daily rows are fast-decay technical/timing evidence.</span>
+  <span class="small-muted">What I would do: Let them change add timing, hedge posture, or research priority only after live tape confirms the implication.</span>
+</div></div>
+</div>
+</div>
 
 
 <div id="tab-commands" style="display:none">

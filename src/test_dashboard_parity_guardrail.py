@@ -13,6 +13,8 @@ SUMMARY_RENDERED_BLOCKS = {
     "alert_policy",
     "asymmetric_opportunities",
     "fresh_signals",
+    "fundstrat_news",
+    "if_i_were_you",
     "market_open_packet",
     "portfolio_views",
     "reallocation_brief",

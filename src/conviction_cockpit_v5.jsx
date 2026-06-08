@@ -931,6 +931,8 @@ function sharedVM(feed){
     darkLaneCount: ((feed.lane_status||{}).rows||[]).filter(r=>r && r.status==="not_checked" && !DEFERRED_OPTIONAL_SOURCE_KEYS.has(r.key)).length,
     staleLaneCount: ((((feed.lane_status||{}).counts||{}).stale)||0) + ((((feed.lane_status||{}).counts||{}).failed)||0),
     operatorStatus: operatorStatus(feed),
+    fundstratNews: feed.fundstrat_news||{},
+    ifIWereYou: feed.if_i_were_you||{},
   };
 }
 // actionVM = the ⚡ Action surface (decide/do). Built only when mode==="action".
@@ -1028,6 +1030,51 @@ function tickerSummary(rows, max=3){
 }
 function prospectRows(P){
   return [ ...((P||{}).hot||[]), ...((P||{}).movers_best||[]), ...((P||{}).sell_fast||[]) ];
+}
+function FundstratMonthlyRows({ title, rows, empty }) {
+  return (
+    <div style={{ ...card, marginBottom:8 }}>
+      <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, marginBottom:6 }}>
+        <div style={{ fontSize:12.5, fontWeight:700, color:C.text }}>{title}</div>
+        <span style={{ fontFamily:mono, fontSize:10.5, color:rows&&rows.length?C.green:C.amber }}>{rows&&rows.length?`${rows.length} row${rows.length===1?"":"s"}`:"not captured"}</span>
+      </div>
+      {(!rows || rows.length===0) && <div style={{ fontSize:12, color:C.amber }}>{empty}</div>}
+      {(rows||[]).map((r,i)=>(
+        <div key={`${title}${r.ticker}${i}`} style={{ display:"grid", gridTemplateColumns:"36px minmax(60px,90px) minmax(0,1fr)", gap:8, alignItems:"baseline", padding:"6px 0", borderTop:i?`1px solid ${C.line}`:"none" }}>
+          <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>#{r.rank||i+1}</span>
+          <span style={{ fontFamily:mono, fontSize:13, fontWeight:800, color:C.text }}>{r.ticker}</span>
+          <div>
+            <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+              <span style={{ fontFamily:mono, fontSize:10.5, color:r.add_price?C.green:C.amber }}>added {r.add_date||"date n/a"} | {r.add_price_label||"not captured"}</span>
+              {r.conviction && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.conviction}{r.urgency?` / ${r.urgency}`:""}</span>}
+            </div>
+            {(r.note||r.summary||r.provenance) && <div style={{ marginTop:3, fontSize:11.5, color:C.dim }}>{r.note||r.summary||r.provenance}</div>}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+function IfIWereYouBlock({ block, sectionId="if-i-were-you", defaultOpen=true, openMap, setOpen }) {
+  const rows = (block&&block.rows)||[];
+  return (
+    <Section id={sectionId} title="If I Were You" icon=">" badge={rows.length?`${rows.length}`:"0"} badgeColor={rows.length?C.amber:C.faint} summary={clipText((block&&block.line)||"Review-only priorities are not available in this feed build.", 110)} openMap={openMap} setOpen={setOpen} defaultOpen={defaultOpen}>
+      {block&&block.honesty_rule && <div style={{ ...card, marginBottom:8, borderColor:C.amber+"33", background:C.amber+"0a", fontFamily:mono, fontSize:10.8, color:C.faint }}>{block.honesty_rule}</div>}
+      {!rows.length && <div style={{ ...card, fontSize:12, color:C.faint }}>No review priorities in this feed build.</div>}
+      {rows.map((r,i)=>(
+        <div key={`${r.source||"you"}${i}`} style={{ ...card, marginBottom:7, borderColor:i===0?C.amber+"55":C.line }}>
+          <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+            <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>#{r.rank||i+1}</span>
+            <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>{r.posture||"review"}</span>
+            <span style={{ fontSize:12.8, fontWeight:750, color:C.text }}>{r.label}</span>
+          </div>
+          {r.why && <div style={{ marginTop:6, fontSize:11.8, color:C.dim }}>Why: {r.why}</div>}
+          {r.what_i_would_do && <div style={{ marginTop:5, fontSize:12.2, color:C.text }}>What I would do: {r.what_i_would_do}</div>}
+          {r.source && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>source: {r.source}</div>}
+        </div>
+      ))}
+    </Section>
+  );
 }
 function Section({ id, title, icon, badge, badgeColor, summary, children, openMap, setOpen, defaultOpen=true }) {
   const isOpen = openMap[id] === undefined ? defaultOpen : openMap[id];
@@ -1208,7 +1255,7 @@ function CommandLink({ row }) {
 }
 
 export default function ConvictionCockpit({ feed = FEED } = {}) {
-  const [mode, setMode] = useState("action");   // action = decide/do | book = holdings | commands = operator guide
+  const [mode, setMode] = useState("action");   // action = decide/do | book = holdings | news = Fundstrat | commands = operator guide
   // Lazy + memoized view-model. shared is always built; each view's lanes are built ONLY when that
   // view is active, so on Action bookVM (the per-position map) is never called — holdings aren't
   // iterated at all. useMemo means toggling back and forth doesn't recompute either side.
@@ -1314,7 +1361,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         <div style={{ position:"sticky", top:0, zIndex:10, background:C.bg, marginTop:6, paddingTop:10, paddingBottom:8, borderBottom:`1px solid ${C.line}` }}>
           <div style={{ display:"flex", gap:4, background:C.panel, border:`1px solid ${C.line}`, borderRadius:9, padding:3, width:"fit-content" }}>
-            {[["action","Action"],["book","Book"],["commands","Commands"]].map(([k,l])=>(
+            {[["action","Action"],["book","Book"],["news","News"],["commands","Commands"]].map(([k,l])=>(
               <button key={k} onClick={()=>setMode(k)} style={{ cursor:"pointer", border:"none", borderRadius:6, padding:"6px 14px", fontSize:12.5, fontWeight:600, fontFamily:sans, background: mode===k?C.panel3:"transparent", color: mode===k?C.text:C.faint }}>{l}</button>
             ))}
           </div>
@@ -1409,6 +1456,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             </div>
           );
         })()}
+
+        <IfIWereYouBlock block={VM.ifIWereYou} openMap={open} setOpen={setOpen} defaultOpen={true} />
 
         <Section id="market-open-packet" title="Market-Open Packet" icon="!" badge={(VM.marketOpenPacket&&VM.marketOpenPacket.counts)?`${(VM.marketOpenPacket.counts.key_now||0)} key / ${(VM.marketOpenPacket.counts.recheck||0)} re-check`:"packet"} badgeColor={(VM.marketOpenPacket&&VM.marketOpenPacket.status)==="ready"?C.green:C.amber} summary={clipText((VM.marketOpenPacket||{}).line || "No market-open packet in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
@@ -2093,6 +2142,72 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             );
           })}
         </Section>
+
+        </>)}
+
+        {mode==="news" && (<>
+
+        <Section id="fundstrat-news" title="Fundstrat News" icon="F" badge={(VM.fundstratNews&&VM.fundstratNews.status)==="has_data"?"loaded":"not checked"} badgeColor={(VM.fundstratNews&&VM.fundstratNews.status)==="has_data"?C.green:C.amber} summary={clipText((VM.fundstratNews||{}).line || "No Fundstrat news block in this feed build.", 120)} openMap={open} setOpen={setOpen} defaultOpen={true}>
+          {(() => {
+            const F=VM.fundstratNews||{}, M=F.monthly||{}, D=F.daily||{}, gaps=F.gaps||[];
+            return (
+              <div>
+                <div style={{ ...card, marginBottom:8, borderColor:C.blue+"44", background:C.blue+"0a" }}>
+                  <div style={{ fontSize:12.8, fontWeight:750, color:C.text }}>{F.line||"Fundstrat News is not checked."}</div>
+                  {F.honesty_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.8, color:C.faint }}>{F.honesty_rule}</div>}
+                </div>
+
+                <Section id="fundstrat-monthly" title="Monthly Bible / Allocation" icon="M" badge={M.deck_date||"not checked"} badgeColor={M.deck_date?C.green:C.amber} summary={compactJoin([M.deck_date&&`deck ${M.deck_date}`, M.age_days!=null&&`${M.age_days}d old`, (M.allocation_plan||[]).length&&`${(M.allocation_plan||[]).length} allocation cues`]) || "Monthly bible not checked."} openMap={open} setOpen={setOpen} defaultOpen={true}>
+                  <div style={{ ...card, marginBottom:8 }}>
+                    <div style={{ fontFamily:mono, fontSize:10.5, color:C.faint, marginBottom:5 }}>Source: {M.source_file||"not captured"} | {M.freshness_label||"not checked"}</div>
+                    <div style={{ fontSize:12, color:C.dim }}>{M.freshness_judgment||"No monthly judgment available."}</div>
+                    {(M.allocation_plan||[]).length>0 && (
+                      <div style={{ marginTop:8, display:"flex", flexWrap:"wrap", gap:6 }}>
+                        {(M.allocation_plan||[]).map((x,i)=><span key={`${x}${i}`} style={{ fontFamily:mono, fontSize:10.8, color:C.text, border:`1px solid ${C.line}`, borderRadius:99, padding:"2px 8px", background:C.panel2 }}>{x}</span>)}
+                      </div>
+                    )}
+                  </div>
+                  <FundstratMonthlyRows title="Top 5 large cap" rows={M.top_large_cap||[]} empty="Top 5 large cap is not captured in this feed." />
+                  <FundstratMonthlyRows title="Top 5 SMID" rows={M.top_smid||[]} empty="Top 5 SMID is not captured in the live monthly/prospect caches yet." />
+                  <FundstratMonthlyRows title="Bottom 5" rows={M.bottom5||[]} empty="Bottom 5 is not captured in this feed." />
+                </Section>
+
+                <Section id="fundstrat-daily" title="Daily Additions / Deltas" icon="D" badge={D.count?`${D.count}`:"0"} badgeColor={D.count?C.blue:C.faint} summary={compactJoin([D.latest_date&&`latest ${D.latest_date}`, D.count!=null&&`${D.count} stored call${D.count===1?"":"s"}`, D.freshness_judgment&&clipText(D.freshness_judgment,70)]) || "No full-body daily calls stored."} openMap={open} setOpen={setOpen} defaultOpen={true}>
+                  <div style={{ ...card, marginBottom:8, fontSize:12, color:C.dim }}>
+                    {D.freshness_judgment||"No full-body Fundstrat daily rows are currently stored."}
+                    <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>full-body {D.full_body_entries||0} | snippet-only {D.snippet_only_entries||0} | stored daily {D.stored_daily_calls||0}</div>
+                  </div>
+                  {!(D.rows||[]).length && <div style={{ ...card, fontSize:12, color:C.faint }}>No daily Fundstrat additions/deltas in this feed build.</div>}
+                  {(D.rows||[]).slice(0,12).map((r,i)=>(
+                    <div key={`${r.ticker}${r.date}${i}`} style={{ ...card, marginBottom:7 }}>
+                      <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                        <span style={{ fontFamily:mono, fontWeight:800, color:C.text }}>{r.ticker}</span>
+                        <span style={{ fontFamily:mono, fontSize:10.5, color:C.blue, border:`1px solid ${C.blue}55`, borderRadius:99, padding:"1px 8px" }}>{r.author||"Fundstrat"}</span>
+                        <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber }}>{r.action_implication||"context"}</span>
+                        <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.date}</span>
+                      </div>
+                      {r.quote && <div style={{ marginTop:6, fontSize:12.2, color:C.text }}>{r.quote}</div>}
+                      <div style={{ marginTop:5, fontSize:11.5, color:C.dim }}>{r.source_weight_note||r.confidence_policy||"Use as context until action implication is clear."}</div>
+                    </div>
+                  ))}
+                </Section>
+
+                <Section id="fundstrat-news-gaps" title="Fundstrat Data Gaps" icon="!" badge={gaps.length?`${gaps.length}`:"0"} badgeColor={gaps.length?C.amber:C.green} summary={gaps.length ? clipText(gaps[0].line,100) : "No captured Fundstrat News gaps."} openMap={open} setOpen={setOpen} defaultOpen={true}>
+                  {!gaps.length && <div style={{ ...card, fontSize:12, color:C.green }}>No gaps surfaced by the Fundstrat News builder.</div>}
+                  {gaps.map((g,i)=>(
+                    <div key={`${g.key}${i}`} style={{ ...card, marginBottom:7, borderColor:(g.severity==="warn"?C.amber:C.blue)+"44" }}>
+                      <div style={{ fontFamily:mono, fontSize:10.8, color:g.severity==="warn"?C.amber:C.blue, marginBottom:4 }}>{g.key||"gap"}</div>
+                      <div style={{ fontSize:12.5, color:C.text }}>{g.line}</div>
+                      {g.next_step && <div style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Next: {g.next_step}</div>}
+                    </div>
+                  ))}
+                </Section>
+              </div>
+            );
+          })()}
+        </Section>
+
+        <IfIWereYouBlock block={VM.ifIWereYou} sectionId="if-i-were-you-news" openMap={open} setOpen={setOpen} defaultOpen={false} />
 
         </>)}
 

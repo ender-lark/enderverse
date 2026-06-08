@@ -38,6 +38,16 @@ def test_canonical_jsx_has_current_commands_tab():
     assert "Social Watch remains queued/dark" in src
 
 
+def test_canonical_jsx_has_fundstrat_news_tab_and_if_i_were_you():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert '["news","News"]' in src
+    assert 'id="fundstrat-news"' in src
+    assert "Monthly Bible / Allocation" in src
+    assert "Top 5 SMID is not captured" in src
+    assert "If I Were You" in src
+
+
 def test_canonical_jsx_has_source_conflicts_section():
     src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
 
