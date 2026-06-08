@@ -1456,7 +1456,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
   // view is active, so on Action bookVM (the per-position map) is never called — holdings aren't
   // iterated at all. useMemo means toggling back and forth doesn't recompute either side.
   const shared = sharedVM(feed);
-  const A = useMemo(() => mode === "action" ? actionVM(feed) : null, [mode, feed]);
+  const A = useMemo(() => ["action","ideas","news","ops"].includes(mode) ? actionVM(feed) : null, [mode, feed]);
   const B = useMemo(() => mode === "book"   ? bookVM(feed)   : null, [mode, feed]);
   const VM = { ...shared, ...(A || {}), ...(B || {}) };   // only the active view's lanes + shared
   const R = (VM.research && ((VM.research.pending||[]).length || (VM.research.done||[]).length))
@@ -1557,13 +1557,15 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         <div style={{ position:"sticky", top:0, zIndex:10, background:C.bg, marginTop:6, paddingTop:10, paddingBottom:8, borderBottom:`1px solid ${C.line}` }}>
           <div style={{ display:"flex", gap:4, background:C.panel, border:`1px solid ${C.line}`, borderRadius:9, padding:3, width:"fit-content" }}>
-            {[["action","Today"],["book","Book"],["news","News"],["commands","Commands"]].map(([k,l])=>(
+            {[["action","Today"],["book","Book"],["ideas","Ideas"],["news","News"],["ops","Ops"],["commands","Commands"]].map(([k,l])=>(
               <button key={k} onClick={()=>setMode(k)} style={{ cursor:"pointer", border:"none", borderRadius:6, padding:"6px 14px", fontSize:12.5, fontWeight:600, fontFamily:sans, background: mode===k?C.panel3:"transparent", color: mode===k?C.text:C.faint }}>{l}</button>
             ))}
           </div>
         </div>
 
         {/* ⚡ ACTION VIEW ───────────────────────────────────────────── */}
+        {["action","ideas","news","ops"].includes(mode) && (<>
+
         {mode==="action" && (<>
 
         {/* affordance — the full book lives in the Book tab (nothing actionable is Book-only) */}
@@ -1760,6 +1762,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>{VM.sourceConflicts.honesty_rule||"Conflicts downgrade action posture; they do not execute trades."}</div>
         </Section>
 
+        </>)}
+
+        {mode==="ideas" && (<>
+
         <Section id="top-prospects" title="Top Prospects" icon="+" badge={(VM.prospects.counts&&VM.prospects.counts.total)?`${VM.prospects.counts.total}`:"0"} badgeColor={(VM.prospects.counts&&VM.prospects.counts.total)?C.accent:C.faint} summary={(() => { const P=VM.prospects||{}, ct=P.counts||{}, rows=prospectRows(P), top=rows[0]||{}; return ct.total ? compactJoin([`${ct.total} tracked`, `${ct.act_now||0} act-now`, `${ct.hot||0} hot`, `${ct.uncorroborated||0} uncorroborated`, top.ticker&&`top: ${top.ticker} ${top.urgency||top.direction||""}`]) : "No tracked prospects in this feed."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const P = VM.prospects||{}, ct = P.counts||{};
@@ -1825,6 +1831,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           ))}
         </Section>
 
+        </>)}
+
+        {mode==="ops" && (<>
+
         <Section id="uw-action-runbook" title="UW Action Runbook" icon="?" badge={((VM.uwActionRunbook||{}).rows||[]).length?`${((VM.uwActionRunbook||{}).rows||[]).length}`:"0"} badgeColor={((VM.uwActionRunbook||{}).rows||[]).length?C.blue:C.faint} summary={(() => { const U=VM.uwActionRunbook||{}, P=U.endpoint_proof||VM.uwEndpointProof||{}; return compactJoin([U.line||"No active UW check set.", P.line&&clipText(P.line,88)]); })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SCENARIO CHECKLIST FROM THE CURRENT DASHBOARD. It recommends UW endpoint groups and ticker scopes; it is not proof any endpoint was fetched.</div>
           {(() => {
@@ -1865,6 +1875,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           ))}
           {(VM.uwActionRunbook||{}).command && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: {(VM.uwActionRunbook||{}).command}</div>}
         </Section>
+
+        </>)}
+
+        {mode==="action" && (<>
 
         <Section id="reallocation-brief" title="Candidate Reallocation Brief" icon="#" badge={((VM.reallocationBrief||{}).counts||{}).adds?`${((VM.reallocationBrief||{}).counts||{}).adds} adds`:"0"} badgeColor={(VM.reallocationBrief||{}).status==="test_data_only"?C.amber:(((VM.reallocationBrief||{}).counts||{}).adds?C.green:C.faint)} summary={clipText((VM.reallocationBrief||{}).line || "No reallocation brief in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
@@ -1950,6 +1964,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })}
         </Section>
 
+        </>)}
+
+        {mode==="ideas" && (<>
+
         {/* FROM RESEARCH — ticker-specific Research-Queue items as their OWN
             candidate-action category (engine ⑦c research_actions), SEPARATE from
             Today's actions; deduped against the action+catalyst lanes
@@ -2003,8 +2021,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })}
         </Section>
 
+        </>)}
+
         {/* SIGNAL LOG — external Morning Scan notes. Watch-only; never promoted into actions here. */}
-        <Section id="signal-log" title="Signal Log" icon="📡" badge={VM.signalLog.length?`${VM.signalLog.length}`:"0"} badgeColor={VM.signalLog.length?C.blue:C.faint} summary={VM.signalLog.length ? compactJoin([`${VM.signalLog.length} watch rows`, tickerSummary(VM.signalLog), VM.signalLog[0]&&clipText(VM.signalLog[0].signal,72)]) : "Signal Log not supplied in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        {mode==="ops" && (<Section id="signal-log" title="Signal Log" icon="📡" badge={VM.signalLog.length?`${VM.signalLog.length}`:"0"} badgeColor={VM.signalLog.length?C.blue:C.faint} summary={VM.signalLog.length ? compactJoin([`${VM.signalLog.length} watch rows`, tickerSummary(VM.signalLog), VM.signalLog[0]&&clipText(VM.signalLog[0].signal,72)]) : "Signal Log not supplied in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>MORNING SCAN LOG — watch-only items from the external signal log.</div>
           {VM.signalLog.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Signal Log not supplied in this feed build.</div>}
           {VM.signalLog.map((r,i)=>(
@@ -2021,12 +2041,12 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               {r.note && <div style={{ marginTop:8, fontSize:12.5, color:C.dim }}>{r.note}</div>}
             </div>
           ))}
-        </Section>
+        </Section>)}
 
         {/* BULLISH FLOW (UW) — read-only WATCH lane: the daily UW opportunity
             cache (Strand-3 surfacing / B1), grouped by ticker (uw_flow = one
             name, one bucket). NOT conviction — the gated Chunk-2 hook is separate. */}
-        <Section id="bullish-flow" title="Bullish flow (UW)" icon="🌊" badge={(VM.bullishFlow.rows||[]).length?`${VM.bullishFlow.tickers} · ${VM.bullishFlow.count}`:"0"} badgeColor={(VM.bullishFlow.rows||[]).length?C.green:C.faint} summary={((VM.bullishFlow.rows||[]).length) ? compactJoin([`${VM.bullishFlow.tickers||0} tickers`, `${VM.bullishFlow.count||0} signals`, VM.bullishFlow.as_of&&`as of ${VM.bullishFlow.as_of}`, tickerSummary(VM.bullishFlow.rows)]) : "No bullish-flow signals in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        {mode==="ideas" && (<Section id="bullish-flow" title="Bullish flow (UW)" icon="🌊" badge={(VM.bullishFlow.rows||[]).length?`${VM.bullishFlow.tickers} · ${VM.bullishFlow.count}`:"0"} badgeColor={(VM.bullishFlow.rows||[]).length?C.green:C.faint} summary={((VM.bullishFlow.rows||[]).length) ? compactJoin([`${VM.bullishFlow.tickers||0} tickers`, `${VM.bullishFlow.count||0} signals`, VM.bullishFlow.as_of&&`as of ${VM.bullishFlow.as_of}`, tickerSummary(VM.bullishFlow.rows)]) : "No bullish-flow signals in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>DAILY UW OPTIONS RADAR — fresh bullish flow / sweeps / OI build / dark-pool, grouped by name (5 sweeps = one bucket). A WATCH surface, not conviction; not a fired action.{VM.bullishFlow.as_of?` · as-of ${VM.bullishFlow.as_of}`:""}</div>
           {(VM.bullishFlow.rows||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No bullish-flow signals in this feed build.</div>}
           {(VM.bullishFlow.rows||[]).map((r,i)=>{
@@ -2058,10 +2078,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               </div>
             );
           })}
-        </Section>
+        </Section>)}
 
         {/* SYNTHESIS — today's read / state-of-play (Daily Synthesis; Tier-1) */}
-        <Section id="synthesis" title="Today's read — synthesis" icon="🧠" badge={VM.synthesis&&VM.synthesis.date?VM.synthesis.date:""} badgeColor={C.blue} summary={clipText((VM.synthesis||{}).state_of_play || (VM.synthesis||{}).delta || "No synthesis loaded in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        {mode==="news" && (<Section id="synthesis" title="Today's read — synthesis" icon="🧠" badge={VM.synthesis&&VM.synthesis.date?VM.synthesis.date:""} badgeColor={C.blue} summary={clipText((VM.synthesis||{}).state_of_play || (VM.synthesis||{}).delta || "No synthesis loaded in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const s = VM.synthesis || {};
             const empty = !s.state_of_play && !s.delta && !(s.hanging&&s.hanging.length);
@@ -2080,9 +2100,11 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               </div>
             );
           })()}
-        </Section>
+        </Section>)}
 
         {/* RADAR — endorsed names not owned yet (engine ⑨ radar block) */}
+        {mode==="ops" && (<>
+
         <Section id="source-audits" title="Source Proof" icon="!" badge={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.expected_count?`${c.scheduled_success_count||0}/${c.expected_count}`:"audit"; })()} badgeColor={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.expected_count && (c.scheduled_success_count||0) >= c.expected_count ? C.green : C.amber; })()} summary={(() => { const A=VM.sourceAudits||{}, c=A.cloud_routines||{}, u=A.uw_endpoint_proof||VM.uwEndpointProof||{}; return compactJoin([c.line&&clipText(c.line,72), u.line&&clipText(u.line,72)]); })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const A=VM.sourceAudits||{};
@@ -2143,7 +2165,9 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })()}
         </Section>
 
-        <Section id="radar" title="Radar — endorsed, not owned" icon="📡" badge={VM.radar.length?`${VM.radar.length}`:"0"} badgeColor={VM.radar.length?C.blue:C.faint} summary={VM.radar.length ? compactJoin([`${VM.radar.length} endorsed/unowned`, tickerSummary(VM.radar), VM.radar[0]&&clipText(VM.radar[0].direction||VM.radar[0].author,64)]) : "No endorsed unowned radar rows."} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        </>)}
+
+        {mode==="ideas" && (<Section id="radar" title="Radar — endorsed, not owned" icon="📡" badge={VM.radar.length?`${VM.radar.length}`:"0"} badgeColor={VM.radar.length?C.blue:C.faint} summary={VM.radar.length ? compactJoin([`${VM.radar.length} endorsed/unowned`, tickerSummary(VM.radar), VM.radar[0]&&clipText(VM.radar[0].direction||VM.radar[0].author,64)]) : "No endorsed unowned radar rows."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>ENDORSED by a daily analyst call · NOT in the book · not a parked 🔒 MONITOR sleeve. A watch surface — not a position.</div>
           {VM.radar.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing on the radar — no endorsed, un-owned names in the latest daily calls.</div>}
           {VM.radar.map((r,i)=>{
@@ -2170,7 +2194,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               </div>
             );
           })}
-        </Section>
+        </Section>)}
 
         </>)}
 
@@ -2440,10 +2464,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </>)}
 
         {/* ⚡ ACTION VIEW (cont.) ────────────────────────────────────── */}
-        {mode==="action" && (<>
+        {["news","ideas","ops"].includes(mode) && (<>
 
         {/* MARKET READ — rotation + macro (from FEED) */}
-        <Section id="market" title="Market read — rotation + macro" icon="🌐" summary={compactJoin([VM.macro&&VM.macro.impl&&VM.macro.impl[0]&&clipText(VM.macro.impl[0],96), VM.rotation&&VM.rotation[0]&&`lead: ${VM.rotation[0].s} ${VM.rotation[0].w}`]) || "No market read loaded."} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        {mode==="news" && (<Section id="market" title="Market read — rotation + macro" icon="🌐" summary={compactJoin([VM.macro&&VM.macro.impl&&VM.macro.impl[0]&&clipText(VM.macro.impl[0],96), VM.rotation&&VM.rotation[0]&&`lead: ${VM.rotation[0].s} ${VM.rotation[0].w}`]) || "No market read loaded."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ ...card, marginBottom:8 }}>
             <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>SLEEVE LEADERSHIP (relative strength vs market)</div>
             {VM.rotation.map((r,i)=>(
@@ -2466,10 +2490,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             </div>
             <div style={{ marginTop:8, fontSize:11, color:C.faint, fontFamily:mono }}>{VM.macro.note}</div>
           </div>
-        </Section>
+        </Section>)}
 
         {/* RESEARCH — live Research Queue (R = VM.research when present, else curated) */}
-        <Section id="research" title="Research" icon="🔬" badge={(R.pending||[]).length+(R.done||[]).length} badgeColor={C.blue} summary={compactJoin([`${(R.pending||[]).length} pending`, `${(R.done||[]).length} completed`, (R.pending||[])[0]&&clipText((R.pending||[])[0].title||(R.pending||[])[0].r,72)])} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        {mode==="ideas" && (<Section id="research" title="Research" icon="🔬" badge={(R.pending||[]).length+(R.done||[]).length} badgeColor={C.blue} summary={compactJoin([`${(R.pending||[]).length} pending`, `${(R.done||[]).length} completed`, (R.pending||[])[0]&&clipText((R.pending||[])[0].title||(R.pending||[])[0].r,72)])} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <Section id="rpending" title="Pending — you prioritize" icon="⏳" badge={(R.pending||[]).length} badgeColor={C.blue} summary={(R.pending||[]).length ? clipText((R.pending||[])[0].title||(R.pending||[])[0].r,88) : "Nothing pending."} openMap={open} setOpen={setOpen} defaultOpen={false}>
             {(R.pending||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>Nothing pending.</div>}
             {(R.pending||[]).map((x,i)=>{ const pr=x.priority||x.pr||""; return (
@@ -2487,10 +2511,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               </div>
             ))}
           </Section>
-        </Section>
+        </Section>)}
 
         {/* CATALYSTS - live feed rows from Catalyst Calendar / catalyst intake */}
-        <Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={CATS.length} badgeColor={CATS.length?C.blue:C.faint} summary={CATS.length ? compactJoin([`${CATS.length} catalysts`, `${CATS[0].d} ${clipText(CATS[0].e,62)}`]) : "No catalysts supplied in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        {mode==="news" && (<Section id="cats" title="Upcoming catalysts — near-term" icon="📅" badge={CATS.length} badgeColor={CATS.length?C.blue:C.faint} summary={CATS.length ? compactJoin([`${CATS.length} catalysts`, `${CATS[0].d} ${clipText(CATS[0].e,62)}`]) : "No catalysts supplied in this feed build."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {CATS.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No catalysts supplied in this feed build.</div>}
           {CATS.map((x,i)=>(
             <div key={i} style={{ ...card, marginBottom:7, display:"flex", gap:12, alignItems:"baseline" }}>
@@ -2498,10 +2522,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               <div><div style={{ fontSize:13, color:C.text }}>{x.e}</div><div style={muted}>{x.note}</div></div>
             </div>
           ))}
-        </Section>
+        </Section>)}
 
         {/* QUESTIONS (cockpit-curated; swap CURATED.questions → VM.questions when the feed emits them) */}
-        <Section id="questions" title="Questions for you" icon="❓" badge={`${CURATED.questions.length}`} badgeColor={C.dim} summary={CURATED.questions.length ? clipText(CURATED.questions[0].q,88) : "No open questions."} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        {mode==="ops" && (<Section id="questions" title="Questions for you" icon="❓" badge={`${CURATED.questions.length}`} badgeColor={C.dim} summary={CURATED.questions.length ? clipText(CURATED.questions[0].q,88) : "No open questions."} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {CURATED.questions.length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No open questions.</div>}
           {CURATED.questions.map((x,i)=>(
             <div key={i} style={{ ...card, marginBottom:7 }}>
@@ -2509,9 +2533,9 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{x.tag} · {x.d}</div>
             </div>
           ))}
-        </Section>
+        </Section>)}
 
-        <Section id="social-watch" title="Social Watch" icon="*" badge={(VM.socialWatch&&VM.socialWatch.count)?`${VM.socialWatch.count}`:"0"} badgeColor={(VM.socialWatch&&VM.socialWatch.status)==="has_data"?C.amber:C.faint} summary={(() => { const S=VM.socialWatch||{}; return compactJoin([String(S.status||"not_checked").replaceAll("_"," "), S.line||"Reddit/social feed is not implemented yet.", "watch-only"]); })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+        {mode==="ops" && (<Section id="social-watch" title="Social Watch" icon="*" badge={(VM.socialWatch&&VM.socialWatch.count)?`${VM.socialWatch.count}`:"0"} badgeColor={(VM.socialWatch&&VM.socialWatch.status)==="has_data"?C.amber:C.faint} summary={(() => { const S=VM.socialWatch||{}; return compactJoin([String(S.status||"not_checked").replaceAll("_"," "), S.line||"Reddit/social feed is not implemented yet.", "watch-only"]); })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>REDDIT / SOCIAL EARLY-SIGNAL WATCH. Watch-only until independently confirmed by UW, price/news, Fundstrat, catalyst, or source-call evidence.</div>
           {(() => {
             const S=VM.socialWatch||{}, rows=S.rows||[];
@@ -2547,7 +2571,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               </div>
             );
           })()}
-        </Section>
+        </Section>)}
 
         <div style={{ marginTop:18, fontSize:11, color:C.faint, textAlign:"center", fontFamily:mono }}>
           {VM.stamp} · tap anything to expand · every section collapses independently

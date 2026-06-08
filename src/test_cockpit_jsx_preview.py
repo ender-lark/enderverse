@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -84,3 +85,39 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert "Ideas, research, and opportunity rows keep their original home below" in src
     assert "What this changes:" in src
     assert "data backup" in src
+    assert 'title="Action posture this row changes or requires."' in src
+    assert 'title="How quickly the assumption can decay."' in src
+    assert 'title="Primary source or lane."' in src
+
+
+def test_canonical_jsx_has_ideas_and_ops_tab_homes():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert '["ideas","Ideas"]' in src
+    assert '["ops","Ops"]' in src
+    assert '{mode==="ideas" && (<>' in src
+    assert '{mode==="ops" && (<>' in src
+    assert 'id="top-prospects"' in src
+    assert 'id="asymmetric-opportunities"' in src
+    assert 'id="bullish-flow"' in src
+    assert 'id="radar"' in src
+    assert 'id="source-audits"' in src
+    assert 'id="feedback"' in src
+    assert 'id="social-watch"' in src
+
+
+def test_canonical_jsx_routes_major_sections_to_their_tab_homes():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    expected = {
+        "action": ["actions", "reallocation-brief", "target-drift"],
+        "ideas": ["top-prospects", "asymmetric-opportunities", "research-actions", "fresh-signals", "bullish-flow", "radar", "research"],
+        "news": ["fundstrat-news", "synthesis", "market", "cats"],
+        "ops": ["uw-action-runbook", "source-audits", "feedback", "signal-log", "questions", "social-watch"],
+    }
+
+    assert re.search(r'\{mode==="action" && .*?<TodayPriorityStack', src, flags=re.S)
+    for mode, section_ids in expected.items():
+        for section_id in section_ids:
+            pattern = rf'\{{mode==="{mode}" && .*?id="{re.escape(section_id)}"'
+            assert re.search(pattern, src, flags=re.S), f"{section_id} should be rendered from {mode} tab"
