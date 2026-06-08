@@ -8,7 +8,9 @@ def test_from_research_uses_priority_badge_label_without_changing_action_contrac
     text = JSX.read_text(encoding="utf-8")
 
     assert 'confBadgeLabel:opts.confBadgeLabel||"conf"' in text
-    assert 'researchActions: (feed.research_actions||[]).map(a=>actionRow(a, { confBadgeLabel:"priority" }))' in text
+    assert 'const researchActions = (feed.research_actions||[]).map(a=>actionRow(a, { confBadgeLabel:"priority" }))' in text
+    assert "todayPriority: todayPriorityRows(feed, actions, researchActions)" in text
+    assert "researchActions," in text
     assert "priority: {a.confLabel}" not in text
     assert "conf: {a.confLabel}" not in text
     assert "{a.confBadgeLabel}: {a.confLabel}" in text

@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-06-08T03:30:10.651185+00:00",
+  "generated_at": "2026-06-08T04:39:47.202829+00:00",
   "staleness": {
-    "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
+    "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-08 \u00b7 uw_macro 06-08 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05 \u26a0\ufe0f",
     "entries": [
       {
         "source": "portfolio",
         "date": "2026-06-07",
-        "age_days": 0,
+        "age_days": 1,
         "cadence": "on_refresh",
         "stale": false,
         "flag": ""
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T23:30:10.651185-04:00",
+        "date": "2026-06-08T00:39:47.202829-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T23:30:10.651185-04:00",
+        "date": "2026-06-08T00:39:47.202829-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -30,7 +30,7 @@
       {
         "source": "fundstrat_bible",
         "date": "2026-05-28",
-        "age_days": 10,
+        "age_days": 11,
         "cadence": "monthly",
         "stale": false,
         "flag": ""
@@ -38,13 +38,15 @@
       {
         "source": "fundstrat_daily",
         "date": "2026-06-05",
-        "age_days": 2,
+        "age_days": 3,
         "cadence": "daily",
-        "stale": false,
-        "flag": ""
+        "stale": true,
+        "flag": "\u26a0\ufe0f"
       }
     ],
-    "stale": []
+    "stale": [
+      "fundstrat_daily"
+    ]
   },
   "lane_status": {
     "rows": [
@@ -83,8 +85,8 @@
       {
         "key": "fundstrat_daily",
         "label": "FS Daily",
-        "status": "has_data",
-        "detail": "checked",
+        "status": "stale",
+        "detail": "past freshness window",
         "count": 0,
         "checked_at": ""
       },
@@ -166,12 +168,12 @@
     "counts": {
       "failed": 0,
       "not_checked": 1,
-      "has_data": 13,
-      "stale": 0,
+      "has_data": 12,
+      "stale": 1,
       "checked_clear": 0
     },
     "has_dark_lanes": true,
-    "has_stale_or_failed": false
+    "has_stale_or_failed": true
   },
   "hero": {
     "hero": {
@@ -237,7 +239,7 @@
       "freshness_judgment": {
         "label": "fresh",
         "evidence_date": "2026-06-07",
-        "last_checked": "2026-06-07",
+        "last_checked": "2026-06-08",
         "decay_window": "until position, price, thesis, or target changes",
         "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
       },
@@ -275,7 +277,7 @@
       },
       "assumption_refresh": {
         "status": "changed_recheck",
-        "checked_at": "2026-06-07",
+        "checked_at": "2026-06-08",
         "snapshot": {
           "ticker": "NVDA",
           "action_state": "ACT_NOW",
@@ -331,7 +333,7 @@
       "freshness_judgment": {
         "label": "fast-moving",
         "evidence_date": "2026-06-03",
-        "last_checked": "2026-06-07",
+        "last_checked": "2026-06-08",
         "decay_window": "intraday to 1 trading day",
         "judgment": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
       },
@@ -366,7 +368,7 @@
       },
       "assumption_refresh": {
         "status": "changed_recheck",
-        "checked_at": "2026-06-07",
+        "checked_at": "2026-06-08",
         "snapshot": {
           "ticker": "",
           "action_state": "WATCH",
@@ -425,12 +427,12 @@
       "missing_evidence": [],
       "freshness_judgment": {
         "label": "fresh",
-        "evidence_date": "2026-06-07",
-        "last_checked": "2026-06-07",
+        "evidence_date": "2026-06-08",
+        "last_checked": "2026-06-08",
         "decay_window": "until position, price, thesis, or target changes",
         "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
       },
-      "freshness": "fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes",
+      "freshness": "fresh: evidence 2026-06-08; decays until position, price, thesis, or target changes",
       "why_this_matters": "A conviction-backed sizing gap can make a right call too small.",
       "disconfirmation": {
         "question": "What would make this wrong?",
@@ -462,12 +464,12 @@
       },
       "assumption_refresh": {
         "status": "still_valid",
-        "checked_at": "2026-06-07",
+        "checked_at": "2026-06-08",
         "snapshot": {
           "ticker": "ANET",
           "action_state": "WATCH",
           "source": "lean_in",
-          "evidence_date": "2026-06-07",
+          "evidence_date": "2026-06-08",
           "freshness": "fresh",
           "decay_window": "until position, price, thesis, or target changes",
           "capital_label": "opportunity-cost watch",
@@ -517,12 +519,12 @@
       "missing_evidence": [],
       "freshness_judgment": {
         "label": "fresh",
-        "evidence_date": "2026-06-07",
-        "last_checked": "2026-06-07",
+        "evidence_date": "2026-06-08",
+        "last_checked": "2026-06-08",
         "decay_window": "until position, price, thesis, or target changes",
         "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
       },
-      "freshness": "fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes",
+      "freshness": "fresh: evidence 2026-06-08; decays until position, price, thesis, or target changes",
       "why_this_matters": "A conviction-backed sizing gap can make a right call too small.",
       "disconfirmation": {
         "question": "What would make this wrong?",
@@ -554,12 +556,12 @@
       },
       "assumption_refresh": {
         "status": "still_valid",
-        "checked_at": "2026-06-07",
+        "checked_at": "2026-06-08",
         "snapshot": {
           "ticker": "GOOGL",
           "action_state": "WATCH",
           "source": "lean_in",
-          "evidence_date": "2026-06-07",
+          "evidence_date": "2026-06-08",
           "freshness": "fresh",
           "decay_window": "until position, price, thesis, or target changes",
           "capital_label": "opportunity-cost watch",
@@ -609,12 +611,12 @@
       "missing_evidence": [],
       "freshness_judgment": {
         "label": "fresh",
-        "evidence_date": "2026-06-07",
-        "last_checked": "2026-06-07",
+        "evidence_date": "2026-06-08",
+        "last_checked": "2026-06-08",
         "decay_window": "until position, price, thesis, or target changes",
         "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
       },
-      "freshness": "fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes",
+      "freshness": "fresh: evidence 2026-06-08; decays until position, price, thesis, or target changes",
       "why_this_matters": "A conviction-backed sizing gap can make a right call too small.",
       "disconfirmation": {
         "question": "What would make this wrong?",
@@ -646,12 +648,12 @@
       },
       "assumption_refresh": {
         "status": "still_valid",
-        "checked_at": "2026-06-07",
+        "checked_at": "2026-06-08",
         "snapshot": {
           "ticker": "MAGS",
           "action_state": "WATCH",
           "source": "lean_in",
-          "evidence_date": "2026-06-07",
+          "evidence_date": "2026-06-08",
           "freshness": "fresh",
           "decay_window": "until position, price, thesis, or target changes",
           "capital_label": "opportunity-cost watch",
@@ -1276,56 +1278,56 @@
       "ticker": "GS",
       "label": "Q2 FY26 earnings",
       "date": "2026-07-15",
-      "days_out": 38,
+      "days_out": 37,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     },
     {
       "ticker": "GEV",
       "label": "Q2 2026 earnings",
       "date": "2026-07-22",
-      "days_out": 45,
+      "days_out": 44,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     },
     {
       "ticker": "INTC",
       "label": "Q2 2026 earnings",
       "date": "2026-07-23",
-      "days_out": 46,
+      "days_out": 45,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     },
     {
       "ticker": "LEU",
       "label": "Q2 FY26 earnings",
       "date": "2026-08-04",
-      "days_out": 58,
+      "days_out": 57,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     },
     {
       "ticker": "IONQ",
       "label": "Q2 FY26 earnings",
       "date": "2026-08-05",
-      "days_out": 59,
+      "days_out": 58,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     },
     {
       "ticker": "UUUU",
       "label": "Q2 FY26 earnings",
       "date": "2026-08-05",
-      "days_out": 59,
+      "days_out": 58,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     },
     {
       "ticker": "MP",
       "label": "Q2 FY26 earnings",
       "date": "2026-08-06",
-      "days_out": 60,
+      "days_out": 59,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     },
     {
       "ticker": "BMNR",
       "label": "Q1 FY27 earnings premarket",
       "date": "2026-11-21",
-      "days_out": 167,
+      "days_out": 166,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     }
   ],
@@ -1355,38 +1357,38 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T03:30:10.533373+00:00",
+      "last_run": "2026-06-08T04:39:47.071961+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T03:30:10.533373+00:00",
+      "last_run": "2026-06-08T04:39:47.071961+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T03:30:10.533373+00:00",
+      "last_run": "2026-06-08T04:39:47.071961+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-08T03:30:10.533373+00:00",
+      "last_run": "2026-06-08T04:39:47.071961+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T03:30:10.533373+00:00",
+      "last_run": "2026-06-08T04:39:47.071961+00:00",
       "note": "rehearsal build can run"
     }
   ],
   "synthesis": {
     "source": "Repo Evidence Synthesis",
-    "date": "2026-06-07",
-    "state_of_play": "Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Conviction gap: NVDA is under target (watch, high confidence, source target_drift). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+    "date": "2026-06-08",
+    "state_of_play": "Repo evidence read: 12 lane(s) have data and 1 optional lane(s) are not checked. Top action is Conviction gap: NVDA is under target (watch, high confidence, source target_drift). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
     "delta": "Latest Fundstrat Daily compact calls in radar: QQQ watch, RSP watch, SOX watch. Target drift: 12 sizing gap(s) vs AI working model (1 under, 2 over, 9 missing); GRNY oversized 9.5% vs 3.0%; SMH oversized 8.8% vs 5.0%; NVDA undersized 7.1% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more",
     "hanging": [
       "Operator review still required: NVDA is 7.1% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.",
@@ -1486,7 +1488,7 @@
         "clustered: 1 independent source \u2014 not independent confirmation",
         "already moved: entry less asymmetric (sleeve leading)"
       ],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1509,7 +1511,7 @@
         "clustered: 1 independent source \u2014 not independent confirmation",
         "already moved: entry less asymmetric (sleeve leading)"
       ],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1525,8 +1527,8 @@
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
         "Direction: 06-07 uw_opportunity call_flow \u00b7 06-07 uw_opportunity oi_build",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call flow $0.1M, c/p 0.17 (0d)",
-        "UW \u25b2 call OI +1250% at 69/100/69.5 strikes (0d)"
+        "UW \u25b2 ask-side call flow $0.1M, c/p 0.17 (1d)",
+        "UW \u25b2 call OI +1250% at 69/100/69.5 strikes (1d)"
       ],
       "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -1534,7 +1536,7 @@
       "caveats": [
         "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
       ],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1550,14 +1552,14 @@
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
         "Direction: 06-07 uw_opportunity call_flow \u00b7 06-07 uw_opportunity oi_build",
         "Rotation: IN LINE",
-        "UW \u25b2 ask-side call flow $0.0M, 8:1 c/p (0d)",
-        "UW \u25b2 call OI +143% at 27/29/28 strikes (0d)"
+        "UW \u25b2 ask-side call flow $0.0M, 8:1 c/p (1d)",
+        "UW \u25b2 call OI +143% at 27/29/28 strikes (1d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1573,8 +1575,8 @@
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
         "Direction: 06-07 uw_opportunity oi_build",
         "Rotation: LEADING",
-        "UW \u25bc ask-side put sweeps $1.1M, 3:1 c/p (0d)",
-        "UW \u25b2 call OI +13305% at 232.5/225/232.5 strikes (0d)"
+        "UW \u25bc ask-side put sweeps $1.1M, 3:1 c/p (1d)",
+        "UW \u25b2 call OI +13305% at 232.5/225/232.5 strikes (1d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -1582,7 +1584,7 @@
       "caveats": [
         "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
       ],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1598,14 +1600,14 @@
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
         "Direction: 06-07 uw_opportunity oi_build",
         "Rotation: LAGGING",
-        "UW \u25bc ask-side put sweeps $0.4M, c/p 0.34 (0d)",
-        "UW \u25b2 call OI +103750% at 55/52/55 strikes (0d)"
+        "UW \u25bc ask-side put sweeps $0.4M, c/p 0.34 (1d)",
+        "UW \u25b2 call OI +103750% at 55/52/55 strikes (1d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1625,7 +1627,7 @@
       "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1645,7 +1647,7 @@
       "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1665,7 +1667,7 @@
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1685,7 +1687,7 @@
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1701,14 +1703,14 @@
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
         "Direction: 06-07 uw_opportunity sweep \u00b7 06-07 uw_opportunity oi_build",
         "Rotation: LEADING",
-        "UW \u25bc ask-side put sweeps $1.8M, c/p 0.16 (0d)",
-        "UW \u25bc put OI +1844% at 790/520/550 strikes (0d)"
+        "UW \u25bc ask-side put sweeps $1.8M, c/p 0.16 (1d)",
+        "UW \u25bc put OI +1844% at 790/520/550 strikes (1d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1728,7 +1730,7 @@
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1744,14 +1746,14 @@
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
         "Direction: 06-07 uw_opportunity oi_build",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $1.2M, c/p 0.28 (0d)",
-        "UW \u25bc put OI +135000% at 560/430/500 strikes (0d)"
+        "UW \u25b2 ask-side call sweeps $1.2M, c/p 0.28 (1d)",
+        "UW \u25bc put OI +135000% at 560/430/500 strikes (1d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
       "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1771,7 +1773,7 @@
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
     {
@@ -1787,14 +1789,14 @@
         "Conviction: real named backing (operator), not fully proven / single-source \u2014 moderate",
         "Direction: 06-07 uw_opportunity call_flow \u00b7 06-07 uw_opportunity oi_build",
         "Rotation: TURNING DOWN",
-        "UW \u25b2 ask-side call flow $0.0M (0d)",
-        "UW \u25b2 call OI +1050% at 38/38 strikes (0d)"
+        "UW \u25b2 ask-side call flow $0.0M (1d)",
+        "UW \u25b2 call OI +1050% at 38/38 strikes (1d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
-      "freshness": "as-of 2026-06-07",
+      "freshness": "as-of 2026-06-08",
       "action": "NONE"
     }
   ],
@@ -2181,9 +2183,9 @@
     },
     "open_actions": {
       "status": "has_data",
-      "line": "Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).",
+      "line": "Open action backlog: 2 open; 0 due; 0 stale; oldest 1 trading day(s).",
       "count": 2,
-      "oldest_age_days": 0,
+      "oldest_age_days": 1,
       "due_count": 0,
       "stale_count": 0,
       "items": [
@@ -2192,7 +2194,7 @@
           "kind": "lean_in",
           "source": "lean_in",
           "first_flagged": "2026-06-07",
-          "age_days": 0,
+          "age_days": 1,
           "move_since": "",
           "review_state": "new",
           "review_label": "new",
@@ -2206,7 +2208,7 @@
           "kind": "lean_in",
           "source": "lean_in",
           "first_flagged": "2026-06-07",
-          "age_days": 0,
+          "age_days": 1,
           "move_since": "",
           "review_state": "new",
           "review_label": "new",
@@ -2462,7 +2464,7 @@
           "action_label": "RE-CHECK",
           "freshness_label": "fresh",
           "evidence_date": "2026-06-07",
-          "last_checked": "2026-06-07",
+          "last_checked": "2026-06-08",
           "decay_window": "until position, price, thesis, or target changes",
           "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
         },
@@ -2474,7 +2476,7 @@
           "action_label": "RE-CHECK",
           "freshness_label": "fast-moving",
           "evidence_date": "2026-06-03",
-          "last_checked": "2026-06-07",
+          "last_checked": "2026-06-08",
           "decay_window": "intraday to 1 trading day",
           "judgment": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
         }
@@ -2488,7 +2490,7 @@
     },
     "condition_checklist": {
       "status": "has_data",
-      "date": "2026-06-07",
+      "date": "2026-06-08",
       "line": "Condition checklist: 8 pre-action level/headline check(s).",
       "rows": [
         {
@@ -12440,7 +12442,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 12.11
+        "connector_proof_age_hours": 13.27
       }
     ],
     "missing": [],
@@ -13537,17 +13539,18 @@
       "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
       "endpoint_proof": {
         "status": "has_data",
-        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.",
+        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.",
         "blockers": [
           "inconclusive endpoint result(s) cannot promote related actions",
-          "missing/failed endpoint result(s) keep related actions blocked"
+          "missing/failed endpoint result(s) keep related actions blocked",
+          "one or more endpoint result rows are not same-session fresh"
         ],
         "newest_checked_at": "2026-06-07T18:35:12.325101+00:00"
       }
     },
     "uw_endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.",
+      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.",
       "count": 13,
       "counts": {
         "missing": 2,
@@ -13559,8 +13562,8 @@
         "inconclusive": 10
       },
       "newest_checked_at": "2026-06-07T18:35:12.325101+00:00",
-      "same_session_date": "2026-06-07",
-      "stale_count": 0,
+      "same_session_date": "2026-06-08",
+      "stale_count": 13,
       "off_runbook_count": 0,
       "rows": [
         {
@@ -13696,7 +13699,8 @@
       ],
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
-        "missing/failed endpoint result(s) keep related actions blocked"
+        "missing/failed endpoint result(s) keep related actions blocked",
+        "one or more endpoint result rows are not same-session fresh"
       ],
       "problems": [],
       "result_path": "src\\uw_endpoint_results.json",
@@ -13706,11 +13710,11 @@
   "fundstrat_news": {
     "status": "has_data",
     "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID 5, daily calls 6 latest 2026-06-05.",
-    "as_of": "2026-06-07",
+    "as_of": "2026-06-08",
     "monthly": {
       "deck_date": "2026-05-28",
       "source_file": "20260528-Market-UpdatevFSD-1.pdf",
-      "age_days": 10,
+      "age_days": 11,
       "freshness_label": "monthly baseline",
       "freshness_judgment": "Use as thesis/allocation baseline; do not treat as fresh tactical evidence without daily/tape confirmation.",
       "allocation_plan": [
@@ -14755,17 +14759,18 @@
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
     "endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.",
+      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.",
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
-        "missing/failed endpoint result(s) keep related actions blocked"
+        "missing/failed endpoint result(s) keep related actions blocked",
+        "one or more endpoint result rows are not same-session fresh"
       ],
       "newest_checked_at": "2026-06-07T18:35:12.325101+00:00"
     }
   },
   "uw_endpoint_proof": {
     "status": "has_data",
-    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-07 14:35 ET.",
+    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.",
     "count": 13,
     "counts": {
       "missing": 2,
@@ -14777,8 +14782,8 @@
       "inconclusive": 10
     },
     "newest_checked_at": "2026-06-07T18:35:12.325101+00:00",
-    "same_session_date": "2026-06-07",
-    "stale_count": 0,
+    "same_session_date": "2026-06-08",
+    "stale_count": 13,
     "off_runbook_count": 0,
     "rows": [
       {
@@ -14914,17 +14919,18 @@
     ],
     "blockers": [
       "inconclusive endpoint result(s) cannot promote related actions",
-      "missing/failed endpoint result(s) keep related actions blocked"
+      "missing/failed endpoint result(s) keep related actions blocked",
+      "one or more endpoint result rows are not same-session fresh"
     ],
     "problems": [],
     "result_path": "src\\uw_endpoint_results.json",
     "honesty_rule": "Only interpreted endpoint result rows count as UW proof; neutral fetch success is inconclusive and cannot promote actions."
   },
   "reallocation_brief": {
-    "status": "candidate_only",
-    "line": "Reallocation brief: candidate only from 2026-06-07 positions; 6 add candidate(s), 5 funding trim(s); allocated $499,666; shortfall $217,910.",
+    "status": "test_data_only",
+    "line": "Reallocation brief: test data only from 2026-06-07 positions; 6 add candidate(s), 5 funding trim(s); allocated $499,666; shortfall $217,910.",
     "positions_snapshot_date": "2026-06-07",
-    "positions_age_days": 0,
+    "positions_age_days": 1,
     "total_book_value": 1854029.0,
     "candidate_only": true,
     "counts": {
@@ -14969,6 +14975,7 @@
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
+          "latest current positions",
           "same-session UW price/flow",
           "funding source confirmation",
           "pre-trade gate"
@@ -15034,6 +15041,7 @@
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
+          "latest current positions",
           "same-session UW price/flow",
           "funding source confirmation",
           "pre-trade gate",
@@ -15100,6 +15108,7 @@
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
+          "latest current positions",
           "same-session UW price/flow",
           "funding source confirmation",
           "pre-trade gate"
@@ -15165,6 +15174,7 @@
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
+          "latest current positions",
           "same-session UW price/flow",
           "funding source confirmation",
           "pre-trade gate"
@@ -15226,6 +15236,7 @@
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
+          "latest current positions",
           "same-session UW price/flow",
           "funding source confirmation",
           "pre-trade gate",
@@ -15289,6 +15300,7 @@
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
+          "latest current positions",
           "same-session UW price/flow",
           "funding source confirmation",
           "pre-trade gate",
@@ -15470,6 +15482,7 @@
       ]
     },
     "blockers": [
+      "positions snapshot 2026-06-07 is 1 day(s) old; use as test-data only until current positions are supplied",
       "same-session UW price/flow confirmation required before any capital action",
       "tax/account constraints not supplied; all urgent items remain visible rather than capped"
     ],
@@ -15504,11 +15517,11 @@
       "TICKER_FLOW_RECENT"
     ],
     "command": "python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text",
-    "honesty_rule": "Candidate reallocation brief only; no trades are executed. Same-day positions still require gates before action."
+    "honesty_rule": "Candidate reallocation brief only; no trades are executed. Stale positions remain test-data only."
   },
   "market_open_packet": {
     "status": "recheck_first",
-    "line": "Market-open packet: 0 key, 2 re-check, 3 backlog, 5 urgent visible; 8 blocker(s).",
+    "line": "Market-open packet: 0 key, 2 re-check, 3 backlog, 5 urgent visible; 9 blocker(s).",
     "rows": [
       {
         "priority": 1,
@@ -15523,7 +15536,7 @@
         "what_changed": "Required live checks are missing: live opportunity; funding leg; pre-trade gate",
         "freshness_label": "fresh",
         "evidence_date": "2026-06-07",
-        "last_checked": "2026-06-07",
+        "last_checked": "2026-06-08",
         "decay_window": "until position, price, thesis, or target changes",
         "key_assumptions": "evidence 2026-06-07 is fresh; decays until position, price, thesis, or target changes; time window 1-3 trading days; capital posture compare and stage",
         "invalidates": "Live price or flow moved enough that the original entry/setup is no longer asymmetric.",
@@ -15545,7 +15558,7 @@
         "what_changed": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.",
         "freshness_label": "fast-moving",
         "evidence_date": "2026-06-03",
-        "last_checked": "2026-06-07",
+        "last_checked": "2026-06-08",
         "decay_window": "intraday to 1 trading day",
         "key_assumptions": "evidence 2026-06-03 is fast-moving; decays intraday to 1 trading day; time window today; capital posture protect capital",
         "invalidates": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
@@ -15556,15 +15569,15 @@
       },
       {
         "priority": 3,
-        "kind": "reallocation_review",
-        "label": "Review current-position reallocation candidates",
-        "why": "Reallocation brief: candidate only from 2026-06-07 positions; 6 add candidate(s), 5 funding trim(s); allocated $499,666; shortfall $217,910.",
-        "next_step": "Review funded add/trim legs, then run same-session UW/price and tax/account gates before acting.",
-        "blocks": "same-session UW price/flow confirmation required before any capital action",
+        "kind": "positions_blocker",
+        "label": "Reallocation waits for current positions",
+        "why": "Reallocation brief: test data only from 2026-06-07 positions; 6 add candidate(s), 5 funding trim(s); allocated $499,666; shortfall $217,910.",
+        "next_step": "Supply current positions before treating trim/add legs as current.",
+        "blocks": "positions snapshot 2026-06-07 is 1 day(s) old; use as test-data only until current positions are supplied",
         "source": "reallocation_brief",
         "command": "python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text",
-        "refresh_status": "changed_recheck",
-        "what_changed": "Current SnapTrade positions replaced stale PDF-era position assumptions."
+        "refresh_status": "",
+        "what_changed": ""
       },
       {
         "priority": 4,
@@ -15578,10 +15591,10 @@
         "refresh_status": "still_valid",
         "what_changed": "No material assumption break detected from available feed evidence.",
         "freshness_label": "fresh",
-        "evidence_date": "2026-06-07",
-        "last_checked": "2026-06-07",
+        "evidence_date": "2026-06-08",
+        "last_checked": "2026-06-08",
         "decay_window": "until position, price, thesis, or target changes",
-        "key_assumptions": "evidence 2026-06-07 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
+        "key_assumptions": "evidence 2026-06-08 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
         "invalidates": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
         "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
         "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
@@ -15600,10 +15613,10 @@
         "refresh_status": "still_valid",
         "what_changed": "No material assumption break detected from available feed evidence.",
         "freshness_label": "fresh",
-        "evidence_date": "2026-06-07",
-        "last_checked": "2026-06-07",
+        "evidence_date": "2026-06-08",
+        "last_checked": "2026-06-08",
         "decay_window": "until position, price, thesis, or target changes",
-        "key_assumptions": "evidence 2026-06-07 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
+        "key_assumptions": "evidence 2026-06-08 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
         "invalidates": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
         "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
         "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
@@ -15622,10 +15635,10 @@
         "refresh_status": "still_valid",
         "what_changed": "No material assumption break detected from available feed evidence.",
         "freshness_label": "fresh",
-        "evidence_date": "2026-06-07",
-        "last_checked": "2026-06-07",
+        "evidence_date": "2026-06-08",
+        "last_checked": "2026-06-08",
         "decay_window": "until position, price, thesis, or target changes",
-        "key_assumptions": "evidence 2026-06-07 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
+        "key_assumptions": "evidence 2026-06-08 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
         "invalidates": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
         "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
         "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
@@ -15708,7 +15721,7 @@
         "priority": 13,
         "kind": "open_reviews",
         "label": "Open reviews: 2 item(s)",
-        "why": "Open action backlog: 2 open; 0 due; 0 stale; oldest 0 trading day(s).",
+        "why": "Open action backlog: 2 open; 0 due; 0 stale; oldest 1 trading day(s).",
         "next_step": "Keep visible; resolve only after act, invalidate, defer, ignore, or miss is explicit.",
         "blocks": "Open reviews are not build blockers unless due or stale.",
         "source": "action_memory",
@@ -15721,13 +15734,14 @@
       "key_now": 0,
       "recheck": 2,
       "backlog": 3,
-      "dark_lanes": 1,
-      "blockers": 8,
+      "dark_lanes": 2,
+      "blockers": 9,
       "urgent_visible": 5
     },
     "blockers": [
       "Do not act if the target weight or thesis is outdated relative to the current portfolio.",
       "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
+      "positions snapshot 2026-06-07 is 1 day(s) old; use as test-data only until current positions are supplied",
       "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
       "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
       "latest positions, same-session price/flow, or funding source are missing; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
@@ -15795,7 +15809,7 @@
         "rank": 3,
         "posture": "size/compare",
         "label": "Compare the funded add candidates before parking capital: GOOGL leads the current reallocation brief.",
-        "why": "Reallocation brief: candidate only from 2026-06-07 positions; 6 add candidate(s), 5 funding trim(s); allocated $499,666; shortfall $217,910.",
+        "why": "Reallocation brief: test data only from 2026-06-07 positions; 6 add candidate(s), 5 funding trim(s); allocated $499,666; shortfall $217,910.",
         "what_i_would_do": "Use the brief as a capital-efficiency screen: choose the best current use of capital, stage if confirmed, and do not add a merely good idea ahead of a better one.",
         "source": "reallocation_brief"
       },

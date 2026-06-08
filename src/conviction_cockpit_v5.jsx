@@ -938,6 +938,7 @@ function sharedVM(feed){
 // actionVM = the ⚡ Action surface (decide/do). Built only when mode==="action".
 function actionVM(feed){
   const actions = (feed.actions||[]).map(actionRow);
+  const researchActions = (feed.research_actions||[]).map(a=>actionRow(a, { confBadgeLabel:"priority" }));
   const isOpp = (a)=>["upside","sizing_gap","leverage","opportunity_cost"].some(c=>(a.goalChannels||[]).includes(c));
   const isRisk = (a)=>["downside_protection","data_quality"].some(c=>(a.goalChannels||[]).includes(c));
   return {
@@ -959,7 +960,8 @@ function actionVM(feed){
       opportunities: actions.filter(a=>a.actionState!=="ACT_NOW" && isOpp(a)),
       risks: actions.filter(a=>isRisk(a)),
     },
-    researchActions: (feed.research_actions||[]).map(a=>actionRow(a, { confBadgeLabel:"priority" })),
+    todayPriority: todayPriorityRows(feed, actions, researchActions),
+    researchActions,
     synthesis: feed.synthesis||{},
     radar: (feed.radar||[]).map(radarRow),
     freshSignals: (feed.fresh_signals||[]).map(freshSignalRow),
@@ -1030,6 +1032,149 @@ function tickerSummary(rows, max=3){
 }
 function prospectRows(P){
   return [ ...((P||{}).hot||[]), ...((P||{}).movers_best||[]), ...((P||{}).sell_fast||[]) ];
+}
+function lowerText(value){ return String(value||"").toLowerCase(); }
+function hasAnyText(value, terms){
+  const text = lowerText(value);
+  return terms.some(term=>text.includes(term));
+}
+function isNearTermWindow(value){
+  return hasAnyText(value, ["today", "intraday", "1-3", "1 trading", "same-session", "market-open", "before acting"]);
+}
+function firstListText(values){
+  return (values||[]).filter(Boolean).map(String).join(" / ");
+}
+function cleanPosture(value){
+  return String(value||"review").toLowerCase().replaceAll("_"," ").replaceAll("-", " ");
+}
+function todayActionRow(a){
+  const dis = a.disconfirmation||{}, refresh = a.assumptionRefresh||{}, cap = a.capitalEfficiency||{};
+  const invalidates = firstListText((dis.invalidates_if||[]).concat(refresh.invalidates_if||[])) || dis.summary || "";
+  return {
+    key:`action:${a.rank}:${a.ticker||a.kind}`,
+    score:1000-(a.rank||0),
+    ticker:a.ticker||"",
+    title:a.what || "Decision prompt",
+    home:"Action engine",
+    source:a.kindLabel||a.kind||"action",
+    posture:cleanPosture(a.actionLabel || a.decisionGroupLabel || a.actionState || "review"),
+    color:a.stateColor || a.c || C.amber,
+    timing:a.timeWindow || "current",
+    whyHere:a.decisionGroup==="key_now" ? "Current key decision pressure." : a.decisionGroup==="recheck_before_acting" ? "You may act later, but the assumptions need a refresh first." : "Visible because it affects near-term capital priority.",
+    changes:a.synthesisChanges || a.actionLabel || a.decisionGroupLabel || "review",
+    nextStep:a.yourMove || refresh.next_step || "Run the gate before capital moves.",
+    invalidates,
+    details:a.whyThisMatters || a.why || cap.summary || "",
+    backup:compactJoin([
+      a.freshnessJudgment&&a.freshnessJudgment.judgment,
+      cap.summary,
+      a.missingEvidence&&a.missingEvidence.length?`missing: ${a.missingEvidence.join(" / ")}`:"",
+    ]),
+    tooltip:"Promoted from the action engine because it changes today's posture or needs a re-check before capital moves.",
+  };
+}
+function shouldPromoteActionToToday(a){
+  return a.actionState==="ACT_NOW" || a.decisionGroup==="key_now" || a.decisionGroup==="recheck_before_acting" || isNearTermWindow(a.timeWindow);
+}
+function opportunityPriorityRows(feed, usedTickers){
+  const rows = ((feed.asymmetric_opportunities||{}).rows||[]);
+  return rows
+    .filter(r=>{
+      const ticker = String(r.ticker||"").toUpperCase();
+      if(ticker && usedTickers.has(ticker)) return false;
+      const score = Number(r.score||0);
+      return score>=80 || isNearTermWindow(r.decay_window) || hasAnyText(r.reason, ["urgent", "time-sensitive", "before acting"]);
+    })
+    .map((r,i)=>({
+      key:`asym:${r.ticker||i}`,
+      score:800 + Number(r.score||0),
+      ticker:r.ticker||"",
+      title:r.reason || "Evidence-backed asymmetric setup",
+      home:"Ideas / Asymmetric Opportunities",
+      source:r.source||"asymmetric opportunity",
+      posture:"review",
+      color:C.green,
+      timing:r.decay_window||"source dependent",
+      whyHere:"Promoted because the setup may be a better use of capital than ordinary backlog ideas.",
+      changes:"research / size",
+      nextStep:r.action || "Refresh price, flow, and source evidence before deciding.",
+      invalidates:"A changed price, broken thesis, contradicted source, or better capital use pushes this back to Ideas.",
+      details:r.evidence||"",
+      backup:compactJoin([`score ${r.score}`, r.evidence, r.decay_window&&`decays ${r.decay_window}`]),
+      tooltip:"Promoted from Ideas only when the evidence-backed setup may affect near-term capital allocation.",
+    }));
+}
+function prospectPriorityRows(feed, usedTickers){
+  return prospectRows(feed.prospects||{})
+    .filter(r=>{
+      const ticker = String(r.ticker||"").toUpperCase();
+      if(ticker && usedTickers.has(ticker)) return false;
+      const urgency = String(r.urgency||"").toUpperCase();
+      const vetted = String(r.corroboration||"") !== "Uncorroborated";
+      return urgency==="ACT_NOW" || urgency==="HOT" || (r.direction==="avoid" && urgency!=="QUIET" && vetted);
+    })
+    .map((r,i)=>{
+      const urgency = String(r.urgency||"review").toLowerCase();
+      return {
+        key:`prospect:${r.ticker||i}`,
+        score:700 + Number(r.urgency_score||0) + Number(r.conviction_score||0),
+        ticker:r.ticker||"",
+        title:r.summary || `${r.ticker||"Prospect"} needs review`,
+        home:"Ideas / Top Prospects",
+        source:(r.sources||[]).join(" / ") || r.provenance || "top prospects",
+        posture:r.direction==="avoid" ? "avoid / research" : "research",
+        color:urgency==="act_now" ? C.red : C.amber,
+        timing:r.urgency||"review",
+        whyHere:"Promoted because the prospect signal is hot enough to affect today's research or capital priority.",
+        changes:r.direction==="avoid" ? "trim / wait / research" : "research / no capital yet",
+        nextStep:"Refresh thesis, price, and source corroboration before it can become an action.",
+        invalidates:"If the signal is quiet, uncorroborated, or no longer price-sensitive, keep it in Ideas only.",
+        details:r.provenance||"",
+        backup:compactJoin([r.summary, r.corroboration, r.pct_vs_spy!=null?`vs SPY ${(r.pct_vs_spy*100).toFixed(1)}%`:""]),
+        tooltip:"Promoted from Top Prospects only when research timing may unlock a near-term decision.",
+      };
+    });
+}
+function researchPriorityRows(researchActions, usedTickers){
+  return (researchActions||[])
+    .filter(a=>{
+      const ticker = String(a.ticker||"").toUpperCase();
+      if(ticker && usedTickers.has(ticker)) return false;
+      return a.actionState==="ACT_NOW" || a.kind==="research_act_now" || isNearTermWindow(a.timeWindow);
+    })
+    .map((a)=>({
+      ...todayActionRow(a),
+      key:`research:${a.rank}:${a.ticker||a.kind}`,
+      score:900-(a.rank||0),
+      home:"Ideas / From Research",
+      source:a.kindLabel||"research",
+      posture:"research",
+      changes:a.synthesisChanges || "research / no capital yet",
+      whyHere:"Promoted because finishing this research could change a near-term buy/sell/size/wait decision.",
+      tooltip:"Promoted from Research only when the research can change a near-term decision.",
+    }));
+}
+function todayPriorityRows(feed, actions, researchActions){
+  const usedTickers = new Set();
+  const rows = [];
+  (actions||[]).filter(shouldPromoteActionToToday).forEach(a=>{
+    const row = todayActionRow(a);
+    if(row.ticker) usedTickers.add(String(row.ticker).toUpperCase());
+    rows.push(row);
+  });
+  researchPriorityRows(researchActions, usedTickers).forEach(r=>{
+    if(r.ticker) usedTickers.add(String(r.ticker).toUpperCase());
+    rows.push(r);
+  });
+  opportunityPriorityRows(feed, usedTickers).forEach(r=>{
+    if(r.ticker) usedTickers.add(String(r.ticker).toUpperCase());
+    rows.push(r);
+  });
+  prospectPriorityRows(feed, usedTickers).forEach(r=>{
+    if(r.ticker) usedTickers.add(String(r.ticker).toUpperCase());
+    rows.push(r);
+  });
+  return rows.sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,12);
 }
 function FundstratMonthlyRows({ title, rows, empty }) {
   return (
@@ -1237,6 +1382,54 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
   );
 }
 
+function TodayPriorityStack({ rows, openMap, setOpen, posOpen, setPosOpen }) {
+  const summary = rows.length
+    ? compactJoin([`${rows.length} promoted`, rows[0]&&`${rows[0].ticker?`${rows[0].ticker} `:""}${clipText(rows[0].title,72)}`])
+    : "No time-sensitive ideas or research items promoted above the detail lanes.";
+  return (
+    <Section id="today-priority-stack" title="Today Priority Stack" icon="!" badge={rows.length?`${rows.length}`:"quiet"} badgeColor={rows.length?C.amber:C.green} summary={summary} openMap={openMap} setOpen={setOpen} defaultOpen={true}>
+      <div style={{ ...card, marginBottom:8, borderColor:C.blue+"33", background:C.blue+"0a" }}>
+        <div style={{ fontSize:12.4, color:C.text, fontWeight:700 }}>Simple version: only items that can change a near-term decision get promoted here.</div>
+        <div style={{ marginTop:4, fontSize:11.7, color:C.dim }}>Ideas, research, and opportunity rows keep their original home below. They overlap into Today only when timing, capital priority, risk, or research unlock matters now.</div>
+      </div>
+      {!rows.length && <div style={{ ...card, fontSize:12, color:C.faint }}>No promoted Today items. Use the lower sections as backup context, not as a forced action list.</div>}
+      {(rows||[]).map((r,i)=>{
+        const key=`todaypri${r.key||i}`, isO=posOpen[key];
+        return (
+          <div key={key} style={{ ...card, marginBottom:8, borderColor:(r.color||C.amber)+"44", background:(r.color||C.amber)+"0a" }}>
+            <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:"pointer" }} title={r.tooltip||"Click for why, invalidation, and data backup."}>
+              <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{i+1}</span>
+                {r.ticker && <span style={{ fontFamily:mono, fontWeight:800, fontSize:13.5, color:C.text }}>{r.ticker}</span>}
+                <span style={{ fontSize:12.8, fontWeight:750, color:C.text }}>{r.title}</span>
+              </div>
+              <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+                <span title="Action posture this row changes or requires." style={{ fontFamily:mono, fontSize:11, color:r.color||C.amber, border:`1px solid ${(r.color||C.amber)}66`, borderRadius:99, padding:"1px 8px", background:`${r.color||C.amber}12` }}>{r.posture}</span>
+                <span title="Where the full source row lives." style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{r.home}</span>
+                {r.timing && <span title="How quickly the assumption can decay." style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.timing}</span>}
+                {r.source && <span title="Primary source or lane." style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.source}</span>}
+              </div>
+              <div style={{ marginTop:8, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>What this changes:</span> {r.changes}</div>
+              <div style={{ marginTop:4, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Next:</span> {r.nextStep}</div>
+              <div style={{ marginTop:5, fontSize:11.7, color:C.dim }}><span style={{ color:C.faint, fontWeight:700 }}>Why here:</span> {r.whyHere}</div>
+              <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
+                <span style={{ fontSize:11, color:r.color||C.amber }}>{isO?"hide backup ^":"data backup v"}</span>
+              </div>
+            </div>
+            {isO && (
+              <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, fontSize:11.5, color:C.dim }}>
+                {r.details && <div style={{ marginBottom:5 }}><span style={{ color:C.faint, fontWeight:700 }}>Detail:</span> {r.details}</div>}
+                {r.invalidates && <div style={{ marginBottom:5, color:C.amber }}><span style={{ fontWeight:700 }}>Invalidates:</span> {r.invalidates}</div>}
+                {r.backup && <div style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>backup: {r.backup}</div>}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </Section>
+  );
+}
+
 function CommandRow({ row }) {
   return (
     <div style={{ ...card, marginBottom:8 }}>
@@ -1364,7 +1557,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         <div style={{ position:"sticky", top:0, zIndex:10, background:C.bg, marginTop:6, paddingTop:10, paddingBottom:8, borderBottom:`1px solid ${C.line}` }}>
           <div style={{ display:"flex", gap:4, background:C.panel, border:`1px solid ${C.line}`, borderRadius:9, padding:3, width:"fit-content" }}>
-            {[["action","Action"],["book","Book"],["news","News"],["commands","Commands"]].map(([k,l])=>(
+            {[["action","Today"],["book","Book"],["news","News"],["commands","Commands"]].map(([k,l])=>(
               <button key={k} onClick={()=>setMode(k)} style={{ cursor:"pointer", border:"none", borderRadius:6, padding:"6px 14px", fontSize:12.5, fontWeight:600, fontFamily:sans, background: mode===k?C.panel3:"transparent", color: mode===k?C.text:C.faint }}>{l}</button>
             ))}
           </div>
@@ -1462,6 +1655,14 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         <IfIWereYouBlock block={VM.ifIWereYou} openMap={open} setOpen={setOpen} defaultOpen={true} />
 
+        <TodayPriorityStack
+          rows={VM.todayPriority||[]}
+          openMap={open}
+          setOpen={setOpen}
+          posOpen={posOpen}
+          setPosOpen={setPosOpen}
+        />
+
         <Section id="market-open-packet" title="Market-Open Packet" icon="!" badge={(VM.marketOpenPacket&&VM.marketOpenPacket.counts)?`${(VM.marketOpenPacket.counts.key_now||0)} key / ${(VM.marketOpenPacket.counts.recheck||0)} re-check`:"packet"} badgeColor={(VM.marketOpenPacket&&VM.marketOpenPacket.status)==="ready"?C.green:C.amber} summary={clipText((VM.marketOpenPacket||{}).line || "No market-open packet in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const P=VM.marketOpenPacket||{}, rows=P.rows||[];
@@ -1503,8 +1704,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           })()}
         </Section>
 
-        <Section id="actions" title="Today's actions" icon="🟢" badge={VM.actions.length?`${Math.min(VM.actions.length,5)}${VM.actions.length>5?` of ${VM.actions.length}`:""}`:"0 live"} badgeColor={VM.actions.length?C.amber:C.faint} summary={(() => { const c=((VM.actionGroups||{}).counts)||{}, first=VM.actions[0]; return VM.actions.length ? compactJoin([`${VM.actions.length} live`, `${c.key_now||0} key now`, `${c.recheck_before_acting||0} re-check`, `${c.important_backlog||0} backlog`, first&&`top: ${first.ticker?`${first.ticker} `:""}${clipText(first.what,64)}`]) : "No live action rows."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
-          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>PRIORITIZED — confidence-led. Gate badges are provisional; the real 🟢/🟡/🔴 runs when you act on it in chat.</div>
+        <Section id="actions" title="Action Engine Details" icon="🟢" badge={VM.actions.length?`${Math.min(VM.actions.length,5)}${VM.actions.length>5?` of ${VM.actions.length}`:""}`:"0 live"} badgeColor={VM.actions.length?C.amber:C.faint} summary={(() => { const c=((VM.actionGroups||{}).counts)||{}, first=VM.actions[0]; return VM.actions.length ? compactJoin([`${VM.actions.length} live`, `${c.key_now||0} key now`, `${c.recheck_before_acting||0} re-check`, `${c.important_backlog||0} backlog`, first&&`top: ${first.ticker?`${first.ticker} `:""}${clipText(first.what,64)}`]) : "No live action rows."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>BACKUP DETAILS FOR THE TODAY STACK - grouped by decision posture. Gate badges are provisional; the real green/yellow/red check runs when you act on it in chat.</div>
           <div style={{ fontSize:11, color:C.faint, fontFamily:mono, marginBottom:8 }}>
             ACT_NOW {VM.actionSplit.actNow.length} · OPPORTUNITIES {VM.actionSplit.opportunities.length} · RISKS {VM.actionSplit.risks.length}
           </div>

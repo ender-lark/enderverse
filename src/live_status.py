@@ -28,9 +28,16 @@ def _keys(rows: list[dict[str, Any]], key: str = "key") -> list[str]:
     ]
 
 
-def _open_actions_summary(store: dict[str, Any]) -> dict[str, Any]:
+def _feed_as_of(feed: dict[str, Any] | None) -> str | None:
+    if not isinstance(feed, dict):
+        return None
+    generated_at = str(feed.get("generated_at") or "").strip()
+    return generated_at[:10] if generated_at else None
+
+
+def _open_actions_summary(store: dict[str, Any], *, as_of: str | None = None) -> dict[str, Any]:
     rows = action_resolver.open_action_rows(store)
-    review_rows = action_resolver.review_rows(store)
+    review_rows = action_resolver.review_rows(store, as_of=as_of)
     oldest = max([int(row.get("age_days") or 0) for row in review_rows], default=0)
     due_count = sum(1 for row in review_rows if row.get("due"))
     stale_count = sum(1 for row in review_rows if row.get("review_state") == "stale")
@@ -129,7 +136,7 @@ def build_status_summary(
     feed: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Merge existing evidence into one operator-facing status object."""
-    open_actions = _open_actions_summary(open_store)
+    open_actions = _open_actions_summary(open_store, as_of=_feed_as_of(feed))
     queue_status = _queue_summary(queue)
     status = {
         "go_live_ready": bool(readiness.get("go_live_ready")),

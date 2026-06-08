@@ -72,3 +72,15 @@ def test_canonical_jsx_hero_uses_packet_attention_state():
     assert "re-check${recheck===1?\"\":\"s\"} before acting" in src
     assert "Start with the Market-Open Packet; refresh assumptions before capital moves." in src
     assert "No decisions need attention" in src
+
+
+def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert '["action","Today"]' in src
+    assert "function todayPriorityRows(feed, actions, researchActions)" in src
+    assert 'id="today-priority-stack"' in src
+    assert "only items that can change a near-term decision get promoted here" in src
+    assert "Ideas, research, and opportunity rows keep their original home below" in src
+    assert "What this changes:" in src
+    assert "data backup" in src
