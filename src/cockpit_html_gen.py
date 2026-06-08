@@ -128,6 +128,83 @@ def _packet_tone(row: dict[str, Any]) -> str:
     return "gray"
 
 
+REFRESH_STATUS_META = {
+    "upgraded": {
+        "label": "Checked: still urgent",
+        "tone": "t-conf",
+        "title": "The assumption-refresh pass kept this item prominent. It is not a trade command; run the relevant source, position, and pre-trade gate before capital moves.",
+    },
+    "changed_recheck": {
+        "label": "Needs re-check",
+        "tone": "t-warn",
+        "title": "Something important is missing, old, or changed. Confirm same-session price, flow, position, source, or event-risk evidence before acting.",
+    },
+    "still_valid": {
+        "label": "Still valid watch",
+        "tone": "t-conf",
+        "title": "Available feed evidence did not break this setup. Keep it visible, but use the normal gate before acting.",
+    },
+    "stale": {
+        "label": "Stale: refresh first",
+        "tone": "t-warn",
+        "title": "The evidence has aged past its useful window. Refresh the source before treating this as actionable.",
+    },
+    "invalidated": {
+        "label": "Invalidated: do not act",
+        "tone": "t-red",
+        "title": "Available evidence broke the setup. Do not act from this row unless it is rebuilt from fresh evidence.",
+    },
+}
+
+
+def _refresh_status_badge(status: Any) -> str:
+    if not status:
+        return ""
+    key = str(status).lower()
+    meta = REFRESH_STATUS_META.get(key) or {
+        "label": "Checked: " + str(status).replace("_", " "),
+        "tone": "t-cat",
+        "title": "Assumption-refresh status from the feed. It explains the row's current review posture; it does not execute or authorize a trade.",
+    }
+    return (
+        f'<span class="tag {meta["tone"]}" title="{_e(meta["title"])}">'
+        f'{_e(meta["label"])}</span>'
+    )
+
+
+def _freshness_title(row: dict[str, Any]) -> str:
+    value = str(row.get("freshness_label") or "").lower()
+    evidence = f' Evidence date: {row.get("evidence_date")}.' if row.get("evidence_date") else ""
+    checked = f' Last checked: {row.get("last_checked")}.' if row.get("last_checked") else ""
+    decay = f' Decay window: {row.get("decay_window")}.' if row.get("decay_window") else ""
+    if value == "fresh":
+        return f"Fresh enough to keep this decision prompt visible; still run the gate before capital moves.{evidence}{checked}{decay}"
+    if value == "fast-moving":
+        return f"Fast-moving evidence can go stale intraday. Re-check same-session levels/headlines before acting.{evidence}{checked}{decay}"
+    if value == "stale":
+        return f"Stale evidence. Refresh this source before treating the row as actionable.{evidence}{checked}{decay}"
+    if value == "not checked":
+        return f"This source was not checked. Do not infer all-clear from missing data.{evidence}{checked}{decay}"
+    return f"Freshness context for this row.{evidence}{checked}{decay}"
+
+
+def _freshness_badge(row: dict[str, Any]) -> str:
+    if not (row.get("freshness_label") or row.get("evidence_date") or row.get("decay_window")):
+        return ""
+    fresh_cls = f"t-{_freshness_tone(row.get('freshness_label'))}"
+    label = row.get("freshness_label") or "freshness"
+    detail = (
+        f' <span class="small-muted">Freshness: {_e(row.get("freshness_label") or "")}'
+        f' | evidence {_e(row.get("evidence_date") or "n/a")}'
+        f' | checked {_e(row.get("last_checked") or "n/a")}'
+        f' | decays {_e(row.get("decay_window") or "source dependent")}</span>'
+    )
+    return (
+        f'<span class="tag {fresh_cls}" title="{_e(_freshness_title(row))}">'
+        f'{_e(label)}</span>{detail}'
+    )
+
+
 def _freshness_tone(label: Any) -> str:
     value = str(label or "").lower()
     if value in {"stale", "not checked"}:
@@ -1162,14 +1239,13 @@ def _market_open_packet(block: dict) -> str:
     body = ""
     for row in rows:
         tone_cls = f"tone-{_packet_tone(row)}"
-        fresh_cls = f"t-{_freshness_tone(row.get('freshness_label'))}"
         body += f"""
 <div class="small-item {tone_cls}">
   <span class="tag {status_cls}">#{_e(row.get("priority") or "")}</span>
   <span class="context-ticker">{_e(row.get("label") or "")}</span>
-  {f'<span class="small-muted">Refresh: {_e(str(row.get("refresh_status") or "").replace("_", " "))}</span>' if row.get("refresh_status") else ""}
+  {_refresh_status_badge(row.get("refresh_status"))}
   {f'<span class="small-muted">Priority: {_e(row.get("capital_priority_score"))}</span>' if row.get("capital_priority_score") is not None else ""}
-  {f'<span class="tag {fresh_cls}">{_e(row.get("freshness_label") or "freshness")}</span> <span class="small-muted">Freshness: {_e(row.get("freshness_label") or "")} | evidence {_e(row.get("evidence_date") or "n/a")} | checked {_e(row.get("last_checked") or "n/a")} | decays {_e(row.get("decay_window") or "source dependent")}</span>' if (row.get("freshness_label") or row.get("evidence_date") or row.get("decay_window")) else ""}
+  {_freshness_badge(row)}
   {f'<span class="small-muted">Changed: {_e(row.get("what_changed") or "")}</span>' if row.get("what_changed") else ""}
   {f'<span class="small-muted">Assumptions: {_e(row.get("key_assumptions") or "")}</span>' if row.get("key_assumptions") else ""}
   {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}

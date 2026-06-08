@@ -1807,14 +1807,17 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 {rows.map((r,i)=>{
                   const tone = packetTone(r);
                   const c = toneColor(tone);
+                  const refreshMeta = refreshStatusMeta(r.refresh_status);
+                  const refreshColor = toneColor(refreshMeta.tone);
+                  const freshColor = freshnessColor(r.freshness_label);
                   return (
                   <div key={`${r.kind||"packet"}${i}`} style={{ ...toneCard(tone), marginBottom:7 }}>
                     <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
                       <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{r.priority}</span>
                       <span style={{ fontSize:12.5, fontWeight:700, color:C.text }}>{r.label}</span>
-                      {r.refresh_status && <span style={{ fontFamily:mono, fontSize:10.5, color:["changed_recheck","stale","invalidated"].includes(r.refresh_status)?C.amber:C.green, border:`1px solid ${(["changed_recheck","stale","invalidated"].includes(r.refresh_status)?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px" }}>refresh: {String(r.refresh_status).replace("_"," ")}</span>}
+                      {r.refresh_status && <span title={refreshMeta.title} style={{ fontFamily:mono, fontSize:10.5, color:refreshColor, border:`1px solid ${refreshColor}55`, borderRadius:99, padding:"1px 8px" }}>{refreshMeta.label}</span>}
                       {r.capital_priority_score!=null && <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>priority: {r.capital_priority_score}</span>}
-                      {r.freshness_label && <span title={r.decay_window||""} style={{ fontFamily:mono, fontSize:10.5, color:freshnessColor(r.freshness_label), border:`1px solid ${freshnessColor(r.freshness_label)}44`, borderRadius:99, padding:"1px 7px", background:`${freshnessColor(r.freshness_label)}0d` }}>{r.freshness_label}</span>}
+                      {r.freshness_label && <span title={freshnessTitle(r.freshness_label, r)} style={{ fontFamily:mono, fontSize:10.5, color:freshColor, border:`1px solid ${freshColor}44`, borderRadius:99, padding:"1px 7px", background:`${freshColor}0d` }}>{r.freshness_label}</span>}
                       {r.source && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.source}</span>}
                     </div>
                     {r.what_changed && <div style={{ marginTop:5, fontSize:11.5, color:C.amber }}>Changed: {r.what_changed}</div>}
