@@ -4,6 +4,7 @@ import json
 import sys
 
 import cloud_routine_manual_run
+import cloud_ops_status
 import cloud_routine_receipts
 
 
@@ -101,3 +102,10 @@ def test_empty_uw_bundle_is_not_a_scoring_source(tmp_path):
 
     assert cloud_routine_manual_run._bundle_has_observations(empty) is False
     assert cloud_routine_manual_run._bundle_has_observations(populated, key="tickers") is True
+
+
+def test_default_manual_routines_cover_expected_cloud_stack():
+    manual_ids = {routine.routine_id for routine in cloud_routine_manual_run.default_routines()}
+    expected_ids = {row["automation_id"] for row in cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS}
+
+    assert expected_ids <= manual_ids

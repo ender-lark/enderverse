@@ -13,6 +13,7 @@
       "input_boundaries": [
         "Gmail connector full-body reads",
         "Compact full-body-derived Fundstrat daily call rows when connector bodies cannot be safely piped to a file",
+        "Operator-supplied Fundstrat website screenshot/text converted into compact action-relevant rows",
         "Fundstrat daily email drop-folder text, eml, or Gmail-shaped json",
         "Direct monthly Fundstrat PDF/text/json uploads"
       ],
@@ -20,6 +21,7 @@
         "src/fundstrat_bible.json",
         "src/fundstrat_bible_intake_summary.json",
         "src/fundstrat_daily_calls.json",
+        "src/fundstrat_daytime_alert_state.json",
         "src/fundstrat_inbox_entries.json",
         "src/inbox_call_dates.json",
         "src/log_call_dates.json",
@@ -44,6 +46,11 @@
           "command": "python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir src --merge-existing"
         },
         {
+          "id": "daytime_alert_check",
+          "command": "python src/fundstrat_daytime_alert.py --send --write-state --format text",
+          "fallback_for": "daytime Pushover alerting after compact full-body-derived rows are merged and validated"
+        },
+        {
           "id": "monthly_pdf_upload",
           "command": "python src/fundstrat_bible_intake.py <monthly-pdf-or-text-or-json> --out src/fundstrat_bible.json --summary src/fundstrat_bible_intake_summary.json --merge-existing --top-prospects src/top_prospects.json"
         },
@@ -61,8 +68,8 @@
           "command": "python src/fundstrat_email_intake.py --validate src"
         }
       ],
-      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily_compact_intake.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py src/test_source_call_candidate_draft.py -q",
-      "no_input_behavior": "Do not overwrite Fundstrat caches; report Fundstrat as not checked."
+      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily_compact_intake.py src/test_fundstrat_daytime_alert.py src/test_pushover_notify.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py src/test_source_call_candidate_draft.py -q",
+      "no_input_behavior": "Do not overwrite Fundstrat caches; report Fundstrat as not checked. Low-value Fundstrat fluff can remain audit/discovery context, but must not become a daily-call row, action prompt, or push alert."
     },
     {
       "id": "catalyst_intake",

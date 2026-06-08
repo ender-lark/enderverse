@@ -8,7 +8,12 @@ surface named calls, time-sensitive technicals, and source-call candidates.
 ## Inputs
 
 - Daily updates: Gmail connector search for recent Fundstrat messages.
+- Daytime urgent watch: Gmail connector search for fresh Fundstrat messages
+  during market hours, with strict Pushover alerting only for time-sensitive
+  or action-changing items.
 - Daily fallback: files in `G:\My Drive\Codex\Investing OS Context\03_Inbox\Fundstrat_Email_Drop`.
+- Manual website fallback: user-supplied Fundstrat website screenshots or text
+  converted into compact action-relevant rows by Codex.
 - Monthly/Bible update: direct uploaded Fundstrat monthly PDF, text export, or
   structured JSON deck.
 
@@ -64,9 +69,17 @@ Accepted monthly file types:
 
    This path is intentionally narrower: it writes `fundstrat_daily_calls.json`,
    `inbox_call_dates.json`, redacted audit entries, summary, and state, but it
-   rejects long raw-body-like quotes and does not update source-call calibration
-   or top prospects. Use it only for full-body-derived compact metadata, never
-   for snippet-only discovery.
+   rejects long raw-body-like quotes and suppresses low-value Fundstrat fluff
+   such as webinars, replays, promotional notes, and general commentary that
+   does not change action posture, timing, sizing, risk, or research priority.
+   It does not update source-call calibration or top prospects. Use it only for
+   full-body-derived compact metadata, never for snippet-only discovery.
+
+   When the user supplies Fundstrat website screenshots or pasted text, first
+   extract only compact rows that preserve source date, author/lane, ticker,
+   direction/posture, and a short source-backed summary. Then run the same
+   compact command above. Do not store raw screenshots, long website text, or
+   raw publication bodies in repo files.
 
 3. If the drop folder has files, run:
 
@@ -127,13 +140,26 @@ Accepted monthly file types:
 
 8. If no Gmail results and no drop-folder files exist, do not overwrite
    `fundstrat_daily_calls.json`; report Fundstrat as not checked.
-9. Run focused checks:
+9. For daytime watch runs, after compact rows are merged and validation passes,
+   run:
 
    ```bash
-   python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q
+   python src/fundstrat_daytime_alert.py --send --write-state --format text
    ```
 
-10. Summarize:
+   This reads `fundstrat_daily_calls.json`, checks duplicate suppression in
+   `fundstrat_daytime_alert_state.json`, and sends a Pushover notification only
+   when a fresh Fundstrat item changes `act`, `wait`, `re-check`, `research`,
+   `trim`, `hedge`, or `size` posture. Low-value or context-only Fundstrat
+   content should update neither the action stack nor Pushover.
+
+10. Run focused checks:
+
+   ```bash
+   python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily_compact_intake.py src/test_fundstrat_daytime_alert.py src/test_pushover_notify.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q
+   ```
+
+11. Summarize:
    - emails parsed
    - full-body emails parsed
    - snippet-only emails discovered
@@ -150,6 +176,8 @@ Accepted monthly file types:
 - `src/fundstrat_bible.json` when a monthly upload is supplied
 - `src/fundstrat_bible_intake_summary.json` when a monthly upload is supplied
 - `src/fundstrat_daily_calls.json`
+- `src/fundstrat_daytime_alert_state.json` for duplicate-suppressed Pushover
+  alerts
 - `src/fundstrat_inbox_entries.json`
 - `src/inbox_call_dates.json`
 - `src/log_call_dates.json`
@@ -173,6 +201,9 @@ debugging, and do not commit raw publication bodies.
 - Do not store monthly stock-price chart/table text that does not affect
   stance, What-to-Own, consider-list, Top-5, or Bottom-5 surfacing.
 - Do not turn non-action mentions into daily-call rows.
+- Do not turn low-value Fundstrat content into dashboard rows or alerts. Fluff,
+  replays, webinar invites, promotional notes, and broad context with no action
+  implication remain quiet audit/discovery context.
 - Do not let snippet-only discovery update `top_prospects.json`.
 - Do not let snippet-only discovery update `inbox_call_dates.json`.
 - Do not let snippet-only discovery update `source_calls.json` or
@@ -182,3 +213,6 @@ debugging, and do not commit raw publication bodies.
   be short source-backed summaries or ticker-level excerpts.
 - Do not make trade recommendations from this routine; it only prepares source
   inputs for the cockpit build.
+- Push alerts are review prompts only. They should interrupt only for
+  time-sensitive or action-changing Fundstrat evidence, and they must tell the
+  operator to open the cockpit before acting.

@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from full_build_runner import build_full_feed_from_files
 from fundstrat_daily_compact_intake import (
     MAX_QUOTE_CHARS,
+    is_low_value_compact_call,
     normalize_compact_calls,
     validate_compact_calls,
     write_compact_outputs,
@@ -34,11 +35,41 @@ def test_normalize_compact_calls_accepts_short_full_body_derived_rows():
     assert validate_compact_calls(calls) == []
 
 
+def test_compact_calls_suppress_low_value_fundstrat_fluff():
+    rows = [{
+        "author": "Fundstrat",
+        "ticker": "SPY",
+        "direction": "watch",
+        "quote": "Join us for a webinar replay with general long-term market thoughts.",
+        "date": "2026-06-08",
+        "source_message_id": "m-fluff",
+        "source": "Fundstrat full-body read",
+    }]
+
+    assert is_low_value_compact_call(rows[0]) is True
+    assert normalize_compact_calls(rows) == []
+
+
+def test_compact_calls_keep_watch_rows_when_they_change_timing_or_risk():
+    calls = normalize_compact_calls([{
+        "author": "Newton",
+        "ticker": "QQQ",
+        "direction": "watch",
+        "quote": "Watch support near 741 today; break below would raise hedge/re-check risk.",
+        "date": "2026-06-08",
+        "source_message_id": "m-watch",
+        "source": "Fundstrat full-body read",
+    }])
+
+    assert calls[0]["ticker"] == "QQQ"
+    assert calls[0]["direction"] == "watch"
+
+
 def test_validate_compact_calls_rejects_long_raw_body_like_quote():
     calls = normalize_compact_calls([{
         "author": "Newton",
         "ticker": "XOP",
-        "quote": "x" * (MAX_QUOTE_CHARS + 1),
+        "quote": "Break below support today " + ("x" * (MAX_QUOTE_CHARS + 1)),
         "date": "2026-06-03",
         "source": "Fundstrat full-body read",
     }])

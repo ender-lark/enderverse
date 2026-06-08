@@ -150,6 +150,15 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-fundstrat-pre-market-safety-sweep",
+            "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
+            [
+                Step("fundstrat cache validate", _python("src/fundstrat_email_intake.py", "--validate", "src")),
+                Step("fundstrat alert dry-run", _python("src/fundstrat_daytime_alert.py", "--dry-run", "--format", "text")),
+                Step("pushover config self-test", _python("src/pushover_notify.py", "--self-test", "--dry-run", "--format", "text")),
+            ],
+        ),
+        Routine(
             "investing-os-morning-scan",
             "morning scan manual run completed; Signal Log remains watch-only",
             [
@@ -181,6 +190,15 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
                 Step("daily synthesis validate", _python("src/daily_synthesis_intake.py", "--validate", "src/daily_synthesis.json")),
             ],
         ),
+        Routine(
+            "investing-os-fundstrat-daytime-watch",
+            "fundstrat daytime watch manual support run validated intake and alert plumbing without sending",
+            [
+                Step("fundstrat cache validate", _python("src/fundstrat_email_intake.py", "--validate", "src")),
+                Step("fundstrat alert dry-run", _python("src/fundstrat_daytime_alert.py", "--dry-run", "--format", "text")),
+                Step("pushover config self-test", _python("src/pushover_notify.py", "--self-test", "--dry-run", "--format", "text")),
+            ],
+        ),
         Routine("investing-os-uw-opportunity-cache", "UW opportunity cache manual run completed", opportunity_steps),
         Routine("investing-os-parabolic-cache", "parabolic cache manual run completed", parabolic_steps),
         Routine(
@@ -192,6 +210,15 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             "investing-os-post-close-refresh",
             "post-close manual run refreshed dashboard artifacts",
             [Step("post-close dashboard refresh", _python("src/live_dashboard_refresh.py"))],
+        ),
+        Routine(
+            "investing-os-fundstrat-after-hours-catch-up",
+            "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
+            [
+                Step("fundstrat cache validate", _python("src/fundstrat_email_intake.py", "--validate", "src")),
+                Step("fundstrat alert dry-run", _python("src/fundstrat_daytime_alert.py", "--dry-run", "--format", "text")),
+                Step("pushover config self-test", _python("src/pushover_notify.py", "--self-test", "--dry-run", "--format", "text")),
+            ],
         ),
         Routine(
             "investing-os-off-hours-worker",

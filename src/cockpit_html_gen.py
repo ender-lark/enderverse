@@ -1138,6 +1138,7 @@ def _alert_policy(block: dict) -> str:
   <div class="feedback-line">{_e(block.get("line") or "")}</div>
   <div class="small-list">{body}</div>
   <div class="cmd-row"><span class="cmd-name">print alert policy</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
+  <div class="cmd-row"><span class="cmd-name">Fundstrat alert dry-run</span><span class="cmd-desc"><code>python src/fundstrat_daytime_alert.py --dry-run --format text</code></span></div>
 </div>"""
 
 

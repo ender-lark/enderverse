@@ -352,6 +352,7 @@ timing matches how the investment day works.
 | `investing-os-morning-scan` | Morning Signal Log / macro scan validation | Market weekdays 8:35 AM ET |
 | `investing-os-early-cockpit-build` | Earliest useful cockpit using overnight, pre-market, Morning Scan, and cached source state; later lanes remain visibly pending/stale when not run yet | Market weekdays 8:50 AM ET |
 | `investing-os-daily-synthesis` | Daily Synthesis after the Morning Scan | Market weekdays 9:30 AM ET |
+| `investing-os-fundstrat-daytime-watch` | Hourly daytime Fundstrat watch; lands only action-relevant compact rows and pushes only urgent/action-changing alerts | Market weekdays hourly 9:45 AM-3:45 PM ET |
 | `investing-os-uw-opportunity-cache` | UW opportunity cache and non-secret connector proof | Market weekdays 10:00 AM ET |
 | `investing-os-parabolic-cache` | Parabolic/chase-risk cache | Market weekdays 10:05 AM ET |
 | `investing-os-full-cockpit-build` | Full dashboard build after source/synthesis/UW buffer | Market weekdays 10:30 AM ET |
@@ -417,9 +418,17 @@ Fundstrat-specific safety windows:
   next dashboard does not wait until the main morning stack.
 - The pre-market safety sweep looks for overnight and early-morning Fundstrat
   notes before the normal 8:10 AM source intake.
-- Both routines must use full-body Gmail evidence or compact full-body-derived
+- The daytime watch looks hourly for new Fundstrat notes while the market is
+  open and can send Pushover only for fresh, time-sensitive, action-changing
+  evidence.
+- These routines must use full-body Gmail evidence or compact full-body-derived
   rows, must redact raw email bodies from repo files, and must run the same
   source-call merge/validation path before their data can count as checked.
+- Low-value Fundstrat content is suppressed across the whole Fundstrat path.
+  Webinars, replays, promotional notes, and broad context that does not change
+  action posture, timing, sizing, risk, or research priority can remain
+  audit/discovery context, but must not become a dashboard daily-call row,
+  action prompt, or Pushover alert.
 
 Fundstrat evidence should be preserved as separate lanes instead of collapsed
 into one generic source:
@@ -441,6 +450,13 @@ into one generic source:
 Low-level implementation:
 
 - `src/fundstrat_lanes.py` is the shared classifier for Fundstrat lane metadata.
+- `src/fundstrat_daily_compact_intake.py` filters compact manual/connector rows
+  so low-value Fundstrat fluff is not promoted into daily calls.
+- `src/fundstrat_daytime_alert.py` evaluates compact daily calls for urgent
+  Pushover delivery and uses `fundstrat_daytime_alert_state.json` to suppress
+  duplicates.
+- `src/pushover_notify.py` sends Pushover messages using redacted environment
+  configuration and never prints or commits secrets.
 - `src/fundstrat_daily.py` attaches `fundstrat_lane`, `source_domain`,
   `author_role`, `source_weight_note`, and `confidence_policy` to daily
   Fundstrat evidence cards.
@@ -544,12 +560,16 @@ Important owned outputs include:
 - `src/heartbeat.json`
 - `src/daily_synthesis.json`
 - `src/source_call_candidates.json`
+- redacted Fundstrat intake/alert state such as `fundstrat_daily_calls.json`,
+  `fundstrat_inbox_entries.json`, `fundstrat_intake_state.json`,
+  `fundstrat_intake_summary.json`, and `fundstrat_daytime_alert_state.json`
 - lane caches such as `signal_log.json`, `catalysts.json`,
   `event_risks.json`, `uw_opportunity_signals.json`, and
   `parabolic_setups.json`
 
-Generated Fundstrat files should not be committed as a side effect of unrelated
-cloud/dashboard work.
+Generated Fundstrat files should be committed only by Fundstrat-owned validated
+routine runs. They should not be committed as a side effect of unrelated
+cloud/dashboard work, and raw Fundstrat bodies should never be committed.
 
 ## 9. Live Source Honesty
 
@@ -634,6 +654,11 @@ Source capability and intake:
   lane intake modules.
 - `fundstrat_email_intake.py`: parses full-body Fundstrat evidence without
   storing raw bodies.
+- `fundstrat_daily_compact_intake.py`: writes compact full-body-derived or
+  screenshot/text-derived Fundstrat rows while suppressing low-value content.
+- `fundstrat_daytime_alert.py`: sends duplicate-suppressed Pushover review
+  prompts for urgent/action-changing Fundstrat evidence.
+- `pushover_notify.py`: redacted Pushover delivery helper.
 - `signal_log_intake.py`: normalizes Morning Scan / Signal Log rows as
   watch-only context.
 - `catalyst_calendar_intake.py`: normalizes exact-dated catalyst rows.

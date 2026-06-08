@@ -1280,6 +1280,7 @@ const COMMAND_CHECKS = [
   { name:"Live status", desc:"Fast readiness, dark-lane, source-call, and preview status.", command:"python src/live_status.py --format text" },
   { name:"Go-live checklist", desc:"Operating checklist for source, dashboard, event, and review gates.", command:"python src/go_live_checklist.py --format text" },
   { name:"Alert policy", desc:"Shows only blocker or urgent invalidation candidates. No notification is sent.", command:"python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" },
+  { name:"Fundstrat alert check", desc:"Dry-run the Fundstrat/Pushover lane; low-value Fundstrat content should stay quiet.", command:"python src/fundstrat_daytime_alert.py --dry-run --format text" },
   { name:"UW action runbook", desc:"Same-session check sets for price, flow, tape, event risk, and Fundstrat confirmation.", command:"python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text" },
   { name:"SnapTrade staged pull", desc:"Preferred read-only positions source. Stage first; promote only after strict validation.", command:"python src/snaptrade_positions_import.py --pull --profiles src/snaptrade_profiles.local.json --raw-out tmp/snaptrade_raw.json --combined-out tmp/snaptrade_combined.json" },
   { name:"Standard verification", desc:"Run before claiming a code or dashboard slice is clean.", command:"python src/verify_standard.py" },

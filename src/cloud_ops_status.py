@@ -74,6 +74,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "minute": 30,
     },
     {
+        "automation_id": "investing-os-fundstrat-daytime-watch",
+        "automation_name": "Investing OS Fundstrat Daytime Watch",
+        "role": "fundstrat_daytime_watch",
+        "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 9,
+        "minute": 45,
+        "expected_since": "2026-06-08T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-uw-opportunity-cache",
         "automation_name": "Investing OS UW Opportunity Cache",
         "role": "uw_opportunity_cache",

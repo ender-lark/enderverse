@@ -69,10 +69,11 @@ def test_cloud_routine_commit_commits_only_allowed_paths(tmp_path):
     assert "src/cloud_routine_receipts.json" not in status
 
 
-def test_default_allowlist_excludes_raw_fundstrat_intake_bookkeeping():
-    assert "src/fundstrat_inbox_entries.json" not in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
-    assert "src/fundstrat_intake_state.json" not in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
-    assert "src/fundstrat_intake_summary.json" not in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+def test_default_allowlist_includes_redacted_fundstrat_intake_bookkeeping():
+    assert "src/fundstrat_inbox_entries.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/fundstrat_intake_state.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/fundstrat_intake_summary.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/fundstrat_daytime_alert_state.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/live_source_config.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_daily_calls.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
 

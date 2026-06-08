@@ -15,6 +15,53 @@ from typing import Any
 DEFAULT_OUT_DIR = Path(__file__).resolve().parent
 MAX_QUOTE_CHARS = 320
 VALID_DIRECTIONS = {"buy", "add", "accumulate", "hold", "watch", "sell", "trim", "reduce", "avoid"}
+PROMOTING_DIRECTIONS = {"buy", "add", "accumulate", "sell", "trim", "reduce", "avoid"}
+ACTION_RELEVANCE_TERMS = {
+    "breakout",
+    "breakdown",
+    "break above",
+    "break below",
+    "support",
+    "resistance",
+    "entry",
+    "stop",
+    "target",
+    "tgt",
+    "objective",
+    "upside",
+    "downside",
+    "risk/reward",
+    "taking profits",
+    "take profits",
+    "rebalance",
+    "rotation",
+    "rotate",
+    "hedge",
+    "trim",
+    "avoid",
+    "add",
+    "accumulate",
+    "buy",
+    "sell",
+    "reduce",
+    "near-term",
+    "short-term",
+    "today",
+    "intraday",
+}
+LOW_VALUE_TERMS = {
+    "webinar",
+    "podcast",
+    "replay",
+    "survey",
+    "registration",
+    "register",
+    "event invite",
+    "join us",
+    "subscribe",
+    "sponsored",
+    "promotion",
+}
 
 
 def _utc_now_iso() -> str:
@@ -69,8 +116,23 @@ def _text(value: Any) -> str:
     return str(value).strip() if value not in (None, "") else ""
 
 
+def is_low_value_compact_call(row: dict) -> bool:
+    """Return true when a compact Fundstrat row is context, not a useful call."""
+    quote = " ".join(_text(row.get("quote") or row.get("summary") or row.get("call")).split())
+    subject = _text(row.get("subject") or row.get("source_title"))
+    direction = _text(row.get("direction") or row.get("bias")).lower()
+    combined = f"{subject} {quote}".lower()
+    if any(term in combined for term in LOW_VALUE_TERMS):
+        return True
+    if direction in PROMOTING_DIRECTIONS:
+        return False
+    return not any(term in combined for term in ACTION_RELEVANCE_TERMS)
+
+
 def normalize_compact_call(row: dict) -> dict | None:
     if not isinstance(row, dict):
+        return None
+    if is_low_value_compact_call(row):
         return None
     ticker = _text(row.get("ticker") or row.get("symbol")).upper()
     if not ticker:

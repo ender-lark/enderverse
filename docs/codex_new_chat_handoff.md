@@ -126,7 +126,16 @@ Important recent state:
 - The user explicitly said to focus on building the working system first and not
   spend time on stock research such as AVGO.
 - Dashboard parity review is complete; JSX injection is canonical, generated HTML is a summary/export path.
-- Fundstrat daily email intake and direct monthly PDF/text/JSON upload intake are supported.
+- Fundstrat daily email intake, direct monthly PDF/text/JSON upload intake, and
+  compact user-supplied Fundstrat website screenshot/text intake are supported.
+  Manual website text/screenshots must be converted into compact
+  source-backed rows and routed through `fundstrat_daily_compact_intake.py`;
+  raw screenshots, long website text, and raw publication bodies are not stored
+  in repo.
+- Low-value Fundstrat content is suppressed across the whole path. Webinars,
+  replays, promotional notes, and broad context that does not change action
+  posture, timing, sizing, risk, or research priority should stay quiet and
+  should not become dashboard daily-call rows, action prompts, or alerts.
 - Fundstrat Gmail snippet discovery and full-body ingestion now use separate
   state fields. Snippet-only rows are tracked in
   `snippet_discovery_message_ids`; only full-body rows are tracked in
@@ -268,7 +277,8 @@ Important recent state:
   receipt-tracked stack. The active stack now records Pre-Market Source Intake,
   Morning Scan, Early Cockpit Build, Daily Synthesis, UW Opportunity Cache,
   Parabolic Cache, Full Cockpit Build, Post-Close Refresh, Off-Hours Worker,
-  Deep Synthesis, and Weekly Pilot Run in `src/cloud_automation_status.json`.
+  Deep Synthesis, Weekly Pilot Run, and the Fundstrat Daytime Watch in
+  `src/cloud_automation_status.json`.
   Pre-Market Source
   Intake now owns supplied broker-position uploads when valid input exists;
   missing broker input keeps the position cache stale/not refreshed instead of
@@ -279,8 +289,9 @@ Important recent state:
   jobs as schedule conflicts. It also validates active local automation prompts
   for routine-specific scheduled receipt protocol, safe write-back via
   `cloud_routine_commit.py`, and missing-source honesty guards; current app
-  state reports
-  `Cloud receipt protocol: checked=13 | ok=13 | missing=0` after all active
+  state reports the active prompt protocol count live; it was 14 expected after
+  the Fundstrat Daytime Watch was added. Check live output rather than reusing
+  this text as fixed evidence.
   app TOML files are present locally.
   The active Deep Synthesis automation prompt was patched after the stricter
   checker found it lacked the explicit missing-source honesty guard.
@@ -295,7 +306,8 @@ Important recent state:
   Routines - Master Reference" and the 2026-06-02 "Routine schedule reconcile"
   note. Current intent: Morning Scan at 8:35 ET, Early Cockpit Build at
   8:50 ET for the first usable dashboard, Daily Synthesis at 9:30 ET after
-  Morning Scan, UW Opportunity Cache no earlier than roughly 9:45 ET and
+  Morning Scan, Fundstrat Daytime Watch hourly from 9:45 ET through 3:45 ET,
+  UW Opportunity Cache no earlier than roughly 9:45 ET and
   currently 10:00 ET, Parabolic Cache at 10:05 ET, Full Cockpit Build at
   10:30 ET for the fuller mid-morning refresh, Post-Close Refresh at
   4:30 PM ET.

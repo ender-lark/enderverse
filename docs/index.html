@@ -255,7 +255,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-08 01:27 ET
+        built 2026-06-08 01:42 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-07  uw_price 06-08  uw_macro 06-08  fundstrat_bible 05-28  fundstrat_daily 06-05 </div>
@@ -551,10 +551,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="small-item">
   <span class="tag t-conf">quiet</span>
   <span>background cloud proof</span>
-  <span class="small-muted">Count: 5</span>
+  <span class="small-muted">Count: 6</span>
   <span class="small-muted">Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue.</span>
 </div></div>
   <div class="cmd-row"><span class="cmd-name">print alert policy</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
+  <div class="cmd-row"><span class="cmd-name">Fundstrat alert dry-run</span><span class="cmd-desc"><code>python src/fundstrat_daytime_alert.py --dry-run --format text</code></span></div>
 </div>
 
 <div class="card" id="today-actions">
@@ -703,7 +704,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 <div class="context-col">
   <div class="context-label">Bullish flow</div>
-  <div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">call_flow, oi_build</span></div><div class="context-row"><span class="context-ticker">MAGS</span>bullish strong<span class="context-sub">call_flow, oi_build</span></div><div class="context-row"><span class="context-ticker">SMH</span>bullish strong<span class="context-sub">sweep, oi_build</span></div>
+  <div class="context-row"><span class="context-ticker">BMNR</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">IGV</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div>
 </div></div>
 </div>
 
@@ -715,7 +716,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="small-item">
   <span class="context-ticker">NVDA</span>
   <span class="tag t-conf">score 85</span>
-  <span class="tag t-cat">target_drift</span>
+  <span class="tag t-cat">bullish_flow, target_drift</span>
   <span class="small-muted">A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.</span>
   <span class="small-muted">Evidence: Conviction gap: NVDA is under target</span>
   <span class="small-muted">Decay: until position, price, thesis, or target changes | review setup; no auto-trade</span>
@@ -761,19 +762,19 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Decay: until account/target changes | review setup; no auto-trade</span>
 </div>
 <div class="small-item">
+  <span class="context-ticker">BMNR</span>
+  <span class="tag t-conf">score 68</span>
+  <span class="tag t-cat">bullish_flow</span>
+  <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
+  <span class="small-muted">Evidence: ask-side call sweeps $1.1M, 3:1 c/p, call OI +2056% at 24/18.5/25 strikes</span>
+  <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
+</div>
+<div class="small-item">
   <span class="context-ticker">GRNY</span>
   <span class="tag t-conf">score 68</span>
   <span class="tag t-cat">bullish_flow</span>
   <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call flow $0.0M, 8:1 c/p, call OI +143% at 27/29/28 strikes</span>
-  <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">SMH</span>
-  <span class="tag t-conf">score 68</span>
-  <span class="tag t-cat">bullish_flow</span>
-  <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call sweeps $1.2M, c/p 0.28, put OI +135000% at 560/430/500 strikes</span>
+  <span class="small-muted">Evidence: ask-side call sweeps $1.6M, 16:1 c/p, call OI +143% at 27/29/28 strikes</span>
   <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
 </div></div>
 </div>
@@ -877,7 +878,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 8/13; 1 re-check</div>
+  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 8/14; 1 re-check</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -895,7 +896,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">?</span> UW action runbook
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
   </div>
-  <div class="feedback-line">UW action runbook: 5 check set(s), 21 scoped ticker(s); endpoint results not claimed.</div>
+  <div class="feedback-line">UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.</div>
 
 <div class="small-item">
   <span class="tag t-warn">endpoint proof has_data</span>
@@ -949,7 +950,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="context-ticker">Asymmetric discovery</span>
   <span class="tag t-conf">priority 5</span>
   <span class="small-muted">Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.</span>
-  <span class="small-muted">Tickers: NVDA, GOOGL, ANET, AVGO, MAGS, MSFT, GRNY, SMH</span>
+  <span class="small-muted">Tickers: NVDA, GOOGL, ANET, AVGO, MAGS, MSFT, BMNR, GRNY</span>
   <span class="small-muted">Market checks: FLOW_ALERTS, TOP_NET_IMPACT, DARKPOOL_RECENT, LIT_FLOW_RECENT, MARKET_MOVERS, OPTION_CONTRACT_SCREENER, STOCK_SCREENER</span>
   <span class="small-muted">Ticker checks: ANALYST_RATINGS, INSIDER_TRANSACTIONS, CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES, TICKER_FLOW_PER_EXPIRY, TICKER_FLOW_PER_STRIKE, TICKER_GREEK_FLOW, TICKER_VOL_TERM_STRUCTURE, TICKER_INFO</span>
   <span class="small-muted">Blocks action if: the setup is only flow/social/context without independent confirmation</span>
@@ -1135,7 +1136,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Background cloud proof: 8/13 scheduled receipts proven; failed latest=0.
+  <span class="audit-k">Cloud routines</span>Background cloud proof: 8/14 scheduled receipts proven; failed latest=0.
 </div>
 <div class="audit-row">
   <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/22; missing live-capable=0.
@@ -1144,7 +1145,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">UW routing</span>UW routing: 5 scenario profile(s) recommended; top=Pre-market crash triage.
 </div>
 <div class="audit-row">
-  <span class="audit-k">UW action runbook</span>UW action runbook: 5 check set(s), 21 scoped ticker(s); endpoint results not claimed.
+  <span class="audit-k">UW action runbook</span>UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.
 </div>
 <div class="audit-row">
   <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.
@@ -1158,7 +1159,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="audit-row">
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
-  <div class="feedback-line">Background scheduled receipts pending: Investing OS Fundstrat Pre-Market Safety Sweep, Investing OS Early Cockpit Build, Investing OS UW Opportunity Cache, Investing OS Parabolic Cache, Investing OS Fundstrat After-Hours Catch-Up</div>
+  <div class="feedback-line">Background scheduled receipts pending: Investing OS Fundstrat Pre-Market Safety Sweep, Investing OS Early Cockpit Build, Investing OS Fundstrat Daytime Watch, Investing OS UW Opportunity Cache, Investing OS Parabolic Cache, Investing OS Fundstrat After-Hours Catch-Up</div>
   <div class="feedback-line">UW next checks: Pre-market crash triage: High-volatility or re-check posture needs broad tape triage before single-name action. [MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, ETF_TIDE, SECTOR_TIDE]<br>Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Portfolio reallocation: Sizing-gap actions need current exposure, funding, factor, and flow checks. [TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, ETF_TIDE, SECTOR_TIDE]</div>
 </div>
 
@@ -1171,7 +1172,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T05:27:37.644109+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T05:27:37.644109+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T05:27:37.644109+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T05:27:37.644109+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T05:27:37.644109+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T05:42:07.313330+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T05:42:07.313330+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T05:42:07.313330+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T05:42:07.313330+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T05:42:07.313330+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -1436,9 +1437,21 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 <div class="lean-item">
+  <span class="lean-ticker">GRNJ</span>
+  <span class="tag inl" style="margin-left:6px">IN LINE</span>
+  <div class="lean-headline">GRNJ: the case is cooling (IN LINE)  watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
   <span class="lean-ticker">IESC</span>
   <span class="tag inl" style="margin-left:6px">TURNING DOWN</span>
   <div class="lean-headline">IESC: the case is cooling (TURNING DOWN)  watch / reassess, don&#x27;t add (not owned).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">IVES</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">IVES: the case is cooling (LEADING)  watch / reassess, don&#x27;t add (you own it).</div>
   <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 <div class="lean-item">

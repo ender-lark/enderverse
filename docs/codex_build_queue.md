@@ -187,6 +187,16 @@ until the core logic is stable; Notion sync comes later.
     (7:45 AM ET market weekdays) and Fundstrat After-Hours Catch-Up (7:00 PM ET
     market weekdays). Both require scheduled receipts, full-body-derived
     compact evidence, validation, safe commit/push, and dark-lane honesty.
+  - Added Fundstrat Daytime Watch for hourly market-day checks from 9:45 AM ET
+    through 3:45 PM ET. It suppresses all low-value Fundstrat content and sends
+    Pushover only for fresh, time-sensitive, action-changing evidence.
+  - Added `pushover_notify.py` and `fundstrat_daytime_alert.py` so Pushover
+    alerts use existing redacted environment secrets and duplicate-suppression
+    state rather than chat-only memory.
+  - Compact/manual Fundstrat intake now drops low-value rows before they can
+    become dashboard daily calls. User-supplied website screenshots/text should
+    be converted into compact source-backed rows and processed through the same
+    Fundstrat intake path.
   - Updated Notion-writing active routine prompts so Notion write success
     requires live page readback before page status/write status is reported as
     successful.
