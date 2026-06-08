@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-08T13:37:34.812147Z",
+  "updated_at": "2026-06-08T13:47:44.538503Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -3585,6 +3585,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T13:37:34.812147Z",
       "summary": "repo synthesis refreshed; signal log 14 rows; RYF/XOP sell-fast reviews plus event-risk watch remain; Notion page written+verified; blocker row-query endpoint unavailable for decisions/trade outcomes/pilots"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T13:46:32.288440Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T13:47:44.538503Z",
+      "summary": "checked 1 msg, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alert quiet, fundstrat lane unchanged, blockers none"
     }
   ]
 }
