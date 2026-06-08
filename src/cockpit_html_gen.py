@@ -1730,6 +1730,7 @@ def _portfolio_book_tab(portfolio_views: dict | None) -> str:
         return ""
 
     caveat = _e((portfolio_views or {}).get("caveat") or "Direct account rows from the current account-position source.")
+    guidance = (portfolio_views or {}).get("allocation_guidance") or {}
     snapshot = _e((portfolio_views or {}).get("snapshot_date") or "")
     sections = []
     for key, label in (
@@ -1741,6 +1742,28 @@ def _portfolio_book_tab(portfolio_views: dict | None) -> str:
         rows = view.get("rows") or []
         if not rows:
             continue
+        categories = view.get("categories") or []
+        category_body = ""
+        for cat in categories:
+            name = _e(cat.get("category") or "")
+            tickers = ", ".join(str(t) for t in (cat.get("tickers") or [])[:5] if t)
+            target = cat.get("working_model_target_pct")
+            gap = cat.get("working_model_gap_pct")
+            if isinstance(target, (int, float)) and isinstance(gap, (int, float)):
+                sign = "+" if gap > 0 else ""
+                model = f"model target {float(target):.1f}% | gap {sign}{float(gap):.1f}pp"
+            else:
+                model = ""
+            cue = str(cat.get("fundstrat_cue") or "no_current_cue").replace("_", " ")
+            source_date = str(cat.get("fundstrat_source_date") or "")
+            fs = f"Fundstrat {cue}{f' | {source_date}' if source_date else ''}"
+            reason = str(cat.get("fundstrat_reason") or "")
+            category_body += f"""<tr>
+  <td><strong>{name}</strong>{f'<div style="color:#484f58;font-size:10.5px">{_e(tickers)}</div>' if tickers else ""}</td>
+  <td style="font-family:monospace">{_pct(cat.get("pct"))}</td>
+  <td style="font-family:monospace;color:#8b949e">{_e(model)}</td>
+  <td style="color:#8b949e">{_e(fs)}{f'<div style="font-size:10.5px;color:#484f58">{_e(reason)}</div>' if reason else ""}</td>
+</tr>"""
         body = ""
         for row in rows:
             ticker = _e(row.get("ticker") or "")
@@ -1762,12 +1785,29 @@ def _portfolio_book_tab(portfolio_views: dict | None) -> str:
 </tr>"""
         total = view.get("total_value")
         total_text = f" | total {_usd(total)}" if total is not None else ""
+        guidance_line = _e(
+            " | ".join(
+                part for part in (
+                    "Allocation guide: working model target + Fundstrat cue",
+                    str(guidance.get("basis") or ""),
+                    f"Fundstrat {guidance.get('fundstrat_source_date')}" if guidance.get("fundstrat_source_date") else "",
+                )
+                if part
+            )
+        )
         sections.append(f"""
 <div class="card" style="margin-bottom:10px">
   <div class="card-title">
     <span class="icon">#</span> {_e(label)}
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{len(rows)} direct row{'s' if len(rows) != 1 else ''}{total_text}</span>
   </div>
+  {f'<div style="font-family:monospace;font-size:10.5px;color:#8b949e;margin-bottom:7px">{guidance_line}</div>' if guidance_line else ""}
+  {f'''<div class="book-wrap" style="margin-bottom:8px">
+    <table class="book">
+      <tr><th>Category</th><th>Actual</th><th>Model guide</th><th>Fundstrat cue</th></tr>
+      {category_body}
+    </table>
+  </div>''' if category_body else ""}
   <div class="book-wrap">
     <table class="book">
       <tr><th>Name</th><th>Account</th><th>Sleeve</th><th>Shares</th><th>Value</th><th>Weight</th></tr>

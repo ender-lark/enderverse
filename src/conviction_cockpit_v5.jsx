@@ -1026,7 +1026,7 @@ function targetGapLabel(row){
   if(row.working_model_target_pct==null) return "";
   const gap = row.working_model_gap_pct;
   const sign = gap>0 ? "+" : "";
-  return `target ${row.working_model_target_pct.toFixed(1)}% | gap ${sign}${gap.toFixed(1)}pp`;
+  return `model target ${row.working_model_target_pct.toFixed(1)}% | gap ${sign}${gap.toFixed(1)}pp`;
 }
 
 const COMMAND_ACTIONS = [
@@ -1902,6 +1902,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 <div>
                   <div style={{ fontSize:12, fontWeight:700, color:C.text }}>{view==="agg"?"Combined":view==="parents"?"Parents":"SKB"} account view</div>
                   <div style={{ ...muted, fontSize:11.5 }}>{VM.portfolioViews.caveat||"Direct holdings only."}</div>
+                  {(VM.portfolioViews.allocation_guidance||{}).basis && <div style={{ marginTop:3, fontFamily:mono, fontSize:10.5, color:C.faint }}>Allocation guide: working model target + Fundstrat cue | {(VM.portfolioViews.allocation_guidance||{}).basis}{(VM.portfolioViews.allocation_guidance||{}).fundstrat_source_date?` | Fundstrat ${(VM.portfolioViews.allocation_guidance||{}).fundstrat_source_date}`:""}</div>}
                 </div>
                 <div style={{ fontFamily:mono, fontSize:16, fontWeight:700, color:C.text }}>{money(portfolioView.total_value)}</div>
               </div>
@@ -1914,7 +1915,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     </div>
                     {targetGapLabel(c) && <div style={{ marginTop:3, fontFamily:mono, fontSize:10.5, color:c.working_model_gap_pct>1?C.green:c.working_model_gap_pct<-1?C.red:C.faint }}>{targetGapLabel(c)}</div>}
                     <div style={{ marginTop:4, display:"flex", gap:5, flexWrap:"wrap", alignItems:"center" }}>
-                      <span style={{ fontFamily:mono, fontSize:10.5, color:cueColor(c.fundstrat_cue||"no_current_cue"), border:`1px solid ${cueColor(c.fundstrat_cue||"no_current_cue")}55`, borderRadius:99, padding:"0px 6px" }}>FS {String(c.fundstrat_cue||"no_current_cue").replaceAll("_"," ")}</span>
+                      <span style={{ fontFamily:mono, fontSize:10.5, color:cueColor(c.fundstrat_cue||"no_current_cue"), border:`1px solid ${cueColor(c.fundstrat_cue||"no_current_cue")}55`, borderRadius:99, padding:"0px 6px" }}>Fundstrat {String(c.fundstrat_cue||"no_current_cue").replaceAll("_"," ")}</span>
                       {c.fundstrat_source_date && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{c.fundstrat_source_date}</span>}
                     </div>
                     {c.fundstrat_reason && <div style={{ marginTop:3, fontSize:10.8, color:C.faint }}>{c.fundstrat_reason}{(c.fundstrat_tickers||[]).length?` (${(c.fundstrat_tickers||[]).slice(0,4).join(", ")})`:""}</div>}
@@ -1937,7 +1938,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                           <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{typeof s.effective_pct==="number"?`${s.effective_pct.toFixed(1)}%`:""}</span>
                         </div>
                         {targetGapLabel(s) && <div style={{ marginTop:3, fontFamily:mono, fontSize:10.5, color:s.working_model_gap_pct>1?C.green:s.working_model_gap_pct<-1?C.red:C.faint }}>{targetGapLabel(s)}</div>}
-                        {(s.fundstrat_cue && s.fundstrat_cue!=="no_current_cue") && <div style={{ marginTop:3, fontFamily:mono, fontSize:10.5, color:cueColor(s.fundstrat_cue) }}>FS {String(s.fundstrat_cue).replaceAll("_"," ")}{s.fundstrat_source_date?` | ${s.fundstrat_source_date}`:""}</div>}
+                        {(s.fundstrat_cue && s.fundstrat_cue!=="no_current_cue") && <div style={{ marginTop:3, fontFamily:mono, fontSize:10.5, color:cueColor(s.fundstrat_cue) }}>Fundstrat {String(s.fundstrat_cue).replaceAll("_"," ")}{s.fundstrat_source_date?` | ${s.fundstrat_source_date}`:""}</div>}
                         <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.dim }}>direct {typeof s.direct_pct==="number"?s.direct_pct.toFixed(1):"0.0"}% + ETF {typeof s.lookthrough_pct==="number"?s.lookthrough_pct.toFixed(1):"0.0"}%</div>
                       </div>
                     ))}

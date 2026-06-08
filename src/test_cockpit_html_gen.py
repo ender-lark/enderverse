@@ -368,9 +368,25 @@ def _feed():
         "portfolio_views": {
             "caveat": "SnapTrade direct rows; ETF look-through is separate.",
             "snapshot_date": "2026-06-07",
+            "allocation_guidance": {
+                "working_model": "default_working_model",
+                "basis": "visual guidance only; not an instruction to trade",
+                "fundstrat_source_date": "2026-05-28",
+            },
             "views": {
                 "combined": {
                     "total_value": 120000,
+                    "categories": [{
+                        "category": "AI / Semiconductors",
+                        "market_value": 120000,
+                        "pct": 100,
+                        "tickers": ["NVDA", "SMH"],
+                        "working_model_target_pct": 32.0,
+                        "working_model_gap_pct": -68.0,
+                        "fundstrat_cue": "favored",
+                        "fundstrat_source_date": "2026-05-28",
+                        "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
+                    }],
                     "rows": [
                         {"ticker": "NVDA", "description": "NVIDIA", "account": "Fidelity Individual", "owner": "SKB", "category": "AI / Semiconductors", "shares": 10, "market_value": 100000, "pct": 83.3},
                         {"ticker": "SMH", "description": "VanEck Semiconductor ETF", "account": "Schwab Trust", "owner": "Parents", "category": "AI / Semiconductors", "shares": 20, "market_value": 20000, "pct": 16.7},
@@ -378,10 +394,30 @@ def _feed():
                 },
                 "skb": {
                     "total_value": 80000,
+                    "categories": [{
+                        "category": "AI / Semiconductors",
+                        "market_value": 80000,
+                        "pct": 100,
+                        "tickers": ["NVDA"],
+                        "working_model_target_pct": 32.0,
+                        "working_model_gap_pct": -68.0,
+                        "fundstrat_cue": "favored",
+                        "fundstrat_source_date": "2026-05-28",
+                    }],
                     "rows": [{"ticker": "NVDA", "account": "Fidelity Individual", "owner": "SKB", "market_value": 80000, "pct": 100}],
                 },
                 "parents": {
                     "total_value": 20000,
+                    "categories": [{
+                        "category": "AI / Semiconductors",
+                        "market_value": 20000,
+                        "pct": 100,
+                        "tickers": ["SMH"],
+                        "working_model_target_pct": 32.0,
+                        "working_model_gap_pct": -68.0,
+                        "fundstrat_cue": "favored",
+                        "fundstrat_source_date": "2026-05-28",
+                    }],
                     "rows": [{"ticker": "SMH", "account": "Schwab Trust", "owner": "Parents", "market_value": 20000, "pct": 100}],
                 },
             }
@@ -401,6 +437,15 @@ def test_generated_html_labels_summary_export_and_dark_lanes():
     assert "Research Queue" in html
     assert "not checked" in html
     assert "checked (18)" in html
+
+
+def test_generated_html_book_renders_allocation_guidance():
+    html = generate_html(_feed())
+
+    assert "Allocation guide: working model target + Fundstrat cue" in html
+    assert "visual guidance only; not an instruction to trade" in html
+    assert "model target 32.0% | gap -68.0pp" in html
+    assert "Fundstrat favored | 2026-05-28" in html
 
 
 def test_generated_html_surfaces_action_cards_first():

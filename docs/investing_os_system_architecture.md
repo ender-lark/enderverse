@@ -458,6 +458,21 @@ Synthesis usefulness contract:
   `priority:` tags on action cards. These are explanation/ranking metadata only;
   they do not execute trades or bypass gates.
 
+Book allocation guidance contract:
+
+- `src/portfolio_views.py` builds direct account category views from
+  `account_positions.json` and overlays the working-model category target,
+  target gap, and Fundstrat cue/date when available.
+- The Book tab labels these as an allocation guide, not an instruction to trade.
+  Fundstrat currently contributes cue/direction context, while the working model
+  supplies the numeric target/gap view.
+- The canonical JSX Book view shows the guide beside Combined, Parents, and SKB
+  account category views, and the HTML mirror renders the same category guide
+  above each account table.
+- Effective exposure remains separate from direct book weight; ETF
+  look-through estimates are useful context but are not additive to direct
+  account percentages.
+
 ## 8.1 Notion Writeback And Collision Rules
 
 Notion pages can be touched by scheduled Codex routines and by other agents.

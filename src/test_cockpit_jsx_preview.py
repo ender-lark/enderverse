@@ -44,3 +44,11 @@ def test_canonical_jsx_has_source_conflicts_section():
     assert 'id="source-conflicts"' in src
     assert "Source conflicts" in src
     assert "No current bull/bear source splits" in src
+
+
+def test_canonical_jsx_book_labels_allocation_guidance():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert "Allocation guide: working model target + Fundstrat cue" in src
+    assert "model target" in src
+    assert "Fundstrat {String(c.fundstrat_cue" in src
