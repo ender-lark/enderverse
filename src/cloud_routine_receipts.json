@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-08T13:47:44.538503Z",
+  "updated_at": "2026-06-08T14:04:04.373632Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -3599,6 +3599,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T13:47:44.538503Z",
       "summary": "checked 1 msg, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alert quiet, fundstrat lane unchanged, blockers none"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T14:02:13.142880Z",
+      "summary": "uw opportunity cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T14:04:04.373632Z",
+      "summary": "scanned 14 tickers; 13 live observations; cache unchanged; GRNJ missing flow/oi/dark_pool normalization; live proof refreshed"
     }
   ]
 }
