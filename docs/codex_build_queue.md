@@ -23,6 +23,18 @@ until the core logic is stable; Notion sync comes later.
 
 ## External Queue Audit
 
+## Recently Completed
+
+- Account-placement guidance for trade review prompts.
+  - Added `account_trade_placement.py` so action rows, research-action rows,
+    market-open packet rows, and reallocation candidates can show a suggested
+    account plus rationale and caveats.
+  - Hard rule: Parents Schwab / PCRA Trust is ETF-only. ETF add candidates
+    prioritize that account where possible; individual-stock adds avoid it and
+    prefer an existing non-PCRA holding account when available.
+  - Placement guidance is review-only. It does not check cash, tax lots,
+    wash-sale rules, account permissions, final sizing, or execute trades.
+
 2026-06-05 Notion/Claude queued-upgrade audit:
 
 - `build_positions_cache -> outcome_logger.flatten_extractor_snapshot()` was the

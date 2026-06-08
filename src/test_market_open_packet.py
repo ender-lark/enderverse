@@ -56,6 +56,11 @@ def _feed():
                     "decay_window": "until position, price, thesis, or target changes",
                 },
                 "capital_priority_score": 117,
+                "account_placement": {
+                    "summary": "Suggested account: SKB Schwab: Individual ...254.",
+                    "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+                    "rule": "Parents Schwab/PCRA Trust ETF-only",
+                },
                 "disconfirmation": {
                     "invalidates_if": ["The target weight is outdated."],
                 },
@@ -159,11 +164,14 @@ def test_market_open_packet_sequences_recheck_capital_and_dark_lanes():
     assert "time window 1-3 trading days" in packet["rows"][1]["key_assumptions"]
     assert packet["rows"][1]["invalidates"] == "Current positions, target weights, or funding legs changed."
     assert "funded reallocation legs" in packet["rows"][1]["compare_against"]
+    assert packet["rows"][1]["account_placement_summary"].startswith("Suggested account: SKB Schwab")
+    assert "avoid Parents Schwab/PCRA Trust" in packet["rows"][1]["account_placement_why"]
     assert packet["rows"][2]["blocks"] == "current positions are missing"
     assert "runbook is instructions only" in packet["rows"][3]["blocks"]
     assert "runbook is instructions only" in packet["rows"][4]["blocks"]
     assert packet["rows"][5]["source"] == "social_watch"
     text = _format_text(packet)
     assert "priority 117: Sizing gap beats ordinary research" in text
+    assert "account: Suggested account: SKB Schwab" in text
     assert "do nothing: Doing nothing could leave NVDA too small" in text
     assert "invalidates: Current positions, target weights, or funding legs changed." in text

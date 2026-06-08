@@ -869,6 +869,7 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
     disconfirmation = a.get("disconfirmation") or {}
     capital_efficiency = a.get("capital_efficiency") or {}
     assumption_refresh = a.get("assumption_refresh") or {}
+    account_placement = a.get("account_placement") or {}
     gate = _gate_tag(a.get("gate"))
     cls = "action-act" if a.get("action_state") == "ACT_NOW" else "action-watch"
     meta = ""
@@ -877,6 +878,7 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
         (label, "t-cat"),
         (capital, "t-gate-a"),
         (_e(f"capital: {capital_efficiency.get('label')}") if capital_efficiency.get("label") else "", "t-warn"),
+        (_e(f"acct: {account_placement.get('label') or account_placement.get('account')}") if (account_placement.get("label") or account_placement.get("account")) else "", "t-conf"),
         (f"changes: {synthesis_change}" if synthesis_change else "", "t-conf"),
         (f"priority: {_e(capital_priority)}" if isinstance(capital_priority, int) else "", "t-muted"),
         (f"goal: {impact}" if impact else "", "t-conf"),
@@ -929,6 +931,25 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
         detail_lines.append(
             "<strong>Capital efficiency:</strong> "
             + "<br>".join(capital_bits)
+        )
+    placement_bits = []
+    if account_placement.get("summary"):
+        placement_bits.append(_e(account_placement.get("summary")))
+    if account_placement.get("why"):
+        placement_bits.append("Why: " + _e(account_placement.get("why")))
+    if account_placement.get("rule"):
+        placement_bits.append("Rule: " + _e(account_placement.get("rule")))
+    placement_caveats = [
+        str(v)
+        for v in (account_placement.get("caveats") or [])
+        if str(v).strip()
+    ]
+    if placement_caveats:
+        placement_bits.append("Caveats: " + _e(" / ".join(placement_caveats)))
+    if placement_bits:
+        detail_lines.append(
+            "<strong>Account placement:</strong> "
+            + "<br>".join(placement_bits)
         )
     refresh_bits = []
     if assumption_refresh.get("status"):
@@ -1088,6 +1109,8 @@ def _market_open_packet(block: dict) -> str:
   {f'<span class="small-muted">Next: {_e(row.get("next_step") or "")}</span>' if row.get("next_step") else ""}
   {f'<span class="small-muted">Invalidates: {_e(row.get("invalidates") or "")}</span>' if row.get("invalidates") else ""}
   {f'<span class="small-muted">Compare: {_e(row.get("compare_against") or "")}</span>' if row.get("compare_against") else ""}
+  {f'<span class="small-muted">Account: {_e(row.get("account_placement_summary") or "")}</span>' if row.get("account_placement_summary") else ""}
+  {f'<span class="small-muted">Account why: {_e(row.get("account_placement_why") or "")}</span>' if row.get("account_placement_why") else ""}
   {f'<span class="small-muted">Blocks: {_e(row.get("blocks") or "")}</span>' if row.get("blocks") else ""}
 </div>"""
     if not body:
@@ -1532,6 +1555,7 @@ def _reallocation_brief(block: dict) -> str:
         blockers = ", ".join(row.get("blockers") or [])
         row_capital = row.get("capital_efficiency") or {}
         options = row.get("options_review_prompt") or {}
+        placement = row.get("account_placement") or {}
         body += f"""
 <div class="small-item">
   <span class="context-ticker">{_e(row.get("ticker") or "")}</span>
@@ -1539,6 +1563,8 @@ def _reallocation_brief(block: dict) -> str:
   <span class="tag t-cat">{_e(row.get("sequence") or "")}</span>
   <span class="small-muted">{_e(row.get("entry_note") or "")}</span>
   {f'<span class="small-muted">Funded by: {_e(funded)}</span>' if funded else ""}
+  {f'<span class="small-muted">Account: {_e(placement.get("summary") or "")}</span>' if placement.get("summary") else ""}
+  {f'<span class="small-muted">Account why: {_e(placement.get("why") or "")}</span>' if placement.get("why") else ""}
   {f'<span class="small-muted">Capital: {_e(row_capital.get("summary") or "")}</span>' if row_capital.get("summary") else ""}
   {f'<span class="small-muted">Do nothing: {_e(row_capital.get("consequence_of_doing_nothing") or "")}</span>' if row_capital.get("consequence_of_doing_nothing") else ""}
   {f'<span class="small-muted">Options: {_e(options.get("label") or "")}; {_e(options.get("max_loss_gate") or "")}</span>' if options else ""}

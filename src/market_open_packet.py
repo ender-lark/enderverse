@@ -51,6 +51,7 @@ def _action_packet_metadata(action: dict[str, Any]) -> dict[str, Any]:
     disconfirmation = action.get("disconfirmation") or {}
     refresh = action.get("assumption_refresh") or {}
     capital = action.get("capital_efficiency") or {}
+    placement = action.get("account_placement") or {}
     snapshot = refresh.get("snapshot") or {}
     assumptions: list[str] = []
     evidence_date = str(freshness.get("evidence_date") or snapshot.get("evidence_date") or "")
@@ -84,6 +85,9 @@ def _action_packet_metadata(action: dict[str, Any]) -> dict[str, Any]:
             else None
         ),
         "compare_against": " / ".join(_text_list(capital.get("compare_against"))),
+        "account_placement": placement,
+        "account_placement_summary": str(placement.get("summary") or ""),
+        "account_placement_why": str(placement.get("why") or ""),
     }
 
 
@@ -116,6 +120,9 @@ def _packet_row(
     capital_priority_reason: str = "",
     capital_priority_score: int | None = None,
     compare_against: str = "",
+    account_placement: dict[str, Any] | None = None,
+    account_placement_summary: str = "",
+    account_placement_why: str = "",
 ) -> dict[str, Any]:
     row = {
         "priority": priority,
@@ -139,11 +146,15 @@ def _packet_row(
         "do_nothing_risk": do_nothing_risk,
         "capital_priority_reason": capital_priority_reason,
         "compare_against": compare_against,
+        "account_placement_summary": account_placement_summary,
+        "account_placement_why": account_placement_why,
     }.items():
         if value:
             row[key] = value
     if capital_priority_score is not None:
         row["capital_priority_score"] = capital_priority_score
+    if isinstance(account_placement, dict) and account_placement:
+        row["account_placement"] = account_placement
     return row
 
 
@@ -368,6 +379,10 @@ def _format_text(block: dict[str, Any]) -> str:
             lines.append(f"   invalidates: {row.get('invalidates')}")
         if row.get("compare_against"):
             lines.append(f"   compare: {row.get('compare_against')}")
+        if row.get("account_placement_summary"):
+            lines.append(f"   account: {row.get('account_placement_summary')}")
+        if row.get("account_placement_why"):
+            lines.append(f"   account why: {row.get('account_placement_why')}")
         if row.get("blocks"):
             lines.append(f"   blocks: {row.get('blocks')}")
     return "\n".join(lines)

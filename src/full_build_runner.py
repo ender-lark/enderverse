@@ -43,6 +43,7 @@ from uw_routing_recommendations import build_uw_routing_recommendations
 from uw_action_runbook import build_uw_action_runbook
 from uw_endpoint_result_proof import build_uw_endpoint_result_proof, load_uw_endpoint_results
 from reallocation_brief import build_reallocation_brief
+from account_trade_placement import annotate_actions, annotate_reallocation_brief
 from social_watch import build_social_watch
 from market_open_packet import build_market_open_packet
 from alert_policy import build_alert_policy
@@ -807,6 +808,8 @@ def build_full_feed_from_files(
         event_risk=feed.get("event_risk") or [],
         generated_at=feed.get("generated_at") or now,
     )
+    feed["actions"] = annotate_actions(feed.get("actions") or [], account_positions)
+    feed["research_actions"] = annotate_actions(feed.get("research_actions") or [], account_positions)
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
     feed["social_watch"] = social_watch
     feed["operator_hardening"] = build_operator_hardening(feed)
@@ -841,7 +844,10 @@ def build_full_feed_from_files(
         "blockers": feed["uw_endpoint_proof"].get("blockers") or [],
         "newest_checked_at": feed["uw_endpoint_proof"].get("newest_checked_at") or "",
     }
-    feed["reallocation_brief"] = build_reallocation_brief(feed, positions_cache, as_of=today)
+    feed["reallocation_brief"] = annotate_reallocation_brief(
+        build_reallocation_brief(feed, positions_cache, as_of=today),
+        account_positions,
+    )
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["alert_policy"] = build_alert_policy(feed)
     feed["if_i_were_you"] = build_if_i_were_you(feed)

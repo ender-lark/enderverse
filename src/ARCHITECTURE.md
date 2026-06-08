@@ -80,8 +80,11 @@ rank:int · kind:str · ticker:str|None · what:str · confidence:"High"|"Modera
 Reusing one row shape is deliberate — it lets the renderer's single `actionRow` mapper render both lanes (see §5).
 The full dashboard enrichment layer may add optional decision metadata such as
 `freshness_judgment`, `disconfirmation`, `capital_efficiency`, and
-`market_open_packet`; these fields are operator guidance, not order
-instructions.
+`account_placement`, and `market_open_packet`; these fields are operator
+guidance, not order instructions. `account_placement` is derived from current
+account-position rows by `account_trade_placement.py`; Parents Schwab/PCRA Trust
+is treated as ETF-only, so ETF add candidates are steered there when possible
+and individual-stock add candidates avoid it.
 
 **Optional-block pattern (forward-compat).** `actions`, `catalysts`, `questions`, and `research_actions` are **validated-if-present**: absent → still valid. *Why:* a feed built by an older routine (before a key existed) must still pass the publish gate and render. This is what let `research_actions` land without breaking any stored/old feed. When you add a lane, follow this pattern — never make a new key required.
 

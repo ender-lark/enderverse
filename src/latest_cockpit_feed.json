@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T05:42:07.427035+00:00",
+  "generated_at": "2026-06-08T08:24:52.320265+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-08 \u00b7 uw_macro 06-08 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05 \u26a0\ufe0f",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-08T01:42:07.427035-04:00",
+        "date": "2026-06-08T04:24:52.320265-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-08T01:42:07.427035-04:00",
+        "date": "2026-06-08T04:24:52.320265-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -303,7 +303,47 @@
       },
       "decision_group": "recheck_before_acting",
       "decision_group_label": "Re-check Before Acting",
-      "capital_priority_score": 135
+      "capital_priority_score": 135,
+      "account_placement": {
+        "status": "candidate",
+        "ticker": "NVDA",
+        "side": "buy/add",
+        "instrument_class": "stock",
+        "owner": "Parents",
+        "broker": "Fidelity",
+        "account": "Joint WROS - TOD *****2063",
+        "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+        "summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
+        "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "rule": "Parents Schwab/PCRA Trust ETF-only",
+        "alternatives": [
+          {
+            "owner": "SKB",
+            "broker": "Robinhood",
+            "account": "Robinhood Traditional Ira 1369",
+            "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+            "market_value": 24408.09
+          },
+          {
+            "owner": "SKB",
+            "broker": "Fidelity",
+            "account": "Individual - TOD *****1088",
+            "label": "SKB Fidelity: Individual - TOD *****1088",
+            "market_value": 17228.4
+          },
+          {
+            "owner": "Parents",
+            "broker": "Fidelity",
+            "account": "ROLLOVER IRA - RamBalusu *****6333",
+            "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+            "market_value": 10255.0
+          }
+        ],
+        "caveats": [
+          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+          "No order is placed or sized from this recommendation."
+        ]
+      }
     },
     {
       "rank": 2,
@@ -487,7 +527,33 @@
       },
       "decision_group": "important_backlog",
       "decision_group_label": "Important Backlog",
-      "capital_priority_score": 120
+      "capital_priority_score": 120,
+      "account_placement": {
+        "status": "candidate",
+        "ticker": "ANET",
+        "side": "buy/add",
+        "instrument_class": "stock",
+        "owner": "Parents",
+        "broker": "Fidelity",
+        "account": "ROLLOVER IRA - RamBalusu *****6333",
+        "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+        "summary": "Suggested account: Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333.",
+        "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "rule": "Parents Schwab/PCRA Trust ETF-only",
+        "alternatives": [
+          {
+            "owner": "SKB",
+            "broker": "Fidelity",
+            "account": "Individual - TOD *****1088",
+            "label": "SKB Fidelity: Individual - TOD *****1088",
+            "market_value": 1851.24
+          }
+        ],
+        "caveats": [
+          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+          "No order is placed or sized from this recommendation."
+        ]
+      }
     },
     {
       "rank": 4,
@@ -579,7 +645,47 @@
       },
       "decision_group": "important_backlog",
       "decision_group_label": "Important Backlog",
-      "capital_priority_score": 120
+      "capital_priority_score": 120,
+      "account_placement": {
+        "status": "candidate",
+        "ticker": "GOOGL",
+        "side": "buy/add",
+        "instrument_class": "stock",
+        "owner": "SKB",
+        "broker": "Robinhood",
+        "account": "Robinhood Traditional Ira 1369",
+        "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+        "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+        "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "rule": "Parents Schwab/PCRA Trust ETF-only",
+        "alternatives": [
+          {
+            "owner": "SKB",
+            "broker": "Fidelity",
+            "account": "Individual - TOD *****1088",
+            "label": "SKB Fidelity: Individual - TOD *****1088",
+            "market_value": 11055.9
+          },
+          {
+            "owner": "Parents",
+            "broker": "Fidelity",
+            "account": "Joint WROS - TOD *****2063",
+            "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+            "market_value": 9213.25
+          },
+          {
+            "owner": "Parents",
+            "broker": "Fidelity",
+            "account": "ROLLOVER IRA - RamBalusu *****6333",
+            "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+            "market_value": 1842.65
+          }
+        ],
+        "caveats": [
+          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+          "No order is placed or sized from this recommendation."
+        ]
+      }
     },
     {
       "rank": 5,
@@ -671,7 +777,47 @@
       },
       "decision_group": "important_backlog",
       "decision_group_label": "Important Backlog",
-      "capital_priority_score": 120
+      "capital_priority_score": 120,
+      "account_placement": {
+        "status": "candidate",
+        "ticker": "MAGS",
+        "side": "buy/add",
+        "instrument_class": "ETF",
+        "owner": "Parents",
+        "broker": "Schwab",
+        "account": "PCRA Trust ...651 PCRA Trust ...651",
+        "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
+        "summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
+        "why": "ETF candidate: prioritize Parents Schwab/PCRA Trust so stock-capable accounts stay free for individual names.",
+        "rule": "Parents Schwab/PCRA Trust ETF-only",
+        "alternatives": [
+          {
+            "owner": "SKB",
+            "broker": "Schwab",
+            "account": "Individual ...254 Individual ...254",
+            "label": "SKB Schwab: Individual ...254 Individual ...254",
+            "market_value": 18622.8
+          },
+          {
+            "owner": "SKB",
+            "broker": "Robinhood",
+            "account": "Robinhood Traditional Ira 1369",
+            "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+            "market_value": 7983.6
+          },
+          {
+            "owner": "Parents",
+            "broker": "Fidelity",
+            "account": "ROTH IRA *****2650",
+            "label": "Parents Fidelity: ROTH IRA *****2650",
+            "market_value": 6118.92
+          }
+        ],
+        "caveats": [
+          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+          "No order is placed or sized from this recommendation."
+        ]
+      }
     }
   ],
   "fresh_signals": [],
@@ -1357,31 +1503,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T05:42:07.313330+00:00",
+      "last_run": "2026-06-08T08:24:52.204042+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T05:42:07.313330+00:00",
+      "last_run": "2026-06-08T08:24:52.204042+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T05:42:07.313330+00:00",
+      "last_run": "2026-06-08T08:24:52.204042+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-08T05:42:07.313330+00:00",
+      "last_run": "2026-06-08T08:24:52.204042+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T05:42:07.313330+00:00",
+      "last_run": "2026-06-08T08:24:52.204042+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -12534,7 +12680,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 14.31
+        "connector_proof_age_hours": 17.02
       }
     ],
     "missing": [],
@@ -12754,13 +12900,13 @@
           "routine_name": "Investing OS Off-Hours Worker",
           "role": "off_hours_worker",
           "schedule": "daily 1:45 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 22,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:53.161367Z",
-          "last_success_at": "2026-06-08T05:41:53.161367Z",
-          "last_scheduled_success_at": "2026-06-07T05:51:24.184443Z",
-          "last_summary": "off-hours worker manual run checked research queue cache only"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T05:50:16.380900Z",
+          "last_success_at": "2026-06-08T05:50:16.380900Z",
+          "last_scheduled_success_at": "2026-06-08T05:50:16.380900Z",
+          "last_summary": "drafted CXW dossier; 1 Notion write verified; no second undrained in-scope item found; queue fallback used"
         },
         {
           "routine_id": "investing-os-deep-synthesis",
@@ -15142,7 +15288,47 @@
           "INSTITUTION_OWNERSHIP",
           "TICKER_INSIDERS",
           "TICKER_INSIDER_FLOW"
-        ]
+        ],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "GOOGL",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "SKB",
+          "broker": "Robinhood",
+          "account": "Robinhood Traditional Ira 1369",
+          "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+          "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Fidelity",
+              "account": "Individual - TOD *****1088",
+              "label": "SKB Fidelity: Individual - TOD *****1088",
+              "market_value": 11055.9
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "Joint WROS - TOD *****2063",
+              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+              "market_value": 9213.25
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 1842.65
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "NVDA",
@@ -15209,7 +15395,47 @@
           "INSTITUTION_OWNERSHIP",
           "TICKER_INSIDERS",
           "TICKER_INSIDER_FLOW"
-        ]
+        ],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "NVDA",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "Parents",
+          "broker": "Fidelity",
+          "account": "Joint WROS - TOD *****2063",
+          "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+          "summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 24408.09
+            },
+            {
+              "owner": "SKB",
+              "broker": "Fidelity",
+              "account": "Individual - TOD *****1088",
+              "label": "SKB Fidelity: Individual - TOD *****1088",
+              "market_value": 17228.4
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 10255.0
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "MSFT",
@@ -15275,7 +15501,47 @@
           "INSTITUTION_OWNERSHIP",
           "TICKER_INSIDERS",
           "TICKER_INSIDER_FLOW"
-        ]
+        ],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "MSFT",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "Parents",
+          "broker": "Fidelity",
+          "account": "Joint WROS - TOD *****2063",
+          "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+          "summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 11665.08
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 6250.05
+            },
+            {
+              "owner": "SKB",
+              "broker": "Schwab",
+              "account": "Individual ...254 Individual ...254",
+              "label": "SKB Schwab: Individual ...254 Individual ...254",
+              "market_value": 833.34
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "AMZN",
@@ -15341,7 +15607,47 @@
           "INSTITUTION_OWNERSHIP",
           "TICKER_INSIDERS",
           "TICKER_INSIDER_FLOW"
-        ]
+        ],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "AMZN",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "SKB",
+          "broker": "Robinhood",
+          "account": "Robinhood Traditional Ira 1369",
+          "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+          "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "Joint WROS - TOD *****2063",
+              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+              "market_value": 5904.72
+            },
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Individual 6550",
+              "label": "SKB Robinhood: Robinhood Individual 6550",
+              "market_value": 3935.68
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 3690.45
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "AVGO",
@@ -15404,7 +15710,47 @@
           "INSTITUTION_OWNERSHIP",
           "TICKER_INSIDERS",
           "TICKER_INSIDER_FLOW"
-        ]
+        ],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "AVGO",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "Parents",
+          "broker": "Fidelity",
+          "account": "Joint WROS - TOD *****2063",
+          "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+          "summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Fidelity",
+              "account": "Individual - TOD *****1088",
+              "label": "SKB Fidelity: Individual - TOD *****1088",
+              "market_value": 10028.98
+            },
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Roth Ira 2211",
+              "label": "SKB Robinhood: Robinhood Roth Ira 2211",
+              "market_value": 5786.1
+            },
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 5014.62
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "TSM",
@@ -15468,7 +15814,47 @@
           "INSTITUTION_OWNERSHIP",
           "TICKER_INSIDERS",
           "TICKER_INSIDER_FLOW"
-        ]
+        ],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "TSM",
+          "side": "buy/add",
+          "instrument_class": "unknown",
+          "owner": "SKB",
+          "broker": "Schwab",
+          "account": "Individual ...254 Individual ...254",
+          "label": "SKB Schwab: Individual ...254 Individual ...254",
+          "summary": "Suggested account: SKB Schwab: Individual ...254 Individual ...254.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "Joint WROS - TOD *****2063",
+              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+              "market_value": 583225.68
+            },
+            {
+              "owner": "Parents",
+              "broker": "Schwab",
+              "account": "PCRA Trust ...651 PCRA Trust ...651",
+              "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
+              "market_value": 364539.07
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 229103.45
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       }
     ],
     "trims": [
@@ -15494,7 +15880,47 @@
         "rationale": "reservoir drawn to fund the names above",
         "caveats": [
           "broad reservoir \u2014 trimming this raises net AI exposure (deliberate)"
-        ]
+        ],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "GRNJ",
+          "side": "trim/sell",
+          "instrument_class": "ETF",
+          "owner": "Parents",
+          "broker": "Schwab",
+          "account": "PCRA Trust ...651 PCRA Trust ...651",
+          "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
+          "summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
+          "why": "Trim/sell where the position is already held; largest current account position is simplest.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Schwab",
+              "account": "Individual ...254 Individual ...254",
+              "label": "SKB Schwab: Individual ...254 Individual ...254",
+              "market_value": 22628.18
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 18372.0
+            },
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 16835.5
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "GRNY",
@@ -15522,7 +15948,47 @@
         "rationale": "reservoir drawn to fund the names above",
         "caveats": [
           "broad reservoir \u2014 trimming this raises net AI exposure (deliberate)"
-        ]
+        ],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "GRNY",
+          "side": "trim/sell",
+          "instrument_class": "ETF",
+          "owner": "Parents",
+          "broker": "Schwab",
+          "account": "PCRA Trust ...651 PCRA Trust ...651",
+          "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
+          "summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
+          "why": "Trim/sell where the position is already held; largest current account position is simplest.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 30015.0
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "Joint WROS - TOD *****2063",
+              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+              "market_value": 26900.0
+            },
+            {
+              "owner": "SKB",
+              "broker": "Schwab",
+              "account": "Individual ...254 Individual ...254",
+              "label": "SKB Schwab: Individual ...254 Individual ...254",
+              "market_value": 16140.0
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "IVES",
@@ -15540,7 +16006,47 @@
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
-        "caveats": []
+        "caveats": [],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "IVES",
+          "side": "trim/sell",
+          "instrument_class": "ETF",
+          "owner": "Parents",
+          "broker": "Schwab",
+          "account": "PCRA Trust ...651 PCRA Trust ...651",
+          "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
+          "summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
+          "why": "Trim/sell where the position is already held; largest current account position is simplest.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "Joint WROS - TOD *****2063",
+              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+              "market_value": 26340.73
+            },
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 11214.0
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 3737.0
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "MAGS",
@@ -15562,7 +16068,47 @@
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
-        "caveats": []
+        "caveats": [],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "MAGS",
+          "side": "trim/sell",
+          "instrument_class": "ETF",
+          "owner": "Parents",
+          "broker": "Schwab",
+          "account": "PCRA Trust ...651 PCRA Trust ...651",
+          "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
+          "summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
+          "why": "Trim/sell where the position is already held; largest current account position is simplest.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Schwab",
+              "account": "Individual ...254 Individual ...254",
+              "label": "SKB Schwab: Individual ...254 Individual ...254",
+              "market_value": 18622.8
+            },
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 7983.6
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROTH IRA *****2650",
+              "label": "Parents Fidelity: ROTH IRA *****2650",
+              "market_value": 6118.92
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "ticker": "SMH",
@@ -15584,7 +16130,47 @@
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
-        "caveats": []
+        "caveats": [],
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "SMH",
+          "side": "trim/sell",
+          "instrument_class": "ETF",
+          "owner": "Parents",
+          "broker": "Schwab",
+          "account": "PCRA Trust ...651 PCRA Trust ...651",
+          "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
+          "summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
+          "why": "Trim/sell where the position is already held; largest current account position is simplest.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "Joint WROS - TOD *****2063",
+              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+              "market_value": 40474.2
+            },
+            {
+              "owner": "SKB",
+              "broker": "Schwab",
+              "account": "Individual ...254 Individual ...254",
+              "label": "SKB Schwab: Individual ...254 Individual ...254",
+              "market_value": 11963.49
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 11393.8
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       }
     ],
     "special_reviews": [
@@ -15594,7 +16180,47 @@
         "market_value": 55427.0,
         "why": "Crypto/BMNR complex stays undecided until fresh price, flow, thesis, and risk evidence resolves defend versus reduce.",
         "next_step": "Re-check fresh crypto/BMNR evidence before adding, trimming, or treating the old thesis as current.",
-        "disconfirmation": "If fresh evidence is split, stale, or contradicted, keep it out of promoted action lanes."
+        "disconfirmation": "If fresh evidence is split, stale, or contradicted, keep it out of promoted action lanes.",
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "BMNR",
+          "side": "review",
+          "instrument_class": "stock",
+          "owner": "Parents",
+          "broker": "Fidelity",
+          "account": "Joint WROS - TOD *****2063",
+          "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+          "summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
+          "why": "Review account placement against existing holdings; no capital move is implied yet.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 12503.0
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 12319.0
+            },
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Individual 6550",
+              "label": "SKB Robinhood: Robinhood Individual 6550",
+              "market_value": 9437.5
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       }
     ],
     "capital_efficiency": {
@@ -15649,7 +16275,12 @@
       "TICKER_FLOW_RECENT"
     ],
     "command": "python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text",
-    "honesty_rule": "Candidate reallocation brief only; no trades are executed. Stale positions remain test-data only."
+    "honesty_rule": "Candidate reallocation brief only; no trades are executed. Stale positions remain test-data only.",
+    "account_placement_rule": {
+      "summary": "Account-placement guidance uses current account-position rows and does not execute trades.",
+      "parent_schwab": "Parents Schwab/PCRA Trust ETF-only",
+      "caveat": "Cash, taxes, wash-sale rules, account permissions, and final sizing remain operator checks."
+    }
   },
   "market_open_packet": {
     "status": "recheck_first",
@@ -15675,7 +16306,49 @@
         "do_nothing_risk": "Doing nothing avoids churn, but can leave a confirmed sizing gap under-deployed or cash parked in a weaker alternative.",
         "capital_priority_reason": "It can outrank ordinary ideas only if the sizing gap, source quality, and entry still beat other uses.",
         "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 85/100",
-        "capital_priority_score": 135
+        "account_placement_summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
+        "account_placement_why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "capital_priority_score": 135,
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "NVDA",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "Parents",
+          "broker": "Fidelity",
+          "account": "Joint WROS - TOD *****2063",
+          "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+          "summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 24408.09
+            },
+            {
+              "owner": "SKB",
+              "broker": "Fidelity",
+              "account": "Individual - TOD *****1088",
+              "label": "SKB Fidelity: Individual - TOD *****1088",
+              "market_value": 17228.4
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 10255.0
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "priority": 2,
@@ -15731,7 +16404,35 @@
         "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
         "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
         "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100",
-        "capital_priority_score": 120
+        "account_placement_summary": "Suggested account: Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333.",
+        "account_placement_why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "capital_priority_score": 120,
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "ANET",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "Parents",
+          "broker": "Fidelity",
+          "account": "ROLLOVER IRA - RamBalusu *****6333",
+          "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+          "summary": "Suggested account: Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Fidelity",
+              "account": "Individual - TOD *****1088",
+              "label": "SKB Fidelity: Individual - TOD *****1088",
+              "market_value": 1851.24
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "priority": 5,
@@ -15753,7 +16454,49 @@
         "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
         "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
         "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100",
-        "capital_priority_score": 120
+        "account_placement_summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+        "account_placement_why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "capital_priority_score": 120,
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "GOOGL",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "SKB",
+          "broker": "Robinhood",
+          "account": "Robinhood Traditional Ira 1369",
+          "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+          "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Fidelity",
+              "account": "Individual - TOD *****1088",
+              "label": "SKB Fidelity: Individual - TOD *****1088",
+              "market_value": 11055.9
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "Joint WROS - TOD *****2063",
+              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+              "market_value": 9213.25
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROLLOVER IRA - RamBalusu *****6333",
+              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
+              "market_value": 1842.65
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "priority": 6,
@@ -15775,7 +16518,49 @@
         "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
         "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
         "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100",
-        "capital_priority_score": 120
+        "account_placement_summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
+        "account_placement_why": "ETF candidate: prioritize Parents Schwab/PCRA Trust so stock-capable accounts stay free for individual names.",
+        "capital_priority_score": 120,
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "MAGS",
+          "side": "buy/add",
+          "instrument_class": "ETF",
+          "owner": "Parents",
+          "broker": "Schwab",
+          "account": "PCRA Trust ...651 PCRA Trust ...651",
+          "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
+          "summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
+          "why": "ETF candidate: prioritize Parents Schwab/PCRA Trust so stock-capable accounts stay free for individual names.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Schwab",
+              "account": "Individual ...254 Individual ...254",
+              "label": "SKB Schwab: Individual ...254 Individual ...254",
+              "market_value": 18622.8
+            },
+            {
+              "owner": "SKB",
+              "broker": "Robinhood",
+              "account": "Robinhood Traditional Ira 1369",
+              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+              "market_value": 7983.6
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "ROTH IRA *****2650",
+              "label": "Parents Fidelity: ROTH IRA *****2650",
+              "market_value": 6118.92
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
       },
       {
         "priority": 7,

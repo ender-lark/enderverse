@@ -821,6 +821,7 @@ function actionRow(a, opts={}){
            whyThisMatters:a.why_this_matters||"", disconfirmation:a.disconfirmation||{},
            capitalEfficiency:a.capital_efficiency||{},
            assumptionRefresh:a.assumption_refresh||{},
+           accountPlacement:a.account_placement||{},
            ageDays:(typeof a.age_days==="number"?a.age_days:null), flagged:a.first_flagged||"",
            moveSince:a.move_since||"", sizing:a.sizing||"" };
 }
@@ -1048,7 +1049,7 @@ function cleanPosture(value){
   return String(value||"review").toLowerCase().replaceAll("_"," ").replaceAll("-", " ");
 }
 function todayActionRow(a){
-  const dis = a.disconfirmation||{}, refresh = a.assumptionRefresh||{}, cap = a.capitalEfficiency||{};
+  const dis = a.disconfirmation||{}, refresh = a.assumptionRefresh||{}, cap = a.capitalEfficiency||{}, placement = a.accountPlacement||{};
   const invalidates = firstListText((dis.invalidates_if||[]).concat(refresh.invalidates_if||[])) || dis.summary || "";
   return {
     key:`action:${a.rank}:${a.ticker||a.kind}`,
@@ -1068,6 +1069,8 @@ function todayActionRow(a){
     backup:compactJoin([
       a.freshnessJudgment&&a.freshnessJudgment.judgment,
       cap.summary,
+      placement.summary&&`account: ${placement.summary}`,
+      placement.why&&`account why: ${placement.why}`,
       a.missingEvidence&&a.missingEvidence.length?`missing: ${a.missingEvidence.join(" / ")}`:"",
     ]),
     tooltip:"Promoted from the action engine because it changes today's posture or needs a re-check before capital moves.",
@@ -1298,10 +1301,12 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
   const disconfirmation = a.disconfirmation || {};
   const capitalEfficiency = a.capitalEfficiency || {};
   const assumptionRefresh = a.assumptionRefresh || {};
+  const accountPlacement = a.accountPlacement || {};
   const hasDisconfirmation = !!(disconfirmation.summary || (disconfirmation.invalidates_if||[]).length || (disconfirmation.confirm_before_acting||[]).length);
   const hasCapitalEfficiency = !!(capitalEfficiency.summary || capitalEfficiency.timing_balance || (capitalEfficiency.compare_against||[]).length);
   const hasAssumptionRefresh = !!(assumptionRefresh.status || assumptionRefresh.next_step || (assumptionRefresh.what_changed||[]).length || (assumptionRefresh.invalidates_if||[]).length);
-  const hasDetail = !!(a.why || a.whyThisMatters || (a.freshnessJudgment&&a.freshnessJudgment.judgment) || a.missingEvidence.length || hasDisconfirmation || hasCapitalEfficiency || hasAssumptionRefresh);
+  const hasAccountPlacement = !!(accountPlacement.summary || accountPlacement.why || accountPlacement.label);
+  const hasDetail = !!(a.why || a.whyThisMatters || (a.freshnessJudgment&&a.freshnessJudgment.judgment) || a.missingEvidence.length || hasDisconfirmation || hasCapitalEfficiency || hasAssumptionRefresh || hasAccountPlacement);
   const urgent = a.actionState === "ACT_NOW";
   const highGoal = a.goalImpact === "High";
   const edge = urgent ? C.red : (highGoal ? (a.goalColor || a.c) : a.c);
@@ -1325,6 +1330,7 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
           {a.freshnessJudgment && a.freshnessJudgment.label && <span title={a.freshnessJudgment.judgment||""} style={{ fontFamily:mono, fontSize:11, color:a.freshnessJudgment.label==="stale"?C.red:a.freshnessJudgment.label==="fast-moving"?C.amber:C.faint }}>{a.freshnessJudgment.label}</span>}
           {assumptionRefresh.status && <span title={assumptionRefresh.next_step||""} style={{ fontFamily:mono, fontSize:11, color:["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green, border:`1px solid ${(["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px", background:`${(["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green)}10` }}>refresh: {String(assumptionRefresh.status).replace("_"," ")}</span>}
           {capitalEfficiency.label && <span title={capitalEfficiency.summary||""} style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px", background:`${C.amber}10` }}>capital: {capitalEfficiency.label}</span>}
+          {hasAccountPlacement && <span title={accountPlacement.why||accountPlacement.rule||"candidate account placement"} style={{ fontFamily:mono, fontSize:11, color:C.green, border:`1px solid ${C.green}55`, borderRadius:99, padding:"1px 8px", background:`${C.green}10` }}>acct: {accountPlacement.label||accountPlacement.account||"review"}</span>}
           {a.synthesisChanges && <span title="what this synthesis changes" style={{ fontFamily:mono, fontSize:11, color:C.blue, border:`1px solid ${C.blue}55`, borderRadius:99, padding:"1px 8px", background:`${C.blue}10` }}>changes: {a.synthesisChanges}</span>}
           {a.capitalPriorityScore!=null && <span title="capital priority inside this decision group" style={{ fontFamily:mono, fontSize:11, color:C.faint, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>priority: {a.capitalPriorityScore}</span>}
           <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
@@ -1354,6 +1360,15 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
               {capitalEfficiency.do_nothing_risk && <div style={{ marginTop:4 }}>Do nothing: {capitalEfficiency.do_nothing_risk}</div>}
               {capitalEfficiency.timing_balance && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>timing: {capitalEfficiency.timing_balance}</div>}
               {(capitalEfficiency.compare_against||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>compare: {(capitalEfficiency.compare_against||[]).join(" / ")}</div>}
+            </div>
+          )}
+          {hasAccountPlacement && (
+            <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
+              <div style={{ fontWeight:700, color:C.green }}>Account placement</div>
+              {accountPlacement.summary && <div style={{ marginTop:4 }}>{accountPlacement.summary}</div>}
+              {accountPlacement.why && <div style={{ marginTop:4 }}>Why: {accountPlacement.why}</div>}
+              {accountPlacement.rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>rule: {accountPlacement.rule}</div>}
+              {(accountPlacement.caveats||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>caveats: {(accountPlacement.caveats||[]).join(" / ")}</div>}
             </div>
           )}
           {hasAssumptionRefresh && (
@@ -1698,6 +1713,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     {r.next_step && <div style={{ marginTop:4, fontSize:11.8, color:C.text }}>Next: {r.next_step}</div>}
                     {r.invalidates && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Invalidates: {r.invalidates}</div>}
                     {r.compare_against && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Compare: {r.compare_against}</div>}
+                    {r.account_placement_summary && <div style={{ marginTop:4, fontSize:11.8, color:C.green }}>Account: {r.account_placement_summary}</div>}
+                    {r.account_placement_why && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Account why: {r.account_placement_why}</div>}
                     {r.blocks && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Blocks: {r.blocks}</div>}
                   </div>
                 ))}
@@ -1904,6 +1921,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   const funded=(r.funded_by||[]).map(f=>`${f.ticker} ${money(f.notional_usd)}`).join(", ");
                   const cap=r.capital_efficiency||{};
                   const opt=r.options_review_prompt||{};
+                  const placement=r.account_placement||{};
                   return (
                     <div key={`${r.ticker}${i}`} style={{ ...card, marginBottom:7, borderColor:C.green+"33" }}>
                       <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
@@ -1914,6 +1932,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                       </div>
                       {r.entry_note && <div style={{ marginTop:5, fontSize:12, color:C.text }}>{r.entry_note}</div>}
                       {funded && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>funded by: {funded}</div>}
+                      {placement.summary && <div style={{ marginTop:4, fontSize:11.5, color:C.green }}>Account: {placement.summary}</div>}
+                      {placement.why && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>account why: {placement.why}</div>}
                       {cap.summary && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Capital: {cap.summary}</div>}
                       {cap.consequence_of_doing_nothing && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Do nothing: {cap.consequence_of_doing_nothing}</div>}
                       {opt.label && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Options: {opt.label}; {opt.max_loss_gate}</div>}

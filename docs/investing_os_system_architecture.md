@@ -158,6 +158,17 @@ The system synthesizes only from explicit source or repo evidence:
     PDF-era cache data.
   - Include Robinhood Crypto in the Investing OS account universe when the
     staged pull validates.
+  - `account_trade_placement.py` derives account-placement guidance from the
+    current account-position rows. It is guidance for review prompts, not an
+    execution instruction.
+  - Current hard account rule: Parents Schwab / PCRA Trust is ETF-only. ETF add
+    candidates should prioritize that account where possible so stock-capable
+    accounts remain available for individual names. Individual stock add
+    candidates must avoid Parents Schwab / PCRA Trust and prefer an existing
+    non-PCRA holding account when available.
+  - Account placement is intentionally simple until more constraints are
+    supplied. It does not check cash, tax lots, wash-sale rules, account-level
+    permissions, or final sizing; those remain pre-trade/operator gates.
 
   Staged pull and validation sequence:
 
@@ -204,6 +215,9 @@ The dashboard shows the feed plus operator state:
   - Every enriched action carries freshness, disconfirmation, and
     capital-efficiency judgment so the dashboard compares "good idea" against
     "best use of scarce capital now" before any review prompt is promoted.
+  - Capital-using review prompts can also carry `account_placement`: candidate
+    account, why that account, and caveats. Parent Schwab/PCRA Trust is treated
+    as ETF-only; this still does not place or size trades.
   - Every important action also carries `assumption_refresh`, a refresh-time
     snapshot and revalidation result with status `still_valid`,
     `changed_recheck`, `invalidated`, `stale`, or `upgraded`. This is how an
