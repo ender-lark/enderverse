@@ -158,6 +158,35 @@ def test_target_drift_disconfirmation_requires_funding_and_gate():
     assert groups["counts"]["recheck_before_acting"] == 1
 
 
+def test_nonheld_sell_fast_warning_is_quiet_watch_not_key_now():
+    actions = [
+        {
+            "rank": 1,
+            "kind": "sell_fast",
+            "ticker": "RYF",
+            "action_state": "ACT_NOW",
+            "source": "top_prospects:sell_fast",
+            "time_window": "today",
+            "goal_impact": "High",
+            "account_placement": {
+                "status": "not_held",
+                "side": "trim/sell",
+                "summary": "No current position in the checked account book.",
+            },
+        },
+    ]
+
+    enriched, groups = enrich_actions(
+        actions,
+        staleness={"entries": [], "stale": []},
+        generated_at="2026-06-08T16:37:00+00:00",
+    )
+
+    assert enriched[0]["decision_group"] == "quiet_watch"
+    assert groups["counts"]["key_now"] == 0
+    assert groups["counts"]["quiet_watch"] == 1
+
+
 def test_capital_priority_reranks_inside_decision_group():
     actions = [
         {

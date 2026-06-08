@@ -119,6 +119,40 @@ def test_trim_uses_largest_existing_holding_account_even_for_etf():
     assert "largest current account position" in placement["why"]
 
 
+def test_trim_for_nonheld_ticker_is_no_position_not_account_question():
+    placement = recommend_account_placement(
+        {"ticker": "RYF", "what": "Sell-fast review"},
+        ACCOUNT_POSITIONS,
+    )
+
+    assert placement["status"] == "not_held"
+    assert placement["side"] == "trim/sell"
+    assert placement["instrument_class"] == "ETF"
+    assert placement["summary"] == "No current position in the checked account book."
+    assert "No sell/trim action is needed" in placement["why"]
+
+
+def test_annotate_nonheld_sell_fast_rewrites_operator_prompt():
+    actions = annotate_actions(
+        [
+            {
+                "kind": "sell_fast",
+                "ticker": "XOP",
+                "what": "Sell-fast review",
+                "your_move": "XOP: check whether you hold it.",
+            }
+        ],
+        ACCOUNT_POSITIONS,
+    )
+
+    action = actions[0]
+    assert action["account_placement"]["status"] == "not_held"
+    assert action["what"] == "Avoid-new-exposure watch"
+    assert action["action_label"] == "NO POSITION"
+    assert "checked account book shows no current position" in action["your_move"]
+    assert "check whether you hold it" not in action["your_move"]
+
+
 def test_annotators_add_account_placement_to_actions_and_reallocation_rows():
     actions = annotate_actions(
         [{"ticker": "NVDA", "capital_effect": "add", "what": "Add NVDA"}],

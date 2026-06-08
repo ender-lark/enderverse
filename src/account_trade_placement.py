@@ -16,8 +16,8 @@ CRYPTO_TICKERS = {"AAVE", "BTC", "ETH", "HYPE", "SOL", "TRUMP"}
 KNOWN_ETFS = {
     "ARKK", "BITO", "DIA", "DRIV", "ETHA", "FBGKX", "FDRXX", "FTXL",
     "GDX", "GLD", "GRNJ", "GRNY", "IBIT", "IGV", "ITA", "IVES", "IWM",
-    "LIT", "MAGS", "QQQ", "RPG", "SIL", "SLV", "SMH", "SPY", "VOLT",
-    "XLE", "XLF", "XLK", "XLP", "XLU", "XLV",
+    "LIT", "MAGS", "QQQ", "RPG", "RYF", "SIL", "SLV", "SMH", "SPY", "VOLT",
+    "XLE", "XLF", "XLK", "XLP", "XLU", "XLV", "XOP",
 }
 
 
@@ -181,7 +181,7 @@ def recommend_account_placement(
         reason = (
             "Trim/sell where the position is already held; largest current account position is simplest."
             if chosen else
-            "No current holding found for this ticker; verify the account before any sell/trim."
+            "No current holding found for this ticker in the checked account book."
         )
     elif instrument == "crypto":
         crypto_accounts = [
@@ -213,6 +213,20 @@ def recommend_account_placement(
         reason = "Review account placement against existing holdings; no capital move is implied yet."
 
     if not chosen:
+        if side == "trim/sell" and not held_accounts:
+            return {
+                "status": "not_held",
+                "ticker": ticker,
+                "side": side,
+                "instrument_class": instrument,
+                "summary": "No current position in the checked account book.",
+                "why": "No sell/trim action is needed from checked accounts; treat this as avoid-new-exposure context unless an off-book position exists.",
+                "rule": PARENT_SCHWAB_RULE,
+                "caveats": [
+                    "If trades happened after the book timestamp, refresh account positions before acting.",
+                    "No order is placed or sized from this recommendation.",
+                ],
+            }
         return {
             "status": "needs_review",
             "ticker": ticker,
@@ -271,6 +285,17 @@ def annotate_actions(
         placement = recommend_account_placement(row, account_positions)
         if placement.get("status") != "not_applicable":
             row["account_placement"] = placement
+            if placement.get("status") == "not_held" and placement.get("side") == "trim/sell":
+                ticker = str(placement.get("ticker") or row.get("ticker") or "").strip().upper()
+                prefix = f"{ticker}: " if ticker else ""
+                row["what"] = "Avoid-new-exposure watch"
+                row["your_move"] = (
+                    f"{prefix}checked account book shows no current position. "
+                    "No sell/trim task from checked accounts; keep this as avoid-new-exposure context unless an off-book position exists."
+                )
+                row["action_state"] = "WATCH"
+                row["action_label"] = "NO POSITION"
+                row["capital_effect"] = "no_capital_yet"
         out.append(row)
     return out
 

@@ -180,6 +180,10 @@ def _group_for(action: dict[str, Any]) -> str:
     freshness = action.get("freshness_judgment") or {}
     freshness_label = str(freshness.get("label") or "")
     synthesis_change = str(action.get("synthesis_changes") or "")
+    placement = action.get("account_placement") or {}
+
+    if placement.get("status") == "not_held" and placement.get("side") == "trim/sell":
+        return "quiet_watch"
 
     if freshness_label in {"stale", "not checked"}:
         return "recheck_before_acting"

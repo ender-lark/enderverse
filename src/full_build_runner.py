@@ -801,6 +801,7 @@ def build_full_feed_from_files(
         log_call_dates=log_call_dates,
         target_drift=target_drift,
     )
+    feed["actions"] = annotate_actions(feed.get("actions") or [], account_positions)
     feed["actions"], feed["action_decision_groups"] = enrich_actions(
         feed.get("actions") or [],
         staleness=feed.get("staleness") or {},
@@ -808,7 +809,6 @@ def build_full_feed_from_files(
         event_risk=feed.get("event_risk") or [],
         generated_at=feed.get("generated_at") or now,
     )
-    feed["actions"] = annotate_actions(feed.get("actions") or [], account_positions)
     feed["research_actions"] = annotate_actions(feed.get("research_actions") or [], account_positions)
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
     feed["social_watch"] = social_watch
