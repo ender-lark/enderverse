@@ -718,6 +718,44 @@ function signalLogRow(r){
            source:r.source||"Signal Log", note:r.note||r.detail||r.why||"" };
 }
 function heroView(hero){ const h=(hero&&hero.hero)||{}, ny=(hero&&hero.needs_you)||{}; return { leadCount:h.count||0, leadNames:h.names||[], leadingSleeves:h.leading_sleeves||[], needsCount:ny.count||0, needsItems:ny.items||[] }; }
+function heroAttention(h, packet, op){
+  const counts = (packet&&packet.counts)||{};
+  const keyNow = counts.key_now||0;
+  const recheck = counts.recheck||0;
+  const backlog = counts.backlog||0;
+  const blockers = counts.blockers||0;
+  const actionCount = (op&&op.actions)||0;
+  const legacyNeeds = (h&&h.needsCount)||0;
+  const plural = (n, one, many)=> n===1 ? one : many;
+  if(keyNow>0) return {
+    active:true, count:keyNow, color:C.amber,
+    title:`${keyNow} key ${plural(keyNow,"review prompt","review prompts")} ready`,
+    detail:`Start with the Market-Open Packet; run gates before capital moves.${blockers?` ${blockers} blocker${blockers===1?"":"s"} still listed.`:""}`
+  };
+  if(recheck>0) return {
+    active:true, count:recheck, color:C.amber,
+    title:`${recheck} re-check${recheck===1?"":"s"} before acting`,
+    detail:`Start with the Market-Open Packet; refresh assumptions before capital moves.${backlog?` ${backlog} backlog item${backlog===1?"":"s"} remain visible.`:""}`
+  };
+  if(legacyNeeds>0) return {
+    active:true, count:legacyNeeds, color:C.amber,
+    title:`${legacyNeeds} item${legacyNeeds===1?"":"s"} need${legacyNeeds===1?"s":""} attention`,
+    detail:"Time-sensitive items are in Today's actions below."
+  };
+  if(actionCount>0 || backlog>0) {
+    const count = actionCount||backlog;
+    return {
+      active:true, count, color:C.blue,
+      title:`${count} decision item${count===1?"":"s"} visible`,
+      detail:"No Key Now items; review backlog only if it affects current capital priority."
+    };
+  }
+  return {
+    active:false, count:"OK", color:C.green,
+    title:"No decisions need attention",
+    detail:"No fresh action prompts in this feed build."
+  };
+}
 function stamp(feed){
   const entries=(feed.staleness&&feed.staleness.entries)||[];
   const bySrc=Object.fromEntries(entries.map(e=>[e.source,e.date]));
@@ -1294,14 +1332,15 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {/* HERO — needs-you banner (engine ⑧) */}
         {(() => {
           const h = VM.hero;
-          const need = h.needsCount > 0;
+          const attention = heroAttention(h, VM.marketOpenPacket, VM.operatorStatus);
           const sleeves = h.leadingSleeves.map(s => SLEEVE_DISPLAY[s] || s).join(", ");
+          const bookLine = `${h.leadCount} name${h.leadCount===1?"":"s"} on strong footing${sleeves?` · leading: ${sleeves}`:""}.`;
           return (
-            <div style={{ marginTop:12, ...card, borderColor: need? C.amber+"66":C.green+"44", background: need? C.amber+"10":C.green+"0c", display:"flex", alignItems:"center", gap:12 }}>
-              <div style={{ fontFamily:mono, fontSize:26, fontWeight:700, color: need?C.amber:C.green, lineHeight:1 }}>{need? h.needsCount : "✓"}</div>
+            <div style={{ marginTop:12, ...card, borderColor: attention.color+"66", background: attention.color+"10", display:"flex", alignItems:"center", gap:12 }}>
+              <div style={{ fontFamily:mono, fontSize:26, fontWeight:700, color: attention.color, lineHeight:1 }}>{attention.count}</div>
               <div>
-                <div style={{ fontSize:13.5, fontWeight:600 }}>{need ? `${h.needsCount} thing${h.needsCount>1?"s":""} need${h.needsCount>1?"":"s"} you` : "Nothing needs you — all quiet"}</div>
-                <div style={muted}>{need ? "Time-sensitive items are in Today's actions below." : "No fresh actions."} <span style={{ color:C.faint }}>{h.leadCount} name{h.leadCount===1?"":"s"} on strong footing{sleeves?` · leading: ${sleeves}`:""}.</span></div>
+                <div style={{ fontSize:13.5, fontWeight:600 }}>{attention.title}</div>
+                <div style={muted}>{attention.detail} <span style={{ color:C.faint }}>{bookLine}</span></div>
               </div>
             </div>
           );

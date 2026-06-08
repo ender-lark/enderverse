@@ -451,6 +451,14 @@ def test_generated_html_labels_summary_export_and_dark_lanes():
     assert "checked (18)" in html
 
 
+def test_generated_html_hero_uses_packet_attention_state():
+    html = generate_html(_feed())
+
+    assert "1 key review prompt ready" in html
+    assert "Start with the Market-Open Packet; run gates before capital moves." in html
+    assert "No decisions need attention" not in html
+
+
 def test_generated_html_book_renders_allocation_guidance():
     html = generate_html(_feed())
 

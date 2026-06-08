@@ -52,3 +52,12 @@ def test_canonical_jsx_book_labels_allocation_guidance():
     assert "Allocation guide: working model target + Fundstrat cue" in src
     assert "model target" in src
     assert "Fundstrat {String(c.fundstrat_cue" in src
+
+
+def test_canonical_jsx_hero_uses_packet_attention_state():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert "function heroAttention(h, packet, op)" in src
+    assert "re-check${recheck===1?\"\":\"s\"} before acting" in src
+    assert "Start with the Market-Open Packet; refresh assumptions before capital moves." in src
+    assert "No decisions need attention" in src

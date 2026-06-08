@@ -769,13 +769,45 @@ def _operator_status(feed: dict) -> str:
 </div>"""
 
 
-def _hero(hero: dict) -> str:
+def _hero(feed: dict) -> str:
+    hero = feed.get("hero") or {}
     needs = hero.get("needs_you") or {}
-    count = needs.get("count", 0)
+    legacy_count = int(needs.get("count") or 0)
     items = needs.get("items") or []
     book_count = (hero.get("hero") or {}).get("count", 0)
     leading = ", ".join((hero.get("hero") or {}).get("leading_sleeves") or [])
     leading_str = f" | leading: {_e(leading)}" if leading else ""
+    packet_counts = (feed.get("market_open_packet") or {}).get("counts") or {}
+    key_now = int(packet_counts.get("key_now") or 0)
+    recheck = int(packet_counts.get("recheck") or 0)
+    backlog = int(packet_counts.get("backlog") or 0)
+    blockers = int(packet_counts.get("blockers") or 0)
+    action_count = len(feed.get("actions") or [])
+
+    if key_now:
+        display_count = str(key_now)
+        title = f"{key_now} key review prompt{'s' if key_now != 1 else ''} ready"
+        detail = "Start with the Market-Open Packet; run gates before capital moves."
+        if blockers:
+            detail += f" {blockers} blocker{'s' if blockers != 1 else ''} still listed."
+    elif recheck:
+        display_count = str(recheck)
+        title = f"{recheck} re-check{'s' if recheck != 1 else ''} before acting"
+        detail = "Start with the Market-Open Packet; refresh assumptions before capital moves."
+        if backlog:
+            detail += f" {backlog} backlog item{'s' if backlog != 1 else ''} remain visible."
+    elif legacy_count:
+        display_count = str(legacy_count)
+        title = f"{legacy_count} item{'s' if legacy_count != 1 else ''} need{'s' if legacy_count == 1 else ''} attention"
+        detail = "Time-sensitive items are in Today's actions below."
+    elif action_count or backlog:
+        display_count = str(action_count or backlog)
+        title = f"{action_count or backlog} decision item{'s' if (action_count or backlog) != 1 else ''} visible"
+        detail = "No Key Now items; review backlog only if it affects current capital priority."
+    else:
+        display_count = "OK"
+        title = "No decisions need attention"
+        detail = "No fresh action prompts in this feed build."
 
     hero_items_html = ""
     for it in items:
@@ -787,12 +819,12 @@ def _hero(hero: dict) -> str:
     return f"""
 <div class="hero">
   <div class="hero-row">
-    <div class="hero-num">{count}</div>
+    <div class="hero-num">{_e(display_count)}</div>
     <div>
       <div style="font-size:13px;font-weight:600;color:#f0f6fc">
-        thing{"s" if count != 1 else ""} need{"" if count != 1 else "s"} you
+        {_e(title)}
       </div>
-      <div class="hero-label">{book_count} names on the book{leading_str}</div>
+      <div class="hero-label">{_e(detail)} | {_e(book_count)} names on the book{leading_str}</div>
     </div>
   </div>
   {f'<div class="hero-items">{hero_items_html}</div>' if hero_items_html else ""}
@@ -2060,7 +2092,7 @@ def generate_html(feed: dict) -> str:
     lane_html   = _lane_status_summary(feed.get("lane_status") or {})
     feedback_html = _feedback_summary(feed.get("feedback") or {})
     hb_html     = _heartbeat(feed.get("heartbeat") or [])
-    hero_html   = _hero(feed.get("hero") or {})
+    hero_html   = _hero(feed)
     actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
     source_conflicts_html = _source_conflicts(feed.get("source_conflicts") or {})
     market_open_packet_html = _market_open_packet(feed.get("market_open_packet") or {})

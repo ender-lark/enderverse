@@ -225,6 +225,10 @@ The dashboard shows the feed plus operator state:
     Important Backlog rather than capping the packet to the top few rows.
     Rows include refresh status and what changed when assumptions are stale,
     missing, or still valid.
+  - The first-screen hero derives its attention state from packet/action state,
+    not only from the legacy `needs_you` feed field. If there are Key Now items,
+    re-checks, visible actions, or backlog items, the hero must not say the
+    dashboard is quiet.
   - The packet is a capital-efficiency and timing-balance aid. It helps avoid
     parking money in a merely good opportunity when a better use is live, while
     also discouraging indefinite waiting for a perfect entry when fresh evidence
