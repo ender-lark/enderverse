@@ -92,6 +92,9 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert "Today sub-category" not in src
     assert "The boxes below are sub-categories inside Today Decisions" not in src
     assert "Needed evidence:" in src
+    assert "Gather evidence" in src
+    assert "same-session price/tape still supports the setup" in src
+    assert "final pre-trade check: price, source, risk, account, and sizing" in src
     assert "Confidence basis:" in src
     assert "Plain-English read:" in src
     assert "Why conviction:" in src

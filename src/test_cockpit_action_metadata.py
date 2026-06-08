@@ -21,6 +21,15 @@ def test_jsx_today_decisions_surface_action_validity_metadata():
     assert "function TodayActionCard(" in text
     assert "function DecisionLaneBoard" in text
     assert "Needed evidence:" in text
+    assert "Gather evidence" in text
+    assert "Codex evidence request:" in text
+    assert "request ready" in text
+    assert "gatherCopied" not in text
+    assert "function evidenceGatherPrompt" in text
+    assert "function friendlyEvidencePart" in text
+    assert "navigator.clipboard.writeText" in text
+    assert "same-session price/tape still supports the setup" in text
+    assert "where the money comes from" in text
     assert "Confidence basis:" in text
     assert "Confidence is based on:" in text
     assert "Why conviction:" in text

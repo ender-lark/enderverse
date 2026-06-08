@@ -761,7 +761,7 @@ function refreshStatusMeta(status){
 function decisionGroupMeta(key, label){
   const k = String(key||"").toLowerCase();
   if(k==="key_now") return { title:"Ready to Decide", chip:"ready", short:"Ready", tone:"red", description:"Today decisions that do not need another evidence gate before you decide act, defer, trim, hedge, size, or no capital." };
-  if(k==="recheck_before_acting") return { title:"Evidence Missing", chip:"needs evidence", short:"Evidence", tone:"amber", description:"Blocked until the named price, source, position, flow, or event-risk check is refreshed. The dashboard should already have tried the cheap available checks." };
+  if(k==="recheck_before_acting") return { title:"Evidence Missing", chip:"Evidence Missing", short:"Evidence", tone:"amber", description:"Blocked until the named price, source, position, flow, or event-risk check is refreshed. The dashboard should already have tried the cheap available checks." };
   if(k==="important_backlog") return { title:"Backlog", chip:"compare capital", short:"Backlog", tone:"blue", description:"Useful decisions that still matter, but first compare against better current uses of capital and the cost of waiting." };
   if(k==="quiet_watch") return { title:"Watch", chip:"watch only", short:"Watch", tone:"gray", description:"Tracked context that should stay quiet unless it changes action, sizing, risk, or research priority." };
   return { title:label||String(key||"Decision Lane").replaceAll("_"," "), chip:String(label||key||"review").replaceAll("_"," ").toLowerCase(), tone:"gray", description:"Decision lane from the action engine." };
@@ -769,7 +769,7 @@ function decisionGroupMeta(key, label){
 function actionLabelDisplay(label){
   const text = String(label||"");
   const lower = text.toLowerCase();
-  if(lower==="re-check" || lower==="recheck") return "needs evidence";
+  if(lower==="re-check" || lower==="recheck") return "Evidence Missing";
   if(lower==="add/rotate") return "add/rotate candidate";
   return text;
 }
@@ -840,12 +840,25 @@ function evidenceNeededText(a){
     ...(assumptionRefresh.next_step ? [assumptionRefresh.next_step] : []),
     ...(String(freshness.label||"").toLowerCase()==="stale" ? ["refresh stale source evidence"] : []),
     ...(String(freshness.label||"").toLowerCase()==="not checked" ? ["source not checked"] : []),
-  ].map(x=>String(x||"").trim()).filter(Boolean);
+  ].map(x=>friendlyEvidencePart(x)).filter(Boolean);
   const unique = [];
   parts.forEach(p=>{
     if(!unique.some(x=>x.toLowerCase()===p.toLowerCase())) unique.push(p);
   });
   return unique.length ? unique.slice(0,4).join(" / ") : "";
+}
+function friendlyEvidencePart(value){
+  const raw = String(value||"").trim();
+  const lower = raw.toLowerCase();
+  if(!raw) return "";
+  if(lower==="live opportunity") return "same-session price/tape still supports the setup";
+  if(lower==="funding leg") return "where the money comes from, including any trim/rotate source";
+  if(lower==="pre-trade gate") return "final pre-trade check: price, source, risk, account, and sizing";
+  if(lower==="live price" || lower==="price") return "same-session price level";
+  if(lower==="position" || lower==="current exposure") return "current position/exposure from the live book";
+  if(lower==="source confirmation") return "source confirmation still supports the action";
+  if(lower==="event risk") return "event-risk trigger has not changed the action";
+  return raw;
 }
 function laneEvidenceSummary(rows){
   const parts = [];
@@ -875,6 +888,23 @@ function confidenceBasis(a, advisorNote){
   if(base) return clipText(`Based on ${base}.`, 170);
   if(weak) return clipText(`Confidence is limited because ${weak}.`, 170);
   return "Confidence is based on the current action-engine evidence stack; open backup details for source rows.";
+}
+function evidenceGatherPrompt(a, evidence){
+  const title = compactJoin([a&&a.ticker, a&&a.what]) || "this Today decision";
+  return [
+    `Codex, gather the missing evidence for this Today decision: ${title}.`,
+    `Needed evidence: ${evidence || "identify the missing source, price, position, flow, event-risk, and pre-trade checks."}`,
+    a&&a.yourMove ? `Current decision text: ${a.yourMove}` : "",
+    a&&a.whyThisMatters ? `Why it matters: ${a.whyThisMatters}` : "",
+    "Refresh only the relevant evidence lanes, keep missing/stale sources honest, update the local JSX cockpit if the decision changes, and do not place trades.",
+  ].filter(Boolean).join("\n");
+}
+function copyTextToClipboard(text, setPosOpen, key, event){
+  if(event && event.stopPropagation) event.stopPropagation();
+  setPosOpen(st=>({...st,[key]:text}));
+  if(typeof navigator!=="undefined" && navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).catch(()=>{});
+  }
 }
 
 const COMMAND_ACTIONS = [
@@ -1034,6 +1064,9 @@ function TodayActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel
   const conviction = clipText(a.whyThisMatters || a.why || (advisorNote&&advisorNote.why) || a.goalWhy || "", 170);
   const neededEvidence = evidenceNeededText(a);
   const basis = confidenceBasis(a, advisorNote);
+  const gatherKey = `${key}:gathered`;
+  const gatherPrompt = evidenceGatherPrompt(a, neededEvidence);
+  const gatherRequest = posOpen[gatherKey];
   const work = compactJoin([
     a.source && `source ${a.source}`,
     a.kindLabel && `lane ${a.kindLabel}`,
@@ -1047,6 +1080,7 @@ function TodayActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel
   const hasEvidenceCheck = !!(assumptionRefresh.status || assumptionRefresh.next_step || (assumptionRefresh.what_changed||[]).length || (assumptionRefresh.invalidates_if||[]).length || freshness.judgment);
   const hasAccountPlacement = !!(accountPlacement.summary || accountPlacement.why || accountPlacement.label);
   const hasDetail = !!(a.why || a.whyThisMatters || work || a.missingEvidence.length || hasDisconfirmation || hasCapitalEfficiency || hasEvidenceCheck || hasAccountPlacement);
+  const showEvidenceChip = evidenceChip && !(a.decisionGroup==="recheck_before_acting" && ["changed_recheck","stale"].includes(refreshStatus));
   return (
     <div key={key} style={{ ...toneCard(tone), marginBottom:8, borderColor: urgent ? edge+"aa" : edge+"44", background: urgent ? edge+"18" : `${edge}0d`, boxShadow: urgent ? `0 0 0 1px ${edge}55 inset` : "none" }}>
       <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:hasDetail?"pointer":"default" }}>
@@ -1062,11 +1096,21 @@ function TodayActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel
           <span title="Action posture this card changes or requires." style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:edge, border:`1px solid ${edge}66`, borderRadius:99, padding:"1px 8px", background:`${edge}12` }}>{posture}</span>
           {a.timeWindow && <span title="How quickly this decision can matter." style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
           <span title={basis} style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
-          {evidenceChip && <span title={evidenceChip.title||""} style={{ fontFamily:mono, fontSize:11, color:evidenceColor, border:`1px solid ${evidenceColor}55`, borderRadius:99, padding:"1px 8px", background:`${evidenceColor}10` }}>{evidenceChip.label}</span>}
+          {showEvidenceChip && <span title={evidenceChip.title||""} style={{ fontFamily:mono, fontSize:11, color:evidenceColor, border:`1px solid ${evidenceColor}55`, borderRadius:99, padding:"1px 8px", background:`${evidenceColor}10` }}>{evidenceChip.label}</span>}
           {showAging && a.ageDays!=null && <span title="How long this has been actionable; the cost of waiting." style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>open {a.ageDays}d{a.flagged?` since ${a.flagged}`:""}{a.moveSince?` ${a.moveSince}`:""}</span>}
         </div>
         <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Decision:</span> {a.yourMove}</div>
-        {neededEvidence && <div style={{ marginTop:5, fontSize:12.1, color:C.amber }}><span style={{ color:C.dim, fontWeight:700 }}>Needed evidence:</span> {clipText(neededEvidence, 220)}</div>}
+        {neededEvidence && (
+          <div style={{ marginTop:7, display:"grid", gridTemplateColumns:"1fr auto", gap:8, alignItems:"center" }}>
+            <div style={{ fontSize:12.1, color:C.amber }}><span style={{ color:C.dim, fontWeight:700 }}>Needed evidence:</span> {clipText(neededEvidence, 220)}</div>
+            <button
+              onClick={(event)=>copyTextToClipboard(gatherPrompt, setPosOpen, gatherKey, event)}
+              title="Copies an exact Codex request to gather the missing evidence for this card."
+              style={{ cursor:"pointer", border:`1px solid ${C.amber}66`, background:gatherRequest?`${C.green}18`:`${C.amber}12`, color:gatherRequest?C.green:C.amber, borderRadius:7, padding:"4px 8px", fontFamily:mono, fontSize:10.5, whiteSpace:"nowrap" }}
+            >{gatherRequest?"request ready":"Gather evidence"}</button>
+          </div>
+        )}
+        {gatherRequest && <div style={{ marginTop:6, padding:7, border:`1px solid ${C.line}`, borderRadius:7, background:C.panel2, fontFamily:mono, fontSize:10.5, color:C.faint, whiteSpace:"pre-wrap", overflowWrap:"anywhere" }}>Codex evidence request:\n{gatherRequest}</div>}
         {conviction && <div style={{ marginTop:5, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Why conviction:</span> {conviction}</div>}
         <div style={{ marginTop:5, fontSize:12.1, color:C.dim }}><span style={{ color:C.faint, fontWeight:700 }}>Confidence basis:</span> {basis}</div>
         {advisorNote && <div style={{ marginTop:6, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:650 }}>Plain-English read:</span> {advisorNote.what_i_would_do || advisorNote.why || advisorNote.label}</div>}
