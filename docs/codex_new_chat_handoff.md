@@ -48,7 +48,7 @@ Current priority:
    slice is queued; it separates build blockers from source/user waits,
    background natural cloud-proof waits, and deferred stock-review backlog.
 
-Current verified snapshot (2026-06-07 15:22 ET live artifacts; background cloud proof remains a background wait):
+Current verified snapshot (cloud proof is background monitoring; check live status before relying on counts):
 
 - Check `git log -3 --oneline` for the latest docs/code commit; avoid treating
   this handoff page's commit hash as runtime evidence.
@@ -61,27 +61,25 @@ Current verified snapshot (2026-06-07 15:22 ET live artifacts; background cloud 
 - Meridian is stale thesis archive context after March 2026. Missing Meridian
   archive data must not count as fresh tactical evidence or as a live-source
   dark lane.
-- `python src/cloud_ops_status.py --format text` reports
-  `scheduled_success=3/10` after real scheduled successes for Post-Close
-  Refresh, Pre-Market Source Intake, and Morning Scan. Remaining routine proof
-  should advance through natural schedules, not active acceleration.
+- `python src/cloud_ops_status.py --format text` should be checked live rather
+  than inferred from this handoff. The expected active stack includes the
+  8:50 AM ET Early Cockpit Build and the 10:30 AM ET Full Cockpit Build;
+  remaining routine proof should advance through natural schedules unless the
+  user explicitly asks to accelerate again.
 - `python src/go_live_checklist.py --format text` should be run before any
   final claim. The latest refresh had no missing required inputs and only
   optional `social_watch` dark-lane visibility.
-- `python src/completion_audit.py --format text` reports
-  `BUILD_CLEAR_WAITING_EXTERNAL`: build clear, `all clear: False`, go-live
-  ready, 0 build blockers, 0 source waits, background cloud proof `3/10`, and
-  open reviews `ANET`, `GOOGL` with
-  `due=0 | stale=0 | oldest=0d`. Use
+- `python src/completion_audit.py --format text` reports whether the build is
+  clear versus merely waiting on external/background proof. Treat its cloud
+  proof count as live runtime evidence, not as a fixed value from this handoff.
+  Use
   `--require-all-clear` only when external waits should fail the command.
 - Canonical local JSX cockpit is the default v1 testing surface:
   `http://127.0.0.1:8765/cockpit_jsx_preview.html`. Local generated HTML at
   `http://127.0.0.1:8765/dashboard_preview.html` and GitHub Pages are
   mirror/export checks.
-- The dashboard Operator Status card now shows `Build blockers 0`, `Open reviews
-  2 new` in pass styling, the wait summary
-  `Build clear, not all clear | background cloud proof 3/10`,
-  and both:
+- The dashboard Operator Status card shows build blockers, open reviews, and
+  the current cloud-proof background summary, plus both:
   `python src/go_live_checklist.py --format text`
   and the supplied-headline emergency command
   `python src/sudden_event_refresh.py --title "<event headline>" ...`.
@@ -268,9 +266,10 @@ Important recent state:
   `investing-os-daily-cloud-refresh` automation is paused as superseded; the
   six older unreceipted local cron jobs are also paused as superseded by the
   receipt-tracked stack. The active stack now records Pre-Market Source Intake,
-  Morning Scan, Daily Synthesis, UW Opportunity Cache, Parabolic Cache, Full
-  Cockpit Build, Post-Close Refresh, Off-Hours Worker, Deep Synthesis, and
-  Weekly Pilot Run in `src/cloud_automation_status.json`. Pre-Market Source
+  Morning Scan, Early Cockpit Build, Daily Synthesis, UW Opportunity Cache,
+  Parabolic Cache, Full Cockpit Build, Post-Close Refresh, Off-Hours Worker,
+  Deep Synthesis, and Weekly Pilot Run in `src/cloud_automation_status.json`.
+  Pre-Market Source
   Intake now owns supplied broker-position uploads when valid input exists;
   missing broker input keeps the position cache stale/not refreshed instead of
   checked clear. Catalyst gaps should remain visible as dark lanes if
@@ -281,7 +280,8 @@ Important recent state:
   for routine-specific scheduled receipt protocol, safe write-back via
   `cloud_routine_commit.py`, and missing-source honesty guards; current app
   state reports
-  `Cloud receipt protocol: checked=10 | ok=10 | missing=0`.
+  `Cloud receipt protocol: checked=13 | ok=13 | missing=0` after all active
+  app TOML files are present locally.
   The active Deep Synthesis automation prompt was patched after the stricter
   checker found it lacked the explicit missing-source honesty guard.
 - Active routine prompts now call `python src/cloud_routine_commit.py --message
@@ -293,10 +293,12 @@ Important recent state:
   `pushed=false`.
 - The active automation timing was checked against Notion's "Scheduled Cloud
   Routines - Master Reference" and the 2026-06-02 "Routine schedule reconcile"
-  note. Current intent: Morning Scan at 8:35 ET, Daily Synthesis at 9:30 ET
-  after Morning Scan, UW Opportunity Cache no earlier than roughly 9:45 ET
-  and currently 10:00 ET, Full Cockpit Build at 10:30 ET, Post-Close Refresh
-  at 4:30 PM ET.
+  note. Current intent: Morning Scan at 8:35 ET, Early Cockpit Build at
+  8:50 ET for the first usable dashboard, Daily Synthesis at 9:30 ET after
+  Morning Scan, UW Opportunity Cache no earlier than roughly 9:45 ET and
+  currently 10:00 ET, Parabolic Cache at 10:05 ET, Full Cockpit Build at
+  10:30 ET for the fuller mid-morning refresh, Post-Close Refresh at
+  4:30 PM ET.
 - `src/cloud_routine_receipts.py` records scheduled-run receipts in
   `src/cloud_routine_receipts.json`. Each automation should append a
   started/success/failed receipt at the end of its run using
@@ -317,7 +319,7 @@ Important recent state:
   overdue after a 30-minute grace window. Before the first receipt window it
   reports `not_due_yet` counts and an explicit first-scheduled-proof-pending
   line, so schedule readiness is not mistaken for run proof. Current scheduled
-  proof is partial at `3/10`; after the user pivot, remaining proof belongs to
+  proof is partial; after the user pivot, remaining proof belongs to
   natural scheduled receipts rather than active acceleration.
   `--strict` checks schedule readiness only; use `--require-first-proof` after
   the first expected run window, and `--require-live-run` when the whole routine
@@ -354,7 +356,7 @@ Important recent state:
   mechanics but does not count as scheduled cloud proof.
 - `src/cloud_routine_manual_run.py --format text --strict` is the repeatable
   manual "run the routines now" path. It appends `run_source=manual` receipts,
-  runs all ten active routine paths, refreshes the dashboard, and keeps manual
+  runs the active routine paths, including Early Cockpit Build, refreshes the dashboard, and keeps manual
   execution proof separate from scheduled cloud proof. Empty local UW bundles
   are skipped instead of overwriting a populated UW cache with checked-clear
   output.

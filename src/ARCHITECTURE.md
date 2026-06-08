@@ -23,7 +23,7 @@ The **caller** (the L5 cloud routine, Codex runner, or a live preview) gathers s
 | Entry point | Used by | Builds |
 |---|---|---|
 | `full_build_runner.py --src-dir src ...` | Codex/FULL routine control point | loads convention files, builds a validated FEED, optionally publishes |
-| `build_full_feed(...)` | L5 FULL build (~10:30 AM ET) | the complete FEED — book, rotation, macro, all Tier-1 blocks, all lanes |
+| `build_full_feed(...)` | L5 Early build (~8:50 AM ET) and FULL build (~10:30 AM ET) | the complete FEED from available convention inputs; the early build must leave later synthesis/UW/parabolic inputs honest when they have not run yet |
 | `build_skeleton_feed(...)` | the "Dashboard" fast-view | book + rotation only; Tier-1 panels in empty-state; dark lanes stamped |
 | `assemble_feed(bundle, *, parabolic, generated_at, heartbeat, synthesis, research, radar, catalysts)` | both of the above (+ tests) | the actual assembly; returns the FEED dict |
 | `publish_cockpit_feed.py --feed <feed.json> ...` | L5/operator publish boundary | validates the finished FEED, writes the publish artifact, then updates `open_opportunities.json` |

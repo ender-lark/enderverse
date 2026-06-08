@@ -193,9 +193,10 @@ until the core logic is stable; Notion sync comes later.
   - Added source-call candidate fallback from current Fundstrat radar rows so
     fresh dated/quoted radar calls can enter calibration instead of remaining
     passive context.
-  - Cloud status now expects 12 active routines and reports the two new
-    Fundstrat routines as expected since 2026-06-07, so old windows before
-    creation are not counted as missed receipts.
+  - Cloud status now expects the active split routine stack, including the
+    8:50 AM ET Early Cockpit Build. Newly created routine windows use
+    expected-since dates so old windows before creation are not counted as
+    missed receipts.
 - Account Positions source wait resolved.
   - Current 7-file Drive proof extracted 225 broker rows across Fidelity,
     Schwab, and Robinhood with `failed_files=0`, then refreshed
@@ -366,17 +367,19 @@ until the core logic is stable; Notion sync comes later.
 - Codex cloud routine stack.
   - Replaced the single generic daily cloud-refresh assumption with a split
     Codex app automation stack: Pre-Market Source Intake (8:10 ET), Morning
-    Scan (8:35), Daily Synthesis (9:30), UW Opportunity Cache (10:00),
-    Parabolic Cache (10:05), Full Cockpit Build (10:30), Post-Close Refresh
-    (4:30 PM), Off-Hours Worker (1:45 AM daily), Deep Synthesis (Sunday
-    1:00 PM), and Weekly Pilot Run (Sunday 6:00 PM).
+    Scan (8:35), Early Cockpit Build (8:50), Daily Synthesis (9:30),
+    UW Opportunity Cache (10:00), Parabolic Cache (10:05), Full Cockpit Build
+    (10:30), Post-Close Refresh (4:30 PM), Off-Hours Worker (1:45 AM daily),
+    Deep Synthesis (Sunday 1:00 PM), and Weekly Pilot Run (Sunday 6:00 PM).
   - Schedule basis was cross-checked against Notion's "Scheduled Cloud
     Routines - Master Reference" and the 2026-06-02 "Routine schedule
     reconcile" note. The reconcile note says Daily Synthesis must not run
     before the 8:35 Morning Scan, 9:15-9:30 is acceptable, UW Opportunity
     Cache should not move before roughly 9:45, and the full cockpit build
-    should move to 10:30 to give UW/Synthesis more buffer. The current active
-    stack follows those constraints.
+    should move to 10:30 to give UW/Synthesis more buffer. The added
+    8:50 Early Cockpit Build is deliberately separate: it gives the operator
+    the earliest useful dashboard and keeps later synthesis/UW/parabolic inputs
+    visibly pending or stale until the fuller 10:30 refresh.
   - Paused the old generic `investing-os-daily-cloud-refresh` automation as
     superseded by the split routine stack.
   - Paused six older unreceipted local cron jobs as superseded by the active
@@ -391,8 +394,8 @@ until the core logic is stable; Notion sync comes later.
   - The cloud-ops check also validates active local automation prompts for
     routine-specific scheduled receipt protocol, safe write-back via
     `cloud_routine_commit.py`, and missing-source honesty guards. Current app
-    state reports
-    `Cloud receipt protocol: checked=10 | ok=10 | missing=0`.
+    state reports all active routine prompts checked and OK when the local
+    app automation files are present.
   - Tightened the prompt checker and patched the active Deep Synthesis
     automation prompt after the stricter check found it had receipt/write-back
     instructions but lacked an explicit missing-source honesty guard. The

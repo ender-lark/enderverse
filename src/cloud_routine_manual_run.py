@@ -158,6 +158,11 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-early-cockpit-build",
+            "early cockpit build manual run refreshed dashboard artifacts",
+            [Step("early live dashboard refresh", _python("src/live_dashboard_refresh.py"))],
+        ),
+        Routine(
             "investing-os-daily-synthesis",
             "daily synthesis manual run completed from current cockpit feed evidence",
             [

@@ -350,6 +350,7 @@ timing matches how the investment day works.
 | `investing-os-pre-market-source-intake` | Pre-market source intake, including valid supplied broker uploads | Market weekdays 8:10 AM ET |
 | `investing-os-fundstrat-pre-market-safety-sweep` | Last safety sweep for overnight / early Fundstrat timing calls before the main pre-market stack | Market weekdays 7:45 AM ET |
 | `investing-os-morning-scan` | Morning Signal Log / macro scan validation | Market weekdays 8:35 AM ET |
+| `investing-os-early-cockpit-build` | Earliest useful cockpit using overnight, pre-market, Morning Scan, and cached source state; later lanes remain visibly pending/stale when not run yet | Market weekdays 8:50 AM ET |
 | `investing-os-daily-synthesis` | Daily Synthesis after the Morning Scan | Market weekdays 9:30 AM ET |
 | `investing-os-uw-opportunity-cache` | UW opportunity cache and non-secret connector proof | Market weekdays 10:00 AM ET |
 | `investing-os-parabolic-cache` | Parabolic/chase-risk cache | Market weekdays 10:05 AM ET |
@@ -400,6 +401,15 @@ python src/cloud_routine_manual_run.py --format text --strict
 
 Manual runs prove that local command paths execute now. They do not prove that
 the cloud scheduler fired at the scheduled time.
+
+Dashboard build windows:
+
+- The 8:50 AM ET Early Cockpit Build is the first operator surface. It is
+  intentionally allowed to publish before Daily Synthesis, UW Opportunity Cache,
+  and Parabolic Cache have run. Those later inputs must remain visible as
+  pending, stale, or not checked when applicable.
+- The 10:30 AM ET Full Cockpit Build remains the more complete mid-morning
+  refresh after the synthesis/UW buffer.
 
 Fundstrat-specific safety windows:
 
@@ -691,8 +701,8 @@ As of the 2026-06-05 cloud-ops build:
 - Local go-live readiness is true.
 - The split cloud routine stack is installed and active.
 - Scheduled proof is partial: at least one scheduled success has landed, but
-  full live-run proof requires all ten expected routines to write scheduled
-  success receipts.
+  full live-run proof requires every expected active routine to write a
+  scheduled success receipt.
 - Account Positions can remain a dark optional lane when its source file is
   absent.
 - Meridian can remain absent as archived thesis context; it is not a live

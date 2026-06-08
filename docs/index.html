@@ -255,7 +255,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-08 01:01 ET
+        built 2026-06-08 01:27 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-07  uw_price 06-08  uw_macro 06-08  fundstrat_bible 05-28  fundstrat_daily 06-05 </div>
@@ -551,7 +551,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="small-item">
   <span class="tag t-conf">quiet</span>
   <span>background cloud proof</span>
-  <span class="small-muted">Count: 4</span>
+  <span class="small-muted">Count: 5</span>
   <span class="small-muted">Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue.</span>
 </div></div>
   <div class="cmd-row"><span class="cmd-name">print alert policy</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
@@ -877,7 +877,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 8/12; 1 re-check</div>
+  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 8/13; 1 re-check</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -1135,7 +1135,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Background cloud proof: 8/12 scheduled receipts proven; failed latest=0.
+  <span class="audit-k">Cloud routines</span>Background cloud proof: 8/13 scheduled receipts proven; failed latest=0.
 </div>
 <div class="audit-row">
   <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/22; missing live-capable=0.
@@ -1158,7 +1158,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="audit-row">
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
-  <div class="feedback-line">Background scheduled receipts pending: Investing OS Fundstrat Pre-Market Safety Sweep, Investing OS UW Opportunity Cache, Investing OS Parabolic Cache, Investing OS Fundstrat After-Hours Catch-Up</div>
+  <div class="feedback-line">Background scheduled receipts pending: Investing OS Fundstrat Pre-Market Safety Sweep, Investing OS Early Cockpit Build, Investing OS UW Opportunity Cache, Investing OS Parabolic Cache, Investing OS Fundstrat After-Hours Catch-Up</div>
   <div class="feedback-line">UW next checks: Pre-market crash triage: High-volatility or re-check posture needs broad tape triage before single-name action. [MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, ETF_TIDE, SECTOR_TIDE]<br>Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Portfolio reallocation: Sizing-gap actions need current exposure, funding, factor, and flow checks. [TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, ETF_TIDE, SECTOR_TIDE]</div>
 </div>
 
@@ -1171,7 +1171,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T05:01:48.278865+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T05:01:48.278865+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T05:01:48.278865+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T05:01:48.278865+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T05:01:48.278865+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T05:27:37.644109+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T05:27:37.644109+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T05:27:37.644109+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T05:27:37.644109+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T05:27:37.644109+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-05T14:43:35.7533406-04:00",
-  "verification_source": "Codex app automation_update calls paused six legacy unreceipted jobs; Pre-Market Source Intake now covers supplied broker-position uploads; all active routine prompts use --run-source scheduled receipt provenance, cloud_routine_commit.py safe write-back, and missing-source honesty guards; Full Cockpit Build and Post-Close Refresh prompts use cloud_routine_runner.py; UW Opportunity Cache prompt explicitly refreshes non-secret live-source connector proof before cache work; Deep Synthesis prompt was patched to include the missing-source honesty guard; schedule checked against Notion Scheduled Cloud Routines Master Reference and 2026-06-02 Routine schedule reconcile note",
+  "verified_at": "2026-06-08T01:24:07-04:00",
+  "verification_source": "Codex app automation_update calls paused six legacy unreceipted jobs; Pre-Market Source Intake now covers supplied broker-position uploads; all active routine prompts use --run-source scheduled receipt provenance, cloud_routine_commit.py safe write-back, and missing-source honesty guards; Full Cockpit Build, Early Cockpit Build, and Post-Close Refresh prompts use cloud_routine_runner.py; UW Opportunity Cache prompt explicitly refreshes non-secret live-source connector proof before cache work; Deep Synthesis prompt was patched to include the missing-source honesty guard; schedule checked against Notion Scheduled Cloud Routines Master Reference, 2026-06-02 Routine schedule reconcile note, and 2026-06-08 operator request for an earlier dashboard surface",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
     "Supplied broker-position uploads are handled by the active Pre-Market Source Intake routine; no valid broker input means positions remain stale/not refreshed rather than checked clear.",
@@ -10,6 +10,7 @@
     "UW Opportunity Cache should start by checking live Unusual Whales connector access and updating src/live_source_config.json through live_source_config_update.py with compact proof metadata only, never raw tide rows or premiums.",
     "Each active routine prompt should also include cloud_routine_commit.py safe write-back and missing-source honesty instructions so changed receipt/output files persist without committing unrelated dirty files, and missing source pulls are not treated as checked clear.",
     "Notion schedule reconcile basis: Daily Synthesis should run after the 8:35 AM ET Morning Scan, 9:15-9:30 AM ET is acceptable, UW Opportunity Cache should stay no earlier than roughly 9:45 AM ET, and Full Cockpit Build should run at 10:30 AM ET for buffer.",
+    "Early Cockpit Build runs at 8:50 AM ET to publish the earliest useful cockpit after pre-market source intake and Morning Scan. It is intentionally an early build and must leave later Daily Synthesis, UW Opportunity Cache, and Parabolic Cache gaps visible until the 10:30 AM Full Cockpit Build.",
     "Fundstrat after-hours catch-up and pre-market safety sweep are expected proof targets because Fundstrat timing calls can arrive outside the original 8:10 AM source intake window."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
@@ -80,6 +81,14 @@
       "status": "ACTIVE",
       "role": "morning_scan",
       "schedule": "market weekdays 8:35 AM ET"
+    },
+    {
+      "automation_id": "investing-os-early-cockpit-build",
+      "automation_name": "Investing OS Early Cockpit Build",
+      "status": "ACTIVE",
+      "role": "early_cockpit_build",
+      "schedule": "market weekdays 8:50 AM ET",
+      "expected_since": "2026-06-08T00:00:00-04:00"
     },
     {
       "automation_id": "investing-os-daily-synthesis",

@@ -55,6 +55,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "minute": 35,
     },
     {
+        "automation_id": "investing-os-early-cockpit-build",
+        "automation_name": "Investing OS Early Cockpit Build",
+        "role": "early_cockpit_build",
+        "schedule": "market weekdays 8:50 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 8,
+        "minute": 50,
+        "expected_since": "2026-06-08T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-daily-synthesis",
         "automation_name": "Investing OS Daily Synthesis",
         "role": "daily_synthesis",
