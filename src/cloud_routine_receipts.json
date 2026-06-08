@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-08T14:07:25.013674Z",
+  "updated_at": "2026-06-08T14:32:28.841249Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -3627,6 +3627,27 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T14:07:25.013674Z",
       "summary": "scored 16 tickers; watchlist VIAV,KEYS,FORM,LITE; skipped 12; cache landed src/parabolic_setups.json; blockers none"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T14:32:26.320543Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T14:32:28.841249Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ]
 }

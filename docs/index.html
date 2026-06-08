@@ -255,7 +255,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-08 08:53 ET
+        built 2026-06-08 10:32 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-07  uw_price 06-08  uw_macro 06-08  fundstrat_bible 05-28  fundstrat_daily 06-05 </div>
@@ -582,39 +582,16 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="alert-policy">
   <div class="card-title"><span class="icon">!</span> Alert policy
-    <span class="tag t-conf" style="margin-left:auto">quiet</span>
+    <span class="tag t-warn" style="margin-left:auto">notify</span>
   </div>
-  <div class="feedback-line">Alert policy: quiet - no blocker or urgent invalidation qualifies for notification.</div>
+  <div class="feedback-line">Alert policy: 1 blocker/urgent invalidation alert candidate(s).</div>
   <div class="small-list"><div class="feedback-line">Only blockers, failed proof, stale reviews, critical event risk, or urgent invalidations can alert; routine dashboard updates stay quiet.</div>
 <div class="small-item">
-  <span class="tag t-conf">quiet</span>
-  <span>optional dark lane</span>
-  <span class="small-muted">Count: 1</span>
-  <span class="small-muted">Social Watch is intentionally queued/dark; absence is not an alert.</span>
-</div>
-<div class="small-item">
-  <span class="tag t-conf">quiet</span>
-  <span>dashboard recheck</span>
+  <span class="tag t-warn">critical</span>
 
-  <span class="small-muted">Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked.</span>
-</div>
-<div class="small-item">
-  <span class="tag t-conf">quiet</span>
-  <span>dashboard recheck</span>
-
-  <span class="small-muted">Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked.</span>
-</div>
-<div class="small-item">
-  <span class="tag t-conf">quiet</span>
-  <span>fresh open reviews</span>
-  <span class="small-muted">Count: 2</span>
-  <span class="small-muted">Fresh open reviews stay visible but do not alert until due/stale or invalidated.</span>
-</div>
-<div class="small-item">
-  <span class="tag t-conf">quiet</span>
-  <span>background cloud proof</span>
-  <span class="small-muted">Count: 5</span>
-  <span class="small-muted">Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue.</span>
+  <span>1 cloud routine(s) failed latest receipt</span>
+  <span class="small-muted">Why: Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.</span>
+  <span class="small-muted">Trigger: failed_latest_count &gt; 0</span>
 </div></div>
   <div class="cmd-row"><span class="cmd-name">print alert policy</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
   <div class="cmd-row"><span class="cmd-name">Fundstrat alert dry-run</span><span class="cmd-desc"><code>python src/fundstrat_daytime_alert.py --dry-run --format text</code></span></div>
@@ -996,9 +973,9 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 stale, 1 deferred</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">7 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-fail">1</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 9/14; 1 re-check</div>
+  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | 1 re-check</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -1256,7 +1233,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Background cloud proof: 9/14 scheduled receipts proven; failed latest=0.
+  <span class="audit-k">Cloud routines</span>Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.
 </div>
 <div class="audit-row">
   <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/22; missing live-capable=0.
@@ -1279,7 +1256,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div class="audit-row">
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
-  <div class="feedback-line">Background scheduled receipts pending: Investing OS Early Cockpit Build, Investing OS Fundstrat Daytime Watch, Investing OS UW Opportunity Cache, Investing OS Parabolic Cache, Investing OS Fundstrat After-Hours Catch-Up</div>
+  <div class="feedback-line">Background scheduled receipts pending: Investing OS UW Opportunity Cache, Investing OS Fundstrat After-Hours Catch-Up</div>
   <div class="feedback-line">UW next checks: Pre-market crash triage: High-volatility or re-check posture needs broad tape triage before single-name action. [MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, ETF_TIDE, SECTOR_TIDE]<br>Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Portfolio reallocation: Sizing-gap actions need current exposure, funding, factor, and flow checks. [TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, ETF_TIDE, SECTOR_TIDE]</div>
 </div>
 
@@ -1292,7 +1269,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T12:53:07.145495+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T12:53:07.145495+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T12:53:07.145495+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T12:53:07.145495+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T12:53:07.145495+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T14:32:27.088725+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T14:32:27.088725+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T14:32:27.088725+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T14:32:27.088725+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T14:32:27.088725+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T12:53:07.262323+00:00",
+  "generated_at": "2026-06-08T14:32:27.198460+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-08 \u00b7 uw_macro 06-08 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05 \u26a0\ufe0f",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-08T08:53:07.262323-04:00",
+        "date": "2026-06-08T10:32:27.198460-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-08T08:53:07.262323-04:00",
+        "date": "2026-06-08T10:32:27.198460-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1731,31 +1731,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T12:53:07.145495+00:00",
+      "last_run": "2026-06-08T14:32:27.088725+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T12:53:07.145495+00:00",
+      "last_run": "2026-06-08T14:32:27.088725+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T12:53:07.145495+00:00",
+      "last_run": "2026-06-08T14:32:27.088725+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-08T12:53:07.145495+00:00",
+      "last_run": "2026-06-08T14:32:27.088725+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T12:53:07.145495+00:00",
+      "last_run": "2026-06-08T14:32:27.088725+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -12931,8 +12931,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-08T08:37:28-04:00",
-        "connector_proof_age_hours": 0.26
+        "connector_verified_at": "2026-06-08T10:02:37-04:00",
+        "connector_proof_age_hours": 0.5
       }
     ],
     "missing": [],
@@ -12959,36 +12959,18 @@
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },
     "cloud_routines": {
-      "status": "partial_live_run_proven",
-      "line": "Background cloud proof: 9/14 scheduled receipts proven; failed latest=0.",
-      "scheduled_success_count": 9,
+      "status": "not_proven",
+      "line": "Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.",
+      "scheduled_success_count": 12,
       "expected_count": 14,
-      "failed_latest_count": 0,
-      "missing_scheduled_success_count": 5,
+      "failed_latest_count": 1,
+      "missing_scheduled_success_count": 2,
       "missing_scheduled_success": [
-        {
-          "routine_id": "investing-os-early-cockpit-build",
-          "routine_name": "Investing OS Early Cockpit Build",
-          "schedule": "market weekdays 8:50 AM ET",
-          "last_status": "started"
-        },
-        {
-          "routine_id": "investing-os-fundstrat-daytime-watch",
-          "routine_name": "Investing OS Fundstrat Daytime Watch",
-          "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
-          "last_status": "success"
-        },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
           "routine_name": "Investing OS UW Opportunity Cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "last_status": "success"
-        },
-        {
-          "routine_id": "investing-os-parabolic-cache",
-          "routine_name": "Investing OS Parabolic Cache",
-          "schedule": "market weekdays 10:05 AM ET",
-          "last_status": "success"
+          "last_status": "failed"
         },
         {
           "routine_id": "investing-os-fundstrat-after-hours-catch-up",
@@ -13042,78 +13024,78 @@
           "routine_name": "Investing OS Early Cockpit Build",
           "role": "early_cockpit_build",
           "schedule": "market weekdays 8:50 AM ET",
-          "receipt_count": 5,
-          "last_status": "started",
+          "receipt_count": 6,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-08T12:53:06.367880Z",
-          "last_success_at": "2026-06-08T05:41:46.578509Z",
-          "last_scheduled_success_at": "",
-          "last_summary": "investing-os-early-cockpit-build started"
+          "last_recorded_at": "2026-06-08T12:53:08.913596Z",
+          "last_success_at": "2026-06-08T12:53:08.913596Z",
+          "last_scheduled_success_at": "2026-06-08T12:53:08.913596Z",
+          "last_summary": "early cockpit build succeeded"
         },
         {
           "routine_id": "investing-os-daily-synthesis",
           "routine_name": "Investing OS Daily Synthesis",
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
-          "receipt_count": 16,
+          "receipt_count": 18,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:46.752664Z",
-          "last_success_at": "2026-06-08T05:41:46.752664Z",
-          "last_scheduled_success_at": "2026-06-06T02:45:59.272994Z",
-          "last_summary": "daily synthesis manual run completed from current cockpit feed evidence"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T13:37:34.812147Z",
+          "last_success_at": "2026-06-08T13:37:34.812147Z",
+          "last_scheduled_success_at": "2026-06-08T13:37:34.812147Z",
+          "last_summary": "repo synthesis refreshed; signal log 14 rows; RYF/XOP sell-fast reviews plus event-risk watch remain; Notion page written+verified; blocker row-query endpoint unavailable for decisions/trade outcomes/pilots"
         },
         {
           "routine_id": "investing-os-fundstrat-daytime-watch",
           "routine_name": "Investing OS Fundstrat Daytime Watch",
           "role": "fundstrat_daytime_watch",
           "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
-          "receipt_count": 6,
+          "receipt_count": 8,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:47.125060Z",
-          "last_success_at": "2026-06-08T05:41:47.125060Z",
-          "last_scheduled_success_at": "",
-          "last_summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T13:47:44.538503Z",
+          "last_success_at": "2026-06-08T13:47:44.538503Z",
+          "last_scheduled_success_at": "2026-06-08T13:47:44.538503Z",
+          "last_summary": "checked 1 msg, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alert quiet, fundstrat lane unchanged, blockers none"
         },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
           "routine_name": "Investing OS UW Opportunity Cache",
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "receipt_count": 18,
-          "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:47.370627Z",
+          "receipt_count": 20,
+          "last_status": "failed",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T14:04:04.373632Z",
           "last_success_at": "2026-06-08T05:41:47.370627Z",
           "last_scheduled_success_at": "",
-          "last_summary": "UW opportunity cache manual run completed"
+          "last_summary": "scanned 14 tickers; 13 live observations; cache unchanged; GRNJ missing flow/oi/dark_pool normalization; live proof refreshed"
         },
         {
           "routine_id": "investing-os-parabolic-cache",
           "routine_name": "Investing OS Parabolic Cache",
           "role": "parabolic_cache",
           "schedule": "market weekdays 10:05 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 22,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:47.908283Z",
-          "last_success_at": "2026-06-08T05:41:47.908283Z",
-          "last_scheduled_success_at": "",
-          "last_summary": "parabolic cache manual run completed"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T14:07:25.013674Z",
+          "last_success_at": "2026-06-08T14:07:25.013674Z",
+          "last_scheduled_success_at": "2026-06-08T14:07:25.013674Z",
+          "last_summary": "scored 16 tickers; watchlist VIAV,KEYS,FORM,LITE; skipped 12; cache landed src/parabolic_setups.json; blockers none"
         },
         {
           "routine_id": "investing-os-full-cockpit-build",
           "routine_name": "Investing OS Full Cockpit Build",
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
-          "receipt_count": 16,
-          "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:50.337400Z",
+          "receipt_count": 17,
+          "last_status": "started",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T14:32:26.320543Z",
           "last_success_at": "2026-06-08T05:41:50.337400Z",
           "last_scheduled_success_at": "2026-06-06T02:52:04.787630Z",
-          "last_summary": "full cockpit build manual run refreshed dashboard artifacts"
+          "last_summary": "investing-os-full-cockpit-build started"
         },
         {
           "routine_id": "investing-os-post-close-refresh",
@@ -17003,9 +16985,20 @@
     "honesty_rule": "Decision packet sequences review work only; it does not execute or recommend un-gated trades."
   },
   "alert_policy": {
-    "status": "quiet",
-    "line": "Alert policy: quiet - no blocker or urgent invalidation qualifies for notification.",
-    "rows": [],
+    "status": "notify",
+    "line": "Alert policy: 1 blocker/urgent invalidation alert candidate(s).",
+    "rows": [
+      {
+        "severity": "critical",
+        "kind": "cloud_routine_failed",
+        "ticker": "",
+        "title": "1 cloud routine(s) failed latest receipt",
+        "why": "Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.",
+        "source": "cloud_routines",
+        "trigger": "failed_latest_count > 0",
+        "delivery": "eligible_review_only"
+      }
+    ],
     "suppressed": [
       {
         "reason": "optional_dark_lane",
@@ -17029,7 +17022,7 @@
       },
       {
         "reason": "background_cloud_proof",
-        "count": 5,
+        "count": 2,
         "why": "Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue."
       }
     ],
