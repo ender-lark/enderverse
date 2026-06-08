@@ -106,5 +106,23 @@
     "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
     "source_domain": "technical_timing",
     "fundstrat_lane": "technical"
+  },
+  {
+    "source": "fundstrat",
+    "ticker": "GOOGL",
+    "tier": "D",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "GOOGL is attractive technically on weakness, with support from 341 to 350 over the next week; the capital raise should be only a temporary negative.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-05",
+    "window_end": "2026-06-19",
+    "window_days": 14,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-08",
+    "fundstrat_lane": "general",
+    "confidence_policy": "Treat as context until lane, catalyst, and current validation are clear.",
+    "source_domain": "fundstrat_general",
+    "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant."
   }
 ]

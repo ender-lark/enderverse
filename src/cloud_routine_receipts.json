@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-08T05:50:16.380900Z",
+  "updated_at": "2026-06-08T11:49:46.845391Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -3508,6 +3508,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T05:50:16.380900Z",
       "summary": "drafted CXW dossier; 1 Notion write verified; no second undrained in-scope item found; queue fallback used"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T11:46:15.356373Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T11:49:46.845391Z",
+      "summary": "checked 15 msgs, read 5 bodies, landed 1 row, validate ok, Notion n/a, dark lane social_watch, blockers none"
     }
   ]
 }

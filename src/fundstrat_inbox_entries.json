@@ -201,9 +201,9 @@
     "thread_id": "",
     "body_source": "snippet",
     "body_fetched": false,
-    "body_redacted": true,
-    "body_chars": 122,
-    "body_sha256": "fe08768c067faea0bedbb6d90b908b907da1c1c79700b249911a528ca7c2495d"
+    "body_redacted": false,
+    "body_chars": 0,
+    "body_sha256": ""
   },
   {
     "subject": "Daily Technical Strategy: The Rotation from Growth into Value Arrives in Force as Semiconductors Crack",
@@ -213,8 +213,36 @@
     "message_id": "19e99ef1614466cf",
     "body_source": "compact_full_body_derived",
     "body_fetched": true,
-    "body_redacted": true,
+    "body_redacted": false,
     "body_chars": 0,
     "body_sha256": ""
+  },
+  {
+    "subject": "FlashInsights: June 5",
+    "from": "Fundstrat Research research@fundstratdirect.com",
+    "date": "2026-06-05",
+    "author": "Fundstrat",
+    "source_path": "tmp\\fundstrat_pre_market_compact_payload.json",
+    "message_id": "19e99ae0b0aa034a",
+    "thread_id": "19e99ae0b0aa034a",
+    "body_source": "body",
+    "body_fetched": true,
+    "body_redacted": true,
+    "body_chars": 241,
+    "body_sha256": "d353c517584050b4317cfeb726769d42b566d2049fb27d6d76b58e4abd0aaaf7"
+  },
+  {
+    "subject": "Crypto - Comments: Monday's Strategy Filing Could Provide a Path Toward a Tactical Low, Broader Risk Markets Finally Show Signs of Stress",
+    "from": "Sean Farrell sean.farrell@fundstratdirect.com",
+    "date": "2026-06-05",
+    "author": "Farrell",
+    "source_path": "tmp\\fundstrat_pre_market_compact_payload.json",
+    "message_id": "19e9a08af23b324c",
+    "thread_id": "19e9a08af23b324c",
+    "body_source": "body",
+    "body_fetched": true,
+    "body_redacted": true,
+    "body_chars": 229,
+    "body_sha256": "0ea43c032b5bf00569a56c4cadba64c129a41cb99ef625a523f84209f4020599"
   }
 ]

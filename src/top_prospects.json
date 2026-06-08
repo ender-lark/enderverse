@@ -244,13 +244,24 @@
     "add_price_market_time": "pr",
     "add_price_source": "UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session",
     "conviction": "BUILDING",
-    "conviction_score": 10.0,
+    "conviction_score": 13.5,
     "corroboration": "Uncorroborated",
     "direction": "long",
     "events": [
       {
         "category": "analyst_named",
         "date": "2026-05-28",
+        "direction": "long",
+        "judgment_mult": 1.0,
+        "note": "",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": false,
+        "ticker": "GOOGL"
+      },
+      {
+        "category": "analyst_named",
+        "date": "2026-06-05",
         "direction": "long",
         "judgment_mult": 1.0,
         "note": "",
@@ -266,10 +277,10 @@
     "sources": [
       "FS-Monthly"
     ],
-    "summary": "GOOGL: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+    "summary": "GOOGL: conviction BUILDING / urgency BUILDING (1 independent signal stacked).",
     "ticker": "GOOGL",
-    "urgency": "QUIET",
-    "urgency_score": 6.0
+    "urgency": "BUILDING",
+    "urgency_score": 8.1
   },
   "GS": {
     "add_date": "2026-05-28",
@@ -475,6 +486,37 @@
     "urgency": "QUIET",
     "urgency_score": 6.0
   },
+  "RYF": {
+    "add_date": "2026-06-03",
+    "add_price": null,
+    "conviction": "QUIET",
+    "conviction_score": 6.0,
+    "corroboration": "Uncorroborated",
+    "direction": "avoid",
+    "events": [
+      {
+        "category": "technical",
+        "date": "2026-06-03",
+        "direction": "avoid",
+        "judgment_mult": 1.0,
+        "note": "",
+        "source": "FS-Newton",
+        "strength": "moderate",
+        "substantive": false,
+        "ticker": "RYF"
+      }
+    ],
+    "page_id": null,
+    "provenance": "Daily Technical Strategy",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Newton"
+    ],
+    "summary": "RYF: SELL-PRESSURE QUIET / urgency BUILDING (1 independent avoid signal).",
+    "ticker": "RYF",
+    "urgency": "BUILDING",
+    "urgency_score": 10.0
+  },
   "SATS": {
     "add_date": "2026-05-28",
     "add_price": 122.0,
@@ -644,5 +686,36 @@
     "ticker": "UUUU",
     "urgency": "QUIET",
     "urgency_score": 6.0
+  },
+  "XOP": {
+    "add_date": "2026-06-03",
+    "add_price": null,
+    "conviction": "QUIET",
+    "conviction_score": 6.0,
+    "corroboration": "Uncorroborated",
+    "direction": "avoid",
+    "events": [
+      {
+        "category": "technical",
+        "date": "2026-06-03",
+        "direction": "avoid",
+        "judgment_mult": 1.0,
+        "note": "",
+        "source": "FS-Newton",
+        "strength": "moderate",
+        "substantive": false,
+        "ticker": "XOP"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FlashInsights / Daily Technical Strategy",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Newton"
+    ],
+    "summary": "XOP: SELL-PRESSURE QUIET / urgency BUILDING (1 independent avoid signal).",
+    "ticker": "XOP",
+    "urgency": "BUILDING",
+    "urgency_score": 10.0
   }
 }
