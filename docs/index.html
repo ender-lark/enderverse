@@ -265,7 +265,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-08 16:32 ET
+        built 2026-06-08 17:07 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-08  uw_price 06-08  uw_macro 06-08  fundstrat_bible 05-28  fundstrat_daily 06-05 </div>
@@ -554,21 +554,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="cmd-row"><span class="cmd-name">print packet</span><span class="cmd-desc"><code>python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
 </div>
 
-<div class="card" id="alert-policy">
-  <div class="card-title"><span class="icon">!</span> System health
-    <span class="tag t-warn" style="margin-left:auto">system</span>
-  </div>
-  <div class="feedback-line">No push alert. System warning is visible for Ops review only.</div>
-  <div class="small-list"><div class="feedback-line">Push alerts only interrupt for action-changing market, portfolio, Fundstrat, stale-review, or invalidated-decision items. Routine/system-health warnings stay in Ops.</div>
-<div class="small-item">
-  <span class="tag t-warn">ops</span>
-  <span>1 cloud routine(s) failed latest receipt</span>
-  <span class="small-muted">Why: Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.</span>
-  <span class="small-muted">Next: Check Ops/System Health when debugging routines; this is not a portfolio alert.</span>
-</div></div>
-  <div class="cmd-row"><span class="cmd-name">print push alert gate</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
-  <div class="cmd-row"><span class="cmd-name">Fundstrat alert dry-run</span><span class="cmd-desc"><code>python src/fundstrat_daytime_alert.py --dry-run --format text</code></span></div>
-</div>
 
 <div class="card" id="today-actions">
   <div class="card-title"><span class="icon">!</span> Today&#39;s actions
@@ -946,9 +931,9 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 stale, 1 deferred</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">7 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-fail">1</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | 1 re-check</div>
+  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 12/14; 1 re-check</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -1211,7 +1196,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.
+  <span class="audit-k">Cloud routines</span>Background cloud proof: 12/14 scheduled receipts proven; failed latest=0.
 </div>
 <div class="audit-row">
   <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/22; missing live-capable=0.
@@ -1247,7 +1232,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T20:32:37.493879+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T20:32:37.493879+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T20:32:37.493879+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T20:32:37.493879+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T20:32:37.493879+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T21:07:50.389028+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T21:07:50.389028+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T21:07:50.389028+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T21:07:50.389028+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T21:07:50.389028+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -1476,9 +1461,21 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="lean-sub">Clears when: Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.</div>
 </div>
 <div class="lean-item">
+  <span class="lean-ticker">GRNJ</span>
+  <span class="tag inl" style="margin-left:6px">IN LINE</span>
+  <div class="lean-headline">GRNJ: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
   <span class="lean-ticker">GRNY</span>
   <span class="tag inl" style="margin-left:6px">IN LINE</span>
   <div class="lean-headline">GRNY: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
+  <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">MU</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">MU: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
   <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
 <div class="lean-item">
@@ -1488,9 +1485,9 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
 <div class="lean-item">
-  <span class="lean-ticker">XLF</span>
-  <span class="tag lag" style="margin-left:6px">LAGGING</span>
-  <div class="lean-headline">XLF: Promising, conviction up but the sleeve&#x27;s still lagging  research deeper / hold, watch for the rotation to turn.</div>
+  <span class="lean-ticker">SMH</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">SMH: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
   <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
 <div class="lean-item">
@@ -1512,12 +1509,6 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 <div class="lean-item">
-  <span class="lean-ticker">GRNJ</span>
-  <span class="tag inl" style="margin-left:6px">IN LINE</span>
-  <div class="lean-headline">GRNJ: the case is cooling (IN LINE)  watch / reassess, don&#x27;t add (you own it).</div>
-  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
-</div>
-<div class="lean-item">
   <span class="lean-ticker">IESC</span>
   <span class="tag inl" style="margin-left:6px">TURNING DOWN</span>
   <div class="lean-headline">IESC: the case is cooling (TURNING DOWN)  watch / reassess, don&#x27;t add (not owned).</div>
@@ -1530,21 +1521,9 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 <div class="lean-item">
-  <span class="lean-ticker">MU</span>
-  <span class="tag lead" style="margin-left:6px">LEADING</span>
-  <div class="lean-headline">MU: the case is cooling (LEADING)  watch / reassess, don&#x27;t add (you own it).</div>
-  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
-</div>
-<div class="lean-item">
   <span class="lean-ticker">PWR</span>
   <span class="tag inl" style="margin-left:6px">TURNING DOWN</span>
   <div class="lean-headline">PWR: the case is cooling (TURNING DOWN)  watch / reassess, don&#x27;t add (not owned).</div>
-  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
-</div>
-<div class="lean-item">
-  <span class="lean-ticker">SMH</span>
-  <span class="tag lead" style="margin-left:6px">LEADING</span>
-  <div class="lean-headline">SMH: the case is cooling (LEADING)  watch / reassess, don&#x27;t add (you own it).</div>
   <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 <div class="lean-item">
@@ -1557,6 +1536,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="lean-ticker">VOLT</span>
   <span class="tag inl" style="margin-left:6px">TURNING DOWN</span>
   <div class="lean-headline">VOLT: the case is cooling (TURNING DOWN)  watch / reassess, don&#x27;t add (you own it).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">XLF</span>
+  <span class="tag lag" style="margin-left:6px">LAGGING</span>
+  <div class="lean-headline">XLF: the case is cooling (LAGGING)  watch / reassess, don&#x27;t add (you own it).</div>
   <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 </div>

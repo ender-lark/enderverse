@@ -46,9 +46,11 @@ class NormalizedPull:
 def _count(payload: Any) -> int:
     if isinstance(payload, list):
         return len(payload)
-    rows = unwrap_uw_rows(payload)
-    if rows:
-        return len(rows)
+    if isinstance(payload, dict):
+        for key in ("data", "results", "signals", "result"):
+            if key in payload:
+                return _count(payload.get(key))
+        return 1 if payload else 0
     return 1 if payload else 0
 
 

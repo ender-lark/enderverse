@@ -47,7 +47,7 @@ Run the orchestrator as a module from `src`:
 
 ```bash
 cd src
-python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1
+python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources
 ```
 
 For the parabolic cache, run only when scheduled or explicitly requested:
@@ -80,3 +80,6 @@ python -m pytest src/test_live_source_config_update.py src/test_uw_price_cache_i
   fields and full-build UW macro snapshot fields.
 - Empty/near-empty output with successful source data is a field-map mismatch
   until proven otherwise.
+- Zero-row per-ticker source responses are reported explicitly but should not
+  block cache landing when other live normalized observations are present; raw
+  rows that fail normalization still fail the run.

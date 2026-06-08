@@ -120,6 +120,12 @@ def _availability(entries: list[dict], required_sources: set[str],
         container = row.get("entry") if isinstance(row.get("entry"), dict) else row.get("observation")
         container = container if isinstance(container, dict) else {}
         for key in required_normalized_keys:
+            try:
+                source_count = int(counts.get(key) or 0)
+            except (TypeError, ValueError):
+                source_count = 0
+            if source_count < min_source_count:
+                continue
             val = container.get(key)
             if val in (None, "", []) or val == {}:
                 missing_normalized[key].append(tk)
@@ -128,6 +134,14 @@ def _availability(entries: list[dict], required_sources: set[str],
         "missing_normalized": {k: v for k, v in missing_normalized.items() if v},
         "failed_entries": failed_entries,
     }
+
+
+def _availability_has_blockers(summary: dict, *, allow_empty_sources: bool = False) -> bool:
+    if summary["failed_entries"]:
+        return True
+    if summary["missing_normalized"]:
+        return True
+    return bool(summary["dark_sources"]) and not allow_empty_sources
 
 
 def _print_availability(summary: dict) -> bool:
@@ -172,6 +186,8 @@ def main() -> int:
     p.add_argument("--min-source-count", type=int, default=1)
     p.add_argument("--fail-on-dark", action="store_true",
                    help="Return non-zero when required sources or normalized keys are missing.")
+    p.add_argument("--allow-empty-sources", action="store_true",
+                   help="Do not fail solely because a successful ticker has zero rows for a required source.")
     args = p.parse_args()
 
     tickers = _parse_tickers(args.tickers, args.mode)
@@ -215,7 +231,9 @@ def main() -> int:
                                  _csv_set(args.require_normalized_keys),
                                  min_source_count=args.min_source_count)
     any_dark = _print_availability(availability)
-    if any_dark and args.fail_on_dark:
+    if any_dark and args.allow_empty_sources:
+        print("availability: empty source rows reported; raw rows without normalization still block")
+    if args.fail_on_dark and _availability_has_blockers(availability, allow_empty_sources=args.allow_empty_sources):
         print("availability gate failed", file=sys.stderr)
         return 3
 

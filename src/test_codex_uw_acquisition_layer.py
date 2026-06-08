@@ -1,6 +1,6 @@
-from codex_uw.acquisition import build_opportunity_observation, build_parabolic_entry
+from codex_uw.acquisition import _count, build_opportunity_observation, build_parabolic_entry
 from codex_uw.merge import merge_opportunity, merge_parabolic
-from codex_uw.orchestrator import _availability
+from codex_uw.orchestrator import _availability, _availability_has_blockers
 from codex_uw.endpoints import UWEndpoints, validate_endpoint_path
 
 
@@ -68,8 +68,9 @@ def test_merge_outputs_scorer_bundle_shapes():
         {"ticker": "AAA", "ok": True, "observation": {"flow": {}}},
         {"ticker": "CCC", "ok": True, "observation": {}},
     ], "2026-06-04")
-    assert opp["universe"] == ["AAA", "CCC"]
+    assert opp["universe"] == ["AAA"]
     assert opp["observations"]["AAA"] == {"flow": {}}
+    assert opp["skipped"] == [{"ticker": "CCC", "error": "empty normalized observation"}]
 
 
 def test_endpoint_guard_rejects_common_hallucinations():
@@ -88,5 +89,24 @@ def test_availability_marks_dark_sources_and_missing_normalized_keys():
         {"ticker": "CCC", "ok": False},
     ], {"flow"}, {"flow"}, min_source_count=1)
     assert summary["dark_sources"] == {"flow": ["BBB"]}
-    assert summary["missing_normalized"] == {"flow": ["AAA", "BBB"]}
+    assert summary["missing_normalized"] == {"flow": ["AAA"]}
     assert summary["failed_entries"] == ["CCC"]
+    assert _availability_has_blockers(summary, allow_empty_sources=True) is True
+
+
+def test_availability_can_warn_on_empty_sources_without_blocking():
+    summary = _availability([
+        {"ticker": "BBB", "ok": True, "source_counts": {"flow": 0}, "observation": {}},
+    ], {"flow"}, {"flow"}, min_source_count=1)
+
+    assert summary["dark_sources"] == {"flow": ["BBB"]}
+    assert summary["missing_normalized"] == {}
+    assert _availability_has_blockers(summary, allow_empty_sources=False) is True
+    assert _availability_has_blockers(summary, allow_empty_sources=True) is False
+
+
+def test_count_preserves_empty_wrapped_rows():
+    assert _count({"data": []}) == 0
+    assert _count({"result": {"data": []}}) == 0
+    assert _count({"data": [{"ticker": "ABC"}]}) == 1
+    assert _count({"data": {"ticker": "ABC"}}) == 1

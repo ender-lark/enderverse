@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T20:32:37.640433+00:00",
+  "generated_at": "2026-06-08T21:07:50.540196+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-08 \u00b7 uw_price 06-08 \u00b7 uw_macro 06-08 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05 \u26a0\ufe0f",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-08T16:32:37.640433-04:00",
+        "date": "2026-06-08T17:07:50.540196-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-08T16:32:37.640433-04:00",
+        "date": "2026-06-08T17:07:50.540196-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1253,7 +1253,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1272,7 +1272,7 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "down",
+          "cd": "up",
           "cdNote": "06-08 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
@@ -1300,8 +1300,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "down",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+          "cd": "up",
+          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1321,7 +1321,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1361,7 +1361,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it. You're underweight to conviction here \u2014 the gap is the flag.",
           "dr": [
             [
@@ -1380,8 +1380,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "down",
-          "cdNote": "06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cd": "up",
+          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1408,8 +1408,8 @@
           "own": null,
           "lock": "\ud83d\udd12",
           "fresh": false,
-          "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+          "cd": "down",
+          "cdNote": "06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1456,8 +1456,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "up",
-          "cdNote": "06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cd": "down",
+          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
           "nr": "Catch-up \u2014 Lee-endorsed laggard; favorable entry, no rush.",
           "dr": [
             [
@@ -1485,7 +1485,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity call_flow \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-08 uw_opportunity call_flow \u00b7 06-08 uw_opportunity oi_build",
           "nr": "Core hold \u2014 operator-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1513,7 +1513,7 @@
           "lock": "\ud83d\udd12",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1540,8 +1540,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "down",
-          "cdNote": "06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cd": "up",
+          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1733,31 +1733,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T20:32:37.493879+00:00",
+      "last_run": "2026-06-08T21:07:50.389028+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T20:32:37.493879+00:00",
+      "last_run": "2026-06-08T21:07:50.389028+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T20:32:37.493879+00:00",
+      "last_run": "2026-06-08T21:07:50.389028+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-08T20:32:37.493879+00:00",
+      "last_run": "2026-06-08T21:07:50.389028+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T20:32:37.493879+00:00",
+      "last_run": "2026-06-08T21:07:50.389028+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1912,11 +1912,11 @@
       "headline": "MAGS: Promising and the tape's with it (LEADING) \u2014 under your conviction \u2014 room to add.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
         "UW \u25b2 ask-side call sweeps $3.8M, 12:1 c/p (0d)",
-        "UW \u25b2 call OI +1250% at 69/100/69.5 strikes (0d)",
-        "UW \u25b2 dark-pool blocks $2M net buy, 1 sessions (0d)"
+        "UW \u25bc put OI +8136% at 64/60/67.5 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $4M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -1924,6 +1924,28 @@
       "caveats": [
         "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
       ],
+      "freshness": "as-of 2026-06-08",
+      "action": "NONE"
+    },
+    {
+      "ticker": "GRNJ",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "up",
+      "rotation": "IN LINE",
+      "lean": "build",
+      "headline": "GRNJ: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
+      "evidence": [
+        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
+        "Direction: 06-08 uw_opportunity dark_pool_accum",
+        "Rotation: IN LINE",
+        "UW \u25b2 dark-pool blocks $0M net buy, 1 sessions (0d)"
+      ],
+      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
+      "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
+      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
+      "caveats": [],
       "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
@@ -1938,16 +1960,42 @@
       "headline": "GRNY: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
         "Rotation: IN LINE",
         "UW \u25b2 ask-side call sweeps $1.6M, 16:1 c/p (0d)",
-        "UW \u25b2 call OI +143% at 27/29/28 strikes (0d)",
-        "UW \u25bc dark-pool blocks $0M net sell, 1 sessions (0d)"
+        "UW \u25b2 call OI +570% at 27/28/27 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $5M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
       "caveats": [],
+      "freshness": "as-of 2026-06-08",
+      "action": "NONE"
+    },
+    {
+      "ticker": "MU",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "up",
+      "rotation": "LEADING",
+      "lean": "build",
+      "headline": "MU: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
+      "evidence": [
+        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
+        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
+        "Rotation: LEADING",
+        "UW \u25b2 ask-side call sweeps $29.1M, 2:1 c/p (0d)",
+        "UW \u25bc put OI +135714% at 500/55/50 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $48M net buy, 1 sessions (0d)"
+      ],
+      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
+      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [
+        "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
+      ],
       "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
@@ -1962,11 +2010,11 @@
       "headline": "NVDA: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $4.8M, 2:1 c/p (0d)",
-        "UW \u25b2 call OI +59067% at 232.5/225/232.5 strikes (0d)",
-        "UW \u25bc dark-pool blocks $14M net sell, 1 sessions (0d)"
+        "UW \u25b2 ask-side call sweeps $11.3M, 3:1 c/p (0d)",
+        "UW \u25b2 call OI +4256% at 215/310/255 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $667M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -1978,26 +2026,28 @@
       "action": "NONE"
     },
     {
-      "ticker": "XLF",
+      "ticker": "SMH",
       "owned": true,
       "stance_gate": "open",
       "conviction": "Promising",
       "cd": "up",
-      "rotation": "LAGGING",
+      "rotation": "LEADING",
       "lean": "build",
-      "headline": "XLF: Promising, conviction up but the sleeve's still lagging \u2014 research deeper / hold, watch for the rotation to turn.",
+      "headline": "SMH: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
-        "Rotation: LAGGING",
-        "UW \u25bc ask-side put sweeps $1.0M, 2:1 c/p (0d)",
-        "UW \u25b2 call OI +103750% at 55/52/55 strikes (0d)",
-        "UW \u25b2 dark-pool blocks $85M net buy, 1 sessions (0d)"
+        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
+        "Rotation: LEADING",
+        "UW \u25b2 ask-side call sweeps $13.7M, 3:1 c/p (0d)",
+        "UW \u25bc put OI +22318% at 530/550/340 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $1M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
-      "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
-      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
-      "caveats": [],
+      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
+      "caveats": [
+        "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
+      ],
       "freshness": "as-of 2026-06-08",
       "action": "NONE"
     },
@@ -2062,28 +2112,6 @@
       "action": "NONE"
     },
     {
-      "ticker": "GRNJ",
-      "owned": true,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "down",
-      "rotation": "IN LINE",
-      "lean": "cooling",
-      "headline": "GRNJ: the case is cooling (IN LINE) \u2014 watch / reassess, don't add (you own it).",
-      "evidence": [
-        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity dark_pool_accum",
-        "Rotation: IN LINE",
-        "UW \u25bc dark-pool blocks $2M net sell, 1 sessions (0d)"
-      ],
-      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
-      "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
-      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
-      "caveats": [],
-      "freshness": "as-of 2026-06-08",
-      "action": "NONE"
-    },
-    {
       "ticker": "IESC",
       "owned": false,
       "stance_gate": "open",
@@ -2117,32 +2145,8 @@
         "Direction: 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
         "UW \u25b2 ask-side call sweeps $0.3M (0d)",
-        "UW \u25bc put OI +0% at 38 strikes (0d)",
-        "UW \u25bc dark-pool blocks $1M net sell, 1 sessions (0d)"
-      ],
-      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
-      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
-      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
-      "caveats": [],
-      "freshness": "as-of 2026-06-08",
-      "action": "NONE"
-    },
-    {
-      "ticker": "MU",
-      "owned": true,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "down",
-      "rotation": "LEADING",
-      "lean": "cooling",
-      "headline": "MU: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
-      "evidence": [
-        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
-        "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $6.2M, c/p 0.42 (0d)",
-        "UW \u25bc put OI +6412% at 790/520/550 strikes (0d)",
-        "UW \u25bc dark-pool blocks $14M net sell, 1 sessions (0d)"
+        "UW \u25bc put OI +500% at 35/37/29 strikes (0d)",
+        "UW \u25bc dark-pool blocks $0M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -2167,30 +2171,6 @@
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
-      "caveats": [],
-      "freshness": "as-of 2026-06-08",
-      "action": "NONE"
-    },
-    {
-      "ticker": "SMH",
-      "owned": true,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "down",
-      "rotation": "LEADING",
-      "lean": "cooling",
-      "headline": "SMH: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
-      "evidence": [
-        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
-        "Rotation: LEADING",
-        "UW \u25bc ask-side put sweeps $4.6M, c/p 0.36 (0d)",
-        "UW \u25bc put OI +135000% at 560/430/500 strikes (0d)",
-        "UW \u25b2 dark-pool blocks $30M net buy, 1 sessions (0d)"
-      ],
-      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
-      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
-      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
       "caveats": [],
       "freshness": "as-of 2026-06-08",
       "action": "NONE"
@@ -2226,11 +2206,11 @@
       "headline": "VOLT: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (you own it).",
       "evidence": [
         "Conviction: real named backing (operator), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity call_flow \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+        "Direction: 06-08 uw_opportunity call_flow \u00b7 06-08 uw_opportunity oi_build",
         "Rotation: TURNING DOWN",
         "UW \u25b2 ask-side call flow $0.0M (0d)",
-        "UW \u25b2 call OI +1050% at 38/38/40 strikes (0d)",
-        "UW \u25b2 dark-pool blocks $0M net buy, 1 sessions (0d)"
+        "UW \u25b2 call OI +50% at 38/28 strikes (0d)",
+        "UW \u25bc dark-pool blocks $0M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
@@ -2238,10 +2218,34 @@
       "caveats": [],
       "freshness": "as-of 2026-06-08",
       "action": "NONE"
+    },
+    {
+      "ticker": "XLF",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "down",
+      "rotation": "LAGGING",
+      "lean": "cooling",
+      "headline": "XLF: the case is cooling (LAGGING) \u2014 watch / reassess, don't add (you own it).",
+      "evidence": [
+        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
+        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+        "Rotation: LAGGING",
+        "UW \u25bc ask-side put sweeps $1.6M, 1:1 c/p (0d)",
+        "UW \u25bc put OI +8800% at 50/52/50 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $274M net buy, 1 sessions (0d)"
+      ],
+      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
+      "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-08",
+      "action": "NONE"
     }
   ],
   "bullish_flow": {
-    "as_of": "2026-06-07",
+    "as_of": "2026-06-08",
     "count": 40,
     "tickers": 14,
     "rows": [
@@ -2256,9 +2260,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $1.1M, 3:1 c/p",
-          "call OI +2056% at 24/18.5/25 strikes",
-          "dark-pool blocks $0M net sell, 1 sessions"
+          "ask-side call sweeps $0.9M, 2:1 c/p",
+          "call OI +3288% at 17/25/21 strikes",
+          "dark-pool blocks $4M net buy, 1 sessions"
         ],
         "parked": true
       },
@@ -2274,8 +2278,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $1.6M, 16:1 c/p",
-          "call OI +143% at 27/29/28 strikes",
-          "dark-pool blocks $0M net sell, 1 sessions"
+          "call OI +570% at 27/28/27 strikes",
+          "dark-pool blocks $5M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2290,9 +2294,26 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $1.7M, 2:1 c/p",
-          "call OI +1400% at 105/105/101 strikes",
-          "dark-pool blocks $85M net buy, 1 sessions"
+          "ask-side call sweeps $1.6M, 2:1 c/p",
+          "call OI +2962% at 105/101/105 strikes",
+          "dark-pool blocks $33M net sell, 1 sessions"
+        ],
+        "parked": false
+      },
+      {
+        "ticker": "IVES",
+        "direction": "bullish",
+        "strength": "strong",
+        "signal_types": [
+          "sweep",
+          "oi_build",
+          "dark_pool_accum"
+        ],
+        "n": 3,
+        "evidence": [
+          "ask-side call sweeps $0.3M",
+          "put OI +500% at 35/37/29 strikes",
+          "dark-pool blocks $0M net sell, 1 sessions"
         ],
         "parked": false
       },
@@ -2307,9 +2328,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $2.5M, 1:1 c/p",
-          "call OI +144% at 160/400/220 strikes",
-          "dark-pool blocks $1M net sell, 1 sessions"
+          "ask-side call sweeps $2.4M, 1:1 c/p",
+          "put OI +214% at 120/150/160 strikes",
+          "dark-pool blocks $2M net sell, 1 sessions"
         ],
         "parked": true
       },
@@ -2325,8 +2346,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $3.8M, 12:1 c/p",
-          "call OI +1250% at 69/100/69.5 strikes",
-          "dark-pool blocks $2M net buy, 1 sessions"
+          "put OI +8136% at 64/60/67.5 strikes",
+          "dark-pool blocks $4M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2341,9 +2362,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $1.5M, 2:1 c/p",
-          "put OI +1611% at 70/66/58 strikes",
-          "dark-pool blocks $1M net sell, 1 sessions"
+          "ask-side call sweeps $1.3M, 2:1 c/p",
+          "put OI +1467% at 45/50/66 strikes",
+          "dark-pool blocks $4M net buy, 1 sessions"
         ],
         "parked": true
       },
@@ -2358,9 +2379,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $6.2M, c/p 0.42",
-          "put OI +6412% at 790/520/550 strikes",
-          "dark-pool blocks $14M net sell, 1 sessions"
+          "ask-side call sweeps $29.1M, 2:1 c/p",
+          "put OI +135714% at 500/55/50 strikes",
+          "dark-pool blocks $48M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2375,9 +2396,26 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $4.8M, 2:1 c/p",
-          "call OI +59067% at 232.5/225/232.5 strikes",
-          "dark-pool blocks $14M net sell, 1 sessions"
+          "ask-side call sweeps $11.3M, 3:1 c/p",
+          "call OI +4256% at 215/310/255 strikes",
+          "dark-pool blocks $667M net buy, 1 sessions"
+        ],
+        "parked": false
+      },
+      {
+        "ticker": "SMH",
+        "direction": "bullish",
+        "strength": "strong",
+        "signal_types": [
+          "sweep",
+          "oi_build",
+          "dark_pool_accum"
+        ],
+        "n": 3,
+        "evidence": [
+          "ask-side call sweeps $13.7M, 3:1 c/p",
+          "put OI +22318% at 530/550/340 strikes",
+          "dark-pool blocks $1M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2393,8 +2431,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $2.0M, 3:1 c/p",
-          "call OI +21800% at 22/18/22.5 strikes",
-          "dark-pool blocks $23M net buy, 1 sessions"
+          "call OI +4120% at 12/16/17 strikes",
+          "dark-pool blocks $14M net buy, 1 sessions"
         ],
         "parked": true
       },
@@ -2410,42 +2448,21 @@
         "n": 3,
         "evidence": [
           "ask-side call flow $0.0M",
-          "call OI +1050% at 38/38/40 strikes",
-          "dark-pool blocks $0M net buy, 1 sessions"
+          "call OI +50% at 38/28 strikes",
+          "dark-pool blocks $0M net sell, 1 sessions"
         ],
         "parked": false
       },
       {
-        "ticker": "IVES",
+        "ticker": "GRNJ",
         "direction": "bullish",
         "strength": "weak",
         "signal_types": [
-          "sweep",
-          "oi_build",
           "dark_pool_accum"
         ],
-        "n": 3,
+        "n": 1,
         "evidence": [
-          "ask-side call sweeps $0.3M",
-          "put OI +0% at 38 strikes",
-          "dark-pool blocks $1M net sell, 1 sessions"
-        ],
-        "parked": false
-      },
-      {
-        "ticker": "SMH",
-        "direction": "bearish",
-        "strength": "strong",
-        "signal_types": [
-          "sweep",
-          "oi_build",
-          "dark_pool_accum"
-        ],
-        "n": 3,
-        "evidence": [
-          "ask-side put sweeps $4.6M, c/p 0.36",
-          "put OI +135000% at 560/430/500 strikes",
-          "dark-pool blocks $30M net buy, 1 sessions"
+          "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2460,22 +2477,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side put sweeps $1.0M, 2:1 c/p",
-          "call OI +103750% at 55/52/55 strikes",
-          "dark-pool blocks $85M net buy, 1 sessions"
-        ],
-        "parked": false
-      },
-      {
-        "ticker": "GRNJ",
-        "direction": "bearish",
-        "strength": "weak",
-        "signal_types": [
-          "dark_pool_accum"
-        ],
-        "n": 1,
-        "evidence": [
-          "dark-pool blocks $2M net sell, 1 sessions"
+          "ask-side put sweeps $1.6M, 1:1 c/p",
+          "put OI +8800% at 50/52/50 strikes",
+          "dark-pool blocks $274M net buy, 1 sessions"
         ],
         "parked": false
       }
@@ -12934,7 +12938,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-08T10:02:37-04:00",
-        "connector_proof_age_hours": 6.5
+        "connector_proof_age_hours": 7.09
       }
     ],
     "missing": [],
@@ -12961,18 +12965,18 @@
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },
     "cloud_routines": {
-      "status": "not_proven",
-      "line": "Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.",
+      "status": "partial_live_run_proven",
+      "line": "Background cloud proof: 12/14 scheduled receipts proven; failed latest=0.",
       "scheduled_success_count": 12,
       "expected_count": 14,
-      "failed_latest_count": 1,
+      "failed_latest_count": 0,
       "missing_scheduled_success_count": 2,
       "missing_scheduled_success": [
         {
           "routine_id": "investing-os-uw-opportunity-cache",
           "routine_name": "Investing OS UW Opportunity Cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "last_status": "failed"
+          "last_status": "success"
         },
         {
           "routine_id": "investing-os-fundstrat-after-hours-catch-up",
@@ -13065,13 +13069,13 @@
           "routine_name": "Investing OS UW Opportunity Cache",
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "receipt_count": 20,
-          "last_status": "failed",
-          "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-08T14:04:04.373632Z",
-          "last_success_at": "2026-06-08T05:41:47.370627Z",
+          "receipt_count": 22,
+          "last_status": "success",
+          "last_run_source": "manual",
+          "last_recorded_at": "2026-06-08T21:07:11.765978Z",
+          "last_success_at": "2026-06-08T21:07:11.765978Z",
           "last_scheduled_success_at": "",
-          "last_summary": "scanned 14 tickers; 13 live observations; cache unchanged; GRNJ missing flow/oi/dark_pool normalization; live proof refreshed"
+          "last_summary": "manual repair verified: scanned 14 tickers; cache landed 40 signals; GRNJ flow/oi empty rows reported, dark_pool normalized; scheduled proof still pending"
         },
         {
           "routine_id": "investing-os-parabolic-cache",
@@ -13104,13 +13108,13 @@
           "routine_name": "Investing OS Post-Close Refresh",
           "role": "post_close_refresh",
           "schedule": "market weekdays 4:30 PM ET",
-          "receipt_count": 15,
-          "last_status": "started",
+          "receipt_count": 16,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-08T20:32:36.555814Z",
-          "last_success_at": "2026-06-08T05:41:52.725694Z",
-          "last_scheduled_success_at": "2026-06-05T20:32:29.694662Z",
-          "last_summary": "investing-os-post-close-refresh started"
+          "last_recorded_at": "2026-06-08T20:32:39.526020Z",
+          "last_success_at": "2026-06-08T20:32:39.526020Z",
+          "last_scheduled_success_at": "2026-06-08T20:32:39.526020Z",
+          "last_summary": "post-close refresh succeeded"
         },
         {
           "routine_id": "investing-os-fundstrat-after-hours-catch-up",
@@ -16939,17 +16943,7 @@
         "why": "Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue."
       }
     ],
-    "system_health": [
-      {
-        "severity": "warn",
-        "kind": "cloud_routine_failed",
-        "title": "1 cloud routine(s) failed latest receipt",
-        "why": "Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.",
-        "source": "cloud_routines",
-        "trigger": "failed_latest_count > 0",
-        "next_step": "Check Ops/System Health when debugging routines; this is not a portfolio alert."
-      }
-    ],
+    "system_health": [],
     "policy": "Push alerts only interrupt for action-changing market, portfolio, Fundstrat, stale-review, or invalidated-decision items. Routine/system-health warnings stay in Ops.",
     "delivery": "review_only_no_send"
   },

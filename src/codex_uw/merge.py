@@ -39,10 +39,10 @@ def merge_opportunity(entries: list[dict], as_of: str) -> dict:
     skipped = []
     for row in entries:
         tk = str(row.get("ticker") or "").upper()
-        if row.get("ok") and isinstance(row.get("observation"), dict):
+        if row.get("ok") and isinstance(row.get("observation"), dict) and row["observation"]:
             observations[tk] = row["observation"]
         elif tk:
-            skipped.append({"ticker": tk, "error": row.get("error") or "missing observation"})
+            skipped.append({"ticker": tk, "error": row.get("error") or "empty normalized observation"})
     return {"as_of": as_of, "universe": sorted(observations), "observations": observations,
             "skipped": skipped}
 
