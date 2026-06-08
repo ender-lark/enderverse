@@ -182,6 +182,70 @@ def test_build_go_live_checklist_warns_for_open_reviews(monkeypatch, tmp_path):
     assert any(row["key"] == "source_calls" and row["status"] == "warn" for row in report["rows"])
 
 
+def test_build_go_live_checklist_treats_social_watch_as_deferred_optional(monkeypatch, tmp_path):
+    status = _fake_status(open_count=0)
+    status["dark_lanes"] = {
+        "count": 1,
+        "keys": ["social_watch"],
+        "details": [
+            {
+                "key": "social_watch",
+                "label": "Social Watch",
+                "next_step": "Supply social_watch.json from compliant intake before treating social anomalies as checked.",
+            }
+        ],
+    }
+    status["source_calls"] = {
+        "status": "has_data",
+        "line": "SCORING LAG: clean.",
+        "observed_count": 0,
+        "pending_count": 0,
+        "overdue_count": 0,
+    }
+    status["source_capability"] = {
+        "valid": True,
+        "present_inputs": 20,
+        "total_inputs": 22,
+        "missing_live_capable_count": 0,
+        "missing_live_capable_keys": [],
+        "missing_deferred_optional_count": 1,
+        "missing_deferred_optional_keys": ["social_watch"],
+        "live_source_config": {
+            "configured": True,
+            "configured_count": 1,
+            "total_count": 1,
+            "missing_count": 0,
+            "missing": [],
+        },
+    }
+    monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: status)
+    monkeypatch.setattr(
+        go_live_checklist.action_memory_resolve,
+        "review_report",
+        lambda **kwargs: {
+            "open_count": 0,
+            "oldest_age_days": 0,
+            "due_count": 0,
+            "stale_count": 0,
+            "rows": [],
+        },
+    )
+
+    report = go_live_checklist.build_go_live_checklist(src_dir=tmp_path)
+    text = go_live_checklist.format_text(report)
+
+    assert report["status"] == "pass"
+    assert report["operator_summary"]["waiting_on_source_count"] == 0
+    assert any(
+        row["key"] == "deferred_dark_lanes"
+        and row["status"] == "pass"
+        and row["category"] == "background_monitor"
+        for row in report["rows"]
+    )
+    assert "[PASS] Deferred optional dark lanes" in text
+    assert "source waits=0" in text
+
+
 def test_build_go_live_checklist_keeps_new_open_reviews_visible_without_warning(monkeypatch, tmp_path):
     monkeypatch.setattr(go_live_checklist.live_status, "live_status", lambda **kwargs: _fake_status(open_count=1))
     monkeypatch.setattr(

@@ -1,4 +1,5 @@
 """Tests for the generated HTML summary/export dashboard."""
+import copy
 import json
 import os
 import subprocess
@@ -457,6 +458,66 @@ def test_generated_html_book_renders_allocation_guidance():
     assert "visual guidance only; not an instruction to trade" in html
     assert "model target 32.0% | gap -68.0pp" in html
     assert "Fundstrat favored | 2026-05-28" in html
+
+
+def test_generated_html_treats_social_watch_as_deferred_optional_lane():
+    feed = copy.deepcopy(_feed())
+    feed["lane_status"] = {
+        "counts": {
+            "has_data": 3,
+            "checked_clear": 2,
+            "not_checked": 1,
+            "stale": 0,
+            "failed": 0,
+        },
+        "rows": [
+            {
+                "key": "social_watch",
+                "label": "Social Watch",
+                "status": "not_checked",
+                "detail": "queued optional lane",
+                "next_step": "Keep visible as not checked until social integration is enabled.",
+                "count": 0,
+            }
+        ],
+    }
+    feed["live_source_config"] = {
+        "configured": True,
+        "configured_count": 1,
+        "total_count": 1,
+        "missing_count": 0,
+        "missing": [],
+    }
+    feed["source_audits"]["cloud_routines"] = {
+        "line": "Background cloud proof: 10/10 scheduled receipts proven; failed latest=0.",
+        "scheduled_success_count": 10,
+        "expected_count": 10,
+        "missing_scheduled_success": [],
+    }
+    feed["feedback"]["source_calls"] = {
+        "status": "checked_clear",
+        "observed_count": 0,
+        "pending_count": 0,
+        "overdue_count": 0,
+        "calibration": {"line": "No source calls pending."},
+        "persistence": {"line": "No active persistence clusters.", "loud_count": 0, "provisional_count": 0},
+    }
+    feed["feedback"]["open_actions"] = {
+        "line": "Open action backlog: clear.",
+        "count": 0,
+        "due_count": 0,
+        "stale_count": 0,
+        "items": [],
+    }
+
+    html = generate_html(feed)
+
+    assert "Core source lanes are clear; 1 queued optional lane remains visible as not checked." in html
+    assert "<strong>1 deferred</strong> source lanes" in html
+    assert "Operator status" in html
+    assert "PASS" in html
+    assert "1 deferred" in html
+    assert "not an all-clear read" not in html
 
 
 def test_generated_html_surfaces_action_cards_first():

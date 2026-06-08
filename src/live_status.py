@@ -198,6 +198,32 @@ def _join_values(values: list[Any], *, empty: str = "none") -> str:
     return ", ".join(cleaned) if cleaned else empty
 
 
+def _deferred_optional_keys(source_capability: dict[str, Any]) -> set[str]:
+    return {
+        str(key)
+        for key in source_capability.get("missing_deferred_optional_keys") or []
+        if key
+    }
+
+
+def _split_dark_lane_details(
+    details: list[Any],
+    source_capability: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    deferred = _deferred_optional_keys(source_capability)
+    actionable: list[dict[str, Any]] = []
+    deferred_rows: list[dict[str, Any]] = []
+    for row in details:
+        if not isinstance(row, dict):
+            continue
+        key = str(row.get("key") or "").strip()
+        if key in deferred:
+            deferred_rows.append(row)
+        else:
+            actionable.append(row)
+    return actionable, deferred_rows
+
+
 def _dark_lane_commands(key: str) -> list[str]:
     live_source_validate = (
         "python src/manual_source_drop.py manual-live-source-drop.json "
@@ -259,6 +285,15 @@ def format_text(status: dict[str, Any]) -> str:
     queue = status.get("system_queue") or {}
     source_calls = status.get("source_calls") or {}
     source_capability = status.get("source_capability") or {}
+    dark_lane_details = dark_lanes.get("details") or []
+    actionable_dark_details, deferred_dark_details = _split_dark_lane_details(
+        dark_lane_details,
+        source_capability,
+    )
+    dark_lane_count = int(data_flow.get("dark_lanes") or 0)
+    dark_lane_text = str(dark_lane_count)
+    if deferred_dark_details:
+        dark_lane_text += f" ({len(deferred_dark_details)} deferred)"
     top_action = data_flow.get("top_action") or {}
 
     preview_url = preview.get("canonical_url") or preview.get("url") or "preview URL unavailable"
@@ -283,7 +318,7 @@ def format_text(status: dict[str, Any]) -> str:
         (
             f"Data flow: feed={data_flow.get('generated_at') or 'missing'} | "
             f"lanes_with_data={int(data_flow.get('lanes_with_data') or 0)} | "
-            f"dark_lanes={int(data_flow.get('dark_lanes') or 0)} | "
+            f"dark_lanes={dark_lane_text} | "
             f"top_action={top_text}"
         ),
         (
@@ -298,7 +333,8 @@ def format_text(status: dict[str, Any]) -> str:
             f"{int(source_capability.get('total_inputs') or 0)} | "
             f"connector_or_api={int(source_capability.get('connector_or_api_count') or 0)} | "
             f"supplied_or_export={int(source_capability.get('supplied_or_export_count') or 0)} | "
-            f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}"
+            f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)} | "
+            f"deferred_optional={int(source_capability.get('missing_deferred_optional_count') or 0)}"
         ),
         (
             "Live source config: "
@@ -309,6 +345,7 @@ def format_text(status: dict[str, Any]) -> str:
         ),
     ]
     lines.extend(live_source_capability.format_missing_live_capable(source_capability))
+    lines.extend(live_source_capability.format_deferred_optional_live_sources(source_capability))
     lines.extend(live_source_capability.format_missing_live_config(source_capability))
     event_watch = data_flow.get("event_watch") or {}
     if event_watch.get("active"):
@@ -385,26 +422,20 @@ def format_text(status: dict[str, Any]) -> str:
             if missed:
                 lines.append(f"- {ticker} missed: {missed}")
 
-    details = dark_lanes.get("details") or []
-    if details:
+    if actionable_dark_details:
         lines.append("Dark lanes:")
-        for row in details:
-            if not isinstance(row, dict):
-                continue
+        for row in actionable_dark_details:
             key = row.get("label") or row.get("key") or "unknown"
             next_step = row.get("next_step") or row.get("missing_impact") or "Supply source input."
             lines.append(f"- {key}: {next_step}")
         lines.append("Dark lane intake commands:")
         dark_keys = [
             str(row.get("key") or "").strip()
-            for row in details
-            if isinstance(row, dict)
+            for row in actionable_dark_details
         ]
         for template in _dark_lane_templates(dark_keys):
             lines.append(f"- Start template: {template}")
-        for row in details:
-            if not isinstance(row, dict):
-                continue
+        for row in actionable_dark_details:
             label = row.get("label") or row.get("key") or "Dark lane"
             key = str(row.get("key") or "").strip()
             commands = _dark_lane_commands(key)
@@ -414,7 +445,25 @@ def format_text(status: dict[str, Any]) -> str:
     else:
         lines.append("Dark lanes: none")
 
+    if deferred_dark_details:
+        lines.append("Deferred optional dark lanes:")
+        for row in deferred_dark_details:
+            label = row.get("label") or row.get("key") or "Deferred lane"
+            next_step = row.get("next_step") or row.get("missing_impact") or "Keep visible as not checked."
+            lines.append(f"- {label}: {next_step}")
+        lines.append("Deferred optional lane handling:")
+        lines.append("- No manual drop required for core go-live; absence is not checked clear.")
+
     next_steps = status.get("next_steps") or []
+    if next_steps and deferred_dark_details and not actionable_dark_details:
+        next_steps = [
+            step for step in next_steps
+            if "dark lane" not in str(step).lower()
+            and not any(
+                str(row.get("label") or row.get("key") or "").lower() in str(step).lower()
+                for row in deferred_dark_details
+            )
+        ]
     if next_steps:
         lines.append("Next steps:")
         for step in next_steps[:5]:

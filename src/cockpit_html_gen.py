@@ -30,6 +30,7 @@ def _strip_trailing_ws(text: str) -> str:
 
 
 ET = ZoneInfo("America/New_York")
+DEFERRED_OPTIONAL_SOURCE_KEYS = {"social_watch"}
 
 
 def _fmt_et_stamp(value: Any) -> str:
@@ -356,7 +357,16 @@ def _heartbeat(hb: list) -> str:
 def _summary_notice(feed: dict) -> str:
     lane = feed.get("lane_status") or {}
     counts = lane.get("counts") or {}
-    dark = int(counts.get("not_checked") or 0)
+    rows = [row for row in (lane.get("rows") or []) if isinstance(row, dict)]
+    dark_rows = [row for row in rows if row.get("status") == "not_checked"]
+    deferred_dark = sum(
+        1 for row in dark_rows
+        if row.get("key") in DEFERRED_OPTIONAL_SOURCE_KEYS
+    )
+    dark = sum(
+        1 for row in dark_rows
+        if row.get("key") not in DEFERRED_OPTIONAL_SOURCE_KEYS
+    )
     stale = int(counts.get("stale") or 0)
     failed = int(counts.get("failed") or 0)
     actions = feed.get("actions") or []
@@ -374,6 +384,17 @@ def _summary_notice(feed: dict) -> str:
         if failed:
             parts.append(f"{failed} failed lane{'s' if failed != 1 else ''}")
         lines.append("; ".join(parts) + " means this is not an all-clear read.")
+        if deferred_dark:
+            lines.append(
+                f"{deferred_dark} deferred optional lane{'s' if deferred_dark != 1 else ''} "
+                f"also {'remain' if deferred_dark != 1 else 'remains'} visible as not checked."
+            )
+    elif deferred_dark:
+        lines.append(
+            f"Core source lanes are clear; {deferred_dark} queued optional lane"
+            f"{'s' if deferred_dark != 1 else ''} "
+            f"{'remain' if deferred_dark != 1 else 'remains'} visible as not checked."
+        )
     else:
         lines.append("No dark, stale, or failed lanes reported in the feed lane-status block.")
     body = "".join(f'<div class="summary-line">{_e(line)}</div>' for line in lines)
@@ -387,12 +408,25 @@ def _summary_notice(feed: dict) -> str:
 def _quick_nav(feed: dict) -> str:
     lane = feed.get("lane_status") or {}
     counts = lane.get("counts") or {}
+    lane_rows = [row for row in (lane.get("rows") or []) if isinstance(row, dict)]
+    dark_rows = [row for row in lane_rows if row.get("status") == "not_checked"]
+    deferred_dark = sum(
+        1 for row in dark_rows
+        if row.get("key") in DEFERRED_OPTIONAL_SOURCE_KEYS
+    )
+    actionable_dark = sum(
+        1 for row in dark_rows
+        if row.get("key") not in DEFERRED_OPTIONAL_SOURCE_KEYS
+    )
     feedback = feed.get("feedback") or {}
     open_actions = (feedback.get("open_actions") or {}).get("count") or 0
     source_calls = feedback.get("source_calls") or {}
     source_call_pending = source_calls.get("pending_count") or 0
     source_call_overdue = source_calls.get("overdue_count") or 0
-    lane_gaps = int(counts.get("not_checked") or 0) + int(counts.get("stale") or 0) + int(counts.get("failed") or 0)
+    lane_gaps = actionable_dark + int(counts.get("stale") or 0) + int(counts.get("failed") or 0)
+    lane_label = f"{lane_gaps} gaps" if lane_gaps else (
+        f"{deferred_dark} deferred" if deferred_dark else "green"
+    )
     source_label = (
         f"{source_call_overdue} overdue"
         if source_call_overdue
@@ -414,7 +448,7 @@ def _quick_nav(feed: dict) -> str:
   <a class="quick-link" href="#source-audits"><strong>{_e(uw_proof_label)}</strong> UW results</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(open_actions)}</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
-  <a class="quick-link" href="#lane-status"><strong>{_e(lane_gaps)}</strong> source gaps</a>
+  <a class="quick-link" href="#lane-status"><strong>{_e(lane_label)}</strong> source lanes</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(source_label)}</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
   <a class="quick-link" href="#social-watch"><strong>{_e((feed.get("social_watch") or {}).get("count") or 0)}</strong> social dark</a>
@@ -564,11 +598,22 @@ def _feedback_summary(feedback: dict) -> str:
 def _operator_status(feed: dict) -> str:
     lane = feed.get("lane_status") or {}
     counts = lane.get("counts") or {}
+    lane_rows = [row for row in (lane.get("rows") or []) if isinstance(row, dict)]
+    dark_rows = [row for row in lane_rows if row.get("status") == "not_checked"]
+    deferred_dark_rows = [
+        row for row in dark_rows
+        if row.get("key") in DEFERRED_OPTIONAL_SOURCE_KEYS
+    ]
+    actionable_dark_rows = [
+        row for row in dark_rows
+        if row.get("key") not in DEFERRED_OPTIONAL_SOURCE_KEYS
+    ]
     feedback = feed.get("feedback") or {}
     open_actions = feedback.get("open_actions") or {}
     source_calls = feedback.get("source_calls") or {}
     actions = feed.get("actions") or []
-    dark = int(counts.get("not_checked") or 0)
+    dark = len(actionable_dark_rows)
+    deferred_dark = len(deferred_dark_rows)
     stale = int(counts.get("stale") or 0)
     failed = int(counts.get("failed") or 0)
     open_count = int(open_actions.get("count") or 0)
@@ -689,7 +734,11 @@ def _operator_status(feed: dict) -> str:
         lane_detail.append(f"{stale} stale")
     if failed:
         lane_detail.append(f"{failed} failed")
-    lane_value = ", ".join(lane_detail) if lane_detail else "clear"
+    lane_value_parts = list(lane_detail)
+    if deferred_dark:
+        lane_value_parts.append(f"{deferred_dark} deferred")
+    lane_value = ", ".join(lane_value_parts) if lane_value_parts else "clear"
+    lane_cls = "operator-warn" if lane_detail else "operator-pass"
     if open_stale:
         open_review_value = f"{open_stale} stale"
     elif open_due:
@@ -706,7 +755,7 @@ def _operator_status(feed: dict) -> str:
   <div class="operator-grid">
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">{_e(action_count)}</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value {_e('operator-warn' if open_review_pressure else 'operator-pass')}">{_e(open_review_value)}</div></a>
-    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value {_e('operator-warn' if lane_detail else 'operator-pass')}">{_e(lane_value)}</div></a>
+    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value {_e(lane_cls)}">{_e(lane_value)}</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value {_e('operator-fail' if source_call_fail else 'operator-warn' if source_call_warn else 'operator-pass')}">{_e(source_call_value)}</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value {_e('operator-warn' if live_config_missing else 'operator-pass')}">{_e(f'{live_configured}/{live_config_total}' if live_config_total else 'unknown')}</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value {_e(build_cls)}">{_e(build_blockers)}</div></a>

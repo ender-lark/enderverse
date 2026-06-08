@@ -17,6 +17,7 @@ DEFAULT_SRC = Path(__file__).resolve().parent
 DEFAULT_MANIFEST = DEFAULT_SRC / "codex_routine_manifest.json"
 DEFAULT_CONFIG = DEFAULT_SRC / "live_source_config.json"
 DEFAULT_CONNECTOR_PROOF_MAX_AGE_HOURS = 36
+DEFERRED_OPTIONAL_LIVE_KEYS = {"social_watch"}
 
 CONNECTOR_TOKENS = (
     "connector",
@@ -132,6 +133,11 @@ def _primary_mode(modes: list[str]) -> str:
         if mode in modes:
             return mode
     return "repo_manual"
+
+
+def _is_deferred_optional(row: dict[str, Any]) -> bool:
+    key = str(row.get("key") or "")
+    return key in DEFERRED_OPTIONAL_LIVE_KEYS and not bool(row.get("required"))
 
 
 def _read_json(path: str | Path) -> Any:
@@ -272,7 +278,7 @@ def capability_report(
             continue
         routine = _routine_for_input(input_row, routines_by_id)
         modes = _modes_for_input(input_row, routine)
-        rows.append({
+        normalized = {
             "key": input_row.get("key") or "",
             "required": bool(input_row.get("required")),
             "present": bool(input_row.get("present")),
@@ -284,7 +290,9 @@ def capability_report(
             "routine_title": routine.get("title") or "",
             "primary_mode": _primary_mode(modes),
             "modes": modes,
-        })
+        }
+        normalized["deferred_optional"] = _is_deferred_optional(normalized)
+        rows.append(normalized)
 
     by_primary = {mode: 0 for mode in MODE_PRIORITY}
     for row in rows:
@@ -294,10 +302,19 @@ def capability_report(
     supplied_keys = [row["key"] for row in rows if "supplied_or_export" in row["modes"]]
     missing_keys = [row["key"] for row in rows if not row["present"]]
     live_capable_keys = sorted(set(connector_keys + supplied_keys))
-    missing_live_capable = [
+    all_missing_live_capable = [
         row["key"]
         for row in rows
         if not row["present"] and ("connector_or_api" in row["modes"] or "supplied_or_export" in row["modes"])
+    ]
+    missing_deferred_optional = [
+        row["key"]
+        for row in rows
+        if row["key"] in all_missing_live_capable and row.get("deferred_optional")
+    ]
+    missing_live_capable = [
+        key for key in all_missing_live_capable
+        if key not in set(missing_deferred_optional)
     ]
 
     return {
@@ -309,12 +326,16 @@ def capability_report(
         "connector_or_api_count": len(connector_keys),
         "supplied_or_export_count": len(supplied_keys),
         "live_capable_count": len(live_capable_keys),
+        "all_missing_live_capable_count": len(all_missing_live_capable),
         "missing_live_capable_count": len(missing_live_capable),
+        "missing_deferred_optional_count": len(missing_deferred_optional),
         "by_primary_mode": by_primary,
         "connector_or_api_keys": connector_keys,
         "supplied_or_export_keys": supplied_keys,
         "missing_input_keys": missing_keys,
+        "all_missing_live_capable_keys": all_missing_live_capable,
         "missing_live_capable_keys": missing_live_capable,
+        "missing_deferred_optional_keys": missing_deferred_optional,
         "live_source_config": live_config_report(
             environ,
             config_path=config_path if config_path is not None else src / "live_source_config.json",
@@ -337,7 +358,8 @@ def format_text(report: dict[str, Any]) -> str:
             f"connector_or_api={int(report.get('connector_or_api_count') or 0)} | "
             f"supplied_or_export={int(report.get('supplied_or_export_count') or 0)} | "
             f"live_capable={int(report.get('live_capable_count') or 0)} | "
-            f"missing_live_capable={int(report.get('missing_live_capable_count') or 0)}"
+            f"missing_live_capable={int(report.get('missing_live_capable_count') or 0)} | "
+            f"deferred_optional={int(report.get('missing_deferred_optional_count') or 0)}"
         ),
         (
             "Live source config: "
@@ -348,6 +370,7 @@ def format_text(report: dict[str, Any]) -> str:
         ),
     ]
     lines.extend(format_missing_live_capable(report))
+    lines.extend(format_deferred_optional_live_sources(report))
     lines.extend(format_missing_live_config(report))
     if report.get("problems"):
         lines.append("Problems:")
@@ -387,6 +410,27 @@ def format_missing_live_capable(report: dict[str, Any]) -> list[str]:
         ]
         if candidate_paths:
             lines.append("  expected path: " + ", ".join(candidate_paths))
+    return lines
+
+
+def format_deferred_optional_live_sources(report: dict[str, Any]) -> list[str]:
+    """Return lines for queued live-capable lanes that are intentionally dark."""
+    deferred = report.get("missing_deferred_optional_keys") or []
+    if not deferred:
+        return []
+    lines = ["Deferred optional live-source lanes:"]
+    rows_by_key = {
+        str(row.get("key") or ""): row
+        for row in report.get("rows") or []
+        if isinstance(row, dict)
+    }
+    for key in deferred:
+        row = rows_by_key.get(str(key), {})
+        label = str(row.get("source") or row.get("routine_title") or key)
+        lines.append(f"- {key}: queued/dark optional lane | {label}")
+        missing_behavior = str(row.get("missing_behavior") or "")
+        if missing_behavior:
+            lines.append(f"  missing behavior: {missing_behavior}")
     return lines
 
 

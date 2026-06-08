@@ -15,6 +15,7 @@ import system_improvement_queue
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SRC = ROOT / "src"
+DEFERRED_OPTIONAL_DARK_LANES = {"social_watch"}
 
 
 def _cloud_counts(cloud: dict[str, Any]) -> dict[str, Any]:
@@ -106,10 +107,18 @@ def build_completion_audit(*, src_dir: str | Path = DEFAULT_SRC) -> dict[str, An
     open_review_due_count = int(open_actions.get("due_count") or 0)
     open_review_stale_count = int(open_actions.get("stale_count") or 0)
     open_review_oldest_age_days = int(open_actions.get("oldest_age_days") or 0)
-    dark_lanes = [
+    dark_lanes_all = [
         str(key)
         for key in ((live.get("dark_lanes") or {}).get("keys") or [])
         if key
+    ]
+    deferred_dark_lanes = [
+        key for key in dark_lanes_all
+        if key in DEFERRED_OPTIONAL_DARK_LANES
+    ]
+    dark_lanes = [
+        key for key in dark_lanes_all
+        if key not in DEFERRED_OPTIONAL_DARK_LANES
     ]
     build_clear = (
         bool(live.get("go_live_ready"))
@@ -155,6 +164,7 @@ def build_completion_audit(*, src_dir: str | Path = DEFAULT_SRC) -> dict[str, An
         "open_review_stale_count": open_review_stale_count,
         "open_review_oldest_age_days": open_review_oldest_age_days,
         "dark_lanes": dark_lanes,
+        "deferred_dark_lanes": deferred_dark_lanes,
         "cloud": cloud_summary,
         "system_queue": queue,
         "next_recommended_action": _next_recommended_action(
@@ -216,6 +226,10 @@ def format_text(report: dict[str, Any]) -> str:
     if dark_lanes:
         lines.append("Dark lanes:")
         lines.extend(f"- {row}" for row in dark_lanes)
+    deferred_dark_lanes = report.get("deferred_dark_lanes") or []
+    if deferred_dark_lanes:
+        lines.append("Deferred optional dark lanes:")
+        lines.extend(f"- {row}" for row in deferred_dark_lanes)
     return "\n".join(lines)
 
 

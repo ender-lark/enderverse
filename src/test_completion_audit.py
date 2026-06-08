@@ -158,6 +158,27 @@ def test_completion_audit_reports_all_clear_when_external_waits_are_done(monkeyp
     assert "Build clear: True | all clear: True" in text
 
 
+def test_completion_audit_ignores_deferred_social_dark_lane_for_core_all_clear(monkeypatch, tmp_path):
+    live = _live(open_tickers=[])
+    live["dark_lanes"] = {"keys": ["social_watch"]}
+    _patch(
+        monkeypatch,
+        live=live,
+        checklist=_checklist(waiting_on_source=[], waiting_on_schedule=[]),
+        cloud=_cloud(scheduled=10, expected=10, live_run=True),
+    )
+
+    report = completion_audit.build_completion_audit(src_dir=tmp_path)
+    text = completion_audit.format_text(report)
+
+    assert report["state"] == "build_clear"
+    assert report["all_clear"] is True
+    assert report["dark_lanes"] == []
+    assert report["deferred_dark_lanes"] == ["social_watch"]
+    assert "Deferred optional dark lanes:" in text
+    assert "- social_watch" in text
+
+
 def test_completion_audit_cli_text_runs_against_current_repo():
     rc = completion_audit.main(["--format", "text"])
 

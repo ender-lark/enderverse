@@ -67,13 +67,48 @@ def _open_review_row_status(review: dict[str, Any]) -> str:
 
 
 def _dark_lane_detail(status: dict[str, Any]) -> str:
+    details = _dark_lane_details(status)
+    if not details:
+        dark = status.get("dark_lanes") or {}
+        return "Dark lanes: " + ", ".join(dark.get("keys") or [])
+    return _format_dark_lane_details(details)
+
+
+def _dark_lane_details(status: dict[str, Any]) -> list[dict[str, Any]]:
     dark = status.get("dark_lanes") or {}
-    details = [
+    return [
         row for row in dark.get("details") or []
         if isinstance(row, dict)
     ]
+
+
+def _deferred_optional_keys(source_capability: dict[str, Any]) -> set[str]:
+    return {
+        str(key)
+        for key in source_capability.get("missing_deferred_optional_keys") or []
+        if key
+    }
+
+
+def _actionable_dark_lane_details(status: dict[str, Any], source_capability: dict[str, Any]) -> list[dict[str, Any]]:
+    deferred = _deferred_optional_keys(source_capability)
+    return [
+        row for row in _dark_lane_details(status)
+        if str(row.get("key") or "") not in deferred
+    ]
+
+
+def _deferred_dark_lane_details(status: dict[str, Any], source_capability: dict[str, Any]) -> list[dict[str, Any]]:
+    deferred = _deferred_optional_keys(source_capability)
+    return [
+        row for row in _dark_lane_details(status)
+        if str(row.get("key") or "") in deferred
+    ]
+
+
+def _format_dark_lane_details(details: list[dict[str, Any]]) -> str:
     if not details:
-        return "Dark lanes: " + ", ".join(dark.get("keys") or [])
+        return "None."
     parts = []
     for row in details:
         label = row.get("label") or row.get("key") or "Dark lane"
@@ -180,7 +215,8 @@ def _source_capability_row_detail(source_capability: dict[str, Any]) -> str:
     detail = (
         f"inputs={int(source_capability.get('present_inputs') or 0)}/"
         f"{int(source_capability.get('total_inputs') or 0)}; "
-        f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}"
+        f"missing_live_capable={int(source_capability.get('missing_live_capable_count') or 0)}; "
+        f"deferred_optional={int(source_capability.get('missing_deferred_optional_count') or 0)}"
     )
     if missing:
         detail += f" ({', '.join(missing)})"
@@ -226,7 +262,7 @@ def _manual_drop_row_status(
         return "pass" if manual_report.get("valid") else "warn"
     if int(source_capability.get("missing_live_capable_count") or 0):
         return "warn"
-    if int((status.get("dark_lanes") or {}).get("count") or 0):
+    if _actionable_dark_lane_details(status, source_capability):
         return "warn"
     return "pass"
 
@@ -248,8 +284,10 @@ def _manual_drop_row_detail(
             "No manual live-source drop supplied; use "
             f"docs/manual_live_source_drop.template.json for {', '.join(missing_live)}."
         )
-    if int((status.get("dark_lanes") or {}).get("count") or 0):
+    if _actionable_dark_lane_details(status, source_capability):
         return "No manual drop supplied; optional event/signal/catalyst lanes may remain dark."
+    if _deferred_dark_lane_details(status, source_capability):
+        return "No manual drop required for core go-live; queued optional lanes remain visible as not checked."
     return "No manual drop supplied; no dark lanes or missing live-capable inputs currently require one."
 
 
@@ -472,14 +510,25 @@ def build_go_live_checklist(
             "python src/system_improvement_queue.py",
         ),
     ]
-    if status.get("dark_lanes", {}).get("count"):
+    actionable_dark = _actionable_dark_lane_details(status, source_capability)
+    deferred_dark = _deferred_dark_lane_details(status, source_capability)
+    if actionable_dark:
         rows.append(_row(
             "dark_lanes",
             "Optional dark lanes",
             "warn",
-            _dark_lane_detail(status),
+            _format_dark_lane_details(actionable_dark),
             _optional_dark_lane_command(status, source_capability),
             "source_input",
+        ))
+    if deferred_dark:
+        rows.append(_row(
+            "deferred_dark_lanes",
+            "Deferred optional dark lanes",
+            "pass",
+            _format_dark_lane_details(deferred_dark),
+            "Keep visible as not checked; do not treat absence as checked clear.",
+            "background_monitor",
         ))
     fail_count = sum(1 for row in rows if row["status"] == "fail")
     warn_count = sum(1 for row in rows if row["status"] == "warn")

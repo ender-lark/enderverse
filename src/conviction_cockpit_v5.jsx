@@ -760,6 +760,7 @@ const GOAL_IMPACT_META = {
   Medium: { c:C.amber, label:"Goal: Med" },
   Low:    { c:C.faint, label:"Goal: Low" },
 };
+const DEFERRED_OPTIONAL_SOURCE_KEYS = new Set(["social_watch"]);
 function actionRow(a, opts={}){
   const m = ACTION_KIND_META[a.kind] || { icon:"•", label:a.kind, c:C.dim };
   const cf = CONF_META[a.confidence] || { c:C.dim, label:a.confidence };
@@ -822,6 +823,10 @@ function eventPortfolioRead(eventWatch){
 }
 function operatorStatus(feed){
   const counts = ((feed.lane_status||{}).counts)||{};
+  const laneRows = ((feed.lane_status||{}).rows)||[];
+  const darkRows = laneRows.filter(r=>r && r.status==="not_checked");
+  const deferredDarkRows = darkRows.filter(r=>DEFERRED_OPTIONAL_SOURCE_KEYS.has(r.key));
+  const actionableDarkRows = darkRows.filter(r=>!DEFERRED_OPTIONAL_SOURCE_KEYS.has(r.key));
   const feedback = feed.feedback||{};
   const openFeedback = (feedback.open_actions)||{};
   const openActions = openFeedback.count||0;
@@ -846,19 +851,21 @@ function operatorStatus(feed){
   const severityRank = {critical:0, high:1, medium:2, low:3};
   eventRows.sort((a,b)=>(severityRank[a.severity]??9)-(severityRank[b.severity]??9));
   const eventWatch = eventRows[0] || null;
-  const dark = counts.not_checked||0;
+  const dark = actionableDarkRows.length;
+  const deferredDark = deferredDarkRows.length;
   const stale = counts.stale||0;
   const failed = counts.failed||0;
   const status = (failed||sourceCallFail) ? "FAIL" : ((dark||stale||openReviewPressure||sourceCallWarn||liveConfigMissing) ? "WARN" : "PASS");
   const statusColor = (failed||sourceCallFail) ? C.red : (status==="WARN" ? C.amber : C.green);
-  const sourceLane = failed ? `${failed} failed` : dark ? `${dark} dark` : stale ? `${stale} stale` : "clear";
+  const sourceLane = failed ? `${failed} failed` : dark ? `${dark} dark` : stale ? `${stale} stale` : deferredDark ? `${deferredDark} deferred` : "clear";
+  const sourceLaneWarning = Boolean(failed || dark || stale);
   const sourceCall = sourceCallFail ? `${sourceCallOverdue} overdue` : sourceCallWarn ? `${sourceCallObserved} unscored` : sourceCallPending ? `${sourceCallPending} pending` : "clear";
   const openReviewValue = openStale ? `${openStale} stale` : openDue ? `${openDue} due` : openActions ? `${openActions} new` : "0";
   const liveFetch = liveConfigTotal ? `${liveConfigured}/${liveConfigTotal}` : "unknown";
   return {
     status, statusColor, actions, openActions, openDue, openStale, openReviewPressure, openReviewValue,
     alertPolicy, alertCount:alertRows.length, alertStatus:alertPolicy.status||"quiet", alertLine:alertPolicy.line||"", alertPolicyText:alertPolicy.policy||"",
-    sourceLane, sourceCall, sourceCallWarn, sourceCallFail,
+    sourceLane, sourceLaneWarning, sourceCall, sourceCallWarn, sourceCallFail, deferredDark,
     liveFetch, liveConfigMissing, liveConfig,
     eventWatch,
     eventPortfolio: eventPortfolioRead(eventWatch),
@@ -883,7 +890,7 @@ function sharedVM(feed){
     generatedAt: feed.generated_at||"", stamp: stamp(feed),
     heartbeat: (feed.heartbeat||[]).map(heartbeatRow),
     laneStatus: ((feed.lane_status||{}).rows||[]).map(laneStatusRow),
-    darkLaneCount: (((feed.lane_status||{}).counts||{}).not_checked)||0,
+    darkLaneCount: ((feed.lane_status||{}).rows||[]).filter(r=>r && r.status==="not_checked" && !DEFERRED_OPTIONAL_SOURCE_KEYS.has(r.key)).length,
     staleLaneCount: ((((feed.lane_status||{}).counts||{}).stale)||0) + ((((feed.lane_status||{}).counts||{}).failed)||0),
     operatorStatus: operatorStatus(feed),
   };
@@ -1195,10 +1202,11 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
   const portfolioView = VM.portfolioViews && VM.portfolioViews.views ? VM.portfolioViews.views[portfolioViewKey] : null;
   const effectiveExposure = portfolioView && portfolioView.effective_exposure ? portfolioView.effective_exposure : null;
   const layerIssues = VM.heartbeat.filter(h=>h.statusLabel!=="ok");
-  const checkIssues = VM.laneStatus.filter(r=>!["data","clear"].includes(r.statusLabel));
+  const checkIssues = VM.laneStatus.filter(r=>!["data","clear"].includes(r.statusLabel) && !DEFERRED_OPTIONAL_SOURCE_KEYS.has(r.key));
+  const deferredChecks = VM.laneStatus.filter(r=>!["data","clear"].includes(r.statusLabel) && DEFERRED_OPTIONAL_SOURCE_KEYS.has(r.key));
   const statusSummary = compactJoin([
     `${VM.heartbeat.length} layers${layerIssues.length?`, ${layerIssues.length} issue${layerIssues.length===1?"":"s"}`:", green"}`,
-    `${VM.laneStatus.length} checks${checkIssues.length?`, ${checkIssues.map(r=>`${r.label} ${r.statusLabel}`).slice(0,3).join(", ")}${checkIssues.length>3?` +${checkIssues.length-3}`:""}`:", green"}`
+    `${VM.laneStatus.length} checks${checkIssues.length?`, ${checkIssues.map(r=>`${r.label} ${r.statusLabel}`).slice(0,3).join(", ")}${checkIssues.length>3?` +${checkIssues.length-3}`:""}`:", green"}${deferredChecks.length?` | deferred: ${deferredChecks.map(r=>r.label).slice(0,2).join(", ")}`:""}`
   ]);
 
   return (
@@ -1305,7 +1313,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           const items = [
             ["Today actions", String(op.actions), op.actions?C.amber:C.dim],
             ["Open reviews", op.openReviewValue, op.openReviewPressure?C.amber:C.green],
-            ["Source lanes", op.sourceLane, op.sourceLane==="clear"?C.green:C.amber],
+            ["Source lanes", op.sourceLane, op.sourceLaneWarning?C.amber:C.green],
             ["Source calls", op.sourceCall, op.sourceCallFail?C.red:op.sourceCallWarn?C.amber:C.green],
             ["Live fetch", op.liveFetch, op.liveConfigMissing?C.amber:C.green],
             ["Alerts", op.alertStatus==="notify"?`${op.alertCount} alert${op.alertCount===1?"":"s"}`:"quiet", op.alertStatus==="notify"?C.red:C.green],

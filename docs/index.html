@@ -255,7 +255,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-07 22:04 ET
+        built 2026-06-07 22:21 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-07  uw_price 06-07  uw_macro 06-07  fundstrat_bible 05-28  fundstrat_daily 06-05</div>
@@ -279,7 +279,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card summary-caveat">
   <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
-  <div class="summary-line">Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">1 dark/not-checked lane means this is not an all-clear read.</div>
+  <div class="summary-line">Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">Core source lanes are clear; 1 queued optional lane remains visible as not checked.</div>
 </div>
 
 <div class="quick-nav">
@@ -293,7 +293,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <a class="quick-link" href="#source-audits"><strong>proof</strong> UW results</a>
   <a class="quick-link" href="#feedback-loops"><strong>2</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
-  <a class="quick-link" href="#lane-status"><strong>1</strong> source gaps</a>
+  <a class="quick-link" href="#lane-status"><strong>1 deferred</strong> source lanes</a>
   <a class="quick-link" href="#feedback-loops"><strong>6 scoring</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
   <a class="quick-link" href="#social-watch"><strong>0</strong> social dark</a>
@@ -866,17 +866,17 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="operator-status">
   <div class="card-title"><span class="icon">!</span> Operator status
-    <span class="operator-warn" style="font-size:11px;margin-left:auto">WARN</span>
+    <span class="operator-pass" style="font-size:11px;margin-left:auto">PASS</span>
   </div>
   <div class="operator-grid">
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">5</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">2 new</div></a>
-    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 dark</div></a>
+    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">6 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | 1 source wait; background cloud proof 8/12</div>
+  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 8/12</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -1137,7 +1137,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">Cloud routines</span>Background cloud proof: 8/12 scheduled receipts proven; failed latest=0.
 </div>
 <div class="audit-row">
-  <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/22; missing live-capable=1.
+  <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/22; missing live-capable=0.
 </div>
 <div class="audit-row">
   <span class="audit-k">UW routing</span>UW routing: 5 scenario profile(s) recommended; top=Pre-market crash triage.
@@ -1170,7 +1170,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T02:04:39.676688+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T02:04:39.676688+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T02:04:39.676688+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-08T02:04:39.676688+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T02:04:39.676688+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T02:21:52.171063+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T02:21:52.171063+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T02:21:52.171063+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge stale" title="Optional Source Lanes | 2026-06-08T02:21:52.171063+00:00 | dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T02:21:52.171063+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

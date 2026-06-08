@@ -22,10 +22,13 @@ def test_capability_report_classifies_connector_and_supplied_lanes(tmp_path):
     assert "uw_opportunity" in report["connector_or_api_keys"]
     assert "catalysts" in report["connector_or_api_keys"]
     assert "signal_log" in report["connector_or_api_keys"]
+    assert "social_watch" in report["connector_or_api_keys"]
     assert "positions" in report["supplied_or_export_keys"]
     assert "event_risk" in report["supplied_or_export_keys"]
     assert "meridian" not in report["supplied_or_export_keys"]
     assert "meridian" not in report["missing_live_capable_keys"]
+    assert "social_watch" not in report["missing_live_capable_keys"]
+    assert "social_watch" in report["missing_deferred_optional_keys"]
     assert "theses" not in report["connector_or_api_keys"]
     assert "theses" not in report["supplied_or_export_keys"]
     assert "theses" in report["missing_input_keys"]
@@ -167,8 +170,10 @@ def test_live_source_capability_cli_text(tmp_path):
     assert proc.returncode == 0
     assert "Live source capability valid: True" in proc.stdout
     assert "connector_or_api=" in proc.stdout
+    assert "deferred_optional=" in proc.stdout
     assert "Live source config:" in proc.stdout
     assert "missing behavior:" in proc.stdout
+    assert "Deferred optional live-source lanes:" in proc.stdout
     assert "expected path:" in proc.stdout
 
 

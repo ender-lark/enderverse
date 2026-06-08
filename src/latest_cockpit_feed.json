@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T02:04:39.792004+00:00",
+  "generated_at": "2026-06-08T02:21:52.297397+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T22:04:39.792004-04:00",
+        "date": "2026-06-07T22:21:52.297397-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T22:04:39.792004-04:00",
+        "date": "2026-06-07T22:21:52.297397-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1355,31 +1355,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T02:04:39.676688+00:00",
+      "last_run": "2026-06-08T02:21:52.171063+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T02:04:39.676688+00:00",
+      "last_run": "2026-06-08T02:21:52.171063+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T02:04:39.676688+00:00",
+      "last_run": "2026-06-08T02:21:52.171063+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-08T02:04:39.676688+00:00",
+      "last_run": "2026-06-08T02:21:52.171063+00:00",
       "note": "dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T02:04:39.676688+00:00",
+      "last_run": "2026-06-08T02:21:52.171063+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -12330,7 +12330,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 10.68
+        "connector_proof_age_hours": 10.97
       }
     ],
     "missing": [],
@@ -12609,13 +12609,11 @@
     },
     "connector_evidence": {
       "status": "has_data",
-      "line": "Connector/supplied evidence: present=20/22; missing live-capable=1.",
+      "line": "Connector/supplied evidence: present=20/22; missing live-capable=0.",
       "present_inputs": 20,
       "total_inputs": 22,
-      "missing_live_capable_count": 1,
-      "missing_live_capable_keys": [
-        "social_watch"
-      ],
+      "missing_live_capable_count": 0,
+      "missing_live_capable_keys": [],
       "live_source_config": {
         "configured_count": 1,
         "total_count": 1,

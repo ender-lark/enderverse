@@ -22,6 +22,10 @@ def test_canonical_cockpit_surfaces_operator_status():
     assert "Active event watch" in text
     assert "python src/go_live_checklist.py --format text" in text
     assert "python src/sudden_event_refresh.py --title" in text
+    assert "DEFERRED_OPTIONAL_SOURCE_KEYS" in text
+    assert "deferredDarkRows" in text
+    assert "sourceLaneWarning" in text
+    assert '`${deferredDark} deferred`' in text
 
 
 def test_rendered_cockpit_keeps_operator_status_card():

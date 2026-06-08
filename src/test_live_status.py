@@ -258,3 +258,62 @@ def test_format_text_points_live_source_dark_lanes_at_live_template():
     assert "Meridian apply: python src/manual_source_drop.py manual-live-source-drop.json --src-dir src" in text
     assert "<manual-live-source-drop.json>" not in text
     assert "apply: python src/manual_source_drop.py docs/manual_live_source_drop.template.json" not in text
+
+
+def test_format_text_treats_social_watch_as_deferred_optional_dark_lane():
+    status = live_status.build_status_summary(
+        readiness=_readiness(
+            dark_lane_keys=["social_watch"],
+            dark_lane_details=[{
+                "key": "social_watch",
+                "label": "Social Watch",
+                "next_step": "Supply social_watch.json after queued social build starts.",
+            }],
+            source_capability={
+                "present_inputs": 20,
+                "total_inputs": 22,
+                "connector_or_api_count": 15,
+                "supplied_or_export_count": 18,
+                "missing_live_capable_count": 0,
+                "missing_live_capable_keys": [],
+                "missing_deferred_optional_count": 1,
+                "missing_deferred_optional_keys": ["social_watch"],
+                "rows": [{
+                    "key": "social_watch",
+                    "present": False,
+                    "source": "reddit/social API or supplied normalized social cache",
+                    "routine_title": "Social Watch",
+                    "primary_mode": "connector_or_api",
+                    "candidate_paths": ["src/social_watch.json"],
+                    "missing_behavior": "Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.",
+                    "deferred_optional": True,
+                }],
+            },
+            next_steps=[
+                "Review dark lanes; missing optional lanes must stay visible, not checked clear.",
+                "Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.",
+            ],
+        ),
+        preview={
+            "preview_exists": True,
+            "server_running": True,
+            "canonical_url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+        },
+        open_store={"opportunities": []},
+        queue=_queue(),
+        feed={
+            "generated_at": "2026-06-07T22:00:00+00:00",
+            "lane_status": {"counts": {"has_data": 13, "not_checked": 1}},
+            "actions": [],
+        },
+    )
+
+    text = live_status.format_text(status)
+
+    assert "dark_lanes=1 (1 deferred)" in text
+    assert "Dark lanes: none" in text
+    assert "Deferred optional dark lanes:" in text
+    assert "- Social Watch: Supply social_watch.json after queued social build starts." in text
+    assert "No manual drop required for core go-live" in text
+    assert "Dark lane intake commands:" not in text
+    assert "Next steps:" not in text

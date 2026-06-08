@@ -96,6 +96,10 @@ until the core logic is stable; Notion sync comes later.
   - Added validation so Social Watch rows cannot escalate directly to buy, sell,
     trade, or Key Now; independent non-social confirmation is required before
     any action-lane promotion elsewhere.
+  - 2026-06-07 Stage 5 upgrade: missing Social Watch is now classified as a
+    deferred optional live-capable lane. It remains visible as dark/not checked
+    and is not a no-signal read, but it does not create a core go-live source
+    wait or manual-drop warning while the Reddit/social build stays queued.
 - Candidate reallocation brief.
   - Added `reallocation_brief.py` to wrap the existing funded-rotation planner
     into a dashboard feed block with candidate adds, funding trims, funding

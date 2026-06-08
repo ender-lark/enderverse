@@ -188,6 +188,11 @@ The dashboard shows the feed plus operator state:
   - Reddit/social remains last until the compliant feed is implemented. Missing
     social data is still visible as `not_checked`, but it should not compete for
     first-screen attention or promote an action without independent proof.
+  - Social Watch is a deferred optional live-capable lane while the compliant
+    Reddit/social feed remains queued. It must stay visible as `not_checked`,
+    but it does not create a core go-live source wait, manual-drop wait, or build
+    warning. This lets the rest of the system be ready without pretending the
+    social lane has been checked.
   - The canonical JSX cockpit includes a Commands view with current operator
     actions, system checks, source links, and the Social Watch queued/dark
     rule. Generated HTML may mirror commands, but it must not be the only place
@@ -240,6 +245,9 @@ The dashboard shows the feed plus operator state:
   - Lanes with data are marked `has_data`.
   - Missing source pulls are `not_checked` and visible as dark lanes.
   - Current status may be go-live ready while still showing optional dark lanes.
+  - Deferred optional lanes such as Social Watch are reported separately from
+    actionable missing source inputs: they stay dark/not checked, but they do
+    not block go-live or create a source wait.
 
 - Synthesis panel: `feed.synthesis`
   - Shows state of play, delta, hanging items, and any structured synthesis
@@ -546,6 +554,12 @@ Dark-lane rules:
 - Missing source pulls are never converted into checked-clear rows.
 - `checked_clear` is valid only after a source was actually checked and found
   empty under that lane's contract.
+- A deferred optional source lane can be dark without being a core source wait.
+  Current deferred key: `social_watch`.
+- Operator surfaces (`live_status.py`, `go_live_checklist.py`,
+  `completion_audit.py`, JSX operator card, and HTML mirror) split deferred
+  optional dark lanes from actionable dark lanes. Deferred Social Watch should
+  show as visible/not checked without producing a core manual-drop instruction.
 - Account Positions is live-capable through SnapTrade when the staged pull
   validates and is promoted through the broker-position cache. If SnapTrade
   fails and the fallback extractor is not validated, Account Positions should
