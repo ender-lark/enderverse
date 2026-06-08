@@ -81,13 +81,25 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert '["action","Today"]' in src
     assert "function todayPriorityRows(feed, actions, researchActions)" in src
     assert 'id="today-priority-stack"' in src
-    assert "only items that can change a near-term decision get promoted here" in src
-    assert "Ideas, research, and opportunity rows keep their original home below" in src
+    assert "Decision-first queue; only items that can change a near-term act" in src
+    assert "prospects overlap into Today only if timing or research unlock matters now" in src
     assert "What this changes:" in src
     assert "data backup" in src
     assert 'title="Action posture this row changes or requires."' in src
     assert 'title="How quickly the assumption can decay."' in src
     assert 'title="Primary source or lane."' in src
+
+
+def test_canonical_jsx_sections_start_as_summary_boxes():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert "const SECTION_DESCRIPTIONS" in src
+    assert "Decision-first queue; only items that can change a near-term act" in src
+    assert "function Section({ id, title, icon, badge, badgeColor, summary, description, children, openMap, setOpen, defaultOpen=false })" in src
+    assert 'Category summary and expandable backup detail.' in src
+    assert "expand" in src and "hide" in src
+    assert 'convictionCockpit.openSections.v2' in src
+    assert 'id="today-priority-stack"' in src and 'defaultOpen={false}' in src
 
 
 def test_canonical_jsx_has_ideas_and_ops_tab_homes():

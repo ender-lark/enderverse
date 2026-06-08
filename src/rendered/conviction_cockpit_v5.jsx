@@ -569,7 +569,7 @@ function FundstratMonthlyRows({ title, rows, empty }) {
     </div>
   );
 }
-function IfIWereYouBlock({ block, sectionId="if-i-were-you", defaultOpen=true, openMap, setOpen }) {
+function IfIWereYouBlock({ block, sectionId="if-i-were-you", defaultOpen=false, openMap, setOpen }) {
   const rows = (block&&block.rows)||[];
   return (
     <Section id={sectionId} title="If I Were You" icon=">" badge={rows.length?`${rows.length}`:"0"} badgeColor={rows.length?C.amber:C.faint} summary={clipText((block&&block.line)||"Review-only priorities are not available in this feed build.", 110)} openMap={openMap} setOpen={setOpen} defaultOpen={defaultOpen}>
@@ -590,32 +590,81 @@ function IfIWereYouBlock({ block, sectionId="if-i-were-you", defaultOpen=true, o
     </Section>
   );
 }
-function Section({ id, title, icon, badge, badgeColor, summary, children, openMap, setOpen, defaultOpen=true }) {
+const SECTION_DESCRIPTIONS = {
+  "status-checks": "Health summary for data lanes and build checks; open only when a warning changes trust in the dashboard.",
+  "today-priority-stack": "Decision-first queue; only items that can change a near-term act, wait, re-check, research, trim, hedge, or size call belong here.",
+  "if-i-were-you": "Plain-English review priorities; not execution and not a replacement for trade gates.",
+  "market-open-packet": "Morning decision packet; use this to refresh gates and blockers before capital moves.",
+  actions: "Underlying action engine detail; backup context for Today Focus rather than a second to-do list.",
+  "source-conflicts": "Bull and bear source splits; useful only when they change posture or conviction.",
+  "top-prospects": "Idea watchlist; prospects overlap into Today only if timing or research unlock matters now.",
+  "asymmetric-opportunities": "Evidence-backed skew prompts; review candidates, not automatic buys.",
+  "uw-action-runbook": "Live-check menu for UW-backed confirmation; use when a decision needs same-session evidence.",
+  "reallocation-brief": "Capital-efficiency view; compare better uses of cash before parking money in merely good ideas.",
+  "target-drift": "Sizing gaps versus working targets; use to decide whether to add, defer, or revise targets.",
+  "research-actions": "Research items that can change a decision; non-urgent research stays in Ideas.",
+  "fresh-signals": "Recently captured signals; useful only if they change action, timing, or research priority.",
+  "signal-log": "Watch-only signal memory; context lane, not a trade instruction lane.",
+  "bullish-flow": "UW flow candidates; confirm before promoting to Today or sizing capital.",
+  synthesis: "Distilled market read; macro and news are shown only when they change portfolio action.",
+  "source-audits": "Proof of source checks, routine receipts, and writebacks; use to judge data trust.",
+  feedback: "Open loops and stale reviews; close or refresh items before they distort decisions.",
+  radar: "Endorsed but unowned names; idea context until a concrete decision trigger appears.",
+  holdings: "Portfolio book; inspect exposures, accounts, sizing, and allocation guidance.",
+  "fundstrat-news": "Fundstrat source context; low-value updates stay collapsed unless they change decisions.",
+  "fundstrat-monthly": "Fundstrat thesis and allocation archive; useful context, not live tactical proof by itself.",
+  "fundstrat-daily": "Fast-decay Fundstrat calls; re-check live tape before acting.",
+  "fundstrat-news-gaps": "Missing Fundstrat evidence; dark gaps are not checked-clear.",
+  "if-i-were-you-news": "Plain-English priorities from source context; review-only.",
+  "system-cloud-routines": "Cloud routine health; failures show what data may be missing or stale.",
+  "system-cloud-routine-table": "Routine receipt details; diagnostic backup for cloud proof.",
+  "system-source-proof": "Connector, Fundstrat, UW, and Notion audit status.",
+  "system-upgrades": "Build queue and safe upgrade checks; system work stays separate from portfolio actions.",
+  "current-commands": "Useful operator commands for the current build.",
+  "operator-actions": "Day-to-day commands for refreshing, reviewing, and maintaining the cockpit.",
+  "system-checks": "Verification and system-health commands; use when diagnosing the machine.",
+  "source-links": "Durable source-of-truth links for repo, plans, and docs.",
+  market: "Portfolio-relevant macro and rotation context; compact unless it changes action.",
+  research: "Research queue; prioritize only what can change capital allocation.",
+  rpending: "Pending research you may need to prioritize.",
+  rdone: "Completed research with significant findings.",
+  cats: "Upcoming catalysts; use only when timing or risk changes.",
+  questions: "Open questions for you; not blockers unless a decision depends on them.",
+  "social-watch": "Queued social/reddit lane; dark means not checked, not no signal."
+};
+function Section({ id, title, icon, badge, badgeColor, summary, description, children, openMap, setOpen, defaultOpen=false }) {
   const isOpen = openMap[id] === undefined ? defaultOpen : openMap[id];
   const summaryNode = typeof summary === "function" ? summary({ isOpen }) : summary;
+  const desc = description || SECTION_DESCRIPTIONS[id] || "Category summary and expandable backup detail.";
+  const accent = badgeColor || C.faint;
+  const toggle = () => setOpen(s=>({...s,[id]: !(s[id]===undefined?defaultOpen:s[id])}));
   return (
     <div id={id} style={{ marginTop:14 }}>
-      <div onClick={()=>setOpen(s=>({...s,[id]: !(s[id]===undefined?defaultOpen:s[id])}))}
-        style={{ display:"flex", alignItems:"center", gap:9, cursor:"pointer", padding:"7px 2px", userSelect:"none" }}>
-        <span style={{ color:C.faint, fontFamily:mono, fontSize:11, transform:isOpen?"none":"rotate(-90deg)", transition:"transform .15s" }}>▾</span>
-        <span style={{ fontSize:14 }}>{icon}</span>
-        <span style={{ fontSize:13.5, fontWeight:700, color:C.text }}>{title}</span>
-        {badge!==undefined && badge!==null && (
-          <span style={{ fontFamily:mono, fontSize:11, color:badgeColor||C.faint, border:`1px solid ${(badgeColor||C.faint)}55`, borderRadius:99, padding:"1px 8px" }}>{badge}</span>
+      <div onClick={toggle}
+        style={{ cursor:"pointer", padding:"9px 10px", border:`1px solid ${isOpen?accent+"55":C.line}`, borderLeft:`4px solid ${accent}`, borderRadius:8, background:isOpen?`${accent}0b`:C.panel, userSelect:"none" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:9, minWidth:0 }}>
+          <span style={{ color:C.faint, fontFamily:mono, fontSize:11, width:12, transform:isOpen?"none":"rotate(-90deg)", transition:"transform .15s" }}>v</span>
+          <span style={{ fontSize:14 }}>{icon}</span>
+          <span style={{ fontSize:13.5, fontWeight:750, color:C.text, minWidth:0, flex:"1 1 auto" }}>{title}</span>
+          {badge!==undefined && badge!==null && (
+            <span style={{ fontFamily:mono, fontSize:11, color:accent, border:`1px solid ${accent}55`, borderRadius:99, padding:"1px 8px", whiteSpace:"nowrap", background:`${accent}10` }}>{badge}</span>
+          )}
+          <span style={{ fontFamily:mono, fontSize:10.5, color:isOpen?C.faint:accent, whiteSpace:"nowrap" }}>{isOpen?"hide":"expand"}</span>
+        </div>
+        <div style={{ marginTop:6, fontSize:11.6, color:C.dim, lineHeight:1.35 }}>{desc}</div>
+        {summaryNode && (
+          <div style={{ marginTop:4, color:isOpen?C.faint:C.text, fontSize:11.7, lineHeight:1.35, overflow:"hidden" }}>
+            {summaryNode}
+          </div>
         )}
       </div>
-      {!isOpen && summaryNode && (
-        <div style={{ margin:"-2px 0 5px 31px", color:C.dim, fontSize:11.7, lineHeight:1.35, overflow:"hidden" }}>
-          {summaryNode}
-        </div>
-      )}
       {isOpen && <div style={{ marginTop:4 }}>{children}</div>}
     </div>
   );
 }
 const card = { background:C.panel, border:`1px solid ${C.line}`, borderRadius:11, padding:"12px 14px" };
 const muted = { color:C.dim, fontSize:12.5 };
-const OPEN_STORAGE_KEY = "convictionCockpit.openSections";
+const OPEN_STORAGE_KEY = "convictionCockpit.openSections.v2";
 function loadStoredOpen(){
   if(typeof window === "undefined" || !window.localStorage) return {};
   try {
@@ -882,11 +931,7 @@ function TodayPriorityStack({ rows, openMap, setOpen, posOpen, setPosOpen }) {
     ? compactJoin([`${rows.length} promoted`, rows[0]&&`${rows[0].ticker?`${rows[0].ticker} `:""}${clipText(rows[0].title,72)}`])
     : "No time-sensitive ideas or research items promoted above the detail lanes.";
   return (
-    <Section id="today-priority-stack" title="Today Priority Stack" icon="!" badge={rows.length?`${rows.length}`:"quiet"} badgeColor={rows.length?C.amber:C.green} summary={summary} openMap={openMap} setOpen={setOpen} defaultOpen={true}>
-      <div style={{ ...card, marginBottom:8, borderColor:C.blue+"33", background:C.blue+"0a" }}>
-        <div style={{ fontSize:12.4, color:C.text, fontWeight:700 }}>Simple version: only items that can change a near-term decision get promoted here.</div>
-        <div style={{ marginTop:4, fontSize:11.7, color:C.dim }}>Ideas, research, and opportunity rows keep their original home below. They overlap into Today only when timing, capital priority, risk, or research unlock matters now.</div>
-      </div>
+    <Section id="today-priority-stack" title="Today Priority Stack" icon="!" badge={rows.length?`${rows.length}`:"quiet"} badgeColor={rows.length?C.amber:C.green} summary={summary} openMap={openMap} setOpen={setOpen} defaultOpen={false}>
       {!rows.length && <div style={{ ...card, fontSize:12, color:C.faint }}>No promoted Today items. Use the lower sections as backup context, not as a forced action list.</div>}
       {(rows||[]).map((r,i)=>{
         const key=`todaypri${r.key||i}`, isO=posOpen[key];
@@ -1737,7 +1782,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {mode==="book" && (<>
 
         {/* HOLDINGS (from FEED) */}
-        <Section id="holdings" title="Holdings" icon="📊" summary={portfolioView ? compactJoin([`${view==="agg"?"Combined":view==="parents"?"Parents":"SKB"} ${money(portfolioView.total_value)}`, `${(portfolioView.rows||[]).length} direct rows`, (VM.portfolioViews||{}).as_of&&`as of ${(VM.portfolioViews||{}).as_of}`]) : compactJoin([`${(VM.holdings||[]).length} sleeve groups`, "account view pending"])} openMap={open} setOpen={setOpen} defaultOpen={true}>
+        <Section id="holdings" title="Holdings" icon="📊" summary={portfolioView ? compactJoin([`${view==="agg"?"Combined":view==="parents"?"Parents":"SKB"} ${money(portfolioView.total_value)}`, `${(portfolioView.rows||[]).length} direct rows`, (VM.portfolioViews||{}).as_of&&`as of ${(VM.portfolioViews||{}).as_of}`]) : compactJoin([`${(VM.holdings||[]).length} sleeve groups`, "account view pending"])} openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8, marginBottom:8 }}>
             <div style={{ display:"flex", gap:4, background:C.panel, border:`1px solid ${C.line}`, borderRadius:8, padding:3 }}>
               {[["agg","Aggregate"],["parents","Parents"],["skb","SKB"]].map(([k,l])=>(
@@ -1910,7 +1955,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         {mode==="news" && (<>
 
-        <Section id="fundstrat-news" title="Fundstrat News" icon="F" badge={(VM.fundstratNews&&VM.fundstratNews.status)==="has_data"?"loaded":"not checked"} badgeColor={(VM.fundstratNews&&VM.fundstratNews.status)==="has_data"?C.green:C.amber} summary={clipText((VM.fundstratNews||{}).line || "No Fundstrat news block in this feed build.", 120)} openMap={open} setOpen={setOpen} defaultOpen={true}>
+        <Section id="fundstrat-news" title="Fundstrat News" icon="F" badge={(VM.fundstratNews&&VM.fundstratNews.status)==="has_data"?"loaded":"not checked"} badgeColor={(VM.fundstratNews&&VM.fundstratNews.status)==="has_data"?C.green:C.amber} summary={clipText((VM.fundstratNews||{}).line || "No Fundstrat news block in this feed build.", 120)} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const F=VM.fundstratNews||{}, M=F.monthly||{}, D=F.daily||{}, gaps=F.gaps||[];
             return (
@@ -1920,7 +1965,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   {F.honesty_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.8, color:C.faint }}>{F.honesty_rule}</div>}
                 </div>
 
-                <Section id="fundstrat-monthly" title="Monthly Bible / Allocation" icon="M" badge={M.deck_date||"not checked"} badgeColor={M.deck_date?C.green:C.amber} summary={compactJoin([M.deck_date&&`deck ${M.deck_date}`, M.age_days!=null&&`${M.age_days}d old`, (M.allocation_plan||[]).length&&`${(M.allocation_plan||[]).length} allocation cues`]) || "Monthly bible not checked."} openMap={open} setOpen={setOpen} defaultOpen={true}>
+                <Section id="fundstrat-monthly" title="Monthly Bible / Allocation" icon="M" badge={M.deck_date||"not checked"} badgeColor={M.deck_date?C.green:C.amber} summary={compactJoin([M.deck_date&&`deck ${M.deck_date}`, M.age_days!=null&&`${M.age_days}d old`, (M.allocation_plan||[]).length&&`${(M.allocation_plan||[]).length} allocation cues`]) || "Monthly bible not checked."} openMap={open} setOpen={setOpen} defaultOpen={false}>
                   <div style={{ ...card, marginBottom:8 }}>
                     <div style={{ fontFamily:mono, fontSize:10.5, color:C.faint, marginBottom:5 }}>Source: {M.source_file||"not captured"} | {M.freshness_label||"not checked"}</div>
                     <div style={{ fontSize:12, color:C.dim }}>{M.freshness_judgment||"No monthly judgment available."}</div>
@@ -1936,7 +1981,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   <FundstratMonthlyRows title="Bottom 5 SMID" rows={M.bottom5_smid||[]} empty="Bottom 5 SMID is not captured in this feed." />
                 </Section>
 
-                <Section id="fundstrat-daily" title="Daily Additions / Deltas" icon="D" badge={D.count?`${D.count}`:"0"} badgeColor={D.count?C.blue:C.faint} summary={compactJoin([D.latest_date&&`latest ${D.latest_date}`, D.count!=null&&`${D.count} stored call${D.count===1?"":"s"}`, D.freshness_judgment&&clipText(D.freshness_judgment,70)]) || "No full-body daily calls stored."} openMap={open} setOpen={setOpen} defaultOpen={true}>
+                <Section id="fundstrat-daily" title="Daily Additions / Deltas" icon="D" badge={D.count?`${D.count}`:"0"} badgeColor={D.count?C.blue:C.faint} summary={compactJoin([D.latest_date&&`latest ${D.latest_date}`, D.count!=null&&`${D.count} stored call${D.count===1?"":"s"}`, D.freshness_judgment&&clipText(D.freshness_judgment,70)]) || "No full-body daily calls stored."} openMap={open} setOpen={setOpen} defaultOpen={false}>
                   <div style={{ ...card, marginBottom:8, fontSize:12, color:C.dim }}>
                     {D.freshness_judgment||"No full-body Fundstrat daily rows are currently stored."}
                     <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>full-body {D.full_body_entries||0} | snippet-only {D.snippet_only_entries||0} | stored daily {D.stored_daily_calls||0}</div>
@@ -1956,7 +2001,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   ))}
                 </Section>
 
-                <Section id="fundstrat-news-gaps" title="Fundstrat Data Gaps" icon="!" badge={gaps.length?`${gaps.length}`:"0"} badgeColor={gaps.length?C.amber:C.green} summary={gaps.length ? clipText(gaps[0].line,100) : "No captured Fundstrat News gaps."} openMap={open} setOpen={setOpen} defaultOpen={true}>
+                <Section id="fundstrat-news-gaps" title="Fundstrat Data Gaps" icon="!" badge={gaps.length?`${gaps.length}`:"0"} badgeColor={gaps.length?C.amber:C.green} summary={gaps.length ? clipText(gaps[0].line,100) : "No captured Fundstrat News gaps."} openMap={open} setOpen={setOpen} defaultOpen={false}>
                   {!gaps.length && <div style={{ ...card, fontSize:12, color:C.green }}>No gaps surfaced by the Fundstrat News builder.</div>}
                   {gaps.map((g,i)=>(
                     <div key={`${g.key}${i}`} style={{ ...card, marginBottom:7, borderColor:(g.severity==="warn"?C.amber:C.blue)+"44" }}>
@@ -1977,7 +2022,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         {mode==="system" && (<>
 
-        <Section id="system-cloud-routines" title="Cloud Routine Health" icon="!" badge={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return (c.failed_latest_count||0)?`${c.failed_latest_count} fail`:(c.expected_count?`${c.scheduled_success_count||0}/${c.expected_count}`:"audit"); })()} badgeColor={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return (c.failed_latest_count||0)?C.red:(c.expected_count && (c.scheduled_success_count||0) >= c.expected_count ? C.green : C.amber); })()} summary={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.line || "Cloud routine proof is not loaded."; })()} openMap={open} setOpen={setOpen} defaultOpen={true}>
+        <Section id="system-cloud-routines" title="Cloud Routine Health" icon="!" badge={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return (c.failed_latest_count||0)?`${c.failed_latest_count} fail`:(c.expected_count?`${c.scheduled_success_count||0}/${c.expected_count}`:"audit"); })()} badgeColor={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return (c.failed_latest_count||0)?C.red:(c.expected_count && (c.scheduled_success_count||0) >= c.expected_count ? C.green : C.amber); })()} summary={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.line || "Cloud routine proof is not loaded."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
             const cloud=((VM.sourceAudits||{}).cloud_routines)||{};
             const routineRows=cloud.rows||[];
@@ -2070,12 +2115,12 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         {mode==="commands" && (<>
 
-        <Section id="current-commands" title="Current commands" icon="!" badge={`${COMMAND_ACTIONS.length} actions`} badgeColor={C.blue} summary="Operator actions and checks for the current Investing OS build." openMap={open} setOpen={setOpen} defaultOpen={true}>
+        <Section id="current-commands" title="Current commands" icon="!" badge={`${COMMAND_ACTIONS.length} actions`} badgeColor={C.blue} summary="Operator actions and checks for the current Investing OS build." openMap={open} setOpen={setOpen} defaultOpen={false}>
           <div style={{ marginBottom:10, ...card, borderColor:C.blue+"44", background:C.blue+"0a" }}>
             <div style={{ fontSize:12.5, fontWeight:700, color:C.text }}>Use this tab as the practical runbook.</div>
             <div style={{ marginTop:5, fontSize:12, color:C.dim }}>The cockpit is still review-only: commands refresh evidence, inspect gates, or update memory after you explicitly decide. They do not place trades.</div>
           </div>
-          <Section id="operator-actions" title="Operating actions" icon=">" badge={`${COMMAND_ACTIONS.length}`} badgeColor={C.green} summary="Start, refresh, review packet, reallocation, and open actions." openMap={open} setOpen={setOpen} defaultOpen={true}>
+          <Section id="operator-actions" title="Operating actions" icon=">" badge={`${COMMAND_ACTIONS.length}`} badgeColor={C.green} summary="Start, refresh, review packet, reallocation, and open actions." openMap={open} setOpen={setOpen} defaultOpen={false}>
             {COMMAND_ACTIONS.map((row,i)=><CommandRow key={`${row.name}${i}`} row={row} />)}
           </Section>
           <Section id="system-checks" title="System checks" icon="?" badge={`${COMMAND_CHECKS.length}`} badgeColor={C.amber} summary="Status, alerts, UW, SnapTrade staging, verification, and cloud proof." openMap={open} setOpen={setOpen} defaultOpen={false}>
