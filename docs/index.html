@@ -265,11 +265,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-08 17:27 ET
+        built 2026-06-08 19:04 ET
 
       </div>
-      <div class="stamp">sourced: portfolio 06-08  uw_price 06-08  uw_macro 06-08  fundstrat_bible 05-28  fundstrat_daily 06-05 </div>
-      <div class="stale-warn"> Stale sources: fundstrat_daily</div>
+      <div class="stamp">sourced: portfolio 06-08  uw_price 06-08  uw_macro 06-08  fundstrat_bible 05-28  fundstrat_daily 06-08</div>
+
     </div>
     <div style="text-align:right">
 
@@ -290,7 +290,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card summary-caveat">
   <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
-  <div class="summary-line">Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">1 stale lane means this is not an all-clear read.</div><div class="summary-line">1 deferred optional lane also remains visible as not checked.</div>
+  <div class="summary-line">Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">Core source lanes are clear; 1 queued optional lane remains visible as not checked.</div>
 </div>
 
 <div class="quick-nav">
@@ -304,8 +304,8 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <a class="quick-link" href="#source-audits"><strong>proof</strong> UW results</a>
   <a class="quick-link" href="#feedback-loops"><strong>2</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
-  <a class="quick-link" href="#lane-status"><strong>1 gaps</strong> source lanes</a>
-  <a class="quick-link" href="#feedback-loops"><strong>7 scoring</strong> source calls</a>
+  <a class="quick-link" href="#lane-status"><strong>1 deferred</strong> source lanes</a>
+  <a class="quick-link" href="#feedback-loops"><strong>8 scoring</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
   <a class="quick-link" href="#social-watch"><strong>0</strong> social dark</a>
 </div>
@@ -743,7 +743,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 <div class="context-col">
   <div class="context-label">Radar</div>
-  <div class="context-row"><span class="context-ticker">QQQ</span>watch<span class="context-sub">Newton | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">RSP</span>watch<span class="context-sub">Newton | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">SOX</span>watch<span class="context-sub">Newton | 2026-06-05</span></div>
+  <div class="context-row"><span class="context-ticker">MSTR</span>watch<span class="context-sub">Farrell | 2026-06-08</span></div><div class="context-row"><span class="context-ticker">GOOGL</span>buy<span class="context-sub">Fundstrat | 2026-06-05</span></div><div class="context-row"><span class="context-ticker">QQQ</span>watch<span class="context-sub">Newton | 2026-06-05</span></div>
 </div>
 <div class="context-col">
   <div class="context-label">Bullish flow</div>
@@ -923,17 +923,17 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="operator-status">
   <div class="card-title"><span class="icon">!</span> Operator status
-    <span class="operator-warn" style="font-size:11px;margin-left:auto">WARN</span>
+    <span class="operator-pass" style="font-size:11px;margin-left:auto">PASS</span>
   </div>
   <div class="operator-grid">
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">7</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">2 new</div></a>
-    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-warn">1 stale, 1 deferred</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">7 scoring</div></a>
+    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">8 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 12/14; 1 re-check</div>
+  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 12/14</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -956,7 +956,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon">?</span> UW action runbook
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
   </div>
-  <div class="feedback-line">UW action runbook: 5 check set(s), 21 scoped ticker(s); endpoint results not claimed.</div>
+  <div class="feedback-line">UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.</div>
 
 <div class="small-item">
   <span class="tag t-warn">endpoint proof has_data</span>
@@ -1000,7 +1000,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="context-ticker">Fundstrat signal confirmation</span>
   <span class="tag t-conf">priority 4</span>
   <span class="small-muted">Fundstrat-derived calls should be checked against live market structure before action.</span>
-  <span class="small-muted">Tickers: QQQ, RSP, SOX, GOOGL, RYF, NVDA, ANET, MAGS, XOP</span>
+  <span class="small-muted">Tickers: MSTR, GOOGL, QQQ, RSP, SOX, NVDA, ANET, MAGS, RYF, XOP</span>
 
   <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO</span>
   <span class="small-muted">Blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing</span>
@@ -1064,27 +1064,27 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">event_risk | 2026-06-03</span>
 </div>
 <div class="small-item">
+  <span class="context-ticker">MSTR</span>
+  <span>MSTR watch</span>
+  <span class="small-muted">Near-term patience remains preferred: reserve rebuild should ease immediate bearish pressure, but reserve coverage near 7 months still argues against adding until STRC demand improves.</span>
+  <span class="small-muted">fundstrat_daily | 2026-06-08</span>
+</div>
+<div class="small-item">
+  <span class="context-ticker">GOOGL</span>
+  <span>GOOGL buy</span>
+  <span class="small-muted">GOOGL is attractive technically on weakness, with support from 341 to 350 over the next week; the capital raise should be only a temporary negative.</span>
+  <span class="small-muted">fundstrat_daily | 2026-06-05</span>
+</div>
+<div class="small-item">
   <span class="context-ticker">QQQ</span>
   <span>QQQ watch</span>
   <span class="small-muted">June 5 technical note makes 695-705 the first support check; failure shifts risk toward a 675 second-leg target. Re-check Monday pre-market before adding AI beta.</span>
-  <span class="small-muted">fundstrat_daily | 2026-06-05</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">RSP</span>
-  <span>RSP watch</span>
-  <span class="small-muted">June 5 read favors equal-weighted/value/cyclical participation over tech-heavy cap-weighted exposure while growth consolidates. Use as rotation context, not an auto-trade.</span>
-  <span class="small-muted">fundstrat_daily | 2026-06-05</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">SOX</span>
-  <span>SOX watch</span>
-  <span class="small-muted">SOX held near 12,114 base-line support after the June 5 break; a daily close below it would raise tech-underperformance risk. Re-check before semi adds.</span>
   <span class="small-muted">fundstrat_daily | 2026-06-05</span>
 </div></div>
 </div>
 <div class="card">
   <div class="card-title"><span class="icon">!</span> Why not acting</div>
-  <div class="small-list"><div class="feedback-line">Why-not-acting lane: 21 watch-only signal(s) kept out of trade prompts.</div>
+  <div class="small-list"><div class="feedback-line">Why-not-acting lane: 22 watch-only signal(s) kept out of trade prompts.</div>
 <div class="small-item">
   <span class="context-ticker">XLF, GS, ITA</span>
   <span>Macro: complacent vol plus steep curve cyclical tailwind</span>
@@ -1127,14 +1127,8 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card" id="lane-status">
   <div class="card-title"><span class="icon"></span> Lane status</div>
-  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 12</span><span class="lane-status ls-checked_clear">checked clear: 0</span><span class="lane-status ls-not_checked">not checked: 1</span><span class="lane-status ls-stale">stale: 1</span><span class="lane-status ls-failed">failed: 0</span></div>
+  <div class="lane-counts"><span class="lane-status ls-has_data">has data: 13</span><span class="lane-status ls-checked_clear">checked clear: 0</span><span class="lane-status ls-not_checked">not checked: 1</span><span class="lane-status ls-stale">stale: 0</span><span class="lane-status ls-failed">failed: 0</span></div>
 
-<div class="lane-row">
-  <span class="lane-key">FS Daily</span>
-  <span class="lane-status ls-stale">stale</span>
-  <span class="summary-muted">past freshness window</span>
-  <div class="lane-command-list"><div class="operator-command">FS Daily validate: python src/manual_source_drop.py &lt;manual-drop.json&gt; --src-dir src --validate-only</div><div class="operator-command">FS Daily apply: python src/manual_source_drop.py &lt;manual-drop.json&gt; --src-dir src</div></div>
-</div>
 <div class="lane-row">
   <span class="lane-key">Social Watch</span>
   <span class="lane-status ls-not_checked">not checked</span>
@@ -1161,6 +1155,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
 <div class="lane-row">
   <span class="lane-key">FS Bible</span>
+  <span class="lane-status ls-has_data">has data</span>
+  <span class="summary-muted">checked</span>
+
+</div>
+<div class="lane-row">
+  <span class="lane-key">FS Daily</span>
   <span class="lane-status ls-has_data">has data</span>
   <span class="summary-muted">checked</span>
 
@@ -1205,13 +1205,13 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">UW routing</span>UW routing: 5 scenario profile(s) recommended; top=Pre-market crash triage.
 </div>
 <div class="audit-row">
-  <span class="audit-k">UW action runbook</span>UW action runbook: 5 check set(s), 21 scoped ticker(s); endpoint results not claimed.
+  <span class="audit-k">UW action runbook</span>UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.
 </div>
 <div class="audit-row">
   <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.
 </div>
 <div class="audit-row">
-  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 2 full-body, 0 snippet-only, 1 daily calls; stored cache: 18 inbox entries (7 full-body, 11 snippet-only), 7 daily calls, 7 stored source-call candidates.
+  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 1 full-body, 0 snippet-only, 1 daily calls; stored cache: 20 inbox entries (9 full-body, 11 snippet-only), 9 daily calls, 0 stored source-call candidates.
 </div>
 <div class="audit-row">
   <span class="audit-k">Notion/writeback</span>Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.
@@ -1232,7 +1232,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T21:27:14.300360+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T21:27:14.300360+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T21:27:14.300360+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T21:27:14.300360+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T21:27:14.300360+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T23:04:36.347773+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T23:04:36.347773+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T23:04:36.347773+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T23:04:36.347773+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T23:04:36.347773+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
@@ -1252,8 +1252,8 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon"></span> Today&#39;s read
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2026-06-08</span>
   </div>
-  <div class="s-label">State of play</div><div class="s-body">Repo evidence read: 12 lane(s) have data and 1 optional lane(s) are not checked. Top action is Conviction gap: NVDA is under target (watch, high confidence, source target_drift). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
-  <div class="s-label">24-48h delta</div><div class="s-body">Latest Fundstrat Daily compact calls in radar: QQQ watch, RSP watch, SOX watch. Target drift: 12 sizing gap(s) vs AI working model (1 under, 2 over, 9 missing); GRNY oversized 9.5% vs 3.0%; SMH oversized 9.0% vs 5.0%; NVDA undersized 7.1% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more</div>
+  <div class="s-label">State of play</div><div class="s-body">Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Conviction gap: NVDA is under target (watch, high confidence, source target_drift). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
+  <div class="s-label">24-48h delta</div><div class="s-body">Latest Fundstrat Daily compact calls in radar: MSTR watch, GOOGL buy, QQQ watch. Target drift: 12 sizing gap(s) vs AI working model (1 under, 2 over, 9 missing); GRNY oversized 9.5% vs 3.0%; SMH oversized 9.0% vs 5.0%; NVDA undersized 7.1% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more</div>
 
 <div class="s-label">Hanging / unresolved</div>
 <ul class="hang-list"><li>Operator review still required: NVDA is 7.1% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.</li><li>Social Watch is not checked: Reddit/social early-signal anomalies are not checked; absence is not no social signal.</li></ul>
@@ -1494,6 +1494,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="lean-ticker">GS</span>
   <span class="tag lag" style="margin-left:6px">LAGGING</span>
   <div class="lean-headline">GS: Promising and endorsed, but still lagging  favorable entry only once the rotation turns (not owned).</div>
+  <div class="lean-sub">Clears when: Clears it: the rotation turning up (lagging -&gt; turning up), confirming the catch-up.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">MSTR</span>
+  <span class="tag lag" style="margin-left:6px">LAGGING</span>
+  <div class="lean-headline">MSTR: Promising and endorsed, but still lagging  favorable entry only once the rotation turns (not owned).</div>
   <div class="lean-sub">Clears when: Clears it: the rotation turning up (lagging -&gt; turning up), confirming the catch-up.</div>
 </div>
 <div class="lean-item">
@@ -4705,7 +4711,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 <div id="tab-news" style="display:none">
   <div class="card">
     <div class="card-title"><span class="icon">F</span> Fundstrat News</div>
-    <div class="summary-line">Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID 5, daily calls 7 latest 2026-06-05.</div>
+    <div class="summary-line">Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID 5, daily calls 9 latest 2026-06-08.</div>
     <div class="summary-muted" style="font-size:11px">Fundstrat is the baseline source of truth, but monthly list membership is not an execution trigger; stale, missing, or snippet-only data stays labeled.</div>
   </div>
   <div class="card">
@@ -4876,9 +4882,19 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 </div>
   <div class="card">
     <div class="card-title"><span class="icon">D</span> Daily Additions / Deltas</div>
-    <div class="summary-line">Latest 2026-06-05 | stored 7</div>
+    <div class="summary-line">Latest 2026-06-08 | stored 9</div>
     <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing.</div>
     <div class="small-list">
+<div class="small-item">
+  <strong>QQQ</strong>
+  <span class="small-muted">2026-06-08 | Newton | re-check timing</span>
+  <span class="small-muted">Bounce should stall below 749.5 and can roll into another leg lower next week; 715-725 is the main support zone and short-term traders should stay defensive.</span>
+</div>
+<div class="small-item">
+  <strong>MSTR</strong>
+  <span class="small-muted">2026-06-08 | Farrell | re-check timing</span>
+  <span class="small-muted">Near-term patience remains preferred: reserve rebuild should ease immediate bearish pressure, but reserve coverage near 7 months still argues against adding until STRC demand improves.</span>
+</div>
 <div class="small-item">
   <strong>SOX</strong>
   <span class="small-muted">2026-06-05 | Newton | re-check timing</span>

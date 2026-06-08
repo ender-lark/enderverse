@@ -124,5 +124,23 @@
     "confidence_policy": "Treat as context until lane, catalyst, and current validation are clear.",
     "source_domain": "fundstrat_general",
     "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant."
+  },
+  {
+    "source": "farrell",
+    "ticker": "MSTR",
+    "tier": "C",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "Near-term patience remains preferred: reserve rebuild should ease immediate bearish pressure, but reserve coverage near 7 months still argues against adding until STRC demand improves.",
+    "falsification_condition": "Hard to falsify; score directional accuracy only at window end",
+    "date": "2026-06-08",
+    "window_end": "2026-10-06",
+    "window_days": 120,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-08",
+    "fundstrat_lane": "crypto",
+    "source_domain": "crypto_strategy",
+    "source_weight_note": "Crypto-specific context; useful for crypto sleeve and crypto-exposed equities, not broad macro confirmation by itself.",
+    "confidence_policy": "Keep crypto analysis scoped to crypto/crypto-exposed positions and validate against live risk."
   }
 ]
