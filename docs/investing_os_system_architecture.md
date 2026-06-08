@@ -170,7 +170,19 @@ The system synthesizes only from explicit source or repo evidence:
     supplied. It does not check cash, tax lots, wash-sale rules, account-level
     permissions, or final sizing; those remain pre-trade/operator gates.
 
-  Staged pull and validation sequence:
+  Preferred daily/post-trade refresh:
+
+  ```powershell
+  python src\snaptrade_book_refresh.py --refresh-dashboard
+  ```
+
+  Stage-only inspection without replacing the live book:
+
+  ```powershell
+  python src\snaptrade_book_refresh.py --no-promote
+  ```
+
+  Lower-level staged pull and validation sequence:
 
   ```powershell
   python src\snaptrade_positions_import.py --pull --profiles src\snaptrade_profiles.local.json --raw-out tmp\snaptrade_raw.json --combined-out tmp\snaptrade_combined.json

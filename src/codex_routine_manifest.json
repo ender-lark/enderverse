@@ -104,10 +104,11 @@
       "id": "broker_position_intake",
       "title": "Broker Position Intake",
       "status": "active",
-      "cadence": "when_broker_uploads_are_supplied",
+      "cadence": "market_day_daily_or_after_operator_reports_trades",
       "doc": "src/codex_routines/broker_position_intake.md",
       "separation_group": "source_intake",
       "input_boundaries": [
+        "SnapTrade read-only account API via local non-secret profile config and environment secrets",
         "Selectable-text broker PDFs",
         "Broker text exports",
         "Externally generated combined.json"
@@ -118,6 +119,16 @@
         "src/position_reconciliation.json"
       ],
       "commands": [
+        {
+          "id": "snaptrade_book_refresh",
+          "command": "python src/snaptrade_book_refresh.py --refresh-dashboard",
+          "preferred_for": "daily market-day account refresh and whenever the operator reports trades"
+        },
+        {
+          "id": "snaptrade_stage_validate_only",
+          "command": "python src/snaptrade_book_refresh.py --no-promote",
+          "fallback_for": "safe validation when the operator wants to inspect staged account data before promotion"
+        },
         {
           "id": "extract_combined",
           "command": "python src/broker_pdf_extractor.py <pdfs-or-text-files> --out combined.json"

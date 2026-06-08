@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T16:50:23.190746+00:00",
+  "generated_at": "2026-06-08T16:58:39.157564+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-08 \u00b7 uw_price 06-08 \u00b7 uw_macro 06-08 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05 \u26a0\ufe0f",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-08T12:50:23.190746-04:00",
+        "date": "2026-06-08T12:58:39.157564-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-08T12:50:23.190746-04:00",
+        "date": "2026-06-08T12:58:39.157564-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -526,7 +526,7 @@
             "broker": "Robinhood",
             "account": "Robinhood Traditional Ira 1369",
             "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-            "market_value": 24832.92
+            "market_value": 24834.11
           },
           {
             "owner": "SKB",
@@ -1000,14 +1000,14 @@
             "broker": "Schwab",
             "account": "Individual ...254 Individual ...254",
             "label": "SKB Schwab: Individual ...254 Individual ...254",
-            "market_value": 18734.8
+            "market_value": 18718.0
           },
           {
             "owner": "SKB",
             "broker": "Robinhood",
             "account": "Robinhood Traditional Ira 1369",
             "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-            "market_value": 8029.2
+            "market_value": 8025.6
           },
           {
             "owner": "Parents",
@@ -1243,7 +1243,7 @@
         {
           "t": "GRNY",
           "n": "GRNY",
-          "pct": 9.493626627506686,
+          "pct": 9.495730069251213,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1263,7 +1263,7 @@
         {
           "t": "GRNJ",
           "n": "GRNJ",
-          "pct": 8.405250298797709,
+          "pct": 8.40978519789379,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1291,7 +1291,7 @@
         {
           "t": "SMH",
           "n": "SMH",
-          "pct": 8.97973193348141,
+          "pct": 8.97841513028722,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1311,7 +1311,7 @@
         {
           "t": "NVDA",
           "n": "NVDA",
-          "pct": 7.109490477174203,
+          "pct": 7.111585280873498,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1331,7 +1331,7 @@
         {
           "t": "IVES",
           "n": "IVES",
-          "pct": 4.425835979674816,
+          "pct": 4.424463101529465,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1351,7 +1351,7 @@
         {
           "t": "MAGS",
           "n": "MAGS",
-          "pct": 3.7984542056144615,
+          "pct": 3.797416308769951,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1371,7 +1371,7 @@
         {
           "t": "MU",
           "n": "MU",
-          "pct": 3.0125855356819713,
+          "pct": 3.0132740834720333,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1399,7 +1399,7 @@
         {
           "t": "LEU",
           "n": "LEU",
-          "pct": 4.832756022528733,
+          "pct": 4.831352019253001,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1419,7 +1419,7 @@
         {
           "t": "UUUU",
           "n": "UUUU",
-          "pct": 1.8081598598439899,
+          "pct": 1.8084129890476395,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1447,7 +1447,7 @@
         {
           "t": "XLF",
           "n": "XLF",
-          "pct": 4.072510023535491,
+          "pct": 4.072146424476985,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1475,7 +1475,7 @@
         {
           "t": "VOLT",
           "n": "VOLT",
-          "pct": 4.056015429118351,
+          "pct": 4.0548990333451345,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1503,7 +1503,7 @@
         {
           "t": "BMNR",
           "n": "BMNR",
-          "pct": 3.0211798065595104,
+          "pct": 3.018240050578108,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1531,7 +1531,7 @@
         {
           "t": "MP",
           "n": "MP",
-          "pct": 0.9138218829353546,
+          "pct": 0.9138981400050301,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1731,31 +1731,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T16:50:23.061548+00:00",
+      "last_run": "2026-06-08T16:58:39.039177+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T16:50:23.061548+00:00",
+      "last_run": "2026-06-08T16:58:39.039177+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T16:50:23.061548+00:00",
+      "last_run": "2026-06-08T16:58:39.039177+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-08T16:50:23.061548+00:00",
+      "last_run": "2026-06-08T16:58:39.039177+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T16:50:23.061548+00:00",
+      "last_run": "2026-06-08T16:58:39.039177+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -2736,10 +2736,10 @@
       {
         "ticker": "GRNY",
         "direction": "OVERSIZED",
-        "actual_pct": 9.4936,
+        "actual_pct": 9.4957,
         "target_pct": 3.0,
-        "drift_relative": 2.164542,
-        "drift_absolute_pct": 6.4936,
+        "drift_relative": 2.165243,
+        "drift_absolute_pct": 6.4957,
         "flags": [
           "CONCENTRATION_CHECK",
           "ALARM_DRIFT"
@@ -2749,10 +2749,10 @@
       {
         "ticker": "SMH",
         "direction": "OVERSIZED",
-        "actual_pct": 8.9797,
+        "actual_pct": 8.9784,
         "target_pct": 5.0,
-        "drift_relative": 0.795946,
-        "drift_absolute_pct": 3.9797,
+        "drift_relative": 0.795683,
+        "drift_absolute_pct": 3.9784,
         "flags": [
           "CONCENTRATION_CHECK",
           "ALARM_DRIFT"
@@ -2762,10 +2762,10 @@
       {
         "ticker": "NVDA",
         "direction": "UNDERSIZED",
-        "actual_pct": 7.1095,
+        "actual_pct": 7.1116,
         "target_pct": 12.0,
-        "drift_relative": -0.407542,
-        "drift_absolute_pct": -4.8905,
+        "drift_relative": -0.407368,
+        "drift_absolute_pct": -4.8884,
         "flags": [
           "P_UNDERSIZE_CANDIDATE",
           "ALARM_DRIFT"
@@ -3129,13 +3129,13 @@
     "views": {
       "combined": {
         "key": "combined",
-        "total_value": 1873341.0,
+        "total_value": 1872747.0,
         "rows": [
           {
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 6574.0,
-            "market_value": 177847.82,
+            "market_value": 177831.49,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3143,13 +3143,13 @@
             "category": "Quality core",
             "account": "Multiple",
             "owner": "Multiple",
-            "pct": 9.49
+            "pct": 9.5
           },
           {
             "ticker": "SMH",
             "description": "VanEck Semiconductor ETF",
             "shares": 285.046,
-            "market_value": 168220.72,
+            "market_value": 168143.19,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3163,7 +3163,7 @@
             "ticker": "GRNJ",
             "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
             "shares": 5088.0,
-            "market_value": 157458.83,
+            "market_value": 157494.24,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3177,7 +3177,7 @@
             "ticker": "NVDA",
             "description": "NVIDIA Corporation",
             "shares": 646.0,
-            "market_value": 133185.04,
+            "market_value": 133181.58,
             "tracked": true,
             "asset_type": "Common Stock",
             "option": null,
@@ -3191,7 +3191,7 @@
             "ticker": "LEU",
             "description": "Centrus Energy Corp.",
             "shares": 551.0,
-            "market_value": 90534.2,
+            "market_value": 90478.52,
             "tracked": true,
             "asset_type": "Common Stock",
             "option": null,
@@ -3205,7 +3205,7 @@
             "ticker": "IVES",
             "description": "Amplify Bloomberg AI Value Chain ETF",
             "shares": 2197.863,
-            "market_value": 82911.19,
+            "market_value": 82858.5,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3213,13 +3213,13 @@
             "category": "AI / Semiconductors",
             "account": "Multiple",
             "owner": "Multiple",
-            "pct": 4.43
+            "pct": 4.42
           },
           {
             "ticker": "XLF",
             "description": "Financial Select Sector SPDR Fund",
             "shares": 1460.0,
-            "market_value": 76292.46,
+            "market_value": 76261.4,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3233,7 +3233,7 @@
             "ticker": "VOLT",
             "description": "Tema Electrification Fund",
             "shares": 1971.983,
-            "market_value": 75982.83,
+            "market_value": 75938.23,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3241,13 +3241,13 @@
             "category": "Electrification",
             "account": "Multiple",
             "owner": "Multiple",
-            "pct": 4.06
+            "pct": 4.05
           },
           {
             "ticker": "MAGS",
             "description": "Roundhill Magnificent Seven Fund",
             "shares": 1065.0,
-            "market_value": 71157.95,
+            "market_value": 71116.19,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3261,7 +3261,7 @@
             "ticker": "BMNR",
             "description": "Bitmine Immersion Technologies, Inc.",
             "shares": 3486.0,
-            "market_value": 56597.36,
+            "market_value": 56524.21,
             "tracked": true,
             "asset_type": "Common Stock",
             "option": null,
@@ -3275,7 +3275,7 @@
             "ticker": "MU",
             "description": "Micron Technology, Inc.",
             "shares": 65.0,
-            "market_value": 56435.81,
+            "market_value": 56430.62,
             "tracked": true,
             "asset_type": "Common Stock",
             "option": null,
@@ -3289,7 +3289,7 @@
             "ticker": "AVGO",
             "description": "Broadcom Inc.",
             "shares": 105.0,
-            "market_value": 40908.09,
+            "market_value": 40933.18,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3297,13 +3297,13 @@
             "category": "AI / Semiconductors",
             "account": "Multiple",
             "owner": "Multiple",
-            "pct": 2.18
+            "pct": 2.19
           },
           {
             "ticker": "GOOGL",
             "description": "Alphabet Inc.",
             "shares": 104.0,
-            "market_value": 38089.48,
+            "market_value": 38050.77,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3331,7 +3331,7 @@
             "ticker": "UUUU",
             "description": "Energy Fuels Inc.",
             "shares": 2241.0,
-            "market_value": 33873.05,
+            "market_value": 33867.12,
             "tracked": true,
             "asset_type": "Common Stock",
             "option": null,
@@ -3345,7 +3345,7 @@
             "ticker": "MSFT",
             "description": "Microsoft Corp.",
             "shares": 75.042,
-            "market_value": 31071.29,
+            "market_value": 31061.57,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3359,7 +3359,7 @@
             "ticker": "GDX",
             "description": "VanEck Gold Miners ETF",
             "shares": 390.0,
-            "market_value": 30932.59,
+            "market_value": 30875.37,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3373,7 +3373,7 @@
             "ticker": "SOXX",
             "description": "iShares Semiconductor ETF",
             "shares": 51.0,
-            "market_value": 29428.16,
+            "market_value": 29407.02,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3387,7 +3387,7 @@
             "ticker": "PWR",
             "description": "Quanta Services Inc.",
             "shares": 33.002,
-            "market_value": 22914.43,
+            "market_value": 22890.88,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3401,7 +3401,7 @@
             "ticker": "AMZN",
             "description": "Amazon.com, Inc.",
             "shares": 89.0,
-            "market_value": 21910.47,
+            "market_value": 21876.97,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3429,7 +3429,7 @@
             "ticker": "CCJ",
             "description": "Cameco Corporation",
             "shares": 194.052,
-            "market_value": 20277.84,
+            "market_value": 20274.24,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3443,7 +3443,7 @@
             "ticker": "BWXT",
             "description": "Bwx Technologies Inc.",
             "shares": 106.071,
-            "market_value": 19778.46,
+            "market_value": 19775.93,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3499,7 +3499,7 @@
             "ticker": "MP",
             "description": "MP Materials Corp.",
             "shares": 290.0,
-            "market_value": 17119.03,
+            "market_value": 17115.0,
             "tracked": true,
             "asset_type": "Common Stock",
             "option": null,
@@ -3513,7 +3513,7 @@
             "ticker": "PBW",
             "description": "Invesco WilderHill Clean Energy ETF",
             "shares": 329.0,
-            "market_value": 13582.62,
+            "market_value": 13560.62,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3521,7 +3521,7 @@
             "category": "Electrification",
             "account": "Multiple",
             "owner": "Multiple",
-            "pct": 0.73
+            "pct": 0.72
           },
           {
             "ticker": "GS",
@@ -3569,7 +3569,7 @@
             "ticker": "RPG",
             "description": "Invesco S&P 500 Pure Growth ETF",
             "shares": 196.0,
-            "market_value": 11520.88,
+            "market_value": 11509.12,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3597,7 +3597,7 @@
             "ticker": "GEV",
             "description": "GE Vernova Inc.",
             "shares": 12.0,
-            "market_value": 11228.34,
+            "market_value": 11228.14,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3611,7 +3611,7 @@
             "ticker": "SIL",
             "description": "Global X Silver Miners UCITS ETF USD Accumulating",
             "shares": 128.0,
-            "market_value": 10227.06,
+            "market_value": 10209.12,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3625,7 +3625,7 @@
             "ticker": "STRL",
             "description": "Sterling Infrastructure, Inc.",
             "shares": 11.0,
-            "market_value": 9718.73,
+            "market_value": 9728.63,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3639,7 +3639,7 @@
             "ticker": "FN",
             "description": "Fabrinet",
             "shares": 13.0,
-            "market_value": 8174.1,
+            "market_value": 8176.35,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3653,7 +3653,7 @@
             "ticker": "ASML",
             "description": "ASML Holding N.V. New York Registry Shares",
             "shares": 4.7,
-            "market_value": 8075.31,
+            "market_value": 8057.5,
             "tracked": false,
             "asset_type": "American Depositary Receipt",
             "option": null,
@@ -3681,7 +3681,7 @@
             "ticker": "AMD",
             "description": "Advanced Micro Devices, Inc.",
             "shares": 16.0,
-            "market_value": 7616.78,
+            "market_value": 7616.02,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3723,7 +3723,7 @@
             "ticker": "ASTS",
             "description": "AST SpaceMobile, Inc.",
             "shares": 68.0,
-            "market_value": 6341.24,
+            "market_value": 6342.12,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3751,7 +3751,7 @@
             "ticker": "JPM",
             "description": "JPMorgan Chase & Co.",
             "shares": 18.0,
-            "market_value": 5625.0,
+            "market_value": 5620.41,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3821,7 +3821,7 @@
             "ticker": "FTXL",
             "description": "First Trust Nasdaq Semiconductor ETF",
             "shares": 18.0,
-            "market_value": 4687.56,
+            "market_value": 4696.92,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3943,7 +3943,7 @@
             "ticker": "LIT",
             "description": "GLOBAL X LITHIUM & BATTERY T",
             "shares": 40.0,
-            "market_value": 3116.05,
+            "market_value": 3117.8,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -4049,7 +4049,7 @@
             "ticker": "MSTR",
             "description": "Strategy Inc.",
             "shares": 16.0,
-            "market_value": 2041.12,
+            "market_value": 2028.85,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -4063,7 +4063,7 @@
             "ticker": "BMNR",
             "description": "30 Call 2028-01-21",
             "shares": 4.0,
-            "market_value": 1960.0,
+            "market_value": 1952.0,
             "tracked": true,
             "asset_type": "option",
             "option": {
@@ -4085,7 +4085,7 @@
             "ticker": "LYSDY",
             "description": "Lynas Rare Earths Limited - ADR",
             "shares": 150.0,
-            "market_value": 1858.0,
+            "market_value": 1858.75,
             "tracked": false,
             "asset_type": "American Depositary Receipt",
             "option": null,
@@ -4199,7 +4199,7 @@
             "ticker": "BMNR",
             "description": "30 Call 2027-01-15",
             "shares": 7.0,
-            "market_value": 1236.0,
+            "market_value": 1232.0,
             "tracked": true,
             "asset_type": "option",
             "option": {
@@ -4232,24 +4232,10 @@
             "pct": 0.06
           },
           {
-            "ticker": "HYPE",
-            "description": "Hyperliquid",
-            "shares": 18.0197,
-            "market_value": 1159.68,
-            "tracked": false,
-            "asset_type": "Cryptocurrency",
-            "option": null,
-            "sleeve": "IBIT",
-            "category": "Crypto",
-            "account": "Robinhood Crypto 8794",
-            "owner": "SKB",
-            "pct": 0.06
-          },
-          {
             "ticker": "TSLA",
             "description": "450 Call 2026-07-17",
             "shares": 1.0,
-            "market_value": 1125.0,
+            "market_value": 1148.0,
             "tracked": false,
             "asset_type": "option",
             "option": {
@@ -4264,6 +4250,20 @@
             "sleeve": "_other",
             "category": "Other holdings",
             "account": "Robinhood Individual 6550",
+            "owner": "SKB",
+            "pct": 0.06
+          },
+          {
+            "ticker": "HYPE",
+            "description": "Hyperliquid",
+            "shares": 18.0197,
+            "market_value": 1146.86,
+            "tracked": false,
+            "asset_type": "Cryptocurrency",
+            "option": null,
+            "sleeve": "IBIT",
+            "category": "Crypto",
+            "account": "Robinhood Crypto 8794",
             "owner": "SKB",
             "pct": 0.06
           },
@@ -4329,7 +4329,7 @@
             "ticker": "TSLA",
             "description": "460 Call 2026-07-17",
             "shares": 1.0,
-            "market_value": 928.0,
+            "market_value": 945.0,
             "tracked": false,
             "asset_type": "option",
             "option": {
@@ -4401,7 +4401,7 @@
             "ticker": "NUE",
             "description": "Nucor Corporation",
             "shares": 3.0,
-            "market_value": 762.88,
+            "market_value": 760.37,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -4583,7 +4583,7 @@
             "ticker": "BMNR",
             "description": "25 Call 2027-01-15",
             "shares": 1.0,
-            "market_value": 255.0,
+            "market_value": 254.0,
             "tracked": true,
             "asset_type": "option",
             "option": {
@@ -4619,7 +4619,7 @@
             "ticker": "BMNR",
             "description": "45 Call 2027-01-15",
             "shares": 2.0,
-            "market_value": 180.0,
+            "market_value": 178.0,
             "tracked": true,
             "asset_type": "option",
             "option": {
@@ -4685,7 +4685,7 @@
             "ticker": "ORBS",
             "description": "Eightco Holdings Inc.",
             "shares": 140.0,
-            "market_value": 124.03,
+            "market_value": 123.82,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -4743,7 +4743,7 @@
             "ticker": "AAVE",
             "description": "Aave",
             "shares": 1.2613,
-            "market_value": 81.0,
+            "market_value": 80.77,
             "tracked": false,
             "asset_type": "Cryptocurrency",
             "option": null,
@@ -4933,7 +4933,7 @@
             "ticker": "TRUMP",
             "description": "OFFICIAL TRUMP",
             "shares": 13.0548,
-            "market_value": 22.23,
+            "market_value": 22.18,
             "tracked": false,
             "asset_type": "Cryptocurrency",
             "option": null,
@@ -5158,7 +5158,7 @@
           {
             "category": "AI / Semiconductors",
             "sleeve": "SMH",
-            "market_value": 722906.77,
+            "market_value": 722639.71,
             "pct": 38.59,
             "tickers": [
               "AMZN",
@@ -5188,8 +5188,8 @@
           {
             "category": "Quality core",
             "sleeve": "GRNY",
-            "market_value": 354261.27,
-            "pct": 18.91,
+            "market_value": 354268.59,
+            "pct": 18.92,
             "tickers": [
               "COST",
               "GRNJ",
@@ -5197,7 +5197,7 @@
               "RPG"
             ],
             "working_model_target_pct": 3.0,
-            "working_model_gap_pct": -15.91,
+            "working_model_gap_pct": -15.92,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
             "fundstrat_reason": "Fundstrat what-to-own theme: small-caps",
@@ -5206,7 +5206,7 @@
           {
             "category": "Electrification",
             "sleeve": "VOLT",
-            "market_value": 180973.97,
+            "market_value": 180893.52,
             "pct": 9.66,
             "tickers": [
               "BE",
@@ -5230,7 +5230,7 @@
           {
             "category": "Nuclear",
             "sleeve": "URA",
-            "market_value": 170401.19,
+            "market_value": 170333.45,
             "pct": 9.1,
             "tickers": [
               "BWXT",
@@ -5249,8 +5249,8 @@
           {
             "category": "Other holdings",
             "sleeve": "_other",
-            "market_value": 115238.55,
-            "pct": 6.15,
+            "market_value": 115280.43,
+            "pct": 6.16,
             "tickers": [
               "AAVE",
               "ACON",
@@ -5282,7 +5282,7 @@
               "XLI"
             ],
             "working_model_target_pct": 8.0,
-            "working_model_gap_pct": 1.85,
+            "working_model_gap_pct": 1.84,
             "fundstrat_cue": "mixed",
             "fundstrat_source_date": "2026-05-28",
             "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
@@ -5302,7 +5302,7 @@
           {
             "category": "Financials",
             "sleeve": "XLF",
-            "market_value": 95183.12,
+            "market_value": 95147.47,
             "pct": 5.08,
             "tickers": [
               "GS",
@@ -5320,7 +5320,7 @@
           {
             "category": "Crypto",
             "sleeve": "IBIT",
-            "market_value": 85859.76,
+            "market_value": 85746.52,
             "pct": 4.58,
             "tickers": [
               "BMNR",
@@ -5358,7 +5358,7 @@
           {
             "category": "Gold / Hedge",
             "sleeve": "GDX",
-            "market_value": 43670.16,
+            "market_value": 43592.49,
             "pct": 2.33,
             "tickers": [
               "GDX",
@@ -5376,7 +5376,7 @@
           {
             "category": "Critical minerals",
             "sleeve": "REMX",
-            "market_value": 22093.08,
+            "market_value": 22091.55,
             "pct": 1.18,
             "tickers": [
               "LIT",
@@ -5400,30 +5400,30 @@
               "ticker": "NVDA",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 133185.04,
-              "lookthrough_market_value": 50400.35,
-              "effective_market_value": 183585.39,
+              "direct_market_value": 133181.58,
+              "lookthrough_market_value": 50374.46,
+              "effective_market_value": 183556.04,
               "effective_pct": 9.8,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.2,
-                  "market_value": 33644.14
+                  "market_value": 33628.64
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.05,
-                  "market_value": 4145.56
+                  "market_value": 4142.93
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 9962.11
+                  "market_value": 9956.27
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 2648.53
+                  "market_value": 2646.63
                 }
               ]
             },
@@ -5431,30 +5431,30 @@
               "ticker": "AVGO",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 40908.09,
-              "lookthrough_market_value": 26538.43,
-              "effective_market_value": 67446.52,
+              "direct_market_value": 40933.18,
+              "lookthrough_market_value": 26524.05,
+              "effective_market_value": 67457.23,
               "effective_pct": 3.6,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.08,
-                  "market_value": 13457.66
+                  "market_value": 13451.46
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 3316.45
+                  "market_value": 3314.34
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.1,
-                  "market_value": 7115.8
+                  "market_value": 7111.62
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 2648.53
+                  "market_value": 2646.63
                 }
               ]
             },
@@ -5463,19 +5463,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 20858.53,
-              "effective_market_value": 20858.53,
+              "lookthrough_market_value": 20848.31,
+              "effective_market_value": 20848.31,
               "effective_pct": 1.11,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.11,
-                  "market_value": 18504.28
+                  "market_value": 18495.75
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.08,
-                  "market_value": 2354.25
+                  "market_value": 2352.56
                 }
               ]
             },
@@ -5483,20 +5483,20 @@
               "ticker": "MSFT",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 31071.29,
-              "lookthrough_market_value": 13278.56,
-              "effective_market_value": 44349.85,
+              "direct_market_value": 31061.57,
+              "lookthrough_market_value": 13270.61,
+              "effective_market_value": 44332.18,
               "effective_pct": 2.37,
               "sources": [
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 3316.45
+                  "market_value": 3314.34
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 9962.11
+                  "market_value": 9956.27
                 }
               ]
             },
@@ -5504,20 +5504,20 @@
               "ticker": "GOOGL",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 38089.48,
-              "lookthrough_market_value": 11737.87,
-              "effective_market_value": 49827.35,
+              "direct_market_value": 38050.77,
+              "lookthrough_market_value": 11730.86,
+              "effective_market_value": 49781.63,
               "effective_pct": 2.66,
               "sources": [
                 {
                   "etf": "IVES",
                   "fraction": 0.03,
-                  "market_value": 2487.34
+                  "market_value": 2485.76
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 9250.53
+                  "market_value": 9245.1
                 }
               ]
             },
@@ -5525,20 +5525,20 @@
               "ticker": "AMD",
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 7616.78,
-              "lookthrough_market_value": 10471.01,
-              "effective_market_value": 18087.79,
+              "direct_market_value": 7616.02,
+              "lookthrough_market_value": 10465.65,
+              "effective_market_value": 18081.67,
               "effective_pct": 0.97,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.05,
-                  "market_value": 8411.04
+                  "market_value": 8407.16
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.07,
-                  "market_value": 2059.97
+                  "market_value": 2058.49
                 }
               ]
             },
@@ -5547,14 +5547,14 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 9250.53,
-              "effective_market_value": 9250.53,
+              "lookthrough_market_value": 9245.1,
+              "effective_market_value": 9245.1,
               "effective_pct": 0.49,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 9250.53
+                  "market_value": 9245.1
                 }
               ]
             },
@@ -5562,15 +5562,15 @@
               "ticker": "AMZN",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 21910.47,
-              "lookthrough_market_value": 9250.53,
-              "effective_market_value": 31161.0,
+              "direct_market_value": 21876.97,
+              "lookthrough_market_value": 9245.1,
+              "effective_market_value": 31122.07,
               "effective_pct": 1.66,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 9250.53
+                  "market_value": 9245.1
                 }
               ]
             },
@@ -5579,14 +5579,14 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 9250.53,
-              "effective_market_value": 9250.53,
+              "lookthrough_market_value": 9245.1,
+              "effective_market_value": 9245.1,
               "effective_pct": 0.49,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 9250.53
+                  "market_value": 9245.1
                 }
               ]
             },
@@ -5594,20 +5594,20 @@
               "ticker": "MU",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 56435.81,
-              "lookthrough_market_value": 8200.24,
-              "effective_market_value": 64636.05,
+              "direct_market_value": 56430.62,
+              "lookthrough_market_value": 8196.08,
+              "effective_market_value": 64626.7,
               "effective_pct": 3.45,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 6728.83
+                  "market_value": 6725.73
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.05,
-                  "market_value": 1471.41
+                  "market_value": 1470.35
                 }
               ]
             },
@@ -5615,20 +5615,20 @@
               "ticker": "ASML",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 8075.31,
-              "lookthrough_market_value": 7905.96,
-              "effective_market_value": 15981.27,
+              "direct_market_value": 8057.5,
+              "lookthrough_market_value": 7902.01,
+              "effective_market_value": 15959.51,
               "effective_pct": 0.85,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 6728.83
+                  "market_value": 6725.73
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.04,
-                  "market_value": 1177.13
+                  "market_value": 1176.28
                 }
               ]
             }
@@ -5637,14 +5637,14 @@
             {
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 722906.77,
-              "lookthrough_market_value": 127311.94,
-              "effective_market_value": 850218.71,
+              "direct_market_value": 722639.71,
+              "lookthrough_market_value": 127243.17,
+              "effective_market_value": 849882.88,
               "direct_pct": 38.59,
-              "lookthrough_pct": 6.8,
-              "effective_pct": 45.39,
+              "lookthrough_pct": 6.79,
+              "effective_pct": 45.38,
               "working_model_target_pct": 48.0,
-              "working_model_gap_pct": 2.61,
+              "working_model_gap_pct": 2.62,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
@@ -5677,14 +5677,14 @@
             {
               "category": "Quality core",
               "sleeve": "GRNY",
-              "direct_market_value": 354261.27,
+              "direct_market_value": 354268.59,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 354261.27,
-              "direct_pct": 18.91,
+              "effective_market_value": 354268.59,
+              "direct_pct": 18.92,
               "lookthrough_pct": 0.0,
-              "effective_pct": 18.91,
+              "effective_pct": 18.92,
               "working_model_target_pct": 3.0,
-              "working_model_gap_pct": -15.91,
+              "working_model_gap_pct": -15.92,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own theme: small-caps",
@@ -5700,9 +5700,9 @@
             {
               "category": "Electrification",
               "sleeve": "VOLT",
-              "direct_market_value": 180973.97,
+              "direct_market_value": 180893.52,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 180973.97,
+              "effective_market_value": 180893.52,
               "direct_pct": 9.66,
               "lookthrough_pct": 0.0,
               "effective_pct": 9.66,
@@ -5729,9 +5729,9 @@
             {
               "category": "Nuclear",
               "sleeve": "URA",
-              "direct_market_value": 170401.19,
+              "direct_market_value": 170333.45,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 170401.19,
+              "effective_market_value": 170333.45,
               "direct_pct": 9.1,
               "lookthrough_pct": 0.0,
               "effective_pct": 9.1,
@@ -5753,14 +5753,14 @@
             {
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 115238.55,
-              "lookthrough_market_value": 49830.6,
-              "effective_market_value": 165069.15,
-              "direct_pct": 6.15,
+              "direct_market_value": 115280.43,
+              "lookthrough_market_value": 49804.16,
+              "effective_market_value": 165084.59,
+              "direct_pct": 6.16,
               "lookthrough_pct": 2.66,
-              "effective_pct": 8.81,
+              "effective_pct": 8.82,
               "working_model_target_pct": 8.0,
-              "working_model_gap_pct": -0.81,
+              "working_model_gap_pct": -0.82,
               "fundstrat_cue": "mixed",
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
@@ -5818,9 +5818,9 @@
             {
               "category": "Financials",
               "sleeve": "XLF",
-              "direct_market_value": 95183.12,
+              "direct_market_value": 95147.47,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 95183.12,
+              "effective_market_value": 95147.47,
               "direct_pct": 5.08,
               "lookthrough_pct": 0.0,
               "effective_pct": 5.08,
@@ -5841,9 +5841,9 @@
             {
               "category": "Crypto",
               "sleeve": "IBIT",
-              "direct_market_value": 85859.76,
+              "direct_market_value": 85746.52,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 85859.76,
+              "effective_market_value": 85746.52,
               "direct_pct": 4.58,
               "lookthrough_pct": 0.0,
               "effective_pct": 4.58,
@@ -5889,9 +5889,9 @@
             {
               "category": "Gold / Hedge",
               "sleeve": "GDX",
-              "direct_market_value": 43670.16,
+              "direct_market_value": 43592.49,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 43670.16,
+              "effective_market_value": 43592.49,
               "direct_pct": 2.33,
               "lookthrough_pct": 0.0,
               "effective_pct": 2.33,
@@ -5912,9 +5912,9 @@
             {
               "category": "Critical minerals",
               "sleeve": "REMX",
-              "direct_market_value": 22093.08,
+              "direct_market_value": 22091.55,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 22093.08,
+              "effective_market_value": 22091.55,
               "direct_pct": 1.18,
               "lookthrough_pct": 0.0,
               "effective_pct": 1.18,
@@ -5936,13 +5936,13 @@
       },
       "skb": {
         "key": "skb",
-        "total_value": 600592.57,
+        "total_value": 600236.41,
         "rows": [
           {
             "ticker": "LEU",
             "description": "Centrus Energy Corp.",
             "shares": 200.0,
-            "market_value": 33392.0,
+            "market_value": 33350.6,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -5958,7 +5958,7 @@
             "ticker": "NVDA",
             "description": "NVIDIA Corporation",
             "shares": 119.0,
-            "market_value": 24832.92,
+            "market_value": 24834.11,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -5968,13 +5968,13 @@
             "option": null,
             "sleeve": "SMH",
             "category": "AI / Semiconductors",
-            "pct": 4.13
+            "pct": 4.14
           },
           {
             "ticker": "GRNJ",
             "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
             "shares": 739.0,
-            "market_value": 22975.51,
+            "market_value": 22982.9,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6000,13 +6000,13 @@
             "option": null,
             "sleeve": "SMH",
             "category": "AI / Semiconductors",
-            "pct": 3.16
+            "pct": 3.17
           },
           {
             "ticker": "MAGS",
             "description": "Roundhill Magnificent Seven Fund",
             "shares": 280.0,
-            "market_value": 18734.8,
+            "market_value": 18718.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6038,7 +6038,7 @@
             "ticker": "GRNJ",
             "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
             "shares": 550.0,
-            "market_value": 17099.5,
+            "market_value": 17105.0,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6054,7 +6054,7 @@
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 600.0,
-            "market_value": 16284.0,
+            "market_value": 16284.06,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6070,7 +6070,7 @@
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 498.0,
-            "market_value": 13518.21,
+            "market_value": 13515.77,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6086,7 +6086,7 @@
             "ticker": "SMH",
             "description": "VanEck Semiconductor ETF",
             "shares": 21.0,
-            "market_value": 12652.29,
+            "market_value": 12637.8,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6102,7 +6102,7 @@
             "ticker": "GRNJ",
             "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
             "shares": 400.0,
-            "market_value": 12436.0,
+            "market_value": 12440.0,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6118,7 +6118,7 @@
             "ticker": "MSFT",
             "description": "Microsoft Corp.",
             "shares": 28.0,
-            "market_value": 11483.36,
+            "market_value": 11474.4,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6134,7 +6134,7 @@
             "ticker": "IVES",
             "description": "Amplify Bloomberg AI Value Chain ETF",
             "shares": 300.0,
-            "market_value": 11375.97,
+            "market_value": 11367.0,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6150,7 +6150,7 @@
             "ticker": "GOOGL",
             "description": "Alphabet Inc.",
             "shares": 31.0,
-            "market_value": 11257.34,
+            "market_value": 11229.75,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6182,7 +6182,7 @@
             "ticker": "BMNR",
             "description": "Bitmine Immersion Technologies, Inc.",
             "shares": 600.0,
-            "market_value": 10185.0,
+            "market_value": 10146.0,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6192,7 +6192,7 @@
             "option": null,
             "sleeve": "IBIT",
             "category": "Crypto",
-            "pct": 1.7
+            "pct": 1.69
           },
           {
             "ticker": "AVGO",
@@ -6214,7 +6214,7 @@
             "ticker": "LEU",
             "description": "Centrus Energy Corp.",
             "shares": 56.0,
-            "market_value": 9349.76,
+            "market_value": 9338.17,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6230,7 +6230,7 @@
             "ticker": "VOLT",
             "description": "Tema Electrification Fund",
             "shares": 234.0,
-            "market_value": 9053.46,
+            "market_value": 9041.76,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6246,7 +6246,7 @@
             "ticker": "PBW",
             "description": "Invesco WilderHill Clean Energy ETF",
             "shares": 200.0,
-            "market_value": 8322.0,
+            "market_value": 8300.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6256,13 +6256,13 @@
             "option": null,
             "sleeve": "VOLT",
             "category": "Electrification",
-            "pct": 1.39
+            "pct": 1.38
           },
           {
             "ticker": "MAGS",
             "description": "Roundhill Magnificent Seven Fund",
             "shares": 120.0,
-            "market_value": 8029.2,
+            "market_value": 8025.6,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6278,7 +6278,7 @@
             "ticker": "GDX",
             "description": "VanEck Gold Miners ETF",
             "shares": 100.0,
-            "market_value": 7958.0,
+            "market_value": 7934.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6288,13 +6288,13 @@
             "option": null,
             "sleeve": "GDX",
             "category": "Gold / Hedge",
-            "pct": 1.33
+            "pct": 1.32
           },
           {
             "ticker": "NVDA",
             "description": "NVIDIA Corporation",
             "shares": 36.0,
-            "market_value": 7514.46,
+            "market_value": 7512.12,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6310,7 +6310,7 @@
             "ticker": "AMZN",
             "description": "Amazon.com, Inc.",
             "shares": 30.0,
-            "market_value": 7389.3,
+            "market_value": 7369.2,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6342,7 +6342,7 @@
             "ticker": "GRNJ",
             "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
             "shares": 224.0,
-            "market_value": 6964.16,
+            "market_value": 6966.4,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6358,7 +6358,7 @@
             "ticker": "PWR",
             "description": "Quanta Services Inc.",
             "shares": 10.0,
-            "market_value": 6942.2,
+            "market_value": 6927.7,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6368,13 +6368,13 @@
             "option": null,
             "sleeve": "VOLT",
             "category": "Electrification",
-            "pct": 1.16
+            "pct": 1.15
           },
           {
             "ticker": "PWR",
             "description": "Quanta Services Inc.",
             "shares": 10.0,
-            "market_value": 6935.3,
+            "market_value": 6927.7,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6406,7 +6406,7 @@
             "ticker": "SOXX",
             "description": "iShares Semiconductor ETF",
             "shares": 11.0,
-            "market_value": 6348.16,
+            "market_value": 6340.62,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6438,7 +6438,7 @@
             "ticker": "SMH",
             "description": "VanEck Semiconductor ETF",
             "shares": 10.0,
-            "market_value": 6024.75,
+            "market_value": 6018.8,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6470,7 +6470,7 @@
             "ticker": "AVGO",
             "description": "Broadcom Inc.",
             "shares": 15.0,
-            "market_value": 5943.0,
+            "market_value": 5954.7,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6486,7 +6486,7 @@
             "ticker": "UUUU",
             "description": "Energy Fuels Inc.",
             "shares": 370.0,
-            "market_value": 5735.0,
+            "market_value": 5729.97,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6518,7 +6518,7 @@
             "ticker": "JPM",
             "description": "JPMorgan Chase & Co.",
             "shares": 18.0,
-            "market_value": 5625.0,
+            "market_value": 5620.41,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6534,7 +6534,7 @@
             "ticker": "STRL",
             "description": "Sterling Infrastructure, Inc.",
             "shares": 6.0,
-            "market_value": 5306.58,
+            "market_value": 5316.48,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6544,13 +6544,13 @@
             "option": null,
             "sleeve": "VOLT",
             "category": "Electrification",
-            "pct": 0.88
+            "pct": 0.89
           },
           {
             "ticker": "VOLT",
             "description": "Tema Electrification Fund",
             "shares": 136.0,
-            "market_value": 5261.84,
+            "market_value": 5255.04,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6566,7 +6566,7 @@
             "ticker": "AVGO",
             "description": "Broadcom Inc.",
             "shares": 13.0,
-            "market_value": 5149.61,
+            "market_value": 5156.97,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6614,7 +6614,7 @@
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 179.0,
-            "market_value": 4858.06,
+            "market_value": 4858.08,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6630,7 +6630,7 @@
             "ticker": "FTXL",
             "description": "First Trust Nasdaq Semiconductor ETF",
             "shares": 18.0,
-            "market_value": 4687.56,
+            "market_value": 4696.92,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6646,7 +6646,7 @@
             "ticker": "MAGS",
             "description": "Roundhill Magnificent Seven Fund",
             "shares": 70.0,
-            "market_value": 4683.7,
+            "market_value": 4681.6,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6662,7 +6662,7 @@
             "ticker": "CCJ",
             "description": "Cameco Corporation",
             "shares": 40.0,
-            "market_value": 4254.8,
+            "market_value": 4252.4,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6694,7 +6694,7 @@
             "ticker": "SMH",
             "description": "VanEck Semiconductor ETF",
             "shares": 7.0,
-            "market_value": 4216.94,
+            "market_value": 4214.45,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6710,7 +6710,7 @@
             "ticker": "NVDA",
             "description": "NVIDIA Corporation",
             "shares": 20.0,
-            "market_value": 4174.7,
+            "market_value": 4173.4,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6726,7 +6726,7 @@
             "ticker": "BWXT",
             "description": "Bwx Technologies Inc.",
             "shares": 22.0,
-            "market_value": 4145.46,
+            "market_value": 4142.93,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6742,7 +6742,7 @@
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 150.0,
-            "market_value": 4071.75,
+            "market_value": 4071.01,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6758,7 +6758,7 @@
             "ticker": "AMZN",
             "description": "Amazon.com, Inc.",
             "shares": 16.0,
-            "market_value": 3940.8,
+            "market_value": 3930.08,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6768,13 +6768,13 @@
             "option": null,
             "sleeve": "SMH",
             "category": "AI / Semiconductors",
-            "pct": 0.66
+            "pct": 0.65
           },
           {
             "ticker": "VOLT",
             "description": "Tema Electrification Fund",
             "shares": 100.0,
-            "market_value": 3869.0,
+            "market_value": 3864.0,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6806,7 +6806,7 @@
             "ticker": "BMNR",
             "description": "Bitmine Immersion Technologies, Inc.",
             "shares": 215.0,
-            "market_value": 3649.63,
+            "market_value": 3634.58,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6822,7 +6822,7 @@
             "ticker": "NVDA",
             "description": "NVIDIA Corporation",
             "shares": 17.0,
-            "market_value": 3547.56,
+            "market_value": 3546.55,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6838,7 +6838,7 @@
             "ticker": "ASTS",
             "description": "AST SpaceMobile, Inc.",
             "shares": 38.0,
-            "market_value": 3533.24,
+            "market_value": 3534.12,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6854,7 +6854,7 @@
             "ticker": "ASML",
             "description": "ASML Holding N.V. New York Registry Shares",
             "shares": 2.0,
-            "market_value": 3523.0,
+            "market_value": 3511.38,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6864,13 +6864,13 @@
             "option": null,
             "sleeve": "SMH",
             "category": "AI / Semiconductors",
-            "pct": 0.59
+            "pct": 0.58
           },
           {
             "ticker": "BMNR",
             "description": "Bitmine Immersion Technologies, Inc.",
             "shares": 200.0,
-            "market_value": 3395.0,
+            "market_value": 3381.0,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6880,7 +6880,7 @@
             "option": null,
             "sleeve": "IBIT",
             "category": "Crypto",
-            "pct": 0.57
+            "pct": 0.56
           },
           {
             "ticker": "POET",
@@ -6926,7 +6926,7 @@
             "ticker": "FN",
             "description": "Fabrinet",
             "shares": 5.0,
-            "market_value": 3204.1,
+            "market_value": 3206.35,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6942,7 +6942,7 @@
             "ticker": "CCJ",
             "description": "Cameco Corporation",
             "shares": 30.0,
-            "market_value": 3191.1,
+            "market_value": 3189.9,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7006,7 +7006,7 @@
             "ticker": "MU",
             "description": "Micron Technology, Inc.",
             "shares": 3.0,
-            "market_value": 2867.19,
+            "market_value": 2862.0,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7022,7 +7022,7 @@
             "ticker": "MAGS",
             "description": "Roundhill Magnificent Seven Fund",
             "shares": 42.0,
-            "market_value": 2810.22,
+            "market_value": 2808.96,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7054,7 +7054,7 @@
             "ticker": "AVGO",
             "description": "Broadcom Inc.",
             "shares": 7.0,
-            "market_value": 2772.5,
+            "market_value": 2775.41,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7086,7 +7086,7 @@
             "ticker": "MP",
             "description": "MP Materials Corp.",
             "shares": 40.0,
-            "market_value": 2335.8,
+            "market_value": 2333.2,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7102,7 +7102,7 @@
             "ticker": "LEU",
             "description": "Centrus Energy Corp.",
             "shares": 13.0,
-            "market_value": 2170.48,
+            "market_value": 2167.79,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7118,7 +7118,7 @@
             "ticker": "AMD",
             "description": "Advanced Micro Devices, Inc.",
             "shares": 4.0,
-            "market_value": 1968.84,
+            "market_value": 1968.4,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7134,7 +7134,7 @@
             "ticker": "BMNR",
             "description": "30 Call 2028-01-21",
             "shares": 4.0,
-            "market_value": 1960.0,
+            "market_value": 1952.0,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7158,7 +7158,7 @@
             "ticker": "GEV",
             "description": "GE Vernova Inc.",
             "shares": 2.0,
-            "market_value": 1892.24,
+            "market_value": 1892.04,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7222,7 +7222,7 @@
             "ticker": "GOOGL",
             "description": "Alphabet Inc.",
             "shares": 5.0,
-            "market_value": 1815.7,
+            "market_value": 1811.22,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7238,7 +7238,7 @@
             "ticker": "ASML",
             "description": "ASML Holding N.V. New York Registry Shares",
             "shares": 1.0,
-            "market_value": 1761.35,
+            "market_value": 1755.16,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7270,7 +7270,7 @@
             "ticker": "AVGO",
             "description": "Broadcom Inc.",
             "shares": 4.0,
-            "market_value": 1584.8,
+            "market_value": 1587.92,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7326,7 +7326,7 @@
             "ticker": "GOOGL",
             "description": "Alphabet Inc.",
             "shares": 4.0,
-            "market_value": 1452.32,
+            "market_value": 1449.0,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7342,7 +7342,7 @@
             "ticker": "GOOGL",
             "description": "Alphabet Inc.",
             "shares": 4.0,
-            "market_value": 1452.32,
+            "market_value": 1449.0,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7358,7 +7358,7 @@
             "ticker": "XLF",
             "description": "Financial Select Sector SPDR Fund",
             "shares": 27.0,
-            "market_value": 1409.55,
+            "market_value": 1408.32,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7374,7 +7374,7 @@
             "ticker": "MSTR",
             "description": "Strategy Inc.",
             "shares": 10.0,
-            "market_value": 1276.0,
+            "market_value": 1268.1,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7390,7 +7390,7 @@
             "ticker": "BMNR",
             "description": "Bitmine Immersion Technologies, Inc.",
             "shares": 73.0,
-            "market_value": 1239.53,
+            "market_value": 1234.43,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7403,58 +7403,10 @@
             "pct": 0.21
           },
           {
-            "ticker": "HYPE",
-            "description": "Hyperliquid",
-            "shares": 18.0197,
-            "market_value": 1159.68,
-            "account": "Robinhood Crypto 8794",
-            "owner": "SKB",
-            "owner_key": "skb",
-            "broker": "Robinhood",
-            "tracked": false,
-            "asset_type": "Cryptocurrency",
-            "option": null,
-            "sleeve": "IBIT",
-            "category": "Crypto",
-            "pct": 0.19
-          },
-          {
-            "ticker": "XLF",
-            "description": "Financial Select Sector SPDR Fund",
-            "shares": 22.0,
-            "market_value": 1148.51,
-            "account": "Robinhood Roth Ira 2211",
-            "owner": "SKB",
-            "owner_key": "skb",
-            "broker": "Robinhood",
-            "tracked": true,
-            "asset_type": "ETF",
-            "option": null,
-            "sleeve": "XLF",
-            "category": "Financials",
-            "pct": 0.19
-          },
-          {
-            "ticker": "LEU",
-            "description": "Centrus Energy Corp.",
-            "shares": 7.0,
-            "market_value": 1132.46,
-            "account": "Health Savings Account *****7284",
-            "owner": "SKB",
-            "owner_key": "skb",
-            "broker": "Fidelity",
-            "tracked": true,
-            "asset_type": "Common Stock",
-            "option": null,
-            "sleeve": "URA",
-            "category": "Nuclear",
-            "pct": 0.19
-          },
-          {
             "ticker": "TSLA",
             "description": "450 Call 2026-07-17",
             "shares": 1.0,
-            "market_value": 1125.0,
+            "market_value": 1148.0,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7475,6 +7427,54 @@
             "pct": 0.19
           },
           {
+            "ticker": "XLF",
+            "description": "Financial Select Sector SPDR Fund",
+            "shares": 22.0,
+            "market_value": 1147.52,
+            "account": "Robinhood Roth Ira 2211",
+            "owner": "SKB",
+            "owner_key": "skb",
+            "broker": "Robinhood",
+            "tracked": true,
+            "asset_type": "ETF",
+            "option": null,
+            "sleeve": "XLF",
+            "category": "Financials",
+            "pct": 0.19
+          },
+          {
+            "ticker": "HYPE",
+            "description": "Hyperliquid",
+            "shares": 18.0197,
+            "market_value": 1146.86,
+            "account": "Robinhood Crypto 8794",
+            "owner": "SKB",
+            "owner_key": "skb",
+            "broker": "Robinhood",
+            "tracked": false,
+            "asset_type": "Cryptocurrency",
+            "option": null,
+            "sleeve": "IBIT",
+            "category": "Crypto",
+            "pct": 0.19
+          },
+          {
+            "ticker": "LEU",
+            "description": "Centrus Energy Corp.",
+            "shares": 7.0,
+            "market_value": 1132.46,
+            "account": "Health Savings Account *****7284",
+            "owner": "SKB",
+            "owner_key": "skb",
+            "broker": "Fidelity",
+            "tracked": true,
+            "asset_type": "Common Stock",
+            "option": null,
+            "sleeve": "URA",
+            "category": "Nuclear",
+            "pct": 0.19
+          },
+          {
             "ticker": "FBGKX",
             "description": "Fidelity Blue Chip Growth Fund - Class K",
             "shares": 3.328,
@@ -7491,26 +7491,10 @@
             "pct": 0.17
           },
           {
-            "ticker": "AMZN",
-            "description": "Amazon.com, Inc.",
-            "shares": 4.0,
-            "market_value": 985.2,
-            "account": "Robinhood Roth Ira 2211",
-            "owner": "SKB",
-            "owner_key": "skb",
-            "broker": "Robinhood",
-            "tracked": false,
-            "asset_type": "Common Stock",
-            "option": null,
-            "sleeve": "SMH",
-            "category": "AI / Semiconductors",
-            "pct": 0.16
-          },
-          {
             "ticker": "AMD",
             "description": "Advanced Micro Devices, Inc.",
             "shares": 2.0,
-            "market_value": 984.14,
+            "market_value": 983.82,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7523,10 +7507,26 @@
             "pct": 0.16
           },
           {
+            "ticker": "AMZN",
+            "description": "Amazon.com, Inc.",
+            "shares": 4.0,
+            "market_value": 982.52,
+            "account": "Robinhood Roth Ira 2211",
+            "owner": "SKB",
+            "owner_key": "skb",
+            "broker": "Robinhood",
+            "tracked": false,
+            "asset_type": "Common Stock",
+            "option": null,
+            "sleeve": "SMH",
+            "category": "AI / Semiconductors",
+            "pct": 0.16
+          },
+          {
             "ticker": "TSLA",
             "description": "460 Call 2026-07-17",
             "shares": 1.0,
-            "market_value": 928.0,
+            "market_value": 945.0,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7544,13 +7544,13 @@
             },
             "sleeve": "_other",
             "category": "Other holdings",
-            "pct": 0.15
+            "pct": 0.16
           },
           {
             "ticker": "MP",
             "description": "MP Materials Corp.",
             "shares": 15.0,
-            "market_value": 875.93,
+            "market_value": 874.5,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7566,7 +7566,7 @@
             "ticker": "MSFT",
             "description": "Microsoft Corp.",
             "shares": 2.0,
-            "market_value": 820.28,
+            "market_value": 819.52,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7582,7 +7582,7 @@
             "ticker": "MSTR",
             "description": "Strategy Inc.",
             "shares": 6.0,
-            "market_value": 765.12,
+            "market_value": 760.75,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7598,7 +7598,7 @@
             "ticker": "NUE",
             "description": "Nucor Corporation",
             "shares": 3.0,
-            "market_value": 762.88,
+            "market_value": 760.37,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7638,7 +7638,7 @@
             "ticker": "BMNR",
             "description": "30 Call 2027-01-15",
             "shares": 4.0,
-            "market_value": 744.0,
+            "market_value": 740.0,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7662,7 +7662,7 @@
             "ticker": "PWR",
             "description": "Quanta Services Inc.",
             "shares": 1.0,
-            "market_value": 694.22,
+            "market_value": 692.77,
             "account": "Robinhood Roth Ira 2211",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7702,7 +7702,7 @@
             "ticker": "LYSDY",
             "description": "Lynas Rare Earths Limited - ADR",
             "shares": 50.0,
-            "market_value": 622.5,
+            "market_value": 623.25,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7862,7 +7862,7 @@
             "ticker": "UUUU",
             "description": "Energy Fuels Inc.",
             "shares": 36.0,
-            "market_value": 558.0,
+            "market_value": 557.1,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -8036,30 +8036,6 @@
           },
           {
             "ticker": "BMNR",
-            "description": "25 Call 2027-01-15",
-            "shares": 1.0,
-            "market_value": 255.0,
-            "account": "Robinhood Individual 6550",
-            "owner": "SKB",
-            "owner_key": "skb",
-            "broker": "Robinhood",
-            "tracked": true,
-            "asset_type": "option",
-            "option": {
-              "occ_symbol": "BMNR  270115C00025000",
-              "underlying": "BMNR",
-              "expiry": "2027-01-15",
-              "call_put": "call",
-              "strike": 25.0,
-              "multiplier": 100,
-              "price_convention": "contract"
-            },
-            "sleeve": "IBIT",
-            "category": "Crypto",
-            "pct": 0.04
-          },
-          {
-            "ticker": "BMNR",
             "description": "60 Call 2028-01-21",
             "shares": 1.0,
             "market_value": 255.0,
@@ -8075,6 +8051,30 @@
               "expiry": "2028-01-21",
               "call_put": "call",
               "strike": 60.0,
+              "multiplier": 100,
+              "price_convention": "contract"
+            },
+            "sleeve": "IBIT",
+            "category": "Crypto",
+            "pct": 0.04
+          },
+          {
+            "ticker": "BMNR",
+            "description": "25 Call 2027-01-15",
+            "shares": 1.0,
+            "market_value": 254.0,
+            "account": "Robinhood Individual 6550",
+            "owner": "SKB",
+            "owner_key": "skb",
+            "broker": "Robinhood",
+            "tracked": true,
+            "asset_type": "option",
+            "option": {
+              "occ_symbol": "BMNR  270115C00025000",
+              "underlying": "BMNR",
+              "expiry": "2027-01-15",
+              "call_put": "call",
+              "strike": 25.0,
               "multiplier": 100,
               "price_convention": "contract"
             },
@@ -8126,7 +8126,7 @@
             "ticker": "BMNR",
             "description": "45 Call 2027-01-15",
             "shares": 2.0,
-            "market_value": 180.0,
+            "market_value": 178.0,
             "account": "Robinhood Traditional Ira 1369",
             "owner": "SKB",
             "owner_key": "skb",
@@ -8246,7 +8246,7 @@
             "ticker": "ORBS",
             "description": "Eightco Holdings Inc.",
             "shares": 140.0,
-            "market_value": 124.03,
+            "market_value": 123.82,
             "account": "Robinhood Individual 6550",
             "owner": "SKB",
             "owner_key": "skb",
@@ -8334,7 +8334,7 @@
             "ticker": "AAVE",
             "description": "Aave",
             "shares": 1.2613,
-            "market_value": 81.0,
+            "market_value": 80.77,
             "account": "Robinhood Crypto 8794",
             "owner": "SKB",
             "owner_key": "skb",
@@ -8566,7 +8566,7 @@
             "ticker": "TRUMP",
             "description": "OFFICIAL TRUMP",
             "shares": 13.0548,
-            "market_value": 22.23,
+            "market_value": 22.18,
             "account": "Robinhood Crypto 8794",
             "owner": "SKB",
             "owner_key": "skb",
@@ -8775,7 +8775,7 @@
           {
             "category": "AI / Semiconductors",
             "sleeve": "SMH",
-            "market_value": 262925.93,
+            "market_value": 262788.79,
             "pct": 43.78,
             "tickers": [
               "AMZN",
@@ -8803,14 +8803,14 @@
           {
             "category": "Quality core",
             "sleeve": "GRNY",
-            "market_value": 112743.15,
-            "pct": 18.77,
+            "market_value": 112759.18,
+            "pct": 18.79,
             "tickers": [
               "GRNJ",
               "GRNY"
             ],
             "working_model_target_pct": 3.0,
-            "working_model_gap_pct": -15.77,
+            "working_model_gap_pct": -15.79,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
             "fundstrat_reason": "Fundstrat what-to-own theme: small-caps",
@@ -8819,8 +8819,8 @@
           {
             "category": "Nuclear",
             "sleeve": "URA",
-            "market_value": 70902.91,
-            "pct": 11.81,
+            "market_value": 70835.17,
+            "pct": 11.8,
             "tickers": [
               "BWXT",
               "CCJ",
@@ -8837,8 +8837,8 @@
           {
             "category": "Electrification",
             "sleeve": "VOLT",
-            "market_value": 60225.07,
-            "pct": 10.03,
+            "market_value": 60165.72,
+            "pct": 10.02,
             "tickers": [
               "DRIV",
               "GEV",
@@ -8857,8 +8857,8 @@
           {
             "category": "Crypto",
             "sleeve": "IBIT",
-            "market_value": 35721.16,
-            "pct": 5.95,
+            "market_value": 35607.92,
+            "pct": 5.93,
             "tickers": [
               "BMNR",
               "HYPE",
@@ -8874,8 +8874,8 @@
           {
             "category": "Other holdings",
             "sleeve": "_other",
-            "market_value": 18207.22,
-            "pct": 3.03,
+            "market_value": 18249.1,
+            "pct": 3.04,
             "tickers": [
               "AAVE",
               "ACON",
@@ -8894,7 +8894,7 @@
               "WOLF"
             ],
             "working_model_target_pct": 8.0,
-            "working_model_gap_pct": 4.97,
+            "working_model_gap_pct": 4.96,
             "fundstrat_cue": "mixed",
             "fundstrat_source_date": "2026-05-28",
             "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
@@ -8914,7 +8914,7 @@
           {
             "category": "Financials",
             "sleeve": "XLF",
-            "market_value": 17679.7,
+            "market_value": 17672.89,
             "pct": 2.94,
             "tickers": [
               "GS",
@@ -8931,7 +8931,7 @@
           {
             "category": "Gold / Hedge",
             "sleeve": "GDX",
-            "market_value": 8720.88,
+            "market_value": 8694.37,
             "pct": 1.45,
             "tickers": [
               "GDX",
@@ -8962,7 +8962,7 @@
           {
             "category": "Critical minerals",
             "sleeve": "REMX",
-            "market_value": 6201.43,
+            "market_value": 6198.15,
             "pct": 1.03,
             "tickers": [
               "LYSDY",
@@ -8985,40 +8985,40 @@
               "ticker": "NVDA",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 57298.04,
-              "lookthrough_market_value": 12890.13,
-              "effective_market_value": 70188.17,
+              "direct_market_value": 57294.58,
+              "lookthrough_market_value": 12881.09,
+              "effective_market_value": 70175.67,
               "effective_pct": 11.69,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 2622.87
+                  "market_value": 2620.52
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.2,
-                  "market_value": 2530.46
+                  "market_value": 2527.56
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.05,
-                  "market_value": 568.8
+                  "market_value": 568.35
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 1124.09
+                  "market_value": 1123.58
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 571.33
+                  "market_value": 570.66
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.2,
-                  "market_value": 1204.95
+                  "market_value": 1203.76
                 },
                 {
                   "etf": "MAGS",
@@ -9033,17 +9033,17 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 655.72
+                  "market_value": 655.42
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.2,
-                  "market_value": 843.39
+                  "market_value": 842.89
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 393.43
+                  "market_value": 393.25
                 },
                 {
                   "etf": "SMH",
@@ -9061,40 +9061,40 @@
               "ticker": "AVGO",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 25478.89,
-              "lookthrough_market_value": 7514.66,
-              "effective_market_value": 32993.55,
-              "effective_pct": 5.49,
+              "direct_market_value": 25503.98,
+              "lookthrough_market_value": 7509.41,
+              "effective_market_value": 33013.39,
+              "effective_pct": 5.5,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.1,
-                  "market_value": 1873.48
+                  "market_value": 1871.8
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.08,
-                  "market_value": 1012.18
+                  "market_value": 1011.02
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 455.04
+                  "market_value": 454.68
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.1,
-                  "market_value": 802.92
+                  "market_value": 802.56
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 571.33
+                  "market_value": 570.66
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.08,
-                  "market_value": 481.98
+                  "market_value": 481.5
                 },
                 {
                   "etf": "MAGS",
@@ -9109,17 +9109,17 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.1,
-                  "market_value": 468.37
+                  "market_value": 468.16
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.08,
-                  "market_value": 337.36
+                  "market_value": 337.16
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.1,
-                  "market_value": 281.02
+                  "market_value": 280.9
                 },
                 {
                   "etf": "SMH",
@@ -9137,25 +9137,25 @@
               "ticker": "MSFT",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 12303.64,
-              "lookthrough_market_value": 6145.04,
-              "effective_market_value": 18448.68,
+              "direct_market_value": 12293.92,
+              "lookthrough_market_value": 6141.36,
+              "effective_market_value": 18435.28,
               "effective_pct": 3.07,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 2622.87
+                  "market_value": 2620.52
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 455.04
+                  "market_value": 454.68
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 1124.09
+                  "market_value": 1123.58
                 },
                 {
                   "etf": "MAGS",
@@ -9165,12 +9165,12 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 655.72
+                  "market_value": 655.42
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 393.43
+                  "market_value": 393.25
                 },
                 {
                   "etf": "MAGS",
@@ -9183,25 +9183,25 @@
               "ticker": "GOOGL",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 27033.58,
-              "lookthrough_market_value": 5624.85,
-              "effective_market_value": 32658.43,
-              "effective_pct": 5.44,
+              "direct_market_value": 26994.87,
+              "lookthrough_market_value": 5621.5,
+              "effective_market_value": 32616.37,
+              "effective_pct": 5.43,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 2435.52
+                  "market_value": 2433.34
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.03,
-                  "market_value": 341.28
+                  "market_value": 341.01
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 1043.8
+                  "market_value": 1043.33
                 },
                 {
                   "etf": "MAGS",
@@ -9211,12 +9211,12 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 608.88
+                  "market_value": 608.61
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 365.33
+                  "market_value": 365.16
                 },
                 {
                   "etf": "MAGS",
@@ -9230,19 +9230,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 5283.57,
-              "effective_market_value": 5283.57,
+              "lookthrough_market_value": 5280.49,
+              "effective_market_value": 5280.49,
               "effective_pct": 0.88,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 2435.52
+                  "market_value": 2433.34
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 1043.8
+                  "market_value": 1043.33
                 },
                 {
                   "etf": "MAGS",
@@ -9252,12 +9252,12 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 608.88
+                  "market_value": 608.61
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 365.33
+                  "market_value": 365.16
                 },
                 {
                   "etf": "MAGS",
@@ -9270,20 +9270,20 @@
               "ticker": "AMZN",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 12315.3,
-              "lookthrough_market_value": 5283.57,
-              "effective_market_value": 17598.87,
+              "direct_market_value": 12281.8,
+              "lookthrough_market_value": 5280.49,
+              "effective_market_value": 17562.29,
               "effective_pct": 2.93,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 2435.52
+                  "market_value": 2433.34
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 1043.8
+                  "market_value": 1043.33
                 },
                 {
                   "etf": "MAGS",
@@ -9293,12 +9293,12 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 608.88
+                  "market_value": 608.61
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 365.33
+                  "market_value": 365.16
                 },
                 {
                   "etf": "MAGS",
@@ -9312,19 +9312,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 5283.57,
-              "effective_market_value": 5283.57,
+              "lookthrough_market_value": 5280.49,
+              "effective_market_value": 5280.49,
               "effective_pct": 0.88,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 2435.52
+                  "market_value": 2433.34
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 1043.8
+                  "market_value": 1043.33
                 },
                 {
                   "etf": "MAGS",
@@ -9334,12 +9334,12 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 608.88
+                  "market_value": 608.61
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 365.33
+                  "market_value": 365.16
                 },
                 {
                   "etf": "MAGS",
@@ -9353,24 +9353,24 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 3840.85,
-              "effective_market_value": 3840.85,
+              "lookthrough_market_value": 3837.72,
+              "effective_market_value": 3837.72,
               "effective_pct": 0.64,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.11,
-                  "market_value": 1391.75
+                  "market_value": 1390.16
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.08,
-                  "market_value": 507.85
+                  "market_value": 507.25
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.11,
-                  "market_value": 662.72
+                  "market_value": 662.07
                 },
                 {
                   "etf": "SMH",
@@ -9380,7 +9380,7 @@
                 {
                   "etf": "SMH",
                   "fraction": 0.11,
-                  "market_value": 463.86
+                  "market_value": 463.59
                 },
                 {
                   "etf": "SMH",
@@ -9393,25 +9393,25 @@
               "ticker": "AMD",
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 2952.98,
-              "lookthrough_market_value": 1959.37,
-              "effective_market_value": 4912.35,
+              "direct_market_value": 2952.22,
+              "lookthrough_market_value": 1957.69,
+              "effective_market_value": 4909.91,
               "effective_pct": 0.82,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.05,
-                  "market_value": 632.61
+                  "market_value": 631.89
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.07,
-                  "market_value": 444.37
+                  "market_value": 443.84
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.05,
-                  "market_value": 301.24
+                  "market_value": 300.94
                 },
                 {
                   "etf": "SMH",
@@ -9421,7 +9421,7 @@
                 {
                   "etf": "SMH",
                   "fraction": 0.05,
-                  "market_value": 210.85
+                  "market_value": 210.72
                 },
                 {
                   "etf": "SMH",
@@ -9434,25 +9434,25 @@
               "ticker": "MU",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 21875.41,
-              "lookthrough_market_value": 1529.41,
-              "effective_market_value": 23404.82,
+              "direct_market_value": 21870.22,
+              "lookthrough_market_value": 1528.11,
+              "effective_market_value": 23398.33,
               "effective_pct": 3.9,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 506.09
+                  "market_value": 505.51
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.05,
-                  "market_value": 317.41
+                  "market_value": 317.03
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 240.99
+                  "market_value": 240.75
                 },
                 {
                   "etf": "SMH",
@@ -9462,7 +9462,7 @@
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 168.68
+                  "market_value": 168.58
                 },
                 {
                   "etf": "SMH",
@@ -9475,25 +9475,25 @@
               "ticker": "ASML",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 8075.31,
-              "lookthrough_market_value": 1465.92,
-              "effective_market_value": 9541.23,
+              "direct_market_value": 8057.5,
+              "lookthrough_market_value": 1464.71,
+              "effective_market_value": 9522.21,
               "effective_pct": 1.59,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 506.09
+                  "market_value": 505.51
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.04,
-                  "market_value": 253.93
+                  "market_value": 253.62
                 },
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 240.99
+                  "market_value": 240.75
                 },
                 {
                   "etf": "SMH",
@@ -9503,7 +9503,7 @@
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 168.68
+                  "market_value": 168.58
                 },
                 {
                   "etf": "SMH",
@@ -9517,14 +9517,14 @@
             {
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 262925.93,
-              "lookthrough_market_value": 40453.58,
-              "effective_market_value": 303379.51,
+              "direct_market_value": 262788.79,
+              "lookthrough_market_value": 40426.67,
+              "effective_market_value": 303215.46,
               "direct_pct": 43.78,
               "lookthrough_pct": 6.74,
-              "effective_pct": 50.51,
+              "effective_pct": 50.52,
               "working_model_target_pct": 48.0,
-              "working_model_gap_pct": -2.51,
+              "working_model_gap_pct": -2.52,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
@@ -9555,14 +9555,14 @@
             {
               "category": "Quality core",
               "sleeve": "GRNY",
-              "direct_market_value": 112743.15,
+              "direct_market_value": 112759.18,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 112743.15,
-              "direct_pct": 18.77,
+              "effective_market_value": 112759.18,
+              "direct_pct": 18.79,
               "lookthrough_pct": 0.0,
-              "effective_pct": 18.77,
+              "effective_pct": 18.79,
               "working_model_target_pct": 3.0,
-              "working_model_gap_pct": -15.77,
+              "working_model_gap_pct": -15.79,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own theme: small-caps",
@@ -9576,12 +9576,12 @@
             {
               "category": "Nuclear",
               "sleeve": "URA",
-              "direct_market_value": 70902.91,
+              "direct_market_value": 70835.17,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 70902.91,
-              "direct_pct": 11.81,
+              "effective_market_value": 70835.17,
+              "direct_pct": 11.8,
               "lookthrough_pct": 0.0,
-              "effective_pct": 11.81,
+              "effective_pct": 11.8,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -9599,12 +9599,12 @@
             {
               "category": "Electrification",
               "sleeve": "VOLT",
-              "direct_market_value": 60225.07,
+              "direct_market_value": 60165.72,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 60225.07,
-              "direct_pct": 10.03,
+              "effective_market_value": 60165.72,
+              "direct_pct": 10.02,
               "lookthrough_pct": 0.0,
-              "effective_pct": 10.03,
+              "effective_pct": 10.02,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -9624,12 +9624,12 @@
             {
               "category": "Crypto",
               "sleeve": "IBIT",
-              "direct_market_value": 35721.16,
+              "direct_market_value": 35607.92,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 35721.16,
-              "direct_pct": 5.95,
+              "effective_market_value": 35607.92,
+              "direct_pct": 5.93,
               "lookthrough_pct": 0.0,
-              "effective_pct": 5.95,
+              "effective_pct": 5.93,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -9646,14 +9646,14 @@
             {
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 18207.22,
-              "lookthrough_market_value": 16367.36,
-              "effective_market_value": 34574.58,
-              "direct_pct": 3.03,
-              "lookthrough_pct": 2.73,
-              "effective_pct": 5.76,
+              "direct_market_value": 18249.1,
+              "lookthrough_market_value": 16356.39,
+              "effective_market_value": 34605.49,
+              "direct_pct": 3.04,
+              "lookthrough_pct": 2.72,
+              "effective_pct": 5.77,
               "working_model_target_pct": 8.0,
-              "working_model_gap_pct": 2.24,
+              "working_model_gap_pct": 2.23,
               "fundstrat_cue": "mixed",
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
@@ -9698,9 +9698,9 @@
             {
               "category": "Financials",
               "sleeve": "XLF",
-              "direct_market_value": 17679.7,
+              "direct_market_value": 17672.89,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 17679.7,
+              "effective_market_value": 17672.89,
               "direct_pct": 2.94,
               "lookthrough_pct": 0.0,
               "effective_pct": 2.94,
@@ -9720,9 +9720,9 @@
             {
               "category": "Gold / Hedge",
               "sleeve": "GDX",
-              "direct_market_value": 8720.88,
+              "direct_market_value": 8694.37,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 8720.88,
+              "effective_market_value": 8694.37,
               "direct_pct": 1.45,
               "lookthrough_pct": 0.0,
               "effective_pct": 1.45,
@@ -9761,9 +9761,9 @@
             {
               "category": "Critical minerals",
               "sleeve": "REMX",
-              "direct_market_value": 6201.43,
+              "direct_market_value": 6198.15,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 6201.43,
+              "effective_market_value": 6198.15,
               "direct_pct": 1.03,
               "lookthrough_pct": 0.0,
               "effective_pct": 1.03,
@@ -9784,13 +9784,13 @@
       },
       "parents": {
         "key": "parents",
-        "total_value": 1234747.17,
+        "total_value": 1234509.19,
         "rows": [
           {
             "ticker": "SMH",
             "description": "VanEck Semiconductor ETF",
             "shares": 140.0,
-            "market_value": 84343.7,
+            "market_value": 84289.1,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9806,7 +9806,7 @@
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 2700.0,
-            "market_value": 73291.5,
+            "market_value": 73278.27,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9838,7 +9838,7 @@
             "ticker": "GRNJ",
             "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
             "shares": 1628.0,
-            "market_value": 50614.52,
+            "market_value": 50630.8,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9854,7 +9854,7 @@
             "ticker": "IVES",
             "description": "Amplify Bloomberg AI Value Chain ETF",
             "shares": 1093.0,
-            "market_value": 41457.49,
+            "market_value": 41413.77,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9864,7 +9864,7 @@
             "option": null,
             "sleeve": "SMH",
             "category": "AI / Semiconductors",
-            "pct": 3.36
+            "pct": 3.35
           },
           {
             "ticker": "SMH",
@@ -9902,7 +9902,7 @@
             "ticker": "XLF",
             "description": "Financial Select Sector SPDR Fund",
             "shares": 641.0,
-            "market_value": 33463.4,
+            "market_value": 33434.56,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -10030,7 +10030,7 @@
             "ticker": "SOXX",
             "description": "iShares Semiconductor ETF",
             "shares": 40.0,
-            "market_value": 23080.0,
+            "market_value": 23066.4,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -10046,7 +10046,7 @@
             "ticker": "MAGS",
             "description": "Roundhill Magnificent Seven Fund",
             "shares": 300.0,
-            "market_value": 20073.0,
+            "market_value": 20055.0,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -10056,7 +10056,7 @@
             "option": null,
             "sleeve": "SMH",
             "category": "AI / Semiconductors",
-            "pct": 1.63
+            "pct": 1.62
           },
           {
             "ticker": "GRNJ",
@@ -10126,7 +10126,7 @@
             "ticker": "VOLT",
             "description": "Tema Electrification Fund",
             "shares": 422.0,
-            "market_value": 16327.18,
+            "market_value": 16306.08,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -10238,7 +10238,7 @@
             "ticker": "GDX",
             "description": "VanEck Gold Miners ETF",
             "shares": 151.0,
-            "market_value": 12015.83,
+            "market_value": 11982.61,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -10286,7 +10286,7 @@
             "ticker": "RPG",
             "description": "Invesco S&P 500 Pure Growth ETF",
             "shares": 196.0,
-            "market_value": 11520.88,
+            "market_value": 11509.12,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -10670,7 +10670,7 @@
             "ticker": "SIL",
             "description": "Global X Silver Miners UCITS ETF USD Accumulating",
             "shares": 68.0,
-            "market_value": 5470.26,
+            "market_value": 5452.32,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -11088,7 +11088,7 @@
             "option": null,
             "sleeve": "_other",
             "category": "Other holdings",
-            "pct": 0.23
+            "pct": 0.24
           },
           {
             "ticker": "ASTS",
@@ -11286,7 +11286,7 @@
             "ticker": "LIT",
             "description": "GLOBAL X LITHIUM & BATTERY T",
             "shares": 20.0,
-            "market_value": 1550.05,
+            "market_value": 1551.8,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -11927,7 +11927,7 @@
           {
             "category": "AI / Semiconductors",
             "sleeve": "SMH",
-            "market_value": 459980.84,
+            "market_value": 459850.92,
             "pct": 37.25,
             "tickers": [
               "AMZN",
@@ -11955,7 +11955,7 @@
           {
             "category": "Quality core",
             "sleeve": "GRNY",
-            "market_value": 241518.12,
+            "market_value": 241509.41,
             "pct": 19.56,
             "tickers": [
               "COST",
@@ -11973,7 +11973,7 @@
           {
             "category": "Electrification",
             "sleeve": "VOLT",
-            "market_value": 120748.9,
+            "market_value": 120727.8,
             "pct": 9.78,
             "tickers": [
               "BE",
@@ -12058,7 +12058,7 @@
           {
             "category": "Financials",
             "sleeve": "XLF",
-            "market_value": 77503.42,
+            "market_value": 77474.58,
             "pct": 6.28,
             "tickers": [
               "GS",
@@ -12111,7 +12111,7 @@
           {
             "category": "Gold / Hedge",
             "sleeve": "GDX",
-            "market_value": 34949.28,
+            "market_value": 34898.12,
             "pct": 2.83,
             "tickers": [
               "GDX",
@@ -12128,7 +12128,7 @@
           {
             "category": "Critical minerals",
             "sleeve": "REMX",
-            "market_value": 15891.65,
+            "market_value": 15893.4,
             "pct": 1.29,
             "tickers": [
               "LIT",
@@ -12153,19 +12153,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 75887.0,
-              "lookthrough_market_value": 37510.22,
-              "effective_market_value": 113397.22,
+              "lookthrough_market_value": 37493.37,
+              "effective_market_value": 113380.37,
               "effective_pct": 9.18,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.2,
-                  "market_value": 16868.74
+                  "market_value": 16857.82
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.05,
-                  "market_value": 2072.87
+                  "market_value": 2070.69
                 },
                 {
                   "etf": "SMH",
@@ -12180,12 +12180,12 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 2077.2
+                  "market_value": 2075.98
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 2810.22
+                  "market_value": 2807.7
                 },
                 {
                   "etf": "SMH",
@@ -12224,19 +12224,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 15429.2,
-              "lookthrough_market_value": 19023.78,
-              "effective_market_value": 34452.98,
+              "lookthrough_market_value": 19014.64,
+              "effective_market_value": 34443.84,
               "effective_pct": 2.79,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.08,
-                  "market_value": 6747.5
+                  "market_value": 6743.13
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 1658.3
+                  "market_value": 1656.55
                 },
                 {
                   "etf": "SMH",
@@ -12251,12 +12251,12 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 2077.2
+                  "market_value": 2075.98
                 },
                 {
                   "etf": "MAGS",
                   "fraction": 0.1,
-                  "market_value": 2007.3
+                  "market_value": 2005.5
                 },
                 {
                   "etf": "SMH",
@@ -12295,14 +12295,14 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 17017.68,
-              "effective_market_value": 17017.68,
+              "lookthrough_market_value": 17010.59,
+              "effective_market_value": 17010.59,
               "effective_pct": 1.38,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.11,
-                  "market_value": 9277.81
+                  "market_value": 9271.8
                 },
                 {
                   "etf": "SMH",
@@ -12312,7 +12312,7 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.08,
-                  "market_value": 1846.4
+                  "market_value": 1845.31
                 },
                 {
                   "etf": "SMH",
@@ -12336,14 +12336,14 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 4663.8,
-              "lookthrough_market_value": 8511.64,
-              "effective_market_value": 13175.44,
+              "lookthrough_market_value": 8507.96,
+              "effective_market_value": 13171.76,
               "effective_pct": 1.07,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.05,
-                  "market_value": 4217.19
+                  "market_value": 4214.46
                 },
                 {
                   "etf": "SMH",
@@ -12353,7 +12353,7 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.07,
-                  "market_value": 1615.6
+                  "market_value": 1614.65
                 },
                 {
                   "etf": "SMH",
@@ -12377,14 +12377,14 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 18767.65,
-              "lookthrough_market_value": 7133.52,
-              "effective_market_value": 25901.17,
+              "lookthrough_market_value": 7129.25,
+              "effective_market_value": 25896.9,
               "effective_pct": 2.1,
               "sources": [
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 1658.3
+                  "market_value": 1656.55
                 },
                 {
                   "etf": "IVES",
@@ -12394,7 +12394,7 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.14,
-                  "market_value": 2810.22
+                  "market_value": 2807.7
                 },
                 {
                   "etf": "MAGS",
@@ -12418,14 +12418,14 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 34560.4,
-              "lookthrough_market_value": 6670.83,
-              "effective_market_value": 41231.23,
+              "lookthrough_market_value": 6667.97,
+              "effective_market_value": 41228.37,
               "effective_pct": 3.34,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 3373.75
+                  "market_value": 3371.56
                 },
                 {
                   "etf": "SMH",
@@ -12435,7 +12435,7 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.05,
-                  "market_value": 1154.0
+                  "market_value": 1153.32
                 },
                 {
                   "etf": "SMH",
@@ -12459,14 +12459,14 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 6440.03,
-              "effective_market_value": 6440.03,
+              "lookthrough_market_value": 6437.3,
+              "effective_market_value": 6437.3,
               "effective_pct": 0.52,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 3373.75
+                  "market_value": 3371.56
                 },
                 {
                   "etf": "SMH",
@@ -12476,7 +12476,7 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.04,
-                  "market_value": 923.2
+                  "market_value": 922.66
                 },
                 {
                   "etf": "SMH",
@@ -12500,14 +12500,14 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 11055.9,
-              "lookthrough_market_value": 6113.02,
-              "effective_market_value": 17168.92,
+              "lookthrough_market_value": 6109.36,
+              "effective_market_value": 17165.26,
               "effective_pct": 1.39,
               "sources": [
                 {
                   "etf": "IVES",
                   "fraction": 0.03,
-                  "market_value": 1243.72
+                  "market_value": 1242.41
                 },
                 {
                   "etf": "IVES",
@@ -12517,7 +12517,7 @@
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 2609.49
+                  "market_value": 2607.15
                 },
                 {
                   "etf": "MAGS",
@@ -12541,14 +12541,14 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 3966.96,
-              "effective_market_value": 3966.96,
+              "lookthrough_market_value": 3964.62,
+              "effective_market_value": 3964.62,
               "effective_pct": 0.32,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 2609.49
+                  "market_value": 2607.15
                 },
                 {
                   "etf": "MAGS",
@@ -12567,14 +12567,14 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 9595.17,
-              "lookthrough_market_value": 3966.96,
-              "effective_market_value": 13562.13,
+              "lookthrough_market_value": 3964.62,
+              "effective_market_value": 13559.79,
               "effective_pct": 1.1,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 2609.49
+                  "market_value": 2607.15
                 },
                 {
                   "etf": "MAGS",
@@ -12593,14 +12593,14 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 3966.96,
-              "effective_market_value": 3966.96,
+              "lookthrough_market_value": 3964.62,
+              "effective_market_value": 3964.62,
               "effective_pct": 0.32,
               "sources": [
                 {
                   "etf": "MAGS",
                   "fraction": 0.13,
-                  "market_value": 2609.49
+                  "market_value": 2607.15
                 },
                 {
                   "etf": "MAGS",
@@ -12619,14 +12619,14 @@
             {
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 459980.84,
-              "lookthrough_market_value": 86858.36,
-              "effective_market_value": 546839.2,
+              "direct_market_value": 459850.92,
+              "lookthrough_market_value": 86816.51,
+              "effective_market_value": 546667.43,
               "direct_pct": 37.25,
               "lookthrough_pct": 7.03,
-              "effective_pct": 44.29,
+              "effective_pct": 44.28,
               "working_model_target_pct": 48.0,
-              "working_model_gap_pct": 3.71,
+              "working_model_gap_pct": 3.72,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
@@ -12658,9 +12658,9 @@
             {
               "category": "Quality core",
               "sleeve": "GRNY",
-              "direct_market_value": 241518.12,
+              "direct_market_value": 241509.41,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 241518.12,
+              "effective_market_value": 241509.41,
               "direct_pct": 19.56,
               "lookthrough_pct": 0.0,
               "effective_pct": 19.56,
@@ -12682,8 +12682,8 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 97031.33,
-              "lookthrough_market_value": 33463.24,
-              "effective_market_value": 130494.57,
+              "lookthrough_market_value": 33447.79,
+              "effective_market_value": 130479.12,
               "direct_pct": 7.86,
               "lookthrough_pct": 2.71,
               "effective_pct": 10.57,
@@ -12736,9 +12736,9 @@
             {
               "category": "Electrification",
               "sleeve": "VOLT",
-              "direct_market_value": 120748.9,
+              "direct_market_value": 120727.8,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 120748.9,
+              "effective_market_value": 120727.8,
               "direct_pct": 9.78,
               "lookthrough_pct": 0.0,
               "effective_pct": 9.78,
@@ -12788,9 +12788,9 @@
             {
               "category": "Financials",
               "sleeve": "XLF",
-              "direct_market_value": 77503.42,
+              "direct_market_value": 77474.58,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 77503.42,
+              "effective_market_value": 77474.58,
               "direct_pct": 6.28,
               "lookthrough_pct": 0.0,
               "effective_pct": 6.28,
@@ -12856,9 +12856,9 @@
             {
               "category": "Gold / Hedge",
               "sleeve": "GDX",
-              "direct_market_value": 34949.28,
+              "direct_market_value": 34898.12,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 34949.28,
+              "effective_market_value": 34898.12,
               "direct_pct": 2.83,
               "lookthrough_pct": 0.0,
               "effective_pct": 2.83,
@@ -12878,9 +12878,9 @@
             {
               "category": "Critical minerals",
               "sleeve": "REMX",
-              "direct_market_value": 15891.65,
+              "direct_market_value": 15893.4,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 15891.65,
+              "effective_market_value": 15893.4,
               "direct_pct": 1.29,
               "lookthrough_pct": 0.0,
               "effective_pct": 1.29,
@@ -12932,7 +12932,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-08T10:02:37-04:00",
-        "connector_proof_age_hours": 2.8
+        "connector_proof_age_hours": 2.93
       }
     ],
     "missing": [],
@@ -13245,8 +13245,9 @@
           "key": "positions",
           "status": "present",
           "present": true,
-          "primary_mode": "supplied_or_export",
+          "primary_mode": "connector_or_api",
           "modes": [
+            "connector_or_api",
             "supplied_or_export"
           ],
           "source": "broker_position_intake",
@@ -13256,8 +13257,9 @@
           "key": "account_positions",
           "status": "present",
           "present": true,
-          "primary_mode": "supplied_or_export",
+          "primary_mode": "connector_or_api",
           "modes": [
+            "connector_or_api",
             "supplied_or_export"
           ],
           "source": "broker_position_intake",
@@ -15450,10 +15452,10 @@
   },
   "reallocation_brief": {
     "status": "candidate_only",
-    "line": "Reallocation brief: candidate only from 2026-06-08 positions; 6 add candidate(s), 5 funding trim(s); allocated $507,730; shortfall $218,012.",
+    "line": "Reallocation brief: candidate only from 2026-06-08 positions; 6 add candidate(s), 5 funding trim(s); allocated $507,623; shortfall $217,849.",
     "positions_snapshot_date": "2026-06-08",
     "positions_age_days": 0,
-    "total_book_value": 1873341.0,
+    "total_book_value": 1872747.0,
     "candidate_only": true,
     "counts": {
       "adds": 6,
@@ -15462,17 +15464,17 @@
       "sequence_later": 3
     },
     "funding": {
-      "pool_total_usd": 507729.74,
-      "allocated_usd": 507729.74,
+      "pool_total_usd": 507623.06,
+      "allocated_usd": 507623.06,
       "remaining_usd": 0.0,
-      "shortfall_usd": 218011.93
+      "shortfall_usd": 217849.16
     },
     "rows": [
       {
         "ticker": "GOOGL",
         "rank": 1,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 149867.28,
+        "notional_usd": 149819.76,
         "current_pct": 0.0,
         "target_pct": 8.0,
         "effective_current_pct": 0.0,
@@ -15485,11 +15487,11 @@
         "funded_by": [
           {
             "ticker": "IVES",
-            "notional_usd": 82910.33
+            "notional_usd": 82859.69
           },
           {
             "ticker": "SMH",
-            "notional_usd": 66956.95
+            "notional_usd": 66960.07
           }
         ],
         "rationale": "full-stack incl TPUs; capex-confirmed; constructive entry",
@@ -15577,11 +15579,11 @@
         "ticker": "NVDA",
         "rank": 2,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 72882.33,
-        "current_pct": 7.1095,
+        "notional_usd": 72819.89,
+        "current_pct": 7.1116,
         "target_pct": 12.0,
-        "effective_current_pct": 8.1095,
-        "delta_pct": 3.8905,
+        "effective_current_pct": 8.1116,
+        "delta_pct": 3.8884,
         "sequence": "after 2026-06-03",
         "sequence_state": "past_gate",
         "entry_note": "size AFTER the AVGO 2026-06-03 print (correlated semis read)",
@@ -15590,11 +15592,11 @@
         "funded_by": [
           {
             "ticker": "SMH",
-            "notional_usd": 7596.4
+            "notional_usd": 7545.3
           },
           {
             "ticker": "MAGS",
-            "notional_usd": 65285.93
+            "notional_usd": 65274.59
           }
         ],
         "rationale": "compute moat; ~19x fwd / PEG<0.3 \u2014 the T1 promotion",
@@ -15656,7 +15658,7 @@
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 24832.92
+              "market_value": 24834.11
             },
             {
               "owner": "SKB",
@@ -15683,7 +15685,7 @@
         "ticker": "MSFT",
         "rank": 3,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 93667.05,
+        "notional_usd": 93637.35,
         "current_pct": 0.0,
         "target_pct": 5.0,
         "effective_current_pct": 0.0,
@@ -15696,11 +15698,11 @@
         "funded_by": [
           {
             "ticker": "MAGS",
-            "notional_usd": 5872.93
+            "notional_usd": 5841.1
           },
           {
             "ticker": "GRNJ",
-            "notional_usd": 87794.12
+            "notional_usd": 87796.25
           }
         ],
         "rationale": "hyperscaler; cheap laggard",
@@ -15761,7 +15763,7 @@
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 11483.36
+              "market_value": 11474.4
             },
             {
               "owner": "Parents",
@@ -15775,7 +15777,7 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 820.28
+              "market_value": 819.52
             }
           ],
           "caveats": [
@@ -15788,7 +15790,7 @@
         "ticker": "AMZN",
         "rank": 4,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 74933.64,
+        "notional_usd": 74909.88,
         "current_pct": 0.0,
         "target_pct": 4.0,
         "effective_current_pct": 0.0,
@@ -15801,11 +15803,11 @@
         "funded_by": [
           {
             "ticker": "GRNJ",
-            "notional_usd": 69665.81
+            "notional_usd": 69698.03
           },
           {
             "ticker": "GRNY",
-            "notional_usd": 5267.83
+            "notional_usd": 5211.85
           }
         ],
         "rationale": "AWS; mild pullback",
@@ -15873,7 +15875,7 @@
               "broker": "Robinhood",
               "account": "Robinhood Individual 6550",
               "label": "SKB Robinhood: Robinhood Individual 6550",
-              "market_value": 3940.8
+              "market_value": 3930.08
             },
             {
               "owner": "Parents",
@@ -15893,7 +15895,7 @@
         "ticker": "AVGO",
         "rank": 5,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 104907.1,
+        "notional_usd": 104873.83,
         "current_pct": 0.0,
         "target_pct": 6.0,
         "effective_current_pct": 0.4,
@@ -15906,7 +15908,7 @@
         "funded_by": [
           {
             "ticker": "GRNY",
-            "notional_usd": 104907.1
+            "notional_usd": 104873.83
           }
         ],
         "rationale": "custom ASIC + networking; size AFTER 6/3 print",
@@ -15975,14 +15977,14 @@
               "broker": "Robinhood",
               "account": "Robinhood Roth Ira 2211",
               "label": "SKB Robinhood: Robinhood Roth Ira 2211",
-              "market_value": 5943.0
+              "market_value": 5954.7
             },
             {
               "owner": "SKB",
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 5149.61
+              "market_value": 5156.97
             }
           ],
           "caveats": [
@@ -15995,11 +15997,11 @@
         "ticker": "TSM",
         "rank": 6,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 11472.34,
+        "notional_usd": 11562.35,
         "current_pct": 0.0,
         "target_pct": 4.0,
         "effective_current_pct": 0.55,
-        "delta_pct": 0.6124,
+        "delta_pct": 0.6174,
         "sequence": "after 2026-06-03",
         "sequence_state": "past_gate",
         "entry_note": "size AFTER the AVGO 2026-06-03 print (correlated semis read)",
@@ -16008,12 +16010,12 @@
         "funded_by": [
           {
             "ticker": "GRNY",
-            "notional_usd": 11472.34
+            "notional_usd": 11562.35
           }
         ],
         "rationale": "foundry near-monopoly; extended",
         "caveats": [
-          "partially funded: $11,472 of $64,630 gap",
+          "partially funded: $11,562 of $64,610 gap",
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
@@ -16078,7 +16080,7 @@
               "broker": "Schwab",
               "account": "PCRA Trust ...651 PCRA Trust ...651",
               "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
-              "market_value": 373207.81
+              "market_value": 372969.83
             },
             {
               "owner": "Parents",
@@ -16099,20 +16101,20 @@
       {
         "ticker": "GRNJ",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 157459.93,
-        "current_pct": 8.4053,
+        "notional_usd": 157494.28,
+        "current_pct": 8.4098,
         "target_pct": 0.0,
-        "delta_pct": -8.4053,
+        "delta_pct": -8.4098,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "MSFT",
-            "notional_usd": 87794.12
+            "notional_usd": 87796.25
           },
           {
             "ticker": "AMZN",
-            "notional_usd": 69665.81
+            "notional_usd": 69698.03
           }
         ],
         "rationale": "reservoir drawn to fund the names above",
@@ -16137,7 +16139,7 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 22975.51
+              "market_value": 22982.9
             },
             {
               "owner": "Parents",
@@ -16151,7 +16153,7 @@
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 17099.5
+              "market_value": 17105.0
             }
           ],
           "caveats": [
@@ -16163,24 +16165,24 @@
       {
         "ticker": "GRNY",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 121647.27,
-        "current_pct": 9.4936,
+        "notional_usd": 121648.03,
+        "current_pct": 9.4957,
         "target_pct": 3.0,
-        "delta_pct": -6.4936,
+        "delta_pct": -6.4957,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "AMZN",
-            "notional_usd": 5267.83
+            "notional_usd": 5211.85
           },
           {
             "ticker": "AVGO",
-            "notional_usd": 104907.1
+            "notional_usd": 104873.83
           },
           {
             "ticker": "TSM",
-            "notional_usd": 11472.34
+            "notional_usd": 11562.35
           }
         ],
         "rationale": "reservoir drawn to fund the names above",
@@ -16219,7 +16221,7 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 16284.0
+              "market_value": 16284.06
             }
           ],
           "caveats": [
@@ -16231,16 +16233,16 @@
       {
         "ticker": "IVES",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 82910.33,
-        "current_pct": 4.4258,
+        "notional_usd": 82859.69,
+        "current_pct": 4.4245,
         "target_pct": 0.0,
-        "delta_pct": -4.4258,
+        "delta_pct": -4.4245,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "GOOGL",
-            "notional_usd": 82910.33
+            "notional_usd": 82859.69
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -16270,7 +16272,7 @@
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 11375.97
+              "market_value": 11367.0
             },
             {
               "owner": "Parents",
@@ -16289,20 +16291,20 @@
       {
         "ticker": "SMH",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 74553.35,
-        "current_pct": 8.9797,
+        "notional_usd": 74505.37,
+        "current_pct": 8.9784,
         "target_pct": 5.0,
-        "delta_pct": -3.9797,
+        "delta_pct": -3.9784,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "GOOGL",
-            "notional_usd": 66956.95
+            "notional_usd": 66960.07
           },
           {
             "ticker": "NVDA",
-            "notional_usd": 7596.4
+            "notional_usd": 7545.3
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -16332,7 +16334,7 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 12652.29
+              "market_value": 12637.8
             },
             {
               "owner": "Parents",
@@ -16351,20 +16353,20 @@
       {
         "ticker": "MAGS",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 71158.86,
-        "current_pct": 3.7985,
+        "notional_usd": 71115.69,
+        "current_pct": 3.7974,
         "target_pct": 0.0,
-        "delta_pct": -3.7985,
+        "delta_pct": -3.7974,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "NVDA",
-            "notional_usd": 65285.93
+            "notional_usd": 65274.59
           },
           {
             "ticker": "MSFT",
-            "notional_usd": 5872.93
+            "notional_usd": 5841.1
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -16387,14 +16389,14 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 18734.8
+              "market_value": 18718.0
             },
             {
               "owner": "SKB",
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 8029.2
+              "market_value": 8025.6
             },
             {
               "owner": "Parents",
@@ -16415,7 +16417,7 @@
       {
         "ticker": "BMNR",
         "status": "undecided_recheck",
-        "market_value": 56597.0,
+        "market_value": 56524.0,
         "why": "Crypto/BMNR complex stays undecided until fresh price, flow, thesis, and risk evidence resolves defend versus reduce.",
         "next_step": "Re-check fresh crypto/BMNR evidence before adding, trimming, or treating the old thesis as current.",
         "disconfirmation": "If fresh evidence is split, stale, or contradicted, keep it out of promoted action lanes.",
@@ -16437,7 +16439,7 @@
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 13367.0
+              "market_value": 13326.0
             },
             {
               "owner": "Parents",
@@ -16451,7 +16453,7 @@
               "broker": "Robinhood",
               "account": "Robinhood Individual 6550",
               "label": "SKB Robinhood: Robinhood Individual 6550",
-              "market_value": 10106.63
+              "market_value": 10078.58
             }
           ],
           "caveats": [
@@ -16483,7 +16485,7 @@
     ],
     "warnings": [
       "no run-up data supplied -> chase-gate inactive; verify entries live before acting",
-      "funding shortfall $218,012: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
+      "funding shortfall $217,849: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
     ],
     "notes": [
       "ANET: gap 3.0% unfunded (pool exhausted)",
@@ -16564,7 +16566,7 @@
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 24832.92
+              "market_value": 24834.11
             },
             {
               "owner": "SKB",
@@ -16685,7 +16687,7 @@
         "priority": 5,
         "kind": "reallocation_review",
         "label": "Review current-position reallocation candidates",
-        "why": "Reallocation brief: candidate only from 2026-06-08 positions; 6 add candidate(s), 5 funding trim(s); allocated $507,730; shortfall $218,012.",
+        "why": "Reallocation brief: candidate only from 2026-06-08 positions; 6 add candidate(s), 5 funding trim(s); allocated $507,623; shortfall $217,849.",
         "next_step": "Review funded add/trim legs, then run same-session UW/price and tax/account gates before acting.",
         "blocks": "same-session UW price/flow confirmation required before any capital action",
         "source": "reallocation_brief",
@@ -16848,14 +16850,14 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 18734.8
+              "market_value": 18718.0
             },
             {
               "owner": "SKB",
               "broker": "Robinhood",
               "account": "Robinhood Traditional Ira 1369",
               "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 8029.2
+              "market_value": 8025.6
             },
             {
               "owner": "Parents",
@@ -17045,7 +17047,7 @@
         "rank": 3,
         "posture": "size/compare",
         "label": "Compare the funded add candidates before parking capital: GOOGL leads the current reallocation brief.",
-        "why": "Reallocation brief: candidate only from 2026-06-08 positions; 6 add candidate(s), 5 funding trim(s); allocated $507,730; shortfall $218,012.",
+        "why": "Reallocation brief: candidate only from 2026-06-08 positions; 6 add candidate(s), 5 funding trim(s); allocated $507,623; shortfall $217,849.",
         "what_i_would_do": "Use the brief as a capital-efficiency screen: choose the best current use of capital, stage if confirmed, and do not add a merely good idea ahead of a better one.",
         "source": "reallocation_brief"
       },

@@ -1,49 +1,7 @@
 {
-  "prior_snapshot_date": "2026-06-07",
+  "prior_snapshot_date": "2026-06-08",
   "current_snapshot_date": "2026-06-08",
   "changes": [
-    {
-      "ticker": "AAVE",
-      "account": "Robinhood Crypto 8794",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 1.2613,
-      "shares_after": 1.2613,
-      "share_delta": 0.0,
-      "market_value_before": 77.42,
-      "market_value_after": 81.0,
-      "market_value_delta": 3.58,
-      "tracked": false
-    },
-    {
-      "ticker": "AMD",
-      "account": "Robinhood Roth Ira 2211",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 2.0,
-      "shares_after": 2.0,
-      "share_delta": 0.0,
-      "market_value_before": 932.75,
-      "market_value_after": 984.14,
-      "market_value_delta": 51.39,
-      "tracked": false
-    },
-    {
-      "ticker": "AMD",
-      "account": "Robinhood Traditional Ira 1369",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 4.0,
-      "shares_after": 4.0,
-      "share_delta": 0.0,
-      "market_value_before": 1865.5,
-      "market_value_after": 1968.84,
-      "market_value_delta": 103.34,
-      "tracked": false
-    },
     {
       "ticker": "AMZN",
       "account": "Robinhood Individual 6550",
@@ -53,9 +11,9 @@
       "shares_before": 16.0,
       "shares_after": 16.0,
       "share_delta": 0.0,
-      "market_value_before": 3935.68,
-      "market_value_after": 3940.8,
-      "market_value_delta": 5.12,
+      "market_value_before": 3940.8,
+      "market_value_after": 3930.08,
+      "market_value_delta": -10.72,
       "tracked": false
     },
     {
@@ -67,9 +25,9 @@
       "shares_before": 4.0,
       "shares_after": 4.0,
       "share_delta": 0.0,
-      "market_value_before": 983.92,
-      "market_value_after": 985.2,
-      "market_value_delta": 1.28,
+      "market_value_before": 985.2,
+      "market_value_after": 982.52,
+      "market_value_delta": -2.68,
       "tracked": false
     },
     {
@@ -81,9 +39,9 @@
       "shares_before": 30.0,
       "shares_after": 30.0,
       "share_delta": 0.0,
-      "market_value_before": 7379.4,
-      "market_value_after": 7389.3,
-      "market_value_delta": 9.9,
+      "market_value_before": 7389.3,
+      "market_value_after": 7369.2,
+      "market_value_delta": -20.1,
       "tracked": false
     },
     {
@@ -95,9 +53,9 @@
       "shares_before": 1.0,
       "shares_after": 1.0,
       "share_delta": 0.0,
-      "market_value_before": 1640.91,
-      "market_value_after": 1761.35,
-      "market_value_delta": 120.44,
+      "market_value_before": 1761.35,
+      "market_value_after": 1755.16,
+      "market_value_delta": -6.19,
       "tracked": false
     },
     {
@@ -109,23 +67,9 @@
       "shares_before": 2.0,
       "shares_after": 2.0,
       "share_delta": 0.0,
-      "market_value_before": 3281.82,
-      "market_value_after": 3523.0,
-      "market_value_delta": 241.18,
-      "tracked": false
-    },
-    {
-      "ticker": "ASTS",
-      "account": "Robinhood Traditional Ira 1369",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 38.0,
-      "shares_after": 38.0,
-      "share_delta": 0.0,
-      "market_value_before": 3553.38,
-      "market_value_after": 3533.24,
-      "market_value_delta": -20.14,
+      "market_value_before": 3523.0,
+      "market_value_after": 3511.38,
+      "market_value_delta": -11.62,
       "tracked": false
     },
     {
@@ -137,9 +81,9 @@
       "shares_before": 7.0,
       "shares_after": 7.0,
       "share_delta": 0.0,
-      "market_value_before": 2700.11,
-      "market_value_after": 2772.5,
-      "market_value_delta": 72.39,
+      "market_value_before": 2772.5,
+      "market_value_after": 2775.41,
+      "market_value_delta": 2.91,
       "tracked": false
     },
     {
@@ -151,9 +95,9 @@
       "shares_before": 4.0,
       "shares_after": 4.0,
       "share_delta": 0.0,
-      "market_value_before": 1542.96,
-      "market_value_after": 1584.8,
-      "market_value_delta": 41.84,
+      "market_value_before": 1584.8,
+      "market_value_after": 1587.92,
+      "market_value_delta": 3.12,
       "tracked": false
     },
     {
@@ -165,9 +109,9 @@
       "shares_before": 15.0,
       "shares_after": 15.0,
       "share_delta": 0.0,
-      "market_value_before": 5786.1,
-      "market_value_after": 5943.0,
-      "market_value_delta": 156.9,
+      "market_value_before": 5943.0,
+      "market_value_after": 5954.7,
+      "market_value_delta": 11.7,
       "tracked": false
     },
     {
@@ -179,9 +123,9 @@
       "shares_before": 13.0,
       "shares_after": 13.0,
       "share_delta": 0.0,
-      "market_value_before": 5014.62,
-      "market_value_after": 5149.61,
-      "market_value_delta": 134.99,
+      "market_value_before": 5149.61,
+      "market_value_after": 5156.97,
+      "market_value_delta": 7.36,
       "tracked": false
     },
     {
@@ -193,51 +137,9 @@
       "shares_before": 73.0,
       "shares_after": 73.0,
       "share_delta": 0.0,
-      "market_value_before": 1160.7,
-      "market_value_after": 1239.53,
-      "market_value_delta": 78.83,
-      "tracked": true
-    },
-    {
-      "ticker": "BMNR",
-      "account": "Robinhood Individual 6550",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 3.0,
-      "shares_after": 3.0,
-      "share_delta": 0.0,
-      "market_value_before": 423.0,
-      "market_value_after": 462.0,
-      "market_value_delta": 39.0,
-      "tracked": true
-    },
-    {
-      "ticker": "BMNR",
-      "account": "Robinhood Roth Ira 2211",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 8.0,
-      "shares_after": 8.0,
-      "share_delta": 0.0,
-      "market_value_before": 1432.0,
-      "market_value_after": 1496.0,
-      "market_value_delta": 64.0,
-      "tracked": true
-    },
-    {
-      "ticker": "BMNR",
-      "account": "Robinhood Traditional Ira 1369",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 10.0,
-      "shares_after": 10.0,
-      "share_delta": 0.0,
-      "market_value_before": 320.0,
-      "market_value_after": 330.0,
-      "market_value_delta": 10.0,
+      "market_value_before": 1239.53,
+      "market_value_after": 1234.43,
+      "market_value_delta": -5.1,
       "tracked": true
     },
     {
@@ -249,9 +151,9 @@
       "shares_before": 22.0,
       "shares_after": 22.0,
       "share_delta": 0.0,
-      "market_value_before": 4090.68,
-      "market_value_after": 4145.46,
-      "market_value_delta": 54.78,
+      "market_value_before": 4145.46,
+      "market_value_after": 4142.93,
+      "market_value_delta": -2.53,
       "tracked": false
     },
     {
@@ -263,9 +165,9 @@
       "shares_before": 40.0,
       "shares_after": 40.0,
       "share_delta": 0.0,
-      "market_value_before": 4137.6,
-      "market_value_after": 4254.8,
-      "market_value_delta": 117.2,
+      "market_value_before": 4254.8,
+      "market_value_after": 4252.4,
+      "market_value_delta": -2.4,
       "tracked": false
     },
     {
@@ -277,37 +179,9 @@
       "shares_before": 30.0,
       "shares_after": 30.0,
       "share_delta": 0.0,
-      "market_value_before": 3102.3,
-      "market_value_after": 3191.1,
-      "market_value_delta": 88.8,
-      "tracked": false
-    },
-    {
-      "ticker": "DRIV",
-      "account": "Individual ...254 Individual ...254",
-      "owner": "SKB",
-      "broker": "Schwab",
-      "action": "VALUE_CHANGE",
-      "shares_before": 130.0,
-      "shares_after": 130.0,
-      "share_delta": 0.0,
-      "market_value_before": 5020.6,
-      "market_value_after": 5127.85,
-      "market_value_delta": 107.25,
-      "tracked": false
-    },
-    {
-      "ticker": "DRIV",
-      "account": "Robinhood Individual 6550",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 75.0,
-      "shares_after": 75.0,
-      "share_delta": 0.0,
-      "market_value_before": 2904.75,
-      "market_value_after": 2958.38,
-      "market_value_delta": 53.63,
+      "market_value_before": 3191.1,
+      "market_value_after": 3189.9,
+      "market_value_delta": -1.2,
       "tracked": false
     },
     {
@@ -319,9 +193,9 @@
       "shares_before": 5.0,
       "shares_after": 5.0,
       "share_delta": 0.0,
-      "market_value_before": 3106.25,
-      "market_value_after": 3204.1,
-      "market_value_delta": 97.85,
+      "market_value_before": 3204.1,
+      "market_value_after": 3206.35,
+      "market_value_delta": 2.25,
       "tracked": false
     },
     {
@@ -333,9 +207,9 @@
       "shares_before": 18.0,
       "shares_after": 18.0,
       "share_delta": 0.0,
-      "market_value_before": 4398.84,
-      "market_value_after": 4687.56,
-      "market_value_delta": 288.72,
+      "market_value_before": 4687.56,
+      "market_value_after": 4696.92,
+      "market_value_delta": 9.36,
       "tracked": false
     },
     {
@@ -347,9 +221,9 @@
       "shares_before": 100.0,
       "shares_after": 100.0,
       "share_delta": 0.0,
-      "market_value_before": 7884.0,
-      "market_value_after": 7958.0,
-      "market_value_delta": 74.0,
+      "market_value_before": 7958.0,
+      "market_value_after": 7934.0,
+      "market_value_delta": -24.0,
       "tracked": false
     },
     {
@@ -361,23 +235,9 @@
       "shares_before": 151.0,
       "shares_after": 151.0,
       "share_delta": 0.0,
-      "market_value_before": 11904.84,
-      "market_value_after": 12015.83,
-      "market_value_delta": 110.99,
-      "tracked": false
-    },
-    {
-      "ticker": "GEV",
-      "account": "Robinhood Individual 6550",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 2.0,
-      "shares_after": 2.0,
-      "share_delta": 0.0,
-      "market_value_before": 1866.63,
-      "market_value_after": 1892.24,
-      "market_value_delta": 25.61,
+      "market_value_before": 12015.83,
+      "market_value_after": 11982.61,
+      "market_value_delta": -33.22,
       "tracked": false
     },
     {
@@ -389,9 +249,9 @@
       "shares_before": 5.0,
       "shares_after": 5.0,
       "share_delta": 0.0,
-      "market_value_before": 1841.55,
-      "market_value_after": 1815.7,
-      "market_value_delta": -25.85,
+      "market_value_before": 1815.7,
+      "market_value_after": 1811.22,
+      "market_value_delta": -4.48,
       "tracked": false
     },
     {
@@ -403,9 +263,9 @@
       "shares_before": 4.0,
       "shares_after": 4.0,
       "share_delta": 0.0,
-      "market_value_before": 1475.16,
-      "market_value_after": 1452.32,
-      "market_value_delta": -22.84,
+      "market_value_before": 1452.32,
+      "market_value_after": 1449.0,
+      "market_value_delta": -3.32,
       "tracked": false
     },
     {
@@ -417,9 +277,9 @@
       "shares_before": 4.0,
       "shares_after": 4.0,
       "share_delta": 0.0,
-      "market_value_before": 1475.16,
-      "market_value_after": 1452.32,
-      "market_value_delta": -22.84,
+      "market_value_before": 1452.32,
+      "market_value_after": 1449.0,
+      "market_value_delta": -3.32,
       "tracked": false
     },
     {
@@ -431,9 +291,9 @@
       "shares_before": 31.0,
       "shares_after": 31.0,
       "share_delta": 0.0,
-      "market_value_before": 11432.49,
-      "market_value_after": 11257.34,
-      "market_value_delta": -175.15,
+      "market_value_before": 11257.34,
+      "market_value_after": 11229.75,
+      "market_value_delta": -27.59,
       "tracked": false
     },
     {
@@ -445,9 +305,9 @@
       "shares_before": 739.0,
       "shares_after": 739.0,
       "share_delta": 0.0,
-      "market_value_before": 22628.18,
-      "market_value_after": 22975.51,
-      "market_value_delta": 347.33,
+      "market_value_before": 22975.51,
+      "market_value_after": 22982.9,
+      "market_value_delta": 7.39,
       "tracked": true
     },
     {
@@ -459,9 +319,9 @@
       "shares_before": 1628.0,
       "shares_after": 1628.0,
       "share_delta": 0.0,
-      "market_value_before": 49849.36,
-      "market_value_after": 50614.52,
-      "market_value_delta": 765.16,
+      "market_value_before": 50614.52,
+      "market_value_after": 50630.8,
+      "market_value_delta": 16.28,
       "tracked": true
     },
     {
@@ -473,9 +333,9 @@
       "shares_before": 400.0,
       "shares_after": 400.0,
       "share_delta": 0.0,
-      "market_value_before": 12244.0,
-      "market_value_after": 12436.0,
-      "market_value_delta": 192.0,
+      "market_value_before": 12436.0,
+      "market_value_after": 12440.0,
+      "market_value_delta": 4.0,
       "tracked": true
     },
     {
@@ -487,9 +347,9 @@
       "shares_before": 224.0,
       "shares_after": 224.0,
       "share_delta": 0.0,
-      "market_value_before": 6856.64,
-      "market_value_after": 6964.16,
-      "market_value_delta": 107.52,
+      "market_value_before": 6964.16,
+      "market_value_after": 6966.4,
+      "market_value_delta": 2.24,
       "tracked": true
     },
     {
@@ -501,23 +361,9 @@
       "shares_before": 550.0,
       "shares_after": 550.0,
       "share_delta": 0.0,
-      "market_value_before": 16835.5,
-      "market_value_after": 17099.5,
-      "market_value_delta": 264.0,
-      "tracked": true
-    },
-    {
-      "ticker": "GRNY",
-      "account": "Individual ...254 Individual ...254",
-      "owner": "SKB",
-      "broker": "Schwab",
-      "action": "VALUE_CHANGE",
-      "shares_before": 600.0,
-      "shares_after": 600.0,
-      "share_delta": 0.0,
-      "market_value_before": 16140.0,
-      "market_value_after": 16284.0,
-      "market_value_delta": 144.0,
+      "market_value_before": 17099.5,
+      "market_value_after": 17105.0,
+      "market_value_delta": 5.5,
       "tracked": true
     },
     {
@@ -529,37 +375,9 @@
       "shares_before": 2700.0,
       "shares_after": 2700.0,
       "share_delta": 0.0,
-      "market_value_before": 72630.0,
-      "market_value_after": 73291.5,
-      "market_value_delta": 661.5,
-      "tracked": true
-    },
-    {
-      "ticker": "GRNY",
-      "account": "Robinhood Roth Ira 2211",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 150.0,
-      "shares_after": 150.0,
-      "share_delta": 0.0,
-      "market_value_before": 4035.0,
-      "market_value_after": 4071.75,
-      "market_value_delta": 36.75,
-      "tracked": true
-    },
-    {
-      "ticker": "GRNY",
-      "account": "Robinhood Traditional Ira 1369",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 1.0,
-      "shares_after": 1.0,
-      "share_delta": 0.0,
-      "market_value_before": 75.0,
-      "market_value_after": 78.0,
-      "market_value_delta": 3.0,
+      "market_value_before": 73291.5,
+      "market_value_after": 73278.27,
+      "market_value_delta": -13.23,
       "tracked": true
     },
     {
@@ -571,9 +389,9 @@
       "shares_before": 18.0197,
       "shares_after": 18.0197,
       "share_delta": 0.0,
-      "market_value_before": 1033.65,
-      "market_value_after": 1159.68,
-      "market_value_delta": 126.03,
+      "market_value_before": 1159.68,
+      "market_value_after": 1146.86,
+      "market_value_delta": -12.82,
       "tracked": false
     },
     {
@@ -585,9 +403,9 @@
       "shares_before": 1093.0,
       "shares_after": 1093.0,
       "share_delta": 0.0,
-      "market_value_before": 40845.41,
-      "market_value_after": 41457.49,
-      "market_value_delta": 612.08,
+      "market_value_before": 41457.49,
+      "market_value_after": 41413.77,
+      "market_value_delta": -43.72,
       "tracked": true
     },
     {
@@ -599,9 +417,9 @@
       "shares_before": 300.0,
       "shares_after": 300.0,
       "share_delta": 0.0,
-      "market_value_before": 11214.0,
-      "market_value_after": 11375.97,
-      "market_value_delta": 161.97,
+      "market_value_before": 11375.97,
+      "market_value_after": 11367.0,
+      "market_value_delta": -8.97,
       "tracked": true
     },
     {
@@ -613,9 +431,9 @@
       "shares_before": 18.0,
       "shares_after": 18.0,
       "share_delta": 0.0,
-      "market_value_before": 5622.66,
-      "market_value_after": 5625.0,
-      "market_value_delta": 2.34,
+      "market_value_before": 5625.0,
+      "market_value_after": 5620.41,
+      "market_value_delta": -4.59,
       "tracked": false
     },
     {
@@ -627,9 +445,9 @@
       "shares_before": 56.0,
       "shares_after": 56.0,
       "share_delta": 0.0,
-      "market_value_before": 9054.64,
-      "market_value_after": 9349.76,
-      "market_value_delta": 295.12,
+      "market_value_before": 9349.76,
+      "market_value_after": 9338.17,
+      "market_value_delta": -11.59,
       "tracked": true
     },
     {
@@ -641,9 +459,9 @@
       "shares_before": 13.0,
       "shares_after": 13.0,
       "share_delta": 0.0,
-      "market_value_before": 2101.97,
-      "market_value_after": 2170.48,
-      "market_value_delta": 68.51,
+      "market_value_before": 2170.48,
+      "market_value_after": 2167.79,
+      "market_value_delta": -2.69,
       "tracked": true
     },
     {
@@ -655,9 +473,9 @@
       "shares_before": 200.0,
       "shares_after": 200.0,
       "share_delta": 0.0,
-      "market_value_before": 32338.0,
-      "market_value_after": 33392.0,
-      "market_value_delta": 1054.0,
+      "market_value_before": 33392.0,
+      "market_value_after": 33350.6,
+      "market_value_delta": -41.4,
       "tracked": true
     },
     {
@@ -669,23 +487,9 @@
       "shares_before": 20.0,
       "shares_after": 20.0,
       "share_delta": 0.0,
-      "market_value_before": 1566.0,
-      "market_value_after": 1550.05,
-      "market_value_delta": -15.95,
-      "tracked": false
-    },
-    {
-      "ticker": "LYSDY",
-      "account": "Individual ...254 Individual ...254",
-      "owner": "SKB",
-      "broker": "Schwab",
-      "action": "VALUE_CHANGE",
-      "shares_before": 50.0,
-      "shares_after": 50.0,
-      "share_delta": 0.0,
-      "market_value_before": 617.75,
-      "market_value_after": 622.5,
-      "market_value_delta": 4.75,
+      "market_value_before": 1550.05,
+      "market_value_after": 1551.8,
+      "market_value_delta": 1.75,
       "tracked": false
     },
     {
@@ -697,9 +501,9 @@
       "shares_before": 280.0,
       "shares_after": 280.0,
       "share_delta": 0.0,
-      "market_value_before": 18622.8,
-      "market_value_after": 18734.8,
-      "market_value_delta": 112.0,
+      "market_value_before": 18734.8,
+      "market_value_after": 18718.0,
+      "market_value_delta": -16.8,
       "tracked": true
     },
     {
@@ -711,9 +515,9 @@
       "shares_before": 300.0,
       "shares_after": 300.0,
       "share_delta": 0.0,
-      "market_value_before": 19953.0,
-      "market_value_after": 20073.0,
-      "market_value_delta": 120.0,
+      "market_value_before": 20073.0,
+      "market_value_after": 20055.0,
+      "market_value_delta": -18.0,
       "tracked": true
     },
     {
@@ -725,9 +529,9 @@
       "shares_before": 70.0,
       "shares_after": 70.0,
       "share_delta": 0.0,
-      "market_value_before": 4657.1,
-      "market_value_after": 4683.7,
-      "market_value_delta": 26.6,
+      "market_value_before": 4683.7,
+      "market_value_after": 4681.6,
+      "market_value_delta": -2.1,
       "tracked": true
     },
     {
@@ -739,9 +543,9 @@
       "shares_before": 42.0,
       "shares_after": 42.0,
       "share_delta": 0.0,
-      "market_value_before": 2794.26,
-      "market_value_after": 2810.22,
-      "market_value_delta": 15.96,
+      "market_value_before": 2810.22,
+      "market_value_after": 2808.96,
+      "market_value_delta": -1.26,
       "tracked": true
     },
     {
@@ -753,9 +557,9 @@
       "shares_before": 120.0,
       "shares_after": 120.0,
       "share_delta": 0.0,
-      "market_value_before": 7983.6,
-      "market_value_after": 8029.2,
-      "market_value_delta": 45.6,
+      "market_value_before": 8029.2,
+      "market_value_after": 8025.6,
+      "market_value_delta": -3.6,
       "tracked": true
     },
     {
@@ -767,9 +571,9 @@
       "shares_before": 40.0,
       "shares_after": 40.0,
       "share_delta": 0.0,
-      "market_value_before": 2367.2,
-      "market_value_after": 2335.8,
-      "market_value_delta": -31.4,
+      "market_value_before": 2335.8,
+      "market_value_after": 2333.2,
+      "market_value_delta": -2.6,
       "tracked": true
     },
     {
@@ -781,24 +585,10 @@
       "shares_before": 15.0,
       "shares_after": 15.0,
       "share_delta": 0.0,
-      "market_value_before": 887.7,
-      "market_value_after": 875.93,
-      "market_value_delta": -11.77,
+      "market_value_before": 875.93,
+      "market_value_after": 874.5,
+      "market_value_delta": -1.43,
       "tracked": true
-    },
-    {
-      "ticker": "MSFT",
-      "account": "Individual ...254 Individual ...254",
-      "owner": "SKB",
-      "broker": "Schwab",
-      "action": "VALUE_CHANGE",
-      "shares_before": 2.0,
-      "shares_after": 2.0,
-      "share_delta": 0.0,
-      "market_value_before": 833.34,
-      "market_value_after": 820.28,
-      "market_value_delta": -13.06,
-      "tracked": false
     },
     {
       "ticker": "MSFT",
@@ -809,9 +599,9 @@
       "shares_before": 28.0,
       "shares_after": 28.0,
       "share_delta": 0.0,
-      "market_value_before": 11665.08,
-      "market_value_after": 11483.36,
-      "market_value_delta": -181.72,
+      "market_value_before": 11483.36,
+      "market_value_after": 11474.4,
+      "market_value_delta": -8.96,
       "tracked": false
     },
     {
@@ -823,9 +613,9 @@
       "shares_before": 10.0,
       "shares_after": 10.0,
       "share_delta": 0.0,
-      "market_value_before": 1205.7,
-      "market_value_after": 1276.0,
-      "market_value_delta": 70.3,
+      "market_value_before": 1276.0,
+      "market_value_after": 1268.1,
+      "market_value_delta": -7.9,
       "tracked": false
     },
     {
@@ -837,9 +627,9 @@
       "shares_before": 6.0,
       "shares_after": 6.0,
       "share_delta": 0.0,
-      "market_value_before": 723.42,
-      "market_value_after": 765.12,
-      "market_value_delta": 41.7,
+      "market_value_before": 765.12,
+      "market_value_after": 760.75,
+      "market_value_delta": -4.37,
       "tracked": false
     },
     {
@@ -851,10 +641,24 @@
       "shares_before": 3.0,
       "shares_after": 3.0,
       "share_delta": 0.0,
-      "market_value_before": 2592.03,
-      "market_value_after": 2867.19,
-      "market_value_delta": 275.16,
+      "market_value_before": 2867.19,
+      "market_value_after": 2862.0,
+      "market_value_delta": -5.19,
       "tracked": true
+    },
+    {
+      "ticker": "NUE",
+      "account": "Robinhood Individual 6550",
+      "owner": "SKB",
+      "broker": "Robinhood",
+      "action": "VALUE_CHANGE",
+      "shares_before": 3.0,
+      "shares_after": 3.0,
+      "share_delta": 0.0,
+      "market_value_before": 762.88,
+      "market_value_after": 760.37,
+      "market_value_delta": -2.51,
+      "tracked": false
     },
     {
       "ticker": "NVDA",
@@ -865,9 +669,9 @@
       "shares_before": 17.0,
       "shares_after": 17.0,
       "share_delta": 0.0,
-      "market_value_before": 3486.7,
-      "market_value_after": 3547.56,
-      "market_value_delta": 60.86,
+      "market_value_before": 3547.56,
+      "market_value_after": 3546.55,
+      "market_value_delta": -1.01,
       "tracked": true
     },
     {
@@ -879,9 +683,9 @@
       "shares_before": 36.0,
       "shares_after": 36.0,
       "share_delta": 0.0,
-      "market_value_before": 7383.96,
-      "market_value_after": 7514.46,
-      "market_value_delta": 130.5,
+      "market_value_before": 7514.46,
+      "market_value_after": 7512.12,
+      "market_value_delta": -2.34,
       "tracked": true
     },
     {
@@ -893,9 +697,9 @@
       "shares_before": 20.0,
       "shares_after": 20.0,
       "share_delta": 0.0,
-      "market_value_before": 4102.2,
-      "market_value_after": 4174.7,
-      "market_value_delta": 72.5,
+      "market_value_before": 4174.7,
+      "market_value_after": 4173.4,
+      "market_value_delta": -1.3,
       "tracked": true
     },
     {
@@ -907,9 +711,9 @@
       "shares_before": 119.0,
       "shares_after": 119.0,
       "share_delta": 0.0,
-      "market_value_before": 24408.09,
-      "market_value_after": 24832.92,
-      "market_value_delta": 424.83,
+      "market_value_before": 24832.92,
+      "market_value_after": 24834.11,
+      "market_value_delta": 1.19,
       "tracked": true
     },
     {
@@ -921,23 +725,9 @@
       "shares_before": 200.0,
       "shares_after": 200.0,
       "share_delta": 0.0,
-      "market_value_before": 8156.0,
-      "market_value_after": 8322.0,
-      "market_value_delta": 166.0,
-      "tracked": false
-    },
-    {
-      "ticker": "POET",
-      "account": "Robinhood Individual 6550",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 4.0,
-      "shares_after": 4.0,
-      "share_delta": 0.0,
-      "market_value_before": 3132.0,
-      "market_value_after": 3340.0,
-      "market_value_delta": 208.0,
+      "market_value_before": 8322.0,
+      "market_value_after": 8300.0,
+      "market_value_delta": -22.0,
       "tracked": false
     },
     {
@@ -949,9 +739,23 @@
       "shares_before": 10.0,
       "shares_after": 10.0,
       "share_delta": 0.0,
-      "market_value_before": 6951.1,
-      "market_value_after": 6942.2,
-      "market_value_delta": -8.9,
+      "market_value_before": 6942.2,
+      "market_value_after": 6927.7,
+      "market_value_delta": -14.5,
+      "tracked": false
+    },
+    {
+      "ticker": "PWR",
+      "account": "Robinhood Roth Ira 2211",
+      "owner": "SKB",
+      "broker": "Robinhood",
+      "action": "VALUE_CHANGE",
+      "shares_before": 1.0,
+      "shares_after": 1.0,
+      "share_delta": 0.0,
+      "market_value_before": 694.22,
+      "market_value_after": 692.77,
+      "market_value_delta": -1.45,
       "tracked": false
     },
     {
@@ -963,9 +767,9 @@
       "shares_before": 10.0,
       "shares_after": 10.0,
       "share_delta": 0.0,
-      "market_value_before": 6951.1,
-      "market_value_after": 6935.3,
-      "market_value_delta": -15.8,
+      "market_value_before": 6935.3,
+      "market_value_after": 6927.7,
+      "market_value_delta": -7.6,
       "tracked": false
     },
     {
@@ -977,9 +781,9 @@
       "shares_before": 196.0,
       "shares_after": 196.0,
       "share_delta": 0.0,
-      "market_value_before": 11322.92,
-      "market_value_after": 11520.88,
-      "market_value_delta": 197.96,
+      "market_value_before": 11520.88,
+      "market_value_after": 11509.12,
+      "market_value_delta": -11.76,
       "tracked": false
     },
     {
@@ -991,9 +795,9 @@
       "shares_before": 68.0,
       "shares_after": 68.0,
       "share_delta": 0.0,
-      "market_value_before": 5391.04,
-      "market_value_after": 5470.26,
-      "market_value_delta": 79.22,
+      "market_value_before": 5470.26,
+      "market_value_after": 5452.32,
+      "market_value_delta": -17.94,
       "tracked": false
     },
     {
@@ -1005,9 +809,9 @@
       "shares_before": 21.0,
       "shares_after": 21.0,
       "share_delta": 0.0,
-      "market_value_before": 11963.49,
-      "market_value_after": 12652.29,
-      "market_value_delta": 688.8,
+      "market_value_before": 12652.29,
+      "market_value_after": 12637.8,
+      "market_value_delta": -14.49,
       "tracked": true
     },
     {
@@ -1019,9 +823,9 @@
       "shares_before": 140.0,
       "shares_after": 140.0,
       "share_delta": 0.0,
-      "market_value_before": 79756.6,
-      "market_value_after": 84343.7,
-      "market_value_delta": 4587.1,
+      "market_value_before": 84343.7,
+      "market_value_after": 84289.1,
+      "market_value_delta": -54.6,
       "tracked": true
     },
     {
@@ -1033,9 +837,9 @@
       "shares_before": 7.0,
       "shares_after": 7.0,
       "share_delta": 0.0,
-      "market_value_before": 3988.05,
-      "market_value_after": 4216.94,
-      "market_value_delta": 228.89,
+      "market_value_before": 4216.94,
+      "market_value_after": 4214.45,
+      "market_value_delta": -2.49,
       "tracked": true
     },
     {
@@ -1047,9 +851,9 @@
       "shares_before": 10.0,
       "shares_after": 10.0,
       "share_delta": 0.0,
-      "market_value_before": 5697.22,
-      "market_value_after": 6024.75,
-      "market_value_delta": 327.53,
+      "market_value_before": 6024.75,
+      "market_value_after": 6018.8,
+      "market_value_delta": -5.95,
       "tracked": true
     },
     {
@@ -1061,9 +865,9 @@
       "shares_before": 11.0,
       "shares_after": 11.0,
       "share_delta": 0.0,
-      "market_value_before": 5937.47,
-      "market_value_after": 6348.16,
-      "market_value_delta": 410.69,
+      "market_value_before": 6348.16,
+      "market_value_after": 6340.62,
+      "market_value_delta": -7.54,
       "tracked": false
     },
     {
@@ -1075,9 +879,9 @@
       "shares_before": 40.0,
       "shares_after": 40.0,
       "share_delta": 0.0,
-      "market_value_before": 21590.8,
-      "market_value_after": 23080.0,
-      "market_value_delta": 1489.2,
+      "market_value_before": 23080.0,
+      "market_value_after": 23066.4,
+      "market_value_delta": -13.6,
       "tracked": false
     },
     {
@@ -1089,23 +893,9 @@
       "shares_before": 6.0,
       "shares_after": 6.0,
       "share_delta": 0.0,
-      "market_value_before": 5285.88,
-      "market_value_after": 5306.58,
-      "market_value_delta": 20.7,
-      "tracked": false
-    },
-    {
-      "ticker": "TRUMP",
-      "account": "Robinhood Crypto 8794",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 13.0548,
-      "shares_after": 13.0548,
-      "share_delta": 0.0,
-      "market_value_before": 20.85,
-      "market_value_after": 22.23,
-      "market_value_delta": 1.38,
+      "market_value_before": 5306.58,
+      "market_value_after": 5316.48,
+      "market_value_delta": 9.9,
       "tracked": false
     },
     {
@@ -1117,24 +907,10 @@
       "shares_before": 1.0,
       "shares_after": 1.0,
       "share_delta": 0.0,
-      "market_value_before": 843.0,
-      "market_value_after": 1125.0,
-      "market_value_delta": 282.0,
+      "market_value_before": 1125.0,
+      "market_value_after": 1148.0,
+      "market_value_delta": 23.0,
       "tracked": false
-    },
-    {
-      "ticker": "UUUU",
-      "account": "Robinhood Individual 6550",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 36.0,
-      "shares_after": 36.0,
-      "share_delta": 0.0,
-      "market_value_before": 536.94,
-      "market_value_after": 558.0,
-      "market_value_delta": 21.06,
-      "tracked": true
     },
     {
       "ticker": "UUUU",
@@ -1145,9 +921,9 @@
       "shares_before": 370.0,
       "shares_after": 370.0,
       "share_delta": 0.0,
-      "market_value_before": 5518.55,
-      "market_value_after": 5735.0,
-      "market_value_delta": 216.45,
+      "market_value_before": 5735.0,
+      "market_value_after": 5729.97,
+      "market_value_delta": -5.03,
       "tracked": true
     },
     {
@@ -1159,9 +935,9 @@
       "shares_before": 234.0,
       "shares_after": 234.0,
       "share_delta": 0.0,
-      "market_value_before": 8985.6,
-      "market_value_after": 9053.46,
-      "market_value_delta": 67.86,
+      "market_value_before": 9053.46,
+      "market_value_after": 9041.76,
+      "market_value_delta": -11.7,
       "tracked": true
     },
     {
@@ -1173,9 +949,9 @@
       "shares_before": 422.0,
       "shares_after": 422.0,
       "share_delta": 0.0,
-      "market_value_before": 16204.8,
-      "market_value_after": 16327.18,
-      "market_value_delta": 122.38,
+      "market_value_before": 16327.18,
+      "market_value_after": 16306.08,
+      "market_value_delta": -21.1,
       "tracked": true
     },
     {
@@ -1187,9 +963,9 @@
       "shares_before": 100.0,
       "shares_after": 100.0,
       "share_delta": 0.0,
-      "market_value_before": 3837.0,
-      "market_value_after": 3869.0,
-      "market_value_delta": 32.0,
+      "market_value_before": 3869.0,
+      "market_value_after": 3864.0,
+      "market_value_delta": -5.0,
       "tracked": true
     },
     {
@@ -1201,9 +977,9 @@
       "shares_before": 136.0,
       "shares_after": 136.0,
       "share_delta": 0.0,
-      "market_value_before": 5218.32,
-      "market_value_after": 5261.84,
-      "market_value_delta": 43.52,
+      "market_value_before": 5261.84,
+      "market_value_after": 5255.04,
+      "market_value_delta": -6.8,
       "tracked": true
     },
     {
@@ -1215,23 +991,9 @@
       "shares_before": 641.0,
       "shares_after": 641.0,
       "share_delta": 0.0,
-      "market_value_before": 33524.3,
-      "market_value_after": 33463.4,
-      "market_value_delta": -60.9,
-      "tracked": true
-    },
-    {
-      "ticker": "XLF",
-      "account": "Robinhood Roth Ira 2211",
-      "owner": "SKB",
-      "broker": "Robinhood",
-      "action": "VALUE_CHANGE",
-      "shares_before": 22.0,
-      "shares_after": 22.0,
-      "share_delta": 0.0,
-      "market_value_before": 1150.49,
-      "market_value_after": 1148.51,
-      "market_value_delta": -1.98,
+      "market_value_before": 33463.4,
+      "market_value_after": 33434.56,
+      "market_value_delta": -28.84,
       "tracked": true
     },
     {
@@ -1243,13 +1005,13 @@
       "shares_before": 27.0,
       "shares_after": 27.0,
       "share_delta": 0.0,
-      "market_value_before": 1411.97,
-      "market_value_after": 1409.55,
-      "market_value_delta": -2.42,
+      "market_value_before": 1409.55,
+      "market_value_after": 1408.32,
+      "market_value_delta": -1.23,
       "tracked": true
     }
   ],
   "counts": {
-    "VALUE_CHANGE": 89
+    "VALUE_CHANGE": 72
   }
 }

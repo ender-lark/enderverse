@@ -2,18 +2,42 @@
 
 ## Objective
 
-Turn uploaded broker-position PDFs into current portfolio state and a clear
-change report before the daily cockpit/preflight uses the book.
+Refresh current portfolio state and a clear change report before the daily
+cockpit/preflight uses the book.
 
 ## Inputs
 
+- Preferred live source: SnapTrade read-only account API, using
+  `src/snaptrade_profiles.local.json` plus SnapTrade secrets from the local
+  environment.
 - Uploaded broker PDFs or screenshots rendered to PDF.
-- Preferred normalized extractor output: `combined.json` with
+- Fallback normalized extractor output: `combined.json` with
   `files[].positions[]` rows containing `symbol`, `market_value`, `quantity`,
   and `account_name` when available.
 - Prior account cache, when available: `src/account_positions.json`.
 
 ## Procedure
+
+### Preferred SnapTrade Path
+
+Use this daily on market days and whenever the operator says trades were made:
+
+```bash
+python src/snaptrade_book_refresh.py --refresh-dashboard
+```
+
+This command stages the raw SnapTrade pull, validates the combined position
+shape, builds `src/positions.json`, `src/account_positions.json`, and
+`src/position_reconciliation.json`, and only promotes validated outputs. With
+`--refresh-dashboard`, the cockpit is rebuilt after successful promotion.
+
+For stage-only inspection without changing the live book:
+
+```bash
+python src/snaptrade_book_refresh.py --no-promote
+```
+
+### Broker PDF / Export Fallback
 
 1. Extract uploaded PDFs/text exports into a combined extractor JSON:
 
@@ -66,8 +90,13 @@ change report before the daily cockpit/preflight uses the book.
 
 ## Rules
 
+- Prefer SnapTrade for daily book refresh and post-trade refresh. Use PDF/text
+  extraction only when SnapTrade is unavailable or stale.
 - Do not overwrite `positions.json` from a failed extractor validation when
   `--strict` fails.
+- Do not overwrite `positions.json`, `account_positions.json`, or
+  `position_reconciliation.json` from a failed SnapTrade validation; leave the
+  existing book in place and report Account Positions as stale/not checked.
 - The repo-owned PDF extractor is selectable-text-table only. Image-only PDFs
   are not checked until OCR or a stronger external extractor is added.
 - Do not treat partial broker extraction as a clean Account Positions refresh.

@@ -2271,6 +2271,7 @@ _COMMANDS = [
     ("open canonical cockpit", "Use the JSX preview first for v1 validation and deepest drilldowns."),
     ("open live dashboard", "Use GitHub Pages as the published HTML mirror/shareable surface."),
     ("refresh dashboard", "Run the full local refresh package, then validate JSX first and HTML parity second."),
+    ("refresh book", "Pull SnapTrade account positions, validate, promote the book, and rebuild the cockpit."),
     ("review market-open packet", "Start with Key Now, Re-check Before Acting, blockers, and assumption-refresh notes."),
     ("review full book", "Use Book for full SnapTrade account rows, then the conviction book below it."),
     ("review reallocation brief", "Candidate-only add/trim plan; run same-session gates before any capital action."),
@@ -2287,8 +2288,8 @@ _SYSTEM_CHECKS = [
     ("go-live checklist", "python src/go_live_checklist.py --format text", "Operating checklist for source, dashboard, event, and review gates."),
     ("action memory", "python src/action_memory_resolve.py --review-report", "Lists open reviews and stale/due cleanup candidates."),
     ("UW runbook", "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text", "Same-session check sets; instructions only until endpoint proof is captured."),
-    ("SnapTrade staged pull", "python src/snaptrade_positions_import.py --pull --profiles src/snaptrade_profiles.local.json --raw-out tmp/snaptrade_raw.json --combined-out tmp/snaptrade_combined.json", "Preferred read-only position source; promote only after validation."),
-    ("SnapTrade validate", "python src/broker_pdf_extractor.py --validate tmp/snaptrade_combined.json", "Strict shape check before account-position promotion."),
+    ("SnapTrade book refresh", "python src/snaptrade_book_refresh.py --refresh-dashboard", "Preferred daily/post-trade account refresh; stages, validates, promotes, then rebuilds."),
+    ("SnapTrade stage only", "python src/snaptrade_book_refresh.py --no-promote", "Pull and validate account data without changing the live book."),
 ]
 
 _NAV_LINKS = [

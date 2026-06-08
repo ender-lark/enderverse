@@ -1382,6 +1382,7 @@ function freshnessTitle(label, row){
 const COMMAND_ACTIONS = [
   { name:"Start here", desc:"Use the canonical JSX cockpit first. It has the deepest drilldowns and is the v1 validation surface.", command:"http://127.0.0.1:8765/cockpit_jsx_preview.html" },
   { name:"Refresh the cockpit", desc:"Rebuild the feed, rendered JSX, local preview, and HTML mirror before trusting a stale screen.", command:"python src/live_dashboard_refresh.py" },
+  { name:"Refresh book from SnapTrade", desc:"Pull account API positions, validate, promote the book, and rebuild the cockpit. Use daily and after reported trades.", command:"python src/snaptrade_book_refresh.py --refresh-dashboard" },
   { name:"Review market-open packet", desc:"Walk the current Key Now, Re-check, backlog, blockers, and assumption-refresh sequence.", command:"python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text" },
   { name:"Review reallocation", desc:"Candidate-only funded add/trim plan. Use it to compare capital uses, not to execute trades.", command:"python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text" },
   { name:"Review open actions", desc:"Resolve only after act, invalidate, defer, ignore, or miss is explicit.", command:"python src/action_memory_resolve.py --review-report" },
@@ -1392,7 +1393,7 @@ const COMMAND_CHECKS = [
   { name:"Alert policy", desc:"Shows only blocker or urgent invalidation candidates. No notification is sent.", command:"python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" },
   { name:"Fundstrat alert check", desc:"Dry-run the Fundstrat/Pushover lane; low-value Fundstrat content should stay quiet.", command:"python src/fundstrat_daytime_alert.py --dry-run --format text" },
   { name:"UW action runbook", desc:"Same-session check sets for price, flow, tape, event risk, and Fundstrat confirmation.", command:"python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text" },
-  { name:"SnapTrade staged pull", desc:"Preferred read-only positions source. Stage first; promote only after strict validation.", command:"python src/snaptrade_positions_import.py --pull --profiles src/snaptrade_profiles.local.json --raw-out tmp/snaptrade_raw.json --combined-out tmp/snaptrade_combined.json" },
+  { name:"SnapTrade stage only", desc:"Pull and validate account data without changing the live book.", command:"python src/snaptrade_book_refresh.py --no-promote" },
   { name:"Standard verification", desc:"Run before claiming a code or dashboard slice is clean.", command:"python src/verify_standard.py" },
   { name:"Cloud proof", desc:"Background scheduled-receipt status. Failed or overdue matters; natural proof gaps stay monitored.", command:"python src/cloud_ops_status.py --format text" },
 ];

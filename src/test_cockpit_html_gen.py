@@ -956,7 +956,8 @@ def test_generated_html_commands_tab_surfaces_system_checks():
     assert "review full book" in html
     assert "python src/cockpit_jsx_preview.py" in html
     assert "primary v1 validation surface" in html
-    assert "SnapTrade staged pull" in html
+    assert "SnapTrade book refresh" in html
+    assert "python src/snaptrade_book_refresh.py --refresh-dashboard" in html
     assert "python src/live_dashboard_refresh.py" in html
     assert "go-live checklist" in html
     assert "python src/go_live_checklist.py --format text" in html
