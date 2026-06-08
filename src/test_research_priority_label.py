@@ -15,7 +15,7 @@ def test_from_research_uses_priority_badge_label_without_changing_action_contrac
     assert "conf: {a.confLabel}" not in text
     assert "{a.confBadgeLabel}: {a.confLabel}" in text
     assert "function ActionCard(" in text
-    assert 'keyPrefix="act"' in text
+    assert 'keyPrefix={`lane${section.key||"x"}`}' in text
     assert 'keyPrefix="rsch"' in text
 
 

@@ -10,17 +10,17 @@ def test_canonical_cockpit_surfaces_operator_status():
     text = CANONICAL.read_text(encoding="utf-8")
 
     assert "function operatorStatus(feed)" in text
-    assert "Operator status" in text
-    assert "Today actions" in text
-    assert "Open reviews" in text
+    assert "Operator status" not in text
+    assert "function SystemCriticalBanner" in text
+    assert "System data gap:" in text
+    assert "open System" in text
+    assert "Today Decisions" in text
     assert "openReviewPressure" in text
     assert "openReviewValue" in text
-    assert "Source lanes" in text
-    assert "Source calls" in text
-    assert "Live fetch" in text
-    assert "Live source configuration" in text
+    assert "Cloud routine failed:" in text
+    assert "Source Proof And Writebacks" in text
     assert "Active event watch" not in text
-    assert "Today focus" in text
+    assert "Today focus" not in text
     assert "before adding risk" in text
     assert "python src/go_live_checklist.py --format text" in text
     assert "python src/sudden_event_refresh.py --title" in text
@@ -33,14 +33,13 @@ def test_canonical_cockpit_surfaces_operator_status():
 def test_rendered_cockpit_keeps_operator_status_card():
     text = RENDERED.read_text(encoding="utf-8")
 
-    assert "Operator status" in text
-    assert "Open reviews" in text
-    assert "Source lanes" in text
-    assert "Source calls" in text
-    assert "Live fetch" in text
-    assert "Live source configuration" in text
+    assert "Operator status" not in text
+    assert "System data gap:" in text
+    assert "Today Decisions" in text
+    assert "Cloud routine failed:" in text
+    assert "Source Proof And Writebacks" in text
     assert "Active event watch" not in text
-    assert "Today focus" in text
+    assert "Today focus" not in text
     assert "before adding risk" in text
     assert "python src/go_live_checklist.py --format text" in text
     assert "python src/sudden_event_refresh.py --title" in text

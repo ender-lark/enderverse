@@ -70,8 +70,8 @@ def test_canonical_jsx_hero_uses_packet_attention_state():
     src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
 
     assert "function heroAttention(h, packet, op)" in src
-    assert "re-check${recheck===1?\"\":\"s\"} before acting" in src
-    assert "Start with the Market-Open Packet; refresh assumptions before capital moves." in src
+    assert "setup${recheck===1?\"\":\"s\"} need refresh before acting" in src
+    assert "Start with Today Decisions; refresh assumptions before capital moves." in src
     assert "No decisions need attention" in src
 
 
@@ -79,15 +79,15 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
 
     assert '["action","Today"]' in src
+    assert '["reallocation","Reallocation"]' in src
     assert "function todayPriorityRows(feed, actions, researchActions)" in src
-    assert 'id="today-priority-stack"' in src
+    assert "function TodayDecisionQueue" in src
+    assert 'id="today-decisions"' in src
     assert "Decision-first queue; only items that can change a near-term act" in src
-    assert "prospects overlap into Today only if timing or research unlock matters now" in src
-    assert "What this changes:" in src
-    assert "data backup" in src
-    assert 'title="Action posture this row changes or requires."' in src
-    assert 'title="How quickly the assumption can decay."' in src
-    assert 'title="Primary source or lane."' in src
+    assert "Refresh Before Adding Risk" in src
+    assert "Plain-English read:" in src
+    assert "System data gap:" in src
+    assert "Full book + per-name detail lives in Book." in src
 
 
 def test_canonical_jsx_sections_start_as_summary_boxes():
@@ -98,8 +98,8 @@ def test_canonical_jsx_sections_start_as_summary_boxes():
     assert "function Section({ id, title, icon, badge, badgeColor, summary, description, children, openMap, setOpen, defaultOpen=false })" in src
     assert 'Category summary and expandable backup detail.' in src
     assert "expand" in src and "hide" in src
-    assert 'convictionCockpit.openSections.v2' in src
-    assert 'id="today-priority-stack"' in src and 'defaultOpen={false}' in src
+    assert 'convictionCockpit.openSections.v3' in src
+    assert 'id="today-decisions"' in src and 'defaultOpen={true}' in src
 
 
 def test_canonical_jsx_has_ideas_and_ops_tab_homes():
@@ -122,13 +122,15 @@ def test_canonical_jsx_routes_major_sections_to_their_tab_homes():
     src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
 
     expected = {
-        "action": ["actions", "reallocation-brief", "target-drift"],
+        "action": ["source-conflicts"],
+        "reallocation": ["reallocation-brief", "target-drift"],
         "ideas": ["top-prospects", "asymmetric-opportunities", "research-actions", "fresh-signals", "bullish-flow", "radar", "research"],
         "news": ["fundstrat-news", "synthesis", "market", "cats"],
         "ops": ["uw-action-runbook", "source-audits", "feedback", "signal-log", "questions", "social-watch"],
     }
 
-    assert re.search(r'\{mode==="action" && .*?<TodayPriorityStack', src, flags=re.S)
+    assert re.search(r'\{mode==="action" && .*?<TodayDecisionQueue', src, flags=re.S)
+    assert 'id="today-decisions"' in src
     for mode, section_ids in expected.items():
         for section_id in section_ids:
             pattern = rf'\{{mode==="{mode}" && .*?id="{re.escape(section_id)}"'
