@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-08T16:49:21.509766Z",
+  "updated_at": "2026-06-08T17:48:43.331153Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -3690,6 +3690,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T16:49:21.509766Z",
       "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T17:47:40.513301Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T17:48:43.331153Z",
+      "summary": "checked 2 msgs, read 2 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
     }
   ]
 }
