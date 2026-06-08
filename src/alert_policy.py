@@ -17,8 +17,18 @@ def _text(value: Any) -> str:
     return str(value or "").strip()
 
 
-def _add(rows: list[dict[str, Any]], *, severity: str, kind: str, title: str,
-         why: str, source: str = "", ticker: str = "", trigger: str = "") -> None:
+def _add(
+    rows: list[dict[str, Any]],
+    *,
+    severity: str,
+    kind: str,
+    title: str,
+    why: str,
+    source: str = "",
+    ticker: str = "",
+    trigger: str = "",
+    next_step: str = "",
+) -> None:
     key = (severity, kind, title, source, ticker)
     if any(row.get("_key") == key for row in rows):
         return
@@ -31,6 +41,7 @@ def _add(rows: list[dict[str, Any]], *, severity: str, kind: str, title: str,
         "why": why,
         "source": source,
         "trigger": trigger,
+        "next_step": next_step,
         "delivery": "eligible_review_only",
     })
 
@@ -42,6 +53,7 @@ def _strip_private(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
     rows: list[dict[str, Any]] = []
     suppressed: list[dict[str, Any]] = []
+    system_health: list[dict[str, Any]] = []
 
     lane_rows = [
         row for row in ((feed.get("lane_status") or {}).get("rows") or [])
@@ -57,6 +69,7 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
             why=_text(lane.get("missing_impact") or lane.get("detail") or "A source lane failed."),
             source=_text(lane.get("key")),
             trigger="source lane status=failed",
+            next_step="Check the failed source lane before relying on decisions that depend on it.",
         )
 
     social_dark = [
@@ -88,6 +101,7 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
                 why=_text(refresh.get("next_step") or "Action assumptions were invalidated."),
                 source=_text(action.get("source") or action.get("kind")),
                 trigger="assumption_refresh.status=invalidated",
+                next_step="Do not act on the old setup; resolve or re-run the action gate.",
             )
         elif action.get("action_state") == "ACT_NOW" and blockers:
             _add(
@@ -99,6 +113,7 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
                 why="Key action is blocked by " + ", ".join(str(b) for b in blockers[:3]),
                 source=_text(action.get("source") or action.get("kind")),
                 trigger="ACT_NOW with assumption blockers",
+                next_step="Clear the blocker before acting; do not trade from the headline alone.",
             )
         elif status in {"changed_recheck", "stale"}:
             suppressed.append({
@@ -120,6 +135,7 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
             why=_text(event.get("summary") or "Critical event risk requires operator review."),
             source="event_risk",
             trigger=_text(event.get("trigger")),
+            next_step="Review affected holdings, new buys, hedges, and trims before adding risk.",
         )
 
     open_actions = ((feed.get("feedback") or {}).get("open_actions") or {})
@@ -137,6 +153,7 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
             why="Open review is stale; resolve as acted, invalidated, missed, ignored, or explicitly deferred.",
             source="action_memory",
             trigger="open review age >= 5 trading days",
+            next_step="Resolve the stale review so old prompts do not masquerade as current decisions.",
         )
     new_reviews = int(open_actions.get("count") or 0) - len(stale_reviews)
     if new_reviews > 0:
@@ -149,15 +166,15 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
     cloud = ((feed.get("source_audits") or {}).get("cloud_routines") or {})
     failed_latest = int(cloud.get("failed_latest_count") or 0)
     if failed_latest:
-        _add(
-            rows,
-            severity="critical",
-            kind="cloud_routine_failed",
-            title=f"{failed_latest} cloud routine(s) failed latest receipt",
-            why=_text(cloud.get("line") or "A cloud routine failed its latest receipt."),
-            source="cloud_routines",
-            trigger="failed_latest_count > 0",
-        )
+        system_health.append({
+            "severity": "warn",
+            "kind": "cloud_routine_failed",
+            "title": f"{failed_latest} cloud routine(s) failed latest receipt",
+            "why": _text(cloud.get("line") or "A cloud routine failed its latest receipt."),
+            "source": "cloud_routines",
+            "trigger": "failed_latest_count > 0",
+            "next_step": "Check Ops/System Health when debugging routines; this is not a portfolio alert.",
+        })
     missing_scheduled = int(cloud.get("missing_scheduled_success_count") or 0)
     if missing_scheduled:
         suppressed.append({
@@ -169,16 +186,17 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
     clean_rows = _strip_private(rows)
     status = "notify" if clean_rows else "quiet"
     line = (
-        f"Alert policy: {len(clean_rows)} blocker/urgent invalidation alert candidate(s)."
+        f"Push alerts: {len(clean_rows)} action-relevant alert candidate(s)."
         if clean_rows else
-        "Alert policy: quiet - no blocker or urgent invalidation qualifies for notification."
+        "Push alerts: quiet - no market/action item qualifies for notification."
     )
     return {
         "status": status,
         "line": line,
         "rows": clean_rows,
         "suppressed": suppressed[:8],
-        "policy": "Only blockers, failed proof, stale reviews, critical event risk, or urgent invalidations can alert; routine dashboard updates stay quiet.",
+        "system_health": system_health[:8],
+        "policy": "Push alerts only interrupt for action-changing market, portfolio, Fundstrat, stale-review, or invalidated-decision items. Routine/system-health warnings stay in Ops.",
         "delivery": "review_only_no_send",
     }
 
@@ -192,6 +210,14 @@ def _format_text(block: dict[str, Any]) -> str:
             lines.append(f"  why: {row.get('why')}")
         if row.get("trigger"):
             lines.append(f"  trigger: {row.get('trigger')}")
+        if row.get("next_step"):
+            lines.append(f"  next: {row.get('next_step')}")
+    for row in block.get("system_health") or []:
+        lines.append(f"- system {row.get('severity')}: {row.get('title')} [{row.get('kind')}]")
+        if row.get("why"):
+            lines.append(f"  why: {row.get('why')}")
+        if row.get("next_step"):
+            lines.append(f"  next: {row.get('next_step')}")
     for row in block.get("suppressed") or []:
         lines.append(f"- quiet {row.get('reason')}: {row.get('why')}")
     return "\n".join(lines)

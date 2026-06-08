@@ -883,6 +883,7 @@ function operatorStatus(feed){
   const liveConfig = feed.live_source_config||{};
   const alertPolicy = feed.alert_policy||{};
   const alertRows = alertPolicy.rows||[];
+  const systemHealthRows = alertPolicy.system_health||[];
   const liveConfigMissing = liveConfig.missing_count||0;
   const liveConfigTotal = liveConfig.total_count||0;
   const liveConfigured = liveConfig.configured_count||0;
@@ -906,7 +907,8 @@ function operatorStatus(feed){
   const liveFetch = liveConfigTotal ? `${liveConfigured}/${liveConfigTotal}` : "unknown";
   return {
     status, statusColor, actions, openActions, openDue, openStale, openReviewPressure, openReviewValue,
-    alertPolicy, alertCount:alertRows.length, alertStatus:alertPolicy.status||"quiet", alertLine:alertPolicy.line||"", alertPolicyText:alertPolicy.policy||"",
+    alertPolicy, alertRows, alertCount:alertRows.length, alertStatus:alertRows.length?"notify":"quiet", alertLine:alertPolicy.line||"", alertPolicyText:alertPolicy.policy||"",
+    systemHealthRows, systemHealthCount:systemHealthRows.length,
     sourceLane, sourceLaneWarning, sourceCall, sourceCallWarn, sourceCallFail, deferredDark,
     liveFetch, liveConfigMissing, liveConfig,
     eventWatch,
@@ -1367,6 +1369,16 @@ function freshnessColor(label){
   if(value==="fresh") return C.green;
   return C.faint;
 }
+function routineImpact(row){
+  const role = String((row||{}).role || (row||{}).routine_id || "").toLowerCase();
+  if(role.includes("uw_opportunity")) return "UW/asymmetric-flow opportunity prompts may be incomplete or stale; the dashboard may miss flow-backed opportunities or rely on the prior cache.";
+  if(role.includes("parabolic")) return "Parabolic/chase-risk checks may be stale; do not assume high-momentum names were freshly screened.";
+  if(role.includes("fundstrat")) return "Fundstrat updates may not be fully captured; recent source changes could be missing until the next clean intake.";
+  if(role.includes("daily_synthesis") || role.includes("deep_synthesis")) return "Synthesis may not include every latest source; treat recommendations as needing a refresh before major capital moves.";
+  if(role.includes("cockpit") || role.includes("build") || role.includes("post_close")) return "Dashboard build/publish freshness may be affected; verify the local JSX timestamp before relying on the screen.";
+  if(role.includes("broker") || role.includes("position")) return "Account positions may be stale; sizing/account-placement guidance may be incomplete.";
+  return "Routine-owned data may be stale or missing; use the affected lane as not fully checked until the routine is clean.";
+}
 function freshnessTitle(label, row){
   const value = String(label||"").toLowerCase();
   const evidence = row&&row.evidence_date ? ` Evidence date: ${row.evidence_date}.` : "";
@@ -1390,7 +1402,7 @@ const COMMAND_ACTIONS = [
 const COMMAND_CHECKS = [
   { name:"Live status", desc:"Fast readiness, dark-lane, source-call, and preview status.", command:"python src/live_status.py --format text" },
   { name:"Go-live checklist", desc:"Operating checklist for source, dashboard, event, and review gates.", command:"python src/go_live_checklist.py --format text" },
-  { name:"Alert policy", desc:"Shows only blocker or urgent invalidation candidates. No notification is sent.", command:"python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" },
+  { name:"Push alert gate", desc:"Shows only action-relevant candidates that would be allowed to interrupt you. System-health warnings stay out of the top alert slot.", command:"python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" },
   { name:"Fundstrat alert check", desc:"Dry-run the Fundstrat/Pushover lane; low-value Fundstrat content should stay quiet.", command:"python src/fundstrat_daytime_alert.py --dry-run --format text" },
   { name:"UW action runbook", desc:"Same-session check sets for price, flow, tape, event risk, and Fundstrat confirmation.", command:"python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text" },
   { name:"SnapTrade stage only", desc:"Pull and validate account data without changing the live book.", command:"python src/snaptrade_book_refresh.py --no-promote" },
@@ -1578,12 +1590,12 @@ function CommandLink({ row }) {
 }
 
 export default function ConvictionCockpit({ feed = FEED } = {}) {
-  const [mode, setMode] = useState("action");   // action = decide/do | book = holdings | news = Fundstrat | commands = operator guide
+  const [mode, setMode] = useState("action");   // action = decide/do | book = holdings | news = Fundstrat | system = health/upgrades
   // Lazy + memoized view-model. shared is always built; each view's lanes are built ONLY when that
   // view is active, so on Action bookVM (the per-position map) is never called — holdings aren't
   // iterated at all. useMemo means toggling back and forth doesn't recompute either side.
   const shared = sharedVM(feed);
-  const A = useMemo(() => ["action","ideas","news","ops"].includes(mode) ? actionVM(feed) : null, [mode, feed]);
+  const A = useMemo(() => ["action","ideas","news","ops","system"].includes(mode) ? actionVM(feed) : null, [mode, feed]);
   const B = useMemo(() => mode === "book"   ? bookVM(feed)   : null, [mode, feed]);
   const VM = { ...shared, ...(A || {}), ...(B || {}) };   // only the active view's lanes + shared
   const R = (VM.research && ((VM.research.pending||[]).length || (VM.research.done||[]).length))
@@ -1684,7 +1696,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
 
         <div style={{ position:"sticky", top:0, zIndex:10, background:C.bg, marginTop:6, paddingTop:10, paddingBottom:8, borderBottom:`1px solid ${C.line}` }}>
           <div style={{ display:"flex", gap:4, background:C.panel, border:`1px solid ${C.line}`, borderRadius:9, padding:3, width:"fit-content" }}>
-            {[["action","Today"],["book","Book"],["ideas","Ideas"],["news","News"],["ops","Ops"],["commands","Commands"]].map(([k,l])=>(
+            {[["action","Today"],["book","Book"],["ideas","Ideas"],["news","News"],["ops","Ops"],["system","System"],["commands","Commands"]].map(([k,l])=>(
               <button key={k} onClick={()=>setMode(k)} style={{ cursor:"pointer", border:"none", borderRadius:6, padding:"6px 14px", fontSize:12.5, fontWeight:600, fontFamily:sans, background: mode===k?C.panel3:"transparent", color: mode===k?C.text:C.faint }}>{l}</button>
             ))}
           </div>
@@ -1727,7 +1739,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             ["Source lanes", op.sourceLane, op.sourceLaneWarning?C.amber:C.green],
             ["Source calls", op.sourceCall, op.sourceCallFail?C.red:op.sourceCallWarn?C.amber:C.green],
             ["Live fetch", op.liveFetch, op.liveConfigMissing?C.amber:C.green],
-            ["Alerts", op.alertStatus==="notify"?`${op.alertCount} alert${op.alertCount===1?"":"s"}`:"quiet", op.alertStatus==="notify"?C.red:C.green],
+            ["Push alerts", op.alertStatus==="notify"?`${op.alertCount} alert${op.alertCount===1?"":"s"}`:"quiet", op.alertStatus==="notify"?C.red:C.green],
+            ["Ops warnings", op.systemHealthCount?`${op.systemHealthCount} system`:"0", op.systemHealthCount?C.amber:C.green],
           ];
           return (
             <div style={{ marginTop:10, ...card, borderColor:op.statusColor+"55", background:op.statusColor+"0d" }}>
@@ -1744,11 +1757,18 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 ))}
               </div>
               <div style={{ marginTop:8, fontFamily:mono, fontSize:10.5, color:C.faint }}>Verify: {op.command}</div>
-              {op.alertLine && (
+              {op.alertStatus==="notify" && op.alertLine && (
                 <div style={{ marginTop:6, border:`1px solid ${(op.alertStatus==="notify"?C.red:C.green)}44`, borderRadius:8, padding:"7px 8px", background:(op.alertStatus==="notify"?C.red:C.green)+"0a" }}>
-                  <div style={{ fontFamily:mono, fontSize:10, color:op.alertStatus==="notify"?C.red:C.green, textTransform:"uppercase", marginBottom:3 }}>Alert policy</div>
+                  <div style={{ fontFamily:mono, fontSize:10, color:op.alertStatus==="notify"?C.red:C.green, textTransform:"uppercase", marginBottom:3 }}>Push alert candidate</div>
                   <div style={{ fontSize:12.3, color:C.text, fontWeight:650 }}>{op.alertLine}</div>
-                  {op.alertPolicyText && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>{op.alertPolicyText}</div>}
+                  {(op.alertRows||[]).slice(0,2).map((row,i)=>(
+                    <div key={`${row.kind||"alert"}${i}`} style={{ marginTop:6, paddingTop:6, borderTop:`1px solid ${C.line}` }}>
+                      <div style={{ fontSize:12.2, color:C.text, fontWeight:700 }}>{row.title}</div>
+                      {row.why && <div style={{ marginTop:3, fontSize:11.5, color:C.dim }}>Why: {row.why}</div>}
+                      {row.next_step && <div style={{ marginTop:3, fontSize:11.5, color:C.amber }}>Next: {row.next_step}</div>}
+                    </div>
+                  ))}
+                  {op.alertPolicyText && <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>{op.alertPolicyText}</div>}
                 </div>
               )}
               {op.liveConfigMissing>0 && (
@@ -2595,6 +2615,99 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         </Section>
 
         <IfIWereYouBlock block={VM.ifIWereYou} sectionId="if-i-were-you-news" openMap={open} setOpen={setOpen} defaultOpen={false} />
+
+        </>)}
+
+        {mode==="system" && (<>
+
+        <Section id="system-cloud-routines" title="Cloud Routine Health" icon="!" badge={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return (c.failed_latest_count||0)?`${c.failed_latest_count} fail`:(c.expected_count?`${c.scheduled_success_count||0}/${c.expected_count}`:"audit"); })()} badgeColor={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return (c.failed_latest_count||0)?C.red:(c.expected_count && (c.scheduled_success_count||0) >= c.expected_count ? C.green : C.amber); })()} summary={(() => { const c=((VM.sourceAudits||{}).cloud_routines)||{}; return c.line || "Cloud routine proof is not loaded."; })()} openMap={open} setOpen={setOpen} defaultOpen={true}>
+          {(() => {
+            const cloud=((VM.sourceAudits||{}).cloud_routines)||{};
+            const routineRows=cloud.rows||[];
+            const missing=cloud.missing_scheduled_success||[];
+            const missingIds=new Set(missing.map(r=>r.routine_id).filter(Boolean));
+            const failedRows=routineRows.filter(r=>String(r.last_status||"").toLowerCase()==="failed");
+            const statusColor=(cloud.failed_latest_count||0)?C.red:(missing.length?C.amber:C.green);
+            return (
+              <div>
+                <div style={{ ...card, marginBottom:8, borderColor:statusColor+"66", background:statusColor+"0d" }}>
+                  <div style={{ fontSize:13, fontWeight:750, color:C.text }}>
+                    {(cloud.failed_latest_count||0) ? `Cloud routine failed: ${failedRows.map(r=>r.routine_name||r.routine_id).join(", ") || `${cloud.failed_latest_count} routine(s)`}` : (cloud.line || "Cloud routines checked.")}
+                  </div>
+                  <div style={{ marginTop:5, fontSize:11.8, color:C.dim }}>{cloud.line || "No cloud routine audit line in this feed."}</div>
+                  {failedRows.length>0 && <div style={{ marginTop:5, fontSize:11.8, color:C.amber }}>Dashboard impact: {routineImpact(failedRows[0])}</div>}
+                  <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Check: python src/cloud_ops_status.py --format text</div>
+                </div>
+                {failedRows.map((r,i)=>(
+                  <div key={`${r.routine_id||"failed"}${i}`} style={{ ...toneCard("red"), marginBottom:7 }}>
+                    <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+                      <div style={{ fontSize:12.8, fontWeight:800, color:C.text }}>{r.routine_name||r.routine_id}</div>
+                      <span style={{ fontFamily:mono, fontSize:10.5, color:C.red, border:`1px solid ${C.red}66`, borderRadius:99, padding:"1px 8px" }}>{r.last_status||"failed"}</span>
+                    </div>
+                    <div style={{ marginTop:4, fontSize:11.8, color:C.dim }}>Schedule: {r.schedule||"n/a"} | last source: {r.last_run_source||"n/a"} | last recorded: {r.last_recorded_at||"n/a"}</div>
+                    {r.last_summary && <div style={{ marginTop:4, fontSize:11.8, color:C.text }}>Last summary: {r.last_summary}</div>}
+                    <div style={{ marginTop:4, fontSize:11.8, color:C.amber }}>Impact: {routineImpact(r)}</div>
+                    <div style={{ marginTop:4, fontSize:11.8, color:C.dim }}>How to treat the dashboard: keep that lane as not fully proven until the routine succeeds; do not promote UW/asymmetric-flow ideas from this proof alone.</div>
+                  </div>
+                ))}
+                {missing.length>0 && (
+                  <div style={{ ...toneCard(missing.some(r=>String(r.last_status||"").toLowerCase()==="failed")?"red":"amber"), marginBottom:8 }}>
+                    <div style={{ fontSize:12.6, fontWeight:750, color:C.text }}>Scheduled proof still missing</div>
+                    {missing.slice(0,8).map((r,i)=>(
+                      <div key={`${r.routine_id||"missing"}${i}`} style={{ marginTop:5, fontSize:11.8, color:String(r.last_status||"").toLowerCase()==="failed"?C.red:C.dim }}>
+                        {r.routine_name||r.routine_id} | {r.schedule||"schedule n/a"} | last status {r.last_status||"unknown"}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {routineRows.length>0 && (
+                  <Section id="system-cloud-routine-table" title="Routine Receipt Table" icon=">" badge={`${routineRows.length}`} badgeColor={C.faint} summary="All cloud routines with latest receipt status." openMap={open} setOpen={setOpen} defaultOpen={false}>
+                    {routineRows.map((r,i)=>{
+                      const status=String(r.last_status||"unknown").toLowerCase();
+                      const tone=status==="failed"?"red":missingIds.has(r.routine_id)?"amber":status==="success"?"green":"gray";
+                      const c=toneColor(tone);
+                      return (
+                        <div key={`${r.routine_id||i}`} style={{ ...toneCard(tone), marginBottom:6 }}>
+                          <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                            <span style={{ fontSize:12.4, fontWeight:750, color:C.text }}>{r.routine_name||r.routine_id}</span>
+                            <span style={{ fontFamily:mono, fontSize:10.5, color:c, border:`1px solid ${c}55`, borderRadius:99, padding:"1px 8px" }}>{r.last_status||"unknown"}</span>
+                            <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.schedule||""}</span>
+                          </div>
+                          <div style={{ marginTop:4, fontFamily:mono, fontSize:10.4, color:C.faint }}>last scheduled success: {r.last_scheduled_success_at||"not proven"} | last recorded: {r.last_recorded_at||"n/a"}</div>
+                          {r.last_summary && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>{r.last_summary}</div>}
+                        </div>
+                      );
+                    })}
+                  </Section>
+                )}
+              </div>
+            );
+          })()}
+        </Section>
+
+        <Section id="system-source-proof" title="Source Proof And Writebacks" icon="?" badge="audit" badgeColor={C.blue} summary="Connector evidence, UW routing/proof, Fundstrat intake, and Notion writeback status." openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {(() => {
+            const A=VM.sourceAudits||{};
+            const rows=[
+              ["Connector evidence", (A.connector_evidence||{}).line],
+              ["UW routing", (A.uw_routing||{}).line],
+              ["UW action runbook", (A.uw_action_runbook||{}).line],
+              ["UW endpoint proof", (A.uw_endpoint_proof||{}).line],
+              ["Fundstrat intake", (A.fundstrat||{}).line],
+              ["Notion/writeback", (A.notion_writeback||{}).line],
+            ].filter(r=>r[1]);
+            return rows.length ? rows.map(([label,line])=>(
+              <div key={label} style={{ ...card, marginBottom:7 }}>
+                <div style={{ fontFamily:mono, fontSize:10.5, color:C.faint, textTransform:"uppercase", marginBottom:3 }}>{label}</div>
+                <div style={{ fontSize:12.4, color:C.text }}>{line}</div>
+              </div>
+            )) : <div style={{ ...card, fontSize:12, color:C.faint }}>No source-audit rows in this feed build.</div>;
+          })()}
+        </Section>
+
+        <Section id="system-upgrades" title="System Upgrades And Checks" icon="+" badge={`${COMMAND_CHECKS.length+1}`} badgeColor={C.amber} summary="System-only checks, upgrade queue, verification, cloud proof, and alert-gate dry runs." openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {[...COMMAND_CHECKS, { name:"Build queue", desc:"Repo-local backlog for deferred system upgrades and implementation notes.", command:"docs/codex_build_queue.md" }].map((row,i)=><CommandRow key={`${row.name}${i}`} row={row} />)}
+        </Section>
 
         </>)}
 

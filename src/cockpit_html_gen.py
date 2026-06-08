@@ -1284,9 +1284,17 @@ def _alert_policy(block: dict) -> str:
     if not block:
         return ""
     rows = block.get("rows") or []
+    system_health = block.get("system_health") or []
     suppressed = block.get("suppressed") or []
-    status = block.get("status") or "quiet"
-    status_cls = "t-warn" if status == "notify" else "t-conf"
+    if not rows and not system_health:
+        return ""
+    is_push = bool(rows)
+    status = "notify" if is_push else "system"
+    status_cls = "t-warn" if is_push or system_health else "t-conf"
+    title = "Push alerts" if is_push else "System health"
+    line = block.get("line") or ""
+    if not is_push:
+        line = "No push alert. System warning is visible for Ops review only."
     body = f'<div class="feedback-line">{_e(block.get("policy") or "")}</div>' if block.get("policy") else ""
     for row in rows[:6]:
         body += f"""
@@ -1296,8 +1304,18 @@ def _alert_policy(block: dict) -> str:
   <span>{_e(row.get("title") or "")}</span>
   {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}
   {f'<span class="small-muted">Trigger: {_e(row.get("trigger") or "")}</span>' if row.get("trigger") else ""}
+  {f'<span class="small-muted">Next: {_e(row.get("next_step") or "")}</span>' if row.get("next_step") else ""}
 </div>"""
-    if not rows:
+    if not rows and system_health:
+        for row in system_health[:4]:
+            body += f"""
+<div class="small-item">
+  <span class="tag t-warn">ops</span>
+  <span>{_e(row.get("title") or "")}</span>
+  {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}
+  {f'<span class="small-muted">Next: {_e(row.get("next_step") or "")}</span>' if row.get("next_step") else ""}
+</div>"""
+    elif not rows:
         for row in suppressed[:6]:
             body += f"""
 <div class="small-item">
@@ -1308,12 +1326,12 @@ def _alert_policy(block: dict) -> str:
 </div>"""
     return f"""
 <div class="card" id="alert-policy">
-  <div class="card-title"><span class="icon">!</span> Alert policy
+  <div class="card-title"><span class="icon">!</span> {_e(title)}
     <span class="tag {status_cls}" style="margin-left:auto">{_e(status)}</span>
   </div>
-  <div class="feedback-line">{_e(block.get("line") or "")}</div>
+  <div class="feedback-line">{_e(line)}</div>
   <div class="small-list">{body}</div>
-  <div class="cmd-row"><span class="cmd-name">print alert policy</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
+  <div class="cmd-row"><span class="cmd-name">print push alert gate</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
   <div class="cmd-row"><span class="cmd-name">Fundstrat alert dry-run</span><span class="cmd-desc"><code>python src/fundstrat_daytime_alert.py --dry-run --format text</code></span></div>
 </div>"""
 

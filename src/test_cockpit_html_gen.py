@@ -51,10 +51,19 @@ def _feed():
         },
         "alert_policy": {
             "status": "quiet",
-            "line": "Alert policy: quiet - no blocker or urgent invalidation qualifies for notification.",
-            "policy": "Only blockers, failed proof, stale reviews, critical event risk, or urgent invalidations can alert; routine dashboard updates stay quiet.",
+            "line": "Push alerts: quiet - no market/action item qualifies for notification.",
+            "policy": "Push alerts only interrupt for action-changing market, portfolio, Fundstrat, stale-review, or invalidated-decision items. Routine/system-health warnings stay in Ops.",
             "delivery": "review_only_no_send",
             "rows": [],
+            "system_health": [
+                {
+                    "severity": "warn",
+                    "kind": "cloud_routine_failed",
+                    "title": "1 cloud routine(s) failed latest receipt",
+                    "why": "Background cloud proof: 12/14 scheduled receipts proven; failed latest=1.",
+                    "next_step": "Check Ops/System Health when debugging routines; this is not a portfolio alert.",
+                }
+            ],
             "suppressed": [
                 {
                     "reason": "background_cloud_proof",
@@ -675,12 +684,13 @@ def test_generated_html_surfaces_source_conflicts_after_actions():
     assert html.index('id="today-actions"') < html.index('id="source-conflicts"')
 
 
-def test_generated_html_surfaces_blocker_only_alert_policy():
+def test_generated_html_surfaces_system_health_instead_of_push_alert_noise():
     html = generate_html(_feed())
 
-    assert "Alert policy: quiet" in html
-    assert "routine dashboard updates stay quiet" in html
-    assert "background cloud proof" in html
+    assert "System health" in html
+    assert "No push alert. System warning is visible for Ops review only." in html
+    assert "1 cloud routine(s) failed latest receipt" in html
+    assert "this is not a portfolio alert" in html
     assert "python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" in html
 
 

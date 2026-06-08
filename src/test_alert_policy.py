@@ -77,6 +77,9 @@ def test_alert_policy_allows_only_blockers_and_urgent_invalidations():
         "source_failed",
         "critical_event_risk",
         "stale_open_review",
-        "cloud_routine_failed",
     } <= kinds
+    assert "cloud_routine_failed" not in kinds
+    assert {
+        row["kind"] for row in block["system_health"]
+    } == {"cloud_routine_failed"}
     assert all(row["delivery"] == "eligible_review_only" for row in block["rows"])
