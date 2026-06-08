@@ -109,6 +109,29 @@ def test_per_author_trust_via_built_plug():
     assert {i.independence_group for i in items.values()} == {"fundstrat"}
 
 
+def test_lane_metadata_preserved_on_daily_rows():
+    rows = {r["subject"]: r for r in fundstrat_daily_reader(CALLS)}
+
+    assert rows["NVDA"]["data"]["fundstrat_lane"] == "technical"
+    assert rows["NVDA"]["data"]["source_domain"] == "technical_timing"
+    assert "entry timing" in rows["NVDA"]["data"]["source_weight_note"].lower()
+    assert rows["GS"]["data"]["fundstrat_lane"] == "macro"
+    assert rows["GS"]["data"]["author_role"] == "Tom Lee macro/strategy view"
+    assert rows["HYPE"]["data"]["fundstrat_lane"] == "crypto"
+    assert rows["HYPE"]["trust_weight"] == 0.65
+
+
+def test_soft_newton_call_gets_lower_technical_weight():
+    rows = fundstrat_daily_reader([
+        {"author": "Newton", "ticker": "XLK", "direction": "favor",
+         "quote": "Technology should continue to act well.", "date": "2026-06-05"},
+    ])
+
+    assert rows[0]["data"]["fundstrat_lane"] == "technical"
+    assert rows[0]["trust_weight"] < 0.70
+    assert "lower weight" in rows[0]["data"]["source_weight_note"].lower()
+
+
 def test_build_source_dials_and_valid_cards():
     src = build_fundstrat_daily_source(CALLS)
     assert src.name == "fundstrat_daily"

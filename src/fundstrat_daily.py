@@ -23,11 +23,8 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
+from fundstrat_lanes import classify_fundstrat_lane
 from sources import BaseSource
-
-
-# Authors whose calls deviate from the plug default trust (0.70).
-AUTHOR_TRUST = {"farrell": 0.65}
 
 
 def _utc_now_iso() -> str:
@@ -72,6 +69,16 @@ def fundstrat_daily_reader(calls, as_of: str | None = None) -> list[dict]:
             head = f"{author}: " + (f"{direction} " if direction else "") + ticker
             content = head + (f" ({levels})" if levels else "")
 
+        lane = classify_fundstrat_lane(
+            author=author,
+            text=quote or content,
+            ticker=ticker,
+            subject=c.get("subject") or "",
+            entry=entry,
+            stop=stop,
+            target=target,
+            window=window,
+        )
         ts = c.get("date") or as_of or _utc_now_iso()
         row = {
             "kind": "analyst_call", "subject": ticker, "content": content,
@@ -80,12 +87,14 @@ def fundstrat_daily_reader(calls, as_of: str | None = None) -> list[dict]:
                 "author": author, "ticker": ticker, "direction": direction,
                 "entry": entry, "stop": stop, "target": target, "window": window,
                 "verbatim": quote or content,
+                "fundstrat_lane": lane["fundstrat_lane"],
+                "source_domain": lane["source_domain"],
+                "author_role": lane["author_role"],
+                "source_weight_note": lane["source_weight_note"],
+                "confidence_policy": lane["confidence_policy"],
             },
+            "trust_weight": lane["trust_weight"],
         }
-        # per-author trust override (Farrell 0.65); others fall to plug default
-        tw = AUTHOR_TRUST.get((author or "").lower())
-        if tw is not None:
-            row["trust_weight"] = tw
         rows.append(row)
 
     return rows

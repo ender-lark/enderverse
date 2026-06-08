@@ -11,7 +11,11 @@
     "window_days": 60,
     "outcome": "Pending",
     "backfill": false,
-    "classified_at": "2026-06-05"
+    "classified_at": "2026-06-05",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "source_domain": "technical_timing",
+    "fundstrat_lane": "technical"
   },
   {
     "source": "newton",
@@ -25,7 +29,11 @@
     "window_days": 30,
     "outcome": "Pending",
     "backfill": false,
-    "classified_at": "2026-06-05"
+    "classified_at": "2026-06-05",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "source_domain": "technical_timing",
+    "fundstrat_lane": "technical"
   },
   {
     "source": "newton",
@@ -39,7 +47,11 @@
     "window_days": 60,
     "outcome": "Pending",
     "backfill": false,
-    "classified_at": "2026-06-05"
+    "classified_at": "2026-06-05",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "source_domain": "technical_timing",
+    "fundstrat_lane": "technical"
   },
   {
     "source": "newton",
@@ -53,7 +65,11 @@
     "window_days": 60,
     "outcome": "Pending",
     "backfill": false,
-    "classified_at": "2026-06-07"
+    "classified_at": "2026-06-07",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "source_domain": "technical_timing",
+    "fundstrat_lane": "technical"
   },
   {
     "source": "newton",
@@ -67,7 +83,11 @@
     "window_days": 60,
     "outcome": "Pending",
     "backfill": false,
-    "classified_at": "2026-06-07"
+    "classified_at": "2026-06-07",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "source_weight_note": "Technical/timing context only; lower weight until it gives specific levels, timing, or a clear setup.",
+    "source_domain": "technical_timing",
+    "fundstrat_lane": "technical"
   },
   {
     "source": "newton",
@@ -81,6 +101,10 @@
     "window_days": 30,
     "outcome": "Pending",
     "backfill": false,
-    "classified_at": "2026-06-07"
+    "classified_at": "2026-06-07",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "source_domain": "technical_timing",
+    "fundstrat_lane": "technical"
   }
 ]

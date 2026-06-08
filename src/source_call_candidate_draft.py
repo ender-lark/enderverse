@@ -9,6 +9,7 @@ from typing import Any
 
 import source_call_cache_merge
 import source_call_tracker as tracker
+from fundstrat_lanes import classify_fundstrat_lane
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -74,7 +75,13 @@ def observations_from_feed(feed: dict[str, Any]) -> list[dict[str, Any]]:
 
 def merge_candidates(existing: list[dict] | None, incoming: list[dict]) -> list[dict]:
     rows: list[dict] = []
-    seen: set[tuple] = set()
+    seen: dict[tuple, int] = {}
+    metadata_fields = {
+        "fundstrat_lane",
+        "source_domain",
+        "source_weight_note",
+        "confidence_policy",
+    }
     for row in [*(existing or []), *incoming]:
         if not isinstance(row, dict):
             continue
@@ -84,11 +91,37 @@ def merge_candidates(existing: list[dict] | None, incoming: list[dict]) -> list[
             str(row.get("date") or "")[:10],
             str(row.get("verbatim_quote") or row.get("text") or "").strip(),
         )
-        if not key[0] or not key[3] or key in seen:
+        if not key[0] or not key[3]:
             continue
-        seen.add(key)
+        if key in seen:
+            current = rows[seen[key]]
+            for field in metadata_fields:
+                if row.get(field) and not current.get(field):
+                    current[field] = row[field]
+            continue
+        seen[key] = len(rows)
         rows.append(row)
     return rows
+
+
+def _attach_fundstrat_lane_metadata(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    enriched: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        lane = classify_fundstrat_lane(
+            author=str(row.get("source") or ""),
+            text=str(row.get("verbatim_quote") or row.get("text") or ""),
+            ticker=str(row.get("ticker") or ""),
+        )
+        enriched.append({
+            **row,
+            "fundstrat_lane": lane["fundstrat_lane"],
+            "source_domain": lane["source_domain"],
+            "source_weight_note": lane["source_weight_note"],
+            "confidence_policy": lane["confidence_policy"],
+        })
+    return enriched
 
 
 def draft_candidates_from_feed(
@@ -98,7 +131,7 @@ def draft_candidates_from_feed(
     classified_at: str | None = None,
 ) -> tuple[list[dict], dict[str, Any]]:
     observations = observations_from_feed(feed)
-    drafted = tracker.batch_classify(observations, now=classified_at)
+    drafted = _attach_fundstrat_lane_metadata(tracker.batch_classify(observations, now=classified_at))
     rows = merge_candidates(existing_candidates, drafted)
     summary = {
         "observations": len(observations),

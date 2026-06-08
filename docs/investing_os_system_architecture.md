@@ -410,6 +410,21 @@ into one generic source:
   portfolio implication: what changes about sizing, timing, risk, hold/add/trim
   decisions, or research priority.
 
+Low-level implementation:
+
+- `src/fundstrat_lanes.py` is the shared classifier for Fundstrat lane metadata.
+- `src/fundstrat_daily.py` attaches `fundstrat_lane`, `source_domain`,
+  `author_role`, `source_weight_note`, and `confidence_policy` to daily
+  Fundstrat evidence cards.
+- `src/source_call_candidate_draft.py` attaches the same lane metadata when
+  feed observations become pending source-call calibration candidates.
+- Lane metadata affects interpretation and trust notes, but Fundstrat rows
+  still share the single `fundstrat` independence group so multiple Fundstrat
+  notes cannot masquerade as independent confirmation.
+- Mark Newton calls with specific levels/timing keep normal Fundstrat weight;
+  soft technical context is intentionally lower weight until it becomes a
+  confident or falsifiable setup.
+
 ## 8.1 Notion Writeback And Collision Rules
 
 Notion pages can be touched by scheduled Codex routines and by other agents.

@@ -63,6 +63,9 @@ def test_draft_candidates_from_feed_classifies_pending_rows():
     assert rows[0]["ticker"] == "XOP"
     assert rows[0]["outcome"] == "Pending"
     assert rows[0]["window_end"] >= "2026-06-03"
+    assert rows[0]["fundstrat_lane"] == "technical"
+    assert rows[0]["source_domain"] == "technical_timing"
+    assert "entry timing" in rows[0]["source_weight_note"].lower()
 
 
 def test_observations_from_feed_falls_back_to_fundstrat_radar_rows():
@@ -107,6 +110,47 @@ def test_observations_from_feed_falls_back_to_fundstrat_radar_rows():
             "date": "2026-06-05",
         },
     ]
+
+
+def test_drafted_radar_candidates_keep_fundstrat_lane_metadata():
+    feed = {
+        "feedback": {"source_calls": {"observations": []}},
+        "radar": [
+            {
+                "author": "Tom Lee",
+                "ticker": "RSP",
+                "date": "2026-06-05",
+                "quote": "Broadening would support a constructive risk backdrop.",
+            },
+        ],
+    }
+
+    rows, _summary = draft.draft_candidates_from_feed(feed, classified_at="2026-06-05")
+
+    assert rows[0]["fundstrat_lane"] == "macro"
+    assert rows[0]["source_domain"] == "macro_strategy"
+    assert "macro baseline" in rows[0]["source_weight_note"].lower()
+
+
+def test_existing_candidate_gets_missing_lane_metadata_backfilled():
+    existing = [{
+        "source": "newton",
+        "ticker": "XOP",
+        "date": "2026-06-03",
+        "verbatim_quote": "Bounce only; resistance near 175.72 should repel price toward 162.",
+        "outcome": "Pending",
+    }]
+
+    rows, summary = draft.draft_candidates_from_feed(
+        _feed(),
+        existing_candidates=existing,
+        classified_at="2026-06-05",
+    )
+
+    assert summary["stored"] == 2
+    assert rows[0]["outcome"] == "Pending"
+    assert rows[0]["fundstrat_lane"] == "technical"
+    assert rows[0]["source_domain"] == "technical_timing"
 
 
 def test_source_call_candidate_draft_cli_dry_run(tmp_path):
