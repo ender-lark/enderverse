@@ -14,6 +14,7 @@ Updated: 2026-06-07 23:01 ET; SMID backfill updated 2026-06-08
   - Stored Bottom 5 large cap: DE, TPL, HOOD, PKG, SATS
   - Stored Bottom 5 SMID: ELF, SATS, UUUU, SOFI, KTOS
   - Source backfill: Gmail Fundstrat FIRST WORD 2026-05-28 (`19e6d040f643eb49`) supplied compact SMID list names and report-move percentages.
+  - Add-price backfill: UW OHLC supplied May 28 add-price proxies for 19 unique monthly names. The selector prefers the May 28 premarket row because the Fundstrat report timestamp was pre-regular-session, then falls back to the May 28 regular-session row when no premarket row exists.
 
 - Fundstrat daily cache: `src/fundstrat_daily_calls.json`
   - Stored call rows: 6
@@ -40,10 +41,10 @@ Updated: 2026-06-07 23:01 ET; SMID backfill updated 2026-06-08
    - Confirmed Bottom 5 SMID: ELF, SATS, UUUU, SOFI, KTOS.
    - The source email provides report percent moves and carry-over labels, not absolute add prices.
 
-2. Price when added is not captured for monthly Top 5 / Bottom 5 rows.
-   - `top_prospects.json` has `add_date` for the monthly rows but `add_price` remains null.
-   - The News tab now labels these as `not captured`.
-   - Next step: backfill from an approved historical price cache before using since-added performance.
+2. Price when added was initially missing and has now been backfilled from UW OHLC.
+   - `top_prospects.json` has `add_date`, `add_price`, `add_price_source`, `add_price_date`, and `add_price_market_time` for the 19 unique monthly names.
+   - SATS appears in both large-cap and SMID Bottom 5 lists but is one unique prospect-cache row.
+   - Caveat: these are UW OHLC add-price proxies, not a raw Fundstrat-provided absolute price field.
 
 3. Several June 3-5 inbox rows are still snippet-only.
    - This is not a bug if they were only discovered by search/snippet, but it means they should not be treated as synthesized.
@@ -61,6 +62,7 @@ Updated: 2026-06-07 23:01 ET; SMID backfill updated 2026-06-08
 - Added a review-only `If I Were You` section.
 - Updated the Fundstrat source-audit line to include cumulative stored cache counts, not just latest-run counts.
 - Backfilled compact May 28 SMID Top 5 / Bottom 5 rows from the verified Fundstrat FIRST WORD Gmail source.
+- Added `src/fundstrat_add_price_backfill.py` and backfilled monthly add prices from approved UW OHLC rows.
 
 ## Operating Rule
 

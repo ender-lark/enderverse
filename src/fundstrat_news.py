@@ -81,6 +81,8 @@ def _monthly_rows(
                 "add_date": add_date or "",
                 "add_price": add_price,
                 "add_price_label": _price_label(add_price),
+                "add_price_source": prospect.get("add_price_source") or "",
+                "add_price_market_time": prospect.get("add_price_market_time") or "",
                 "provenance": prospect.get("provenance") or "",
                 "summary": prospect.get("summary") or "",
                 "urgency": prospect.get("urgency") or "",

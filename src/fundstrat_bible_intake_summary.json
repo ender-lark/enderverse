@@ -39,7 +39,15 @@
         "report_move_pct",
         "carry_over"
       ],
-      "absolute_add_prices": "not captured"
+      "absolute_add_prices": "captured separately from UW OHLC"
+    },
+    {
+      "source": "UW OHLC /api/stock/{ticker}/ohlc/1d",
+      "report_date": "2026-05-28",
+      "preferred_market_time": "pr",
+      "updated_unique_tickers": 19,
+      "missing_tickers": [],
+      "note": "Uses premarket row on report date when available because the Fundstrat report timestamp was pre-regular-session; falls back to regular-session row when premarket row is absent."
     }
   ]
 }

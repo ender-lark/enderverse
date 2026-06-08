@@ -1994,7 +1994,7 @@ def _fundstrat_list_table(title: str, rows: list[dict[str, Any]], empty: str) ->
   <td><strong>{_e(row.get("ticker") or "")}</strong></td>
   <td>{_e(row.get("add_date") or "date n/a")}</td>
   <td>{_e(row.get("add_price_label") or "not captured")}</td>
-  <td>{state}<span class="small-muted">{_e(row.get("name") or row.get("note") or "")}</span></td>
+  <td>{state}<span class="small-muted">{_e(row.get("name") or row.get("note") or "")}</span><span class="small-muted">{_e(row.get("add_price_source") or "")}</span></td>
 </tr>"""
         body = f"""<div class="book-wrap">
   <table class="book">

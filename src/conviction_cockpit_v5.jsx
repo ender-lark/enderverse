@@ -1050,6 +1050,7 @@ function FundstratMonthlyRows({ title, rows, empty }) {
               {r.carry_over && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>carry over</span>}
               {r.conviction && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.conviction}{r.urgency?` / ${r.urgency}`:""}</span>}
             </div>
+            {r.add_price_source && <div style={{ marginTop:2, fontFamily:mono, fontSize:10.2, color:C.faint }}>price source: {r.add_price_source}</div>}
             {(r.name||r.note||r.summary||r.provenance) && <div style={{ marginTop:3, fontSize:11.5, color:C.dim }}>{r.name||r.note||r.summary||r.provenance}</div>}
           </div>
         </div>
