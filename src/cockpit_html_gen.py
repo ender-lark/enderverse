@@ -807,13 +807,21 @@ def _operator_status(feed: dict) -> str:
             ] if part
         )
         trigger = event_watch.get("trigger") or event_watch.get("summary") or ""
-        trigger_html = f'<div class="operator-event-trigger">Trigger: {_e(trigger)}</div>' if trigger else ""
+        compact_meta = " | ".join(part for part in [meta, f"trigger: {trigger}" if trigger else ""] if part)
+        details_html = ""
+        if trigger or event_watch.get("summary"):
+            details_html = f"""
+    <details class="action-details">
+      <summary>details</summary>
+      {f'<div class="operator-event-trigger">Trigger: {_e(trigger)}</div>' if trigger else ""}
+      {f'<div class="operator-event-trigger">Source note: {_e(event_watch.get("summary") or "")}</div>' if event_watch.get("summary") else ""}
+    </details>"""
         event_watch_html = f"""
   <div class="operator-event-watch">
     <div class="operator-label">Active event watch</div>
     <div class="operator-event-title">{_e(event_watch.get("title") or "")}</div>
-    <div class="operator-event-meta">{_e(meta)}</div>
-    {trigger_html}
+    <div class="operator-event-meta">{_e(compact_meta)}</div>
+    {details_html}
   </div>"""
     live_config_html = ""
     if live_config_missing:

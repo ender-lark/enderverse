@@ -1761,23 +1761,41 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                 </div>
               )}
               {op.eventWatch && (
-                <div style={{ marginTop:6, border:`1px solid ${C.amber}44`, borderRadius:8, padding:"7px 8px", background:C.amber+"0a" }}>
-                  <div style={{ fontFamily:mono, fontSize:10, color:C.amber, textTransform:"uppercase", marginBottom:3 }}>Active event watch</div>
-                  <div style={{ fontSize:12.5, color:C.text, fontWeight:650 }}>{op.eventWatch.title}</div>
-                  {op.eventPortfolio && (
-                    <div style={{ marginTop:6, borderTop:`1px solid ${C.line}`, paddingTop:6 }}>
-                      <div style={{ fontSize:12, color:C.text, fontWeight:700 }}>{op.eventPortfolio.headline}</div>
-                      <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>{op.eventPortfolio.implication}</div>
-                      <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>{op.eventPortfolio.blocker}</div>
+                (() => {
+                  const evKey = "operator-event-watch";
+                  const evOpen = !!posOpen[evKey];
+                  const meta = compactJoin([
+                    (op.eventWatch.severity||"watch").toUpperCase(),
+                    op.eventWatch.tickers&&op.eventWatch.tickers.length ? op.eventWatch.tickers.join(", ") : "",
+                    op.eventWatch.trigger ? `trigger: ${clipText(op.eventWatch.trigger, 88)}` : "",
+                  ]);
+                  return (
+                    <div style={{ marginTop:6, border:`1px solid ${C.amber}44`, borderRadius:8, padding:"7px 8px", background:C.amber+"0a" }}>
+                      <div onClick={()=>setPosOpen(st=>({...st,[evKey]:!st[evKey]}))} style={{ cursor:"pointer", display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }} title="Expand for portfolio impact and sudden-event command.">
+                        <div style={{ minWidth:0 }}>
+                          <div style={{ fontFamily:mono, fontSize:10, color:C.amber, textTransform:"uppercase", marginBottom:3 }}>Active event watch</div>
+                          <div style={{ fontSize:12.2, color:C.text, fontWeight:650 }}>{op.eventWatch.title}</div>
+                          {meta && <div style={{ marginTop:2, fontFamily:mono, fontSize:10.3, color:C.faint }}>{meta}</div>}
+                        </div>
+                        <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber }}>{evOpen?"hide ^":"details v"}</span>
+                      </div>
+                      {evOpen && (
+                        <div style={{ marginTop:6, borderTop:`1px solid ${C.line}`, paddingTop:6 }}>
+                          {op.eventPortfolio && (
+                            <>
+                              <div style={{ fontSize:12, color:C.text, fontWeight:700 }}>{op.eventPortfolio.headline}</div>
+                              <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>{op.eventPortfolio.implication}</div>
+                              <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>{op.eventPortfolio.blocker}</div>
+                            </>
+                          )}
+                          {op.eventWatch.summary && <div style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Source note: {op.eventWatch.summary}</div>}
+                          <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>Sudden event: {op.suddenEventCommand}</div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                  <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>
-                    {(op.eventWatch.severity||"watch").toUpperCase()} {op.eventWatch.channels&&op.eventWatch.channels.length?`| ${op.eventWatch.channels.join(", ")}`:""} {op.eventWatch.tickers&&op.eventWatch.tickers.length?`| ${op.eventWatch.tickers.join(", ")}`:""}
-                  </div>
-                  {(op.eventWatch.trigger||op.eventWatch.summary) && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Trigger: {op.eventWatch.trigger||op.eventWatch.summary}</div>}
-                </div>
+                  );
+                })()
               )}
-              <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Sudden event: {op.suddenEventCommand}</div>
             </div>
           );
         })()}
