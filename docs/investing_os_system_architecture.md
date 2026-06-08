@@ -564,6 +564,9 @@ Dark-lane rules:
   `completion_audit.py`, JSX operator card, and HTML mirror) split deferred
   optional dark lanes from actionable dark lanes. Deferred Social Watch should
   show as visible/not checked without producing a core manual-drop instruction.
+- The heartbeat/layer strip follows the same rule: actionable dark source lanes
+  can mark Optional Source Lanes stale, but deferred-only Social Watch should
+  keep the layer green with a deferred/not-checked note.
 - Account Positions is live-capable through SnapTrade when the staged pull
   validates and is promoted through the broker-position cache. If SnapTrade
   fails and the fallback extractor is not validated, Account Positions should

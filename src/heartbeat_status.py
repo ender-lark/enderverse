@@ -17,6 +17,7 @@ from live_readiness import readiness_report
 DEFAULT_OUT = Path(__file__).resolve().parent / "heartbeat.json"
 DEFAULT_SUMMARY = Path(__file__).resolve().parent / "heartbeat_summary.json"
 VALID_STATUS = {"ok", "stale", "down"}
+DEFERRED_OPTIONAL_DARK_LANES = {"social_watch"}
 
 
 def _utc_now_iso() -> str:
@@ -52,6 +53,20 @@ def _row(layer: str, status: str, note: str, *, last_run: str) -> dict[str, str]
     }
 
 
+def _split_dark_lanes(keys: list[Any]) -> tuple[list[str], list[str]]:
+    actionable: list[str] = []
+    deferred: list[str] = []
+    for key in keys:
+        clean = str(key or "").strip()
+        if not clean:
+            continue
+        if clean in DEFERRED_OPTIONAL_DARK_LANES:
+            deferred.append(clean)
+        else:
+            actionable.append(clean)
+    return actionable, deferred
+
+
 def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -> list[dict[str, str]]:
     """Readiness report -> dashboard heartbeat rows.
 
@@ -64,7 +79,13 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
     missing_minimum = report.get("missing_minimum_live_inputs") or []
     publish_problems = report.get("publish_gate_problems") or []
     dark_lanes = report.get("dark_lane_keys") or []
+    actionable_dark_lanes, deferred_dark_lanes = _split_dark_lanes(dark_lanes)
     dark_lane_details = report.get("dark_lane_details") or []
+    actionable_dark_set = set(actionable_dark_lanes)
+    actionable_dark_details = [
+        row for row in dark_lane_details
+        if isinstance(row, dict) and str(row.get("key") or "") in actionable_dark_set
+    ]
     required_status = "down" if missing_required else "stale" if stale_required else "ok"
     if missing_required:
         required_note = "missing: " + ", ".join(row.get("key", "") for row in missing_required)
@@ -73,14 +94,22 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
     else:
         required_note = "positions/theses convention inputs present and fresh"
 
-    optional_note = (
-        "dark lanes: " + ", ".join(str(key) for key in dark_lanes)
-        if dark_lanes else "no dark lanes reported in lane-status block"
-    )
-    if dark_lane_details:
+    if actionable_dark_lanes:
+        optional_note = "dark lanes: " + ", ".join(actionable_dark_lanes)
+        if deferred_dark_lanes:
+            optional_note += " | deferred optional: " + ", ".join(deferred_dark_lanes)
+    elif deferred_dark_lanes:
+        optional_note = (
+            "deferred optional lanes: "
+            + ", ".join(deferred_dark_lanes)
+            + " | visible as not checked; not a no-signal read"
+        )
+    else:
+        optional_note = "no dark lanes reported in lane-status block"
+    if actionable_dark_details:
         fixes = [
             str(row.get("next_step") or "").rstrip(".")
-            for row in dark_lane_details[:2]
+            for row in actionable_dark_details[:2]
             if isinstance(row, dict) and row.get("next_step")
         ]
         if fixes:
@@ -109,7 +138,7 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
         ),
         _row(
             "Optional Source Lanes",
-            "stale" if dark_lanes else "ok",
+            "stale" if actionable_dark_lanes else "ok",
             optional_note,
             last_run=ts,
         ),

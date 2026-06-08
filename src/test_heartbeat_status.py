@@ -45,6 +45,47 @@ def test_heartbeat_rows_show_missing_market_data_and_dark_lanes():
     assert validate_heartbeat(rows) == []
 
 
+def test_heartbeat_rows_keep_deferred_social_watch_from_becoming_issue():
+    rows = heartbeat_rows(
+        _base_report(
+            dark_lane_keys=["social_watch"],
+            dark_lane_details=[{
+                "key": "social_watch",
+                "next_step": "Supply social_watch.json from the compliant API/cache path.",
+            }],
+        ),
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+    by_layer = {row["layer"]: row for row in rows}
+
+    assert by_layer["Optional Source Lanes"]["status"] == "ok"
+    assert "deferred optional lanes: social_watch" in by_layer["Optional Source Lanes"]["note"]
+    assert "not a no-signal read" in by_layer["Optional Source Lanes"]["note"]
+    assert "Supply social_watch" not in by_layer["Optional Source Lanes"]["note"]
+    assert validate_heartbeat(rows) == []
+
+
+def test_heartbeat_rows_warn_for_actionable_dark_lanes_even_with_deferred_social():
+    rows = heartbeat_rows(
+        _base_report(
+            dark_lane_keys=["signal_log", "social_watch"],
+            dark_lane_details=[
+                {"key": "signal_log", "next_step": "Supply the Morning Scan or Signal Log JSON."},
+                {"key": "social_watch", "next_step": "Supply social_watch.json."},
+            ],
+        ),
+        generated_at="2026-06-05T14:00:00+00:00",
+    )
+    by_layer = {row["layer"]: row for row in rows}
+
+    assert by_layer["Optional Source Lanes"]["status"] == "stale"
+    assert "dark lanes: signal_log" in by_layer["Optional Source Lanes"]["note"]
+    assert "deferred optional: social_watch" in by_layer["Optional Source Lanes"]["note"]
+    assert "Morning Scan" in by_layer["Optional Source Lanes"]["note"]
+    assert "Supply social_watch" not in by_layer["Optional Source Lanes"]["note"]
+    assert validate_heartbeat(rows) == []
+
+
 def test_heartbeat_rows_all_ok_when_report_is_clean():
     rows = heartbeat_rows(_base_report(), generated_at="2026-06-05T14:00:00+00:00")
     by_layer = {row["layer"]: row for row in rows}
