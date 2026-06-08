@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T11:49:27.541532+00:00",
+  "generated_at": "2026-06-08T12:53:07.262323+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-08 \u00b7 uw_macro 06-08 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05 \u26a0\ufe0f",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-08T07:49:27.541532-04:00",
+        "date": "2026-06-08T08:53:07.262323-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-08T07:49:27.541532-04:00",
+        "date": "2026-06-08T08:53:07.262323-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -127,7 +127,7 @@
         "label": "Signal Log",
         "status": "has_data",
         "detail": "checked",
-        "count": 11,
+        "count": 14,
         "checked_at": ""
       },
       {
@@ -1113,6 +1113,30 @@
       "priority": "medium",
       "source": "https://app.notion.com/p/376c50314bb681718aafec25d4b5aea5",
       "note": "Fundstrat Flash Insights argued yields could peak into next week and crude could keep easing if negotiation progress arrives in the Persian Gulf. This keeps rates/oil headline sensitivity live for financials, energy, and nuclear sleeves. Watch-only until confirmed."
+    },
+    {
+      "signal": "Semis are bouncing premarket but Friday damage still sets the watch frame",
+      "ticker": "SMH, NVDA, MU, MAGS, GRNY, IVES",
+      "date": "2026-06-08",
+      "priority": "high",
+      "source": "https://app.notion.com/p/379c50314bb681ec8be7dc02ed7e15ad",
+      "note": "Reuters on June 8 said S&P 500 and Nasdaq futures were higher premarket while Nvidia, Broadcom, and Micron rose roughly 1.5% to 3.9% after Friday's chip rout. Stabilization only; renewed Middle East strikes were still keeping investors cautious. Watch-only."
+    },
+    {
+      "signal": "Latest UW market-tide proof still shows a deeply risk-off close",
+      "ticker": "SPY, QQQ, SMH, NVDA, MU",
+      "date": "2026-06-08",
+      "priority": "high",
+      "source": "https://app.notion.com/p/379c50314bb68180a166eb70aa214e67",
+      "note": "As of 8:37 AM ET on Monday, June 8, the latest open-session Unusual Whales market-tide data still ends on Friday, June 5 at 4:10 PM ET, with about -1.27B net call premium, +222M net put premium, and roughly -4.06M net volume. Treat that as the last confirmed broad-flow proof until Monday cash-session data exists. Watch-only."
+    },
+    {
+      "signal": "Urenco expansion extends the domestic enrichment backdrop for nuclear sleeves",
+      "ticker": "LEU, UUUU",
+      "date": "2026-06-08",
+      "priority": "medium",
+      "source": "https://app.notion.com/p/379c50314bb6812fbb85eb8cbbbe24b3",
+      "note": "Reuters-reported coverage from June 2 said Urenco plans to increase U.S. enrichment capacity by nearly 50% to supply nuclear plants. This is slower-moving supply-chain context rather than an immediate catalyst, but it supports ongoing attention on uranium and fuel-cycle exposure. Watch-only."
     }
   ],
   "social_watch": {
@@ -1707,31 +1731,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T11:49:27.428186+00:00",
+      "last_run": "2026-06-08T12:53:07.145495+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T11:49:27.428186+00:00",
+      "last_run": "2026-06-08T12:53:07.145495+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T11:49:27.428186+00:00",
+      "last_run": "2026-06-08T12:53:07.145495+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-08T11:49:27.428186+00:00",
+      "last_run": "2026-06-08T12:53:07.145495+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T11:49:27.428186+00:00",
+      "last_run": "2026-06-08T12:53:07.145495+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -3027,8 +3051,8 @@
     },
     "watch_only_why": {
       "status": "has_data",
-      "count": 18,
-      "line": "Why-not-acting lane: 18 watch-only signal(s) kept out of trade prompts.",
+      "count": 21,
+      "line": "Why-not-acting lane: 21 watch-only signal(s) kept out of trade prompts.",
       "rows": [
         {
           "ticker": "XLF, GS, ITA",
@@ -12907,8 +12931,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 20.43
+        "connector_verified_at": "2026-06-08T08:37:28-04:00",
+        "connector_proof_age_hours": 0.26
       }
     ],
     "missing": [],
@@ -12936,23 +12960,17 @@
     },
     "cloud_routines": {
       "status": "partial_live_run_proven",
-      "line": "Background cloud proof: 8/14 scheduled receipts proven; failed latest=0.",
-      "scheduled_success_count": 8,
+      "line": "Background cloud proof: 9/14 scheduled receipts proven; failed latest=0.",
+      "scheduled_success_count": 9,
       "expected_count": 14,
       "failed_latest_count": 0,
-      "missing_scheduled_success_count": 6,
+      "missing_scheduled_success_count": 5,
       "missing_scheduled_success": [
-        {
-          "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-          "routine_name": "Investing OS Fundstrat Pre-Market Safety Sweep",
-          "schedule": "market weekdays 7:45 AM ET",
-          "last_status": "started"
-        },
         {
           "routine_id": "investing-os-early-cockpit-build",
           "routine_name": "Investing OS Early Cockpit Build",
           "schedule": "market weekdays 8:50 AM ET",
-          "last_status": "success"
+          "last_status": "started"
         },
         {
           "routine_id": "investing-os-fundstrat-daytime-watch",
@@ -12985,52 +13003,52 @@
           "routine_name": "Investing OS Pre-Market Source Intake",
           "role": "pre_market_source_intake",
           "schedule": "market weekdays 8:10 AM ET",
-          "receipt_count": 16,
+          "receipt_count": 18,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:43.530113Z",
-          "last_success_at": "2026-06-08T05:41:43.530113Z",
-          "last_scheduled_success_at": "2026-06-05T21:45:50.150086Z",
-          "last_summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T12:14:35.272208Z",
+          "last_success_at": "2026-06-08T12:14:35.272208Z",
+          "last_scheduled_success_at": "2026-06-08T12:14:35.272208Z",
+          "last_summary": "fundstrat reviewed; 0 new rows landed here, catalysts 8 unchanged, positions unchanged no broker input, event risk 3 unchanged, blockers no drive drops"
         },
         {
           "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
           "routine_name": "Investing OS Fundstrat Pre-Market Safety Sweep",
           "role": "fundstrat_pre_market_safety_sweep",
           "schedule": "market weekdays 7:45 AM ET",
-          "receipt_count": 3,
-          "last_status": "started",
+          "receipt_count": 4,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-08T11:46:15.356373Z",
-          "last_success_at": "2026-06-08T05:41:43.901956Z",
-          "last_scheduled_success_at": "",
-          "last_summary": "fundstrat pre-market safety sweep started"
+          "last_recorded_at": "2026-06-08T11:49:46.845391Z",
+          "last_success_at": "2026-06-08T11:49:46.845391Z",
+          "last_scheduled_success_at": "2026-06-08T11:49:46.845391Z",
+          "last_summary": "checked 15 msgs, read 5 bodies, landed 1 row, validate ok, Notion n/a, dark lane social_watch, blockers none"
         },
         {
           "routine_id": "investing-os-morning-scan",
           "routine_name": "Investing OS Morning Scan",
           "role": "morning_scan",
           "schedule": "market weekdays 8:35 AM ET",
-          "receipt_count": 14,
+          "receipt_count": 16,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:44.052538Z",
-          "last_success_at": "2026-06-08T05:41:44.052538Z",
-          "last_scheduled_success_at": "2026-06-05T23:00:09.235927Z",
-          "last_summary": "morning scan manual run completed; Signal Log remains watch-only"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T12:40:48.336994Z",
+          "last_success_at": "2026-06-08T12:40:48.336994Z",
+          "last_scheduled_success_at": "2026-06-08T12:40:48.336994Z",
+          "last_summary": "3 Notion rows verified; repo Signal Log 14 rows; UW proof refreshed; macro unchanged; failures none"
         },
         {
           "routine_id": "investing-os-early-cockpit-build",
           "routine_name": "Investing OS Early Cockpit Build",
           "role": "early_cockpit_build",
           "schedule": "market weekdays 8:50 AM ET",
-          "receipt_count": 4,
-          "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T05:41:46.578509Z",
+          "receipt_count": 5,
+          "last_status": "started",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-08T12:53:06.367880Z",
           "last_success_at": "2026-06-08T05:41:46.578509Z",
           "last_scheduled_success_at": "",
-          "last_summary": "early cockpit build manual run refreshed dashboard artifacts"
+          "last_summary": "investing-os-early-cockpit-build started"
         },
         {
           "routine_id": "investing-os-daily-synthesis",
@@ -13175,8 +13193,8 @@
           "label": "Signal Log cache",
           "status": "has_data",
           "written": true,
-          "count": 11,
-          "line": "Signal Log cache: written; count=11.",
+          "count": 14,
+          "line": "Signal Log cache: written; count=14.",
           "problems": []
         },
         {
@@ -17011,7 +17029,7 @@
       },
       {
         "reason": "background_cloud_proof",
-        "count": 6,
+        "count": 5,
         "why": "Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue."
       }
     ],
