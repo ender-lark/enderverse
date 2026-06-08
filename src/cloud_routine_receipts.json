@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-08T11:49:46.845391Z",
+  "updated_at": "2026-06-08T12:14:35.272208Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -3522,6 +3522,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T11:49:46.845391Z",
       "summary": "checked 15 msgs, read 5 bodies, landed 1 row, validate ok, Notion n/a, dark lane social_watch, blockers none"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T12:11:55.826145Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T12:14:35.272208Z",
+      "summary": "fundstrat reviewed; 0 new rows landed here, catalysts 8 unchanged, positions unchanged no broker input, event risk 3 unchanged, blockers no drive drops"
     }
   ]
 }
