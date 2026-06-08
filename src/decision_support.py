@@ -323,18 +323,36 @@ def _capital_efficiency(action: dict[str, Any], freshness: dict[str, Any]) -> di
     if kind == "event_risk" or "downside_protection" in channels:
         label = "protect capital"
         summary = "Efficient capital use can mean not adding risk until the shock is re-checked."
+        do_nothing = (
+            "Doing nothing preserves optionality, but if the shock is real it can leave exposed capital "
+            "unprotected or new buys mistimed."
+        )
+        priority_reason = "Protection and timing risk outrank new adds while the shock is unresolved."
     elif state == "ACT_NOW" and opportunity_sensitive:
         label = "compare and stage"
         summary = "Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs."
+        do_nothing = (
+            "Doing nothing avoids churn, but can leave a confirmed sizing gap under-deployed or cash parked "
+            "in a weaker alternative."
+        )
+        priority_reason = "It can outrank ordinary ideas only if the sizing gap, source quality, and entry still beat other uses."
     elif opportunity_sensitive:
         label = "opportunity-cost watch"
         summary = "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher."
+        do_nothing = (
+            "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening."
+        )
+        priority_reason = "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital."
     elif requires_capital:
         label = "capital check"
         summary = "Any capital move should be compared with the current best alternative use."
+        do_nothing = "Doing nothing avoids unnecessary churn, but the current position may stay mis-sized versus better alternatives."
+        priority_reason = "It matters only if it beats the current best alternative after the gate."
     else:
         label = "no capital move"
         summary = "No capital should move until this becomes decision-grade."
+        do_nothing = "Doing nothing is acceptable until evidence becomes decision-grade; the cost is delayed research or missed confirmation."
+        priority_reason = "It should not beat capital-using actions until evidence becomes decision-grade."
 
     timing_balance = (
         "Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing."
@@ -357,6 +375,8 @@ def _capital_efficiency(action: dict[str, Any], freshness: dict[str, Any]) -> di
     return {
         "label": label,
         "summary": summary,
+        "do_nothing_risk": do_nothing,
+        "priority_reason": priority_reason,
         "timing_balance": timing_balance,
         "compare_against": compare_against,
     }

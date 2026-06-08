@@ -831,6 +831,10 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
     capital_bits = []
     if capital_efficiency.get("summary"):
         capital_bits.append(_e(capital_efficiency.get("summary")))
+    if capital_efficiency.get("priority_reason"):
+        capital_bits.append("Priority: " + _e(capital_efficiency.get("priority_reason")))
+    if capital_efficiency.get("do_nothing_risk"):
+        capital_bits.append("Do nothing: " + _e(capital_efficiency.get("do_nothing_risk")))
     if capital_efficiency.get("timing_balance"):
         capital_bits.append("Timing balance: " + _e(capital_efficiency.get("timing_balance")))
     compare_against = [
@@ -993,9 +997,16 @@ def _market_open_packet(block: dict) -> str:
   <span class="tag {status_cls}">#{_e(row.get("priority") or "")}</span>
   <span class="context-ticker">{_e(row.get("label") or "")}</span>
   {f'<span class="small-muted">Refresh: {_e(str(row.get("refresh_status") or "").replace("_", " "))}</span>' if row.get("refresh_status") else ""}
+  {f'<span class="small-muted">Priority: {_e(row.get("capital_priority_score"))}</span>' if row.get("capital_priority_score") is not None else ""}
+  {f'<span class="small-muted">Freshness: {_e(row.get("freshness_label") or "")} | evidence {_e(row.get("evidence_date") or "n/a")} | checked {_e(row.get("last_checked") or "n/a")} | decays {_e(row.get("decay_window") or "source dependent")}</span>' if (row.get("freshness_label") or row.get("evidence_date") or row.get("decay_window")) else ""}
   {f'<span class="small-muted">Changed: {_e(row.get("what_changed") or "")}</span>' if row.get("what_changed") else ""}
+  {f'<span class="small-muted">Assumptions: {_e(row.get("key_assumptions") or "")}</span>' if row.get("key_assumptions") else ""}
   {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}
+  {f'<span class="small-muted">Capital priority: {_e(row.get("capital_priority_reason") or "")}</span>' if row.get("capital_priority_reason") else ""}
+  {f'<span class="small-muted">Do nothing: {_e(row.get("do_nothing_risk") or "")}</span>' if row.get("do_nothing_risk") else ""}
   {f'<span class="small-muted">Next: {_e(row.get("next_step") or "")}</span>' if row.get("next_step") else ""}
+  {f'<span class="small-muted">Invalidates: {_e(row.get("invalidates") or "")}</span>' if row.get("invalidates") else ""}
+  {f'<span class="small-muted">Compare: {_e(row.get("compare_against") or "")}</span>' if row.get("compare_against") else ""}
   {f'<span class="small-muted">Blocks: {_e(row.get("blocks") or "")}</span>' if row.get("blocks") else ""}
 </div>"""
     if not body:

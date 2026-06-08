@@ -81,6 +81,12 @@ until the core logic is stable; Notion sync comes later.
   - 2026-06-07 upgrade: the packet surfaces all urgent Key Now,
     Re-check Before Acting, and Important Backlog rows rather than only the top
     few rows. Rows show assumption-refresh status and what changed.
+  - 2026-06-07 Stage 3/4 upgrade: action-derived packet rows now show
+    freshness, evidence date, last checked date, key assumptions, invalidation
+    trigger, capital-priority score/reason, compare-against list, and the
+    consequence of doing nothing. This makes the market-open path prove whether
+    an action is still valid, stale/re-check-only, or a better use of capital
+    than alternatives.
 - Social Watch dashboard lane.
   - Added `social_watch.py` to normalize future Reddit/social API output or a
     supplied cache into a watch-only `feed.social_watch` block.

@@ -224,6 +224,12 @@ The dashboard shows the feed plus operator state:
     parking money in a merely good opportunity when a better use is live, while
     also discouraging indefinite waiting for a perfect entry when fresh evidence
     supports staged exposure.
+  - For action-derived rows, the packet must carry the same decision-grade
+    metadata as the action card: freshness label, evidence date, last checked
+    date, decay window, key assumptions, invalidation trigger, capital-priority
+    score/reason, compare-against list, and consequence of doing nothing. This
+    is the first-screen proof that a top action is still valid or must be
+    re-checked before capital moves.
   - It never executes trades and never treats dark or stale evidence as checked.
 
 - From Research: `feed.research_actions`
@@ -457,6 +463,10 @@ Synthesis usefulness contract:
 - The canonical JSX cockpit and HTML mirror show compact `changes:` and
   `priority:` tags on action cards. These are explanation/ranking metadata only;
   they do not execute trades or bypass gates.
+- `feed.market_open_packet` repeats the key action-validity fields for urgent
+  action-derived rows so the first-screen operator path does not depend on
+  opening a deeper action drawer before seeing freshness, invalidation,
+  capital-priority, and do-nothing risk.
 
 Book allocation guidance contract:
 

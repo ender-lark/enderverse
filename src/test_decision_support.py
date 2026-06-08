@@ -50,6 +50,8 @@ def test_enrich_actions_groups_and_adds_freshness_judgment():
     assert "event trigger" in " ".join(enriched[0]["disconfirmation"]["invalidates_if"])
     assert enriched[0]["capital_efficiency"]["label"] == "protect capital"
     assert "not adding risk" in enriched[0]["capital_efficiency"]["summary"]
+    assert "unprotected" in enriched[0]["capital_efficiency"]["do_nothing_risk"]
+    assert "outrank" in enriched[0]["capital_efficiency"]["priority_reason"]
     assert enriched[1]["decision_group"] == "important_backlog"
     assert enriched[1]["capital_efficiency"]["label"] == "opportunity-cost watch"
     assert groups["counts"]["key_now"] == 0
@@ -148,6 +150,8 @@ def test_target_drift_disconfirmation_requires_funding_and_gate():
     capital_efficiency = enriched[0]["capital_efficiency"]
     assert capital_efficiency["label"] == "compare and stage"
     assert "Do not park capital" in capital_efficiency["summary"]
+    assert "under-deployed" in capital_efficiency["do_nothing_risk"]
+    assert "sizing gap" in capital_efficiency["priority_reason"]
     assert "perfect bottom" in capital_efficiency["timing_balance"]
     assert "funded reallocation legs" in capital_efficiency["compare_against"]
     assert groups["counts"]["key_now"] == 0

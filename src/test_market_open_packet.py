@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from market_open_packet import build_market_open_packet
+from market_open_packet import build_market_open_packet, _format_text
 
 
 def _feed():
@@ -45,13 +45,32 @@ def _feed():
                 "decision_group": "key_now",
                 "capital_efficiency": {
                     "summary": "Compare against higher-ranked uses of capital before adding.",
+                    "priority_reason": "Sizing gap beats ordinary research only if current entry and funding still work.",
+                    "do_nothing_risk": "Doing nothing could leave NVDA too small if the gate confirms.",
+                    "compare_against": ["higher-ranked Key Now actions", "funded reallocation legs"],
                 },
+                "freshness_judgment": {
+                    "label": "fresh",
+                    "evidence_date": "2026-06-05",
+                    "last_checked": "2026-06-05",
+                    "decay_window": "until position, price, thesis, or target changes",
+                },
+                "capital_priority_score": 117,
                 "disconfirmation": {
                     "invalidates_if": ["The target weight is outdated."],
                 },
                 "assumption_refresh": {
                     "status": "still_valid",
                     "what_changed": ["No material assumption break detected."],
+                    "checked_at": "2026-06-05",
+                    "snapshot": {
+                        "evidence_date": "2026-06-05",
+                        "freshness": "fresh",
+                        "decay_window": "until position, price, thesis, or target changes",
+                        "time_window": "1-3 trading days",
+                        "capital_label": "compare and stage",
+                    },
+                    "invalidates_if": ["Current positions, target weights, or funding legs changed."],
                     "next_step": "Keep in current group.",
                 },
             },
@@ -131,7 +150,20 @@ def test_market_open_packet_sequences_recheck_capital_and_dark_lanes():
     assert packet["rows"][0]["what_changed"] == "Fast-moving evidence must be refreshed."
     assert packet["rows"][1]["why"] == "Compare against higher-ranked uses of capital before adding."
     assert packet["rows"][1]["refresh_status"] == "still_valid"
+    assert packet["rows"][1]["capital_priority_score"] == 117
+    assert packet["rows"][1]["capital_priority_reason"].startswith("Sizing gap")
+    assert packet["rows"][1]["do_nothing_risk"].startswith("Doing nothing")
+    assert packet["rows"][1]["freshness_label"] == "fresh"
+    assert packet["rows"][1]["evidence_date"] == "2026-06-05"
+    assert packet["rows"][1]["last_checked"] == "2026-06-05"
+    assert "time window 1-3 trading days" in packet["rows"][1]["key_assumptions"]
+    assert packet["rows"][1]["invalidates"] == "Current positions, target weights, or funding legs changed."
+    assert "funded reallocation legs" in packet["rows"][1]["compare_against"]
     assert packet["rows"][2]["blocks"] == "current positions are missing"
     assert "runbook is instructions only" in packet["rows"][3]["blocks"]
     assert "runbook is instructions only" in packet["rows"][4]["blocks"]
     assert packet["rows"][5]["source"] == "social_watch"
+    text = _format_text(packet)
+    assert "priority 117: Sizing gap beats ordinary research" in text
+    assert "do nothing: Doing nothing could leave NVDA too small" in text
+    assert "invalidates: Current positions, target weights, or funding legs changed." in text

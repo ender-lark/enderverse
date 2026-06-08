@@ -34,6 +34,17 @@ def _feed():
                     "next_step": "Refresh WTI, 10Y, and current headlines.",
                     "blocks": "Do not act until fast-moving evidence is fresh.",
                     "source": "event_risk",
+                    "refresh_status": "changed_recheck",
+                    "freshness_label": "fast-moving",
+                    "evidence_date": "2026-06-05",
+                    "last_checked": "2026-06-05",
+                    "decay_window": "intraday",
+                    "key_assumptions": "evidence 2026-06-05 is fast-moving; decays intraday",
+                    "invalidates": "Headlines de-escalate or yields reverse.",
+                    "do_nothing_risk": "Doing nothing can leave new buys mistimed.",
+                    "capital_priority_reason": "Protection and timing risk outrank new adds while the shock is unresolved.",
+                    "capital_priority_score": 104,
+                    "compare_against": "higher-ranked Key Now actions / risk reduction",
                 }
             ],
         },
@@ -489,6 +500,8 @@ def test_generated_html_surfaces_action_cards_first():
         "capital_efficiency": {
             "label": "compare and stage",
             "summary": "Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.",
+            "priority_reason": "Sizing gap beats ordinary research only if the gate still works.",
+            "do_nothing_risk": "Doing nothing could leave NVDA too small if the gate confirms.",
             "timing_balance": "Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.",
             "compare_against": ["higher-ranked Key Now actions", "funded reallocation legs"],
         },
@@ -513,6 +526,8 @@ def test_generated_html_surfaces_action_cards_first():
     assert "priority: 117" in html
     assert "Capital efficiency" in html
     assert "Do not park capital here only because it is good" in html
+    assert "Priority: Sizing gap beats ordinary research only if the gate still works." in html
+    assert "Do nothing: Doing nothing could leave NVDA too small if the gate confirms." in html
     assert "Avoid waiting for a perfect bottom" in html
     assert "Compare against: higher-ranked Key Now actions / funded reallocation legs" in html
     assert html.index('id="today-actions"') < html.index('id="operator-status"')
@@ -542,6 +557,12 @@ def test_generated_html_surfaces_market_open_packet_before_actions():
     assert "Market-open packet" in html
     assert "Market-open packet: 1 key, 1 re-check, 0 backlog; 2 blocker(s)." in html
     assert "Re-check first: EVENT: Oil/rates shock can change new-buy timing" in html
+    assert "Priority: 104" in html
+    assert "Freshness: fast-moving | evidence 2026-06-05 | checked 2026-06-05 | decays intraday" in html
+    assert "Assumptions: evidence 2026-06-05 is fast-moving; decays intraday" in html
+    assert "Capital priority: Protection and timing risk outrank new adds while the shock is unresolved." in html
+    assert "Do nothing: Doing nothing can leave new buys mistimed." in html
+    assert "Invalidates: Headlines de-escalate or yields reverse." in html
     assert "Decision packet sequences review work only" in html
     assert "python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text" in html
     assert html.index('id="market-open-packet"') < html.index('id="today-actions"')

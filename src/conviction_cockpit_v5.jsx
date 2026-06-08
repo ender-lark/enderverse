@@ -1109,6 +1109,8 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
             <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
               <div style={{ fontWeight:700, color:C.amber }}>Capital efficiency</div>
               {capitalEfficiency.summary && <div style={{ marginTop:4 }}>{capitalEfficiency.summary}</div>}
+              {capitalEfficiency.priority_reason && <div style={{ marginTop:4 }}>Priority: {capitalEfficiency.priority_reason}</div>}
+              {capitalEfficiency.do_nothing_risk && <div style={{ marginTop:4 }}>Do nothing: {capitalEfficiency.do_nothing_risk}</div>}
               {capitalEfficiency.timing_balance && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>timing: {capitalEfficiency.timing_balance}</div>}
               {(capitalEfficiency.compare_against||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>compare: {(capitalEfficiency.compare_against||[]).join(" / ")}</div>}
             </div>
@@ -1380,11 +1382,19 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                       <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{r.priority}</span>
                       <span style={{ fontSize:12.5, fontWeight:700, color:C.text }}>{r.label}</span>
                       {r.refresh_status && <span style={{ fontFamily:mono, fontSize:10.5, color:["changed_recheck","stale","invalidated"].includes(r.refresh_status)?C.amber:C.green, border:`1px solid ${(["changed_recheck","stale","invalidated"].includes(r.refresh_status)?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px" }}>refresh: {String(r.refresh_status).replace("_"," ")}</span>}
+                      {r.capital_priority_score!=null && <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>priority: {r.capital_priority_score}</span>}
+                      {r.freshness_label && <span title={r.decay_window||""} style={{ fontFamily:mono, fontSize:10.5, color:r.freshness_label==="stale"?C.red:r.freshness_label==="fast-moving"?C.amber:C.faint }}>{r.freshness_label}</span>}
                       {r.source && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.source}</span>}
                     </div>
                     {r.what_changed && <div style={{ marginTop:5, fontSize:11.5, color:C.amber }}>Changed: {r.what_changed}</div>}
+                    {(r.evidence_date || r.last_checked || r.decay_window) && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>Freshness: evidence {r.evidence_date||"n/a"} | checked {r.last_checked||"n/a"} | decays {r.decay_window||"source dependent"}</div>}
+                    {r.key_assumptions && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Assumptions: {r.key_assumptions}</div>}
                     {r.why && <div style={{ marginTop:5, fontSize:11.8, color:C.dim }}>Why: {r.why}</div>}
+                    {r.capital_priority_reason && <div style={{ marginTop:4, fontSize:11.8, color:C.dim }}>Capital priority: {r.capital_priority_reason}</div>}
+                    {r.do_nothing_risk && <div style={{ marginTop:4, fontSize:11.8, color:C.dim }}>Do nothing: {r.do_nothing_risk}</div>}
                     {r.next_step && <div style={{ marginTop:4, fontSize:11.8, color:C.text }}>Next: {r.next_step}</div>}
+                    {r.invalidates && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Invalidates: {r.invalidates}</div>}
+                    {r.compare_against && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Compare: {r.compare_against}</div>}
                     {r.blocks && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Blocks: {r.blocks}</div>}
                   </div>
                 ))}

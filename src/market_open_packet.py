@@ -31,6 +31,62 @@ def _first_text(values: list[Any] | None) -> str:
     return ""
 
 
+def _first_instruction(values: list[Any] | None) -> str:
+    for value in values or []:
+        text = str(value or "").strip()
+        if not text:
+            continue
+        lowered = text.lower()
+        if lowered.startswith(("check ", "confirm ", "refresh ", "run ", "review ", "decide ", "use ")):
+            return text
+    return ""
+
+
+def _text_list(values: list[Any] | None) -> list[str]:
+    return [str(value).strip() for value in values or [] if str(value or "").strip()]
+
+
+def _action_packet_metadata(action: dict[str, Any]) -> dict[str, Any]:
+    freshness = action.get("freshness_judgment") or {}
+    disconfirmation = action.get("disconfirmation") or {}
+    refresh = action.get("assumption_refresh") or {}
+    capital = action.get("capital_efficiency") or {}
+    snapshot = refresh.get("snapshot") or {}
+    assumptions: list[str] = []
+    evidence_date = str(freshness.get("evidence_date") or snapshot.get("evidence_date") or "")
+    freshness_label = str(freshness.get("label") or snapshot.get("freshness") or "")
+    decay_window = str(freshness.get("decay_window") or snapshot.get("decay_window") or "")
+    last_checked = str(freshness.get("last_checked") or refresh.get("checked_at") or "")
+    if freshness_label or evidence_date:
+        assumptions.append(f"evidence {evidence_date or 'n/a'} is {freshness_label or 'unlabeled'}")
+    if decay_window:
+        assumptions.append(f"decays {decay_window}")
+    if snapshot.get("time_window") or action.get("time_window"):
+        assumptions.append(f"time window {snapshot.get('time_window') or action.get('time_window')}")
+    if snapshot.get("capital_label") or capital.get("label"):
+        assumptions.append(f"capital posture {snapshot.get('capital_label') or capital.get('label')}")
+    invalidates = _first_text(
+        _text_list(refresh.get("invalidates_if"))
+        + _text_list(disconfirmation.get("invalidates_if"))
+    )
+    return {
+        "freshness_label": freshness_label,
+        "evidence_date": evidence_date,
+        "last_checked": last_checked,
+        "decay_window": decay_window,
+        "key_assumptions": "; ".join(assumptions),
+        "invalidates": invalidates,
+        "do_nothing_risk": str(capital.get("do_nothing_risk") or ""),
+        "capital_priority_reason": str(capital.get("priority_reason") or capital.get("summary") or ""),
+        "capital_priority_score": (
+            int(action.get("capital_priority_score"))
+            if isinstance(action.get("capital_priority_score"), int)
+            else None
+        ),
+        "compare_against": " / ".join(_text_list(capital.get("compare_against"))),
+    }
+
+
 def _dark_lanes(feed: dict[str, Any]) -> list[dict[str, Any]]:
     return [
         row for row in ((feed.get("lane_status") or {}).get("rows") or [])
@@ -50,8 +106,18 @@ def _packet_row(
     command: str = "",
     refresh_status: str = "",
     what_changed: str = "",
+    freshness_label: str = "",
+    evidence_date: str = "",
+    last_checked: str = "",
+    decay_window: str = "",
+    key_assumptions: str = "",
+    invalidates: str = "",
+    do_nothing_risk: str = "",
+    capital_priority_reason: str = "",
+    capital_priority_score: int | None = None,
+    compare_against: str = "",
 ) -> dict[str, Any]:
-    return {
+    row = {
         "priority": priority,
         "kind": kind,
         "label": label,
@@ -63,6 +129,22 @@ def _packet_row(
         "refresh_status": refresh_status,
         "what_changed": what_changed,
     }
+    for key, value in {
+        "freshness_label": freshness_label,
+        "evidence_date": evidence_date,
+        "last_checked": last_checked,
+        "decay_window": decay_window,
+        "key_assumptions": key_assumptions,
+        "invalidates": invalidates,
+        "do_nothing_risk": do_nothing_risk,
+        "capital_priority_reason": capital_priority_reason,
+        "compare_against": compare_against,
+    }.items():
+        if value:
+            row[key] = value
+    if capital_priority_score is not None:
+        row["capital_priority_score"] = capital_priority_score
+    return row
 
 
 def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
@@ -101,23 +183,28 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
         freshness = action.get("freshness_judgment") or {}
         disconfirmation = action.get("disconfirmation") or {}
         refresh = action.get("assumption_refresh") or {}
+        metadata = _action_packet_metadata(action)
         rows.append(_packet_row(
             priority=next_priority(),
             kind="recheck_first",
             label=f"Re-check: {_action_label(action)}",
             why=str(freshness.get("judgment") or action.get("why_this_matters") or action.get("why") or ""),
-            next_step=_first_text(disconfirmation.get("confirm_before_acting") or action.get("missing_evidence") or [])
+            next_step=_first_instruction(disconfirmation.get("confirm_before_acting") or [])
+            or str(refresh.get("next_step") or "")
+            or _first_text(action.get("missing_evidence") or [])
             or "Refresh same-session evidence before any capital move.",
             blocks=str(disconfirmation.get("summary") or "Do not act until fast-moving evidence is fresh."),
             source=str(action.get("source") or ""),
             refresh_status=str(refresh.get("status") or ""),
             what_changed=_first_text(refresh.get("what_changed") or []),
+            **metadata,
         ))
 
     for action in key_now:
         capital = action.get("capital_efficiency") or {}
         disconfirmation = action.get("disconfirmation") or {}
         refresh = action.get("assumption_refresh") or {}
+        metadata = _action_packet_metadata(action)
         rows.append(_packet_row(
             priority=next_priority(),
             kind="gate_key_now",
@@ -128,6 +215,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
             source=str(action.get("source") or ""),
             refresh_status=str(refresh.get("status") or ""),
             what_changed=_first_text(refresh.get("what_changed") or []),
+            **metadata,
         ))
 
     if reallocation.get("status") == "test_data_only":
@@ -158,6 +246,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
     for action in backlog:
         refresh = action.get("assumption_refresh") or {}
         disconfirmation = action.get("disconfirmation") or {}
+        metadata = _action_packet_metadata(action)
         rows.append(_packet_row(
             priority=next_priority(),
             kind="important_backlog",
@@ -168,6 +257,7 @@ def build_market_open_packet(feed: dict[str, Any]) -> dict[str, Any]:
             source=str(action.get("source") or ""),
             refresh_status=str(refresh.get("status") or ""),
             what_changed=_first_text(refresh.get("what_changed") or []),
+            **metadata,
         ))
 
     for uw in [row for row in uw_rows if isinstance(row, dict)]:
@@ -254,10 +344,30 @@ def _format_text(block: dict[str, Any]) -> str:
             lines.append(f"   refresh: {str(row.get('refresh_status')).replace('_', ' ')}")
         if row.get("what_changed"):
             lines.append(f"   changed: {row.get('what_changed')}")
+        if row.get("freshness_label") or row.get("evidence_date") or row.get("decay_window"):
+            lines.append(
+                "   freshness: "
+                f"{row.get('freshness_label') or 'n/a'}; "
+                f"evidence {row.get('evidence_date') or 'n/a'}; "
+                f"checked {row.get('last_checked') or 'n/a'}; "
+                f"decays {row.get('decay_window') or 'source dependent'}"
+            )
+        if row.get("key_assumptions"):
+            lines.append(f"   assumptions: {row.get('key_assumptions')}")
         if row.get("why"):
             lines.append(f"   why: {row.get('why')}")
+        if row.get("capital_priority_score") is not None or row.get("capital_priority_reason"):
+            score = row.get("capital_priority_score")
+            prefix = f"priority {score}: " if score is not None else "priority: "
+            lines.append(f"   {prefix}{row.get('capital_priority_reason') or 'compare against better current uses of capital'}")
+        if row.get("do_nothing_risk"):
+            lines.append(f"   do nothing: {row.get('do_nothing_risk')}")
         if row.get("next_step"):
             lines.append(f"   next: {row.get('next_step')}")
+        if row.get("invalidates"):
+            lines.append(f"   invalidates: {row.get('invalidates')}")
+        if row.get("compare_against"):
+            lines.append(f"   compare: {row.get('compare_against')}")
         if row.get("blocks"):
             lines.append(f"   blocks: {row.get('blocks')}")
     return "\n".join(lines)
