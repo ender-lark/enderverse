@@ -6,8 +6,9 @@ def test_jsx_action_cards_render_synthesis_change_and_capital_priority():
 
     assert "synthesisChanges:a.synthesis_changes||\"\"" in text
     assert "capitalPriorityScore:(typeof a.capital_priority_score===\"number\"" in text
-    assert "changes: {a.synthesisChanges}" in text
-    assert "priority: {a.capitalPriorityScore}" in text
+    assert "hidden decision metadata" in text
+    assert "changes: ${a.synthesisChanges}" in text
+    assert "priority: ${a.capitalPriorityScore}" in text
     assert "capitalEfficiency.priority_reason" in text
     assert "capitalEfficiency.do_nothing_risk" in text
 
@@ -17,6 +18,9 @@ def test_jsx_today_decisions_surface_action_validity_metadata():
 
     assert "function TodayDecisionQueue" in text
     assert "function ActionCard(" in text
+    assert "function TodayActionCard(" in text
+    assert "Why conviction:" in text
+    assert "Latest evidence check" in text
     assert "a.capitalPriorityScore" in text
     assert "a.freshnessJudgment" in text
     assert "assumptionRefresh.what_changed" in text

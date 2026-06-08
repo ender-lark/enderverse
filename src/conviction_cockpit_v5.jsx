@@ -734,8 +734,8 @@ function heroAttention(h, packet, op){
   };
   if(recheck>0) return {
     active:true, count:recheck, color:C.amber,
-    title:`${recheck} setup${recheck===1?"":"s"} need refresh before acting`,
-    detail:`Start with Today Decisions; refresh assumptions before capital moves.${backlog?` ${backlog} backlog item${backlog===1?"":"s"} remain visible.`:""}`
+    title:`${recheck} setup${recheck===1?"":"s"} need fresh evidence`,
+    detail:`Start with Today Decisions; available checks already ran for this build. Open unresolved lanes before capital moves.${backlog?` ${backlog} backlog item${backlog===1?"":"s"} remain visible.`:""}`
   };
   if(legacyNeeds>0) return {
     active:true, count:legacyNeeds, color:C.amber,
@@ -1066,7 +1066,7 @@ function todayActionRow(a){
     posture:cleanPosture(actionLabelDisplay(a.actionLabel) || actionPostureChip(a) || a.actionState || "review"),
     color:a.stateColor || a.c || C.amber,
     timing:a.timeWindow || "current",
-    whyHere:a.decisionGroup==="key_now" ? "Current key decision pressure." : a.decisionGroup==="recheck_before_acting" ? "You may act later, but the assumptions need a refresh first." : "Visible because it affects near-term capital priority.",
+    whyHere:a.decisionGroup==="key_now" ? "Current key decision pressure." : a.decisionGroup==="recheck_before_acting" ? "You may act later, but fresh evidence is still missing or changed." : "Visible because it affects near-term capital priority.",
     changes:a.synthesisChanges || actionLabelDisplay(a.actionLabel) || actionPostureChip(a) || "review",
     nextStep:a.yourMove || refresh.next_step || "Run the gate before capital moves.",
     invalidates,
@@ -1307,7 +1307,7 @@ function Section({ id, title, icon, badge, badgeColor, summary, description, chi
 }
 const card = { background:C.panel, border:`1px solid ${C.line}`, borderRadius:11, padding:"12px 14px" };
 const muted = { color:C.dim, fontSize:12.5 };
-const OPEN_STORAGE_KEY = "convictionCockpit.openSections.v3";
+const OPEN_STORAGE_KEY = "convictionCockpit.openSections.v4";
 function loadStoredOpen(){
   if(typeof window === "undefined" || !window.localStorage) return {};
   try {
@@ -1372,19 +1372,19 @@ const REFRESH_STATUS_META = {
     title:"The assumption-refresh pass kept this item prominent. It is not a trade command; run the relevant source, position, and pre-trade gate before capital moves.",
   },
   changed_recheck: {
-    label:"Needs re-check",
+    label:"Fresh evidence needed",
     tone:"amber",
-    title:"Something important is missing, old, or changed. Confirm same-session price, flow, position, source, or event-risk evidence before acting.",
+    title:"The latest dashboard build checked available assumptions, but something important is missing, old, or changed. Confirm same-session price, flow, position, source, or event-risk evidence before acting.",
   },
   still_valid: {
-    label:"Still valid watch",
+    label:"Auto-checked valid",
     tone:"green",
-    title:"Available feed evidence did not break this setup. Keep it visible, but use the normal gate before acting.",
+    title:"Available feed evidence did not break this setup during the latest build. Keep it visible, but use the normal gate before acting.",
   },
   stale: {
-    label:"Stale: refresh first",
+    label:"Stale evidence",
     tone:"amber",
-    title:"The evidence has aged past its useful window. Refresh the source before treating this as actionable.",
+    title:"The evidence has aged past its useful window. The system should refresh the source before treating this as actionable.",
   },
   invalidated: {
     label:"Invalidated: do not act",
@@ -1403,15 +1403,15 @@ function refreshStatusMeta(status){
 function decisionGroupMeta(key, label){
   const k = String(key||"").toLowerCase();
   if(k==="key_now") return { title:"Act or Decide Now", chip:"act/decide now", tone:"red", description:"Only decisions where waiting can cost you or create avoidable risk." };
-  if(k==="recheck_before_acting") return { title:"Refresh Before Adding Risk", chip:"refresh first", tone:"amber", description:"These are not orders. They are setups where the old assumption must be refreshed before new capital moves." };
-  if(k==="important_backlog") return { title:"Decision Backlog", chip:"compare capital", tone:"blue", description:"Useful opportunities or unresolved decisions that should be compared against better current uses of capital." };
+  if(k==="recheck_before_acting") return { title:"Needs Fresh Evidence", chip:"fresh evidence needed", tone:"amber", description:"The dashboard already checked what it can in this build. These remain unresolved because a live gate, source, price, position, or event assumption is missing, stale, or changed." };
+  if(k==="important_backlog") return { title:"Decision Backlog", chip:"compare capital", tone:"blue", description:"Useful opportunities or unresolved decisions. Each card should show the work behind conviction and why it still belongs in the queue." };
   if(k==="quiet_watch") return { title:"Quiet Watch", chip:"watch only", tone:"gray", description:"Keep as background context; do not let this distract from higher-impact decisions." };
   return { title:label||String(key||"Decision Lane").replaceAll("_"," "), chip:String(label||key||"review").replaceAll("_"," ").toLowerCase(), tone:"gray", description:"Decision lane from the action engine." };
 }
 function actionLabelDisplay(label){
   const text = String(label||"");
   const lower = text.toLowerCase();
-  if(lower==="re-check" || lower==="recheck") return "refresh first";
+  if(lower==="re-check" || lower==="recheck") return "fresh evidence needed";
   if(lower==="add/rotate") return "add/rotate candidate";
   return text;
 }
@@ -1605,6 +1605,114 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
   );
 }
 
+function TodayActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, showAging=false, showSizing=false, advisorNote=null }) {
+  const key = keyPrefix + a.rank + (a.ticker || a.kind);
+  const isO = posOpen[key];
+  const disconfirmation = a.disconfirmation || {};
+  const capitalEfficiency = a.capitalEfficiency || {};
+  const assumptionRefresh = a.assumptionRefresh || {};
+  const accountPlacement = a.accountPlacement || {};
+  const freshness = a.freshnessJudgment || {};
+  const tone = actionTone(a);
+  const edge = toneColor(tone);
+  const urgent = a.actionState === "ACT_NOW";
+  const refreshMeta = refreshStatusMeta(assumptionRefresh.status);
+  const refreshStatus = String(assumptionRefresh.status||"").toLowerCase();
+  const freshLabel = String(freshness.label||"").toLowerCase();
+  const evidenceChip = ["invalidated","changed_recheck","stale"].includes(refreshStatus)
+    ? refreshMeta
+    : ["stale","not checked","fast-moving"].includes(freshLabel)
+      ? { label: freshLabel==="fast-moving" ? "Fast-moving evidence" : freshLabel==="not checked" ? "Evidence not checked" : "Stale evidence", tone: freshLabel==="not checked" ? "red" : "amber", title: freshnessTitle(freshLabel, freshness) }
+      : null;
+  const evidenceColor = evidenceChip ? toneColor(evidenceChip.tone) : C.faint;
+  const posture = actionLabelDisplay(a.actionLabel) || actionPostureChip(a);
+  const conviction = clipText(a.whyThisMatters || a.why || (advisorNote&&advisorNote.why) || a.goalWhy || "", 170);
+  const work = compactJoin([
+    a.source && `source ${a.source}`,
+    a.kindLabel && `lane ${a.kindLabel}`,
+    freshness.evidence_date && `evidence ${freshness.evidence_date}`,
+    freshness.last_checked && `checked ${freshness.last_checked}`,
+    a.goalScore!=null && `goal ${a.goalScore}/100`,
+    a.capitalPriorityScore!=null && `capital priority ${a.capitalPriorityScore}`,
+  ]);
+  const hasDisconfirmation = !!(disconfirmation.summary || (disconfirmation.invalidates_if||[]).length || (disconfirmation.confirm_before_acting||[]).length);
+  const hasCapitalEfficiency = !!(capitalEfficiency.summary || capitalEfficiency.timing_balance || (capitalEfficiency.compare_against||[]).length);
+  const hasEvidenceCheck = !!(assumptionRefresh.status || assumptionRefresh.next_step || (assumptionRefresh.what_changed||[]).length || (assumptionRefresh.invalidates_if||[]).length || freshness.judgment);
+  const hasAccountPlacement = !!(accountPlacement.summary || accountPlacement.why || accountPlacement.label);
+  const hasDetail = !!(a.why || a.whyThisMatters || work || a.missingEvidence.length || hasDisconfirmation || hasCapitalEfficiency || hasEvidenceCheck || hasAccountPlacement);
+  return (
+    <div key={key} style={{ ...toneCard(tone), marginBottom:8, borderColor: urgent ? edge+"aa" : edge+"44", background: urgent ? edge+"18" : `${edge}0d`, boxShadow: urgent ? `0 0 0 1px ${edge}55 inset` : "none" }}>
+      <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:hasDetail?"pointer":"default" }}>
+        <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:10, flexWrap:"wrap" }}>
+          <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap", minWidth:0 }}>
+            <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{a.rank}</span>
+            {a.ticker && <span style={{ fontFamily:mono, fontWeight:800, fontSize:13.5, color:C.text }}>{a.ticker}</span>}
+            <span style={{ fontSize:12.7, fontWeight:750, color:C.text }}>{a.what}</span>
+          </div>
+          {hasDetail && <span style={{ fontSize:11, color:edge, whiteSpace:"nowrap" }}>{isO?"hide details ^":"details v"}</span>}
+        </div>
+        <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
+          <span title="Action posture this card changes or requires." style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:edge, border:`1px solid ${edge}66`, borderRadius:99, padding:"1px 8px", background:`${edge}12` }}>{posture}</span>
+          {a.timeWindow && <span title="How quickly this decision can matter." style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
+          <span title="Conviction level from the current evidence stack." style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
+          {evidenceChip && <span title={evidenceChip.title||""} style={{ fontFamily:mono, fontSize:11, color:evidenceColor, border:`1px solid ${evidenceColor}55`, borderRadius:99, padding:"1px 8px", background:`${evidenceColor}10` }}>{evidenceChip.label}</span>}
+          {showAging && a.ageDays!=null && <span title="How long this has been actionable; the cost of waiting." style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>open {a.ageDays}d{a.flagged?` since ${a.flagged}`:""}{a.moveSince?` ${a.moveSince}`:""}</span>}
+        </div>
+        <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Decision:</span> {a.yourMove}</div>
+        {conviction && <div style={{ marginTop:5, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Why conviction:</span> {conviction}</div>}
+        {advisorNote && <div style={{ marginTop:6, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:650 }}>Plain-English read:</span> {advisorNote.what_i_would_do || advisorNote.why || advisorNote.label}</div>}
+        {a.goalWhy && <div style={{ marginTop:5, fontSize:12.2, color:a.goalColor }}><span style={{ color:C.dim, fontWeight:700 }}>Why it matters:</span> {a.goalWhy}</div>}
+        {showSizing && a.sizing && <div style={{ marginTop:5, fontSize:12, color:C.dim }}><span style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5 }}>Size </span>{a.sizing}</div>}
+      </div>
+      {isO && hasDetail && (
+        <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
+          {work && <div style={{ marginTop:2, fontFamily:mono, fontSize:10, color:C.faint }}>work: {work}</div>}
+          {a.whyThisMatters && <div style={{ marginTop:6, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Why this matters:</span> {a.whyThisMatters}</div>}
+          {a.why && <div style={{ marginTop:5 }}>{a.why}</div>}
+          {hasEvidenceCheck && (
+            <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
+              <div style={{ fontWeight:700, color:C.amber }}>Latest evidence check</div>
+              {assumptionRefresh.status && <div style={{ marginTop:4 }}>status after latest build: {refreshMeta.label}</div>}
+              {freshness.judgment && <div style={{ marginTop:4 }}>freshness: {freshness.judgment}</div>}
+              {freshness.evidence_date && <div style={{ marginTop:4, fontFamily:mono, fontSize:10, color:C.faint }}>evidence {freshness.evidence_date} | checked {freshness.last_checked||"n/a"} | decays {freshness.decay_window||"source dependent"}</div>}
+              {assumptionRefresh.next_step && <div style={{ marginTop:4 }}>{assumptionRefresh.next_step}</div>}
+              {(assumptionRefresh.what_changed||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>changed: {(assumptionRefresh.what_changed||[]).join(" / ")}</div>}
+            </div>
+          )}
+          {hasCapitalEfficiency && (
+            <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
+              <div style={{ fontWeight:700, color:C.amber }}>Capital efficiency</div>
+              {capitalEfficiency.summary && <div style={{ marginTop:4 }}>{capitalEfficiency.summary}</div>}
+              {capitalEfficiency.priority_reason && <div style={{ marginTop:4 }}>Priority: {capitalEfficiency.priority_reason}</div>}
+              {capitalEfficiency.do_nothing_risk && <div style={{ marginTop:4 }}>Do nothing: {capitalEfficiency.do_nothing_risk}</div>}
+              {capitalEfficiency.timing_balance && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>timing: {capitalEfficiency.timing_balance}</div>}
+              {(capitalEfficiency.compare_against||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>compare: {(capitalEfficiency.compare_against||[]).join(" / ")}</div>}
+            </div>
+          )}
+          {hasAccountPlacement && (
+            <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
+              <div style={{ fontWeight:700, color:C.green }}>Account placement</div>
+              {accountPlacement.summary && <div style={{ marginTop:4 }}>{accountPlacement.summary}</div>}
+              {accountPlacement.why && <div style={{ marginTop:4 }}>Why: {accountPlacement.why}</div>}
+              {accountPlacement.rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>rule: {accountPlacement.rule}</div>}
+            </div>
+          )}
+          {hasDisconfirmation && (
+            <div style={{ marginTop:8, paddingTop:7, borderTop:`1px solid ${C.line}`, color:C.text }}>
+              <div style={{ fontWeight:700, color:C.amber }}>What could make this wrong?</div>
+              {disconfirmation.summary && <div style={{ marginTop:4 }}>{disconfirmation.summary}</div>}
+              {(disconfirmation.invalidates_if||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>invalidates: {(disconfirmation.invalidates_if||[]).join(" / ")}</div>}
+              {(disconfirmation.confirm_before_acting||[]).length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.faint }}>confirm: {(disconfirmation.confirm_before_acting||[]).join(" / ")}</div>}
+            </div>
+          )}
+          {(a.goalChannels.length>0 || a.capitalEffect || a.synthesisChanges || a.capitalPriorityScore!=null) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>hidden decision metadata: channels {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` | capital: ${a.capitalEffect}`:""}{a.synthesisChanges?` | changes: ${a.synthesisChanges}`:""}{a.goalScore!=null?` | score: ${a.goalScore}/100`:""}{a.capitalPriorityScore!=null?` | priority: ${a.capitalPriorityScore}`:""}</div>}
+          {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
+          <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{stamp} | {footerLabel} | no trade without gate</div>
+        </div>
+      )}
+    </div>
+  );
+}
 function TodayPriorityStack({ rows, openMap, setOpen, posOpen, setPosOpen }) {
   const summary = rows.length
     ? compactJoin([`${rows.length} promoted`, rows[0]&&`${rows[0].ticker?`${rows[0].ticker} `:""}${clipText(rows[0].title,72)}`])
@@ -1675,44 +1783,52 @@ function SystemCriticalBanner({ sourceAudits, onOpenSystem }) {
   );
 }
 
-function DecisionLane({ section, rows, adviceRows, posOpen, setPosOpen, stamp }) {
+function DecisionLane({ section, rows, adviceRows, posOpen, setPosOpen, stamp, laneIndex }) {
   const meta = decisionGroupMeta(section.key, section.label);
   const tone = meta.tone;
   const c = toneColor(tone);
   const laneKey = `decision-lane:${section.key||section.label}`;
   const isOpen = !!posOpen[laneKey];
   const names = rows.map(a=>a.ticker||a.what).filter(Boolean).slice(0,4).join(", ");
+  const lead = rows[0] || {};
+  const leadWhy = clipText(lead.whyThisMatters || lead.why || lead.goalWhy || "", 130);
   return (
-    <div style={{ ...toneCard(tone), marginBottom:9, padding:"10px 11px" }}>
-      <div onClick={()=>setPosOpen(st=>({...st,[laneKey]:!st[laneKey]}))} style={{ cursor:"pointer" }}>
-        <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
-          <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-            <span style={{ fontSize:13.4, fontWeight:850, color:C.text }}>{meta.title}</span>
-            <span style={{ fontFamily:mono, fontSize:10.8, color:c, border:`1px solid ${c}66`, borderRadius:99, padding:"1px 8px", background:`${c}12` }}>{rows.length}</span>
-          </div>
-          <span style={{ fontFamily:mono, fontSize:10.5, color:c }}>{isOpen?"hide cards ^":"show cards v"}</span>
-        </div>
-        <div style={{ marginTop:5, fontSize:11.8, color:C.dim }}>{meta.description}</div>
-        <div style={{ marginTop:4, fontSize:12, color:C.text }}>{names ? `Current: ${names}` : "Nothing in this lane right now."}</div>
+    <div style={{ display:"grid", gridTemplateColumns:"14px 1fr", gap:9, marginBottom:10 }}>
+      <div aria-hidden="true" style={{ display:"flex", justifyContent:"center" }}>
+        <div style={{ width:2, minHeight:"100%", background:`linear-gradient(${c}77, ${c}22)`, borderRadius:99 }} />
       </div>
-      {isOpen && rows.map(a=>(
-        <ActionCard
-          key={`${section.key||"lane"}${a.rank}${a.ticker||a.kind}`}
-          a={a}
-          keyPrefix={`lane${section.key||"x"}`}
-          posOpen={posOpen}
-          setPosOpen={setPosOpen}
-          stamp={stamp}
-          footerLabel="review prompt - no trade without gate"
-          showAging={true}
-          showSizing={true}
-          advisorNote={advisorForAction(a, adviceRows)}
-        />
-      ))}
+      <div style={{ ...toneCard(tone), padding:"10px 11px", borderLeft:`2px solid ${c}` }}>
+        <div onClick={()=>setPosOpen(st=>({...st,[laneKey]:!st[laneKey]}))} style={{ cursor:"pointer" }} title="This is a sub-category inside Today Decisions. Open it only when the summary affects what you might do next.">
+          <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+            <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+              <span style={{ fontFamily:mono, fontSize:10.5, color:c, textTransform:"uppercase", letterSpacing:0 }}>Today sub-category {laneIndex}</span>
+              <span style={{ fontSize:13.4, fontWeight:850, color:C.text }}>{meta.title}</span>
+              <span style={{ fontFamily:mono, fontSize:10.8, color:c, border:`1px solid ${c}66`, borderRadius:99, padding:"1px 8px", background:`${c}12` }}>{rows.length}</span>
+            </div>
+            <span style={{ fontFamily:mono, fontSize:10.5, color:c }}>{isOpen?"hide cards ^":"show cards v"}</span>
+          </div>
+          <div style={{ marginTop:5, fontSize:11.8, color:C.dim }}>{meta.description}</div>
+          <div style={{ marginTop:4, fontSize:12, color:C.text }}>{names ? `Includes: ${names}` : "Nothing in this lane right now."}</div>
+          {leadWhy && <div style={{ marginTop:4, fontSize:11.8, color:C.dim }}><span style={{ color:C.faint, fontWeight:700 }}>Lead why:</span> {leadWhy}</div>}
+        </div>
+        {isOpen && rows.map(a=>(
+          <TodayActionCard
+            key={`${section.key||"lane"}${a.rank}${a.ticker||a.kind}`}
+            a={a}
+            keyPrefix={`lane${section.key||"x"}`}
+            posOpen={posOpen}
+            setPosOpen={setPosOpen}
+            stamp={stamp}
+            footerLabel="review prompt - no trade without gate"
+            showAging={true}
+            showSizing={true}
+            advisorNote={advisorForAction(a, adviceRows)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
-
 function TodayDecisionQueue({ actions, actionGroups, ifIWereYou, sourceAudits, openMap, setOpen, posOpen, setPosOpen, stamp, onOpenSystem }) {
   const sections = ((actionGroups||{}).sections||[]).filter(s=>(s.ranks||[]).length);
   const byRank = Object.fromEntries((actions||[]).map(a=>[a.rank,a]));
@@ -1724,7 +1840,7 @@ function TodayDecisionQueue({ actions, actionGroups, ifIWereYou, sourceAudits, o
   const summary = urgent
     ? `${urgent} decision${urgent===1?"":"s"} need action or explicit deferral now.`
     : refresh
-      ? `No immediate trade command; refresh ${refresh} setup${refresh===1?"":"s"} before adding risk.`
+      ? `No immediate trade command; ${refresh} setup${refresh===1?"":"s"} still need fresh evidence after this build's check.`
       : backlog
         ? `${backlog} backlog decision${backlog===1?"":"s"} to compare against better uses of capital.`
         : "No forced portfolio action right now.";
@@ -1739,18 +1855,22 @@ function TodayDecisionQueue({ actions, actionGroups, ifIWereYou, sourceAudits, o
         icon="!"
         badge={(actions||[]).length?`${(actions||[]).length}`:"quiet"}
         badgeColor={badgeColor}
-        description="Start here. This is the only Today surface for action, waiting, refreshing assumptions, sizing, trimming, hedging, or deciding no capital yet; the filter is early-retirement capital efficiency."
+        description="Start here. This is the only Today surface for action, waiting, checking assumptions, sizing, trimming, hedging, or deciding no capital yet; the filter is early-retirement capital efficiency."
         summary={summary}
         openMap={openMap}
         setOpen={setOpen}
         defaultOpen={true}
       >
+        <div style={{ marginBottom:9, padding:"8px 10px", border:`1px solid ${C.line}`, borderRadius:8, background:C.panel2, fontSize:11.8, color:C.dim }}>
+          The boxes below are sub-categories inside Today Decisions. Keep them closed until the summary changes what you would do, then open the lane for the supporting evidence.
+        </div>
         {!lanes.length && <div style={{ ...card, fontSize:12, color:C.faint }}>No action-engine decisions in this feed build.</div>}
-        {lanes.map(({section, rows})=>(
+        {lanes.map(({section, rows}, i)=>(
           <DecisionLane
             key={section.key||section.label}
             section={section}
             rows={rows}
+            laneIndex={i+1}
             adviceRows={adviceRows}
             posOpen={posOpen}
             setPosOpen={setPosOpen}

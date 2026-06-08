@@ -70,8 +70,8 @@ def test_canonical_jsx_hero_uses_packet_attention_state():
     src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
 
     assert "function heroAttention(h, packet, op)" in src
-    assert "setup${recheck===1?\"\":\"s\"} need refresh before acting" in src
-    assert "Start with Today Decisions; refresh assumptions before capital moves." in src
+    assert "setup${recheck===1?\"\":\"s\"} need fresh evidence" in src
+    assert "available checks already ran for this build" in src
     assert "No decisions need attention" in src
 
 
@@ -82,10 +82,15 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert '["reallocation","Reallocation"]' in src
     assert "function todayPriorityRows(feed, actions, researchActions)" in src
     assert "function TodayDecisionQueue" in src
+    assert "function TodayActionCard" in src
     assert 'id="today-decisions"' in src
     assert "Decision-first queue; only items that can change a near-term act" in src
-    assert "Refresh Before Adding Risk" in src
+    assert "Needs Fresh Evidence" in src
+    assert "Today sub-category" in src
+    assert "The boxes below are sub-categories inside Today Decisions" in src
     assert "Plain-English read:" in src
+    assert "Why conviction:" in src
+    assert "hidden decision metadata" in src
     assert "System data gap:" in src
     assert "Full book + per-name detail lives in Book." in src
 
@@ -98,7 +103,7 @@ def test_canonical_jsx_sections_start_as_summary_boxes():
     assert "function Section({ id, title, icon, badge, badgeColor, summary, description, children, openMap, setOpen, defaultOpen=false })" in src
     assert 'Category summary and expandable backup detail.' in src
     assert "expand" in src and "hide" in src
-    assert 'convictionCockpit.openSections.v3' in src
+    assert 'convictionCockpit.openSections.v4' in src
     assert 'id="today-decisions"' in src and 'defaultOpen={true}' in src
 
 
