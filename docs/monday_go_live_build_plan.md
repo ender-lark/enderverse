@@ -91,8 +91,19 @@ mirror for future rebuilds, upgrades, and troubleshooting.
 3. Stage 1.5 synthesis quality.
    - Audit synthesis output for usefulness, not just data availability.
    - Convert raw facts into action implications wherever possible.
+   - Require every promoted synthesis item to say what it changes:
+     `act`, `wait`, `re-check`, `research`, `trim`, `hedge`, `size`, or
+     `no capital yet`.
+   - Reuse the existing action-row shape for useful synthesis: goal impact,
+     time window, capital effect, missing evidence, freshness, disconfirmation,
+     and capital efficiency.
    - Add source-conflict handling that shows bull/bear reads and resulting
      action posture.
+   - End every conflict read in a decision group: `Key Now`,
+     `Re-check Before Acting`, `Important Backlog`, or `Quiet Watch`.
+   - Pull capital efficiency into synthesis ranking so a merely good idea loses
+     priority to a better use of capital, downside protection, or a
+     higher-conviction sizing gap.
    - Strengthen assumption-refresh logic so old actions can become invalid,
      recheck-first, or lower priority when price/source/risk context changes.
 
@@ -110,13 +121,12 @@ mirror for future rebuilds, upgrades, and troubleshooting.
    - Keep all promoted outputs as review prompts, not execution.
 
 6. Stage 4 ops, alerts, and proof.
-   - Keep cloud proof natural-schedule unless explicitly accelerated.
    - Continue source-proof, connector-evidence, Fundstrat audit, Notion
      writeback audit, and SnapTrade validation surfaces.
    - Add blocker-only alerting after the dashboard is stable.
 
-7. Stage 5 optional upgrades.
-   - Reddit/social feed and escalation workflow.
+7. Stage 5 optional upgrades. [don't execute]
+   - Reddit/social feed and escalation workflow.[working on in parallel chat]
    - Deeper source-conflict scoring.
    - More visual allocation/target charts.
    - Faster live-check buttons/runbooks.
@@ -149,14 +159,38 @@ mirror for future rebuilds, upgrades, and troubleshooting.
 
 - Reconsider how cloud routines, local feed builders, and dashboard renderers
   synthesize information before adding more surface area.
+- Hard usefulness contract: every promoted synthesis item must say what it
+  changes: `act`, `wait`, `re-check`, `research`, `trim`, `hedge`, `size`, or
+  `no capital yet`. If it does not change one of those, collapse it into
+  context instead of surfacing it as an action.
+- Emit structured action implications, not just better prose. Useful synthesis
+  should reuse the action-row contract already used by the cockpit:
+  recommendation/action state, goal impact, time window, capital effect,
+  missing evidence, freshness/decay, disconfirmation, capital efficiency, and
+  assumption refresh.
 - Add an explicit usefulness filter: if a fact does not affect action, timing,
   sizing, risk, hedge, hold/add/trim, or research priority, collapse or
   deprioritize it.
 - Show bull and bear/source-conflict views where disagreement matters, then
   translate them into action implications.
+- Bull/bear conflict outcome ladder: every conflict view must end in one of
+  `Key Now`, `Re-check Before Acting`, `Important Backlog`, or `Quiet Watch`.
+  A conflict panel without action posture is not useful enough to promote.
+- Capital-efficiency ranking belongs in synthesis, not only explanation. A good
+  opportunity should lose priority to a better current use of capital, downside
+  protection, or a higher-conviction sizing gap.
 - Refresh or invalidate action assumptions when price, source, thesis, or risk
   context changes.
 - Keep candidate actions separate from execution.
+- Acceptance scenarios:
+  - A stale Friday action after a Monday price move becomes `re-check`,
+    invalidated, or lower priority instead of staying blindly actionable.
+  - Missing Social Watch remains dark/not checked and never becomes a no-signal
+    read.
+  - Conflicted Fundstrat/live-tape evidence becomes watch/research/re-check, not
+    buy.
+  - The top action shows freshness, invalidation trigger, consequence of doing
+    nothing, and the reason it beats other current uses of capital.
 
 ## Stage 2 - Book and Allocation Usability
 
@@ -226,5 +260,8 @@ boundaries:
 - Dashboard shows grouped decisions, compact portfolio-impact synthesis,
   collapsible sections, action freshness/rationale, source honesty, Book
   allocation guidance, and current useful commands.
+- Stage 1.5 usefulness is proven by structured action implications and
+  acceptance tests for stale-action recheck, dark social lane honesty,
+  conflict-to-watch/research posture, and capital-priority ranking.
 - Repo docs and Notion mirror are updated so a new chat can continue without
   losing the plan.
