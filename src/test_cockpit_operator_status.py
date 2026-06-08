@@ -21,8 +21,9 @@ def test_canonical_cockpit_surfaces_operator_status():
     assert "Source Proof And Writebacks" in text
     assert "Active event watch" not in text
     assert "Today focus" not in text
-    assert "Needs Fresh Evidence" in text
-    assert "fresh evidence needed" in text
+    assert "Evidence Missing" in text
+    assert "needs evidence" in text
+    assert "System proof:" in text
     assert "python src/go_live_checklist.py --format text" in text
     assert "python src/sudden_event_refresh.py --title" in text
     assert "DEFERRED_OPTIONAL_SOURCE_KEYS" in text
@@ -41,7 +42,8 @@ def test_rendered_cockpit_keeps_operator_status_card():
     assert "Source Proof And Writebacks" in text
     assert "Active event watch" not in text
     assert "Today focus" not in text
-    assert "Needs Fresh Evidence" in text
-    assert "fresh evidence needed" in text
+    assert "Evidence Missing" in text
+    assert "needs evidence" in text
+    assert "System proof:" in text
     assert "python src/go_live_checklist.py --format text" in text
     assert "python src/sudden_event_refresh.py --title" in text

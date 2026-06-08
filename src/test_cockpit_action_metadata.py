@@ -19,8 +19,14 @@ def test_jsx_today_decisions_surface_action_validity_metadata():
     assert "function TodayDecisionQueue" in text
     assert "function ActionCard(" in text
     assert "function TodayActionCard(" in text
+    assert "function DecisionLaneBoard" in text
+    assert "Needed evidence:" in text
+    assert "Confidence basis:" in text
+    assert "Confidence is based on:" in text
     assert "Why conviction:" in text
     assert "Latest evidence check" in text
+    assert "evidenceNeededText" in text
+    assert "confidenceBasis" in text
     assert "a.capitalPriorityScore" in text
     assert "a.freshnessJudgment" in text
     assert "assumptionRefresh.what_changed" in text

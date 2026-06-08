@@ -70,7 +70,7 @@ def test_canonical_jsx_hero_uses_packet_attention_state():
     src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
 
     assert "function heroAttention(h, packet, op)" in src
-    assert "setup${recheck===1?\"\":\"s\"} need fresh evidence" in src
+    assert "blocked by named evidence checks" in src
     assert "available checks already ran for this build" in src
     assert "No decisions need attention" in src
 
@@ -83,15 +83,21 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert "function todayPriorityRows(feed, actions, researchActions)" in src
     assert "function TodayDecisionQueue" in src
     assert "function TodayActionCard" in src
+    assert "function DecisionLaneBoard" in src
     assert 'id="today-decisions"' in src
     assert "Decision-first queue; only items that can change a near-term act" in src
-    assert "Needs Fresh Evidence" in src
-    assert "Today sub-category" in src
-    assert "The boxes below are sub-categories inside Today Decisions" in src
+    assert "Ready to Decide" in src
+    assert "Evidence Missing" in src
+    assert "Decision lane board" in src
+    assert "Today sub-category" not in src
+    assert "The boxes below are sub-categories inside Today Decisions" not in src
+    assert "Needed evidence:" in src
+    assert "Confidence basis:" in src
     assert "Plain-English read:" in src
     assert "Why conviction:" in src
     assert "hidden decision metadata" in src
     assert "System data gap:" in src
+    assert "System proof:" in src
     assert "Full book + per-name detail lives in Book." in src
 
 

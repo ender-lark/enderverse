@@ -1026,7 +1026,7 @@ function Pill({ label, color, title }) {
   );
 }
 function compactJoin(parts){
-  return parts.filter(p=>p!==undefined && p!==null && String(p).trim()).join(" | ");
+  return parts.filter(p=>p!==undefined && p!==null && p!==false && String(p).trim()).join(" | ");
 }
 function clipText(value, max=120){
   const s = String(value||"").replace(/\s+/g, " ").trim();
@@ -1372,7 +1372,7 @@ const REFRESH_STATUS_META = {
     title:"The assumption-refresh pass kept this item prominent. It is not a trade command; run the relevant source, position, and pre-trade gate before capital moves.",
   },
   changed_recheck: {
-    label:"Fresh evidence needed",
+    label:"Evidence missing",
     tone:"amber",
     title:"The latest dashboard build checked available assumptions, but something important is missing, old, or changed. Confirm same-session price, flow, position, source, or event-risk evidence before acting.",
   },
@@ -1402,16 +1402,16 @@ function refreshStatusMeta(status){
 }
 function decisionGroupMeta(key, label){
   const k = String(key||"").toLowerCase();
-  if(k==="key_now") return { title:"Act or Decide Now", chip:"act/decide now", tone:"red", description:"Only decisions where waiting can cost you or create avoidable risk." };
-  if(k==="recheck_before_acting") return { title:"Needs Fresh Evidence", chip:"fresh evidence needed", tone:"amber", description:"The dashboard already checked what it can in this build. These remain unresolved because a live gate, source, price, position, or event assumption is missing, stale, or changed." };
-  if(k==="important_backlog") return { title:"Decision Backlog", chip:"compare capital", tone:"blue", description:"Useful opportunities or unresolved decisions. Each card should show the work behind conviction and why it still belongs in the queue." };
-  if(k==="quiet_watch") return { title:"Quiet Watch", chip:"watch only", tone:"gray", description:"Keep as background context; do not let this distract from higher-impact decisions." };
+  if(k==="key_now") return { title:"Ready to Decide", chip:"ready", short:"Ready", tone:"red", description:"Today decisions that do not need another evidence gate before you decide act, defer, trim, hedge, size, or no capital." };
+  if(k==="recheck_before_acting") return { title:"Evidence Missing", chip:"needs evidence", short:"Evidence", tone:"amber", description:"Blocked until the named price, source, position, flow, or event-risk check is refreshed. The dashboard should already have tried the cheap available checks." };
+  if(k==="important_backlog") return { title:"Backlog", chip:"compare capital", short:"Backlog", tone:"blue", description:"Useful decisions that still matter, but first compare against better current uses of capital and the cost of waiting." };
+  if(k==="quiet_watch") return { title:"Watch", chip:"watch only", short:"Watch", tone:"gray", description:"Tracked context that should stay quiet unless it changes action, sizing, risk, or research priority." };
   return { title:label||String(key||"Decision Lane").replaceAll("_"," "), chip:String(label||key||"review").replaceAll("_"," ").toLowerCase(), tone:"gray", description:"Decision lane from the action engine." };
 }
 function actionLabelDisplay(label){
   const text = String(label||"");
   const lower = text.toLowerCase();
-  if(lower==="re-check" || lower==="recheck") return "fresh evidence needed";
+  if(lower==="re-check" || lower==="recheck") return "needs evidence";
   if(lower==="add/rotate") return "add/rotate candidate";
   return text;
 }
@@ -1470,6 +1470,53 @@ function freshnessTitle(label, row){
   if(value==="stale") return `Stale evidence. Refresh this source before treating the row as actionable.${evidence}${checked}${decay}`;
   if(value==="not checked") return `This source was not checked. Do not infer all-clear from missing data.${evidence}${checked}${decay}`;
   return `Freshness context for this row.${evidence}${checked}${decay}`;
+}
+function evidenceNeededText(a){
+  const disconfirmation = (a&&a.disconfirmation)||{};
+  const assumptionRefresh = (a&&a.assumptionRefresh)||{};
+  const freshness = (a&&a.freshnessJudgment)||{};
+  const parts = [
+    ...((a&&a.missingEvidence)||[]),
+    ...((disconfirmation.confirm_before_acting)||[]),
+    ...((assumptionRefresh.what_changed)||[]).map(x=>`changed: ${x}`),
+    ...(assumptionRefresh.next_step ? [assumptionRefresh.next_step] : []),
+    ...(String(freshness.label||"").toLowerCase()==="stale" ? ["refresh stale source evidence"] : []),
+    ...(String(freshness.label||"").toLowerCase()==="not checked" ? ["source not checked"] : []),
+  ].map(x=>String(x||"").trim()).filter(Boolean);
+  const unique = [];
+  parts.forEach(p=>{
+    if(!unique.some(x=>x.toLowerCase()===p.toLowerCase())) unique.push(p);
+  });
+  return unique.length ? unique.slice(0,4).join(" / ") : "";
+}
+function laneEvidenceSummary(rows){
+  const parts = [];
+  (rows||[]).forEach(a=>{
+    const text = evidenceNeededText(a);
+    if(text) text.split(" / ").forEach(p=>{
+      const part = p.trim();
+      if(part && !parts.some(x=>x.toLowerCase()===part.toLowerCase())) parts.push(part);
+    });
+  });
+  return parts.length ? `Needed: ${parts.slice(0,4).join(" / ")}${parts.length>4?" / more in cards":""}` : "Needed evidence is listed inside each blocked card.";
+}
+function confidenceBasis(a, advisorNote){
+  const freshness = (a&&a.freshnessJudgment)||{};
+  const base = compactJoin([
+    a&&a.kindLabel ? a.kindLabel : null,
+    a&&a.source ? `source ${a.source}` : null,
+    freshness.evidence_date ? `evidence ${freshness.evidence_date}` : null,
+    a&&a.goalScore!=null ? `goal ${a.goalScore}/100` : null,
+    a&&a.capitalPriorityScore!=null ? `capital priority ${a.capitalPriorityScore}` : null,
+  ]);
+  const weak = compactJoin([
+    evidenceNeededText(a) ? `missing ${clipText(evidenceNeededText(a), 80)}` : null,
+    freshness.judgment && String(freshness.label||"").toLowerCase()!=="fresh" ? `freshness ${clipText(freshness.judgment, 70)}` : null,
+  ]);
+  if(base && weak) return clipText(`Based on ${base}. Weak because ${weak}.`, 190);
+  if(base) return clipText(`Based on ${base}.`, 170);
+  if(weak) return clipText(`Confidence is limited because ${weak}.`, 170);
+  return "Confidence is based on the current action-engine evidence stack; open backup details for source rows.";
 }
 
 const COMMAND_ACTIONS = [
@@ -1627,6 +1674,8 @@ function TodayActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel
   const evidenceColor = evidenceChip ? toneColor(evidenceChip.tone) : C.faint;
   const posture = actionLabelDisplay(a.actionLabel) || actionPostureChip(a);
   const conviction = clipText(a.whyThisMatters || a.why || (advisorNote&&advisorNote.why) || a.goalWhy || "", 170);
+  const neededEvidence = evidenceNeededText(a);
+  const basis = confidenceBasis(a, advisorNote);
   const work = compactJoin([
     a.source && `source ${a.source}`,
     a.kindLabel && `lane ${a.kindLabel}`,
@@ -1654,12 +1703,14 @@ function TodayActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel
         <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
           <span title="Action posture this card changes or requires." style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:edge, border:`1px solid ${edge}66`, borderRadius:99, padding:"1px 8px", background:`${edge}12` }}>{posture}</span>
           {a.timeWindow && <span title="How quickly this decision can matter." style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
-          <span title="Conviction level from the current evidence stack." style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
+          <span title={basis} style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
           {evidenceChip && <span title={evidenceChip.title||""} style={{ fontFamily:mono, fontSize:11, color:evidenceColor, border:`1px solid ${evidenceColor}55`, borderRadius:99, padding:"1px 8px", background:`${evidenceColor}10` }}>{evidenceChip.label}</span>}
           {showAging && a.ageDays!=null && <span title="How long this has been actionable; the cost of waiting." style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>open {a.ageDays}d{a.flagged?` since ${a.flagged}`:""}{a.moveSince?` ${a.moveSince}`:""}</span>}
         </div>
         <div style={{ marginTop:8, fontSize:12.5, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Decision:</span> {a.yourMove}</div>
+        {neededEvidence && <div style={{ marginTop:5, fontSize:12.1, color:C.amber }}><span style={{ color:C.dim, fontWeight:700 }}>Needed evidence:</span> {clipText(neededEvidence, 220)}</div>}
         {conviction && <div style={{ marginTop:5, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Why conviction:</span> {conviction}</div>}
+        <div style={{ marginTop:5, fontSize:12.1, color:C.dim }}><span style={{ color:C.faint, fontWeight:700 }}>Confidence basis:</span> {basis}</div>
         {advisorNote && <div style={{ marginTop:6, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:650 }}>Plain-English read:</span> {advisorNote.what_i_would_do || advisorNote.why || advisorNote.label}</div>}
         {a.goalWhy && <div style={{ marginTop:5, fontSize:12.2, color:a.goalColor }}><span style={{ color:C.dim, fontWeight:700 }}>Why it matters:</span> {a.goalWhy}</div>}
         {showSizing && a.sizing && <div style={{ marginTop:5, fontSize:12, color:C.dim }}><span style={{ fontFamily:mono, fontSize:10, color:C.faint, textTransform:"uppercase", letterSpacing:0.5 }}>Size </span>{a.sizing}</div>}
@@ -1667,6 +1718,7 @@ function TodayActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel
       {isO && hasDetail && (
         <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}`, ...muted }}>
           {work && <div style={{ marginTop:2, fontFamily:mono, fontSize:10, color:C.faint }}>work: {work}</div>}
+          <div style={{ marginTop:6, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Confidence is based on:</span> {basis}</div>
           {a.whyThisMatters && <div style={{ marginTop:6, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Why this matters:</span> {a.whyThisMatters}</div>}
           {a.why && <div style={{ marginTop:5 }}>{a.why}</div>}
           {hasEvidenceCheck && (
@@ -1765,14 +1817,21 @@ function SystemCriticalBanner({ sourceAudits, onOpenSystem }) {
   const failedRows = routineRows.filter(r=>String(r.last_status||"").toLowerCase()==="failed");
   const missing = cloud.missing_scheduled_success||[];
   if(!failedRows.length && !missing.length) return null;
-  const tone = failedRows.length ? "red" : "amber";
-  const c = toneColor(tone);
-  const primary = failedRows[0] || missing[0] || {};
+  const c = failedRows.length ? C.red : C.amber;
+  if(!failedRows.length){
+    return (
+      <div style={{ marginTop:8, marginBottom:7, padding:"5px 8px", border:`1px solid ${C.amber}44`, borderRadius:7, background:`${C.amber}0b`, display:"flex", alignItems:"center", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+        <div style={{ fontFamily:mono, fontSize:10.8, color:C.dim }}>System proof: {missing.length} scheduled receipt gap{missing.length===1?"":"s"}; manual fixes can be reviewed in System.</div>
+        <button onClick={onOpenSystem} style={{ cursor:"pointer", border:`1px solid ${C.amber}55`, background:`${C.amber}10`, color:C.amber, borderRadius:6, padding:"2px 7px", fontFamily:mono, fontSize:10 }}>System</button>
+      </div>
+    );
+  }
+  const primary = failedRows[0] || {};
   const title = failedRows.length
     ? `System data gap: ${failedRows.map(r=>r.routine_name||r.routine_id).slice(0,2).join(", ")} failed${failedRows.length>2?` +${failedRows.length-2}`:""}`
     : `System proof gap: ${missing.length} scheduled routine${missing.length===1?"":"s"} not fully proven`;
   return (
-    <div style={{ ...toneCard(tone), marginTop:12, marginBottom:8 }}>
+    <div style={{ ...toneCard("red"), marginTop:12, marginBottom:8 }}>
       <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:10, flexWrap:"wrap" }}>
         <div style={{ fontSize:13.2, fontWeight:800, color:C.text }}>{title}</div>
         <button onClick={onOpenSystem} style={{ cursor:"pointer", border:`1px solid ${c}66`, background:`${c}12`, color:c, borderRadius:7, padding:"3px 8px", fontFamily:mono, fontSize:10.5 }}>open System</button>
@@ -1783,39 +1842,69 @@ function SystemCriticalBanner({ sourceAudits, onOpenSystem }) {
   );
 }
 
-function DecisionLane({ section, rows, adviceRows, posOpen, setPosOpen, stamp, laneIndex }) {
-  const meta = decisionGroupMeta(section.key, section.label);
-  const tone = meta.tone;
-  const c = toneColor(tone);
-  const laneKey = `decision-lane:${section.key||section.label}`;
-  const isOpen = !!posOpen[laneKey];
-  const names = rows.map(a=>a.ticker||a.what).filter(Boolean).slice(0,4).join(", ");
-  const lead = rows[0] || {};
-  const leadWhy = clipText(lead.whyThisMatters || lead.why || lead.goalWhy || "", 130);
+function DecisionLaneBoard({ lanes, adviceRows, posOpen, setPosOpen, stamp }) {
+  const order = ["key_now","recheck_before_acting","important_backlog","quiet_watch"];
+  const byKey = Object.fromEntries((lanes||[]).map(l=>[String(l.section.key||l.section.label||""), l]));
+  const complete = [
+    ...order.map(key=>byKey[key] || { section:{ key, label:decisionGroupMeta(key).title, ranks:[] }, rows:[] }),
+    ...(lanes||[]).filter(l=>!order.includes(String(l.section.key||""))),
+  ];
+  const sorted = complete.sort((a,b)=>{
+    const ak = order.indexOf(String(a.section.key||""));
+    const bk = order.indexOf(String(b.section.key||""));
+    return (ak<0?99:ak) - (bk<0?99:bk);
+  });
+  const firstWithRows = sorted.find(l=>(l.rows||[]).length);
+  const defaultKey = ((firstWithRows||sorted[0])&&((firstWithRows||sorted[0]).section.key)) || "";
+  const selectedKey = posOpen["today:selectedLane"] || defaultKey;
+  const selected = sorted.find(l=>String(l.section.key||"")===String(selectedKey)) || sorted[0];
+  if(!sorted.length) return <div style={{ ...card, fontSize:12, color:C.faint }}>No action-engine decisions in this feed build.</div>;
+  const selectedMeta = decisionGroupMeta(selected.section.key, selected.section.label);
+  const selectedColor = toneColor(selectedMeta.tone);
+  const selectedNames = selected.rows.map(a=>a.ticker||a.what).filter(Boolean).slice(0,5).join(", ");
   return (
-    <div style={{ display:"grid", gridTemplateColumns:"14px 1fr", gap:9, marginBottom:10 }}>
-      <div aria-hidden="true" style={{ display:"flex", justifyContent:"center" }}>
-        <div style={{ width:2, minHeight:"100%", background:`linear-gradient(${c}77, ${c}22)`, borderRadius:99 }} />
+    <div>
+      <div style={{ marginBottom:8, fontFamily:mono, fontSize:10.5, color:C.faint, textTransform:"uppercase", letterSpacing:0 }}>Decision lane board</div>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))", gap:8, marginBottom:10 }}>
+        {sorted.map(({section, rows})=>{
+          const meta = decisionGroupMeta(section.key, section.label);
+          const c = toneColor(meta.tone);
+          const active = String(section.key||"")===String(selected.section.key||"");
+          const names = rows.map(a=>a.ticker||a.what).filter(Boolean).slice(0,3).join(", ");
+          const summary = section.key==="recheck_before_acting"
+            ? laneEvidenceSummary(rows)
+            : names ? `Includes: ${names}` : "Nothing in this lane.";
+          return (
+            <button
+              key={section.key||section.label}
+              onClick={()=>setPosOpen(st=>({...st,"today:selectedLane":section.key||section.label}))}
+              title={meta.description}
+              style={{ cursor:"pointer", textAlign:"left", minHeight:74, padding:"9px 10px", border:`1px solid ${active?c:C.line}`, borderRadius:8, background:active?`${c}16`:C.panel2, color:C.text, boxShadow:active?`0 0 0 1px ${c}55 inset`:"none" }}
+            >
+              <div style={{ display:"flex", justifyContent:"space-between", gap:8, alignItems:"baseline" }}>
+                <span style={{ fontSize:13, fontWeight:850, color:C.text }}>{meta.title}</span>
+                <span style={{ fontFamily:mono, fontSize:10.5, color:c, border:`1px solid ${c}66`, borderRadius:99, padding:"1px 7px", background:`${c}10` }}>{rows.length}</span>
+              </div>
+              <div style={{ marginTop:5, fontSize:11.2, color:C.dim, lineHeight:1.35 }}>{clipText(summary, 96)}</div>
+            </button>
+          );
+        })}
       </div>
-      <div style={{ ...toneCard(tone), padding:"10px 11px", borderLeft:`2px solid ${c}` }}>
-        <div onClick={()=>setPosOpen(st=>({...st,[laneKey]:!st[laneKey]}))} style={{ cursor:"pointer" }} title="This is a sub-category inside Today Decisions. Open it only when the summary affects what you might do next.">
-          <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
-            <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-              <span style={{ fontFamily:mono, fontSize:10.5, color:c, textTransform:"uppercase", letterSpacing:0 }}>Today sub-category {laneIndex}</span>
-              <span style={{ fontSize:13.4, fontWeight:850, color:C.text }}>{meta.title}</span>
-              <span style={{ fontFamily:mono, fontSize:10.8, color:c, border:`1px solid ${c}66`, borderRadius:99, padding:"1px 8px", background:`${c}12` }}>{rows.length}</span>
-            </div>
-            <span style={{ fontFamily:mono, fontSize:10.5, color:c }}>{isOpen?"hide cards ^":"show cards v"}</span>
+      <div style={{ ...toneCard(selectedMeta.tone), padding:"10px 11px", borderLeft:`2px solid ${selectedColor}` }}>
+        <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+          <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+            <span style={{ fontSize:13.4, fontWeight:850, color:C.text }}>{selectedMeta.title}</span>
+            <span style={{ fontFamily:mono, fontSize:10.8, color:selectedColor, border:`1px solid ${selectedColor}66`, borderRadius:99, padding:"1px 8px", background:`${selectedColor}12` }}>{selected.rows.length}</span>
           </div>
-          <div style={{ marginTop:5, fontSize:11.8, color:C.dim }}>{meta.description}</div>
-          <div style={{ marginTop:4, fontSize:12, color:C.text }}>{names ? `Includes: ${names}` : "Nothing in this lane right now."}</div>
-          {leadWhy && <div style={{ marginTop:4, fontSize:11.8, color:C.dim }}><span style={{ color:C.faint, fontWeight:700 }}>Lead why:</span> {leadWhy}</div>}
         </div>
-        {isOpen && rows.map(a=>(
+        <div style={{ marginTop:5, fontSize:11.8, color:C.dim }}>{selectedMeta.description}</div>
+        <div style={{ marginTop:4, fontSize:12, color:C.text }}>{selected.section.key==="recheck_before_acting" ? laneEvidenceSummary(selected.rows) : (selectedNames ? `Includes: ${selectedNames}` : "Nothing in this lane right now.")}</div>
+        <div style={{ marginTop:9 }}>
+        {selected.rows.map(a=>(
           <TodayActionCard
-            key={`${section.key||"lane"}${a.rank}${a.ticker||a.kind}`}
+            key={`${selected.section.key||"lane"}${a.rank}${a.ticker||a.kind}`}
             a={a}
-            keyPrefix={`lane${section.key||"x"}`}
+            keyPrefix={`lane${selected.section.key||"x"}`}
             posOpen={posOpen}
             setPosOpen={setPosOpen}
             stamp={stamp}
@@ -1825,6 +1914,7 @@ function DecisionLane({ section, rows, adviceRows, posOpen, setPosOpen, stamp, l
             advisorNote={advisorForAction(a, adviceRows)}
           />
         ))}
+        </div>
       </div>
     </div>
   );
@@ -1840,7 +1930,7 @@ function TodayDecisionQueue({ actions, actionGroups, ifIWereYou, sourceAudits, o
   const summary = urgent
     ? `${urgent} decision${urgent===1?"":"s"} need action or explicit deferral now.`
     : refresh
-      ? `No immediate trade command; ${refresh} setup${refresh===1?"":"s"} still need fresh evidence after this build's check.`
+      ? `No immediate trade command; ${refresh} setup${refresh===1?"":"s"} are blocked by named evidence checks.`
       : backlog
         ? `${backlog} backlog decision${backlog===1?"":"s"} to compare against better uses of capital.`
         : "No forced portfolio action right now.";
@@ -1861,22 +1951,13 @@ function TodayDecisionQueue({ actions, actionGroups, ifIWereYou, sourceAudits, o
         setOpen={setOpen}
         defaultOpen={true}
       >
-        <div style={{ marginBottom:9, padding:"8px 10px", border:`1px solid ${C.line}`, borderRadius:8, background:C.panel2, fontSize:11.8, color:C.dim }}>
-          The boxes below are sub-categories inside Today Decisions. Keep them closed until the summary changes what you would do, then open the lane for the supporting evidence.
-        </div>
-        {!lanes.length && <div style={{ ...card, fontSize:12, color:C.faint }}>No action-engine decisions in this feed build.</div>}
-        {lanes.map(({section, rows}, i)=>(
-          <DecisionLane
-            key={section.key||section.label}
-            section={section}
-            rows={rows}
-            laneIndex={i+1}
-            adviceRows={adviceRows}
-            posOpen={posOpen}
-            setPosOpen={setPosOpen}
-            stamp={stamp}
-          />
-        ))}
+        <DecisionLaneBoard
+          lanes={lanes}
+          adviceRows={adviceRows}
+          posOpen={posOpen}
+          setPosOpen={setPosOpen}
+          stamp={stamp}
+        />
       </Section>
     </>
   );
@@ -2973,4 +3054,3 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
     </div>
   );
 }
-
