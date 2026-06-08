@@ -196,11 +196,11 @@
       }
     ],
     "counts": {
-      "checked_clear": 0,
-      "has_data": 6,
+      "failed": 0,
       "stale": 0,
+      "checked_clear": 0,
       "not_checked": 9,
-      "failed": 0
+      "has_data": 6
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -603,7 +603,10 @@
               "Meridian \u00b7 critical_minerals, uranium"
             ]
           ],
-          "be": "\u2014"
+          "be": "\u2014",
+          "conflict": true,
+          "conflict_label": "cross-source split",
+          "conflict_detail": "meridian vs fundstrat_bible"
         }
       ]
     },
@@ -659,7 +662,10 @@
               "operator \u00b7 crypto, eth"
             ]
           ],
-          "be": "\u2014"
+          "be": "\u2014",
+          "conflict": true,
+          "conflict_label": "same-source split",
+          "conflict_detail": "Lee vs Farrell"
         },
         {
           "t": "IBIT",
@@ -935,5 +941,34 @@
     "recommendations": [
       "No feedback-loop action required."
     ]
+  },
+  "source_conflicts": {
+    "status": "has_data",
+    "count": 2,
+    "rows": [
+      {
+        "ticker": "UUUU",
+        "scope": "cross_source",
+        "label": "cross-source split",
+        "detail": "meridian vs fundstrat_bible",
+        "bull_read": "Bull case exists in the source stack (meridian vs fundstrat_bible).",
+        "bear_read": "Bear/avoid case also exists in the source stack (meridian vs fundstrat_bible).",
+        "action_posture": "Hold light \u2014 burned sleeve + cross-source split (meridian vs fundstrat_bible); watch for YOUR re-entry trigger, no add on a source call.",
+        "decision_effect": "Re-check before adding or resizing; this is a hold/no-add conflict flag, not a trade.",
+        "basis": "burned_override"
+      },
+      {
+        "ticker": "BMNR",
+        "scope": "same_source",
+        "label": "same-source split",
+        "detail": "Lee vs Farrell",
+        "bull_read": "Bull case exists in the source stack (Lee vs Farrell).",
+        "bear_read": "Bear/avoid case also exists in the source stack (Lee vs Farrell).",
+        "action_posture": "Hold light \u2014 burned sleeve + same-source split (Lee vs Farrell); watch for YOUR re-entry trigger, no add on a source call.",
+        "decision_effect": "Re-check before adding or resizing; this is a hold/no-add conflict flag, not a trade.",
+        "basis": "burned_override"
+      }
+    ],
+    "honesty_rule": "Conflicts downgrade action posture; they do not create buy/sell execution."
   }
 }

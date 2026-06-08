@@ -154,6 +154,7 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
 
     # ── per-name pos rows, grouped by sleeve ──
     pos_by_sleeve: dict = {}
+    source_conflicts: list[dict] = []
     underweight_set: set = set()   # held names under their tier floor (lean-in input)
     for c in held:
         tk = c.subject
@@ -170,6 +171,20 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                       rotation_label=rot_label.get(NAME_SLEEVE.get(tk)),
                       weighted=wt.get(tk), parabolic=(tk in parabolic),
                       underweight=underweight)
+        if conv.get("conflict"):
+            label = conv.get("conflict_label") or "source split"
+            detail = conv.get("conflict_detail") or "bullish vs bearish evidence"
+            source_conflicts.append({
+                "ticker": tk,
+                "scope": conv.get("conflict_scope") or "",
+                "label": label,
+                "detail": detail,
+                "bull_read": f"Bull case exists in the source stack ({detail}).",
+                "bear_read": f"Bear/avoid case also exists in the source stack ({detail}).",
+                "action_posture": nr.get("nr") or "Hold; no add until the split resolves.",
+                "decision_effect": "Re-check before adding or resizing; this is a hold/no-add conflict flag, not a trade.",
+                "basis": nr.get("basis") or "conflict",
+            })
         t4 = type_by_tk.get(tk, {})
         pos = {
             "t": tk, "n": d.get("name", tk), "pct": pct, "st": "Owned",
@@ -178,6 +193,10 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
             "fresh": tk in fresh_set, "cd": cd["cd"], "cdNote": cd["cdNote"],
             "nr": nr["nr"], "dr": [[t4.get("why", "—")]], "be": t4.get("break", "—"),
         }
+        if conv.get("conflict"):
+            pos["conflict"] = True
+            pos["conflict_label"] = conv.get("conflict_label") or ""
+            pos["conflict_detail"] = conv.get("conflict_detail") or ""
         pos_by_sleeve.setdefault(NAME_SLEEVE.get(tk, "_other"), []).append(pos)
 
     holdings = [{"cat": SLEEVE_CAT.get(s, "Other holdings"),
@@ -347,6 +366,13 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
         "prospects": prospects,
         "feedback": feedback,
     }
+    if source_conflicts:
+        feed["source_conflicts"] = {
+            "status": "has_data",
+            "count": len(source_conflicts),
+            "rows": source_conflicts,
+            "honesty_rule": "Conflicts downgrade action posture; they do not create buy/sell execution.",
+        }
     if target_drift is not None:
         feed["target_drift"] = target_drift
     return feed

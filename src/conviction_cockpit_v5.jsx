@@ -898,6 +898,7 @@ function actionVM(feed){
     actionGroups: feed.action_decision_groups||{},
     marketOpenPacket: feed.market_open_packet||{},
     alertPolicy: feed.alert_policy||{},
+    sourceConflicts: feed.source_conflicts||{ status:"checked_clear", count:0, rows:[] },
     asymmetricOpportunities: feed.asymmetric_opportunities||{},
     socialWatch: feed.social_watch||{},
     uwActionRunbook: feed.uw_action_runbook||{},
@@ -1425,6 +1426,24 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
               );
             });
           })()}
+        </Section>
+
+        <Section id="source-conflicts" title="Source conflicts" icon="!" badge={(VM.sourceConflicts.rows||[]).length?`${(VM.sourceConflicts.rows||[]).length}`:"0"} badgeColor={(VM.sourceConflicts.rows||[]).length?C.amber:C.faint} summary={(() => { const rows=(VM.sourceConflicts.rows||[]), first=rows[0]; return rows.length ? compactJoin([`${rows.length} split`, first&&`${first.ticker}: ${clipText(first.action_posture||first.decision_effect||"",72)}`]) : "No bull/bear source splits affecting current holdings."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>
+          {(VM.sourceConflicts.rows||[]).length===0 && <div style={{ ...card, fontSize:12, color:C.faint }}>No current bull/bear source splits surfaced by the conviction engine.</div>}
+          {(VM.sourceConflicts.rows||[]).map((r,i)=>(
+            <div key={"src-conflict"+(r.ticker||i)} style={{ ...card, marginBottom:7, borderColor:C.amber+"44" }}>
+              <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                <span style={{ fontFamily:mono, fontWeight:800, color:C.text }}>{r.ticker||"PORTFOLIO"}</span>
+                <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>{r.label||"source split"}</span>
+                {r.scope && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.scope.replace("_"," ")}</span>}
+              </div>
+              {r.bull_read && <div style={{ marginTop:7, fontSize:12, color:C.green }}>Bull: {r.bull_read}</div>}
+              {r.bear_read && <div style={{ marginTop:4, fontSize:12, color:C.red }}>Bear: {r.bear_read}</div>}
+              <div style={{ marginTop:7, fontSize:12.5, color:C.text }}>Posture: {r.action_posture||"Hold; no add until the split resolves."}</div>
+              <div style={{ marginTop:4, fontSize:11.5, color:C.faint }}>{r.decision_effect||"Review only; no execution."}</div>
+            </div>
+          ))}
+          <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>{VM.sourceConflicts.honesty_rule||"Conflicts downgrade action posture; they do not execute trades."}</div>
         </Section>
 
         <Section id="top-prospects" title="Top Prospects" icon="+" badge={(VM.prospects.counts&&VM.prospects.counts.total)?`${VM.prospects.counts.total}`:"0"} badgeColor={(VM.prospects.counts&&VM.prospects.counts.total)?C.accent:C.faint} summary={(() => { const P=VM.prospects||{}, ct=P.counts||{}, rows=prospectRows(P), top=rows[0]||{}; return ct.total ? compactJoin([`${ct.total} tracked`, `${ct.act_now||0} act-now`, `${ct.hot||0} hot`, `${ct.uncorroborated||0} uncorroborated`, top.ticker&&`top: ${top.ticker} ${top.urgency||top.direction||""}`]) : "No tracked prospects in this feed."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>

@@ -103,7 +103,7 @@ def _sentiment(card) -> str:
 
 def _voice_name(card) -> str:
     data = getattr(card, "data", None) or {}
-    return str(data.get("analyst") or getattr(card, "source", None)
+    return str(data.get("analyst") or data.get("author") or getattr(card, "source", None)
                or getattr(card, "independence_group", None) or "source")
 
 

@@ -92,6 +92,38 @@ def test_all_six_plugs_assemble_and_validate():
     assert cv(skel, "NVDA") != "Strong"
 
 
+def test_source_conflicts_surface_bull_bear_action_posture():
+    page = _page([
+        ("SMH", "285.05", "170,734", "8.88%", "ps"),
+        ("HYPE", "100.00", "50,000", "2.50%", "s"),
+    ])
+    theses = [
+        {"ticker": "HYPE", "tier": "T3", "lane": "Crypto", "stance": "ACTIVE", "source": "operator"},
+    ]
+    daily = [
+        {"author": "Lee", "ticker": "HYPE", "direction": "buy",
+         "quote": "HYPE risk appetite improving.", "date": "2026-06-05"},
+        {"author": "Farrell", "ticker": "HYPE", "direction": "avoid",
+         "quote": "HYPE setup remains fragile.", "date": "2026-06-05"},
+    ]
+
+    feed = build_full_feed(page, UW, theses, fs_daily_calls=daily, as_of="2026-06-05")
+
+    assert validate_cockpit_feed(feed) == []
+    block = feed["source_conflicts"]
+    assert block["count"] == 1
+    row = block["rows"][0]
+    assert row["ticker"] == "HYPE"
+    assert row["scope"] == "same_source"
+    assert row["detail"] == "Lee vs Farrell"
+    assert "Hold" in row["action_posture"]
+    assert "no add" in row["action_posture"]
+    assert "not a trade" in row["decision_effect"]
+    hype = next(p for h in feed["holdings"] for p in h["pos"] if p["t"] == "HYPE")
+    assert hype["conflict"] is True
+    assert hype["conflict_detail"] == "Lee vs Farrell"
+
+
 def test_empty_optional_plug_degrades_not_errors():
     # empty lists / dict still register but deliver nothing -> no error, no enrichment
     full = build_full_feed(PAGE, UW, THESES, fs_daily_calls=[], meridian_items=[], macro_snapshot={})

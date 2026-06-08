@@ -948,6 +948,32 @@ def _actions(actions: list, groups: dict | None = None) -> str:
 </div>"""
 
 
+def _source_conflicts(block: dict) -> str:
+    rows = block.get("rows") or []
+    body = ""
+    for row in rows:
+        body += f"""
+<div class="small-item">
+  <span class="context-ticker">{_e(row.get("ticker") or "PORTFOLIO")}</span>
+  <span class="tag t-warn">{_e(row.get("label") or "source split")}</span>
+  {f'<span class="small-muted">{_e(str(row.get("scope") or "").replace("_", " "))}</span>' if row.get("scope") else ""}
+  {f'<span class="small-muted">Bull: {_e(row.get("bull_read") or "")}</span>' if row.get("bull_read") else ""}
+  {f'<span class="small-muted">Bear: {_e(row.get("bear_read") or "")}</span>' if row.get("bear_read") else ""}
+  {f'<span class="small-muted">Posture: {_e(row.get("action_posture") or "")}</span>' if row.get("action_posture") else ""}
+  {f'<span class="small-muted">{_e(row.get("decision_effect") or "")}</span>' if row.get("decision_effect") else ""}
+</div>"""
+    if not body:
+        body = '<div class="feedback-line">No current bull/bear source splits surfaced by the conviction engine.</div>'
+    return f"""
+<div class="card" id="source-conflicts">
+  <div class="card-title"><span class="icon">!</span> Source conflicts
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">{len(rows)} split{'s' if len(rows) != 1 else ''}; review-only</span>
+  </div>
+  <div class="small-list">{body}</div>
+  <div class="feedback-line">{_e(block.get("honesty_rule") or "Conflicts downgrade action posture; they do not create buy/sell execution.")}</div>
+</div>"""
+
+
 def _market_open_packet(block: dict) -> str:
     if not block:
         return ""
@@ -1930,6 +1956,7 @@ def generate_html(feed: dict) -> str:
     hb_html     = _heartbeat(feed.get("heartbeat") or [])
     hero_html   = _hero(feed.get("hero") or {})
     actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
+    source_conflicts_html = _source_conflicts(feed.get("source_conflicts") or {})
     market_open_packet_html = _market_open_packet(feed.get("market_open_packet") or {})
     alert_policy_html = _alert_policy(feed.get("alert_policy") or {})
     asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
@@ -1996,6 +2023,7 @@ def generate_html(feed: dict) -> str:
     {market_open_packet_html}
     {alert_policy_html}
     {actions_html}
+    {source_conflicts_html}
     {context_html}
     {asymmetric_html}
     {reallocation_brief_html}

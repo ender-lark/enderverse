@@ -56,6 +56,11 @@
       "canonical_surface": "Operator Status alert row and blocker-only alert policy card",
       "summary_surface": "Alert policy card above Today's actions"
     },
+    "source_conflicts": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Source Conflicts section near Today's Actions with bull/bear reads and review-only posture",
+      "summary_surface": "Source Conflicts card after Today's actions with hold/no-add/re-check posture"
+    },
     "fresh_signals": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Fresh signal cards and action context",

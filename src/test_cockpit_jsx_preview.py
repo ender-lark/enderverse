@@ -36,3 +36,11 @@ def test_canonical_jsx_has_current_commands_tab():
     assert "python src/live_dashboard_refresh.py" in src
     assert "python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" in src
     assert "Social Watch remains queued/dark" in src
+
+
+def test_canonical_jsx_has_source_conflicts_section():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert 'id="source-conflicts"' in src
+    assert "Source conflicts" in src
+    assert "No current bull/bear source splits" in src

@@ -498,6 +498,41 @@ def test_generated_html_surfaces_market_open_packet_before_actions():
     assert html.index('id="market-open-packet"') < html.index('id="today-actions"')
 
 
+def test_generated_html_surfaces_source_conflicts_after_actions():
+    feed = _feed()
+    feed["actions"] = [{
+        "rank": 1,
+        "ticker": "HYPE",
+        "kind": "lean_in",
+        "action_state": "WATCH",
+        "confidence": "Medium",
+        "what": "Watch HYPE split",
+    }]
+    feed["source_conflicts"] = {
+        "status": "has_data",
+        "count": 1,
+        "honesty_rule": "Conflicts downgrade action posture; they do not create buy/sell execution.",
+        "rows": [{
+            "ticker": "HYPE",
+            "scope": "same_source",
+            "label": "same-source split",
+            "bull_read": "Lee macro is constructive.",
+            "bear_read": "Crypto analyst says setup is fragile.",
+            "action_posture": "Hold - same-source split (Lee vs Farrell); no add until it resolves.",
+            "decision_effect": "Re-check before adding or resizing; this is a hold/no-add conflict flag, not a trade.",
+        }],
+    }
+
+    html = generate_html(feed)
+
+    assert 'id="source-conflicts"' in html
+    assert "Source conflicts" in html
+    assert "Lee macro is constructive" in html
+    assert "Crypto analyst says setup is fragile" in html
+    assert "no add until it resolves" in html
+    assert html.index('id="today-actions"') < html.index('id="source-conflicts"')
+
+
 def test_generated_html_surfaces_blocker_only_alert_policy():
     html = generate_html(_feed())
 

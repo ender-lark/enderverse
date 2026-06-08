@@ -425,6 +425,19 @@ Low-level implementation:
   soft technical context is intentionally lower weight until it becomes a
   confident or falsifiable setup.
 
+Source-conflict outcome contract:
+
+- `src/feed_assembler.py` emits `feed.source_conflicts` only when the conviction
+  engine finds a real bull/bear split on a current holding.
+- Each conflict row must include the ticker, scope, bull read, bear read,
+  action posture, and decision effect.
+- Conflict posture is review-only and should normally downgrade toward hold,
+  no-add, re-check, watch, or research. A conflict view without posture is not
+  decision-useful enough to promote.
+- Canonical JSX and the HTML mirror render a collapsed Source Conflicts section
+  near Today's Actions; when there are no conflicts, it stays visible as a quiet
+  zero-state check.
+
 ## 8.1 Notion Writeback And Collision Rules
 
 Notion pages can be touched by scheduled Codex routines and by other agents.
