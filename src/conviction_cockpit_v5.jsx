@@ -776,6 +776,8 @@ function actionRow(a, opts={}){
            goalChannels:a.goal_channels||[], missingEvidence:a.missing_evidence||[],
            yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"",
            decisionGroup:a.decision_group||"", decisionGroupLabel:a.decision_group_label||"",
+           synthesisChanges:a.synthesis_changes||"",
+           capitalPriorityScore:(typeof a.capital_priority_score==="number"?a.capital_priority_score:null),
            freshness:a.freshness||"", freshnessJudgment:a.freshness_judgment||{},
            whyThisMatters:a.why_this_matters||"", disconfirmation:a.disconfirmation||{},
            capitalEfficiency:a.capital_efficiency||{},
@@ -1082,6 +1084,8 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
           {a.freshnessJudgment && a.freshnessJudgment.label && <span title={a.freshnessJudgment.judgment||""} style={{ fontFamily:mono, fontSize:11, color:a.freshnessJudgment.label==="stale"?C.red:a.freshnessJudgment.label==="fast-moving"?C.amber:C.faint }}>{a.freshnessJudgment.label}</span>}
           {assumptionRefresh.status && <span title={assumptionRefresh.next_step||""} style={{ fontFamily:mono, fontSize:11, color:["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green, border:`1px solid ${(["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px", background:`${(["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green)}10` }}>refresh: {String(assumptionRefresh.status).replace("_"," ")}</span>}
           {capitalEfficiency.label && <span title={capitalEfficiency.summary||""} style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px", background:`${C.amber}10` }}>capital: {capitalEfficiency.label}</span>}
+          {a.synthesisChanges && <span title="what this synthesis changes" style={{ fontFamily:mono, fontSize:11, color:C.blue, border:`1px solid ${C.blue}55`, borderRadius:99, padding:"1px 8px", background:`${C.blue}10` }}>changes: {a.synthesisChanges}</span>}
+          {a.capitalPriorityScore!=null && <span title="capital priority inside this decision group" style={{ fontFamily:mono, fontSize:11, color:C.faint, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>priority: {a.capitalPriorityScore}</span>}
           <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
           <span style={{ fontFamily:mono, fontSize:11, color:a.confColor, border:`1px solid ${a.confColor}55`, borderRadius:99, padding:"1px 8px" }}>{a.confBadgeLabel}: {a.confLabel}</span>
           {a.gatePreview && <span style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.gatePreview}</span>}
@@ -1127,7 +1131,7 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
               {disconfirmation.downgrade_to && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>downgrade: {disconfirmation.downgrade_to}</div>}
             </div>
           )}
-          {(a.goalChannels.length>0 || a.capitalEffect) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}</div>}
+          {(a.goalChannels.length>0 || a.capitalEffect || a.synthesisChanges || a.capitalPriorityScore!=null) && <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>channels: {a.goalChannels.join(" / ") || "n/a"}{a.capitalEffect?` · capital: ${a.capitalEffect}`:""}{a.synthesisChanges?` · changes: ${a.synthesisChanges}`:""}{a.goalScore!=null?` · score: ${a.goalScore}/100`:""}{a.capitalPriorityScore!=null?` · priority: ${a.capitalPriorityScore}`:""}</div>}
           {a.missingEvidence.length>0 && <div style={{ marginTop:5, fontFamily:mono, fontSize:10, color:C.amber }}>missing: {a.missingEvidence.join(" / ")}</div>}
           <div style={{ marginTop:8, fontFamily:mono, fontSize:10, color:C.faint }}>{stamp} · {footerLabel} · drill in chat to run the gate</div>
         </div>

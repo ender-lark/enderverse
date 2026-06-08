@@ -610,6 +610,96 @@ def _synthesis_default_action(item):
     return item.get("default_action") or "ADD"
 
 
+SYNTHESIS_CHANGE_SET = {
+    "act",
+    "wait",
+    "re-check",
+    "research",
+    "trim",
+    "hedge",
+    "size",
+    "no capital yet",
+}
+_SYNTHESIS_ACTION_STATE_BY_CHANGE = {
+    "act": "ACT_NOW",
+    "size": "ACT_NOW",
+    "trim": "ACT_NOW",
+    "hedge": "ACT_NOW",
+    "re-check": "WATCH",
+    "research": "RESEARCH",
+    "wait": "MONITOR",
+    "no capital yet": "MONITOR",
+}
+
+
+def _normalize_synthesis_change(value) -> str:
+    text = str(value or "").strip().lower().replace("_", " ").replace("-", " ")
+    aliases = {
+        "recheck": "re-check",
+        "re check": "re-check",
+        "review": "re-check",
+        "hold": "wait",
+        "watch": "wait",
+        "no capital": "no capital yet",
+        "no capital yet": "no capital yet",
+        "no_capital_yet": "no capital yet",
+        "add": "size",
+        "buy": "size",
+        "sell": "trim",
+        "reduce": "trim",
+        "exit": "trim",
+    }
+    return aliases.get(text, text)
+
+
+def _infer_synthesis_change(item, text: str) -> str:
+    raw = _first_present(item, (
+        "synthesis_changes", "changes", "what_changes", "action_posture", "posture",
+        "decision", "decision_effect", "operator_posture",
+    ))
+    change = _normalize_synthesis_change(raw)
+    if change in SYNTHESIS_CHANGE_SET:
+        return change
+
+    capital = _normalize_synthesis_change(item.get("capital_effect"))
+    if capital in {"trim", "hedge", "no capital yet"}:
+        return capital
+    if str(item.get("capital_effect") or "").lower() in {"start", "add", "rotate"}:
+        return "size"
+    if capital == "review":
+        return "re-check"
+
+    body = str(text or "").lower()
+    if any(word in body for word in ("re-check", "recheck", "check ", "gate", "confirm", "if ")):
+        return "re-check"
+    if any(word in body for word in ("research", "underwrite", "diligence")):
+        return "research"
+    if any(word in body for word in ("trim", "sell", "reduce", "exit")):
+        return "trim"
+    if any(word in body for word in ("hedge", "protect")):
+        return "hedge"
+    if any(word in body for word in ("add", "buy", "size", "start")):
+        return "size"
+    if any(word in body for word in ("wait", "hold", "watch", "no action")):
+        return "wait"
+    return ""
+
+
+def _synthesis_capital_effect(change: str, item: dict) -> str:
+    existing = item.get("capital_effect")
+    if existing in CAPITAL_EFFECTS:
+        return existing
+    if change == "trim":
+        return "trim"
+    if change == "hedge":
+        return "hedge"
+    if change == "size":
+        return "review"
+    if change in {"wait", "research", "re-check", "no capital yet"}:
+        return "no_capital_yet" if change == "no capital yet" else "review"
+    return ""
+
+
 def synthesis_actions_read(synthesis, *, max_items=5) -> list[dict]:
     """Extract durable action rows from the Daily Synthesis read.
 
@@ -630,23 +720,29 @@ def synthesis_actions_read(synthesis, *, max_items=5) -> list[dict]:
         if isinstance(item, str):
             text = item
             ticker = _synthesis_ticker(text)
-            if not ticker or not _synthesis_is_actionish(text):
+            change = _infer_synthesis_change({}, text)
+            if not ticker or not _synthesis_is_actionish(text) or not change:
                 continue
             rows.append({
                 "ticker": ticker,
                 "what": text,
                 "confidence": _synthesis_confidence({}, text),
-                "your_move": f"Decide on {ticker}: {text}",
+                "your_move": f"{change.title()}: decide on {ticker}: {text}",
                 "why": f"{source}: {text}",
+                "synthesis_changes": change,
+                "capital_effect": _synthesis_capital_effect(change, {}),
             })
         elif isinstance(item, dict):
             text = _first_present(item, ("what", "action", "recommendation", "text", "summary", "title")) or ""
             ticker = _first_present(item, ("ticker", "symbol")) or _synthesis_ticker(text)
             if not ticker and not _first_present(item, ("what", "action", "recommendation")):
                 continue
+            change = _infer_synthesis_change(item, text)
+            if not change:
+                continue
             your_move = _first_present(item, ("your_move", "move", "operator_move", "next_step"))
             if not your_move:
-                your_move = f"Review synthesis action for {ticker}." if ticker else "Review synthesis action."
+                your_move = f"{change.title()}: review synthesis action for {ticker}." if ticker else f"{change.title()}: review synthesis action."
             row = {
                 "ticker": ticker,
                 "what": text or "Synthesis action",
@@ -655,11 +751,13 @@ def synthesis_actions_read(synthesis, *, max_items=5) -> list[dict]:
                 "why": _first_present(item, ("why", "reason", "evidence")) or f"{source}: {text}",
                 "gate": item.get("gate"),
                 "default_action": _synthesis_default_action(item),
+                "synthesis_changes": change,
             }
             if item.get("time_window") in TIME_WINDOWS:
                 row["time_window"] = item["time_window"]
-            if item.get("capital_effect") in CAPITAL_EFFECTS:
-                row["capital_effect"] = item["capital_effect"]
+            capital_effect = _synthesis_capital_effect(change, item)
+            if capital_effect in CAPITAL_EFFECTS:
+                row["capital_effect"] = capital_effect
             if item.get("goal_impact") in GOAL_IMPACTS:
                 row["goal_impact"] = item["goal_impact"]
             if isinstance(item.get("goal_score"), int) and 0 <= item["goal_score"] <= 100:
@@ -678,14 +776,17 @@ def synthesis_actions_read(synthesis, *, max_items=5) -> list[dict]:
 
     for text in synthesis.get("hanging") or []:
         ticker = _synthesis_ticker(text)
-        if not ticker or not _synthesis_is_actionish(text):
+        change = _infer_synthesis_change({}, text)
+        if not ticker or not _synthesis_is_actionish(text) or not change:
             continue
         rows.append({
             "ticker": ticker,
             "what": f"Synthesis follow-up: {text}",
             "confidence": _synthesis_confidence({}, text),
-            "your_move": f"Decide on {ticker}: {text}",
+            "your_move": f"{change.title()}: decide on {ticker}: {text}",
             "why": f"{source} hanging item: {text}",
+            "synthesis_changes": change,
+            "capital_effect": _synthesis_capital_effect(change, {}),
         })
 
     out = []
@@ -1063,6 +1164,13 @@ def actions_read(fresh_signals, needs_you_items, theses,
             continue
         conf = sa.get("confidence")
         tk = sa.get("ticker")
+        change_text = " ".join(
+            str(sa.get(k) or "")
+            for k in ("what", "your_move", "why", "action_label", "capital_effect")
+        )
+        change = _infer_synthesis_change(sa, change_text)
+        if not change:
+            continue
         gate = sa.get("gate")
         if gate is None and tk and _synthesis_is_actionish(
             " ".join(str(sa.get(k) or "") for k in ("what", "your_move"))
@@ -1076,12 +1184,16 @@ def actions_read(fresh_signals, needs_you_items, theses,
             "kind": "synthesis", "ticker": tk,
             "what": sa.get("what") or "Synthesis action",
             "confidence": conf if conf in _CONFIDENCE_RANK else "Moderate",
-            "your_move": sa.get("your_move") or "Review this synthesis action.",
+            "your_move": sa.get("your_move") or f"{change.title()}: review this synthesis action.",
             "gate": gate,
             "source": "daily_synthesis", "why": sa.get("why") or "",
+            "synthesis_changes": change,
         }
+        capital_effect = _synthesis_capital_effect(change, sa)
+        if capital_effect in CAPITAL_EFFECTS:
+            row["capital_effect"] = capital_effect
         for optional in (
-            "time_window", "capital_effect", "sizing", "goal_channels",
+            "time_window", "sizing", "goal_channels",
             "goal_impact", "goal_score", "action_label", "why_it_moves_goal",
             "missing_evidence",
         ):
@@ -1107,7 +1219,7 @@ def actions_read(fresh_signals, needs_you_items, theses,
         for optional in (
             "time_window", "capital_effect", "sizing", "goal_channels",
             "goal_impact", "goal_score", "action_label", "why_it_moves_goal",
-            "missing_evidence",
+            "missing_evidence", "synthesis_changes",
         ):
             if er.get(optional) not in (None, "", []):
                 row[optional] = er[optional]
@@ -1145,9 +1257,15 @@ def actions_read(fresh_signals, needs_you_items, theses,
 
     actions = []
     for rank, r in enumerate(rows, start=1):
+        action_state = _ACTION_STATE_BY_KIND.get(r["kind"], "WATCH")
+        if r.get("kind") == "synthesis" and r.get("synthesis_changes"):
+            action_state = _SYNTHESIS_ACTION_STATE_BY_CHANGE.get(
+                r.get("synthesis_changes"),
+                action_state,
+            )
         row = {                   # canonical field order (stable golden output)
             "rank": rank, "kind": r["kind"], "ticker": r["ticker"],
-            "action_state": _ACTION_STATE_BY_KIND.get(r["kind"], "WATCH"),
+            "action_state": action_state,
             "what": r["what"], "confidence": r["confidence"],
             "your_move": r["your_move"], "gate": r["gate"],
             "source": r["source"], "why": r["why"],
@@ -1155,7 +1273,7 @@ def actions_read(fresh_signals, needs_you_items, theses,
         for optional in (
             "time_window", "capital_effect", "sizing", "goal_channels",
             "goal_impact", "goal_score", "action_label", "why_it_moves_goal",
-            "missing_evidence",
+            "missing_evidence", "synthesis_changes",
         ):
             if r.get(optional) not in (None, "", []):
                 row[optional] = r[optional]

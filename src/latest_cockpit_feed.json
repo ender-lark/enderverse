@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T01:29:04.835274+00:00",
+  "generated_at": "2026-06-08T01:45:51.358139+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T21:29:04.835274-04:00",
+        "date": "2026-06-07T21:45:51.358139-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T21:29:04.835274-04:00",
+        "date": "2026-06-07T21:45:51.358139-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -203,95 +203,6 @@
   "actions": [
     {
       "rank": 1,
-      "kind": "event_risk",
-      "ticker": null,
-      "action_state": "WATCH",
-      "what": "Event risk: Middle East oil/rates shock can affect new-buy timing",
-      "confidence": "Moderate",
-      "your_move": "Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.",
-      "gate": null,
-      "source": "event_risk",
-      "why": "Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.",
-      "time_window": "today",
-      "capital_effect": "review",
-      "goal_channels": [
-        "downside_protection",
-        "opportunity_cost",
-        "data_quality"
-      ],
-      "goal_impact": "Medium",
-      "goal_score": 75,
-      "action_label": "RE-CHECK",
-      "why_it_moves_goal": "Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.",
-      "missing_evidence": [
-        "WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly."
-      ],
-      "freshness_judgment": {
-        "label": "fast-moving",
-        "evidence_date": "2026-06-03",
-        "last_checked": "2026-06-07",
-        "decay_window": "intraday to 1 trading day",
-        "judgment": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
-      },
-      "freshness": "fast-moving: evidence 2026-06-03; decays intraday to 1 trading day",
-      "why_this_matters": "Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.",
-      "disconfirmation": {
-        "question": "What would make this wrong?",
-        "summary": "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
-        "invalidates_if": [
-          "Evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
-          "The listed event trigger does not occur or reverses.",
-          "Affected exposures stabilize while rates, oil, volatility, or headlines stop worsening."
-        ],
-        "confirm_before_acting": [
-          "Refresh the evidence lane and confirm the action still survives with same-session data.",
-          "WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly."
-        ],
-        "downgrade_to": "Re-check Before Acting"
-      },
-      "capital_efficiency": {
-        "label": "protect capital",
-        "summary": "Efficient capital use can mean not adding risk until the shock is re-checked.",
-        "timing_balance": "Re-check first, but do not turn that into indefinite waiting; once fresh evidence confirms, stage rather than chase perfection.",
-        "compare_against": [
-          "higher-ranked Key Now actions",
-          "funded reallocation legs",
-          "risk reduction or hedging if event risk is active",
-          "goal score 75/100"
-        ]
-      },
-      "assumption_refresh": {
-        "status": "changed_recheck",
-        "checked_at": "2026-06-07",
-        "snapshot": {
-          "ticker": "",
-          "action_state": "WATCH",
-          "source": "event_risk",
-          "evidence_date": "2026-06-03",
-          "freshness": "fast-moving",
-          "decay_window": "intraday to 1 trading day",
-          "capital_label": "protect capital",
-          "time_window": "today"
-        },
-        "what_changed": [
-          "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.",
-          "Required live checks are missing: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly."
-        ],
-        "blockers": [
-          "same-session refresh",
-          "missing evidence"
-        ],
-        "invalidates_if": [
-          "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward."
-        ],
-        "next_step": "Refresh assumptions before acting; do not treat the old setup as still valid.",
-        "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
-      },
-      "decision_group": "recheck_before_acting",
-      "decision_group_label": "Re-check Before Acting"
-    },
-    {
-      "rank": 2,
       "kind": "conviction_gap",
       "ticker": "NVDA",
       "action_state": "WATCH",
@@ -387,7 +298,98 @@
         "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
       },
       "decision_group": "recheck_before_acting",
-      "decision_group_label": "Re-check Before Acting"
+      "decision_group_label": "Re-check Before Acting",
+      "capital_priority_score": 135
+    },
+    {
+      "rank": 2,
+      "kind": "event_risk",
+      "ticker": null,
+      "action_state": "WATCH",
+      "what": "Event risk: Middle East oil/rates shock can affect new-buy timing",
+      "confidence": "Moderate",
+      "your_move": "Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.",
+      "gate": null,
+      "source": "event_risk",
+      "why": "Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.",
+      "time_window": "today",
+      "capital_effect": "review",
+      "goal_channels": [
+        "downside_protection",
+        "opportunity_cost",
+        "data_quality"
+      ],
+      "goal_impact": "Medium",
+      "goal_score": 75,
+      "action_label": "RE-CHECK",
+      "why_it_moves_goal": "Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.",
+      "missing_evidence": [
+        "WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly."
+      ],
+      "freshness_judgment": {
+        "label": "fast-moving",
+        "evidence_date": "2026-06-03",
+        "last_checked": "2026-06-07",
+        "decay_window": "intraday to 1 trading day",
+        "judgment": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
+      },
+      "freshness": "fast-moving: evidence 2026-06-03; decays intraday to 1 trading day",
+      "why_this_matters": "Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.",
+      "disconfirmation": {
+        "question": "What would make this wrong?",
+        "summary": "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
+        "invalidates_if": [
+          "Evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
+          "The listed event trigger does not occur or reverses.",
+          "Affected exposures stabilize while rates, oil, volatility, or headlines stop worsening."
+        ],
+        "confirm_before_acting": [
+          "Refresh the evidence lane and confirm the action still survives with same-session data.",
+          "WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly."
+        ],
+        "downgrade_to": "Re-check Before Acting"
+      },
+      "capital_efficiency": {
+        "label": "protect capital",
+        "summary": "Efficient capital use can mean not adding risk until the shock is re-checked.",
+        "timing_balance": "Re-check first, but do not turn that into indefinite waiting; once fresh evidence confirms, stage rather than chase perfection.",
+        "compare_against": [
+          "higher-ranked Key Now actions",
+          "funded reallocation legs",
+          "risk reduction or hedging if event risk is active",
+          "goal score 75/100"
+        ]
+      },
+      "assumption_refresh": {
+        "status": "changed_recheck",
+        "checked_at": "2026-06-07",
+        "snapshot": {
+          "ticker": "",
+          "action_state": "WATCH",
+          "source": "event_risk",
+          "evidence_date": "2026-06-03",
+          "freshness": "fast-moving",
+          "decay_window": "intraday to 1 trading day",
+          "capital_label": "protect capital",
+          "time_window": "today"
+        },
+        "what_changed": [
+          "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.",
+          "Required live checks are missing: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly."
+        ],
+        "blockers": [
+          "same-session refresh",
+          "missing evidence"
+        ],
+        "invalidates_if": [
+          "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward."
+        ],
+        "next_step": "Refresh assumptions before acting; do not treat the old setup as still valid.",
+        "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
+      },
+      "decision_group": "recheck_before_acting",
+      "decision_group_label": "Re-check Before Acting",
+      "capital_priority_score": 119
     },
     {
       "rank": 3,
@@ -476,7 +478,8 @@
         "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
       },
       "decision_group": "important_backlog",
-      "decision_group_label": "Important Backlog"
+      "decision_group_label": "Important Backlog",
+      "capital_priority_score": 120
     },
     {
       "rank": 4,
@@ -565,7 +568,8 @@
         "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
       },
       "decision_group": "important_backlog",
-      "decision_group_label": "Important Backlog"
+      "decision_group_label": "Important Backlog",
+      "capital_priority_score": 120
     },
     {
       "rank": 5,
@@ -654,7 +658,8 @@
         "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
       },
       "decision_group": "important_backlog",
-      "decision_group_label": "Important Backlog"
+      "decision_group_label": "Important Backlog",
+      "capital_priority_score": 120
     }
   ],
   "fresh_signals": [],
@@ -867,10 +872,7 @@
               "Lee \u00b7 ai_complex"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         },
         {
           "t": "GRNJ",
@@ -890,10 +892,7 @@
               "Lee \u00b7 ai_complex"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         }
       ]
     },
@@ -921,10 +920,7 @@
               "Lee \u00b7 ai_complex, semiconductors, long_duration_growth"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         },
         {
           "t": "NVDA",
@@ -944,10 +940,7 @@
               "Lee \u00b7 ai_complex, semiconductors, long_duration_growth, global_exporter"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         },
         {
           "t": "IVES",
@@ -967,10 +960,7 @@
               "operator \u00b7 ai_complex"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         },
         {
           "t": "MAGS",
@@ -990,10 +980,7 @@
               "Lee \u00b7 ai_complex, long_duration_growth, global_exporter"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         },
         {
           "t": "MU",
@@ -1013,10 +1000,7 @@
               "Lee \u00b7 ai_complex, semiconductors"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         }
       ]
     },
@@ -1044,10 +1028,7 @@
               "Meridian \u00b7 critical_minerals, nuclear, uranium"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         },
         {
           "t": "UUUU",
@@ -1067,10 +1048,7 @@
               "Meridian \u00b7 critical_minerals, uranium"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         }
       ]
     },
@@ -1098,10 +1076,7 @@
               "Lee \u00b7 financials, cyclicals"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         }
       ]
     },
@@ -1129,10 +1104,7 @@
               "operator \u00b7 nuclear, ai_complex"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         }
       ]
     },
@@ -1160,10 +1132,7 @@
               "operator \u00b7 crypto, eth"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         }
       ]
     },
@@ -1191,10 +1160,7 @@
               "Meridian \u00b7 critical_minerals, rare_earth"
             ]
           ],
-          "be": "\u2014",
-          "conflict": false,
-          "conflict_label": "",
-          "conflict_detail": ""
+          "be": "\u2014"
         }
       ]
     }
@@ -1379,41 +1345,41 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T01:29:04.691421+00:00",
+      "last_run": "2026-06-08T01:45:51.238735+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T01:29:04.691421+00:00",
+      "last_run": "2026-06-08T01:45:51.238735+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T01:29:04.691421+00:00",
+      "last_run": "2026-06-08T01:45:51.238735+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "stale",
-      "last_run": "2026-06-08T01:29:04.691421+00:00",
+      "last_run": "2026-06-08T01:45:51.238735+00:00",
       "note": "dark lanes: social_watch | next: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T01:29:04.691421+00:00",
+      "last_run": "2026-06-08T01:45:51.238735+00:00",
       "note": "rehearsal build can run"
     }
   ],
   "synthesis": {
     "source": "Repo Evidence Synthesis",
     "date": "2026-06-07",
-    "state_of_play": "Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Event risk: Middle East oil/rates shock can affect new-buy timing (watch, moderate confidence, source event_risk). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
+    "state_of_play": "Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Conviction gap: NVDA is under target (watch, high confidence, source target_drift). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
     "delta": "Latest Fundstrat Daily compact calls in radar: QQQ watch, RSP watch, SOX watch. Target drift: 12 sizing gap(s) vs AI working model (1 under, 2 over, 9 missing); GRNY oversized 9.5% vs 3.0%; SMH oversized 8.8% vs 5.0%; NVDA undersized 7.1% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more",
     "hanging": [
-      "Operator review still required: Review exposure, hedges, and new buys before acting today: Middle East oil/rates shock can affect new-buy timing (oil, rates, volatility, energy, growth). If the event changes oil/rates/vol or a held sleeve, decide whether to hold, hedge, trim, or wait.",
+      "Operator review still required: NVDA is 7.1% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.",
       "Social Watch is not checked: Reddit/social early-signal anomalies are not checked; absence is not no social signal."
     ],
     "notes": [
@@ -2351,18 +2317,6 @@
       "line": "Freshness downgrade audit: 2 action(s) require re-check before capital action.",
       "rows": [
         {
-          "ticker": "EVENT",
-          "kind": "event_risk",
-          "what": "Event risk: Middle East oil/rates shock can affect new-buy timing",
-          "action_state": "WATCH",
-          "action_label": "RE-CHECK",
-          "freshness_label": "fast-moving",
-          "evidence_date": "2026-06-03",
-          "last_checked": "2026-06-07",
-          "decay_window": "intraday to 1 trading day",
-          "judgment": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
-        },
-        {
           "ticker": "NVDA",
           "kind": "conviction_gap",
           "what": "Conviction gap: NVDA is under target",
@@ -2373,6 +2327,18 @@
           "last_checked": "2026-06-07",
           "decay_window": "until position, price, thesis, or target changes",
           "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
+        },
+        {
+          "ticker": "EVENT",
+          "kind": "event_risk",
+          "what": "Event risk: Middle East oil/rates shock can affect new-buy timing",
+          "action_state": "WATCH",
+          "action_label": "RE-CHECK",
+          "freshness_label": "fast-moving",
+          "evidence_date": "2026-06-03",
+          "last_checked": "2026-06-07",
+          "decay_window": "intraday to 1 trading day",
+          "judgment": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
         }
       ]
     },
@@ -12354,7 +12320,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 10.09
+        "connector_proof_age_hours": 10.37
       }
     ],
     "missing": [],
@@ -14915,18 +14881,6 @@
       {
         "priority": 1,
         "kind": "recheck_first",
-        "label": "Re-check: EVENT: Event risk: Middle East oil/rates shock can affect new-buy timing",
-        "why": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.",
-        "next_step": "Refresh the evidence lane and confirm the action still survives with same-session data.",
-        "blocks": "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
-        "source": "event_risk",
-        "command": "",
-        "refresh_status": "changed_recheck",
-        "what_changed": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
-      },
-      {
-        "priority": 2,
-        "kind": "recheck_first",
         "label": "Re-check: NVDA: Conviction gap: NVDA is under target",
         "why": "Fresh enough for a decision prompt; still run the gate before capital moves.",
         "next_step": "live opportunity",
@@ -14935,6 +14889,18 @@
         "command": "",
         "refresh_status": "changed_recheck",
         "what_changed": "Required live checks are missing: live opportunity; funding leg; pre-trade gate"
+      },
+      {
+        "priority": 2,
+        "kind": "recheck_first",
+        "label": "Re-check: EVENT: Event risk: Middle East oil/rates shock can affect new-buy timing",
+        "why": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.",
+        "next_step": "Refresh the evidence lane and confirm the action still survives with same-session data.",
+        "blocks": "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
+        "source": "event_risk",
+        "command": "",
+        "refresh_status": "changed_recheck",
+        "what_changed": "Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action."
       },
       {
         "priority": 3,
@@ -15078,8 +15044,8 @@
       "urgent_visible": 5
     },
     "blockers": [
-      "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
       "Do not act if the target weight or thesis is outdated relative to the current portfolio.",
+      "Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.",
       "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
       "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
       "latest positions, same-session price/flow, or funding source are missing; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
@@ -15101,12 +15067,12 @@
       },
       {
         "reason": "dashboard_recheck",
-        "ticker": "EVENT",
+        "ticker": "NVDA",
         "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked."
       },
       {
         "reason": "dashboard_recheck",
-        "ticker": "NVDA",
+        "ticker": "EVENT",
         "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked."
       },
       {

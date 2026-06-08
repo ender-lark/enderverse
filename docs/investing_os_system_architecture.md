@@ -438,6 +438,26 @@ Source-conflict outcome contract:
   near Today's Actions; when there are no conflicts, it stays visible as a quiet
   zero-state check.
 
+Synthesis usefulness contract:
+
+- `src/analyst_judgment.py` requires every promoted Daily Synthesis action to
+  declare or imply `synthesis_changes`: `act`, `wait`, `re-check`, `research`,
+  `trim`, `hedge`, `size`, or `no capital yet`.
+- Synthesis rows that cannot say what they change are collapsed into context
+  and do not enter `feed.actions`.
+- Synthesis posture controls action state: `size`, `trim`, `hedge`, and `act`
+  can be loud review prompts; `re-check`, `research`, `wait`, and
+  `no capital yet` stay in non-execution posture.
+- `src/decision_support.py` uses `synthesis_changes` in the outcome ladder:
+  `re-check` routes to Re-check Before Acting, `research` to Important Backlog,
+  and `wait`/`no capital yet` to Quiet Watch.
+- `capital_priority_score` ranks items inside their decision group using goal
+  score, goal impact, downside protection, sizing gaps, opportunity cost,
+  capital effect, synthesis posture, and assumption-refresh status.
+- The canonical JSX cockpit and HTML mirror show compact `changes:` and
+  `priority:` tags on action cards. These are explanation/ranking metadata only;
+  they do not execute trades or bypass gates.
+
 ## 8.1 Notion Writeback And Collision Rules
 
 Notion pages can be touched by scheduled Codex routines and by other agents.

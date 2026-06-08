@@ -778,6 +778,8 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
     state = _e(a.get("action_state") or a.get("urgency") or "")
     label = _e(a.get("action_label") or "")
     capital = _e(a.get("capital_effect") or "")
+    synthesis_change = _e(a.get("synthesis_changes") or "")
+    capital_priority = a.get("capital_priority_score")
     impact = _e(a.get("goal_impact") or "")
     source = _e(a.get("source") or "")
     freshness = _e(a.get("freshness") or "")
@@ -794,6 +796,8 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
         (label, "t-cat"),
         (capital, "t-gate-a"),
         (_e(f"capital: {capital_efficiency.get('label')}") if capital_efficiency.get("label") else "", "t-warn"),
+        (f"changes: {synthesis_change}" if synthesis_change else "", "t-conf"),
+        (f"priority: {_e(capital_priority)}" if isinstance(capital_priority, int) else "", "t-muted"),
         (f"goal: {impact}" if impact else "", "t-conf"),
         (_e(a.get("decision_group_label") or ""), "t-cat"),
     ):
@@ -815,12 +819,14 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
             f"({_e(freshness_judgment.get('evidence_date') or 'n/a')}; "
             f"{_e(freshness_judgment.get('decay_window') or 'source dependent')})"
         )
-    if channels or capital or a.get("goal_score") is not None:
+    if channels or capital or synthesis_change or a.get("goal_score") is not None or isinstance(capital_priority, int):
         score = a.get("goal_score")
         score_txt = f" | score {score}/100" if score is not None else ""
+        change_txt = f" | changes {_e(synthesis_change)}" if synthesis_change else ""
+        priority_txt = f" | priority {_e(capital_priority)}" if isinstance(capital_priority, int) else ""
         detail_lines.append(
             f"<strong>Goal/capital:</strong> {_e(channels or 'n/a')} "
-            f"| capital {_e(capital or 'n/a')}{_e(score_txt)}"
+            f"| capital {_e(capital or 'n/a')}{change_txt}{_e(score_txt)}{priority_txt}"
         )
     capital_bits = []
     if capital_efficiency.get("summary"):

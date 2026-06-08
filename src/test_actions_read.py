@@ -169,22 +169,27 @@ def test_synthesis_actions_seam_passes_through():
     assert len(syn_rows) == 1
     assert syn_rows[0]["kind"] == "synthesis"
     assert syn_rows[0]["ticker"] == "GOOGL"
+    assert syn_rows[0]["synthesis_changes"] == "re-check"
+    assert syn_rows[0]["action_state"] == "WATCH"
 
 
 def test_synthesis_bad_confidence_defaults_moderate():
-    syn = [{"what": "x", "confidence": "Maybe"}]
+    syn = [{"ticker": "NVDA", "what": "Research NVDA thesis", "confidence": "Maybe"}]
     r = actions_read([], [], THESES, synthesis_actions=syn)
     assert r["actions"][0]["confidence"] == "Moderate"
+    assert r["actions"][0]["synthesis_changes"] == "research"
+    assert r["actions"][0]["action_state"] == "RESEARCH"
 
 
 def test_synthesis_actions_read_promotes_structured_actions():
     synthesis = {"source": "Daily Synthesis", "actions": [
         {"ticker": "NVDA", "what": "Add NVDA on confirmed setup", "confidence": "High",
-         "your_move": "Size and run the gate."}
+         "your_move": "Size and run the gate.", "changes": "size"}
     ]}
     rows = synthesis_actions_read(synthesis)
     assert rows[0]["ticker"] == "NVDA"
     assert rows[0]["confidence"] == "High"
+    assert rows[0]["synthesis_changes"] == "size"
     r = actions_read([], [], THESES, synthesis_actions=rows)
     assert r["actions"][0]["kind"] == "synthesis"
     assert r["actions"][0]["action_state"] == "ACT_NOW"
@@ -207,6 +212,7 @@ def test_synthesis_actions_read_accepts_richer_structured_fields():
     rows = synthesis_actions_read(synthesis)
     assert rows[0]["ticker"] == "NVDA"
     assert rows[0]["confidence"] == "High"
+    assert rows[0]["synthesis_changes"] == "size"
     assert rows[0]["capital_effect"] == "add"
     assert rows[0]["time_window"] == "today"
     assert rows[0]["sizing"] == "$25K starter"
@@ -234,9 +240,20 @@ def test_synthesis_actions_read_ignores_invalid_structured_metadata():
     }]}
     rows = synthesis_actions_read(synthesis)
     assert "time_window" not in rows[0]
-    assert "capital_effect" not in rows[0]
+    assert rows[0]["synthesis_changes"] == "re-check"
+    assert rows[0]["capital_effect"] == "review"
     assert "goal_channels" not in rows[0]
     assert "goal_score" not in rows[0]
+
+
+def test_synthesis_actions_read_collapses_context_without_usefulness_change():
+    synthesis = {"actions": [{
+        "ticker": "NVDA",
+        "what": "NVDA remains an important portfolio context item.",
+        "confidence": "High",
+    }]}
+
+    assert synthesis_actions_read(synthesis) == []
 
 
 def test_synthesis_actions_read_promotes_actionable_hanging_items_only():
@@ -248,6 +265,7 @@ def test_synthesis_actions_read_promotes_actionable_hanging_items_only():
     rows = synthesis_actions_read(synthesis)
     assert [r["ticker"] for r in rows] == ["FN"]
     assert "buy-on-pullback" in rows[0]["what"]
+    assert rows[0]["synthesis_changes"] == "size"
 
 
 # --------------------------------------------------------------------------- #

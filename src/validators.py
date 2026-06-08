@@ -234,6 +234,8 @@ _VALID_GOAL_IMPACTS = {"High", "Medium", "Low"}
 _VALID_TIME_WINDOWS = {"today", "1-3 trading days", "1-2 weeks", "no timing edge"}
 _VALID_CAPITAL_EFFECTS = {"start", "add", "trim", "sell", "hedge", "rotate",
                           "review", "no_capital_yet"}
+_VALID_SYNTHESIS_CHANGES = {"act", "wait", "re-check", "research", "trim",
+                            "hedge", "size", "no capital yet"}
 # canonical catalyst-row field set (Contract C, OPTIONAL block — the near-term
 # event lane read off the Catalyst Calendar). Validated only IF present, so a
 # dark/unsourced lane (empty or absent) stays valid.
@@ -326,6 +328,15 @@ def _validate_action(a: Any) -> list[str]:
             out.append("missing_evidence must be a list of strings")
     if "rank" in a and not isinstance(a.get("rank"), int):
         out.append("rank must be an int")
+    if "capital_priority_score" in a:
+        priority_score = a.get("capital_priority_score")
+        if not isinstance(priority_score, int) or priority_score < 0:
+            out.append("capital_priority_score must be a non-negative int")
+    if "synthesis_changes" in a and a.get("synthesis_changes") not in _VALID_SYNTHESIS_CHANGES:
+        out.append(
+            f"synthesis_changes must be one of {sorted(_VALID_SYNTHESIS_CHANGES)}, "
+            f"got {a.get('synthesis_changes')!r}"
+        )
     tk = a.get("ticker")
     if "ticker" in a and tk is not None and (not isinstance(tk, str) or tk.strip() == ""):
         out.append("ticker must be a non-empty string or None")

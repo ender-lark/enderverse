@@ -447,6 +447,8 @@ def test_generated_html_surfaces_action_cards_first():
             "timing_balance": "Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.",
             "compare_against": ["higher-ranked Key Now actions", "funded reallocation legs"],
         },
+        "synthesis_changes": "size",
+        "capital_priority_score": 117,
     }]
 
     html = generate_html(feed)
@@ -462,6 +464,8 @@ def test_generated_html_surfaces_action_cards_first():
     assert "Do not act if the funding leg makes risk worse." in html
     assert "Run the pre-trade gate." in html
     assert "capital: compare and stage" in html
+    assert "changes: size" in html
+    assert "priority: 117" in html
     assert "Capital efficiency" in html
     assert "Do not park capital here only because it is good" in html
     assert "Avoid waiting for a perfect bottom" in html

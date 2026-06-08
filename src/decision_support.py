@@ -33,6 +33,7 @@ GROUPS = (
         "description": "Monitored context with no current action pressure.",
     },
 )
+GROUP_PRIORITY = {group["key"]: idx for idx, group in enumerate(GROUPS)}
 
 FAST_DECAY_KINDS = {"event_risk", "macro_alert", "buy_now", "reentry_zone"}
 SLOW_DECAY_KINDS = {"conviction_gap", "lean_in", "decision_aging", "top_prospect"}
@@ -178,9 +179,16 @@ def _group_for(action: dict[str, Any]) -> str:
     impact = str(action.get("goal_impact") or "")
     freshness = action.get("freshness_judgment") or {}
     freshness_label = str(freshness.get("label") or "")
+    synthesis_change = str(action.get("synthesis_changes") or "")
 
     if freshness_label in {"stale", "not checked"}:
         return "recheck_before_acting"
+    if synthesis_change == "re-check":
+        return "recheck_before_acting"
+    if synthesis_change == "research":
+        return "important_backlog"
+    if synthesis_change in {"wait", "no capital yet"}:
+        return "quiet_watch"
     if (
         freshness_label == "fast-moving"
         and freshness.get("evidence_date")
@@ -354,6 +362,36 @@ def _capital_efficiency(action: dict[str, Any], freshness: dict[str, Any]) -> di
     }
 
 
+def _capital_priority_score(action: dict[str, Any]) -> int:
+    """Rank review prompts by goal usefulness inside their decision group."""
+    score = int(action.get("goal_score") or 0)
+    impact = str(action.get("goal_impact") or "")
+    if impact == "High":
+        score += 20
+    elif impact == "Medium":
+        score += 10
+    channels = set(action.get("goal_channels") or [])
+    if "downside_protection" in channels:
+        score += 18
+    if "sizing_gap" in channels:
+        score += 14
+    if "opportunity_cost" in channels:
+        score += 10
+    if str(action.get("capital_effect") or "") in {"trim", "sell", "hedge", "rotate"}:
+        score += 8
+    synthesis_change = str(action.get("synthesis_changes") or "")
+    if synthesis_change in {"act", "size", "trim", "hedge"}:
+        score += 12
+    elif synthesis_change == "re-check":
+        score += 6
+    elif synthesis_change == "research":
+        score += 4
+    refresh = action.get("assumption_refresh") or {}
+    if refresh.get("status") in {"changed_recheck", "stale"}:
+        score += 6
+    return score
+
+
 def _action_assumption_refresh(action: dict[str, Any],
                                freshness: dict[str, Any],
                                capital: dict[str, Any],
@@ -486,7 +524,16 @@ def enrich_actions(
         group = _group_for(row)
         row["decision_group"] = group
         row["decision_group_label"] = next(g["label"] for g in GROUPS if g["key"] == group)
+        row["capital_priority_score"] = _capital_priority_score(row)
         enriched.append(row)
+
+    enriched.sort(key=lambda row: (
+        GROUP_PRIORITY.get(str(row.get("decision_group") or ""), 99),
+        -int(row.get("capital_priority_score") or 0),
+        int(row.get("rank") or 9_999),
+    ))
+    for idx, row in enumerate(enriched, start=1):
+        row["rank"] = idx
 
     sections = []
     for group in GROUPS:

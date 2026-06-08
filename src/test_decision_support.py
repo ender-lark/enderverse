@@ -154,6 +154,101 @@ def test_target_drift_disconfirmation_requires_funding_and_gate():
     assert groups["counts"]["recheck_before_acting"] == 1
 
 
+def test_capital_priority_reranks_inside_decision_group():
+    actions = [
+        {
+            "rank": 1,
+            "kind": "lean_in",
+            "ticker": "LOWER",
+            "action_state": "WATCH",
+            "source": "lean_in",
+            "time_window": "1-2 weeks",
+            "goal_impact": "High",
+            "goal_score": 45,
+            "goal_channels": ["conviction"],
+            "capital_effect": "review",
+        },
+        {
+            "rank": 2,
+            "kind": "lean_in",
+            "ticker": "BETTER",
+            "action_state": "WATCH",
+            "source": "lean_in",
+            "time_window": "1-2 weeks",
+            "goal_impact": "High",
+            "goal_score": 60,
+            "goal_channels": ["sizing_gap", "opportunity_cost"],
+            "capital_effect": "add",
+        },
+    ]
+
+    enriched, groups = enrich_actions(
+        actions,
+        staleness={"entries": [{"source": "lean_in", "date": "2026-06-07"}], "stale": []},
+        generated_at="2026-06-07T16:00:00+00:00",
+    )
+
+    assert [row["ticker"] for row in enriched] == ["BETTER", "LOWER"]
+    assert enriched[0]["decision_group"] == "important_backlog"
+    assert enriched[0]["capital_priority_score"] > enriched[1]["capital_priority_score"]
+    assert groups["counts"]["important_backlog"] == 2
+
+
+def test_synthesis_changes_drive_outcome_ladder():
+    actions = [
+        {
+            "rank": 1,
+            "kind": "synthesis",
+            "ticker": "RECHK",
+            "action_state": "WATCH",
+            "source": "daily_synthesis",
+            "time_window": "1-3 trading days",
+            "goal_impact": "Medium",
+            "goal_channels": ["conviction"],
+            "capital_effect": "review",
+            "synthesis_changes": "re-check",
+        },
+        {
+            "rank": 2,
+            "kind": "synthesis",
+            "ticker": "RSH",
+            "action_state": "RESEARCH",
+            "source": "daily_synthesis",
+            "time_window": "1-2 weeks",
+            "goal_impact": "Medium",
+            "goal_channels": ["conviction"],
+            "capital_effect": "review",
+            "synthesis_changes": "research",
+        },
+        {
+            "rank": 3,
+            "kind": "synthesis",
+            "ticker": "WAIT",
+            "action_state": "MONITOR",
+            "source": "daily_synthesis",
+            "time_window": "no timing edge",
+            "goal_impact": "Low",
+            "goal_channels": ["conviction"],
+            "capital_effect": "no_capital_yet",
+            "synthesis_changes": "wait",
+        },
+    ]
+
+    enriched, groups = enrich_actions(
+        actions,
+        staleness={"entries": [{"source": "daily_synthesis", "date": "2026-06-07"}], "stale": []},
+        generated_at="2026-06-07T16:00:00+00:00",
+    )
+    by_ticker = {row["ticker"]: row for row in enriched}
+
+    assert by_ticker["RECHK"]["decision_group"] == "recheck_before_acting"
+    assert by_ticker["RSH"]["decision_group"] == "important_backlog"
+    assert by_ticker["WAIT"]["decision_group"] == "quiet_watch"
+    assert groups["counts"]["recheck_before_acting"] == 1
+    assert groups["counts"]["important_backlog"] == 1
+    assert groups["counts"]["quiet_watch"] == 1
+
+
 def test_asymmetric_opportunities_dedupes_to_strongest_source():
     feed = {
         "actions": [
