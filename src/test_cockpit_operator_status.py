@@ -19,7 +19,9 @@ def test_canonical_cockpit_surfaces_operator_status():
     assert "Source calls" in text
     assert "Live fetch" in text
     assert "Live source configuration" in text
-    assert "Active event watch" in text
+    assert "Active event watch" not in text
+    assert "Today focus" in text
+    assert "before adding risk" in text
     assert "python src/go_live_checklist.py --format text" in text
     assert "python src/sudden_event_refresh.py --title" in text
     assert "DEFERRED_OPTIONAL_SOURCE_KEYS" in text
@@ -37,6 +39,8 @@ def test_rendered_cockpit_keeps_operator_status_card():
     assert "Source calls" in text
     assert "Live fetch" in text
     assert "Live source configuration" in text
-    assert "Active event watch" in text
+    assert "Active event watch" not in text
+    assert "Today focus" in text
+    assert "before adding risk" in text
     assert "python src/go_live_checklist.py --format text" in text
     assert "python src/sudden_event_refresh.py --title" in text

@@ -1074,15 +1074,35 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
         {/* HERO — needs-you banner (engine ⑧) */}
         {(() => {
           const h = VM.hero;
-          const attention = heroAttention(h, VM.marketOpenPacket, VM.operatorStatus);
+          const packet = VM.marketOpenPacket || {};
+          const counts = packet.counts || {};
+          const packetRows = packet.rows || [];
+          const keyRows = packetRows.filter(r=>r.kind==="gate_key_now");
+          const recheckRows = packetRows.filter(r=>r.kind==="recheck_first");
+          const labelList = (rows)=>rows.slice(0,3).map(r=>String(r.label||"").replace(/^Gate Key Now:\s*/,"").replace(/^Re-check:\s*/,"")).filter(Boolean).join(" | ");
+          const keyNow = counts.key_now||0;
+          const recheck = counts.recheck||0;
+          const focusColor = keyNow ? C.red : recheck ? C.amber : C.green;
+          const focusTitle = keyNow
+            ? `${keyNow} Key Now review${keyNow===1?"":"s"}`
+            : recheck
+              ? `No Key Now. ${recheck} re-check${recheck===1?"":"s"} before adding risk.`
+              : "No Key Now. No forced decision.";
+          const focusDetail = keyNow
+            ? labelList(keyRows)
+            : recheck
+              ? labelList(recheckRows)
+              : "Use Ideas/Book only if you are actively allocating capital.";
           const sleeves = h.leadingSleeves.map(s => SLEEVE_DISPLAY[s] || s).join(", ");
           const bookLine = `${h.leadCount} name${h.leadCount===1?"":"s"} on strong footing${sleeves?` · leading: ${sleeves}`:""}.`;
           return (
-            <div style={{ marginTop:12, ...card, borderColor: attention.color+"66", background: attention.color+"10", display:"flex", alignItems:"center", gap:12 }}>
-              <div style={{ fontFamily:mono, fontSize:26, fontWeight:700, color: attention.color, lineHeight:1 }}>{attention.count}</div>
-              <div>
-                <div style={{ fontSize:13.5, fontWeight:600 }}>{attention.title}</div>
-                <div style={muted}>{attention.detail} <span style={{ color:C.faint }}>{bookLine}</span></div>
+            <div style={{ marginTop:10, padding:"7px 2px 8px", borderBottom:`1px solid ${C.line}` }}>
+              <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                <span style={{ fontFamily:mono, fontSize:10.5, color:focusColor, textTransform:"uppercase" }}>Today focus</span>
+                <span style={{ fontSize:12.7, fontWeight:750, color:C.text }}>{focusTitle}</span>
+              </div>
+              <div style={{ marginTop:2, fontSize:11.7, color:C.dim }}>
+                {focusDetail} <span style={{ color:C.faint }}>{bookLine}</span>
               </div>
             </div>
           );
@@ -1100,12 +1120,26 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
             ["Push alerts", op.alertStatus==="notify"?`${op.alertCount} alert${op.alertCount===1?"":"s"}`:"quiet", op.alertStatus==="notify"?C.red:C.green],
             ["Ops warnings", op.systemHealthCount?`${op.systemHealthCount} system`:"0", op.systemHealthCount?C.amber:C.green],
           ];
+          const opKey = "operator-status-details";
+          const opOpen = !!posOpen[opKey];
+          const showOpDetails = opOpen || op.alertStatus==="notify" || op.liveConfigMissing>0;
+          const opSummary = compactJoin([
+            `${op.actions} action${op.actions===1?"":"s"}`,
+            `sources ${op.sourceLane}`,
+            `push ${op.alertStatus==="notify"?`${op.alertCount} alert${op.alertCount===1?"":"s"}`:"quiet"}`,
+            op.systemHealthCount?`${op.systemHealthCount} ops warning${op.systemHealthCount===1?"":"s"}`:"",
+          ]);
           return (
             <div style={{ marginTop:10, ...card, borderColor:op.statusColor+"55", background:op.statusColor+"0d" }}>
-              <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:10, flexWrap:"wrap", marginBottom:8 }}>
+              <div onClick={()=>setPosOpen(st=>({...st,[opKey]:!st[opKey]}))} style={{ cursor:"pointer", display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:10, flexWrap:"wrap" }}>
                 <div style={{ fontSize:13.5, fontWeight:700, color:C.text }}>Operator status</div>
                 <span style={{ fontFamily:mono, fontSize:11, fontWeight:800, color:op.statusColor, border:`1px solid ${op.statusColor}77`, borderRadius:99, padding:"1px 8px", background:`${op.statusColor}14` }}>{op.status}</span>
               </div>
+              <div style={{ marginTop:3, display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+                <span style={{ fontSize:11.7, color:C.dim }}>{opSummary}</span>
+                <span style={{ fontFamily:mono, fontSize:10.5, color:op.statusColor }}>{showOpDetails?"hide system details ^":"system details v"}</span>
+              </div>
+              {showOpDetails && (<>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(120px, 1fr))", gap:8 }}>
                 {items.map(([label,value,color])=>(
                   <div key={label} style={{ border:`1px solid ${C.line}`, borderRadius:8, padding:"7px 8px", background:C.panel }}>
@@ -1138,47 +1172,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                 </div>
               )}
-              {op.eventWatch && (
-                (() => {
-                  const evKey = "operator-event-watch";
-                  const evOpen = !!posOpen[evKey];
-                  const meta = compactJoin([
-                    (op.eventWatch.severity||"watch").toUpperCase(),
-                    op.eventWatch.tickers&&op.eventWatch.tickers.length ? op.eventWatch.tickers.join(", ") : "",
-                    op.eventWatch.trigger ? `trigger: ${clipText(op.eventWatch.trigger, 88)}` : "",
-                  ]);
-                  return (
-                    <div style={{ marginTop:6, border:`1px solid ${C.amber}44`, borderRadius:8, padding:"7px 8px", background:C.amber+"0a" }}>
-                      <div onClick={()=>setPosOpen(st=>({...st,[evKey]:!st[evKey]}))} style={{ cursor:"pointer", display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }} title="Expand for portfolio impact and sudden-event command.">
-                        <div style={{ minWidth:0 }}>
-                          <div style={{ fontFamily:mono, fontSize:10, color:C.amber, textTransform:"uppercase", marginBottom:3 }}>Active event watch</div>
-                          <div style={{ fontSize:12.2, color:C.text, fontWeight:650 }}>{op.eventWatch.title}</div>
-                          {meta && <div style={{ marginTop:2, fontFamily:mono, fontSize:10.3, color:C.faint }}>{meta}</div>}
-                        </div>
-                        <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber }}>{evOpen?"hide ^":"details v"}</span>
-                      </div>
-                      {evOpen && (
-                        <div style={{ marginTop:6, borderTop:`1px solid ${C.line}`, paddingTop:6 }}>
-                          {op.eventPortfolio && (
-                            <>
-                              <div style={{ fontSize:12, color:C.text, fontWeight:700 }}>{op.eventPortfolio.headline}</div>
-                              <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>{op.eventPortfolio.implication}</div>
-                              <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>{op.eventPortfolio.blocker}</div>
-                            </>
-                          )}
-                          {op.eventWatch.summary && <div style={{ marginTop:5, fontSize:11.5, color:C.dim }}>Source note: {op.eventWatch.summary}</div>}
-                          <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>Sudden event: {op.suddenEventCommand}</div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })()
-              )}
+              </>)}
             </div>
           );
         })()}
-
-        <IfIWereYouBlock block={VM.ifIWereYou} openMap={open} setOpen={setOpen} defaultOpen={true} />
 
         <TodayPriorityStack
           rows={VM.todayPriority||[]}
@@ -1187,6 +1184,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           posOpen={posOpen}
           setPosOpen={setPosOpen}
         />
+
+        <IfIWereYouBlock block={VM.ifIWereYou} openMap={open} setOpen={setOpen} defaultOpen={false} />
 
         <Section id="market-open-packet" title="Market-Open Packet" icon="!" badge={(VM.marketOpenPacket&&VM.marketOpenPacket.counts)?`${(VM.marketOpenPacket.counts.key_now||0)} key / ${(VM.marketOpenPacket.counts.recheck||0)} re-check`:"packet"} badgeColor={(VM.marketOpenPacket&&VM.marketOpenPacket.status)==="ready"?C.green:C.amber} summary={clipText((VM.marketOpenPacket||{}).line || "No market-open packet in this feed build.")} openMap={open} setOpen={setOpen} defaultOpen={false}>
           {(() => {
