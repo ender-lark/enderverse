@@ -31,6 +31,11 @@ a{color:#58a6ff;text-decoration:none}
 /*  section card  */
 .card{background:#161b22;border:1px solid #21262d;border-radius:8px;
   padding:12px 14px;margin-bottom:10px}
+.tone-red{border-left:4px solid #f85149!important;background:#1f1518!important;border-color:#f8514955!important}
+.tone-amber{border-left:4px solid #d29922!important;background:#1f1a12!important;border-color:#d2992255!important}
+.tone-green{border-left:4px solid #3fb950!important;background:#111d16!important;border-color:#3fb95055!important}
+.tone-blue{border-left:4px solid #58a6ff!important;background:#111923!important;border-color:#58a6ff55!important}
+.tone-gray{border-left:4px solid #6e7681!important;background:#161b22!important;border-color:#30363d!important}
 .card-title{font-size:10px;font-weight:700;text-transform:uppercase;
   letter-spacing:.9px;color:#8b949e;margin-bottom:9px;display:flex;
   align-items:center;gap:6px}
@@ -121,6 +126,11 @@ a{color:#58a6ff;text-decoration:none}
 .t-cat   {background:#0d2339;color:#58a6ff}
 .t-conf  {background:#0d2b16;color:#3fb950}
 .t-warn  {background:#2b1e0a;color:#d29922}
+.t-red   {background:#2b0d0d;color:#f85149}
+.t-amber {background:#2b1e0a;color:#d29922}
+.t-green {background:#0d2b16;color:#3fb950}
+.t-blue  {background:#0d2339;color:#58a6ff}
+.t-gray  {background:#1c2128;color:#8b949e}
 .t-gate-g{background:#0d2b16;color:#3fb950}
 .t-gate-a{background:#2b1e0a;color:#d29922}
 .t-gate-r{background:#2b0d0d;color:#f85149}
@@ -255,7 +265,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-08 10:32 ET
+        built 2026-06-08 12:46 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-07  uw_price 06-08  uw_macro 06-08  fundstrat_bible 05-28  fundstrat_daily 06-05 </div>
@@ -306,12 +316,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </div>
   <div class="feedback-line">Market-open packet: 2 key, 2 re-check, 3 backlog, 7 urgent visible; 9 blocker(s).</div>
   <div class="small-list">
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#1</span>
   <span class="context-ticker">Re-check: NVDA: Conviction gap: NVDA is under target</span>
   <span class="small-muted">Refresh: changed recheck</span>
   <span class="small-muted">Priority: 135</span>
-  <span class="small-muted">Freshness: fresh | evidence 2026-06-07 | checked 2026-06-08 | decays until position, price, thesis, or target changes</span>
+  <span class="tag t-green">fresh</span> <span class="small-muted">Freshness: fresh | evidence 2026-06-07 | checked 2026-06-08 | decays until position, price, thesis, or target changes</span>
   <span class="small-muted">Changed: Required live checks are missing: live opportunity; funding leg; pre-trade gate</span>
   <span class="small-muted">Assumptions: evidence 2026-06-07 is fresh; decays until position, price, thesis, or target changes; time window 1-3 trading days; capital posture compare and stage</span>
   <span class="small-muted">Why: Fresh enough for a decision prompt; still run the gate before capital moves.</span>
@@ -324,12 +334,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Account why: Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.</span>
   <span class="small-muted">Blocks: Do not act if the target weight or thesis is outdated relative to the current portfolio.</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#2</span>
   <span class="context-ticker">Re-check: EVENT: Event risk: Middle East oil/rates shock can affect new-buy timing</span>
   <span class="small-muted">Refresh: changed recheck</span>
   <span class="small-muted">Priority: 119</span>
-  <span class="small-muted">Freshness: fast-moving | evidence 2026-06-03 | checked 2026-06-08 | decays intraday to 1 trading day</span>
+  <span class="tag t-amber">fast-moving</span> <span class="small-muted">Freshness: fast-moving | evidence 2026-06-03 | checked 2026-06-08 | decays intraday to 1 trading day</span>
   <span class="small-muted">Changed: Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.</span>
   <span class="small-muted">Assumptions: evidence 2026-06-03 is fast-moving; decays intraday to 1 trading day; time window today; capital posture protect capital</span>
   <span class="small-muted">Why: Fast-moving evidence is dated 2026-06-03; re-check levels/headlines before any capital action.</span>
@@ -342,12 +352,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <span class="small-muted">Blocks: Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-red">
   <span class="tag t-warn">#3</span>
   <span class="context-ticker">Gate Key Now: RYF: Sell-fast review</span>
   <span class="small-muted">Refresh: upgraded</span>
   <span class="small-muted">Priority: 148</span>
-  <span class="small-muted">Freshness: fresh | evidence 2026-05-28 | checked 2026-06-08 | decays 1-3 trading days</span>
+  <span class="tag t-green">fresh</span> <span class="small-muted">Freshness: fresh | evidence 2026-05-28 | checked 2026-06-08 | decays 1-3 trading days</span>
   <span class="small-muted">Changed: Action remains high-impact with fresh enough evidence; still run the gate.</span>
   <span class="small-muted">Assumptions: evidence 2026-05-28 is fresh; decays 1-3 trading days; time window today; capital posture protect capital</span>
   <span class="small-muted">Why: Efficient capital use can mean not adding risk until the shock is re-checked.</span>
@@ -360,12 +370,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Account why: No current holding found for this ticker; verify the account before any sell/trim.</span>
   <span class="small-muted">Blocks: The source evidence is stale, contradictory, or not decision-grade.</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-red">
   <span class="tag t-warn">#4</span>
   <span class="context-ticker">Gate Key Now: XOP: Sell-fast review</span>
   <span class="small-muted">Refresh: upgraded</span>
   <span class="small-muted">Priority: 148</span>
-  <span class="small-muted">Freshness: fresh | evidence 2026-05-28 | checked 2026-06-08 | decays 1-3 trading days</span>
+  <span class="tag t-green">fresh</span> <span class="small-muted">Freshness: fresh | evidence 2026-05-28 | checked 2026-06-08 | decays 1-3 trading days</span>
   <span class="small-muted">Changed: Action remains high-impact with fresh enough evidence; still run the gate.</span>
   <span class="small-muted">Assumptions: evidence 2026-05-28 is fresh; decays 1-3 trading days; time window today; capital posture protect capital</span>
   <span class="small-muted">Why: Efficient capital use can mean not adding risk until the shock is re-checked.</span>
@@ -378,7 +388,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Account why: No current holding found for this ticker; verify the account before any sell/trim.</span>
   <span class="small-muted">Blocks: The source evidence is stale, contradictory, or not decision-grade.</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#5</span>
   <span class="context-ticker">Reallocation waits for current positions</span>
 
@@ -396,12 +406,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <span class="small-muted">Blocks: positions snapshot 2026-06-07 is 1 day(s) old; use as test-data only until current positions are supplied</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-blue">
   <span class="tag t-warn">#6</span>
   <span class="context-ticker">Review backlog: ANET: Lean-in  looks good</span>
   <span class="small-muted">Refresh: still valid</span>
   <span class="small-muted">Priority: 120</span>
-  <span class="small-muted">Freshness: fresh | evidence 2026-06-08 | checked 2026-06-08 | decays until position, price, thesis, or target changes</span>
+  <span class="tag t-green">fresh</span> <span class="small-muted">Freshness: fresh | evidence 2026-06-08 | checked 2026-06-08 | decays until position, price, thesis, or target changes</span>
   <span class="small-muted">Changed: No material assumption break detected from available feed evidence.</span>
   <span class="small-muted">Assumptions: evidence 2026-06-08 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch</span>
   <span class="small-muted">Why: A conviction-backed sizing gap can make a right call too small.</span>
@@ -414,12 +424,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Account why: Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.</span>
   <span class="small-muted">Blocks: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-blue">
   <span class="tag t-warn">#7</span>
   <span class="context-ticker">Review backlog: GOOGL: Lean-in  looks good</span>
   <span class="small-muted">Refresh: still valid</span>
   <span class="small-muted">Priority: 120</span>
-  <span class="small-muted">Freshness: fresh | evidence 2026-06-08 | checked 2026-06-08 | decays until position, price, thesis, or target changes</span>
+  <span class="tag t-green">fresh</span> <span class="small-muted">Freshness: fresh | evidence 2026-06-08 | checked 2026-06-08 | decays until position, price, thesis, or target changes</span>
   <span class="small-muted">Changed: No material assumption break detected from available feed evidence.</span>
   <span class="small-muted">Assumptions: evidence 2026-06-08 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch</span>
   <span class="small-muted">Why: A conviction-backed sizing gap can make a right call too small.</span>
@@ -432,12 +442,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Account why: Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.</span>
   <span class="small-muted">Blocks: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-blue">
   <span class="tag t-warn">#8</span>
   <span class="context-ticker">Review backlog: MAGS: Lean-in  looks good</span>
   <span class="small-muted">Refresh: still valid</span>
   <span class="small-muted">Priority: 120</span>
-  <span class="small-muted">Freshness: fresh | evidence 2026-06-08 | checked 2026-06-08 | decays until position, price, thesis, or target changes</span>
+  <span class="tag t-green">fresh</span> <span class="small-muted">Freshness: fresh | evidence 2026-06-08 | checked 2026-06-08 | decays until position, price, thesis, or target changes</span>
   <span class="small-muted">Changed: No material assumption break detected from available feed evidence.</span>
   <span class="small-muted">Assumptions: evidence 2026-06-08 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch</span>
   <span class="small-muted">Why: A conviction-backed sizing gap can make a right call too small.</span>
@@ -450,7 +460,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Account why: ETF candidate: prioritize Parents Schwab/PCRA Trust so stock-capable accounts stay free for individual names.</span>
   <span class="small-muted">Blocks: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#9</span>
   <span class="context-ticker">Run UW check set: Pre-market crash triage</span>
 
@@ -468,7 +478,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <span class="small-muted">Blocks: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#10</span>
   <span class="context-ticker">Run UW check set: Event-risk and political macro</span>
 
@@ -486,7 +496,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <span class="small-muted">Blocks: same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#11</span>
   <span class="context-ticker">Run UW check set: Portfolio reallocation</span>
 
@@ -504,7 +514,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <span class="small-muted">Blocks: latest positions, same-session price/flow, or funding source are missing; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#12</span>
   <span class="context-ticker">Run UW check set: Fundstrat signal confirmation</span>
 
@@ -522,7 +532,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <span class="small-muted">Blocks: Fundstrat evidence is dated and same-day UW/price confirmation is missing; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#13</span>
   <span class="context-ticker">Run UW check set: Asymmetric discovery</span>
 
@@ -540,7 +550,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <span class="small-muted">Blocks: the setup is only flow/social/context without independent confirmation; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-amber">
   <span class="tag t-warn">#14</span>
   <span class="context-ticker">Social Watch is not checked</span>
 
@@ -558,7 +568,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <span class="small-muted">Blocks: Social evidence cannot promote a trade without independent confirmation.</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-blue">
   <span class="tag t-warn">#15</span>
   <span class="context-ticker">Open reviews: 2 item(s)</span>
 
@@ -607,7 +617,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span>Decision pressure that is current, time-sensitive, or goal-moving.</span>
   </div>
 
-<div class="action action-act" id="action-1">
+<div class="action action-act tone-red" id="action-1">
   <div class="action-header">
     <span class="rank-badge">#1</span>
     <span class="ticker-tag">RYF</span>
@@ -627,7 +637,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </details>
   <div class="action-foot">top_prospects:sell_fast | fresh: evidence 2026-05-28; decays 1-3 trading days</div>
 </div>
-<div class="action action-act" id="action-2">
+<div class="action action-act tone-red" id="action-2">
   <div class="action-header">
     <span class="rank-badge">#2</span>
     <span class="ticker-tag">XOP</span>
@@ -653,7 +663,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span>Items where a missing source, stale source, or gate must be checked first.</span>
   </div>
 
-<div class="action action-watch" id="action-3">
+<div class="action action-watch tone-amber" id="action-3">
   <div class="action-header">
     <span class="rank-badge">#3</span>
     <span class="ticker-tag">NVDA</span>
@@ -673,7 +683,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </details>
   <div class="action-foot">target_drift | fresh: evidence 2026-06-07; decays until position, price, thesis, or target changes</div>
 </div>
-<div class="action action-watch" id="action-4">
+<div class="action action-watch tone-amber" id="action-4">
   <div class="action-header">
     <span class="rank-badge">#4</span>
     <span class="ticker-tag">EVENT</span>
@@ -699,7 +709,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <span>Still-important decisions that should stay visible but are not the loudest current item.</span>
   </div>
 
-<div class="action action-watch" id="action-5">
+<div class="action action-watch tone-blue" id="action-5">
   <div class="action-header">
     <span class="rank-badge">#5</span>
     <span class="ticker-tag">ANET</span>
@@ -719,7 +729,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-08; decays until position, price, thesis, or target changes</div>
 </div>
-<div class="action action-watch" id="action-6">
+<div class="action action-watch tone-blue" id="action-6">
   <div class="action-header">
     <span class="rank-badge">#6</span>
     <span class="ticker-tag">GOOGL</span>
@@ -739,7 +749,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </details>
   <div class="action-foot">lean_in | fresh: evidence 2026-06-08; decays until position, price, thesis, or target changes</div>
 </div>
-<div class="action action-watch" id="action-7">
+<div class="action action-watch tone-blue" id="action-7">
   <div class="action-header">
     <span class="rank-badge">#7</span>
     <span class="ticker-tag">MAGS</span>
@@ -875,7 +885,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="feedback-line"><strong>Do nothing:</strong> Doing nothing preserves current exposure and avoids churn, but leaves confirmed sizing gaps under-deployed if fresh evidence supports them.</div>
   <div class="feedback-line"><strong>Options gate:</strong> Options are allowed only as defined-risk review prompts; no contract selection or execution is produced.</div>
   <div class="small-list"><div class="feedback-line"><strong>Blocker:</strong> positions snapshot 2026-06-07 is 1 day(s) old; use as test-data only until current positions are supplied</div><div class="feedback-line"><strong>Blocker:</strong> same-session UW price/flow confirmation required before any capital action</div><div class="feedback-line"><strong>Blocker:</strong> tax/account constraints not supplied; all urgent items remain visible rather than capped</div>
-<div class="small-item">
+<div class="small-item tone-green">
   <span class="context-ticker">GOOGL</span>
   <span class="tag t-warn">add $148,322</span>
   <span class="tag t-cat">now</span>
@@ -889,7 +899,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-green">
   <span class="context-ticker">NVDA</span>
   <span class="tag t-warn">add $71,447</span>
   <span class="tag t-cat">after 2026-06-03</span>
@@ -903,7 +913,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate, legacy catalyst sequencing date has passed; verify current post-catalyst setup</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-green">
   <span class="context-ticker">MSFT</span>
   <span class="tag t-warn">add $92,701</span>
   <span class="tag t-cat">now</span>
@@ -917,7 +927,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-green">
   <span class="context-ticker">AMZN</span>
   <span class="tag t-warn">add $74,161</span>
   <span class="tag t-cat">now</span>
@@ -931,7 +941,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-green">
   <span class="context-ticker">AVGO</span>
   <span class="tag t-warn">add $103,826</span>
   <span class="tag t-cat">after 2026-06-03</span>
@@ -945,7 +955,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="small-muted">Blocks: latest current positions, same-session UW price/flow, funding source confirmation, pre-trade gate, legacy catalyst sequencing date has passed; verify current post-catalyst setup</span>
   <span class="small-muted">Disconfirm: the target gap is stale, already funded, or live flow/price argues for waiting</span>
 </div>
-<div class="small-item">
+<div class="small-item tone-green">
   <span class="context-ticker">TSM</span>
   <span class="tag t-warn">add $9,209</span>
   <span class="tag t-cat">after 2026-06-03</span>
@@ -1269,7 +1279,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T14:32:27.088725+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T14:32:27.088725+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T14:32:27.088725+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T14:32:27.088725+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T14:32:27.088725+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-08T16:46:25.614486+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-08T16:46:25.614486+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-08T16:46:25.614486+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-08T16:46:25.614486+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-08T16:46:25.614486+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

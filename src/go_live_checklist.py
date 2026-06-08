@@ -161,6 +161,8 @@ def _event_watch_detail(event_watch: dict[str, Any]) -> str:
 
 def _cloud_row_status(cloud: dict[str, Any]) -> str:
     if not cloud.get("schedule_ready_for_unattended_run"):
+        if _cloud_schedule_stack_present(cloud):
+            return "warn"
         return "fail"
     receipts = ((cloud.get("routine_receipts") or {}).get("summary") or {})
     due = cloud.get("routine_receipt_due") or {}
@@ -169,6 +171,27 @@ def _cloud_row_status(cloud: dict[str, Any]) -> str:
     if cloud.get("first_scheduled_run_proven"):
         return "pass"
     return "pass"
+
+
+def _cloud_schedule_stack_present(cloud: dict[str, Any]) -> bool:
+    """True when cloud routines are installed, active, and safe to monitor naturally."""
+    manifest = cloud.get("routine_manifest") or {}
+    automation = cloud.get("cloud_automation") or {}
+    protocol = automation.get("prompt_protocol") or {}
+    expected = int(automation.get("expected_count") or 0)
+    installed = int(automation.get("installed_count") or 0)
+    active = int(automation.get("active_count") or 0)
+    return (
+        bool(manifest.get("valid", True))
+        and not (manifest.get("problems") or [])
+        and bool(automation.get("installed"))
+        and bool(automation.get("active"))
+        and expected > 0
+        and installed >= expected
+        and active >= expected
+        and int(automation.get("active_superseded_count") or 0) == 0
+        and bool(protocol.get("ready", True))
+    )
 
 
 def _cloud_row_detail(cloud: dict[str, Any]) -> str:
@@ -183,6 +206,8 @@ def _cloud_row_detail(cloud: dict[str, Any]) -> str:
         f"first_scheduled_proof={bool(cloud.get('first_scheduled_run_proven'))}; "
         f"scheduled_success={int(receipts.get('scheduled_success_count') or 0)}/"
         f"{int(receipts.get('expected_count') or 0)}; "
+        f"failed_latest={int(receipts.get('failed_latest_count') or 0)}; "
+        f"overdue={int(due.get('overdue_count') or 0)}; "
         "mode=background_natural; "
         f"next={next_label} {next_at}".rstrip()
     )
@@ -190,6 +215,8 @@ def _cloud_row_detail(cloud: dict[str, Any]) -> str:
 
 def _cloud_row_category(cloud: dict[str, Any]) -> str:
     if not cloud.get("schedule_ready_for_unattended_run"):
+        if _cloud_schedule_stack_present(cloud):
+            return "monitoring"
         return "build"
     receipts = ((cloud.get("routine_receipts") or {}).get("summary") or {})
     due = cloud.get("routine_receipt_due") or {}

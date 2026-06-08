@@ -599,6 +599,7 @@ def test_generated_html_surfaces_action_cards_first():
     assert "Do nothing: Doing nothing could leave NVDA too small if the gate confirms." in html
     assert "Avoid waiting for a perfect bottom" in html
     assert "Compare against: higher-ranked Key Now actions / funded reallocation legs" in html
+    assert "action action-act tone-red" in html
     assert html.index('id="today-actions"') < html.index('id="operator-status"')
 
 
@@ -628,6 +629,8 @@ def test_generated_html_surfaces_market_open_packet_before_actions():
     assert "Re-check first: EVENT: Oil/rates shock can change new-buy timing" in html
     assert "Priority: 104" in html
     assert "Freshness: fast-moving | evidence 2026-06-05 | checked 2026-06-05 | decays intraday" in html
+    assert "small-item tone-amber" in html
+    assert "tag t-amber" in html
     assert "Assumptions: evidence 2026-06-05 is fast-moving; decays intraday" in html
     assert "Capital priority: Protection and timing risk outrank new adds while the shock is unresolved." in html
     assert "Do nothing: Doing nothing can leave new buys mistimed." in html

@@ -83,6 +83,62 @@ def _rel(v: Any) -> str:
         return "-"
 
 
+def _placement_tone(row: dict[str, Any] | None) -> str:
+    status = str((row or {}).get("status") or "").lower()
+    if status == "blocked":
+        return "red"
+    if status in {"needs_review", "not_checked"}:
+        return "amber"
+    if status == "candidate":
+        return "green"
+    return "gray"
+
+
+def _action_tone(row: dict[str, Any]) -> str:
+    refresh = row.get("assumption_refresh") or {}
+    fresh = row.get("freshness_judgment") or {}
+    refresh_status = str(refresh.get("status") or "").lower()
+    fresh_label = str(fresh.get("label") or "").lower()
+    if row.get("action_state") == "ACT_NOW" or row.get("decision_group") == "key_now":
+        return "red"
+    if (
+        row.get("decision_group") == "recheck_before_acting"
+        or refresh_status in {"changed_recheck", "stale", "invalidated"}
+        or fresh_label in {"stale", "not checked", "fast-moving"}
+    ):
+        return "amber"
+    if row.get("decision_group") == "important_backlog":
+        return "blue"
+    if (row.get("account_placement") or {}).get("status") == "candidate":
+        return "green"
+    return "gray"
+
+
+def _packet_tone(row: dict[str, Any]) -> str:
+    kind = str(row.get("kind") or "")
+    refresh = str(row.get("refresh_status") or "")
+    if kind == "gate_key_now":
+        return "red"
+    if kind in {"recheck_first", "positions_blocker", "dark_lane", "uw_check"} or refresh in {"changed_recheck", "stale", "invalidated"}:
+        return "amber"
+    if kind == "reallocation_review":
+        return "green"
+    if kind in {"important_backlog", "open_reviews"}:
+        return "blue"
+    return "gray"
+
+
+def _freshness_tone(label: Any) -> str:
+    value = str(label or "").lower()
+    if value in {"stale", "not checked"}:
+        return "red"
+    if value in {"fast-moving", "archive"}:
+        return "amber"
+    if value == "fresh":
+        return "green"
+    return "gray"
+
+
 def _newest_first(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(rows, key=lambda row: str(row.get("date") or row.get("evidence_date") or ""), reverse=True)
 
@@ -115,6 +171,11 @@ a{color:#58a6ff;text-decoration:none}
 /* ── section card ── */
 .card{background:#161b22;border:1px solid #21262d;border-radius:8px;
   padding:12px 14px;margin-bottom:10px}
+.tone-red{border-left:4px solid #f85149!important;background:#1f1518!important;border-color:#f8514955!important}
+.tone-amber{border-left:4px solid #d29922!important;background:#1f1a12!important;border-color:#d2992255!important}
+.tone-green{border-left:4px solid #3fb950!important;background:#111d16!important;border-color:#3fb95055!important}
+.tone-blue{border-left:4px solid #58a6ff!important;background:#111923!important;border-color:#58a6ff55!important}
+.tone-gray{border-left:4px solid #6e7681!important;background:#161b22!important;border-color:#30363d!important}
 .card-title{font-size:10px;font-weight:700;text-transform:uppercase;
   letter-spacing:.9px;color:#8b949e;margin-bottom:9px;display:flex;
   align-items:center;gap:6px}
@@ -205,6 +266,11 @@ a{color:#58a6ff;text-decoration:none}
 .t-cat   {background:#0d2339;color:#58a6ff}
 .t-conf  {background:#0d2b16;color:#3fb950}
 .t-warn  {background:#2b1e0a;color:#d29922}
+.t-red   {background:#2b0d0d;color:#f85149}
+.t-amber {background:#2b1e0a;color:#d29922}
+.t-green {background:#0d2b16;color:#3fb950}
+.t-blue  {background:#0d2339;color:#58a6ff}
+.t-gray  {background:#1c2128;color:#8b949e}
 .t-gate-g{background:#0d2b16;color:#3fb950}
 .t-gate-a{background:#2b1e0a;color:#d29922}
 .t-gate-r{background:#2b0d0d;color:#f85149}
@@ -872,6 +938,7 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
     account_placement = a.get("account_placement") or {}
     gate = _gate_tag(a.get("gate"))
     cls = "action-act" if a.get("action_state") == "ACT_NOW" else "action-watch"
+    tone_cls = f"tone-{_action_tone(a)}"
     meta = ""
     for value, css in (
         (state, "t-cat"),
@@ -1010,7 +1077,7 @@ def _action_card(a: dict, *, prefix: str = "action") -> str:
   </details>"""
 
     return f"""
-<div class="action {cls}" id="{_e(prefix)}-{_e(rank)}">
+<div class="action {cls} {tone_cls}" id="{_e(prefix)}-{_e(rank)}">
   <div class="action-header">
     <span class="rank-badge">#{rank}</span>
     <span class="ticker-tag">{ticker}</span>
@@ -1094,13 +1161,15 @@ def _market_open_packet(block: dict) -> str:
     status_cls = "t-conf" if status == "ready" else "t-warn"
     body = ""
     for row in rows:
+        tone_cls = f"tone-{_packet_tone(row)}"
+        fresh_cls = f"t-{_freshness_tone(row.get('freshness_label'))}"
         body += f"""
-<div class="small-item">
+<div class="small-item {tone_cls}">
   <span class="tag {status_cls}">#{_e(row.get("priority") or "")}</span>
   <span class="context-ticker">{_e(row.get("label") or "")}</span>
   {f'<span class="small-muted">Refresh: {_e(str(row.get("refresh_status") or "").replace("_", " "))}</span>' if row.get("refresh_status") else ""}
   {f'<span class="small-muted">Priority: {_e(row.get("capital_priority_score"))}</span>' if row.get("capital_priority_score") is not None else ""}
-  {f'<span class="small-muted">Freshness: {_e(row.get("freshness_label") or "")} | evidence {_e(row.get("evidence_date") or "n/a")} | checked {_e(row.get("last_checked") or "n/a")} | decays {_e(row.get("decay_window") or "source dependent")}</span>' if (row.get("freshness_label") or row.get("evidence_date") or row.get("decay_window")) else ""}
+  {f'<span class="tag {fresh_cls}">{_e(row.get("freshness_label") or "freshness")}</span> <span class="small-muted">Freshness: {_e(row.get("freshness_label") or "")} | evidence {_e(row.get("evidence_date") or "n/a")} | checked {_e(row.get("last_checked") or "n/a")} | decays {_e(row.get("decay_window") or "source dependent")}</span>' if (row.get("freshness_label") or row.get("evidence_date") or row.get("decay_window")) else ""}
   {f'<span class="small-muted">Changed: {_e(row.get("what_changed") or "")}</span>' if row.get("what_changed") else ""}
   {f'<span class="small-muted">Assumptions: {_e(row.get("key_assumptions") or "")}</span>' if row.get("key_assumptions") else ""}
   {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}
@@ -1548,6 +1617,7 @@ def _reallocation_brief(block: dict) -> str:
     for blocker in (block.get("blockers") or [])[:4]:
         body += f'<div class="feedback-line"><strong>Blocker:</strong> {_e(blocker)}</div>'
     for row in rows[:6]:
+        tone_cls = f"tone-{_placement_tone(row.get('account_placement') or {'status': 'candidate'})}"
         funded = ", ".join(
             f"{item.get('ticker')} {_usd(item.get('notional_usd'))}"
             for item in row.get("funded_by") or []
@@ -1557,7 +1627,7 @@ def _reallocation_brief(block: dict) -> str:
         options = row.get("options_review_prompt") or {}
         placement = row.get("account_placement") or {}
         body += f"""
-<div class="small-item">
+<div class="small-item {tone_cls}">
   <span class="context-ticker">{_e(row.get("ticker") or "")}</span>
   <span class="tag {status_cls}">add {_usd(row.get("notional_usd"))}</span>
   <span class="tag t-cat">{_e(row.get("sequence") or "")}</span>

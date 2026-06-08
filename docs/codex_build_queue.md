@@ -34,6 +34,13 @@ until the core logic is stable; Notion sync comes later.
     prefer an existing non-PCRA holding account when available.
   - Placement guidance is review-only. It does not check cash, tax lots,
     wash-sale rules, account permissions, final sizing, or execute trades.
+- Dashboard semantic color coding.
+  - Added shared tone rules across canonical JSX and generated HTML so phone
+    scanning uses the same colors for urgent/action, re-check/stale/blocker,
+    candidate/eligible, research/context, and quiet/deferred rows.
+  - Applied left-edge tone bars and matching chips to Today Priority Stack,
+    Market-Open Packet, Action Engine rows, Reallocation candidates,
+    freshness labels, and account-placement guidance.
 
 2026-06-05 Notion/Claude queued-upgrade audit:
 

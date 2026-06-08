@@ -802,19 +802,22 @@ const DEFERRED_OPTIONAL_SOURCE_KEYS = new Set(["social_watch"]);
 function actionRow(a, opts={}){
   const m = ACTION_KIND_META[a.kind] || { icon:"•", label:a.kind, c:C.dim };
   const cf = CONF_META[a.confidence] || { c:C.dim, label:a.confidence };
-  const st = ACTION_STATE_META[a.action_state] || null;
+  const actionState = a.action_state || a.actionState || "";
+  const decisionGroup = a.decision_group || a.decisionGroup || "";
+  const decisionGroupLabel = a.decision_group_label || a.decisionGroupLabel || "";
+  const st = ACTION_STATE_META[actionState] || null;
   const gi = GOAL_IMPACT_META[a.goal_impact] || null;
   return { rank:a.rank, kind:a.kind, icon:m.icon, kindLabel:m.label, c:m.c,
            ticker:a.ticker||"", what:a.what||"", confLabel:cf.label,
            confBadgeLabel:opts.confBadgeLabel||"conf", confColor:cf.c,
-           actionState:a.action_state||"", stateLabel:st&&st.label||"", stateColor:st&&st.c||"",
+           actionState, stateLabel:st&&st.label||"", stateColor:st&&st.c||"",
            goalImpact:a.goal_impact||"", goalLabel:gi&&gi.label||"", goalColor:gi&&gi.c||"",
            goalScore:(typeof a.goal_score==="number"?a.goal_score:null),
            timeWindow:a.time_window||"", capitalEffect:a.capital_effect||"",
            actionLabel:a.action_label||"", goalWhy:a.why_it_moves_goal||"",
            goalChannels:a.goal_channels||[], missingEvidence:a.missing_evidence||[],
            yourMove:a.your_move||"", why:a.why||"", gatePreview:(a.gate&&a.gate.preview)||"",
-           decisionGroup:a.decision_group||"", decisionGroupLabel:a.decision_group_label||"",
+           decisionGroup, decisionGroupLabel,
            synthesisChanges:a.synthesis_changes||"",
            capitalPriorityScore:(typeof a.capital_priority_score==="number"?a.capital_priority_score:null),
            freshness:a.freshness||"", freshnessJudgment:a.freshness_judgment||{},
@@ -1271,6 +1274,110 @@ function targetGapLabel(row){
   const sign = gap>0 ? "+" : "";
   return `model target ${row.working_model_target_pct.toFixed(1)}% | gap ${sign}${gap.toFixed(1)}pp`;
 }
+const TONE_COLOR = { red:C.red, amber:C.amber, green:C.green, blue:C.blue, gray:C.faint };
+function toneColor(tone){ return TONE_COLOR[tone] || C.faint; }
+function toneCard(tone, extra={}){
+  const c = toneColor(tone);
+  return {
+    ...card,
+    borderColor:`${c}55`,
+    borderLeft:`4px solid ${c}`,
+    background:`${c}0d`,
+    ...extra,
+  };
+}
+function placementTone(p){
+  const status = String((p||{}).status||"").toLowerCase();
+  if(status==="blocked") return "red";
+  if(["needs_review","not_checked"].includes(status)) return "amber";
+  if(status==="candidate") return "green";
+  return "gray";
+}
+function actionTone(a){
+  const refresh = a.assumptionRefresh || {};
+  const fresh = a.freshnessJudgment || {};
+  const refreshStatus = String(refresh.status||"").toLowerCase();
+  const freshLabel = String(fresh.label||"").toLowerCase();
+  if(a.actionState==="ACT_NOW" || a.decisionGroup==="key_now") return "red";
+  if(a.decisionGroup==="recheck_before_acting" || ["changed_recheck","stale","invalidated"].includes(refreshStatus) || ["stale","not checked","fast-moving"].includes(freshLabel)) return "amber";
+  if(a.decisionGroup==="important_backlog") return "blue";
+  if((a.accountPlacement||{}).status==="candidate") return "green";
+  return "gray";
+}
+function packetTone(r){
+  const kind = String((r||{}).kind||"");
+  const refresh = String((r||{}).refresh_status||"");
+  if(kind==="gate_key_now") return "red";
+  if(["recheck_first","positions_blocker","dark_lane","uw_check"].includes(kind) || ["changed_recheck","stale","invalidated"].includes(refresh)) return "amber";
+  if(kind==="reallocation_review") return "green";
+  if(kind==="important_backlog" || kind==="open_reviews") return "blue";
+  return "gray";
+}
+const REFRESH_STATUS_META = {
+  upgraded: {
+    label:"Checked: still urgent",
+    tone:"green",
+    title:"The assumption-refresh pass kept this item prominent. It is not a trade command; run the relevant source, position, and pre-trade gate before capital moves.",
+  },
+  changed_recheck: {
+    label:"Needs re-check",
+    tone:"amber",
+    title:"Something important is missing, old, or changed. Confirm same-session price, flow, position, source, or event-risk evidence before acting.",
+  },
+  still_valid: {
+    label:"Still valid watch",
+    tone:"green",
+    title:"Available feed evidence did not break this setup. Keep it visible, but use the normal gate before acting.",
+  },
+  stale: {
+    label:"Stale: refresh first",
+    tone:"amber",
+    title:"The evidence has aged past its useful window. Refresh the source before treating this as actionable.",
+  },
+  invalidated: {
+    label:"Invalidated: do not act",
+    tone:"red",
+    title:"Available evidence broke the setup. Do not act from this row unless it is rebuilt from fresh evidence.",
+  },
+};
+function refreshStatusMeta(status){
+  const key = String(status||"").toLowerCase();
+  return REFRESH_STATUS_META[key] || {
+    label:`Checked: ${String(status||"review").replaceAll("_"," ")}`,
+    tone:"gray",
+    title:"Assumption-refresh status from the feed. It explains the row's current review posture; it does not execute or authorize a trade.",
+  };
+}
+function todayTone(r){
+  const posture = lowerText((r||{}).posture);
+  const title = lowerText((r||{}).title);
+  const changes = lowerText((r||{}).changes);
+  const rowColor = lowerText((r||{}).color);
+  const text = `${posture} ${title} ${changes}`;
+  if(rowColor===lowerText(C.red) || hasAnyText(text, ["act", "key now", "trim", "sell", "exit", "protect capital", "urgent", "avoid"])) return "red";
+  if(hasAnyText(posture, ["re check", "re-check", "wait", "blocked"])) return "amber";
+  if(rowColor===lowerText(C.amber)) return "amber";
+  if(hasAnyText(posture, ["research", "review", "no capital yet"])) return "blue";
+  return "green";
+}
+function freshnessColor(label){
+  const value = String(label||"").toLowerCase();
+  if(value==="stale" || value==="not checked") return C.red;
+  if(value==="fast-moving" || value==="archive") return C.amber;
+  if(value==="fresh") return C.green;
+  return C.faint;
+}
+function freshnessTitle(label, row){
+  const value = String(label||"").toLowerCase();
+  const evidence = row&&row.evidence_date ? ` Evidence date: ${row.evidence_date}.` : "";
+  const checked = row&&row.last_checked ? ` Last checked: ${row.last_checked}.` : "";
+  const decay = row&&row.decay_window ? ` Decay window: ${row.decay_window}.` : "";
+  if(value==="fresh") return `Fresh enough to keep this decision prompt visible; still run the gate before capital moves.${evidence}${checked}${decay}`;
+  if(value==="fast-moving") return `Fast-moving evidence can go stale intraday. Re-check same-session levels/headlines before acting.${evidence}${checked}${decay}`;
+  if(value==="stale") return `Stale evidence. Refresh this source before treating the row as actionable.${evidence}${checked}${decay}`;
+  if(value==="not checked") return `This source was not checked. Do not infer all-clear from missing data.${evidence}${checked}${decay}`;
+  return `Freshness context for this row.${evidence}${checked}${decay}`;
+}
 
 const COMMAND_ACTIONS = [
   { name:"Start here", desc:"Use the canonical JSX cockpit first. It has the deepest drilldowns and is the v1 validation surface.", command:"http://127.0.0.1:8765/cockpit_jsx_preview.html" },
@@ -1308,12 +1415,13 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
   const hasAccountPlacement = !!(accountPlacement.summary || accountPlacement.why || accountPlacement.label);
   const hasDetail = !!(a.why || a.whyThisMatters || (a.freshnessJudgment&&a.freshnessJudgment.judgment) || a.missingEvidence.length || hasDisconfirmation || hasCapitalEfficiency || hasAssumptionRefresh || hasAccountPlacement);
   const urgent = a.actionState === "ACT_NOW";
-  const highGoal = a.goalImpact === "High";
-  const edge = urgent ? C.red : (highGoal ? (a.goalColor || a.c) : a.c);
+  const tone = actionTone(a);
+  const edge = toneColor(tone);
+  const placementColor = toneColor(placementTone(accountPlacement));
   return (
-    <div key={key} style={{ ...card, marginBottom:8,
+    <div key={key} style={{ ...toneCard(tone), marginBottom:8,
       borderColor: urgent ? edge+"aa" : edge+"44",
-      background: urgent ? edge+"18" : (highGoal ? edge+"10" : a.c+"0a"),
+      background: urgent ? edge+"18" : `${edge}0d`,
       boxShadow: urgent ? `0 0 0 1px ${edge}55 inset` : "none" }}>
       <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:hasDetail?"pointer":"default" }}>
         <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
@@ -1327,10 +1435,10 @@ function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, sho
           {a.actionLabel && <span style={{ fontFamily:mono, fontSize:11, fontWeight:700, color:urgent?C.text:C.dim, border:`1px solid ${(urgent?a.stateColor:C.line)}${urgent?"aa":""}`, borderRadius:99, padding:"1px 8px", background:urgent?`${a.stateColor}20`:C.panel2 }}>{a.actionLabel}</span>}
           {a.decisionGroupLabel && <span style={{ fontFamily:mono, fontSize:11, color:C.text, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{a.decisionGroupLabel}</span>}
           {a.timeWindow && <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{a.timeWindow}</span>}
-          {a.freshnessJudgment && a.freshnessJudgment.label && <span title={a.freshnessJudgment.judgment||""} style={{ fontFamily:mono, fontSize:11, color:a.freshnessJudgment.label==="stale"?C.red:a.freshnessJudgment.label==="fast-moving"?C.amber:C.faint }}>{a.freshnessJudgment.label}</span>}
+          {a.freshnessJudgment && a.freshnessJudgment.label && <span title={a.freshnessJudgment.judgment||""} style={{ fontFamily:mono, fontSize:11, color:freshnessColor(a.freshnessJudgment.label), border:`1px solid ${freshnessColor(a.freshnessJudgment.label)}44`, borderRadius:99, padding:"1px 8px", background:`${freshnessColor(a.freshnessJudgment.label)}0d` }}>{a.freshnessJudgment.label}</span>}
           {assumptionRefresh.status && <span title={assumptionRefresh.next_step||""} style={{ fontFamily:mono, fontSize:11, color:["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green, border:`1px solid ${(["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px", background:`${(["changed_recheck","stale","invalidated"].includes(assumptionRefresh.status)?C.amber:C.green)}10` }}>refresh: {String(assumptionRefresh.status).replace("_"," ")}</span>}
           {capitalEfficiency.label && <span title={capitalEfficiency.summary||""} style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px", background:`${C.amber}10` }}>capital: {capitalEfficiency.label}</span>}
-          {hasAccountPlacement && <span title={accountPlacement.why||accountPlacement.rule||"candidate account placement"} style={{ fontFamily:mono, fontSize:11, color:C.green, border:`1px solid ${C.green}55`, borderRadius:99, padding:"1px 8px", background:`${C.green}10` }}>acct: {accountPlacement.label||accountPlacement.account||"review"}</span>}
+          {hasAccountPlacement && <span title={accountPlacement.why||accountPlacement.rule||"candidate account placement"} style={{ fontFamily:mono, fontSize:11, color:placementColor, border:`1px solid ${placementColor}66`, borderRadius:99, padding:"1px 8px", background:`${placementColor}12` }}>acct: {accountPlacement.label||accountPlacement.account||"review"}</span>}
           {a.synthesisChanges && <span title="what this synthesis changes" style={{ fontFamily:mono, fontSize:11, color:C.blue, border:`1px solid ${C.blue}55`, borderRadius:99, padding:"1px 8px", background:`${C.blue}10` }}>changes: {a.synthesisChanges}</span>}
           {a.capitalPriorityScore!=null && <span title="capital priority inside this decision group" style={{ fontFamily:mono, fontSize:11, color:C.faint, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>priority: {a.capitalPriorityScore}</span>}
           <span style={{ fontFamily:mono, fontSize:11, color:a.c, border:`1px solid ${a.c}55`, borderRadius:99, padding:"1px 8px" }}>{a.icon} {a.kindLabel}</span>
@@ -1411,8 +1519,10 @@ function TodayPriorityStack({ rows, openMap, setOpen, posOpen, setPosOpen }) {
       {!rows.length && <div style={{ ...card, fontSize:12, color:C.faint }}>No promoted Today items. Use the lower sections as backup context, not as a forced action list.</div>}
       {(rows||[]).map((r,i)=>{
         const key=`todaypri${r.key||i}`, isO=posOpen[key];
+        const tone = todayTone(r);
+        const c = toneColor(tone);
         return (
-          <div key={key} style={{ ...card, marginBottom:8, borderColor:(r.color||C.amber)+"44", background:(r.color||C.amber)+"0a" }}>
+          <div key={key} style={{ ...toneCard(tone), marginBottom:8 }}>
             <div onClick={()=>setPosOpen(st=>({...st,[key]:!st[key]}))} style={{ cursor:"pointer" }} title={r.tooltip||"Click for why, invalidation, and data backup."}>
               <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
                 <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{i+1}</span>
@@ -1420,7 +1530,7 @@ function TodayPriorityStack({ rows, openMap, setOpen, posOpen, setPosOpen }) {
                 <span style={{ fontSize:12.8, fontWeight:750, color:C.text }}>{r.title}</span>
               </div>
               <div style={{ marginTop:7, display:"flex", alignItems:"center", gap:7, flexWrap:"wrap" }}>
-                <span title="Action posture this row changes or requires." style={{ fontFamily:mono, fontSize:11, color:r.color||C.amber, border:`1px solid ${(r.color||C.amber)}66`, borderRadius:99, padding:"1px 8px", background:`${r.color||C.amber}12` }}>{r.posture}</span>
+                <span title="Action posture this row changes or requires." style={{ fontFamily:mono, fontSize:11, color:c, border:`1px solid ${c}66`, borderRadius:99, padding:"1px 8px", background:`${c}12` }}>{r.posture}</span>
                 <span title="Where the full source row lives." style={{ fontFamily:mono, fontSize:11, color:C.dim, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 8px", background:C.panel2 }}>{r.home}</span>
                 {r.timing && <span title="How quickly the assumption can decay." style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.timing}</span>}
                 {r.source && <span title="Primary source or lane." style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.source}</span>}
@@ -1429,7 +1539,7 @@ function TodayPriorityStack({ rows, openMap, setOpen, posOpen, setPosOpen }) {
               <div style={{ marginTop:4, fontSize:12.2, color:C.text }}><span style={{ color:C.dim, fontWeight:700 }}>Next:</span> {r.nextStep}</div>
               <div style={{ marginTop:5, fontSize:11.7, color:C.dim }}><span style={{ color:C.faint, fontWeight:700 }}>Why here:</span> {r.whyHere}</div>
               <div style={{ marginTop:7, display:"flex", justifyContent:"flex-end" }}>
-                <span style={{ fontSize:11, color:r.color||C.amber }}>{isO?"hide backup ^":"data backup v"}</span>
+                <span style={{ fontSize:11, color:c }}>{isO?"hide backup ^":"data backup v"}</span>
               </div>
             </div>
             {isO && (
@@ -1694,14 +1804,17 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   {P.honesty_rule && <div style={{ marginTop:5, fontFamily:mono, fontSize:10.5, color:C.faint }}>{P.honesty_rule}</div>}
                 </div>
-                {rows.map((r,i)=>(
-                  <div key={`${r.kind||"packet"}${i}`} style={{ ...card, marginBottom:7, borderColor:C.amber+"33" }}>
+                {rows.map((r,i)=>{
+                  const tone = packetTone(r);
+                  const c = toneColor(tone);
+                  return (
+                  <div key={`${r.kind||"packet"}${i}`} style={{ ...toneCard(tone), marginBottom:7 }}>
                     <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
                       <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>#{r.priority}</span>
                       <span style={{ fontSize:12.5, fontWeight:700, color:C.text }}>{r.label}</span>
                       {r.refresh_status && <span style={{ fontFamily:mono, fontSize:10.5, color:["changed_recheck","stale","invalidated"].includes(r.refresh_status)?C.amber:C.green, border:`1px solid ${(["changed_recheck","stale","invalidated"].includes(r.refresh_status)?C.amber:C.green)}55`, borderRadius:99, padding:"1px 8px" }}>refresh: {String(r.refresh_status).replace("_"," ")}</span>}
                       {r.capital_priority_score!=null && <span style={{ fontFamily:mono, fontSize:10.5, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>priority: {r.capital_priority_score}</span>}
-                      {r.freshness_label && <span title={r.decay_window||""} style={{ fontFamily:mono, fontSize:10.5, color:r.freshness_label==="stale"?C.red:r.freshness_label==="fast-moving"?C.amber:C.faint }}>{r.freshness_label}</span>}
+                      {r.freshness_label && <span title={r.decay_window||""} style={{ fontFamily:mono, fontSize:10.5, color:freshnessColor(r.freshness_label), border:`1px solid ${freshnessColor(r.freshness_label)}44`, borderRadius:99, padding:"1px 7px", background:`${freshnessColor(r.freshness_label)}0d` }}>{r.freshness_label}</span>}
                       {r.source && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.source}</span>}
                     </div>
                     {r.what_changed && <div style={{ marginTop:5, fontSize:11.5, color:C.amber }}>Changed: {r.what_changed}</div>}
@@ -1713,11 +1826,11 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                     {r.next_step && <div style={{ marginTop:4, fontSize:11.8, color:C.text }}>Next: {r.next_step}</div>}
                     {r.invalidates && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Invalidates: {r.invalidates}</div>}
                     {r.compare_against && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Compare: {r.compare_against}</div>}
-                    {r.account_placement_summary && <div style={{ marginTop:4, fontSize:11.8, color:C.green }}>Account: {r.account_placement_summary}</div>}
+                    {r.account_placement_summary && <div style={{ marginTop:4, fontSize:11.8, color:toneColor(placementTone(r.account_placement||{status:"candidate"})) }}>Account: {r.account_placement_summary}</div>}
                     {r.account_placement_why && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>Account why: {r.account_placement_why}</div>}
                     {r.blocks && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Blocks: {r.blocks}</div>}
                   </div>
-                ))}
+                )})}
                 <div style={{ marginTop:6, fontFamily:mono, fontSize:10.5, color:C.faint }}>Command: python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text</div>
               </div>
             );
@@ -1922,8 +2035,10 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   const cap=r.capital_efficiency||{};
                   const opt=r.options_review_prompt||{};
                   const placement=r.account_placement||{};
+                  const tone = placementTone(placement);
+                  const placementColor = toneColor(tone);
                   return (
-                    <div key={`${r.ticker}${i}`} style={{ ...card, marginBottom:7, borderColor:C.green+"33" }}>
+                    <div key={`${r.ticker}${i}`} style={{ ...toneCard(tone), marginBottom:7 }}>
                       <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
                         <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
                         <span style={{ fontFamily:mono, fontSize:11, color:C.green, border:`1px solid ${C.green}55`, borderRadius:99, padding:"1px 8px" }}>add {money(r.notional_usd)}</span>
@@ -1932,7 +2047,7 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                       </div>
                       {r.entry_note && <div style={{ marginTop:5, fontSize:12, color:C.text }}>{r.entry_note}</div>}
                       {funded && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>funded by: {funded}</div>}
-                      {placement.summary && <div style={{ marginTop:4, fontSize:11.5, color:C.green }}>Account: {placement.summary}</div>}
+                      {placement.summary && <div style={{ marginTop:4, fontSize:11.5, color:placementColor }}>Account: {placement.summary}</div>}
                       {placement.why && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>account why: {placement.why}</div>}
                       {cap.summary && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Capital: {cap.summary}</div>}
                       {cap.consequence_of_doing_nothing && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Do nothing: {cap.consequence_of_doing_nothing}</div>}
