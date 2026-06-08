@@ -979,6 +979,9 @@ def test_generated_html_surfaces_fundstrat_news_tab():
             ],
             "top_smid": [],
             "bottom5": [],
+            "bottom5_smid": [
+                {"rank": 1, "ticker": "ELF", "add_date": "2026-05-28", "add_price_label": "not captured", "report_move_pct": 5.97}
+            ],
         },
         "daily": {
             "latest_date": "2026-06-05",
@@ -1007,6 +1010,8 @@ def test_generated_html_surfaces_fundstrat_news_tab():
     assert "Fundstrat News" in html
     assert "Monthly Bible / Allocation" in html
     assert "Top 5 SMID" in html
+    assert "Bottom 5 SMID" in html
+    assert "ELF" in html
     assert "not captured" in html
     assert "If I Were You" in html
 

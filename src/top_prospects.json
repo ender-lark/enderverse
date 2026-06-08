@@ -61,6 +61,37 @@
     "urgency": "QUIET",
     "urgency_score": 6.0
   },
+  "CRS": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "long",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "long",
+        "judgment_mult": 1.0,
+        "note": "carry over",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": true,
+        "ticker": "CRS"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Top 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "CRS: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+    "ticker": "CRS",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
   "DE": {
     "add_date": "2026-05-28",
     "add_price": null,
@@ -89,6 +120,99 @@
     ],
     "summary": "DE: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
     "ticker": "DE",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
+  "ELF": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "avoid",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "avoid",
+        "judgment_mult": 1.0,
+        "note": "carry over",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": true,
+        "ticker": "ELF"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Bottom 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "ELF: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+    "ticker": "ELF",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
+  "FIX": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "long",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "long",
+        "judgment_mult": 1.0,
+        "note": "carry over",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": true,
+        "ticker": "FIX"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Top 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "FIX: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+    "ticker": "FIX",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
+  "FN": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "long",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "long",
+        "judgment_mult": 1.0,
+        "note": "",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": false,
+        "ticker": "FN"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Top 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "FN: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+    "ticker": "FN",
     "urgency": "QUIET",
     "urgency_score": 6.0
   },
@@ -185,6 +309,68 @@
     "urgency": "QUIET",
     "urgency_score": 6.0
   },
+  "IESC": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "long",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "long",
+        "judgment_mult": 1.0,
+        "note": "carry over",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": true,
+        "ticker": "IESC"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Top 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "IESC: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+    "ticker": "IESC",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
+  "KTOS": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "avoid",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "avoid",
+        "judgment_mult": 1.0,
+        "note": "carry over",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": true,
+        "ticker": "KTOS"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Bottom 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "KTOS: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+    "ticker": "KTOS",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
   "PKG": {
     "add_date": "2026-05-28",
     "add_price": null,
@@ -278,6 +464,68 @@
     "urgency": "QUIET",
     "urgency_score": 6.0
   },
+  "SOFI": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "avoid",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "avoid",
+        "judgment_mult": 1.0,
+        "note": "",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": false,
+        "ticker": "SOFI"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Bottom 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "SOFI: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+    "ticker": "SOFI",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
+  "STRL": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "long",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "long",
+        "judgment_mult": 1.0,
+        "note": "carry over",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": true,
+        "ticker": "STRL"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Top 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "STRL: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+    "ticker": "STRL",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
   "TPL": {
     "add_date": "2026-05-28",
     "add_price": null,
@@ -306,6 +554,37 @@
     ],
     "summary": "TPL: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
     "ticker": "TPL",
+    "urgency": "QUIET",
+    "urgency_score": 6.0
+  },
+  "UUUU": {
+    "add_date": "2026-05-28",
+    "add_price": null,
+    "conviction": "BUILDING",
+    "conviction_score": 10.0,
+    "corroboration": "Uncorroborated",
+    "direction": "avoid",
+    "events": [
+      {
+        "category": "analyst_named",
+        "date": "2026-05-28",
+        "direction": "avoid",
+        "judgment_mult": 1.0,
+        "note": "",
+        "source": "FS-Monthly",
+        "strength": "moderate",
+        "substantive": false,
+        "ticker": "UUUU"
+      }
+    ],
+    "page_id": null,
+    "provenance": "FS Bottom 5 SMID - 2026-05-28",
+    "research_queue_page_id": null,
+    "sources": [
+      "FS-Monthly"
+    ],
+    "summary": "UUUU: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+    "ticker": "UUUU",
     "urgency": "QUIET",
     "urgency_score": 6.0
   }

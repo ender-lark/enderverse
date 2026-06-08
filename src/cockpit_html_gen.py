@@ -1977,12 +1977,24 @@ def _fundstrat_list_table(title: str, rows: list[dict[str, Any]], empty: str) ->
     else:
         trs = ""
         for row in rows:
+            move = ""
+            if row.get("report_move_pct") is not None:
+                try:
+                    value = float(row.get("report_move_pct"))
+                    move = f"{value:+g}%"
+                except (TypeError, ValueError):
+                    move = str(row.get("report_move_pct") or "")
+            state = (
+                f"{_e(row.get('conviction') or '')}{f' / {_e(row.get('urgency') or '')}' if row.get('urgency') else ''}"
+                f"{' | ' if move and (row.get('conviction') or row.get('urgency')) else ''}{_e(move)}"
+                f"{' | carry over' if row.get('carry_over') else ''}"
+            )
             trs += f"""<tr>
   <td>{_e(row.get("rank") or "")}</td>
   <td><strong>{_e(row.get("ticker") or "")}</strong></td>
   <td>{_e(row.get("add_date") or "date n/a")}</td>
   <td>{_e(row.get("add_price_label") or "not captured")}</td>
-  <td>{_e(row.get("conviction") or "")}{f' / {_e(row.get("urgency") or "")}' if row.get("urgency") else ""}</td>
+  <td>{state}<span class="small-muted">{_e(row.get("name") or row.get("note") or "")}</span></td>
 </tr>"""
         body = f"""<div class="book-wrap">
   <table class="book">
@@ -2066,7 +2078,8 @@ def _fundstrat_news_tab(news: dict[str, Any], if_i_were_you: dict[str, Any]) -> 
   </div>
   {_fundstrat_list_table("Top 5 large cap", monthly.get("top_large_cap") or [], "Top 5 large cap is not captured in this feed.")}
   {_fundstrat_list_table("Top 5 SMID", monthly.get("top_smid") or [], "Top 5 SMID is not captured in the live monthly/prospect caches yet.")}
-  {_fundstrat_list_table("Bottom 5", monthly.get("bottom5") or [], "Bottom 5 is not captured in this feed.")}
+  {_fundstrat_list_table("Bottom 5 large cap", monthly.get("bottom5") or [], "Bottom 5 large cap is not captured in this feed.")}
+  {_fundstrat_list_table("Bottom 5 SMID", monthly.get("bottom5_smid") or [], "Bottom 5 SMID is not captured in this feed.")}
   <div class="card">
     <div class="card-title"><span class="icon">D</span> Daily Additions / Deltas</div>
     <div class="summary-line">Latest {_e(daily.get("latest_date") or "n/a")} | stored {_e(daily.get("count") or 0)}</div>

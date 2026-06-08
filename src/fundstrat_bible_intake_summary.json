@@ -10,7 +10,9 @@
       "sections": [
         "what_to_own",
         "top5",
-        "bottom5"
+        "bottom5",
+        "top5_smid",
+        "bottom5_smid"
       ]
     }
   ],
@@ -24,5 +26,20 @@
     "updated": true,
     "picks": 10,
     "path": "src\\top_prospects.json"
-  }
+  },
+  "top5_smid": 5,
+  "bottom5_smid": 5,
+  "backfills": [
+    {
+      "source": "Gmail Fundstrat FIRST WORD 2026-05-28",
+      "message_id": "19e6d040f643eb49",
+      "fields": [
+        "top5_smid",
+        "bottom5_smid",
+        "report_move_pct",
+        "carry_over"
+      ],
+      "absolute_add_prices": "not captured"
+    }
+  ]
 }

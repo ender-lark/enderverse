@@ -45,6 +45,7 @@ def test_canonical_jsx_has_fundstrat_news_tab_and_if_i_were_you():
     assert 'id="fundstrat-news"' in src
     assert "Monthly Bible / Allocation" in src
     assert "Top 5 SMID is not captured" in src
+    assert "Bottom 5 SMID" in src
     assert "If I Were You" in src
 
 

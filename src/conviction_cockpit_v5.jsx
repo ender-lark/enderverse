@@ -1046,9 +1046,11 @@ function FundstratMonthlyRows({ title, rows, empty }) {
           <div>
             <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
               <span style={{ fontFamily:mono, fontSize:10.5, color:r.add_price?C.green:C.amber }}>added {r.add_date||"date n/a"} | {r.add_price_label||"not captured"}</span>
+              {r.report_move_pct!==undefined && r.report_move_pct!==null && <span style={{ fontFamily:mono, fontSize:10.5, color:Number(r.report_move_pct)>=0?C.green:C.red }}>report move {Number(r.report_move_pct)>0?"+":""}{r.report_move_pct}%</span>}
+              {r.carry_over && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>carry over</span>}
               {r.conviction && <span style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>{r.conviction}{r.urgency?` / ${r.urgency}`:""}</span>}
             </div>
-            {(r.note||r.summary||r.provenance) && <div style={{ marginTop:3, fontSize:11.5, color:C.dim }}>{r.note||r.summary||r.provenance}</div>}
+            {(r.name||r.note||r.summary||r.provenance) && <div style={{ marginTop:3, fontSize:11.5, color:C.dim }}>{r.name||r.note||r.summary||r.provenance}</div>}
           </div>
         </div>
       ))}
@@ -2169,7 +2171,8 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   </div>
                   <FundstratMonthlyRows title="Top 5 large cap" rows={M.top_large_cap||[]} empty="Top 5 large cap is not captured in this feed." />
                   <FundstratMonthlyRows title="Top 5 SMID" rows={M.top_smid||[]} empty="Top 5 SMID is not captured in the live monthly/prospect caches yet." />
-                  <FundstratMonthlyRows title="Bottom 5" rows={M.bottom5||[]} empty="Bottom 5 is not captured in this feed." />
+                  <FundstratMonthlyRows title="Bottom 5 large cap" rows={M.bottom5||[]} empty="Bottom 5 large cap is not captured in this feed." />
+                  <FundstratMonthlyRows title="Bottom 5 SMID" rows={M.bottom5_smid||[]} empty="Bottom 5 SMID is not captured in this feed." />
                 </Section>
 
                 <Section id="fundstrat-daily" title="Daily Additions / Deltas" icon="D" badge={D.count?`${D.count}`:"0"} badgeColor={D.count?C.blue:C.faint} summary={compactJoin([D.latest_date&&`latest ${D.latest_date}`, D.count!=null&&`${D.count} stored call${D.count===1?"":"s"}`, D.freshness_judgment&&clipText(D.freshness_judgment,70)]) || "No full-body daily calls stored."} openMap={open} setOpen={setOpen} defaultOpen={true}>

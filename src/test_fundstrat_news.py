@@ -61,7 +61,10 @@ def test_fundstrat_news_uses_future_smid_cache_when_present():
         fundstrat_bible={
             "deck_date": "2026-05-28",
             "top5": ["AMD"],
-            "top5_smid": ["FN"],
+            "top5_smid": [
+                {"ticker": "FN", "name": "Fabrinet", "report_move_pct": 0.9},
+            ],
+            "bottom5_smid": ["ELF"],
         },
         top_prospects={
             "FN": {
@@ -75,7 +78,10 @@ def test_fundstrat_news_uses_future_smid_cache_when_present():
     )
 
     assert news["monthly"]["top_smid"][0]["ticker"] == "FN"
+    assert news["monthly"]["top_smid"][0]["name"] == "Fabrinet"
+    assert news["monthly"]["top_smid"][0]["report_move_pct"] == 0.9
     assert news["monthly"]["top_smid"][0]["add_price_label"] == "$600.00"
+    assert news["monthly"]["bottom5_smid"][0]["ticker"] == "ELF"
     assert not any(gap["key"] == "missing_smid_top5" for gap in news["gaps"])
 
 

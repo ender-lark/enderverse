@@ -249,6 +249,69 @@ def _large_cap_idea_lists(text: str) -> dict[str, list[str]]:
     return {k: v for k, v in out.items() if v}
 
 
+def _monthly_list_items(block: str) -> list[dict[str, Any] | str]:
+    rows: list[dict[str, Any] | str] = []
+    seen: set[str] = set()
+    for line in str(block or "").splitlines():
+        item = _clean(line)
+        if not item:
+            continue
+        m = re.search(
+            r"^(?P<name>.+?)\s+\((?P<ticker>[A-Z]{1,6}(?:\.[A-Z]{1,4})?)\s+"
+            r"(?P<move>[+-]?(?:\d+(?:\.\d+)?|N/A))%\)",
+            item,
+        )
+        if not m:
+            parsed = _ticker_item(item)
+            if not parsed:
+                continue
+            ticker = parsed["ticker"] if isinstance(parsed, dict) else parsed
+            if ticker in seen:
+                continue
+            seen.add(ticker)
+            rows.append(parsed)
+            continue
+        ticker = m.group("ticker").upper()
+        if ticker in BLACKLIST or ticker in seen:
+            continue
+        seen.add(ticker)
+        row: dict[str, Any] = {
+            "ticker": ticker,
+            "name": _clean(m.group("name")),
+        }
+        move_text = m.group("move")
+        if move_text != "N/A":
+            try:
+                row["report_move_pct"] = float(move_text)
+            except ValueError:
+                pass
+        if "carry over" in item.lower():
+            row["carry_over"] = True
+            row["note"] = "carry over"
+        rows.append(row)
+    return rows
+
+
+def _smid_idea_lists(text: str) -> dict[str, list[dict[str, Any] | str]]:
+    title = re.search(r"SMID[-\s]+cap:\s+Top\s*5\s+and\s+Bottom\s*5\s+Core\s+List\s+Stock\s+Ideas", text or "", re.I)
+    if not title:
+        return {}
+    segment = text[title.end():]
+    top_label = re.search(r"(?:5\s+tactical\s+buys|Top\s*5)", segment, re.I)
+    bottom_label = re.search(r"Bottom\s*5.*?SMID\s+Core\s+stocks", segment, re.I)
+    if not top_label or not bottom_label or top_label.start() > bottom_label.start():
+        return {}
+    end = re.search(r"(?:Join\s+our\s+live\s+webinar|Part\s+I:|Large[-\s]+Cap|Key\s+Incoming\s+Data)", segment[bottom_label.end():], re.I)
+    bottom_end = bottom_label.end() + (end.start() if end else len(segment[bottom_label.end():]))
+    top_block = segment[top_label.end():bottom_label.start()]
+    bottom_block = segment[bottom_label.end():bottom_end]
+    out = {
+        "top5_smid": _monthly_list_items(top_block),
+        "bottom5_smid": _monthly_list_items(bottom_block),
+    }
+    return {k: v for k, v in out.items() if v}
+
+
 def _infer_date(text: str, fallback: str | None = None) -> str:
     match = RE_DATE.search(text or "")
     if match:
@@ -264,8 +327,18 @@ def parse_bible_text(text: str, *, source_file: str = "", as_of: str | None = No
         "consider": [],
         "top5": [],
         "bottom5": [],
+        "top5_smid": [],
+        "bottom5_smid": [],
     }
-    seen = {"macro_stance": set(), "what_to_own": set(), "consider": set(), "top5": set(), "bottom5": set()}
+    seen = {
+        "macro_stance": set(),
+        "what_to_own": set(),
+        "consider": set(),
+        "top5": set(),
+        "bottom5": set(),
+        "top5_smid": set(),
+        "bottom5_smid": set(),
+    }
 
     def add(key: str, values: list[Any]) -> None:
         for value in values:
@@ -299,6 +372,10 @@ def parse_bible_text(text: str, *, source_file: str = "", as_of: str | None = No
     for key in ("top5", "bottom5"):
         if not deck[key] and ideas.get(key):
             add(key, ideas[key])
+    smid_ideas = _smid_idea_lists(text or "")
+    for key in ("top5_smid", "bottom5_smid"):
+        if not deck[key] and smid_ideas.get(key):
+            add(key, smid_ideas[key])
 
     if len(deck["macro_stance"]) == 1:
         deck["macro_stance"] = deck["macro_stance"][0]
@@ -317,7 +394,7 @@ def normalize_deck(deck: dict, *, source_file: str = "", as_of: str | None = Non
         out["what_to_own"] = deck["what_to_own"]
     if deck.get("consider"):
         out["consider"] = deck["consider"]
-    for key in ("top5", "bottom5"):
+    for key in ("top5", "bottom5", "top5_smid", "bottom5_smid"):
         if deck.get(key):
             out[key] = deck[key]
     if source_file:
@@ -331,9 +408,10 @@ def validate_bible_deck(deck: dict) -> list[str]:
         return ["deck must be an object"]
     if not deck.get("deck_date"):
         problems.append("deck_date missing")
-    if not any(deck.get(k) for k in ("macro_stance", "what_to_own", "consider", "top5", "bottom5")):
-        problems.append("no stance, what_to_own, consider, top5, or bottom5 sections found")
-    for key in ("consider", "top5", "bottom5"):
+    section_keys = ("macro_stance", "what_to_own", "consider", "top5", "bottom5", "top5_smid", "bottom5_smid")
+    if not any(deck.get(k) for k in section_keys):
+        problems.append("no stance, what_to_own, consider, top5, bottom5, or SMID sections found")
+    for key in ("consider", "top5", "bottom5", "top5_smid", "bottom5_smid"):
         for idx, item in enumerate(deck.get(key) or []):
             ticker = item.get("ticker") if isinstance(item, dict) else item
             if not RE_BARE.fullmatch(str(ticker or "").upper()):
@@ -372,7 +450,7 @@ def merge_decks(existing: dict | None, new: dict) -> dict:
     sectors = merge_items("what_to_own", "sector")
     if sectors:
         out["what_to_own"] = sectors
-    for key in ("consider", "top5", "bottom5"):
+    for key in ("consider", "top5", "bottom5", "top5_smid", "bottom5_smid"):
         items = merge_items(key, "ticker")
         if items:
             out[key] = items
@@ -409,7 +487,7 @@ def build_deck_from_paths(paths: list[str | Path], *, as_of: str | None = None,
     files = []
     for path in paths:
         next_deck, info = load_deck_from_path(path, as_of=as_of)
-        files.append({**info, "sections": [k for k in ("macro_stance", "what_to_own", "consider", "top5", "bottom5") if next_deck.get(k)]})
+        files.append({**info, "sections": [k for k in ("macro_stance", "what_to_own", "consider", "top5", "bottom5", "top5_smid", "bottom5_smid") if next_deck.get(k)]})
         if next_deck:
             deck = merge_decks(deck, next_deck) if deck else next_deck
     problems = validate_bible_deck(deck)
@@ -421,6 +499,8 @@ def build_deck_from_paths(paths: list[str | Path], *, as_of: str | None = None,
         "problems": problems,
         "top5": len(deck.get("top5") or []),
         "bottom5": len(deck.get("bottom5") or []),
+        "top5_smid": len(deck.get("top5_smid") or []),
+        "bottom5_smid": len(deck.get("bottom5_smid") or []),
         "consider": len(deck.get("consider") or []),
         "what_to_own": len(deck.get("what_to_own") or []),
     }
@@ -439,6 +519,8 @@ def update_top_prospects_from_bible(deck: dict, path: str | Path, *,
     for key, direction, provenance, category_hint in (
         ("top5", "long", "FS Top 5", None),
         ("bottom5", "avoid", "FS Bottom 5", None),
+        ("top5_smid", "long", "FS Top 5 SMID", None),
+        ("bottom5_smid", "avoid", "FS Bottom 5 SMID", None),
         ("consider", "long", "FS Consider List", "consider_list"),
     ):
         for item in deck.get(key) or []:

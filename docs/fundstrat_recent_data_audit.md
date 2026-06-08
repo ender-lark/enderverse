@@ -1,16 +1,19 @@
 # Fundstrat Recent Data Audit
 
-Updated: 2026-06-07 23:01 ET
+Updated: 2026-06-07 23:01 ET; SMID backfill updated 2026-06-08
 
 ## Current Live Cache State
 
 - Monthly Bible cache: `src/fundstrat_bible.json`
   - Source file: `20260528-Market-UpdatevFSD-1.pdf`
   - Deck date: 2026-05-28
-  - Stored sections: What-to-Own, Top 5 large cap, Bottom 5
+  - Stored sections: What-to-Own, Top 5 large cap, Bottom 5 large cap, Top 5 SMID, Bottom 5 SMID
   - Stored What-to-Own: MAG7, Ethereum, Software, Industrials, Financials, Small-caps, Energy/Basic Materials
   - Stored Top 5 large cap: AMD, ANET, GOOGL, PWR, GS
-  - Stored Bottom 5: DE, TPL, HOOD, PKG, SATS
+  - Stored Top 5 SMID: STRL, IESC, FIX, CRS, FN
+  - Stored Bottom 5 large cap: DE, TPL, HOOD, PKG, SATS
+  - Stored Bottom 5 SMID: ELF, SATS, UUUU, SOFI, KTOS
+  - Source backfill: Gmail Fundstrat FIRST WORD 2026-05-28 (`19e6d040f643eb49`) supplied compact SMID list names and report-move percentages.
 
 - Fundstrat daily cache: `src/fundstrat_daily_calls.json`
   - Stored call rows: 6
@@ -32,13 +35,13 @@ Updated: 2026-06-07 23:01 ET
 
 ## Audit Findings
 
-1. Top 5 SMID is not stored in the live monthly/prospect caches.
-   - Older fixtures mention FN as a Top-5 SMID watch, but the live `fundstrat_bible.json` and `top_prospects.json` do not currently store a SMID Top 5 list.
-   - Treat this as a storage gap, not as current live evidence.
-   - Next step: re-read the May 28 monthly material or supplied PDF text and explicitly store SMID rows if confirmed.
+1. Top 5 SMID was initially missing from the compact cache and has now been backfilled from the May 28 Fundstrat FIRST WORD email.
+   - Confirmed Top 5 SMID: STRL, IESC, FIX, CRS, FN.
+   - Confirmed Bottom 5 SMID: ELF, SATS, UUUU, SOFI, KTOS.
+   - The source email provides report percent moves and carry-over labels, not absolute add prices.
 
 2. Price when added is not captured for monthly Top 5 / Bottom 5 rows.
-   - `top_prospects.json` has `add_date` for the 10 monthly rows but `add_price` is null for all 10.
+   - `top_prospects.json` has `add_date` for the monthly rows but `add_price` remains null.
    - The News tab now labels these as `not captured`.
    - Next step: backfill from an approved historical price cache before using since-added performance.
 
@@ -57,6 +60,7 @@ Updated: 2026-06-07 23:01 ET
 - Added a JSX `News` tab beside `Commands`.
 - Added a review-only `If I Were You` section.
 - Updated the Fundstrat source-audit line to include cumulative stored cache counts, not just latest-run counts.
+- Backfilled compact May 28 SMID Top 5 / Bottom 5 rows from the verified Fundstrat FIRST WORD Gmail source.
 
 ## Operating Rule
 

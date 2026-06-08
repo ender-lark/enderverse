@@ -118,6 +118,33 @@ def test_large_cap_top_bottom_idea_page_handles_pdf_text_order():
     assert deck["top5"] == ["AMD", "ANET", "GOOGL", "PWR", "GS"]
 
 
+def test_smid_top_bottom_idea_page_is_preserved():
+    deck = parse_bible_text("\n".join([
+        "May 28, 2026",
+        "SMID-cap: Top 5 and Bottom 5 Core List Stock Ideas",
+        "We have 5 tactical buys aka our Top 5:",
+        "Sterling Infrastructure Inc. (STRL -0.18%) <- carry over",
+        "IES Holdings Inc. (IESC -0.38%) <- carry over",
+        "Comfort Systems USA, Inc. (FIX -0.08%) <- carry over",
+        "Carpenter Technology Corp. (CRS +1.59%) <- carry over",
+        "Fabrinet (FN +0.90%)",
+        "The Bottom 5 SMID Core stocks are:",
+        "e.l.f. Beauty, Inc. (ELF +5.97%) <- carry over",
+        "Echostar Corp. (SATS -0.79%)",
+        "Energy Fuels Inc. (UUUU -0.69%)",
+        "SoFi Technologies Inc. (SOFI +1.31%)",
+        "Kratos Defense & Security (KTOS +0.88%) <- carry over",
+        "Join our live webinar on 5/28 for commentary.",
+    ]))
+
+    assert [row["ticker"] for row in deck["top5_smid"]] == ["STRL", "IESC", "FIX", "CRS", "FN"]
+    assert [row["ticker"] for row in deck["bottom5_smid"]] == ["ELF", "SATS", "UUUU", "SOFI", "KTOS"]
+    assert deck["top5_smid"][0]["name"] == "Sterling Infrastructure Inc."
+    assert deck["top5_smid"][0]["report_move_pct"] == -0.18
+    assert deck["top5_smid"][0]["carry_over"] is True
+    assert validate_bible_deck(deck) == []
+
+
 def test_json_deck_passthrough_and_merge_existing(tmp_path):
     json_path = tmp_path / "deck.json"
     json_path.write_text(json.dumps({
@@ -140,8 +167,10 @@ def test_update_top_prospects_from_monthly_bible(tmp_path):
     deck = {
         "deck_date": "2026-06",
         "top5": [{"ticker": "NVDA", "note": "secular AI leader"}],
+        "top5_smid": ["FN"],
         "consider": ["ANET"],
         "bottom5": ["XYZ"],
+        "bottom5_smid": ["ELF"],
     }
 
     summary = update_top_prospects_from_bible(
@@ -152,7 +181,7 @@ def test_update_top_prospects_from_monthly_bible(tmp_path):
     cache = json.loads(cache_path.read_text(encoding="utf-8"))
 
     assert summary["updated"] is True
-    assert summary["picks"] == 3
+    assert summary["picks"] == 5
     assert cache["NVDA"]["events"][0]["source"] == "FS-Monthly"
     assert cache["NVDA"]["events"][0]["direction"] == "long"
     assert cache["ANET"]["events"][0]["category"] == "consider_list"
@@ -160,6 +189,8 @@ def test_update_top_prospects_from_monthly_bible(tmp_path):
     assert cache["ANET"]["conviction_score"] == 4
     assert cache["ANET"]["urgency_score"] == 0
     assert cache["XYZ"]["events"][0]["direction"] == "avoid"
+    assert cache["FN"]["provenance"] == "FS Top 5 SMID - 2026-06"
+    assert cache["ELF"]["provenance"] == "FS Bottom 5 SMID - 2026-06"
     assert "Fundstrat Monthly Strategy" not in json.dumps(cache)
 
 

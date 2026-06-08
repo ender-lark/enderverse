@@ -10,18 +10,146 @@
     "Energy/Basic Materials"
   ],
   "top5": [
-    "AMD",
-    "ANET",
-    "GOOGL",
-    "PWR",
-    "GS"
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "report_move_pct": -1.96,
+      "carry_over": true,
+      "note": "carry over"
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks",
+      "report_move_pct": -1.93,
+      "carry_over": true,
+      "note": "carry over"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc.",
+      "report_move_pct": 0.06
+    },
+    {
+      "ticker": "PWR",
+      "name": "Quanta Services Inc.",
+      "report_move_pct": -1.15
+    },
+    {
+      "ticker": "GS",
+      "name": "Goldman Sachs Group Inc.",
+      "report_move_pct": -0.18,
+      "carry_over": true,
+      "note": "carry over"
+    }
   ],
   "bottom5": [
-    "DE",
-    "TPL",
-    "HOOD",
-    "PKG",
-    "SATS"
+    {
+      "ticker": "DE",
+      "name": "Deere & Co.",
+      "report_move_pct": 0.05
+    },
+    {
+      "ticker": "TPL",
+      "name": "Texas Pacific Land Corp.",
+      "report_move_pct": 1.5
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc.",
+      "report_move_pct": 2.79
+    },
+    {
+      "ticker": "PKG",
+      "name": "Packaging Corp. of America",
+      "report_move_pct": -0.22,
+      "carry_over": true,
+      "note": "carry over"
+    },
+    {
+      "ticker": "SATS",
+      "name": "Echostar Corp.",
+      "report_move_pct": -0.79
+    }
   ],
-  "source_file": "20260528-Market-UpdatevFSD-1.pdf"
+  "source_file": "20260528-Market-UpdatevFSD-1.pdf",
+  "top5_smid": [
+    {
+      "ticker": "STRL",
+      "name": "Sterling Infrastructure Inc.",
+      "report_move_pct": -0.18,
+      "carry_over": true,
+      "note": "carry over"
+    },
+    {
+      "ticker": "IESC",
+      "name": "IES Holdings Inc.",
+      "report_move_pct": -0.38,
+      "carry_over": true,
+      "note": "carry over"
+    },
+    {
+      "ticker": "FIX",
+      "name": "Comfort Systems USA, Inc.",
+      "report_move_pct": -0.08,
+      "carry_over": true,
+      "note": "carry over"
+    },
+    {
+      "ticker": "CRS",
+      "name": "Carpenter Technology Corp.",
+      "report_move_pct": 1.59,
+      "carry_over": true,
+      "note": "carry over"
+    },
+    {
+      "ticker": "FN",
+      "name": "Fabrinet",
+      "report_move_pct": 0.9
+    }
+  ],
+  "bottom5_smid": [
+    {
+      "ticker": "ELF",
+      "name": "e.l.f. Beauty, Inc.",
+      "report_move_pct": 5.97,
+      "carry_over": true,
+      "note": "carry over"
+    },
+    {
+      "ticker": "SATS",
+      "name": "Echostar Corp.",
+      "report_move_pct": -0.79
+    },
+    {
+      "ticker": "UUUU",
+      "name": "Energy Fuels Inc.",
+      "report_move_pct": -0.69
+    },
+    {
+      "ticker": "SOFI",
+      "name": "SoFi Technologies Inc.",
+      "report_move_pct": 1.31
+    },
+    {
+      "ticker": "KTOS",
+      "name": "Kratos Defense & Security",
+      "report_move_pct": 0.88,
+      "carry_over": true,
+      "note": "carry over"
+    }
+  ],
+  "report_prices_as_of": "2026-05-28 01:06:56 ET",
+  "compact_backfill": {
+    "source": "Gmail Fundstrat FIRST WORD 2026-05-28",
+    "message_id": "19e6d040f643eb49",
+    "fields": [
+      "large_cap_top5",
+      "large_cap_bottom5",
+      "smid_top5",
+      "smid_bottom5",
+      "report_move_pct",
+      "carry_over"
+    ],
+    "absolute_add_prices": "not provided in source email; keep add_price null until approved historical close cache backfills it"
+  }
 }

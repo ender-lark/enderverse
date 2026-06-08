@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T03:09:40.387191+00:00",
+  "generated_at": "2026-06-08T03:23:31.929293+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-07 \u00b7 uw_price 06-07 \u00b7 uw_macro 06-07 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-05",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-07T23:09:40.387191-04:00",
+        "date": "2026-06-07T23:23:31.929293-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-07T23:09:40.387191-04:00",
+        "date": "2026-06-07T23:23:31.929293-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -151,7 +151,7 @@
         "label": "Top Prospects",
         "status": "has_data",
         "detail": "checked",
-        "count": 10,
+        "count": 19,
         "checked_at": ""
       },
       {
@@ -1355,31 +1355,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-08T03:09:40.248045+00:00",
+      "last_run": "2026-06-08T03:23:31.811705+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-08T03:09:40.248045+00:00",
+      "last_run": "2026-06-08T03:23:31.811705+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-08T03:09:40.248045+00:00",
+      "last_run": "2026-06-08T03:23:31.811705+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-08T03:09:40.248045+00:00",
+      "last_run": "2026-06-08T03:23:31.811705+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-08T03:09:40.248045+00:00",
+      "last_run": "2026-06-08T03:23:31.811705+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1629,6 +1629,66 @@
       "action": "NONE"
     },
     {
+      "ticker": "SOFI",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "flat",
+      "rotation": "LAGGING",
+      "lean": "still_lagging",
+      "headline": "SOFI: Promising and endorsed, but still lagging \u2014 favorable entry only once the rotation turns (not owned).",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Rotation: LAGGING"
+      ],
+      "next_evidence": "Clears it: the rotation turning up (lagging -> turning up), confirming the catch-up.",
+      "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-07",
+      "action": "NONE"
+    },
+    {
+      "ticker": "FIX",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "flat",
+      "rotation": "TURNING DOWN",
+      "lean": "cooling",
+      "headline": "FIX: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (not owned).",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Rotation: TURNING DOWN"
+      ],
+      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
+      "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-07",
+      "action": "NONE"
+    },
+    {
+      "ticker": "IESC",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "flat",
+      "rotation": "TURNING DOWN",
+      "lean": "cooling",
+      "headline": "IESC: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (not owned).",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Rotation: TURNING DOWN"
+      ],
+      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
+      "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-07",
+      "action": "NONE"
+    },
+    {
       "ticker": "MU",
       "owned": true,
       "stance_gate": "open",
@@ -1690,6 +1750,26 @@
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
       "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-07",
+      "action": "NONE"
+    },
+    {
+      "ticker": "STRL",
+      "owned": false,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "flat",
+      "rotation": "TURNING DOWN",
+      "lean": "cooling",
+      "headline": "STRL: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (not owned).",
+      "evidence": [
+        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
+        "Rotation: TURNING DOWN"
+      ],
+      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
+      "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
       "caveats": [],
       "freshness": "as-of 2026-06-07",
       "action": "NONE"
@@ -1942,6 +2022,22 @@
         "summary": "DE: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
       },
       {
+        "ticker": "ELF",
+        "direction": "avoid",
+        "conviction": "BUILDING",
+        "urgency": "QUIET",
+        "conviction_score": 10.0,
+        "urgency_score": 6.0,
+        "pct_since_add": null,
+        "pct_vs_spy": null,
+        "sources": [
+          "FS-Monthly"
+        ],
+        "corroboration": "Uncorroborated",
+        "provenance": "FS Bottom 5 SMID - 2026-05-28",
+        "summary": "ELF: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      },
+      {
         "ticker": "HOOD",
         "direction": "avoid",
         "conviction": "BUILDING",
@@ -1956,6 +2052,22 @@
         "corroboration": "Uncorroborated",
         "provenance": "FS Bottom 5 - 2026-05-28",
         "summary": "HOOD: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      },
+      {
+        "ticker": "KTOS",
+        "direction": "avoid",
+        "conviction": "BUILDING",
+        "urgency": "QUIET",
+        "conviction_score": 10.0,
+        "urgency_score": 6.0,
+        "pct_since_add": null,
+        "pct_vs_spy": null,
+        "sources": [
+          "FS-Monthly"
+        ],
+        "corroboration": "Uncorroborated",
+        "provenance": "FS Bottom 5 SMID - 2026-05-28",
+        "summary": "KTOS: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
       },
       {
         "ticker": "PKG",
@@ -1990,6 +2102,22 @@
         "summary": "SATS: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
       },
       {
+        "ticker": "SOFI",
+        "direction": "avoid",
+        "conviction": "BUILDING",
+        "urgency": "QUIET",
+        "conviction_score": 10.0,
+        "urgency_score": 6.0,
+        "pct_since_add": null,
+        "pct_vs_spy": null,
+        "sources": [
+          "FS-Monthly"
+        ],
+        "corroboration": "Uncorroborated",
+        "provenance": "FS Bottom 5 SMID - 2026-05-28",
+        "summary": "SOFI: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      },
+      {
         "ticker": "TPL",
         "direction": "avoid",
         "conviction": "BUILDING",
@@ -2007,12 +2135,12 @@
       }
     ],
     "counts": {
-      "total": 10,
-      "long": 5,
-      "avoid": 5,
+      "total": 19,
+      "long": 10,
+      "avoid": 9,
       "act_now": 0,
       "hot": 0,
-      "uncorroborated": 10
+      "uncorroborated": 19
     }
   },
   "feedback": {
@@ -4562,11 +4690,8 @@
             "working_model_gap_pct": 9.58,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "ANET",
-              "GOOGL"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
+            "fundstrat_tickers": []
           },
           {
             "category": "Quality core",
@@ -4607,10 +4732,8 @@
             "working_model_gap_pct": null,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "PWR"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: industrials",
+            "fundstrat_tickers": []
           },
           {
             "category": "Nuclear",
@@ -4672,12 +4795,16 @@
             "fundstrat_source_date": "2026-05-28",
             "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
             "fundstrat_tickers": [
-              "AMD",
-              "DE",
-              "HOOD",
-              "PKG",
-              "SATS",
-              "TPL"
+              "{'TICKER': 'AMD', 'NAME': 'ADVANCED MICRO DEVICES', 'REPORT_MOVE_PCT': -1.96, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'ANET', 'NAME': 'ARISTA NETWORKS', 'REPORT_MOVE_PCT': -1.93, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'DE', 'NAME': 'DEERE & CO.', 'REPORT_MOVE_PCT': 0.05}",
+              "{'TICKER': 'GOOGL', 'NAME': 'ALPHABET INC.', 'REPORT_MOVE_PCT': 0.06}",
+              "{'TICKER': 'GS', 'NAME': 'GOLDMAN SACHS GROUP INC.', 'REPORT_MOVE_PCT': -0.18, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'HOOD', 'NAME': 'ROBINHOOD MARKETS INC.', 'REPORT_MOVE_PCT': 2.79}",
+              "{'TICKER': 'PKG', 'NAME': 'PACKAGING CORP. OF AMERICA', 'REPORT_MOVE_PCT': -0.22, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'PWR', 'NAME': 'QUANTA SERVICES INC.', 'REPORT_MOVE_PCT': -1.15}",
+              "{'TICKER': 'SATS', 'NAME': 'ECHOSTAR CORP.', 'REPORT_MOVE_PCT': -0.79}",
+              "{'TICKER': 'TPL', 'NAME': 'TEXAS PACIFIC LAND CORP.', 'REPORT_MOVE_PCT': 1.5}"
             ]
           },
           {
@@ -4695,10 +4822,8 @@
             "working_model_gap_pct": null,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "GS"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: financials",
+            "fundstrat_tickers": []
           },
           {
             "category": "Crypto",
@@ -5030,11 +5155,8 @@
               "working_model_gap_pct": 2.87,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "ANET",
-                "GOOGL"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
+              "fundstrat_tickers": [],
               "tickers": [
                 "AMZN",
                 "ANET",
@@ -5096,10 +5218,8 @@
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "PWR"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: industrials",
+              "fundstrat_tickers": [],
               "tickers": [
                 "BE",
                 "DRIV",
@@ -5153,12 +5273,16 @@
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
               "fundstrat_tickers": [
-                "AMD",
-                "DE",
-                "HOOD",
-                "PKG",
-                "SATS",
-                "TPL"
+                "{'TICKER': 'AMD', 'NAME': 'ADVANCED MICRO DEVICES', 'REPORT_MOVE_PCT': -1.96, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'ANET', 'NAME': 'ARISTA NETWORKS', 'REPORT_MOVE_PCT': -1.93, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'DE', 'NAME': 'DEERE & CO.', 'REPORT_MOVE_PCT': 0.05}",
+                "{'TICKER': 'GOOGL', 'NAME': 'ALPHABET INC.', 'REPORT_MOVE_PCT': 0.06}",
+                "{'TICKER': 'GS', 'NAME': 'GOLDMAN SACHS GROUP INC.', 'REPORT_MOVE_PCT': -0.18, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'HOOD', 'NAME': 'ROBINHOOD MARKETS INC.', 'REPORT_MOVE_PCT': 2.79}",
+                "{'TICKER': 'PKG', 'NAME': 'PACKAGING CORP. OF AMERICA', 'REPORT_MOVE_PCT': -0.22, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'PWR', 'NAME': 'QUANTA SERVICES INC.', 'REPORT_MOVE_PCT': -1.15}",
+                "{'TICKER': 'SATS', 'NAME': 'ECHOSTAR CORP.', 'REPORT_MOVE_PCT': -0.79}",
+                "{'TICKER': 'TPL', 'NAME': 'TEXAS PACIFIC LAND CORP.', 'REPORT_MOVE_PCT': 1.5}"
               ],
               "tickers": [
                 "AAPL",
@@ -5212,10 +5336,8 @@
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "GS"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: financials",
+              "fundstrat_tickers": [],
               "tickers": [
                 "GS",
                 "JPM",
@@ -8183,11 +8305,8 @@
             "working_model_gap_pct": 4.08,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "ANET",
-              "GOOGL"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
+            "fundstrat_tickers": []
           },
           {
             "category": "Quality core",
@@ -8240,10 +8359,8 @@
             "working_model_gap_pct": null,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "PWR"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: industrials",
+            "fundstrat_tickers": []
           },
           {
             "category": "Crypto",
@@ -8276,10 +8393,8 @@
             "working_model_gap_pct": null,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "GS"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: financials",
+            "fundstrat_tickers": []
           },
           {
             "category": "Other holdings",
@@ -8309,12 +8424,16 @@
             "fundstrat_source_date": "2026-05-28",
             "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
             "fundstrat_tickers": [
-              "AMD",
-              "DE",
-              "HOOD",
-              "PKG",
-              "SATS",
-              "TPL"
+              "{'TICKER': 'AMD', 'NAME': 'ADVANCED MICRO DEVICES', 'REPORT_MOVE_PCT': -1.96, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'ANET', 'NAME': 'ARISTA NETWORKS', 'REPORT_MOVE_PCT': -1.93, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'DE', 'NAME': 'DEERE & CO.', 'REPORT_MOVE_PCT': 0.05}",
+              "{'TICKER': 'GOOGL', 'NAME': 'ALPHABET INC.', 'REPORT_MOVE_PCT': 0.06}",
+              "{'TICKER': 'GS', 'NAME': 'GOLDMAN SACHS GROUP INC.', 'REPORT_MOVE_PCT': -0.18, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'HOOD', 'NAME': 'ROBINHOOD MARKETS INC.', 'REPORT_MOVE_PCT': 2.79}",
+              "{'TICKER': 'PKG', 'NAME': 'PACKAGING CORP. OF AMERICA', 'REPORT_MOVE_PCT': -0.22, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'PWR', 'NAME': 'QUANTA SERVICES INC.', 'REPORT_MOVE_PCT': -1.15}",
+              "{'TICKER': 'SATS', 'NAME': 'ECHOSTAR CORP.', 'REPORT_MOVE_PCT': -0.79}",
+              "{'TICKER': 'TPL', 'NAME': 'TEXAS PACIFIC LAND CORP.', 'REPORT_MOVE_PCT': 1.5}"
             ]
           },
           {
@@ -8916,11 +9035,8 @@
               "working_model_gap_pct": -2.66,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "ANET",
-                "GOOGL"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
+              "fundstrat_tickers": [],
               "tickers": [
                 "AMZN",
                 "ANET",
@@ -9001,10 +9117,8 @@
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "PWR"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: industrials",
+              "fundstrat_tickers": [],
               "tickers": [
                 "DRIV",
                 "GEV",
@@ -9030,12 +9144,16 @@
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
               "fundstrat_tickers": [
-                "AMD",
-                "DE",
-                "HOOD",
-                "PKG",
-                "SATS",
-                "TPL"
+                "{'TICKER': 'AMD', 'NAME': 'ADVANCED MICRO DEVICES', 'REPORT_MOVE_PCT': -1.96, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'ANET', 'NAME': 'ARISTA NETWORKS', 'REPORT_MOVE_PCT': -1.93, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'DE', 'NAME': 'DEERE & CO.', 'REPORT_MOVE_PCT': 0.05}",
+                "{'TICKER': 'GOOGL', 'NAME': 'ALPHABET INC.', 'REPORT_MOVE_PCT': 0.06}",
+                "{'TICKER': 'GS', 'NAME': 'GOLDMAN SACHS GROUP INC.', 'REPORT_MOVE_PCT': -0.18, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'HOOD', 'NAME': 'ROBINHOOD MARKETS INC.', 'REPORT_MOVE_PCT': 2.79}",
+                "{'TICKER': 'PKG', 'NAME': 'PACKAGING CORP. OF AMERICA', 'REPORT_MOVE_PCT': -0.22, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'PWR', 'NAME': 'QUANTA SERVICES INC.', 'REPORT_MOVE_PCT': -1.15}",
+                "{'TICKER': 'SATS', 'NAME': 'ECHOSTAR CORP.', 'REPORT_MOVE_PCT': -0.79}",
+                "{'TICKER': 'TPL', 'NAME': 'TEXAS PACIFIC LAND CORP.', 'REPORT_MOVE_PCT': 1.5}"
               ],
               "tickers": [
                 "AAPL",
@@ -9098,10 +9216,8 @@
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "GS"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: financials",
+              "fundstrat_tickers": [],
               "tickers": [
                 "GS",
                 "JPM",
@@ -11341,11 +11457,8 @@
             "working_model_gap_pct": 11.04,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "ANET",
-              "GOOGL"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
+            "fundstrat_tickers": []
           },
           {
             "category": "Quality core",
@@ -11385,10 +11498,8 @@
             "working_model_gap_pct": null,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "PWR"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: industrials",
+            "fundstrat_tickers": []
           },
           {
             "category": "Nuclear",
@@ -11440,12 +11551,16 @@
             "fundstrat_source_date": "2026-05-28",
             "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
             "fundstrat_tickers": [
-              "AMD",
-              "DE",
-              "HOOD",
-              "PKG",
-              "SATS",
-              "TPL"
+              "{'TICKER': 'AMD', 'NAME': 'ADVANCED MICRO DEVICES', 'REPORT_MOVE_PCT': -1.96, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'ANET', 'NAME': 'ARISTA NETWORKS', 'REPORT_MOVE_PCT': -1.93, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'DE', 'NAME': 'DEERE & CO.', 'REPORT_MOVE_PCT': 0.05}",
+              "{'TICKER': 'GOOGL', 'NAME': 'ALPHABET INC.', 'REPORT_MOVE_PCT': 0.06}",
+              "{'TICKER': 'GS', 'NAME': 'GOLDMAN SACHS GROUP INC.', 'REPORT_MOVE_PCT': -0.18, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'HOOD', 'NAME': 'ROBINHOOD MARKETS INC.', 'REPORT_MOVE_PCT': 2.79}",
+              "{'TICKER': 'PKG', 'NAME': 'PACKAGING CORP. OF AMERICA', 'REPORT_MOVE_PCT': -0.22, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+              "{'TICKER': 'PWR', 'NAME': 'QUANTA SERVICES INC.', 'REPORT_MOVE_PCT': -1.15}",
+              "{'TICKER': 'SATS', 'NAME': 'ECHOSTAR CORP.', 'REPORT_MOVE_PCT': -0.79}",
+              "{'TICKER': 'TPL', 'NAME': 'TEXAS PACIFIC LAND CORP.', 'REPORT_MOVE_PCT': 1.5}"
             ]
           },
           {
@@ -11462,10 +11577,8 @@
             "working_model_gap_pct": null,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-05-28",
-            "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-            "fundstrat_tickers": [
-              "GS"
-            ]
+            "fundstrat_reason": "Fundstrat what-to-own theme: financials",
+            "fundstrat_tickers": []
           },
           {
             "category": "Crypto",
@@ -12024,11 +12137,8 @@
               "working_model_gap_pct": 4.14,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "ANET",
-                "GOOGL"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
+              "fundstrat_tickers": [],
               "tickers": [
                 "AMZN",
                 "ANET",
@@ -12091,12 +12201,16 @@
               "fundstrat_source_date": "2026-05-28",
               "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
               "fundstrat_tickers": [
-                "AMD",
-                "DE",
-                "HOOD",
-                "PKG",
-                "SATS",
-                "TPL"
+                "{'TICKER': 'AMD', 'NAME': 'ADVANCED MICRO DEVICES', 'REPORT_MOVE_PCT': -1.96, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'ANET', 'NAME': 'ARISTA NETWORKS', 'REPORT_MOVE_PCT': -1.93, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'DE', 'NAME': 'DEERE & CO.', 'REPORT_MOVE_PCT': 0.05}",
+                "{'TICKER': 'GOOGL', 'NAME': 'ALPHABET INC.', 'REPORT_MOVE_PCT': 0.06}",
+                "{'TICKER': 'GS', 'NAME': 'GOLDMAN SACHS GROUP INC.', 'REPORT_MOVE_PCT': -0.18, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'HOOD', 'NAME': 'ROBINHOOD MARKETS INC.', 'REPORT_MOVE_PCT': 2.79}",
+                "{'TICKER': 'PKG', 'NAME': 'PACKAGING CORP. OF AMERICA', 'REPORT_MOVE_PCT': -0.22, 'CARRY_OVER': TRUE, 'NOTE': 'CARRY OVER'}",
+                "{'TICKER': 'PWR', 'NAME': 'QUANTA SERVICES INC.', 'REPORT_MOVE_PCT': -1.15}",
+                "{'TICKER': 'SATS', 'NAME': 'ECHOSTAR CORP.', 'REPORT_MOVE_PCT': -0.79}",
+                "{'TICKER': 'TPL', 'NAME': 'TEXAS PACIFIC LAND CORP.', 'REPORT_MOVE_PCT': 1.5}"
               ],
               "tickers": [
                 "AAPL",
@@ -12140,10 +12254,8 @@
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "PWR"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: industrials",
+              "fundstrat_tickers": [],
               "tickers": [
                 "BE",
                 "FIX",
@@ -12194,10 +12306,8 @@
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-05-28",
-              "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
-              "fundstrat_tickers": [
-                "GS"
-              ],
+              "fundstrat_reason": "Fundstrat what-to-own theme: financials",
+              "fundstrat_tickers": [],
               "tickers": [
                 "GS",
                 "SOFI",
@@ -12330,7 +12440,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-07T11:23:42-04:00",
-        "connector_proof_age_hours": 11.77
+        "connector_proof_age_hours": 12.0
       }
     ],
     "missing": [],
@@ -13595,7 +13705,7 @@
   },
   "fundstrat_news": {
     "status": "has_data",
-    "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID not captured, daily calls 6 latest 2026-06-05.",
+    "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID 5, daily calls 6 latest 2026-06-05.",
     "as_of": "2026-06-07",
     "monthly": {
       "deck_date": "2026-05-28",
@@ -13618,7 +13728,10 @@
           "ticker": "AMD",
           "direction": "long",
           "list": "Top 5 large cap",
-          "note": "",
+          "note": "carry over",
+          "name": "Advanced Micro Devices",
+          "report_move_pct": -1.96,
+          "carry_over": true,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13632,7 +13745,10 @@
           "ticker": "ANET",
           "direction": "long",
           "list": "Top 5 large cap",
-          "note": "",
+          "note": "carry over",
+          "name": "Arista Networks",
+          "report_move_pct": -1.93,
+          "carry_over": true,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13646,7 +13762,10 @@
           "ticker": "GOOGL",
           "direction": "long",
           "list": "Top 5 large cap",
-          "note": "",
+          "note": "Alphabet Inc.",
+          "name": "Alphabet Inc.",
+          "report_move_pct": 0.06,
+          "carry_over": false,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13660,7 +13779,10 @@
           "ticker": "PWR",
           "direction": "long",
           "list": "Top 5 large cap",
-          "note": "",
+          "note": "Quanta Services Inc.",
+          "name": "Quanta Services Inc.",
+          "report_move_pct": -1.15,
+          "carry_over": false,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13674,7 +13796,10 @@
           "ticker": "GS",
           "direction": "long",
           "list": "Top 5 large cap",
-          "note": "",
+          "note": "carry over",
+          "name": "Goldman Sachs Group Inc.",
+          "report_move_pct": -0.18,
+          "carry_over": true,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13684,14 +13809,103 @@
           "conviction": "BUILDING"
         }
       ],
-      "top_smid": [],
+      "top_smid": [
+        {
+          "rank": 1,
+          "ticker": "STRL",
+          "direction": "long",
+          "list": "Top 5 SMID",
+          "note": "carry over",
+          "name": "Sterling Infrastructure Inc.",
+          "report_move_pct": -0.18,
+          "carry_over": true,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Top 5 SMID - 2026-05-28",
+          "summary": "STRL: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        },
+        {
+          "rank": 2,
+          "ticker": "IESC",
+          "direction": "long",
+          "list": "Top 5 SMID",
+          "note": "carry over",
+          "name": "IES Holdings Inc.",
+          "report_move_pct": -0.38,
+          "carry_over": true,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Top 5 SMID - 2026-05-28",
+          "summary": "IESC: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        },
+        {
+          "rank": 3,
+          "ticker": "FIX",
+          "direction": "long",
+          "list": "Top 5 SMID",
+          "note": "carry over",
+          "name": "Comfort Systems USA, Inc.",
+          "report_move_pct": -0.08,
+          "carry_over": true,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Top 5 SMID - 2026-05-28",
+          "summary": "FIX: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        },
+        {
+          "rank": 4,
+          "ticker": "CRS",
+          "direction": "long",
+          "list": "Top 5 SMID",
+          "note": "carry over",
+          "name": "Carpenter Technology Corp.",
+          "report_move_pct": 1.59,
+          "carry_over": true,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Top 5 SMID - 2026-05-28",
+          "summary": "CRS: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        },
+        {
+          "rank": 5,
+          "ticker": "FN",
+          "direction": "long",
+          "list": "Top 5 SMID",
+          "note": "Fabrinet",
+          "name": "Fabrinet",
+          "report_move_pct": 0.9,
+          "carry_over": false,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Top 5 SMID - 2026-05-28",
+          "summary": "FN: conviction BUILDING / urgency QUIET (1 independent signal stacked).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        }
+      ],
       "bottom5": [
         {
           "rank": 1,
           "ticker": "DE",
           "direction": "avoid",
-          "list": "Bottom 5",
-          "note": "",
+          "list": "Bottom 5 large cap",
+          "note": "Deere & Co.",
+          "name": "Deere & Co.",
+          "report_move_pct": 0.05,
+          "carry_over": false,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13704,8 +13918,11 @@
           "rank": 2,
           "ticker": "TPL",
           "direction": "avoid",
-          "list": "Bottom 5",
-          "note": "",
+          "list": "Bottom 5 large cap",
+          "note": "Texas Pacific Land Corp.",
+          "name": "Texas Pacific Land Corp.",
+          "report_move_pct": 1.5,
+          "carry_over": false,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13718,8 +13935,11 @@
           "rank": 3,
           "ticker": "HOOD",
           "direction": "avoid",
-          "list": "Bottom 5",
-          "note": "",
+          "list": "Bottom 5 large cap",
+          "note": "Robinhood Markets Inc.",
+          "name": "Robinhood Markets Inc.",
+          "report_move_pct": 2.79,
+          "carry_over": false,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13732,8 +13952,11 @@
           "rank": 4,
           "ticker": "PKG",
           "direction": "avoid",
-          "list": "Bottom 5",
-          "note": "",
+          "list": "Bottom 5 large cap",
+          "note": "carry over",
+          "name": "Packaging Corp. of America",
+          "report_move_pct": -0.22,
+          "carry_over": true,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13746,8 +13969,11 @@
           "rank": 5,
           "ticker": "SATS",
           "direction": "avoid",
-          "list": "Bottom 5",
-          "note": "",
+          "list": "Bottom 5 large cap",
+          "note": "Echostar Corp.",
+          "name": "Echostar Corp.",
+          "report_move_pct": -0.79,
+          "carry_over": false,
           "add_date": "2026-05-28",
           "add_price": null,
           "add_price_label": "not captured",
@@ -13757,20 +13983,117 @@
           "conviction": "BUILDING"
         }
       ],
+      "bottom5_smid": [
+        {
+          "rank": 1,
+          "ticker": "ELF",
+          "direction": "avoid",
+          "list": "Bottom 5 SMID",
+          "note": "carry over",
+          "name": "e.l.f. Beauty, Inc.",
+          "report_move_pct": 5.97,
+          "carry_over": true,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Bottom 5 SMID - 2026-05-28",
+          "summary": "ELF: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        },
+        {
+          "rank": 2,
+          "ticker": "SATS",
+          "direction": "avoid",
+          "list": "Bottom 5 SMID",
+          "note": "Echostar Corp.",
+          "name": "Echostar Corp.",
+          "report_move_pct": -0.79,
+          "carry_over": false,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Bottom 5 - 2026-05-28",
+          "summary": "SATS: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        },
+        {
+          "rank": 3,
+          "ticker": "UUUU",
+          "direction": "avoid",
+          "list": "Bottom 5 SMID",
+          "note": "Energy Fuels Inc.",
+          "name": "Energy Fuels Inc.",
+          "report_move_pct": -0.69,
+          "carry_over": false,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Bottom 5 SMID - 2026-05-28",
+          "summary": "UUUU: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        },
+        {
+          "rank": 4,
+          "ticker": "SOFI",
+          "direction": "avoid",
+          "list": "Bottom 5 SMID",
+          "note": "SoFi Technologies Inc.",
+          "name": "SoFi Technologies Inc.",
+          "report_move_pct": 1.31,
+          "carry_over": false,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Bottom 5 SMID - 2026-05-28",
+          "summary": "SOFI: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        },
+        {
+          "rank": 5,
+          "ticker": "KTOS",
+          "direction": "avoid",
+          "list": "Bottom 5 SMID",
+          "note": "carry over",
+          "name": "Kratos Defense & Security",
+          "report_move_pct": 0.88,
+          "carry_over": true,
+          "add_date": "2026-05-28",
+          "add_price": null,
+          "add_price_label": "not captured",
+          "provenance": "FS Bottom 5 SMID - 2026-05-28",
+          "summary": "KTOS: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal).",
+          "urgency": "QUIET",
+          "conviction": "BUILDING"
+        }
+      ],
       "price_coverage": {
-        "total_rows": 10,
-        "missing_count": 10,
+        "total_rows": 20,
+        "missing_count": 20,
         "missing_tickers": [
           "AMD",
           "ANET",
           "GOOGL",
           "PWR",
           "GS",
+          "STRL",
+          "IESC",
+          "FIX",
+          "CRS",
+          "FN",
           "DE",
           "TPL",
           "HOOD",
           "PKG",
-          "SATS"
+          "SATS",
+          "ELF",
+          "SATS",
+          "UUUU",
+          "SOFI",
+          "KTOS"
         ]
       }
     },
@@ -13872,14 +14195,8 @@
       {
         "key": "missing_add_prices",
         "severity": "warn",
-        "line": "Price when added is not captured for 10 monthly list row(s): AMD, ANET, GOOGL, PWR, GS, DE, TPL, HOOD, PKG, SATS.",
+        "line": "Price when added is not captured for 20 monthly list row(s): AMD, ANET, GOOGL, PWR, GS, STRL, IESC, FIX, CRS, FN, DE, TPL +8.",
         "next_step": "Backfill from an approved historical price cache before using since-added performance."
-      },
-      {
-        "key": "missing_smid_top5",
-        "severity": "warn",
-        "line": "Top 5 SMID is not present in the live monthly bible/prospect caches.",
-        "next_step": "Re-read the May 28 monthly material or supplied PDF text and store the SMID rows explicitly."
       }
     ],
     "honesty_rule": "Fundstrat is the baseline source of truth, but monthly list membership is not an execution trigger; stale, missing, or snippet-only data stays labeled."
@@ -15474,7 +15791,7 @@
         "rank": 4,
         "posture": "research/store",
         "label": "Fix Fundstrat storage gaps before over-weighting monthly list performance.",
-        "why": "Price when added is not captured for 10 monthly list row(s): AMD, ANET, GOOGL, PWR, GS, DE, TPL, HOOD, PKG, SATS.; Top 5 SMID is not present in the live monthly bible/prospect caches.",
+        "why": "Price when added is not captured for 20 monthly list row(s): AMD, ANET, GOOGL, PWR, GS, STRL, IESC, FIX, CRS, FN, DE, TPL +8.",
         "what_i_would_do": "Use the May 28 list as baseline context today, but backfill SMID rows and add prices before judging missed opportunity or since-added returns.",
         "source": "fundstrat_news"
       },

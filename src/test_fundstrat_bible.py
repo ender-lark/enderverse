@@ -116,6 +116,26 @@ def test_bottom5_cards():
     assert rows[0]["content"] == "FS Bottom-5: XYZ"
 
 
+def test_smid_top_bottom_cards_are_distinct_lists():
+    deck = {
+        "deck_date": "2026-05-28",
+        "top5_smid": [{"ticker": "STRL", "note": "carry over"}, "FN"],
+        "bottom5_smid": ["ELF", "KTOS"],
+    }
+
+    rows = [r for r in fundstrat_bible_reader(deck) if r["kind"] == "analyst_call"]
+
+    assert [(r["subject"], r["data"]["list"], r["data"]["rank"]) for r in rows] == [
+        ("STRL", "top5_smid", 1),
+        ("FN", "top5_smid", 2),
+        ("ELF", "bottom5_smid", 1),
+        ("KTOS", "bottom5_smid", 2),
+    ]
+    assert rows[0]["content"].startswith("FS Top-5 SMID: STRL")
+    assert rows[0]["content"].endswith("carry over")
+    assert rows[-1]["content"] == "FS Bottom-5 SMID: KTOS"
+
+
 # --------------------------------------------------------------------------- #
 # resilience
 # --------------------------------------------------------------------------- #

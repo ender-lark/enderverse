@@ -7,6 +7,7 @@ and emits uniform fact-cards carrying the deck's useful content VERBATIM:
   - macro stance        -> kind="stance"
   - What-to-Own sectors -> kind="what_to_own"  (one card per sector)
   - Top-5 / Bottom-5    -> kind="analyst_call"  (one card per ticker)
+    Large-cap keys use top5/bottom5; SMID keys use top5_smid/bottom5_smid.
 
 Boundary (Sources vs Analyst — RECORD): verbatim stance text + list membership
 are MECHANICAL, so they belong to the plug. The plug does NOT decide whether a
@@ -26,6 +27,8 @@ Deck shape (every section optional; missing -> no cards, never faked):
       "what_to_own": ["Technology", {"sector": "...", "note": "..."}],
       "top5":    ["NVDA", {"ticker": "GOOGL", "note": "..."}],
       "bottom5": ["XYZ", ...],
+      "top5_smid": ["STRL", ...],
+      "bottom5_smid": ["ELF", ...],
     }
 """
 from __future__ import annotations
@@ -78,6 +81,8 @@ def fundstrat_bible_reader(deck: dict, as_of: str | None = None) -> list[dict]:
     for list_name, label, direction in (
         ("top5", "FS Top-5", "favored"),
         ("bottom5", "FS Bottom-5", "unfavored"),
+        ("top5_smid", "FS Top-5 SMID", "favored"),
+        ("bottom5_smid", "FS Bottom-5 SMID", "unfavored"),
     ):
         for i, item in enumerate(deck.get(list_name) or [], start=1):
             ticker, note = _name_note(item, "ticker")

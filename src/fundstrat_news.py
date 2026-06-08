@@ -67,6 +67,7 @@ def _monthly_rows(
         prospect = _prospect_for(ticker, top_prospects)
         add_price = prospect.get("add_price")
         add_date = prospect.get("add_date")
+        item_meta = item if isinstance(item, dict) else {}
         rows.append(
             {
                 "rank": rank,
@@ -74,6 +75,9 @@ def _monthly_rows(
                 "direction": direction,
                 "list": list_name,
                 "note": note,
+                "name": item_meta.get("name") or "",
+                "report_move_pct": item_meta.get("report_move_pct"),
+                "carry_over": bool(item_meta.get("carry_over")),
                 "add_date": add_date or "",
                 "add_price": add_price,
                 "add_price_label": _price_label(add_price),
@@ -86,19 +90,40 @@ def _monthly_rows(
     return rows
 
 
+def _find_rows_by_keys(
+    deck: dict[str, Any] | None,
+    top_prospects: dict[str, Any] | None,
+    *,
+    keys: tuple[str, ...],
+    list_name: str,
+    direction: str,
+) -> list[dict[str, Any]]:
+    deck = deck if isinstance(deck, dict) else {}
+    for key in keys:
+        if isinstance(deck.get(key), list) and deck.get(key):
+            return _monthly_rows(
+                deck.get(key) or [],
+                list_name=list_name,
+                direction=direction,
+                top_prospects=top_prospects,
+            )
+    return []
+
+
 def _find_smid_rows(
     deck: dict[str, Any] | None,
     top_prospects: dict[str, Any] | None,
 ) -> list[dict[str, Any]]:
     deck = deck if isinstance(deck, dict) else {}
-    for key in ("top5_smid", "smid_top5", "top5_smidcap", "smid"):
-        if isinstance(deck.get(key), list) and deck.get(key):
-            return _monthly_rows(
-                deck.get(key) or [],
-                list_name="Top 5 SMID",
-                direction="long",
-                top_prospects=top_prospects,
-            )
+    found = _find_rows_by_keys(
+        deck,
+        top_prospects,
+        keys=("top5_smid", "smid_top5", "top5_smidcap", "smid"),
+        list_name="Top 5 SMID",
+        direction="long",
+    )
+    if found:
+        return found
     if not isinstance(top_prospects, dict):
         return []
     rows = []
@@ -125,6 +150,19 @@ def _find_smid_rows(
         rows.append(row)
     rows.sort(key=lambda r: (r.get("rank") or 99, r.get("ticker") or ""))
     return rows
+
+
+def _find_bottom_smid_rows(
+    deck: dict[str, Any] | None,
+    top_prospects: dict[str, Any] | None,
+) -> list[dict[str, Any]]:
+    return _find_rows_by_keys(
+        deck if isinstance(deck, dict) else {},
+        top_prospects,
+        keys=("bottom5_smid", "smid_bottom5", "bottom5_smidcap"),
+        list_name="Bottom 5 SMID",
+        direction="avoid",
+    )
 
 
 def _daily_implication(row: dict[str, Any], lane: dict[str, Any]) -> str:
@@ -196,16 +234,17 @@ def build_fundstrat_news(
         top_prospects=prospects,
     )
     top_smid = _find_smid_rows(bible, prospects)
-    bottom = _monthly_rows(
+    bottom_large = _monthly_rows(
         bible.get("bottom5") or [],
-        list_name="Bottom 5",
+        list_name="Bottom 5 large cap",
         direction="avoid",
         top_prospects=prospects,
     )
+    bottom_smid = _find_bottom_smid_rows(bible, prospects)
     daily = _daily_rows(fundstrat_daily_calls if isinstance(fundstrat_daily_calls, list) else [])
     missing_prices = [
         row["ticker"]
-        for row in top_large + top_smid + bottom
+        for row in top_large + top_smid + bottom_large + bottom_smid
         if row.get("add_price") is None
     ]
     gaps = []
@@ -266,9 +305,10 @@ def build_fundstrat_news(
             "allocation_plan": list(bible.get("what_to_own") or []),
             "top_large_cap": top_large,
             "top_smid": top_smid,
-            "bottom5": bottom,
+            "bottom5": bottom_large,
+            "bottom5_smid": bottom_smid,
             "price_coverage": {
-                "total_rows": len(top_large) + len(top_smid) + len(bottom),
+                "total_rows": len(top_large) + len(top_smid) + len(bottom_large) + len(bottom_smid),
                 "missing_count": len(missing_prices),
                 "missing_tickers": missing_prices,
             },
