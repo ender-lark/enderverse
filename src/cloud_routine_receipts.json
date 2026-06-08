@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-08T19:47:13.985410Z",
+  "updated_at": "2026-06-08T20:32:39.526020Z",
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
@@ -3732,6 +3732,27 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T19:47:13.985410Z",
       "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T20:32:36.555814Z",
+      "summary": "investing-os-post-close-refresh started"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T20:32:39.526020Z",
+      "summary": "post-close refresh succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ]
 }
