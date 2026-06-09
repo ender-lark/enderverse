@@ -1,26 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T13:41:31.183324Z",
+  "updated_at": "2026-06-09T13:49:26.338735Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:39.419817Z",
-      "summary": "off-hours worker checked research queue cache only; open reviews intentionally not worked in this build",
-      "details": {
-        "steps": [
-          "research queue validate"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:39.429838Z",
-      "summary": "investing-os-deep-synthesis manual run started"
-    },
     {
       "routine_id": "investing-os-deep-synthesis",
       "status": "success",
@@ -4399,6 +4380,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T13:41:31.183324Z",
       "summary": "5 check sets/22 tickers; same-session UW proof 0 support 0 contradict 10 inconclusive 3 missing-failed; gates preserved for price-flow-news-position evidence; dashboard refresh skipped"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T13:47:35.734960Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T13:49:26.338735Z",
+      "summary": "checked 2 msgs, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alerts sent 3 from existing fresh calls, fundstrat lane unchanged, blockers none"
     }
   ]
 }
