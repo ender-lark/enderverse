@@ -1,27 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T12:42:35.165456Z",
+  "updated_at": "2026-06-09T12:52:33.901775Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:36.173165Z",
-      "summary": "uw opportunity cache scorer completed from existing token-safe bundle; live UW fetch skipped because UW_API_KEY is missing",
-      "details": {
-        "steps": [
-          "uw opportunity self-test",
-          "uw opportunity existing bundle score"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:36.183920Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
     {
       "routine_id": "investing-os-parabolic-cache",
       "status": "failed",
@@ -4424,6 +4404,27 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T12:42:35.165456Z",
       "summary": "4 Notion rows verified; repo Signal Log 18 rows; UW proof refreshed to 2026-06-08 16:10 ET; macro unchanged; failures none"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T12:52:31.251379Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T12:52:33.901775Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ]
 }

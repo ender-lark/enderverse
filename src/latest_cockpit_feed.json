@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-09T12:27:36.019171+00:00",
+  "generated_at": "2026-06-09T12:52:32.172674+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-09 \u00b7 uw_price 06-09 \u00b7 uw_macro 06-09 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-09",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-09T08:27:36.019171-04:00",
+        "date": "2026-06-09T08:52:32.172674-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-09T08:27:36.019171-04:00",
+        "date": "2026-06-09T08:52:32.172674-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -125,7 +125,7 @@
         "label": "Signal Log",
         "status": "has_data",
         "detail": "checked",
-        "count": 14,
+        "count": 18,
         "checked_at": ""
       },
       {
@@ -1137,6 +1137,38 @@
       "priority": "medium",
       "source": "https://app.notion.com/p/379c50314bb6812fbb85eb8cbbbe24b3",
       "note": "Reuters-reported coverage from June 2 said Urenco plans to increase U.S. enrichment capacity by nearly 50% to supply nuclear plants. This is slower-moving supply-chain context rather than an immediate catalyst, but it supports ongoing attention on uranium and fuel-cycle exposure. Watch-only."
+    },
+    {
+      "signal": "Chip rebound extended for a second day on June 9",
+      "ticker": "SMH, NVDA, MU, MAGS, GRNY, GRNJ, IVES, VOLT",
+      "date": "2026-06-09",
+      "priority": "high",
+      "source": "https://app.notion.com/p/37ac50314bb68100b3c9c7b475f779c6",
+      "note": "Reuters market coverage on Tuesday, June 9, 2026 said U.S. stock-index futures were higher and Nvidia, Broadcom, and Micron were up roughly 0.8% to 4.4% premarket as easing Middle East hostilities aided sentiment. This helps the held semis and AI sleeves, but it is still only a rebound watch after Friday's damage. Watch-only."
+    },
+    {
+      "signal": "Treasury yields stayed elevated above 4.5% into June 9",
+      "ticker": "XLF, SMH, NVDA, MU, MAGS",
+      "date": "2026-06-09",
+      "priority": "high",
+      "source": "https://app.notion.com/p/37ac50314bb68159841ee4d8333507af",
+      "note": "Reuters rates and FX coverage on Tuesday, June 9, 2026 said the benchmark U.S. 10-year yield stayed above 4.5% while the 2-year hovered near a 15-month high as rate-hike expectations remained elevated. That keeps duration-sensitive semis under macro pressure while leaving the higher-yield backdrop supportive for financials. Watch-only."
+    },
+    {
+      "signal": "Latest UW market tide flipped call-premium positive by the June 8 close, but volume stayed negative",
+      "ticker": "SPY, QQQ, SMH, NVDA, MU",
+      "date": "2026-06-09",
+      "priority": "high",
+      "source": "https://app.notion.com/p/37ac50314bb681e5b968e033538f11ad",
+      "note": "As of 8:39 AM ET on Tuesday, June 9, 2026, the latest Unusual Whales market-tide rows run through Monday, June 8, 2026 at 4:10 PM ET. The final row showed about +224.3M net call premium, -124.6M net put premium, and roughly -475.8k net volume. That is materially better than the June 5 risk-off close, but the still-negative net volume means the rebound breadth needs confirmation. Watch-only."
+    },
+    {
+      "signal": "Oil gave back most war-spike gains after June 9 halt-attacks headlines",
+      "ticker": "LEU, UUUU, XLF, USO",
+      "date": "2026-06-09",
+      "priority": "medium",
+      "source": "https://app.notion.com/p/37ac50314bb68172898fd600e467aaaa",
+      "note": "Reuters commodity coverage on Tuesday, June 9, 2026 said oil fell and erased most of the previous session's gains after Iran and Israel said they had halted attacks, though clarity remained limited. This eases the immediate inflation and rates pressure versus Monday's spike, but it leaves the nuclear, defense, and event-risk watch lanes live. Watch-only."
     }
   ],
   "social_watch": {
@@ -1731,31 +1763,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-09T12:27:35.867893+00:00",
+      "last_run": "2026-06-09T12:52:32.055781+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-09T12:27:35.867893+00:00",
+      "last_run": "2026-06-09T12:52:32.055781+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-09T12:27:35.867893+00:00",
+      "last_run": "2026-06-09T12:52:32.055781+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-09T12:27:35.867893+00:00",
+      "last_run": "2026-06-09T12:52:32.055781+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-09T12:27:35.867893+00:00",
+      "last_run": "2026-06-09T12:52:32.055781+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -3107,8 +3139,8 @@
     },
     "watch_only_why": {
       "status": "has_data",
-      "count": 23,
-      "line": "Why-not-acting lane: 23 watch-only signal(s) kept out of trade prompts.",
+      "count": 27,
+      "line": "Why-not-acting lane: 27 watch-only signal(s) kept out of trade prompts.",
       "rows": [
         {
           "ticker": "XLF, GS, ITA",
@@ -13019,8 +13051,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-08T10:02:37-04:00",
-        "connector_proof_age_hours": 22.42
+        "connector_verified_at": "2026-06-09T08:42:07-04:00",
+        "connector_proof_age_hours": 0.17
       }
     ],
     "missing": [],
@@ -13093,33 +13125,33 @@
           "routine_name": "Investing OS Morning Scan",
           "role": "morning_scan",
           "schedule": "market weekdays 8:35 AM ET",
-          "receipt_count": 16,
+          "receipt_count": 18,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:05.941360Z",
-          "last_success_at": "2026-06-08T21:27:05.941360Z",
-          "last_scheduled_success_at": "2026-06-08T12:40:48.336994Z",
-          "last_summary": "morning scan manual run completed; Signal Log remains watch-only"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-09T12:42:35.165456Z",
+          "last_success_at": "2026-06-09T12:42:35.165456Z",
+          "last_scheduled_success_at": "2026-06-09T12:42:35.165456Z",
+          "last_summary": "4 Notion rows verified; repo Signal Log 18 rows; UW proof refreshed to 2026-06-08 16:10 ET; macro unchanged; failures none"
         },
         {
           "routine_id": "investing-os-early-cockpit-build",
           "routine_name": "Investing OS Early Cockpit Build",
           "role": "early_cockpit_build",
           "schedule": "market weekdays 8:50 AM ET",
-          "receipt_count": 8,
-          "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:08.881109Z",
+          "receipt_count": 9,
+          "last_status": "started",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-09T12:52:31.251379Z",
           "last_success_at": "2026-06-08T21:27:08.881109Z",
           "last_scheduled_success_at": "2026-06-08T12:53:08.913596Z",
-          "last_summary": "early cockpit build manual run refreshed dashboard artifacts"
+          "last_summary": "investing-os-early-cockpit-build started"
         },
         {
           "routine_id": "investing-os-daily-synthesis",
           "routine_name": "Investing OS Daily Synthesis",
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
-          "receipt_count": 19,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:09.090769Z",
@@ -13145,7 +13177,7 @@
           "routine_name": "Investing OS UW Opportunity Cache",
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "receipt_count": 24,
+          "receipt_count": 22,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:09.853599Z",
@@ -13257,8 +13289,8 @@
           "label": "Signal Log cache",
           "status": "has_data",
           "written": true,
-          "count": 14,
-          "line": "Signal Log cache: written; count=14.",
+          "count": 18,
+          "line": "Signal Log cache: written; count=18.",
           "problems": []
         },
         {
