@@ -150,6 +150,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-07T00:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-top-prospects-auto-research",
+        "automation_name": "Investing OS Top Prospects Auto-Research",
+        "role": "top_prospects_autoresearch",
+        "schedule": "daily 8:45 PM ET",
+        "days": [0, 1, 2, 3, 4, 5, 6],
+        "hour": 20,
+        "minute": 45,
+        "expected_since": "2026-06-11T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-off-hours-alt-data-scout",
         "automation_name": "Investing OS Off-Hours Alt-Data Scout",
         "role": "off_hours_alt_data_scout",

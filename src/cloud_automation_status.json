@@ -156,9 +156,10 @@
     {
       "automation_id": "investing-os-off-hours-worker",
       "automation_name": "Investing OS Off-Hours Worker",
-      "status": "ACTIVE",
+      "status": "PAUSED",
       "role": "off_hours_worker",
-      "schedule": "daily 1:45 AM ET"
+      "schedule": "daily 1:45 AM ET",
+      "pause_reason": "Temporary usage conservation until 2026-06-11 reset"
     },
     {
       "automation_id": "investing-os-deep-synthesis",
@@ -173,6 +174,14 @@
       "status": "ACTIVE",
       "role": "weekly_pilot_run",
       "schedule": "Sunday 6:00 PM ET"
+    },
+    {
+      "automation_id": "investing-os-top-prospects-auto-research",
+      "automation_name": "Investing OS Top Prospects Auto-Research",
+      "status": "PAUSED",
+      "role": "top_prospects_autoresearch",
+      "schedule": "daily 8:45 PM ET",
+      "pause_reason": "Temporary usage conservation until 2026-06-11 reset"
     }
   ]
 }
