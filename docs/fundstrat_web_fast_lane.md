@@ -4,6 +4,7 @@
 
 Use the authenticated Fundstrat website as the fastest full-content source for
 FlashInsights and other high-decay Fundstrat notes when email delivery lags.
+The broader source map lives in `docs/fundstrat_source_catalog.md`.
 
 This lane is an upstream acquisition path only. It feeds the existing compact
 Fundstrat daily-call intake and does not create trade actions by itself.
@@ -15,10 +16,11 @@ FlashInsights page through the user's existing browser session. The main
 FlashInsights feed rendered complete FlashInsights card text plus timestamp,
 author, ticker tags, and visible source context.
 
-A temporary compact row derived from the visible page was accepted by:
+A temporary compact row derived from the visible page was accepted by the
+strict web helper:
 
 ```bash
-python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir tmp\fundstrat_web_feasibility --generated-at "2026-06-09T16:20:00-04:00"
+python src/fundstrat_web_intake.py --stdin-json --out-dir tmp\fundstrat_web_feasibility --generated-at "2026-06-09T16:20:00-04:00"
 ```
 
 The temporary proof wrote redacted audit/state files, produced one source-call
@@ -44,6 +46,9 @@ intake and daytime alert tests also passed.
 - Most non-FlashInsights articles require opening the article detail page before
   they count as full-body checked. Listing cards, search results, notifications,
   and snippets are discovery only.
+- Stock-list and crypto-list tables are slower baseline/diff sources, not
+  daily-call rows. Capture them only through a future baseline lane or a
+  specific user request.
 - Do not store raw Fundstrat article bodies, long excerpts, screenshots, or
   copied page text in tracked repo files.
 - Store only compact source-backed rows that preserve date, author/lane,
@@ -73,12 +78,17 @@ intake and daytime alert tests also passed.
    article text or transcript is visible before marking the item full-body
    checked.
 
-4. Extract only compact row inputs:
+4. Extract only compact row inputs. The helper requires `source_surface` and
+   `full_content_basis`; it rejects raw article fields such as `body`,
+   `article_text`, `html`, screenshots, listing snippets, push notifications,
+   and video-only titles.
 
    ```json
    {
-     "calls": [
+     "items": [
        {
+         "source_surface": "flashinsights_feed",
+         "full_content_basis": "complete FlashInsights feed card visible in logged-in Chrome",
          "author": "Mark L. Newton, CMT",
          "ticker": "QQQ",
          "direction": "avoid",
@@ -92,10 +102,11 @@ intake and daytime alert tests also passed.
    }
    ```
 
-5. Run the existing compact intake:
+5. Run the strict web wrapper. It delegates accepted rows to the existing
+   compact intake and leaves discovery-only rows out of checked caches:
 
    ```bash
-   python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir src --merge-existing
+   python src/fundstrat_web_intake.py --stdin-json --out-dir src --merge-existing
    ```
 
 6. Validate and alert through the existing routine gates:
@@ -108,6 +119,28 @@ intake and daytime alert tests also passed.
 7. Refresh the dashboard only after validation succeeds. If the run is scheduled
    or routine-owned, use the existing receipt and commit helpers rather than
    ad-hoc git staging.
+
+## Source Surfaces
+
+Allowed checked surfaces:
+
+- `flashinsights_feed`: complete FlashInsights card visible in the logged-in
+  feed
+- `flashinsights_detail`: FlashInsights detail page, if used
+- `article_detail`: standard research article detail page with article text
+  visible
+- `video_transcript` / `video_captions`: video page with transcript or captions
+  visible
+- `companion_article`: text article attached to or summarizing a video
+- `supplied_compact_notes`: user-supplied compact notes from a full-content
+  review
+
+Discovery-only surfaces:
+
+- `ios_push` / `push_notification`
+- `listing_card` / `article_listing` / `search_result`
+- `email_snippet`
+- `video_only` / `video_embed` / `thumbnail`
 
 ## Video Handling
 

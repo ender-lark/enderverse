@@ -49,7 +49,7 @@
         },
         {
           "id": "compact_web_daily_calls",
-          "command": "python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir src --merge-existing",
+          "command": "python src/fundstrat_web_intake.py --stdin-json --out-dir src --merge-existing",
           "fallback_for": "authenticated Fundstrat website or article-detail pages converted into compact full-body-derived rows"
         },
         {
@@ -75,7 +75,7 @@
           "command": "python src/fundstrat_email_intake.py --validate src"
         }
       ],
-      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily_compact_intake.py src/test_fundstrat_daytime_alert.py src/test_pushover_notify.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py src/test_source_call_candidate_draft.py -q",
+      "verification": "python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily_compact_intake.py src/test_fundstrat_web_intake.py src/test_fundstrat_daytime_alert.py src/test_pushover_notify.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py src/test_source_call_candidate_draft.py -q",
       "no_input_behavior": "Do not overwrite Fundstrat caches; report Fundstrat as not checked. Low-value Fundstrat fluff can remain audit/discovery context, but must not become a daily-call row, action prompt, or push alert."
     },
     {

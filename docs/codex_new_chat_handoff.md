@@ -134,12 +134,18 @@ Important recent state:
   raw screenshots, long website text, and raw publication bodies are not stored
   in repo.
 - Authenticated Fundstrat website intake is now documented in
-  `docs/fundstrat_web_fast_lane.md`. Chrome can read the logged-in
+  `docs/fundstrat_web_fast_lane.md`, with source prioritization in
+  `docs/fundstrat_source_catalog.md`. Chrome can read the logged-in
   FlashInsights member feed through the user's existing browser session. The
   main FlashInsights feed can be full-content evidence when it renders complete
   FlashInsights cards; most non-FlashInsights articles require opening the
   article detail page before they count as full-body checked. iOS push
   notifications remain discovery-only.
+- Fundstrat Top Ideas, Upticks, Sector Allocation, and Crypto Core Strategy web
+  tables are useful as slower baseline/diff sources, not daily-call alerts.
+  Do not promote unchanged table data into actions; use only adds/removes,
+  weight changes, support/resistance changes, rebalances, or direct portfolio
+  overlap.
 - Tom Lee/video-only Fundstrat items are audit/discovery-only unless a visible
   transcript, captions, companion article, or supplied compact notes are
   available. Automated video transcript/caption intake is queued as P3.

@@ -28,7 +28,8 @@ until the core logic is stable; Notion sync comes later.
 - Fundstrat Web Fast Lane.
   - Confirmed Chrome can access the logged-in Fundstrat Direct FlashInsights
     member feed through the user's existing browser session.
-  - Added `docs/fundstrat_web_fast_lane.md` and updated the Fundstrat routine
+  - Added `docs/fundstrat_web_fast_lane.md` and
+    `docs/fundstrat_source_catalog.md`, then updated the Fundstrat routine
     manifest/docs so authenticated website text can be converted into compact
     full-body-derived rows without storing raw member-page bodies, screenshots,
     credentials, cookies, local storage, or browser profile data.
@@ -39,6 +40,10 @@ until the core logic is stable; Notion sync comes later.
   - iOS Fundstrat pushes remain discovery-only. Tom Lee/video-only items remain
     audit/discovery-only unless a visible transcript, captions, companion
     article, or supplied compact notes are available.
+  - Cataloged slower structured Fundstrat sources: Top Ideas, Upticks, Sector
+    Allocation, and Crypto Core Strategy tables are baseline/diff candidates,
+    not daily-call alerts unless they show meaningful change or portfolio
+    overlap.
   - Added a P3 queued item for Fundstrat video transcript/caption intake.
 - Account-placement guidance for trade review prompts.
   - Added `account_trade_placement.py` so action rows, research-action rows,

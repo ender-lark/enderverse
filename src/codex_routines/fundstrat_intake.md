@@ -13,7 +13,8 @@ surface named calls, time-sensitive technicals, and source-call candidates.
   or action-changing items.
 - Website fast lane: authenticated Fundstrat member pages read through the
   user's logged-in Chrome session, then converted into compact full-body-derived
-  rows. See `docs/fundstrat_web_fast_lane.md`.
+  rows. See `docs/fundstrat_web_fast_lane.md` and
+  `docs/fundstrat_source_catalog.md`.
 - Daily fallback: files in `G:\My Drive\Codex\Investing OS Context\03_Inbox\Fundstrat_Email_Drop`.
 - Manual website fallback: user-supplied Fundstrat website screenshots or text
   converted into compact action-relevant rows by Codex.
@@ -92,15 +93,27 @@ Accepted monthly file types:
    cards. Most non-FlashInsights articles require opening the article detail
    page before they count as full-body checked. Extract only compact rows that
    preserve source date, author/lane, ticker, direction/posture, levels, and a
-   short source-backed summary. Then run the same compact command above. Do not
-   store raw website text, raw screenshots, long excerpts, credentials, cookies,
-   local storage, or browser profile data in repo files.
+   short source-backed summary. Then run the strict web wrapper:
+
+   ```bash
+   python src/fundstrat_web_intake.py --stdin-json --out-dir src --merge-existing
+   ```
+
+   This wrapper rejects raw website text, raw screenshots, long excerpts,
+   listing snippets, push notifications, video-only embeds/titles, credentials,
+   cookies, local storage, and browser profile data before delegating accepted
+   rows to `fundstrat_daily_compact_intake.py`.
 
    Tom Lee macro videos and other video-only Fundstrat items are audit/discovery
    only unless a visible transcript, captions, companion article, or
    user-supplied compact notes are available. Automated video transcript
    extraction is queued as lower-priority system work; do not treat a video
    thumbnail or title as full-body checked.
+
+   Stock-list and crypto-list tables are slower baseline/diff sources. Do not
+   convert unchanged tables into daily-call rows; defer them unless they show a
+   meaningful add/remove, weight, support/resistance, rebalance, or direct
+   portfolio-overlap change.
 
    iOS Fundstrat push notifications are discovery triggers only. They can tell
    the operator to check the Fundstrat website, but notification snippets do
@@ -195,7 +208,7 @@ Accepted monthly file types:
 10. Run focused checks:
 
    ```bash
-   python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily_compact_intake.py src/test_fundstrat_daytime_alert.py src/test_pushover_notify.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q
+   python -m pytest src/test_fundstrat_email_intake.py src/test_fundstrat_daily_compact_intake.py src/test_fundstrat_web_intake.py src/test_fundstrat_daytime_alert.py src/test_pushover_notify.py src/test_fundstrat_bible_intake.py src/test_fundstrat_daily.py src/test_source_call_cache_merge.py -q
    ```
 
 11. Summarize:
