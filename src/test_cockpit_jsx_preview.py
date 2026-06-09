@@ -35,6 +35,9 @@ def test_canonical_jsx_has_current_commands_tab():
 
     assert '["commands","Commands"]' in src
     assert "python src/live_dashboard_refresh.py" in src
+    assert "Run post-open evidence gate" in src
+    assert "python src/uw_endpoint_result_capture.py --feed src/latest_cockpit_feed.json --out src/uw_endpoint_results.json --timeout 8 --retries 1" in src
+    assert "python src/uw_endpoint_result_proof.py --results src/uw_endpoint_results.json --runbook src/latest_cockpit_feed.json --format text" in src
     assert "python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text" in src
     assert "Social Watch remains queued/dark" in src
 
@@ -88,6 +91,8 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert "Today lanes:" in src
     assert "Reallocation:" in src
     assert "Where to look: Today lanes are below; candidate adds and funding trims live in the Reallocation tab." in src
+    assert "Queued behind post-open evidence; earliest useful check 8:50 Early Cockpit, evidence gate 9:40, fuller check 10:30 Full Cockpit." in src
+    assert "If same-session endpoint proof is missing, failed, stale, or inconclusive, these stay gated instead of moving to Ready." in src
     assert "Top capital candidates to consider:" in src
     assert "Full sizing and funding map stays in Reallocation." in src
     assert "candidate adds" in src

@@ -55,6 +55,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "minute": 35,
     },
     {
+        "automation_id": "investing-os-broker-position-intake",
+        "automation_name": "Investing OS Broker Position Intake",
+        "role": "broker_position_intake",
+        "schedule": "market weekdays 8:20 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 8,
+        "minute": 20,
+        "expected_since": "2026-06-09T09:16:00-04:00",
+    },
+    {
         "automation_id": "investing-os-early-cockpit-build",
         "automation_name": "Investing OS Early Cockpit Build",
         "role": "early_cockpit_build",
@@ -72,6 +82,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "days": [0, 1, 2, 3, 4],
         "hour": 9,
         "minute": 30,
+    },
+    {
+        "automation_id": "investing-os-post-open-evidence-gate",
+        "automation_name": "Investing OS Post-Open Evidence Gate",
+        "role": "post_open_evidence_gate",
+        "schedule": "market weekdays 9:40 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 9,
+        "minute": 40,
+        "expected_since": "2026-06-09T09:16:00-04:00",
     },
     {
         "automation_id": "investing-os-fundstrat-daytime-watch",

@@ -934,6 +934,8 @@ function TodayWorkNowStrip({ packet, reallocationBrief, counts, onOpenOps, onOpe
       </div>
       <div style={{ marginTop:5, fontSize:12.2, color:C.dim }}>{message}</div>
       <div style={{ marginTop:4, fontSize:12.2, color:C.text }}>{action}</div>
+      {W.hasWork && <div style={{ marginTop:4, fontSize:12, color:C.amber }}>Queued behind post-open evidence; earliest useful check 8:50 Early Cockpit, evidence gate 9:40, fuller check 10:30 Full Cockpit.</div>}
+      {W.hasWork && <div style={{ marginTop:3, fontSize:11.5, color:C.dim }}>If same-session endpoint proof is missing, failed, stale, or inconclusive, these stay gated instead of moving to Ready.</div>}
       {W.topCandidates.length>0 && <div style={{ marginTop:4, fontSize:12, color:C.text }}>Top capital candidates to consider: {W.topCandidates.join(" | ")}. Full sizing and funding map stays in Reallocation.</div>}
       <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Where to look: Today lanes are below; candidate adds and funding trims live in the Reallocation tab.</div>
       {W.primaryBlocker && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Main blocker: {friendlyEvidencePart(W.primaryBlocker)}</div>}
@@ -982,6 +984,7 @@ const COMMAND_ACTIONS = [
   { name:"Refresh the cockpit", desc:"Rebuild the feed, rendered JSX, local preview, and HTML mirror before trusting a stale screen.", command:"python src/live_dashboard_refresh.py" },
   { name:"Refresh book from SnapTrade", desc:"Pull account API positions, validate, promote the book, and rebuild the cockpit. Use daily and after reported trades.", command:"python src/snaptrade_book_refresh.py --refresh-dashboard" },
   { name:"Review market-open packet", desc:"Walk the current Key Now, Re-check, backlog, blockers, and assumption-refresh sequence.", command:"python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text" },
+  { name:"Run post-open evidence gate", desc:"Force the same-session price/flow/news proof pass that can promote, downgrade, or keep Today/Reallocation candidates gated.", command:"python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text; python src/uw_endpoint_result_capture.py --feed src/latest_cockpit_feed.json --out src/uw_endpoint_results.json --timeout 8 --retries 1; python src/uw_endpoint_result_proof.py --results src/uw_endpoint_results.json --runbook src/latest_cockpit_feed.json --format text; python src/live_dashboard_refresh.py" },
   { name:"Review reallocation", desc:"Candidate-only funded add/trim plan. Use it to compare capital uses, not to execute trades.", command:"python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text" },
   { name:"Review open actions", desc:"Resolve only after act, invalidate, defer, ignore, or miss is explicit.", command:"python src/action_memory_resolve.py --review-report" },
 ];

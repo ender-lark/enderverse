@@ -159,6 +159,11 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-broker-position-intake",
+            "broker position intake manual run refreshed SnapTrade book only after strict validation",
+            [Step("snaptrade book refresh", _python("src/snaptrade_book_refresh.py", "--refresh-dashboard"))],
+        ),
+        Routine(
             "investing-os-morning-scan",
             "morning scan manual run completed; Signal Log remains watch-only",
             [
@@ -188,6 +193,16 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
                     ),
                 ),
                 Step("daily synthesis validate", _python("src/daily_synthesis_intake.py", "--validate", "src/daily_synthesis.json")),
+            ],
+        ),
+        Routine(
+            "investing-os-post-open-evidence-gate",
+            "post-open evidence gate manual run captured and interpreted same-session endpoint proof",
+            [
+                Step("uw action runbook", _python("src/uw_action_runbook.py", "--feed", "src/latest_cockpit_feed.json", "--format", "text")),
+                Step("uw endpoint result capture", _python("src/uw_endpoint_result_capture.py", "--feed", "src/latest_cockpit_feed.json", "--out", "src/uw_endpoint_results.json", "--timeout", "8", "--retries", "1")),
+                Step("uw endpoint result proof", _python("src/uw_endpoint_result_proof.py", "--results", "src/uw_endpoint_results.json", "--runbook", "src/latest_cockpit_feed.json", "--format", "text")),
+                Step("post-open dashboard refresh", _python("src/live_dashboard_refresh.py")),
             ],
         ),
         Routine(
@@ -224,6 +239,17 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             "investing-os-off-hours-worker",
             "off-hours worker manual run checked research queue cache only",
             [Step("research queue validate", _python("src/research_queue_intake.py", "--validate", "src/research_queue.json"))],
+        ),
+        Routine(
+            "investing-os-off-hours-alt-data-scout",
+            "off-hours alt-data scout manual support checked policy/runbook wiring",
+            [
+                Step("off-hours alt-data docs present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "off_hours_alt_data_scout.md").is_file()
+                    and (r / "docs" / "off_hours_alt_data_scout.md").is_file(),
+                }),
+                Step("uw action runbook", _python("src/uw_action_runbook.py", "--feed", "src/latest_cockpit_feed.json", "--format", "text")),
+            ],
         ),
         Routine(
             "investing-os-deep-synthesis",

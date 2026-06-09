@@ -396,10 +396,12 @@ until the core logic is stable; Notion sync comes later.
 - Codex cloud routine stack.
   - Replaced the single generic daily cloud-refresh assumption with a split
     Codex app automation stack: Pre-Market Source Intake (8:10 ET), Morning
-    Scan (8:35), Early Cockpit Build (8:50), Daily Synthesis (9:30),
-    UW Opportunity Cache (10:00), Parabolic Cache (10:05), Full Cockpit Build
-    (10:30), Post-Close Refresh (4:30 PM), Off-Hours Worker (1:45 AM daily),
-    Deep Synthesis (Sunday 1:00 PM), and Weekly Pilot Run (Sunday 6:00 PM).
+    Broker/SnapTrade Position Intake (8:20 ET), Morning Scan (8:35), Early
+    Cockpit Build (8:50), Daily Synthesis (9:30), Post-Open Evidence Gate
+    (9:40), UW Opportunity Cache (10:00), Parabolic Cache (10:05), Full
+    Cockpit Build (10:30), Post-Close Refresh (4:30 PM), Off-Hours Worker
+    (1:45 AM daily), Deep Synthesis (Sunday 1:00 PM), and Weekly Pilot Run
+    (Sunday 6:00 PM).
   - Schedule basis was cross-checked against Notion's "Scheduled Cloud
     Routines - Master Reference" and the 2026-06-02 "Routine schedule
     reconcile" note. The reconcile note says Daily Synthesis must not run
@@ -409,14 +411,25 @@ until the core logic is stable; Notion sync comes later.
     8:50 Early Cockpit Build is deliberately separate: it gives the operator
     the earliest useful dashboard and keeps later synthesis/UW/parabolic inputs
     visibly pending or stale until the fuller 10:30 refresh.
+  - Added a 9:40 Post-Open Evidence Gate. It reads the current UW action
+    runbook, captures same-session endpoint proof, interprets it, and refreshes
+    the dashboard only when real evidence can promote, downgrade, or keep
+    Today/Reallocation candidates gated. Missing, stale, failed, or
+    inconclusive endpoint proof must keep the candidate in Evidence
+    Missing/Reallocation instead of moving it to Ready.
+  - Updated the 10:30 Full Cockpit Build to run the same evidence-gate capture
+    before the full dashboard refresh, making 8:50 the early read, 9:40 the
+    first post-open proof pass, and 10:30 the fuller action-readiness pass.
   - Paused the old generic `investing-os-daily-cloud-refresh` automation as
     superseded by the split routine stack.
-  - Paused six older unreceipted local cron jobs as superseded by the active
-    receipt-tracked stack: Broker Position Intake, Catalyst Intake, Daily Full
-    Build, Fundstrat Intake, Off-Hours Research Queue, and UW Cache Refresh.
-    Supplied broker-position uploads now belong to Pre-Market Source Intake;
-    missing/invalid broker input keeps positions stale/not refreshed instead
-    of checked clear.
+  - Reactivated Broker Position Intake as a SnapTrade-first 8:20 ET routine.
+    It pulls and validates the read-only account feed, promotes only on strict
+    validation, refreshes the dashboard, and leaves account positions
+    stale/not_checked if SnapTrade fails. Manual PDFs/text remain fallback,
+    not the default live source.
+  - Paused five older unreceipted local cron jobs as superseded by the active
+    receipt-tracked stack: Catalyst Intake, Daily Full Build, Fundstrat Intake,
+    Off-Hours Research Queue, and UW Cache Refresh.
   - `cloud_ops_status.py` now reads the default Codex app automation folder
     when `CODEX_HOME` is unset and fails the cloud schedule if a superseded
     legacy automation is still active.

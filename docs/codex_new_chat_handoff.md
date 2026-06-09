@@ -304,13 +304,24 @@ Important recent state:
   `pushed=false`.
 - The active automation timing was checked against Notion's "Scheduled Cloud
   Routines - Master Reference" and the 2026-06-02 "Routine schedule reconcile"
-  note. Current intent: Morning Scan at 8:35 ET, Early Cockpit Build at
-  8:50 ET for the first usable dashboard, Daily Synthesis at 9:30 ET after
-  Morning Scan, Fundstrat Daytime Watch hourly from 9:45 ET through 3:45 ET,
-  UW Opportunity Cache no earlier than roughly 9:45 ET and
-  currently 10:00 ET, Parabolic Cache at 10:05 ET, Full Cockpit Build at
-  10:30 ET for the fuller mid-morning refresh, Post-Close Refresh at
-  4:30 PM ET.
+  note. Current intent: Broker/SnapTrade Position Intake at 8:20 ET, Morning
+  Scan at 8:35 ET, Early Cockpit Build at 8:50 ET for the first usable
+  dashboard, Daily Synthesis at 9:30 ET after Morning Scan, Post-Open Evidence
+  Gate at 9:40 ET, Fundstrat Daytime Watch hourly from 9:45 ET through 3:45 ET,
+  UW Opportunity Cache no earlier than roughly 9:45 ET and currently 10:00 ET,
+  Parabolic Cache at 10:05 ET, Full Cockpit Build at 10:30 ET for the fuller
+  mid-morning refresh, Post-Close Refresh at 4:30 PM ET.
+- Gate ownership clarification: 8:50 is the early read; 9:40 is the first
+  post-open evidence proof pass; 10:30 is the fuller action-readiness pass. The
+  Post-Open Evidence Gate and Full Cockpit Build run the UW action runbook,
+  capture endpoint proof, interpret same-session results, and refresh the
+  dashboard only when evidence is real. Missing, stale, failed, or inconclusive
+  endpoint proof leaves candidates in Evidence Missing/Reallocation instead of
+  moving them to Ready.
+- Broker/SnapTrade Position Intake is active again as the preferred read-only
+  account-position source. It promotes only after strict validation and keeps
+  the account-position lane stale/not_checked if SnapTrade fails; manual
+  PDFs/text remain fallback.
 - `src/cloud_routine_receipts.py` records scheduled-run receipts in
   `src/cloud_routine_receipts.json`. Each automation should append a
   started/success/failed receipt at the end of its run using
