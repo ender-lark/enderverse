@@ -1517,6 +1517,7 @@ function packetWorkSummary(packet, reallocationBrief, counts){
   const packetCounts = (packet&&packet.counts)||{};
   const reCounts = (reallocationBrief&&reallocationBrief.counts)||{};
   const funding = (reallocationBrief&&reallocationBrief.funding)||{};
+  const rows = (reallocationBrief&&reallocationBrief.rows)||[];
   const blockers = [
     ...((reallocationBrief&&reallocationBrief.blockers)||[]),
     ...((packet&&packet.blockers)||[]),
@@ -1539,7 +1540,15 @@ function packetWorkSummary(packet, reallocationBrief, counts){
         typeof funding.shortfall_usd==="number" ? `shortfall ${money(funding.shortfall_usd)}` : null,
       ])
     : "";
-  return { ready, evidence, backlog, urgentVisible, adds, trims, line, hasWork, primaryBlocker, capitalLine };
+  const topCandidates = rows.slice(0,3).map(r=>{
+    const funded = (r.funded_by||[]).map(f=>f.ticker).filter(Boolean).join("/");
+    return compactJoin([
+      r.ticker ? `${r.ticker} ${money(r.notional_usd)}` : null,
+      r.sequence ? r.sequence : null,
+      funded ? `from ${funded}` : null,
+    ]);
+  }).filter(Boolean);
+  return { ready, evidence, backlog, urgentVisible, adds, trims, line, hasWork, primaryBlocker, capitalLine, topCandidates };
 }
 function TodayWorkNowStrip({ packet, reallocationBrief, counts, onOpenOps, onOpenReallocation }){
   const W = packetWorkSummary(packet, reallocationBrief, counts);
@@ -1567,6 +1576,7 @@ function TodayWorkNowStrip({ packet, reallocationBrief, counts, onOpenOps, onOpe
       </div>
       <div style={{ marginTop:5, fontSize:12.2, color:C.dim }}>{message}</div>
       <div style={{ marginTop:4, fontSize:12.2, color:C.text }}>{action}</div>
+      {W.topCandidates.length>0 && <div style={{ marginTop:4, fontSize:12, color:C.text }}>Top capital candidates to consider: {W.topCandidates.join(" | ")}. Full sizing and funding map stays in Reallocation.</div>}
       <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Where to look: Today lanes are below; candidate adds and funding trims live in the Reallocation tab.</div>
       {W.primaryBlocker && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Main blocker: {friendlyEvidencePart(W.primaryBlocker)}</div>}
       {W.capitalLine && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>{W.capitalLine}</div>}
@@ -2396,23 +2406,41 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
                   const placement=r.account_placement||{};
                   const tone = placementTone(placement);
                   const placementColor = toneColor(tone);
+                  const detailKey = `reallocDetail${r.ticker||i}`;
+                  const isDetailOpen = posOpen[detailKey];
+                  const blockers = r.blockers||[];
+                  const gateReason = r.gate_reason ? clipText(r.gate_reason, 110) : "";
                   return (
                     <div key={`${r.ticker}${i}`} style={{ ...toneCard(tone), marginBottom:7 }}>
-                      <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
-                        <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
-                        <span style={{ fontFamily:mono, fontSize:11, color:C.green, border:`1px solid ${C.green}55`, borderRadius:99, padding:"1px 8px" }}>add {money(r.notional_usd)}</span>
-                        <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.sequence}</span>
-                        {r.gate && <span style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>gate {r.gate}</span>}
+                      <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+                        <div style={{ display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap" }}>
+                          <span style={{ fontFamily:mono, fontWeight:700, fontSize:13.5, color:C.text }}>{r.ticker}</span>
+                          <span style={{ fontFamily:mono, fontSize:11, color:C.green, border:`1px solid ${C.green}55`, borderRadius:99, padding:"1px 8px" }}>add {money(r.notional_usd)}</span>
+                          <span style={{ fontFamily:mono, fontSize:11, color:C.faint }}>{r.sequence}</span>
+                          {r.gate && <span title={gateReason||"Gate status"} style={{ fontFamily:mono, fontSize:11, color:C.amber, border:`1px solid ${C.amber}55`, borderRadius:99, padding:"1px 8px" }}>gate {r.gate}</span>}
+                        </div>
+                        <button onClick={()=>setPosOpen(st=>({...st,[detailKey]:!st[detailKey]}))} style={{ cursor:"pointer", border:`1px solid ${C.line}`, background:"transparent", color:C.dim, borderRadius:7, padding:"2px 7px", fontFamily:mono, fontSize:10.5 }}>{isDetailOpen?"hide detail":"detail"}</button>
                       </div>
-                      {r.entry_note && <div style={{ marginTop:5, fontSize:12, color:C.text }}>{r.entry_note}</div>}
-                      {funded && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>funded by: {funded}</div>}
+                      <div style={{ marginTop:5, fontSize:12.2, color:C.text }}>{compactJoin([r.entry_note, r.rationale && `why: ${r.rationale}`])}</div>
+                      <div style={{ marginTop:5, display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(210px,1fr))", gap:7 }}>
+                        {funded && <div style={{ fontFamily:mono, fontSize:10.5, color:C.faint }}>funding: {funded}</div>}
+                        {placement.summary && <div style={{ fontSize:11.5, color:placementColor }}>Account: {placement.summary.replace(/^Suggested account:\s*/i,"")}</div>}
+                      </div>
+                      {(blockers.length>0 || gateReason) && <div style={{ marginTop:6, display:"flex", gap:5, flexWrap:"wrap" }}>
+                        {blockers.slice(0,3).map((b,j)=>(<span key={j} title={b} style={{ fontFamily:mono, fontSize:10.2, color:C.amber, border:`1px solid ${C.amber}44`, borderRadius:99, padding:"1px 7px", background:`${C.amber}0d` }}>{friendlyEvidencePart(b)}</span>))}
+                        {gateReason && <span title={r.gate_reason} style={{ fontFamily:mono, fontSize:10.2, color:C.faint, border:`1px solid ${C.line}`, borderRadius:99, padding:"1px 7px" }}>gate reason</span>}
+                      </div>}
+                      {isDetailOpen && <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}` }}>
                       {placement.summary && <div style={{ marginTop:4, fontSize:11.5, color:placementColor }}>Account: {placement.summary}</div>}
                       {placement.why && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>account why: {placement.why}</div>}
                       {cap.summary && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Capital: {cap.summary}</div>}
+                      {cap.timing_balance && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Timing: {cap.timing_balance}</div>}
                       {cap.consequence_of_doing_nothing && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Do nothing: {cap.consequence_of_doing_nothing}</div>}
                       {opt.label && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Options: {opt.label}; {opt.max_loss_gate}</div>}
-                      {(r.blockers||[]).length>0 && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Blocks: {(r.blockers||[]).join(", ")}</div>}
+                      {blockers.length>0 && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Blocks: {blockers.join(", ")}</div>}
+                      {r.gate_reason && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Gate reason: {r.gate_reason}</div>}
                       {r.disconfirmation && <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Disconfirm: {r.disconfirmation}</div>}
+                      </div>}
                     </div>
                   );
                 })}

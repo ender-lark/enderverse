@@ -88,6 +88,8 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert "Today lanes:" in src
     assert "Reallocation:" in src
     assert "Where to look: Today lanes are below; candidate adds and funding trims live in the Reallocation tab." in src
+    assert "Top capital candidates to consider:" in src
+    assert "Full sizing and funding map stays in Reallocation." in src
     assert "candidate adds" in src
     assert "funding trims" in src
     assert "Evidence checks" in src
@@ -111,6 +113,17 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert "System data gap:" in src
     assert "System proof:" in src
     assert "Full book + per-name detail lives in Book." in src
+
+
+def test_canonical_jsx_reallocation_cards_are_compact_by_default():
+    src = (Path(__file__).resolve().parent / "conviction_cockpit_v5.jsx").read_text(encoding="utf-8")
+
+    assert 'detailKey = `reallocDetail${r.ticker||i}`' in src
+    assert 'isDetailOpen?"hide detail":"detail"' in src
+    assert "funding:" in src
+    assert "gate reason" in src
+    assert 'isDetailOpen && <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.line}` }}>' in src
+    assert 'repeat(auto-fit,minmax(210px,1fr))' in src
 
 
 def test_canonical_jsx_sections_start_as_summary_boxes():
