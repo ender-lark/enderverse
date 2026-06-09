@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05",
+  "generated_at": "2026-06-09",
   "owner": "Codex Investing OS",
   "policy": {
     "priority_order": ["P0", "P1", "P2", "P3"],
@@ -42,6 +42,15 @@
       "area": "routines",
       "why": "Fundstrat is the source spine; full-body emails should feed source calls and top prospects without storing raw publication bodies.",
       "done_when": "Routine reliably searches, reads full bodies when permitted, redacts bodies, updates source calls/top prospects, and reports snippet-only discovery as not checked."
+    },
+    {
+      "id": "fundstrat-video-transcript-intake",
+      "title": "Handle Tom Lee and Fundstrat video updates through transcripts or captions",
+      "priority": "P3",
+      "status": "queued",
+      "area": "routines",
+      "why": "Some Tom Lee macro updates are video-first. They may matter, but video extraction is lower priority than text FlashInsights, email full-body intake, and dashboard action reliability.",
+      "done_when": "Authenticated Fundstrat video pages can produce compact transcript-derived rows only when a visible transcript, captions, companion article text, or user-supplied compact notes exist; video-only titles and thumbnails remain discovery/audit-only."
     },
     {
       "id": "fundstrat-source-call-upsert",

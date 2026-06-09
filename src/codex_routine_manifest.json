@@ -13,7 +13,9 @@
       "input_boundaries": [
         "Gmail connector full-body reads",
         "Compact full-body-derived Fundstrat daily call rows when connector bodies cannot be safely piped to a file",
+        "Authenticated Fundstrat website pages read through the user's logged-in Chrome session and converted into compact rows without raw bodies or credentials",
         "Operator-supplied Fundstrat website screenshot/text converted into compact action-relevant rows",
+        "Video-only Fundstrat items only when transcript, captions, companion article text, or supplied compact notes are available",
         "Fundstrat daily email drop-folder text, eml, or Gmail-shaped json",
         "Direct monthly Fundstrat PDF/text/json uploads"
       ],
@@ -44,6 +46,11 @@
         {
           "id": "compact_full_body_daily_calls",
           "command": "python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir src --merge-existing"
+        },
+        {
+          "id": "compact_web_daily_calls",
+          "command": "python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir src --merge-existing",
+          "fallback_for": "authenticated Fundstrat website or article-detail pages converted into compact full-body-derived rows"
         },
         {
           "id": "daytime_alert_check",

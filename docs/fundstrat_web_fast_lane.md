@@ -1,0 +1,157 @@
+# Fundstrat Web Fast Lane
+
+## Objective
+
+Use the authenticated Fundstrat website as the fastest full-content source for
+FlashInsights and other high-decay Fundstrat notes when email delivery lags.
+
+This lane is an upstream acquisition path only. It feeds the existing compact
+Fundstrat daily-call intake and does not create trade actions by itself.
+
+## Feasibility Snapshot
+
+On 2026-06-09, Chrome control could access the logged-in Fundstrat Direct member
+FlashInsights page through the user's existing browser session. The main
+FlashInsights feed rendered complete FlashInsights card text plus timestamp,
+author, ticker tags, and visible source context.
+
+A temporary compact row derived from the visible page was accepted by:
+
+```bash
+python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir tmp\fundstrat_web_feasibility --generated-at "2026-06-09T16:20:00-04:00"
+```
+
+The temporary proof wrote redacted audit/state files, produced one source-call
+candidate, and `python src/fundstrat_email_intake.py --validate
+tmp\fundstrat_web_feasibility` returned valid with no problems. Focused compact
+intake and daytime alert tests also passed.
+
+## Source Rules
+
+- The user logs into Fundstrat in Chrome. Codex must not receive or store
+  Fundstrat credentials, cookies, local storage, browser profile data, or
+  passwords.
+- Chrome use stays read-only unless the user gives a narrow instruction for a
+  specific browser-side action.
+- iOS Fundstrat push notifications are discovery triggers only. They can tell
+  the operator that a new item exists, but they are snippet-only and must not
+  update checked Fundstrat caches.
+- A Fundstrat web item becomes checked only after Codex can read the visible
+  member page/card/article content in Chrome or the user supplies equivalent
+  full-content evidence.
+- The main FlashInsights page can be full-content evidence when it renders the
+  full FlashInsights cards.
+- Most non-FlashInsights articles require opening the article detail page before
+  they count as full-body checked. Listing cards, search results, notifications,
+  and snippets are discovery only.
+- Do not store raw Fundstrat article bodies, long excerpts, screenshots, or
+  copied page text in tracked repo files.
+- Store only compact source-backed rows that preserve date, author/lane,
+  ticker, direction/posture, levels, timing/risk summary, and source surface.
+
+## Workflow
+
+1. Open the authenticated Fundstrat member page in Chrome:
+
+   ```text
+   https://fundstratdirect.com/members/flashinsights/
+   ```
+
+   Use the crypto page separately when crypto FlashInsights matter:
+
+   ```text
+   https://fundstratdirect.com/members/crypto-flash-insights/
+   ```
+
+2. Confirm the page is logged in and current. Evidence can include the member
+   page title, visible account greeting, visible refresh control, latest
+   FlashInsights timestamp, and ticker tags.
+
+3. For FlashInsights, read compact source inputs from the visible feed cards
+   only when the card itself contains the full note. For standard Fundstrat
+   research/articles, open the article detail page first and confirm the
+   article text or transcript is visible before marking the item full-body
+   checked.
+
+4. Extract only compact row inputs:
+
+   ```json
+   {
+     "calls": [
+       {
+         "author": "Mark L. Newton, CMT",
+         "ticker": "QQQ",
+         "direction": "avoid",
+         "quote": "Short source-backed paraphrase, <= 320 chars, with levels/timing/risk.",
+         "date": "2026-06-09",
+         "subject": "FlashInsights: short title or operator label",
+         "source_message_id": "fundstrat-web-flashinsights-YYYY-MM-DD-HHMM-et-ticker",
+         "source": "Fundstrat Chrome member FlashInsights page"
+       }
+     ]
+   }
+   ```
+
+5. Run the existing compact intake:
+
+   ```bash
+   python src/fundstrat_daily_compact_intake.py --stdin-json --out-dir src --merge-existing
+   ```
+
+6. Validate and alert through the existing routine gates:
+
+   ```bash
+   python src/fundstrat_email_intake.py --validate src
+   python src/fundstrat_daytime_alert.py --send --write-state --format text
+   ```
+
+7. Refresh the dashboard only after validation succeeds. If the run is scheduled
+   or routine-owned, use the existing receipt and commit helpers rather than
+   ad-hoc git staging.
+
+## Video Handling
+
+Tom Lee macro updates and other Fundstrat videos are not a first-class source
+lane yet. They can be handled safely only when one of these is available:
+
+- a visible article transcript on the member page
+- captions/transcript text exposed by the video player
+- a Fundstrat email/article companion that summarizes the video
+- a user-supplied transcript or compact notes
+
+Until that is implemented, video-only items should remain discovery/audit-only
+unless a compact transcript-derived row is supplied. Add automated video
+transcript extraction as medium-low priority because it is useful but less
+urgent than the FlashInsights web lane and may depend on player/caption access.
+
+## Compact Row Policy
+
+Use this lane only when the Fundstrat item changes or clarifies one of:
+
+- action posture: act, wait, trim, avoid, hedge, re-check
+- timing: intraday, same-session, short-term, target window
+- sizing or leverage posture
+- risk/invalidation levels
+- research priority for a named ticker or portfolio exposure
+
+Suppress or audit-only:
+
+- webinar, replay, promotion, invite, or marketing content
+- video-only content without transcript, captions, companion article, or
+  compact user-supplied notes
+- broad backdrop with no action, timing, sizing, hedge, risk, or research
+  implication
+- monthly list/table content that belongs in the Bible/prospect lane
+- snippet-only notifications or email search results
+
+## Operating Notes
+
+- This lane is faster than Gmail when Fundstrat delays email delivery.
+- It is not fully unattended unless Chrome is logged in and available to the
+  Codex session. Browser login prompts, CAPTCHA, or permission prompts are user
+  handoff states.
+- If Chrome access fails, fall back to Gmail full-body intake, Drive/manual
+  source drop, or user-supplied website text/screenshots routed through compact
+  intake.
+- If only a push notification exists and no member-page content is read, report
+  Fundstrat as discovered/not checked rather than checked clear.

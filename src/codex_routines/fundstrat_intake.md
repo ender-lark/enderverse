@@ -11,6 +11,9 @@ surface named calls, time-sensitive technicals, and source-call candidates.
 - Daytime urgent watch: Gmail connector search for fresh Fundstrat messages
   during market hours, with strict Pushover alerting only for time-sensitive
   or action-changing items.
+- Website fast lane: authenticated Fundstrat member pages read through the
+  user's logged-in Chrome session, then converted into compact full-body-derived
+  rows. See `docs/fundstrat_web_fast_lane.md`.
 - Daily fallback: files in `G:\My Drive\Codex\Investing OS Context\03_Inbox\Fundstrat_Email_Drop`.
 - Manual website fallback: user-supplied Fundstrat website screenshots or text
   converted into compact action-relevant rows by Codex.
@@ -82,11 +85,27 @@ Accepted monthly file types:
    Use it only for full-body-derived compact metadata, never for snippet-only
    discovery.
 
-   When the user supplies Fundstrat website screenshots or pasted text, first
-   extract only compact rows that preserve source date, author/lane, ticker,
-   direction/posture, and a short source-backed summary. Then run the same
-   compact command above. Do not store raw screenshots, long website text, or
-   raw publication bodies in repo files.
+   When Chrome can read the authenticated Fundstrat member page directly, treat
+   the visible page/card/article content as full-body-derived evidence only
+   after the page is visibly logged in and current. The main FlashInsights feed
+   can be full-content evidence when it renders the complete FlashInsights
+   cards. Most non-FlashInsights articles require opening the article detail
+   page before they count as full-body checked. Extract only compact rows that
+   preserve source date, author/lane, ticker, direction/posture, levels, and a
+   short source-backed summary. Then run the same compact command above. Do not
+   store raw website text, raw screenshots, long excerpts, credentials, cookies,
+   local storage, or browser profile data in repo files.
+
+   Tom Lee macro videos and other video-only Fundstrat items are audit/discovery
+   only unless a visible transcript, captions, companion article, or
+   user-supplied compact notes are available. Automated video transcript
+   extraction is queued as lower-priority system work; do not treat a video
+   thumbnail or title as full-body checked.
+
+   iOS Fundstrat push notifications are discovery triggers only. They can tell
+   the operator to check the Fundstrat website, but notification snippets do
+   not count as full-body checked evidence and must not update daily calls,
+   source calls, or inbox dates.
 
 3. If the drop folder has files, run:
 
@@ -231,6 +250,11 @@ debugging, and do not commit raw publication bodies.
 - Do not treat unfetched or unparsed emails as checked clear.
 - Do not use compact daily-call intake for raw publication bodies; quotes must
   be short source-backed summaries or ticker-level excerpts.
+- Do not treat iOS push notification snippets as checked Fundstrat evidence.
+- Do not inspect or store Chrome cookies, local storage, credentials, browser
+  profile data, or raw member-page text when using the website fast lane.
+- Do not treat Fundstrat video-only titles, thumbnails, or embeds as checked
+  evidence without transcript/captions/companion text or supplied compact notes.
 - Do not make trade recommendations from this routine; it only prepares source
   inputs for the cockpit build.
 - Push alerts are review prompts only. They should interrupt only for

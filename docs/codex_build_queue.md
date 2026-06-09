@@ -25,6 +25,21 @@ until the core logic is stable; Notion sync comes later.
 
 ## Recently Completed
 
+- Fundstrat Web Fast Lane.
+  - Confirmed Chrome can access the logged-in Fundstrat Direct FlashInsights
+    member feed through the user's existing browser session.
+  - Added `docs/fundstrat_web_fast_lane.md` and updated the Fundstrat routine
+    manifest/docs so authenticated website text can be converted into compact
+    full-body-derived rows without storing raw member-page bodies, screenshots,
+    credentials, cookies, local storage, or browser profile data.
+  - Captured the source distinction: the main FlashInsights feed can be
+    full-content evidence when it renders complete FlashInsights cards, while
+    most non-FlashInsights articles require opening the article detail page
+    before they count as full-body checked.
+  - iOS Fundstrat pushes remain discovery-only. Tom Lee/video-only items remain
+    audit/discovery-only unless a visible transcript, captions, companion
+    article, or supplied compact notes are available.
+  - Added a P3 queued item for Fundstrat video transcript/caption intake.
 - Account-placement guidance for trade review prompts.
   - Added `account_trade_placement.py` so action rows, research-action rows,
     market-open packet rows, and reallocation candidates can show a suggested
@@ -1103,9 +1118,9 @@ until the core logic is stable; Notion sync comes later.
   - Added `live_status.py` as a non-rebuilding operator check for live
     readiness, preview-server state, unresolved action-memory rows, and the
     system-improvement queue.
-  - Current readout reports `go_live_ready: true`, 4 actions, 0 research
+  - At the time, the readout reported `go_live_ready: true`, 4 actions, 0 research
     actions, 1 dark optional lane (`catalysts`), 2 open action-memory reviews,
-    preview server running, and 0 active/queued system-improvement items.
+    and preview server running.
 - One-line sudden-event risk intake.
   - Extended `event_risk_intake.py` so a supplied headline can be appended with
     CLI flags instead of pre-shaped JSON.
@@ -1153,11 +1168,13 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
-- No active queued implementation slice.
-  - The current system-improvement queue is valid with 21 done items and 0
-    active or queued items.
-  - Promote the next slice only from fresh repo evidence or a new explicit user
-    request, and keep Core List ingestion out of scope.
+- One low-priority queued implementation slice.
+  - The current system-improvement queue is valid with 21 done items and 1
+    queued P3 item: `fundstrat-video-transcript-intake`.
+  - Keep it below text/web Fundstrat intake, source reliability, and cockpit
+    action-surfacing work. Promote it only if transcript/caption access becomes
+    easy or video-first Tom Lee macro updates create a repeated operating gap.
+  - Keep Core List ingestion out of scope.
 
 ## Working Rules
 

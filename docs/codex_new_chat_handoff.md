@@ -96,7 +96,8 @@ Current verified snapshot (cloud proof is background monitoring; check live stat
   tests for action refresh, market-open packet, UW proof interpretation,
   full-build wiring, reallocation brief, and HTML rendering passed during the
   2026-06-07 upgrade slice.
-- The system-improvement queue is valid with 21 items done and 0 active/queued.
+- The system-improvement queue is valid with 21 items done and one queued P3
+  item: `fundstrat-video-transcript-intake`.
 
 Important recent state:
 
@@ -132,6 +133,16 @@ Important recent state:
   source-backed rows and routed through `fundstrat_daily_compact_intake.py`;
   raw screenshots, long website text, and raw publication bodies are not stored
   in repo.
+- Authenticated Fundstrat website intake is now documented in
+  `docs/fundstrat_web_fast_lane.md`. Chrome can read the logged-in
+  FlashInsights member feed through the user's existing browser session. The
+  main FlashInsights feed can be full-content evidence when it renders complete
+  FlashInsights cards; most non-FlashInsights articles require opening the
+  article detail page before they count as full-body checked. iOS push
+  notifications remain discovery-only.
+- Tom Lee/video-only Fundstrat items are audit/discovery-only unless a visible
+  transcript, captions, companion article, or supplied compact notes are
+  available. Automated video transcript/caption intake is queued as P3.
 - Low-value Fundstrat content is suppressed across the whole path. Webinars,
   replays, promotional notes, and broad context that does not change action
   posture, timing, sizing, risk, or research priority should stay quiet and
@@ -455,11 +466,11 @@ Important recent state:
   explicitly after review.
 - Current `src/open_opportunities.json` has 2 open watch/review items:
   `ANET` and `GOOGL`.
-- Current `python src/live_status.py` reports `live_summary:
+- At the time of that snapshot, `python src/live_status.py` reported `live_summary:
   live_with_open_reviews`, `go_live_ready: true`, 5 actions, 0 research
   actions, 1 dark optional lane (`account_positions`), 2 open
-  action-memory reviews (`ANET`, `GOOGL`), preview server running, and 0
-  active/queued system-improvement items. Its data-flow proof shows feed
+  action-memory reviews (`ANET`, `GOOGL`), and preview server running. Its
+  data-flow proof shows feed
   `2026-06-05T23:18:21.873913+00:00`, 13 lanes with data, 1 dark lane, and
   top action `synthesis`. It also prints the active Middle East oil/rates
   event watch, the sudden-event refresh command template, and the open-review
@@ -491,10 +502,11 @@ git status --short
 git log origin/main -5 --oneline
 ```
 
-Then read `docs/codex_build_queue.md`; there is currently no queued
-implementation slice. `src/system_improvement_queue.json` is also clean after
-post-basic queued-upgrade triage. Promote the next slice only from fresh
-audit/user evidence.
+Then read `docs/codex_build_queue.md`; the only queued implementation slice is
+the P3 Fundstrat video transcript/caption intake item. Keep it below text/web
+Fundstrat intake, source reliability, and cockpit action-surfacing work unless
+video-first Tom Lee macro updates become a repeated operating gap. Promote the
+next slice only from fresh audit/user evidence.
 
 Do not start with stock-specific research. If no concrete implementation slice
 is queued, run a fresh completion audit and promote the next system/routine/UI
