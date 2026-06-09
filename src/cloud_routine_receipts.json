@@ -1,27 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T13:49:26.338735Z",
+  "updated_at": "2026-06-09T14:03:06.444932Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:39.608088Z",
-      "summary": "deep synthesis support path completed from repo evidence; no framework/code or trade action changed",
-      "details": {
-        "steps": [
-          "daily synthesis validate",
-          "source call candidates merge"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:39.617440Z",
-      "summary": "investing-os-weekly-pilot-run manual run started"
-    },
     {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "success",
@@ -4394,6 +4374,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T13:49:26.338735Z",
       "summary": "checked 2 msgs, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alerts sent 3 from existing fresh calls, fundstrat lane unchanged, blockers none"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T14:01:28.782020Z",
+      "summary": "uw opportunity cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T14:03:06.444932Z",
+      "summary": "scanned 14 tickers; 13 live observations landed; 39 signals cached; empty-source GRNJ; worker failures 0"
     }
   ]
 }
