@@ -1528,12 +1528,8 @@ function packetWorkSummary(packet, reallocationBrief, counts){
   const adds = reCounts.adds || 0;
   const trims = reCounts.trims || 0;
   const line = compactJoin([
-    `${ready} ready`,
-    `${evidence} evidence-gated`,
-    `${backlog} backlog`,
-    urgentVisible ? `${urgentVisible} urgent checks visible` : null,
-    adds ? `${adds} candidate adds` : null,
-    trims ? `${trims} funding trims` : null,
+    `Today lanes: ${ready} ready, ${evidence} evidence-gated, ${backlog} backlog`,
+    adds || trims ? `Reallocation: ${adds} candidate adds, ${trims} funding trims` : null,
   ]);
   const hasWork = Boolean(evidence || backlog || urgentVisible || adds || trims || blockers.length);
   const primaryBlocker = blockers[0] || "";
@@ -1571,6 +1567,7 @@ function TodayWorkNowStrip({ packet, reallocationBrief, counts, onOpenOps, onOpe
       </div>
       <div style={{ marginTop:5, fontSize:12.2, color:C.dim }}>{message}</div>
       <div style={{ marginTop:4, fontSize:12.2, color:C.text }}>{action}</div>
+      <div style={{ marginTop:4, fontSize:11.5, color:C.dim }}>Where to look: Today lanes are below; candidate adds and funding trims live in the Reallocation tab.</div>
       {W.primaryBlocker && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Main blocker: {friendlyEvidencePart(W.primaryBlocker)}</div>}
       {W.capitalLine && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>{W.capitalLine}</div>}
     </div>

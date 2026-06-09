@@ -85,6 +85,9 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert "function TodayWorkNowStrip" in src
     assert "Ready is zero because the system is blocking capital-sized moves" in src
     assert "Work now:" in src
+    assert "Today lanes:" in src
+    assert "Reallocation:" in src
+    assert "Where to look: Today lanes are below; candidate adds and funding trims live in the Reallocation tab." in src
     assert "candidate adds" in src
     assert "funding trims" in src
     assert "Evidence checks" in src
