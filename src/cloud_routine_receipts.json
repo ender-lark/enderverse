@@ -1,55 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T16:48:30.048458Z",
+  "updated_at": "2026-06-09T17:47:42.929166Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:03:12.476102Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 3,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:03:12.484308Z",
-      "summary": "investing-os-uw-opportunity-cache manual run started"
-    },
     {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
@@ -4305,6 +4257,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T16:48:30.048458Z",
       "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T17:46:55.123587Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T17:47:42.929166Z",
+      "summary": "checked 2 Gmail messages, read 0 full bodies, landed 0 compact rows, suppressed 0 new low-value notes, validation passed, alerts quiet, Fundstrat lane stale/no new full-body evidence, blockers none"
     }
   ]
 }
