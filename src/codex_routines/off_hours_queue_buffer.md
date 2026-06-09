@@ -3,11 +3,11 @@
 ## Objective
 
 Add a conditional early-morning buffer after the 1:45 AM Off-Hours Worker. This
-routine prevents high-priority Research Queue backlog from spilling into trading
-hours, without creating distracting output when the queue is already under
-control.
+routine prevents Research Queue backlog from spilling into trading hours. Normal
+weeks are throughput-first: if queued work remains and can be handled safely, the
+buffer should continue draining it rather than limiting itself to one item.
 
-This is research-only. It drafts or updates one focused dossier when needed. It
+This is research-only. It drafts or updates focused dossiers when needed. It
 does not trade, size positions, recommend direct buy/sell execution, or invent
 missing source data.
 
@@ -19,24 +19,29 @@ missing source data.
    tooling is unavailable, use Notion search/fetch fallback. Use
    `src/research_queue.json` only as a fallback mirror and label it as fallback
    evidence.
-3. Count queued high-priority items after the 1:45 AM worker has had time to
-   run.
+3. Count queued items after the 1:45 AM worker has had time to run, split by
+   High, Med, and Low priority.
 
 ## Trigger
 
-- If queued high-priority Research Queue items are `<= 2`, no-op:
+- If no queued Research Queue item can be safely advanced, no-op:
   - do not create new research output
   - do not change queue status
-  - append a success receipt that says the buffer skipped and reports the count
-- If queued high-priority Research Queue items are `> 2`, process exactly one
-  remaining high-priority item:
-  - choose by priority, age, portfolio impact, and time sensitivity
-  - prefer items not already updated by the 1:45 AM worker
-  - produce one focused dossier or Findings update
+  - append a success receipt that says the buffer skipped and reports the queue
+    counts plus the reason
+- If queued items remain and can be safely advanced, process as many as possible
+  before pre-market routines start:
+  - choose by priority, age, portfolio impact, time sensitivity, and whether the
+    item was already updated by the 1:45 AM worker
+  - handle High before Med before Low unless a lower-priority item is unusually
+    quick and unblocks the queue
+  - produce focused dossiers or Findings updates
+  - leave an explicit remaining count and blocker reason for anything not
+    completed
 
 ## Dossier Contract
 
-The one processed item must answer:
+Each processed item must answer:
 
 - what decision this affects
 - current conviction effect: supports, contradicts, mixed, or inconclusive
@@ -49,6 +54,18 @@ The one processed item must answer:
 Do not create ACT_NOW, buy, sell, trim, hedge, or sizing instructions unless the
 source record already explicitly supports that action and the operator-facing
 system has the required confirmation.
+
+## Throughput Rules
+
+- Normal target: clear all queued High and Med items that can be completed with
+  verified writes before trading hours; continue into Low items if time remains.
+- Temporary usage-constrained weeks may fall back to top one or two highest
+  impact items, but the receipt must label this as a temporary cap and report the
+  remaining backlog.
+- Do not trade completeness for sloppy writes. A smaller verified set beats a
+  larger unverified set.
+- If a source is missing, leave that source lane dark/not_checked and move to the
+  next item that can be advanced.
 
 ## Write And Verify
 
@@ -66,8 +83,10 @@ system has the required confirmation.
 Append a success or failed receipt with `--run-source scheduled`, including:
 
 - high-priority queued count
-- whether the buffer skipped or processed one item
-- selected item, if any
+- medium- and low-priority queued count
+- whether the buffer skipped or processed items
+- selected items, if any
+- remaining queued count and why anything remains
 - write verification status
 - dark/stale lanes and blockers
 

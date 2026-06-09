@@ -5,10 +5,11 @@
 Process queued research outside market hours and produce structured candidates
 that can surface in the cockpit.
 
-This routine is active as a safe intake/normalization lane. It does not perform
-autonomous research or create trade recommendations. It only converts explicit
-Research Queue exports into `src/research_queue.json`, which the existing engine
-can then surface as From-Research rows or ACT_NOW research reviews.
+This routine is active as a safe intake, normalization, and off-hours research
+drafting lane. It does not create trade recommendations. It converts explicit
+Research Queue exports into `src/research_queue.json` and, during worker runs,
+drafts or updates as many queued dossiers as can be completed with verified
+source/write quality before trading hours.
 
 ## Inputs
 
@@ -47,20 +48,39 @@ can then surface as From-Research rows or ACT_NOW research reviews.
   - Does it affect sizing, conviction, leverage, or risk?
   - What evidence is still missing?
 
+## Queue Drain Policy
+
+Normal weeks are throughput-first: drain the Research Queue as quickly as
+possible during off-hours, starting with high priority, then medium, then low.
+Do not artificially cap work at one or two items when off-hours usage is
+available.
+
+Stop or defer remaining items only when:
+
+- Notion/source access blocks live verification.
+- The item needs operator input or a source that is not available.
+- The draft would require inventing market/source data.
+- The run is too close to trading hours to write and verify cleanly.
+- The user has declared a temporary usage-constrained week.
+
+When usage is temporarily constrained, handle at least the top one or two
+highest-impact queued items and leave an explicit count of what remains.
+
 ## Current Status
 
-Active safe-intake routine. Full autonomous off-hours research generation remains
-out of scope until there is a separate reviewed research writer and Notion update
-contract.
+Active research drafting lane with verified Notion writeback. Autonomous output
+is limited to research dossiers, Findings updates, and conservative queue
+status notes; trade actions, sizing, and execution remain out of scope.
 
 ## Buffer Pass
 
-The active `investing-os-off-hours-worker` drains the top one or two Research
-Queue items at 1:45 AM ET. A separate conditional buffer routine runs later in
-the early morning and only acts when queued high-priority Research Queue items
-remain above two after that worker has had time to run.
+The active `investing-os-off-hours-worker` begins draining the Research Queue at
+1:45 AM ET. A separate conditional buffer routine runs later in the early
+morning and continues the backlog if meaningful queued work remains after that
+worker has had time to run.
 
-The buffer is intentionally narrow: if high-priority backlog is two or fewer, it
-records a no-op success receipt and creates no extra output. If backlog is above
-two, it drafts or updates exactly one remaining high-priority item using the
-contract in `src/codex_routines/off_hours_queue_buffer.md`.
+The buffer is not a trickle cap. It should no-op only when no queued items need
+safe research work, or when all remaining items are blocked/recently handled. If
+queued items remain, it should draft or update as many as can be completed and
+verified before the pre-market routines start, using the contract in
+`src/codex_routines/off_hours_queue_buffer.md`.
