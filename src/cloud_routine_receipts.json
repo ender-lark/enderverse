@@ -1,35 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T05:52:49.106106Z",
+  "updated_at": "2026-06-09T11:49:27.965421Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "failed",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:35.610097Z",
-      "summary": "pre-market source intake failed during local cache validation",
-      "details": {
-        "failures": [
-          {
-            "label": "catalyst cache validate",
-            "returncode": 2,
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/catalyst_calendar_intake.py",
-              "--validate",
-              "src/catalysts.json"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:35.620028Z",
-      "summary": "investing-os-morning-scan manual run started"
-    },
     {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
@@ -4450,6 +4422,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T05:52:49.106106Z",
       "summary": "drained 2 queued med-priority system-prep items; Notion query unavailable so search/fetch fallback used; wrote+verified trigger-registration and patch-cadence drafts; skipped recent AI Labor item; no confirmed Done/Killed moves"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T11:46:47.905414Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T11:49:27.965421Z",
+      "summary": "checked 9 Gmail messages, read 3 full bodies, landed 3 compact rows, validation passed, no Notion write, social_watch stays dark, blockers none"
     }
   ]
 }
