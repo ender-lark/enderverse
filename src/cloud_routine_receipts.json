@@ -1,62 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T14:47:43.811823Z",
+  "updated_at": "2026-06-09T15:47:57.863338Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:03:12.106676Z",
-      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "event risk validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/event_risk_intake.py",
-              "--validate",
-              "src/event_risks.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 3\n}",
-            "stderr": ""
-          },
-          {
-            "label": "catalyst cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 8,
-              "valid_rows": 8,
-              "problem": ""
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:03:12.116685Z",
-      "summary": "investing-os-morning-scan manual run started"
-    },
     {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
@@ -4376,6 +4321,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T14:47:43.811823Z",
       "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T15:46:54.048984Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T15:47:57.863338Z",
+      "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
     }
   ]
 }
