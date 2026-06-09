@@ -455,6 +455,12 @@ Fundstrat-specific safety windows:
   action posture, timing, sizing, risk, or research priority can remain
   audit/discovery context, but must not become a dashboard daily-call row,
   action prompt, or Pushover alert.
+- Fundstrat publication format is a first-class routing signal. Monthly Bible,
+  What-to-Own, Top-5/Bottom-5, Consider List, and Granny-style list content is
+  baseline/prospect context; daily technicals are timing evidence only when
+  specific; macro/First Word items are risk/sizing/event gates only when they
+  change posture; weekly reviews are audit-only unless they change timing,
+  risk, sizing, hedge posture, or named-ticker research priority.
 
 Fundstrat evidence should be preserved as separate lanes instead of collapsed
 into one generic source:
@@ -475,7 +481,9 @@ into one generic source:
 
 Low-level implementation:
 
-- `src/fundstrat_lanes.py` is the shared classifier for Fundstrat lane metadata.
+- `src/fundstrat_lanes.py` is the shared classifier for Fundstrat lane metadata
+  and publication capture policy: publication type, capture policy, use case,
+  decision usefulness, and capture reason.
 - `src/fundstrat_daily_compact_intake.py` filters compact manual/connector rows
   so low-value Fundstrat fluff is not promoted into daily calls, then keeps
   source-call candidates/log dates in sync for accepted full-body-derived

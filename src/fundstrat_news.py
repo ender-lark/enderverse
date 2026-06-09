@@ -170,8 +170,11 @@ def _find_bottom_smid_rows(
 def _daily_implication(row: dict[str, Any], lane: dict[str, Any]) -> str:
     direction = str(row.get("direction") or "").lower()
     domain = str(lane.get("source_domain") or "").lower()
+    use_case = str(lane.get("use_case") or "").lower()
     if direction in {"avoid", "trim", "sell"}:
         return "avoid/re-check"
+    if use_case == "risk_posture":
+        return "hedge/re-check"
     if direction in {"watch", "wait"} or domain == "technical_timing":
         return "re-check timing"
     if direction in {"buy", "add", "long"}:
@@ -210,6 +213,11 @@ def _daily_rows(calls: list[Any] | None) -> list[dict[str, Any]]:
                 "author_role": lane.get("author_role") or "",
                 "source_weight_note": lane.get("source_weight_note") or "",
                 "confidence_policy": lane.get("confidence_policy") or "",
+                "publication_type": lane.get("publication_type") or row.get("publication_type") or "",
+                "capture_policy": lane.get("capture_policy") or row.get("capture_policy") or "",
+                "use_case": lane.get("use_case") or row.get("use_case") or "",
+                "decision_usefulness": lane.get("decision_usefulness") or row.get("decision_usefulness") or "",
+                "capture_reason": lane.get("capture_reason") or row.get("capture_reason") or "",
                 "action_implication": _daily_implication(row, lane),
             }
         )

@@ -61,6 +61,14 @@ The intended source hierarchy is correct after the 2026-06-09 fix:
    - Full-body context notes that produce no action-like call stay in the redacted audit file but do not create `inbox_call_dates` gaps.
    - Snippets never update daily calls, top prospects, inbox call dates, or source-call calibration.
 
+6. Fundstrat format matters.
+   - Monthly Bible / Top 5 / Bottom 5 / What-to-Own / Granny-style list content is baseline and prospect context. It belongs in `fundstrat_bible.json` and `top_prospects.json`, not daily-call calibration.
+   - Daily Technical / Mark Newton content is kept only when it has levels, timing, invalidation, support/resistance, target/stop, or a clear setup/re-check implication. Soft technical color is audit-only.
+   - Macro / First Word / First to Market content is kept as a daily call only when it changes risk posture, sizing, hedge, sector rotation, event-risk gating, or a named ticker action. Generic macro backdrop remains redacted audit context.
+   - Weekly reviews and recaps are audit-only unless they change timing, risk posture, sizing, hedge posture, or named-ticker research priority.
+   - Crypto/Farrell content is scoped to crypto or crypto-exposed equities and should not become broad-market confirmation by itself.
+   - Promotions, webinars, surveys, replay notices, and generic content are suppressed from dashboard/source-call calibration unless a short full-body-derived extract contains a fresh action-changing call.
+
 ## June 9 Fixes
 
 - `src/fundstrat_daily_compact_intake.py`
@@ -71,6 +79,10 @@ The intended source hierarchy is correct after the 2026-06-09 fix:
 - `src/fundstrat_email_intake.py`
   - Now populates `inbox_call_dates.json` from extracted action-like daily calls, not from every full-body email date.
   - Keeps no-action full-body context in the redacted audit file without creating a false source-call stale warning.
+
+- `src/fundstrat_lanes.py`
+  - Now classifies Fundstrat publication type, capture policy, use case, decision usefulness, and capture reason.
+  - The shared policy separates monthly baseline, daily technical, macro update, weekly review, crypto strategy, promotions, and general context so downstream synthesis can use the right evidence type instead of treating every article format alike.
 
 ## Operating Rule
 

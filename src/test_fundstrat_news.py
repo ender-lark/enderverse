@@ -53,6 +53,8 @@ def test_fundstrat_news_surfaces_monthly_lists_and_gaps():
     assert any(gap["key"] == "missing_smid_top5" for gap in news["gaps"])
     assert any(gap["key"] == "missing_add_prices" for gap in news["gaps"])
     assert news["daily"]["rows"][0]["source_domain"] == "technical_timing"
+    assert news["daily"]["rows"][0]["publication_type"] == "daily_technical"
+    assert news["daily"]["rows"][0]["capture_policy"] == "daily_call"
     assert news["daily"]["rows"][0]["action_implication"] == "re-check timing"
 
 

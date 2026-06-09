@@ -81,6 +81,11 @@ def merge_candidates(existing: list[dict] | None, incoming: list[dict]) -> list[
         "source_domain",
         "source_weight_note",
         "confidence_policy",
+        "publication_type",
+        "capture_policy",
+        "use_case",
+        "decision_usefulness",
+        "capture_reason",
     }
     for row in [*(existing or []), *incoming]:
         if not isinstance(row, dict):
@@ -120,6 +125,11 @@ def _attach_fundstrat_lane_metadata(rows: list[dict[str, Any]]) -> list[dict[str
             "source_domain": lane["source_domain"],
             "source_weight_note": lane["source_weight_note"],
             "confidence_policy": lane["confidence_policy"],
+            "publication_type": lane.get("publication_type"),
+            "capture_policy": lane.get("capture_policy"),
+            "use_case": lane.get("use_case"),
+            "decision_usefulness": lane.get("decision_usefulness"),
+            "capture_reason": lane.get("capture_reason"),
         })
     return enriched
 

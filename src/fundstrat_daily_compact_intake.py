@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from fundstrat_lanes import classify_fundstrat_lane
+from fundstrat_lanes import classify_fundstrat_lane, classify_fundstrat_publication
 
 
 DEFAULT_OUT_DIR = Path(__file__).resolve().parent
@@ -125,7 +125,34 @@ def is_low_value_compact_call(row: dict) -> bool:
     direction = _text(row.get("direction") or row.get("bias")).lower()
     combined = f"{subject} {quote}".lower()
     if any(term in combined for term in LOW_VALUE_TERMS):
+        publication = classify_fundstrat_publication(
+            author=_text(row.get("author") or row.get("analyst") or "Fundstrat"),
+            text=quote,
+            ticker=_text(row.get("ticker") or row.get("symbol")).upper(),
+            subject=subject,
+            direction=direction,
+            entry=_num(row.get("entry")),
+            stop=_num(row.get("stop")),
+            target=_num(row.get("target")),
+            window=_text(row.get("window") or row.get("horizon")) or None,
+        )
+        return publication.get("capture_policy") != "daily_call"
+    publication = classify_fundstrat_publication(
+        author=_text(row.get("author") or row.get("analyst") or "Fundstrat"),
+        text=quote,
+        ticker=_text(row.get("ticker") or row.get("symbol")).upper(),
+        subject=subject,
+        direction=direction,
+        entry=_num(row.get("entry")),
+        stop=_num(row.get("stop")),
+        target=_num(row.get("target")),
+        window=_text(row.get("window") or row.get("horizon")) or None,
+    )
+    capture_policy = publication.get("capture_policy")
+    if capture_policy in {"suppress", "audit_only", "monthly_baseline"}:
         return True
+    if capture_policy == "daily_call":
+        return False
     if direction in PROMOTING_DIRECTIONS:
         return False
     return not any(term in combined for term in ACTION_RELEVANCE_TERMS)
@@ -145,6 +172,17 @@ def normalize_compact_call(row: dict) -> dict | None:
     direction = _text(row.get("direction") or row.get("bias")).lower() or None
     if direction and direction not in VALID_DIRECTIONS:
         direction = "watch"
+    publication = classify_fundstrat_publication(
+        author=_text(row.get("author") or row.get("analyst") or "Fundstrat"),
+        text=quote,
+        ticker=ticker,
+        subject=_text(row.get("subject") or row.get("source_title") or "Fundstrat compact daily call"),
+        direction=direction,
+        entry=_num(row.get("entry")),
+        stop=_num(row.get("stop")),
+        target=_num(row.get("target")),
+        window=_text(row.get("window") or row.get("horizon")) or None,
+    )
     return {
         "author": _text(row.get("author") or row.get("analyst") or "Fundstrat"),
         "ticker": ticker,
@@ -158,6 +196,11 @@ def normalize_compact_call(row: dict) -> dict | None:
         "subject": _text(row.get("subject") or row.get("source_title") or "Fundstrat compact daily call"),
         "source_message_id": _text(row.get("source_message_id") or row.get("message_id") or row.get("id")),
         "source": _text(row.get("source") or "Fundstrat compact daily intake"),
+        "publication_type": publication.get("publication_type") or "",
+        "capture_policy": publication.get("capture_policy") or "",
+        "use_case": publication.get("use_case") or "",
+        "decision_usefulness": publication.get("decision_usefulness") or "",
+        "capture_reason": publication.get("capture_reason") or "",
     }
 
 
@@ -260,6 +303,11 @@ def classify_compact_source_call_candidates(
             "source_domain": lane["source_domain"],
             "source_weight_note": lane["source_weight_note"],
             "confidence_policy": lane["confidence_policy"],
+            "publication_type": lane.get("publication_type"),
+            "capture_policy": lane.get("capture_policy"),
+            "use_case": lane.get("use_case"),
+            "decision_usefulness": lane.get("decision_usefulness"),
+            "capture_reason": lane.get("capture_reason"),
         })
     return enriched
 

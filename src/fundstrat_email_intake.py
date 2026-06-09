@@ -29,6 +29,7 @@ from html import unescape
 from pathlib import Path
 from typing import Any
 
+from fundstrat_lanes import classify_fundstrat_publication
 from full_build_runner import normalize_positions_cache
 
 
@@ -504,6 +505,26 @@ def extract_daily_calls(entries: list[dict], *, universe: set[str] | None = None
                 "date": entry.get("date"),
                 "subject": entry.get("subject", ""),
             }
+            publication = classify_fundstrat_publication(
+                author=call["author"],
+                text=context,
+                ticker=ticker,
+                subject=call["subject"],
+                direction=call["direction"],
+                entry=call["entry"],
+                stop=call["stop"],
+                target=call["target"],
+                window=call["window"],
+            )
+            if publication.get("capture_policy") != "daily_call":
+                continue
+            call.update({
+                "publication_type": publication.get("publication_type") or "",
+                "capture_policy": publication.get("capture_policy") or "",
+                "use_case": publication.get("use_case") or "",
+                "decision_usefulness": publication.get("decision_usefulness") or "",
+                "capture_reason": publication.get("capture_reason") or "",
+            })
             key = (call["date"] or "", call["author"], ticker, call["quote"])
             if key in seen_calls:
                 continue

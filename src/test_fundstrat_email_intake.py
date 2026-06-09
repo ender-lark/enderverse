@@ -67,6 +67,8 @@ def test_extract_daily_calls_only_emits_action_like_context():
     assert calls[0]["entry"] == 170.0
     assert calls[0]["stop"] == 160.0
     assert calls[0]["target"] == 220.0
+    assert calls[0]["capture_policy"] == "daily_call"
+    assert calls[0]["use_case"] == "risk_posture"
 
 
 def test_extract_daily_calls_prefers_later_action_context_over_header_mention():
@@ -88,6 +90,21 @@ def test_extract_daily_calls_prefers_later_action_context_over_header_mention():
     assert "BTC" not in calls_by_ticker
     assert calls_by_ticker["HYPE"]["direction"] == "sell"
     assert "taking profits" in calls_by_ticker["HYPE"]["quote"]
+    assert calls_by_ticker["HYPE"]["use_case"] == "crypto_sleeve"
+
+
+def test_extract_daily_calls_does_not_turn_monthly_top5_into_daily_call():
+    entries = [{
+        "subject": "June Monthly Bible - Top 5 large cap",
+        "body": "Add NVDA to the monthly Top 5 large cap list.",
+        "date": "2026-06-09",
+        "author": "Fundstrat",
+    }]
+
+    calls, mentions = extract_daily_calls(entries, universe={"NVDA"})
+
+    assert [m["ticker"] for m in mentions] == ["NVDA"]
+    assert calls == []
 
 
 def test_load_entries_accepts_gmail_like_json(tmp_path):

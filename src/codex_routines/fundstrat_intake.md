@@ -57,7 +57,10 @@ Accepted monthly file types:
    and rows wrapped under `email`, `message`, `result`, or `data`. Search rows
    with only `snippet` remain snippet-only; only rows with full body/text/html
    fields can update daily calls, inbox dates, source-call candidates, or top
-   prospects.
+   prospects. Full-body rows are still filtered through the shared publication
+   policy in `fundstrat_lanes.py`: monthly-list content is baseline/prospect
+   context, soft macro/weekly/technical context stays audit-only, and only
+   decision-useful extracted calls can update daily calls or calibration.
 
    If the connector exposes full bodies only in the tool stream and cannot pipe
    them safely to a local JSON file, extract only compact, source-backed daily
@@ -73,9 +76,11 @@ Accepted monthly file types:
    and `source_call_cache_summary.json`, but it rejects long raw-body-like
    quotes and suppresses low-value Fundstrat fluff such as webinars, replays,
    promotional notes, and general commentary that does not change action
-   posture, timing, sizing, risk, or research priority. It does not update top
-   prospects. Use it only for full-body-derived compact metadata, never for
-   snippet-only discovery.
+   posture, timing, sizing, risk, or research priority. It also suppresses
+   monthly Top-5/Bottom-5 style rows from the daily-call path; route those
+   through the monthly Bible intake instead. It does not update top prospects.
+   Use it only for full-body-derived compact metadata, never for snippet-only
+   discovery.
 
    When the user supplies Fundstrat website screenshots or pasted text, first
    extract only compact rows that preserve source date, author/lane, ticker,
@@ -132,6 +137,19 @@ Accepted monthly file types:
    place. Top-5/Bottom-5 and separate Consider List rows remain the
    prospect-signal path. It does not store raw PDF text,
    stock-price chart text, performance tables, or long numeric notes.
+
+   Publication/use rules:
+   - Monthly Bible, What-to-Own, Top 5, Bottom 5, Consider List, and
+     Granny-style list content is thesis/allocation/prospect baseline.
+   - Daily Technical / Newton content is a timing input only when it includes
+     levels, target/stop, invalidation, timeframe, or a clear setup/re-check.
+   - Macro / First Word / First to Market content is a risk/sizing/hedge or
+     event-risk gate only when it changes posture; generic backdrop is
+     audit-only.
+   - Weekly review/recap content is audit-only unless it changes timing, risk,
+     sizing, hedge posture, or named-ticker research priority.
+   - Crypto/Farrell content is scoped to the crypto sleeve and crypto-exposed
+     equities.
 
 7. Validate output shape and the raw-body redaction rule:
 

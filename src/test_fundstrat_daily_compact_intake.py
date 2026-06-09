@@ -63,6 +63,58 @@ def test_compact_calls_keep_watch_rows_when_they_change_timing_or_risk():
 
     assert calls[0]["ticker"] == "QQQ"
     assert calls[0]["direction"] == "watch"
+    assert calls[0]["capture_policy"] == "daily_call"
+    assert calls[0]["use_case"] == "technical_timing"
+
+
+def test_compact_calls_suppress_monthly_top5_rows_from_daily_call_path():
+    rows = [{
+        "author": "Fundstrat",
+        "ticker": "NVDA",
+        "direction": "buy",
+        "subject": "June Monthly Bible - Top 5 large cap",
+        "quote": "NVDA is included in the monthly Top 5 large cap list.",
+        "date": "2026-06-09",
+        "source_message_id": "m-monthly",
+        "source": "Fundstrat full-body read",
+    }]
+
+    assert is_low_value_compact_call(rows[0]) is True
+    assert normalize_compact_calls(rows) == []
+
+
+def test_compact_calls_suppress_weekly_recaps_without_portfolio_change():
+    rows = [{
+        "author": "Fundstrat",
+        "ticker": "QQQ",
+        "direction": "watch",
+        "subject": "Weekly Review",
+        "quote": "QQQ was discussed in a recap of last week's market action.",
+        "date": "2026-06-09",
+        "source_message_id": "m-weekly",
+        "source": "Fundstrat full-body read",
+    }]
+
+    assert is_low_value_compact_call(rows[0]) is True
+    assert normalize_compact_calls(rows) == []
+
+
+def test_compact_calls_keep_weekly_review_when_it_changes_risk_posture():
+    calls = normalize_compact_calls([{
+        "author": "Fundstrat",
+        "ticker": "QQQ",
+        "direction": "watch",
+        "subject": "Weekly Review",
+        "quote": "Watch QQQ support near 520; break below would raise hedge/re-check risk.",
+        "date": "2026-06-09",
+        "source_message_id": "m-weekly-risk",
+        "source": "Fundstrat full-body read",
+    }])
+
+    assert calls[0]["ticker"] == "QQQ"
+    assert calls[0]["publication_type"] == "weekly_review"
+    assert calls[0]["capture_policy"] == "daily_call"
+    assert calls[0]["use_case"] == "risk_posture"
 
 
 def test_validate_compact_calls_rejects_long_raw_body_like_quote():
