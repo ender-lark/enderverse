@@ -169,6 +169,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "minute": 45,
     },
     {
+        "automation_id": "investing-os-off-hours-queue-buffer",
+        "automation_name": "Investing OS Off-Hours Queue Buffer",
+        "role": "off_hours_queue_buffer",
+        "schedule": "daily 4:45 AM ET",
+        "days": [0, 1, 2, 3, 4, 5, 6],
+        "hour": 4,
+        "minute": 45,
+        "expected_since": "2026-06-10T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-deep-synthesis",
         "automation_name": "Investing OS Deep Synthesis",
         "role": "deep_synthesis",

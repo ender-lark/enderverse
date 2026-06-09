@@ -52,3 +52,15 @@ can then surface as From-Research rows or ACT_NOW research reviews.
 Active safe-intake routine. Full autonomous off-hours research generation remains
 out of scope until there is a separate reviewed research writer and Notion update
 contract.
+
+## Buffer Pass
+
+The active `investing-os-off-hours-worker` drains the top one or two Research
+Queue items at 1:45 AM ET. A separate conditional buffer routine runs later in
+the early morning and only acts when queued high-priority Research Queue items
+remain above two after that worker has had time to run.
+
+The buffer is intentionally narrow: if high-priority backlog is two or fewer, it
+records a no-op success receipt and creates no extra output. If backlog is above
+two, it drafts or updates exactly one remaining high-priority item using the
+contract in `src/codex_routines/off_hours_queue_buffer.md`.
