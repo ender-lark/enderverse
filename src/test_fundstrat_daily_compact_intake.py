@@ -153,7 +153,11 @@ def test_write_compact_outputs_merge_preserves_source_call_candidates(tmp_path):
     write_compact_outputs(calls, tmp_path, merge_existing=True, generated_at="2026-06-07T16:00:00+00:00")
 
     candidates = json.loads((tmp_path / "source_call_candidates.json").read_text(encoding="utf-8"))
-    assert candidates == existing_candidates
+    source_calls = json.loads((tmp_path / "source_calls.json").read_text(encoding="utf-8"))
+    log_dates = json.loads((tmp_path / "log_call_dates.json").read_text(encoding="utf-8"))
+    assert {row["ticker"] for row in candidates} == {"TNX", "QQQ"}
+    assert {row["ticker"] for row in source_calls} == {"TNX", "QQQ"}
+    assert log_dates == ["2026-06-03", "2026-06-05"]
 
 
 def test_compact_outputs_make_full_build_fundstrat_daily_has_data(tmp_path):

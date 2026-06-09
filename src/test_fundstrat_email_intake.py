@@ -286,6 +286,31 @@ def test_build_payload_and_write_convention_files(tmp_path):
     assert len(inbox_entries[0]["body_sha256"]) == 64
 
 
+def test_full_body_context_without_action_does_not_update_inbox_call_dates(tmp_path):
+    entries = [{
+        "subject": "First to Market: macro context",
+        "body": "The jobs report is mixed and rate expectations may change, but no ticker-level action is given.",
+        "date": "2026-06-09",
+        "author": "Fundstrat",
+        "from": "Fundstrat",
+        "source_path": "x",
+        "body_fetched": True,
+    }]
+
+    payload = build_intake_payload(entries, universe={"NVDA", "QQQ"},
+                                   generated_at="2026-06-09T14:00:00+00:00")
+    written = write_convention_files(payload, tmp_path)
+    dates = json.loads((tmp_path / "inbox_call_dates.json").read_text(encoding="utf-8"))
+    entries_out = json.loads((tmp_path / "fundstrat_inbox_entries.json").read_text(encoding="utf-8"))
+
+    assert payload["summary"]["full_body_entries"] == 1
+    assert payload["summary"]["daily_calls"] == 0
+    assert payload["inbox_call_dates"] == []
+    assert dates == []
+    assert "fundstrat_inbox_entries" in written
+    assert entries_out[0]["body_redacted"] is True
+
+
 def test_write_convention_files_can_keep_bodies_for_local_debugging(tmp_path):
     payload = build_intake_payload([{
         "subject": "Mark Newton tech",

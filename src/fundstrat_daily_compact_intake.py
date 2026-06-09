@@ -11,6 +11,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from fundstrat_lanes import classify_fundstrat_lane
+
 
 DEFAULT_OUT_DIR = Path(__file__).resolve().parent
 MAX_QUOTE_CHARS = 320
@@ -217,6 +219,123 @@ def _merge_audit_entries(existing: list[dict], incoming: list[dict]) -> list[dic
     return out
 
 
+def classify_compact_source_call_candidates(
+    calls: list[dict],
+    *,
+    generated_at: str | None = None,
+) -> list[dict]:
+    """Classify compact full-body-derived rows for source-call calibration.
+
+    Compact rows are already redacted, action-relevant summaries. Keeping their
+    Source Call Log classification in step with `inbox_call_dates.json` prevents
+    preflight from treating a checked daily row as unclassified.
+    """
+    if not calls:
+        return []
+    try:
+        import source_call_tracker as tracker
+    except Exception:
+        return []
+    raw = [
+        {
+            "source": call.get("author") or "Fundstrat",
+            "ticker": call.get("ticker"),
+            "date": call.get("date"),
+            "text": call.get("quote") or call.get("subject") or "",
+        }
+        for call in calls
+        if call.get("ticker") and (call.get("quote") or call.get("subject"))
+    ]
+    rows = tracker.batch_classify(raw, now=(generated_at or "")[:10] or None)
+    enriched = []
+    for row in rows:
+        lane = classify_fundstrat_lane(
+            author=row.get("source") or "",
+            text=row.get("verbatim_quote") or row.get("text") or "",
+            ticker=row.get("ticker") or "",
+        )
+        enriched.append({
+            **row,
+            "fundstrat_lane": lane["fundstrat_lane"],
+            "source_domain": lane["source_domain"],
+            "source_weight_note": lane["source_weight_note"],
+            "confidence_policy": lane["confidence_policy"],
+        })
+    return enriched
+
+
+def _candidate_key(row: dict) -> tuple:
+    text = (
+        row.get("verbatim_quote")
+        or row.get("text")
+        or row.get("call_summary")
+        or row.get("id")
+        or row.get("tier")
+        or ""
+    )
+    return (
+        str(row.get("source") or "").strip().lower(),
+        str(row.get("ticker") or "").strip().upper(),
+        str(row.get("date") or "")[:10],
+        str(text).strip(),
+    )
+
+
+def _merge_source_call_candidates(existing: list[dict], incoming: list[dict]) -> list[dict]:
+    out = []
+    seen = set()
+    for row in [*(existing or []), *(incoming or [])]:
+        if not isinstance(row, dict):
+            continue
+        key = _candidate_key(row)
+        if not key[0] or not (key[1] or key[3]) or key in seen:
+            continue
+        seen.add(key)
+        out.append(row)
+    return out
+
+
+def _merge_source_call_cache(
+    candidates: list[dict],
+    out_dir: Path,
+    *,
+    generated_at: str,
+) -> tuple[dict[str, str], dict[str, Any]]:
+    if not candidates:
+        return {}, {"updated": False, "candidates": 0}
+    try:
+        import source_call_cache_merge
+    except Exception as exc:
+        return {}, {"updated": False, "candidates": len(candidates), "error": str(exc)}
+
+    source_calls_path = out_dir / "source_calls.json"
+    log_dates_path = out_dir / "log_call_dates.json"
+    summary_path = out_dir / "source_call_cache_summary.json"
+    existing = source_call_cache_merge._read_json(source_calls_path, default=[])
+    merged, summary = source_call_cache_merge.merge_source_calls(
+        existing,
+        candidates,
+        generated_at=generated_at,
+    )
+    source_call_cache_merge._atomic_write_json(source_calls_path, merged)
+    source_call_cache_merge._atomic_write_json(log_dates_path, summary["log_call_dates"])
+    source_call_cache_merge._atomic_write_json(summary_path, summary)
+    return (
+        {
+            "source_calls": str(source_calls_path),
+            "log_call_dates": str(log_dates_path),
+            "source_call_cache_summary": str(summary_path),
+        },
+        {
+            "updated": summary["added"] > 0,
+            "candidates": summary["candidates"],
+            "added": summary["added"],
+            "stored": summary["stored"],
+            "log_call_dates": len(summary["log_call_dates"]),
+        },
+    )
+
+
 def _state_from_calls(prior: dict | None, calls: list[dict], *, generated_at: str) -> dict:
     prior = prior if isinstance(prior, dict) else {}
     processed = set(prior.get("processed_full_body_message_ids") or prior.get("processed_message_ids") or [])
@@ -251,19 +370,22 @@ def write_compact_outputs(
     dates = sorted({*(d for d in prior_dates or [] if d), *(call.get("date") for call in stored_calls if call.get("date"))})
     prior_state = _read_json(out / "fundstrat_intake_state.json", default={})
     state = _state_from_calls(prior_state, calls, generated_at=generated_at)
+    new_candidates = classify_compact_source_call_candidates(calls, generated_at=generated_at)
+    prior_candidates = _read_json(out / "source_call_candidates.json", default=[]) if merge_existing else []
+    source_call_candidates = _merge_source_call_candidates(prior_candidates, new_candidates)
     summary = {
         "entries": len(calls),
         "full_body_entries": len({call.get("source_message_id") or f"{call.get('date')}|{call.get('subject')}" for call in calls}),
         "snippet_only_entries": 0,
         "mentions": len(calls),
         "daily_calls": len(calls),
-        "source_call_candidates": 0,
+        "source_call_candidates": len(new_candidates),
         "merged": bool(merge_existing),
         "bodies_redacted": True,
         "compact_full_body_derived": True,
         "stored_entries": len(calls),
         "stored_daily_calls": len(stored_calls),
-        "stored_source_call_candidates": 0,
+        "stored_source_call_candidates": len(source_call_candidates),
     }
     new_audit_entries = [
         {
@@ -282,7 +404,6 @@ def write_compact_outputs(
     ]
     prior_entries = _read_json(out / "fundstrat_inbox_entries.json", default=[]) if merge_existing else []
     audit_entries = _merge_audit_entries(prior_entries, new_audit_entries) if merge_existing else new_audit_entries
-    source_call_candidates = _read_json(out / "source_call_candidates.json", default=[]) if merge_existing else []
     written = {
         "fundstrat_daily_calls": _atomic_write_json(out / "fundstrat_daily_calls.json", stored_calls),
         "inbox_call_dates": _atomic_write_json(out / "inbox_call_dates.json", dates),
@@ -291,6 +412,14 @@ def write_compact_outputs(
         "fundstrat_intake_summary": _atomic_write_json(out / "fundstrat_intake_summary.json", summary),
         "fundstrat_intake_state": _atomic_write_json(out / "fundstrat_intake_state.json", state),
     }
+    source_call_written, source_call_summary = _merge_source_call_cache(
+        source_call_candidates,
+        out,
+        generated_at=generated_at,
+    )
+    summary["source_calls"] = source_call_summary
+    _atomic_write_json(out / "fundstrat_intake_summary.json", summary)
+    written.update(source_call_written)
     return {key: str(path) for key, path in written.items()}
 
 

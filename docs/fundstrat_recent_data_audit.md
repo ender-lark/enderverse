@@ -1,6 +1,6 @@
-# Fundstrat Recent Data Audit
+# Fundstrat Recent Data And Process Audit
 
-Updated: 2026-06-07 23:01 ET; SMID backfill updated 2026-06-08
+Updated: 2026-06-09 14:35 ET
 
 ## Current Live Cache State
 
@@ -14,56 +14,64 @@ Updated: 2026-06-07 23:01 ET; SMID backfill updated 2026-06-08
   - Stored Bottom 5 large cap: DE, TPL, HOOD, PKG, SATS
   - Stored Bottom 5 SMID: ELF, SATS, UUUU, SOFI, KTOS
   - Source backfill: Gmail Fundstrat FIRST WORD 2026-05-28 (`19e6d040f643eb49`) supplied compact SMID list names and report-move percentages.
-  - Add-price backfill: UW OHLC supplied May 28 add-price proxies for 19 unique monthly names. The selector prefers the May 28 premarket row because the Fundstrat report timestamp was pre-regular-session, then falls back to the May 28 regular-session row when no premarket row exists.
+  - Add-price backfill: UW OHLC supplied May 28 add-price proxies for 19 unique monthly names. These are approved OHLC proxies, not raw Fundstrat absolute add-price fields.
 
 - Fundstrat daily cache: `src/fundstrat_daily_calls.json`
-  - Stored call rows: 6
-  - Dates: 2026-06-03 and 2026-06-05
-  - Tickers: QQQ, RSP, RYF, SOX, TNX, XOP
-  - Current interpretation: mostly Mark Newton technical/timing evidence, useful for timing filters and re-checks, not standalone thesis changes.
-
-- Fundstrat inbox cache: `src/fundstrat_inbox_entries.json`
-  - Stored inbox entries: 16
-  - Date range: 2026-06-03 through 2026-06-05
-  - Full-body/fetched entries: 5
-  - Snippet-only entries: 11
-  - Snippet-only rows remain discovery only and cannot count as checked-clear or synthesized evidence.
+  - Stored call rows: 12
+  - Dates: 2026-06-03, 2026-06-05, 2026-06-08, 2026-06-09
+  - Main current rows: QQQ watch/defensive, RSP watch/rotation context, SOX watch, GOLD add-watch, MSTR patience/watch, GOOGL support/buy framing.
+  - Current interpretation: daily rows are fast-decay timing, risk, and re-check filters. They are not standalone execution triggers.
 
 - Source-call cache: `src/source_calls.json`
-  - Stored pending calls: 6
-  - Tickers: QQQ, RSP, RYF, SOX, TNX, XOP
-  - Current scoring lag: clean; no calls past window-end awaiting a score.
+  - Stored pending calls: 12
+  - Log dates: 2026-06-03, 2026-06-05, 2026-06-08, 2026-06-09
+  - The prior stale warning was cleared by classifying compact full-body-derived daily rows into the same source-call cache used by full Gmail intake.
 
-## Audit Findings
+- Fundstrat inbox cache: `src/fundstrat_inbox_entries.json`
+  - Stores redacted audit metadata only. Raw publication bodies must not be committed.
+  - Snippet-only rows remain discovery only and cannot count as checked-clear or synthesized evidence.
 
-1. Top 5 SMID was initially missing from the compact cache and has now been backfilled from the May 28 Fundstrat FIRST WORD email.
-   - Confirmed Top 5 SMID: STRL, IESC, FIX, CRS, FN.
-   - Confirmed Bottom 5 SMID: ELF, SATS, UUUU, SOFI, KTOS.
-   - The source email provides report percent moves and carry-over labels, not absolute add prices.
+## Process Verdict
 
-2. Price when added was initially missing and has now been backfilled from UW OHLC.
-   - `top_prospects.json` has `add_date`, `add_price`, `add_price_source`, `add_price_date`, and `add_price_market_time` for the 19 unique monthly names.
-   - SATS appears in both large-cap and SMID Bottom 5 lists but is one unique prospect-cache row.
-   - Caveat: these are UW OHLC add-price proxies, not a raw Fundstrat-provided absolute price field.
+The intended source hierarchy is correct after the 2026-06-09 fix:
 
-3. Several June 3-5 inbox rows are still snippet-only.
-   - This is not a bug if they were only discovered by search/snippet, but it means they should not be treated as synthesized.
-   - If a snippet-only row sounds decision-relevant, the correct move is full-body read, compact extraction, and merge into the daily/source-call caches.
+1. `fundstrat_bible` is the monthly baseline.
+   - It carries list membership, What-to-Own sectors, and stance context.
+   - It is monthly cadence context, not a fresh tape read.
+   - It can support thesis/allocation work, candidate lists, and top-prospect tracking.
 
-4. The live daily synthesis is using stored daily calls, target drift, and event risk, but it does not yet summarize the Fundstrat storage gaps.
-   - The dashboard News tab and `If I Were You` section now surface those gaps directly.
-   - Future synthesis can include this as a data-quality note when monthly performance or missed opportunities are discussed.
+2. `fundstrat_daily` is the fast-decay overlay.
+   - It can update timing, support/resistance, risk posture, add/trim/avoid/watch framing, and research priority.
+   - It can override or gate the monthly baseline when the story changes after the monthly deck.
+   - It should route capital actions to `Re-check Before Acting` unless same-session price/flow/event evidence confirms the call still applies.
 
-## Implementation Changes From This Audit
+3. Fundstrat is one independence group.
+   - Monthly Bible and daily notes share `independence_group = fundstrat`.
+   - Multiple FS notes can increase persistence and urgency, but they do not count as independent confirmation by themselves.
+   - Same-source conflicts must downgrade toward hold, no-add, re-check, watch, or research until resolved.
 
-- Added `src/fundstrat_news.py`.
-- Added `fundstrat_news` to `src/latest_cockpit_feed.json`.
-- Added a JSX `News` tab beside `Commands`.
-- Added a review-only `If I Were You` section.
-- Updated the Fundstrat source-audit line to include cumulative stored cache counts, not just latest-run counts.
-- Backfilled compact May 28 SMID Top 5 / Bottom 5 rows from the verified Fundstrat FIRST WORD Gmail source.
-- Added `src/fundstrat_add_price_backfill.py` and backfilled monthly add prices from approved UW OHLC rows.
+4. Current events and tape can supersede older FS context.
+   - Example: the 2026-05-28 Bible is constructive on MAG7/Software and Top 5 names such as GOOGL/ANET, but the 2026-06-08 Newton daily note makes Growth/QQQ/AI-beta a tactical re-check, not an automatic dip-buy.
+   - Example: MSTR reserve rebuild eased immediate tailspin risk, but the June 9 Farrell update still says patience until demand/reserve concerns improve.
+   - Example: GOOGL remains monthly/daily-supported, but the AI-infrastructure financing/capital-raise context creates a separate review gate before simple add framing.
+
+5. Calibration dates must mean source-call dates, not generic inbox dates.
+   - Full-body notes that produce action-like daily calls update `inbox_call_dates.json`.
+   - Compact full-body-derived daily rows now also classify into `source_call_candidates.json`, `source_calls.json`, `log_call_dates.json`, and `source_call_cache_summary.json`.
+   - Full-body context notes that produce no action-like call stay in the redacted audit file but do not create `inbox_call_dates` gaps.
+   - Snippets never update daily calls, top prospects, inbox call dates, or source-call calibration.
+
+## June 9 Fixes
+
+- `src/fundstrat_daily_compact_intake.py`
+  - Now classifies compact full-body-derived daily rows into source-call candidates.
+  - Now merges those candidates into `source_calls.json`, `log_call_dates.json`, and `source_call_cache_summary.json`.
+  - Preserves existing source-call candidates while adding newly classified compact rows.
+
+- `src/fundstrat_email_intake.py`
+  - Now populates `inbox_call_dates.json` from extracted action-like daily calls, not from every full-body email date.
+  - Keeps no-action full-body context in the redacted audit file without creating a false source-call stale warning.
 
 ## Operating Rule
 
-Fundstrat remains the baseline source of truth, but it is not an execution trigger by itself. Monthly list membership is thesis/allocation context; daily calls are faster-decay timing input. Anything stale, missing, snippet-only, or uncaptured stays visible as a gap instead of being treated as checked clear.
+Fundstrat remains important, but it is not an execution trigger by itself. Monthly list membership is thesis/allocation context; daily calls are faster-decay timing and risk input. A monthly Top 5 name can still be a no-add or re-check today if a newer daily note, market event, financing change, earnings change, rates/oil move, or same-session tape invalidates the older setup. Anything stale, missing, snippet-only, or uncaptured stays visible as a gap instead of being treated as checked clear.

@@ -68,12 +68,14 @@ Accepted monthly file types:
    ```
 
    This path is intentionally narrower: it writes `fundstrat_daily_calls.json`,
-   `inbox_call_dates.json`, redacted audit entries, summary, and state, but it
-   rejects long raw-body-like quotes and suppresses low-value Fundstrat fluff
-   such as webinars, replays, promotional notes, and general commentary that
-   does not change action posture, timing, sizing, risk, or research priority.
-   It does not update source-call calibration or top prospects. Use it only for
-   full-body-derived compact metadata, never for snippet-only discovery.
+   `inbox_call_dates.json`, redacted audit entries, summary, state,
+   `source_call_candidates.json`, `source_calls.json`, `log_call_dates.json`,
+   and `source_call_cache_summary.json`, but it rejects long raw-body-like
+   quotes and suppresses low-value Fundstrat fluff such as webinars, replays,
+   promotional notes, and general commentary that does not change action
+   posture, timing, sizing, risk, or research priority. It does not update top
+   prospects. Use it only for full-body-derived compact metadata, never for
+   snippet-only discovery.
 
    When the user supplies Fundstrat website screenshots or pasted text, first
    extract only compact rows that preserve source date, author/lane, ticker,

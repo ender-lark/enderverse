@@ -265,7 +265,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-09 14:13 ET
+        built 2026-06-09 15:32 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-09  uw_price 06-09  uw_macro 06-09  fundstrat_bible 05-28  fundstrat_daily 06-09</div>
@@ -305,7 +305,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <a class="quick-link" href="#feedback-loops"><strong>2</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>1 deferred</strong> source lanes</a>
-  <a class="quick-link" href="#feedback-loops"><strong>9 scoring</strong> source calls</a>
+  <a class="quick-link" href="#feedback-loops"><strong>12 scoring</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
   <a class="quick-link" href="#social-watch"><strong>0</strong> social dark</a>
 </div>
@@ -929,7 +929,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">7</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-warn">2 due</div></a>
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">9 scoring</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">12 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
@@ -1211,7 +1211,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 10:32 ET.
 </div>
 <div class="audit-row">
-  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 2 full-body, 0 snippet-only, 3 daily calls; stored cache: 22 inbox entries (11 full-body, 11 snippet-only), 12 daily calls, 0 stored source-call candidates.
+  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 8 full-body, 0 snippet-only, 11 daily calls; stored cache: 23 inbox entries (12 full-body, 11 snippet-only), 12 daily calls, 12 stored source-call candidates.
 </div>
 <div class="audit-row">
   <span class="audit-k">Notion/writeback</span>Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.
@@ -1227,12 +1227,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="card-title"><span class="icon"></span> Feedback loops
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2 open signal(s)</span>
   </div>
-  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain stale: 1d behind.</div><div class="feedback-line">Source persistence checked: no repeated-call clusters.</div><div class="feedback-line">Open action backlog: 2 open; 2 due; 0 stale; oldest 2 trading day(s).</div><div class="feedback-rec">Review due open actions: act, invalidate, ignore, or keep watching explicitly.</div><div class="feedback-item"><span class="context-ticker">ANET</span>2d open | review due | medium priority | lean_in<span class="context-sub">Review soon: act, invalidate, ignore, or explicitly defer.</span><span class="context-sub">python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;</span></div><div class="feedback-item"><span class="context-ticker">GOOGL</span>2d open | review due | medium priority | lean_in<span class="context-sub">Review soon: act, invalidate, ignore, or explicitly defer.</span><span class="context-sub">python src/action_memory_resolve.py --ticker GOOGL --status deferred --reason &quot;keep watching&quot;</span></div>
+  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">SOURCE PERSISTENCE: 1 cluster(s), 0 LOUD: newton-&gt;QQQ 3x in 30d [quiet, has A/B]</div><div class="feedback-line">Open action backlog: 2 open; 2 due; 0 stale; oldest 2 trading day(s).</div><div class="feedback-rec">Review due open actions: act, invalidate, ignore, or keep watching explicitly.</div><div class="feedback-item"><span class="context-ticker">ANET</span>2d open | review due | medium priority | lean_in<span class="context-sub">Review soon: act, invalidate, ignore, or explicitly defer.</span><span class="context-sub">python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;</span></div><div class="feedback-item"><span class="context-ticker">GOOGL</span>2d open | review due | medium priority | lean_in<span class="context-sub">Review soon: act, invalidate, ignore, or explicitly defer.</span><span class="context-sub">python src/action_memory_resolve.py --ticker GOOGL --status deferred --reason &quot;keep watching&quot;</span></div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-09T18:13:24.110128+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-09T18:13:24.110128+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-09T18:13:24.110128+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-09T18:13:24.110128+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-09T18:13:24.110128+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-09T19:32:36.742312+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-09T19:32:36.742312+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-09T19:32:36.742312+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-09T19:32:36.742312+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-09T19:32:36.742312+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">

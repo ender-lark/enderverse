@@ -536,7 +536,7 @@ def build_intake_payload(entries: list[dict], *, universe: set[str] | None = Non
     full_body_entries = [e for e in entries if e.get("body_fetched", True)]
     snippet_entries = [e for e in entries if not e.get("body_fetched", True)]
     daily_calls, mentions = extract_daily_calls(full_body_entries, universe=universe)
-    dates = sorted({e.get("date") for e in full_body_entries if e.get("date")})
+    dates = sorted({c.get("date") for c in daily_calls if c.get("date")})
     source_call_candidates = classify_source_call_candidates(
         daily_calls,
         now=generated_at[:10],

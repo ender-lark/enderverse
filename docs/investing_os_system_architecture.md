@@ -477,7 +477,9 @@ Low-level implementation:
 
 - `src/fundstrat_lanes.py` is the shared classifier for Fundstrat lane metadata.
 - `src/fundstrat_daily_compact_intake.py` filters compact manual/connector rows
-  so low-value Fundstrat fluff is not promoted into daily calls.
+  so low-value Fundstrat fluff is not promoted into daily calls, then keeps
+  source-call candidates/log dates in sync for accepted full-body-derived
+  compact rows.
 - `src/fundstrat_daytime_alert.py` evaluates compact daily calls for urgent
   Pushover delivery and uses `fundstrat_daytime_alert_state.json` to suppress
   duplicates.

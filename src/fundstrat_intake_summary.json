@@ -1,14 +1,21 @@
 {
-  "entries": 3,
-  "full_body_entries": 2,
+  "entries": 11,
+  "full_body_entries": 8,
   "snippet_only_entries": 0,
-  "mentions": 3,
-  "daily_calls": 3,
-  "source_call_candidates": 0,
+  "mentions": 11,
+  "daily_calls": 11,
+  "source_call_candidates": 11,
   "merged": true,
   "bodies_redacted": true,
   "compact_full_body_derived": true,
-  "stored_entries": 3,
+  "stored_entries": 11,
   "stored_daily_calls": 12,
-  "stored_source_call_candidates": 0
+  "stored_source_call_candidates": 12,
+  "source_calls": {
+    "updated": true,
+    "candidates": 12,
+    "added": 3,
+    "stored": 12,
+    "log_call_dates": 4
+  }
 }
