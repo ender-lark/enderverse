@@ -1,14 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-08T23:05:32.792251Z",
+  "updated_at": "2026-06-09T05:52:49.106106Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:35.358239Z",
-      "summary": "investing-os-pre-market-source-intake manual run started"
-    },
     {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "failed",
@@ -4443,6 +4436,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T23:05:32.792251Z",
       "summary": "checked 5 Gmail messages, read 2 full bodies, landed 2 compact rows, validation passed, no Notion write, social_watch stays dark, blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T05:47:13.326381Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T05:52:49.106106Z",
+      "summary": "drained 2 queued med-priority system-prep items; Notion query unavailable so search/fetch fallback used; wrote+verified trigger-registration and patch-cadence drafts; skipped recent AI Labor item; no confirmed Done/Killed moves"
     }
   ]
 }
