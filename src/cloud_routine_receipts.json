@@ -1,26 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T13:09:41.912948Z",
+  "updated_at": "2026-06-09T13:35:07.728724Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:38.106607Z",
-      "summary": "full cockpit build refreshed dashboard artifacts",
-      "details": {
-        "steps": [
-          "full cockpit refresh"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:38.116944Z",
-      "summary": "investing-os-post-close-refresh manual run started"
-    },
     {
       "routine_id": "investing-os-post-close-refresh",
       "status": "success",
@@ -4409,6 +4390,20 @@
       "run_source": "manual",
       "recorded_at": "2026-06-09T13:09:41.912948Z",
       "summary": "manual scout found 5 useful packets; Notion Research Queue 2 verified, Signal Log 3 verified; repo caches validated; routine tuned around SEC-first sourcing and noise filters"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T13:31:33.773370Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T13:35:07.728724Z",
+      "summary": "repo synthesis refreshed; signal log 21 rows; source call pending 0; research queue 3 pending; Notion page written+verified; decisions/trade outcomes/pilots row-level unverified"
     }
   ]
 }
