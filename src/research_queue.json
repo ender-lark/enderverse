@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T18:00:00Z",
+  "generated_at": "2026-06-09T13:04:59Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -8,13 +8,32 @@
       "status": "Queued",
       "ticker": "AVGO",
       "source": "user update 2026-06-05: important AVGO date passed"
+    },
+    {
+      "r": "BMNR - verify June preferred financing impact on mNAV and ETH-per-share flywheel",
+      "pr": "high",
+      "status": "Queued",
+      "ticker": "BMNR",
+      "notes": "Fresh BMNR 424B5/FWP/8-K filings describe 9.50% Series A preferred financing, estimated net proceeds about $273.8M, and potential use for ETH/digital assets plus staking/validator infrastructure. Check mNAV, ETH-per-share, preferred dividend coverage, and whether issuance is accretive before any conviction/add posture.",
+      "source": "SEC filings via manual off-hours alt-data scout 2026-06-09"
+    },
+    {
+      "r": "GOOGL - re-check AI infrastructure financing, ATM, and Berkshire placement implications",
+      "pr": "high",
+      "status": "Queued",
+      "ticker": "GOOGL",
+      "notes": "GOOGL SEC 424B5 references mandatory convertible preferred/depositary shares, up-to-$40B ATM program, $10B Berkshire-affiliate private placement, and proceeds for AI infrastructure/global compute. Review dilution/cost-of-capital/capex ROI before simple add framing.",
+      "source": "SEC 424B5 via manual off-hours alt-data scout 2026-06-09"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 1,
-    "pending": 1,
+    "input_rows": 2,
+    "pending": 2,
     "done": 0,
-    "skipped": 0
+    "skipped": 0,
+    "merged": true,
+    "stored_pending": 3,
+    "stored_done": 0
   }
 }

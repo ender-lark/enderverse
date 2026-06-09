@@ -112,3 +112,23 @@ Each landed or proposed item should include:
 Run as a separate off-hours scout before the existing off-hours worker drains
 Research Queue items. The scout discovers and routes useful evidence; the worker
 turns the best queued items into dossiers.
+
+## Manual Run Learnings - 2026-06-09
+
+- Start from current cockpit state, open reviews, Research Queue, live theses,
+  material holdings, and event-risk rows before searching external sources.
+- SEC filings and primary-source events should outrank social and prediction
+  feeds. Fresh financing, ATM, dilution, sponsor, or use-of-proceeds evidence can
+  move conviction or disconfirm a thesis faster than sentiment.
+- UW prediction markets are useful only when filtered to active exposures such
+  as crypto regulation, policy, oil/rates/geopolitics, defense, or portfolio
+  catalysts. Generic election, celebrity, or unrelated markets should be
+  discarded.
+- Broad SPY/QQQ option pressure can inform tape caution; mixed ticker flow
+  should not create a queue row unless it changes the decision.
+- Normal runs should route no more than two Research Queue rows and three Signal
+  Log rows unless a source-backed urgent item clearly needs more.
+- Read back Notion writes before reporting success. If Notion is unavailable,
+  include compact packets in the receipt summary and keep the write lane dark.
+- The calibrated routine contract lives at
+  `src/codex_routines/off_hours_alt_data_scout.md`.

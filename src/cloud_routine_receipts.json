@@ -1,37 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T12:52:33.901775Z",
+  "updated_at": "2026-06-09T13:09:41.912948Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "failed",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:36.734442Z",
-      "summary": "parabolic cache failed during local scorer path",
-      "details": {
-        "failures": [
-          {
-            "label": "parabolic existing bundle score",
-            "returncode": 1,
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--from-bundle",
-              "tmp/uw/parabolic_bundle.json",
-              "--emit",
-              "src/parabolic_setups.json"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:36.746565Z",
-      "summary": "investing-os-full-cockpit-build manual run started"
-    },
     {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "success",
@@ -4425,6 +4395,20 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-09T12:58:57.553006Z",
+      "summary": "manual off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-09T13:09:41.912948Z",
+      "summary": "manual scout found 5 useful packets; Notion Research Queue 2 verified, Signal Log 3 verified; repo caches validated; routine tuned around SEC-first sourcing and noise filters"
     }
   ]
 }
