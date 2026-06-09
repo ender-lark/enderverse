@@ -1,51 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T15:47:57.863338Z",
+  "updated_at": "2026-06-09T16:48:30.048458Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:03:12.287219Z",
-      "summary": "morning scan manual run completed; Signal Log remains watch-only",
-      "details": {
-        "steps": [
-          {
-            "label": "signal log validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/signal_log_intake.py",
-              "--validate",
-              "src/signal_log.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 6\n}",
-            "stderr": ""
-          },
-          {
-            "label": "macro cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/macro_pulse_scan.py",
-              "--validate",
-              "src/macro_state.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:03:12.297112Z",
-      "summary": "investing-os-daily-synthesis manual run started"
-    },
     {
       "routine_id": "investing-os-daily-synthesis",
       "status": "success",
@@ -4334,6 +4290,20 @@
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T15:47:57.863338Z",
+      "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T16:47:42.967935Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T16:48:30.048458Z",
       "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
     }
   ]
