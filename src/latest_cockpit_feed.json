@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-09T12:52:32.172674+00:00",
+  "generated_at": "2026-06-09T14:32:50.883197+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-09 \u00b7 uw_price 06-09 \u00b7 uw_macro 06-09 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-09",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-09T08:52:32.172674-04:00",
+        "date": "2026-06-09T10:32:50.883197-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-09T08:52:32.172674-04:00",
+        "date": "2026-06-09T10:32:50.883197-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -101,7 +101,7 @@
         "label": "Research Queue",
         "status": "has_data",
         "detail": "checked",
-        "count": 1,
+        "count": 3,
         "checked_at": ""
       },
       {
@@ -117,7 +117,7 @@
         "label": "UW Flow",
         "status": "has_data",
         "detail": "checked",
-        "count": 40,
+        "count": 39,
         "checked_at": ""
       },
       {
@@ -125,7 +125,7 @@
         "label": "Signal Log",
         "status": "has_data",
         "detail": "checked",
-        "count": 18,
+        "count": 21,
         "checked_at": ""
       },
       {
@@ -1169,6 +1169,30 @@
       "priority": "medium",
       "source": "https://app.notion.com/p/37ac50314bb68172898fd600e467aaaa",
       "note": "Reuters commodity coverage on Tuesday, June 9, 2026 said oil fell and erased most of the previous session's gains after Iran and Israel said they had halted attacks, though clarity remained limited. This eases the immediate inflation and rates pressure versus Monday's spike, but it leaves the nuclear, defense, and event-risk watch lanes live. Watch-only."
+    },
+    {
+      "signal": "BMNR SEC financing changes thesis-quality check",
+      "ticker": "BMNR, ETH",
+      "date": "2026-06-09",
+      "priority": "high",
+      "source": "SEC BMNR 424B5/FWP/8-K filings; manual off-hours alt-data scout",
+      "note": "9.50% Series A preferred offering and ETH/staking use-of-proceeds language support a focused mNAV/ETH-per-share/preferred-dividend coverage check. Watch-only; not a trade signal."
+    },
+    {
+      "signal": "GOOGL AI-infrastructure financing packet affects open review",
+      "ticker": "GOOGL",
+      "date": "2026-06-09",
+      "priority": "high",
+      "source": "SEC GOOGL 424B5; manual off-hours alt-data scout",
+      "note": "Filing references AI infrastructure/global compute use of proceeds, up-to-$40B ATM program, and $10B Berkshire-affiliate private placement. Re-check dilution/capex ROI before simple add framing."
+    },
+    {
+      "signal": "Iran/Hormuz prediction markets reinforce oil/rates event-risk watch",
+      "ticker": "XOP, XLE, TNX, LEU, UUUU, GLD",
+      "date": "2026-06-09",
+      "priority": "medium",
+      "source": "UW prediction-market unusual activity; manual off-hours alt-data scout",
+      "note": "Iran/Hormuz/nuclear markets in the UW unusual feed had insider/contrarian tags. Supports keeping oil/rates event risk active; requires primary headline/rates/oil confirmation."
     }
   ],
   "social_watch": {
@@ -1283,7 +1307,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1302,8 +1326,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "up",
-          "cdNote": "06-08 uw_opportunity dark_pool_accum",
+          "cd": "flat",
+          "cdNote": "No recent change.",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1330,8 +1354,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cd": "down",
+          "cdNote": "06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1351,7 +1375,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1370,8 +1394,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "down",
-          "cdNote": "06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cd": "up",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build",
           "nr": "Core hold \u2014 operator-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1391,7 +1415,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it. You're underweight to conviction here \u2014 the gap is the flag.",
           "dr": [
             [
@@ -1411,7 +1435,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1439,7 +1463,7 @@
           "lock": "\ud83d\udd12",
           "fresh": false,
           "cd": "down",
-          "cdNote": "06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1459,7 +1483,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1487,7 +1511,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity call_flow \u00b7 06-08 uw_opportunity oi_build",
+          "cdNote": "06-09 uw_opportunity call_flow \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 operator-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1515,7 +1539,7 @@
           "lock": "",
           "fresh": false,
           "cd": "down",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Catch-up \u2014 Lee-endorsed laggard; favorable entry, no rush.",
           "dr": [
             [
@@ -1543,7 +1567,7 @@
           "lock": "\ud83d\udd12",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1571,7 +1595,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
+          "cdNote": "06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1739,7 +1763,7 @@
   ],
   "questions": [],
   "research": {
-    "generated_at": "2026-06-05T18:00:00Z",
+    "generated_at": "2026-06-09T13:04:59Z",
     "source": "research_queue_intake",
     "pending": [
       {
@@ -1748,14 +1772,33 @@
         "status": "Queued",
         "ticker": "AVGO",
         "source": "user update 2026-06-05: important AVGO date passed"
+      },
+      {
+        "r": "BMNR - verify June preferred financing impact on mNAV and ETH-per-share flywheel",
+        "pr": "high",
+        "status": "Queued",
+        "ticker": "BMNR",
+        "notes": "Fresh BMNR 424B5/FWP/8-K filings describe 9.50% Series A preferred financing, estimated net proceeds about $273.8M, and potential use for ETH/digital assets plus staking/validator infrastructure. Check mNAV, ETH-per-share, preferred dividend coverage, and whether issuance is accretive before any conviction/add posture.",
+        "source": "SEC filings via manual off-hours alt-data scout 2026-06-09"
+      },
+      {
+        "r": "GOOGL - re-check AI infrastructure financing, ATM, and Berkshire placement implications",
+        "pr": "high",
+        "status": "Queued",
+        "ticker": "GOOGL",
+        "notes": "GOOGL SEC 424B5 references mandatory convertible preferred/depositary shares, up-to-$40B ATM program, $10B Berkshire-affiliate private placement, and proceeds for AI infrastructure/global compute. Review dilution/cost-of-capital/capex ROI before simple add framing.",
+        "source": "SEC 424B5 via manual off-hours alt-data scout 2026-06-09"
       }
     ],
     "done": [],
     "summary": {
-      "input_rows": 1,
-      "pending": 1,
+      "input_rows": 2,
+      "pending": 2,
       "done": 0,
-      "skipped": 0
+      "skipped": 0,
+      "merged": true,
+      "stored_pending": 3,
+      "stored_done": 0
     }
   },
   "research_actions": [],
@@ -1763,31 +1806,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-09T12:52:32.055781+00:00",
+      "last_run": "2026-06-09T14:32:50.758425+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-09T12:52:32.055781+00:00",
+      "last_run": "2026-06-09T14:32:50.758425+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-09T12:52:32.055781+00:00",
+      "last_run": "2026-06-09T14:32:50.758425+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-09T12:52:32.055781+00:00",
+      "last_run": "2026-06-09T14:32:50.758425+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-09T12:52:32.055781+00:00",
+      "last_run": "2026-06-09T14:32:50.758425+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1964,11 +2007,11 @@
       "headline": "MAGS: Promising and the tape's with it (LEADING) \u2014 under your conviction \u2014 room to add.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
+        "Direction: 06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $3.8M, 12:1 c/p (1d)",
-        "UW \u25bc put OI +8136% at 64/60/67.5 strikes (1d)",
-        "UW \u25b2 dark-pool blocks $4M net buy, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $3.8M, 12:1 c/p (0d)",
+        "UW \u25bc put OI +1050% at 64/66/66.5 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $4M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -1976,28 +2019,6 @@
       "caveats": [
         "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
       ],
-      "freshness": "as-of 2026-06-09",
-      "action": "NONE"
-    },
-    {
-      "ticker": "GRNJ",
-      "owned": true,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "up",
-      "rotation": "IN LINE",
-      "lean": "build",
-      "headline": "GRNJ: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
-      "evidence": [
-        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity dark_pool_accum",
-        "Rotation: IN LINE",
-        "UW \u25b2 dark-pool blocks $0M net buy, 1 sessions (1d)"
-      ],
-      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
-      "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
-      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
-      "caveats": [],
       "freshness": "as-of 2026-06-09",
       "action": "NONE"
     },
@@ -2012,16 +2033,42 @@
       "headline": "GRNY: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+        "Direction: 06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity dark_pool_accum",
         "Rotation: IN LINE",
-        "UW \u25b2 ask-side call sweeps $1.6M, 16:1 c/p (1d)",
-        "UW \u25b2 call OI +570% at 27/28/27 strikes (1d)",
-        "UW \u25b2 dark-pool blocks $5M net buy, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $1.6M, 16:1 c/p (0d)",
+        "UW \u25bc put OI +850% at 26/25/27 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $0M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
       "caveats": [],
+      "freshness": "as-of 2026-06-09",
+      "action": "NONE"
+    },
+    {
+      "ticker": "IVES",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "up",
+      "rotation": "LEADING",
+      "lean": "build",
+      "headline": "IVES: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
+      "evidence": [
+        "Conviction: real named backing (operator), not fully proven / single-source \u2014 moderate",
+        "Direction: 06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build",
+        "Rotation: LEADING",
+        "UW \u25b2 ask-side call sweeps $0.3M (0d)",
+        "UW \u25b2 call OI +17% at 42/42/39 strikes (0d)",
+        "UW \u25bc dark-pool blocks $0M net sell, 1 sessions (0d)"
+      ],
+      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
+      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [
+        "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
+      ],
       "freshness": "as-of 2026-06-09",
       "action": "NONE"
     },
@@ -2036,11 +2083,11 @@
       "headline": "MU: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
+        "Direction: 06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $29.1M, 2:1 c/p (1d)",
-        "UW \u25bc put OI +135714% at 500/55/50 strikes (1d)",
-        "UW \u25b2 dark-pool blocks $48M net buy, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $25.2M, 2:1 c/p (0d)",
+        "UW \u25b2 call OI +1632% at 1000/1100/1050 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $13M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -2062,37 +2109,11 @@
       "headline": "NVDA: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
+        "Direction: 06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $11.3M, 3:1 c/p (1d)",
-        "UW \u25b2 call OI +4256% at 215/310/255 strikes (1d)",
-        "UW \u25b2 dark-pool blocks $667M net buy, 1 sessions (1d)"
-      ],
-      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
-      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
-      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
-      "caveats": [
-        "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
-      ],
-      "freshness": "as-of 2026-06-09",
-      "action": "NONE"
-    },
-    {
-      "ticker": "SMH",
-      "owned": true,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "up",
-      "rotation": "LEADING",
-      "lean": "build",
-      "headline": "SMH: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
-      "evidence": [
-        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity dark_pool_accum",
-        "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $13.7M, 3:1 c/p (1d)",
-        "UW \u25bc put OI +22318% at 530/550/340 strikes (1d)",
-        "UW \u25b2 dark-pool blocks $1M net buy, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $11.4M, 3:1 c/p (0d)",
+        "UW \u25b2 call OI +156420% at 210/205/210 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $33M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -2204,30 +2225,6 @@
       "action": "NONE"
     },
     {
-      "ticker": "IVES",
-      "owned": true,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "down",
-      "rotation": "LEADING",
-      "lean": "cooling",
-      "headline": "IVES: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
-      "evidence": [
-        "Conviction: real named backing (operator), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity oi_build \u00b7 06-08 uw_opportunity dark_pool_accum",
-        "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $0.3M (1d)",
-        "UW \u25bc put OI +500% at 35/37/29 strikes (1d)",
-        "UW \u25bc dark-pool blocks $0M net sell, 1 sessions (1d)"
-      ],
-      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
-      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
-      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
-      "caveats": [],
-      "freshness": "as-of 2026-06-09",
-      "action": "NONE"
-    },
-    {
       "ticker": "PWR",
       "owned": false,
       "stance_gate": "open",
@@ -2243,6 +2240,30 @@
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-09",
+      "action": "NONE"
+    },
+    {
+      "ticker": "SMH",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "down",
+      "rotation": "LEADING",
+      "lean": "cooling",
+      "headline": "SMH: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
+      "evidence": [
+        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
+        "Direction: 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
+        "Rotation: LEADING",
+        "UW \u25b2 ask-side call sweeps $13.3M, 2:1 c/p (0d)",
+        "UW \u25bc put OI +2286% at 425/390/410 strikes (0d)",
+        "UW \u25bc dark-pool blocks $17M net sell, 1 sessions (0d)"
+      ],
+      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
+      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
       "caveats": [],
       "freshness": "as-of 2026-06-09",
       "action": "NONE"
@@ -2278,11 +2299,11 @@
       "headline": "VOLT: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (you own it).",
       "evidence": [
         "Conviction: real named backing (operator), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity call_flow \u00b7 06-08 uw_opportunity oi_build",
+        "Direction: 06-09 uw_opportunity call_flow \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
         "Rotation: TURNING DOWN",
-        "UW \u25b2 ask-side call flow $0.0M (1d)",
-        "UW \u25b2 call OI +50% at 38/28 strikes (1d)",
-        "UW \u25bc dark-pool blocks $0M net sell, 1 sessions (1d)"
+        "UW \u25b2 ask-side call flow $0.0M (0d)",
+        "UW \u25b2 call OI +2% at 42/40 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $0M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
@@ -2302,11 +2323,11 @@
       "headline": "XLF: the case is cooling (LAGGING) \u2014 watch / reassess, don't add (you own it).",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-08 uw_opportunity sweep \u00b7 06-08 uw_opportunity oi_build",
+        "Direction: 06-09 uw_opportunity sweep \u00b7 06-09 uw_opportunity oi_build \u00b7 06-09 uw_opportunity dark_pool_accum",
         "Rotation: LAGGING",
-        "UW \u25bc ask-side put sweeps $1.6M, 1:1 c/p (1d)",
-        "UW \u25bc put OI +8800% at 50/52/50 strikes (1d)",
-        "UW \u25b2 dark-pool blocks $274M net buy, 1 sessions (1d)"
+        "UW \u25bc ask-side put sweeps $1.6M, 1:1 c/p (0d)",
+        "UW \u25bc put OI +4062% at 51/50/52 strikes (0d)",
+        "UW \u25bc dark-pool blocks $2M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
@@ -2317,9 +2338,9 @@
     }
   ],
   "bullish_flow": {
-    "as_of": "2026-06-08",
-    "count": 40,
-    "tickers": 14,
+    "as_of": "2026-06-09",
+    "count": 39,
+    "tickers": 13,
     "rows": [
       {
         "ticker": "BMNR",
@@ -2333,8 +2354,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $0.9M, 2:1 c/p",
-          "call OI +3288% at 17/25/21 strikes",
-          "dark-pool blocks $4M net buy, 1 sessions"
+          "call OI +600% at 17/18/20 strikes",
+          "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": true
       },
@@ -2350,8 +2371,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $1.6M, 16:1 c/p",
-          "call OI +570% at 27/28/27 strikes",
-          "dark-pool blocks $5M net buy, 1 sessions"
+          "put OI +850% at 26/25/27 strikes",
+          "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2367,25 +2388,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $1.6M, 2:1 c/p",
-          "call OI +2962% at 105/101/105 strikes",
-          "dark-pool blocks $33M net sell, 1 sessions"
-        ],
-        "parked": false
-      },
-      {
-        "ticker": "IVES",
-        "direction": "bullish",
-        "strength": "strong",
-        "signal_types": [
-          "sweep",
-          "oi_build",
-          "dark_pool_accum"
-        ],
-        "n": 3,
-        "evidence": [
-          "ask-side call sweeps $0.3M",
-          "put OI +500% at 35/37/29 strikes",
-          "dark-pool blocks $0M net sell, 1 sessions"
+          "call OI +9000% at 98/100/96.5 strikes",
+          "dark-pool blocks $2M net sell, 1 sessions"
         ],
         "parked": false
       },
@@ -2401,8 +2405,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $2.4M, 1:1 c/p",
-          "put OI +214% at 120/150/160 strikes",
-          "dark-pool blocks $2M net sell, 1 sessions"
+          "put OI +266% at 150/150/140 strikes",
+          "dark-pool blocks $1M net sell, 1 sessions"
         ],
         "parked": true
       },
@@ -2418,7 +2422,7 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $3.8M, 12:1 c/p",
-          "put OI +8136% at 64/60/67.5 strikes",
+          "put OI +1050% at 64/66/66.5 strikes",
           "dark-pool blocks $4M net buy, 1 sessions"
         ],
         "parked": false
@@ -2435,8 +2439,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $1.3M, 2:1 c/p",
-          "put OI +1467% at 45/50/66 strikes",
-          "dark-pool blocks $4M net buy, 1 sessions"
+          "call OI +2210% at 61/59/60 strikes",
+          "dark-pool blocks $0M net sell, 1 sessions"
         ],
         "parked": true
       },
@@ -2451,9 +2455,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $29.1M, 2:1 c/p",
-          "put OI +135714% at 500/55/50 strikes",
-          "dark-pool blocks $48M net buy, 1 sessions"
+          "ask-side call sweeps $25.2M, 2:1 c/p",
+          "call OI +1632% at 1000/1100/1050 strikes",
+          "dark-pool blocks $13M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2468,9 +2472,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $11.3M, 3:1 c/p",
-          "call OI +4256% at 215/310/255 strikes",
-          "dark-pool blocks $667M net buy, 1 sessions"
+          "ask-side call sweeps $11.4M, 3:1 c/p",
+          "call OI +156420% at 210/205/210 strikes",
+          "dark-pool blocks $33M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2485,9 +2489,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $13.7M, 3:1 c/p",
-          "put OI +22318% at 530/550/340 strikes",
-          "dark-pool blocks $1M net buy, 1 sessions"
+          "ask-side call sweeps $13.3M, 2:1 c/p",
+          "put OI +2286% at 425/390/410 strikes",
+          "dark-pool blocks $17M net sell, 1 sessions"
         ],
         "parked": false
       },
@@ -2503,15 +2507,32 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $2.0M, 3:1 c/p",
-          "call OI +4120% at 12/16/17 strikes",
-          "dark-pool blocks $14M net buy, 1 sessions"
+          "call OI +711% at 17/17.5/16.5 strikes",
+          "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": true
       },
       {
+        "ticker": "IVES",
+        "direction": "bullish",
+        "strength": "moderate",
+        "signal_types": [
+          "sweep",
+          "oi_build",
+          "dark_pool_accum"
+        ],
+        "n": 3,
+        "evidence": [
+          "ask-side call sweeps $0.3M",
+          "call OI +17% at 42/42/39 strikes",
+          "dark-pool blocks $0M net sell, 1 sessions"
+        ],
+        "parked": false
+      },
+      {
         "ticker": "VOLT",
         "direction": "bullish",
-        "strength": "strong",
+        "strength": "weak",
         "signal_types": [
           "call_flow",
           "oi_build",
@@ -2520,20 +2541,7 @@
         "n": 3,
         "evidence": [
           "ask-side call flow $0.0M",
-          "call OI +50% at 38/28 strikes",
-          "dark-pool blocks $0M net sell, 1 sessions"
-        ],
-        "parked": false
-      },
-      {
-        "ticker": "GRNJ",
-        "direction": "bullish",
-        "strength": "weak",
-        "signal_types": [
-          "dark_pool_accum"
-        ],
-        "n": 1,
-        "evidence": [
+          "call OI +2% at 42/40 strikes",
           "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": false
@@ -2550,8 +2558,8 @@
         "n": 3,
         "evidence": [
           "ask-side put sweeps $1.6M, 1:1 c/p",
-          "put OI +8800% at 50/52/50 strikes",
-          "dark-pool blocks $274M net buy, 1 sessions"
+          "put OI +4062% at 51/50/52 strikes",
+          "dark-pool blocks $2M net sell, 1 sessions"
         ],
         "parked": false
       }
@@ -3139,8 +3147,8 @@
     },
     "watch_only_why": {
       "status": "has_data",
-      "count": 27,
-      "line": "Why-not-acting lane: 27 watch-only signal(s) kept out of trade prompts.",
+      "count": 30,
+      "line": "Why-not-acting lane: 30 watch-only signal(s) kept out of trade prompts.",
       "rows": [
         {
           "ticker": "XLF, GS, ITA",
@@ -13051,8 +13059,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-09T08:42:07-04:00",
-        "connector_proof_age_hours": 0.17
+        "connector_verified_at": "2026-06-09T10:02:00-04:00",
+        "connector_proof_age_hours": 0.51
       }
     ],
     "missing": [],
@@ -13080,17 +13088,17 @@
     },
     "cloud_routines": {
       "status": "partial_live_run_proven",
-      "line": "Background cloud proof: 13/14 scheduled receipts proven; failed latest=0.",
-      "scheduled_success_count": 13,
-      "expected_count": 14,
+      "line": "Background cloud proof: 15/16 scheduled receipts proven; failed latest=0.",
+      "scheduled_success_count": 15,
+      "expected_count": 16,
       "failed_latest_count": 0,
       "missing_scheduled_success_count": 1,
       "missing_scheduled_success": [
         {
-          "routine_id": "investing-os-uw-opportunity-cache",
-          "routine_name": "Investing OS UW Opportunity Cache",
-          "schedule": "market weekdays 10:00 AM ET",
-          "last_status": "success"
+          "routine_id": "investing-os-broker-position-intake",
+          "routine_name": "Investing OS Broker Position Intake",
+          "schedule": "market weekdays 8:20 AM ET",
+          "last_status": "no_receipt"
         }
       ],
       "rows": [
@@ -13099,7 +13107,7 @@
           "routine_name": "Investing OS Pre-Market Source Intake",
           "role": "pre_market_source_intake",
           "schedule": "market weekdays 8:10 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-09T12:14:13.934472Z",
@@ -13121,6 +13129,19 @@
           "last_summary": "checked 9 Gmail messages, read 3 full bodies, landed 3 compact rows, validation passed, no Notion write, social_watch stays dark, blockers none"
         },
         {
+          "routine_id": "investing-os-broker-position-intake",
+          "routine_name": "Investing OS Broker Position Intake",
+          "role": "broker_position_intake",
+          "schedule": "market weekdays 8:20 AM ET",
+          "receipt_count": 0,
+          "last_status": "no_receipt",
+          "last_run_source": "manual",
+          "last_recorded_at": "",
+          "last_success_at": "",
+          "last_scheduled_success_at": "",
+          "last_summary": ""
+        },
+        {
           "routine_id": "investing-os-morning-scan",
           "routine_name": "Investing OS Morning Scan",
           "role": "morning_scan",
@@ -13138,52 +13159,65 @@
           "routine_name": "Investing OS Early Cockpit Build",
           "role": "early_cockpit_build",
           "schedule": "market weekdays 8:50 AM ET",
-          "receipt_count": 9,
-          "last_status": "started",
+          "receipt_count": 10,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-09T12:52:31.251379Z",
-          "last_success_at": "2026-06-08T21:27:08.881109Z",
-          "last_scheduled_success_at": "2026-06-08T12:53:08.913596Z",
-          "last_summary": "investing-os-early-cockpit-build started"
+          "last_recorded_at": "2026-06-09T12:52:33.901775Z",
+          "last_success_at": "2026-06-09T12:52:33.901775Z",
+          "last_scheduled_success_at": "2026-06-09T12:52:33.901775Z",
+          "last_summary": "early cockpit build succeeded"
         },
         {
           "routine_id": "investing-os-daily-synthesis",
           "routine_name": "Investing OS Daily Synthesis",
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
-          "receipt_count": 18,
+          "receipt_count": 20,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:09.090769Z",
-          "last_success_at": "2026-06-08T21:27:09.090769Z",
-          "last_scheduled_success_at": "2026-06-08T13:37:34.812147Z",
-          "last_summary": "daily synthesis manual run completed from current cockpit feed evidence"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-09T13:35:07.728724Z",
+          "last_success_at": "2026-06-09T13:35:07.728724Z",
+          "last_scheduled_success_at": "2026-06-09T13:35:07.728724Z",
+          "last_summary": "repo synthesis refreshed; signal log 21 rows; source call pending 0; research queue 3 pending; Notion page written+verified; decisions/trade outcomes/pilots row-level unverified"
+        },
+        {
+          "routine_id": "investing-os-post-open-evidence-gate",
+          "routine_name": "Investing OS Post-Open Evidence Gate",
+          "role": "post_open_evidence_gate",
+          "schedule": "market weekdays 9:40 AM ET",
+          "receipt_count": 2,
+          "last_status": "success",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-09T13:41:31.183324Z",
+          "last_success_at": "2026-06-09T13:41:31.183324Z",
+          "last_scheduled_success_at": "2026-06-09T13:41:31.183324Z",
+          "last_summary": "5 check sets/22 tickers; same-session UW proof 0 support 0 contradict 10 inconclusive 3 missing-failed; gates preserved for price-flow-news-position evidence; dashboard refresh skipped"
         },
         {
           "routine_id": "investing-os-fundstrat-daytime-watch",
           "routine_name": "Investing OS Fundstrat Daytime Watch",
           "role": "fundstrat_daytime_watch",
           "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
-          "receipt_count": 22,
+          "receipt_count": 24,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:09.563796Z",
-          "last_success_at": "2026-06-08T21:27:09.563796Z",
-          "last_scheduled_success_at": "2026-06-08T19:47:13.985410Z",
-          "last_summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-09T13:49:26.338735Z",
+          "last_success_at": "2026-06-09T13:49:26.338735Z",
+          "last_scheduled_success_at": "2026-06-09T13:49:26.338735Z",
+          "last_summary": "checked 2 msgs, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alerts sent 3 from existing fresh calls, fundstrat lane unchanged, blockers none"
         },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
           "routine_name": "Investing OS UW Opportunity Cache",
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "receipt_count": 22,
+          "receipt_count": 24,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:09.853599Z",
-          "last_success_at": "2026-06-08T21:27:09.853599Z",
-          "last_scheduled_success_at": "",
-          "last_summary": "UW opportunity cache manual run completed"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-09T14:03:06.444932Z",
+          "last_success_at": "2026-06-09T14:03:06.444932Z",
+          "last_scheduled_success_at": "2026-06-09T14:03:06.444932Z",
+          "last_summary": "scanned 14 tickers; 13 live observations landed; 39 signals cached; empty-source GRNJ; worker failures 0"
         },
         {
           "routine_id": "investing-os-parabolic-cache",
@@ -13192,31 +13226,31 @@
           "schedule": "market weekdays 10:05 AM ET",
           "receipt_count": 24,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:10.536527Z",
-          "last_success_at": "2026-06-08T21:27:10.536527Z",
-          "last_scheduled_success_at": "2026-06-08T14:07:25.013674Z",
-          "last_summary": "parabolic cache manual run completed"
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-09T14:06:45.234276Z",
+          "last_success_at": "2026-06-09T14:06:45.234276Z",
+          "last_scheduled_success_at": "2026-06-09T14:06:45.234276Z",
+          "last_summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
         },
         {
           "routine_id": "investing-os-full-cockpit-build",
           "routine_name": "Investing OS Full Cockpit Build",
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
-          "receipt_count": 20,
-          "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:13.427376Z",
+          "receipt_count": 19,
+          "last_status": "started",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-09T14:32:49.866694Z",
           "last_success_at": "2026-06-08T21:27:13.427376Z",
           "last_scheduled_success_at": "2026-06-08T14:32:28.841249Z",
-          "last_summary": "full cockpit build manual run refreshed dashboard artifacts"
+          "last_summary": "investing-os-full-cockpit-build started"
         },
         {
           "routine_id": "investing-os-post-close-refresh",
           "routine_name": "Investing OS Post-Close Refresh",
           "role": "post_close_refresh",
           "schedule": "market weekdays 4:30 PM ET",
-          "receipt_count": 18,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:16.114745Z",
@@ -13242,7 +13276,7 @@
           "routine_name": "Investing OS Off-Hours Worker",
           "role": "off_hours_worker",
           "schedule": "daily 1:45 AM ET",
-          "receipt_count": 26,
+          "receipt_count": 24,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-09T05:52:49.106106Z",
@@ -13255,7 +13289,7 @@
           "routine_name": "Investing OS Deep Synthesis",
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
-          "receipt_count": 20,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:16.907348Z",
@@ -13268,7 +13302,7 @@
           "routine_name": "Investing OS Weekly Pilot Run",
           "role": "weekly_pilot_run",
           "schedule": "Sunday 6:00 PM ET",
-          "receipt_count": 19,
+          "receipt_count": 17,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:17.261306Z",
@@ -13289,8 +13323,8 @@
           "label": "Signal Log cache",
           "status": "has_data",
           "written": true,
-          "count": 18,
-          "line": "Signal Log cache: written; count=18.",
+          "count": 21,
+          "line": "Signal Log cache: written; count=21.",
           "problems": []
         },
         {
@@ -14163,18 +14197,17 @@
       "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
       "endpoint_proof": {
         "status": "has_data",
-        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.",
+        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 10:32 ET.",
         "blockers": [
           "inconclusive endpoint result(s) cannot promote related actions",
-          "missing/failed endpoint result(s) keep related actions blocked",
-          "one or more endpoint result rows are not same-session fresh"
+          "missing/failed endpoint result(s) keep related actions blocked"
         ],
-        "newest_checked_at": "2026-06-07T18:35:12.325101+00:00"
+        "newest_checked_at": "2026-06-09T14:32:31.983437+00:00"
       }
     },
     "uw_endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.",
+      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 10:32 ET.",
       "count": 13,
       "counts": {
         "missing": 2,
@@ -14185,9 +14218,9 @@
         "missing": 3,
         "inconclusive": 10
       },
-      "newest_checked_at": "2026-06-07T18:35:12.325101+00:00",
+      "newest_checked_at": "2026-06-09T14:32:31.983437+00:00",
       "same_session_date": "2026-06-09",
-      "stale_count": 13,
+      "stale_count": 0,
       "off_runbook_count": 0,
       "rows": [
         {
@@ -14196,7 +14229,7 @@
           "ticker": "",
           "status": "missing",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "unsupported path parameter(s): sector",
           "source": "uw_endpoint_result_capture"
         },
@@ -14206,8 +14239,8 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
-          "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
+          "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
         {
@@ -14216,7 +14249,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14226,7 +14259,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14236,7 +14269,7 @@
           "ticker": "",
           "status": "failed",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
           "source": "uw_endpoint_result_capture"
         },
@@ -14246,7 +14279,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14256,7 +14289,7 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14266,7 +14299,7 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14276,7 +14309,7 @@
           "ticker": "TNX",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14286,7 +14319,7 @@
           "ticker": "RYF",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14296,7 +14329,7 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14306,7 +14339,7 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14316,15 +14349,14 @@
           "ticker": "TNX",
           "status": "missing",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-07T18:35:12.325101+00:00",
+          "checked_at": "2026-06-09T14:32:31.983437+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
           "source": "uw_endpoint_result_capture"
         }
       ],
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
-        "missing/failed endpoint result(s) keep related actions blocked",
-        "one or more endpoint result rows are not same-session fresh"
+        "missing/failed endpoint result(s) keep related actions blocked"
       ],
       "problems": [],
       "result_path": "src\\uw_endpoint_results.json",
@@ -15471,18 +15503,17 @@
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
     "endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.",
+      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 10:32 ET.",
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
-        "missing/failed endpoint result(s) keep related actions blocked",
-        "one or more endpoint result rows are not same-session fresh"
+        "missing/failed endpoint result(s) keep related actions blocked"
       ],
-      "newest_checked_at": "2026-06-07T18:35:12.325101+00:00"
+      "newest_checked_at": "2026-06-09T14:32:31.983437+00:00"
     }
   },
   "uw_endpoint_proof": {
     "status": "has_data",
-    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-07 14:35 ET.",
+    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 10:32 ET.",
     "count": 13,
     "counts": {
       "missing": 2,
@@ -15493,9 +15524,9 @@
       "missing": 3,
       "inconclusive": 10
     },
-    "newest_checked_at": "2026-06-07T18:35:12.325101+00:00",
+    "newest_checked_at": "2026-06-09T14:32:31.983437+00:00",
     "same_session_date": "2026-06-09",
-    "stale_count": 13,
+    "stale_count": 0,
     "off_runbook_count": 0,
     "rows": [
       {
@@ -15504,7 +15535,7 @@
         "ticker": "",
         "status": "missing",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "unsupported path parameter(s): sector",
         "source": "uw_endpoint_result_capture"
       },
@@ -15514,8 +15545,8 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
-        "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
+        "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
       {
@@ -15524,7 +15555,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15534,7 +15565,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15544,7 +15575,7 @@
         "ticker": "",
         "status": "failed",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
         "source": "uw_endpoint_result_capture"
       },
@@ -15554,7 +15585,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15564,7 +15595,7 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15574,7 +15605,7 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15584,7 +15615,7 @@
         "ticker": "TNX",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15594,7 +15625,7 @@
         "ticker": "RYF",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15604,7 +15635,7 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15614,7 +15645,7 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -15624,15 +15655,14 @@
         "ticker": "TNX",
         "status": "missing",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-07T18:35:12.325101+00:00",
+        "checked_at": "2026-06-09T14:32:31.983437+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
         "source": "uw_endpoint_result_capture"
       }
     ],
     "blockers": [
       "inconclusive endpoint result(s) cannot promote related actions",
-      "missing/failed endpoint result(s) keep related actions blocked",
-      "one or more endpoint result rows are not same-session fresh"
+      "missing/failed endpoint result(s) keep related actions blocked"
     ],
     "problems": [],
     "result_path": "src\\uw_endpoint_results.json",
