@@ -1,27 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-09T12:14:13.934472Z",
+  "updated_at": "2026-06-09T12:42:35.165456Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:35.984130Z",
-      "summary": "daily synthesis rebuilt from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          "daily synthesis from feed",
-          "daily synthesis validate"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T19:04:35.992666Z",
-      "summary": "investing-os-uw-opportunity-cache manual run started"
-    },
     {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
@@ -4430,6 +4410,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T12:14:13.934472Z",
       "summary": "0 Fundstrat rows landed; positions unchanged; catalysts/event risk unchanged; broker,catalyst,event-risk lanes not_checked or stale due no supplied input; Notion structured catalyst rows unavailable"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T12:36:44.492350Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-09T12:42:35.165456Z",
+      "summary": "4 Notion rows verified; repo Signal Log 18 rows; UW proof refreshed to 2026-06-08 16:10 ET; macro unchanged; failures none"
     }
   ]
 }
