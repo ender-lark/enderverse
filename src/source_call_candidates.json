@@ -15,7 +15,12 @@
     "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
     "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
     "source_domain": "technical_timing",
-    "fundstrat_lane": "technical"
+    "fundstrat_lane": "technical",
+    "decision_usefulness": "high",
+    "capture_policy": "daily_call",
+    "publication_type": "daily_technical",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+    "use_case": "technical_timing"
   },
   {
     "source": "newton",
@@ -33,7 +38,12 @@
     "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
     "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
     "source_domain": "technical_timing",
-    "fundstrat_lane": "technical"
+    "fundstrat_lane": "technical",
+    "decision_usefulness": "high",
+    "capture_policy": "daily_call",
+    "publication_type": "daily_technical",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+    "use_case": "technical_timing"
   },
   {
     "source": "newton",
@@ -51,7 +61,12 @@
     "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
     "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
     "source_domain": "technical_timing",
-    "fundstrat_lane": "technical"
+    "fundstrat_lane": "technical",
+    "decision_usefulness": "high",
+    "capture_policy": "daily_call",
+    "publication_type": "daily_technical",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+    "use_case": "technical_timing"
   },
   {
     "source": "newton",
@@ -69,7 +84,12 @@
     "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
     "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
     "source_domain": "technical_timing",
-    "fundstrat_lane": "technical"
+    "fundstrat_lane": "technical",
+    "decision_usefulness": "high",
+    "capture_policy": "daily_call",
+    "publication_type": "daily_technical",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+    "use_case": "technical_timing"
   },
   {
     "source": "newton",
@@ -87,7 +107,12 @@
     "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
     "source_weight_note": "Technical/timing context only; lower weight until it gives specific levels, timing, or a clear setup.",
     "source_domain": "technical_timing",
-    "fundstrat_lane": "technical"
+    "fundstrat_lane": "technical",
+    "decision_usefulness": "medium",
+    "capture_policy": "daily_call",
+    "publication_type": "daily_technical",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+    "use_case": "technical_timing"
   },
   {
     "source": "newton",
@@ -105,7 +130,12 @@
     "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
     "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
     "source_domain": "technical_timing",
-    "fundstrat_lane": "technical"
+    "fundstrat_lane": "technical",
+    "decision_usefulness": "high",
+    "capture_policy": "daily_call",
+    "publication_type": "daily_technical",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+    "use_case": "technical_timing"
   },
   {
     "source": "fundstrat",
@@ -123,7 +153,12 @@
     "fundstrat_lane": "general",
     "confidence_policy": "Treat as context until lane, catalyst, and current validation are clear.",
     "source_domain": "fundstrat_general",
-    "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant."
+    "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant.",
+    "decision_usefulness": "high",
+    "capture_policy": "daily_call",
+    "publication_type": "daily_technical",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+    "use_case": "technical_timing"
   },
   {
     "source": "farrell",
@@ -141,7 +176,12 @@
     "fundstrat_lane": "crypto",
     "source_domain": "crypto_strategy",
     "source_weight_note": "Crypto-specific context; useful for crypto sleeve and crypto-exposed equities, not broad macro confirmation by itself.",
-    "confidence_policy": "Keep crypto analysis scoped to crypto/crypto-exposed positions and validate against live risk."
+    "confidence_policy": "Keep crypto analysis scoped to crypto/crypto-exposed positions and validate against live risk.",
+    "decision_usefulness": "medium",
+    "capture_policy": "daily_call",
+    "publication_type": "crypto_strategy",
+    "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate.",
+    "use_case": "crypto_sleeve"
   },
   {
     "source": "newton",
@@ -159,7 +199,12 @@
     "fundstrat_lane": "technical",
     "source_domain": "technical_timing",
     "source_weight_note": "Technical/timing context only; lower weight until it gives specific levels, timing, or a clear setup.",
-    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context."
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "decision_usefulness": "medium",
+    "capture_policy": "daily_call",
+    "publication_type": "daily_technical",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+    "use_case": "technical_timing"
   },
   {
     "source": "newton",
@@ -214,5 +259,97 @@
     "source_domain": "crypto_strategy",
     "source_weight_note": "Crypto-specific context; useful for crypto sleeve and crypto-exposed equities, not broad macro confirmation by itself.",
     "confidence_policy": "Keep crypto analysis scoped to crypto/crypto-exposed positions and validate against live risk."
+  },
+  {
+    "source": "newton",
+    "ticker": "QQQ",
+    "tier": "D",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Rapid Tech reversal; equal-weight SPX only marginally positive and losing ground. Expect more selling through Friday/Monday; avoid new Tech adds until QQQ/SPX stabilizes.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-09",
+    "window_end": "2026-08-08",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-09",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing context only; lower weight until it gives specific levels, timing, or a clear setup.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "medium",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "source": "newton",
+    "ticker": "RSPT",
+    "tier": "D",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Equal-weight Technology broke its uptrend after a steep overbought run; bearish engulfing plus trend break should allow Tech weakness and supports Growth-to-Value rotation.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-09",
+    "window_end": "2026-08-08",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-09",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing context only; lower weight until it gives specific levels, timing, or a clear setup.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "medium",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "source": "newton",
+    "ticker": "SMH",
+    "tier": "A",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "SMH parabolic upside momentum reversed into above-average volatility; expected SPX weakness to 7125-7250 before QQQ 675-679. Premature to buy Tech dips.",
+    "falsification_condition": "FALSIFIED if ['SMH', 'SPX', 'QQQ'] fails to reach stated target within window, OR stop hit before target",
+    "date": "2026-06-09",
+    "window_end": "2026-08-08",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-09",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "source": "newton",
+    "ticker": "SPY",
+    "tier": "D",
+    "confidence_in_tier": "LOW",
+    "verbatim_quote": "Broader market is not too bearish outside Tech; watch whether weakness joins QQQ/SPX or holds up. Crude break positive, but risk-asset benefit is doubtful while Tech falls.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-09",
+    "window_end": "2026-08-08",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-09",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing context only; lower weight until it gives specific levels, timing, or a clear setup.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "medium",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]
