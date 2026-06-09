@@ -1513,6 +1513,69 @@ function laneEvidenceSummary(rows){
   });
   return parts.length ? `Needed: ${parts.slice(0,4).join(" / ")}${parts.length>4?" / more in cards":""}` : "Needed evidence is listed inside each blocked card.";
 }
+function packetWorkSummary(packet, reallocationBrief, counts){
+  const packetCounts = (packet&&packet.counts)||{};
+  const reCounts = (reallocationBrief&&reallocationBrief.counts)||{};
+  const funding = (reallocationBrief&&reallocationBrief.funding)||{};
+  const blockers = [
+    ...((reallocationBrief&&reallocationBrief.blockers)||[]),
+    ...((packet&&packet.blockers)||[]),
+  ].filter(Boolean);
+  const ready = (counts&&counts.key_now) || packetCounts.key_now || 0;
+  const evidence = (counts&&counts.recheck_before_acting) || packetCounts.recheck || 0;
+  const backlog = (counts&&counts.important_backlog) || packetCounts.backlog || 0;
+  const urgentVisible = packetCounts.urgent_visible || 0;
+  const adds = reCounts.adds || 0;
+  const trims = reCounts.trims || 0;
+  const line = compactJoin([
+    `${ready} ready`,
+    `${evidence} evidence-gated`,
+    `${backlog} backlog`,
+    urgentVisible ? `${urgentVisible} urgent checks visible` : null,
+    adds ? `${adds} candidate adds` : null,
+    trims ? `${trims} funding trims` : null,
+  ]);
+  const hasWork = Boolean(evidence || backlog || urgentVisible || adds || trims || blockers.length);
+  const primaryBlocker = blockers[0] || "";
+  const capitalLine = adds
+    ? compactJoin([
+        reallocationBrief.line || null,
+        typeof funding.shortfall_usd==="number" ? `shortfall ${money(funding.shortfall_usd)}` : null,
+      ])
+    : "";
+  return { ready, evidence, backlog, urgentVisible, adds, trims, line, hasWork, primaryBlocker, capitalLine };
+}
+function TodayWorkNowStrip({ packet, reallocationBrief, counts, onOpenOps, onOpenReallocation }){
+  const W = packetWorkSummary(packet, reallocationBrief, counts);
+  const color = W.ready ? C.red : W.hasWork ? C.amber : C.green;
+  const message = W.ready
+    ? "There is at least one ready decision. Decide act, defer, trim, hedge, size, or no capital after the card's gate."
+    : W.hasWork
+      ? "Ready is zero because the system is blocking capital-sized moves until the named evidence clears. That means work now is gather evidence and compare capital, not assume nothing matters."
+      : "No forced portfolio decision is visible in this build.";
+  const action = W.adds
+    ? `Highest-value work: validate the reallocation brief, then run same-session price/flow and pre-trade gates before any add or trim.`
+    : W.evidence
+      ? "Highest-value work: open Evidence Missing and clear the named blockers before treating any setup as actionable."
+      : W.backlog
+        ? "Highest-value work: compare backlog items against better uses of capital before spending attention or cash."
+        : "Highest-value work: stay quiet unless a source changes action, sizing, risk, or research priority.";
+  return (
+    <div style={{ marginBottom:10, padding:"9px 10px", border:`1px solid ${color}55`, borderRadius:8, background:`${color}0d` }}>
+      <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+        <div style={{ fontSize:13.2, fontWeight:850, color:C.text }}>Work now: {W.line || "quiet"}</div>
+        <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+          <button onClick={onOpenReallocation} style={{ cursor:"pointer", border:`1px solid ${C.blue}55`, background:`${C.blue}10`, color:C.blue, borderRadius:7, padding:"3px 8px", fontFamily:mono, fontSize:10.5 }}>Reallocation</button>
+          <button onClick={onOpenOps} style={{ cursor:"pointer", border:`1px solid ${C.amber}55`, background:`${C.amber}10`, color:C.amber, borderRadius:7, padding:"3px 8px", fontFamily:mono, fontSize:10.5 }}>Evidence checks</button>
+        </div>
+      </div>
+      <div style={{ marginTop:5, fontSize:12.2, color:C.dim }}>{message}</div>
+      <div style={{ marginTop:4, fontSize:12.2, color:C.text }}>{action}</div>
+      {W.primaryBlocker && <div style={{ marginTop:4, fontSize:11.5, color:C.amber }}>Main blocker: {friendlyEvidencePart(W.primaryBlocker)}</div>}
+      {W.capitalLine && <div style={{ marginTop:4, fontFamily:mono, fontSize:10.5, color:C.faint }}>{W.capitalLine}</div>}
+    </div>
+  );
+}
 function confidenceBasis(a, advisorNote){
   const freshness = (a&&a.freshnessJudgment)||{};
   const base = compactJoin([
@@ -1963,7 +2026,7 @@ function DecisionLaneBoard({ lanes, adviceRows, posOpen, setPosOpen, stamp }) {
     </div>
   );
 }
-function TodayDecisionQueue({ actions, actionGroups, ifIWereYou, sourceAudits, openMap, setOpen, posOpen, setPosOpen, stamp, onOpenSystem }) {
+function TodayDecisionQueue({ actions, actionGroups, ifIWereYou, sourceAudits, marketOpenPacket, reallocationBrief, openMap, setOpen, posOpen, setPosOpen, stamp, onOpenSystem, onOpenOps, onOpenReallocation }) {
   const sections = ((actionGroups||{}).sections||[]).filter(s=>(s.ranks||[]).length);
   const byRank = Object.fromEntries((actions||[]).map(a=>[a.rank,a]));
   const lanes = sections.map(section=>({ section, rows:(section.ranks||[]).map(r=>byRank[r]).filter(Boolean) })).filter(x=>x.rows.length);
@@ -1995,6 +2058,13 @@ function TodayDecisionQueue({ actions, actionGroups, ifIWereYou, sourceAudits, o
         setOpen={setOpen}
         defaultOpen={true}
       >
+        <TodayWorkNowStrip
+          packet={marketOpenPacket}
+          reallocationBrief={reallocationBrief}
+          counts={counts}
+          onOpenOps={onOpenOps}
+          onOpenReallocation={onOpenReallocation}
+        />
         <DecisionLaneBoard
           lanes={lanes}
           adviceRows={adviceRows}
@@ -2155,12 +2225,16 @@ export default function ConvictionCockpit({ feed = FEED } = {}) {
           actionGroups={VM.actionGroups||{}}
           ifIWereYou={VM.ifIWereYou}
           sourceAudits={VM.sourceAudits}
+          marketOpenPacket={VM.marketOpenPacket}
+          reallocationBrief={VM.reallocationBrief}
           openMap={open}
           setOpen={setOpen}
           posOpen={posOpen}
           setPosOpen={setPosOpen}
           stamp={VM.stamp}
           onOpenSystem={()=>setMode("system")}
+          onOpenOps={()=>setMode("ops")}
+          onOpenReallocation={()=>setMode("reallocation")}
         />
 
         <Section id="source-conflicts" title="Source conflicts" icon="!" badge={(VM.sourceConflicts.rows||[]).length?`${(VM.sourceConflicts.rows||[]).length}`:"0"} badgeColor={(VM.sourceConflicts.rows||[]).length?C.amber:C.faint} summary={(() => { const rows=(VM.sourceConflicts.rows||[]), first=rows[0]; return rows.length ? compactJoin([`${rows.length} split`, first&&`${first.ticker}: ${clipText(first.action_posture||first.decision_effect||"",72)}`]) : "No bull/bear source splits affecting current holdings."; })()} openMap={open} setOpen={setOpen} defaultOpen={false}>

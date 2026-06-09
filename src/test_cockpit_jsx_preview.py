@@ -82,6 +82,12 @@ def test_canonical_jsx_promotes_time_sensitive_ideas_into_today_stack():
     assert '["reallocation","Reallocation"]' in src
     assert "function todayPriorityRows(feed, actions, researchActions)" in src
     assert "function TodayDecisionQueue" in src
+    assert "function TodayWorkNowStrip" in src
+    assert "Ready is zero because the system is blocking capital-sized moves" in src
+    assert "Work now:" in src
+    assert "candidate adds" in src
+    assert "funding trims" in src
+    assert "Evidence checks" in src
     assert "function TodayActionCard" in src
     assert "function DecisionLaneBoard" in src
     assert 'id="today-decisions"' in src
