@@ -166,5 +166,29 @@
     "priority": "medium",
     "source": "UW prediction-market unusual activity; manual off-hours alt-data scout",
     "note": "Iran/Hormuz/nuclear markets in the UW unusual feed had insider/contrarian tags. Supports keeping oil/rates event risk active; requires primary headline/rates/oil confirmation."
+  },
+  {
+    "signal": "UW broad tape closed risk-off again on June 9",
+    "ticker": "SPY, QQQ, SMH, NVDA, MU",
+    "date": "2026-06-10",
+    "priority": "high",
+    "source": "https://app.notion.com/p/37bc50314bb68112ad33d3d09480b527",
+    "note": "Unusual Whales market-tide rows for Tuesday, June 9, 2026 ran through 4:14 PM ET and still closed with roughly -465.3M net call premium, +261.1M net put premium, and about -2.01M net volume. The broad tape improved versus the prior deeply risk-off read but still finished net bearish, so treat it as watch-only context against held semis and AI beta."
+  },
+  {
+    "signal": "June 10 premarket points to renewed AI and semiconductor pressure",
+    "ticker": "SMH, NVDA, MU, MAGS, GRNY, GRNJ, IVES, VOLT",
+    "date": "2026-06-10",
+    "priority": "high",
+    "source": "https://app.notion.com/p/37bc50314bb681f28cd1df6cc972025c",
+    "note": "AP market coverage on Wednesday, June 10, 2026 said Nasdaq futures were down about 1.6% before the open while Micron, Super Micro, and Nvidia were lower, with the move tied to another oil spike and Iran-related escalation. For the current book this is a held-name monitoring row, not a trade call: it raises the chance that Friday's semiconductor damage remains the active frame unless cash-session breadth proves otherwise."
+  },
+  {
+    "signal": "BMNR kept printing sizable lit blocks on June 9 after the financing packet",
+    "ticker": "BMNR",
+    "date": "2026-06-10",
+    "priority": "medium",
+    "source": "https://app.notion.com/p/37bc50314bb6814b8ca1c8cfb11bebfc",
+    "note": "Unusual Whales lit-flow data for Tuesday, June 9, 2026 showed multiple BMNR prints above 18k to 22k shares, including roughly 22,361 shares at 2:26 PM ET near 16.58, 18,977 shares at 2:46 PM ET near 16.25, and 20,799 shares at 3:56 PM ET near 15.95. This is tape-follow-through after the financing/staking packet already logged in the system; keep it watch-only until the capital-structure implications are refreshed from primary filings."
   }
 ]
