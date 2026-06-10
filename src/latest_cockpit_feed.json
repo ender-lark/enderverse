@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T13:43:03.068867+00:00",
+  "generated_at": "2026-06-10T14:32:12.183859+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-10 \u00b7 uw_price 06-10 \u00b7 uw_macro 06-10 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-09",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-10T09:43:03.068867-04:00",
+        "date": "2026-06-10T10:32:12.183859-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-10T09:43:03.068867-04:00",
+        "date": "2026-06-10T10:32:12.183859-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -117,7 +117,7 @@
         "label": "UW Flow",
         "status": "has_data",
         "detail": "checked",
-        "count": 40,
+        "count": 39,
         "checked_at": ""
       },
       {
@@ -208,7 +208,7 @@
       "action_state": "WATCH",
       "what": "Conviction gap: NVDA is under target",
       "confidence": "High",
-      "your_move": "NVDA is 8.3% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy. Live UW evidence supports the setup; still use funding, account, sizing, and pre-trade gates.",
+      "your_move": "NVDA is 8.3% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.",
       "gate": {
         "needs_gate": true,
         "preview": "\ud83d\udfe1 size \u2192 gate",
@@ -230,8 +230,10 @@
       "action_label": "RE-CHECK",
       "why_it_moves_goal": "A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.",
       "missing_evidence": [
+        "live opportunity",
         "funding leg",
-        "pre-trade gate"
+        "pre-trade gate",
+        "live UW interpretation inconclusive"
       ],
       "account_placement": {
         "status": "candidate",
@@ -326,7 +328,7 @@
           "time_window": "1-3 trading days"
         },
         "what_changed": [
-          "Required live checks are missing: funding leg; pre-trade gate"
+          "Required live checks are missing: live opportunity; funding leg; pre-trade gate"
         ],
         "blockers": [
           "missing evidence"
@@ -342,15 +344,15 @@
       "decision_group_label": "Re-check Before Acting",
       "capital_priority_score": 135,
       "uw_endpoint_interpretation": {
-        "status": "supports",
+        "status": "inconclusive",
         "counts": {
-          "supports": 1,
+          "supports": 0,
           "contradicts": 0,
-          "inconclusive": 2,
+          "inconclusive": 3,
           "missing": 0
         },
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
-        "summary": "Price/tape is stabilizing for NVDA (pct_change=+0.77%, range_position=0.60); supports review, not auto-buy.",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
+        "summary": "Fetched TICKER_OHLC for NVDA; pct_change=+0.51%, range_position=0.42. Result remains a timing input.",
         "mode": "portfolio_reallocation",
         "endpoint": "TICKER_OHLC",
         "honesty_rule": "UW endpoint proof changes review posture only; it does not place trades or bypass the pre-trade gate."
@@ -1350,7 +1352,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity dark_pool_accum",
+          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1369,8 +1371,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "down",
-          "cdNote": "06-10 uw_opportunity dark_pool_accum",
+          "cd": "flat",
+          "cdNote": "No recent change.",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1458,7 +1460,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity dark_pool_accum",
+          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build \u00b7 06-10 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it. You're underweight to conviction here \u2014 the gap is the flag.",
           "dr": [
             [
@@ -1478,7 +1480,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
+          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build \u00b7 06-10 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1554,7 +1556,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity dark_pool_accum",
+          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build \u00b7 06-10 uw_opportunity dark_pool_accum",
           "nr": "Catch-up \u2014 Lee-endorsed laggard; favorable entry, no rush.",
           "dr": [
             [
@@ -1610,7 +1612,7 @@
           "lock": "\ud83d\udd12",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build \u00b7 06-10 uw_opportunity dark_pool_accum",
+          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1638,7 +1640,7 @@
           "lock": "",
           "fresh": false,
           "cd": "down",
-          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity dark_pool_accum",
+          "cdNote": "06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1849,31 +1851,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-10T13:43:02.953153+00:00",
+      "last_run": "2026-06-10T14:32:12.061887+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-10T13:43:02.953153+00:00",
+      "last_run": "2026-06-10T14:32:12.061887+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-10T13:43:02.953153+00:00",
+      "last_run": "2026-06-10T14:32:12.061887+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-10T13:43:02.953153+00:00",
+      "last_run": "2026-06-10T14:32:12.061887+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-10T13:43:02.953153+00:00",
+      "last_run": "2026-06-10T14:32:12.061887+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1883,7 +1885,7 @@
     "state_of_play": "Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Conviction gap: NVDA is under target (watch, high confidence, source target_drift). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
     "delta": "Latest Fundstrat Daily compact calls in radar: RSPT avoid, SPY watch, MSTR watch. Target drift: 13 sizing gap(s) vs AI working model (1 under, 3 over, 9 missing); GRNY oversized 9.6% vs 3.0%; SMH oversized 9.1% vs 5.0%; NVDA undersized 8.3% vs 12.0%; MU oversized 3.3% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; +7 more",
     "hanging": [
-      "Operator review still required: NVDA is 8.3% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy. Live UW evidence supports the setup; still use funding, account, sizing, and pre-trade gates.",
+      "Operator review still required: NVDA is 8.3% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.",
       "Social Watch is not checked: Reddit/social early-signal anomalies are not checked; absence is not no social signal."
     ],
     "notes": [
@@ -2072,10 +2074,10 @@
       "headline": "MAGS: Promising and the tape's with it (LEADING) \u2014 under your conviction \u2014 room to add.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity dark_pool_accum",
+        "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build \u00b7 06-10 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
         "UW \u25b2 ask-side call sweeps $3.8M, 12:1 c/p (0d)",
-        "UW \u25bc put OI +1050% at 64/66/66.5 strikes (0d)",
+        "UW \u25b2 call OI +1367% at 66.5/70.5/65 strikes (0d)",
         "UW \u25b2 dark-pool blocks $2M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
@@ -2098,11 +2100,11 @@
       "headline": "GRNY: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity dark_pool_accum",
+        "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
         "Rotation: IN LINE",
         "UW \u25b2 ask-side call sweeps $1.6M, 16:1 c/p (0d)",
-        "UW \u25bc put OI +850% at 26/25/27 strikes (0d)",
-        "UW \u25b2 dark-pool blocks $1M net buy, 1 sessions (0d)"
+        "UW \u25b2 call OI +13% at 28/27/29 strikes (0d)",
+        "UW \u25bc dark-pool blocks $1M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
@@ -2125,8 +2127,8 @@
         "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
         "Rotation: LEADING",
         "UW \u25b2 ask-side call sweeps $0.3M (0d)",
-        "UW \u25b2 call OI +17% at 42/42/39 strikes (0d)",
-        "UW \u25bc dark-pool blocks $2M net sell, 1 sessions (0d)"
+        "UW \u25b2 call OI +4700% at 35/35/37 strikes (0d)",
+        "UW \u25bc dark-pool blocks $0M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -2148,11 +2150,11 @@
       "headline": "MU: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
+        "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build \u00b7 06-10 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $11.7M, 1:1 c/p (0d)",
-        "UW \u25b2 call OI +1632% at 1000/1100/1050 strikes (0d)",
-        "UW \u25bc dark-pool blocks $14M net sell, 1 sessions (0d)"
+        "UW \u25b2 ask-side call sweeps $11.4M, 1:1 c/p (0d)",
+        "UW \u25b2 call OI +1576% at 1080/950/1150 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $27M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -2176,9 +2178,9 @@
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
         "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $18.6M, 5:1 c/p (0d)",
-        "UW \u25b2 call OI +156420% at 210/205/210 strikes (0d)",
-        "UW \u25bc dark-pool blocks $273M net sell, 1 sessions (0d)"
+        "UW \u25b2 ask-side call sweeps $18.8M, 5:1 c/p (0d)",
+        "UW \u25b2 call OI +20288% at 220/205/215 strikes (0d)",
+        "UW \u25bc dark-pool blocks $18M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -2200,11 +2202,11 @@
       "headline": "XLF: Promising, conviction up but the sleeve's still lagging \u2014 research deeper / hold, watch for the rotation to turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity dark_pool_accum",
+        "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build \u00b7 06-10 uw_opportunity dark_pool_accum",
         "Rotation: LAGGING",
         "UW \u25b2 ask-side call sweeps $1.8M, 1:1 c/p (0d)",
-        "UW \u25bc put OI +4062% at 51/50/52 strikes (0d)",
-        "UW \u25b2 dark-pool blocks $42M net buy, 1 sessions (0d)"
+        "UW \u25b2 call OI +5172% at 55/54/75 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $12M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
@@ -2294,28 +2296,6 @@
       "action": "NONE"
     },
     {
-      "ticker": "GRNJ",
-      "owned": true,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "down",
-      "rotation": "IN LINE",
-      "lean": "cooling",
-      "headline": "GRNJ: the case is cooling (IN LINE) \u2014 watch / reassess, don't add (you own it).",
-      "evidence": [
-        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-10 uw_opportunity dark_pool_accum",
-        "Rotation: IN LINE",
-        "UW \u25bc dark-pool blocks $1M net sell, 1 sessions (0d)"
-      ],
-      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
-      "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
-      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
-      "caveats": [],
-      "freshness": "as-of 2026-06-10",
-      "action": "NONE"
-    },
-    {
       "ticker": "IESC",
       "owned": false,
       "stance_gate": "open",
@@ -2368,9 +2348,9 @@
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
         "Direction: 06-10 uw_opportunity sweep \u00b7 06-10 uw_opportunity oi_build",
         "Rotation: LEADING",
-        "UW \u25bc ask-side put sweeps $5.0M, c/p 0.30 (0d)",
-        "UW \u25bc put OI +2286% at 425/390/410 strikes (0d)",
-        "UW \u25b2 dark-pool blocks $92M net buy, 1 sessions (0d)"
+        "UW \u25bc ask-side put sweeps $4.2M, c/p 0.36 (0d)",
+        "UW \u25bc put OI +24900% at 515/525/545 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $10M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -2413,7 +2393,7 @@
         "Direction: 06-10 uw_opportunity call_flow \u00b7 06-10 uw_opportunity oi_build",
         "Rotation: TURNING DOWN",
         "UW \u25b2 ask-side call flow $0.0M (0d)",
-        "UW \u25b2 call OI +2% at 42/40 strikes (0d)",
+        "UW \u25b2 call OI +2% at 41/46/33 strikes (0d)",
         "UW \u25bc dark-pool blocks $1M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
@@ -2426,8 +2406,8 @@
   ],
   "bullish_flow": {
     "as_of": "2026-06-10",
-    "count": 40,
-    "tickers": 14,
+    "count": 39,
+    "tickers": 13,
     "rows": [
       {
         "ticker": "BMNR",
@@ -2441,13 +2421,13 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $0.8M, 2:1 c/p",
-          "call OI +600% at 17/18/20 strikes",
-          "dark-pool blocks $9M net buy, 1 sessions"
+          "call OI +722% at 16.5/25/27 strikes",
+          "dark-pool blocks $3M net sell, 1 sessions"
         ],
         "parked": true
       },
       {
-        "ticker": "GRNY",
+        "ticker": "IVES",
         "direction": "bullish",
         "strength": "strong",
         "signal_types": [
@@ -2457,9 +2437,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $1.6M, 16:1 c/p",
-          "put OI +850% at 26/25/27 strikes",
-          "dark-pool blocks $1M net buy, 1 sessions"
+          "ask-side call sweeps $0.3M",
+          "call OI +4700% at 35/35/37 strikes",
+          "dark-pool blocks $0M net sell, 1 sessions"
         ],
         "parked": false
       },
@@ -2475,8 +2455,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $2.3M, 1:1 c/p",
-          "put OI +266% at 150/150/140 strikes",
-          "dark-pool blocks $3M net buy, 1 sessions"
+          "put OI +2222% at 100/130/95 strikes",
+          "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": true
       },
@@ -2492,7 +2472,7 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $3.8M, 12:1 c/p",
-          "put OI +1050% at 64/66/66.5 strikes",
+          "call OI +1367% at 66.5/70.5/65 strikes",
           "dark-pool blocks $2M net buy, 1 sessions"
         ],
         "parked": false
@@ -2508,9 +2488,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $11.7M, 1:1 c/p",
-          "call OI +1632% at 1000/1100/1050 strikes",
-          "dark-pool blocks $14M net sell, 1 sessions"
+          "ask-side call sweeps $11.4M, 1:1 c/p",
+          "call OI +1576% at 1080/950/1150 strikes",
+          "dark-pool blocks $27M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2525,9 +2505,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $18.6M, 5:1 c/p",
-          "call OI +156420% at 210/205/210 strikes",
-          "dark-pool blocks $273M net sell, 1 sessions"
+          "ask-side call sweeps $18.8M, 5:1 c/p",
+          "call OI +20288% at 220/205/215 strikes",
+          "dark-pool blocks $18M net sell, 1 sessions"
         ],
         "parked": false
       },
@@ -2543,8 +2523,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $2.1M, 5:1 c/p",
-          "call OI +711% at 17/17.5/16.5 strikes",
-          "dark-pool blocks $2M net buy, 1 sessions"
+          "call OI +2011% at 16/19/1 strikes",
+          "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": true
       },
@@ -2560,13 +2540,13 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $1.8M, 1:1 c/p",
-          "put OI +4062% at 51/50/52 strikes",
-          "dark-pool blocks $42M net buy, 1 sessions"
+          "call OI +5172% at 55/54/75 strikes",
+          "dark-pool blocks $12M net buy, 1 sessions"
         ],
         "parked": false
       },
       {
-        "ticker": "IVES",
+        "ticker": "GRNY",
         "direction": "bullish",
         "strength": "moderate",
         "signal_types": [
@@ -2576,9 +2556,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $0.3M",
-          "call OI +17% at 42/42/39 strikes",
-          "dark-pool blocks $2M net sell, 1 sessions"
+          "ask-side call sweeps $1.6M, 16:1 c/p",
+          "call OI +13% at 28/27/29 strikes",
+          "dark-pool blocks $1M net sell, 1 sessions"
         ],
         "parked": false
       },
@@ -2594,7 +2574,7 @@
         "n": 3,
         "evidence": [
           "ask-side call flow $0.0M",
-          "call OI +2% at 42/40 strikes",
+          "call OI +2% at 41/46/33 strikes",
           "dark-pool blocks $1M net sell, 1 sessions"
         ],
         "parked": false
@@ -2610,9 +2590,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side put sweeps $2.1M, c/p 0.51",
-          "call OI +9000% at 98/100/96.5 strikes",
-          "dark-pool blocks $79M net sell, 1 sessions"
+          "ask-side put sweeps $2.0M, c/p 0.56",
+          "put OI +20858% at 96/91/92 strikes",
+          "dark-pool blocks $1M net sell, 1 sessions"
         ],
         "parked": false
       },
@@ -2628,8 +2608,8 @@
         "n": 3,
         "evidence": [
           "ask-side put sweeps $1.6M, 1:1 c/p",
-          "call OI +2210% at 61/59/60 strikes",
-          "dark-pool blocks $0M net sell, 1 sessions"
+          "put OI +4425% at 40/45/54 strikes",
+          "dark-pool blocks $1M net buy, 1 sessions"
         ],
         "parked": true
       },
@@ -2644,22 +2624,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side put sweeps $5.0M, c/p 0.30",
-          "put OI +2286% at 425/390/410 strikes",
-          "dark-pool blocks $92M net buy, 1 sessions"
-        ],
-        "parked": false
-      },
-      {
-        "ticker": "GRNJ",
-        "direction": "bearish",
-        "strength": "weak",
-        "signal_types": [
-          "dark_pool_accum"
-        ],
-        "n": 1,
-        "evidence": [
-          "dark-pool blocks $1M net sell, 1 sessions"
+          "ask-side put sweeps $4.2M, c/p 0.36",
+          "put OI +24900% at 515/525/545 strikes",
+          "dark-pool blocks $10M net buy, 1 sessions"
         ],
         "parked": false
       }
@@ -3140,7 +3107,7 @@
         "source": "bullish_flow",
         "score": 68,
         "reason": "Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.",
-        "evidence": "ask-side call sweeps $0.8M, 2:1 c/p, call OI +600% at 17/18/20 strikes",
+        "evidence": "ask-side call sweeps $0.8M, 2:1 c/p, call OI +722% at 16.5/25/27 strikes",
         "decay_window": "intraday to 1 trading day",
         "action": "review setup; no auto-trade"
       }
@@ -13167,8 +13134,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-10T09:11:06-04:00",
-        "connector_proof_age_hours": 0.53
+        "connector_verified_at": "2026-06-10T10:03:00-04:00",
+        "connector_proof_age_hours": 0.49
       }
     ],
     "missing": [],
@@ -13280,7 +13247,7 @@
           "routine_name": "Investing OS Daily Synthesis",
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-10T13:38:07.064905Z",
@@ -13293,13 +13260,13 @@
           "routine_name": "Investing OS Post-Open Evidence Gate",
           "role": "post_open_evidence_gate",
           "schedule": "market weekdays 9:40 AM ET",
-          "receipt_count": 3,
-          "last_status": "started",
+          "receipt_count": 4,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-10T13:42:18.752003Z",
-          "last_success_at": "2026-06-09T13:41:31.183324Z",
-          "last_scheduled_success_at": "2026-06-09T13:41:31.183324Z",
-          "last_summary": "post-open evidence gate started"
+          "last_recorded_at": "2026-06-10T13:43:41.895625Z",
+          "last_success_at": "2026-06-10T13:43:41.895625Z",
+          "last_scheduled_success_at": "2026-06-10T13:43:41.895625Z",
+          "last_summary": "4 check sets/25 tickers; UW proof 1 support 10 inconclusive 1 missing (MARKET_MOVERS 403); dashboard refreshed; NVDA review-only support, Today/Reallocation still gated by inconclusive price-flow and missing market-movers proof"
         },
         {
           "routine_id": "investing-os-fundstrat-daytime-watch",
@@ -13322,9 +13289,9 @@
           "receipt_count": 22,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-09T14:03:06.444932Z",
-          "last_success_at": "2026-06-09T14:03:06.444932Z",
-          "last_scheduled_success_at": "2026-06-09T14:03:06.444932Z",
+          "last_recorded_at": "2026-06-10T14:04:00.097904Z",
+          "last_success_at": "2026-06-10T14:04:00.097904Z",
+          "last_scheduled_success_at": "2026-06-10T14:04:00.097904Z",
           "last_summary": "scanned 14 tickers; 13 live observations landed; 39 signals cached; empty-source GRNJ; worker failures 0"
         },
         {
@@ -13335,9 +13302,9 @@
           "receipt_count": 20,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-09T14:06:45.234276Z",
-          "last_success_at": "2026-06-09T14:06:45.234276Z",
-          "last_scheduled_success_at": "2026-06-09T14:06:45.234276Z",
+          "last_recorded_at": "2026-06-10T14:08:48.113269Z",
+          "last_success_at": "2026-06-10T14:08:48.113269Z",
+          "last_scheduled_success_at": "2026-06-10T14:08:48.113269Z",
           "last_summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
         },
         {
@@ -13345,13 +13312,13 @@
           "routine_name": "Investing OS Full Cockpit Build",
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
-          "receipt_count": 18,
-          "last_status": "success",
+          "receipt_count": 19,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-09T14:32:52.725571Z",
+          "last_recorded_at": "2026-06-10T14:32:11.228995Z",
           "last_success_at": "2026-06-09T14:32:52.725571Z",
           "last_scheduled_success_at": "2026-06-09T14:32:52.725571Z",
-          "last_summary": "full cockpit build succeeded"
+          "last_summary": "investing-os-full-cockpit-build started"
         },
         {
           "routine_id": "investing-os-post-close-refresh",
@@ -14227,29 +14194,29 @@
       "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
       "endpoint_proof": {
         "status": "has_data",
-        "line": "UW endpoint proof: 12 captured result(s); supports=1, contradicts=0, inconclusive=10, missing=1; stale=0. newest=2026-06-10 09:42 ET.",
+        "line": "UW endpoint proof: 12 captured result(s); supports=1, contradicts=0, inconclusive=10, missing=1; stale=0. newest=2026-06-10 10:31 ET.",
         "blockers": [
           "inconclusive endpoint result(s) cannot promote related actions",
           "missing/failed endpoint result(s) keep related actions blocked"
         ],
-        "newest_checked_at": "2026-06-10T13:42:34.691921+00:00"
+        "newest_checked_at": "2026-06-10T14:31:47.641028+00:00"
       }
     },
     "uw_endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 12 captured result(s); supports=1, contradicts=0, inconclusive=10, missing=1; stale=0. newest=2026-06-10 09:42 ET.",
+      "line": "UW endpoint proof: 12 captured result(s); supports=1, contradicts=0, inconclusive=10, missing=1; stale=0. newest=2026-06-10 10:31 ET.",
       "count": 12,
       "counts": {
-        "confirmed": 1,
         "neutral": 10,
+        "confirmed": 1,
         "failed": 1
       },
       "interpretation_counts": {
-        "supports": 1,
         "inconclusive": 10,
+        "supports": 1,
         "missing": 1
       },
-      "newest_checked_at": "2026-06-10T13:42:34.691921+00:00",
+      "newest_checked_at": "2026-06-10T14:31:47.641028+00:00",
       "same_session_date": "2026-06-10",
       "stale_count": 0,
       "off_runbook_count": 0,
@@ -14258,17 +14225,17 @@
           "mode": "portfolio_reallocation",
           "endpoint": "TICKER_OHLC",
           "ticker": "NVDA",
-          "status": "confirmed",
-          "decision_interpretation": "supports",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
-          "summary": "Price/tape is stabilizing for NVDA (pct_change=+0.77%, range_position=0.60); supports review, not auto-buy.",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
+          "summary": "Fetched TICKER_OHLC for NVDA; pct_change=+0.51%, range_position=0.42. Result remains a timing input.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
             "row_count": 65,
-            "latest_close": 206.02,
+            "latest_close": 205.5,
             "previous_close": 204.45,
-            "pct_change": 0.768,
-            "range_position": 0.596
+            "pct_change": 0.514,
+            "range_position": 0.421
           },
           "row_count": 65
         },
@@ -14278,7 +14245,7 @@
           "ticker": "NVDA",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
           "summary": "Fetched TICKER_STOCK_STATE for NVDA; row_count=1. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
@@ -14292,7 +14259,7 @@
           "ticker": "NVDA",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for NVDA; flow mix is not decisive.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
@@ -14300,7 +14267,7 @@
             "bullish_rows": 0,
             "bearish_rows": 0,
             "bullish_ratio": 0.0,
-            "premium_abs": 91830.0
+            "premium_abs": 40582.0
           },
           "row_count": 50
         },
@@ -14308,17 +14275,17 @@
           "mode": "portfolio_reallocation",
           "endpoint": "TICKER_OHLC",
           "ticker": "SMH",
-          "status": "neutral",
-          "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
-          "summary": "Fetched TICKER_OHLC for SMH; pct_change=+0.67%, range_position=0.40. Result remains a timing input.",
+          "status": "confirmed",
+          "decision_interpretation": "supports",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
+          "summary": "Price/tape is stabilizing for SMH (pct_change=+2.14%, range_position=0.78); supports review, not auto-buy.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
             "row_count": 65,
-            "latest_close": 583.92,
+            "latest_close": 592.403,
             "previous_close": 580.011,
-            "pct_change": 0.674,
-            "range_position": 0.404
+            "pct_change": 2.137,
+            "range_position": 0.782
           },
           "row_count": 65
         },
@@ -14328,15 +14295,15 @@
           "ticker": "QQQ",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
-          "summary": "Fetched TICKER_OHLC for QQQ; pct_change=+0.22%, range_position=0.58. Result remains a timing input.",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
+          "summary": "Fetched TICKER_OHLC for QQQ; pct_change=+0.88%, range_position=0.73. Result remains a timing input.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
             "row_count": 65,
-            "latest_close": 703.2,
+            "latest_close": 707.77,
             "previous_close": 701.63,
-            "pct_change": 0.224,
-            "range_position": 0.582
+            "pct_change": 0.875,
+            "range_position": 0.731
           },
           "row_count": 65
         },
@@ -14346,7 +14313,7 @@
           "ticker": "QQQ",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
           "summary": "Fetched TICKER_STOCK_STATE for QQQ; row_count=1. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
@@ -14360,7 +14327,7 @@
           "ticker": "QQQ",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for QQQ; flow mix is not decisive.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
@@ -14368,7 +14335,7 @@
             "bullish_rows": 0,
             "bearish_rows": 0,
             "bullish_ratio": 0.0,
-            "premium_abs": 78606.0
+            "premium_abs": 64819.0
           },
           "row_count": 50
         },
@@ -14378,15 +14345,15 @@
           "ticker": "SMH",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
-          "summary": "Fetched TICKER_OHLC for SMH; pct_change=+0.69%, range_position=0.41. Result remains a timing input.",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
+          "summary": "Fetched TICKER_OHLC for SMH; pct_change=+2.14%, range_position=0.78. Result remains a timing input.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
             "row_count": 65,
-            "latest_close": 584.02,
+            "latest_close": 592.403,
             "previous_close": 580.011,
-            "pct_change": 0.691,
-            "range_position": 0.414
+            "pct_change": 2.137,
+            "range_position": 0.782
           },
           "row_count": 65
         },
@@ -14396,13 +14363,13 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
-          "summary": "Fetched MARKET_TIDE; row_count=3. Result requires operator interpretation before any promotion.",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
+          "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
-            "row_count": 3
+            "row_count": 13
           },
-          "row_count": 3
+          "row_count": 13
         },
         {
           "mode": "pre_market_crash_triage",
@@ -14410,7 +14377,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
           "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
@@ -14424,7 +14391,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
           "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture",
           "metrics": {
@@ -14438,7 +14405,7 @@
           "ticker": "",
           "status": "failed",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-10T13:42:34.691921+00:00",
+          "checked_at": "2026-06-10T14:31:47.641028+00:00",
           "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
           "source": "uw_endpoint_result_capture",
           "metrics": {},
@@ -15639,29 +15606,29 @@
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
     "endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 12 captured result(s); supports=1, contradicts=0, inconclusive=10, missing=1; stale=0. newest=2026-06-10 09:42 ET.",
+      "line": "UW endpoint proof: 12 captured result(s); supports=1, contradicts=0, inconclusive=10, missing=1; stale=0. newest=2026-06-10 10:31 ET.",
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
         "missing/failed endpoint result(s) keep related actions blocked"
       ],
-      "newest_checked_at": "2026-06-10T13:42:34.691921+00:00"
+      "newest_checked_at": "2026-06-10T14:31:47.641028+00:00"
     }
   },
   "uw_endpoint_proof": {
     "status": "has_data",
-    "line": "UW endpoint proof: 12 captured result(s); supports=1, contradicts=0, inconclusive=10, missing=1; stale=0. newest=2026-06-10 09:42 ET.",
+    "line": "UW endpoint proof: 12 captured result(s); supports=1, contradicts=0, inconclusive=10, missing=1; stale=0. newest=2026-06-10 10:31 ET.",
     "count": 12,
     "counts": {
-      "confirmed": 1,
       "neutral": 10,
+      "confirmed": 1,
       "failed": 1
     },
     "interpretation_counts": {
-      "supports": 1,
       "inconclusive": 10,
+      "supports": 1,
       "missing": 1
     },
-    "newest_checked_at": "2026-06-10T13:42:34.691921+00:00",
+    "newest_checked_at": "2026-06-10T14:31:47.641028+00:00",
     "same_session_date": "2026-06-10",
     "stale_count": 0,
     "off_runbook_count": 0,
@@ -15670,17 +15637,17 @@
         "mode": "portfolio_reallocation",
         "endpoint": "TICKER_OHLC",
         "ticker": "NVDA",
-        "status": "confirmed",
-        "decision_interpretation": "supports",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
-        "summary": "Price/tape is stabilizing for NVDA (pct_change=+0.77%, range_position=0.60); supports review, not auto-buy.",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
+        "summary": "Fetched TICKER_OHLC for NVDA; pct_change=+0.51%, range_position=0.42. Result remains a timing input.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
           "row_count": 65,
-          "latest_close": 206.02,
+          "latest_close": 205.5,
           "previous_close": 204.45,
-          "pct_change": 0.768,
-          "range_position": 0.596
+          "pct_change": 0.514,
+          "range_position": 0.421
         },
         "row_count": 65
       },
@@ -15690,7 +15657,7 @@
         "ticker": "NVDA",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
         "summary": "Fetched TICKER_STOCK_STATE for NVDA; row_count=1. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
@@ -15704,7 +15671,7 @@
         "ticker": "NVDA",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for NVDA; flow mix is not decisive.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
@@ -15712,7 +15679,7 @@
           "bullish_rows": 0,
           "bearish_rows": 0,
           "bullish_ratio": 0.0,
-          "premium_abs": 91830.0
+          "premium_abs": 40582.0
         },
         "row_count": 50
       },
@@ -15720,17 +15687,17 @@
         "mode": "portfolio_reallocation",
         "endpoint": "TICKER_OHLC",
         "ticker": "SMH",
-        "status": "neutral",
-        "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
-        "summary": "Fetched TICKER_OHLC for SMH; pct_change=+0.67%, range_position=0.40. Result remains a timing input.",
+        "status": "confirmed",
+        "decision_interpretation": "supports",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
+        "summary": "Price/tape is stabilizing for SMH (pct_change=+2.14%, range_position=0.78); supports review, not auto-buy.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
           "row_count": 65,
-          "latest_close": 583.92,
+          "latest_close": 592.403,
           "previous_close": 580.011,
-          "pct_change": 0.674,
-          "range_position": 0.404
+          "pct_change": 2.137,
+          "range_position": 0.782
         },
         "row_count": 65
       },
@@ -15740,15 +15707,15 @@
         "ticker": "QQQ",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
-        "summary": "Fetched TICKER_OHLC for QQQ; pct_change=+0.22%, range_position=0.58. Result remains a timing input.",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
+        "summary": "Fetched TICKER_OHLC for QQQ; pct_change=+0.88%, range_position=0.73. Result remains a timing input.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
           "row_count": 65,
-          "latest_close": 703.2,
+          "latest_close": 707.77,
           "previous_close": 701.63,
-          "pct_change": 0.224,
-          "range_position": 0.582
+          "pct_change": 0.875,
+          "range_position": 0.731
         },
         "row_count": 65
       },
@@ -15758,7 +15725,7 @@
         "ticker": "QQQ",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
         "summary": "Fetched TICKER_STOCK_STATE for QQQ; row_count=1. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
@@ -15772,7 +15739,7 @@
         "ticker": "QQQ",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for QQQ; flow mix is not decisive.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
@@ -15780,7 +15747,7 @@
           "bullish_rows": 0,
           "bearish_rows": 0,
           "bullish_ratio": 0.0,
-          "premium_abs": 78606.0
+          "premium_abs": 64819.0
         },
         "row_count": 50
       },
@@ -15790,15 +15757,15 @@
         "ticker": "SMH",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
-        "summary": "Fetched TICKER_OHLC for SMH; pct_change=+0.69%, range_position=0.41. Result remains a timing input.",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
+        "summary": "Fetched TICKER_OHLC for SMH; pct_change=+2.14%, range_position=0.78. Result remains a timing input.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
           "row_count": 65,
-          "latest_close": 584.02,
+          "latest_close": 592.403,
           "previous_close": 580.011,
-          "pct_change": 0.691,
-          "range_position": 0.414
+          "pct_change": 2.137,
+          "range_position": 0.782
         },
         "row_count": 65
       },
@@ -15808,13 +15775,13 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
-        "summary": "Fetched MARKET_TIDE; row_count=3. Result requires operator interpretation before any promotion.",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
+        "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
-          "row_count": 3
+          "row_count": 13
         },
-        "row_count": 3
+        "row_count": 13
       },
       {
         "mode": "pre_market_crash_triage",
@@ -15822,7 +15789,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
         "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
@@ -15836,7 +15803,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
         "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture",
         "metrics": {
@@ -15850,7 +15817,7 @@
         "ticker": "",
         "status": "failed",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-10T13:42:34.691921+00:00",
+        "checked_at": "2026-06-10T14:31:47.641028+00:00",
         "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
         "source": "uw_endpoint_result_capture",
         "metrics": {},
@@ -16949,7 +16916,7 @@
         "source": "target_drift",
         "command": "",
         "refresh_status": "changed_recheck",
-        "what_changed": "Required live checks are missing: funding leg; pre-trade gate",
+        "what_changed": "Required live checks are missing: live opportunity; funding leg; pre-trade gate",
         "freshness_label": "fresh",
         "evidence_date": "2026-06-10",
         "last_checked": "2026-06-10",
