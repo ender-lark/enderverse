@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-09T20:31:40.745170+00:00",
+  "generated_at": "2026-06-09T21:11:41.711865+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-09 \u00b7 uw_price 06-09 \u00b7 uw_macro 06-09 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-09",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-09T16:31:40.745170-04:00",
+        "date": "2026-06-09T17:11:41.711865-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-09T16:31:40.745170-04:00",
+        "date": "2026-06-09T17:11:41.711865-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -208,7 +208,7 @@
       "action_state": "WATCH",
       "what": "Conviction gap: NVDA is under target",
       "confidence": "High",
-      "your_move": "NVDA is 8.0% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.",
+      "your_move": "NVDA is 8.0% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy. Live UW evidence supports the setup; still use funding, account, sizing, and pre-trade gates.",
       "gate": {
         "needs_gate": true,
         "preview": "\ud83d\udfe1 size \u2192 gate",
@@ -230,7 +230,6 @@
       "action_label": "RE-CHECK",
       "why_it_moves_goal": "A high-conviction target gap can make the right thesis too small to matter unless disposition is explicit.",
       "missing_evidence": [
-        "live opportunity",
         "funding leg",
         "pre-trade gate"
       ],
@@ -301,10 +300,10 @@
         "downgrade_to": "Re-check Before Acting"
       },
       "capital_efficiency": {
-        "label": "compare and stage",
-        "summary": "Do not park capital here only because it is good; compare it against higher-ranked uses and funding legs.",
-        "do_nothing_risk": "Doing nothing avoids churn, but can leave a confirmed sizing gap under-deployed or cash parked in a weaker alternative.",
-        "priority_reason": "It can outrank ordinary ideas only if the sizing gap, source quality, and entry still beat other uses.",
+        "label": "opportunity-cost watch",
+        "summary": "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.",
+        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
+        "priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
         "timing_balance": "Avoid waiting for a perfect bottom; if live checks confirm, consider staged exposure rather than all-or-nothing timing.",
         "compare_against": [
           "higher-ranked Key Now actions",
@@ -318,16 +317,16 @@
         "checked_at": "2026-06-09",
         "snapshot": {
           "ticker": "NVDA",
-          "action_state": "ACT_NOW",
+          "action_state": "WATCH",
           "source": "target_drift",
           "evidence_date": "2026-06-09",
           "freshness": "fresh",
           "decay_window": "until position, price, thesis, or target changes",
-          "capital_label": "compare and stage",
+          "capital_label": "opportunity-cost watch",
           "time_window": "1-3 trading days"
         },
         "what_changed": [
-          "Required live checks are missing: live opportunity; funding leg; pre-trade gate"
+          "Required live checks are missing: funding leg; pre-trade gate"
         ],
         "blockers": [
           "missing evidence"
@@ -341,10 +340,174 @@
       },
       "decision_group": "recheck_before_acting",
       "decision_group_label": "Re-check Before Acting",
-      "capital_priority_score": 135
+      "capital_priority_score": 135,
+      "uw_endpoint_interpretation": {
+        "status": "supports",
+        "counts": {
+          "supports": 1,
+          "contradicts": 0,
+          "inconclusive": 2,
+          "missing": 0
+        },
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Price/tape is stabilizing for NVDA (pct_change=+0.40%, range_position=0.73); supports review, not auto-buy.",
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_OHLC",
+        "honesty_rule": "UW endpoint proof changes review posture only; it does not place trades or bypass the pre-trade gate."
+      }
     },
     {
       "rank": 2,
+      "kind": "lean_in",
+      "ticker": "GOOGL",
+      "action_state": "WATCH",
+      "what": "Lean-in \u2014 looks good",
+      "confidence": "Moderate",
+      "your_move": "GOOGL looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
+      "gate": {
+        "needs_gate": true,
+        "preview": "\ud83d\udfe1 size \u2192 gate",
+        "ticker": "GOOGL",
+        "default_action": "ADD"
+      },
+      "source": "lean_in",
+      "why": "GOOGL: Promising and the tape's with it (LEADING) \u2014 a place to start.",
+      "goal_channels": [
+        "sizing_gap",
+        "upside",
+        "opportunity_cost"
+      ],
+      "goal_impact": "High",
+      "goal_score": 76,
+      "time_window": "1-2 weeks",
+      "capital_effect": "add",
+      "action_label": "ADD/ROTATE",
+      "why_it_moves_goal": "A conviction-backed sizing gap can make a right call too small.",
+      "missing_evidence": [
+        "live UW interpretation inconclusive"
+      ],
+      "account_placement": {
+        "status": "candidate",
+        "ticker": "GOOGL",
+        "side": "buy/add",
+        "instrument_class": "stock",
+        "owner": "SKB",
+        "broker": "Robinhood",
+        "account": "Robinhood Traditional Ira 1369",
+        "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+        "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+        "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "rule": "Parents Schwab/PCRA Trust ETF-only",
+        "alternatives": [
+          {
+            "owner": "SKB",
+            "broker": "Fidelity",
+            "account": "Individual - TOD *****1088",
+            "label": "SKB Fidelity: Individual - TOD *****1088",
+            "market_value": 10899.3
+          },
+          {
+            "owner": "Parents",
+            "broker": "Fidelity",
+            "account": "Joint WROS - TOD *****2063",
+            "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+            "market_value": 9082.75
+          },
+          {
+            "owner": "SKB",
+            "broker": "Schwab",
+            "account": "Individual ...254 Individual ...254",
+            "label": "SKB Schwab: Individual ...254 Individual ...254",
+            "market_value": 1820.53
+          }
+        ],
+        "caveats": [
+          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+          "No order is placed or sized from this recommendation."
+        ]
+      },
+      "freshness_judgment": {
+        "label": "fresh",
+        "evidence_date": "2026-06-09",
+        "last_checked": "2026-06-09",
+        "decay_window": "until position, price, thesis, or target changes",
+        "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
+      },
+      "freshness": "fresh: evidence 2026-06-09; decays until position, price, thesis, or target changes",
+      "why_this_matters": "A conviction-backed sizing gap can make a right call too small.",
+      "disconfirmation": {
+        "question": "What would make this wrong?",
+        "summary": "Do not act if the live tape no longer confirms leadership or flow strength.",
+        "invalidates_if": [
+          "The live tape no longer confirms leadership or flow strength.",
+          "Current sizing is already large enough after account and wrapper exposure.",
+          "A better funding use ranks higher after fresh portfolio review."
+        ],
+        "confirm_before_acting": [
+          "Confirm same-session price/flow, current sizing, and funding source.",
+          "Check same-session price/flow and current exposure for GOOGL.",
+          "Run the pre-trade gate; no auto-trade from the dashboard."
+        ],
+        "downgrade_to": "Quiet Watch"
+      },
+      "capital_efficiency": {
+        "label": "opportunity-cost watch",
+        "summary": "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.",
+        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
+        "priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
+        "timing_balance": "Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.",
+        "compare_against": [
+          "higher-ranked Key Now actions",
+          "funded reallocation legs",
+          "risk reduction or hedging if event risk is active",
+          "goal score 76/100"
+        ]
+      },
+      "assumption_refresh": {
+        "status": "changed_recheck",
+        "checked_at": "2026-06-09",
+        "snapshot": {
+          "ticker": "GOOGL",
+          "action_state": "WATCH",
+          "source": "lean_in",
+          "evidence_date": "2026-06-09",
+          "freshness": "fresh",
+          "decay_window": "until position, price, thesis, or target changes",
+          "capital_label": "opportunity-cost watch",
+          "time_window": "1-2 weeks"
+        },
+        "what_changed": [
+          "Required live checks are missing: live UW interpretation inconclusive"
+        ],
+        "blockers": [
+          "missing evidence"
+        ],
+        "invalidates_if": [
+          "Live price or flow moved enough that the original entry/setup is no longer asymmetric."
+        ],
+        "next_step": "Refresh assumptions before acting; do not treat the old setup as still valid.",
+        "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
+      },
+      "decision_group": "recheck_before_acting",
+      "decision_group_label": "Re-check Before Acting",
+      "capital_priority_score": 126,
+      "uw_endpoint_interpretation": {
+        "status": "inconclusive",
+        "counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 1,
+          "missing": 0
+        },
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_OHLC for GOOGL; pct_change=-0.02%, range_position=0.47. Result remains a timing input.",
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_OHLC",
+        "honesty_rule": "UW endpoint proof changes review posture only; it does not place trades or bypass the pre-trade gate."
+      }
+    },
+    {
+      "rank": 3,
       "kind": "lean_in",
       "ticker": "ANET",
       "action_state": "WATCH",
@@ -439,138 +602,6 @@
         "checked_at": "2026-06-09",
         "snapshot": {
           "ticker": "ANET",
-          "action_state": "WATCH",
-          "source": "lean_in",
-          "evidence_date": "2026-06-09",
-          "freshness": "fresh",
-          "decay_window": "until position, price, thesis, or target changes",
-          "capital_label": "opportunity-cost watch",
-          "time_window": "1-2 weeks"
-        },
-        "what_changed": [
-          "No material assumption break detected from available feed evidence."
-        ],
-        "blockers": [],
-        "invalidates_if": [
-          "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward."
-        ],
-        "next_step": "Keep in its current group; run normal gate before acting.",
-        "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
-      },
-      "decision_group": "important_backlog",
-      "decision_group_label": "Important Backlog",
-      "capital_priority_score": 120
-    },
-    {
-      "rank": 3,
-      "kind": "lean_in",
-      "ticker": "GOOGL",
-      "action_state": "WATCH",
-      "what": "Lean-in \u2014 looks good",
-      "confidence": "Moderate",
-      "your_move": "GOOGL looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
-      "gate": {
-        "needs_gate": true,
-        "preview": "\ud83d\udfe1 size \u2192 gate",
-        "ticker": "GOOGL",
-        "default_action": "ADD"
-      },
-      "source": "lean_in",
-      "why": "GOOGL: Promising and the tape's with it (LEADING) \u2014 a place to start.",
-      "goal_channels": [
-        "sizing_gap",
-        "upside",
-        "opportunity_cost"
-      ],
-      "goal_impact": "High",
-      "goal_score": 76,
-      "time_window": "1-2 weeks",
-      "capital_effect": "add",
-      "action_label": "ADD/ROTATE",
-      "why_it_moves_goal": "A conviction-backed sizing gap can make a right call too small.",
-      "missing_evidence": [],
-      "account_placement": {
-        "status": "candidate",
-        "ticker": "GOOGL",
-        "side": "buy/add",
-        "instrument_class": "stock",
-        "owner": "SKB",
-        "broker": "Robinhood",
-        "account": "Robinhood Traditional Ira 1369",
-        "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-        "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
-        "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-        "rule": "Parents Schwab/PCRA Trust ETF-only",
-        "alternatives": [
-          {
-            "owner": "SKB",
-            "broker": "Fidelity",
-            "account": "Individual - TOD *****1088",
-            "label": "SKB Fidelity: Individual - TOD *****1088",
-            "market_value": 10899.3
-          },
-          {
-            "owner": "Parents",
-            "broker": "Fidelity",
-            "account": "Joint WROS - TOD *****2063",
-            "label": "Parents Fidelity: Joint WROS - TOD *****2063",
-            "market_value": 9082.75
-          },
-          {
-            "owner": "SKB",
-            "broker": "Schwab",
-            "account": "Individual ...254 Individual ...254",
-            "label": "SKB Schwab: Individual ...254 Individual ...254",
-            "market_value": 1820.53
-          }
-        ],
-        "caveats": [
-          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-          "No order is placed or sized from this recommendation."
-        ]
-      },
-      "freshness_judgment": {
-        "label": "fresh",
-        "evidence_date": "2026-06-09",
-        "last_checked": "2026-06-09",
-        "decay_window": "until position, price, thesis, or target changes",
-        "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
-      },
-      "freshness": "fresh: evidence 2026-06-09; decays until position, price, thesis, or target changes",
-      "why_this_matters": "A conviction-backed sizing gap can make a right call too small.",
-      "disconfirmation": {
-        "question": "What would make this wrong?",
-        "summary": "Do not act if the live tape no longer confirms leadership or flow strength.",
-        "invalidates_if": [
-          "The live tape no longer confirms leadership or flow strength.",
-          "Current sizing is already large enough after account and wrapper exposure.",
-          "A better funding use ranks higher after fresh portfolio review."
-        ],
-        "confirm_before_acting": [
-          "Confirm same-session price/flow, current sizing, and funding source.",
-          "Check same-session price/flow and current exposure for GOOGL.",
-          "Run the pre-trade gate; no auto-trade from the dashboard."
-        ],
-        "downgrade_to": "Quiet Watch"
-      },
-      "capital_efficiency": {
-        "label": "opportunity-cost watch",
-        "summary": "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.",
-        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
-        "priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
-        "timing_balance": "Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.",
-        "compare_against": [
-          "higher-ranked Key Now actions",
-          "funded reallocation legs",
-          "risk reduction or hedging if event risk is active",
-          "goal score 76/100"
-        ]
-      },
-      "assumption_refresh": {
-        "status": "still_valid",
-        "checked_at": "2026-06-09",
-        "snapshot": {
-          "ticker": "GOOGL",
           "action_state": "WATCH",
           "source": "lean_in",
           "evidence_date": "2026-06-09",
@@ -751,7 +782,9 @@
       "capital_effect": "no_capital_yet",
       "action_label": "NO POSITION",
       "why_it_moves_goal": "A sell-fast warning on a tracked name can prevent avoidable drawdown.",
-      "missing_evidence": [],
+      "missing_evidence": [
+        "live UW interpretation inconclusive"
+      ],
       "account_placement": {
         "status": "not_held",
         "ticker": "RYF",
@@ -802,7 +835,7 @@
         ]
       },
       "assumption_refresh": {
-        "status": "still_valid",
+        "status": "changed_recheck",
         "checked_at": "2026-06-09",
         "snapshot": {
           "ticker": "RYF",
@@ -815,18 +848,34 @@
           "time_window": "today"
         },
         "what_changed": [
-          "No material assumption break detected from available feed evidence."
+          "Required live checks are missing: live UW interpretation inconclusive"
         ],
-        "blockers": [],
+        "blockers": [
+          "missing evidence"
+        ],
         "invalidates_if": [
-          "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward."
+          "Live price or flow moved enough that the original entry/setup is no longer asymmetric."
         ],
-        "next_step": "Keep in its current group; run normal gate before acting.",
+        "next_step": "Refresh assumptions before acting; do not treat the old setup as still valid.",
         "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
       },
       "decision_group": "quiet_watch",
       "decision_group_label": "Quiet Watch",
-      "capital_priority_score": 140
+      "capital_priority_score": 146,
+      "uw_endpoint_interpretation": {
+        "status": "inconclusive",
+        "counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 1,
+          "missing": 4
+        },
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_PER_EXPIRY but captured no result rows.",
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_FLOW_PER_EXPIRY",
+        "honesty_rule": "UW endpoint proof changes review posture only; it does not place trades or bypass the pre-trade gate."
+      }
     },
     {
       "rank": 6,
@@ -854,7 +903,9 @@
       "capital_effect": "no_capital_yet",
       "action_label": "NO POSITION",
       "why_it_moves_goal": "A sell-fast warning on a tracked name can prevent avoidable drawdown.",
-      "missing_evidence": [],
+      "missing_evidence": [
+        "live UW interpretation inconclusive"
+      ],
       "account_placement": {
         "status": "not_held",
         "ticker": "XOP",
@@ -905,7 +956,7 @@
         ]
       },
       "assumption_refresh": {
-        "status": "still_valid",
+        "status": "changed_recheck",
         "checked_at": "2026-06-09",
         "snapshot": {
           "ticker": "XOP",
@@ -918,18 +969,34 @@
           "time_window": "today"
         },
         "what_changed": [
-          "No material assumption break detected from available feed evidence."
+          "Required live checks are missing: live UW interpretation inconclusive"
         ],
-        "blockers": [],
+        "blockers": [
+          "missing evidence"
+        ],
         "invalidates_if": [
-          "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward."
+          "Live price or flow moved enough that the original entry/setup is no longer asymmetric."
         ],
-        "next_step": "Keep in its current group; run normal gate before acting.",
+        "next_step": "Refresh assumptions before acting; do not treat the old setup as still valid.",
         "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
       },
       "decision_group": "quiet_watch",
       "decision_group_label": "Quiet Watch",
-      "capital_priority_score": 140
+      "capital_priority_score": 146,
+      "uw_endpoint_interpretation": {
+        "status": "inconclusive",
+        "counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 2,
+          "missing": 0
+        },
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_PER_EXPIRY for XOP; row_count=15. Result requires operator interpretation before any promotion.",
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_FLOW_PER_EXPIRY",
+        "honesty_rule": "UW endpoint proof changes review posture only; it does not place trades or bypass the pre-trade gate."
+      }
     },
     {
       "rank": 7,
@@ -1806,31 +1873,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-09T20:31:40.598286+00:00",
+      "last_run": "2026-06-09T21:11:41.563511+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-09T20:31:40.598286+00:00",
+      "last_run": "2026-06-09T21:11:41.563511+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-09T20:31:40.598286+00:00",
+      "last_run": "2026-06-09T21:11:41.563511+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-09T20:31:40.598286+00:00",
+      "last_run": "2026-06-09T21:11:41.563511+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-09T20:31:40.598286+00:00",
+      "last_run": "2026-06-09T21:11:41.563511+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1840,7 +1907,7 @@
     "state_of_play": "Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Conviction gap: NVDA is under target (watch, high confidence, source target_drift). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
     "delta": "Latest Fundstrat Daily compact calls in radar: RSPT avoid, SPY watch, MSTR watch. Target drift: 12 sizing gap(s) vs AI working model (1 under, 2 over, 9 missing); GRNY oversized 9.4% vs 3.0%; SMH oversized 8.9% vs 5.0%; NVDA undersized 8.0% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more",
     "hanging": [
-      "Operator review still required: NVDA is 8.0% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy.",
+      "Operator review still required: NVDA is 8.0% vs 12.0% target. Decide: add with funding, hold below target with a written reason, cut the target, or remove it from the model. If adding, run the pre-trade gate; no auto-buy. Live UW evidence supports the setup; still use funding, account, sizing, and pre-trade gates.",
       "Social Watch is not checked: Reddit/social early-signal anomalies are not checked; absence is not no social signal."
     ],
     "notes": [
@@ -2956,18 +3023,18 @@
         "key": "recheck_before_acting",
         "label": "Re-check Before Acting",
         "description": "Items where a missing source, stale source, or gate must be checked first.",
-        "count": 1,
+        "count": 2,
         "ranks": [
-          1
+          1,
+          2
         ]
       },
       {
         "key": "important_backlog",
         "label": "Important Backlog",
         "description": "Still-important decisions that should stay visible but are not the loudest current item.",
-        "count": 3,
+        "count": 2,
         "ranks": [
-          2,
           3,
           4
         ]
@@ -2986,8 +3053,8 @@
     ],
     "counts": {
       "key_now": 0,
-      "recheck_before_acting": 1,
-      "important_backlog": 3,
+      "recheck_before_acting": 2,
+      "important_backlog": 2,
       "quiet_watch": 3
     }
   },
@@ -13094,7 +13161,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-09T10:02:00-04:00",
-        "connector_proof_age_hours": 6.49
+        "connector_proof_age_hours": 7.16
       }
     ],
     "missing": [],
@@ -13122,16 +13189,22 @@
     },
     "cloud_routines": {
       "status": "partial_live_run_proven",
-      "line": "Background cloud proof: 15/16 scheduled receipts proven; failed latest=0.",
+      "line": "Background cloud proof: 15/17 scheduled receipts proven; failed latest=0.",
       "scheduled_success_count": 15,
-      "expected_count": 16,
+      "expected_count": 17,
       "failed_latest_count": 0,
-      "missing_scheduled_success_count": 1,
+      "missing_scheduled_success_count": 2,
       "missing_scheduled_success": [
         {
           "routine_id": "investing-os-broker-position-intake",
           "routine_name": "Investing OS Broker Position Intake",
           "schedule": "market weekdays 8:20 AM ET",
+          "last_status": "no_receipt"
+        },
+        {
+          "routine_id": "investing-os-top-prospects-auto-research",
+          "routine_name": "Investing OS Top Prospects Auto-Research",
+          "schedule": "daily 8:45 PM ET",
           "last_status": "no_receipt"
         }
       ],
@@ -13285,12 +13358,12 @@
           "role": "post_close_refresh",
           "schedule": "market weekdays 4:30 PM ET",
           "receipt_count": 17,
-          "last_status": "started",
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-09T20:31:39.602571Z",
-          "last_success_at": "2026-06-08T21:27:16.114745Z",
-          "last_scheduled_success_at": "2026-06-08T20:32:39.526020Z",
-          "last_summary": "investing-os-post-close-refresh started"
+          "last_recorded_at": "2026-06-09T20:31:42.684513Z",
+          "last_success_at": "2026-06-09T20:31:42.684513Z",
+          "last_scheduled_success_at": "2026-06-09T20:31:42.684513Z",
+          "last_summary": "post-close refresh succeeded"
         },
         {
           "routine_id": "investing-os-fundstrat-after-hours-catch-up",
@@ -13343,6 +13416,19 @@
           "last_success_at": "2026-06-08T21:27:17.261306Z",
           "last_scheduled_success_at": "2026-06-07T22:09:16.173250Z",
           "last_summary": "weekly pilot manual support run checked routine heartbeat/status evidence"
+        },
+        {
+          "routine_id": "investing-os-top-prospects-auto-research",
+          "routine_name": "Investing OS Top Prospects Auto-Research",
+          "role": "top_prospects_autoresearch",
+          "schedule": "daily 8:45 PM ET",
+          "receipt_count": 0,
+          "last_status": "no_receipt",
+          "last_run_source": "manual",
+          "last_recorded_at": "",
+          "last_success_at": "",
+          "last_scheduled_success_at": "",
+          "last_summary": ""
         }
       ]
     },
@@ -13687,123 +13773,12 @@
     },
     "uw_routing": {
       "status": "has_data",
-      "line": "UW routing: 5 scenario profile(s) recommended; top=Pre-market crash triage.",
+      "line": "UW routing: 4 scenario profile(s) recommended; top=Portfolio reallocation.",
       "rows": [
-        {
-          "mode": "pre_market_crash_triage",
-          "label": "Pre-market crash triage",
-          "priority": 1,
-          "reason": "High-volatility or re-check posture needs broad tape triage before single-name action.",
-          "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
-          "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
-          "top_endpoints": [
-            "MARKET_TIDE",
-            "TOP_NET_IMPACT",
-            "TOTAL_OPTIONS_VOLUME",
-            "ETF_TIDE",
-            "SECTOR_TIDE",
-            "TICKER_FLOW_RECENT",
-            "TICKER_FLOW_ALERTS",
-            "TICKER_OPTIONS_VOLUME"
-          ],
-          "groups": [
-            {
-              "key": "broad_tape",
-              "priority": 1,
-              "scope": "market",
-              "endpoints": [
-                "MARKET_TIDE",
-                "TOP_NET_IMPACT",
-                "TOTAL_OPTIONS_VOLUME",
-                "MARKET_MOVERS",
-                "MARKET_CORRELATIONS"
-              ],
-              "decision_use": "Classify the morning as risk-off continuation, relief bounce, or mixed tape."
-            },
-            {
-              "key": "index_and_sector_pressure",
-              "priority": 2,
-              "scope": "sector_or_etf",
-              "endpoints": [
-                "ETF_TIDE",
-                "SECTOR_TIDE"
-              ],
-              "decision_use": "Identify whether exposure should be cut by factor wrapper, single name, or not at all."
-            },
-            {
-              "key": "position_specific_flow",
-              "priority": 3,
-              "scope": "ticker",
-              "endpoints": [
-                "TICKER_FLOW_RECENT",
-                "TICKER_FLOW_ALERTS",
-                "TICKER_OPTIONS_VOLUME",
-                "DARKPOOL_TICKER",
-                "TICKER_OI_CHANGE"
-              ],
-              "decision_use": "Promote only evidence-backed trim/add/recheck prompts for owned names."
-            }
-          ]
-        },
-        {
-          "mode": "event_risk_political_macro",
-          "label": "Event-risk and political macro",
-          "priority": 2,
-          "reason": "Active event-risk lane can overpower normal thesis and flow signals.",
-          "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
-          "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
-          "top_endpoints": [
-            "MARKET_TIDE",
-            "TOP_NET_IMPACT",
-            "MARKET_MOVERS",
-            "SECTOR_TIDE",
-            "ETF_TIDE",
-            "MARKET_CORRELATIONS",
-            "CONGRESS_RECENT_TRADES",
-            "CONGRESS_UNUSUAL_BY_TICKERS"
-          ],
-          "groups": [
-            {
-              "key": "macro_tape",
-              "priority": 1,
-              "scope": "market",
-              "endpoints": [
-                "MARKET_TIDE",
-                "TOP_NET_IMPACT",
-                "MARKET_MOVERS",
-                "ECONOMIC_CALENDAR",
-                "NEWS_HEADLINES"
-              ],
-              "decision_use": "Determine whether to keep actions in watch/re-check or promote protective action."
-            },
-            {
-              "key": "factor_transmission",
-              "priority": 2,
-              "scope": "sector_or_etf",
-              "endpoints": [
-                "SECTOR_TIDE",
-                "ETF_TIDE",
-                "MARKET_CORRELATIONS"
-              ],
-              "decision_use": "Identify which exposure sleeves are actually at risk."
-            },
-            {
-              "key": "policy_and_sponsor_context",
-              "priority": 3,
-              "scope": "market_or_ticker",
-              "endpoints": [
-                "CONGRESS_RECENT_TRADES",
-                "CONGRESS_UNUSUAL_BY_TICKERS",
-                "NEWS_HEADLINES"
-              ],
-              "decision_use": "Add context to rationale drawers without using it as standalone tactical proof."
-            }
-          ]
-        },
         {
           "mode": "portfolio_reallocation",
           "label": "Portfolio reallocation",
-          "priority": 3,
+          "priority": 1,
           "reason": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
           "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
           "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
@@ -13860,7 +13835,7 @@
         {
           "mode": "fundstrat_signal_confirmation",
           "label": "Fundstrat signal confirmation",
-          "priority": 4,
+          "priority": 2,
           "reason": "Fundstrat-derived calls should be checked against live market structure before action.",
           "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
           "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
@@ -13912,6 +13887,62 @@
                 "TICKER_INFO"
               ],
               "decision_use": "Populate rationale drawers and disconfirmation notes."
+            }
+          ]
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "label": "Pre-market crash triage",
+          "priority": 3,
+          "reason": "High-volatility or re-check posture needs broad tape triage, but after the named portfolio/Fundstrat checks.",
+          "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
+          "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
+          "top_endpoints": [
+            "MARKET_TIDE",
+            "TOP_NET_IMPACT",
+            "TOTAL_OPTIONS_VOLUME",
+            "ETF_TIDE",
+            "SECTOR_TIDE",
+            "TICKER_FLOW_RECENT",
+            "TICKER_FLOW_ALERTS",
+            "TICKER_OPTIONS_VOLUME"
+          ],
+          "groups": [
+            {
+              "key": "broad_tape",
+              "priority": 1,
+              "scope": "market",
+              "endpoints": [
+                "MARKET_TIDE",
+                "TOP_NET_IMPACT",
+                "TOTAL_OPTIONS_VOLUME",
+                "MARKET_MOVERS",
+                "MARKET_CORRELATIONS"
+              ],
+              "decision_use": "Classify the morning as risk-off continuation, relief bounce, or mixed tape."
+            },
+            {
+              "key": "index_and_sector_pressure",
+              "priority": 2,
+              "scope": "sector_or_etf",
+              "endpoints": [
+                "ETF_TIDE",
+                "SECTOR_TIDE"
+              ],
+              "decision_use": "Identify whether exposure should be cut by factor wrapper, single name, or not at all."
+            },
+            {
+              "key": "position_specific_flow",
+              "priority": 3,
+              "scope": "ticker",
+              "endpoints": [
+                "TICKER_FLOW_RECENT",
+                "TICKER_FLOW_ALERTS",
+                "TICKER_OPTIONS_VOLUME",
+                "DARKPOOL_TICKER",
+                "TICKER_OI_CHANGE"
+              ],
+              "decision_use": "Promote only evidence-backed trim/add/recheck prompts for owned names."
             }
           ]
         },
@@ -13981,13 +14012,100 @@
     },
     "uw_action_runbook": {
       "status": "has_data",
-      "line": "UW action runbook: 5 check set(s), 21 scoped ticker(s); endpoint results not claimed.",
+      "line": "UW action runbook: 4 check set(s), 24 scoped ticker(s); endpoint results not claimed.",
       "rows": [
+        {
+          "mode": "portfolio_reallocation",
+          "label": "Portfolio reallocation",
+          "priority": 1,
+          "why": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
+          "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
+          "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
+          "ticker_scope": [
+            "NVDA",
+            "SMH",
+            "GOOGL",
+            "AVGO",
+            "MSFT",
+            "ANET",
+            "MAGS",
+            "RYF",
+            "XOP",
+            "GRNY"
+          ],
+          "market_checks": [
+            "MARKET_CORRELATIONS",
+            "TOTAL_OPTIONS_VOLUME",
+            "ETF_TIDE",
+            "SECTOR_TIDE"
+          ],
+          "ticker_checks": [
+            "TICKER_OHLC",
+            "TICKER_STOCK_STATE",
+            "TICKER_FLOW_RECENT",
+            "DARKPOOL_TICKER",
+            "TICKER_OPTIONS_VOLUME",
+            "TICKER_IV_RANK",
+            "NEWS_HEADLINES",
+            "ANALYST_RATINGS",
+            "COMPANY_PROFILE",
+            "TICKER_INFO",
+            "INSTITUTION_OWNERSHIP",
+            "TICKER_INSIDERS",
+            "TICKER_INSIDER_FLOW",
+            "TICKER_VOL_STATS"
+          ],
+          "blocks_action_if": "latest positions, same-session price/flow, or funding source are missing",
+          "promote_when": "current positions, factor wrapper context, and ticker flow support the trim/add leg",
+          "downgrade_when": "the target gap is stale, already funded, or live flow/price argues for waiting"
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "label": "Fundstrat signal confirmation",
+          "priority": 2,
+          "why": "Fundstrat-derived calls should be checked against live market structure before action.",
+          "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
+          "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
+          "ticker_scope": [
+            "QQQ",
+            "SMH",
+            "SPY",
+            "RSPT",
+            "GOOGL",
+            "MSTR",
+            "GOLD",
+            "SOX",
+            "RSP",
+            "XOP",
+            "NVDA",
+            "ANET"
+          ],
+          "market_checks": [],
+          "ticker_checks": [
+            "TICKER_OHLC",
+            "TICKER_STOCK_STATE",
+            "TICKER_FLOW_RECENT",
+            "DARKPOOL_TICKER",
+            "TICKER_OPTIONS_VOLUME",
+            "TICKER_IV_RANK",
+            "NEWS_HEADLINES",
+            "ANALYST_RATINGS",
+            "COMPANY_PROFILE",
+            "TICKER_INFO",
+            "TICKER_FLOW_ALERTS",
+            "TICKER_OI_CHANGE",
+            "TICKER_GREEK_EXPOSURE_STRIKE",
+            "TICKER_SPOT_EXPOSURES_STRIKE"
+          ],
+          "blocks_action_if": "Fundstrat evidence is dated and same-day UW/price confirmation is missing",
+          "promote_when": "Fundstrat call and live market structure point in the same direction",
+          "downgrade_when": "price/flow contradicts the call or the call was already absorbed by the tape"
+        },
         {
           "mode": "pre_market_crash_triage",
           "label": "Pre-market crash triage",
-          "priority": 1,
-          "why": "High-volatility or re-check posture needs broad tape triage before single-name action.",
+          "priority": 3,
+          "why": "High-volatility or re-check posture needs broad tape triage, but after the named portfolio/Fundstrat checks.",
           "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
           "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
           "ticker_scope": [
@@ -14033,132 +14151,6 @@
           "blocks_action_if": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open",
           "promote_when": "broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage",
           "downgrade_when": "the shock stabilizes, pre-market pressure fades, or current flow contradicts crash-triage urgency"
-        },
-        {
-          "mode": "event_risk_political_macro",
-          "label": "Event-risk and political macro",
-          "priority": 2,
-          "why": "Active event-risk lane can overpower normal thesis and flow signals.",
-          "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
-          "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
-          "ticker_scope": [
-            "XOP",
-            "XLE",
-            "TNX",
-            "RYF",
-            "XLF",
-            "COIN",
-            "HOOD",
-            "BX",
-            "KKR",
-            "MAGS",
-            "SMH",
-            "SPY",
-            "GRNY"
-          ],
-          "market_checks": [
-            "MARKET_TIDE",
-            "TOP_NET_IMPACT",
-            "MARKET_MOVERS",
-            "ECONOMIC_CALENDAR",
-            "NEWS_HEADLINES",
-            "SECTOR_TIDE",
-            "ETF_TIDE",
-            "MARKET_CORRELATIONS"
-          ],
-          "ticker_checks": [
-            "CONGRESS_RECENT_TRADES",
-            "CONGRESS_UNUSUAL_BY_TICKERS",
-            "NEWS_HEADLINES"
-          ],
-          "blocks_action_if": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory",
-          "promote_when": "macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing",
-          "downgrade_when": "the shock is stale, headlines reverse, or affected sectors stabilize against the warning"
-        },
-        {
-          "mode": "portfolio_reallocation",
-          "label": "Portfolio reallocation",
-          "priority": 3,
-          "why": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
-          "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
-          "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
-          "ticker_scope": [
-            "GRNY",
-            "NVDA",
-            "SMH",
-            "GOOGL",
-            "AVGO",
-            "MSFT",
-            "ANET",
-            "MAGS",
-            "RYF",
-            "XOP"
-          ],
-          "market_checks": [
-            "ETF_TIDE",
-            "SECTOR_TIDE",
-            "MARKET_CORRELATIONS",
-            "TOTAL_OPTIONS_VOLUME"
-          ],
-          "ticker_checks": [
-            "TICKER_OHLC",
-            "TICKER_STOCK_STATE",
-            "TICKER_INFO",
-            "COMPANY_PROFILE",
-            "ANALYST_RATINGS",
-            "INSTITUTION_OWNERSHIP",
-            "TICKER_INSIDERS",
-            "TICKER_INSIDER_FLOW",
-            "NEWS_HEADLINES",
-            "TICKER_FLOW_RECENT",
-            "DARKPOOL_TICKER",
-            "TICKER_OPTIONS_VOLUME",
-            "TICKER_IV_RANK",
-            "TICKER_VOL_STATS"
-          ],
-          "blocks_action_if": "latest positions, same-session price/flow, or funding source are missing",
-          "promote_when": "current positions, factor wrapper context, and ticker flow support the trim/add leg",
-          "downgrade_when": "the target gap is stale, already funded, or live flow/price argues for waiting"
-        },
-        {
-          "mode": "fundstrat_signal_confirmation",
-          "label": "Fundstrat signal confirmation",
-          "priority": 4,
-          "why": "Fundstrat-derived calls should be checked against live market structure before action.",
-          "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
-          "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
-          "ticker_scope": [
-            "RSPT",
-            "SPY",
-            "MSTR",
-            "GOLD",
-            "GOOGL",
-            "NVDA",
-            "ANET",
-            "MAGS",
-            "RYF",
-            "XOP"
-          ],
-          "market_checks": [],
-          "ticker_checks": [
-            "TICKER_FLOW_RECENT",
-            "TICKER_FLOW_ALERTS",
-            "DARKPOOL_TICKER",
-            "TICKER_OPTIONS_VOLUME",
-            "TICKER_OI_CHANGE",
-            "TICKER_OHLC",
-            "TICKER_STOCK_STATE",
-            "TICKER_GREEK_EXPOSURE_STRIKE",
-            "TICKER_SPOT_EXPOSURES_STRIKE",
-            "TICKER_IV_RANK",
-            "ANALYST_RATINGS",
-            "NEWS_HEADLINES",
-            "COMPANY_PROFILE",
-            "TICKER_INFO"
-          ],
-          "blocks_action_if": "Fundstrat evidence is dated and same-day UW/price confirmation is missing",
-          "promote_when": "Fundstrat call and live market structure point in the same direction",
-          "downgrade_when": "price/flow contradicts the call or the call was already absorbed by the tape"
         },
         {
           "mode": "asymmetric_discovery",
@@ -14217,9 +14209,12 @@
         "MSFT",
         "MSTR",
         "NVDA",
+        "QQQ",
+        "RSP",
         "RSPT",
         "RYF",
         "SMH",
+        "SOX",
         "SPY",
         "TNX",
         "XLE",
@@ -14230,41 +14225,269 @@
       "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
       "endpoint_proof": {
         "status": "has_data",
-        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 16:30 ET.",
+        "line": "UW endpoint proof: 28 captured result(s); supports=1, contradicts=0, inconclusive=22, missing=5; stale=0. newest=2026-06-09 17:05 ET.",
         "blockers": [
           "inconclusive endpoint result(s) cannot promote related actions",
           "missing/failed endpoint result(s) keep related actions blocked"
         ],
-        "newest_checked_at": "2026-06-09T20:30:55.404987+00:00"
+        "newest_checked_at": "2026-06-09T21:05:09.337913+00:00"
       }
     },
     "uw_endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 16:30 ET.",
-      "count": 13,
+      "line": "UW endpoint proof: 28 captured result(s); supports=1, contradicts=0, inconclusive=22, missing=5; stale=0. newest=2026-06-09 17:05 ET.",
+      "count": 28,
       "counts": {
-        "missing": 2,
-        "neutral": 10,
-        "failed": 1
+        "confirmed": 1,
+        "neutral": 22,
+        "failed": 1,
+        "missing": 4
       },
       "interpretation_counts": {
-        "missing": 3,
-        "inconclusive": 10
+        "supports": 1,
+        "inconclusive": 22,
+        "missing": 5
       },
-      "newest_checked_at": "2026-06-09T20:30:55.404987+00:00",
+      "newest_checked_at": "2026-06-09T21:05:09.337913+00:00",
       "same_session_date": "2026-06-09",
       "stale_count": 0,
       "off_runbook_count": 0,
       "rows": [
         {
-          "mode": "pre_market_crash_triage",
-          "endpoint": "SECTOR_TIDE",
-          "ticker": "",
-          "status": "missing",
-          "decision_interpretation": "missing",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
-          "summary": "unsupported path parameter(s): sector",
-          "source": "uw_endpoint_result_capture"
+          "mode": "portfolio_reallocation",
+          "endpoint": "TICKER_OHLC",
+          "ticker": "NVDA",
+          "status": "confirmed",
+          "decision_interpretation": "supports",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Price/tape is stabilizing for NVDA (pct_change=+0.40%, range_position=0.73); supports review, not auto-buy.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 63,
+            "latest_close": 208.19,
+            "previous_close": 207.3603,
+            "pct_change": 0.4,
+            "range_position": 0.734
+          },
+          "row_count": 63
+        },
+        {
+          "mode": "portfolio_reallocation",
+          "endpoint": "TICKER_STOCK_STATE",
+          "ticker": "NVDA",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_STOCK_STATE for NVDA; row_count=1. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 1
+          },
+          "row_count": 1
+        },
+        {
+          "mode": "portfolio_reallocation",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "NVDA",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for NVDA; flow mix is not decisive.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 50,
+            "bullish_rows": 0,
+            "bearish_rows": 0,
+            "bullish_ratio": 0.0,
+            "premium_abs": 33426.0
+          },
+          "row_count": 50
+        },
+        {
+          "mode": "portfolio_reallocation",
+          "endpoint": "TICKER_OHLC",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_OHLC for SMH; pct_change=+0.17%, range_position=0.62. Result remains a timing input.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 63,
+            "latest_close": 591.01,
+            "previous_close": 590.0,
+            "pct_change": 0.171,
+            "range_position": 0.616
+          },
+          "row_count": 63
+        },
+        {
+          "mode": "portfolio_reallocation",
+          "endpoint": "TICKER_STOCK_STATE",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_STOCK_STATE for SMH; row_count=1. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 1
+          },
+          "row_count": 1
+        },
+        {
+          "mode": "portfolio_reallocation",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for SMH; flow mix is not decisive.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 50,
+            "bullish_rows": 0,
+            "bearish_rows": 0,
+            "bullish_ratio": 0.0,
+            "premium_abs": 956407.0
+          },
+          "row_count": 50
+        },
+        {
+          "mode": "portfolio_reallocation",
+          "endpoint": "TICKER_OHLC",
+          "ticker": "GOOGL",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_OHLC for GOOGL; pct_change=-0.02%, range_position=0.47. Result remains a timing input.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 63,
+            "latest_close": 364.26,
+            "previous_close": 364.3259,
+            "pct_change": -0.018,
+            "range_position": 0.471
+          },
+          "row_count": 63
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "endpoint": "TICKER_OHLC",
+          "ticker": "QQQ",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_OHLC for QQQ; pct_change=-0.02%, range_position=0.55. Result remains a timing input.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 63,
+            "latest_close": 707.83,
+            "previous_close": 708.0,
+            "pct_change": -0.024,
+            "range_position": 0.546
+          },
+          "row_count": 63
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "endpoint": "TICKER_STOCK_STATE",
+          "ticker": "QQQ",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_STOCK_STATE for QQQ; row_count=1. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 1
+          },
+          "row_count": 1
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "QQQ",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for QQQ; flow mix is not decisive.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 50,
+            "bullish_rows": 0,
+            "bearish_rows": 0,
+            "bullish_ratio": 0.0,
+            "premium_abs": 177604.0
+          },
+          "row_count": 50
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "endpoint": "TICKER_OHLC",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_OHLC for SMH; pct_change=+0.17%, range_position=0.62. Result remains a timing input.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 63,
+            "latest_close": 591.01,
+            "previous_close": 590.0,
+            "pct_change": 0.171,
+            "range_position": 0.616
+          },
+          "row_count": 63
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "endpoint": "TICKER_STOCK_STATE",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_STOCK_STATE for SMH; row_count=1. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 1
+          },
+          "row_count": 1
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for SMH; flow mix is not decisive.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 50,
+            "bullish_rows": 0,
+            "bearish_rows": 0,
+            "bullish_ratio": 0.0,
+            "premium_abs": 956407.0
+          },
+          "row_count": 50
+        },
+        {
+          "mode": "fundstrat_signal_confirmation",
+          "endpoint": "TICKER_OHLC",
+          "ticker": "SPY",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_OHLC for SPY; pct_change=+0.05%, range_position=0.59. Result remains a timing input.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 63,
+            "latest_close": 737.05,
+            "previous_close": 736.67,
+            "pct_change": 0.052,
+            "range_position": 0.595
+          },
+          "row_count": 63
         },
         {
           "mode": "pre_market_crash_triage",
@@ -14272,9 +14495,13 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
           "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 81
+          },
+          "row_count": 81
         },
         {
           "mode": "pre_market_crash_triage",
@@ -14282,9 +14509,13 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
           "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 20
+          },
+          "row_count": 20
         },
         {
           "mode": "pre_market_crash_triage",
@@ -14292,9 +14523,13 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
           "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 1
+          },
+          "row_count": 1
         },
         {
           "mode": "pre_market_crash_triage",
@@ -14302,9 +14537,11 @@
           "ticker": "",
           "status": "failed",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
           "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
-          "source": "uw_endpoint_result_capture"
+          "source": "uw_endpoint_result_capture",
+          "metrics": {},
+          "row_count": 0
         },
         {
           "mode": "pre_market_crash_triage",
@@ -14312,9 +14549,13 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
-          "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched MARKET_CORRELATIONS; row_count=6. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 6
+          },
+          "row_count": 6
         },
         {
           "mode": "pre_market_crash_triage",
@@ -14322,9 +14563,13 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
           "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 390
+          },
+          "row_count": 390
         },
         {
           "mode": "pre_market_crash_triage",
@@ -14332,59 +14577,111 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
           "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 390
+          },
+          "row_count": 390
         },
         {
-          "mode": "pre_market_crash_triage",
-          "endpoint": "ETF_TIDE",
-          "ticker": "TNX",
-          "status": "neutral",
-          "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
-          "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "mode": "asymmetric_discovery",
+          "endpoint": "TICKER_FLOW_PER_EXPIRY",
+          "ticker": "RYF",
+          "status": "missing",
+          "decision_interpretation": "missing",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_FLOW_PER_EXPIRY but captured no result rows.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 0
+          },
+          "row_count": 0
         },
         {
-          "mode": "pre_market_crash_triage",
-          "endpoint": "ETF_TIDE",
+          "mode": "asymmetric_discovery",
+          "endpoint": "TICKER_FLOW_PER_STRIKE",
+          "ticker": "RYF",
+          "status": "missing",
+          "decision_interpretation": "missing",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_FLOW_PER_STRIKE but captured no result rows.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 0
+          },
+          "row_count": 0
+        },
+        {
+          "mode": "asymmetric_discovery",
+          "endpoint": "TICKER_GREEK_FLOW",
+          "ticker": "RYF",
+          "status": "missing",
+          "decision_interpretation": "missing",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_GREEK_FLOW but captured no result rows.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 0
+          },
+          "row_count": 0
+        },
+        {
+          "mode": "asymmetric_discovery",
+          "endpoint": "TICKER_VOL_TERM_STRUCTURE",
+          "ticker": "RYF",
+          "status": "missing",
+          "decision_interpretation": "missing",
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_VOL_TERM_STRUCTURE but captured no result rows.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 0
+          },
+          "row_count": 0
+        },
+        {
+          "mode": "asymmetric_discovery",
+          "endpoint": "TICKER_INFO",
           "ticker": "RYF",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
-          "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_INFO for RYF; row_count=1. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 1
+          },
+          "row_count": 1
         },
         {
-          "mode": "pre_market_crash_triage",
-          "endpoint": "TICKER_FLOW_RECENT",
+          "mode": "asymmetric_discovery",
+          "endpoint": "TICKER_FLOW_PER_EXPIRY",
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
-          "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_FLOW_PER_EXPIRY for XOP; row_count=15. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 15
+          },
+          "row_count": 15
         },
         {
-          "mode": "pre_market_crash_triage",
-          "endpoint": "TICKER_FLOW_RECENT",
-          "ticker": "XLE",
+          "mode": "asymmetric_discovery",
+          "endpoint": "TICKER_FLOW_PER_STRIKE",
+          "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
-          "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
-          "source": "uw_endpoint_result_capture"
-        },
-        {
-          "mode": "pre_market_crash_triage",
-          "endpoint": "TICKER_FLOW_RECENT",
-          "ticker": "TNX",
-          "status": "missing",
-          "decision_interpretation": "missing",
-          "checked_at": "2026-06-09T20:30:55.404987+00:00",
-          "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
-          "source": "uw_endpoint_result_capture"
+          "checked_at": "2026-06-09T21:05:09.337913+00:00",
+          "summary": "Fetched TICKER_FLOW_PER_STRIKE for XOP; row_count=88. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture",
+          "metrics": {
+            "row_count": 88
+          },
+          "row_count": 88
         }
       ],
       "blockers": [
@@ -15128,123 +15425,12 @@
   },
   "uw_routing": {
     "status": "has_data",
-    "line": "UW routing: 5 scenario profile(s) recommended; top=Pre-market crash triage.",
+    "line": "UW routing: 4 scenario profile(s) recommended; top=Portfolio reallocation.",
     "rows": [
-      {
-        "mode": "pre_market_crash_triage",
-        "label": "Pre-market crash triage",
-        "priority": 1,
-        "reason": "High-volatility or re-check posture needs broad tape triage before single-name action.",
-        "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
-        "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
-        "top_endpoints": [
-          "MARKET_TIDE",
-          "TOP_NET_IMPACT",
-          "TOTAL_OPTIONS_VOLUME",
-          "ETF_TIDE",
-          "SECTOR_TIDE",
-          "TICKER_FLOW_RECENT",
-          "TICKER_FLOW_ALERTS",
-          "TICKER_OPTIONS_VOLUME"
-        ],
-        "groups": [
-          {
-            "key": "broad_tape",
-            "priority": 1,
-            "scope": "market",
-            "endpoints": [
-              "MARKET_TIDE",
-              "TOP_NET_IMPACT",
-              "TOTAL_OPTIONS_VOLUME",
-              "MARKET_MOVERS",
-              "MARKET_CORRELATIONS"
-            ],
-            "decision_use": "Classify the morning as risk-off continuation, relief bounce, or mixed tape."
-          },
-          {
-            "key": "index_and_sector_pressure",
-            "priority": 2,
-            "scope": "sector_or_etf",
-            "endpoints": [
-              "ETF_TIDE",
-              "SECTOR_TIDE"
-            ],
-            "decision_use": "Identify whether exposure should be cut by factor wrapper, single name, or not at all."
-          },
-          {
-            "key": "position_specific_flow",
-            "priority": 3,
-            "scope": "ticker",
-            "endpoints": [
-              "TICKER_FLOW_RECENT",
-              "TICKER_FLOW_ALERTS",
-              "TICKER_OPTIONS_VOLUME",
-              "DARKPOOL_TICKER",
-              "TICKER_OI_CHANGE"
-            ],
-            "decision_use": "Promote only evidence-backed trim/add/recheck prompts for owned names."
-          }
-        ]
-      },
-      {
-        "mode": "event_risk_political_macro",
-        "label": "Event-risk and political macro",
-        "priority": 2,
-        "reason": "Active event-risk lane can overpower normal thesis and flow signals.",
-        "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
-        "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
-        "top_endpoints": [
-          "MARKET_TIDE",
-          "TOP_NET_IMPACT",
-          "MARKET_MOVERS",
-          "SECTOR_TIDE",
-          "ETF_TIDE",
-          "MARKET_CORRELATIONS",
-          "CONGRESS_RECENT_TRADES",
-          "CONGRESS_UNUSUAL_BY_TICKERS"
-        ],
-        "groups": [
-          {
-            "key": "macro_tape",
-            "priority": 1,
-            "scope": "market",
-            "endpoints": [
-              "MARKET_TIDE",
-              "TOP_NET_IMPACT",
-              "MARKET_MOVERS",
-              "ECONOMIC_CALENDAR",
-              "NEWS_HEADLINES"
-            ],
-            "decision_use": "Determine whether to keep actions in watch/re-check or promote protective action."
-          },
-          {
-            "key": "factor_transmission",
-            "priority": 2,
-            "scope": "sector_or_etf",
-            "endpoints": [
-              "SECTOR_TIDE",
-              "ETF_TIDE",
-              "MARKET_CORRELATIONS"
-            ],
-            "decision_use": "Identify which exposure sleeves are actually at risk."
-          },
-          {
-            "key": "policy_and_sponsor_context",
-            "priority": 3,
-            "scope": "market_or_ticker",
-            "endpoints": [
-              "CONGRESS_RECENT_TRADES",
-              "CONGRESS_UNUSUAL_BY_TICKERS",
-              "NEWS_HEADLINES"
-            ],
-            "decision_use": "Add context to rationale drawers without using it as standalone tactical proof."
-          }
-        ]
-      },
       {
         "mode": "portfolio_reallocation",
         "label": "Portfolio reallocation",
-        "priority": 3,
+        "priority": 1,
         "reason": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
         "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
         "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
@@ -15301,7 +15487,7 @@
       {
         "mode": "fundstrat_signal_confirmation",
         "label": "Fundstrat signal confirmation",
-        "priority": 4,
+        "priority": 2,
         "reason": "Fundstrat-derived calls should be checked against live market structure before action.",
         "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
         "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
@@ -15353,6 +15539,62 @@
               "TICKER_INFO"
             ],
             "decision_use": "Populate rationale drawers and disconfirmation notes."
+          }
+        ]
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "label": "Pre-market crash triage",
+        "priority": 3,
+        "reason": "High-volatility or re-check posture needs broad tape triage, but after the named portfolio/Fundstrat checks.",
+        "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
+        "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
+        "top_endpoints": [
+          "MARKET_TIDE",
+          "TOP_NET_IMPACT",
+          "TOTAL_OPTIONS_VOLUME",
+          "ETF_TIDE",
+          "SECTOR_TIDE",
+          "TICKER_FLOW_RECENT",
+          "TICKER_FLOW_ALERTS",
+          "TICKER_OPTIONS_VOLUME"
+        ],
+        "groups": [
+          {
+            "key": "broad_tape",
+            "priority": 1,
+            "scope": "market",
+            "endpoints": [
+              "MARKET_TIDE",
+              "TOP_NET_IMPACT",
+              "TOTAL_OPTIONS_VOLUME",
+              "MARKET_MOVERS",
+              "MARKET_CORRELATIONS"
+            ],
+            "decision_use": "Classify the morning as risk-off continuation, relief bounce, or mixed tape."
+          },
+          {
+            "key": "index_and_sector_pressure",
+            "priority": 2,
+            "scope": "sector_or_etf",
+            "endpoints": [
+              "ETF_TIDE",
+              "SECTOR_TIDE"
+            ],
+            "decision_use": "Identify whether exposure should be cut by factor wrapper, single name, or not at all."
+          },
+          {
+            "key": "position_specific_flow",
+            "priority": 3,
+            "scope": "ticker",
+            "endpoints": [
+              "TICKER_FLOW_RECENT",
+              "TICKER_FLOW_ALERTS",
+              "TICKER_OPTIONS_VOLUME",
+              "DARKPOOL_TICKER",
+              "TICKER_OI_CHANGE"
+            ],
+            "decision_use": "Promote only evidence-backed trim/add/recheck prompts for owned names."
           }
         ]
       },
@@ -15422,13 +15664,100 @@
   },
   "uw_action_runbook": {
     "status": "has_data",
-    "line": "UW action runbook: 5 check set(s), 21 scoped ticker(s); endpoint results not claimed.",
+    "line": "UW action runbook: 4 check set(s), 24 scoped ticker(s); endpoint results not claimed.",
     "rows": [
+      {
+        "mode": "portfolio_reallocation",
+        "label": "Portfolio reallocation",
+        "priority": 1,
+        "why": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
+        "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
+        "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
+        "ticker_scope": [
+          "NVDA",
+          "SMH",
+          "GOOGL",
+          "AVGO",
+          "MSFT",
+          "ANET",
+          "MAGS",
+          "RYF",
+          "XOP",
+          "GRNY"
+        ],
+        "market_checks": [
+          "MARKET_CORRELATIONS",
+          "TOTAL_OPTIONS_VOLUME",
+          "ETF_TIDE",
+          "SECTOR_TIDE"
+        ],
+        "ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "NEWS_HEADLINES",
+          "ANALYST_RATINGS",
+          "COMPANY_PROFILE",
+          "TICKER_INFO",
+          "INSTITUTION_OWNERSHIP",
+          "TICKER_INSIDERS",
+          "TICKER_INSIDER_FLOW",
+          "TICKER_VOL_STATS"
+        ],
+        "blocks_action_if": "latest positions, same-session price/flow, or funding source are missing",
+        "promote_when": "current positions, factor wrapper context, and ticker flow support the trim/add leg",
+        "downgrade_when": "the target gap is stale, already funded, or live flow/price argues for waiting"
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "label": "Fundstrat signal confirmation",
+        "priority": 2,
+        "why": "Fundstrat-derived calls should be checked against live market structure before action.",
+        "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
+        "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
+        "ticker_scope": [
+          "QQQ",
+          "SMH",
+          "SPY",
+          "RSPT",
+          "GOOGL",
+          "MSTR",
+          "GOLD",
+          "SOX",
+          "RSP",
+          "XOP",
+          "NVDA",
+          "ANET"
+        ],
+        "market_checks": [],
+        "ticker_checks": [
+          "TICKER_OHLC",
+          "TICKER_STOCK_STATE",
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "NEWS_HEADLINES",
+          "ANALYST_RATINGS",
+          "COMPANY_PROFILE",
+          "TICKER_INFO",
+          "TICKER_FLOW_ALERTS",
+          "TICKER_OI_CHANGE",
+          "TICKER_GREEK_EXPOSURE_STRIKE",
+          "TICKER_SPOT_EXPOSURES_STRIKE"
+        ],
+        "blocks_action_if": "Fundstrat evidence is dated and same-day UW/price confirmation is missing",
+        "promote_when": "Fundstrat call and live market structure point in the same direction",
+        "downgrade_when": "price/flow contradicts the call or the call was already absorbed by the tape"
+      },
       {
         "mode": "pre_market_crash_triage",
         "label": "Pre-market crash triage",
-        "priority": 1,
-        "why": "High-volatility or re-check posture needs broad tape triage before single-name action.",
+        "priority": 3,
+        "why": "High-volatility or re-check posture needs broad tape triage, but after the named portfolio/Fundstrat checks.",
         "operator_question": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
         "freshness_requirement": "Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.",
         "ticker_scope": [
@@ -15474,132 +15803,6 @@
         "blocks_action_if": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open",
         "promote_when": "broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage",
         "downgrade_when": "the shock stabilizes, pre-market pressure fades, or current flow contradicts crash-triage urgency"
-      },
-      {
-        "mode": "event_risk_political_macro",
-        "label": "Event-risk and political macro",
-        "priority": 2,
-        "why": "Active event-risk lane can overpower normal thesis and flow signals.",
-        "operator_question": "Is the external shock changing new-buy timing, hedges, or position sizing?",
-        "freshness_requirement": "Intraday to one trading day; stale event evidence must force re-check before acting.",
-        "ticker_scope": [
-          "XOP",
-          "XLE",
-          "TNX",
-          "RYF",
-          "XLF",
-          "COIN",
-          "HOOD",
-          "BX",
-          "KKR",
-          "MAGS",
-          "SMH",
-          "SPY",
-          "GRNY"
-        ],
-        "market_checks": [
-          "MARKET_TIDE",
-          "TOP_NET_IMPACT",
-          "MARKET_MOVERS",
-          "ECONOMIC_CALENDAR",
-          "NEWS_HEADLINES",
-          "SECTOR_TIDE",
-          "ETF_TIDE",
-          "MARKET_CORRELATIONS"
-        ],
-        "ticker_checks": [
-          "CONGRESS_RECENT_TRADES",
-          "CONGRESS_UNUSUAL_BY_TICKERS",
-          "NEWS_HEADLINES"
-        ],
-        "blocks_action_if": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory",
-        "promote_when": "macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing",
-        "downgrade_when": "the shock is stale, headlines reverse, or affected sectors stabilize against the warning"
-      },
-      {
-        "mode": "portfolio_reallocation",
-        "label": "Portfolio reallocation",
-        "priority": 3,
-        "why": "Sizing-gap actions need current exposure, funding, factor, and flow checks.",
-        "operator_question": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
-        "freshness_requirement": "Positions must be latest supplied; price/flow should be same-session for any action-sized leg.",
-        "ticker_scope": [
-          "GRNY",
-          "NVDA",
-          "SMH",
-          "GOOGL",
-          "AVGO",
-          "MSFT",
-          "ANET",
-          "MAGS",
-          "RYF",
-          "XOP"
-        ],
-        "market_checks": [
-          "ETF_TIDE",
-          "SECTOR_TIDE",
-          "MARKET_CORRELATIONS",
-          "TOTAL_OPTIONS_VOLUME"
-        ],
-        "ticker_checks": [
-          "TICKER_OHLC",
-          "TICKER_STOCK_STATE",
-          "TICKER_INFO",
-          "COMPANY_PROFILE",
-          "ANALYST_RATINGS",
-          "INSTITUTION_OWNERSHIP",
-          "TICKER_INSIDERS",
-          "TICKER_INSIDER_FLOW",
-          "NEWS_HEADLINES",
-          "TICKER_FLOW_RECENT",
-          "DARKPOOL_TICKER",
-          "TICKER_OPTIONS_VOLUME",
-          "TICKER_IV_RANK",
-          "TICKER_VOL_STATS"
-        ],
-        "blocks_action_if": "latest positions, same-session price/flow, or funding source are missing",
-        "promote_when": "current positions, factor wrapper context, and ticker flow support the trim/add leg",
-        "downgrade_when": "the target gap is stale, already funded, or live flow/price argues for waiting"
-      },
-      {
-        "mode": "fundstrat_signal_confirmation",
-        "label": "Fundstrat signal confirmation",
-        "priority": 4,
-        "why": "Fundstrat-derived calls should be checked against live market structure before action.",
-        "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
-        "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
-        "ticker_scope": [
-          "RSPT",
-          "SPY",
-          "MSTR",
-          "GOLD",
-          "GOOGL",
-          "NVDA",
-          "ANET",
-          "MAGS",
-          "RYF",
-          "XOP"
-        ],
-        "market_checks": [],
-        "ticker_checks": [
-          "TICKER_FLOW_RECENT",
-          "TICKER_FLOW_ALERTS",
-          "DARKPOOL_TICKER",
-          "TICKER_OPTIONS_VOLUME",
-          "TICKER_OI_CHANGE",
-          "TICKER_OHLC",
-          "TICKER_STOCK_STATE",
-          "TICKER_GREEK_EXPOSURE_STRIKE",
-          "TICKER_SPOT_EXPOSURES_STRIKE",
-          "TICKER_IV_RANK",
-          "ANALYST_RATINGS",
-          "NEWS_HEADLINES",
-          "COMPANY_PROFILE",
-          "TICKER_INFO"
-        ],
-        "blocks_action_if": "Fundstrat evidence is dated and same-day UW/price confirmation is missing",
-        "promote_when": "Fundstrat call and live market structure point in the same direction",
-        "downgrade_when": "price/flow contradicts the call or the call was already absorbed by the tape"
       },
       {
         "mode": "asymmetric_discovery",
@@ -15658,9 +15861,12 @@
       "MSFT",
       "MSTR",
       "NVDA",
+      "QQQ",
+      "RSP",
       "RSPT",
       "RYF",
       "SMH",
+      "SOX",
       "SPY",
       "TNX",
       "XLE",
@@ -15671,41 +15877,269 @@
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
     "endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 16:30 ET.",
+      "line": "UW endpoint proof: 28 captured result(s); supports=1, contradicts=0, inconclusive=22, missing=5; stale=0. newest=2026-06-09 17:05 ET.",
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
         "missing/failed endpoint result(s) keep related actions blocked"
       ],
-      "newest_checked_at": "2026-06-09T20:30:55.404987+00:00"
+      "newest_checked_at": "2026-06-09T21:05:09.337913+00:00"
     }
   },
   "uw_endpoint_proof": {
     "status": "has_data",
-    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-09 16:30 ET.",
-    "count": 13,
+    "line": "UW endpoint proof: 28 captured result(s); supports=1, contradicts=0, inconclusive=22, missing=5; stale=0. newest=2026-06-09 17:05 ET.",
+    "count": 28,
     "counts": {
-      "missing": 2,
-      "neutral": 10,
-      "failed": 1
+      "confirmed": 1,
+      "neutral": 22,
+      "failed": 1,
+      "missing": 4
     },
     "interpretation_counts": {
-      "missing": 3,
-      "inconclusive": 10
+      "supports": 1,
+      "inconclusive": 22,
+      "missing": 5
     },
-    "newest_checked_at": "2026-06-09T20:30:55.404987+00:00",
+    "newest_checked_at": "2026-06-09T21:05:09.337913+00:00",
     "same_session_date": "2026-06-09",
     "stale_count": 0,
     "off_runbook_count": 0,
     "rows": [
       {
-        "mode": "pre_market_crash_triage",
-        "endpoint": "SECTOR_TIDE",
-        "ticker": "",
-        "status": "missing",
-        "decision_interpretation": "missing",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
-        "summary": "unsupported path parameter(s): sector",
-        "source": "uw_endpoint_result_capture"
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_OHLC",
+        "ticker": "NVDA",
+        "status": "confirmed",
+        "decision_interpretation": "supports",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Price/tape is stabilizing for NVDA (pct_change=+0.40%, range_position=0.73); supports review, not auto-buy.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 63,
+          "latest_close": 208.19,
+          "previous_close": 207.3603,
+          "pct_change": 0.4,
+          "range_position": 0.734
+        },
+        "row_count": 63
+      },
+      {
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_STOCK_STATE",
+        "ticker": "NVDA",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_STOCK_STATE for NVDA; row_count=1. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 1
+        },
+        "row_count": 1
+      },
+      {
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "NVDA",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for NVDA; flow mix is not decisive.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 50,
+          "bullish_rows": 0,
+          "bearish_rows": 0,
+          "bullish_ratio": 0.0,
+          "premium_abs": 33426.0
+        },
+        "row_count": 50
+      },
+      {
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_OHLC",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_OHLC for SMH; pct_change=+0.17%, range_position=0.62. Result remains a timing input.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 63,
+          "latest_close": 591.01,
+          "previous_close": 590.0,
+          "pct_change": 0.171,
+          "range_position": 0.616
+        },
+        "row_count": 63
+      },
+      {
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_STOCK_STATE",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_STOCK_STATE for SMH; row_count=1. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 1
+        },
+        "row_count": 1
+      },
+      {
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for SMH; flow mix is not decisive.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 50,
+          "bullish_rows": 0,
+          "bearish_rows": 0,
+          "bullish_ratio": 0.0,
+          "premium_abs": 956407.0
+        },
+        "row_count": 50
+      },
+      {
+        "mode": "portfolio_reallocation",
+        "endpoint": "TICKER_OHLC",
+        "ticker": "GOOGL",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_OHLC for GOOGL; pct_change=-0.02%, range_position=0.47. Result remains a timing input.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 63,
+          "latest_close": 364.26,
+          "previous_close": 364.3259,
+          "pct_change": -0.018,
+          "range_position": 0.471
+        },
+        "row_count": 63
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "endpoint": "TICKER_OHLC",
+        "ticker": "QQQ",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_OHLC for QQQ; pct_change=-0.02%, range_position=0.55. Result remains a timing input.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 63,
+          "latest_close": 707.83,
+          "previous_close": 708.0,
+          "pct_change": -0.024,
+          "range_position": 0.546
+        },
+        "row_count": 63
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "endpoint": "TICKER_STOCK_STATE",
+        "ticker": "QQQ",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_STOCK_STATE for QQQ; row_count=1. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 1
+        },
+        "row_count": 1
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "QQQ",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for QQQ; flow mix is not decisive.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 50,
+          "bullish_rows": 0,
+          "bearish_rows": 0,
+          "bullish_ratio": 0.0,
+          "premium_abs": 177604.0
+        },
+        "row_count": 50
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "endpoint": "TICKER_OHLC",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_OHLC for SMH; pct_change=+0.17%, range_position=0.62. Result remains a timing input.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 63,
+          "latest_close": 591.01,
+          "previous_close": 590.0,
+          "pct_change": 0.171,
+          "range_position": 0.616
+        },
+        "row_count": 63
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "endpoint": "TICKER_STOCK_STATE",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_STOCK_STATE for SMH; row_count=1. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 1
+        },
+        "row_count": 1
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for SMH; flow mix is not decisive.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 50,
+          "bullish_rows": 0,
+          "bearish_rows": 0,
+          "bullish_ratio": 0.0,
+          "premium_abs": 956407.0
+        },
+        "row_count": 50
+      },
+      {
+        "mode": "fundstrat_signal_confirmation",
+        "endpoint": "TICKER_OHLC",
+        "ticker": "SPY",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_OHLC for SPY; pct_change=+0.05%, range_position=0.59. Result remains a timing input.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 63,
+          "latest_close": 737.05,
+          "previous_close": 736.67,
+          "pct_change": 0.052,
+          "range_position": 0.595
+        },
+        "row_count": 63
       },
       {
         "mode": "pre_market_crash_triage",
@@ -15713,9 +16147,13 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
         "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 81
+        },
+        "row_count": 81
       },
       {
         "mode": "pre_market_crash_triage",
@@ -15723,9 +16161,13 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
         "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 20
+        },
+        "row_count": 20
       },
       {
         "mode": "pre_market_crash_triage",
@@ -15733,9 +16175,13 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
         "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 1
+        },
+        "row_count": 1
       },
       {
         "mode": "pre_market_crash_triage",
@@ -15743,9 +16189,11 @@
         "ticker": "",
         "status": "failed",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
         "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
-        "source": "uw_endpoint_result_capture"
+        "source": "uw_endpoint_result_capture",
+        "metrics": {},
+        "row_count": 0
       },
       {
         "mode": "pre_market_crash_triage",
@@ -15753,9 +16201,13 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
-        "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched MARKET_CORRELATIONS; row_count=6. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 6
+        },
+        "row_count": 6
       },
       {
         "mode": "pre_market_crash_triage",
@@ -15763,9 +16215,13 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
         "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 390
+        },
+        "row_count": 390
       },
       {
         "mode": "pre_market_crash_triage",
@@ -15773,59 +16229,111 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
         "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 390
+        },
+        "row_count": 390
       },
       {
-        "mode": "pre_market_crash_triage",
-        "endpoint": "ETF_TIDE",
-        "ticker": "TNX",
-        "status": "neutral",
-        "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
-        "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_FLOW_PER_EXPIRY",
+        "ticker": "RYF",
+        "status": "missing",
+        "decision_interpretation": "missing",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_PER_EXPIRY but captured no result rows.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 0
+        },
+        "row_count": 0
       },
       {
-        "mode": "pre_market_crash_triage",
-        "endpoint": "ETF_TIDE",
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_FLOW_PER_STRIKE",
+        "ticker": "RYF",
+        "status": "missing",
+        "decision_interpretation": "missing",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_PER_STRIKE but captured no result rows.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 0
+        },
+        "row_count": 0
+      },
+      {
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_GREEK_FLOW",
+        "ticker": "RYF",
+        "status": "missing",
+        "decision_interpretation": "missing",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_GREEK_FLOW but captured no result rows.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 0
+        },
+        "row_count": 0
+      },
+      {
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_VOL_TERM_STRUCTURE",
+        "ticker": "RYF",
+        "status": "missing",
+        "decision_interpretation": "missing",
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_VOL_TERM_STRUCTURE but captured no result rows.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 0
+        },
+        "row_count": 0
+      },
+      {
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_INFO",
         "ticker": "RYF",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
-        "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_INFO for RYF; row_count=1. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 1
+        },
+        "row_count": 1
       },
       {
-        "mode": "pre_market_crash_triage",
-        "endpoint": "TICKER_FLOW_RECENT",
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_FLOW_PER_EXPIRY",
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
-        "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_PER_EXPIRY for XOP; row_count=15. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 15
+        },
+        "row_count": 15
       },
       {
-        "mode": "pre_market_crash_triage",
-        "endpoint": "TICKER_FLOW_RECENT",
-        "ticker": "XLE",
+        "mode": "asymmetric_discovery",
+        "endpoint": "TICKER_FLOW_PER_STRIKE",
+        "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
-        "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
-        "source": "uw_endpoint_result_capture"
-      },
-      {
-        "mode": "pre_market_crash_triage",
-        "endpoint": "TICKER_FLOW_RECENT",
-        "ticker": "TNX",
-        "status": "missing",
-        "decision_interpretation": "missing",
-        "checked_at": "2026-06-09T20:30:55.404987+00:00",
-        "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
-        "source": "uw_endpoint_result_capture"
+        "checked_at": "2026-06-09T21:05:09.337913+00:00",
+        "summary": "Fetched TICKER_FLOW_PER_STRIKE for XOP; row_count=88. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture",
+        "metrics": {
+          "row_count": 88
+        },
+        "row_count": 88
       }
     ],
     "blockers": [
@@ -15913,12 +16421,12 @@
         "uw_ticker_checks": [
           "TICKER_OHLC",
           "TICKER_STOCK_STATE",
-          "TICKER_INFO",
-          "COMPANY_PROFILE",
-          "ANALYST_RATINGS",
-          "INSTITUTION_OWNERSHIP",
-          "TICKER_INSIDERS",
-          "TICKER_INSIDER_FLOW"
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "NEWS_HEADLINES",
+          "ANALYST_RATINGS"
         ],
         "account_placement": {
           "status": "candidate",
@@ -16019,12 +16527,12 @@
         "uw_ticker_checks": [
           "TICKER_OHLC",
           "TICKER_STOCK_STATE",
-          "TICKER_INFO",
-          "COMPANY_PROFILE",
-          "ANALYST_RATINGS",
-          "INSTITUTION_OWNERSHIP",
-          "TICKER_INSIDERS",
-          "TICKER_INSIDER_FLOW"
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "NEWS_HEADLINES",
+          "ANALYST_RATINGS"
         ],
         "account_placement": {
           "status": "candidate",
@@ -16124,12 +16632,12 @@
         "uw_ticker_checks": [
           "TICKER_OHLC",
           "TICKER_STOCK_STATE",
-          "TICKER_INFO",
-          "COMPANY_PROFILE",
-          "ANALYST_RATINGS",
-          "INSTITUTION_OWNERSHIP",
-          "TICKER_INSIDERS",
-          "TICKER_INSIDER_FLOW"
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "NEWS_HEADLINES",
+          "ANALYST_RATINGS"
         ],
         "account_placement": {
           "status": "candidate",
@@ -16225,12 +16733,12 @@
         "uw_ticker_checks": [
           "TICKER_OHLC",
           "TICKER_STOCK_STATE",
-          "TICKER_INFO",
-          "COMPANY_PROFILE",
-          "ANALYST_RATINGS",
-          "INSTITUTION_OWNERSHIP",
-          "TICKER_INSIDERS",
-          "TICKER_INSIDER_FLOW"
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "NEWS_HEADLINES",
+          "ANALYST_RATINGS"
         ],
         "account_placement": {
           "status": "candidate",
@@ -16331,12 +16839,12 @@
         "uw_ticker_checks": [
           "TICKER_OHLC",
           "TICKER_STOCK_STATE",
-          "TICKER_INFO",
-          "COMPANY_PROFILE",
-          "ANALYST_RATINGS",
-          "INSTITUTION_OWNERSHIP",
-          "TICKER_INSIDERS",
-          "TICKER_INSIDER_FLOW"
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "NEWS_HEADLINES",
+          "ANALYST_RATINGS"
         ],
         "account_placement": {
           "status": "candidate",
@@ -16434,12 +16942,12 @@
         "uw_ticker_checks": [
           "TICKER_OHLC",
           "TICKER_STOCK_STATE",
-          "TICKER_INFO",
-          "COMPANY_PROFILE",
-          "ANALYST_RATINGS",
-          "INSTITUTION_OWNERSHIP",
-          "TICKER_INSIDERS",
-          "TICKER_INSIDER_FLOW"
+          "TICKER_FLOW_RECENT",
+          "DARKPOOL_TICKER",
+          "TICKER_OPTIONS_VOLUME",
+          "TICKER_IV_RANK",
+          "NEWS_HEADLINES",
+          "ANALYST_RATINGS"
         ],
         "account_placement": {
           "status": "candidate",
@@ -16860,22 +17368,22 @@
       "Change any dial in reallocate_config.py (NVDA target, SMH approach, ETF keep-levels, the rail, the chase gate) and re-run to see the plan change."
     ],
     "uw_market_checks": [
-      "ETF_TIDE",
-      "SECTOR_TIDE",
       "MARKET_CORRELATIONS",
-      "TOTAL_OPTIONS_VOLUME"
+      "TOTAL_OPTIONS_VOLUME",
+      "ETF_TIDE",
+      "SECTOR_TIDE"
     ],
     "uw_ticker_checks": [
       "TICKER_OHLC",
       "TICKER_STOCK_STATE",
-      "TICKER_INFO",
-      "COMPANY_PROFILE",
-      "ANALYST_RATINGS",
-      "INSTITUTION_OWNERSHIP",
-      "TICKER_INSIDERS",
-      "TICKER_INSIDER_FLOW",
+      "TICKER_FLOW_RECENT",
+      "DARKPOOL_TICKER",
+      "TICKER_OPTIONS_VOLUME",
+      "TICKER_IV_RANK",
       "NEWS_HEADLINES",
-      "TICKER_FLOW_RECENT"
+      "ANALYST_RATINGS",
+      "COMPANY_PROFILE",
+      "TICKER_INFO"
     ],
     "command": "python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text",
     "honesty_rule": "Candidate reallocation brief only; no trades are executed. Same-day positions still require gates before action.",
@@ -16887,7 +17395,7 @@
   },
   "market_open_packet": {
     "status": "recheck_first",
-    "line": "Market-open packet: 0 key, 2 re-check, 3 backlog, 5 urgent visible; 8 blocker(s).",
+    "line": "Market-open packet: 0 key, 3 re-check, 2 backlog, 5 urgent visible; 8 blocker(s).",
     "rows": [
       {
         "priority": 1,
@@ -16920,15 +17428,15 @@
         "source": "target_drift",
         "command": "",
         "refresh_status": "changed_recheck",
-        "what_changed": "Required live checks are missing: live opportunity; funding leg; pre-trade gate",
+        "what_changed": "Required live checks are missing: funding leg; pre-trade gate",
         "freshness_label": "fresh",
         "evidence_date": "2026-06-09",
         "last_checked": "2026-06-09",
         "decay_window": "until position, price, thesis, or target changes",
-        "key_assumptions": "evidence 2026-06-09 is fresh; decays until position, price, thesis, or target changes; time window 1-3 trading days; capital posture compare and stage",
+        "key_assumptions": "evidence 2026-06-09 is fresh; decays until position, price, thesis, or target changes; time window 1-3 trading days; capital posture opportunity-cost watch",
         "invalidates": "Live price or flow moved enough that the original entry/setup is no longer asymmetric.",
-        "do_nothing_risk": "Doing nothing avoids churn, but can leave a confirmed sizing gap under-deployed or cash parked in a weaker alternative.",
-        "capital_priority_reason": "It can outrank ordinary ideas only if the sizing gap, source quality, and entry still beat other uses.",
+        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
+        "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
         "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 85/100",
         "account_placement_summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
         "account_placement_why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
@@ -16976,6 +17484,70 @@
       },
       {
         "priority": 3,
+        "kind": "recheck_first",
+        "label": "Re-check: GOOGL: Lean-in \u2014 looks good",
+        "why": "Fresh enough for a decision prompt; still run the gate before capital moves.",
+        "next_step": "Confirm same-session price/flow, current sizing, and funding source.",
+        "blocks": "Do not act if the live tape no longer confirms leadership or flow strength.",
+        "source": "lean_in",
+        "command": "",
+        "refresh_status": "changed_recheck",
+        "what_changed": "Required live checks are missing: live UW interpretation inconclusive",
+        "freshness_label": "fresh",
+        "evidence_date": "2026-06-09",
+        "last_checked": "2026-06-09",
+        "decay_window": "until position, price, thesis, or target changes",
+        "key_assumptions": "evidence 2026-06-09 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
+        "invalidates": "Live price or flow moved enough that the original entry/setup is no longer asymmetric.",
+        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
+        "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
+        "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100",
+        "account_placement_summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+        "account_placement_why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "capital_priority_score": 126,
+        "account_placement": {
+          "status": "candidate",
+          "ticker": "GOOGL",
+          "side": "buy/add",
+          "instrument_class": "stock",
+          "owner": "SKB",
+          "broker": "Robinhood",
+          "account": "Robinhood Traditional Ira 1369",
+          "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+          "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+          "rule": "Parents Schwab/PCRA Trust ETF-only",
+          "alternatives": [
+            {
+              "owner": "SKB",
+              "broker": "Fidelity",
+              "account": "Individual - TOD *****1088",
+              "label": "SKB Fidelity: Individual - TOD *****1088",
+              "market_value": 10899.3
+            },
+            {
+              "owner": "Parents",
+              "broker": "Fidelity",
+              "account": "Joint WROS - TOD *****2063",
+              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+              "market_value": 9082.75
+            },
+            {
+              "owner": "SKB",
+              "broker": "Schwab",
+              "account": "Individual ...254 Individual ...254",
+              "label": "SKB Schwab: Individual ...254 Individual ...254",
+              "market_value": 1820.53
+            }
+          ],
+          "caveats": [
+            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+            "No order is placed or sized from this recommendation."
+          ]
+        }
+      },
+      {
+        "priority": 4,
         "kind": "reallocation_review",
         "label": "Review current-position reallocation candidates",
         "why": "Reallocation brief: candidate only from 2026-06-09 positions; 6 add candidate(s), 5 funding trim(s); allocated $503,646; shortfall $211,916.",
@@ -16987,7 +17559,7 @@
         "what_changed": "Current SnapTrade positions replaced stale PDF-era position assumptions."
       },
       {
-        "priority": 4,
+        "priority": 5,
         "kind": "important_backlog",
         "label": "Review backlog: ANET: Lean-in \u2014 looks good",
         "why": "A conviction-backed sizing gap can make a right call too small.",
@@ -17028,70 +17600,6 @@
               "account": "Individual - TOD *****1088",
               "label": "SKB Fidelity: Individual - TOD *****1088",
               "market_value": 1876.8
-            }
-          ],
-          "caveats": [
-            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-            "No order is placed or sized from this recommendation."
-          ]
-        }
-      },
-      {
-        "priority": 5,
-        "kind": "important_backlog",
-        "label": "Review backlog: GOOGL: Lean-in \u2014 looks good",
-        "why": "A conviction-backed sizing gap can make a right call too small.",
-        "next_step": "GOOGL looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
-        "blocks": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
-        "source": "lean_in",
-        "command": "",
-        "refresh_status": "still_valid",
-        "what_changed": "No material assumption break detected from available feed evidence.",
-        "freshness_label": "fresh",
-        "evidence_date": "2026-06-09",
-        "last_checked": "2026-06-09",
-        "decay_window": "until position, price, thesis, or target changes",
-        "key_assumptions": "evidence 2026-06-09 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
-        "invalidates": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
-        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
-        "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
-        "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100",
-        "account_placement_summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
-        "account_placement_why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-        "capital_priority_score": 120,
-        "account_placement": {
-          "status": "candidate",
-          "ticker": "GOOGL",
-          "side": "buy/add",
-          "instrument_class": "stock",
-          "owner": "SKB",
-          "broker": "Robinhood",
-          "account": "Robinhood Traditional Ira 1369",
-          "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-          "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
-          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-          "rule": "Parents Schwab/PCRA Trust ETF-only",
-          "alternatives": [
-            {
-              "owner": "SKB",
-              "broker": "Fidelity",
-              "account": "Individual - TOD *****1088",
-              "label": "SKB Fidelity: Individual - TOD *****1088",
-              "market_value": 10899.3
-            },
-            {
-              "owner": "Parents",
-              "broker": "Fidelity",
-              "account": "Joint WROS - TOD *****2063",
-              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
-              "market_value": 9082.75
-            },
-            {
-              "owner": "SKB",
-              "broker": "Schwab",
-              "account": "Individual ...254 Individual ...254",
-              "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 1820.53
             }
           ],
           "caveats": [
@@ -17167,30 +17675,6 @@
       {
         "priority": 7,
         "kind": "uw_check",
-        "label": "Run UW check set: Pre-market crash triage",
-        "why": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
-        "next_step": "Use the captured endpoint result proof before promoting any capital-sized action.",
-        "blocks": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
-        "source": "uw_action_runbook",
-        "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
-        "refresh_status": "",
-        "what_changed": ""
-      },
-      {
-        "priority": 8,
-        "kind": "uw_check",
-        "label": "Run UW check set: Event-risk and political macro",
-        "why": "Is the external shock changing new-buy timing, hedges, or position sizing?",
-        "next_step": "Use the captured endpoint result proof before promoting any capital-sized action.",
-        "blocks": "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
-        "source": "uw_action_runbook",
-        "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
-        "refresh_status": "",
-        "what_changed": ""
-      },
-      {
-        "priority": 9,
-        "kind": "uw_check",
         "label": "Run UW check set: Portfolio reallocation",
         "why": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
         "next_step": "Use the captured endpoint result proof before promoting any capital-sized action.",
@@ -17201,7 +17685,7 @@
         "what_changed": ""
       },
       {
-        "priority": 10,
+        "priority": 8,
         "kind": "uw_check",
         "label": "Run UW check set: Fundstrat signal confirmation",
         "why": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
@@ -17213,7 +17697,19 @@
         "what_changed": ""
       },
       {
-        "priority": 11,
+        "priority": 9,
+        "kind": "uw_check",
+        "label": "Run UW check set: Pre-market crash triage",
+        "why": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
+        "next_step": "Use the captured endpoint result proof before promoting any capital-sized action.",
+        "blocks": "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
+        "source": "uw_action_runbook",
+        "command": "python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text",
+        "refresh_status": "",
+        "what_changed": ""
+      },
+      {
+        "priority": 10,
         "kind": "uw_check",
         "label": "Run UW check set: Asymmetric discovery",
         "why": "What deserves scarce review time because the upside/downside skew may be unusually large?",
@@ -17225,7 +17721,7 @@
         "what_changed": ""
       },
       {
-        "priority": 12,
+        "priority": 11,
         "kind": "dark_lane",
         "label": "Social Watch is not checked",
         "why": "Reddit/social early-signal anomalies are not checked; absence is not no social signal.",
@@ -17237,7 +17733,7 @@
         "what_changed": ""
       },
       {
-        "priority": 13,
+        "priority": 12,
         "kind": "open_reviews",
         "label": "Open reviews: 2 item(s)",
         "why": "Open action backlog: 2 open; 2 due; 0 stale; oldest 2 trading day(s).",
@@ -17251,8 +17747,8 @@
     ],
     "counts": {
       "key_now": 0,
-      "recheck": 2,
-      "backlog": 3,
+      "recheck": 3,
+      "backlog": 2,
       "dark_lanes": 1,
       "blockers": 8,
       "urgent_visible": 5
@@ -17260,10 +17756,10 @@
     "blockers": [
       "Fresh Newton FlashInsights show Tech dip-buy timing is not cleared; same-session price/tape support and funding gates must clear first.",
       "Do not act if the target weight or thesis is outdated relative to the current portfolio.",
-      "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
-      "same-session headlines, rates/oil levels, or sector tape are missing or contradictory; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
+      "Do not act if the live tape no longer confirms leadership or flow strength.",
       "latest positions, same-session price/flow, or funding source are missing; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
       "Fundstrat evidence is dated and same-day UW/price confirmation is missing; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
+      "broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
       "the setup is only flow/social/context without independent confirmation; UW endpoint proof has blocker: inconclusive endpoint result(s) cannot promote related actions",
       "Social evidence cannot promote a trade without independent confirmation."
     ],
@@ -17286,6 +17782,21 @@
       },
       {
         "reason": "dashboard_recheck",
+        "ticker": "GOOGL",
+        "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked."
+      },
+      {
+        "reason": "dashboard_recheck",
+        "ticker": "RYF",
+        "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked."
+      },
+      {
+        "reason": "dashboard_recheck",
+        "ticker": "XOP",
+        "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked."
+      },
+      {
+        "reason": "dashboard_recheck",
         "ticker": "EVENT",
         "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked."
       },
@@ -17296,7 +17807,7 @@
       },
       {
         "reason": "background_cloud_proof",
-        "count": 1,
+        "count": 2,
         "why": "Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue."
       }
     ],
@@ -17319,7 +17830,7 @@
       {
         "rank": 2,
         "posture": "wait/re-check",
-        "label": "Clear the 2 re-check item(s) before moving meaningful capital.",
+        "label": "Clear the 3 re-check item(s) before moving meaningful capital.",
         "why": "Friday or fast-moving assumptions can become wrong after a Monday price/tape move.",
         "what_i_would_do": "Treat stale price-sensitive prompts as pending until same-session data confirms they are still asymmetric.",
         "source": "market_open_packet"
