@@ -18,6 +18,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
+import today_decide
+from tunables import load_conviction_weights, load_goal_tunables
 
 
 def _e(s: Any) -> str:
@@ -2409,6 +2411,10 @@ def generate_html(feed: dict) -> str:
         stale_warn = f'<div class="stale-warn">⚠ Stale sources: {names}</div>'
 
     # sections
+    today_decide_html = today_decide.build_and_render(
+        weights=load_conviction_weights(),
+        goal=load_goal_tunables(),
+    )
     summary_html = _summary_notice(feed)
     quick_html = _quick_nav(feed)
     operator_html = _operator_status(feed)
@@ -2481,6 +2487,7 @@ def generate_html(feed: dict) -> str:
   </div>
 
   <div id="tab-dashboard">
+    {today_decide_html}
     {summary_html}
     {quick_html}
     {market_open_packet_html}
