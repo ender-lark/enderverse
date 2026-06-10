@@ -6,6 +6,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import disposition_log as dl
 from today_decide import (
     build_today_decide_payload,
     detect_source_conflicts,
@@ -96,12 +97,13 @@ def _congruence(flagged=True):
         "flagged_ids": ["INSIGHT-950"] if flagged else [],
     }
 
-def _payload(goal=None, congruence_result=None, tmp_path=None):
+def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path=None):
     return build_today_decide_payload(
         feed=_feed(), weights=W, goal=goal or G, insights_payload=_insights(),
         accounts=_accounts(), gates=[_gate()], uw_states={}, entry_zones={},
         congruence_result=congruence_result or _congruence(),
-        dispositions_path=(tmp_path / "none.jsonl") if tmp_path else "_no_dispositions_.jsonl",
+        dispositions_path=(dispositions_path if dispositions_path else
+                          (tmp_path / "none.jsonl" if tmp_path else "_no_dispositions_.jsonl")),
         today=TODAY,
     )
 
@@ -172,3 +174,19 @@ def test_honesty_footer_lists_all_lanes():
     assert p["honesty"]["dispositions"].startswith("none logged")
     html = render_today_decide_html(p)
     assert "not_checked" in html and "institutional" in html and "dispositions" in html
+
+
+def test_last_disposition_renders_from_file(tmp_path):
+    pth = tmp_path / "dispositions.jsonl"
+    first = _payload(tmp_path=tmp_path)["cards"][0]
+    dl.append_disposition(
+        "2026-06-10",
+        first["card_id"],
+        first["ticker"],
+        "PASS",
+        reason="pilot note",
+        path=pth,
+    )
+    p = _payload(dispositions_path=pth, tmp_path=tmp_path)
+    html = render_today_decide_html(p)
+    assert "last disposition: PASS on 2026-06-10" in html

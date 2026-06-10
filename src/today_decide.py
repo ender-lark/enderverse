@@ -32,10 +32,10 @@ import congruence as cg
 import directive_recs as dr
 import insight_register as ir
 import timing_engine as te
+import disposition_log
 
 SRC = Path(__file__).resolve().parent
 FEED_PATH = SRC / "latest_cockpit_feed.json"
-DISPOSITIONS_PATH = SRC / "dispositions.jsonl"
 
 _GATE_COLORS = {"red": "#f87171", "red_but_tested": "#fbbf24", "green": "#34d399", "context": "#94a3b8"}
 _CLASS_COLORS = {"OPEN-NOW": "#34d399", "STAGE-ONLY": "#fbbf24", "GATED": "#f87171", "WAIT": "#94a3b8"}
@@ -98,23 +98,6 @@ def detect_source_conflicts(feed: dict[str, Any], card: dict[str, Any]) -> list[
                               "card_claim": f"BUY ${float(card.get('dollars') or 0):,.0f}"})
     return conflicts
 
-def _last_dispositions(path: Path | str = DISPOSITIONS_PATH) -> dict[str, dict[str, Any]]:
-    p = Path(path)
-    if not p.exists():
-        return {}
-    out: dict[str, dict[str, Any]] = {}
-    try:
-        for line in p.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if not line:
-                continue
-            row = json.loads(line)
-            if row.get("card_id"):
-                out[row["card_id"]] = row
-    except (OSError, json.JSONDecodeError):
-        return {}
-    return out
-
 def build_today_decide_payload(
     *,
     feed: dict[str, Any] | None = None,
@@ -127,7 +110,7 @@ def build_today_decide_payload(
     entry_zones: dict[str, dict[str, Any]] | None = None,
     rates: dict[str, Any] | None = None,
     congruence_result: dict[str, Any] | None = None,
-    dispositions_path: Path | str = DISPOSITIONS_PATH,
+    dispositions_path: Path | str = disposition_log.DISPOSITIONS_PATH,
     today: str | None = None,
 ) -> dict[str, Any]:
     feed = _load_feed(feed)
@@ -143,7 +126,7 @@ def build_today_decide_payload(
         congruence_result = cg.congruence_from_repo(insights_payload, weights=weights, today=today_iso)
     recheck = (date.fromisoformat(today_iso)
                + timedelta(days=int(goal["recheck_default_days"]))).isoformat()
-    last = _last_dispositions(dispositions_path)
+    last = disposition_log.last_dispositions(dispositions_path)
     for card in stack["cards"] + stack["backlog"]:
         card["conflicts"] = detect_source_conflicts(feed, card)
         card["recheck_date"] = recheck
