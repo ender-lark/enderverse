@@ -1,0 +1,7 @@
+{
+  "etf_only_account_substrings": ["PCRA"],
+  "tax_advantaged_substrings": ["IRA", "Ira", "Health Savings"],
+  "roth_substrings": ["ROTH", "Roth"],
+  "crypto_only_substrings": ["Crypto"],
+  "notes": "PCRA Trust (Parents/Schwab) is ETF-ONLY: individual-stock buys never route there; PCRA sale proceeds can only fund ETF buys or sit in cash unless the operator transfers funds out (transfers are an operator action and must be flagged explicitly)."
+}
