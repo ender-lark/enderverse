@@ -211,4 +211,54 @@ Before "fixing" an empty lane: identify which of the three it is (and *which sea
 
 ---
 
-*End — Conviction Engine Low-Level Architecture v1.0. Commit to `conviction_engine/ARCHITECTURE.md`. Update here first when the engine or feed contract changes.*
+## 12 · V3 decision layer (Tasks 1–8, 2026-06-10/11)
+
+The V3 decision layer is **additive** to the V2 engine described above. Every V2 section continues to render unchanged; the V3 TODAY—DECIDE surface is the FIRST section of the cockpit, with V2 sections preserved below.
+
+### 12.1 · Module map
+
+| Module | Role |
+|---|---|
+| `tunables.py` + `goal_tunables.json` + `conviction_weights.json` | Operator-tunable thresholds and weights; §3.4 honesty rails are NOT tunable (loader hard-fails). |
+| `decision_card.py` | 5-field card contract; UNKNOWN-stamped fields are valid, silent omission is not. |
+| `insight_register.py` + `congruence.py` | Active insights and the bullets-vs-evidence congruence strip. |
+| `conviction_engine.py` | Tier × calibration × freshness → groups (fs, uw, operator_insight, institutional) → read. Tier D never scores (doctrine). |
+| `timing_engine.py` | Six T-lanes → OPEN-NOW / STAGE-ONLY / GATED / WAIT. OPEN-NOW requires a named positive trigger. |
+| `execution_plan.py` | Per-account leg generation; PCRA ETF-only rule lives here. |
+| `directive_recs.py` | Ranks ADD + TRIM cards; threads `extra_cards`, `extra_fs_items`, `inst_states` from orphan wiring (Task 5). |
+| `today_decide.py` | TODAY—DECIDE payload + scoped HTML renderer; pace line is **display-only** (tested). |
+| `disposition_log.py` | Append-only ACT/PASS/RECHECK/UNDO spine; orphan escalation; 30-day lookback. |
+| `pattern_engine.py` | Wave-1 detectors (ENDORSED-DIP, EXPLICIT-ADD, DRUMBEAT, prediction_signals stub) and wave-2 (STALE-LEAPS, OVEREXPOSURE-ROTATION, TIER-B-SIDE-PLAY) + guards (`apply_factor_overlap_caveat`, `apply_parabolic_chase_dampener`). |
+| `orphan_wiring.py` | MONITOR-RE-ENTRY (defined-risk required), GRNY-DELTA evidence items, 13F+insider → `inst_state` adapter. |
+| `TodayDecide.jsx` + `conviction_cockpit_v6.jsx` | JSX parity port for the artifact cockpit. Same payload JSON in → same fields out (parity test). |
+| `post_open_evidence_gate.py` | 9:40 ET routine: `timing_engine.evaluate_gate(gate, live_price)` per gate; propose + stamp. |
+| `morning_scan.py` | 8:35 ET routine: runs `pattern_engine.detect_patterns` + the two guards. |
+
+### 12.2 · TODAY—DECIDE payload contract
+
+Both the Python HTML renderer (`today_decide.render_today_decide_html`) and the React component (`TodayDecide.jsx` embedded by `conviction_cockpit_v6.jsx`) consume the same payload:
+
+* `payload.{built, goal_anchor, plan_line, gates[], cards[], backlog[], congruence, honesty}`
+* per card: `card.{card_id, ticker, direction, recheck_date, last_disposition, conflicts[], conviction.{read, points, groups, raises}, window.{class, deadline, reasons, flips, named_trigger}, decision_card.{move, conviction, window, evidence, impact}, execution, impact}`
+* per-card rail copy: `ACT <card_id>` · `PASS <card_id> — reason: ` · `RECHECK <card_id> resurface <recheck_date>` · second tap copies `UNDO <card_id>`.
+
+The parity is enforced by `src/test_jsx_parity.py`.
+
+### 12.3 · Honesty rails carried into V3
+
+* Pace line is computed once, labeled display-only, never feeds ranking or urgency (tested).
+* Tier D is track-only; UW `inconclusive` = 0 ("a successful fetch is not a direction").
+* OPEN-NOW requires a named positive trigger; quiet days read WAIT.
+* Absent caches render `"not_checked"`; the loaders refuse silent defaults.
+* MONITOR no-add-nudge stands: MONITOR-RE-ENTRY is the ONLY action path for `BMNR/LEU/UUUU/MP`, and the card REQUIRES defined-risk fields (`stop_loss`, `risk_band`, `max_loss_usd`) — without them no card emits.
+
+### 12.4 · Routine + registration
+
+* `cloud_routine_commit.DEFAULT_ALLOWED_PATHS` now allows `dispositions.jsonl`, `timing_gates.json`, and `prediction_signals.json` to be committed by scheduled routines.
+* `state_ownership_map.json` registers `dispositions` and `prediction_signals` alongside the existing `timing_gates` entry.
+* The 9:40 ET Post-Open Evidence Gate routine flows: load gates → `evaluate_all_gates(price_fn=…, writer=file_writer(…))` → on any change, the writer rewrites `timing_gates.json` and the L5 wrapper appends a receipt. The QQQ confirm / re-red flow is now mechanized end-to-end.
+* The 8:35 ET Morning Scan routine flows: `run_morning_scan(...)` returns a JSON-serialisable payload containing pattern lanes + guard application + an honesty footer. The L5 wrapper persists the result as a routine receipt and the cockpit folds the cards into TODAY—DECIDE.
+
+---
+
+*End — Conviction Engine Low-Level Architecture v1.0 + V3 decision layer (2026-06-11). Update here first when the engine or feed contract changes.*

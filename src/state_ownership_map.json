@@ -390,6 +390,30 @@
       "freshness_contract": "Append JSON lines for each intentional tunable adjustment.",
       "not_checked_behavior": "Absent changelog is explicit but does not block scoring if live payload is present.",
       "action_surface": "Audit context only; does not directly alter decision outputs."
+    },
+    {
+      "id": "dispositions",
+      "source_of_truth": "operator_chat_rails",
+      "repo_artifact": "src/dispositions.jsonl",
+      "producer": "Task-3 disposition spine (disposition_log.append_disposition); rails written by the operator through TODAY-DECIDE clipboard copies, persisted by the cloud routine wrapper.",
+      "feed_path": "TODAY-DECIDE.cards[].last_disposition (today_decide.build_today_decide_payload)",
+      "dashboard_surface": "Per-card last-disposition line on TODAY-DECIDE; orphan-escalation strip; 30-day lookback panel.",
+      "mirror_policy": "Append-only JSON Lines in repo; UNDO is a new void row, never a deletion.",
+      "freshness_contract": "Each ACT/PASS/RECHECK/UNDO row stamps an ET date; daily orphan escalation checks the timestamps.",
+      "not_checked_behavior": "Absent file rendered as 'none logged yet'; load_open_cards treats every card as open.",
+      "action_surface": "Drives orphan escalation, PASS-reason audit, and the lookback %-since/%-vs-SPY tracker."
+    },
+    {
+      "id": "prediction_signals",
+      "source_of_truth": "external_prediction_markets_seam",
+      "repo_artifact": "src/prediction_signals.json",
+      "producer": "Pattern slot #11 (pattern_engine.load_prediction_signals) — populated by the parallel prediction-markets exploration when wired; absent by default.",
+      "feed_path": "TODAY-DECIDE.prediction_signals (pattern_engine.detect_patterns output)",
+      "dashboard_surface": "TODAY-DECIDE honesty footer: prediction_signals_status; future prediction-markets card lane (pattern slot #11).",
+      "mirror_policy": "GitHub stores the validated rows; the loader rejects malformed payloads rather than partial-accept.",
+      "freshness_contract": "Schema-checked at read; each row carries venue + topic + probability in [0,1].",
+      "not_checked_behavior": "Missing file renders honest 'not_checked' status; invalid payload renders 'invalid' status with the parse reason.",
+      "action_surface": "Currently advisory context only; reserved for a future card lane when an operator-approved prediction-markets source is wired."
     }
   ]
 }
