@@ -352,10 +352,22 @@ def test_detect_patterns_runs_all_lanes_with_honesty_block(tmp_path):
         weights=W, goal=G, today=TODAY,
         prediction_signals_path=tmp_path / "missing.json",
     )
-    assert set(out["cards"]) == {"endorsed_dip", "explicit_add", "drumbeat"}
+    assert set(out["cards"]) == {
+        "endorsed_dip", "explicit_add", "drumbeat",
+        "stale_leaps", "overexposure_rotation", "tier_b_side_play",
+    }
     assert len(out["cards"]["endorsed_dip"]) == 1
     assert len(out["cards"]["explicit_add"]) == 1
     assert len(out["cards"]["drumbeat"]) == 1
+    # Wave-2 lanes are honest-empty for the lanes whose inputs weren't supplied
+    # (held_options, drift_rows). Tier-B side-play reads from prospects, which
+    # IS supplied here — and the helper marks the prospect BUILDING — so we
+    # expect one side-play card for NVDA.
+    assert out["cards"]["stale_leaps"] == []
+    assert out["cards"]["overexposure_rotation"] == []
+    assert {c["ticker"] for c in out["cards"]["tier_b_side_play"]} == {"NVDA"}
+    for card in out["cards"]["tier_b_side_play"]:
+        _validate_card(card)
     assert out["prediction_signals"]["status"] == "not_checked"
     assert out["honesty"]["prediction_signals_status"] == "not_checked"
     assert out["honesty"]["lanes_not_checked"] == []
@@ -373,4 +385,265 @@ def test_detect_patterns_empty_inputs_returns_empty_cards():
     assert out["cards"]["endorsed_dip"] == []
     assert out["cards"]["explicit_add"] == []
     assert out["cards"]["drumbeat"] == []
+    assert out["cards"]["stale_leaps"] == []
+    assert out["cards"]["overexposure_rotation"] == []
+    assert out["cards"]["tier_b_side_play"] == []
     assert out["prediction_signals"]["status"] == "not_checked"
+    # Honest "not_checked" markers when wave-2 caches are absent.
+    assert "stale_leaps_status" in out["honesty"]
+    assert "overexposure_rotation_status" in out["honesty"]
+
+
+# ---------------------------------------------------------------------------
+# Wave-2: STALE-LEAPS
+# ---------------------------------------------------------------------------
+def test_stale_leaps_emits_when_dte_below_threshold():
+    held = [{
+        "ticker": "NVDA", "expiry_date": "2026-09-19",  # ~101d from today
+        "option_type": "call", "strike": 180.0, "contracts": 5,
+    }]
+    cards = pe.detect_stale_leaps(
+        held_options=held, weights=W, goal=G, today=TODAY,
+    )
+    assert len(cards) == 1
+    card = cards[0]
+    assert card["pattern"] == "STALE-LEAPS"
+    assert card["dte"] < int(W["pattern_thresholds"]["stale_leaps_warn_dte"])
+    assert card["contracts"] == 5
+    _validate_card(card)
+
+
+def test_stale_leaps_does_not_emit_above_threshold():
+    held = [{
+        "ticker": "NVDA", "expiry_date": "2028-01-21",
+        "option_type": "call", "strike": 180.0, "contracts": 5,
+    }]
+    cards = pe.detect_stale_leaps(
+        held_options=held, weights=W, goal=G, today=TODAY,
+    )
+    assert cards == []
+
+
+def test_stale_leaps_thesis_window_after_expiry_flags_roll_candidate():
+    held = [{
+        "ticker": "NVDA", "expiry_date": "2026-09-19",
+        "option_type": "call", "strike": 180.0, "contracts": 1,
+        "thesis_window_end": "2027-12-31",
+    }]
+    cards = pe.detect_stale_leaps(
+        held_options=held, weights=W, goal=G, today=TODAY,
+    )
+    assert len(cards) == 1
+    band = cards[0]["decision_card"]["move"]["band"]
+    assert "AFTER option expiry" in band
+    assert "roll candidate" in band
+
+
+# ---------------------------------------------------------------------------
+# Wave-2: OVEREXPOSURE-ROTATION
+# ---------------------------------------------------------------------------
+def test_overexposure_rotation_fires_on_oversized_plus_turning_down():
+    drift = [{"ticker": "MAGS", "direction": "OVERSIZED", "sleeve": "ai_semis"}]
+    cards = pe.detect_overexposure_rotation(
+        drift_rows=drift,
+        sleeve_states={"ai_semis": "TURNING DOWN"},
+        weights=W, goal=G, today=TODAY,
+    )
+    assert len(cards) == 1
+    card = cards[0]
+    assert card["pattern"] == "OVEREXPOSURE-ROTATION"
+    assert card["direction"] == "TRIM"
+    assert any("TURNING DOWN" in t for t in card["triggers"])
+    _validate_card(card)
+
+
+def test_overexposure_rotation_fires_on_oversized_plus_bearish_tier_a():
+    drift = [{"ticker": "MAGS", "direction": "OVERSIZED", "sleeve": "ai_semis"}]
+    calls = [{
+        "ticker": "MAGS", "tier": "A", "source": "newton",
+        "direction": "bearish", "date": "2026-06-05",
+        "verbatim_quote": "MAGS technical break",
+    }]
+    cards = pe.detect_overexposure_rotation(
+        drift_rows=drift, source_calls=calls,
+        weights=W, goal=G, today=TODAY,
+    )
+    assert len(cards) == 1
+    assert any("Tier-A" in t for t in cards[0]["triggers"])
+
+
+def test_overexposure_rotation_no_trigger_means_no_card():
+    drift = [{"ticker": "MAGS", "direction": "OVERSIZED", "sleeve": "ai_semis"}]
+    cards = pe.detect_overexposure_rotation(
+        drift_rows=drift, sleeve_states={"ai_semis": "STABLE"},
+        weights=W, goal=G, today=TODAY,
+    )
+    assert cards == []
+
+
+def test_overexposure_rotation_ignores_undersized_rows():
+    drift = [{"ticker": "X", "direction": "UNDERSIZED", "sleeve": "ai_semis"}]
+    cards = pe.detect_overexposure_rotation(
+        drift_rows=drift, sleeve_states={"ai_semis": "TURNING DOWN"},
+        weights=W, goal=G, today=TODAY,
+    )
+    assert cards == []
+
+
+# ---------------------------------------------------------------------------
+# Wave-2: TIER-B SIDE PLAYS
+# ---------------------------------------------------------------------------
+def test_tier_b_side_play_fires_for_building_conviction():
+    prospects = {
+        "CRS": {"provenance": "FS Top 5 SMID - 2026-05-28",
+                "conviction": "BUILDING", "add_date": "2026-05-28"},
+        "RIPE": {"provenance": "FS Top 5 - 2026-05-28",
+                 "conviction": "BUILDING", "add_date": "2026-05-28"},
+    }
+    cards = pe.detect_tier_b_side_plays(
+        prospects=prospects, weights=W, goal=G, today=TODAY,
+    )
+    assert {c["ticker"] for c in cards} == {"CRS", "RIPE"}
+    for card in cards:
+        assert card["pattern"] == "TIER-B-SIDE-PLAY"
+        assert card["decision_card"]["impact"]["base"] == "sleeve"
+        _validate_card(card)
+
+
+def test_tier_b_side_play_fires_for_smid_top5_membership_even_without_building():
+    prospects = {
+        "STRONG": {"provenance": "FS Top 5 - 2026-05-28",
+                   "conviction": "HIGH", "add_date": "2026-05-28"},
+    }
+    cards = pe.detect_tier_b_side_plays(
+        prospects=prospects, smid_top5={"STRONG"},
+        weights=W, goal=G, today=TODAY,
+    )
+    assert len(cards) == 1
+    assert "SMID Top-5" in " ".join(cards[0]["triggers"])
+
+
+def test_tier_b_side_play_skips_when_neither_trigger_present():
+    prospects = {
+        "QUIET": {"provenance": "FS Top 5 - 2026-05-28",
+                  "conviction": "HIGH", "add_date": "2026-05-28"},
+    }
+    cards = pe.detect_tier_b_side_plays(
+        prospects=prospects, weights=W, goal=G, today=TODAY,
+    )
+    assert cards == []
+
+
+# ---------------------------------------------------------------------------
+# FACTOR-OVERLAP guard (no new card; existing card mutated additively)
+# ---------------------------------------------------------------------------
+def _stub_buy_card(ticker, direction="BUY"):
+    base = {
+        "card_id": f"{ticker}-ADD-{TODAY}", "ticker": ticker, "direction": direction,
+    }
+    dc.attach(base, {
+        "move": {"ticker": ticker, "direction": direction,
+                 "lane": "test", "band": "$10,000 staged"},
+        "conviction": {"read": "MODERATE", "points": 1.0,
+                       "groups": {"fs": 1.0}, "raises": []},
+        "window": {"class": "OPEN-NOW", "deadline": None,
+                   "reasons": ["test"], "flips": []},
+        "evidence": {"links": [{"label": "stub", "ref": "test"}]},
+        "impact": {"band": "$10,000", "base": "book", "material": False, "basis": "stub"},
+    })
+    return base
+
+
+def test_factor_overlap_attaches_caveat_above_threshold():
+    cards = [_stub_buy_card("NVDA")]
+    out = pe.apply_factor_overlap_caveat(cards, {"NVDA": 38.0}, weights=W)
+    assert "factor_overlap_caveat" in out[0]
+    assert out[0]["factor_overlap_caveat"]["exposure_pct"] == 38.0
+    assert "FACTOR-OVERLAP" in out[0]["decision_card"]["move"]["band"]
+    # Validates after mutation.
+    assert dc.validate_decision_card(out[0]["decision_card"]) == []
+
+
+def test_factor_overlap_no_op_below_threshold():
+    cards = [_stub_buy_card("NVDA")]
+    out = pe.apply_factor_overlap_caveat(cards, {"NVDA": 20.0}, weights=W)
+    assert "factor_overlap_caveat" not in out[0]
+    assert "FACTOR-OVERLAP" not in out[0]["decision_card"]["move"]["band"]
+
+
+def test_factor_overlap_skips_non_buy_directions():
+    cards = [_stub_buy_card("MAGS", direction="TRIM")]
+    out = pe.apply_factor_overlap_caveat(cards, {"MAGS": 60.0}, weights=W)
+    assert "factor_overlap_caveat" not in out[0]
+
+
+def test_factor_overlap_handles_empty_inputs():
+    assert pe.apply_factor_overlap_caveat(None, {"X": 50.0}, weights=W) == []
+    cards = [_stub_buy_card("X")]
+    # Empty exposure map: cards unchanged.
+    pe.apply_factor_overlap_caveat(cards, {}, weights=W)
+    assert "factor_overlap_caveat" not in cards[0]
+
+
+# ---------------------------------------------------------------------------
+# PARABOLIC-CHASE dampener (window class capped at STAGE-ONLY)
+# ---------------------------------------------------------------------------
+def test_parabolic_chase_caps_open_now_to_stage_only():
+    cards = [_stub_buy_card("MU")]
+    assert cards[0]["decision_card"]["window"]["class"] == "OPEN-NOW"
+    out = pe.apply_parabolic_chase_dampener(cards, {"MU"})
+    assert out[0]["parabolic_chase_dampener"]["applied"] is True
+    assert out[0]["decision_card"]["window"]["class"] == "STAGE-ONLY"
+    assert any("PARABOLIC-CHASE" in r
+               for r in out[0]["decision_card"]["window"]["reasons"])
+    assert dc.validate_decision_card(out[0]["decision_card"]) == []
+
+
+def test_parabolic_chase_leaves_non_open_now_unchanged():
+    cards = [_stub_buy_card("MU")]
+    cards[0]["decision_card"]["window"]["class"] = "GATED"
+    out = pe.apply_parabolic_chase_dampener(cards, {"MU"})
+    assert out[0]["decision_card"]["window"]["class"] == "GATED"
+    # Dampener flag is still attached because the ticker is flagged,
+    # but the class stays at GATED (already below STAGE-ONLY in urgency).
+
+
+def test_parabolic_chase_ignores_unflagged_tickers():
+    cards = [_stub_buy_card("NVDA")]
+    out = pe.apply_parabolic_chase_dampener(cards, {"MU"})
+    assert "parabolic_chase_dampener" not in out[0]
+    assert out[0]["decision_card"]["window"]["class"] == "OPEN-NOW"
+
+
+def test_parabolic_chase_handles_empty_inputs():
+    assert pe.apply_parabolic_chase_dampener(None, {"MU"}) == []
+    cards = [_stub_buy_card("MU")]
+    pe.apply_parabolic_chase_dampener(cards, None)
+    assert "parabolic_chase_dampener" not in cards[0]
+
+
+# ---------------------------------------------------------------------------
+# Unified runner — wave-2 lanes round-trip
+# ---------------------------------------------------------------------------
+def test_detect_patterns_runs_wave_2_lanes_when_inputs_supplied():
+    held = [{
+        "ticker": "NVDA", "expiry_date": "2026-09-19",
+        "option_type": "call", "strike": 180.0, "contracts": 5,
+    }]
+    drift = [{"ticker": "MAGS", "direction": "OVERSIZED", "sleeve": "ai_semis"}]
+    prospects = {
+        "CRS": {"provenance": "FS Top 5 SMID - 2026-05-28",
+                "conviction": "BUILDING", "add_date": "2026-05-28"},
+    }
+    out = pe.detect_patterns(
+        prospects=prospects, source_calls=[], current_prices={},
+        weights=W, goal=G, today=TODAY,
+        held_options=held, drift_rows=drift,
+        sleeve_states={"ai_semis": "TURNING DOWN"},
+        prediction_signals_path=Path("/nonexistent/prediction_signals.json"),
+    )
+    assert len(out["cards"]["stale_leaps"]) == 1
+    assert len(out["cards"]["overexposure_rotation"]) == 1
+    assert len(out["cards"]["tier_b_side_play"]) == 1
+    assert "stale_leaps_status" not in out["honesty"]
+    assert "overexposure_rotation_status" not in out["honesty"]

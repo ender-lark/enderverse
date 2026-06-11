@@ -1,4 +1,4 @@
-"""Pattern engine — wave 1 detectors (Task 4 / C7).
+"""Pattern engine — wave 1 + wave 2 detectors and guards (Tasks 4 / C7 and 6 / C9).
 
 Pure detectors that scan V2 caches and emit V3 decision cards. Every card
 returned passes :func:`decision_card.validate_decision_card`; conviction is
@@ -8,7 +8,7 @@ is computed by :mod:`timing_engine` with whatever gates / event_risks the
 caller has loaded (empty lists are valid — the engine produces an honest
 WAIT/STAGE-ONLY window).
 
-Detectors
+Wave 1 detectors (Task 4)
 
 * **ENDORSED-DIP** — a ``top_prospects`` name whose current price is at least
   ``endorsed_dip_pct`` below its ``add_price`` and whose ``add_price_date``
@@ -25,6 +25,28 @@ Detectors
   (the conviction engine refuses to score Tier D, by doctrine).
 * **prediction_signals stub** — optional ``src/prediction_signals.json``.
   Validate-if-present; honest ``not_checked`` when absent.
+
+Wave 2 detectors + guards (Task 6)
+
+* **STALE-LEAPS** — for each held option whose days-to-expiry drop below
+  ``stale_leaps_warn_dte``, emit a roll/close REVIEW card (logic mirrors
+  ``options_roll_decision_matrix.md``: warn early so the operator has time
+  to roll without being forced).
+* **OVEREXPOSURE-ROTATION** — scoped TRIM REVIEW only when both
+  (target_drift OVERSIZED) AND (the row's sleeve state contains
+  "TURNING DOWN") fire, OR when there is an explicit bearish Tier-A/Tier-B
+  source-call dated inside its tier window.
+* **TIER-B-SIDE-PLAY** — FS SMID Top-5 names plus any prospect with
+  conviction ``BUILDING`` enter the ranked backlog as low-priority side
+  plays with sleeve-base materiality (impact.base = "sleeve").
+* **FACTOR-OVERLAP guard** — a FIELD attached to existing buy cards when a
+  ticker's portfolio factor exposure is ≥ ``factor_overlap_warn_pct``.
+  Never a new card. Surfaces as a sizing caveat on the card.
+* **PARABOLIC-CHASE dampener** — when a card's ticker appears in the
+  parabolic-setup flags (``parabolic_setups.json``), cap the window class
+  at STAGE-ONLY (an OPEN-NOW window becomes STAGE-ONLY; GATED/WAIT/STAGE-ONLY
+  are left as-is). The dampener attaches a top-level
+  ``parabolic_chase_dampener`` field and appends a reason to ``window.reasons``.
 
 All detectors veto when ``source_conflicts`` flags the ticker.
 """
@@ -591,6 +613,471 @@ def load_prediction_signals(
     }
 
 
+# ===========================================================================
+# Wave-2 detectors (Task 6 / C9)
+# ===========================================================================
+def _impact_sleeve(text: str, *, material: bool = False) -> dict[str, Any]:
+    return {
+        "band": text,
+        "base": "sleeve",
+        "material": material,
+        "basis": "sleeve-base materiality (side-play / rotation lane)",
+    }
+
+
+def _impact_unknown_review(text: str) -> dict[str, Any]:
+    return {
+        "band": text,
+        "base": "book",
+        "material": False,
+        "basis": "review-only card; sizing decided on the confirm step",
+    }
+
+
+# ---------------------------------------------------------------------------
+# STALE-LEAPS
+# ---------------------------------------------------------------------------
+def detect_stale_leaps(
+    *,
+    held_options: list[dict[str, Any]] | None,
+    weights: dict[str, Any],
+    goal: dict[str, Any],
+    source_calls: list[dict[str, Any]] | None = None,
+    prospects: dict[str, Any] | None = None,
+    insights_payload: dict[str, Any] | None = None,
+    uw_states: dict[str, dict[str, Any]] | None = None,
+    inst_states: dict[str, dict[str, Any]] | None = None,
+    rates: dict[str, Any] | None = None,
+    today: str | date | None = None,
+) -> list[dict[str, Any]]:
+    """Roll/close REVIEW cards for held options below the DTE warn threshold.
+
+    Each ``held_options`` row must include ``ticker``, ``expiry_date``
+    (YYYY-MM-DD), ``option_type`` ("call" or "put"), ``strike``, ``contracts``.
+    Optional ``thesis_window_end`` (YYYY-MM-DD); when present and earlier than
+    expiry the card notes that the thesis closes before the option does.
+    """
+    today_d = _today(today)
+    today_iso = today_d.isoformat()
+    th = weights.get("pattern_thresholds", {})
+    warn_dte = int(th.get("stale_leaps_warn_dte", 180))
+    uw_states = uw_states or {}
+    inst_states = inst_states or {}
+    calls = list(source_calls or [])
+
+    out: list[dict[str, Any]] = []
+    for opt in (held_options or []):
+        ticker = str(opt.get("ticker") or "").upper()
+        expiry = _parse_iso(opt.get("expiry_date"))
+        if not ticker or expiry is None:
+            continue
+        dte = (expiry - today_d).days
+        if dte >= warn_dte:
+            continue
+        option_type = str(opt.get("option_type") or "call").lower()
+        try:
+            strike = float(opt.get("strike"))
+        except (TypeError, ValueError):
+            continue
+        try:
+            contracts = int(opt.get("contracts") or 0)
+        except (TypeError, ValueError):
+            contracts = 0
+        thesis_end = _parse_iso(opt.get("thesis_window_end"))
+        thesis_note = ""
+        if thesis_end is not None:
+            if thesis_end > expiry:
+                thesis_note = (f"; thesis window runs to {thesis_end.isoformat()} "
+                               f"({(thesis_end - expiry).days}d AFTER option expiry — "
+                               "roll candidate")
+            else:
+                thesis_note = (f"; thesis window already closed "
+                               f"{(today_d - thesis_end).days}d ago — close candidate")
+
+        conv = _conviction_for(
+            ticker, weights=weights, goal=goal, calls=calls, prospects=prospects,
+            insights_payload=insights_payload, uw_state=uw_states.get(ticker),
+            inst_state=inst_states.get(ticker), rates=rates, today=today_iso,
+        )
+        window = _timing_for(
+            ticker, direction="REVIEW", weights=weights, goal=goal,
+            gates=None, event_risks=None, uw_state=uw_states.get(ticker),
+            entry_zone=None, today=today_iso,
+        )
+        move = {
+            "ticker": ticker,
+            "direction": "REVIEW",
+            "lane": "stale_leaps",
+            "band": (f"{contracts}x {option_type.upper()} ${strike:.2f} "
+                     f"{expiry.isoformat()} — DTE {dte}d < {warn_dte}d{thesis_note}"),
+        }
+        evidence_links = [
+            {"label": f"held option: {contracts}x {option_type.upper()} ${strike:.2f} "
+                      f"exp {expiry.isoformat()}",
+             "ref": f"held_options.{ticker}"},
+            {"label": f"stale_leaps_warn_dte {warn_dte}d (conviction_weights)",
+             "ref": "pattern_thresholds.stale_leaps_warn_dte"},
+        ]
+        card = {
+            "card_id": f"{ticker}-STALE-LEAPS-{today_iso}",
+            "ticker": ticker,
+            "pattern": "STALE-LEAPS",
+            "direction": "REVIEW",
+            "option_type": option_type,
+            "strike": strike,
+            "expiry_date": expiry.isoformat(),
+            "contracts": contracts,
+            "dte": dte,
+            "thesis_window_end": thesis_end.isoformat() if thesis_end else None,
+            "conviction": conv,
+            "window": window,
+        }
+        out.append(
+            _attach_pattern_card(
+                card, move=move, conv=conv, window=window,
+                evidence_links=evidence_links,
+                impact=_impact_unknown_review(
+                    f"options roll/close review: {contracts}x ${strike:.2f} {expiry.isoformat()}"
+                ),
+            )
+        )
+    out.sort(key=lambda c: (c["ticker"], c["expiry_date"]))
+    return out
+
+
+# ---------------------------------------------------------------------------
+# OVEREXPOSURE-ROTATION
+# ---------------------------------------------------------------------------
+def detect_overexposure_rotation(
+    *,
+    drift_rows: list[dict[str, Any]] | None,
+    sleeve_states: dict[str, str] | None = None,
+    source_calls: list[dict[str, Any]] | None = None,
+    source_conflicts: Iterable[str] | None = None,
+    weights: dict[str, Any],
+    goal: dict[str, Any],
+    prospects: dict[str, Any] | None = None,
+    insights_payload: dict[str, Any] | None = None,
+    uw_states: dict[str, dict[str, Any]] | None = None,
+    inst_states: dict[str, dict[str, Any]] | None = None,
+    rates: dict[str, Any] | None = None,
+    today: str | date | None = None,
+) -> list[dict[str, Any]]:
+    """TRIM REVIEW cards for OVERSIZED holdings under rotation pressure.
+
+    Fires when a drift row reads ``direction == "OVERSIZED"`` AND one of:
+
+    * the row's sleeve appears in ``sleeve_states`` with a state containing
+      "TURNING DOWN" (case-insensitive), or
+    * there is at least one bearish ``source_calls`` row of tier A or B,
+      dated inside its tier window, for the ticker (or for its sleeve when
+      ``row['sleeve']`` matches the call's ``sleeve``).
+    """
+    today_d = _today(today)
+    today_iso = today_d.isoformat()
+    sleeve_states = sleeve_states or {}
+    calls = list(source_calls or [])
+    conflicts = {str(t).upper() for t in (source_conflicts or [])}
+    uw_states = uw_states or {}
+    inst_states = inst_states or {}
+    tier_windows = weights.get("tier_window_days", {})
+
+    def _has_bearish_explicit(ticker: str, sleeve: str | None) -> str | None:
+        sleeve_l = (sleeve or "").lower()
+        for row in calls:
+            tier = row.get("tier")
+            if tier not in ("A", "B"):
+                continue
+            when = _parse_iso(row.get("date"))
+            if when is None:
+                continue
+            window = int(tier_windows.get(tier, 0))
+            if window and (today_d - when).days > window:
+                continue
+            if not _is_bearish(row):
+                continue
+            tk = str(row.get("ticker") or "").upper()
+            row_sleeve = str(row.get("sleeve") or "").lower()
+            if tk == ticker:
+                return (f"Tier-{tier} {row.get('source')} bearish call "
+                        f"{when.isoformat()}: {row.get('verbatim_quote') or row.get('note') or ''}")[:200]
+            if sleeve_l and row_sleeve and sleeve_l == row_sleeve:
+                return (f"Tier-{tier} {row.get('source')} bearish sleeve call "
+                        f"({sleeve_l}) {when.isoformat()}")
+        return None
+
+    out: list[dict[str, Any]] = []
+    for row in (drift_rows or []):
+        direction = str(row.get("direction") or "").upper()
+        if direction != "OVERSIZED":
+            continue
+        ticker = str(row.get("ticker") or "").upper()
+        if not ticker or ticker in conflicts:
+            continue
+        sleeve = row.get("sleeve")
+        sleeve_state = ""
+        if sleeve:
+            sleeve_state = str(sleeve_states.get(sleeve) or row.get("sleeve_state") or "").upper()
+        else:
+            sleeve_state = str(row.get("sleeve_state") or "").upper()
+        sleeve_turning_down = "TURNING DOWN" in sleeve_state
+        bearish_note = _has_bearish_explicit(ticker, sleeve)
+        if not (sleeve_turning_down or bearish_note):
+            continue
+
+        triggers: list[str] = []
+        if sleeve_turning_down:
+            triggers.append(f"sleeve {sleeve!r} state {sleeve_state}")
+        if bearish_note:
+            triggers.append(bearish_note)
+        conv = _conviction_for(
+            ticker, weights=weights, goal=goal, calls=calls, prospects=prospects,
+            insights_payload=insights_payload, uw_state=uw_states.get(ticker),
+            inst_state=inst_states.get(ticker), rates=rates, today=today_iso,
+        )
+        window = _timing_for(
+            ticker, direction="TRIM", weights=weights, goal=goal,
+            gates=None, event_risks=None, uw_state=uw_states.get(ticker),
+            entry_zone=None, today=today_iso,
+        )
+        move = {
+            "ticker": ticker,
+            "direction": "TRIM",
+            "lane": "overexposure_rotation",
+            "band": f"OVERSIZED + rotation trigger ({'; '.join(triggers)})",
+        }
+        evidence_links = [
+            {"label": f"target_drift row: {ticker} OVERSIZED",
+             "ref": f"feed.target_drift.{ticker}"},
+        ] + [{"label": t, "ref": "overexposure_rotation.trigger"} for t in triggers]
+        card = {
+            "card_id": f"{ticker}-OVEREXP-ROT-{today_iso}",
+            "ticker": ticker,
+            "pattern": "OVEREXPOSURE-ROTATION",
+            "direction": "TRIM",
+            "sleeve": sleeve,
+            "sleeve_state": sleeve_state or None,
+            "triggers": triggers,
+            "conviction": conv,
+            "window": window,
+        }
+        out.append(
+            _attach_pattern_card(
+                card, move=move, conv=conv, window=window,
+                evidence_links=evidence_links,
+                impact=_impact_sleeve(
+                    f"trim review (oversized + rotation); size on confirm",
+                    material=False,
+                ),
+            )
+        )
+    out.sort(key=lambda c: c["ticker"])
+    return out
+
+
+# ---------------------------------------------------------------------------
+# TIER-B-SIDE-PLAY (backlog feed)
+# ---------------------------------------------------------------------------
+def detect_tier_b_side_plays(
+    *,
+    prospects: dict[str, Any] | None,
+    smid_top5: Iterable[str] | None = None,
+    weights: dict[str, Any],
+    goal: dict[str, Any],
+    source_calls: list[dict[str, Any]] | None = None,
+    source_conflicts: Iterable[str] | None = None,
+    insights_payload: dict[str, Any] | None = None,
+    uw_states: dict[str, dict[str, Any]] | None = None,
+    inst_states: dict[str, dict[str, Any]] | None = None,
+    rates: dict[str, Any] | None = None,
+    today: str | date | None = None,
+) -> list[dict[str, Any]]:
+    """Backlog cards for FS SMID Top-5 and BUILDING-conviction prospects.
+
+    Each card carries ``impact.base == "sleeve"`` so the consumer ranks them
+    on sleeve materiality, not book materiality (they're side plays).
+    """
+    today_d = _today(today)
+    today_iso = today_d.isoformat()
+    conflicts = {str(t).upper() for t in (source_conflicts or [])}
+    smid = {str(t).upper() for t in (smid_top5 or [])}
+    uw_states = uw_states or {}
+    inst_states = inst_states or {}
+    calls = list(source_calls or [])
+
+    out: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for raw_ticker, rec in (prospects or {}).items():
+        if not isinstance(rec, dict):
+            continue
+        ticker = str(raw_ticker).upper()
+        if ticker in conflicts or ticker in seen:
+            continue
+        provenance = str(rec.get("provenance") or "").lower()
+        conviction_band = str(rec.get("conviction") or "").upper()
+        is_smid = ticker in smid or "smid" in provenance
+        is_building = conviction_band == "BUILDING"
+        if not (is_smid or is_building):
+            continue
+        seen.add(ticker)
+        triggers: list[str] = []
+        if is_smid:
+            triggers.append("FS SMID Top-5 membership")
+        if is_building:
+            triggers.append(f"prospect conviction {conviction_band}")
+
+        conv = _conviction_for(
+            ticker, weights=weights, goal=goal, calls=calls, prospects=prospects,
+            insights_payload=insights_payload, uw_state=uw_states.get(ticker),
+            inst_state=inst_states.get(ticker), rates=rates, today=today_iso,
+        )
+        window = _timing_for(
+            ticker, direction="BUY", weights=weights, goal=goal,
+            gates=None, event_risks=None, uw_state=uw_states.get(ticker),
+            entry_zone=None, today=today_iso,
+        )
+        move = {
+            "ticker": ticker,
+            "direction": "REVIEW",
+            "lane": "tier_b_side_play",
+            "band": f"side-play backlog ({', '.join(triggers)})",
+        }
+        evidence_links = [
+            {"label": f"top_prospects[{ticker}] provenance: {rec.get('provenance')}",
+             "ref": f"top_prospects.{ticker}"},
+        ] + [{"label": t, "ref": "tier_b_side_play.trigger"} for t in triggers]
+        card = {
+            "card_id": f"{ticker}-TIER-B-SIDE-PLAY-{today_iso}",
+            "ticker": ticker,
+            "pattern": "TIER-B-SIDE-PLAY",
+            "direction": "REVIEW",
+            "triggers": triggers,
+            "conviction": conv,
+            "window": window,
+        }
+        out.append(
+            _attach_pattern_card(
+                card, move=move, conv=conv, window=window,
+                evidence_links=evidence_links,
+                impact=_impact_sleeve(
+                    f"side-play; sleeve-base materiality, low priority",
+                    material=False,
+                ),
+            )
+        )
+    out.sort(key=lambda c: c["ticker"])
+    return out
+
+
+# ---------------------------------------------------------------------------
+# FACTOR-OVERLAP guard (field on existing buy card, never a new card)
+# ---------------------------------------------------------------------------
+def apply_factor_overlap_caveat(
+    cards: list[dict[str, Any]] | None,
+    factor_exposures: dict[str, float] | None,
+    *,
+    weights: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Attach a sizing caveat field to BUY cards above the factor-overlap floor.
+
+    Mutates each qualifying card by adding ``factor_overlap_caveat`` (top-level)
+    and appending a caveat note to the card's ``decision_card.move.band``.
+    Does NOT introduce a new card and does NOT alter the validated decision-card
+    schema beyond the band string append.
+    """
+    if not cards:
+        return cards or []
+    if not factor_exposures:
+        return cards
+    th = weights.get("pattern_thresholds", {})
+    warn_pct = float(th.get("factor_overlap_warn_pct", 35.0))
+    for card in cards:
+        ticker = str(card.get("ticker") or "").upper()
+        if not ticker:
+            continue
+        exposure = factor_exposures.get(ticker)
+        try:
+            exposure_f = float(exposure) if exposure is not None else None
+        except (TypeError, ValueError):
+            exposure_f = None
+        if exposure_f is None or exposure_f < warn_pct:
+            continue
+        direction = str(card.get("direction") or "").upper()
+        if direction not in ("BUY", "REVIEW"):
+            continue  # the guard is for buy-side cards; trims unaffected.
+        caveat = {
+            "exposure_pct": round(exposure_f, 2),
+            "warn_pct": warn_pct,
+            "note": (f"factor overlap {exposure_f:.1f}% ≥ {warn_pct:.1f}% — "
+                     f"size down or pair with a hedge"),
+        }
+        card["factor_overlap_caveat"] = caveat
+        dcard = card.get("decision_card") or {}
+        move = dcard.get("move") or {}
+        if isinstance(move, dict):
+            band = str(move.get("band") or "")
+            tag = f" · FACTOR-OVERLAP {exposure_f:.1f}% (sizing caveat)"
+            if tag not in band:
+                move["band"] = (band + tag).strip()
+    return cards
+
+
+# ---------------------------------------------------------------------------
+# PARABOLIC-CHASE dampener (timing class capped at STAGE-ONLY)
+# ---------------------------------------------------------------------------
+_CHASE_CLASS_ORDER = ("OPEN-NOW", "STAGE-ONLY", "GATED", "WAIT")
+
+
+def apply_parabolic_chase_dampener(
+    cards: list[dict[str, Any]] | None,
+    parabolic_tickers: Iterable[str] | None,
+    *,
+    weights: dict[str, Any] | None = None,  # reserved
+) -> list[dict[str, Any]]:
+    """Cap window.class at STAGE-ONLY for any card whose ticker is flagged
+    as a parabolic chase candidate.
+
+    OPEN-NOW → STAGE-ONLY. STAGE-ONLY/GATED/WAIT are left unchanged (they
+    are already at or below the dampener cap). A reason line is appended
+    to ``window.reasons`` and a ``parabolic_chase_dampener`` field is
+    attached to the card.
+    """
+    del weights  # threshold-free: a flagged ticker is dampened categorically.
+    if not cards or not parabolic_tickers:
+        return cards or []
+    flagged = {str(t).upper() for t in parabolic_tickers}
+    for card in cards:
+        ticker = str(card.get("ticker") or "").upper()
+        if ticker not in flagged:
+            continue
+        card["parabolic_chase_dampener"] = {
+            "applied": True,
+            "note": "ticker flagged in parabolic_setups — staging only",
+        }
+        dcard = card.get("decision_card") or {}
+        window = dcard.get("window") or {}
+        if not isinstance(window, dict):
+            continue
+        original = str(window.get("class") or "WAIT")
+        if original == "OPEN-NOW":
+            window["class"] = "STAGE-ONLY"
+            reasons = list(window.get("reasons") or [])
+            reasons.append("PARABOLIC-CHASE dampener: OPEN-NOW capped at STAGE-ONLY "
+                           "until the parabolic setup resolves")
+            window["reasons"] = reasons
+            flips = list(window.get("flips") or [])
+            flips.append("Dampener releases when ticker exits parabolic_setups flag")
+            window["flips"] = flips
+        # Mirror onto the card's own window dict for renderers that read it.
+        card_window = card.get("window")
+        if isinstance(card_window, dict) and card_window.get("class") == "OPEN-NOW":
+            card_window["class"] = "STAGE-ONLY"
+            card_window["reasons"] = list(card_window.get("reasons") or []) + [
+                "PARABOLIC-CHASE dampener: OPEN-NOW capped at STAGE-ONLY"
+            ]
+    return cards
+
+
 # ---------------------------------------------------------------------------
 # Unified runner
 # ---------------------------------------------------------------------------
@@ -610,8 +1097,13 @@ def detect_patterns(
     event_risks: list[dict[str, Any]] | None = None,
     today: str | date | None = None,
     prediction_signals_path: Path | str = PREDICTION_SIGNALS_PATH,
+    # Wave-2 inputs (all optional; absent = lane stays "not checked"):
+    held_options: list[dict[str, Any]] | None = None,
+    drift_rows: list[dict[str, Any]] | None = None,
+    sleeve_states: dict[str, str] | None = None,
+    smid_top5: Iterable[str] | None = None,
 ) -> dict[str, Any]:
-    """Run all wave-1 detectors with honest-empty try/except per lane."""
+    """Run all wave-1 and wave-2 detectors with honest-empty try/except per lane."""
     today_iso = _today(today).isoformat()
     calls = list(source_calls or [])
     prospects = prospects or {}
@@ -653,7 +1145,45 @@ def detect_patterns(
             inst_states=inst_states, rates=rates, today=today_iso,
         ),
     )
+    stale_leaps = _safe(
+        "stale_leaps",
+        lambda: detect_stale_leaps(
+            held_options=held_options, weights=weights, goal=goal,
+            source_calls=calls, prospects=prospects,
+            insights_payload=insights_payload, uw_states=uw_states,
+            inst_states=inst_states, rates=rates, today=today_iso,
+        ) if held_options is not None else [],
+    )
+    overexposure = _safe(
+        "overexposure_rotation",
+        lambda: detect_overexposure_rotation(
+            drift_rows=drift_rows, sleeve_states=sleeve_states,
+            source_calls=calls, source_conflicts=source_conflicts,
+            weights=weights, goal=goal, prospects=prospects,
+            insights_payload=insights_payload, uw_states=uw_states,
+            inst_states=inst_states, rates=rates, today=today_iso,
+        ) if drift_rows is not None else [],
+    )
+    side_plays = _safe(
+        "tier_b_side_play",
+        lambda: detect_tier_b_side_plays(
+            prospects=prospects, smid_top5=smid_top5,
+            weights=weights, goal=goal, source_calls=calls,
+            source_conflicts=source_conflicts,
+            insights_payload=insights_payload, uw_states=uw_states,
+            inst_states=inst_states, rates=rates, today=today_iso,
+        ),
+    )
     prediction = load_prediction_signals(prediction_signals_path)
+
+    honesty = {
+        "lanes_not_checked": not_checked,
+        "prediction_signals_status": prediction["status"],
+    }
+    if held_options is None:
+        honesty["stale_leaps_status"] = "not_checked — no held_options provided"
+    if drift_rows is None:
+        honesty["overexposure_rotation_status"] = "not_checked — no drift rows provided"
 
     return {
         "as_of": today_iso,
@@ -661,10 +1191,10 @@ def detect_patterns(
             "endorsed_dip": endorsed,
             "explicit_add": explicit,
             "drumbeat": drumbeat,
+            "stale_leaps": stale_leaps,
+            "overexposure_rotation": overexposure,
+            "tier_b_side_play": side_plays,
         },
         "prediction_signals": prediction,
-        "honesty": {
-            "lanes_not_checked": not_checked,
-            "prediction_signals_status": prediction["status"],
-        },
+        "honesty": honesty,
     }
