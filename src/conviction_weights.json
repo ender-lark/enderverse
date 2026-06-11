@@ -1,0 +1,45 @@
+{
+  "tier_base": {"A": 1.0, "B": 0.75, "C": 0.4, "D": 0.0},
+  "tier_window_days": {"A": 14, "B": 30, "C": 120, "D": 0},
+  "calibration_bands": {
+    "consistent_miss_max": 40,
+    "below_breakeven_max": 50,
+    "normal_max": 70,
+    "min_n": 15,
+    "multipliers": {
+      "CONSISTENT_MISS": 0.25,
+      "BELOW_BREAKEVEN": 0.5,
+      "NORMAL": 1.0,
+      "HIGH_CONVICTION": 1.25,
+      "INSUFFICIENT_DATA": 1.0
+    }
+  },
+  "group_caps": {"fs": 1.5, "uw": 1.25, "operator_insight": 1.0, "institutional": 1.0},
+  "uw_points": {
+    "supports": 1.0,
+    "battery_full": 1.25,
+    "single_day_flow_max": 0.5,
+    "inconclusive": 0.0,
+    "contradicts": -1.0
+  },
+  "insight_match_points": 1.0,
+  "insight_triage_boost": 15,
+  "insight_max_active": 7,
+  "insight_stale_days": 60,
+  "priority_blend": {
+    "capital_priority_weight": 1.0,
+    "conviction_weight": 25.0,
+    "window_decay_weight": 20.0
+  },
+  "pattern_thresholds": {
+    "endorsed_dip_pct": 12.0,
+    "endorsed_dip_lookback_days": 30,
+    "drumbeat_min_mentions": 4,
+    "drumbeat_window_days": 30,
+    "stale_leaps_warn_dte": 180,
+    "factor_overlap_warn_pct": 35.0,
+    "overexposure_band_pp": 3.0,
+    "congruence_flag_named_pct": 1.0
+  },
+  "timing": {"gate_red_blocks_full_size": true, "stage_only_fraction": 0.33, "event_risk_downgrade": true}
+}

@@ -307,7 +307,7 @@
       "not_checked_behavior": "Missing event-risk scan is not checked, not no event risk.",
       "action_surface": "High and critical event risks promote to exposure-review actions only; they do not create buy/sell orders."
     },
-    {
+  {
       "id": "system_improvement_queue",
       "source_of_truth": "github",
       "repo_artifact": "src/system_improvement_queue.json",
@@ -318,6 +318,102 @@
       "freshness_contract": "Validate after every queue change.",
       "not_checked_behavior": "Missing queue does not affect feed; it affects project planning only.",
       "action_surface": "Keeps product/system improvements separate from live market actions."
+    },
+    {
+      "id": "goal_tunables",
+      "source_of_truth": "decision_layer_build_pack",
+      "repo_artifact": "src/goal_tunables.json",
+      "producer": "Task-0 integration of recovery V3 files",
+      "feed_path": "v3_config.goal_tunables",
+      "dashboard_surface": "Goal anchor, pace math, and card plan-line framing in TODAY—DECIDE",
+      "mirror_policy": "GitHub stores canonical tuned thresholds and goal params for the decision layer.",
+      "freshness_contract": "Update only when the decision layer mandate changes; preserve existing field contracts.",
+      "not_checked_behavior": "Do not infer defaults when malformed or missing; log the missing-keys contract explicitly.",
+      "action_surface": "Gates rank and plan-line math inputs; does not issue live actions."
+    },
+    {
+      "id": "conviction_weights",
+      "source_of_truth": "decision_layer_build_pack",
+      "repo_artifact": "src/conviction_weights.json",
+      "producer": "Task-0 integration of recovery V3 files",
+      "feed_path": "v3_config.conviction_weights",
+      "dashboard_surface": "Weight set used by directive ranking and conviction scoring",
+      "mirror_policy": "GitHub stores canonical evidence weights and thresholds used by runtime scoring.",
+      "freshness_contract": "Update only through deliberate decision-layer edits and with changelog intent.",
+      "not_checked_behavior": "Missing weights must fail the load path; no silent fallback.",
+      "action_surface": "Adjusts card scoring and urgency behavior before execution decisions."
+    },
+    {
+      "id": "account_rules",
+      "source_of_truth": "decision_layer_build_pack",
+      "repo_artifact": "src/account_rules.json",
+      "producer": "Task-0 integration of recovery V3 files",
+      "feed_path": "v3_config.account_rules",
+      "dashboard_surface": "Execution_plan account exclusion and PCRA guardrails",
+      "mirror_policy": "GitHub stores canonical account placement constraints for plan emitters.",
+      "freshness_contract": "Update when account exclusion policy is intentionally changed.",
+      "not_checked_behavior": "Fail closed when malformed; do not emit execution rows without loaded rules.",
+      "action_surface": "Converts action execution legs to excluded/allowed states."
+    },
+    {
+      "id": "insights",
+      "source_of_truth": "insight_capture_process",
+      "repo_artifact": "src/insights.json",
+      "producer": "Task-0 integration of recovery V3 files",
+      "feed_path": "v3_config.insights",
+      "dashboard_surface": "CONGRUENCE strip and standing insight matching",
+      "mirror_policy": "GitHub stores source-of-truth active/inactive insight rows for scoring and matching.",
+      "freshness_contract": "Populate from validated insight capture before build; keep seeded baseline rows if no new ingest.",
+      "not_checked_behavior": "Missing or invalid insight payload is a hard failure for scoring modules.",
+      "action_surface": "Confidence and congruence outputs are advisory unless matched to live lane evidence."
+    },
+    {
+      "id": "timing_gates",
+      "source_of_truth": "timing_rule_pack",
+      "repo_artifact": "src/timing_gates.json",
+      "producer": "Task-0 integration of recovery V3 files",
+      "feed_path": "v3_config.timing_gates",
+      "dashboard_surface": "TODAY—DECIDE gate banner",
+      "mirror_policy": "GitHub stores canonical timed market-gating envelopes used by timing_engine.",
+      "freshness_contract": "Refresh only through explicit timing rule updates and validation.",
+      "not_checked_behavior": "If unavailable, timing eval runs in conservative fallback mode and must surface not checked.",
+      "action_surface": "Alters card validity state and suggested trading cadence."
+    },
+    {
+      "id": "tunables_changelog",
+      "source_of_truth": "decision_layer_changelog",
+      "repo_artifact": "src/tunables_changelog.jsonl",
+      "producer": "Task-0 integration of recovery V3 files",
+      "feed_path": "v3_config.tunables_changelog",
+      "dashboard_surface": "Tunables auditability and policy change traceability",
+      "mirror_policy": "GitHub stores append-only change records for tunables decisions.",
+      "freshness_contract": "Append JSON lines for each intentional tunable adjustment.",
+      "not_checked_behavior": "Absent changelog is explicit but does not block scoring if live payload is present.",
+      "action_surface": "Audit context only; does not directly alter decision outputs."
+    },
+    {
+      "id": "dispositions",
+      "source_of_truth": "operator_chat_rails",
+      "repo_artifact": "src/dispositions.jsonl",
+      "producer": "Task-3 disposition spine (disposition_log.append_disposition); rails written by the operator through TODAY-DECIDE clipboard copies, persisted by the cloud routine wrapper.",
+      "feed_path": "TODAY-DECIDE.cards[].last_disposition (today_decide.build_today_decide_payload)",
+      "dashboard_surface": "Per-card last-disposition line on TODAY-DECIDE; orphan-escalation strip; 30-day lookback panel.",
+      "mirror_policy": "Append-only JSON Lines in repo; UNDO is a new void row, never a deletion.",
+      "freshness_contract": "Each ACT/PASS/RECHECK/UNDO row stamps an ET date; daily orphan escalation checks the timestamps.",
+      "not_checked_behavior": "Absent file rendered as 'none logged yet'; load_open_cards treats every card as open.",
+      "action_surface": "Drives orphan escalation, PASS-reason audit, and the lookback %-since/%-vs-SPY tracker."
+    },
+    {
+      "id": "prediction_signals",
+      "source_of_truth": "external_prediction_markets_seam",
+      "repo_artifact": "src/prediction_signals.json",
+      "producer": "Pattern slot #11 (pattern_engine.load_prediction_signals) — populated by the parallel prediction-markets exploration when wired; absent by default.",
+      "feed_path": "TODAY-DECIDE.prediction_signals (pattern_engine.detect_patterns output)",
+      "dashboard_surface": "TODAY-DECIDE honesty footer: prediction_signals_status; future prediction-markets card lane (pattern slot #11).",
+      "mirror_policy": "GitHub stores the validated rows; the loader rejects malformed payloads rather than partial-accept.",
+      "freshness_contract": "Schema-checked at read; each row carries venue + topic + probability in [0,1].",
+      "not_checked_behavior": "Missing file renders honest 'not_checked' status; invalid payload renders 'invalid' status with the parse reason.",
+      "action_surface": "Currently advisory context only; reserved for a future card lane when an operator-approved prediction-markets source is wired."
     }
   ]
 }

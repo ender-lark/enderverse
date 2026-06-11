@@ -76,3 +76,34 @@ technical elegance.
   `docs/reddit_social_new_chat_handoff.md`.
 - Do not accelerate cloud routine proof unless the user explicitly asks. Let
   normal scheduled receipts accumulate in the background.
+
+## V3 Decision Layer (TODAY—DECIDE)
+
+- The V3 decision layer is **additive** to V2. Never remove a V2 section, lane,
+  validator, or feed key when extending V3. New cards enter the cockpit ONLY
+  through the action-implication contract — no parallel panels, no gate
+  bypass.
+- §3.4 honesty rails are **not** tunable. `tunables.py` hard-fails if a config
+  file tries to define one. Tier D never scores; UW `inconclusive` = 0;
+  OPEN-NOW requires a named positive trigger. Pace lives in the goal-anchor
+  block only and is display-only.
+- Every emitted card must pass `decision_card.validate_decision_card`.
+  Missing fields are stamped UNKNOWN — never omitted.
+- The MONITOR sleeve (`BMNR / LEU / UUUU / MP`) has exactly one Action path:
+  MONITOR-RE-ENTRY cards from `orphan_wiring`. Those cards REQUIRE
+  defined-risk fields (`stop_loss`, `risk_band`, `max_loss_usd`); without
+  them no card emits. Do not add an alternate buy path.
+- ACT / PASS / RECHECK rails ship as clipboard copies, second-tap UNDO is
+  binding. `disposition_log.append_disposition` accepts the UNDO verb; PASS
+  still requires a reason, UNDO does not.
+- The 9:40 ET Post-Open Evidence Gate is mechanized by
+  `post_open_evidence_gate.evaluate_all_gates`. The 8:35 ET Morning Scan is
+  mechanized by `morning_scan.run_morning_scan`. Both modules are pure; the
+  L5 wrapper supplies the price-lookup and writer callbacks.
+- The cloud commit allowlist for routines now covers `dispositions.jsonl`,
+  `timing_gates.json`, and `prediction_signals.json`. Routines may write
+  these; ad-hoc edits should still go through the operator.
+- The JSX parity contract between the Python HTML renderer and the React
+  cockpit (`TodayDecide.jsx` / `conviction_cockpit_v6.jsx`) is enforced by
+  `src/test_jsx_parity.py`. If a payload field changes shape, update BOTH
+  renderers before committing.

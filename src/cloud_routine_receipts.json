@@ -1,36 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-10T14:32:14.350387Z",
+  "updated_at": "2026-06-10T20:31:47.590516Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:04:35.757455Z",
-      "summary": "full cockpit build manual run refreshed dashboard artifacts",
-      "details": {
-        "steps": [
-          {
-            "label": "live dashboard refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_dashboard_refresh.py"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 4,\n    \"stale\": 1\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-05\",\n    \"open_count\": 2,\n    \"history_count\": 0,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 0,\n  \"drafted\": 0,\n  \"existing\": 3,\n  \"stored\": 3,\n  \"tickers\": [],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-05T20:04:35.081350+00:00\",\n    \"existing\": 3,\n    \"candidates\": 3,\n    \"added\": 0,\n    \"stored\": 3,\n    \"log_call_dates\": [\n      \"2026-06-03\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 3,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 4,\n    \"stale\": 1\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-05\",\n    \"open_count\": 2,\n    \"history_count\": 0,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_canonical_jsx ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-05 20:04 .35654 | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | heartbeat STALE: Optional Source Lanes | prices as-of build, not live (say `refresh`)\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 4,\n  \"research_actions\": 0,\n  \"dark_lanes\": 2,\n  \"dark_lane_keys\": [\n    \"account_positions\",\n    \"meridian\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"account_positions\",\n      \"label\": \"Account Positions\",\n      \"next_step\": \"Supply src\\\\account_positions.json through the owning source routine or manual live-source drop.\",\n      \"missing_impact\": \"Account views are not checked; do not imply no account-level breakdown.\"\n    },\n    {\n      \"key\": \"meridian\",\n      \"label\": \"Meridian\",\n      \"next_step\": \"Supply src\\\\meridian_items.json through the owning source routine or manual live-source drop.\",\n      \"missing_impact\": \"Meridian source is not checked; missing data is not a no-signal read.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"account_positions\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\account_positions.json\"\n      ],\n      \"source\": \"broker_position_intake\",\n      \"missing_behavior\": \"Account views are not checked; do not imply no account-level breakdown.\"\n    },\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"Meridian export/cache\",\n      \"missing_behavior\": \"Meridian source is not checked; missing data is not a no-signal read.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_canonical_jsx\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-05T20:04:35.356549+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 05-31 \\u00b7 uw_price 06-05 \\u00b7 uw_macro 06-05 \\u00b7 fundstrat_bible 05-28 \\u00b7 fundstrat_daily 06-03\",\n      \"lanes_with_data\": 13,\n      \"dark_lanes\": 2,\n      \"dark_lane_keys\": [\n        \"account_positions\",\n        \"meridian\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 4,\n      \"top\": [\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"ACT_NOW\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"NVDA\",\n          \"kind\": \"conviction_gap\",\n          \"action_state\": \"ACT_NOW\",\n          \"what\": \"Conviction gap: NVDA is under target\"\n        },\n        {\n          \"ticker\": \"ANET\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"GOOGL\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Account Positions: Supply C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\src\\\\account_positions.json through the owning source routine or manual live-source drop.\",\n        \"Meridian: Supply C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\src\\\\meridian_items.json through the owning source routine or manual live-source drop.\"\n      ]\n    },\n    \"preview_server\": {\n      \"url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\dashboard_preview.html\",\n      \"preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"account_positions\",\n        \"label\": \"Account Positions\",\n        \"next_step\": \"Supply src\\\\account_positions.json through the owning source routine or manual live-source drop.\",\n        \"missing_impact\": \"Account views are not checked; do not imply no account-level breakdown.\"\n      },\n      {\n        \"key\": \"meridian\",\n        \"label\": \"Meridian\",\n        \"next_step\": \"Supply src\\\\meridian_items.json through the owning source routine or manual live-source drop.\",\n        \"missing_impact\": \"Meridian source is not checked; missing data is not a no-signal read.\"\n      }\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:04:35.768132Z",
-      "summary": "investing-os-post-close-refresh manual run started"
-    },
     {
       "routine_id": "investing-os-post-close-refresh",
       "status": "success",
@@ -3894,6 +3865,27 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-10T14:32:14.350387Z",
       "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-10T20:31:44.062137Z",
+      "summary": "investing-os-post-close-refresh started"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-10T20:31:47.590516Z",
+      "summary": "post-close refresh succeeded",
       "details": {
         "returncode": 0,
         "command": [

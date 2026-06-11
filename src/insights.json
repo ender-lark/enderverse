@@ -1,0 +1,47 @@
+{
+  "updated": "2026-06-10",
+  "insights": [
+    {
+      "insight_id": "INSIGHT-001",
+      "statement": "Power/energy is THE constraint on US AI scaling - not compute. China has state-directed grid capacity; the US does not at AI-scale pace.",
+      "polarity": "bullish",
+      "belief_strength": 80,
+      "status": "ACTIVE",
+      "stated": "2026-06-03",
+      "last_reviewed": "2026-06-10",
+      "sectors": ["power", "grid", "nuclear", "fuel_cell", "datacenter_energy", "electrification"],
+      "keywords": ["power constraint", "grid", "electricity", "datacenter power", "nuclear", "uranium", "transformers", "turbines", "megawatt", "gigawatt"],
+      "tickers_mapped": ["GEV", "BE", "TLN", "STRL", "VOLT"],
+      "tickers_adjacent": ["LEU", "UUUU", "PWR", "OKLO", "SMR", "CEG", "VST", "NRG", "ETN", "VRT"],
+      "watch_tickers": ["TLN"],
+      "factor_tags": ["ai_power", "electrification", "nuclear_fuel"],
+      "evidence_for": [
+        {"date": "2026-06-03", "kind": "new", "note": "Operator statement at register creation; Fundstrat/Meridian background on grid + nuclear demand growth."}
+      ],
+      "evidence_against": [],
+      "congruence_target_pct": null,
+      "history": [{"date": "2026-06-03", "event": "created", "note": "seeded at Insight Layer launch"}]
+    },
+    {
+      "insight_id": "INSIGHT-002",
+      "statement": "TSM is an irreplaceable foundry monopoly carrying an unpriced geopolitical tail; the AZ ramp is the de-risk path; domestic-fab names (INTC, AMAT, KLAC, LRCX) are the watch class.",
+      "polarity": "bullish",
+      "belief_strength": 92,
+      "status": "ACTIVE",
+      "stated": "2026-06-03",
+      "last_reviewed": "2026-06-10",
+      "sectors": ["semiconductors", "foundry"],
+      "keywords": ["foundry", "TSMC", "leading edge", "fab", "Arizona", "advanced packaging", "CoWoS", "2nm", "N2"],
+      "tickers_mapped": ["TSM"],
+      "tickers_adjacent": [],
+      "watch_tickers": ["INTC", "AMAT", "KLAC", "LRCX"],
+      "factor_tags": ["semis", "foundry_monopoly", "geo_risk"],
+      "evidence_for": [
+        {"date": "2026-06-03", "kind": "new", "note": "Operator statement; standalone TSM Live Thesis established (irreplaceable foundry, geo-risk ceiling)."}
+      ],
+      "evidence_against": [],
+      "congruence_target_pct": null,
+      "history": [{"date": "2026-06-03", "event": "created", "note": "seeded at Insight Layer launch"}]
+    }
+  ]
+}

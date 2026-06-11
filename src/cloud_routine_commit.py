@@ -57,6 +57,10 @@ DEFAULT_ALLOWED_PATHS = [
     "src/uw_opportunity_signals.json",
     "src/parabolic_setups.json",
     "src/research_queue.json",
+    # V3 decision-layer state files (Task 8):
+    "src/dispositions.jsonl",        # append-only ACT/PASS/RECHECK/UNDO spine
+    "src/timing_gates.json",         # post-open evidence-gate state transitions
+    "src/prediction_signals.json",   # parallel prediction-markets lane (pattern slot #11)
 ]
 
 
