@@ -8,7 +8,7 @@
 - 62cb71f — v3(task-1): integrate C1-C4 + C5 modules; add `docs/v3_handoff/` and this progress file.
 - Task 2 done (hash 31da7d2): inserted `today_decide.build_and_render(...)` as the FIRST section in `cockpit_html_gen.py`; performed golden/parity refreeze (`src/golden_feed.json`, `docs/index.html`, `src/rendered/conviction_cockpit_v5.jsx`) and updated `src/cockpit_html_gen.py`.
 - Task 3 done (hash 3cb1fb4): added `src/disposition_log.py`, refactored `today_decide.py` to use the C6 disposition readers, and added `src/test_disposition_log.py` + today-decide last-disposition coverage.
-- Task 4 done: added `src/pattern_engine.py` (ENDORSED-DIP, EXPLICIT-ADD, DRUMBEAT, prediction_signals stub) + `src/test_pattern_engine.py` (23 tests). Pure detectors → cards-only; conviction via `conviction_engine`, timing via `timing_engine`; Tier-D counts toward drumbeat mention threshold but adds 0 conviction points (doctrine); prediction_signals.json honest "not_checked" when absent.
+- Task 4 done (hash dd478c8): added `src/pattern_engine.py` (ENDORSED-DIP, EXPLICIT-ADD, DRUMBEAT, prediction_signals stub) + `src/test_pattern_engine.py` (23 tests). Pure detectors → cards-only; conviction via `conviction_engine`, timing via `timing_engine`; Tier-D counts toward drumbeat mention threshold but adds 0 conviction points (doctrine); prediction_signals.json honest "not_checked" when absent.
 
 ## Next action
 - Continue to Task 5 (orphan wiring + institutional unstub) and preserve the exact same 6 skipped tests and skip reasons.
