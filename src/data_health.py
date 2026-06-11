@@ -70,12 +70,54 @@ def _item(source: str, label: str, status: str, detail: str) -> dict[str, Any]:
     return {"source": source, "label": label, "status": status, "detail": detail}
 
 
+
+# ---------------------------------------------------------------------------
+# Shelf-life store: judgments written AT FILING TIME (slice 2).
+# Whoever reads a note (Claude in-session, a cloud routine via receipt+commit)
+# records what window the note's CONTENT actually covers. The dashboard then
+# trusts that judgment instead of the cadence fallback.
+# ---------------------------------------------------------------------------
+SHELF_PATH = SRC / "source_shelf_life.json"
+
+
+def load_shelf_life(path: Path | str = SHELF_PATH) -> dict[str, Any]:
+    p = Path(path)
+    if not p.exists():
+        return {}
+    try:
+        d = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return d if isinstance(d, dict) else {}
+
+
+def record_shelf_life(source: str, relevant_until: str, basis: str = "", *,
+                      path: Path | str = SHELF_PATH,
+                      filed_at: str | None = None) -> dict[str, Any]:
+    """Record a content-judged relevance window for a source.
+
+    ``relevant_until`` must be YYYY-MM-DD. ``basis`` is the one-line plain-
+    English reason (e.g. "Newton 6/10: 'lower into next week'"). Returns the
+    stored record."""
+    d = _parse_date(relevant_until)
+    if d is None:
+        raise ValueError(f"relevant_until must be YYYY-MM-DD, got {relevant_until!r}")
+    data = load_shelf_life(path)
+    data[str(source)] = {
+        "relevant_until": d.isoformat(),
+        "basis": str(basis),
+        "filed_at": filed_at or dt.date.today().isoformat(),
+    }
+    Path(path).write_text(json.dumps(data, indent=2), encoding="utf-8")
+    return data[str(source)]
+
 def assess(
     feed: dict[str, Any],
     *,
     gates: list[dict[str, Any]] | None = None,
     now: dt.date | None = None,
     rates_path: Path | str | None = None,
+    shelf_path: Path | str | None = None,
 ) -> dict[str, Any]:
     """Assess every known input the decision surface relies on.
 
@@ -86,6 +128,7 @@ def assess(
     items: list[dict[str, Any]] = []
 
     # --- staleness entries from the feed -----------------------------------
+    shelf = load_shelf_life(shelf_path if shelf_path is not None else SHELF_PATH)
     entries = (feed.get("staleness") or {}).get("entries") or []
     for e in entries:
         src = str(e.get("source") or "")
@@ -93,7 +136,7 @@ def assess(
         if cad is None:
             continue  # unknown source: do not guess a rhythm for it
         label = LABELS.get(src, src)
-        ru = e.get("relevant_until")
+        ru = e.get("relevant_until") or (shelf.get(src) or {}).get("relevant_until")
         if ru:
             ru_d = _parse_date(str(ru))
             if ru_d is None:
