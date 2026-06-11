@@ -1,31 +1,38 @@
 {
-  "updated": "2026-06-10",
-  "gates": [
-    {
-      "gate_id": "QQQ-NEWTON-BAND",
-      "symbol": "QQQ",
-      "kind": "support_band",
-      "level_low": 695.0,
-      "level_high": 705.0,
-      "state": "red_but_tested",
-      "source": "newton",
-      "stated": "2026-06-08",
-      "note": "Newton 695-705 should contain pullbacks; broke intraday 6/9 (low 686.37), closed 707.83 back above band",
-      "confirm_rule": "full size when today's session holds above ~705; close back below 695 re-reds the gate",
-      "applies_to": ["ai_semis", "tech", "growth", "*BUY*"],
-      "blocks_full_size": true
-    },
-    {
-      "gate_id": "SMH-WASHOUT-CONTEXT",
-      "symbol": "SMH",
-      "kind": "context",
-      "state": "context",
-      "source": "uw",
-      "stated": "2026-06-09",
-      "note": "SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases",
-      "confirm_rule": "context only - never blocks",
-      "applies_to": ["ai_semis"],
-      "blocks_full_size": false
-    }
-  ]
+    "updated": "2026-06-10",
+    "gates": [
+        {
+            "gate_id": "QQQ-NEWTON-BAND",
+            "symbol": "QQQ",
+            "kind": "support_band",
+            "level_low": 695.0,
+            "level_high": 705.0,
+            "state": "red_but_tested",
+            "source": "newton",
+            "stated": "2026-06-11",
+            "note": "Live 6/11 ~10 AM ET: price RECLAIMED the band (6/10 close 693.69 -> ~704.86, high 705.55, low 696.82). Stage-only mechanically; full-size pends a hold above 705. FULL SOURCE READ (caught up 6/11): Newton is near-term cautious - 6/10 daily: \"lower prices into next week, bearish & choppy, BUT broader uptrend not in jeopardy\"; 6/8: dead-cat-bounce / 675 risk. BUT June monthly reframes this: Newton Tech OW->Neutral is UNTIL THE MIDTERMS = a timing/pecking-order trim, NOT a thesis break; both authors call the early-June unwind \"consolidation to buy into, not a top.\" Net: near-term chop is expected and the add-window likely opens during this base-building - consistent with stage-only, not stand-down. Lee strategic layer (thesis) intact.",
+            "confirm_rule": "full size when today's session holds above ~705; close back below 695 re-reds the gate",
+            "applies_to": [
+                "ai_semis",
+                "tech",
+                "growth",
+                "*BUY*"
+            ],
+            "blocks_full_size": true
+        },
+        {
+            "gate_id": "SMH-WASHOUT-CONTEXT",
+            "symbol": "SMH",
+            "kind": "context",
+            "state": "context",
+            "source": "uw",
+            "stated": "2026-06-09",
+            "note": "SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases",
+            "confirm_rule": "context only - never blocks",
+            "applies_to": [
+                "ai_semis"
+            ],
+            "blocks_full_size": false
+        }
+    ]
 }
