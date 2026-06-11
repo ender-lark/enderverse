@@ -109,6 +109,10 @@ def build_today_decide_payload(
     uw_states: dict[str, dict[str, Any]] | None = None,
     entry_zones: dict[str, dict[str, Any]] | None = None,
     rates: dict[str, Any] | None = None,
+    extra_cards: list[dict[str, Any]] | None = None,
+    extra_fs_items: dict[str, list[dict[str, Any]]] | None = None,
+    inst_states: dict[str, dict[str, Any]] | None = None,
+    orphan_honesty: dict[str, Any] | None = None,
     congruence_result: dict[str, Any] | None = None,
     dispositions_path: Path | str = disposition_log.DISPOSITIONS_PATH,
     today: str | None = None,
@@ -120,7 +124,9 @@ def build_today_decide_payload(
     stack = dr.build_directive_cards(
         feed=feed, weights=weights, goal=goal, insights_payload=insights_payload,
         accounts=accounts, gates=gates, uw_states=uw_states, entry_zones=entry_zones,
-        rates=rates, today=today_iso,
+        rates=rates,
+        extra_cards=extra_cards, extra_fs_items=extra_fs_items, inst_states=inst_states,
+        today=today_iso,
     )
     if congruence_result is None:
         congruence_result = cg.congruence_from_repo(insights_payload, weights=weights, today=today_iso)
@@ -136,6 +142,9 @@ def build_today_decide_payload(
         honesty["congruence"] = congruence_result.get("reason", "not checked")
     if not last:
         honesty["dispositions"] = "none logged yet (C6 spine pending)"
+    if orphan_honesty:
+        for key, value in orphan_honesty.items():
+            honesty.setdefault(f"orphan_wiring_{key}", value)
     rb = feed.get("reallocation_brief") or {}
     funding = stack.get("funding") or {}
     return {

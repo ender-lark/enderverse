@@ -86,6 +86,9 @@ def build_directive_cards(
     uw_states: dict[str, dict[str, Any]] | None = None,
     entry_zones: dict[str, dict[str, Any]] | None = None,
     rates: dict[str, Any] | None = None,
+    extra_cards: list[dict[str, Any]] | None = None,
+    extra_fs_items: dict[str, list[dict[str, Any]]] | None = None,
+    inst_states: dict[str, dict[str, Any]] | None = None,
     today: str | None = None,
 ) -> dict[str, Any]:
     feed = _load_feed(feed)
@@ -95,6 +98,8 @@ def build_directive_cards(
     gates = gates if gates is not None else te.load_gates()
     uw_states = uw_states or {}
     entry_zones = entry_zones or {}
+    extra_fs_items = extra_fs_items or {}
+    inst_states = inst_states or {}
     etfs = _etf_tickers()
     goal_scores = _goal_score_index(feed)
     risks = _event_risks(feed)
@@ -113,9 +118,13 @@ def build_directive_cards(
         m = ce.fs_membership_item(ticker)
         if m:
             items.append(m)
+        extras = extra_fs_items.get(ticker.upper())
+        if extras:
+            items.extend(extras)
         uw = uw_states.get(ticker) or ce.uw_state_from_feed(ticker, feed)
         return ce.conviction(
             ticker, fs_items=items, uw_state=uw, insight_payload=insights_payload,
+            inst_state=inst_states.get(ticker.upper()),
             weights=weights, goal=goal, rates=rates, today=today_iso,
         )
 
@@ -237,6 +246,25 @@ def build_directive_cards(
         )
         cards.append(card)
 
+    # Merge in orphan-wired extra cards (e.g. MONITOR-RE-ENTRY). Each extra
+    # card gets a priority computed with the same blend; if a priority is
+    # already attached we trust it (orphan_wiring can override).
+    for card in extra_cards or []:
+        if "priority" not in card:
+            ticker = str(card.get("ticker") or "").upper()
+            conv = card.get("conviction") or {}
+            window = card.get("window") or {}
+            base = goal_scores.get(ticker, 55.0)  # MONITOR-RE-ENTRY pulses get
+            #  a touch above the unscored default so they cluster with reallocation
+            #  adds rather than disappearing into the backlog.
+            card["priority"] = round(
+                cap_w * base
+                + conv_w * float(conv.get("points") or 0.0)
+                + win_w * _WINDOW_FACTOR.get(window.get("class", "WAIT"), 0.0),
+                1,
+            )
+        cards.append(card)
+
     cards.sort(key=lambda c: -c["priority"])
     max_cards = int(goal["daily_card_max"])
     funding = rb.get("funding") or {}
@@ -247,7 +275,10 @@ def build_directive_cards(
         "funding": funding,
         "honesty": {
             "cash": "not_checked â€” no cash rows in positions cache",
-            "institutional": "not wired (orphan-wiring chunk)",
+            "institutional": (
+                "wired via orphan_wiring (13F + insider lanes)"
+                if inst_states else "not wired (orphan-wiring chunk)"
+            ),
             "uw_same_session": sorted(uw_states.keys()) or "none provided this session",
             "gates_as_of": (gates[0].get("stated") if gates else None),
             "positions_as_of": rb.get("positions_snapshot_date"),

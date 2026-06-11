@@ -1,7 +1,7 @@
 ﻿# V3 Progress Log
 
 ## Current task
-- Task 5: orphan wiring + institutional unstub (next)
+- Task 6: pattern wave 2 + guards (next)
 
 ## Tasks done
 - ab2fd4a — v2-stable anchor (baseline retained, not modified).
@@ -9,14 +9,14 @@
 - Task 2 done (hash 31da7d2): inserted `today_decide.build_and_render(...)` as the FIRST section in `cockpit_html_gen.py`; performed golden/parity refreeze (`src/golden_feed.json`, `docs/index.html`, `src/rendered/conviction_cockpit_v5.jsx`) and updated `src/cockpit_html_gen.py`.
 - Task 3 done (hash 3cb1fb4): added `src/disposition_log.py`, refactored `today_decide.py` to use the C6 disposition readers, and added `src/test_disposition_log.py` + today-decide last-disposition coverage.
 - Task 4 done (hash dd478c8): added `src/pattern_engine.py` (ENDORSED-DIP, EXPLICIT-ADD, DRUMBEAT, prediction_signals stub) + `src/test_pattern_engine.py` (23 tests). Pure detectors → cards-only; conviction via `conviction_engine`, timing via `timing_engine`; Tier-D counts toward drumbeat mention threshold but adds 0 conviction points (doctrine); prediction_signals.json honest "not_checked" when absent.
+- Task 5 done: added `src/orphan_wiring.py` (MONITOR-RE-ENTRY cards with defined-risk gate, GRNY-DELTA evidence items, 13F+insider→inst_state adapter, unified runner) + `src/test_orphan_wiring.py` (16 tests). Threaded `extra_cards` / `extra_fs_items` / `inst_states` kwargs through `directive_recs.build_directive_cards` and `today_decide.build_today_decide_payload` so orphan-wiring outputs flow into the feed build additively. Institutional honesty line flips from "not wired" → "wired via orphan_wiring (13F + insider lanes)" when an inst_state map is supplied. Golden checked drift-free at task boundary (no oracle change since wiring is purely additive).
 
 ## Next action
-- Continue to Task 5 (orphan wiring + institutional unstub) and preserve the exact same 6 skipped tests and skip reasons.
-- Refreeze golden ONCE at the end of Task 5.
+- Continue to Task 6 (pattern wave 2 + guards: STALE-LEAPS, FACTOR-OVERLAP guard, OVEREXPOSURE-ROTATION, PARABOLIC-CHASE, Tier-B side-plays). Refreeze golden ONCE at end of Task 6 if oracle drifts.
 - Keep the exact same skip reasons as baseline unless operator changes environment.
 
 ## Gates / invariants
-- Current branch gate after Task 4 is **1313 passed / 3 failed / 6 skipped** (+23 from Task 4 detector coverage; baseline failures + skip set unchanged).
+- Current branch gate after Task 5 is **1329 passed / 3 failed / 6 skipped** (+16 from Task 5 adapter coverage; baseline failures + skip set unchanged).
 - ZERO new failures introduced; failures remain subset of documented baseline failures.
 - Current failed set:
   - `test_go_live_checklist_cli_runs_against_current_repo`
