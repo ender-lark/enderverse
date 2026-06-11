@@ -1,48 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-11T13:06:05.177195Z",
+  "updated_at": "2026-06-11T13:09:41.101448Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:04:37.130324Z",
-      "summary": "deep synthesis manual support run completed from repo evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "source call candidates merge",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/source_call_candidate_draft.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/source_call_candidates.json",
-              "--merge-existing",
-              "--merge-cache"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"out\": \"src/source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 0,\n  \"drafted\": 0,\n  \"existing\": 3,\n  \"stored\": 3,\n  \"tickers\": [],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-05T20:04:37.111369+00:00\",\n    \"existing\": 3,\n    \"candidates\": 3,\n    \"added\": 0,\n    \"stored\": 3,\n    \"log_call_dates\": [\n      \"2026-06-03\"\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
     {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "started",
@@ -3868,6 +3827,13 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-11T13:09:41.101448Z",
+      "summary": "landed 3 Fundstrat rows; positions unchanged; catalyst/broker/event-risk dark from missing live rows/uploads; blocker notion-query-data-sources unavailable"
     }
   ]
 }
