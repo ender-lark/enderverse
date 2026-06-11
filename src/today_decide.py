@@ -174,7 +174,7 @@ _CSS = """
   border:1px solid #1e293b;border-radius:12px;padding:18px;margin:0 0 18px 0}
 .td h2{margin:0 0 4px 0;font-size:20px;letter-spacing:.04em}
 .td .td-anchor{font-size:17px;margin:8px 0 2px 0}
-.td .td-pace{color:#94a3b8;font-style:italic;font-size:12px;margin:0 0 10px 0}
+.td .td-pace{color:#94a3b8;font-style:italic;font-size:11px;margin:0 0 10px 0}
 .td .td-plan{color:#cbd5e1;font-size:13px;margin:0 0 10px 0}
 .td .td-gate{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;
   margin:0 6px 8px 0;border:1px solid}
@@ -187,6 +187,12 @@ _CSS = """
 .td .td-chip{border:1px solid #fb923c;color:#fdba74;border-radius:8px;padding:6px 8px;
   font-size:12px;margin:6px 0}
 .td details{margin:4px 0;font-size:12px;color:#94a3b8}
+.td details.td-card{padding:0}
+.td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
+.td details.td-card>summary::-webkit-details-marker{display:none}
+.td .td-chev{display:inline-block;font-size:11px;color:#64748b;margin:6px 0 0 2px}
+.td details.td-card[open] .td-chev{color:#334155}
+.td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
 .td .td-rail{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;
   padding:6px 12px;margin:6px 8px 0 0;cursor:pointer;font-size:13px}
 .td .td-rail.td-on{background:#34d399;color:#0b1220;font-weight:700}
@@ -222,15 +228,29 @@ def _render_card(card: dict[str, Any], rank: int) -> list[str]:
     impact = card.get("impact") or {}
     cid = _esc(card.get("card_id"))
     conflicted = " td-conflicted" if card.get("conflicts") else ""
-    h = [f'<div class="td-card{conflicted}">']
+    h = [f'<details class="td-card{conflicted}">', '<summary class="td-sum">']
     cls = win.get("class", "WAIT")
     h.append(
-        f'<div class="td-move">#{rank} {_esc(move.get("direction"))} {_esc(card.get("ticker"))}'
+        f'<div class="td-move">#{rank} <span style="color:{ {"BUY": "#34d399", "SELL": "#f87171"}.get(str(move.get("direction")), "#e2e8f0") };font-weight:700">{_esc(move.get("direction"))}</span> {_esc(card.get("ticker"))}'
         f' Â· {_esc(move.get("band"))}'
         f'<span class="td-pill" style="background:{_CLASS_COLORS.get(cls, "#94a3b8")}">{_esc(cls)}</span>'
         f'<span class="td-pill" style="background:#818cf8">{_esc(conv.get("read"))} {conv.get("points", 0)}</span>'
         "</div>"
     )
+    for c in card.get("conflicts") or []:
+        h.append(f'<div class="td-chip">SOURCE-CONFLICT â€” {_esc(c["with"])}: â€œ{_esc(c["their_claim"])}â€ '
+                 f'vs this card: {_esc(c["card_claim"])} Â· resolve before acting</div>')
+    h.append(
+        f'<button class="td-rail" data-card="{cid}" data-verb="ACT" data-copy="ACT {cid}" '
+        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button>'
+        f'<button class="td-rail" data-card="{cid}" data-verb="PASS" data-copy="PASS {cid} â€” reason: " '
+        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>'
+        f'<button class="td-rail" data-card="{cid}" data-verb="RECHECK" '
+        f'data-copy="RECHECK {cid} resurface {_esc(card.get("recheck_date"))}" '
+        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>'
+    )
+    h.append('<span class="td-chev">&#9656; details</span>')
+    h.append('</summary><div class="td-body">')
     groups = conv.get("groups") or {}
     h.append('<div class="td-row">evidence: '
              + " Â· ".join(f"{_esc(k)} {v:+.2f}" for k, v in groups.items()) + "</div>")
@@ -264,22 +284,10 @@ def _render_card(card: dict[str, Any], rank: int) -> list[str]:
         h.append(f'<div class="td-row">cash: {_esc(execn["cash"])}</div>')
     h.append(f'<div class="td-row">impact: {_esc(impact.get("band"))} Â· material: '
              f'{"yes" if impact.get("material") else "no"}</div>')
-    for c in card.get("conflicts") or []:
-        h.append(f'<div class="td-chip">SOURCE-CONFLICT â€” {_esc(c["with"])}: â€œ{_esc(c["their_claim"])}â€ '
-                 f'vs this card: {_esc(c["card_claim"])} Â· resolve before acting</div>')
     if card.get("last_disposition"):
         ld = card["last_disposition"]
         h.append(f'<div class="td-row">last disposition: {_esc(ld.get("verb"))} on {_esc(ld.get("et_date"))}</div>')
-    h.append(
-        f'<button class="td-rail" data-card="{cid}" data-verb="ACT" data-copy="ACT {cid}" '
-        f'onclick="tdRail(this)">ACT</button>'
-        f'<button class="td-rail" data-card="{cid}" data-verb="PASS" data-copy="PASS {cid} â€” reason: " '
-        f'onclick="tdRail(this)">PASS</button>'
-        f'<button class="td-rail" data-card="{cid}" data-verb="RECHECK" '
-        f'data-copy="RECHECK {cid} resurface {_esc(card.get("recheck_date"))}" '
-        f'onclick="tdRail(this)">RECHECK</button>'
-    )
-    h.append("</div>")
+    h.append("</div></details>")
     return h
 
 def render_today_decide_html(payload: dict[str, Any]) -> str:
@@ -302,7 +310,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
     for g in payload["gates"]:
         color = _GATE_COLORS.get(g.get("state"), "#94a3b8")
         h.append(f'<span class="td-gate" style="border-color:{color};color:{color}">'
-                 f'{_esc(g.get("symbol"))} {_esc(g.get("state"))} Â· {_esc(g.get("confirm_rule"))} '
+                 f'<b>{_esc(str(g.get("state") or "").replace("_"," ").upper())}</b> {_esc(g.get("symbol"))} Â· {_esc(g.get("confirm_rule"))} '
                  f'(as of {_esc(g.get("stated"))})</span>')
     for i, card in enumerate(payload["cards"], 1):
         h.extend(_render_card(card, i))

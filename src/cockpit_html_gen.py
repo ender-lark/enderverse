@@ -62,6 +62,33 @@ _DISPLAY_REPLACEMENTS = (
 )
 
 
+
+def _compact_stamp(staleness: dict) -> str:
+    """One-line source stamp: cluster sources sharing the newest/common date, amber the laggards."""
+    entries = staleness.get("entries") or []
+    if not entries:
+        return _e(staleness.get("stamp") or "")
+    abbrev = {"portfolio": "port", "uw_price": "px", "uw_macro": "macro",
+              "fundstrat_bible": "FS bible", "fundstrat_daily": "FS daily"}
+    from collections import Counter
+    norm = lambda e: str(e.get("date") or "")[:10]
+    dates = [norm(e) for e in entries if e.get("date")]
+    if not dates:
+        return _e(staleness.get("stamp") or "")
+    core = Counter(dates).most_common(1)[0][0]
+    md = lambda d: d[5:] if len(d) == 10 else d
+    core_srcs = [_e(abbrev.get(str(e.get("source")), str(e.get("source"))))
+                 for e in entries if norm(e) == core]
+    out = [f'data {md(core)}: ' + "&middot;".join(core_srcs)]
+    for e in entries:
+        d = norm(e)
+        if d == core or not d:
+            continue
+        name = _e(abbrev.get(str(e.get("source")), str(e.get("source"))))
+        color = "#b08930" if d < core else "#7d8590"
+        out.append(f'<span style="color:{color}">{name} {md(d)}</span>')
+    return " &#9474; ".join(out)
+
 def _ascii_display_safe(text: str) -> str:
     """Keep the generated export readable even if old symbols are mojibaked."""
     for old, new in _DISPLAY_REPLACEMENTS:
@@ -2402,6 +2429,8 @@ def generate_html(feed: dict) -> str:
     btype    = _e(feed.get("build_type") or "")
     book_asof = _e(feed.get("book_as_of") or "")
     stamp_str = (feed.get("staleness") or {}).get("stamp") or ""
+    compact_stamp = _compact_stamp(feed.get("staleness") or {})
+    built_short = built_at[5:] if len(built_at) > 5 and built_at[4] == "-" else built_at
 
     # stale check
     stale_entries = (feed.get("staleness") or {}).get("stale") or []
@@ -2464,11 +2493,7 @@ def generate_html(feed: dict) -> str:
   <div class="hdr">
     <div class="hdr-left">
       <h1>⚡ Conviction Cockpit</h1>
-      <div class="stamp">
-        {f'built {built_at}' if built_at else ""}
-        {f' · {btype}' if btype else ""}
-      </div>
-      {f'<div class="stamp">{_e(stamp_str)}</div>' if stamp_str else ""}
+      <div class="stamp" title="built {built_at} · {_e(stamp_str)}">{f'built {built_short}' if built_short else ""}{f' &middot; {btype}' if btype else ""}{f' &middot; {compact_stamp}' if compact_stamp else ""}</div>
       {stale_warn}
     </div>
     <div style="text-align:right">
