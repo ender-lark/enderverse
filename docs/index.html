@@ -264,11 +264,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
-      <div class="stamp">
-        built 2026-06-10 16:31 ET
-
-      </div>
-      <div class="stamp">sourced: portfolio 06-10  uw_price 06-10  uw_macro 06-10  fundstrat_bible 05-28  fundstrat_daily 06-09</div>
+      <div class="stamp" title="built 2026-06-10 16:31 ET  sourced: portfolio 06-10  uw_price 06-10  uw_macro 06-10  fundstrat_bible 05-28  fundstrat_daily 06-09">built 06-10 16:31 ET &middot; data 06-10: port&middot;px&middot;macro &#9474; <span style="color:#b08930">FS bible 05-28</span> &#9474; <span style="color:#b08930">FS daily 06-09</span></div>
 
     </div>
     <div style="text-align:right">
@@ -293,7 +289,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   border:1px solid #1e293b;border-radius:12px;padding:18px;margin:0 0 18px 0}
 .td h2{margin:0 0 4px 0;font-size:20px;letter-spacing:.04em}
 .td .td-anchor{font-size:17px;margin:8px 0 2px 0}
-.td .td-pace{color:#94a3b8;font-style:italic;font-size:12px;margin:0 0 10px 0}
+.td .td-pace{color:#94a3b8;font-style:italic;font-size:11px;margin:0 0 10px 0}
 .td .td-plan{color:#cbd5e1;font-size:13px;margin:0 0 10px 0}
 .td .td-gate{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;
   margin:0 6px 8px 0;border:1px solid}
@@ -306,6 +302,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .td .td-chip{border:1px solid #fb923c;color:#fdba74;border-radius:8px;padding:6px 8px;
   font-size:12px;margin:6px 0}
 .td details{margin:4px 0;font-size:12px;color:#94a3b8}
+.td details.td-card{padding:0}
+.td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
+.td details.td-card>summary::-webkit-details-marker{display:none}
+.td .td-chev{display:inline-block;font-size:11px;color:#64748b;margin:6px 0 0 2px}
+.td details.td-card[open] .td-chev{color:#334155}
+.td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
 .td .td-rail{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;
   padding:6px 12px;margin:6px 8px 0 0;cursor:pointer;font-size:13px}
 .td .td-rail.td-on{background:#34d399;color:#0b1220;font-weight:700}
@@ -328,15 +330,19 @@ btn.textContent=verb;}}
 </script>
 
 <section id="today-decide" class="td">
-<h2>TODAY - DECIDE <span style="color:#94a3b8;font-size:12px">built 2026-06-10</span></h2>
+<h2>TODAY - DECIDE <span style="color:#94a3b8;font-size:12px">built 2026-06-11</span></h2>
 <div class="td-anchor">$1,825,425 -> $3,000,000  |  60.8% there</div>
 <div class="td-pace">(display-only) gap $1,174,575  |  18 months to 2027-12-31  |   $65,254/month - pace never feeds ranking or urgency</div>
 <div class="td-plan">plan: funding pool n/a  |  shortfall $185,533  |  positions as of 2026-06-10</div>
-<span class="td-gate" style="border-color:#fbbf24;color:#fbbf24">QQQ red_but_tested  |  full size when today's session holds above ~705; close back below 695 re-reds the gate (as of 2026-06-08)</span>
-<span class="td-gate" style="border-color:#94a3b8;color:#94a3b8">SMH context  |  context only - never blocks (as of 2026-06-09)</span>
-<div class="td-card">
-<div class="td-move">#1 BUY GOOGL  |  $146,034 (0.0% -> 8.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.357</span></div>
-<div class="td-row">evidence: fs +0.36  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
+<span class="td-gate" style="border-color:#fbbf24;color:#fbbf24"><b>RED BUT TESTED</b> QQQ  |  full size when today's session holds above ~705; close back below 695 re-reds the gate (as of 2026-06-08)</span>
+<span class="td-gate" style="border-color:#94a3b8;color:#94a3b8"><b>CONTEXT</b> SMH  |  context only - never blocks (as of 2026-06-09)</span>
+<details class="td-card">
+<summary class="td-sum">
+<div class="td-move">#1 <span style="color:#34d399;font-weight:700">BUY</span> GOOGL  |  $146,034 (0.0% -> 8.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.353</span></div>
+<button class="td-rail" data-card="GOOGL-ADD-2026-06-11" data-verb="ACT" data-copy="ACT GOOGL-ADD-2026-06-11" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-11" data-verb="PASS" data-copy="PASS GOOGL-ADD-2026-06-11 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-11" data-verb="RECHECK" data-copy="RECHECK GOOGL-ADD-2026-06-11 resurface 2026-06-16" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
+<span class="td-chev">&#9656; details</span>
+</summary><div class="td-body">
+<div class="td-row">evidence: fs +0.35  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
 <div class="td-row"> gate red-but-tested: Newton 695-705 should contain pullbacks; broke intraday 6/9 (low 686.37), closed 707.83 back above band (2026-06-08)</div>
 <div class="td-row"> context: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (2026-06-09)</div>
 <details><summary>what changes this</summary><div>flip: full size when today's session holds above ~705; close back below 695 re-reds the gate</div><div>raise: A dated entry/stop/target call (Tier A) on GOOGL</div><div>raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div><div>raise: No ACTIVE insight maps GOOGL - state the thesis as one if you believe it</div><div>raise: 13F/insider lane goes live in the orphan-wiring chunk</div></details>
@@ -345,10 +351,13 @@ btn.textContent=verb;}}
 <div class="td-row">excluded: Robinhood Crypto 8794 - crypto-only account</div>
 <div class="td-row">cash: not_checked - cash balances are not in the positions cache; confirm buying power before placing</div>
 <div class="td-row">impact:  $146,034 (8.0% of book)  |  material: yes</div>
-<button class="td-rail" data-card="GOOGL-ADD-2026-06-10" data-verb="ACT" data-copy="ACT GOOGL-ADD-2026-06-10" onclick="tdRail(this)">ACT</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-10" data-verb="PASS" data-copy="PASS GOOGL-ADD-2026-06-10 - reason: " onclick="tdRail(this)">PASS</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-10" data-verb="RECHECK" data-copy="RECHECK GOOGL-ADD-2026-06-10 resurface 2026-06-15" onclick="tdRail(this)">RECHECK</button>
-</div>
-<div class="td-card">
-<div class="td-move">#2 BUY NVDA  |  $49,726 (8.3% -> 12.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
+</div></details>
+<details class="td-card">
+<summary class="td-sum">
+<div class="td-move">#2 <span style="color:#34d399;font-weight:700">BUY</span> NVDA  |  $49,726 (8.3% -> 12.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
+<button class="td-rail" data-card="NVDA-ADD-2026-06-11" data-verb="ACT" data-copy="ACT NVDA-ADD-2026-06-11" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="NVDA-ADD-2026-06-11" data-verb="PASS" data-copy="PASS NVDA-ADD-2026-06-11 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="NVDA-ADD-2026-06-11" data-verb="RECHECK" data-copy="RECHECK NVDA-ADD-2026-06-11 resurface 2026-06-16" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
+<span class="td-chev">&#9656; details</span>
+</summary><div class="td-body">
 <div class="td-row">evidence: fs +0.00  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
 <div class="td-row"> gate red-but-tested: Newton 695-705 should contain pullbacks; broke intraday 6/9 (low 686.37), closed 707.83 back above band (2026-06-08)</div>
 <div class="td-row"> context: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (2026-06-09)</div>
@@ -358,10 +367,14 @@ btn.textContent=verb;}}
 <div class="td-row">excluded: Robinhood Crypto 8794 - crypto-only account</div>
 <div class="td-row">cash: not_checked - cash balances are not in the positions cache; confirm buying power before placing</div>
 <div class="td-row">impact:  $49,726 (2.7% of book)  |  material: yes</div>
-<button class="td-rail" data-card="NVDA-ADD-2026-06-10" data-verb="ACT" data-copy="ACT NVDA-ADD-2026-06-10" onclick="tdRail(this)">ACT</button><button class="td-rail" data-card="NVDA-ADD-2026-06-10" data-verb="PASS" data-copy="PASS NVDA-ADD-2026-06-10 - reason: " onclick="tdRail(this)">PASS</button><button class="td-rail" data-card="NVDA-ADD-2026-06-10" data-verb="RECHECK" data-copy="RECHECK NVDA-ADD-2026-06-10 resurface 2026-06-15" onclick="tdRail(this)">RECHECK</button>
-</div>
-<div class="td-card td-conflicted">
-<div class="td-move">#3 SELL MAGS  |  $69,509 (3.8% -> 0.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
+</div></details>
+<details class="td-card td-conflicted">
+<summary class="td-sum">
+<div class="td-move">#3 <span style="color:#f87171;font-weight:700">SELL</span> MAGS  |  $69,509 (3.8% -> 0.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
+<div class="td-chip">SOURCE-CONFLICT - lean_in lane: Lean-in  looks good vs this card: SELL $69,509  |  resolve before acting</div>
+<button class="td-rail" data-card="MAGS-TRIM-2026-06-11" data-verb="ACT" data-copy="ACT MAGS-TRIM-2026-06-11" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-11" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-11 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-11" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-11 resurface 2026-06-16" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
+<span class="td-chev">&#9656; details</span>
+</summary><div class="td-body">
 <div class="td-row">evidence: fs +0.00  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
 <div class="td-row"> funding leg - execute paired with the adds it funds (no standalone urgency)</div>
 <details><summary>what changes this</summary><div>flip: sleeve turns down or goes overexposed -> OPEN-NOW</div><div>flip: the funded add's window opens</div><div>raise: A dated entry/stop/target call (Tier A) on MAGS</div><div>raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div><div>raise: No ACTIVE insight maps MAGS - state the thesis as one if you believe it</div><div>raise: 13F/insider lane goes live in the orphan-wiring chunk</div></details>
@@ -376,9 +389,7 @@ btn.textContent=verb;}}
 <div class="td-row">execute: sell $393 in SKB Fidelity Health Savings Account *****7284  |  tax-advantaged (no cap-gains)</div>
 <div class="td-chip">TRANSFER NEEDED: $19,500 of these proceeds land inside PCRA and CANNOT buy individual stocks - the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding.</div>
 <div class="td-row">impact:  $69,509 (3.8% of book)  |  material: yes</div>
-<div class="td-chip">SOURCE-CONFLICT - lean_in lane: Lean-in  looks good vs this card: SELL $69,509  |  resolve before acting</div>
-<button class="td-rail" data-card="MAGS-TRIM-2026-06-10" data-verb="ACT" data-copy="ACT MAGS-TRIM-2026-06-10" onclick="tdRail(this)">ACT</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-10" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-10 - reason: " onclick="tdRail(this)">PASS</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-10" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-10 resurface 2026-06-15" onclick="tdRail(this)">RECHECK</button>
-</div>
+</div></details>
 <details><summary>Backlog (8)</summary>
 <div class="td-row">TSM  |  BUY  |  $38,082  |  p88.2</div>
 <div class="td-row">MSFT  |  BUY  |  $91,271  |  p68.2</div>
