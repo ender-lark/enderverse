@@ -184,6 +184,12 @@ _CSS = """
   margin:0 6px 8px 0;border:1px solid}
 .td .td-card{border:1px solid #1e293b;border-radius:10px;padding:12px;margin:10px 0;background:#0f172a}
 .td .td-card.td-conflicted{border-color:#fb923c}
+.td details.td-card{padding:0}
+.td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
+.td details.td-card>summary::-webkit-details-marker{display:none}
+.td .td-chev{display:inline-block;font-size:11px;color:#64748b;margin:6px 0 0 2px}
+.td details.td-card[open] .td-chev{color:#334155}
+.td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
 .td .td-move{font-size:16px;font-weight:600}
 .td .td-pill{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;
   font-weight:600;margin-left:8px;color:#0b1220}
@@ -230,7 +236,7 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     impact = card.get("impact") or {}
     cid = _esc(card.get("card_id"))
     conflicted = " td-conflicted" if card.get("conflicts") else ""
-    h = [f'<div class="td-card{conflicted}">']
+    h = [f'<details class="td-card{conflicted}">', '<summary class="td-sum">']
     if check_first:
         h.append('<div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>')
     cls = win.get("class", "WAIT")
