@@ -214,5 +214,29 @@
     "priority": "medium",
     "source": "uw://lit-flow/BMNR/2026-06-10",
     "note": "Unusual Whales lit-flow data for Wednesday, June 10, 2026 showed two notable BMNR Nasdaq sweeps: about 17,300 shares at 12:37 PM ET near 15.96 and about 18,007 shares at 1:30 PM ET near 15.76. This is watch-only tape follow-through after the already-logged financing and staking packet, not a standalone action signal."
+  },
+  {
+    "signal": "UW broad tape flipped risk-on into the June 11 close",
+    "ticker": "SPY, QQQ, SMH, NVDA, MU, XLF",
+    "date": "2026-06-12",
+    "priority": "high",
+    "source": "https://app.notion.com/p/37dc50314bb681d191b3e7ac5909b286",
+    "note": "Unusual Whales market tide for Thursday, June 11, 2026 finished at 4:10 PM ET with about +599.5M net call premium, -419.1M net put premium, and roughly +2.08M net volume after a weak open. Broad tape flipped from the prior risk-off close to a positive end-of-day read. Watch-only context for held AI/semi and financial exposure, not a trade prompt."
+  },
+  {
+    "signal": "June 12 premarket reopened risk appetite as oil broke lower",
+    "ticker": "SPY, QQQ, SMH, NVDA, MU, XLF, LEU, UUUU, MP",
+    "date": "2026-06-12",
+    "priority": "high",
+    "source": "https://app.notion.com/p/37dc50314bb68128ac74e9b2c9f16460",
+    "note": "AP's Friday, June 12, 2026 premarket coverage said S&P 500 futures were up about 0.6%, Dow futures about 0.7%, and Nasdaq futures about 0.5%, while Brent fell to roughly 87.44 and WTI to about 84.66 as Iran-war settlement hopes improved. This reopens risk appetite into the morning, but the ceasefire path is still explicitly fragile. Watch-only open-frame context for held semis, cyclicals, and rates-sensitive adds."
+  },
+  {
+    "signal": "Held AI flow stayed split: NVDA and MU firmed while SMH hedge pressure stayed heavy",
+    "ticker": "SMH, NVDA, MU",
+    "date": "2026-06-12",
+    "priority": "high",
+    "source": "https://app.notion.com/p/37dc50314bb681b38d5af5771f1fb952",
+    "note": "The repo's June 11 UW opportunity cache stayed split across held names: NVDA showed about $8.2M ask-side call sweeps, roughly +2583% call OI, and about $9M dark-pool net buy; MU showed about $9.6M ask-side call sweeps and about $87M dark-pool net buy; but SMH still carried about $16.9M ask-side put sweeps, roughly +1785% put OI, and about $48M dark-pool net sell. Watch-only held-name monitoring: single-name recovery improved, yet sector hedge pressure was still live into Friday."
   }
 ]
