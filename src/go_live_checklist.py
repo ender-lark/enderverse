@@ -485,9 +485,9 @@ def build_go_live_checklist(
         ),
         _row(
             "preview",
-            "Canonical JSX cockpit",
+            "Dashboard preview",
             _status_from_bool(bool(preview.get("preview_exists") and preview.get("server_running")), warn=True),
-            preview.get("canonical_url") or preview.get("url") or "Canonical JSX cockpit URL unavailable.",
+            preview.get("canonical_url") or preview.get("url") or "Dashboard preview URL unavailable.",
             "python src/dashboard_preview_server.py --check",
         ),
         _row(

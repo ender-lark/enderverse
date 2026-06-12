@@ -28,10 +28,10 @@ mirror for future rebuilds, upgrades, and troubleshooting.
 
 ## Operating Protocol
 
-- Test and validate on the canonical local JSX cockpit:
-  `http://127.0.0.1:8765/cockpit_jsx_preview.html`.
-- Treat generated HTML and GitHub Pages as mirror/export surfaces until v1 is
-  finalized.
+- Test and validate the operator dashboard on the local HTML surface:
+  `http://127.0.0.1:8765/dashboard_preview.html`.
+- Treat `http://127.0.0.1:8765/cockpit_jsx_preview.html` as an internal
+  JSX parity/validation surface, not the default operator dashboard.
 - Store source-of-truth implementation state in repo docs first, then mirror
   important material to Notion when useful.
 - Capture both misses and improvements as reusable implementation learnings.
@@ -45,9 +45,9 @@ mirror for future rebuilds, upgrades, and troubleshooting.
 
 ## User Decisions Captured
 
-- Dashboard default: use the JSX cockpit by default during v1 testing. Do not
-  show the HTML preview as the primary dashboard unless explicitly checking
-  parity/export.
+- Dashboard default: use the local HTML dashboard for operator dashboard,
+  cockpit, and conviction-cockpit requests. Use the JSX cockpit only for
+  parity/internal validation unless explicitly requested.
 - First screen: show portfolio impact, blunt blockers, Key Now, and top
   Re-check Before Acting items first. The rest of the backlog should be
   collapsible.
@@ -81,7 +81,7 @@ mirror for future rebuilds, upgrades, and troubleshooting.
      readable mirror.
 
 2. Stage 1 cockpit usability.
-   - Make the JSX cockpit the default status/checklist/command target.
+   - Make the local HTML dashboard the default status/checklist/command target.
    - Add persistent minimizable sections.
    - Collapse status/check strips by default.
    - Add compact portfolio-impact event/risk summary.
@@ -137,8 +137,8 @@ mirror for future rebuilds, upgrades, and troubleshooting.
 - Save this plan in repo docs and Notion.
 - Update the new-chat handoff and build queue so a new chat can resume from
   files.
-- Make the JSX cockpit the default operator/testing surface in status and
-  command surfaces.
+- Make the local HTML dashboard the default operator/testing surface in status
+  and command surfaces.
 - Keep the repo docs current as the plan changes; do not rely on chat memory for
   project state.
 
@@ -256,7 +256,7 @@ boundaries:
 ## Acceptance
 
 - `python src/verify_standard.py` passes.
-- Browser check uses the JSX cockpit first.
+- Browser check uses the local HTML dashboard first.
 - Dashboard shows grouped decisions, compact portfolio-impact synthesis,
   collapsible sections, action freshness/rationale, source honesty, Book
   allocation guidance, and current useful commands.

@@ -54,9 +54,9 @@ Connectors / supplied files / repo caches
   -> src/latest_cockpit_feed.json
   -> src/live_dashboard_refresh.py second pass
   -> src/rendered/conviction_cockpit_v5.jsx
-  -> tmp/cockpit_jsx_preview.html as the canonical v1 test cockpit
-  -> docs/index.html and tmp/dashboard_preview.html as mirrors/exports
-  -> http://127.0.0.1:8765/cockpit_jsx_preview.html
+  -> tmp/cockpit_jsx_preview.html as the JSX validation surface
+  -> docs/index.html and tmp/dashboard_preview.html as HTML dashboards
+  -> http://127.0.0.1:8765/dashboard_preview.html
 ```
 
 The live dashboard is a view of the latest feed and routine state. It is not a
@@ -64,10 +64,10 @@ separate source of truth. The source of truth for engine-consumed state is the
 repo convention files plus the ownership contract in
 `src/state_ownership_map.json`.
 
-During the v1 build, the canonical operator/testing surface is the local JSX
-cockpit. The generated HTML and GitHub Pages copies remain useful for sharing,
-export, and parity checks, but they should not lead product validation while the
-system is still being finalized.
+The default operator/testing surface is the local HTML dashboard. The JSX
+cockpit remains useful for parity and internal validation, but it should not be
+opened by default for user requests for the dash, dashboard, cockpit, or
+conviction cockpit.
 
 ## 3. System Layers
 
@@ -196,9 +196,9 @@ The system synthesizes only from explicit source or repo evidence:
 The dashboard shows the feed plus operator state:
 
 - Layout contract:
-  - Validate the canonical JSX cockpit first. `docs/index.html` is a generated
-    HTML mirror/export and must not carry operator meaning that the JSX cockpit
-    lacks.
+  - Validate the local HTML dashboard first. The JSX cockpit remains an
+    internal parity/validation surface and must not be the default operator
+    target.
   - The Action surface is scan-first by default. Major categories render as
     compact rows with a useful summary, then expand independently for details.
     The first screen should answer what matters today, what assumptions need a
@@ -216,10 +216,10 @@ The dashboard shows the feed plus operator state:
     but it does not create a core go-live source wait, manual-drop wait, or build
     warning. This lets the rest of the system be ready without pretending the
     social lane has been checked.
-  - The canonical JSX cockpit includes a Commands view with current operator
-    actions, system checks, source links, and the Social Watch queued/dark
-    rule. Generated HTML may mirror commands, but it must not be the only place
-    current commands live during v1 validation.
+  - The HTML dashboard includes a Commands view with current operator actions,
+    system checks, source links, and the Social Watch queued/dark rule. JSX may
+    mirror commands for internal validation, but it must not be the only place
+    current commands live.
 
 - Today's Actions: `feed.actions`
   - Includes engine actions, catalyst/event-risk review prompts, and
@@ -344,12 +344,11 @@ The dashboard shows the feed plus operator state:
 
 - Preview/export artifacts:
   - Canonical injected JSX: `src/rendered/conviction_cockpit_v5.jsx`
-  - Canonical local JSX cockpit: `tmp/cockpit_jsx_preview.html`
-  - Canonical local cockpit URL:
-    `http://127.0.0.1:8765/cockpit_jsx_preview.html`
-  - Published summary HTML: `docs/index.html`
-  - Local preview HTML: `tmp/dashboard_preview.html`
-  - HTML mirror URL: `http://127.0.0.1:8765/dashboard_preview.html`
+  - JSX validation surface: `tmp/cockpit_jsx_preview.html`
+  - Local HTML dashboard: `tmp/dashboard_preview.html`
+  - Default local dashboard URL:
+    `http://127.0.0.1:8765/dashboard_preview.html`
+  - Published dashboard HTML: `docs/index.html`
 
 - Candidate Reallocation Brief: `feed.reallocation_brief`
   - Uses current promoted positions when available. With SnapTrade current, it
@@ -514,9 +513,9 @@ Source-conflict outcome contract:
 - Conflict posture is review-only and should normally downgrade toward hold,
   no-add, re-check, watch, or research. A conflict view without posture is not
   decision-useful enough to promote.
-- Canonical JSX and the HTML mirror render a collapsed Source Conflicts section
-  near Today's Actions; when there are no conflicts, it stays visible as a quiet
-  zero-state check.
+- The HTML dashboard and JSX validation surface render a collapsed Source
+  Conflicts section near Today's Actions; when there are no conflicts, it stays
+  visible as a quiet zero-state check.
 
 Synthesis usefulness contract:
 
@@ -534,9 +533,9 @@ Synthesis usefulness contract:
 - `capital_priority_score` ranks items inside their decision group using goal
   score, goal impact, downside protection, sizing gaps, opportunity cost,
   capital effect, synthesis posture, and assumption-refresh status.
-- The canonical JSX cockpit and HTML mirror show compact `changes:` and
-  `priority:` tags on action cards. These are explanation/ranking metadata only;
-  they do not execute trades or bypass gates.
+- The HTML dashboard and JSX validation surface show compact `changes:` and
+  `priority:` tags on action cards. These are explanation/ranking metadata
+  only; they do not execute trades or bypass gates.
 - `feed.market_open_packet` repeats the key action-validity fields for urgent
   action-derived rows so the first-screen operator path does not depend on
   opening a deeper action drawer before seeing freshness, invalidation,
@@ -550,9 +549,9 @@ Book allocation guidance contract:
 - The Book tab labels these as an allocation guide, not an instruction to trade.
   Fundstrat currently contributes cue/direction context, while the working model
   supplies the numeric target/gap view.
-- The canonical JSX Book view shows the guide beside Combined, Parents, and SKB
-  account category views, and the HTML mirror renders the same category guide
-  above each account table.
+- The HTML dashboard Book view shows the guide above each account table, and
+  the JSX validation surface shows the same guide beside Combined, Parents,
+  and SKB account category views.
 - Effective exposure remains separate from direct book weight; ETF
   look-through estimates are useful context but are not additive to direct
   account percentages.
@@ -627,7 +626,7 @@ Dark-lane rules:
 - A deferred optional source lane can be dark without being a core source wait.
   Current deferred key: `social_watch`.
 - Operator surfaces (`live_status.py`, `go_live_checklist.py`,
-  `completion_audit.py`, JSX operator card, and HTML mirror) split deferred
+  `completion_audit.py`, HTML dashboard, and JSX validation card) split deferred
   optional dark lanes from actionable dark lanes. Deferred Social Watch should
   show as visible/not checked without producing a core manual-drop instruction.
 - The heartbeat/layer strip follows the same rule: actionable dark source lanes
@@ -655,7 +654,7 @@ It runs, in order:
    synthesis without deleting explicit synthesis actions.
 5. `heartbeat_status.py` after synthesis.
 6. `full_build_runner.py --publish` again for the final feed.
-7. `render_cockpit.py` to inject the feed into canonical JSX.
+7. `render_cockpit.py` to inject the feed into the JSX validation surface.
 8. `cockpit_html_gen.py` for `docs/index.html`.
 9. `cockpit_html_gen.py` for `tmp/dashboard_preview.html`.
 10. `full_build_runner.py` for `tmp/dashboard_parity_feed.json`.
@@ -713,7 +712,7 @@ Feed and dashboard:
 - `publish_gate.py`: live publish safety gate.
 - `live_dashboard_refresh.py`: standard dashboard refresh package.
 - `live_status.py`: concise operator status for dashboard/live health.
-- `render_cockpit.py`: injects feed JSON into canonical JSX.
+- `render_cockpit.py`: injects feed JSON into the JSX validation surface.
 - `cockpit_html_gen.py`: builds dashboard HTML summary/preview.
 - `dashboard_preview_server.py`: local preview server status.
 

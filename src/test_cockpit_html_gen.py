@@ -449,7 +449,7 @@ def _feed():
 def test_generated_html_labels_summary_export_and_dark_lanes():
     html = generate_html(_feed())
 
-    assert "Action-first summary view" in html
+    assert "Action-first dashboard view" in html
     assert "not an all-clear read" in html
     assert "No Today" in html and "Actions are shown" in html
     assert 'href="#today-actions"' in html
@@ -962,10 +962,10 @@ def test_generated_html_commands_tab_surfaces_system_checks():
 
     assert "System checks" in html
     assert "Current operating actions" in html
-    assert "open canonical cockpit" in html
+    assert "open dashboard" in html
     assert "review full book" in html
-    assert "python src/cockpit_jsx_preview.py" in html
-    assert "primary v1 validation surface" in html
+    assert "http://127.0.0.1:8765/dashboard_preview.html" in html
+    assert "default operator cockpit" in html
     assert "SnapTrade book refresh" in html
     assert "python src/snaptrade_book_refresh.py --refresh-dashboard" in html
     assert "python src/live_dashboard_refresh.py" in html
@@ -1053,5 +1053,5 @@ def test_cockpit_html_gen_cli_writes_output(tmp_path):
 
     assert proc.returncode == 0, proc.stderr
     html = out_path.read_text(encoding="utf-8")
-    assert "Action-first summary view" in html
+    assert "Action-first dashboard view" in html
     assert "Lane status" in html

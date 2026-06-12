@@ -9,9 +9,9 @@ until the core logic is stable; Notion sync comes later.
   - Follow `docs/monday_go_live_build_plan.md`.
   - GitHub/repo docs are canonical implementation storage; mirror important
     source-of-truth notes to Notion for readability and recovery.
-  - Canonical dashboard for v1 testing is
-    `http://127.0.0.1:8765/cockpit_jsx_preview.html`. Generated HTML/GitHub
-    Pages remains a mirror/export surface until v1 is finalized.
+  - Default dashboard for operator use is
+    `http://127.0.0.1:8765/dashboard_preview.html`. The JSX page is an
+    internal parity/validation surface, not the default cockpit.
   - Current priority: Stage 0 continuity, Stage 1 cockpit usability, Stage 1.5
     synthesis-quality review, then Stage 2 Book/allocation usability.
   - Cloud routine proof remains end-of-queue background monitoring. Let normal
@@ -55,7 +55,7 @@ until the core logic is stable; Notion sync comes later.
   - Placement guidance is review-only. It does not check cash, tax lots,
     wash-sale rules, account permissions, final sizing, or execute trades.
 - Dashboard semantic color coding.
-  - Added shared tone rules across canonical JSX and generated HTML so phone
+  - Added shared tone rules across the JSX validation surface and generated HTML so phone
     scanning uses the same colors for urgent/action, re-check/stale/blocker,
     candidate/eligible, research/context, and quiet/deferred rows.
   - Applied left-edge tone bars and matching chips to Today Priority Stack,
@@ -112,7 +112,7 @@ until the core logic is stable; Notion sync comes later.
     compact market-open review order: re-check first, gate Key Now, unblock
     current positions, run UW check sets, keep dark lanes visible, and preserve
     open reviews.
-  - Wired `feed.market_open_packet` through full-build output, canonical JSX,
+  - Wired `feed.market_open_packet` through full-build output, JSX validation,
     HTML summary/export, and dashboard parity classification.
   - The packet is a capital-efficiency operator aid only. It helps compare
     better uses of scarce capital and avoid both stale action and over-precise
@@ -130,7 +130,7 @@ until the core logic is stable; Notion sync comes later.
   - Added `social_watch.py` to normalize future Reddit/social API output or a
     supplied cache into a watch-only `feed.social_watch` block.
   - Wired `social_watch` through full-build convention inputs, lane-status dark
-    lane handling, canonical JSX, HTML summary/export, source ownership, and
+    lane handling, JSX validation, HTML summary/export, source ownership, and
     dashboard parity classification.
   - Added validation so Social Watch rows cannot escalate directly to buy, sell,
     trade, or Key Now; independent non-social confirmation is required before
@@ -181,13 +181,13 @@ until the core logic is stable; Notion sync comes later.
   - The block is explicit that routing recommends endpoint groups only and is
     not proof that those endpoints were fetched.
   - Source Proof now renders the UW routing line and compact "UW next checks"
-    endpoint list in both generated HTML and canonical JSX.
+    endpoint list in both generated HTML and the JSX validation surface.
 - Action-card disconfirmation surfacing.
   - `decision_support.enrich_actions()` now adds a structured
     `disconfirmation` block to every action, including what could make the item
     wrong, what must be confirmed before acting, and where to downgrade the item
     when evidence fails.
-  - The generated HTML summary and canonical JSX action drawer now render
+  - The generated HTML summary and JSX validation action drawer now render
     "What could make this wrong?" alongside why/freshness/rationale so Key Now
     and Re-check items have explicit invalidation pressure.
   - Added focused coverage for event-risk, target-drift/funding/gate
@@ -291,7 +291,7 @@ until the core logic is stable; Notion sync comes later.
   - The go-live checklist now reports `review backlog=0` when open reviews are
     only new and have `0 due; 0 stale`, while still listing the review-report
     command and tickers.
-  - The generated HTML dashboard and canonical JSX Operator Status card now
+  - The generated HTML dashboard and JSX validation Operator Status card now
     show `2 new` in pass styling for same-day ANET/GOOGL reviews. Overall
     operator status remains `WARN` only because Account Positions and natural
     cloud proof are still waits.
@@ -317,11 +317,11 @@ until the core logic is stable; Notion sync comes later.
     preserves publish-gate freshness checks while rendering source ages against
     the correct ET session day.
   - Action freshness, open-opportunity memory, repo-evidence synthesis,
-    generated HTML, and canonical JSX render caveats now format midnight-UTC
+    generated HTML, and JSX validation render caveats now format midnight-UTC
     builds as the prior evening ET build time.
   - Added regression coverage for the full-build source stamps,
     decision-support freshness, action-memory as-of date, repo-evidence
-    synthesis date, generated HTML header, and canonical JSX render caveat.
+    synthesis date, generated HTML header, and JSX validation render caveat.
 - Dashboard manual-drop template guidance.
   - The generated Lane Status command block now shows
     `docs/manual_live_source_drop.template.json` as shape-only guidance before
@@ -652,7 +652,7 @@ until the core logic is stable; Notion sync comes later.
   - This reduces sudden-event workflow fragility without scraping headlines or
     inventing unsourced market narrative.
 - Dashboard sudden-event utility command.
-  - The canonical JSX cockpit and generated HTML preview now surface the
+  - The JSX validation surface and generated HTML preview now surface the
     `sudden_event_refresh.py` command in Operator Status alongside the go-live
     checklist command.
   - This makes the fast supplied-headline workflow visible in the dashboard
@@ -694,7 +694,7 @@ until the core logic is stable; Notion sync comes later.
   - Pending source-call rows are now shown as tracked/pending, not as a warning
     unless calibration is stale or a scoring window is overdue.
 - Dashboard Operator Status source-call parity.
-  - Added a Source calls pill to the generated HTML preview and canonical JSX
+  - Added a Source calls pill to the generated HTML preview and JSX validation
     Operator Status card.
   - The pill warns when Fundstrat daily calls are flowing but source-call
     calibration is still not checked.
@@ -746,7 +746,7 @@ until the core logic is stable; Notion sync comes later.
   - That slice proof showed feed `2026-06-05T10:20:13.403157+00:00`, 11 lanes with
     data, 2 dark lanes, 4 actions, and top action `event_risk`.
 - Canonical dashboard operator-status parity.
-  - Added the compact Operator Status read to the canonical JSX cockpit, not
+  - Added the compact Operator Status read to the JSX validation surface, not
     only the generated HTML preview.
   - The card uses live feed health only: Today's Actions, open action-memory
     reviews, dark/stale/failed source lanes, and the go-live checklist command.
@@ -804,7 +804,7 @@ until the core logic is stable; Notion sync comes later.
   - Prioritized sudden-event lanes in live-readiness next steps; Event Risk now
     names the daily/weekly event scan route for war, oil, rates, policy, or
     volatility shocks.
-  - Mirrored the guidance into heartbeat notes, the canonical cockpit check-row
+  - Mirrored the guidance into heartbeat notes, the dashboard check-row
     tooltips, and the generated summary preview.
   - Closed the post-basic queued-upgrade triage item after promoting the useful
     upgrades and leaving low-signal complexity out of the basic build.
@@ -834,7 +834,7 @@ until the core logic is stable; Notion sync comes later.
     actions only; missing scans stay not checked and empty supplied scans are
     checked clear.
 - Published feed dashboard render refresh.
-  - Rendered `src/latest_cockpit_feed.json` through the canonical JSX injector
+  - Rendered `src/latest_cockpit_feed.json` through the JSX validation injector
     into `src/rendered/conviction_cockpit_v5.jsx`.
   - Fixed `render_cockpit.py` console caveat output so the render path is
     ASCII-safe on Windows consoles.
@@ -1095,8 +1095,8 @@ until the core logic is stable; Notion sync comes later.
 - One-command live dashboard refresh.
   - Added `live_dashboard_refresh.py` as the repo-local live refresh runner.
   - It writes heartbeat status, publishes a feed, refreshes repo-evidence Daily
-    Synthesis from that feed, republishes, renders canonical JSX plus
-    summary/preview HTML, writes the parity feed, and prints readiness plus
+    Synthesis from that feed, republishes, renders the JSX validation surface
+    plus dashboard HTML, writes the parity feed, and prints readiness plus
     preview-server status.
   - Added routine-manifest coverage and focused tests for the refresh sequence.
 - Dashboard preview server helper.

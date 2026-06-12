@@ -86,10 +86,10 @@ def refresh_plan(
             "--summary", _rel(src / "heartbeat_summary.json"),
         ]),
         Step("build_publish_final", build_cmd),
-        Step("render_canonical_jsx", [
+        Step("render_jsx_validation_surface", [
             py, "src/render_cockpit.py", _rel(feed), "--out", _rel(jsx),
         ]),
-        Step("build_canonical_jsx_preview", [
+        Step("build_jsx_validation_preview", [
             py, "src/cockpit_jsx_preview.py",
         ]),
         Step("render_summary_html", [

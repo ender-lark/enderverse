@@ -1610,7 +1610,7 @@ function evidenceGatherPrompt(a, evidence){
     `Needed evidence: ${evidence || "identify the missing source, price, position, flow, event-risk, and pre-trade checks."}`,
     a&&a.yourMove ? `Current decision text: ${a.yourMove}` : "",
     a&&a.whyThisMatters ? `Why it matters: ${a.whyThisMatters}` : "",
-    "Refresh only the relevant evidence lanes, keep missing/stale sources honest, update the local JSX cockpit if the decision changes, and do not place trades.",
+    "Refresh only the relevant evidence lanes, keep missing/stale sources honest, update the local HTML dashboard if the decision changes, and do not place trades.",
   ].filter(Boolean).join("\n");
 }
 function copyTextToClipboard(text, setPosOpen, key, event){
@@ -1622,8 +1622,8 @@ function copyTextToClipboard(text, setPosOpen, key, event){
 }
 
 const COMMAND_ACTIONS = [
-  { name:"Start here", desc:"Use the canonical JSX cockpit first. It has the deepest drilldowns and is the v1 validation surface.", command:"http://127.0.0.1:8765/cockpit_jsx_preview.html" },
-  { name:"Refresh the cockpit", desc:"Rebuild the feed, rendered JSX, local preview, and HTML mirror before trusting a stale screen.", command:"python src/live_dashboard_refresh.py" },
+  { name:"Start here", desc:"Use the local HTML dashboard first. JSX is validation-only unless explicitly requested.", command:"http://127.0.0.1:8765/dashboard_preview.html" },
+  { name:"Refresh the cockpit", desc:"Rebuild the feed, rendered JSX, local dashboard, and public HTML before trusting a stale screen.", command:"python src/live_dashboard_refresh.py" },
   { name:"Refresh book from SnapTrade", desc:"Pull account API positions, validate, promote the book, and rebuild the cockpit. Use daily and after reported trades.", command:"python src/snaptrade_book_refresh.py --refresh-dashboard" },
   { name:"Review market-open packet", desc:"Walk the current Key Now, Re-check, backlog, blockers, and assumption-refresh sequence.", command:"python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text" },
   { name:"Run post-open evidence gate", desc:"Force the same-session price/flow/news proof pass that can promote, downgrade, or keep Today/Reallocation candidates gated.", command:"python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text; python src/uw_endpoint_result_capture.py --feed src/latest_cockpit_feed.json --out src/uw_endpoint_results.json --timeout 8 --retries 1; python src/uw_endpoint_result_proof.py --results src/uw_endpoint_results.json --runbook src/latest_cockpit_feed.json --format text; python src/live_dashboard_refresh.py" },
@@ -1644,7 +1644,7 @@ const COMMAND_LINKS = [
   { name:"GitHub repo", desc:"Executable source of truth for implementation state.", href:"https://github.com/ender-lark/enderverse" },
   { name:"Notion architecture mirror", desc:"Readable rebuild and troubleshooting mirror.", href:"https://app.notion.com/p/376c50314bb681d4b04cda8e73d6c34b" },
   { name:"Monday build plan", desc:"Current go-live plan and acceptance criteria.", href:"https://app.notion.com/p/378c50314bb681afb39bcb82efce9d47" },
-  { name:"Published HTML mirror", desc:"Shareable/export surface after JSX validation.", href:"https://ender-lark.github.io/enderverse/" },
+  { name:"Published dashboard", desc:"Shareable public HTML dashboard.", href:"https://ender-lark.github.io/enderverse/" },
 ];
 
 function ActionCard({ a, keyPrefix, posOpen, setPosOpen, stamp, footerLabel, showAging=false, showSizing=false, advisorNote=null }) {

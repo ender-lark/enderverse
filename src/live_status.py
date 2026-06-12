@@ -304,7 +304,7 @@ def format_text(status: dict[str, Any]) -> str:
     top_action = data_flow.get("top_action") or {}
 
     preview_url = preview.get("canonical_url") or preview.get("url") or "preview URL unavailable"
-    html_url = preview.get("html_url") or preview.get("mirror_url") or ""
+    jsx_url = preview.get("jsx_url") or ""
     preview_state = "running" if preview.get("server_running") else "not running"
     top_kind = top_action.get("kind") or "none"
     top_what = top_action.get("what") or ""
@@ -367,8 +367,8 @@ def format_text(status: dict[str, Any]) -> str:
     else:
         lines.append("Active event watch: none supplied")
     lines.extend([
-        f"Canonical JSX cockpit: {preview_url} ({preview_state})",
-        f"HTML mirror: {html_url}" if html_url else "HTML mirror: unavailable",
+        f"Dashboard: {preview_url} ({preview_state})",
+        f"JSX validation surface: {jsx_url}" if jsx_url else "JSX validation surface: unavailable",
         (
             f"Open review tickers: {_join_values(open_actions.get('tickers') or [])} | "
             f"due={int(open_actions.get('due_count') or 0)} | "

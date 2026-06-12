@@ -412,7 +412,7 @@ btn.textContent=verb;}}
 
 <div class="card summary-caveat">
   <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
-  <div class="summary-line">Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">Core source lanes are clear; 1 queued optional lane remains visible as not checked.</div>
+  <div class="summary-line">Action-first dashboard view. JSX remains available for internal validation, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">Core source lanes are clear; 1 queued optional lane remains visible as not checked.</div>
 </div>
 
 <div class="quick-nav">
@@ -1243,7 +1243,7 @@ btn.textContent=verb;}}
   <span class="summary-muted">checked (3)</span>
 
 </div>
-  <div class="feedback-line">+4 more lane rows in the canonical cockpit.</div>
+  <div class="feedback-line">+4 more lane rows available in dashboard drilldowns.</div>
 </div>
 
 <div class="card" id="source-audits">
@@ -5046,11 +5046,11 @@ btn.textContent=verb;}}
 <div id="tab-commands" style="display:none">
   <div class="cmd-section">
     <div class="cmd-section-title">Current operating actions</div>
-    <div class="cmd-row"><span class="cmd-name">open canonical cockpit</span><span class="cmd-desc">Use the JSX preview first for v1 validation and deepest drilldowns.</span></div><div class="cmd-row"><span class="cmd-name">open live dashboard</span><span class="cmd-desc">Use GitHub Pages as the published HTML mirror/shareable surface.</span></div><div class="cmd-row"><span class="cmd-name">refresh dashboard</span><span class="cmd-desc">Run the full local refresh package, then validate JSX first and HTML parity second.</span></div><div class="cmd-row"><span class="cmd-name">refresh book</span><span class="cmd-desc">Pull SnapTrade account positions, validate, promote the book, and rebuild the cockpit.</span></div><div class="cmd-row"><span class="cmd-name">review market-open packet</span><span class="cmd-desc">Start with Key Now, Re-check Before Acting, blockers, and assumption-refresh notes.</span></div><div class="cmd-row"><span class="cmd-name">review full book</span><span class="cmd-desc">Use Book for full SnapTrade account rows, then the conviction book below it.</span></div><div class="cmd-row"><span class="cmd-name">review reallocation brief</span><span class="cmd-desc">Candidate-only add/trim plan; run same-session gates before any capital action.</span></div><div class="cmd-row"><span class="cmd-name">run UW check set</span><span class="cmd-desc">Use the UW action runbook for same-session price, flow, tape, and event-risk confirmation.</span></div><div class="cmd-row"><span class="cmd-name">inspect source proof</span><span class="cmd-desc">Check source audits, dark lanes, routine receipts, and connector evidence before trusting outputs.</span></div><div class="cmd-row"><span class="cmd-name">resolve action memory</span><span class="cmd-desc">Only close ANET/GOOGL/etc. after act, invalidate, defer, ignore, or miss is explicit.</span></div>
+    <div class="cmd-row"><span class="cmd-name">open dashboard</span><span class="cmd-desc">Use the local HTML dashboard first; it is the default operator cockpit.</span></div><div class="cmd-row"><span class="cmd-name">open live dashboard</span><span class="cmd-desc">Use GitHub Pages as the published shareable dashboard.</span></div><div class="cmd-row"><span class="cmd-name">refresh dashboard</span><span class="cmd-desc">Run the full local refresh package, then check the HTML dashboard and JSX parity surface.</span></div><div class="cmd-row"><span class="cmd-name">refresh book</span><span class="cmd-desc">Pull SnapTrade account positions, validate, promote the book, and rebuild the cockpit.</span></div><div class="cmd-row"><span class="cmd-name">review market-open packet</span><span class="cmd-desc">Start with Key Now, Re-check Before Acting, blockers, and assumption-refresh notes.</span></div><div class="cmd-row"><span class="cmd-name">review full book</span><span class="cmd-desc">Use Book for full SnapTrade account rows, then the conviction book below it.</span></div><div class="cmd-row"><span class="cmd-name">review reallocation brief</span><span class="cmd-desc">Candidate-only add/trim plan; run same-session gates before any capital action.</span></div><div class="cmd-row"><span class="cmd-name">run UW check set</span><span class="cmd-desc">Use the UW action runbook for same-session price, flow, tape, and event-risk confirmation.</span></div><div class="cmd-row"><span class="cmd-name">inspect source proof</span><span class="cmd-desc">Check source audits, dark lanes, routine receipts, and connector evidence before trusting outputs.</span></div><div class="cmd-row"><span class="cmd-name">resolve action memory</span><span class="cmd-desc">Only close ANET/GOOGL/etc. after act, invalidate, defer, ignore, or miss is explicit.</span></div>
   </div>
   <div class="cmd-section">
     <div class="cmd-section-title">System checks</div>
-    <div class="cmd-row"><span class="cmd-name">canonical JSX preview</span><span class="cmd-desc"><code>python src/cockpit_jsx_preview.py</code><span class="context-sub">Builds tmp/cockpit_jsx_preview.html for full cockpit validation.</span></span></div><div class="cmd-row"><span class="cmd-name">preview server</span><span class="cmd-desc"><code>python src/dashboard_preview_server.py --check</code><span class="context-sub">Confirms canonical JSX preview, local server, and HTML mirror availability.</span></span></div><div class="cmd-row"><span class="cmd-name">full refresh</span><span class="cmd-desc"><code>python src/live_dashboard_refresh.py</code><span class="context-sub">Rebuilds feed, rendered JSX, JSX preview, local HTML, and GitHub Pages HTML.</span></span></div><div class="cmd-row"><span class="cmd-name">live status</span><span class="cmd-desc"><code>python src/live_status.py --format text</code><span class="context-sub">Fast readiness, dark-lane, source-call, and preview status.</span></span></div><div class="cmd-row"><span class="cmd-name">go-live checklist</span><span class="cmd-desc"><code>python src/go_live_checklist.py --format text</code><span class="context-sub">Operating checklist for source, dashboard, event, and review gates.</span></span></div><div class="cmd-row"><span class="cmd-name">action memory</span><span class="cmd-desc"><code>python src/action_memory_resolve.py --review-report</code><span class="context-sub">Lists open reviews and stale/due cleanup candidates.</span></span></div><div class="cmd-row"><span class="cmd-name">UW runbook</span><span class="cmd-desc"><code>python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text</code><span class="context-sub">Same-session check sets; instructions only until endpoint proof is captured.</span></span></div><div class="cmd-row"><span class="cmd-name">SnapTrade book refresh</span><span class="cmd-desc"><code>python src/snaptrade_book_refresh.py --refresh-dashboard</code><span class="context-sub">Preferred daily/post-trade account refresh; stages, validates, promotes, then rebuilds.</span></span></div><div class="cmd-row"><span class="cmd-name">SnapTrade stage only</span><span class="cmd-desc"><code>python src/snaptrade_book_refresh.py --no-promote</code><span class="context-sub">Pull and validate account data without changing the live book.</span></span></div>
+    <div class="cmd-row"><span class="cmd-name">dashboard preview</span><span class="cmd-desc"><code>python src/dashboard_preview_server.py --check</code><span class="context-sub">Confirms local HTML dashboard, local server, and JSX validation availability.</span></span></div><div class="cmd-row"><span class="cmd-name">JSX validation preview</span><span class="cmd-desc"><code>python src/cockpit_jsx_preview.py</code><span class="context-sub">Builds tmp/cockpit_jsx_preview.html for internal parity validation.</span></span></div><div class="cmd-row"><span class="cmd-name">full refresh</span><span class="cmd-desc"><code>python src/live_dashboard_refresh.py</code><span class="context-sub">Rebuilds feed, rendered JSX, JSX preview, local dashboard, and GitHub Pages HTML.</span></span></div><div class="cmd-row"><span class="cmd-name">live status</span><span class="cmd-desc"><code>python src/live_status.py --format text</code><span class="context-sub">Fast readiness, dark-lane, source-call, and preview status.</span></span></div><div class="cmd-row"><span class="cmd-name">go-live checklist</span><span class="cmd-desc"><code>python src/go_live_checklist.py --format text</code><span class="context-sub">Operating checklist for source, dashboard, event, and review gates.</span></span></div><div class="cmd-row"><span class="cmd-name">action memory</span><span class="cmd-desc"><code>python src/action_memory_resolve.py --review-report</code><span class="context-sub">Lists open reviews and stale/due cleanup candidates.</span></span></div><div class="cmd-row"><span class="cmd-name">UW runbook</span><span class="cmd-desc"><code>python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text</code><span class="context-sub">Same-session check sets; instructions only until endpoint proof is captured.</span></span></div><div class="cmd-row"><span class="cmd-name">SnapTrade book refresh</span><span class="cmd-desc"><code>python src/snaptrade_book_refresh.py --refresh-dashboard</code><span class="context-sub">Preferred daily/post-trade account refresh; stages, validates, promotes, then rebuilds.</span></span></div><div class="cmd-row"><span class="cmd-name">SnapTrade stage only</span><span class="cmd-desc"><code>python src/snaptrade_book_refresh.py --no-promote</code><span class="context-sub">Pull and validate account data without changing the live book.</span></span></div>
   </div>
   <div class="cmd-section">
     <div class="cmd-section-title">Useful links</div>
@@ -5060,19 +5060,19 @@ btn.textContent=verb;}}
     <div class="cmd-section-title">Dashboard surfaces</div>
     <div class="nav-row">
       <span class="nav-label">
-        <a href="http://127.0.0.1:8765/cockpit_jsx_preview.html" style="color:#c9d1d9">
-          Canonical JSX cockpit
+        <a href="http://127.0.0.1:8765/dashboard_preview.html" style="color:#c9d1d9">
+          Local HTML dashboard
         </a>
       </span>
-      <span class="nav-hint">primary v1 validation surface</span>
+      <span class="nav-hint">default operator cockpit</span>
     </div>
     <div class="nav-row">
       <span class="nav-label">
-        <a href="http://127.0.0.1:8765/dashboard_preview.html" style="color:#c9d1d9">
-          Local HTML mirror
+        <a href="http://127.0.0.1:8765/cockpit_jsx_preview.html" style="color:#c9d1d9">
+          JSX validation surface
         </a>
       </span>
-      <span class="nav-hint">parity check before publishing</span>
+      <span class="nav-hint">internal parity/deep-dive check</span>
     </div>
     <div class="nav-row">
       <span class="nav-label">
@@ -5080,7 +5080,7 @@ btn.textContent=verb;}}
           GitHub Pages dashboard
         </a>
       </span>
-      <span class="nav-hint">published static mirror</span>
+      <span class="nav-hint">published static dashboard</span>
     </div>
   </div>
 </div>
