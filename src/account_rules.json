@@ -1,7 +1,104 @@
 {
+  "accounts": [
+    {
+      "account_id": "3d35642a-e87c-49f7-8122-43820adee669",
+      "broker": "fidelity",
+      "name_contains": "Joint WROS - TOD",
+      "tax_status": "taxable",
+      "owner_group": "parents",
+      "flags": []
+    },
+    {
+      "account_id": "87b2c0bb-a998-4654-9a19-4d480a99eed2",
+      "broker": "fidelity",
+      "name_contains": "ROTH IRA",
+      "tax_status": "roth",
+      "owner_group": "parents",
+      "flags": []
+    },
+    {
+      "account_id": "d3d1ccdc-2457-4db7-b09a-2863672921ea",
+      "broker": "fidelity",
+      "name_contains": "ROLLOVER IRA - RamBalusu",
+      "tax_status": "traditional",
+      "owner_group": "parents",
+      "flags": []
+    },
+    {
+      "account_id": "974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
+      "broker": "schwab",
+      "name_contains": "PCRA Trust",
+      "tax_status": "retirement_plan",
+      "owner_group": "parents",
+      "flags": ["etf_only"]
+    },
+    {
+      "account_id": "4ef4b4cd-e662-4055-a458-71106cd5046e",
+      "broker": "schwab",
+      "name_contains": "Individual ...254",
+      "tax_status": "taxable",
+      "owner_group": "skb",
+      "flags": []
+    },
+    {
+      "account_id": "3a2bb170-9322-4ff9-910a-dd9ba0bf8a31",
+      "broker": "fidelity",
+      "name_contains": "Individual - TOD",
+      "tax_status": "taxable",
+      "owner_group": "skb",
+      "flags": []
+    },
+    {
+      "account_id": "fb496722-4428-4402-9c35-7c1250ff2cdf",
+      "broker": "fidelity",
+      "name_contains": "Health Savings Account",
+      "tax_status": "hsa",
+      "owner_group": "skb",
+      "flags": []
+    },
+    {
+      "account_id": "3ca9adee-3f45-47a1-84ea-1f5e0268d43e",
+      "broker": "robinhood",
+      "name_contains": "Robinhood Crypto",
+      "tax_status": "taxable",
+      "owner_group": "skb",
+      "flags": ["crypto_account"]
+    },
+    {
+      "account_id": "d6b49a50-106a-4eca-986a-7029927f640c",
+      "broker": "robinhood",
+      "name_contains": "Robinhood Traditional Ira",
+      "tax_status": "traditional",
+      "owner_group": "skb",
+      "flags": []
+    },
+    {
+      "account_id": "3dee317b-32a4-45e4-a230-71a74526f8ad",
+      "broker": "robinhood",
+      "name_contains": "Robinhood Roth Ira",
+      "tax_status": "roth",
+      "owner_group": "skb",
+      "flags": []
+    },
+    {
+      "account_id": "edcc0c25-ed99-448a-a23e-24f7b89ba26c",
+      "broker": "robinhood",
+      "name_contains": "Robinhood Individual",
+      "tax_status": "taxable",
+      "owner_group": "skb",
+      "flags": []
+    }
+  ],
+  "tax_status_labels": {
+    "taxable": "TAXABLE - gains realize",
+    "roth": "tax-advantaged Roth",
+    "traditional": "tax-advantaged traditional",
+    "retirement_plan": "tax-advantaged retirement plan",
+    "hsa": "tax-advantaged HSA"
+  },
   "etf_only_account_substrings": ["PCRA"],
   "tax_advantaged_substrings": ["IRA", "Ira", "Health Savings"],
   "roth_substrings": ["ROTH", "Roth"],
   "crypto_only_substrings": ["Crypto"],
-  "notes": "PCRA Trust (Parents/Schwab) is ETF-ONLY: individual-stock buys never route there; PCRA sale proceeds can only fund ETF buys or sit in cash unless the operator transfers funds out (transfers are an operator action and must be flagged explicitly)."
+  "notes": "Account rows are non-secret SnapTrade account identifiers plus executable tax/placement semantics. Exact account_id matches win first; name substring rules remain fallback. PCRA Trust (Parents/Schwab) is ETF-ONLY: individual-stock buys never route there; PCRA sale proceeds can only fund ETF buys or sit in cash unless the operator transfers funds out (transfers are an operator action and must be flagged explicitly)."
 }

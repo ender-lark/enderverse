@@ -345,13 +345,13 @@
     },
     {
       "id": "account_rules",
-      "source_of_truth": "decision_layer_build_pack",
+      "source_of_truth": "live_snaptrade_connector_semantics_plus_operator_doctrine",
       "repo_artifact": "src/account_rules.json",
-      "producer": "Task-0 integration of recovery V3 files",
+      "producer": "Task-0 integration of recovery V3 files plus 2026-06-12 SnapTrade account semantics handoff",
       "feed_path": "v3_config.account_rules",
       "dashboard_surface": "Execution_plan account exclusion and PCRA guardrails",
-      "mirror_policy": "GitHub stores canonical account placement constraints for plan emitters.",
-      "freshness_contract": "Update when account exclusion policy is intentionally changed.",
+      "mirror_policy": "GitHub stores canonical account placement constraints and non-secret account tax/flag semantics for plan emitters; local SnapTrade profiles remain secrets/connector config only.",
+      "freshness_contract": "Update when account exclusion policy, account ids, tax_status, or executable flags such as etf_only/crypto_account intentionally change.",
       "not_checked_behavior": "Fail closed when malformed; do not emit execution rows without loaded rules.",
       "action_surface": "Converts action execution legs to excluded/allowed states."
     },
