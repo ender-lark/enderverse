@@ -7,6 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import cockpit_html_gen
 from cockpit_html_gen import generate_html
 
 
@@ -955,6 +956,114 @@ def test_book_tab_renders_full_account_portfolio_rows():
     assert "SKB account portfolio" in html
     assert "Parents account portfolio" in html
     assert "No conviction-book data" in html
+
+
+def _write_account_positions(path, snapshot_date="2026-06-12"):
+    path.write_text(json.dumps({
+        "snapshot_date": snapshot_date,
+        "sleeve_value": 100000,
+        "account_positions": [
+            {
+                "ticker": "AVGO",
+                "description": "Broadcom Inc.",
+                "shares": 40,
+                "market_value": 30000,
+                "account": "Parents Fidelity",
+                "owner": "Parents",
+                "broker": "Fidelity",
+                "tracked": False,
+                "asset_type": "Common Stock",
+            },
+            {
+                "ticker": "AVGO",
+                "description": "Broadcom Inc.",
+                "shares": 10,
+                "market_value": 10500,
+                "account": "SKB Robinhood",
+                "owner": "SKB",
+                "broker": "Robinhood",
+                "tracked": False,
+                "asset_type": "Common Stock",
+            },
+            {
+                "ticker": "NVDA",
+                "description": "NVIDIA Corporation",
+                "shares": 5,
+                "market_value": 5000,
+                "account": "Parents Fidelity",
+                "owner": "Parents",
+                "broker": "Fidelity",
+                "tracked": True,
+                "asset_type": "Common Stock",
+            },
+        ],
+        "combined_positions": [
+            {
+                "ticker": "AVGO",
+                "shares": 50,
+                "market_value": 40500,
+                "account": "Multiple",
+                "owners": ["Parents", "SKB"],
+                "tracked": False,
+            },
+            {
+                "ticker": "NVDA",
+                "shares": 5,
+                "market_value": 5000,
+                "account": "Parents Fidelity",
+                "owners": ["Parents"],
+                "tracked": True,
+            },
+        ],
+        "tracked_combined_positions": [
+            {"ticker": "NVDA", "shares": 5, "market_value": 5000, "tracked": True}
+        ],
+    }), encoding="utf-8")
+
+
+def test_holdings_tab_renders_all_positions_with_tracking_and_drilldown(tmp_path, monkeypatch):
+    positions_path = tmp_path / "account_positions.json"
+    _write_account_positions(positions_path)
+    monkeypatch.setattr(cockpit_html_gen, "ACCOUNT_POSITIONS_PATH", positions_path)
+    feed = _feed()
+    feed["generated_at"] = "2026-06-12T19:05:31+00:00"
+
+    html = generate_html(feed)
+
+    assert 'showTab(\'holdings\',this)' in html
+    assert 'id="tab-holdings"' in html
+    assert 'class="tab-badge">1</span>' in html
+    assert "2</strong> tickers" in html
+    assert "3</strong> account rows" in html
+    assert "AVGO" in html
+    assert "$40,500" in html
+    assert "40.5%" in html
+    assert "2 accounts" in html
+    assert "UNTRACKED" in html
+    assert "Build log: untracked tickers in account_positions: AVGO" in html
+    assert "NVDA" in html
+    assert "TRACKED" in html
+
+
+def test_holdings_tab_fail_soft_for_missing_or_stale_positions(tmp_path, monkeypatch):
+    missing_path = tmp_path / "missing_account_positions.json"
+    monkeypatch.setattr(cockpit_html_gen, "ACCOUNT_POSITIONS_PATH", missing_path)
+
+    html = generate_html(_feed())
+
+    assert "Holdings not checked" in html
+    assert "account positions file missing" in html
+
+    positions_path = tmp_path / "account_positions.json"
+    _write_account_positions(positions_path, snapshot_date="2026-06-10")
+    monkeypatch.setattr(cockpit_html_gen, "ACCOUNT_POSITIONS_PATH", positions_path)
+    feed = _feed()
+    feed["generated_at"] = "2026-06-12T19:05:31+00:00"
+
+    stale_html = generate_html(feed)
+
+    assert "STALE HOLDINGS" in stale_html
+    assert "2 days old" in stale_html
 
 
 def test_generated_html_commands_tab_surfaces_system_checks():

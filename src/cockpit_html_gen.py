@@ -33,6 +33,7 @@ def _strip_trailing_ws(text: str) -> str:
 
 ET = ZoneInfo("America/New_York")
 DEFERRED_OPTIONAL_SOURCE_KEYS = {"social_watch"}
+ACCOUNT_POSITIONS_PATH = Path(__file__).with_name("account_positions.json")
 
 
 def _fmt_et_stamp(value: Any) -> str:
@@ -459,6 +460,19 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .book td:nth-child(3){color:#8b949e;font-size:11px}
 .cv-yes{color:#3fb950}
 .lock-tag{font-size:10px;color:#d29922;margin-left:3px}
+.tab-badge{display:inline-block;margin-left:5px;padding:1px 5px;border-radius:999px;
+  background:#3a2510;color:#d29922;font-size:10px;font-weight:700}
+.hold-kpis{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.hold-kpi{background:#0d1117;border:1px solid #21262d;border-radius:7px;padding:7px 9px;
+  font-size:11px;color:#8b949e}
+.hold-kpi strong{display:block;color:#f0f6fc;font-size:14px;font-family:monospace}
+.hold-flag{display:inline-block;border-radius:999px;padding:2px 7px;font-size:10px;
+  font-weight:700;background:#0f2a1a;color:#3fb950;border:1px solid #2ea04355}
+.hold-flag.untracked{background:#2b1e0a;color:#d29922;border-color:#d2992255}
+.hold-stale{border:1px solid #d2992255;background:#2b1e0a;color:#d29922;
+  border-radius:7px;padding:7px 9px;margin:8px 0;font-size:12px}
+.holding-drill summary{cursor:pointer;color:#58a6ff;font-size:11px}
+.holding-drill table{margin-top:6px}
 
 /* ── lean-in ── */
 .lean-item{padding:8px 0;border-bottom:1px solid #1c2128;font-size:12px}
@@ -1734,6 +1748,229 @@ def _usd(value) -> str:
         return "$0"
 
 
+def _parse_dt(value: Any) -> datetime | None:
+    text = str(value or "").strip()
+    if not text:
+        return None
+    if len(text) == 10:
+        try:
+            return datetime.fromisoformat(text).replace(tzinfo=ET)
+        except ValueError:
+            return None
+    try:
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(text)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed
+    except ValueError:
+        try:
+            return datetime.fromisoformat(text[:10]).replace(tzinfo=ET)
+        except ValueError:
+            return None
+
+
+def _account_positions_age_days(snapshot_date: Any, generated_at: Any) -> int | None:
+    snap = _parse_dt(snapshot_date)
+    built = _parse_dt(generated_at) or datetime.now(tz=ET)
+    if not snap:
+        return None
+    return max(0, (built.astimezone(ET).date() - snap.astimezone(ET).date()).days)
+
+
+def _feed_tracked_tickers(feed: dict[str, Any]) -> set[str]:
+    tracked: set[str] = set()
+    for cat in feed.get("holdings") or []:
+        for pos in cat.get("pos") or []:
+            ticker = str(pos.get("t") or "").upper().strip()
+            if ticker:
+                tracked.add(ticker)
+    views = ((feed.get("portfolio_views") or {}).get("views") or {})
+    for view in views.values():
+        for row in (view or {}).get("rows") or []:
+            ticker = str(row.get("ticker") or "").upper().strip()
+            if ticker and row.get("tracked"):
+                tracked.add(ticker)
+    return tracked
+
+
+def _load_account_positions() -> tuple[dict[str, Any] | None, str | None]:
+    try:
+        with ACCOUNT_POSITIONS_PATH.open(encoding="utf-8") as fh:
+            data = json.load(fh)
+    except FileNotFoundError:
+        return None, f"account positions file missing: {ACCOUNT_POSITIONS_PATH.name}"
+    except json.JSONDecodeError as exc:
+        return None, f"account positions file unreadable: {exc}"
+    if not isinstance(data, dict):
+        return None, "account positions file has unexpected shape"
+    return data, None
+
+
+def _aggregate_account_positions(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_ticker: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        ticker = str(row.get("ticker") or "").upper().strip()
+        if not ticker:
+            continue
+        bucket = by_ticker.setdefault(
+            ticker,
+            {
+                "ticker": ticker,
+                "shares": 0.0,
+                "market_value": 0.0,
+                "account": "Multiple",
+                "owners": set(),
+                "tracked": False,
+            },
+        )
+        try:
+            bucket["shares"] += float(row.get("shares") or 0)
+        except (TypeError, ValueError):
+            pass
+        try:
+            bucket["market_value"] += float(row.get("market_value") or 0)
+        except (TypeError, ValueError):
+            pass
+        if row.get("owner"):
+            bucket["owners"].add(str(row.get("owner")))
+        bucket["tracked"] = bool(bucket["tracked"] or row.get("tracked"))
+    out = []
+    for row in by_ticker.values():
+        row["owners"] = sorted(row["owners"])
+        out.append(row)
+    return sorted(out, key=lambda r: float(r.get("market_value") or 0), reverse=True)
+
+
+def _holdings_tab(feed: dict[str, Any]) -> tuple[str, int]:
+    data, error = _load_account_positions()
+    if error:
+        return f"""
+<div id="tab-holdings" style="display:none">
+  <div class="card tone-amber">
+    <div class="card-title"><span class="icon">#</span> Holdings</div>
+    <div class="summary-line">Holdings not checked - {_e(error)}</div>
+    <div class="summary-muted">Fail-soft: dashboard keeps rendering, but holdings are dark until the account book is refreshed.</div>
+  </div>
+</div>""", 0
+
+    account_rows = [row for row in data.get("account_positions") or [] if isinstance(row, dict)]
+    combined = [row for row in data.get("combined_positions") or [] if isinstance(row, dict)]
+    if not combined:
+        combined = _aggregate_account_positions(account_rows)
+    sleeve_value = data.get("sleeve_value")
+    try:
+        sleeve = float(sleeve_value or 0)
+    except (TypeError, ValueError):
+        sleeve = 0.0
+    snapshot = data.get("snapshot_date") or ""
+    age_days = _account_positions_age_days(snapshot, feed.get("generated_at"))
+    stale = age_days is None or age_days > 1
+    tracked_from_feed = _feed_tracked_tickers(feed)
+
+    accounts_by_ticker: dict[str, list[dict[str, Any]]] = {}
+    for row in account_rows:
+        ticker = str(row.get("ticker") or "").upper().strip()
+        if ticker:
+            accounts_by_ticker.setdefault(ticker, []).append(row)
+
+    rows_html = ""
+    untracked: list[str] = []
+    total_value = 0.0
+    for row in sorted(combined, key=lambda r: float(r.get("market_value") or 0), reverse=True):
+        ticker = str(row.get("ticker") or "").upper().strip()
+        if not ticker:
+            continue
+        acct_rows = accounts_by_ticker.get(ticker) or []
+        try:
+            value = float(row.get("market_value") or 0)
+        except (TypeError, ValueError):
+            value = 0.0
+        total_value += value
+        pct = (value / sleeve * 100) if sleeve else 0.0
+        tracked = bool(row.get("tracked")) or ticker in tracked_from_feed
+        if not tracked:
+            untracked.append(ticker)
+        unique_accounts = sorted({str(r.get("account") or "") for r in acct_rows if r.get("account")})
+        account_count = len(unique_accounts) if unique_accounts else int(row.get("account_count") or 0)
+        detail_rows = ""
+        for acct_row in sorted(acct_rows, key=lambda r: (str(r.get("owner") or ""), str(r.get("account") or ""))):
+            try:
+                shares = f"{float(acct_row.get('shares') or 0):,.3f}".rstrip("0").rstrip(".")
+            except (TypeError, ValueError):
+                shares = ""
+            detail_rows += f"""<tr>
+  <td>{_e(acct_row.get("owner") or "")}</td>
+  <td>{_e(acct_row.get("broker") or "")}</td>
+  <td>{_e(acct_row.get("account") or "")}</td>
+  <td>{_e(acct_row.get("asset_type") or "")}</td>
+  <td style="font-family:monospace">{_e(shares)}</td>
+  <td style="font-family:monospace">{_usd(acct_row.get("market_value"))}</td>
+</tr>"""
+        drill = (
+            f"""<details class="holding-drill">
+  <summary>{account_count} account{'s' if account_count != 1 else ''}</summary>
+  <div class="book-wrap">
+    <table class="book">
+      <tr><th>Owner</th><th>Broker</th><th>Account</th><th>Type</th><th>Shares</th><th>Value</th></tr>
+      {detail_rows}
+    </table>
+  </div>
+</details>"""
+            if detail_rows
+            else f"{account_count}"
+        )
+        flag_cls = "" if tracked else " untracked"
+        flag = "TRACKED" if tracked else "UNTRACKED"
+        rows_html += f"""<tr>
+  <td><strong>{_e(ticker)}</strong></td>
+  <td style="font-family:monospace">{_usd(value)}</td>
+  <td style="font-family:monospace">{pct:.1f}%</td>
+  <td>{drill}</td>
+  <td><span class="hold-flag{flag_cls}">{flag}</span></td>
+</tr>"""
+
+    untracked = sorted(untracked)
+    stale_html = ""
+    if stale:
+        age = "unknown age" if age_days is None else f"{age_days} day{'s' if age_days != 1 else ''} old"
+        stale_html = (
+            f'<div class="hold-stale">STALE HOLDINGS: snapshot {_e(snapshot or "missing date")} is {age}; '
+            "refresh account_positions.json before relying on trade sizing.</div>"
+        )
+    orphan_line = (
+        "Build log: untracked tickers in account_positions: " + ", ".join(untracked)
+        if untracked
+        else "Build log: no untracked account-position tickers."
+    )
+    return f"""
+<div id="tab-holdings" style="display:none">
+  <div class="card">
+    <div class="card-title"><span class="icon">#</span> Holdings
+      <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">snapshot {_e(snapshot or "not dated")}</span>
+    </div>
+    <div class="hold-kpis">
+      <div class="hold-kpi"><strong>{len(combined)}</strong> tickers</div>
+      <div class="hold-kpi"><strong>{len(account_rows)}</strong> account rows</div>
+      <div class="hold-kpi"><strong>{_usd(total_value)}</strong> total shown</div>
+      <div class="hold-kpi"><strong>{len(untracked)}</strong> untracked</div>
+    </div>
+    {stale_html}
+    <div class="summary-muted">{_e(orphan_line)}</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">#</span> All account holdings</div>
+    <div class="book-wrap">
+      <table class="book">
+        <tr><th>Ticker</th><th>Total $</th><th>% sleeve</th><th># accounts</th><th>Tracking</th></tr>
+        {rows_html}
+      </table>
+    </div>
+  </div>
+</div>""", len(untracked)
+
+
 def _reallocation_brief(block: dict) -> str:
     rows = block.get("rows") or []
     trims = block.get("trims") or []
@@ -2474,6 +2711,12 @@ def generate_html(feed: dict) -> str:
     lean_html   = _lean_in(feed.get("lean_in") or [])
     book_html     = _book(feed.get("holdings") or [])
     book_tab_html = _book_tab(feed.get("holdings") or [], feed.get("portfolio_views") or {}, book_asof)
+    holdings_tab_html, holdings_untracked_count = _holdings_tab(feed)
+    holdings_badge = (
+        f'<span class="tab-badge">{holdings_untracked_count}</span>'
+        if holdings_untracked_count
+        else ""
+    )
     news_tab_html = _fundstrat_news_tab(feed.get("fundstrat_news") or {}, feed.get("if_i_were_you") or {})
 
     cmds_html = _commands_tab()
@@ -2507,6 +2750,7 @@ def generate_html(feed: dict) -> str:
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('dashboard',this)">⚡ Cockpit</button>
     <button class="tab-btn" onclick="showTab('book',this)">📚 Book</button>
+    <button class="tab-btn" onclick="showTab('holdings',this)">Holdings{holdings_badge}</button>
     <button class="tab-btn" onclick="showTab('news',this)">News</button>
     <button class="tab-btn" onclick="showTab('commands',this)">📋 Commands</button>
   </div>
@@ -2552,6 +2796,8 @@ def generate_html(feed: dict) -> str:
   <div id="tab-book" style="display:none">
     {book_tab_html}
   </div>
+
+  {holdings_tab_html}
 
   {news_tab_html}
 
