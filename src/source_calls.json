@@ -321,5 +321,39 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_c5d2ee6b6f5c"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "CL",
+    "tier": "B",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton says a confirmed WTI break below 85.95 would trigger the larger bearish breakdown and can open downside toward 60 into September if the ceasefire path holds.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-11",
+    "window_end": "2026-07-11",
+    "window_days": 30,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-12",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_565b0c364e63"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "QQQ",
+    "tier": "B",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton says Thursday's reversal is constructive only if QQQ recaptures 717.50 and SPX closes above 7430; until then, do not chase Tech and re-check over the next 3-5 days.",
+    "falsification_condition": "FALSIFIED if price closes BELOW 717.50 within window",
+    "date": "2026-06-11",
+    "window_end": "2026-06-25",
+    "window_days": 14,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-12",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_9fcca379d0a4"
   }
 ]
