@@ -1207,6 +1207,27 @@ until the core logic is stable; Notion sync comes later.
     the SnapTrade local profile/auth issue is repaired; keep broker positions
     visible as stale/test-data instead of checked current.
 
+- Cloud online recovery slice completed on 2026-06-12.
+  - Rebuilt the ignored local `src/snaptrade_profiles.local.json` using the
+    existing SnapTrade user-secret environment variable plus account-owner
+    overrides from the last validated account-position cache; no secrets were
+    printed or committed.
+  - Verified SnapTrade with a no-promote pull, then promoted a fresh
+    2026-06-12 broker snapshot through `snaptrade_book_refresh.py
+    --refresh-dashboard`; result: 1 profile, 11 accounts, 280 account rows, no
+    warnings, dashboard refresh return code 0.
+  - Wrote a scheduled-path Broker Position Intake recovery receipt so the old
+    missing-profile failure is no longer the latest receipt.
+  - Registered FS Inbox Catch-up as four explicit ACTIVE local schedules
+    instead of one cross-product RRULE: preopen 8:20 AM, midday 12:30 PM,
+    postclose 4:35 PM, evening 8:45 PM ET on market weekdays.
+  - Updated `cloud_ops_status.py`, manual-run coverage, and the routine commit
+    allowlist so these slots are receipt-tracked and `source_shelf_life.json`
+    can be committed by the FS intake routine.
+  - Verification: `verify_standard.py` passed at 1395 passed / 6 skipped;
+    `cloud_routine_drill.py --format text --strict` passed for 24 expected
+    routines; `cloud_ops_status.py --format text` reports schedule ready.
+
 - One low-priority queued implementation slice.
   - The current system-improvement queue is valid with 21 done items and 1
     queued P3 item: `fundstrat-video-transcript-intake`.

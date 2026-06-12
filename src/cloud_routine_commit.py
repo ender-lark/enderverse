@@ -47,6 +47,7 @@ DEFAULT_ALLOWED_PATHS = [
     "src/source_calls.json",
     "src/inbox_call_dates.json",
     "src/log_call_dates.json",
+    "src/source_shelf_life.json",
     "src/top_prospects.json",
     "src/signal_log.json",
     "src/signal_log_intake_summary.json",

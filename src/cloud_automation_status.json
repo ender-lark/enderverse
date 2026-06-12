@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "verified_at": "2026-06-12T06:35:00-04:00",
-  "verification_source": "Manual 2026-06-12 heartbeat resumed the post-reset heavy off-hours routines, restored temporary spark model downgrades to gpt-5.4, and promoted Off-Hours Research Queue back into the receipt-tracked stack.",
+  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, and registered the FS Inbox Catch-up as four paired weekday schedules.",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
     "On 2026-06-12, the temporary usage-conservation pauses were lifted for the current Fundstrat web routines and heavy off-hours routines; only the superseded legacy jobs remain paused.",
@@ -14,7 +14,8 @@
     "Early Cockpit Build runs at 8:50 AM ET to publish the earliest useful cockpit after pre-market source intake and Morning Scan. It is intentionally an early build and must leave later Daily Synthesis, UW Opportunity Cache, and Parabolic Cache gaps visible until the 10:30 AM Full Cockpit Build.",
     "Post-Open Evidence Gate runs at 9:40 AM ET to capture same-session UW endpoint proof from the current action runbook. It can promote, downgrade, or keep Today/Reallocation candidates gated; missing, stale, failed, or inconclusive proof must not move candidates to Ready.",
     "Fundstrat after-hours catch-up and pre-market safety sweep are expected proof targets because Fundstrat timing calls can arrive outside the original 8:10 AM source intake window.",
-    "Fundstrat Daytime Watch runs hourly during the market day so urgent/action-changing Fundstrat notes can trigger Pushover. Low-value Fundstrat content remains quiet audit/discovery context and must not become a daily-call row, action prompt, or alert."
+    "Fundstrat Daytime Watch runs hourly during the market day so urgent/action-changing Fundstrat notes can trigger Pushover. Low-value Fundstrat content remains quiet audit/discovery context and must not become a daily-call row, action prompt, or alert.",
+    "FS Inbox Catch-up is registered as four explicit paired schedules (8:20 AM, 12:30 PM, 4:35 PM, 8:45 PM ET) instead of one multi-BYHOUR/BYMINUTE rule, so the automation does not accidentally run a cross-product of times."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
@@ -73,6 +74,14 @@
       "role": "broker_position_intake",
       "schedule": "market weekdays 8:20 AM ET",
       "expected_since": "2026-06-09T09:16:00-04:00"
+    },
+    {
+      "automation_id": "investing-os-fs-inbox-catch-up-preopen",
+      "automation_name": "Investing OS FS Inbox Catch-up Preopen",
+      "status": "ACTIVE",
+      "role": "fs_inbox_catchup_preopen",
+      "schedule": "market weekdays 8:20 AM ET",
+      "expected_since": "2026-06-12T09:00:00-04:00"
     },
     {
       "automation_id": "investing-os-morning-scan",
@@ -134,11 +143,27 @@
       "schedule": "market weekdays 10:30 AM ET"
     },
     {
+      "automation_id": "investing-os-fs-inbox-catch-up-midday",
+      "automation_name": "Investing OS FS Inbox Catch-up Midday",
+      "status": "ACTIVE",
+      "role": "fs_inbox_catchup_midday",
+      "schedule": "market weekdays 12:30 PM ET",
+      "expected_since": "2026-06-12T09:00:00-04:00"
+    },
+    {
       "automation_id": "investing-os-post-close-refresh",
       "automation_name": "Investing OS Post-Close Refresh",
       "status": "ACTIVE",
       "role": "post_close_refresh",
       "schedule": "market weekdays 4:30 PM ET"
+    },
+    {
+      "automation_id": "investing-os-fs-inbox-catch-up-postclose",
+      "automation_name": "Investing OS FS Inbox Catch-up Postclose",
+      "status": "ACTIVE",
+      "role": "fs_inbox_catchup_postclose",
+      "schedule": "market weekdays 4:35 PM ET",
+      "expected_since": "2026-06-12T09:00:00-04:00"
     },
     {
       "automation_id": "investing-os-fundstrat-after-hours-catch-up",
@@ -191,6 +216,14 @@
       "status": "ACTIVE",
       "role": "top_prospects_autoresearch",
       "schedule": "daily 8:45 PM ET"
+    },
+    {
+      "automation_id": "investing-os-fs-inbox-catch-up-evening",
+      "automation_name": "Investing OS FS Inbox Catch-up Evening",
+      "status": "ACTIVE",
+      "role": "fs_inbox_catchup_evening",
+      "schedule": "market weekdays 8:45 PM ET",
+      "expected_since": "2026-06-12T09:00:00-04:00"
     },
     {
       "automation_id": "investing-os-off-hours-research-queue",
