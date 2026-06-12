@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T14:32:49.601839+00:00",
+  "generated_at": "2026-06-12T14:46:20.461148+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-12 \u00b7 uw_price 06-12 \u00b7 uw_macro 06-12 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-11",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-12T10:32:49.601839-04:00",
+        "date": "2026-06-12T10:46:20.461148-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-12T10:32:49.601839-04:00",
+        "date": "2026-06-12T10:46:20.461148-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -438,256 +438,6 @@
     {
       "rank": 3,
       "kind": "lean_in",
-      "ticker": "ANET",
-      "action_state": "WATCH",
-      "what": "Lean-in \u2014 looks good",
-      "confidence": "Moderate",
-      "your_move": "ANET looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
-      "gate": {
-        "needs_gate": true,
-        "preview": "\ud83d\udfe1 size \u2192 gate",
-        "ticker": "ANET",
-        "default_action": "ADD"
-      },
-      "source": "lean_in",
-      "why": "ANET: Promising and the tape's with it (LEADING) \u2014 a place to start.",
-      "goal_channels": [
-        "sizing_gap",
-        "upside",
-        "opportunity_cost"
-      ],
-      "goal_impact": "High",
-      "goal_score": 76,
-      "time_window": "1-2 weeks",
-      "capital_effect": "add",
-      "action_label": "ADD/ROTATE",
-      "why_it_moves_goal": "A conviction-backed sizing gap can make a right call too small.",
-      "missing_evidence": [],
-      "account_placement": {
-        "status": "candidate",
-        "ticker": "ANET",
-        "side": "buy/add",
-        "instrument_class": "stock",
-        "owner": "Parents",
-        "broker": "Fidelity",
-        "account": "ROLLOVER IRA - RamBalusu *****6333",
-        "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
-        "summary": "Suggested account: Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333.",
-        "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-        "rule": "Parents Schwab/PCRA Trust ETF-only",
-        "alternatives": [
-          {
-            "owner": "SKB",
-            "broker": "Fidelity",
-            "account": "Individual - TOD *****1088",
-            "label": "SKB Fidelity: Individual - TOD *****1088",
-            "market_value": 1876.8
-          }
-        ],
-        "caveats": [
-          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-          "No order is placed or sized from this recommendation."
-        ]
-      },
-      "freshness_judgment": {
-        "label": "fresh",
-        "evidence_date": "2026-06-12",
-        "last_checked": "2026-06-12",
-        "decay_window": "until position, price, thesis, or target changes",
-        "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
-      },
-      "freshness": "fresh: evidence 2026-06-12; decays until position, price, thesis, or target changes",
-      "why_this_matters": "A conviction-backed sizing gap can make a right call too small.",
-      "disconfirmation": {
-        "question": "What would make this wrong?",
-        "summary": "Do not act if the live tape no longer confirms leadership or flow strength.",
-        "invalidates_if": [
-          "The live tape no longer confirms leadership or flow strength.",
-          "Current sizing is already large enough after account and wrapper exposure.",
-          "A better funding use ranks higher after fresh portfolio review."
-        ],
-        "confirm_before_acting": [
-          "Confirm same-session price/flow, current sizing, and funding source.",
-          "Check same-session price/flow and current exposure for ANET.",
-          "Run the pre-trade gate; no auto-trade from the dashboard."
-        ],
-        "downgrade_to": "Quiet Watch"
-      },
-      "capital_efficiency": {
-        "label": "opportunity-cost watch",
-        "summary": "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.",
-        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
-        "priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
-        "timing_balance": "Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.",
-        "compare_against": [
-          "higher-ranked Key Now actions",
-          "funded reallocation legs",
-          "risk reduction or hedging if event risk is active",
-          "goal score 76/100"
-        ]
-      },
-      "assumption_refresh": {
-        "status": "still_valid",
-        "checked_at": "2026-06-12",
-        "snapshot": {
-          "ticker": "ANET",
-          "action_state": "WATCH",
-          "source": "lean_in",
-          "evidence_date": "2026-06-12",
-          "freshness": "fresh",
-          "decay_window": "until position, price, thesis, or target changes",
-          "capital_label": "opportunity-cost watch",
-          "time_window": "1-2 weeks"
-        },
-        "what_changed": [
-          "No material assumption break detected from available feed evidence."
-        ],
-        "blockers": [],
-        "invalidates_if": [
-          "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward."
-        ],
-        "next_step": "Keep in its current group; run normal gate before acting.",
-        "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
-      },
-      "decision_group": "important_backlog",
-      "decision_group_label": "Important Backlog",
-      "capital_priority_score": 120
-    },
-    {
-      "rank": 4,
-      "kind": "lean_in",
-      "ticker": "GOOGL",
-      "action_state": "WATCH",
-      "what": "Lean-in \u2014 looks good",
-      "confidence": "Moderate",
-      "your_move": "GOOGL looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
-      "gate": {
-        "needs_gate": true,
-        "preview": "\ud83d\udfe1 size \u2192 gate",
-        "ticker": "GOOGL",
-        "default_action": "ADD"
-      },
-      "source": "lean_in",
-      "why": "GOOGL: Promising and the tape's with it (LEADING) \u2014 a place to start.",
-      "goal_channels": [
-        "sizing_gap",
-        "upside",
-        "opportunity_cost"
-      ],
-      "goal_impact": "High",
-      "goal_score": 76,
-      "time_window": "1-2 weeks",
-      "capital_effect": "add",
-      "action_label": "ADD/ROTATE",
-      "why_it_moves_goal": "A conviction-backed sizing gap can make a right call too small.",
-      "missing_evidence": [],
-      "account_placement": {
-        "status": "candidate",
-        "ticker": "GOOGL",
-        "side": "buy/add",
-        "instrument_class": "stock",
-        "owner": "SKB",
-        "broker": "Robinhood",
-        "account": "Robinhood Traditional Ira 1369",
-        "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-        "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
-        "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-        "rule": "Parents Schwab/PCRA Trust ETF-only",
-        "alternatives": [
-          {
-            "owner": "SKB",
-            "broker": "Fidelity",
-            "account": "Individual - TOD *****1088",
-            "label": "SKB Fidelity: Individual - TOD *****1088",
-            "market_value": 10733.1
-          },
-          {
-            "owner": "Parents",
-            "broker": "Fidelity",
-            "account": "Joint WROS - TOD *****2063",
-            "label": "Parents Fidelity: Joint WROS - TOD *****2063",
-            "market_value": 8944.25
-          },
-          {
-            "owner": "SKB",
-            "broker": "Schwab",
-            "account": "Individual ...254 Individual ...254",
-            "label": "SKB Schwab: Individual ...254 Individual ...254",
-            "market_value": 1807.92
-          }
-        ],
-        "caveats": [
-          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-          "No order is placed or sized from this recommendation."
-        ]
-      },
-      "freshness_judgment": {
-        "label": "fresh",
-        "evidence_date": "2026-06-12",
-        "last_checked": "2026-06-12",
-        "decay_window": "until position, price, thesis, or target changes",
-        "judgment": "Fresh enough for a decision prompt; still run the gate before capital moves."
-      },
-      "freshness": "fresh: evidence 2026-06-12; decays until position, price, thesis, or target changes",
-      "why_this_matters": "A conviction-backed sizing gap can make a right call too small.",
-      "disconfirmation": {
-        "question": "What would make this wrong?",
-        "summary": "Do not act if the live tape no longer confirms leadership or flow strength.",
-        "invalidates_if": [
-          "The live tape no longer confirms leadership or flow strength.",
-          "Current sizing is already large enough after account and wrapper exposure.",
-          "A better funding use ranks higher after fresh portfolio review."
-        ],
-        "confirm_before_acting": [
-          "Confirm same-session price/flow, current sizing, and funding source.",
-          "Check same-session price/flow and current exposure for GOOGL.",
-          "Run the pre-trade gate; no auto-trade from the dashboard."
-        ],
-        "downgrade_to": "Quiet Watch"
-      },
-      "capital_efficiency": {
-        "label": "opportunity-cost watch",
-        "summary": "Keep visible because a good opportunity can still be the wrong capital use if a better setup ranks higher.",
-        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
-        "priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
-        "timing_balance": "Do not force timing; keep a review trigger so capital is not parked in a merely adequate setup.",
-        "compare_against": [
-          "higher-ranked Key Now actions",
-          "funded reallocation legs",
-          "risk reduction or hedging if event risk is active",
-          "goal score 76/100"
-        ]
-      },
-      "assumption_refresh": {
-        "status": "still_valid",
-        "checked_at": "2026-06-12",
-        "snapshot": {
-          "ticker": "GOOGL",
-          "action_state": "WATCH",
-          "source": "lean_in",
-          "evidence_date": "2026-06-12",
-          "freshness": "fresh",
-          "decay_window": "until position, price, thesis, or target changes",
-          "capital_label": "opportunity-cost watch",
-          "time_window": "1-2 weeks"
-        },
-        "what_changed": [
-          "No material assumption break detected from available feed evidence."
-        ],
-        "blockers": [],
-        "invalidates_if": [
-          "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward."
-        ],
-        "next_step": "Keep in its current group; run normal gate before acting.",
-        "honesty_rule": "Assumption refresh can downgrade stale or missing evidence; it does not execute or auto-promote trades."
-      },
-      "decision_group": "important_backlog",
-      "decision_group_label": "Important Backlog",
-      "capital_priority_score": 120
-    },
-    {
-      "rank": 5,
-      "kind": "lean_in",
       "ticker": "MAGS",
       "action_state": "WATCH",
       "what": "Lean-in \u2014 looks good",
@@ -818,7 +568,7 @@
       "capital_priority_score": 120
     },
     {
-      "rank": 6,
+      "rank": 4,
       "kind": "sell_fast",
       "ticker": "RYF",
       "action_state": "WATCH",
@@ -921,7 +671,7 @@
       "capital_priority_score": 140
     },
     {
-      "rank": 7,
+      "rank": 5,
       "kind": "sell_fast",
       "ticker": "XOP",
       "action_state": "WATCH",
@@ -1873,36 +1623,107 @@
       "stored_done": 0
     }
   },
-  "research_actions": [],
+  "research_actions": [
+    {
+      "rank": 1,
+      "kind": "research_review",
+      "ticker": "GOOGL",
+      "action_state": "RESEARCH",
+      "what": "Research dossier -- review",
+      "confidence": "High",
+      "your_move": "GOOGL: review the Off-Hours dossier -- confirm the thesis, then size / decide (run the pre-trade gate if you act). A research item, not a fired trigger.",
+      "gate": {
+        "needs_gate": true,
+        "preview": "\ud83d\udfe1 size \u2192 gate",
+        "ticker": "GOOGL",
+        "default_action": "REVIEW"
+      },
+      "source": "research_queue",
+      "why": "GOOGL - re-check AI infrastructure financing, ATM, and Berkshire placement implications",
+      "goal_channels": [
+        "conviction",
+        "upside"
+      ],
+      "goal_impact": "Medium",
+      "goal_score": 54,
+      "time_window": "1-2 weeks",
+      "capital_effect": "no_capital_yet",
+      "action_label": "RESEARCH NOW",
+      "why_it_moves_goal": "Research may raise conviction enough to justify a capital move.",
+      "missing_evidence": [
+        "decision-grade thesis"
+      ],
+      "account_placement": {
+        "status": "candidate",
+        "ticker": "GOOGL",
+        "side": "buy/add",
+        "instrument_class": "stock",
+        "owner": "SKB",
+        "broker": "Robinhood",
+        "account": "Robinhood Traditional Ira 1369",
+        "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
+        "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
+        "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
+        "rule": "Parents Schwab/PCRA Trust ETF-only",
+        "alternatives": [
+          {
+            "owner": "SKB",
+            "broker": "Fidelity",
+            "account": "Individual - TOD *****1088",
+            "label": "SKB Fidelity: Individual - TOD *****1088",
+            "market_value": 10733.1
+          },
+          {
+            "owner": "Parents",
+            "broker": "Fidelity",
+            "account": "Joint WROS - TOD *****2063",
+            "label": "Parents Fidelity: Joint WROS - TOD *****2063",
+            "market_value": 8944.25
+          },
+          {
+            "owner": "SKB",
+            "broker": "Schwab",
+            "account": "Individual ...254 Individual ...254",
+            "label": "SKB Schwab: Individual ...254 Individual ...254",
+            "market_value": 1807.92
+          }
+        ],
+        "caveats": [
+          "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
+          "No order is placed or sized from this recommendation."
+        ]
+      }
+    }
+  ],
   "heartbeat": [
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-12T14:32:49.470097+00:00",
+      "last_run": "2026-06-12T14:46:20.323290+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-12T14:32:49.470097+00:00",
+      "last_run": "2026-06-12T14:46:20.323290+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-12T14:32:49.470097+00:00",
+      "last_run": "2026-06-12T14:46:20.323290+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-12T14:32:49.470097+00:00",
+      "last_run": "2026-06-12T14:46:20.323290+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-12T14:32:49.470097+00:00",
+      "last_run": "2026-06-12T14:46:20.323290+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -2077,52 +1898,6 @@
     }
   ],
   "lean_in": [
-    {
-      "ticker": "ANET",
-      "owned": false,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "flat",
-      "rotation": "LEADING",
-      "lean": "lean_in",
-      "headline": "ANET: Promising and the tape's with it (LEADING) \u2014 a place to start.",
-      "evidence": [
-        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
-        "Rotation: LEADING"
-      ],
-      "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
-      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
-      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
-      "caveats": [
-        "clustered: 1 independent source \u2014 not independent confirmation",
-        "already moved: entry less asymmetric (sleeve leading)"
-      ],
-      "freshness": "as-of 2026-06-12",
-      "action": "NONE"
-    },
-    {
-      "ticker": "GOOGL",
-      "owned": false,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "flat",
-      "rotation": "LEADING",
-      "lean": "lean_in",
-      "headline": "GOOGL: Promising and the tape's with it (LEADING) \u2014 a place to start.",
-      "evidence": [
-        "Conviction: external pick, no thesis on file \u2014 moderate, give me a line",
-        "Rotation: LEADING"
-      ],
-      "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
-      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
-      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
-      "caveats": [
-        "clustered: 1 independent source \u2014 not independent confirmation",
-        "already moved: entry less asymmetric (sleeve leading)"
-      ],
-      "freshness": "as-of 2026-06-12",
-      "action": "NONE"
-    },
     {
       "ticker": "MAGS",
       "owned": true,
@@ -3064,11 +2839,9 @@
         "key": "important_backlog",
         "label": "Important Backlog",
         "description": "Still-important decisions that should stay visible but are not the loudest current item.",
-        "count": 3,
+        "count": 1,
         "ranks": [
-          3,
-          4,
-          5
+          3
         ]
       },
       {
@@ -3077,15 +2850,15 @@
         "description": "Monitored context with no current action pressure.",
         "count": 2,
         "ranks": [
-          6,
-          7
+          4,
+          5
         ]
       }
     ],
     "counts": {
       "key_now": 0,
       "recheck_before_acting": 2,
-      "important_backlog": 3,
+      "important_backlog": 1,
       "quiet_watch": 2
     }
   },
@@ -3130,15 +2903,6 @@
         "action": "review setup; no auto-trade"
       },
       {
-        "ticker": "ANET",
-        "source": "lean_in",
-        "score": 76,
-        "reason": "A conviction-backed sizing gap can make a right call too small.",
-        "evidence": "Lean-in \u2014 looks good",
-        "decay_window": "until position, price, thesis, or target changes",
-        "action": "review setup; no auto-trade"
-      },
-      {
         "ticker": "AVGO",
         "source": "target_drift",
         "score": 76,
@@ -3162,6 +2926,15 @@
         "score": 68,
         "reason": "Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.",
         "evidence": "ask-side call sweeps $1.1M, 1:1 c/p, call OI +4900% at 17/34/20 strikes",
+        "decay_window": "intraday to 1 trading day",
+        "action": "review setup; no auto-trade"
+      },
+      {
+        "ticker": "GRNY",
+        "source": "bullish_flow",
+        "score": 68,
+        "reason": "Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.",
+        "evidence": "ask-side call sweeps $1.6M, 16:1 c/p, call OI +2014% at 30/27/28 strikes",
         "decay_window": "intraday to 1 trading day",
         "action": "review setup; no auto-trade"
       }
@@ -13128,7 +12901,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-12T10:01:50-04:00",
-        "connector_proof_age_hours": 0.52
+        "connector_proof_age_hours": 0.74
       }
     ],
     "missing": [],
@@ -13360,13 +13133,13 @@
           "routine_name": "Investing OS Full Cockpit Build",
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
-          "receipt_count": 19,
-          "last_status": "started",
+          "receipt_count": 20,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-12T14:32:48.541821Z",
-          "last_success_at": "2026-06-12T14:17:47.356126Z",
-          "last_scheduled_success_at": "2026-06-11T14:32:08.268465Z",
-          "last_summary": "investing-os-full-cockpit-build started"
+          "last_recorded_at": "2026-06-12T14:32:51.486675Z",
+          "last_success_at": "2026-06-12T14:32:51.486675Z",
+          "last_scheduled_success_at": "2026-06-12T14:32:51.486675Z",
+          "last_summary": "full cockpit build succeeded"
         },
         {
           "routine_id": "investing-os-fs-inbox-catch-up-midday",
@@ -13464,7 +13237,7 @@
           "routine_name": "Investing OS Deep Synthesis",
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
-          "receipt_count": 12,
+          "receipt_count": 11,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:16.907348Z",
@@ -14161,7 +13934,7 @@
     },
     "uw_action_runbook": {
       "status": "has_data",
-      "line": "UW action runbook: 5 check set(s), 23 scoped ticker(s); endpoint results not claimed.",
+      "line": "UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
       "rows": [
         {
           "mode": "pre_market_crash_triage",
@@ -14269,7 +14042,6 @@
             "GOOGL",
             "AVGO",
             "MU",
-            "ANET",
             "MAGS",
             "RYF",
             "XOP"
@@ -14314,8 +14086,6 @@
             "RSPT",
             "SPY",
             "NVDA",
-            "ANET",
-            "GOOGL",
             "MAGS",
             "RYF",
             "XOP"
@@ -14353,10 +14123,10 @@
             "XOP",
             "NVDA",
             "GOOGL",
-            "ANET",
             "AVGO",
             "MAGS",
-            "BMNR"
+            "BMNR",
+            "GRNY"
           ],
           "market_checks": [
             "FLOW_ALERTS",
@@ -14385,7 +14155,6 @@
         }
       ],
       "scoped_tickers": [
-        "ANET",
         "AVGO",
         "BMNR",
         "BX",
@@ -15700,7 +15469,7 @@
   },
   "uw_action_runbook": {
     "status": "has_data",
-    "line": "UW action runbook: 5 check set(s), 23 scoped ticker(s); endpoint results not claimed.",
+    "line": "UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
     "rows": [
       {
         "mode": "pre_market_crash_triage",
@@ -15808,7 +15577,6 @@
           "GOOGL",
           "AVGO",
           "MU",
-          "ANET",
           "MAGS",
           "RYF",
           "XOP"
@@ -15853,8 +15621,6 @@
           "RSPT",
           "SPY",
           "NVDA",
-          "ANET",
-          "GOOGL",
           "MAGS",
           "RYF",
           "XOP"
@@ -15892,10 +15658,10 @@
           "XOP",
           "NVDA",
           "GOOGL",
-          "ANET",
           "AVGO",
           "MAGS",
-          "BMNR"
+          "BMNR",
+          "GRNY"
         ],
         "market_checks": [
           "FLOW_ALERTS",
@@ -15924,7 +15690,6 @@
       }
     ],
     "scoped_tickers": [
-      "ANET",
       "AVGO",
       "BMNR",
       "BX",
@@ -17168,7 +16933,7 @@
   },
   "market_open_packet": {
     "status": "recheck_first",
-    "line": "Market-open packet: 0 key, 2 re-check, 3 backlog, 5 urgent visible; 8 blocker(s).",
+    "line": "Market-open packet: 0 key, 2 re-check, 1 backlog, 3 urgent visible; 8 blocker(s).",
     "rows": [
       {
         "priority": 1,
@@ -17271,120 +17036,6 @@
       {
         "priority": 4,
         "kind": "important_backlog",
-        "label": "Review backlog: ANET: Lean-in \u2014 looks good",
-        "why": "A conviction-backed sizing gap can make a right call too small.",
-        "next_step": "ANET looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
-        "blocks": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
-        "source": "lean_in",
-        "command": "",
-        "refresh_status": "still_valid",
-        "what_changed": "No material assumption break detected from available feed evidence.",
-        "freshness_label": "fresh",
-        "evidence_date": "2026-06-12",
-        "last_checked": "2026-06-12",
-        "decay_window": "until position, price, thesis, or target changes",
-        "key_assumptions": "evidence 2026-06-12 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
-        "invalidates": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
-        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
-        "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
-        "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100",
-        "account_placement_summary": "Suggested account: Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333.",
-        "account_placement_why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-        "capital_priority_score": 120,
-        "account_placement": {
-          "status": "candidate",
-          "ticker": "ANET",
-          "side": "buy/add",
-          "instrument_class": "stock",
-          "owner": "Parents",
-          "broker": "Fidelity",
-          "account": "ROLLOVER IRA - RamBalusu *****6333",
-          "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
-          "summary": "Suggested account: Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333.",
-          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-          "rule": "Parents Schwab/PCRA Trust ETF-only",
-          "alternatives": [
-            {
-              "owner": "SKB",
-              "broker": "Fidelity",
-              "account": "Individual - TOD *****1088",
-              "label": "SKB Fidelity: Individual - TOD *****1088",
-              "market_value": 1876.8
-            }
-          ],
-          "caveats": [
-            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-            "No order is placed or sized from this recommendation."
-          ]
-        }
-      },
-      {
-        "priority": 5,
-        "kind": "important_backlog",
-        "label": "Review backlog: GOOGL: Lean-in \u2014 looks good",
-        "why": "A conviction-backed sizing gap can make a right call too small.",
-        "next_step": "GOOGL looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
-        "blocks": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
-        "source": "lean_in",
-        "command": "",
-        "refresh_status": "still_valid",
-        "what_changed": "No material assumption break detected from available feed evidence.",
-        "freshness_label": "fresh",
-        "evidence_date": "2026-06-12",
-        "last_checked": "2026-06-12",
-        "decay_window": "until position, price, thesis, or target changes",
-        "key_assumptions": "evidence 2026-06-12 is fresh; decays until position, price, thesis, or target changes; time window 1-2 weeks; capital posture opportunity-cost watch",
-        "invalidates": "Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.",
-        "do_nothing_risk": "Doing nothing keeps capital flexible, but may leave a better setup too small if evidence keeps strengthening.",
-        "capital_priority_reason": "It stays ranked because opportunity cost or sizing gap could affect the next best use of capital.",
-        "compare_against": "higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 76/100",
-        "account_placement_summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
-        "account_placement_why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-        "capital_priority_score": 120,
-        "account_placement": {
-          "status": "candidate",
-          "ticker": "GOOGL",
-          "side": "buy/add",
-          "instrument_class": "stock",
-          "owner": "SKB",
-          "broker": "Robinhood",
-          "account": "Robinhood Traditional Ira 1369",
-          "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-          "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
-          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-          "rule": "Parents Schwab/PCRA Trust ETF-only",
-          "alternatives": [
-            {
-              "owner": "SKB",
-              "broker": "Fidelity",
-              "account": "Individual - TOD *****1088",
-              "label": "SKB Fidelity: Individual - TOD *****1088",
-              "market_value": 10733.1
-            },
-            {
-              "owner": "Parents",
-              "broker": "Fidelity",
-              "account": "Joint WROS - TOD *****2063",
-              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
-              "market_value": 8944.25
-            },
-            {
-              "owner": "SKB",
-              "broker": "Schwab",
-              "account": "Individual ...254 Individual ...254",
-              "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 1807.92
-            }
-          ],
-          "caveats": [
-            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-            "No order is placed or sized from this recommendation."
-          ]
-        }
-      },
-      {
-        "priority": 6,
-        "kind": "important_backlog",
         "label": "Review backlog: MAGS: Lean-in \u2014 looks good",
         "why": "A conviction-backed sizing gap can make a right call too small.",
         "next_step": "MAGS looks good (Promising, LEADING) \u2014 size it yourself and run the pre-trade gate. No auto-buy.",
@@ -17447,7 +17098,7 @@
         }
       },
       {
-        "priority": 7,
+        "priority": 5,
         "kind": "uw_check",
         "label": "Run UW check set: Pre-market crash triage",
         "why": "Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?",
@@ -17459,7 +17110,7 @@
         "what_changed": ""
       },
       {
-        "priority": 8,
+        "priority": 6,
         "kind": "uw_check",
         "label": "Run UW check set: Event-risk and political macro",
         "why": "Is the external shock changing new-buy timing, hedges, or position sizing?",
@@ -17471,7 +17122,7 @@
         "what_changed": ""
       },
       {
-        "priority": 9,
+        "priority": 7,
         "kind": "uw_check",
         "label": "Run UW check set: Portfolio reallocation",
         "why": "Which portfolio changes maximize early-retirement impact per unit of risk and time?",
@@ -17483,7 +17134,7 @@
         "what_changed": ""
       },
       {
-        "priority": 10,
+        "priority": 8,
         "kind": "uw_check",
         "label": "Run UW check set: Fundstrat signal confirmation",
         "why": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
@@ -17495,7 +17146,7 @@
         "what_changed": ""
       },
       {
-        "priority": 11,
+        "priority": 9,
         "kind": "uw_check",
         "label": "Run UW check set: Asymmetric discovery",
         "why": "What deserves scarce review time because the upside/downside skew may be unusually large?",
@@ -17507,7 +17158,7 @@
         "what_changed": ""
       },
       {
-        "priority": 12,
+        "priority": 10,
         "kind": "dark_lane",
         "label": "Social Watch is not checked",
         "why": "Reddit/social early-signal anomalies are not checked; absence is not no social signal.",
@@ -17522,10 +17173,10 @@
     "counts": {
       "key_now": 0,
       "recheck": 2,
-      "backlog": 3,
+      "backlog": 1,
       "dark_lanes": 1,
       "blockers": 8,
-      "urgent_visible": 5
+      "urgent_visible": 3
     },
     "blockers": [
       "Do not act if the target weight or thesis is outdated relative to the current portfolio.",
