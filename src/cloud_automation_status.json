@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-12T06:17:48-04:00",
-  "verification_source": "Manual 2026-06-12 recovery reactivated the intended current cloud routine stack after the weekly reset: the Fundstrat pre-market/daytime/after-hours routines, Top Prospects Auto-Research, Off-Hours Alt-Data Scout, Off-Hours Worker, and Off-Hours Queue Buffer were returned to ACTIVE; stale one-shot resume heartbeats were retired; superseded legacy Catalyst Intake and UW Cache Refresh were returned to PAUSED; Broker Position Intake was restored from the temporary gpt-5.3-codex-spark downgrade to gpt-5.4. The active prompts still use --run-source scheduled receipt provenance, cloud_routine_commit.py safe write-back, missing-source honesty guards, cloud_routine_runner.py for Early Cockpit Build / Full Cockpit Build / Post-Close Refresh, same-session Post-Open Evidence Gate proof, and compact UW live-source proof updates. Schedule intent remains aligned with the Notion Scheduled Cloud Routines Master Reference plus the 2026-06-02 reconcile note and 2026-06-08 earlier-dashboard/Fundstrat-alert updates.",
+  "verified_at": "2026-06-12T06:35:00-04:00",
+  "verification_source": "Manual 2026-06-12 heartbeat resumed the post-reset heavy off-hours routines, restored temporary spark model downgrades to gpt-5.4, and promoted Off-Hours Research Queue back into the receipt-tracked stack.",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
     "On 2026-06-12, the temporary usage-conservation pauses were lifted for the current Fundstrat web routines and heavy off-hours routines; only the superseded legacy jobs remain paused.",
@@ -42,12 +42,6 @@
       "automation_name": "Investing OS Fundstrat Intake",
       "status": "PAUSED",
       "role": "legacy_unreceipted_source_intake"
-    },
-    {
-      "automation_id": "investing-os-off-hours-research-queue",
-      "automation_name": "Investing OS Off-Hours Research Queue",
-      "status": "PAUSED",
-      "role": "legacy_unreceipted_research_queue"
     },
     {
       "automation_id": "investing-os-uw-cache-refresh",
@@ -197,6 +191,13 @@
       "status": "ACTIVE",
       "role": "top_prospects_autoresearch",
       "schedule": "daily 8:45 PM ET"
+    },
+    {
+      "automation_id": "investing-os-off-hours-research-queue",
+      "automation_name": "Investing OS Off-Hours Research Queue",
+      "status": "ACTIVE",
+      "role": "off_hours_research_queue",
+      "schedule": "market weekdays 7:30 PM ET"
     }
   ]
 }

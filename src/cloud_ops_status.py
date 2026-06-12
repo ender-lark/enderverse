@@ -150,6 +150,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-07T00:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-off-hours-research-queue",
+        "automation_name": "Investing OS Off-Hours Research Queue",
+        "role": "off_hours_research_queue",
+        "schedule": "market weekdays 7:30 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 19,
+        "minute": 30,
+        "expected_since": "2026-06-12T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-top-prospects-auto-research",
         "automation_name": "Investing OS Top Prospects Auto-Research",
         "role": "top_prospects_autoresearch",
