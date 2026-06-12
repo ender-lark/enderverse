@@ -35,9 +35,9 @@ Current priority:
    requested.
 5. Use `python src/verify_standard.py` as the standard verification command.
 6. Commit and push after each clean verified slice.
-7. Use the canonical local JSX cockpit during v1 testing/building:
-   `http://127.0.0.1:8765/cockpit_jsx_preview.html`. Generated HTML/GitHub
-   Pages is a mirror/export check until v1 is finalized.
+7. Use the local HTML dashboard for operator dash/dashboard/cockpit requests:
+   `http://127.0.0.1:8765/dashboard_preview.html`. Use the JSX cockpit only
+   for internal parity/validation unless explicitly requested.
 8. Store important plans, architecture decisions, operating protocols, and
    unresolved queue items in repo/GitHub docs first; mirror important source of
    truth material to Notion when useful.
@@ -74,10 +74,10 @@ Current verified snapshot (cloud proof is background monitoring; check live stat
   proof count as live runtime evidence, not as a fixed value from this handoff.
   Use
   `--require-all-clear` only when external waits should fail the command.
-- Canonical local JSX cockpit is the default v1 testing surface:
-  `http://127.0.0.1:8765/cockpit_jsx_preview.html`. Local generated HTML at
-  `http://127.0.0.1:8765/dashboard_preview.html` and GitHub Pages are
-  mirror/export checks.
+- Local HTML dashboard is the default operator/testing surface:
+  `http://127.0.0.1:8765/dashboard_preview.html`. The JSX page at
+  `http://127.0.0.1:8765/cockpit_jsx_preview.html` remains an internal
+  parity/validation surface only.
 - The dashboard Operator Status card shows build blockers, open reviews, and
   the current cloud-proof background summary, plus both:
   `python src/go_live_checklist.py --format text`
@@ -451,21 +451,21 @@ Important recent state:
   review prompts, and suggested resolution commands, or
   `python src/action_memory_resolve.py --ticker <TICKER> --status deferred --reason "..."`
   to resolve an item into history after operator review.
-- The published feed has been rendered through the canonical JSX injector:
+- The published feed has been rendered through the JSX validation injector:
   `python src/render_cockpit.py src/latest_cockpit_feed.json --out src/rendered/conviction_cockpit_v5.jsx`.
   The rendered artifact contains generated_at
   `2026-06-05T23:18:21.873913+00:00`.
-- The canonical JSX cockpit and generated summary/preview dashboard both have
-  an Operator Status card near the top. It summarizes action count, open
+- The local HTML dashboard and JSX validation surface both have an Operator
+  Status card near the top. It summarizes action count, open
   reviews, source-lane warning state, and the
   `python src/go_live_checklist.py --format text` command. It also shows the
   `python src/sudden_event_refresh.py --title "<event headline>" ...` command
   template for fast supplied war/oil/rates/policy shock handling, plus the
   active Event Risk watch when one is supplied.
-- The generated summary/preview dashboard now also has an Opportunity Context
+- The local HTML dashboard now also has an Opportunity Context
   card. It summarizes existing Target Drift, Prospects, Radar, and Bullish Flow
-  feed rows and is labeled context, not orders; detailed lane views remain in
-  the canonical JSX cockpit.
+  feed rows and is labeled context, not orders; detailed lane views remain
+  available through dashboard drilldowns and the JSX validation surface.
 - The generated Feedback loops card now shows open action-review tickers from
   `feedback.open_actions.items`; current preview shows `ANET` and `GOOGL`
   plus ticker-specific `deferred` command hints for keeping a name on watch
@@ -522,8 +522,10 @@ gap from current repo evidence.
 
 The dashboard parity review and guardrail are complete:
 
-- `src/conviction_cockpit_v5.jsx` via JSX injection is canonical.
-- `docs/index.html` is a generated summary/export path.
+- `tmp/dashboard_preview.html` is the default local operator dashboard.
+- `src/conviction_cockpit_v5.jsx` via JSX injection remains a validation
+  surface for parity/internal checks.
+- `docs/index.html` is the generated public HTML path.
 - `docs/dashboard_feed_block_classification.json` classifies feed blocks.
 - `src/test_dashboard_parity_guardrail.py` protects feed-block classification.
 

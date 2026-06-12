@@ -543,7 +543,7 @@ def _summary_notice(feed: dict) -> str:
     failed = int(counts.get("failed") or 0)
     actions = feed.get("actions") or []
     lines = [
-        "Action-first summary view. The full JSX cockpit still has the deepest drill-downs, but today's decisions are surfaced here.",
+        "Action-first dashboard view. JSX remains available for internal validation, but today's decisions are surfaced here.",
     ]
     if not actions:
         lines.append("No Today's Actions are shown in this summary export.")
@@ -694,7 +694,7 @@ def _lane_status_summary(lane_status: dict) -> str:
   {command_html}
 </div>"""
     more = len(ordered) - len(visible)
-    more_html = f'<div class="feedback-line">+{more} more lane rows in the canonical cockpit.</div>' if more > 0 else ""
+    more_html = f'<div class="feedback-line">+{more} more lane rows available in dashboard drilldowns.</div>' if more > 0 else ""
     return f"""
 <div class="card" id="lane-status">
   <div class="card-title"><span class="icon">âš™</span> Lane status</div>
@@ -2323,9 +2323,9 @@ def _fundstrat_news_tab(news: dict[str, Any], if_i_were_you: dict[str, Any]) -> 
 
 
 _COMMANDS = [
-    ("open canonical cockpit", "Use the JSX preview first for v1 validation and deepest drilldowns."),
-    ("open live dashboard", "Use GitHub Pages as the published HTML mirror/shareable surface."),
-    ("refresh dashboard", "Run the full local refresh package, then validate JSX first and HTML parity second."),
+    ("open dashboard", "Use the local HTML dashboard first; it is the default operator cockpit."),
+    ("open live dashboard", "Use GitHub Pages as the published shareable dashboard."),
+    ("refresh dashboard", "Run the full local refresh package, then check the HTML dashboard and JSX parity surface."),
     ("refresh book", "Pull SnapTrade account positions, validate, promote the book, and rebuild the cockpit."),
     ("review market-open packet", "Start with Key Now, Re-check Before Acting, blockers, and assumption-refresh notes."),
     ("review full book", "Use Book for full SnapTrade account rows, then the conviction book below it."),
@@ -2336,9 +2336,9 @@ _COMMANDS = [
 ]
 
 _SYSTEM_CHECKS = [
-    ("canonical JSX preview", "python src/cockpit_jsx_preview.py", "Builds tmp/cockpit_jsx_preview.html for full cockpit validation."),
-    ("preview server", "python src/dashboard_preview_server.py --check", "Confirms canonical JSX preview, local server, and HTML mirror availability."),
-    ("full refresh", "python src/live_dashboard_refresh.py", "Rebuilds feed, rendered JSX, JSX preview, local HTML, and GitHub Pages HTML."),
+    ("dashboard preview", "python src/dashboard_preview_server.py --check", "Confirms local HTML dashboard, local server, and JSX validation availability."),
+    ("JSX validation preview", "python src/cockpit_jsx_preview.py", "Builds tmp/cockpit_jsx_preview.html for internal parity validation."),
+    ("full refresh", "python src/live_dashboard_refresh.py", "Rebuilds feed, rendered JSX, JSX preview, local dashboard, and GitHub Pages HTML."),
     ("live status", "python src/live_status.py --format text", "Fast readiness, dark-lane, source-call, and preview status."),
     ("go-live checklist", "python src/go_live_checklist.py --format text", "Operating checklist for source, dashboard, event, and review gates."),
     ("action memory", "python src/action_memory_resolve.py --review-report", "Lists open reviews and stale/due cleanup candidates."),
@@ -2393,19 +2393,19 @@ def _commands_tab() -> str:
     <div class="cmd-section-title">Dashboard surfaces</div>
     <div class="nav-row">
       <span class="nav-label">
-        <a href="http://127.0.0.1:8765/cockpit_jsx_preview.html" style="color:#c9d1d9">
-          Canonical JSX cockpit
+        <a href="http://127.0.0.1:8765/dashboard_preview.html" style="color:#c9d1d9">
+          Local HTML dashboard
         </a>
       </span>
-      <span class="nav-hint">primary v1 validation surface</span>
+      <span class="nav-hint">default operator cockpit</span>
     </div>
     <div class="nav-row">
       <span class="nav-label">
-        <a href="http://127.0.0.1:8765/dashboard_preview.html" style="color:#c9d1d9">
-          Local HTML mirror
+        <a href="http://127.0.0.1:8765/cockpit_jsx_preview.html" style="color:#c9d1d9">
+          JSX validation surface
         </a>
       </span>
-      <span class="nav-hint">parity check before publishing</span>
+      <span class="nav-hint">internal parity/deep-dive check</span>
     </div>
     <div class="nav-row">
       <span class="nav-label">
@@ -2413,7 +2413,7 @@ def _commands_tab() -> str:
           GitHub Pages dashboard
         </a>
       </span>
-      <span class="nav-hint">published static mirror</span>
+      <span class="nav-hint">published static dashboard</span>
     </div>
   </div>
 </div>"""

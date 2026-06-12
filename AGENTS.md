@@ -29,10 +29,11 @@ technical elegance.
 
 ## Dashboard Protocol
 
-- During v1 build/testing, validate the local canonical JSX cockpit first:
-  `http://127.0.0.1:8765/cockpit_jsx_preview.html`.
-- Generated HTML and GitHub Pages are mirror/export surfaces until v1 is
-  finalized.
+- When the user asks for the dash, dashboard, cockpit, or conviction cockpit,
+  open the local HTML dashboard first:
+  `http://127.0.0.1:8765/dashboard_preview.html`.
+- Treat `http://127.0.0.1:8765/cockpit_jsx_preview.html` as an internal
+  JSX parity/validation surface, not the default operator dashboard.
 - Major cockpit sections should be minimizable when they can clutter the first
   screen.
 - Show portfolio impact, action validity, capital efficiency, freshness,
