@@ -1074,7 +1074,7 @@ def test_generated_html_commands_tab_surfaces_system_checks():
     assert "open dashboard" in html
     assert "review full book" in html
     assert "http://127.0.0.1:8765/dashboard_preview.html" in html
-    assert "default operator cockpit" in html
+    assert "default operator dashboard" in html
     assert "SnapTrade book refresh" in html
     assert "python src/snaptrade_book_refresh.py --refresh-dashboard" in html
     assert "python src/live_dashboard_refresh.py" in html
@@ -1085,33 +1085,51 @@ def test_generated_html_commands_tab_surfaces_system_checks():
     assert "Claude commands" not in html
 
 
-def test_generated_html_surfaces_fundstrat_news_tab():
+def test_generated_html_surfaces_fundstrat_tab(tmp_path, monkeypatch):
+    bible_path = tmp_path / "fundstrat_bible.json"
+    bible_path.write_text(json.dumps({
+        "deck_date": "2026-06-11",
+        "layers_note": "Two-layer bible test note.",
+        "core_stock_ideas_as_of": "2026-05-28",
+        "sector_allocation": {
+            "as_of": "2026-06-11",
+            "source": "Fundstrat June 2026 Sector Allocation Update",
+            "newton_rating_changes": [
+                {"sector": "Health Care", "change": "Neutral -> Overweight", "why": "XHS breakout."}
+            ],
+            "agreement": {
+                "both_overweight": ["Basic Materials", "Real Estate"],
+                "both_underweight": ["Consumer Staples"],
+                "note": "Different time horizons.",
+            },
+            "june_etf_basket": [
+                {"ticker": "CIBR", "status": "new", "theme": "cybersecurity"}
+            ],
+            "may_basket_grade": "May basket graded.",
+        },
+        "what_to_own": ["MAG7", "Financials"],
+        "top5": [{"ticker": "AMD", "name": "Advanced Micro Devices"}],
+        "top5_smid": [{"ticker": "STRL", "name": "Sterling Infrastructure"}],
+        "bottom5": [{"ticker": "DE", "name": "Deere"}],
+        "bottom5_smid": [{"ticker": "ELF", "name": "e.l.f. Beauty", "report_move_pct": 5.97}],
+        "source_file": "may.pdf",
+    }), encoding="utf-8")
+    monkeypatch.setattr(cockpit_html_gen, "FUNDSTRAT_BIBLE_PATH", bible_path)
     feed = _feed()
     feed["fundstrat_news"] = {
         "status": "has_data",
-        "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID not captured.",
         "honesty_rule": "Monthly list membership is not an execution trigger.",
-        "monthly": {
-            "deck_date": "2026-05-28",
-            "source_file": "may.pdf",
-            "freshness_label": "monthly baseline",
-            "freshness_judgment": "Use as thesis/allocation baseline.",
-            "allocation_plan": ["MAG7", "Financials"],
-            "top_large_cap": [
-                {"rank": 1, "ticker": "AMD", "add_date": "2026-05-28", "add_price_label": "not captured"}
-            ],
-            "top_smid": [],
-            "bottom5": [],
-            "bottom5_smid": [
-                {"rank": 1, "ticker": "ELF", "add_date": "2026-05-28", "add_price_label": "not captured", "report_move_pct": 5.97}
-            ],
-        },
         "daily": {
             "latest_date": "2026-06-05",
-            "count": 1,
+            "count": 6,
             "freshness_judgment": "Daily calls are timing input.",
             "rows": [
-                {"ticker": "QQQ", "date": "2026-06-05", "author": "Newton", "action_implication": "re-check timing", "quote": "Support matters."}
+                {"ticker": "QQQ", "date": "2026-06-05", "author": "Newton", "subject": "One", "action_implication": "re-check timing", "quote": "Support matters."},
+                {"ticker": "RYF", "date": "2026-06-05", "author": "Newton", "subject": "Two", "quote": "Financials matter."},
+                {"ticker": "EWRE", "date": "2026-06-05", "author": "Newton", "subject": "Three", "quote": "REITs matter."},
+                {"ticker": "XHS", "date": "2026-06-05", "author": "Newton", "subject": "Four", "quote": "Health care matters."},
+                {"ticker": "SPX", "date": "2026-06-05", "author": "Newton", "subject": "Five", "quote": "Breadth matters."},
+                {"ticker": "CL", "date": "2026-06-05", "author": "Newton", "subject": "Six", "quote": "Should not render."},
             ],
         },
         "gaps": [
@@ -1128,14 +1146,31 @@ def test_generated_html_surfaces_fundstrat_news_tab():
 
     html = generate_html(feed)
 
-    assert 'showTab(\'news\',this)' in html
-    assert 'id="tab-news"' in html
-    assert "Fundstrat News" in html
-    assert "Monthly Bible / Allocation" in html
+    assert "Conviction Dashboard" in html
+    assert 'showTab(\'fundstrat\',this)' in html
+    assert 'id="tab-fundstrat"' in html
+    assert ">FundStrat<" in html
+    assert "FundStrat: sector allocation 2026-06-11; core stock ideas 2026-05-28; daily calls 6 latest 2026-06-05." in html
+    assert "FundStrat Bible Layers" in html
+    assert "Sector Allocation Layer" in html
+    assert "Core Stock Ideas Layer" in html
+    assert "Health Care: Neutral -&gt; Overweight" in html
+    assert "Tactical Top 3 not captured" in html
+    assert "Tactical Bottom 3 not captured" in html
+    assert "Named levels not captured" in html
+    assert "CIBR" in html
+    assert "cybersecurity" in html
+    assert "Deck 2026-06-11 | sector allocation 2026-06-11 | core stock ideas 2026-05-28" in html
     assert "Top 5 SMID" in html
     assert "Bottom 5 SMID" in html
+    assert "AMD" in html
+    assert "STRL" in html
+    assert "DE" in html
     assert "ELF" in html
-    assert "not captured" in html
+    assert "Latest Daily Notes" in html
+    assert "showing latest 5 of 6" in html
+    assert "Breadth matters." in html
+    assert "Should not render." not in html
     assert "If I Were You" in html
 
 

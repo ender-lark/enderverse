@@ -34,6 +34,7 @@ def _strip_trailing_ws(text: str) -> str:
 ET = ZoneInfo("America/New_York")
 DEFERRED_OPTIONAL_SOURCE_KEYS = {"social_watch"}
 ACCOUNT_POSITIONS_PATH = Path(__file__).with_name("account_positions.json")
+FUNDSTRAT_BIBLE_PATH = Path(__file__).with_name("fundstrat_bible.json")
 
 
 def _fmt_et_stamp(value: Any) -> str:
@@ -2442,6 +2443,8 @@ def _fundstrat_list_table(title: str, rows: list[dict[str, Any]], empty: str) ->
     else:
         trs = ""
         for row in rows:
+            add_date = row.get("add_date") or row.get("as_of") or row.get("date") or ""
+            add_price = row.get("add_price_label") or row.get("price_label") or "not captured"
             move = ""
             if row.get("report_move_pct") is not None:
                 try:
@@ -2454,11 +2457,13 @@ def _fundstrat_list_table(title: str, rows: list[dict[str, Any]], empty: str) ->
                 f"{' | ' if move and (row.get('conviction') or row.get('urgency')) else ''}{_e(move)}"
                 f"{' | carry over' if row.get('carry_over') else ''}"
             )
+            if not state:
+                state = _e(row.get("note") or row.get("name") or "")
             trs += f"""<tr>
   <td>{_e(row.get("rank") or "")}</td>
   <td><strong>{_e(row.get("ticker") or "")}</strong></td>
-  <td>{_e(row.get("add_date") or "date n/a")}</td>
-  <td>{_e(row.get("add_price_label") or "not captured")}</td>
+  <td>{_e(add_date or "date n/a")}</td>
+  <td>{_e(add_price)}</td>
   <td>{state}<span class="small-muted">{_e(row.get("name") or row.get("note") or "")}</span><span class="small-muted">{_e(row.get("add_price_source") or "")}</span></td>
 </tr>"""
         body = f"""<div class="book-wrap">
@@ -2472,6 +2477,142 @@ def _fundstrat_list_table(title: str, rows: list[dict[str, Any]], empty: str) ->
   <div class="card-title"><span class="icon">#</span> {_e(title)}</div>
   {body}
 </div>"""
+
+
+def _load_fundstrat_bible() -> tuple[dict[str, Any], str]:
+    try:
+        data = json.loads(FUNDSTRAT_BIBLE_PATH.read_text(encoding="utf-8"))
+        return (data if isinstance(data, dict) else {}), ""
+    except FileNotFoundError:
+        return {}, "fundstrat_bible.json is missing."
+    except (OSError, json.JSONDecodeError) as exc:
+        return {}, f"fundstrat_bible.json is unreadable: {exc}"
+
+
+def _bible_rows(items: list[Any], *, as_of: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for rank, item in enumerate(items or [], start=1):
+        if isinstance(item, dict):
+            row = dict(item)
+        else:
+            row = {"ticker": item}
+        row["rank"] = row.get("rank") or rank
+        row["as_of"] = row.get("as_of") or as_of
+        rows.append(row)
+    return rows
+
+
+def _small_items(rows: list[Any], empty: str, *, title_key: str = "ticker", body_key: str = "theme") -> str:
+    if not rows:
+        return f'<div class="small-item" style="color:#d29922">{_e(empty)}</div>'
+    out = ""
+    for row in rows:
+        if isinstance(row, dict):
+            title = row.get(title_key) or row.get("sector") or row.get("label") or row.get("name") or ""
+            body = row.get(body_key) or row.get("why") or row.get("note") or row.get("change") or ""
+            meta = row.get("status") or row.get("type") or row.get("level") or ""
+        else:
+            title, body, meta = str(row), "", ""
+        out += f"""
+<div class="small-item">
+  <strong>{_e(title)}</strong>
+  {f'<span class="small-muted">{_e(meta)}</span>' if meta else ''}
+  {f'<span class="small-muted">{_e(body)}</span>' if body else ''}
+</div>"""
+    return out
+
+
+def _fundstrat_bible_layers(bible: dict[str, Any], bible_error: str) -> str:
+    if bible_error:
+        return f"""
+<div class="card">
+  <div class="card-title"><span class="icon">F</span> FundStrat Bible Layers</div>
+  <div class="small-item" style="color:#f85149">{_e(bible_error)}</div>
+</div>"""
+
+    sector = bible.get("sector_allocation") if isinstance(bible.get("sector_allocation"), dict) else {}
+    sector_as_of = sector.get("as_of") or bible.get("deck_date") or "not checked"
+    core_as_of = bible.get("core_stock_ideas_as_of") or bible.get("deck_date") or "not checked"
+    what_to_own = "".join(f'<span class="tag t-cat">{_e(item)}</span>' for item in bible.get("what_to_own") or [])
+    ratings = ""
+    for row in sector.get("newton_rating_changes") or []:
+        if not isinstance(row, dict):
+            continue
+        ratings += f"""
+<div class="small-item">
+  <strong>{_e(row.get("sector") or "")}: {_e(row.get("change") or "")}</strong>
+  <span class="small-muted">{_e(row.get("why") or "")}</span>
+</div>"""
+    if not ratings:
+        ratings = '<div class="small-item" style="color:#d29922">Newton rating changes not captured in this bible layer.</div>'
+
+    agreement = sector.get("agreement") if isinstance(sector.get("agreement"), dict) else {}
+    agreement_html = f"""
+<div class="small-item">
+  <strong>Lee/Newton agreement</strong>
+  <span class="small-muted">Overweight: {_e(", ".join(agreement.get("both_overweight") or []) or "not captured")}</span>
+  <span class="small-muted">Underweight: {_e(", ".join(agreement.get("both_underweight") or []) or "not captured")}</span>
+  <span class="small-muted">{_e(agreement.get("note") or "")}</span>
+</div>"""
+
+    basket_html = _small_items(
+        sector.get("june_etf_basket") or [],
+        "June ETF basket not captured.",
+        title_key="ticker",
+        body_key="theme",
+    )
+    tactical_top = _small_items(
+        sector.get("tactical_top3") or bible.get("tactical_top3") or [],
+        "Tactical Top 3 not captured in current bible file.",
+        title_key="sector",
+        body_key="reason",
+    )
+    tactical_bottom = _small_items(
+        sector.get("tactical_bottom3") or bible.get("tactical_bottom3") or [],
+        "Tactical Bottom 3 not captured in current bible file.",
+        title_key="sector",
+        body_key="reason",
+    )
+    named_levels = _small_items(
+        sector.get("named_levels") or bible.get("named_levels") or [],
+        "Named levels not captured in current bible file.",
+        title_key="ticker",
+        body_key="target",
+    )
+
+    return f"""
+<div class="card">
+  <div class="card-title"><span class="icon">F</span> FundStrat Bible Layers</div>
+  <div class="summary-line">Deck {_e(bible.get("deck_date") or "not checked")} | sector allocation {_e(sector_as_of)} | core stock ideas {_e(core_as_of)}</div>
+  <div class="summary-muted" style="font-size:11px">{_e(bible.get("layers_note") or "Monthly layers are not checked.")}</div>
+</div>
+<div class="two-col">
+  <div class="card">
+    <div class="card-title"><span class="icon">1</span> Sector Allocation Layer</div>
+    <div class="summary-line">As of {_e(sector_as_of)} | {_e(sector.get("source") or "source not captured")}</div>
+    <div class="small-list">{ratings}{agreement_html}</div>
+    <div class="card-title" style="margin-top:12px"><span class="icon">T</span> Tactical Top 3</div>
+    <div class="small-list">{tactical_top}</div>
+    <div class="card-title" style="margin-top:12px"><span class="icon">B</span> Tactical Bottom 3</div>
+    <div class="small-list">{tactical_bottom}</div>
+    <div class="card-title" style="margin-top:12px"><span class="icon">E</span> June ETF Basket</div>
+    <div class="small-list">{basket_html}</div>
+    <div class="card-title" style="margin-top:12px"><span class="icon">L</span> Named Levels</div>
+    <div class="small-list">{named_levels}</div>
+    <div class="summary-muted" style="font-size:11px;margin-top:8px">{_e(sector.get("may_basket_grade") or "")}</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">2</span> Core Stock Ideas Layer</div>
+    <div class="summary-line">As of {_e(core_as_of)} | source {_e(bible.get("source_file") or "not captured")}</div>
+    <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Core lists remain the stock-pick layer until a newer stock-ideas deck lands.</div>
+    <div class="tags">{what_to_own or '<span class="tag t-warn">what-to-own not captured</span>'}</div>
+  </div>
+</div>
+{_fundstrat_list_table("Core Top 5 large cap", _bible_rows(bible.get("top5") or [], as_of=core_as_of), "Top 5 large cap is not captured in the bible file.")}
+{_fundstrat_list_table("Core Top 5 SMID", _bible_rows(bible.get("top5_smid") or [], as_of=core_as_of), "Top 5 SMID is not captured in the bible file.")}
+{_fundstrat_list_table("Core Bottom 5 large cap", _bible_rows(bible.get("bottom5") or [], as_of=core_as_of), "Bottom 5 large cap is not captured in the bible file.")}
+{_fundstrat_list_table("Core Bottom 5 SMID", _bible_rows(bible.get("bottom5_smid") or [], as_of=core_as_of), "Bottom 5 SMID is not captured in the bible file.")}
+"""
 
 
 def _if_i_were_you_html(block: dict[str, Any]) -> str:
@@ -2496,28 +2637,35 @@ def _if_i_were_you_html(block: dict[str, Any]) -> str:
 </div>"""
 
 
-def _fundstrat_news_tab(news: dict[str, Any], if_i_were_you: dict[str, Any]) -> str:
+def _fundstrat_tab(news: dict[str, Any], if_i_were_you: dict[str, Any]) -> str:
     if not isinstance(news, dict):
         news = {}
-    monthly = news.get("monthly") if isinstance(news.get("monthly"), dict) else {}
+    bible, bible_error = _load_fundstrat_bible()
     daily = news.get("daily") if isinstance(news.get("daily"), dict) else {}
     gaps = [gap for gap in news.get("gaps") or [] if isinstance(gap, dict)]
-    alloc = "".join(
-        f'<span class="tag t-cat">{_e(item)}</span>'
-        for item in monthly.get("allocation_plan") or []
+    latest_date = daily.get("latest_date") or "n/a"
+    daily_count = daily.get("count") or 0
+    sector_as_of = ((bible.get("sector_allocation") or {}).get("as_of") if isinstance(bible, dict) else None)
+    core_as_of = bible.get("core_stock_ideas_as_of") if isinstance(bible, dict) else None
+    line = (
+        f"FundStrat: sector allocation {sector_as_of or 'not checked'}; "
+        f"core stock ideas {core_as_of or bible.get('deck_date') or 'not checked'}; "
+        f"daily calls {daily_count} latest {latest_date}."
     )
+    bible_html = _fundstrat_bible_layers(bible, bible_error)
     daily_rows = ""
-    for row in (daily.get("rows") or [])[:12]:
+    for row in (daily.get("rows") or [])[:5]:
         if not isinstance(row, dict):
             continue
         daily_rows += f"""
 <div class="small-item">
   <strong>{_e(row.get("ticker") or "")}</strong>
-  <span class="small-muted">{_e(row.get("date") or "")} | {_e(row.get("author") or "Fundstrat")} | {_e(row.get("action_implication") or "context")}</span>
+  <span class="small-muted">{_e(row.get("date") or "")} | {_e(row.get("author") or "FundStrat")} | {_e(row.get("action_implication") or "context")}</span>
+  <span class="small-muted">{_e(row.get("subject") or "")}</span>
   <span class="small-muted">{_e(row.get("quote") or "")}</span>
 </div>"""
     if not daily_rows:
-        daily_rows = '<div class="small-item">No full-body daily Fundstrat calls in this feed build.</div>'
+        daily_rows = '<div class="small-item">No full-body daily FundStrat calls in this feed build.</div>'
     gap_rows = ""
     for gap in gaps:
         gap_rows += f"""
@@ -2527,32 +2675,23 @@ def _fundstrat_news_tab(news: dict[str, Any], if_i_were_you: dict[str, Any]) -> 
   <span class="small-muted">Next: {_e(gap.get("next_step") or "")}</span>
 </div>"""
     if not gap_rows:
-        gap_rows = '<div class="small-item" style="color:#3fb950">No Fundstrat News gaps surfaced.</div>'
+        gap_rows = '<div class="small-item" style="color:#3fb950">No FundStrat gaps surfaced.</div>'
     return f"""
-<div id="tab-news" style="display:none">
+<div id="tab-fundstrat" style="display:none">
   <div class="card">
-    <div class="card-title"><span class="icon">F</span> Fundstrat News</div>
-    <div class="summary-line">{_e(news.get("line") or "Fundstrat News is not checked.")}</div>
+    <div class="card-title"><span class="icon">F</span> FundStrat</div>
+    <div class="summary-line">{_e(line)}</div>
     <div class="summary-muted" style="font-size:11px">{_e(news.get("honesty_rule") or "")}</div>
   </div>
+  {bible_html}
   <div class="card">
-    <div class="card-title"><span class="icon">M</span> Monthly Bible / Allocation</div>
-    <div class="summary-line">Deck {_e(monthly.get("deck_date") or "not checked")} | Source {_e(monthly.get("source_file") or "not captured")} | {_e(monthly.get("freshness_label") or "")}</div>
-    <div class="summary-muted" style="font-size:11px;margin-bottom:8px">{_e(monthly.get("freshness_judgment") or "")}</div>
-    <div class="tags">{alloc}</div>
-  </div>
-  {_fundstrat_list_table("Top 5 large cap", monthly.get("top_large_cap") or [], "Top 5 large cap is not captured in this feed.")}
-  {_fundstrat_list_table("Top 5 SMID", monthly.get("top_smid") or [], "Top 5 SMID is not captured in the live monthly/prospect caches yet.")}
-  {_fundstrat_list_table("Bottom 5 large cap", monthly.get("bottom5") or [], "Bottom 5 large cap is not captured in this feed.")}
-  {_fundstrat_list_table("Bottom 5 SMID", monthly.get("bottom5_smid") or [], "Bottom 5 SMID is not captured in this feed.")}
-  <div class="card">
-    <div class="card-title"><span class="icon">D</span> Daily Additions / Deltas</div>
-    <div class="summary-line">Latest {_e(daily.get("latest_date") or "n/a")} | stored {_e(daily.get("count") or 0)}</div>
+    <div class="card-title"><span class="icon">D</span> Latest Daily Notes</div>
+    <div class="summary-line">Latest {_e(latest_date)} | showing latest 5 of {_e(daily_count)}</div>
     <div class="summary-muted" style="font-size:11px;margin-bottom:8px">{_e(daily.get("freshness_judgment") or "")}</div>
     <div class="small-list">{daily_rows}</div>
   </div>
   <div class="card">
-    <div class="card-title"><span class="icon">!</span> Fundstrat Data Gaps</div>
+    <div class="card-title"><span class="icon">!</span> FundStrat Data Gaps</div>
     <div class="small-list">{gap_rows}</div>
   </div>
   {_if_i_were_you_html(if_i_were_you if isinstance(if_i_were_you, dict) else {})}
@@ -2560,10 +2699,10 @@ def _fundstrat_news_tab(news: dict[str, Any], if_i_were_you: dict[str, Any]) -> 
 
 
 _COMMANDS = [
-    ("open dashboard", "Use the local HTML dashboard first; it is the default operator cockpit."),
+    ("open dashboard", "Use the local HTML dashboard first; it is the default operator dashboard."),
     ("open live dashboard", "Use GitHub Pages as the published shareable dashboard."),
     ("refresh dashboard", "Run the full local refresh package, then check the HTML dashboard and JSX parity surface."),
-    ("refresh book", "Pull SnapTrade account positions, validate, promote the book, and rebuild the cockpit."),
+    ("refresh book", "Pull SnapTrade account positions, validate, promote the book, and rebuild the dashboard."),
     ("review market-open packet", "Start with Key Now, Re-check Before Acting, blockers, and assumption-refresh notes."),
     ("review full book", "Use Book for full SnapTrade account rows, then the conviction book below it."),
     ("review reallocation brief", "Candidate-only add/trim plan; run same-session gates before any capital action."),
@@ -2634,7 +2773,7 @@ def _commands_tab() -> str:
           Local HTML dashboard
         </a>
       </span>
-      <span class="nav-hint">default operator cockpit</span>
+      <span class="nav-hint">default operator dashboard</span>
     </div>
     <div class="nav-row">
       <span class="nav-label">
@@ -2717,7 +2856,7 @@ def generate_html(feed: dict) -> str:
         if holdings_untracked_count
         else ""
     )
-    news_tab_html = _fundstrat_news_tab(feed.get("fundstrat_news") or {}, feed.get("if_i_were_you") or {})
+    fundstrat_tab_html = _fundstrat_tab(feed.get("fundstrat_news") or {}, feed.get("if_i_were_you") or {})
 
     cmds_html = _commands_tab()
 
@@ -2727,7 +2866,7 @@ def generate_html(feed: dict) -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="refresh" content="3600">
-<title>Conviction Cockpit</title>
+<title>Conviction Dashboard</title>
 <style>{_CSS}</style>
 </head>
 <body>
@@ -2735,7 +2874,7 @@ def generate_html(feed: dict) -> str:
 
   <div class="hdr">
     <div class="hdr-left">
-      <h1>⚡ Conviction Cockpit</h1>
+      <h1>⚡ Conviction Dashboard</h1>
       <div class="stamp" title="built {built_at} · {_e(stamp_str)}">{f'built {built_short}' if built_short else ""}{f' &middot; {btype}' if btype else ""}{f' &middot; {compact_stamp}' if compact_stamp else ""}</div>
       {stale_warn}
     </div>
@@ -2748,10 +2887,10 @@ def generate_html(feed: dict) -> str:
   </div>
 
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="showTab('dashboard',this)">⚡ Cockpit</button>
+    <button class="tab-btn active" onclick="showTab('dashboard',this)">⚡ Dashboard</button>
     <button class="tab-btn" onclick="showTab('book',this)">📚 Book</button>
     <button class="tab-btn" onclick="showTab('holdings',this)">Holdings{holdings_badge}</button>
-    <button class="tab-btn" onclick="showTab('news',this)">News</button>
+    <button class="tab-btn" onclick="showTab('fundstrat',this)">FundStrat</button>
     <button class="tab-btn" onclick="showTab('commands',this)">📋 Commands</button>
   </div>
 
@@ -2799,12 +2938,12 @@ def generate_html(feed: dict) -> str:
 
   {holdings_tab_html}
 
-  {news_tab_html}
+  {fundstrat_tab_html}
 
   {cmds_html}
 
   <div class="footer">
-    Conviction Cockpit · auto-refreshes hourly ·
+    Conviction Dashboard &middot; auto-refreshes hourly &middot;
     <a href="https://github.com/ender-lark/enderverse">enderverse</a>
   </div>
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="refresh" content="3600">
-<title>Conviction Cockpit</title>
+<title>Conviction Dashboard</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -276,7 +276,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
   <div class="hdr">
     <div class="hdr-left">
-      <h1> Conviction Cockpit</h1>
+      <h1> Conviction Dashboard</h1>
       <div class="stamp" title="built 2026-06-12 18:09 ET  sourced: portfolio 06-12  uw_price 06-12  uw_macro 06-12  fundstrat_bible 06-11  fundstrat_daily 06-12">built 06-12 18:09 ET &middot; data 06-12: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
 
     </div>
@@ -289,10 +289,10 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   </div>
 
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="showTab('dashboard',this)"> Cockpit</button>
+    <button class="tab-btn active" onclick="showTab('dashboard',this)"> Dashboard</button>
     <button class="tab-btn" onclick="showTab('book',this)"> Book</button>
     <button class="tab-btn" onclick="showTab('holdings',this)">Holdings<span class="tab-badge">73</span></button>
-    <button class="tab-btn" onclick="showTab('news',this)">News</button>
+    <button class="tab-btn" onclick="showTab('fundstrat',this)">FundStrat</button>
     <button class="tab-btn" onclick="showTab('commands',this)"> Commands</button>
   </div>
 
@@ -7970,21 +7970,86 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </div>
 
 
-<div id="tab-news" style="display:none">
+<div id="tab-fundstrat" style="display:none">
   <div class="card">
-    <div class="card-title"><span class="icon">F</span> Fundstrat News</div>
-    <div class="summary-line">Fundstrat News: monthly 2026-06-11; Top 5 large cap 5, Top 5 SMID 5, daily calls 24 latest 2026-06-12.</div>
+    <div class="card-title"><span class="icon">F</span> FundStrat</div>
+    <div class="summary-line">FundStrat: sector allocation 2026-06-11; core stock ideas 2026-05-28; daily calls 24 latest 2026-06-12.</div>
     <div class="summary-muted" style="font-size:11px">Fundstrat is the baseline source of truth, but monthly list membership is not an execution trigger; stale, missing, or snippet-only data stays labeled.</div>
-  </div>
-  <div class="card">
-    <div class="card-title"><span class="icon">M</span> Monthly Bible / Allocation</div>
-    <div class="summary-line">Deck 2026-06-11 | Source 20260528-Market-UpdatevFSD-1.pdf | monthly baseline</div>
-    <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Use as thesis/allocation baseline; do not treat as fresh tactical evidence without daily/tape confirmation.</div>
-    <div class="tags"><span class="tag t-cat">MAG7</span><span class="tag t-cat">Ethereum</span><span class="tag t-cat">Software</span><span class="tag t-cat">Industrials</span><span class="tag t-cat">Financials</span><span class="tag t-cat">Small-caps</span><span class="tag t-cat">Energy/Basic Materials</span></div>
   </div>
 
 <div class="card">
-  <div class="card-title"><span class="icon">#</span> Top 5 large cap</div>
+  <div class="card-title"><span class="icon">F</span> FundStrat Bible Layers</div>
+  <div class="summary-line">Deck 2026-06-11 | sector allocation 2026-06-11 | core stock ideas 2026-05-28</div>
+  <div class="summary-muted" style="font-size:11px">Two-layer bible: sector_allocation is the most recent monthly layer (2026-06-11). Core stock ideas (top5/bottom5/what_to_own, source_file) remain from the 2026-05-28 deck - no newer stock-ideas deck has been published.</div>
+</div>
+<div class="two-col">
+  <div class="card">
+    <div class="card-title"><span class="icon">1</span> Sector Allocation Layer</div>
+    <div class="summary-line">As of 2026-06-11 | Fundstrat June 2026 Sector Allocation Update (email 2026-06-11 09:10 ET); full distill archived in Notion FS Inbox archive</div>
+    <div class="small-list">
+<div class="small-item">
+  <strong>Health Care: Neutral -&gt; Overweight</strong>
+  <span class="small-muted">RSPH/RSP breakout above 5-month downtrend, TD Combo 13 confirmed 6/4; XHS at new all-time highs; strong Jun-Aug seasonality, strength may last into fall</span>
+</div>
+<div class="small-item">
+  <strong>Information Technology: Overweight -&gt; Neutral</strong>
+  <span class="small-muted">Consolidation of overbought momentum, NOT a top - weekly RSI ~87.8, TD 13 sell on RSPT/RSP, semis -10% single session early June; expects Tech to struggle to outperform until the midterms; stretched names need weeks of base-building</span>
+</div>
+<div class="small-item">
+  <strong>Industrials: Overweight -&gt; Neutral</strong>
+  <span class="small-muted">Loses leadership spot to Health Care/Utilities/REITs - not a bearish call; XLI/SPY at multi-year trendline support with weekly TD Buy Setup near completion; Tom keeps his Overweight, Industrials still among his top 2026 picks</span>
+</div>
+<div class="small-item">
+  <strong>Lee/Newton agreement</strong>
+  <span class="small-muted">Overweight: Basic Materials, Real Estate</span>
+  <span class="small-muted">Underweight: Consumer Staples</span>
+  <span class="small-muted">Shared Lee/Newton ratings narrowed to 3; divergence reflects different time horizons, not disagreement on market direction</span>
+</div></div>
+    <div class="card-title" style="margin-top:12px"><span class="icon">T</span> Tactical Top 3</div>
+    <div class="small-list"><div class="small-item" style="color:#d29922">Tactical Top 3 not captured in current bible file.</div></div>
+    <div class="card-title" style="margin-top:12px"><span class="icon">B</span> Tactical Bottom 3</div>
+    <div class="small-list"><div class="small-item" style="color:#d29922">Tactical Bottom 3 not captured in current bible file.</div></div>
+    <div class="card-title" style="margin-top:12px"><span class="icon">E</span> June ETF Basket</div>
+    <div class="small-list">
+<div class="small-item">
+  <strong>CIBR</strong>
+  <span class="small-muted">new</span>
+  <span class="small-muted">cybersecurity - best-performing software segment in rebound; least AI-disrupted part of Tech</span>
+</div>
+<div class="small-item">
+  <strong>IHF</strong>
+  <span class="small-muted">new</span>
+  <span class="small-muted">healthcare providers - direct expression of the Health Care upgrade post-XHS breakout</span>
+</div>
+<div class="small-item">
+  <strong>ARKG</strong>
+  <span class="small-muted">new</span>
+  <span class="small-muted">genomics - higher-upside Health Care expression without IHF&#x27;s managed-care overlap</span>
+</div>
+<div class="small-item">
+  <strong>IYT</strong>
+  <span class="small-muted">new</span>
+  <span class="small-muted">transportation - top-ranked composite ETF; direct beneficiary of falling crude / ceasefire progress</span>
+</div>
+<div class="small-item">
+  <strong>DRIV</strong>
+  <span class="small-muted">carry-over</span>
+  <span class="small-muted">autonomous/EV large-cap basket (NVDA, GOOGL, INTC, QCOM, TSLA, MSFT); leveraged automation exposure</span>
+</div></div>
+    <div class="card-title" style="margin-top:12px"><span class="icon">L</span> Named Levels</div>
+    <div class="small-list"><div class="small-item" style="color:#d29922">Named levels not captured in current bible file.</div></div>
+    <div class="summary-muted" style="font-size:11px;margin-top:8px">Loss: -5.0% absolute, -3.7% vs SPX since 5/6 (best SNSR +4.8% rel; worst LIT -15.0% rel). Already graded in Source Call Log - do not re-log.</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">2</span> Core Stock Ideas Layer</div>
+    <div class="summary-line">As of 2026-05-28 | source 20260528-Market-UpdatevFSD-1.pdf</div>
+    <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Core lists remain the stock-pick layer until a newer stock-ideas deck lands.</div>
+    <div class="tags"><span class="tag t-cat">MAG7</span><span class="tag t-cat">Ethereum</span><span class="tag t-cat">Software</span><span class="tag t-cat">Industrials</span><span class="tag t-cat">Financials</span><span class="tag t-cat">Small-caps</span><span class="tag t-cat">Energy/Basic Materials</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="icon">#</span> Core Top 5 large cap</div>
   <div class="book-wrap">
   <table class="book">
     <tr><th>#</th><th>Ticker</th><th>Added</th><th>Price when added</th><th>State</th></tr>
@@ -7992,39 +8057,39 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <td>1</td>
   <td><strong>AMD</strong></td>
   <td>2026-05-28</td>
-  <td>$498.93</td>
-  <td>BUILDING / QUIET | -1.96% | carry over<span class="small-muted">Advanced Micro Devices</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-1.96% | carry over<span class="small-muted">Advanced Micro Devices</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>2</td>
   <td><strong>ANET</strong></td>
   <td>2026-05-28</td>
-  <td>$153.67</td>
-  <td>BUILDING / QUIET | -1.93% | carry over<span class="small-muted">Arista Networks</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-1.93% | carry over<span class="small-muted">Arista Networks</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>3</td>
   <td><strong>GOOGL</strong></td>
   <td>2026-05-28</td>
-  <td>$388.11</td>
-  <td>BUILDING / BUILDING | +0.06%<span class="small-muted">Alphabet Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+0.06%<span class="small-muted">Alphabet Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>4</td>
   <td><strong>PWR</strong></td>
   <td>2026-05-28</td>
-  <td>$745.15</td>
-  <td>BUILDING / QUIET | -1.15%<span class="small-muted">Quanta Services Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-1.15%<span class="small-muted">Quanta Services Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>5</td>
   <td><strong>GS</strong></td>
   <td>2026-05-28</td>
-  <td>$991.45</td>
-  <td>BUILDING / QUIET | -0.18% | carry over<span class="small-muted">Goldman Sachs Group Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-0.18% | carry over<span class="small-muted">Goldman Sachs Group Inc.</span><span class="small-muted"></span></td>
 </tr>
   </table>
 </div>
 </div>
 
 <div class="card">
-  <div class="card-title"><span class="icon">#</span> Top 5 SMID</div>
+  <div class="card-title"><span class="icon">#</span> Core Top 5 SMID</div>
   <div class="book-wrap">
   <table class="book">
     <tr><th>#</th><th>Ticker</th><th>Added</th><th>Price when added</th><th>State</th></tr>
@@ -8032,39 +8097,39 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <td>1</td>
   <td><strong>STRL</strong></td>
   <td>2026-05-28</td>
-  <td>$782.00</td>
-  <td>BUILDING / QUIET | -0.18% | carry over<span class="small-muted">Sterling Infrastructure Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-0.18% | carry over<span class="small-muted">Sterling Infrastructure Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>2</td>
   <td><strong>IESC</strong></td>
   <td>2026-05-28</td>
-  <td>$695.00</td>
-  <td>BUILDING / QUIET | -0.38% | carry over<span class="small-muted">IES Holdings Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-0.38% | carry over<span class="small-muted">IES Holdings Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>3</td>
   <td><strong>FIX</strong></td>
   <td>2026-05-28</td>
-  <td>$1,878.07</td>
-  <td>BUILDING / QUIET | -0.08% | carry over<span class="small-muted">Comfort Systems USA, Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-0.08% | carry over<span class="small-muted">Comfort Systems USA, Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>4</td>
   <td><strong>CRS</strong></td>
   <td>2026-05-28</td>
-  <td>$455.00</td>
-  <td>BUILDING / QUIET | +1.59% | carry over<span class="small-muted">Carpenter Technology Corp.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+1.59% | carry over<span class="small-muted">Carpenter Technology Corp.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>5</td>
   <td><strong>FN</strong></td>
   <td>2026-05-28</td>
-  <td>$694.00</td>
-  <td>BUILDING / QUIET | +0.9%<span class="small-muted">Fabrinet</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+0.9%<span class="small-muted">Fabrinet</span><span class="small-muted"></span></td>
 </tr>
   </table>
 </div>
 </div>
 
 <div class="card">
-  <div class="card-title"><span class="icon">#</span> Bottom 5 large cap</div>
+  <div class="card-title"><span class="icon">#</span> Core Bottom 5 large cap</div>
   <div class="book-wrap">
   <table class="book">
     <tr><th>#</th><th>Ticker</th><th>Added</th><th>Price when added</th><th>State</th></tr>
@@ -8072,39 +8137,39 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <td>1</td>
   <td><strong>DE</strong></td>
   <td>2026-05-28</td>
-  <td>$539.00</td>
-  <td>BUILDING / QUIET | +0.05%<span class="small-muted">Deere &amp; Co.</span><span class="small-muted">UW OHLC r 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+0.05%<span class="small-muted">Deere &amp; Co.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>2</td>
   <td><strong>TPL</strong></td>
   <td>2026-05-28</td>
-  <td>$401.32</td>
-  <td>BUILDING / QUIET | +1.5%<span class="small-muted">Texas Pacific Land Corp.</span><span class="small-muted">UW OHLC r 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+1.5%<span class="small-muted">Texas Pacific Land Corp.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>3</td>
   <td><strong>HOOD</strong></td>
   <td>2026-05-28</td>
-  <td>$74.84</td>
-  <td>BUILDING / QUIET | +2.79%<span class="small-muted">Robinhood Markets Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+2.79%<span class="small-muted">Robinhood Markets Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>4</td>
   <td><strong>PKG</strong></td>
   <td>2026-05-28</td>
-  <td>$218.14</td>
-  <td>BUILDING / QUIET | -0.22% | carry over<span class="small-muted">Packaging Corp. of America</span><span class="small-muted">UW OHLC r 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-0.22% | carry over<span class="small-muted">Packaging Corp. of America</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>5</td>
   <td><strong>SATS</strong></td>
   <td>2026-05-28</td>
-  <td>$122.00</td>
-  <td>BUILDING / QUIET | -0.79%<span class="small-muted">Echostar Corp.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-0.79%<span class="small-muted">Echostar Corp.</span><span class="small-muted"></span></td>
 </tr>
   </table>
 </div>
 </div>
 
 <div class="card">
-  <div class="card-title"><span class="icon">#</span> Bottom 5 SMID</div>
+  <div class="card-title"><span class="icon">#</span> Core Bottom 5 SMID</div>
   <div class="book-wrap">
   <table class="book">
     <tr><th>#</th><th>Ticker</th><th>Added</th><th>Price when added</th><th>State</th></tr>
@@ -8112,105 +8177,76 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <td>1</td>
   <td><strong>ELF</strong></td>
   <td>2026-05-28</td>
-  <td>$57.26</td>
-  <td>BUILDING / QUIET | +5.97% | carry over<span class="small-muted">e.l.f. Beauty, Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+5.97% | carry over<span class="small-muted">e.l.f. Beauty, Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>2</td>
   <td><strong>SATS</strong></td>
   <td>2026-05-28</td>
-  <td>$122.00</td>
-  <td>BUILDING / QUIET | -0.79%<span class="small-muted">Echostar Corp.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-0.79%<span class="small-muted">Echostar Corp.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>3</td>
   <td><strong>UUUU</strong></td>
   <td>2026-05-28</td>
-  <td>$18.09</td>
-  <td>BUILDING / QUIET | -0.69%<span class="small-muted">Energy Fuels Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>-0.69%<span class="small-muted">Energy Fuels Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>4</td>
   <td><strong>SOFI</strong></td>
   <td>2026-05-28</td>
-  <td>$16.04</td>
-  <td>BUILDING / QUIET | +1.31%<span class="small-muted">SoFi Technologies Inc.</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+1.31%<span class="small-muted">SoFi Technologies Inc.</span><span class="small-muted"></span></td>
 </tr><tr>
   <td>5</td>
   <td><strong>KTOS</strong></td>
   <td>2026-05-28</td>
-  <td>$63.75</td>
-  <td>BUILDING / QUIET | +0.88% | carry over<span class="small-muted">Kratos Defense &amp; Security</span><span class="small-muted">UW OHLC pr 2026-05-28; Fundstrat report timestamp pre-regular-session</span></td>
+  <td>not captured</td>
+  <td>+0.88% | carry over<span class="small-muted">Kratos Defense &amp; Security</span><span class="small-muted"></span></td>
 </tr>
   </table>
 </div>
 </div>
+
   <div class="card">
-    <div class="card-title"><span class="icon">D</span> Daily Additions / Deltas</div>
-    <div class="summary-line">Latest 2026-06-12 | stored 24</div>
+    <div class="card-title"><span class="icon">D</span> Latest Daily Notes</div>
+    <div class="summary-line">Latest 2026-06-12 | showing latest 5 of 24</div>
     <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing.</div>
     <div class="small-list">
 <div class="small-item">
   <strong>SPX</strong>
   <span class="small-muted">2026-06-12 | Mark L. Newton, CMT | re-check timing</span>
+  <span class="small-muted">FlashInsights midday equity breadth and buy-the-dip posture</span>
   <span class="small-muted">Newton says US equity lows likely are in place; use pullbacks to buy dips as breadth broadens and crude/TNX weaken. Near-term SPX resistance is 7456-7475, support near 7360, with some backing and filling possible into early next week.</span>
 </div>
 <div class="small-item">
   <strong>RYF</strong>
   <span class="small-muted">2026-06-12 | Mark L. Newton, CMT | re-check timing</span>
+  <span class="small-muted">FlashInsights: Financials rotation favors RYF</span>
   <span class="small-muted">Financials and Healthcare rotation is technically encouraging; Newton says both groups should be favored for outperformance in coming weeks/months, with RYF pressing toward its highest weekly close since early 2026.</span>
 </div>
 <div class="small-item">
   <strong>EWRE</strong>
   <span class="small-muted">2026-06-12 | Mark L. Newton, CMT | re-check timing</span>
+  <span class="small-muted">FlashInsights: REIT breakout / EWRE</span>
   <span class="small-muted">Newton said REITs are breaking out on above-average volume and he is overweight the space; EWRE is pushing to new highs and he expects REIT outperformance if rates fall on an Iran deal.</span>
 </div>
 <div class="small-item">
   <strong>QQQ</strong>
   <span class="small-muted">2026-06-11 | Mark L. Newton, CMT | re-check timing</span>
+  <span class="small-muted">Daily Technical Strategy: Imminent technical breakdown in WTI Crude, Rates, USD makes a completed Iran deal seem likely</span>
   <span class="small-muted">Newton says Thursday&#x27;s reversal is constructive only if QQQ recaptures 717.50 and SPX closes above 7430; until then, do not chase Tech and re-check over the next 3-5 days.</span>
 </div>
 <div class="small-item">
   <strong>CL</strong>
   <span class="small-muted">2026-06-11 | Mark L. Newton, CMT | re-check timing</span>
+  <span class="small-muted">Daily Technical Strategy: Imminent technical breakdown in WTI Crude, Rates, USD makes a completed Iran deal seem likely</span>
   <span class="small-muted">Newton says a confirmed WTI break below 85.95 would trigger the larger bearish breakdown and can open downside toward 60 into September if the ceasefire path holds.</span>
-</div>
-<div class="small-item">
-  <strong>XHS</strong>
-  <span class="small-muted">2026-06-10 | Newton | re-check timing</span>
-  <span class="small-muted">XHS cleared the 2021 highs near 116 and remains a favored long into summer seasonality; use dips back to 116-118 to add, with 132 as the upside objective over time.</span>
-</div>
-<div class="small-item">
-  <strong>QQQ</strong>
-  <span class="small-muted">2026-06-10 | Newton | re-check timing</span>
-  <span class="small-muted">Wednesday&#x27;s downside follow-through keeps QQQ vulnerable to 675 into next week, with the 664-681 support zone the key check; stay defensive on near-term tech adds until the downtrend breaks.</span>
-</div>
-<div class="small-item">
-  <strong>EWY</strong>
-  <span class="small-muted">2026-06-10 | Newton | avoid/re-check</span>
-  <span class="small-muted">EWY looks vulnerable into next week toward 167, with heavier pressure opening 151-154; treat it as a semiconductor-growth read-through and avoid chasing tech beta on this weakness.</span>
-</div>
-<div class="small-item">
-  <strong>SPY</strong>
-  <span class="small-muted">2026-06-09 | Newton | re-check timing</span>
-  <span class="small-muted">Broader market is not too bearish outside Tech; watch whether weakness joins QQQ/SPX or holds up. Crude break positive, but risk-asset benefit is doubtful while Tech falls.</span>
-</div>
-<div class="small-item">
-  <strong>SMH</strong>
-  <span class="small-muted">2026-06-09 | Newton | avoid/re-check</span>
-  <span class="small-muted">SMH parabolic upside momentum reversed into above-average volatility; expected SPX weakness to 7125-7250 before QQQ 675-679. Premature to buy Tech dips.</span>
-</div>
-<div class="small-item">
-  <strong>RSPT</strong>
-  <span class="small-muted">2026-06-09 | Newton | avoid/re-check</span>
-  <span class="small-muted">Equal-weight Technology broke its uptrend after a steep overbought run; bearish engulfing plus trend break should allow Tech weakness and supports Growth-to-Value rotation.</span>
-</div>
-<div class="small-item">
-  <strong>QQQ</strong>
-  <span class="small-muted">2026-06-09 | Newton | avoid/re-check</span>
-  <span class="small-muted">Rapid Tech reversal; equal-weight SPX only marginally positive and losing ground. Expect more selling through Friday/Monday; avoid new Tech adds until QQQ/SPX stabilizes.</span>
 </div></div>
   </div>
   <div class="card">
-    <div class="card-title"><span class="icon">!</span> Fundstrat Data Gaps</div>
-    <div class="small-list"><div class="small-item" style="color:#3fb950">No Fundstrat News gaps surfaced.</div></div>
+    <div class="card-title"><span class="icon">!</span> FundStrat Data Gaps</div>
+    <div class="small-list"><div class="small-item" style="color:#3fb950">No FundStrat gaps surfaced.</div></div>
   </div>
 
 <div class="card">
@@ -8249,7 +8285,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div id="tab-commands" style="display:none">
   <div class="cmd-section">
     <div class="cmd-section-title">Current operating actions</div>
-    <div class="cmd-row"><span class="cmd-name">open dashboard</span><span class="cmd-desc">Use the local HTML dashboard first; it is the default operator cockpit.</span></div><div class="cmd-row"><span class="cmd-name">open live dashboard</span><span class="cmd-desc">Use GitHub Pages as the published shareable dashboard.</span></div><div class="cmd-row"><span class="cmd-name">refresh dashboard</span><span class="cmd-desc">Run the full local refresh package, then check the HTML dashboard and JSX parity surface.</span></div><div class="cmd-row"><span class="cmd-name">refresh book</span><span class="cmd-desc">Pull SnapTrade account positions, validate, promote the book, and rebuild the cockpit.</span></div><div class="cmd-row"><span class="cmd-name">review market-open packet</span><span class="cmd-desc">Start with Key Now, Re-check Before Acting, blockers, and assumption-refresh notes.</span></div><div class="cmd-row"><span class="cmd-name">review full book</span><span class="cmd-desc">Use Book for full SnapTrade account rows, then the conviction book below it.</span></div><div class="cmd-row"><span class="cmd-name">review reallocation brief</span><span class="cmd-desc">Candidate-only add/trim plan; run same-session gates before any capital action.</span></div><div class="cmd-row"><span class="cmd-name">run UW check set</span><span class="cmd-desc">Use the UW action runbook for same-session price, flow, tape, and event-risk confirmation.</span></div><div class="cmd-row"><span class="cmd-name">inspect source proof</span><span class="cmd-desc">Check source audits, dark lanes, routine receipts, and connector evidence before trusting outputs.</span></div><div class="cmd-row"><span class="cmd-name">resolve action memory</span><span class="cmd-desc">Only close ANET/GOOGL/etc. after act, invalidate, defer, ignore, or miss is explicit.</span></div>
+    <div class="cmd-row"><span class="cmd-name">open dashboard</span><span class="cmd-desc">Use the local HTML dashboard first; it is the default operator dashboard.</span></div><div class="cmd-row"><span class="cmd-name">open live dashboard</span><span class="cmd-desc">Use GitHub Pages as the published shareable dashboard.</span></div><div class="cmd-row"><span class="cmd-name">refresh dashboard</span><span class="cmd-desc">Run the full local refresh package, then check the HTML dashboard and JSX parity surface.</span></div><div class="cmd-row"><span class="cmd-name">refresh book</span><span class="cmd-desc">Pull SnapTrade account positions, validate, promote the book, and rebuild the dashboard.</span></div><div class="cmd-row"><span class="cmd-name">review market-open packet</span><span class="cmd-desc">Start with Key Now, Re-check Before Acting, blockers, and assumption-refresh notes.</span></div><div class="cmd-row"><span class="cmd-name">review full book</span><span class="cmd-desc">Use Book for full SnapTrade account rows, then the conviction book below it.</span></div><div class="cmd-row"><span class="cmd-name">review reallocation brief</span><span class="cmd-desc">Candidate-only add/trim plan; run same-session gates before any capital action.</span></div><div class="cmd-row"><span class="cmd-name">run UW check set</span><span class="cmd-desc">Use the UW action runbook for same-session price, flow, tape, and event-risk confirmation.</span></div><div class="cmd-row"><span class="cmd-name">inspect source proof</span><span class="cmd-desc">Check source audits, dark lanes, routine receipts, and connector evidence before trusting outputs.</span></div><div class="cmd-row"><span class="cmd-name">resolve action memory</span><span class="cmd-desc">Only close ANET/GOOGL/etc. after act, invalidate, defer, ignore, or miss is explicit.</span></div>
   </div>
   <div class="cmd-section">
     <div class="cmd-section-title">System checks</div>
@@ -8267,7 +8303,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
           Local HTML dashboard
         </a>
       </span>
-      <span class="nav-hint">default operator cockpit</span>
+      <span class="nav-hint">default operator dashboard</span>
     </div>
     <div class="nav-row">
       <span class="nav-label">
@@ -8289,7 +8325,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </div>
 
   <div class="footer">
-    Conviction Cockpit  auto-refreshes hourly 
+    Conviction Dashboard &middot; auto-refreshes hourly &middot;
     <a href="https://github.com/ender-lark/enderverse">enderverse</a>
   </div>
 
