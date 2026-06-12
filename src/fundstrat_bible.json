@@ -1,5 +1,66 @@
 {
-  "deck_date": "2026-05-28",
+  "deck_date": "2026-06-11",
+  "layers_note": "Two-layer bible: sector_allocation is the most recent monthly layer (2026-06-11). Core stock ideas (top5/bottom5/what_to_own, source_file) remain from the 2026-05-28 deck - no newer stock-ideas deck has been published.",
+  "core_stock_ideas_as_of": "2026-05-28",
+  "sector_allocation": {
+    "as_of": "2026-06-11",
+    "source": "Fundstrat June 2026 Sector Allocation Update (email 2026-06-11 09:10 ET); full distill archived in Notion FS Inbox archive",
+    "newton_rating_changes": [
+      {
+        "sector": "Health Care",
+        "change": "Neutral -> Overweight",
+        "why": "RSPH/RSP breakout above 5-month downtrend, TD Combo 13 confirmed 6/4; XHS at new all-time highs; strong Jun-Aug seasonality, strength may last into fall"
+      },
+      {
+        "sector": "Information Technology",
+        "change": "Overweight -> Neutral",
+        "why": "Consolidation of overbought momentum, NOT a top - weekly RSI ~87.8, TD 13 sell on RSPT/RSP, semis -10% single session early June; expects Tech to struggle to outperform until the midterms; stretched names need weeks of base-building"
+      },
+      {
+        "sector": "Industrials",
+        "change": "Overweight -> Neutral",
+        "why": "Loses leadership spot to Health Care/Utilities/REITs - not a bearish call; XLI/SPY at multi-year trendline support with weekly TD Buy Setup near completion; Tom keeps his Overweight, Industrials still among his top 2026 picks"
+      }
+    ],
+    "agreement": {
+      "both_overweight": [
+        "Basic Materials",
+        "Real Estate"
+      ],
+      "both_underweight": [
+        "Consumer Staples"
+      ],
+      "note": "Shared Lee/Newton ratings narrowed to 3; divergence reflects different time horizons, not disagreement on market direction"
+    },
+    "june_etf_basket": [
+      {
+        "ticker": "CIBR",
+        "status": "new",
+        "theme": "cybersecurity - best-performing software segment in rebound; least AI-disrupted part of Tech"
+      },
+      {
+        "ticker": "IHF",
+        "status": "new",
+        "theme": "healthcare providers - direct expression of the Health Care upgrade post-XHS breakout"
+      },
+      {
+        "ticker": "ARKG",
+        "status": "new",
+        "theme": "genomics - higher-upside Health Care expression without IHF's managed-care overlap"
+      },
+      {
+        "ticker": "IYT",
+        "status": "new",
+        "theme": "transportation - top-ranked composite ETF; direct beneficiary of falling crude / ceasefire progress"
+      },
+      {
+        "ticker": "DRIV",
+        "status": "carry-over",
+        "theme": "autonomous/EV large-cap basket (NVDA, GOOGL, INTC, QCOM, TSLA, MSFT); leveraged automation exposure"
+      }
+    ],
+    "may_basket_grade": "Loss: -5.0% absolute, -3.7% vs SPX since 5/6 (best SNSR +4.8% rel; worst LIT -15.0% rel). Already graded in Source Call Log - do not re-log."
+  },
   "what_to_own": [
     "MAG7",
     "Ethereum",
