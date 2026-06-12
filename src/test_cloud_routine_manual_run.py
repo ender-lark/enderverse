@@ -51,6 +51,31 @@ def test_manual_stack_records_failed_routine(tmp_path):
     assert payload["receipts"][-1]["details"]["steps"][0]["returncode"] == 3
 
 
+def test_manual_stack_stops_after_required_failure(tmp_path):
+    marker = tmp_path / "should_not_run.txt"
+    routine = cloud_routine_manual_run.Routine(
+        "test-routine",
+        "test routine completed",
+        [
+            cloud_routine_manual_run.Step("bad", [sys.executable, "-c", "raise SystemExit(3)"]),
+            cloud_routine_manual_run.Step(
+                "must not run",
+                [sys.executable, "-c", f"from pathlib import Path; Path({str(marker)!r}).write_text('ran')"],
+            ),
+        ],
+    )
+
+    report = cloud_routine_manual_run.run_manual_stack(
+        routines=[routine],
+        receipt_path=tmp_path / "receipts.json",
+        repo=tmp_path,
+    )
+
+    assert report["valid"] is False
+    assert len(report["routines"][0]["steps"]) == 1
+    assert not marker.exists()
+
+
 def test_manual_stack_unknown_routine_id_fails_without_receipts(tmp_path):
     receipts = tmp_path / "receipts.json"
     routine = cloud_routine_manual_run.Routine(

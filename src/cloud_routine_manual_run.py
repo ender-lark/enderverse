@@ -422,7 +422,12 @@ def run_manual_stack(
                 run_source="manual",
                 summary=f"{routine.routine_id} manual run started",
             )
-        step_reports = [_run_step(step, repo_path) for step in routine.steps]
+        step_reports = []
+        for step in routine.steps:
+            report = _run_step(step, repo_path)
+            step_reports.append(report)
+            if int(report.get("returncode") or 0) != 0 and not report.get("optional"):
+                break
         failures = [
             step for step in step_reports
             if int(step.get("returncode") or 0) != 0 and not step.get("optional")
