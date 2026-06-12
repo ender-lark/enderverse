@@ -355,5 +355,22 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_9fcca379d0a4"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "SPX",
+    "tier": "A",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton says US equity lows likely are in place; use pullbacks to buy dips as breadth broadens and crude/TNX weaken. Near-term SPX resistance is 7456-7475, support near 7360, with some backing and filling possible into early next week.",
+    "falsification_condition": "FALSIFIED if ['TNX', 'SPX'] fails to reach stated target within window, OR stop hit before target",
+    "date": "2026-06-12",
+    "window_end": "2026-06-26",
+    "window_days": 14,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-12",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_0daca0ae66b2"
   }
 ]

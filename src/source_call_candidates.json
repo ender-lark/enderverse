@@ -466,5 +466,28 @@
     "use_case": "technical_timing",
     "decision_usefulness": "high",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "SPX",
+    "tier": "A",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton says US equity lows likely are in place; use pullbacks to buy dips as breadth broadens and crude/TNX weaken. Near-term SPX resistance is 7456-7475, support near 7360, with some backing and filling possible into early next week.",
+    "falsification_condition": "FALSIFIED if ['TNX', 'SPX'] fails to reach stated target within window, OR stop hit before target",
+    "date": "2026-06-12",
+    "window_end": "2026-06-26",
+    "window_days": 14,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-12",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]

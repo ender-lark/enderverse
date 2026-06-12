@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-12T14:46:20.461148+00:00",
+  "generated_at": "2026-06-12T16:48:22.532529+00:00",
   "staleness": {
-    "stamp": "sourced: portfolio 06-12 \u00b7 uw_price 06-12 \u00b7 uw_macro 06-12 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-11",
+    "stamp": "sourced: portfolio 06-12 \u00b7 uw_price 06-12 \u00b7 uw_macro 06-12 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-12",
     "entries": [
       {
         "source": "portfolio",
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-12T10:46:20.461148-04:00",
+        "date": "2026-06-12T12:48:22.532529-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-12T10:46:20.461148-04:00",
+        "date": "2026-06-12T12:48:22.532529-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -37,8 +37,8 @@
       },
       {
         "source": "fundstrat_daily",
-        "date": "2026-06-11",
-        "age_days": 1,
+        "date": "2026-06-12",
+        "age_days": 0,
         "cadence": "daily",
         "stale": false,
         "flag": ""
@@ -93,7 +93,7 @@
         "label": "Catalysts",
         "status": "has_data",
         "detail": "checked",
-        "count": 8,
+        "count": 11,
         "checked_at": ""
       },
       {
@@ -1527,6 +1527,13 @@
   },
   "catalysts": [
     {
+      "ticker": "SPX",
+      "label": "SpaceX IPO \u2014 largest US IPO ever (~$2T, ~2.7% of US equity mkt); top-10-IPO history says NOT a top signal (SPX median +3.0%/+4.5% fwd 1/3-mo)",
+      "date": "2026-06-12",
+      "days_out": 0,
+      "source": "Fundstrat Sector Allocation June 2026 (6/11) + Notion Catalyst Calendar 35fc5031-4bb6-81c5-ae90-d8a84919999b"
+    },
+    {
       "ticker": "GS",
       "label": "Q2 FY26 earnings",
       "date": "2026-07-15",
@@ -1576,11 +1583,25 @@
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     },
     {
+      "ticker": "SPX",
+      "label": "US midterm elections \u2014 endpoint of Newton's Tech-lag window ('struggle to outperform between now and the mid-terms')",
+      "date": "2026-11-03",
+      "days_out": 144,
+      "source": "Fundstrat Sector Allocation June 2026 (6/11) + Notion Catalyst Calendar 35fc5031-4bb6-81c5-ae90-d8a84919999b"
+    },
+    {
       "ticker": "BMNR",
       "label": "Q1 FY27 earnings premarket",
       "date": "2026-11-21",
       "days_out": 162,
       "source": "Notion Catalyst Calendar page 35fc5031-4bb6-81c5-ae90-d8a84919999b"
+    },
+    {
+      "ticker": "SPX",
+      "label": "SpaceX lockup expiry watch (~180d standard \u2014 VERIFY actual term from prospectus); ~$2T supply unlock + OpenAI/Anthropic IPOs expected H2 = AI-complex supply absorption window",
+      "date": "2026-12-09",
+      "days_out": 180,
+      "source": "Fundstrat Sector Allocation June 2026 (6/11) + Notion Catalyst Calendar 35fc5031-4bb6-81c5-ae90-d8a84919999b"
     }
   ],
   "questions": [],
@@ -1699,31 +1720,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-12T14:46:20.323290+00:00",
+      "last_run": "2026-06-12T16:48:22.424181+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-12T14:46:20.323290+00:00",
+      "last_run": "2026-06-12T16:48:22.424181+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-12T14:46:20.323290+00:00",
+      "last_run": "2026-06-12T16:48:22.424181+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-12T14:46:20.323290+00:00",
+      "last_run": "2026-06-12T16:48:22.424181+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-12T14:46:20.323290+00:00",
+      "last_run": "2026-06-12T16:48:22.424181+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1895,6 +1916,17 @@
       "window": null,
       "date": "2026-06-11",
       "quote": "Newton says a confirmed WTI break below 85.95 would trigger the larger bearish breakdown and can open downside toward 60 into September if the ceasefire path holds."
+    },
+    {
+      "ticker": "SPX",
+      "author": "Mark L. Newton, CMT",
+      "direction": "watch",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-12",
+      "quote": "Newton says US equity lows likely are in place; use pullbacks to buy dips as breadth broadens and crude/TNX weaken. Near-term SPX resistance is 7456-7475, support near 7360, with some backing and filling possible into early next week."
     }
   ],
   "lean_in": [
@@ -2611,7 +2643,7 @@
     "source_calls": {
       "status": "has_data",
       "line": "SCORING LAG: clean \u2014 no calls past window-end awaiting a score.",
-      "pending_count": 21,
+      "pending_count": 22,
       "overdue_count": 0,
       "oldest_overdue_days": 0,
       "rates": [
@@ -2661,7 +2693,7 @@
         "status": "checked_fresh",
         "line": "Calibration chain checked fresh.",
         "worst_days_behind": 0,
-        "cache_as_of": "2026-06-11"
+        "cache_as_of": "2026-06-12"
       },
       "persistence": {
         "status": "has_data",
@@ -3010,6 +3042,14 @@
         },
         {
           "source": "fundstrat_daily",
+          "ticker": "SPX",
+          "date": "2026-06-12",
+          "title": "SPX watch",
+          "check": "Newton says US equity lows likely are in place; use pullbacks to buy dips as breadth broadens and crude/TNX weaken. Near-term SPX resistance is 7456-7475, support near 7360, with some backing and filling possible into early next week.",
+          "why": "Use as a pre-market condition check, not as an automatic trade."
+        },
+        {
+          "source": "fundstrat_daily",
           "ticker": "CL",
           "date": "2026-06-11",
           "title": "CL watch",
@@ -3039,21 +3079,13 @@
           "title": "RSPT avoid",
           "check": "Equal-weight Technology broke its uptrend after a steep overbought run; bearish engulfing plus trend break should allow Tech weakness and supports Growth-to-Value rotation.",
           "why": "Use as a pre-market condition check, not as an automatic trade."
-        },
-        {
-          "source": "fundstrat_daily",
-          "ticker": "SPY",
-          "date": "2026-06-09",
-          "title": "SPY watch",
-          "check": "Broader market is not too bearish outside Tech; watch whether weakness joins QQQ/SPX or holds up. Crude break positive, but risk-asset benefit is doubtful while Tech falls.",
-          "why": "Use as a pre-market condition check, not as an automatic trade."
         }
       ]
     },
     "watch_only_why": {
       "status": "has_data",
-      "count": 44,
-      "line": "Why-not-acting lane: 44 watch-only signal(s) kept out of trade prompts.",
+      "count": 45,
+      "line": "Why-not-acting lane: 45 watch-only signal(s) kept out of trade prompts.",
       "rows": [
         {
           "ticker": "XLF, GS, ITA",
@@ -12901,7 +12933,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-12T10:01:50-04:00",
-        "connector_proof_age_hours": 0.74
+        "connector_proof_age_hours": 2.78
       }
     ],
     "missing": [],
@@ -12911,40 +12943,34 @@
   "source_audits": {
     "fundstrat": {
       "status": "has_data",
-      "line": "Fundstrat latest intake: 2 full-body, 0 snippet-only, 2 daily calls; stored cache: 30 inbox entries (19 full-body, 11 snippet-only), 21 daily calls, 21 stored source-call candidates.",
-      "entries": 2,
-      "full_body_entries": 2,
+      "line": "Fundstrat latest intake: 1 full-body, 0 snippet-only, 1 daily calls; stored cache: 31 inbox entries (20 full-body, 11 snippet-only), 22 daily calls, 22 stored source-call candidates.",
+      "entries": 1,
+      "full_body_entries": 1,
       "snippet_only_entries": 0,
-      "daily_calls": 2,
-      "source_call_candidates": 2,
-      "stored_entries": 2,
-      "stored_cache_entries": 30,
-      "stored_full_body_entries": 19,
+      "daily_calls": 1,
+      "source_call_candidates": 1,
+      "stored_entries": 1,
+      "stored_cache_entries": 31,
+      "stored_full_body_entries": 20,
       "stored_snippet_only_entries": 11,
-      "stored_daily_calls": 21,
-      "stored_daily_call_rows": 21,
-      "stored_source_call_candidates": 21,
+      "stored_daily_calls": 22,
+      "stored_daily_call_rows": 22,
+      "stored_source_call_candidates": 22,
       "bodies_redacted": true,
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },
     "cloud_routines": {
       "status": "partial_live_run_proven",
-      "line": "Background cloud proof: 16/24 scheduled receipts proven; failed latest=0.",
-      "scheduled_success_count": 16,
+      "line": "Background cloud proof: 17/24 scheduled receipts proven; failed latest=0.",
+      "scheduled_success_count": 17,
       "expected_count": 24,
       "failed_latest_count": 0,
-      "missing_scheduled_success_count": 8,
+      "missing_scheduled_success_count": 7,
       "missing_scheduled_success": [
         {
           "routine_id": "investing-os-fs-inbox-catch-up-preopen",
           "routine_name": "Investing OS FS Inbox Catch-up Preopen",
           "schedule": "market weekdays 8:20 AM ET",
-          "last_status": "no_receipt"
-        },
-        {
-          "routine_id": "investing-os-fs-inbox-catch-up-midday",
-          "routine_name": "Investing OS FS Inbox Catch-up Midday",
-          "schedule": "market weekdays 12:30 PM ET",
           "last_status": "no_receipt"
         },
         {
@@ -13068,7 +13094,7 @@
           "routine_name": "Investing OS Daily Synthesis",
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
-          "receipt_count": 18,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-12T13:33:35.481717Z",
@@ -13094,20 +13120,20 @@
           "routine_name": "Investing OS Fundstrat Daytime Watch",
           "role": "fundstrat_daytime_watch",
           "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
-          "receipt_count": 38,
-          "last_status": "success",
+          "receipt_count": 43,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-12T13:48:55.780174Z",
-          "last_success_at": "2026-06-12T13:48:55.780174Z",
-          "last_scheduled_success_at": "2026-06-12T13:48:55.780174Z",
-          "last_summary": "checked 2 web pages, Gmail 2; landed 0 rows; suppressed 2 low-value/context notes; validation passed; alerts sent 2 from existing fresh rows; macro/crypto flash stale (latest June 11/June 8); blockers none"
+          "last_recorded_at": "2026-06-12T16:46:26.654368Z",
+          "last_success_at": "2026-06-12T15:47:35.159762Z",
+          "last_scheduled_success_at": "2026-06-12T15:47:35.159762Z",
+          "last_summary": "fundstrat daytime watch started"
         },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
           "routine_name": "Investing OS UW Opportunity Cache",
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "receipt_count": 22,
+          "receipt_count": 20,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-12T14:03:02.827851Z",
@@ -13146,13 +13172,13 @@
           "routine_name": "Investing OS FS Inbox Catch-up Midday",
           "role": "fs_inbox_catchup_midday",
           "schedule": "market weekdays 12:30 PM ET",
-          "receipt_count": 0,
-          "last_status": "no_receipt",
-          "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
-          "last_scheduled_success_at": "",
-          "last_summary": ""
+          "receipt_count": 2,
+          "last_status": "success",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-12T16:38:31.400490Z",
+          "last_success_at": "2026-06-12T16:38:31.400490Z",
+          "last_scheduled_success_at": "2026-06-12T16:38:31.400490Z",
+          "last_summary": "ingested 4 inbox entries; logged 10 Source Call rows; newest 06/12/2026 09:25 ET; no new decision flags"
         },
         {
           "routine_id": "investing-os-post-close-refresh",
@@ -13237,7 +13263,7 @@
           "routine_name": "Investing OS Deep Synthesis",
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
-          "receipt_count": 11,
+          "receipt_count": 10,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:16.907348Z",
@@ -13250,7 +13276,7 @@
           "routine_name": "Investing OS Weekly Pilot Run",
           "role": "weekly_pilot_run",
           "schedule": "Sunday 6:00 PM ET",
-          "receipt_count": 11,
+          "receipt_count": 9,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:17.261306Z",
@@ -13934,7 +13960,7 @@
     },
     "uw_action_runbook": {
       "status": "has_data",
-      "line": "UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
+      "line": "UW action runbook: 5 check set(s), 23 scoped ticker(s); endpoint results not claimed.",
       "rows": [
         {
           "mode": "pre_market_crash_triage",
@@ -14080,11 +14106,11 @@
           "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
           "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
           "ticker_scope": [
+            "SPX",
             "CL",
             "EWY",
             "XHS",
             "RSPT",
-            "SPY",
             "NVDA",
             "MAGS",
             "RYF",
@@ -14171,6 +14197,7 @@
         "RSPT",
         "RYF",
         "SMH",
+        "SPX",
         "SPY",
         "TNX",
         "XHS",
@@ -14350,7 +14377,7 @@
   },
   "fundstrat_news": {
     "status": "has_data",
-    "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID 5, daily calls 21 latest 2026-06-11.",
+    "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID 5, daily calls 22 latest 2026-06-12.",
     "as_of": "2026-06-12",
     "monthly": {
       "deck_date": "2026-05-28",
@@ -14762,8 +14789,27 @@
       }
     },
     "daily": {
-      "latest_date": "2026-06-11",
+      "latest_date": "2026-06-12",
       "rows": [
+        {
+          "date": "2026-06-12",
+          "ticker": "SPX",
+          "author": "Mark L. Newton, CMT",
+          "direction": "watch",
+          "subject": "FlashInsights midday equity breadth and buy-the-dip posture",
+          "quote": "Newton says US equity lows likely are in place; use pullbacks to buy dips as breadth broadens and crude/TNX weaken. Near-term SPX resistance is 7456-7475, support near 7360, with some backing and filling possible into early next week.",
+          "fundstrat_lane": "technical",
+          "source_domain": "technical_timing",
+          "author_role": "Mark Newton technical/timing view",
+          "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+          "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+          "publication_type": "daily_technical",
+          "capture_policy": "daily_call",
+          "use_case": "technical_timing",
+          "decision_usefulness": "high",
+          "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+          "action_implication": "re-check timing"
+        },
         {
           "date": "2026-06-11",
           "ticker": "QQQ",
@@ -15164,10 +15210,10 @@
           "action_implication": "avoid/re-check"
         }
       ],
-      "count": 21,
-      "full_body_entries": 2,
+      "count": 22,
+      "full_body_entries": 1,
       "snippet_only_entries": 0,
-      "stored_daily_calls": 21,
+      "stored_daily_calls": 22,
       "freshness_judgment": "Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing."
     },
     "gaps": [],
@@ -15469,7 +15515,7 @@
   },
   "uw_action_runbook": {
     "status": "has_data",
-    "line": "UW action runbook: 5 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
+    "line": "UW action runbook: 5 check set(s), 23 scoped ticker(s); endpoint results not claimed.",
     "rows": [
       {
         "mode": "pre_market_crash_triage",
@@ -15615,11 +15661,11 @@
         "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
         "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
         "ticker_scope": [
+          "SPX",
           "CL",
           "EWY",
           "XHS",
           "RSPT",
-          "SPY",
           "NVDA",
           "MAGS",
           "RYF",
@@ -15706,6 +15752,7 @@
       "RSPT",
       "RYF",
       "SMH",
+      "SPX",
       "SPY",
       "TNX",
       "XHS",
@@ -17212,7 +17259,7 @@
       },
       {
         "reason": "background_cloud_proof",
-        "count": 8,
+        "count": 7,
         "why": "Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue."
       }
     ],
