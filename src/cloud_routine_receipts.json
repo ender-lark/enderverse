@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-12T20:37:44.769953Z",
+  "updated_at": "2026-06-12T23:04:38.055499Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T05:47:18.966633Z",
-      "summary": "off-hours worker started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T05:51:24.184443Z",
-      "summary": "drafted AI Labor routing note; 1 Notion write verified; SQL/query fallback used; no second undrained top item found"
-    },
     {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
@@ -3316,6 +3302,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-12T20:37:44.769953Z",
       "summary": "ingested 1 inbox entry; logged 0 Source Call rows; newest 06/12/2026 12:55 ET; no new decision flags"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-12T23:01:36.720136Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-12T23:04:38.055499Z",
+      "summary": "checked 15 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 8; validation passed; Notion none; dark/stale crypto flash stale, intraday/live-tech/fed-watch/crypto research stale, no new post-close full-content items; blockers none"
     }
   ]
 }
