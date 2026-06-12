@@ -1,27 +1,8 @@
 {
   "schema_version": "1.0",
-  "as_of": "2026-06-10",
-  "generated_at": "2026-06-10T20:31:45.224782+00:00",
-  "opportunities": [
-    {
-      "ticker": "ANET",
-      "first_flagged": "2026-06-07",
-      "flag_price": null,
-      "source": "lean_in",
-      "kind": "lean_in",
-      "last_seen": "2026-06-10",
-      "status": "open"
-    },
-    {
-      "ticker": "GOOGL",
-      "first_flagged": "2026-06-07",
-      "flag_price": null,
-      "source": "lean_in",
-      "kind": "lean_in",
-      "last_seen": "2026-06-10",
-      "status": "open"
-    }
-  ],
+  "as_of": "2026-06-12",
+  "generated_at": "2026-06-12T17:46:58.981066+00:00",
+  "opportunities": [],
   "history": [
     {
       "ticker": "ANET",
@@ -41,6 +22,50 @@
       "resolved_at": "2026-06-07",
       "status": "acted",
       "reason": "now held",
+      "source": "lean_in",
+      "kind": "lean_in",
+      "flag_price": null
+    },
+    {
+      "ticker": "ANET",
+      "first_flagged": "2026-06-07",
+      "last_seen": "2026-06-12",
+      "resolved_at": "2026-06-12",
+      "status": "expired",
+      "reason": "old stale review; remove from active dashboard prompts",
+      "source": "lean_in",
+      "kind": "lean_in",
+      "flag_price": null
+    },
+    {
+      "ticker": "GOOGL",
+      "first_flagged": "2026-06-07",
+      "last_seen": "2026-06-12",
+      "resolved_at": "2026-06-12",
+      "status": "expired",
+      "reason": "old stale review; remove from active dashboard prompts",
+      "source": "lean_in",
+      "kind": "lean_in",
+      "flag_price": null
+    },
+    {
+      "ticker": "ANET",
+      "first_flagged": "2026-06-12",
+      "last_seen": "2026-06-12",
+      "resolved_at": "2026-06-12",
+      "status": "expired",
+      "reason": "old stale review; remove from active dashboard prompts",
+      "source": "lean_in",
+      "kind": "lean_in",
+      "flag_price": null
+    },
+    {
+      "ticker": "GOOGL",
+      "first_flagged": "2026-06-12",
+      "last_seen": "2026-06-12",
+      "resolved_at": "2026-06-12",
+      "status": "expired",
+      "reason": "old stale review; remove from active dashboard prompts",
       "source": "lean_in",
       "kind": "lean_in",
       "flag_price": null

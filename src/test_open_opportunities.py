@@ -129,6 +129,35 @@ def test_explicit_resolution_ignored_deferred_missed_persist_to_history():
     assert hist["MU"]["status"] == "missed"
 
 
+def test_same_day_resolution_is_not_reopened_by_publish_refresh():
+    store = {
+        "opportunities": [],
+        "history": [{
+            "ticker": "ANET",
+            "first_flagged": "2026-06-07",
+            "last_seen": "2026-06-12",
+            "resolved_at": "2026-06-12",
+            "status": "expired",
+            "reason": "old review",
+            "source": "lean_in",
+            "kind": "lean_in",
+            "flag_price": None,
+        }],
+    }
+
+    ns, dropped = oo.update_open_opportunities(
+        store,
+        todays_candidates=[{"ticker": "ANET", "kind": "lean_in", "source": "lean_in"}],
+        held_tickers=set(),
+        prices={},
+        as_of="2026-06-12",
+    )
+
+    assert ns["opportunities"] == []
+    assert dropped == []
+    assert ns["history"][0]["status"] == "expired"
+
+
 def test_review_age_state_classifies_new_due_and_stale_backlog():
     assert oo.review_age_state(0)["review_state"] == "new"
     due = oo.review_age_state(2)

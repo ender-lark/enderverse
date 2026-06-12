@@ -232,6 +232,25 @@ def _history_row(c, *, status, reason, as_of):
 
 # ───────────────────── WRITER side (the routine) ─────────────────────
 
+def _resolved_today_keys(history, today_iso):
+    """Return ticker/kind/source keys explicitly resolved today."""
+    keys = set()
+    for raw in history or []:
+        if not isinstance(raw, dict):
+            continue
+        if raw.get("status") not in RESOLVED_STATUS or not raw.get("ticker"):
+            continue
+        resolved_at = _parse_date(raw.get("resolved_at")) or _parse_date(raw.get("last_seen"))
+        if not resolved_at or resolved_at.isoformat() != today_iso:
+            continue
+        keys.add((
+            str(raw.get("ticker")).upper(),
+            str(raw.get("kind") or ""),
+            str(raw.get("source") or ""),
+        ))
+    return keys
+
+
 def update_open_opportunities(store, todays_candidates, held_tickers, prices, as_of, *,
                               monitor_tickers=None, invalidations=None, resolutions=None,
                               max_age_days=None):
@@ -259,6 +278,7 @@ def update_open_opportunities(store, todays_candidates, held_tickers, prices, as
 
     kept, dropped, seen = [], [], set()
     history = list((store or {}).get("history") or [])
+    resolved_today = _resolved_today_keys(history, today_iso)
 
     # 1) age / keep / drop existing OPEN opportunities
     for raw in (store or {}).get("opportunities", []) or []:
@@ -307,6 +327,9 @@ def update_open_opportunities(store, todays_candidates, held_tickers, prices, as
             continue
         if up in held or up in invalid or up in seen:
             continue
+        source = cand.get("source") or kind or ""
+        if (up, str(kind or ""), str(source or "")) in resolved_today:
+            continue
         price = cand.get("price")
         if price is None:
             price = prices.get(tk)
@@ -314,7 +337,7 @@ def update_open_opportunities(store, todays_candidates, held_tickers, prices, as
             "ticker": str(tk),
             "first_flagged": today_iso,
             "flag_price": price,
-            "source": cand.get("source") or kind or "",
+            "source": source,
             "kind": kind or "",
             "last_seen": today_iso,
             "status": "open",

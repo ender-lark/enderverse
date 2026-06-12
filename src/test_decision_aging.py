@@ -27,6 +27,26 @@ def _row(kind, tk, conf="Moderate", rank=1):
             "your_move": "y", "gate": None, "source": "s", "why": "w"}
 
 
+def _lean_item(ticker):
+    return {
+        "ticker": ticker,
+        "owned": True,
+        "stance_gate": "open",
+        "conviction": "Promising",
+        "cd": "up",
+        "rotation": "LEADING",
+        "lean": "lean_in",
+        "headline": f"{ticker}: Promising and leading",
+        "evidence": [],
+        "next_evidence": [],
+        "opportunity_cost": "",
+        "ceiling": "",
+        "caveats": [],
+        "freshness": f"as-of {GOLDEN_AS_OF}",
+        "action": "NONE",
+    }
+
+
 # ── apply_decision_aging units ──
 
 def test_apply_noop_when_empty_returns_same_object():
@@ -76,6 +96,30 @@ def test_feed_without_store_has_no_aging():
     feed = assemble_feed(_bundle())
     assert all(a["kind"] != "decision_aging" for a in feed["actions"])
     assert all("age_days" not in a for a in feed["actions"])
+    assert validators.validate_cockpit_feed(feed) == []
+
+
+def test_feed_suppresses_resolved_lean_in_review_from_today_backlog():
+    store = {
+        "opportunities": [],
+        "history": [{
+            "ticker": "ANET",
+            "status": "expired",
+            "source": "lean_in",
+            "kind": "lean_in",
+            "resolved_at": GOLDEN_AS_OF,
+            "reason": "old stale review; remove from active dashboard prompts",
+        }],
+    }
+    feed = assemble_feed(
+        _bundle(),
+        lean_in=[_lean_item("ANET"), _lean_item("MAGS")],
+        open_opportunities=store,
+    )
+    assert all(item.get("ticker") != "ANET" for item in feed["lean_in"])
+    assert any(item.get("ticker") == "MAGS" for item in feed["lean_in"])
+    assert all(not (a.get("kind") == "lean_in" and a.get("ticker") == "ANET") for a in feed["actions"])
+    assert any(a.get("kind") == "lean_in" and a.get("ticker") == "MAGS" for a in feed["actions"])
     assert validators.validate_cockpit_feed(feed) == []
 
 

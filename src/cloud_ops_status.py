@@ -65,6 +65,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-09T09:16:00-04:00",
     },
     {
+        "automation_id": "investing-os-fs-inbox-catch-up-preopen",
+        "automation_name": "Investing OS FS Inbox Catch-up Preopen",
+        "role": "fs_inbox_catchup_preopen",
+        "schedule": "market weekdays 8:20 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 8,
+        "minute": 20,
+        "expected_since": "2026-06-12T09:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-early-cockpit-build",
         "automation_name": "Investing OS Early Cockpit Build",
         "role": "early_cockpit_build",
@@ -131,6 +141,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "minute": 30,
     },
     {
+        "automation_id": "investing-os-fs-inbox-catch-up-midday",
+        "automation_name": "Investing OS FS Inbox Catch-up Midday",
+        "role": "fs_inbox_catchup_midday",
+        "schedule": "market weekdays 12:30 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 12,
+        "minute": 30,
+        "expected_since": "2026-06-12T09:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-post-close-refresh",
         "automation_name": "Investing OS Post-Close Refresh",
         "role": "post_close_refresh",
@@ -138,6 +158,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "days": [0, 1, 2, 3, 4],
         "hour": 16,
         "minute": 30,
+    },
+    {
+        "automation_id": "investing-os-fs-inbox-catch-up-postclose",
+        "automation_name": "Investing OS FS Inbox Catch-up Postclose",
+        "role": "fs_inbox_catchup_postclose",
+        "schedule": "market weekdays 4:35 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 16,
+        "minute": 35,
+        "expected_since": "2026-06-12T09:00:00-04:00",
     },
     {
         "automation_id": "investing-os-fundstrat-after-hours-catch-up",
@@ -150,6 +180,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-07T00:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-off-hours-research-queue",
+        "automation_name": "Investing OS Off-Hours Research Queue",
+        "role": "off_hours_research_queue",
+        "schedule": "market weekdays 7:30 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 19,
+        "minute": 30,
+        "expected_since": "2026-06-12T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-top-prospects-auto-research",
         "automation_name": "Investing OS Top Prospects Auto-Research",
         "role": "top_prospects_autoresearch",
@@ -158,6 +198,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "hour": 20,
         "minute": 45,
         "expected_since": "2026-06-11T00:00:00-04:00",
+    },
+    {
+        "automation_id": "investing-os-fs-inbox-catch-up-evening",
+        "automation_name": "Investing OS FS Inbox Catch-up Evening",
+        "role": "fs_inbox_catchup_evening",
+        "schedule": "market weekdays 8:45 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 20,
+        "minute": 45,
+        "expected_since": "2026-06-12T09:00:00-04:00",
     },
     {
         "automation_id": "investing-os-off-hours-alt-data-scout",
@@ -623,7 +673,8 @@ def _receipt_due_summary(
             routine_activation = routine_activation.replace(tzinfo=ET)
         routine_activation = max(activation, routine_activation.astimezone(ET))
         last_due = _last_run_between(expected, routine_activation, now_et)
-        next_due = _next_run_after(expected, now_et)
+        next_cursor = max(now_et, routine_activation)
+        next_due = _next_run_after(expected, next_cursor)
         overdue_after = last_due + timedelta(minutes=grace_minutes) if last_due else None
         if last_due is None:
             state = "not_due_yet"

@@ -66,6 +66,11 @@ try:
 except ImportError:
     catalysts_from_calendar_rows = None
 
+try:
+    from catalyst_calendar_intake import normalize_catalyst_row as normalize_catalyst_calendar_row
+except ImportError:
+    normalize_catalyst_calendar_row = None
+
 
 # ============================================================================
 # DATA STRUCTURES
@@ -659,6 +664,15 @@ def _normalize_catalysts_for_routine(catalysts, today=None) -> list:
     rows = catalysts.get("catalysts") if isinstance(catalysts, dict) else catalysts
     if not isinstance(rows, list):
         return []
+    if normalize_catalyst_calendar_row is not None:
+        normalized = [
+            normalize_catalyst_calendar_row(row)
+            for row in rows
+            if isinstance(row, dict)
+        ]
+        normalized = [row for row in normalized if row]
+        if normalized:
+            return normalized
     if catalysts_from_calendar_rows is None:
         return rows
     return catalysts_from_calendar_rows(rows, as_of=today)

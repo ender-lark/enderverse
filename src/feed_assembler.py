@@ -75,10 +75,32 @@ TIER_RISK = {"T1": "Core", "T2": "Core", "T3": "Tactical", "T4": "Probe"}
 TIER_FLOOR = {"T1": 8.0, "T2": 4.0, "T3": 1.5, "T4": 0.0}
 
 ENDORSEMENT_KINDS = ("analyst_call", "what_to_own", "stance")
+SUPPRESSED_LEAN_IN_STATUSES = {"expired", "ignored", "invalidated", "missed"}
 
 
 def _ns(items):
     return [SimpleNamespace(**it) for it in items]
+
+
+def _suppressed_lean_in_tickers(open_opportunities) -> set[str]:
+    """Tickers whose stale lean-in review was explicitly closed by the operator."""
+    if not isinstance(open_opportunities, dict):
+        return set()
+    suppressed: set[str] = set()
+    for row in open_opportunities.get("history") or []:
+        if not isinstance(row, dict):
+            continue
+        status = str(row.get("status") or "").strip().lower()
+        if status not in SUPPRESSED_LEAN_IN_STATUSES:
+            continue
+        kind = str(row.get("kind") or "").strip().lower()
+        source = str(row.get("source") or "").strip().lower()
+        if kind != "lean_in" and source != "lean_in":
+            continue
+        ticker = str(row.get("ticker") or "").strip().upper()
+        if ticker:
+            suppressed.add(ticker)
+    return suppressed
 
 
 def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
@@ -233,6 +255,13 @@ def assemble_feed(bundle: dict, parabolic=None, generated_at=None,
                                   fresh_act=fresh_act, fresh_watch=fresh_watch)["lean_in"]
     else:
         lean_block = lean_in
+
+    suppressed_lean_in = _suppressed_lean_in_tickers(open_opportunities)
+    if suppressed_lean_in and lean_block:
+        lean_block = [
+            item for item in lean_block
+            if str((item or {}).get("ticker") or "").strip().upper() not in suppressed_lean_in
+        ]
 
     # ── Top Prospects lane (item 5): shape the raw prospects cache before Actions
     #    so ACT_NOW/sell-fast candidates can promote to the top strip while the

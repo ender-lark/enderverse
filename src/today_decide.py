@@ -30,6 +30,7 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+import data_health as _dh
 import congruence as cg
 import directive_recs as dr
 import insight_register as ir
@@ -194,12 +195,6 @@ _CSS = """
 .td .td-hlabel{font-size:11px;color:#64748b;font-weight:700;letter-spacing:.03em}
 .td .td-hchip{display:inline-block;border:1px solid;border-radius:7px;padding:1px 7px;font-size:11px;color:#cbd5e1;margin:0 4px 4px 0;background:#0b1220}
 .td .td-checkfirst{color:#f87171;font-weight:700;font-size:12px;margin-bottom:6px;letter-spacing:.03em}
-.td details.td-card{padding:0}
-.td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
-.td details.td-card>summary::-webkit-details-marker{display:none}
-.td .td-chev{display:inline-block;font-size:11px;color:#64748b;margin:6px 0 0 2px}
-.td details.td-card[open] .td-chev{color:#334155}
-.td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
 .td .td-rail{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;
   padding:6px 12px;margin:6px 8px 0 0;cursor:pointer;font-size:13px}
 .td .td-rail.td-on{background:#34d399;color:#0b1220;font-weight:700}
@@ -235,13 +230,14 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     impact = card.get("impact") or {}
     cid = _esc(card.get("card_id"))
     conflicted = " td-conflicted" if card.get("conflicts") else ""
-    _dcolor = "#94a3b8" if check_first else {"BUY": "#34d399", "SELL": "#f87171"}.get(str(move.get("direction")), "#e2e8f0")
-    h = [f'<details class="td-card{conflicted}">', '<summary class="td-sum">']
+    h = [f'<div class="td-card{conflicted}">']
     if check_first:
         h.append('<div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>')
     cls = win.get("class", "WAIT")
+    direction = str(move.get("direction") or "")
+    direction_color = "#94a3b8" if check_first else {"BUY": "#34d399", "SELL": "#f87171"}.get(direction, "#e2e8f0")
     h.append(
-        f'<div class="td-move">#{rank} <span style="color:{_dcolor};font-weight:700">{_esc(move.get("direction"))}</span> {_esc(card.get("ticker"))}'
+        f'<div class="td-move">#{rank} <span style="color:{direction_color};font-weight:700">{_esc(direction)}</span> {_esc(card.get("ticker"))}'
         f' Â· {_esc(move.get("band"))}'
         f'<span class="td-pill" style="background:{_CLASS_COLORS.get(cls, "#94a3b8")}">{_esc(cls)}</span>'
         f'<span class="td-pill" style="background:#818cf8">{_esc(conv.get("read"))} {conv.get("points", 0)}</span>'
@@ -320,22 +316,29 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
     dh = payload.get("data_health") or {}
     if dh.get("items"):
         chips = []
-        for it in dh["items"]:
-            c = {"fresh": "#34d399", "aging": "#fbbf24", "behind": "#f87171",
-                 "stale": "#f87171", "missing": "#f87171", "empty": "#fbbf24",
-                 "not_checked": "#94a3b8"}.get(it["status"], "#94a3b8")
-            chips.append(f'<span class="td-hchip" style="border-color:{c}">'
-                         f'{_esc(it["label"])}: <span style="color:{c}">{_esc(it["detail"])}</span></span>')
-        h.append('<div class="td-health"><span class="td-hlabel">data freshness:</span> '
-                 + ''.join(chips) + '</div>')
+        for item in dh["items"]:
+            color = {
+                "fresh": "#34d399",
+                "aging": "#fbbf24",
+                "behind": "#f87171",
+                "stale": "#f87171",
+                "missing": "#f87171",
+                "empty": "#fbbf24",
+                "not_checked": "#94a3b8",
+            }.get(item.get("status"), "#94a3b8")
+            chips.append(
+                f'<span class="td-hchip" style="border-color:{color}">'
+                f'{_esc(item.get("label"))}: <span style="color:{color}">{_esc(item.get("detail"))}</span></span>'
+            )
+        h.append('<div class="td-health"><span class="td-hlabel">data freshness:</span> ' + ''.join(chips) + '</div>')
     for g in payload["gates"]:
         color = _GATE_COLORS.get(g.get("state"), "#94a3b8")
         h.append(f'<span class="td-gate" style="border-color:{color};color:{color}">'
                  f'<b>{_esc(str(g.get("state") or "").replace("_"," ").upper())}</b> {_esc(g.get("symbol"))} Â· {_esc(g.get("confirm_rule"))} '
                  f'(as of {_esc(g.get("stated"))})</span>')
-    _blocked = bool((payload.get("data_health") or {}).get("blockers"))
+    blocked = bool((payload.get("data_health") or {}).get("blockers"))
     for i, card in enumerate(payload["cards"], 1):
-        h.extend(_render_card(card, i, check_first=_blocked))
+        h.extend(_render_card(card, i, check_first=blocked))
     backlog = payload["backlog"]
     h.append(f"<details><summary>Backlog ({len(backlog)})</summary>")
     for c in backlog:

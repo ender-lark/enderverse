@@ -1173,6 +1173,61 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
+- Cloud automation recovery slice completed on 2026-06-12.
+  - Reactivated the intended current paused routines in `~/.codex/automations`:
+    Fundstrat pre-market safety sweep, Fundstrat daytime watch, Fundstrat
+    after-hours catch-up, Top Prospects Auto-Research, Off-Hours Alt-Data
+    Scout, Off-Hours Worker, and Off-Hours Queue Buffer.
+  - Left the superseded legacy routines paused and explicitly re-paused the
+    conflicting legacy `investing-os-catalyst-intake` and
+    `investing-os-uw-cache-refresh` local automations so the receipt-tracked
+    stack is the only active cloud contract.
+  - Refreshed `src/cloud_automation_status.json` activation proof to
+    `2026-06-12T06:17:48-04:00` so `cloud_ops_status.py` evaluates the
+    reactivated stack from the June 12 restart window instead of from the
+    paused period.
+  - Honest remaining proof gap: `investing-os-top-prospects-auto-research`,
+    `investing-os-off-hours-alt-data-scout`, and
+    `investing-os-off-hours-queue-buffer` still need their first natural
+    scheduled success receipts; do not backfill scheduled receipts manually.
+
+- V3 delta reconciliation slice completed on 2026-06-12.
+  - Ported the data-health honesty layer from the post-merge main-only work
+    onto the active `v3-decision-layer` branch so TODAY-DECIDE can stamp
+    stale, behind, missing, and not-checked inputs before decision cards.
+  - Updated `src/timing_gates.json` to the canonical Newton 2026-06-11 gate:
+    QQQ must close/hold above 717.50 before tech/growth add windows can be
+    treated as confirmed; the old 695-705 band is historical context only.
+  - Added the FS Inbox Catch-up routine prompt to repo source. Scheduling it is
+    a separate slice; do not treat the prompt's presence as proof that the
+    8:20/12:30/16:35/20:45 ET automation is registered.
+  - Added manual-run coverage for `investing-os-off-hours-research-queue` so
+    the expected cloud stack and manual recovery contract stay aligned.
+  - Honest remaining blocker: Broker Position Intake is not cloud-ready until
+    the SnapTrade local profile/auth issue is repaired; keep broker positions
+    visible as stale/test-data instead of checked current.
+
+- Cloud online recovery slice completed on 2026-06-12.
+  - Rebuilt the ignored local `src/snaptrade_profiles.local.json` using the
+    existing SnapTrade user-secret environment variable plus account-owner
+    overrides from the last validated account-position cache; no secrets were
+    printed or committed.
+  - Verified SnapTrade with a no-promote pull, then promoted a fresh
+    2026-06-12 broker snapshot through `snaptrade_book_refresh.py
+    --refresh-dashboard`; result: 1 profile, 11 accounts, 280 account rows, no
+    warnings, dashboard refresh return code 0.
+  - Wrote a scheduled-path Broker Position Intake recovery receipt so the old
+    missing-profile failure is no longer the latest receipt.
+  - Registered FS Inbox Catch-up as four explicit ACTIVE local schedules
+    instead of one cross-product RRULE: preopen 8:20 AM, midday 12:30 PM,
+    postclose 4:35 PM, evening 8:45 PM ET on market weekdays.
+  - Updated `cloud_ops_status.py`, manual-run coverage, and the routine commit
+    allowlist so these slots are receipt-tracked and `source_shelf_life.json`
+    can be committed by the FS intake routine.
+  - Verification: `verify_standard.py` passed at 1395 passed / 6 skipped;
+    `cloud_routine_drill.py --format text --strict` passed for 24 expected
+    routines; `cloud_ops_status.py --format text` reports schedule ready.
+
 - One low-priority queued implementation slice.
   - The current system-improvement queue is valid with 21 done items and 1
     queued P3 item: `fundstrat-video-transcript-intake`.
