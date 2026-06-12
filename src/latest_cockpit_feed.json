@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T17:39:18.522912+00:00",
+  "generated_at": "2026-06-12T17:46:58.918354+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-12 \u00b7 uw_price 06-12 \u00b7 uw_macro 06-12 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-12",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-12T13:39:18.522912-04:00",
+        "date": "2026-06-12T13:46:58.918354-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-12T13:39:18.522912-04:00",
+        "date": "2026-06-12T13:46:58.918354-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1720,31 +1720,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-12T17:39:18.385231+00:00",
+      "last_run": "2026-06-12T17:46:58.770233+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-12T17:39:18.385231+00:00",
+      "last_run": "2026-06-12T17:46:58.770233+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-12T17:39:18.385231+00:00",
+      "last_run": "2026-06-12T17:46:58.770233+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-12T17:39:18.385231+00:00",
+      "last_run": "2026-06-12T17:46:58.770233+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-12T17:39:18.385231+00:00",
+      "last_run": "2026-06-12T17:46:58.770233+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -1916,6 +1916,17 @@
       "window": null,
       "date": "2026-06-11",
       "quote": "Newton says a confirmed WTI break below 85.95 would trigger the larger bearish breakdown and can open downside toward 60 into September if the ceasefire path holds."
+    },
+    {
+      "ticker": "EWRE",
+      "author": "Mark L. Newton, CMT",
+      "direction": "watch",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-12",
+      "quote": "Newton said REITs are breaking out on above-average volume and he is overweight the space; EWRE is pushing to new highs and he expects REIT outperformance if rates fall on an Iran deal."
     },
     {
       "ticker": "SPX",
@@ -2643,7 +2654,7 @@
     "source_calls": {
       "status": "has_data",
       "line": "SCORING LAG: clean \u2014 no calls past window-end awaiting a score.",
-      "pending_count": 22,
+      "pending_count": 23,
       "overdue_count": 0,
       "oldest_overdue_days": 0,
       "rates": [
@@ -3042,6 +3053,14 @@
         },
         {
           "source": "fundstrat_daily",
+          "ticker": "EWRE",
+          "date": "2026-06-12",
+          "title": "EWRE watch",
+          "check": "Newton said REITs are breaking out on above-average volume and he is overweight the space; EWRE is pushing to new highs and he expects REIT outperformance if rates fall on an Iran deal.",
+          "why": "Use as a pre-market condition check, not as an automatic trade."
+        },
+        {
+          "source": "fundstrat_daily",
           "ticker": "SPX",
           "date": "2026-06-12",
           "title": "SPX watch",
@@ -3071,21 +3090,13 @@
           "title": "XHS add",
           "check": "XHS cleared the 2021 highs near 116 and remains a favored long into summer seasonality; use dips back to 116-118 to add, with 132 as the upside objective over time.",
           "why": "Use as a pre-market condition check, not as an automatic trade."
-        },
-        {
-          "source": "fundstrat_daily",
-          "ticker": "RSPT",
-          "date": "2026-06-09",
-          "title": "RSPT avoid",
-          "check": "Equal-weight Technology broke its uptrend after a steep overbought run; bearish engulfing plus trend break should allow Tech weakness and supports Growth-to-Value rotation.",
-          "why": "Use as a pre-market condition check, not as an automatic trade."
         }
       ]
     },
     "watch_only_why": {
       "status": "has_data",
-      "count": 45,
-      "line": "Why-not-acting lane: 45 watch-only signal(s) kept out of trade prompts.",
+      "count": 46,
+      "line": "Why-not-acting lane: 46 watch-only signal(s) kept out of trade prompts.",
       "rows": [
         {
           "ticker": "XLF, GS, ITA",
@@ -12933,7 +12944,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-12T10:01:50-04:00",
-        "connector_proof_age_hours": 3.62
+        "connector_proof_age_hours": 3.75
       }
     ],
     "missing": [],
@@ -12943,19 +12954,19 @@
   "source_audits": {
     "fundstrat": {
       "status": "has_data",
-      "line": "Fundstrat latest intake: 1 full-body, 0 snippet-only, 1 daily calls; stored cache: 31 inbox entries (20 full-body, 11 snippet-only), 22 daily calls, 22 stored source-call candidates.",
+      "line": "Fundstrat latest intake: 1 full-body, 0 snippet-only, 1 daily calls; stored cache: 32 inbox entries (21 full-body, 11 snippet-only), 23 daily calls, 23 stored source-call candidates.",
       "entries": 1,
       "full_body_entries": 1,
       "snippet_only_entries": 0,
       "daily_calls": 1,
       "source_call_candidates": 1,
       "stored_entries": 1,
-      "stored_cache_entries": 31,
-      "stored_full_body_entries": 20,
+      "stored_cache_entries": 32,
+      "stored_full_body_entries": 21,
       "stored_snippet_only_entries": 11,
-      "stored_daily_calls": 22,
-      "stored_daily_call_rows": 22,
-      "stored_source_call_candidates": 22,
+      "stored_daily_calls": 23,
+      "stored_daily_call_rows": 23,
+      "stored_source_call_candidates": 23,
       "bodies_redacted": true,
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },
@@ -13120,13 +13131,13 @@
           "routine_name": "Investing OS Fundstrat Daytime Watch",
           "role": "fundstrat_daytime_watch",
           "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
-          "receipt_count": 44,
-          "last_status": "success",
+          "receipt_count": 45,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-12T16:48:41.649584Z",
+          "last_recorded_at": "2026-06-12T17:45:56.958398Z",
           "last_success_at": "2026-06-12T16:48:41.649584Z",
           "last_scheduled_success_at": "2026-06-12T16:48:41.649584Z",
-          "last_summary": "checked 2 web pages, Gmail 0; landed 1 row; suppressed/discovery-only 0; validation passed; alert sent 1; dark/stale crypto flash stale at 2026-06-08, social_watch dark; blockers none"
+          "last_summary": "fundstrat daytime watch started"
         },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
@@ -13146,7 +13157,7 @@
           "routine_name": "Investing OS Parabolic Cache",
           "role": "parabolic_cache",
           "schedule": "market weekdays 10:05 AM ET",
-          "receipt_count": 19,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-12T14:07:56.153873Z",
@@ -14106,11 +14117,11 @@
           "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
           "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
           "ticker_scope": [
+            "EWRE",
             "SPX",
             "CL",
             "EWY",
             "XHS",
-            "RSPT",
             "NVDA",
             "MAGS",
             "RYF",
@@ -14186,6 +14197,7 @@
         "BX",
         "CL",
         "COIN",
+        "EWRE",
         "EWY",
         "GOOGL",
         "GRNY",
@@ -14194,7 +14206,6 @@
         "MAGS",
         "MU",
         "NVDA",
-        "RSPT",
         "RYF",
         "SMH",
         "SPX",
@@ -14377,7 +14388,7 @@
   },
   "fundstrat_news": {
     "status": "has_data",
-    "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID 5, daily calls 22 latest 2026-06-12.",
+    "line": "Fundstrat News: monthly 2026-05-28; Top 5 large cap 5, Top 5 SMID 5, daily calls 23 latest 2026-06-12.",
     "as_of": "2026-06-12",
     "monthly": {
       "deck_date": "2026-05-28",
@@ -14811,6 +14822,25 @@
           "action_implication": "re-check timing"
         },
         {
+          "date": "2026-06-12",
+          "ticker": "EWRE",
+          "author": "Mark L. Newton, CMT",
+          "direction": "watch",
+          "subject": "FlashInsights: REIT breakout / EWRE",
+          "quote": "Newton said REITs are breaking out on above-average volume and he is overweight the space; EWRE is pushing to new highs and he expects REIT outperformance if rates fall on an Iran deal.",
+          "fundstrat_lane": "technical",
+          "source_domain": "technical_timing",
+          "author_role": "Mark Newton technical/timing view",
+          "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+          "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+          "publication_type": "daily_technical",
+          "capture_policy": "daily_call",
+          "use_case": "technical_timing",
+          "decision_usefulness": "high",
+          "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+          "action_implication": "re-check timing"
+        },
+        {
           "date": "2026-06-11",
           "ticker": "QQQ",
           "author": "Mark L. Newton, CMT",
@@ -15210,10 +15240,10 @@
           "action_implication": "avoid/re-check"
         }
       ],
-      "count": 22,
+      "count": 23,
       "full_body_entries": 1,
       "snippet_only_entries": 0,
-      "stored_daily_calls": 22,
+      "stored_daily_calls": 23,
       "freshness_judgment": "Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing."
     },
     "gaps": [],
@@ -15661,11 +15691,11 @@
         "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
         "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
         "ticker_scope": [
+          "EWRE",
           "SPX",
           "CL",
           "EWY",
           "XHS",
-          "RSPT",
           "NVDA",
           "MAGS",
           "RYF",
@@ -15741,6 +15771,7 @@
       "BX",
       "CL",
       "COIN",
+      "EWRE",
       "EWY",
       "GOOGL",
       "GRNY",
@@ -15749,7 +15780,6 @@
       "MAGS",
       "MU",
       "NVDA",
-      "RSPT",
       "RYF",
       "SMH",
       "SPX",
