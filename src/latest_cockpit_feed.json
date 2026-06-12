@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T11:51:06.406327+00:00",
+  "generated_at": "2026-06-12T12:51:32.414560+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-10 \u00b7 uw_price 06-12 \u00b7 uw_macro 06-12 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-11",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-12T07:51:06.406327-04:00",
+        "date": "2026-06-12T08:51:32.414560-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-12T07:51:06.406327-04:00",
+        "date": "2026-06-12T08:51:32.414560-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -125,7 +125,7 @@
         "label": "Signal Log",
         "status": "has_data",
         "detail": "checked",
-        "count": 27,
+        "count": 30,
         "checked_at": ""
       },
       {
@@ -1247,6 +1247,30 @@
       "priority": "medium",
       "source": "uw://lit-flow/BMNR/2026-06-10",
       "note": "Unusual Whales lit-flow data for Wednesday, June 10, 2026 showed two notable BMNR Nasdaq sweeps: about 17,300 shares at 12:37 PM ET near 15.96 and about 18,007 shares at 1:30 PM ET near 15.76. This is watch-only tape follow-through after the already-logged financing and staking packet, not a standalone action signal."
+    },
+    {
+      "signal": "UW broad tape flipped risk-on into the June 11 close",
+      "ticker": "SPY, QQQ, SMH, NVDA, MU, XLF",
+      "date": "2026-06-12",
+      "priority": "high",
+      "source": "https://app.notion.com/p/37dc50314bb681d191b3e7ac5909b286",
+      "note": "Unusual Whales market tide for Thursday, June 11, 2026 finished at 4:10 PM ET with about +599.5M net call premium, -419.1M net put premium, and roughly +2.08M net volume after a weak open. Broad tape flipped from the prior risk-off close to a positive end-of-day read. Watch-only context for held AI/semi and financial exposure, not a trade prompt."
+    },
+    {
+      "signal": "June 12 premarket reopened risk appetite as oil broke lower",
+      "ticker": "SPY, QQQ, SMH, NVDA, MU, XLF, LEU, UUUU, MP",
+      "date": "2026-06-12",
+      "priority": "high",
+      "source": "https://app.notion.com/p/37dc50314bb68128ac74e9b2c9f16460",
+      "note": "AP's Friday, June 12, 2026 premarket coverage said S&P 500 futures were up about 0.6%, Dow futures about 0.7%, and Nasdaq futures about 0.5%, while Brent fell to roughly 87.44 and WTI to about 84.66 as Iran-war settlement hopes improved. This reopens risk appetite into the morning, but the ceasefire path is still explicitly fragile. Watch-only open-frame context for held semis, cyclicals, and rates-sensitive adds."
+    },
+    {
+      "signal": "Held AI flow stayed split: NVDA and MU firmed while SMH hedge pressure stayed heavy",
+      "ticker": "SMH, NVDA, MU",
+      "date": "2026-06-12",
+      "priority": "high",
+      "source": "https://app.notion.com/p/37dc50314bb681b38d5af5771f1fb952",
+      "note": "The repo's June 11 UW opportunity cache stayed split across held names: NVDA showed about $8.2M ask-side call sweeps, roughly +2583% call OI, and about $9M dark-pool net buy; MU showed about $9.6M ask-side call sweeps and about $87M dark-pool net buy; but SMH still carried about $16.9M ask-side put sweeps, roughly +1785% put OI, and about $48M dark-pool net sell. Watch-only held-name monitoring: single-name recovery improved, yet sector hedge pressure was still live into Friday."
     }
   ],
   "social_watch": {
@@ -1860,31 +1884,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-12T11:51:06.291560+00:00",
+      "last_run": "2026-06-12T12:51:32.306467+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-12T11:51:06.291560+00:00",
+      "last_run": "2026-06-12T12:51:32.306467+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-12T11:51:06.291560+00:00",
+      "last_run": "2026-06-12T12:51:32.306467+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-12T11:51:06.291560+00:00",
+      "last_run": "2026-06-12T12:51:32.306467+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-12T11:51:06.291560+00:00",
+      "last_run": "2026-06-12T12:51:32.306467+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -3289,8 +3313,8 @@
     },
     "watch_only_why": {
       "status": "has_data",
-      "count": 41,
-      "line": "Why-not-acting lane: 41 watch-only signal(s) kept out of trade prompts.",
+      "count": 44,
+      "line": "Why-not-acting lane: 44 watch-only signal(s) kept out of trade prompts.",
       "rows": [
         {
           "ticker": "XLF, GS, ITA",
@@ -13183,8 +13207,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-11T10:02:07-04:00",
-        "connector_proof_age_hours": 21.82
+        "connector_verified_at": "2026-06-12T08:41:24-04:00",
+        "connector_proof_age_hours": 0.17
       }
     ],
     "missing": [],
@@ -13211,12 +13235,12 @@
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },
     "cloud_routines": {
-      "status": "partial_live_run_proven",
-      "line": "Background cloud proof: 16/19 scheduled receipts proven; failed latest=0.",
+      "status": "not_proven",
+      "line": "Background cloud proof: 16/20 scheduled receipts proven; failed latest=1.",
       "scheduled_success_count": 16,
-      "expected_count": 19,
-      "failed_latest_count": 0,
-      "missing_scheduled_success_count": 3,
+      "expected_count": 20,
+      "failed_latest_count": 1,
+      "missing_scheduled_success_count": 4,
       "missing_scheduled_success": [
         {
           "routine_id": "investing-os-off-hours-alt-data-scout",
@@ -13235,6 +13259,12 @@
           "routine_name": "Investing OS Top Prospects Auto-Research",
           "schedule": "daily 8:45 PM ET",
           "last_status": "no_receipt"
+        },
+        {
+          "routine_id": "investing-os-off-hours-research-queue",
+          "routine_name": "Investing OS Off-Hours Research Queue",
+          "schedule": "market weekdays 7:30 PM ET",
+          "last_status": "no_receipt"
         }
       ],
       "rows": [
@@ -13243,65 +13273,65 @@
           "routine_name": "Investing OS Pre-Market Source Intake",
           "role": "pre_market_source_intake",
           "schedule": "market weekdays 8:10 AM ET",
-          "receipt_count": 16,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-11T13:09:41.101448Z",
-          "last_success_at": "2026-06-11T13:09:41.101448Z",
-          "last_scheduled_success_at": "2026-06-11T13:09:41.101448Z",
-          "last_summary": "landed 3 Fundstrat rows; positions unchanged; catalyst/broker/event-risk dark from missing live rows/uploads; blocker notion-query-data-sources unavailable"
+          "last_recorded_at": "2026-06-12T12:15:39.205468Z",
+          "last_success_at": "2026-06-12T12:15:39.205468Z",
+          "last_scheduled_success_at": "2026-06-12T12:15:39.205468Z",
+          "last_summary": "rows landed 0; positions unchanged 2026-06-10; catalysts 8 unchanged; event risk 3 unchanged; Fundstrat unchanged; broker/catalyst drops absent; Notion query unavailable"
         },
         {
           "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
           "routine_name": "Investing OS Fundstrat Pre-Market Safety Sweep",
           "role": "fundstrat_pre_market_safety_sweep",
           "schedule": "market weekdays 7:45 AM ET",
-          "receipt_count": 9,
-          "last_status": "started",
+          "receipt_count": 10,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-12T11:45:52.657543Z",
-          "last_success_at": "2026-06-09T11:49:27.965421Z",
-          "last_scheduled_success_at": "2026-06-09T11:49:27.965421Z",
-          "last_summary": "fundstrat pre-market safety sweep started"
+          "last_recorded_at": "2026-06-12T11:51:29.852709Z",
+          "last_success_at": "2026-06-12T11:51:29.852709Z",
+          "last_scheduled_success_at": "2026-06-12T11:51:29.852709Z",
+          "last_summary": "checked 12 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 10; validation passed; Notion none; dark/stale no fresh June 12 macro/crypto flash, intraday empty, fed-watch stale; dashboard refresh passed"
         },
         {
           "routine_id": "investing-os-broker-position-intake",
           "routine_name": "Investing OS Broker Position Intake",
           "role": "broker_position_intake",
           "schedule": "market weekdays 8:20 AM ET",
-          "receipt_count": 2,
-          "last_status": "success",
+          "receipt_count": 4,
+          "last_status": "failed",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-10T12:23:05.218637Z",
+          "last_recorded_at": "2026-06-12T12:24:10.307020Z",
           "last_success_at": "2026-06-10T12:23:05.218637Z",
           "last_scheduled_success_at": "2026-06-10T12:23:05.218637Z",
-          "last_summary": "broker position intake succeeded"
+          "last_summary": "SnapTrade refresh failed: missing local profile"
         },
         {
           "routine_id": "investing-os-morning-scan",
           "routine_name": "Investing OS Morning Scan",
           "role": "morning_scan",
           "schedule": "market weekdays 8:35 AM ET",
-          "receipt_count": 16,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-11T13:11:37.962248Z",
-          "last_success_at": "2026-06-11T13:11:37.962248Z",
-          "last_scheduled_success_at": "2026-06-11T13:11:37.962248Z",
-          "last_summary": "3 signals landed+verified; signal log 27 rows; UW proof refreshed thru 2026-06-10 16:10 ET; macro unchanged validated"
+          "last_recorded_at": "2026-06-12T12:42:40.160556Z",
+          "last_success_at": "2026-06-12T12:42:40.160556Z",
+          "last_scheduled_success_at": "2026-06-12T12:42:40.160556Z",
+          "last_summary": "3 Notion rows verified; repo Signal Log 30 rows; UW proof refreshed to 2026-06-11 16:10 ET; macro unchanged; failures none"
         },
         {
           "routine_id": "investing-os-early-cockpit-build",
           "routine_name": "Investing OS Early Cockpit Build",
           "role": "early_cockpit_build",
           "schedule": "market weekdays 8:50 AM ET",
-          "receipt_count": 14,
-          "last_status": "success",
+          "receipt_count": 15,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-11T13:06:05.177195Z",
+          "last_recorded_at": "2026-06-12T12:51:31.534845Z",
           "last_success_at": "2026-06-11T13:06:05.177195Z",
           "last_scheduled_success_at": "2026-06-11T13:06:05.177195Z",
-          "last_summary": "early cockpit build succeeded"
+          "last_summary": "investing-os-early-cockpit-build started"
         },
         {
           "routine_id": "investing-os-daily-synthesis",
@@ -13386,7 +13416,7 @@
           "routine_name": "Investing OS Post-Close Refresh",
           "role": "post_close_refresh",
           "schedule": "market weekdays 4:30 PM ET",
-          "receipt_count": 18,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-11T20:31:37.159386Z",
@@ -13412,7 +13442,7 @@
           "routine_name": "Investing OS Off-Hours Worker",
           "role": "off_hours_worker",
           "schedule": "daily 1:45 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-09T05:52:49.106106Z",
@@ -13451,7 +13481,7 @@
           "routine_name": "Investing OS Deep Synthesis",
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
-          "receipt_count": 14,
+          "receipt_count": 12,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:16.907348Z",
@@ -13464,7 +13494,7 @@
           "routine_name": "Investing OS Weekly Pilot Run",
           "role": "weekly_pilot_run",
           "schedule": "Sunday 6:00 PM ET",
-          "receipt_count": 13,
+          "receipt_count": 11,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:17.261306Z",
@@ -13477,6 +13507,19 @@
           "routine_name": "Investing OS Top Prospects Auto-Research",
           "role": "top_prospects_autoresearch",
           "schedule": "daily 8:45 PM ET",
+          "receipt_count": 0,
+          "last_status": "no_receipt",
+          "last_run_source": "manual",
+          "last_recorded_at": "",
+          "last_success_at": "",
+          "last_scheduled_success_at": "",
+          "last_summary": ""
+        },
+        {
+          "routine_id": "investing-os-off-hours-research-queue",
+          "routine_name": "Investing OS Off-Hours Research Queue",
+          "role": "off_hours_research_queue",
+          "schedule": "market weekdays 7:30 PM ET",
           "receipt_count": 0,
           "last_status": "no_receipt",
           "last_run_source": "manual",
@@ -13498,8 +13541,8 @@
           "label": "Signal Log cache",
           "status": "has_data",
           "written": true,
-          "count": 27,
-          "line": "Signal Log cache: written; count=27.",
+          "count": 30,
+          "line": "Signal Log cache: written; count=30.",
           "problems": []
         },
         {
@@ -17569,11 +17612,21 @@
       },
       {
         "reason": "background_cloud_proof",
-        "count": 3,
+        "count": 4,
         "why": "Natural-schedule proof gaps are monitored in the dashboard, not alerted unless failed/overdue."
       }
     ],
-    "system_health": [],
+    "system_health": [
+      {
+        "severity": "warn",
+        "kind": "cloud_routine_failed",
+        "title": "1 cloud routine(s) failed latest receipt",
+        "why": "Background cloud proof: 16/20 scheduled receipts proven; failed latest=1.",
+        "source": "cloud_routines",
+        "trigger": "failed_latest_count > 0",
+        "next_step": "Check Ops/System Health when debugging routines; this is not a portfolio alert."
+      }
+    ],
     "policy": "Push alerts only interrupt for action-changing market, portfolio, Fundstrat, stale-review, or invalidated-decision items. Routine/system-health warnings stay in Ops.",
     "delivery": "review_only_no_send"
   },

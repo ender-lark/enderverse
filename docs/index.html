@@ -265,7 +265,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-12 07:51 ET
+        built 2026-06-12 08:51 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-10  uw_price 06-12  uw_macro 06-12  fundstrat_bible 05-28  fundstrat_daily 06-11</div>
@@ -1062,9 +1062,9 @@ btn.textContent=verb;}}
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">21 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-fail">1</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 16/19; 2 stale reviews; 2 due reviews</div>
+  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | 2 stale reviews; 2 due reviews</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -1227,7 +1227,7 @@ btn.textContent=verb;}}
 </div>
 <div class="card">
   <div class="card-title"><span class="icon">!</span> Why not acting</div>
-  <div class="small-list"><div class="feedback-line">Why-not-acting lane: 41 watch-only signal(s) kept out of trade prompts.</div>
+  <div class="small-list"><div class="feedback-line">Why-not-acting lane: 44 watch-only signal(s) kept out of trade prompts.</div>
 <div class="small-item">
   <span class="context-ticker">XLF, GS, ITA</span>
   <span>Macro: complacent vol plus steep curve cyclical tailwind</span>
@@ -1339,7 +1339,7 @@ btn.textContent=verb;}}
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Background cloud proof: 16/19 scheduled receipts proven; failed latest=0.
+  <span class="audit-k">Cloud routines</span>Background cloud proof: 16/20 scheduled receipts proven; failed latest=1.
 </div>
 <div class="audit-row">
   <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/22; missing live-capable=0.
@@ -1362,7 +1362,7 @@ btn.textContent=verb;}}
 <div class="audit-row">
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
-  <div class="feedback-line">Background scheduled receipts pending: Investing OS Off-Hours Alt-Data Scout, Investing OS Off-Hours Queue Buffer, Investing OS Top Prospects Auto-Research</div>
+  <div class="feedback-line">Background scheduled receipts pending: Investing OS Off-Hours Alt-Data Scout, Investing OS Off-Hours Queue Buffer, Investing OS Top Prospects Auto-Research, Investing OS Off-Hours Research Queue</div>
   <div class="feedback-line">UW next checks: Pre-market crash triage: High-volatility or re-check posture needs broad tape triage before single-name action. [MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, ETF_TIDE, SECTOR_TIDE]<br>Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Portfolio reallocation: Sizing-gap actions need current exposure, funding, factor, and flow checks. [TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, ETF_TIDE, SECTOR_TIDE]</div>
 </div>
 
@@ -1375,7 +1375,7 @@ btn.textContent=verb;}}
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-12T11:51:06.291560+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-12T11:51:06.291560+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-12T11:51:06.291560+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-12T11:51:06.291560+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-12T11:51:06.291560+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-12T12:51:32.306467+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-12T12:51:32.306467+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-12T12:51:32.306467+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-12T12:51:32.306467+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-12T12:51:32.306467+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
