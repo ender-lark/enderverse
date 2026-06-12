@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T14:29:45.490662+00:00",
+  "generated_at": "2026-06-12T14:32:49.601839+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-12 \u00b7 uw_price 06-12 \u00b7 uw_macro 06-12 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-11",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-12T10:29:45.490662-04:00",
+        "date": "2026-06-12T10:32:49.601839-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-12T10:29:45.490662-04:00",
+        "date": "2026-06-12T10:32:49.601839-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1878,31 +1878,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-12T14:29:45.366290+00:00",
+      "last_run": "2026-06-12T14:32:49.470097+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-12T14:29:45.366290+00:00",
+      "last_run": "2026-06-12T14:32:49.470097+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-12T14:29:45.366290+00:00",
+      "last_run": "2026-06-12T14:32:49.470097+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-12T14:29:45.366290+00:00",
+      "last_run": "2026-06-12T14:32:49.470097+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-12T14:29:45.366290+00:00",
+      "last_run": "2026-06-12T14:32:49.470097+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -13128,7 +13128,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-12T10:01:50-04:00",
-        "connector_proof_age_hours": 0.47
+        "connector_proof_age_hours": 0.52
       }
     ],
     "missing": [],
@@ -13360,13 +13360,13 @@
           "routine_name": "Investing OS Full Cockpit Build",
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
-          "receipt_count": 18,
-          "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-12T14:17:47.356126Z",
+          "receipt_count": 19,
+          "last_status": "started",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-12T14:32:48.541821Z",
           "last_success_at": "2026-06-12T14:17:47.356126Z",
           "last_scheduled_success_at": "2026-06-11T14:32:08.268465Z",
-          "last_summary": "manual full cockpit refresh succeeded for fresh dashboard after current 10:00/10:05 cache runs"
+          "last_summary": "investing-os-full-cockpit-build started"
         },
         {
           "routine_id": "investing-os-fs-inbox-catch-up-midday",
@@ -13425,7 +13425,7 @@
           "routine_name": "Investing OS Off-Hours Worker",
           "role": "off_hours_worker",
           "schedule": "daily 1:45 AM ET",
-          "receipt_count": 17,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-09T05:52:49.106106Z",
@@ -14413,17 +14413,17 @@
       "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
       "endpoint_proof": {
         "status": "has_data",
-        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-12 09:42 ET.",
+        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-12 10:32 ET.",
         "blockers": [
           "inconclusive endpoint result(s) cannot promote related actions",
           "missing/failed endpoint result(s) keep related actions blocked"
         ],
-        "newest_checked_at": "2026-06-12T13:42:04.702758+00:00"
+        "newest_checked_at": "2026-06-12T14:32:36.317488+00:00"
       }
     },
     "uw_endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-12 09:42 ET.",
+      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-12 10:32 ET.",
       "count": 13,
       "counts": {
         "missing": 2,
@@ -14434,7 +14434,7 @@
         "missing": 3,
         "inconclusive": 10
       },
-      "newest_checked_at": "2026-06-12T13:42:04.702758+00:00",
+      "newest_checked_at": "2026-06-12T14:32:36.317488+00:00",
       "same_session_date": "2026-06-12",
       "stale_count": 0,
       "off_runbook_count": 0,
@@ -14445,7 +14445,7 @@
           "ticker": "",
           "status": "missing",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "unsupported path parameter(s): sector",
           "source": "uw_endpoint_result_capture"
         },
@@ -14455,8 +14455,8 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
-          "summary": "Fetched MARKET_TIDE; row_count=3. Result requires operator interpretation before any promotion.",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
+          "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
         {
@@ -14465,7 +14465,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14475,7 +14475,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14485,7 +14485,7 @@
           "ticker": "",
           "status": "failed",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
           "source": "uw_endpoint_result_capture"
         },
@@ -14495,7 +14495,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14505,7 +14505,7 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14515,7 +14515,7 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14525,7 +14525,7 @@
           "ticker": "TNX",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14535,7 +14535,7 @@
           "ticker": "RYF",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14545,7 +14545,7 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14555,7 +14555,7 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -14565,7 +14565,7 @@
           "ticker": "TNX",
           "status": "missing",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-12T13:42:04.702758+00:00",
+          "checked_at": "2026-06-12T14:32:36.317488+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
           "source": "uw_endpoint_result_capture"
         }
@@ -15952,17 +15952,17 @@
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
     "endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-12 09:42 ET.",
+      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-12 10:32 ET.",
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
         "missing/failed endpoint result(s) keep related actions blocked"
       ],
-      "newest_checked_at": "2026-06-12T13:42:04.702758+00:00"
+      "newest_checked_at": "2026-06-12T14:32:36.317488+00:00"
     }
   },
   "uw_endpoint_proof": {
     "status": "has_data",
-    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-12 09:42 ET.",
+    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-12 10:32 ET.",
     "count": 13,
     "counts": {
       "missing": 2,
@@ -15973,7 +15973,7 @@
       "missing": 3,
       "inconclusive": 10
     },
-    "newest_checked_at": "2026-06-12T13:42:04.702758+00:00",
+    "newest_checked_at": "2026-06-12T14:32:36.317488+00:00",
     "same_session_date": "2026-06-12",
     "stale_count": 0,
     "off_runbook_count": 0,
@@ -15984,7 +15984,7 @@
         "ticker": "",
         "status": "missing",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "unsupported path parameter(s): sector",
         "source": "uw_endpoint_result_capture"
       },
@@ -15994,8 +15994,8 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
-        "summary": "Fetched MARKET_TIDE; row_count=3. Result requires operator interpretation before any promotion.",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
+        "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
       {
@@ -16004,7 +16004,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16014,7 +16014,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16024,7 +16024,7 @@
         "ticker": "",
         "status": "failed",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/settings/api-dashboard?utm_source=api&utm_campaign=json_msg to upgrade,",
         "source": "uw_endpoint_result_capture"
       },
@@ -16034,7 +16034,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16044,7 +16044,7 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16054,7 +16054,7 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16064,7 +16064,7 @@
         "ticker": "TNX",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16074,7 +16074,7 @@
         "ticker": "RYF",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16084,7 +16084,7 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16094,7 +16094,7 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -16104,7 +16104,7 @@
         "ticker": "TNX",
         "status": "missing",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-12T13:42:04.702758+00:00",
+        "checked_at": "2026-06-12T14:32:36.317488+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
         "source": "uw_endpoint_result_capture"
       }
