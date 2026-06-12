@@ -1,55 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-12T14:32:51.486675Z",
+  "updated_at": "2026-06-12T14:48:39.500520Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:33.874593Z",
-      "summary": "deep synthesis manual support run completed from repo evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "source call candidates merge",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/source_call_candidate_draft.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/source_call_candidates.json",
-              "--merge-existing",
-              "--merge-cache"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"out\": \"src/source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 0,\n  \"drafted\": 0,\n  \"existing\": 3,\n  \"stored\": 3,\n  \"tickers\": [],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-06T02:36:33.857261+00:00\",\n    \"existing\": 3,\n    \"candidates\": 3,\n    \"added\": 0,\n    \"stored\": 3,\n    \"log_call_dates\": [\n      \"2026-06-03\"\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:33.885084Z",
-      "summary": "investing-os-weekly-pilot-run manual run started"
-    },
     {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "success",
@@ -3384,6 +3336,20 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-12T14:47:24.256857Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-12T14:48:39.500520Z",
+      "summary": "checked 2 web pages, Gmail 0 full bodies; landed 0 rows; suppressed/discovery-only 2 Gmail snippets older than prior success; validation passed; alert quiet with 0 candidates and 2 duplicates; dark/stale macro June 11, crypto June 8, no new full-content evidence; blockers none"
     }
   ]
 }
