@@ -1191,6 +1191,22 @@ until the core logic is stable; Notion sync comes later.
     `investing-os-off-hours-queue-buffer` still need their first natural
     scheduled success receipts; do not backfill scheduled receipts manually.
 
+- V3 delta reconciliation slice completed on 2026-06-12.
+  - Ported the data-health honesty layer from the post-merge main-only work
+    onto the active `v3-decision-layer` branch so TODAY-DECIDE can stamp
+    stale, behind, missing, and not-checked inputs before decision cards.
+  - Updated `src/timing_gates.json` to the canonical Newton 2026-06-11 gate:
+    QQQ must close/hold above 717.50 before tech/growth add windows can be
+    treated as confirmed; the old 695-705 band is historical context only.
+  - Added the FS Inbox Catch-up routine prompt to repo source. Scheduling it is
+    a separate slice; do not treat the prompt's presence as proof that the
+    8:20/12:30/16:35/20:45 ET automation is registered.
+  - Added manual-run coverage for `investing-os-off-hours-research-queue` so
+    the expected cloud stack and manual recovery contract stay aligned.
+  - Honest remaining blocker: Broker Position Intake is not cloud-ready until
+    the SnapTrade local profile/auth issue is repaired; keep broker positions
+    visible as stale/test-data instead of checked current.
+
 - One low-priority queued implementation slice.
   - The current system-improvement queue is valid with 21 done items and 1
     queued P3 item: `fundstrat-video-transcript-intake`.

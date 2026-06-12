@@ -1,17 +1,17 @@
 {
-  "updated": "2026-06-10",
+  "updated": "2026-06-12",
   "gates": [
     {
       "gate_id": "QQQ-NEWTON-BAND",
       "symbol": "QQQ",
       "kind": "support_band",
-      "level_low": 695.0,
-      "level_high": 705.0,
+      "level_low": 717.5,
+      "level_high": 717.5,
       "state": "red_but_tested",
       "source": "newton",
-      "stated": "2026-06-08",
-      "note": "Newton 695-705 should contain pullbacks; broke intraday 6/9 (low 686.37), closed 707.83 back above band",
-      "confirm_rule": "full size when today's session holds above ~705; close back below 695 re-reds the gate",
+      "stated": "2026-06-11",
+      "note": "Canonical Notion gate from Newton 2026-06-11 3:06 PM ET: QQQ must close/hold above 717.50 before tech/growth add windows can be treated as confirmed. Prior 695-705 band is historical context only; QQQ closed 2026-06-11 at 717.22, so the gate remained unconfirmed.",
+      "confirm_rule": "full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only",
       "applies_to": ["ai_semis", "tech", "growth", "*BUY*"],
       "blocks_full_size": true
     },

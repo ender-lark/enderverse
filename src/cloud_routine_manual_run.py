@@ -254,6 +254,16 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-off-hours-research-queue",
+            "off-hours research queue manual support checked routine wiring and research queue cache",
+            [
+                Step("off-hours research docs present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "off_hours_research.md").is_file(),
+                }),
+                Step("research queue validate", _python("src/research_queue_intake.py", "--validate", "src/research_queue.json")),
+            ],
+        ),
+        Routine(
             "investing-os-off-hours-worker",
             "off-hours worker manual run checked research queue cache only",
             [Step("research queue validate", _python("src/research_queue_intake.py", "--validate", "src/research_queue.json"))],

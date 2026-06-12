@@ -28,6 +28,7 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+import data_health as _dh
 import congruence as cg
 import directive_recs as dr
 import insight_register as ir
@@ -159,6 +160,7 @@ def build_today_decide_payload(
             {k: g.get(k) for k in ("gate_id", "symbol", "state", "note", "confirm_rule", "stated")}
             for g in gates
         ],
+        "data_health": _dh.assess(feed, gates=gates),
         "cards": stack["cards"],
         "backlog": stack["backlog"],
         "congruence": congruence_result,
@@ -187,6 +189,10 @@ _CSS = """
 .td .td-chip{border:1px solid #fb923c;color:#fdba74;border-radius:8px;padding:6px 8px;
   font-size:12px;margin:6px 0}
 .td details{margin:4px 0;font-size:12px;color:#94a3b8}
+.td .td-health{margin:8px 0 4px 0;line-height:2}
+.td .td-hlabel{font-size:11px;color:#64748b;font-weight:700;letter-spacing:.03em}
+.td .td-hchip{display:inline-block;border:1px solid;border-radius:7px;padding:1px 7px;font-size:11px;color:#cbd5e1;margin:0 4px 4px 0;background:#0b1220}
+.td .td-checkfirst{color:#f87171;font-weight:700;font-size:12px;margin-bottom:6px;letter-spacing:.03em}
 .td .td-rail{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;
   padding:6px 12px;margin:6px 8px 0 0;cursor:pointer;font-size:13px}
 .td .td-rail.td-on{background:#34d399;color:#0b1220;font-weight:700}
@@ -213,7 +219,7 @@ btn.textContent=verb;}}
 def _esc(value: Any) -> str:
     return str(value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-def _render_card(card: dict[str, Any], rank: int) -> list[str]:
+def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> list[str]:
     dcard = card.get("decision_card") or {}
     move = dcard.get("move") or {}
     conv = card.get("conviction") or {}
@@ -223,9 +229,13 @@ def _render_card(card: dict[str, Any], rank: int) -> list[str]:
     cid = _esc(card.get("card_id"))
     conflicted = " td-conflicted" if card.get("conflicts") else ""
     h = [f'<div class="td-card{conflicted}">']
+    if check_first:
+        h.append('<div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>')
     cls = win.get("class", "WAIT")
+    direction = str(move.get("direction") or "")
+    direction_color = "#94a3b8" if check_first else {"BUY": "#34d399", "SELL": "#f87171"}.get(direction, "#e2e8f0")
     h.append(
-        f'<div class="td-move">#{rank} {_esc(move.get("direction"))} {_esc(card.get("ticker"))}'
+        f'<div class="td-move">#{rank} <span style="color:{direction_color};font-weight:700">{_esc(direction)}</span> {_esc(card.get("ticker"))}'
         f' Â· {_esc(move.get("band"))}'
         f'<span class="td-pill" style="background:{_CLASS_COLORS.get(cls, "#94a3b8")}">{_esc(cls)}</span>'
         f'<span class="td-pill" style="background:#818cf8">{_esc(conv.get("read"))} {conv.get("points", 0)}</span>'
@@ -299,13 +309,32 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
              + (f'funding pool ${pool:,.0f}' if isinstance(pool, (int, float)) else 'funding pool n/a')
              + (f' Â· shortfall ${short:,.0f}' if isinstance(short, (int, float)) else '')
              + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
+    dh = payload.get("data_health") or {}
+    if dh.get("items"):
+        chips = []
+        for item in dh["items"]:
+            color = {
+                "fresh": "#34d399",
+                "aging": "#fbbf24",
+                "behind": "#f87171",
+                "stale": "#f87171",
+                "missing": "#f87171",
+                "empty": "#fbbf24",
+                "not_checked": "#94a3b8",
+            }.get(item.get("status"), "#94a3b8")
+            chips.append(
+                f'<span class="td-hchip" style="border-color:{color}">'
+                f'{_esc(item.get("label"))}: <span style="color:{color}">{_esc(item.get("detail"))}</span></span>'
+            )
+        h.append('<div class="td-health"><span class="td-hlabel">data freshness:</span> ' + ''.join(chips) + '</div>')
     for g in payload["gates"]:
         color = _GATE_COLORS.get(g.get("state"), "#94a3b8")
         h.append(f'<span class="td-gate" style="border-color:{color};color:{color}">'
                  f'{_esc(g.get("symbol"))} {_esc(g.get("state"))} Â· {_esc(g.get("confirm_rule"))} '
                  f'(as of {_esc(g.get("stated"))})</span>')
+    blocked = bool((payload.get("data_health") or {}).get("blockers"))
     for i, card in enumerate(payload["cards"], 1):
-        h.extend(_render_card(card, i))
+        h.extend(_render_card(card, i, check_first=blocked))
     backlog = payload["backlog"]
     h.append(f"<details><summary>Backlog ({len(backlog)})</summary>")
     for c in backlog:
