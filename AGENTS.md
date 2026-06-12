@@ -20,6 +20,9 @@ technical elegance.
 
 ## Build Protocol
 
+- Read and update `docs/WORKBOARD.md` at the start and end of every
+  implementation slice. Claim a row before editing so Claude, Codex,
+  Claude Code, and cloud routines do not duplicate or collide.
 - Work in small, clean, verified slices.
 - Commit after each clean verified slice.
 - Prefer the existing repo patterns and helpers before adding new abstractions.
