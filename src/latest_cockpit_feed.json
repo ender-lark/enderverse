@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T16:48:22.532529+00:00",
+  "generated_at": "2026-06-12T17:39:18.522912+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-12 \u00b7 uw_price 06-12 \u00b7 uw_macro 06-12 \u00b7 fundstrat_bible 05-28 \u00b7 fundstrat_daily 06-12",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-12T12:48:22.532529-04:00",
+        "date": "2026-06-12T13:39:18.522912-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-12T12:48:22.532529-04:00",
+        "date": "2026-06-12T13:39:18.522912-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1720,31 +1720,31 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-12T16:48:22.424181+00:00",
+      "last_run": "2026-06-12T17:39:18.385231+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-12T16:48:22.424181+00:00",
+      "last_run": "2026-06-12T17:39:18.385231+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-12T16:48:22.424181+00:00",
+      "last_run": "2026-06-12T17:39:18.385231+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-12T16:48:22.424181+00:00",
+      "last_run": "2026-06-12T17:39:18.385231+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-12T16:48:22.424181+00:00",
+      "last_run": "2026-06-12T17:39:18.385231+00:00",
       "note": "rehearsal build can run"
     }
   ],
@@ -12933,7 +12933,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-12T10:01:50-04:00",
-        "connector_proof_age_hours": 2.78
+        "connector_proof_age_hours": 3.62
       }
     ],
     "missing": [],
@@ -13120,13 +13120,13 @@
           "routine_name": "Investing OS Fundstrat Daytime Watch",
           "role": "fundstrat_daytime_watch",
           "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
-          "receipt_count": 43,
-          "last_status": "started",
+          "receipt_count": 44,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-12T16:46:26.654368Z",
-          "last_success_at": "2026-06-12T15:47:35.159762Z",
-          "last_scheduled_success_at": "2026-06-12T15:47:35.159762Z",
-          "last_summary": "fundstrat daytime watch started"
+          "last_recorded_at": "2026-06-12T16:48:41.649584Z",
+          "last_success_at": "2026-06-12T16:48:41.649584Z",
+          "last_scheduled_success_at": "2026-06-12T16:48:41.649584Z",
+          "last_summary": "checked 2 web pages, Gmail 0; landed 1 row; suppressed/discovery-only 0; validation passed; alert sent 1; dark/stale crypto flash stale at 2026-06-08, social_watch dark; blockers none"
         },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
@@ -13146,7 +13146,7 @@
           "routine_name": "Investing OS Parabolic Cache",
           "role": "parabolic_cache",
           "schedule": "market weekdays 10:05 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 19,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-12T14:07:56.153873Z",
