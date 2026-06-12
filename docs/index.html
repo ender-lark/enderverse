@@ -295,6 +295,12 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   margin:0 6px 8px 0;border:1px solid}
 .td .td-card{border:1px solid #1e293b;border-radius:10px;padding:12px;margin:10px 0;background:#0f172a}
 .td .td-card.td-conflicted{border-color:#fb923c}
+.td details.td-card{padding:0}
+.td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
+.td details.td-card>summary::-webkit-details-marker{display:none}
+.td .td-chev{display:inline-block;font-size:11px;color:#64748b;margin:6px 0 0 2px}
+.td details.td-card[open] .td-chev{color:#334155}
+.td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
 .td .td-move{font-size:16px;font-weight:600}
 .td .td-pill{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;
   font-weight:600;margin-left:8px;color:#0b1220}
@@ -335,7 +341,8 @@ btn.textContent=verb;}}
 <div class="td-health"><span class="td-hlabel">data freshness:</span> <span class="td-hchip" style="border-color:#34d399">positions: <span style="color:#34d399">2026-06-12</span></span><span class="td-hchip" style="border-color:#34d399">prices: <span style="color:#34d399">2026-06-12</span></span><span class="td-hchip" style="border-color:#34d399">macro: <span style="color:#34d399">2026-06-12</span></span><span class="td-hchip" style="border-color:#34d399">analyst monthly: <span style="color:#34d399">covers through 2026-07-11</span></span><span class="td-hchip" style="border-color:#34d399">analyst daily notes: <span style="color:#34d399">covers through 2026-06-17</span></span><span class="td-hchip" style="border-color:#34d399">QQQ gate: <span style="color:#34d399">as of 2026-06-11</span></span><span class="td-hchip" style="border-color:#34d399">SMH gate: <span style="color:#34d399">as of 2026-06-09</span></span><span class="td-hchip" style="border-color:#94a3b8">FS inbox: <span style="color:#94a3b8">not checked this render</span></span><span class="td-hchip" style="border-color:#fbbf24">analyst track record: <span style="color:#fbbf24">no graded calls yet - cannot score any source</span></span></div>
 <span class="td-gate" style="border-color:#fbbf24;color:#fbbf24"><b>RED BUT TESTED</b> QQQ  |  full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only (as of 2026-06-11)</span>
 <span class="td-gate" style="border-color:#94a3b8;color:#94a3b8"><b>CONTEXT</b> SMH  |  context only - never blocks (as of 2026-06-09)</span>
-<div class="td-card">
+<details class="td-card">
+<summary class="td-sum">
 <div class="td-move">#1 <span style="color:#34d399;font-weight:700">BUY</span> NVDA  |  $55,946 (8.0% -> 12.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
 <button class="td-rail" data-card="NVDA-ADD-2026-06-12" data-verb="ACT" data-copy="ACT NVDA-ADD-2026-06-12" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="NVDA-ADD-2026-06-12" data-verb="PASS" data-copy="PASS NVDA-ADD-2026-06-12 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="NVDA-ADD-2026-06-12" data-verb="RECHECK" data-copy="RECHECK NVDA-ADD-2026-06-12 resurface 2026-06-17" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
 <span class="td-chev">&#9656; details</span>
@@ -350,7 +357,8 @@ btn.textContent=verb;}}
 <div class="td-row">cash: not_checked - cash balances are not in the positions cache; confirm buying power before placing</div>
 <div class="td-row">impact:  $55,946 (3.0% of book)  |  material: yes</div>
 </div></details>
-<div class="td-card td-conflicted">
+<details class="td-card td-conflicted">
+<summary class="td-sum">
 <div class="td-move">#2 <span style="color:#f87171;font-weight:700">SELL</span> MAGS  |  $69,387 (3.7% -> 0.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
 <div class="td-chip">SOURCE-CONFLICT - lean_in lane: Lean-in  looks good vs this card: SELL $69,387  |  resolve before acting</div>
 <button class="td-rail" data-card="MAGS-TRIM-2026-06-12" data-verb="ACT" data-copy="ACT MAGS-TRIM-2026-06-12" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-12" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-12 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-12" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-12 resurface 2026-06-17" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
@@ -371,7 +379,8 @@ btn.textContent=verb;}}
 <div class="td-chip">TRANSFER NEEDED: $19,608 of these proceeds land inside PCRA and CANNOT buy individual stocks - the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding.</div>
 <div class="td-row">impact:  $69,387 (3.7% of book)  |  material: yes</div>
 </div></details>
-<div class="td-card">
+<details class="td-card">
+<summary class="td-sum">
 <div class="td-move">#3 <span style="color:#34d399;font-weight:700">BUY</span> TSM  |  $35,705 (0.0% -> 4.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 1.0</span></div>
 <button class="td-rail" data-card="TSM-ADD-2026-06-12" data-verb="ACT" data-copy="ACT TSM-ADD-2026-06-12" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="TSM-ADD-2026-06-12" data-verb="PASS" data-copy="PASS TSM-ADD-2026-06-12 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="TSM-ADD-2026-06-12" data-verb="RECHECK" data-copy="RECHECK TSM-ADD-2026-06-12 resurface 2026-06-17" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
 <span class="td-chev">&#9656; details</span>
