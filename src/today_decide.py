@@ -204,6 +204,7 @@ _CSS = """
 .td .td-rail{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;
   padding:6px 12px;margin:6px 8px 0 0;cursor:pointer;font-size:13px}
 .td .td-rail.td-on{background:#34d399;color:#0b1220;font-weight:700}
+.td .td-rail.td-copy-fail{background:#7f1d1d;color:#fecaca;border-color:#ef4444;font-weight:700}
 .td .td-cong{font-size:13px;margin:3px 0}
 .td .td-honesty{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#94a3b8;
   border-top:1px solid #1e293b;margin-top:12px;padding-top:8px}
@@ -212,15 +213,20 @@ _CSS = """
 
 _JS = """
 <script>
-function tdCopy(t){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t);}
-else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();
-try{document.execCommand('copy');}catch(e){}document.body.removeChild(a);}}
-function tdRail(btn){var on=btn.getAttribute('data-on')==='1';var id=btn.getAttribute('data-card');
-var verb=btn.getAttribute('data-verb');
-if(!on){tdCopy(btn.getAttribute('data-copy'));btn.setAttribute('data-on','1');
-btn.classList.add('td-on');btn.textContent=verb+' \u2713 (tap to undo)';}
-else{tdCopy('UNDO '+id);btn.setAttribute('data-on','0');btn.classList.remove('td-on');
-btn.textContent=verb;}}
+function tdCopyFallback(t){var a=document.createElement('textarea');a.value=t;
+a.setAttribute('readonly','');a.style.position='fixed';a.style.left='-9999px';a.style.top='0';
+document.body.appendChild(a);a.focus();a.select();var ok=false;
+try{ok=document.execCommand('copy');}catch(e){ok=false;}document.body.removeChild(a);return ok;}
+async function tdCopy(t){if(navigator.clipboard&&navigator.clipboard.writeText){
+try{await navigator.clipboard.writeText(t);return true;}catch(e){}}
+return tdCopyFallback(t);}
+async function tdRail(btn){var on=btn.getAttribute('data-on')==='1';var id=btn.getAttribute('data-card');
+var verb=btn.getAttribute('data-verb');var text=on?'UNDO '+id:btn.getAttribute('data-copy');
+btn.disabled=true;var ok=await tdCopy(text);btn.disabled=false;
+if(!ok){btn.classList.add('td-copy-fail');btn.textContent='COPY FAILED (tap retry)';btn.title=text;return;}
+btn.classList.remove('td-copy-fail');btn.title='';
+if(!on){btn.setAttribute('data-on','1');btn.classList.add('td-on');btn.textContent=verb+' \u2713 (tap to undo)';}
+else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textContent=verb;}}
 </script>
 """
 
