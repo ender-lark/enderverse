@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-12T18:48:03.006250Z",
+  "updated_at": "2026-06-12T19:48:24.478901Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:55:56.714155Z",
-      "summary": "deep synthesis started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:57:22.863220Z",
-      "summary": "drained AVGO + working-pile triage drafts; 2 Notion writes verified; SQL/query fallback used"
-    },
     {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "started",
@@ -3309,6 +3295,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-12T18:48:03.006250Z",
       "summary": "checked 2 web pages, Gmail 0; landed 1 row; suppressed/discovery-only 1 stale crypto feed plus older macro cards; validation passed; alert quiet 0 fresh candidates; dark/stale crypto flash stale June 8, social_watch dark; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-12T19:46:31.800200Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-12T19:48:24.478901Z",
+      "summary": "checked 2 web pages, Gmail 1 full body; landed 0 rows; suppressed/discovery-only 1; validation passed; alert quiet; macro/crypto flash stale; blockers none"
     }
   ]
 }
