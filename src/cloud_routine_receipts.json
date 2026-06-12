@@ -1,38 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-12T12:15:39.205468Z",
+  "updated_at": "2026-06-12T12:24:10.307020Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:12:01.932838Z",
-      "summary": "off-hours worker manual run checked research queue cache only",
-      "details": {
-        "steps": [
-          {
-            "label": "research queue validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/research_queue_intake.py",
-              "--validate",
-              "src/research_queue.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:12:01.942996Z",
-      "summary": "investing-os-deep-synthesis manual run started"
-    },
     {
       "routine_id": "investing-os-deep-synthesis",
       "status": "success",
@@ -3596,6 +3565,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-12T12:15:39.205468Z",
       "summary": "rows landed 0; positions unchanged 2026-06-10; catalysts 8 unchanged; event risk 3 unchanged; Fundstrat unchanged; broker/catalyst drops absent; Notion query unavailable"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-12T12:22:38.407289Z",
+      "summary": "broker position intake started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-12T12:24:10.307020Z",
+      "summary": "SnapTrade refresh failed: missing local profile"
     }
   ]
 }
