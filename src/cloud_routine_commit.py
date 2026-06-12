@@ -35,6 +35,8 @@ DEFAULT_ALLOWED_PATHS = [
     "src/positions.json",
     "src/account_positions.json",
     "src/position_reconciliation.json",
+    "src/orphan_triage.json",
+    "src/orphan_triage.md",
     "src/macro_state.json",
     "src/uw_closes.json",
     "src/uw_price_responses.json",

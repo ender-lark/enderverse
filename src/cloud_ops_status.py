@@ -170,6 +170,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-12T09:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-positions-sync",
+        "automation_name": "Investing OS Positions Sync",
+        "role": "positions_sync",
+        "schedule": "market weekdays 4:45 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 16,
+        "minute": 45,
+        "expected_since": "2026-06-15T16:45:00-04:00",
+    },
+    {
         "automation_id": "investing-os-fundstrat-after-hours-catch-up",
         "automation_name": "Investing OS Fundstrat After-Hours Catch-Up",
         "role": "fundstrat_after_hours_catchup",

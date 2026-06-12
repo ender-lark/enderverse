@@ -254,6 +254,19 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-positions-sync",
+            (
+                "positions sync manual run refreshed SnapTrade book and reran "
+                "orphan triage; after-hours legs may lag in SnapTrade, so "
+                "position_reconciliation diffs are provisional fill verification "
+                "until Monday's 8:20 broker intake reconciles record state"
+            ),
+            [
+                Step("snaptrade book refresh", _python("src/snaptrade_book_refresh.py", "--refresh-dashboard")),
+                Step("orphan triage", _python("src/orphan_triage.py")),
+            ],
+        ),
+        Routine(
             "investing-os-fundstrat-after-hours-catch-up",
             "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
             [
