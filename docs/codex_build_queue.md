@@ -1173,6 +1173,24 @@ until the core logic is stable; Notion sync comes later.
 
 ## Queued Slices
 
+- Cloud automation recovery slice completed on 2026-06-12.
+  - Reactivated the intended current paused routines in `~/.codex/automations`:
+    Fundstrat pre-market safety sweep, Fundstrat daytime watch, Fundstrat
+    after-hours catch-up, Top Prospects Auto-Research, Off-Hours Alt-Data
+    Scout, Off-Hours Worker, and Off-Hours Queue Buffer.
+  - Left the superseded legacy routines paused and explicitly re-paused the
+    conflicting legacy `investing-os-catalyst-intake` and
+    `investing-os-uw-cache-refresh` local automations so the receipt-tracked
+    stack is the only active cloud contract.
+  - Refreshed `src/cloud_automation_status.json` activation proof to
+    `2026-06-12T06:17:48-04:00` so `cloud_ops_status.py` evaluates the
+    reactivated stack from the June 12 restart window instead of from the
+    paused period.
+  - Honest remaining proof gap: `investing-os-top-prospects-auto-research`,
+    `investing-os-off-hours-alt-data-scout`, and
+    `investing-os-off-hours-queue-buffer` still need their first natural
+    scheduled success receipts; do not backfill scheduled receipts manually.
+
 - One low-priority queued implementation slice.
   - The current system-improvement queue is valid with 21 done items and 1
     queued P3 item: `fundstrat-video-transcript-intake`.

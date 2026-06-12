@@ -236,6 +236,24 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-top-prospects-auto-research",
+            "top prospects auto-research manual support run validated the bridge without queue writes",
+            [
+                Step("top prospects auto-research self-test", _python("src/prospect_autoresearch.py", "--self-test")),
+                Step(
+                    "top prospects auto-research dry-run",
+                    _python(
+                        "src/prospect_autoresearch.py",
+                        "--dry-run",
+                        "--min-conviction",
+                        "BUILDING",
+                        "--max-items",
+                        "8",
+                    ),
+                ),
+            ],
+        ),
+        Routine(
             "investing-os-off-hours-worker",
             "off-hours worker manual run checked research queue cache only",
             [Step("research queue validate", _python("src/research_queue_intake.py", "--validate", "src/research_queue.json"))],

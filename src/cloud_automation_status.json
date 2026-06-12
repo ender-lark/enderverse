@@ -1,9 +1,10 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-08T02:30:00-04:00",
-  "verification_source": "Codex app automation_update calls paused legacy unreceipted jobs; Broker Position Intake is active again as SnapTrade-first read-only account refresh; all active routine prompts use --run-source scheduled receipt provenance, cloud_routine_commit.py safe write-back, and missing-source honesty guards; Full Cockpit Build, Early Cockpit Build, and Post-Close Refresh prompts use cloud_routine_runner.py; Post-Open Evidence Gate was added for same-session UW endpoint proof before action promotion; UW Opportunity Cache prompt explicitly refreshes non-secret live-source connector proof before cache work; Deep Synthesis prompt was patched to include the missing-source honesty guard; Fundstrat Daytime Watch was added for hourly market-day checks with strict low-value suppression and Pushover only for urgent/action-changing evidence; schedule checked against Notion Scheduled Cloud Routines Master Reference, 2026-06-02 Routine schedule reconcile note, and 2026-06-08 operator request for an earlier dashboard surface plus daytime Fundstrat alerts",
+  "verified_at": "2026-06-12T06:17:48-04:00",
+  "verification_source": "Manual 2026-06-12 recovery reactivated the intended current cloud routine stack after the weekly reset: the Fundstrat pre-market/daytime/after-hours routines, Top Prospects Auto-Research, Off-Hours Alt-Data Scout, Off-Hours Worker, and Off-Hours Queue Buffer were returned to ACTIVE; stale one-shot resume heartbeats were retired; superseded legacy Catalyst Intake and UW Cache Refresh were returned to PAUSED; Broker Position Intake was restored from the temporary gpt-5.3-codex-spark downgrade to gpt-5.4. The active prompts still use --run-source scheduled receipt provenance, cloud_routine_commit.py safe write-back, missing-source honesty guards, cloud_routine_runner.py for Early Cockpit Build / Full Cockpit Build / Post-Close Refresh, same-session Post-Open Evidence Gate proof, and compact UW live-source proof updates. Schedule intent remains aligned with the Notion Scheduled Cloud Routines Master Reference plus the 2026-06-02 reconcile note and 2026-06-08 earlier-dashboard/Fundstrat-alert updates.",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
+    "On 2026-06-12, the temporary usage-conservation pauses were lifted for the current Fundstrat web routines and heavy off-hours routines; only the superseded legacy jobs remain paused.",
     "Broker Position Intake is active again at 8:20 AM ET as the SnapTrade-first read-only account refresh. It promotes positions only after strict validation; failed SnapTrade pulls keep account positions stale/not_checked.",
     "Missing connector/source pulls must remain dark/not_checked in the dashboard, never checked clear.",
     "Each scheduled routine should append cloud_routine_receipts.json receipts with run_source=scheduled; manual rehearsal receipts do not prove cloud live-run execution.",
@@ -156,10 +157,25 @@
     {
       "automation_id": "investing-os-off-hours-worker",
       "automation_name": "Investing OS Off-Hours Worker",
-      "status": "PAUSED",
+      "status": "ACTIVE",
       "role": "off_hours_worker",
-      "schedule": "daily 1:45 AM ET",
-      "pause_reason": "Temporary usage conservation until 2026-06-11 reset"
+      "schedule": "daily 1:45 AM ET"
+    },
+    {
+      "automation_id": "investing-os-off-hours-alt-data-scout",
+      "automation_name": "Investing OS Off-Hours Alt-Data Scout",
+      "status": "ACTIVE",
+      "role": "off_hours_alt_data_scout",
+      "schedule": "daily 9:15 PM ET",
+      "expected_since": "2026-06-09T00:00:00-04:00"
+    },
+    {
+      "automation_id": "investing-os-off-hours-queue-buffer",
+      "automation_name": "Investing OS Off-Hours Queue Buffer",
+      "status": "ACTIVE",
+      "role": "off_hours_queue_buffer",
+      "schedule": "daily 4:45 AM ET",
+      "expected_since": "2026-06-10T00:00:00-04:00"
     },
     {
       "automation_id": "investing-os-deep-synthesis",
@@ -178,10 +194,9 @@
     {
       "automation_id": "investing-os-top-prospects-auto-research",
       "automation_name": "Investing OS Top Prospects Auto-Research",
-      "status": "PAUSED",
+      "status": "ACTIVE",
       "role": "top_prospects_autoresearch",
-      "schedule": "daily 8:45 PM ET",
-      "pause_reason": "Temporary usage conservation until 2026-06-11 reset"
+      "schedule": "daily 8:45 PM ET"
     }
   ]
 }
