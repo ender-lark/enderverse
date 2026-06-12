@@ -265,7 +265,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
     <div class="hdr-left">
       <h1> Conviction Cockpit</h1>
       <div class="stamp">
-        built 2026-06-12 10:17 ET
+        built 2026-06-12 10:29 ET
 
       </div>
       <div class="stamp">sourced: portfolio 06-12  uw_price 06-12  uw_macro 06-12  fundstrat_bible 05-28  fundstrat_daily 06-11</div>
@@ -413,7 +413,7 @@ btn.textContent=verb;}}
   <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
   <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
   <a class="quick-link" href="#source-audits"><strong>proof</strong> UW results</a>
-  <a class="quick-link" href="#feedback-loops"><strong>2</strong> open reviews</a>
+  <a class="quick-link" href="#feedback-loops"><strong>0</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>1 deferred</strong> source lanes</a>
   <a class="quick-link" href="#feedback-loops"><strong>21 scoring</strong> source calls</a>
@@ -642,54 +642,11 @@ btn.textContent=verb;}}
 
 
   <span class="small-muted">Blocks: Social evidence cannot promote a trade without independent confirmation.</span>
-</div>
-<div class="small-item tone-blue">
-  <span class="tag t-warn">#13</span>
-  <span class="context-ticker">Open reviews: 2 item(s)</span>
-
-
-
-
-
-  <span class="small-muted">Why: Open action backlog: 2 open; 2 due; 2 stale; oldest 5 trading day(s).</span>
-
-
-  <span class="small-muted">Next: Keep visible; resolve only after act, invalidate, defer, ignore, or miss is explicit.</span>
-
-
-
-
-  <span class="small-muted">Blocks: Open reviews are not build blockers unless due or stale.</span>
 </div></div>
   <div class="feedback-line">Decision packet sequences review work only; it does not execute or recommend un-gated trades.</div>
   <div class="cmd-row"><span class="cmd-name">print packet</span><span class="cmd-desc"><code>python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
 </div>
 
-<div class="card" id="alert-policy">
-  <div class="card-title"><span class="icon">!</span> Push alerts
-    <span class="tag t-warn" style="margin-left:auto">notify</span>
-  </div>
-  <div class="feedback-line">Push alerts: 2 action-relevant alert candidate(s).</div>
-  <div class="small-list"><div class="feedback-line">Push alerts only interrupt for action-changing market, portfolio, Fundstrat, stale-review, or invalidated-decision items. Routine/system-health warnings stay in Ops.</div>
-<div class="small-item">
-  <span class="tag t-warn">high</span>
-  <span class="context-ticker">ANET</span>
-  <span>ANET is stale</span>
-  <span class="small-muted">Why: Open review is stale; resolve as acted, invalidated, missed, ignored, or explicitly deferred.</span>
-  <span class="small-muted">Trigger: open review age &gt;= 5 trading days</span>
-  <span class="small-muted">Next: Resolve the stale review so old prompts do not masquerade as current decisions.</span>
-</div>
-<div class="small-item">
-  <span class="tag t-warn">high</span>
-  <span class="context-ticker">GOOGL</span>
-  <span>GOOGL is stale</span>
-  <span class="small-muted">Why: Open review is stale; resolve as acted, invalidated, missed, ignored, or explicitly deferred.</span>
-  <span class="small-muted">Trigger: open review age &gt;= 5 trading days</span>
-  <span class="small-muted">Next: Resolve the stale review so old prompts do not masquerade as current decisions.</span>
-</div></div>
-  <div class="cmd-row"><span class="cmd-name">print push alert gate</span><span class="cmd-desc"><code>python src/alert_policy.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
-  <div class="cmd-row"><span class="cmd-name">Fundstrat alert dry-run</span><span class="cmd-desc"><code>python src/fundstrat_daytime_alert.py --dry-run --format text</code></span></div>
-</div>
 
 <div class="card" id="today-actions">
   <div class="card-title"><span class="icon">!</span> Today&#39;s actions
@@ -1059,17 +1016,17 @@ btn.textContent=verb;}}
 
 <div class="card" id="operator-status">
   <div class="card-title"><span class="icon">!</span> Operator status
-    <span class="operator-warn" style="font-size:11px;margin-left:auto">WARN</span>
+    <span class="operator-pass" style="font-size:11px;margin-left:auto">PASS</span>
   </div>
   <div class="operator-grid">
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">7</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-warn">2 stale</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">0</div></a>
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">21 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 16/24; 2 stale reviews; 2 due reviews</div>
+  <div class="operator-readiness"><strong class="operator-pass">Build clear, not all clear</strong> | background cloud proof 16/24</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -1176,19 +1133,7 @@ btn.textContent=verb;}}
 </div>
 <div class="card">
   <div class="card-title"><span class="icon">!</span> Stale-action cleanup</div>
-  <div class="small-list"><div class="feedback-line">Stale-action cleanup: 2 due/stale open review(s).</div>
-<div class="small-item">
-  <span class="context-ticker">ANET</span>
-  <span>ANET</span>
-  <span class="small-muted">Resolve stale item: acted, invalidated, missed, ignored, or explicitly deferred.</span>
-  <span class="small-muted">lean_in | stale</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">GOOGL</span>
-  <span>GOOGL</span>
-  <span class="small-muted">Resolve stale item: acted, invalidated, missed, ignored, or explicitly deferred.</span>
-  <span class="small-muted">lean_in | stale</span>
-</div></div>
+  <div class="small-list"><div class="feedback-line">Stale-action cleanup: no due or stale open reviews.</div></div>
 </div>
 <div class="card">
   <div class="card-title"><span class="icon">!</span> Pre-action condition checklist</div>
@@ -1373,14 +1318,14 @@ btn.textContent=verb;}}
 
 <div class="card" id="feedback-loops">
   <div class="card-title"><span class="icon"></span> Feedback loops
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2 open signal(s)</span>
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">0 open signal(s)</span>
   </div>
-  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">SOURCE PERSISTENCE: 1 cluster(s), 0 LOUD: newton-&gt;QQQ 5x in 30d [quiet, has A/B]</div><div class="feedback-line">Open action backlog: 2 open; 2 due; 2 stale; oldest 5 trading day(s).</div><div class="feedback-rec">Resolve stale open actions first: act, invalidate, ignore, miss, expire, or explicitly defer.</div><div class="feedback-item"><span class="context-ticker">ANET</span>5d open | stale review | high priority | lean_in<span class="context-sub">Resolve now: acted, invalidated, ignored, missed, expired, or explicitly defer.</span><span class="context-sub">python src/action_memory_resolve.py --ticker ANET --status deferred --reason &quot;keep watching&quot;</span></div><div class="feedback-item"><span class="context-ticker">GOOGL</span>5d open | stale review | high priority | lean_in<span class="context-sub">Resolve now: acted, invalidated, ignored, missed, expired, or explicitly defer.</span><span class="context-sub">python src/action_memory_resolve.py --ticker GOOGL --status deferred --reason &quot;keep watching&quot;</span></div>
+  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">SOURCE PERSISTENCE: 1 cluster(s), 0 LOUD: newton-&gt;QQQ 5x in 30d [quiet, has A/B]</div><div class="feedback-line">Open action backlog clean.</div><div class="feedback-rec">No feedback-loop action required.</div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-12T14:17:45.043275+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-12T14:17:45.043275+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-12T14:17:45.043275+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-12T14:17:45.043275+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-12T14:17:45.043275+00:00 | rehearsal build can run">Daily Full Build</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-12T14:29:45.366290+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-12T14:29:45.366290+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-12T14:29:45.366290+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-12T14:29:45.366290+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-12T14:29:45.366290+00:00 | rehearsal build can run">Daily Full Build</span></div>
 </div>
 
 <div class="hero">
