@@ -1228,6 +1228,23 @@ until the core logic is stable; Notion sync comes later.
     `cloud_routine_drill.py --format text --strict` passed for 24 expected
     routines; `cloud_ops_status.py --format text` reports schedule ready.
 
+- SnapTrade credential-rotation repair completed on 2026-06-12.
+  - Fixed a 401 `Unable to verify signature sent` failure after the SnapTrade
+    consumer key was rotated while Codex still had stale process env values.
+    `SnapTradeClient` now prefers refreshed Windows user-environment API
+    credentials for the client/consumer key pair.
+  - Corrected the Windows user `SNAPTRADE_INVESTING_OS_SURAJ_USER_SECRET` value
+    back to the existing SnapTrade user secret after it had been overwritten
+    with the new consumer key.
+  - Changed SnapTrade's default broker snapshot `as_of` to the operator
+    America/New_York date so evening ET pulls do not become future-dated UTC
+    snapshots that readiness treats as unverifiable.
+  - Verified with a no-promote pull, then promoted and refreshed the dashboard:
+    1 profile, 11 accounts, 278 account rows, no warnings, dashboard refresh
+    return code 0.
+  - Verification: focused SnapTrade tests passed at 13 passed; standard repo
+    verification passed at 1399 passed / 6 skipped.
+
 - One low-priority queued implementation slice.
   - The current system-improvement queue is valid with 21 done items and 1
     queued P3 item: `fundstrat-video-transcript-intake`.

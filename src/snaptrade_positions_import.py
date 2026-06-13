@@ -21,6 +21,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 
 SNAPTRADE_API_BASE = "https://api.snaptrade.com/api/v1"
@@ -28,6 +29,7 @@ DEFAULT_PROFILES_PATH = Path(__file__).with_name("snaptrade_profiles.local.json"
 EXAMPLE_PROFILES_PATH = Path(__file__).with_name("snaptrade_profiles.example.json")
 CLIENT_ID_ENV = "SNAPTRADE_CLIENT_ID"
 CONSUMER_KEY_ENV = "SNAPTRADE_CONSUMER_KEY"
+OPERATOR_TZ = ZoneInfo("America/New_York")
 NON_TRADABLE_SYMBOL_PREFIXES = ("L0C",)
 NON_TRADABLE_DESCRIPTION_TERMS = (
     "COLLATERAL DELV",
@@ -45,6 +47,11 @@ def user_env(name: str) -> str | None:
     value = os.environ.get(name)
     if value:
         return value
+    return windows_user_env(name)
+
+
+def windows_user_env(name: str) -> str | None:
+    """Read an env var directly from the Windows user environment."""
     if os.name != "nt":
         return None
     try:
@@ -55,6 +62,20 @@ def user_env(name: str) -> str | None:
             return str(raw) if raw else None
     except OSError:
         return None
+
+
+def api_credential_env(name: str) -> str | None:
+    """Read SnapTrade API credentials, preferring refreshed Windows user env.
+
+    Codex can inherit stale process-level credentials when the user updates
+    Windows user environment variables during an active app session. For the
+    API key pair, the registry is the durable source used by scheduled runs.
+    """
+    if name in {CLIENT_ID_ENV, CONSUMER_KEY_ENV}:
+        value = windows_user_env(name)
+        if value:
+            return value
+    return user_env(name)
 
 
 def credential_status(names: list[str] | None = None) -> list[dict[str, Any]]:
@@ -309,7 +330,7 @@ def build_combined_from_snaptrade(payload: dict[str, Any],
                                   generated_at: str | None = None) -> dict[str, Any]:
     """Convert staged SnapTrade raw data into broker-extractor combined JSON."""
     generated_at = generated_at or datetime.now(timezone.utc).isoformat()
-    as_of = as_of or generated_at
+    as_of = as_of or datetime.now(OPERATOR_TZ).date().isoformat()
     files: list[dict[str, Any]] = []
     total_market_value = 0.0
     total_cash = 0.0
@@ -369,8 +390,8 @@ def build_combined_from_snaptrade(payload: dict[str, Any],
 
 class SnapTradeClient:
     def __init__(self, client_id: str | None = None, consumer_key: str | None = None) -> None:
-        self.client_id = client_id or user_env(CLIENT_ID_ENV)
-        self.consumer_key = consumer_key or user_env(CONSUMER_KEY_ENV)
+        self.client_id = client_id or api_credential_env(CLIENT_ID_ENV)
+        self.consumer_key = consumer_key or api_credential_env(CONSUMER_KEY_ENV)
         if not self.client_id or not self.consumer_key:
             raise SnapTradeError("Missing SNAPTRADE_CLIENT_ID or SNAPTRADE_CONSUMER_KEY")
 

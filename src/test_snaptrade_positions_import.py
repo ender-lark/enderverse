@@ -6,6 +6,7 @@ import hmac
 import json
 import os
 import sys
+from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,6 +39,24 @@ def test_credential_status_does_not_print_secret_values(monkeypatch):
         {"name": "SNAPTRADE_CLIENT_ID", "present": True, "length": 9},
         {"name": "SNAPTRADE_CONSUMER_KEY", "present": True, "length": 12},
     ]
+
+
+def test_snaptrade_client_prefers_refreshed_windows_user_credentials(monkeypatch):
+    monkeypatch.setenv("SNAPTRADE_CLIENT_ID", "stale-client")
+    monkeypatch.setenv("SNAPTRADE_CONSUMER_KEY", "stale-consumer")
+    monkeypatch.setattr(
+        spi,
+        "windows_user_env",
+        lambda name: {
+            "SNAPTRADE_CLIENT_ID": "fresh-client",
+            "SNAPTRADE_CONSUMER_KEY": "fresh-consumer",
+        }.get(name),
+    )
+
+    client = spi.SnapTradeClient()
+
+    assert client.client_id == "fresh-client"
+    assert client.consumer_key == "fresh-consumer"
 
 
 def _symbol(symbol="NVDA", description="NVIDIA CORP"):
@@ -103,6 +122,21 @@ def test_build_combined_from_snaptrade_preserves_owner_account_broker_and_cash()
     assert row["positions"][0]["symbol"] == "NVDA"
     assert row["positions"][0]["quantity"] == 12.0
     assert row["positions"][0]["market_value"] == 2040.0
+
+
+def test_default_snaptrade_as_of_uses_operator_date(monkeypatch):
+    class FakeDateTime:
+        @staticmethod
+        def now(tz=None):
+            if tz is timezone.utc:
+                return datetime(2026, 6, 13, 1, 30, tzinfo=timezone.utc)
+            return datetime(2026, 6, 12, 21, 30, tzinfo=spi.OPERATOR_TZ)
+
+    monkeypatch.setattr(spi, "datetime", FakeDateTime)
+
+    combined = spi.build_combined_from_snaptrade({"profiles": []})
+
+    assert combined["portfolio_summary"]["as_of"] == "2026-06-12"
 
 
 def test_option_position_uses_underlying_and_contract_multiplier():
