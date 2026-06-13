@@ -218,7 +218,8 @@
       "automation_name": "Investing OS Weekly Pilot Run",
       "status": "ACTIVE",
       "role": "weekly_pilot_run",
-      "schedule": "Sunday 6:00 PM ET"
+      "schedule": "Sunday 6:00 PM ET",
+      "prompt": "src/codex_routines/weekly_pilot_run.md"
     },
     {
       "automation_id": "investing-os-top-prospects-auto-research",

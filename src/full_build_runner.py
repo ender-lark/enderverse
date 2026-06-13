@@ -25,6 +25,7 @@ from collection import collect
 from collection_gate import validate_collection_gate
 from feed_assembler import assemble_feed
 import fs_ingest_guard
+import integration_debt_sweep
 from fundstrat_bible import build_fundstrat_bible_source
 from fundstrat_daily import build_fundstrat_daily_source
 from fundstrat_news import build_fundstrat_news, build_if_i_were_you
@@ -638,10 +639,23 @@ def _build_source_audits(
     *,
     now: str | datetime | None = None,
 ) -> dict[str, Any]:
+    integration_debt = integration_debt_sweep.build_report(
+        root_dir=src_dir.parent,
+        src_dir=src_dir,
+        generated_at=_utc_now_iso(),
+    )
     return {
         "fundstrat": _build_fundstrat_audit(src_dir),
         "cloud_routines": _build_cloud_routine_audit(src_dir, now=now),
         "trigger_registry": _build_trigger_registry_audit(src_dir),
+        "integration_debt": {
+            "status": integration_debt.get("status") or "not_checked",
+            "line": integration_debt.get("line") or "",
+            "warning_count": int(integration_debt.get("warning_count") or 0),
+            "finding_count": int(integration_debt.get("finding_count") or 0),
+            "rows": integration_debt.get("findings") or [],
+            "honesty_rule": "Missing Notion queue input stays not_checked; repo evidence does not prove live queue state.",
+        },
         "notion_writeback": _build_notion_writeback_audit(src_dir),
         "notion_collision": _build_notion_collision_audit(src_dir),
         "connector_evidence": _build_connector_evidence(src_dir, live_source_capability_module),
