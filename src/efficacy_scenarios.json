@@ -1,0 +1,162 @@
+{
+  "schema": "efficacy_scenarios.v1",
+  "purpose": "Replayable proof that the trigger spine (trigger_check.py + trigger_registry.json, PR#15) and the caps-based sizing block (directive_recs.py, PR#18) actually catch the documented misses they were built for. Each expressible scenario feeds a synthetic quote series through trigger_check.evaluate() and asserts the trigger fires exactly once, emits a push payload, and is idempotent. The parabolic miss is recorded as a coverage gap because no current condition type expresses acceleration.",
+  "owner_row": "EFFICACY-HARNESS (docs/WORKBOARD.md)",
+  "baseline": {
+    "ref": "origin/main 14d78ca (PRs #15-#19 merged)",
+    "pytest_src": "1437 passed, 6 skipped",
+    "verify_standard": "pass"
+  },
+  "spine_condition_types": ["price_cross", "level_touch", "iv_threshold", "date_event"],
+  "condition_type_coverage": {
+    "level_touch": "asts-reentry-2026-05",
+    "price_cross": "ewre-weekly-close-2026-06-12",
+    "date_event": "googl-tranche-2-2026-06-19",
+    "iv_threshold": "generic-recheck-2026-06-09",
+    "_gap": "mu-parabolic-2026-05-27 needs a condition type the spine does not have"
+  },
+  "scenarios": [
+    {
+      "id": "asts-reentry-2026-05",
+      "miss_class": "asts_reentry",
+      "ticker": "ASTS",
+      "dates": ["2026-05-05", "2026-05-12"],
+      "documented_miss": "The operator re-entry zone 65-70 existed in the thesis, price traded back into it on 5/5 and again on 5/12, and no ping fired -- the system knew but nobody was told.",
+      "signal_that_existed": "Live thesis re-entry zone 65-70 (intraday range touch).",
+      "trigger_that_should_fire": "level_touch on the 65-70 zone fires the moment the intraday range overlaps it.",
+      "coverage": "expressible",
+      "condition_type": "level_touch",
+      "provenance": "real_registry",
+      "registry_id": "asts-reentry-zone-65-70",
+      "expected_params_subset": {"zone_low": 65, "zone_high": 70},
+      "no_fire": {
+        "as_of": "2026-05-05T13:30:00Z",
+        "quote": {"intraday_low": 72.0, "intraday_high": 75.5}
+      },
+      "fire": {
+        "as_of": "2026-05-05T14:00:00Z",
+        "quote": {"intraday_low": 64.5, "intraday_high": 68.0},
+        "expected_fire_reason_contains": "touched 65-70"
+      },
+      "fire_again": {
+        "as_of": "2026-05-12T15:00:00Z",
+        "quote": {"intraday_low": 66.0, "intraday_high": 69.0}
+      },
+      "expected": {"fired": true, "push_emitted": true, "idempotent": true}
+    },
+    {
+      "id": "ewre-weekly-close-2026-06-12",
+      "miss_class": "ewre_tactical",
+      "ticker": "EWRE",
+      "dates": ["2026-06-12"],
+      "documented_miss": "Fundstrat/Newton REIT breakout layer: an EWRE weekly close above 38 confirms the breakout. The level existed but no tactical ping fired when it printed.",
+      "signal_that_existed": "Stated tactical level: EWRE weekly close above 38.",
+      "trigger_that_should_fire": "price_cross on weekly_close >= 38.",
+      "coverage": "expressible",
+      "condition_type": "price_cross",
+      "provenance": "real_registry",
+      "registry_id": "ewre-weekly-close-above-38-2026-06",
+      "expected_params_subset": {"field": "weekly_close", "direction": "above", "level": 38},
+      "no_fire": {
+        "as_of": "2026-06-05T20:00:00Z",
+        "quote": {"weekly_close": 37.4}
+      },
+      "fire": {
+        "as_of": "2026-06-12T20:00:00Z",
+        "quote": {"weekly_close": 38.6},
+        "expected_fire_reason_contains": "weekly_close"
+      },
+      "fire_again": {
+        "as_of": "2026-06-19T20:00:00Z",
+        "quote": {"weekly_close": 39.1}
+      },
+      "expected": {"fired": true, "push_emitted": true, "idempotent": true}
+    },
+    {
+      "id": "googl-tranche-2-2026-06-19",
+      "miss_class": "googl_tranche_2",
+      "ticker": "GOOGL",
+      "dates": ["2026-06-19"],
+      "documented_miss": "Supplemental real-registry case (the prompt names GOOGL tranche-2 as a real registry value to use). The staged tranche-2 review is a date_event; without the spine it relies on someone remembering the date.",
+      "signal_that_existed": "Staged tranche-2 review date 2026-06-19 from the live GOOGL thesis.",
+      "trigger_that_should_fire": "date_event fires on/after 2026-06-19.",
+      "coverage": "expressible",
+      "condition_type": "date_event",
+      "provenance": "real_registry",
+      "registry_id": "googl-tranche-2-review-2026-06-19",
+      "expected_params_subset": {"date": "2026-06-19", "event": "tranche_2_review"},
+      "no_fire": {
+        "as_of": "2026-06-18",
+        "quote": null
+      },
+      "fire": {
+        "as_of": "2026-06-19",
+        "quote": null,
+        "expected_fire_reason_contains": "date_event due 2026-06-19"
+      },
+      "fire_again": {
+        "as_of": "2026-06-20",
+        "quote": null
+      },
+      "expected": {"fired": true, "push_emitted": true, "idempotent": true}
+    },
+    {
+      "id": "generic-recheck-2026-06-09",
+      "miss_class": "generic_6_9",
+      "ticker": "GENERIC",
+      "dates": ["2026-06-09"],
+      "documented_miss": "The generic 6/9 'the system knew but nobody pinged' case. The exact signal was not pinned to one registry row, so this is a representative reconstruction encoded as an IV re-check (the prompt lists IV as a candidate signal). It is deliberately routed through iv_threshold so that condition type -- otherwise exercised by no test in the suite -- is also locked against silent regression.",
+      "signal_that_existed": "An armed re-check that should fire once event IV bleeds out (iv_rank falls below 30), signalling a cleaner entry.",
+      "trigger_that_should_fire": "iv_threshold fires when iv_rank <= 30.",
+      "coverage": "expressible",
+      "condition_type": "iv_threshold",
+      "provenance": "reconstructed_representative",
+      "build": {
+        "condition_type": "iv_threshold",
+        "params": {"field": "iv_rank", "operator": "below", "threshold": 30}
+      },
+      "no_fire": {
+        "as_of": "2026-06-08T14:00:00Z",
+        "quote": {"iv_rank": 56.0}
+      },
+      "fire": {
+        "as_of": "2026-06-09T14:00:00Z",
+        "quote": {"iv_rank": 22.0},
+        "expected_fire_reason_contains": "iv_rank"
+      },
+      "fire_again": {
+        "as_of": "2026-06-09T15:00:00Z",
+        "quote": {"iv_rank": 19.0}
+      },
+      "expected": {"fired": true, "push_emitted": true, "idempotent": true}
+    },
+    {
+      "id": "mu-parabolic-2026-05-27",
+      "miss_class": "mu_parabolic",
+      "ticker": "MU",
+      "dates": ["2026-05-27"],
+      "documented_miss": "MU went parabolic on 5/27 (rapid multi-day price acceleration / blow-off). parabolic_setup_screener.py can score the SETUP and even classify a 'Phase 3 (parabola)', but that screener is a research surface, not a trigger condition type. The spine has no way to ARM a trigger that fires on acceleration, so nothing pinged.",
+      "signal_that_existed": "Multi-day parabolic acceleration (e.g. a sharp N-day percent move / blow-off), detectable by the parabolic screener's phase classifier.",
+      "trigger_that_should_fire": "A condition that fires on rate-of-change / acceleration, not a static level.",
+      "coverage": "gap",
+      "condition_type": "parabolic_acceleration",
+      "provenance": "reconstructed_gap",
+      "would_require_condition_type": "parabolic_acceleration",
+      "maps_to_existing_type": false,
+      "why_no_existing_type_fits": "price_cross / level_touch fire on a fixed price; iv_threshold fires on an IV level; date_event fires on a calendar date. None express 'price accelerated X% over N days' or 'entered Phase 3', so a parabolic move can only be caught by hard-coding a guessed price level after the fact.",
+      "gap_probe": {
+        "as_of": "2026-05-27T14:00:00Z",
+        "unsupported_condition_type": "parabolic_acceleration",
+        "quote": {"price": 150.0, "last": 150.0, "pct_change_5d": 44.0},
+        "expected_status": "not_checked",
+        "expected_reason_contains": "unsupported condition"
+      },
+      "expected": {
+        "expressible": false,
+        "honest_not_checked": true,
+        "never_false_all_clear": true,
+        "documented_in": "docs/efficacy_gaps.md"
+      }
+    }
+  ]
+}
