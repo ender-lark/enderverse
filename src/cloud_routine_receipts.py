@@ -10,20 +10,245 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import tempfile
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "src" / "cloud_routine_receipts.json"
 VALID_STATUSES = {"started", "success", "failed"}
 VALID_RUN_SOURCES = {"manual", "scheduled"}
+ET = ZoneInfo("America/New_York")
+DAY_NAMES = {
+    "monday": 0,
+    "tuesday": 1,
+    "wednesday": 2,
+    "thursday": 3,
+    "friday": 4,
+    "saturday": 5,
+    "sunday": 6,
+}
+TIME_RE = re.compile(r"\b(\d{1,2}):(\d{2})\s*([AP]M)\b", re.IGNORECASE)
 
 
 def _now_utc() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def parse_dt(value: Any) -> datetime | None:
+    if isinstance(value, datetime):
+        return value if value.tzinfo else value.replace(tzinfo=ET)
+    text = str(value or "").strip()
+    if not text:
+        return None
+    try:
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=ET)
+
+
+def _parse_schedule(schedule: Any) -> dict[str, Any]:
+    """Best-effort parser for the repo's human-readable routine schedules."""
+    text = str(schedule or "").strip()
+    lower = text.lower()
+    if not lower:
+        return {}
+    if "market weekdays" in lower or "weekday" in lower:
+        days = [0, 1, 2, 3, 4]
+    elif "daily" in lower:
+        days = [0, 1, 2, 3, 4, 5, 6]
+    else:
+        days = [value for name, value in DAY_NAMES.items() if name in lower]
+    match = TIME_RE.search(text)
+    if not days or not match:
+        return {}
+    hour = int(match.group(1))
+    minute = int(match.group(2))
+    meridian = match.group(3).upper()
+    if meridian == "PM" and hour != 12:
+        hour += 12
+    elif meridian == "AM" and hour == 12:
+        hour = 0
+    return {"days": days, "hour": hour, "minute": minute}
+
+
+def _with_schedule_fields(row: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(row)
+    has_explicit_schedule = (
+        isinstance(normalized.get("days"), list)
+        and "hour" in normalized
+        and "minute" in normalized
+    )
+    if has_explicit_schedule:
+        return normalized
+    parsed = _parse_schedule(normalized.get("schedule"))
+    for key, value in parsed.items():
+        normalized.setdefault(key, value)
+    return normalized
+
+
+def _scheduled_at(row: dict[str, Any], day: datetime) -> datetime:
+    return datetime(
+        day.year,
+        day.month,
+        day.day,
+        int(row.get("hour") or 0),
+        int(row.get("minute") or 0),
+        tzinfo=ET,
+    )
+
+
+def _next_run_after(row: dict[str, Any], after: datetime) -> datetime | None:
+    days = set(int(day) for day in row.get("days") or [])
+    if not days:
+        return None
+    cursor = after.astimezone(ET)
+    for offset in range(0, 14):
+        candidate_day = cursor + timedelta(days=offset)
+        if candidate_day.weekday() not in days:
+            continue
+        candidate = _scheduled_at(row, candidate_day)
+        if candidate > cursor:
+            return candidate
+    return None
+
+
+def _last_run_between(row: dict[str, Any], start: datetime, end: datetime) -> datetime | None:
+    days = set(int(day) for day in row.get("days") or [])
+    if not days:
+        return None
+    start_et = start.astimezone(ET)
+    end_et = end.astimezone(ET)
+    latest: datetime | None = None
+    for offset in range(0, 14):
+        candidate_day = start_et + timedelta(days=offset)
+        if candidate_day.date() > end_et.date():
+            break
+        if candidate_day.weekday() not in days:
+            continue
+        candidate = _scheduled_at(row, candidate_day)
+        if start_et < candidate <= end_et:
+            latest = candidate
+    return latest
+
+
+def _row_grace_minutes(row: dict[str, Any], default: int) -> int:
+    for key in ("max_age_minutes", "grace_minutes"):
+        value = row.get(key)
+        if value in (None, ""):
+            continue
+        try:
+            parsed = int(value)
+        except (TypeError, ValueError):
+            continue
+        if parsed >= 0:
+            return parsed
+    return default
+
+
+def _label(row: dict[str, Any]) -> str:
+    return str(row.get("routine_name") or row.get("automation_name") or row.get("routine_id") or row.get("automation_id") or "Cloud routine")
+
+
+def summarize_due_receipts(
+    receipt_summary: dict[str, Any],
+    expected_automations: list[dict[str, Any]],
+    *,
+    activated_at: datetime | str | None,
+    now: datetime | str | None = None,
+    grace_minutes: int = 30,
+) -> dict[str, Any]:
+    """Compute cadence-aware due state from the canonical receipt summary."""
+    parsed_now = parse_dt(now) if now is not None else None
+    now_et = (parsed_now or datetime.now(ET)).astimezone(ET)
+    activation = (parse_dt(activated_at) or now_et).astimezone(ET)
+    summary = receipt_summary.get("summary") if isinstance(receipt_summary.get("summary"), dict) else receipt_summary
+    receipt_rows = {
+        str(row.get("routine_id") or ""): row
+        for row in (summary.get("rows") or [])
+        if isinstance(row, dict)
+    }
+    rows: list[dict[str, Any]] = []
+    for raw_expected in expected_automations:
+        if not isinstance(raw_expected, dict):
+            continue
+        expected = _with_schedule_fields(raw_expected)
+        routine_id = str(expected.get("automation_id") or expected.get("routine_id") or "")
+        if not routine_id:
+            continue
+        receipt = receipt_rows.get(routine_id, {})
+        last_success = parse_dt(receipt.get("last_scheduled_success_at"))
+        routine_activation = parse_dt(expected.get("expected_since")) or activation
+        routine_activation = max(activation, routine_activation.astimezone(ET))
+        row_grace = _row_grace_minutes(expected, grace_minutes)
+        last_due = _last_run_between(expected, routine_activation, now_et)
+        next_cursor = max(now_et, routine_activation)
+        next_due = _next_run_after(expected, next_cursor)
+        overdue_after = last_due + timedelta(minutes=row_grace) if last_due else None
+        if last_due is None:
+            state = "not_due_yet"
+        elif last_success and last_success.astimezone(ET) >= last_due:
+            state = "current"
+        elif overdue_after and now_et > overdue_after:
+            state = "overdue"
+        else:
+            state = "due_waiting"
+        last_ran_at = (
+            receipt.get("last_recorded_at")
+            or receipt.get("last_scheduled_success_at")
+            or receipt.get("last_success_at")
+            or ""
+        )
+        last_ran_label = last_ran_at or "never"
+        label = _label({"routine_name": receipt.get("routine_name"), **expected, "routine_id": routine_id})
+        rows.append({
+            "routine_id": routine_id,
+            "routine_name": expected.get("automation_name") or receipt.get("routine_name") or "",
+            "role": expected.get("role") or receipt.get("role") or "",
+            "schedule": expected.get("schedule") or receipt.get("schedule") or "",
+            "due_state": state,
+            "expected_since": routine_activation.isoformat(),
+            "last_due_at": last_due.isoformat() if last_due else "",
+            "next_due_at": next_due.isoformat() if next_due else "",
+            "overdue_after": overdue_after.isoformat() if overdue_after else "",
+            "max_age_minutes": row_grace,
+            "last_status": receipt.get("last_status") or "",
+            "last_run_source": receipt.get("last_run_source") or "",
+            "last_recorded_at": receipt.get("last_recorded_at") or "",
+            "last_success_at": receipt.get("last_success_at") or "",
+            "last_scheduled_success_at": receipt.get("last_scheduled_success_at") or "",
+            "last_summary": receipt.get("last_summary") or "",
+            "last_ran_at": last_ran_at,
+            "last_ran_label": last_ran_label,
+            "overdue_line": f"overdue: {label}, last ran {last_ran_label}",
+        })
+    overdue = [row for row in rows if row["due_state"] == "overdue"]
+    due_waiting = [row for row in rows if row["due_state"] == "due_waiting"]
+    current = [row for row in rows if row["due_state"] == "current"]
+    not_due_yet = [row for row in rows if row["due_state"] == "not_due_yet"]
+    next_candidates = [row for row in rows if row.get("next_due_at")]
+    next_target = sorted(next_candidates, key=lambda row: row["next_due_at"])[0] if next_candidates else {}
+    return {
+        "activated_at": activation.isoformat(),
+        "now": now_et.isoformat(),
+        "grace_minutes": grace_minutes,
+        "overdue_count": len(overdue),
+        "due_waiting_count": len(due_waiting),
+        "current_count": len(current),
+        "not_due_yet_count": len(not_due_yet),
+        "next_due": next_target,
+        "rows": rows,
+        "overdue": overdue,
+        "due_waiting": due_waiting,
+        "not_due_yet": not_due_yet,
+    }
 
 
 def _atomic_write_json(path: str | Path, payload: Any) -> Path:

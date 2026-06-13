@@ -688,5 +688,7 @@ def test_cloud_ops_status_marks_due_receipt_overdue(monkeypatch, tmp_path):
     assert report["ready_for_unattended_daily_run"] is False
     assert report["routine_receipt_due"]["overdue_count"] == 1
     assert report["routine_receipt_due"]["overdue"][0]["routine_id"] == "investing-os-post-close-refresh"
+    assert report["routine_receipt_due"]["overdue"][0]["last_ran_label"] == "never"
     assert any("Investing OS Post-Close Refresh run receipt is overdue" in gap for gap in report["gaps"])
     assert "Cloud receipt due state: overdue=1" in text
+    assert "last ran never" in text

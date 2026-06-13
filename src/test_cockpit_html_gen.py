@@ -538,6 +538,30 @@ def test_generated_html_treats_social_watch_as_deferred_optional_lane():
     assert "not an all-clear read" not in html
 
 
+def test_generated_html_surfaces_overdue_cloud_receipts():
+    feed = copy.deepcopy(_feed())
+    feed["source_audits"]["cloud_routines"] = {
+        "line": "Background cloud proof: 0/1 scheduled receipts proven; failed latest=0; overdue=1.",
+        "scheduled_success_count": 0,
+        "expected_count": 1,
+        "failed_latest_count": 0,
+        "overdue_count": 1,
+        "overdue": [{
+            "routine_id": "investing-os-post-close-refresh",
+            "routine_name": "Investing OS Post-Close Refresh",
+            "last_ran_label": "never",
+            "overdue_line": "overdue: Investing OS Post-Close Refresh, last ran never",
+        }],
+        "missing_scheduled_success": [],
+    }
+
+    html = generate_html(feed)
+
+    assert "Cloud routine overdue" in html
+    assert "overdue: Investing OS Post-Close Refresh, last ran never" in html
+    assert "Overdue cloud receipts" in html
+
+
 def test_generated_html_surfaces_action_cards_first():
     feed = _feed()
     feed["actions"] = [{
