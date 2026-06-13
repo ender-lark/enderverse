@@ -29,6 +29,7 @@ function Card({ card, rank, railState, setRailState }) {
   const dc = card.decision_card || {};
   const move = dc.move || {}, conv = card.conviction || {}, win = card.window || {};
   const ex = card.execution || {}, impact = card.impact || {};
+  const sizing = card.sizing || {};
   const conflicted = (card.conflicts || []).length > 0;
   return (
     <div style={{ border: `1px solid ${conflicted ? "#fb923c" : "#1e293b"}`, borderRadius: 10,
@@ -54,6 +55,8 @@ function Card({ card, rank, railState, setRailState }) {
       {(ex.legs || []).map((l, i) => <div key={i} style={{ fontSize: 13, color: "#cbd5e1" }}>execute: sell ${"{"}l.sell_usd?.toLocaleString(){"}"} in {l.owner} {l.broker} {l.account} Â· {l.tax_flag}{l.proceeds_constraint ? ` Â· \u26a0 ${l.proceeds_constraint}` : ""}</div>)}
       {(ex.excluded || []).map((e, i) => <div key={i} style={{ fontSize: 13, color: "#cbd5e1" }}>excluded: {e.account} â€” {e.why_not}</div>)}
       {ex.cash && <div style={{ fontSize: 13, color: "#cbd5e1" }}>cash: {ex.cash}</div>}
+      {sizing.source && <div style={{ fontSize: 13, color: "#cbd5e1" }}>sizing: {sizing.source} suggested ${"{"}(sizing.suggested_usd || 0).toLocaleString(){"}"} Â· heat {sizing.heat || "unknown"}</div>}
+      {sizing.cap_basis && <div style={{ fontSize: 13, color: "#cbd5e1" }}>cap basis: {sizing.cap_basis}</div>}
       <div style={{ fontSize: 13, color: "#cbd5e1" }}>impact: {impact.band} Â· material: {impact.material ? "yes" : "no"}</div>
       {(card.conflicts || []).map((c, i) => (
         <div key={i} style={{ border: "1px solid #fb923c", color: "#fdba74", borderRadius: 8,

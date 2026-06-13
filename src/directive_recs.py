@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any
 
 import conviction_engine as ce
+import conviction_sizing_calibrator as csc
 import decision_card as dc
 import execution_plan as ep
 import insight_register as ir
@@ -31,6 +32,8 @@ import timing_engine as te
 
 SRC = Path(__file__).resolve().parent
 FEED_PATH = SRC / "latest_cockpit_feed.json"
+THESES_PATH = SRC / "theses.json"
+SOURCE_RATES_PATH = SRC / "source_rates.json"
 
 _WINDOW_FACTOR = {"OPEN-NOW": 1.0, "STAGE-ONLY": 0.66, "GATED": 0.33, "WAIT": 0.0}
 
@@ -75,6 +78,151 @@ def _drift_index(feed: dict[str, Any]) -> dict[str, dict[str, Any]]:
     td = feed.get("target_drift") or {}
     return {str(r.get("ticker") or "").upper(): r for r in (td.get("rows") or [])}
 
+def _load_theses(path: Path = THESES_PATH) -> list[dict[str, Any]]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    rows = payload.get("theses") if isinstance(payload, dict) else payload
+    return [row for row in rows or [] if isinstance(row, dict)]
+
+def _load_source_rates(path: Path = SOURCE_RATES_PATH) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+def _positions_for_sizing(feed: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = (((feed.get("portfolio_views") or {}).get("views") or {})
+            .get("combined") or {}).get("rows") or []
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").upper().strip()
+        try:
+            value = float(row.get("market_value") or row.get("value") or 0.0)
+        except (TypeError, ValueError):
+            value = 0.0
+        if ticker:
+            out.append({"ticker": ticker, "market_value": max(0.0, value)})
+    return out
+
+def _macro_for_sizing(feed: dict[str, Any]) -> dict[str, Any] | None:
+    macro = feed.get("macro")
+    if not isinstance(macro, dict):
+        return None
+    regime = macro.get("regime")
+    if isinstance(regime, dict):
+        label = regime.get("label")
+        if isinstance(label, str) and label.strip():
+            safe = dict(macro)
+            safe["regime"] = label
+            safe.setdefault("regime_label", label)
+            return safe
+    return macro
+
+def _current_value(positions: list[dict[str, Any]], ticker: str) -> float:
+    tick = ticker.upper()
+    total = 0.0
+    for row in positions:
+        if str(row.get("ticker") or "").upper() != tick:
+            continue
+        try:
+            total += float(row.get("market_value") or 0.0)
+        except (TypeError, ValueError):
+            pass
+    return total
+
+def _gap_for_ticker(report: csc.ConvictionReport, ticker: str) -> csc.ConvictionGap | None:
+    tick = ticker.upper()
+    groups = (
+        report.critically_below,
+        report.below_floor,
+        report.in_band,
+        report.above_ceiling,
+        report.monitor_suppressed,
+        report.no_thesis,
+    )
+    for group in groups:
+        for gap in group:
+            if gap.ticker.upper() == tick:
+                return gap
+    return None
+
+def _caps_sizing(
+    *,
+    ticker: str,
+    proposed_usd: float,
+    book: float,
+    positions: list[dict[str, Any]],
+    theses: list[dict[str, Any]],
+    macro_pulse: dict[str, Any] | None = None,
+    source_rates: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Return the caps-derived size anchor for a BUY card.
+
+    The card can still propose a smaller/larger staged trade. This object makes
+    the tier-band cap visible before the operator accepts the notional anchor.
+    """
+    tick = ticker.upper()
+    proposed = max(0.0, float(proposed_usd or 0.0))
+    if book <= 0:
+        return {
+            "suggested_usd": round(proposed, 2),
+            "source": "caps",
+            "heat": "not_checked",
+            "cap_basis": "caps not checked - portfolio book value unavailable",
+        }
+    current = _current_value(positions, tick)
+    sizing_positions = list(positions)
+    if not any(str(row.get("ticker") or "").upper() == tick for row in sizing_positions):
+        sizing_positions.append({"ticker": tick, "market_value": current})
+    report = csc.calibrate(
+        sizing_positions,
+        theses,
+        sleeve_total=book,
+        macro_pulse=macro_pulse,
+        source_rates=source_rates,
+    )
+    gap = _gap_for_ticker(report, tick)
+    if not gap:
+        return {
+            "suggested_usd": round(proposed, 2),
+            "source": "caps",
+            "heat": "not_checked",
+            "cap_basis": f"caps not checked - calibrator emitted no row for {tick}",
+        }
+    ceiling_value = gap.ceiling_pct * book
+    floor_value = gap.floor_pct * book
+    cap_room = max(0.0, ceiling_value - current)
+    suggested = min(proposed, cap_room)
+    heat = gap.classification
+    if "monitor_suppressed" in gap.flags:
+        heat = "MONITOR_SUPPRESSED"
+    elif cap_room <= 0:
+        heat = "ABOVE_CAP"
+    elif suggested < proposed:
+        heat = "CAP_CLIPPED"
+    flags = f"; flags {', '.join(gap.flags)}" if gap.flags else ""
+    macro = f"; urgency {gap.macro_urgency}" if gap.macro_urgency != "NORMAL" else ""
+    return {
+        "suggested_usd": round(suggested, 2),
+        "source": "caps",
+        "heat": heat,
+        "cap_basis": (
+            f"{gap.tier} floor {gap.floor_pct * 100:.1f}% (${floor_value:,.0f}) / "
+            f"ceiling {gap.ceiling_pct * 100:.1f}% (${ceiling_value:,.0f}); "
+            f"current {gap.current_pct * 100:.1f}% (${current:,.0f}); "
+            f"cap room ${cap_room:,.0f}; floor gap ${gap.gap_to_floor_value:,.0f}"
+            f"{macro}{flags}"
+        ),
+        "current_pct": round(gap.current_pct * 100.0, 3),
+        "floor_pct": round(gap.floor_pct * 100.0, 3),
+        "ceiling_pct": round(gap.ceiling_pct * 100.0, 3),
+    }
+
 def build_directive_cards(
     *,
     feed: dict[str, Any] | None = None,
@@ -105,6 +253,10 @@ def build_directive_cards(
     risks = _event_risks(feed)
     drift = _drift_index(feed)
     book = float(((feed.get("portfolio_views") or {}).get("views") or {}).get("combined", {}).get("total_value") or 0.0)
+    positions_for_sizing = _positions_for_sizing(feed)
+    theses_for_sizing = _load_theses()
+    source_rates_for_sizing = rates if isinstance(rates, dict) else _load_source_rates()
+    macro_for_sizing = _macro_for_sizing(feed)
     blend = weights.get("priority_blend", {})
     cap_w = float(blend.get("capital_priority_weight", 1.0))
     conv_w = float(blend.get("conviction_weight", 25.0))
@@ -152,6 +304,15 @@ def build_directive_cards(
         )
         execution = ep.plan_buy(ticker, dollars, accounts=accounts, is_etf=ticker in etfs)
         impact = _impact(dollars)
+        sizing = _caps_sizing(
+            ticker=ticker,
+            proposed_usd=dollars,
+            book=book,
+            positions=positions_for_sizing,
+            theses=theses_for_sizing,
+            macro_pulse=macro_for_sizing,
+            source_rates=source_rates_for_sizing,
+        )
         move = {
             "ticker": ticker,
             "direction": "BUY",
@@ -170,6 +331,7 @@ def build_directive_cards(
             "window": window,
             "execution": execution,
             "impact": impact,
+            "sizing": sizing,
         }
         dc.attach(
             card,
@@ -250,6 +412,19 @@ def build_directive_cards(
     # card gets a priority computed with the same blend; if a priority is
     # already attached we trust it (orphan_wiring can override).
     for card in extra_cards or []:
+        direction = str(card.get("direction") or ((card.get("decision_card") or {}).get("move") or {}).get("direction") or "").upper()
+        if direction in {"BUY", "ADD"} and not card.get("sizing"):
+            ticker = str(card.get("ticker") or "").upper()
+            dollars = float(card.get("dollars") or card.get("notional_usd") or 0.0)
+            card["sizing"] = _caps_sizing(
+                ticker=ticker,
+                proposed_usd=dollars,
+                book=book,
+                positions=positions_for_sizing,
+                theses=theses_for_sizing,
+                macro_pulse=macro_for_sizing,
+                source_rates=source_rates_for_sizing,
+            )
         if "priority" not in card:
             ticker = str(card.get("ticker") or "").upper()
             conv = card.get("conviction") or {}

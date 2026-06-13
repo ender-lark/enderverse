@@ -239,7 +239,8 @@ The V3 decision layer is **additive** to the V2 engine described above. Every V2
 Both the Python HTML renderer (`today_decide.render_today_decide_html`) and the React component (`TodayDecide.jsx` embedded by `conviction_cockpit_v6.jsx`) consume the same payload:
 
 * `payload.{built, goal_anchor, plan_line, gates[], cards[], backlog[], congruence, honesty}`
-* per card: `card.{card_id, ticker, direction, recheck_date, last_disposition, conflicts[], conviction.{read, points, groups, raises}, window.{class, deadline, reasons, flips, named_trigger}, decision_card.{move, conviction, window, evidence, impact}, execution, impact}`
+* per card: `card.{card_id, ticker, direction, recheck_date, last_disposition, conflicts[], conviction.{read, points, groups, raises}, window.{class, deadline, reasons, flips, named_trigger}, decision_card.{move, conviction, window, evidence, impact}, execution, sizing, impact}`
+* BUY/ADD cards carry `sizing.{suggested_usd, source, heat, cap_basis}` from `conviction_sizing_calibrator`; this makes caps math visible before the operator accepts the card notional.
 * per-card rail copy: `ACT <card_id>` · `PASS <card_id> — reason: ` · `RECHECK <card_id> resurface <recheck_date>` · second tap copies `UNDO <card_id>`.
 
 The parity is enforced by `src/test_jsx_parity.py`.
