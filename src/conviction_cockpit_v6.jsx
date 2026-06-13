@@ -13,7 +13,7 @@ import TodayDecide from "./TodayDecide";
 //         conviction.{read, points, groups, raises},
 //         window.{class, deadline, reasons, flips, named_trigger},
 //         decision_card.{move, conviction, window, evidence, impact},
-//         execution.{suggested, legs[], excluded[], cash}, impact}
+//         execution.{suggested, legs[], excluded[], cash}, sizing, impact}
 //
 // Rail copy strings (what the second-tap → UNDO and first-tap → verb actions
 // place on the clipboard) are the operator-facing parity surface:

@@ -134,6 +134,17 @@ def test_execution_blocks_surface_pcra_and_cash_honesty():
     pcra_legs = [l for l in mags["execution"]["legs"] if "PCRA" in l["account"]]
     assert pcra_legs and "proceeds_constraint" in pcra_legs[0]
 
+def test_buy_cards_carry_caps_sizing_payload():
+    out = _build()
+    buys = [c for c in out["cards"] + out["backlog"] if c["direction"] in {"BUY", "ADD"}]
+    assert buys
+    for card in buys:
+        sizing = card.get("sizing")
+        assert sizing["source"] == "caps"
+        assert isinstance(sizing["suggested_usd"], (int, float))
+        assert sizing["heat"]
+        assert sizing["cap_basis"]
+
 def test_honesty_footer_and_funding_passthrough():
     out = _build()
     h = out["honesty"]
