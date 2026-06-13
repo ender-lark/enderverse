@@ -1,0 +1,77 @@
+{
+  "generated_at": "2026-06-12T23:55:00Z",
+  "entries": [
+    {
+      "source_id": "fundstrat_core_stock_ideas:2026-05-28",
+      "title": "Fundstrat Core Stock Ideas 2026-05-28",
+      "ingested_at": "2026-06-12T23:55:00Z",
+      "total_sections": 7,
+      "sections": [
+        {
+          "name": "what to own",
+          "status": "distilled"
+        },
+        {
+          "name": "large-cap top 5",
+          "status": "distilled"
+        },
+        {
+          "name": "large-cap bottom 5",
+          "status": "distilled"
+        },
+        {
+          "name": "SMID top 5",
+          "status": "distilled"
+        },
+        {
+          "name": "SMID bottom 5",
+          "status": "distilled"
+        },
+        {
+          "name": "report move percentages",
+          "status": "distilled"
+        },
+        {
+          "name": "source file",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat_sector_allocation:2026-06-11",
+      "title": "Fundstrat Sector Allocation 2026-06-11",
+      "ingested_at": "2026-06-12T23:55:00Z",
+      "total_sections": 6,
+      "sections": [
+        {
+          "name": "Newton rating changes",
+          "status": "distilled"
+        },
+        {
+          "name": "Lee/Newton agreement",
+          "status": "distilled"
+        },
+        {
+          "name": "June ETF basket",
+          "status": "distilled"
+        },
+        {
+          "name": "May basket grade",
+          "status": "distilled"
+        },
+        {
+          "name": "tactical top/bottom",
+          "status": "skipped",
+          "note": "Not truly distilled in the current bible file; queued C4 should close this."
+        },
+        {
+          "name": "named levels",
+          "status": "skipped",
+          "note": "Not truly distilled in the current bible file; queued C4 should close this."
+        }
+      ],
+      "skipped_count": 2
+    }
+  ]
+}

@@ -87,6 +87,28 @@ def test_fundstrat_news_uses_future_smid_cache_when_present():
     assert not any(gap["key"] == "missing_smid_top5" for gap in news["gaps"])
 
 
+def test_fundstrat_news_surfaces_ingest_guard_findings():
+    news = build_fundstrat_news(
+        fundstrat_bible={
+            "deck_date": "2026-06-11",
+            "top5_smid": ["FN"],
+        },
+        ingest_findings=[
+            {
+                "key": "fs_ingest_partial",
+                "source_id": "fundstrat_sector_allocation:2026-06-11",
+                "line": "June Sector: 1 of 5 sections never distilled - verdicts leaning on this source are partial",
+                "next_step": "Distill tactical top/bottom.",
+            }
+        ],
+        as_of="2026-06-12",
+    )
+
+    gap = [row for row in news["gaps"] if row["key"] == "fs_ingest_partial"][0]
+    assert "never distilled" in gap["line"]
+    assert gap["source_id"] == "fundstrat_sector_allocation:2026-06-11"
+
+
 def test_if_i_were_you_is_review_only_and_uses_feed_priorities():
     feed = {
         "actions": [

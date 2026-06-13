@@ -67,19 +67,29 @@ def test_build_deck_from_text_file_and_write_outputs(tmp_path):
     src = tmp_path / "monthly.txt"
     out = tmp_path / "fundstrat_bible.json"
     summary_path = tmp_path / "fundstrat_bible_intake_summary.json"
+    inventory_path = tmp_path / "fs_ingest_inventory.json"
     src.write_text(TEXT, encoding="utf-8")
 
     deck, summary = build_deck_from_paths([src], as_of="2026-06")
-    written = write_outputs(deck, summary, out=out, summary_path=summary_path)
+    written = write_outputs(
+        deck,
+        summary,
+        out=out,
+        summary_path=summary_path,
+        inventory_path=inventory_path,
+    )
     saved = json.loads(out.read_text(encoding="utf-8"))
     saved_summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
 
     assert written["fundstrat_bible"] == str(out)
+    assert written["fs_ingest_inventory"] == str(inventory_path)
     assert saved["top5"][0]["ticker"] == "NVDA"
     assert saved["source_file"] == "monthly.txt"
     assert saved_summary["valid"] is True
     assert saved_summary["top5"] == 3
     assert saved_summary["consider"] == 0
+    assert inventory["entries"][0]["source_id"] == "fundstrat_core_stock_ideas:2026-06"
 
 
 def test_core_list_summary_statistics_is_ignored_for_now():

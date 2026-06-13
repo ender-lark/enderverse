@@ -24,6 +24,7 @@ from zoneinfo import ZoneInfo
 from collection import collect
 from collection_gate import validate_collection_gate
 from feed_assembler import assemble_feed
+import fs_ingest_guard
 from fundstrat_bible import build_fundstrat_bible_source
 from fundstrat_daily import build_fundstrat_daily_source
 from fundstrat_news import build_fundstrat_news, build_if_i_were_you
@@ -730,6 +731,7 @@ def build_full_feed_from_files(
     closes = normalize_closes_cache(closes_cache)
     macro = _load_optional(src, "macro")
     fs_bible = _load_optional(src, "fs_bible")
+    fs_ingest_inventory = _read_json(src / "fs_ingest_inventory.json", default={})
     fs_daily = _load_optional(src, "fs_daily")
     fs_intake_summary = _read_json(src / "fundstrat_intake_summary.json", default={})
     meridian = _load_optional(src, "meridian")
@@ -821,11 +823,18 @@ def build_full_feed_from_files(
 
     feed["live_source_config"] = live_source_capability.live_config_report()
     feed["source_audits"] = _build_source_audits(src, live_source_capability)
+    fs_ingest_findings = fs_ingest_guard.findings_for_bible(fs_ingest_inventory, fs_bible)
+    feed["fs_ingest_guard"] = {
+        "active_layers": fs_ingest_guard.active_bible_layers(fs_bible),
+        "findings": fs_ingest_findings,
+        "status": "warn" if fs_ingest_findings else "ok",
+    }
     feed["fundstrat_news"] = build_fundstrat_news(
         fundstrat_bible=fs_bible,
         fundstrat_daily_calls=fs_daily,
         top_prospects=top_prospects,
         intake_summary=fs_intake_summary if isinstance(fs_intake_summary, dict) else {},
+        ingest_findings=fs_ingest_findings,
         as_of=today,
     )
     feed["uw_routing"] = build_uw_routing_recommendations(feed)

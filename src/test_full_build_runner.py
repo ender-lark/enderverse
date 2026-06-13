@@ -347,6 +347,19 @@ def test_full_build_runner_threads_fundstrat_news_and_if_i_were_you(tmp_path):
         "daily_calls": 1,
         "stored_daily_calls": 1,
     })
+    _write(src / "fs_ingest_inventory.json", {
+        "entries": [
+            {
+                "source_id": "fundstrat_core_stock_ideas:2026-05-28",
+                "title": "May Core",
+                "ingested_at": "2026-06-08T14:00:00Z",
+                "sections": [
+                    {"name": "top5", "status": "distilled"},
+                    {"name": "smid top5", "status": "skipped"},
+                ],
+            }
+        ]
+    })
     _write(src / "top_prospects.json", {
         "AMD": {
             "ticker": "AMD",
@@ -372,6 +385,8 @@ def test_full_build_runner_threads_fundstrat_news_and_if_i_were_you(tmp_path):
     assert feed["fundstrat_news"]["monthly"]["top_large_cap"][0]["ticker"] == "AMD"
     assert feed["fundstrat_news"]["monthly"]["top_large_cap"][1]["add_price_label"] == "not captured"
     assert any(gap["key"] == "missing_smid_top5" for gap in feed["fundstrat_news"]["gaps"])
+    assert feed["fs_ingest_guard"]["status"] == "warn"
+    assert any(gap["key"] == "fs_ingest_partial" for gap in feed["fundstrat_news"]["gaps"])
     assert feed["if_i_were_you"]["status"] == "review_only"
     assert feed["if_i_were_you"]["rows"]
 

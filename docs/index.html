@@ -277,7 +277,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Dashboard</h1>
-      <div class="stamp" title="built 2026-06-12 19:33 ET  sourced: portfolio 06-12  uw_price 06-12  uw_macro 06-12  fundstrat_bible 06-11  fundstrat_daily 06-12">built 06-12 19:33 ET &middot; data 06-12: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
+      <div class="stamp" title="built 2026-06-12 20:02 ET  sourced: portfolio 06-12  uw_price 06-12  uw_macro 06-12  fundstrat_bible 06-11  fundstrat_daily 06-12">built 06-12 20:02 ET &middot; data 06-12: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
 
     </div>
     <div style="text-align:right">
@@ -387,10 +387,10 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">evidence: fs +0.00  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
 <div class="td-row"> funding leg - execute paired with the adds it funds (no standalone urgency)</div>
 <details><summary>what changes this</summary><div>flip: sleeve turns down or goes overexposed -> OPEN-NOW</div><div>flip: the funded add's window opens</div><div>raise: A dated entry/stop/target call (Tier A) on MAGS</div><div>raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div><div>raise: No ACTIVE insight maps MAGS - state the thesis as one if you believe it</div><div>raise: 13F/insider lane goes live in the orphan-wiring chunk</div></details>
-<div class="td-row">execute: sell $5,972 in Parents Fidelity ROTH IRA *****2650  |  tax-advantaged (no cap-gains)</div>
+<div class="td-row">execute: sell $5,972 in Parents Fidelity ROTH IRA *****2650  |  tax-advantaged Roth</div>
 <div class="td-row">execute: sell $5,842 in SKB Fidelity Individual - TOD *****1088  |  TAXABLE - gains realize</div>
-<div class="td-row">execute: sell $4,219 in Parents Fidelity ROLLOVER IRA - RamBalusu *****6333  |  tax-advantaged (no cap-gains)</div>
-<div class="td-row">execute: sell $389 in SKB Fidelity Health Savings Account *****7284  |  tax-advantaged (no cap-gains)</div>
+<div class="td-row">execute: sell $4,219 in Parents Fidelity ROLLOVER IRA - RamBalusu *****6333  |  tax-advantaged traditional</div>
+<div class="td-row">execute: sell $389 in SKB Fidelity Health Savings Account *****7284  |  tax-advantaged HSA</div>
 <div class="td-row">impact:  $16,423 (0.9% of book)  |  material: yes</div>
 </div></details>
 <details class="td-card">
@@ -8267,12 +8267,17 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   </div>
   <div class="card">
     <div class="card-title"><span class="icon">!</span> FundStrat Data Gaps</div>
-    <div class="small-list"><div class="small-item" style="color:#3fb950">No FundStrat gaps surfaced.</div></div>
+    <div class="small-list">
+<div class="small-item">
+  <strong>fs_ingest_partial</strong>
+  <span class="small-muted">Fundstrat Sector Allocation 2026-06-11: 2 of 6 sections never distilled - verdicts leaning on this source are partial</span>
+  <span class="small-muted">Next: Distill or mark empty the skipped section(s): tactical top/bottom, named levels.</span>
+</div></div>
   </div>
 
 <div class="card">
   <div class="card-title"><span class="icon">></span> If I Were You</div>
-  <div class="summary-line">If I were you: 4 review priority item(s), no execution from this section.</div>
+  <div class="summary-line">If I were you: 5 review priority item(s), no execution from this section.</div>
   <div class="summary-muted" style="font-size:11px;margin-bottom:8px">This is decision prioritization only; it does not place trades or bypass gates.</div>
   <div class="small-list">
 <div class="small-item">
@@ -8294,7 +8299,13 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="small-muted">What I would do: Use the brief as a capital-efficiency screen: choose the best current use of capital, stage if confirmed, and do not add a merely good idea ahead of a better one.</span>
 </div>
 <div class="small-item">
-  <strong>#4 Use daily Fundstrat calls as timing filters, not standalone thesis changes.</strong>
+  <strong>#4 Fix Fundstrat storage gaps before over-weighting monthly list performance.</strong>
+  <span class="small-muted">research/store | source: fundstrat_news</span>
+  <span class="small-muted">Why: Fundstrat Sector Allocation 2026-06-11: 2 of 6 sections never distilled - verdicts leaning on this source are partial</span>
+  <span class="small-muted">What I would do: Use the May 28 list as baseline context today, but backfill SMID rows and add prices before judging missed opportunity or since-added returns.</span>
+</div>
+<div class="small-item">
+  <strong>#5 Use daily Fundstrat calls as timing filters, not standalone thesis changes.</strong>
   <span class="small-muted">context/re-check | source: fundstrat_daily</span>
   <span class="small-muted">Why: The current stored daily rows are fast-decay technical/timing evidence.</span>
   <span class="small-muted">What I would do: Let them change add timing, hedge posture, or research priority only after live tape confirms the implication.</span>
