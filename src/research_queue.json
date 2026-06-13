@@ -1,39 +1,117 @@
 {
-  "generated_at": "2026-06-09T13:04:59Z",
+  "generated_at": "2026-06-13T05:10:00Z",
   "source": "research_queue_intake",
+  "research_block_updated_by": "claude-code:research-backlog-burn 2026-06-13",
+  "evidence_as_of": "2026-06-12",
   "pending": [
     {
-      "r": "AVGO - write the AI-networking and custom-ASIC thesis line when evidence is available; timing catalyst passed",
-      "pr": "low",
-      "status": "Queued",
-      "ticker": "AVGO",
-      "source": "user update 2026-06-05: important AVGO date passed"
-    },
-    {
-      "r": "BMNR - verify June preferred financing impact on mNAV and ETH-per-share flywheel",
+      "r": "GOOGL - tranche-2 context: does the priced $84.75B AI-infra financing (ATM+Berkshire) change the staged add into the 6/19 trigger?",
       "pr": "high",
-      "status": "Queued",
-      "ticker": "BMNR",
-      "notes": "Fresh BMNR 424B5/FWP/8-K filings describe 9.50% Series A preferred financing, estimated net proceeds about $273.8M, and potential use for ETH/digital assets plus staking/validator infrastructure. Check mNAV, ETH-per-share, preferred dividend coverage, and whether issuance is accretive before any conviction/add posture.",
-      "source": "SEC filings via manual off-hours alt-data scout 2026-06-09"
-    },
-    {
-      "r": "GOOGL - re-check AI infrastructure financing, ATM, and Berkshire placement implications",
-      "pr": "high",
-      "status": "Queued",
+      "status": "Working",
       "ticker": "GOOGL",
-      "notes": "GOOGL SEC 424B5 references mandatory convertible preferred/depositary shares, up-to-$40B ATM program, $10B Berkshire-affiliate private placement, and proceeds for AI infrastructure/global compute. Review dilution/cost-of-capital/capex ROI before simple add framing.",
-      "source": "SEC 424B5 via manual off-hours alt-data scout 2026-06-09"
+      "proposed_state": "WATCH",
+      "action_state": "WATCH",
+      "review_date": "2026-06-19",
+      "dossier_path": "docs/research_dossiers/googl-tranche2_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "Live Thesis 37dc5031; armed trigger googl-tranche-2-review-2026-06-19; NSPM-11 risk -> 6/14 review"
+    },
+    {
+      "r": "BMNR - verify June 9.50% preferred financing impact on mNAV and ETH-per-share flywheel before any defend/add",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "BMNR",
+      "proposed_state": "MONITOR",
+      "action_state": "MONITOR",
+      "dossier_path": "docs/research_dossiers/bmnr-preferred-financing_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "MONITOR sleeve, held $57,142; SEC filings via off-hours scout 2026-06-09"
+    },
+    {
+      "r": "WQTM - quantum generational-theme go/no-go (open since 5/27); entry case decayed ~5%, no named anchor yet",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "WQTM",
+      "proposed_state": "RESEARCH",
+      "action_state": "RESEARCH",
+      "dossier_path": "docs/research_dossiers/wqtm-quantum-go-no-go_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "Notion 36dc5031 Working; operator go/no-go overdue since 5/27"
+    },
+    {
+      "r": "HOOD - lane-vs-FS disagreement flag (Power&Policy lane vs Fundstrat); flag only, do not resolve",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "HOOD",
+      "proposed_state": "RESEARCH",
+      "action_state": "RESEARCH",
+      "dossier_path": "docs/research_dossiers/hood-lane-vs-fs_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "Power & Policy lane 37ec5031: first lane-vs-FS conflict test case"
+    },
+    {
+      "r": "AVGO - standalone AI-networking/custom-ASIC thesis line + reconcile the ~$40K untracked holding (missing from positions.json)",
+      "pr": "low",
+      "status": "Working",
+      "ticker": "AVGO",
+      "proposed_state": "RESEARCH",
+      "action_state": "RESEARCH",
+      "dossier_path": "docs/research_dossiers/avgo-standalone-thesis_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "user update 2026-06-05: AVGO date passed; untracked holding"
+    },
+    {
+      "r": "TSM - standalone thesis (geopolitical tail); IV rank ~83 prices a distinct Taiwan/semis tail vs AI peers",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "TSM",
+      "proposed_state": "RESEARCH",
+      "action_state": "RESEARCH",
+      "dossier_path": "docs/research_dossiers/tsm-geopolitical-tail_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "seed list; Geo Risk Register situation #2 (held to 6/14)"
+    },
+    {
+      "r": "CCJ - standalone uranium/nuclear-fuel thesis (Policy Money Map new name); resolve overlap vs held LEU/UUUU",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "CCJ",
+      "proposed_state": "RESEARCH",
+      "action_state": "RESEARCH",
+      "dossier_path": "docs/research_dossiers/ccj-standalone-thesis_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "Power & Policy lane 37ec5031: Policy Money Map new-name candidate"
+    },
+    {
+      "r": "USAR - standalone rare-earth thesis (Policy Money Map new name); pre-revenue developer risk, overlap vs held MP",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "USAR",
+      "proposed_state": "RESEARCH",
+      "action_state": "RESEARCH",
+      "dossier_path": "docs/research_dossiers/usar-standalone-thesis_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "Power & Policy lane 37ec5031: Policy Money Map new-name candidate"
+    },
+    {
+      "r": "AI energy / power-bottleneck thematic thesis; equity-evidence layer only (policy framing owned by Geo Risk Register, held to 6/14)",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "GEV",
+      "proposed_state": "RESEARCH",
+      "action_state": "RESEARCH",
+      "dossier_path": "docs/research_dossiers/ai-energy-power-bottleneck_2026-06-13.md",
+      "evidence_as_of": "2026-06-12",
+      "source": "seed list; Geo Risk Register situation #6 (held to 6/14)"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 2,
-    "pending": 2,
+    "input_rows": 9,
+    "pending": 9,
     "done": 0,
+    "killed": 0,
     "skipped": 0,
-    "merged": true,
-    "stored_pending": 3,
-    "stored_done": 0
+    "note": "Research block rebuilt by the 2026-06-13 backlog burn (Claude Code). Each pending row links a dossier under docs/research_dossiers/. Evidence as-of 2026-06-12 close. See docs/research_dossiers/INDEX.md and TRIAGE_2026-06-13.md."
   }
 }
