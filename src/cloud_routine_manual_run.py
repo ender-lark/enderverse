@@ -38,6 +38,10 @@ def _python(*args: str) -> list[str]:
     return [sys.executable, *args]
 
 
+def _trigger_check_dry_run() -> Step:
+    return Step("trigger check dry-run", _python("src/trigger_check.py", "--dry-run", "--format", "text"))
+
+
 def _read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -211,6 +215,7 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
                 Step("uw action runbook", _python("src/uw_action_runbook.py", "--feed", "src/latest_cockpit_feed.json", "--format", "text")),
                 Step("uw endpoint result capture", _python("src/uw_endpoint_result_capture.py", "--feed", "src/latest_cockpit_feed.json", "--out", "src/uw_endpoint_results.json", "--timeout", "8", "--retries", "1")),
                 Step("uw endpoint result proof", _python("src/uw_endpoint_result_proof.py", "--results", "src/uw_endpoint_results.json", "--runbook", "src/latest_cockpit_feed.json", "--format", "text")),
+                _trigger_check_dry_run(),
                 Step("post-open dashboard refresh", _python("src/live_dashboard_refresh.py")),
             ],
         ),
@@ -221,6 +226,7 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
                 Step("fundstrat cache validate", _python("src/fundstrat_email_intake.py", "--validate", "src")),
                 Step("fundstrat alert dry-run", _python("src/fundstrat_daytime_alert.py", "--dry-run", "--format", "text")),
                 Step("pushover config self-test", _python("src/pushover_notify.py", "--self-test", "--dry-run", "--format", "text")),
+                _trigger_check_dry_run(),
             ],
         ),
         Routine("investing-os-uw-opportunity-cache", "UW opportunity cache manual run completed", opportunity_steps),
@@ -242,7 +248,10 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
         Routine(
             "investing-os-post-close-refresh",
             "post-close manual run refreshed dashboard artifacts",
-            [Step("post-close dashboard refresh", _python("src/live_dashboard_refresh.py"))],
+            [
+                _trigger_check_dry_run(),
+                Step("post-close dashboard refresh", _python("src/live_dashboard_refresh.py")),
+            ],
         ),
         Routine(
             "investing-os-fs-inbox-catch-up-postclose",

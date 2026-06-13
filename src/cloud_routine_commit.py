@@ -44,6 +44,8 @@ DEFAULT_ALLOWED_PATHS = [
     "src/fundstrat_daytime_alert_state.json",
     "src/fundstrat_bible.json",
     "src/fs_ingest_inventory.json",
+    "src/trigger_registry.json",
+    "src/trigger_check_summary.json",
     "src/fundstrat_inbox_entries.json",
     "src/fundstrat_intake_state.json",
     "src/fundstrat_intake_summary.json",

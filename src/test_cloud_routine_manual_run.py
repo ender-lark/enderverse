@@ -134,3 +134,14 @@ def test_default_manual_routines_cover_expected_cloud_stack():
     expected_ids = {row["automation_id"] for row in cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS}
 
     assert expected_ids <= manual_ids
+
+
+def test_trigger_check_is_wired_into_trigger_sensitive_manual_routines():
+    routines = {routine.routine_id: routine for routine in cloud_routine_manual_run.default_routines()}
+    for routine_id in (
+        "investing-os-post-open-evidence-gate",
+        "investing-os-fundstrat-daytime-watch",
+        "investing-os-post-close-refresh",
+    ):
+        commands = [" ".join(step.command or []) for step in routines[routine_id].steps]
+        assert any("trigger_check.py" in command and "--dry-run" in command for command in commands)

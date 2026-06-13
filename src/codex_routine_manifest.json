@@ -58,6 +58,11 @@
           "fallback_for": "daytime Pushover alerting after compact full-body-derived rows are merged and validated"
         },
         {
+          "id": "trigger_check_after_daytime_watch",
+          "command": "python src/trigger_check.py --write --send --routine-id investing-os-fundstrat-daytime-watch --format text",
+          "fallback_for": "missed-trigger guard after daytime Fundstrat evidence is merged and validated"
+        },
+        {
           "id": "monthly_pdf_upload",
           "command": "python src/fundstrat_bible_intake.py <monthly-pdf-or-text-or-json> --out src/fundstrat_bible.json --summary src/fundstrat_bible_intake_summary.json --merge-existing --top-prospects src/top_prospects.json"
         },
@@ -529,6 +534,11 @@
         {
           "id": "refresh_live_dashboard",
           "command": "python src/live_dashboard_refresh.py"
+        },
+        {
+          "id": "trigger_check_before_post_close_refresh",
+          "command": "python src/trigger_check.py --write --send --routine-id investing-os-post-close-refresh --format text",
+          "fallback_for": "post-close missed-trigger guard before the dashboard render consumes trigger_check_summary.json"
         }
       ],
       "verification": "python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py src/test_live_dashboard_refresh.py -q",

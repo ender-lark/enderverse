@@ -72,15 +72,19 @@ This is the main replacement for Claude's FULL-build prompt.
    For the local live dashboard path, prefer the one-command refresh:
 
    ```bash
+   python src/trigger_check.py --write --send --routine-id investing-os-post-close-refresh --format text
    python src/live_dashboard_refresh.py
    ```
 
-   This writes heartbeat status, publishes a feed, refreshes repo-evidence
-   Daily Synthesis from that feed, republishes, and renders both the canonical
-   JSX artifact and the summary/preview HTML. The final JSON summary is the
-   operator readout: it includes `go_live_ready`, required-input status, live
-   market-data status, action count/top actions, data-lane count, dark lanes,
-   source-call calibration status, and the preview path.
+   The trigger check should run before the render when this is the 4:30 PM ET
+   post-close refresh, so `trigger_check_summary.json` is visible in the
+   dashboard source-audit row. The dashboard refresh writes heartbeat status,
+   publishes a feed, refreshes repo-evidence Daily Synthesis from that feed,
+   republishes, and renders both the canonical JSX artifact and the
+   summary/preview HTML. The final JSON summary is the operator readout: it
+   includes `go_live_ready`, required-input status, live market-data status,
+   action count/top actions, data-lane count, dark lanes, source-call
+   calibration status, trigger-check status, and the preview path.
 
    Current default local dashboard:
 
@@ -113,6 +117,7 @@ This is the main replacement for Claude's FULL-build prompt.
    - research-action count
    - dark-lane count
    - stale/failed source count
+   - trigger-check fired/not_checked count
    - `go_live_ready`
    - whether `open_opportunities.json` was updated
 14. If open action-memory items remain after operator review, list or resolve

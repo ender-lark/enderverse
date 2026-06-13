@@ -388,7 +388,12 @@ Important recent state:
 - `src/cloud_routine_runner.py` wraps deterministic repo-local commands with
   guaranteed started/final receipts. Use it for Full Cockpit Build and
   Post-Close Refresh, e.g.
+  run `python src/trigger_check.py --write --send --routine-id investing-os-post-close-refresh --format text`
+  before the render, then
   `python src/cloud_routine_runner.py --run-source scheduled --routine-id investing-os-post-close-refresh --success-summary "post-close refresh succeeded" --failure-summary "post-close refresh failed" -- python src/live_dashboard_refresh.py`.
+  Post-Open Evidence Gate should run the same trigger check with
+  `--routine-id investing-os-post-open-evidence-gate` before its dashboard
+  refresh; Fundstrat Daytime Watch should run it after daytime alert handling.
 - `src/cloud_routine_drill.py --format text --strict` is a safe non-mutating
   full-stack runner drill. By default it runs every expected cloud routine id
   through scheduled-style receipt mechanics in a temp store and verifies the

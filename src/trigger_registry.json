@@ -1,0 +1,68 @@
+[
+  {
+    "id": "ewre-weekly-close-above-38-2026-06",
+    "ticker": "EWRE",
+    "condition": {
+      "type": "price_cross",
+      "params": {
+        "field": "weekly_close",
+        "direction": "above",
+        "level": 38
+      }
+    },
+    "source": "Fundstrat June 2026 Sector Allocation / Newton REIT breakout: EWRE weekly close above 38 confirms the REIT breakout layer.",
+    "registered_at": "2026-06-13T00:35:00Z",
+    "expires": "2026-07-12",
+    "status": "armed"
+  },
+  {
+    "id": "googl-tranche-2-review-2026-06-19",
+    "ticker": "GOOGL",
+    "condition": {
+      "type": "date_event",
+      "params": {
+        "date": "2026-06-19",
+        "event": "tranche_2_review",
+        "note": "Fires on +1 week price/flow confirmation unless the next FS stock-ideas deck re-confirms GOOGL earlier; if the next deck drops GOOGL, stop at 3.7% and reassess."
+      }
+    },
+    "source": "Live Thesis 37dc50314bb681738ff3e12f39893b7e: GOOGL tranche-2 trigger for staged 6/12 entry.",
+    "registered_at": "2026-06-13T00:35:00Z",
+    "expires": "2026-06-23",
+    "status": "armed"
+  },
+  {
+    "id": "asts-reentry-zone-65-70",
+    "ticker": "ASTS",
+    "condition": {
+      "type": "level_touch",
+      "params": {
+        "zone_low": 65,
+        "zone_high": 70,
+        "low_field": "intraday_low",
+        "high_field": "intraday_high"
+      }
+    },
+    "source": "Live Thesis ASTS 360c50314bb681248c7cec9d39a76b84: operator re-entry zone 65-70.",
+    "registered_at": "2026-06-13T00:35:00Z",
+    "expires": "2026-07-31",
+    "status": "armed"
+  },
+  {
+    "id": "rklb-reentry-zone-85-90",
+    "ticker": "RKLB",
+    "condition": {
+      "type": "level_touch",
+      "params": {
+        "zone_low": 85,
+        "zone_high": 90,
+        "low_field": "intraday_low",
+        "high_field": "intraday_high"
+      }
+    },
+    "source": "Live Thesis RKLB 360c50314bb6812e810aee762397e9c8: operator re-entry zone 85-90.",
+    "registered_at": "2026-06-13T00:35:00Z",
+    "expires": "2026-08-06",
+    "status": "armed"
+  }
+]

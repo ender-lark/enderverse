@@ -10,8 +10,10 @@ Covers:
 * `morning_scan.load_parabolic_tickers` — pulls flagged tickers from
   parabolic_setups.json shape.
 * The cloud-routine commit allowlist registers the V3 state files
-  (dispositions.jsonl, timing_gates.json, prediction_signals.json).
+  (dispositions.jsonl, timing_gates.json, prediction_signals.json) and the
+  trigger registry artifacts.
 * `state_ownership_map.json` registers dispositions + prediction_signals
+  + trigger_registry
   with the required ownership fields and still validates.
 """
 from __future__ import annotations
@@ -42,6 +44,8 @@ def test_cloud_routine_allowlist_includes_v3_state_files():
     assert "src/dispositions.jsonl" in paths
     assert "src/timing_gates.json" in paths
     assert "src/prediction_signals.json" in paths
+    assert "src/trigger_registry.json" in paths
+    assert "src/trigger_check_summary.json" in paths
 
 
 def test_cloud_routine_allowlist_preserves_v2_entries():
@@ -71,6 +75,7 @@ def test_state_ownership_map_registers_v3_artifacts():
     assert "dispositions" in ids
     assert "prediction_signals" in ids
     assert "timing_gates" in ids
+    assert "trigger_registry" in ids
 
 
 def test_state_ownership_map_still_validates_after_v3_additions():

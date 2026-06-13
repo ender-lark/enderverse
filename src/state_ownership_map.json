@@ -319,6 +319,18 @@
       "not_checked_behavior": "Missing event-risk scan is not checked, not no event risk.",
       "action_surface": "High and critical event risks promote to exposure-review actions only; they do not create buy/sell orders."
     },
+    {
+      "id": "trigger_registry",
+      "source_of_truth": "operator_trigger_registration",
+      "repo_artifact": "src/trigger_registry.json",
+      "producer": "trigger_check.py registration helpers plus routine-specific trigger registration",
+      "feed_path": "full_build_runner -> source_audits.trigger_registry",
+      "dashboard_surface": "Source proof and audits trigger-registry row",
+      "mirror_policy": "GitHub stores non-secret trigger conditions and fired/expired state; routines may update only through trigger_check.py and the cloud commit allowlist.",
+      "freshness_contract": "Fundstrat Daytime Watch, Post-Open Evidence Gate, and Post-Close Refresh run trigger_check.py; fired rows are one-shot and append a receipt.",
+      "not_checked_behavior": "Missing trigger-check summary or missing quote data stays not_checked; never infer no triggers fired.",
+      "action_surface": "Creates review prompts and push alerts only; it does not execute trades."
+    },
   {
       "id": "system_improvement_queue",
       "source_of_truth": "github",
