@@ -36,6 +36,7 @@ def _payload():
                             "id": "acct-1",
                             "name": "Taxable",
                             "institution_name": "Fidelity",
+                            "balance": {"total": {"amount": 450}},
                         },
                         "positions": [{**_symbol("NVDA"), "units": 2, "price": 200}],
                         "option_positions": [],
@@ -101,6 +102,93 @@ def test_book_refresh_no_promote_leaves_live_files_untouched(tmp_path, monkeypat
     assert report["promoted"] is False
     assert json.loads(positions.read_text(encoding="utf-8"))["snapshot_date"] == "old"
     assert (tmp_path / "snaptrade_positions.staged.json").is_file()
+
+
+def test_book_refresh_warns_on_stated_balance_mismatch_with_missing_ticker_detail(tmp_path, monkeypatch):
+    payload = _payload()
+    payload["profiles"][0]["accounts"][0]["account"]["balance"]["total"]["amount"] = 15373
+    prior_account = tmp_path / "account_positions.json"
+    prior_account.write_text(json.dumps({
+        "snapshot_date": "2026-06-07",
+        "account_positions": [
+            {
+                "ticker": "AVGO",
+                "shares": 40,
+                "market_value": 15423,
+                "account": "Taxable",
+                "owner": "SKB",
+                "broker": "Fidelity",
+                "tracked": False,
+            }
+        ],
+    }), encoding="utf-8")
+    _patch_snaptrade(monkeypatch, payload=payload)
+    theses = tmp_path / "theses.json"
+    theses.write_text(json.dumps([{"ticker": "NVDA"}]), encoding="utf-8")
+
+    report = sbr.build_staged_book(
+        profiles_path=tmp_path / "profiles.json",
+        theses_path=theses,
+        raw_out=tmp_path / "raw.json",
+        combined_out=tmp_path / "combined.json",
+        positions_out=tmp_path / "positions.json",
+        account_out=prior_account,
+        reconcile_out=tmp_path / "position_reconciliation.json",
+    )
+
+    assert report["promoted"] is True
+    assert report["stated_balance_findings"]
+    warning = report["warnings"][0]
+    assert "stated-balance mismatch" in warning
+    assert "delta -14,923.00" in warning
+    assert "AVGO missing (prior $15,423.00)" in warning
+    finding = report["stated_balance_findings"][0]
+    assert finding["missing_tickers"][0] == {"ticker": "AVGO", "prior_market_value": 15423.0}
+
+
+def test_book_refresh_strict_blocks_stated_balance_mismatch(tmp_path, monkeypatch):
+    payload = _payload()
+    payload["profiles"][0]["accounts"][0]["account"]["balance"]["total"]["amount"] = 15373
+    _patch_snaptrade(monkeypatch, payload=payload)
+    theses = tmp_path / "theses.json"
+    theses.write_text(json.dumps([{"ticker": "NVDA"}]), encoding="utf-8")
+    positions = tmp_path / "positions.json"
+    positions.write_text(json.dumps({"snapshot_date": "old", "positions": []}), encoding="utf-8")
+    prior_account = tmp_path / "account_positions.json"
+    prior_account.write_text(json.dumps({
+        "snapshot_date": "2026-06-07",
+        "account_positions": [
+            {
+                "ticker": "AVGO",
+                "shares": 40,
+                "market_value": 15423,
+                "account": "Taxable",
+                "owner": "SKB",
+                "broker": "Fidelity",
+                "tracked": False,
+            }
+        ],
+    }), encoding="utf-8")
+
+    try:
+        sbr.build_staged_book(
+            profiles_path=tmp_path / "profiles.json",
+            theses_path=theses,
+            raw_out=tmp_path / "raw.json",
+            combined_out=tmp_path / "combined.json",
+            positions_out=positions,
+            account_out=prior_account,
+            reconcile_out=tmp_path / "position_reconciliation.json",
+            strict=True,
+        )
+    except sbr.BookRefreshError as exc:
+        message = str(exc)
+    else:
+        raise AssertionError("expected stated-balance mismatch to fail in strict mode")
+
+    assert "stated-balance validation failed" in message
+    assert "AVGO missing (prior $15,423.00)" in message
+    assert json.loads(positions.read_text(encoding="utf-8"))["snapshot_date"] == "old"
 
 
 def test_book_refresh_stops_before_promote_when_combined_invalid(tmp_path, monkeypatch):
