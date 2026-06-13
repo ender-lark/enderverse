@@ -303,6 +303,21 @@ def balances_cash(balances: list[dict[str, Any]]) -> float:
     return total
 
 
+def account_reported_total(account: dict[str, Any]) -> float | None:
+    """Return the broker-stated account total when SnapTrade exposes it."""
+    candidates = [
+        _nested(account, ["balance", "total", "amount"]),
+        _nested(account, ["balance", "amount"]),
+        account.get("total_value"),
+        account.get("market_value"),
+    ]
+    for value in candidates:
+        number = _json_number(value)
+        if number is not None:
+            return number
+    return None
+
+
 def build_combined_from_snaptrade(payload: dict[str, Any],
                                   *,
                                   as_of: str | None = None,
@@ -334,11 +349,17 @@ def build_combined_from_snaptrade(payload: dict[str, Any],
 
             market_value = sum(float(p.get("market_value") or 0.0) for p in positions)
             cash = balances_cash(account.get("balances", []) or [])
+            reported_total = account_reported_total(account_row)
             total_market_value += market_value
             total_cash += cash
             if not positions:
                 warnings.append(f"{owner}/{broker}/{account_name}: no positions returned")
-            files.append({
+            validation = {
+                "passed": True,
+                "positions_found": len(positions),
+                "source": "snaptrade",
+            }
+            file_row = {
                 "source_file": f"snaptrade://{owner}/{broker}/{account_row.get('id') or account_name}",
                 "broker": broker,
                 "owner": owner,
@@ -346,12 +367,12 @@ def build_combined_from_snaptrade(payload: dict[str, Any],
                 "positions_scope": "account",
                 "positions": positions,
                 "cash": round(cash, 2),
-                "validation": {
-                    "passed": True,
-                    "positions_found": len(positions),
-                    "source": "snaptrade",
-                },
-            })
+                "validation": validation,
+            }
+            if reported_total is not None:
+                file_row["reported_total"] = round(reported_total, 2)
+                validation["reported_total"] = round(reported_total, 2)
+            files.append(file_row)
 
     return {
         "schema_version": "2.0",
