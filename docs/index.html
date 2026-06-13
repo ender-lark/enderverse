@@ -57,6 +57,26 @@ a{color:#58a6ff;text-decoration:none}
 .stale{background:#2b1e0a;color:#d29922;border:1px solid #9e6a03}
 .down{background:#2b0d0d;color:#f85149;border:1px solid #da3633}
 
+/* held decisions strip */
+.held-strip{border-color:#d2992255;background:#1f1a11}
+.held-title-badge{margin-left:auto;border:1px solid #8b6f2f;border-radius:999px;
+  padding:1px 7px;color:#f2cc60;background:#3b2c12;font-family:monospace}
+.held-row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;
+  border-left:4px solid #484f58;background:#0d1117;border-radius:7px;
+  padding:9px 10px;margin-top:7px}
+.held-main{min-width:0}
+.held-main a{color:#c9d1d9;font-weight:700}
+.held-main a:hover{color:#58a6ff}
+.held-meta{font-size:11px;color:#8b949e;margin-top:3px}
+.held-date{white-space:nowrap;font-size:11px;font-family:monospace}
+.held-green{border-left-color:#238636}
+.held-green .held-date{color:#7ee787}
+.held-amber{border-left-color:#d29922}
+.held-amber .held-date{color:#f2cc60}
+.held-red{border-left-color:#da3633}
+.held-red .held-date{color:#ff7b72}
+.held-warning{border-color:#d2992255;background:#3b2c121f}
+
 /* summary/export honesty */
 .summary-caveat{border-left:3px solid #d29922}
 .summary-line{font-size:12px;color:#c9d1d9;margin-bottom:5px}
@@ -375,6 +395,8 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">excluded: PCRA Trust ...651 PCRA Trust ...65... - PCRA is ETF-ONLY - individual stocks cannot trade here (hard rule)</div>
 <div class="td-row">excluded: Robinhood Crypto 8794 - crypto-only account</div>
 <div class="td-row">cash: not_checked - cash balances are not in the positions cache; confirm buying power before placing</div>
+<div class="td-row">sizing: caps suggested $0  |  heat ABOVE_CAP</div>
+<div class="td-row">cap basis: T2 floor 4.0% ($74,750) / ceiling 7.0% ($130,813); current 8.5% ($159,460); cap room $0; floor gap $0</div>
 <div class="td-row">impact:  $46,102 (2.5% of book)  |  material: yes</div>
 </div></details>
 <details class="td-card td-conflicted">
@@ -407,6 +429,8 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">excluded: PCRA Trust ...651 PCRA Trust ...65... - PCRA is ETF-ONLY - individual stocks cannot trade here (hard rule)</div>
 <div class="td-row">excluded: Robinhood Crypto 8794 - crypto-only account</div>
 <div class="td-row">cash: not_checked - cash balances are not in the positions cache; confirm buying power before placing</div>
+<div class="td-row">sizing: caps suggested $0  |  heat ABOVE_CAP</div>
+<div class="td-row">cap basis: T3 floor 1.5% ($28,031) / ceiling 3.0% ($56,062); current 3.2% ($60,014); cap room $0; floor gap $0; flags no_thesis_row</div>
 <div class="td-row">impact:  $149,500 (8.0% of book)  |  material: yes</div>
 </div></details>
 <details><summary>Backlog (7)</summary>
@@ -422,6 +446,34 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-cong"> INSIGHT-002  |  named $4,211 (0.23%) - TSM</div>
 <div class="td-honesty">cash: not_checked - no cash rows in positions cache<br/>institutional: not wired (orphan-wiring chunk)<br/>uw_same_session: none provided this session<br/>gates_as_of: 2026-06-11<br/>positions_as_of: 2026-06-12<br/>dispositions: none logged yet (C6 spine pending)</div>
 </section>
+
+<div class="card held-strip" id="held-decisions">
+  <div class="card-title"><span class="icon">&#9203;</span> Held for you
+    <span class="held-title-badge">3</span>
+  </div>
+
+  <div class="held-row held-green">
+    <div class="held-main">
+      <a href="https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4">Full-book rebalance (Council synthesis)</a>
+      <div class="held-meta">parked 2026-06-13 | status held</div>
+    </div>
+    <div class="held-date">review 2026-06-14</div>
+  </div>
+  <div class="held-row held-green">
+    <div class="held-main">
+      <a href="https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d">Geo Risk Register v0 (Power &amp; Policy)</a>
+      <div class="held-meta">parked 2026-06-13 | status held</div>
+    </div>
+    <div class="held-date">review 2026-06-14</div>
+  </div>
+  <div class="held-row held-green">
+    <div class="held-main">
+      <a href="https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959">Policy Money Map v0 (Power &amp; Policy)</a>
+      <div class="held-meta">parked 2026-06-13 | status held</div>
+    </div>
+    <div class="held-date">review 2026-06-14</div>
+  </div>
+</div>
 
 <div class="card summary-caveat">
   <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
@@ -965,6 +1017,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
 
+
   <div class="operator-event-watch">
     <div class="operator-label">Active event watch</div>
     <div class="operator-event-title">Middle East oil/rates shock can affect new-buy timing</div>
@@ -1272,6 +1325,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="audit-row">
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
+
   <div class="feedback-line">Background scheduled receipts pending: Investing OS FS Inbox Catch-up Preopen, Investing OS FS Inbox Catch-up Postclose, Investing OS Positions Sync, Investing OS Off-Hours Alt-Data Scout, Investing OS Off-Hours Queue Buffer, Investing OS Top Prospects Auto-Research +2 more</div>
   <div class="feedback-line">UW next checks: Pre-market crash triage: High-volatility or re-check posture needs broad tape triage before single-name action. [MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, ETF_TIDE, SECTOR_TIDE]<br>Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Portfolio reallocation: Sizing-gap actions need current exposure, funding, factor, and flow checks. [TICKER_OHLC, TICKER_STOCK_STATE, TICKER_INFO, ETF_TIDE, SECTOR_TIDE]</div>
 </div>

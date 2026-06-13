@@ -35,6 +35,7 @@ ET = ZoneInfo("America/New_York")
 DEFERRED_OPTIONAL_SOURCE_KEYS = {"social_watch"}
 ACCOUNT_POSITIONS_PATH = Path(__file__).with_name("account_positions.json")
 FUNDSTRAT_BIBLE_PATH = Path(__file__).with_name("fundstrat_bible.json")
+HELD_DECISIONS_PATH = Path(__file__).with_name("held_decisions.json")
 
 
 def _fmt_et_stamp(value: Any) -> str:
@@ -305,6 +306,26 @@ a{color:#58a6ff;text-decoration:none}
 .stale{background:#2b1e0a;color:#d29922;border:1px solid #9e6a03}
 .down{background:#2b0d0d;color:#f85149;border:1px solid #da3633}
 
+/* held decisions strip */
+.held-strip{border-color:#d2992255;background:#1f1a11}
+.held-title-badge{margin-left:auto;border:1px solid #8b6f2f;border-radius:999px;
+  padding:1px 7px;color:#f2cc60;background:#3b2c12;font-family:monospace}
+.held-row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;
+  border-left:4px solid #484f58;background:#0d1117;border-radius:7px;
+  padding:9px 10px;margin-top:7px}
+.held-main{min-width:0}
+.held-main a{color:#c9d1d9;font-weight:700}
+.held-main a:hover{color:#58a6ff}
+.held-meta{font-size:11px;color:#8b949e;margin-top:3px}
+.held-date{white-space:nowrap;font-size:11px;font-family:monospace}
+.held-green{border-left-color:#238636}
+.held-green .held-date{color:#7ee787}
+.held-amber{border-left-color:#d29922}
+.held-amber .held-date{color:#f2cc60}
+.held-red{border-left-color:#da3633}
+.held-red .held-date{color:#ff7b72}
+.held-warning{border-color:#d2992255;background:#3b2c121f}
+
 /* summary/export honesty */
 .summary-caveat{border-left:3px solid #d29922}
 .summary-line{font-size:12px;color:#c9d1d9;margin-bottom:5px}
@@ -538,6 +559,78 @@ def _heartbeat(hb: list) -> str:
 <div class="card">
   <div class="card-title"><span class="icon">📡</span> System layers</div>
   <div class="hb">{badges}</div>
+</div>"""
+
+
+def _operator_date(now: Any = None) -> datetime.date:
+    if now is None:
+        return datetime.now(ET).date()
+    if isinstance(now, datetime):
+        parsed = now
+    else:
+        text = str(now).strip()
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(text)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=ET)
+    return parsed.astimezone(ET).date()
+
+
+def _held_review_tone(review_by: Any, today: datetime.date) -> str:
+    try:
+        review_date = datetime.fromisoformat(str(review_by or "")[:10]).date()
+    except ValueError:
+        return "red"
+    if review_date > today:
+        return "green"
+    if review_date == today:
+        return "amber"
+    return "red"
+
+
+def _held_decisions_strip(path: str | Path | None = None, *, now: Any = None) -> str:
+    path = HELD_DECISIONS_PATH if path is None else Path(path)
+    try:
+        payload = json.loads(Path(path).read_text(encoding="utf-8-sig"))
+        if not isinstance(payload, list):
+            raise ValueError("held decisions must be a list")
+    except Exception:
+        return """
+<div class="card held-warning" id="held-decisions">
+  <div class="feedback-line">held decisions: not checked</div>
+</div>"""
+
+    rows = [
+        row for row in payload
+        if isinstance(row, dict) and str(row.get("status") or "") in {"held", "reparked"}
+    ]
+    if not rows:
+        return ""
+    today = _operator_date(now)
+    rows.sort(key=lambda row: (str(row.get("review_by") or ""), str(row.get("title") or "")))
+    rendered = []
+    for row in rows:
+        tone = _held_review_tone(row.get("review_by"), today)
+        title = _e(row.get("title") or row.get("id") or "held decision")
+        url = _e(row.get("notion_url") or "#")
+        review_by = _e(row.get("review_by") or "unknown")
+        parked = _e(row.get("parked_date") or "unknown")
+        status = _e(row.get("status") or "held")
+        rendered.append(f"""
+  <div class="held-row held-{tone}">
+    <div class="held-main">
+      <a href="{url}">{title}</a>
+      <div class="held-meta">parked {parked} | status {status}</div>
+    </div>
+    <div class="held-date">review {review_by}</div>
+  </div>""")
+    return f"""
+<div class="card held-strip" id="held-decisions">
+  <div class="card-title"><span class="icon">&#9203;</span> Held for you
+    <span class="held-title-badge">{len(rows)}</span>
+  </div>
+{''.join(rendered)}
 </div>"""
 
 
@@ -2855,6 +2948,7 @@ def generate_html(feed: dict) -> str:
         weights=load_conviction_weights(),
         goal=load_goal_tunables(),
     )
+    held_decisions_html = _held_decisions_strip()
     summary_html = _summary_notice(feed)
     quick_html = _quick_nav(feed)
     operator_html = _operator_status(feed)
@@ -2931,6 +3025,7 @@ def generate_html(feed: dict) -> str:
 
   <div id="tab-dashboard">
     {today_decide_html}
+    {held_decisions_html}
     {summary_html}
     {quick_html}
     {market_open_packet_html}

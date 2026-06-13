@@ -13,7 +13,7 @@ import json
 import math
 import os
 import tempfile
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "src" / "trigger_registry.json"
 DEFAULT_SUMMARY = ROOT / "src" / "trigger_check_summary.json"
 DEFAULT_RECEIPTS = ROOT / "src" / "cloud_routine_receipts.json"
+DEFAULT_HELD_DECISIONS = ROOT / "src" / "held_decisions.json"
 
 ARMED_STATUSES = {"armed", "active"}
 TERMINAL_STATUSES = {"fired", "expired", "cancelled"}
@@ -141,6 +142,23 @@ def load_quote_cache(src_dir: str | Path = ROOT / "src") -> dict[str, Any]:
                 elif isinstance(series, dict):
                     quotes[str(ticker).upper()] = dict(series)
     return quotes
+
+
+def load_held_decision_statuses(path: str | Path = DEFAULT_HELD_DECISIONS) -> dict[str, str]:
+    path = Path(path)
+    if not path.is_file():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    if not isinstance(payload, list):
+        raise ValueError("held decisions file must be a JSON array")
+    statuses: dict[str, str] = {}
+    for row in payload:
+        if not isinstance(row, dict):
+            continue
+        decision_id = str(row.get("id") or "").strip()
+        if decision_id:
+            statuses[decision_id] = str(row.get("status") or "").strip().lower()
+    return statuses
 
 
 def quote_fn_from_map(quotes: dict[str, Any]) -> Callable[[str], Any]:
@@ -302,13 +320,58 @@ def _evaluate_date_event(row: dict[str, Any], as_of: datetime) -> tuple[bool, st
     return fired, f"date_event due {event_date.isoformat()}" if fired else None
 
 
+def _held_review_params(row: dict[str, Any]) -> dict[str, Any] | None:
+    condition = row.get("condition") if isinstance(row.get("condition"), dict) else {}
+    if str(condition.get("type") or "") != "date_event":
+        return None
+    params = condition.get("params") if isinstance(condition.get("params"), dict) else {}
+    if str(params.get("event") or "") != "held_decision_review":
+        return None
+    return params
+
+
+def _held_decision_id(row: dict[str, Any], params: dict[str, Any]) -> str:
+    return str(params.get("held_decision_id") or str(row.get("id") or "").removeprefix("held-review-")).strip()
+
+
+def _evaluate_held_review_overdue(
+    row: dict[str, Any],
+    as_of: datetime,
+    held_decision_statuses: dict[str, str],
+) -> dict[str, Any] | None:
+    params = _held_review_params(row)
+    if not params:
+        return None
+    review_date = _date_from_text(params.get("date") or params.get("event_date"))
+    if review_date is None:
+        return None
+    decision_id = _held_decision_id(row, params)
+    if held_decision_statuses.get(decision_id) != "held":
+        return None
+    overdue_date = review_date + timedelta(days=1)
+    if as_of.date() < overdue_date:
+        return None
+    if row.get("overdue_escalated_at"):
+        return None
+    row["overdue_escalated_at"] = as_of.isoformat().replace("+00:00", "Z")
+    row["overdue_escalated_on"] = as_of.date().isoformat()
+    row["overdue_reason"] = f"held decision still held one day after review_by {review_date.isoformat()}"
+    return {
+        **_trigger_base(row),
+        "status": "fired",
+        "fire_reason": row["overdue_reason"],
+    }
+
+
 def evaluate_registry(
     registry: list[dict[str, Any]],
     quote_fn: Callable[[str], Any],
     *,
     as_of: Any = None,
+    held_decision_statuses: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     checked_at = _as_datetime(as_of)
+    held_decision_statuses = held_decision_statuses or {}
     fired: list[dict[str, Any]] = []
     not_checked: list[dict[str, Any]] = []
     expired: list[dict[str, Any]] = []
@@ -318,6 +381,9 @@ def evaluate_registry(
         status = str(row.get("status") or "armed").lower()
         base = _trigger_base(row)
         if status in TERMINAL_STATUSES:
+            overdue = _evaluate_held_review_overdue(row, checked_at, held_decision_statuses)
+            if overdue:
+                fired.append(overdue)
             continue
         if status not in ARMED_STATUSES:
             not_checked.append({**base, "reason": f"unsupported status {status}"})
@@ -359,7 +425,11 @@ def evaluate_registry(
         if did_fire:
             row["status"] = "fired"
             row["fired_at"] = checked_at.isoformat().replace("+00:00", "Z")
-            row["fire_reason"] = reason or "condition fired"
+            if _held_review_params(row):
+                decision_title = ((row.get("condition") or {}).get("params") or {}).get("title") or "held decision"
+                row["fire_reason"] = f"held decision review due: {decision_title}"
+            else:
+                row["fire_reason"] = reason or "condition fired"
             fired.append({**_trigger_base(row), "status": "fired", "fire_reason": row["fire_reason"]})
 
     armed_count = sum(1 for row in registry if str(row.get("status") or "armed").lower() in ARMED_STATUSES)
@@ -491,6 +561,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--registry", default=str(DEFAULT_REGISTRY))
     parser.add_argument("--summary", default=str(DEFAULT_SUMMARY))
     parser.add_argument("--src-dir", default=str(ROOT / "src"))
+    parser.add_argument("--held-decisions", default=str(DEFAULT_HELD_DECISIONS))
     parser.add_argument("--quotes-json", help="Optional quote map JSON keyed by ticker")
     parser.add_argument("--write", action="store_true", help="Persist registry state and trigger summary")
     parser.add_argument("--send", action="store_true", help="Send Pushover notification when triggers fire")
@@ -505,7 +576,13 @@ def main(argv: list[str] | None = None) -> int:
     registry = load_registry(args.registry)
     original_registry = copy.deepcopy(registry)
     quotes = load_quotes(args.quotes_json) if args.quotes_json else load_quote_cache(args.src_dir)
-    report = evaluate_registry(registry, quote_fn_from_map(quotes), as_of=args.as_of)
+    held_decision_statuses = load_held_decision_statuses(args.held_decisions)
+    report = evaluate_registry(
+        registry,
+        quote_fn_from_map(quotes),
+        as_of=args.as_of,
+        held_decision_statuses=held_decision_statuses,
+    )
 
     delivery_failed = False
     if args.send and report.get("fired"):
