@@ -82,5 +82,35 @@
     "summary": "Fundstrat noted narrow semiconductor/AI leadership, oil swings, and a potential breadth shift as a rotation risk to monitor rather than an all-clear tape read.",
     "trigger": "Mag 7/AI leadership weakens while equal-weight participation improves, or oil swings disrupt growth leadership.",
     "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-12",
+    "title": "Iran/Hormuz prediction markets still imply diplomacy before normalization",
+    "severity": "medium",
+    "horizon": "daily",
+    "channels": [
+      "oil",
+      "rates",
+      "volatility",
+      "energy",
+      "growth"
+    ],
+    "tickers": [
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "RYF"
+    ],
+    "affected": [
+      "new buys",
+      "energy",
+      "financials",
+      "crypto-linked risk"
+    ],
+    "source": "Polymarket public markets checked 2026-06-12",
+    "summary": "Public prediction markets still price a 45% chance of a US-Iran nuclear deal by June 30 and 60% odds of a diplomatic meeting by June 30, but only about an 18% chance that Strait of Hormuz traffic normalizes by month-end. That argues against clearing the existing oil/rates timing risk for new exposure yet.",
+    "trigger": "Re-check if official shipping/oil data or prediction odds show clear normalization, or if diplomacy odds break lower and the ceasefire/risk-off case re-accelerates.",
+    "direction": "risk_watch"
   }
 ]
