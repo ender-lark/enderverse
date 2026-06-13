@@ -51,6 +51,31 @@ def test_manual_stack_records_failed_routine(tmp_path):
     assert payload["receipts"][-1]["details"]["steps"][0]["returncode"] == 3
 
 
+def test_manual_stack_stops_after_required_failure(tmp_path):
+    marker = tmp_path / "should_not_run.txt"
+    routine = cloud_routine_manual_run.Routine(
+        "test-routine",
+        "test routine completed",
+        [
+            cloud_routine_manual_run.Step("bad", [sys.executable, "-c", "raise SystemExit(3)"]),
+            cloud_routine_manual_run.Step(
+                "must not run",
+                [sys.executable, "-c", f"from pathlib import Path; Path({str(marker)!r}).write_text('ran')"],
+            ),
+        ],
+    )
+
+    report = cloud_routine_manual_run.run_manual_stack(
+        routines=[routine],
+        receipt_path=tmp_path / "receipts.json",
+        repo=tmp_path,
+    )
+
+    assert report["valid"] is False
+    assert len(report["routines"][0]["steps"]) == 1
+    assert not marker.exists()
+
+
 def test_manual_stack_unknown_routine_id_fails_without_receipts(tmp_path):
     receipts = tmp_path / "receipts.json"
     routine = cloud_routine_manual_run.Routine(
@@ -109,3 +134,14 @@ def test_default_manual_routines_cover_expected_cloud_stack():
     expected_ids = {row["automation_id"] for row in cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS}
 
     assert expected_ids <= manual_ids
+
+
+def test_trigger_check_is_wired_into_trigger_sensitive_manual_routines():
+    routines = {routine.routine_id: routine for routine in cloud_routine_manual_run.default_routines()}
+    for routine_id in (
+        "investing-os-post-open-evidence-gate",
+        "investing-os-fundstrat-daytime-watch",
+        "investing-os-post-close-refresh",
+    ):
+        commands = [" ".join(step.command or []) for step in routines[routine_id].steps]
+        assert any("trigger_check.py" in command and "--dry-run" in command for command in commands)

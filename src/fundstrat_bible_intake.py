@@ -17,6 +17,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import fs_ingest_guard
+
 
 BLACKLIST = {
     "AI", "API", "CEO", "CFO", "CPI", "ETF", "EPS", "EU", "FOMC", "GDP",
@@ -550,7 +552,8 @@ def update_top_prospects_from_bible(deck: dict, path: str | Path, *,
 
 def write_outputs(deck: dict, summary: dict, *, out: str | Path,
                   summary_path: str | Path | None = None,
-                  top_prospects_path: str | Path | None = None) -> dict:
+                  top_prospects_path: str | Path | None = None,
+                  inventory_path: str | Path | None = None) -> dict:
     written = {
         "fundstrat_bible": str(_atomic_write_json(out, deck)),
     }
@@ -565,6 +568,9 @@ def write_outputs(deck: dict, summary: dict, *, out: str | Path,
             written["top_prospects"] = str(top_prospects_path)
     if summary_path:
         written["fundstrat_bible_intake_summary"] = str(_atomic_write_json(summary_path, summary))
+    if inventory_path:
+        entries = fs_ingest_guard.bible_upload_inventory_entries(deck, summary)
+        written["fs_ingest_inventory"] = str(fs_ingest_guard.upsert_inventory(inventory_path, entries))
     return written
 
 
@@ -603,6 +609,7 @@ def main(argv=None) -> int:
     parser.add_argument("inputs", nargs="*", help="Fundstrat monthly PDFs, text exports, or JSON deck files")
     parser.add_argument("--out", default=str(src / "fundstrat_bible.json"))
     parser.add_argument("--summary", default=str(src / "fundstrat_bible_intake_summary.json"))
+    parser.add_argument("--inventory", default=str(src / "fs_ingest_inventory.json"))
     parser.add_argument("--top-prospects", nargs="?", const=str(src / "top_prospects.json"))
     parser.add_argument("--merge-existing", action="store_true")
     parser.add_argument("--as-of")
@@ -628,6 +635,7 @@ def main(argv=None) -> int:
         out=args.out,
         summary_path=args.summary,
         top_prospects_path=args.top_prospects,
+        inventory_path=args.inventory,
     )
     print(json.dumps({"parsed": True, **summary, "written": written}, indent=2))
     return 0 if summary["valid"] else 2

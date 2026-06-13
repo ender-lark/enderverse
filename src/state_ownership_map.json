@@ -80,6 +80,18 @@
       "action_surface": "Top-5/Bottom-5 cards can inform analyst-call context; separate Consider List rows can feed low-pressure prospects through top_prospects.json."
     },
     {
+      "id": "fs_ingest_inventory",
+      "source_of_truth": "fundstrat_ingest_routines",
+      "repo_artifact": "src/fs_ingest_inventory.json",
+      "producer": "fundstrat_bible_intake.py, fundstrat_email_intake.py, and fundstrat_daily_compact_intake.py",
+      "feed_path": "full_build_runner -> fs_ingest_guard -> feed.fs_ingest_guard and feed.fundstrat_news.gaps",
+      "dashboard_surface": "FundStrat Data Gaps and If I Were You review priorities",
+      "mirror_policy": "GitHub stores section-level distilled/skipped/empty status only; raw FundStrat source bodies are not committed.",
+      "freshness_contract": "Update on every FundStrat deck or note ingest with source_id, title, ingested_at, total_sections, sections, and skipped_count.",
+      "not_checked_behavior": "Missing inventory for an active Bible layer warns partial source; skipped sections warn partial source.",
+      "action_surface": "Prevents partial FundStrat layers from being treated as fully checked evidence."
+    },
+    {
       "id": "fundstrat_inbox_entries",
       "source_of_truth": "gmail_fundstrat",
       "repo_artifact": "src/fundstrat_inbox_entries.json",
@@ -307,6 +319,18 @@
       "not_checked_behavior": "Missing event-risk scan is not checked, not no event risk.",
       "action_surface": "High and critical event risks promote to exposure-review actions only; they do not create buy/sell orders."
     },
+    {
+      "id": "trigger_registry",
+      "source_of_truth": "operator_trigger_registration",
+      "repo_artifact": "src/trigger_registry.json",
+      "producer": "trigger_check.py registration helpers plus routine-specific trigger registration",
+      "feed_path": "full_build_runner -> source_audits.trigger_registry",
+      "dashboard_surface": "Source proof and audits trigger-registry row",
+      "mirror_policy": "GitHub stores non-secret trigger conditions and fired/expired state; routines may update only through trigger_check.py and the cloud commit allowlist.",
+      "freshness_contract": "Fundstrat Daytime Watch, Post-Open Evidence Gate, and Post-Close Refresh run trigger_check.py; fired rows are one-shot and append a receipt.",
+      "not_checked_behavior": "Missing trigger-check summary or missing quote data stays not_checked; never infer no triggers fired.",
+      "action_surface": "Creates review prompts and push alerts only; it does not execute trades."
+    },
   {
       "id": "system_improvement_queue",
       "source_of_truth": "github",
@@ -345,13 +369,13 @@
     },
     {
       "id": "account_rules",
-      "source_of_truth": "decision_layer_build_pack",
+      "source_of_truth": "live_snaptrade_connector_semantics_plus_operator_doctrine",
       "repo_artifact": "src/account_rules.json",
-      "producer": "Task-0 integration of recovery V3 files",
+      "producer": "Task-0 integration of recovery V3 files plus 2026-06-12 SnapTrade account semantics handoff",
       "feed_path": "v3_config.account_rules",
       "dashboard_surface": "Execution_plan account exclusion and PCRA guardrails",
-      "mirror_policy": "GitHub stores canonical account placement constraints for plan emitters.",
-      "freshness_contract": "Update when account exclusion policy is intentionally changed.",
+      "mirror_policy": "GitHub stores canonical account placement constraints and non-secret account tax/flag semantics for plan emitters; local SnapTrade profiles remain secrets/connector config only.",
+      "freshness_contract": "Update when account exclusion policy, account ids, tax_status, or executable flags such as etf_only/crypto_account intentionally change.",
       "not_checked_behavior": "Fail closed when malformed; do not emit execution rows without loaded rules.",
       "action_surface": "Converts action execution legs to excluded/allowed states."
     },

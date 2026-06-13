@@ -1,11 +1,12 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-12T06:35:00-04:00",
-  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, and registered the FS Inbox Catch-up as four paired weekday schedules.",
+  "verified_at": "2026-06-12T19:25:00-04:00",
+  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, registered FS Inbox Catch-up as four paired weekday schedules, and added the Positions Sync post-close expected schedule.",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
     "On 2026-06-12, the temporary usage-conservation pauses were lifted for the current Fundstrat web routines and heavy off-hours routines; only the superseded legacy jobs remain paused.",
     "Broker Position Intake is active again at 8:20 AM ET as the SnapTrade-first read-only account refresh. It promotes positions only after strict validation; failed SnapTrade pulls keep account positions stale/not_checked.",
+    "Positions Sync is expected at 4:45 PM ET as a post-close SnapTrade-first read-only wrapper around the existing broker-position refresh. It promotes only after strict validation, reruns orphan triage after successful promotion, and mirrors a one-paragraph Latest Portfolio summary when Notion is available; failed SnapTrade pulls keep account positions stale/not_checked.",
     "Missing connector/source pulls must remain dark/not_checked in the dashboard, never checked clear.",
     "Each scheduled routine should append cloud_routine_receipts.json receipts with run_source=scheduled; manual rehearsal receipts do not prove cloud live-run execution.",
     "UW Opportunity Cache should start by checking live Unusual Whales connector access and updating src/live_source_config.json through live_source_config_update.py with compact proof metadata only, never raw tide rows or premiums.",
@@ -13,6 +14,7 @@
     "Notion schedule reconcile basis: Daily Synthesis should run after the 8:35 AM ET Morning Scan, 9:15-9:30 AM ET is acceptable, UW Opportunity Cache should stay no earlier than roughly 9:45 AM ET, and Full Cockpit Build should run at 10:30 AM ET for buffer.",
     "Early Cockpit Build runs at 8:50 AM ET to publish the earliest useful cockpit after pre-market source intake and Morning Scan. It is intentionally an early build and must leave later Daily Synthesis, UW Opportunity Cache, and Parabolic Cache gaps visible until the 10:30 AM Full Cockpit Build.",
     "Post-Open Evidence Gate runs at 9:40 AM ET to capture same-session UW endpoint proof from the current action runbook. It can promote, downgrade, or keep Today/Reallocation candidates gated; missing, stale, failed, or inconclusive proof must not move candidates to Ready.",
+    "Fundstrat Daytime Watch, Post-Open Evidence Gate, and Post-Close Refresh should run src/trigger_check.py. Fired triggers write src/trigger_registry.json / src/trigger_check_summary.json, append a trigger receipt, and send Pushover only as an operator review prompt.",
     "Fundstrat after-hours catch-up and pre-market safety sweep are expected proof targets because Fundstrat timing calls can arrive outside the original 8:10 AM source intake window.",
     "Fundstrat Daytime Watch runs hourly during the market day so urgent/action-changing Fundstrat notes can trigger Pushover. Low-value Fundstrat content remains quiet audit/discovery context and must not become a daily-call row, action prompt, or alert.",
     "FS Inbox Catch-up is registered as four explicit paired schedules (8:20 AM, 12:30 PM, 4:35 PM, 8:45 PM ET) instead of one multi-BYHOUR/BYMINUTE rule, so the automation does not accidentally run a cross-product of times."
@@ -164,6 +166,14 @@
       "role": "fs_inbox_catchup_postclose",
       "schedule": "market weekdays 4:35 PM ET",
       "expected_since": "2026-06-12T09:00:00-04:00"
+    },
+    {
+      "automation_id": "investing-os-positions-sync",
+      "automation_name": "Investing OS Positions Sync",
+      "status": "ACTIVE",
+      "role": "positions_sync",
+      "schedule": "market weekdays 4:45 PM ET",
+      "expected_since": "2026-06-15T16:45:00-04:00"
     },
     {
       "automation_id": "investing-os-fundstrat-after-hours-catch-up",

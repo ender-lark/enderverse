@@ -169,6 +169,10 @@ Accepted monthly file types:
    place. Top-5/Bottom-5 and separate Consider List rows remain the
    prospect-signal path. It does not store raw PDF text,
    stock-price chart text, performance tables, or long numeric notes.
+   Every monthly or daily FundStrat ingest also updates
+   `src/fs_ingest_inventory.json` with section-level `distilled` / `skipped` /
+   `empty` status. Skipped sections remain visible in the dashboard FundStrat
+   gaps until a later ingest or backfill closes them.
 
    Publication/use rules:
    - Monthly Bible, What-to-Own, Top 5, Bottom 5, Consider List, and
@@ -205,6 +209,14 @@ Accepted monthly file types:
    `trim`, `hedge`, or `size` posture. Low-value or context-only Fundstrat
    content should update neither the action stack nor Pushover.
 
+   Then run the missed-trigger guard, which may write fired/expired trigger
+   state, append a receipt on fire, and send a Pushover prompt only for newly
+   fired operator triggers:
+
+   ```bash
+   python src/trigger_check.py --write --send --routine-id investing-os-fundstrat-daytime-watch --format text
+   ```
+
 10. Run focused checks:
 
    ```bash
@@ -218,6 +230,7 @@ Accepted monthly file types:
    - daily calls emitted
    - source-call candidates emitted
    - source calls merged
+   - FS ingest inventory entries written and any skipped sections
    - monthly Top-5/Bottom-5/consider rows emitted, if a direct monthly upload
      was supplied
    - inbox dates written
@@ -227,6 +240,7 @@ Accepted monthly file types:
 
 - `src/fundstrat_bible.json` when a monthly upload is supplied
 - `src/fundstrat_bible_intake_summary.json` when a monthly upload is supplied
+- `src/fs_ingest_inventory.json`
 - `src/fundstrat_daily_calls.json`
 - `src/fundstrat_daytime_alert_state.json` for duplicate-suppressed Pushover
   alerts

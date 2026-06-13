@@ -153,6 +153,9 @@ def test_write_compact_outputs_marks_full_body_checked_without_bodies(tmp_path):
     assert state["processed_full_body_message_ids"] == ["read-1"]
     assert "body" not in entries[0]
     assert entries[0]["body_redacted"] is True
+    inventory = json.loads((tmp_path / "fs_ingest_inventory.json").read_text(encoding="utf-8"))
+    assert inventory["entries"][0]["source_id"] == "read-1"
+    assert inventory["entries"][0]["skipped_count"] == 0
 
 
 def test_write_compact_outputs_merge_preserves_existing_audit_entries(tmp_path):

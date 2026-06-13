@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import cloud_routine_receipts
 from live_readiness import readiness_report
 
 
@@ -44,6 +45,16 @@ def _read_json(path: str | Path) -> Any:
         return json.load(fh)
 
 
+def _read_json_default(path: str | Path, default: Any) -> Any:
+    path = Path(path)
+    if not path.is_file():
+        return default
+    try:
+        return _read_json(path)
+    except Exception:
+        return default
+
+
 def _row(layer: str, status: str, note: str, *, last_run: str) -> dict[str, str]:
     return {
         "layer": layer,
@@ -65,6 +76,54 @@ def _split_dark_lanes(keys: list[Any]) -> tuple[list[str], list[str]]:
         else:
             actionable.append(clean)
     return actionable, deferred
+
+
+def _routine_label(row: dict[str, Any]) -> str:
+    return str(row.get("routine_name") or row.get("routine_id") or "Cloud routine")
+
+
+def _routine_due_note(routine_due: dict[str, Any]) -> tuple[str, str]:
+    overdue = [row for row in routine_due.get("overdue") or [] if isinstance(row, dict)]
+    due_waiting = [row for row in routine_due.get("due_waiting") or [] if isinstance(row, dict)]
+    if overdue:
+        first = overdue[0]
+        note = first.get("overdue_line") or (
+            f"overdue: {_routine_label(first)}, last ran {first.get('last_ran_label') or 'never'}"
+        )
+        extra = len(overdue) - 1
+        if extra:
+            note += f"; +{extra} more"
+        return "down", note
+    if due_waiting:
+        first = due_waiting[0]
+        note = (
+            f"due waiting: {_routine_label(first)}, last ran {first.get('last_ran_label') or 'never'}; "
+            f"grace until {first.get('overdue_after') or 'unknown'}"
+        )
+        extra = len(due_waiting) - 1
+        if extra:
+            note += f"; +{extra} more"
+        return "stale", note
+    next_due = routine_due.get("next_due") or {}
+    if next_due:
+        return "ok", f"routine receipts current; next {_routine_label(next_due)} at {next_due.get('next_due_at') or 'unknown'}"
+    return "ok", "routine receipt due state checked; no expected schedule rows"
+
+
+def _routine_due_report(src_dir: str | Path) -> dict[str, Any]:
+    src = Path(src_dir)
+    proof = _read_json_default(src / "cloud_automation_status.json", {})
+    expected = proof.get("routines") if isinstance(proof, dict) else []
+    expected = [row for row in expected or [] if isinstance(row, dict)]
+    if not expected:
+        return {}
+    receipts = cloud_routine_receipts.load_receipts(src / "cloud_routine_receipts.json")
+    summary = cloud_routine_receipts.summarize_receipts(receipts, expected_automations=expected)
+    return cloud_routine_receipts.summarize_due_receipts(
+        summary,
+        expected,
+        activated_at=proof.get("verified_at") if isinstance(proof, dict) else None,
+    )
 
 
 def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -> list[dict[str, str]]:
@@ -149,6 +208,15 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
             last_run=ts,
         ),
     ]
+    routine_due = report.get("routine_receipt_due") or {}
+    if routine_due.get("rows"):
+        routine_status, routine_note = _routine_due_note(routine_due)
+        rows.append(_row(
+            "Cloud Routine Receipts",
+            routine_status,
+            routine_note,
+            last_run=ts,
+        ))
     return rows
 
 
@@ -210,6 +278,9 @@ def main(argv=None) -> int:
         return 0 if summary["valid"] else 2
 
     report = readiness_report(args.src_dir)
+    routine_due = _routine_due_report(args.src_dir)
+    if routine_due:
+        report["routine_receipt_due"] = routine_due
     rows = heartbeat_rows(report)
     summary = heartbeat_summary(rows, out=args.out, written=False)
     if summary["problems"]:

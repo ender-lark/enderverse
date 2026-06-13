@@ -170,6 +170,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-12T09:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-positions-sync",
+        "automation_name": "Investing OS Positions Sync",
+        "role": "positions_sync",
+        "schedule": "market weekdays 4:45 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 16,
+        "minute": 45,
+        "expected_since": "2026-06-15T16:45:00-04:00",
+    },
+    {
         "automation_id": "investing-os-fundstrat-after-hours-catch-up",
         "automation_name": "Investing OS Fundstrat After-Hours Catch-Up",
         "role": "fundstrat_after_hours_catchup",
@@ -652,71 +662,13 @@ def _receipt_due_summary(
     now: datetime | None = None,
     grace_minutes: int = 30,
 ) -> dict[str, Any]:
-    if now is None:
-        now = datetime.now(ET)
-    if now.tzinfo is None:
-        now = now.replace(tzinfo=ET)
-    now_et = now.astimezone(ET)
-    activation = (activated_at or now_et).astimezone(ET)
-    receipt_rows = {
-        str(row.get("routine_id") or ""): row
-        for row in ((receipts.get("summary") or {}).get("rows") or [])
-        if isinstance(row, dict)
-    }
-    rows: list[dict[str, Any]] = []
-    for expected in expected_automations:
-        routine_id = str(expected.get("automation_id") or "")
-        receipt = receipt_rows.get(routine_id, {})
-        last_success = _parse_dt(receipt.get("last_scheduled_success_at"))
-        routine_activation = _parse_dt(expected.get("expected_since")) or activation
-        if routine_activation.tzinfo is None:
-            routine_activation = routine_activation.replace(tzinfo=ET)
-        routine_activation = max(activation, routine_activation.astimezone(ET))
-        last_due = _last_run_between(expected, routine_activation, now_et)
-        next_cursor = max(now_et, routine_activation)
-        next_due = _next_run_after(expected, next_cursor)
-        overdue_after = last_due + timedelta(minutes=grace_minutes) if last_due else None
-        if last_due is None:
-            state = "not_due_yet"
-        elif last_success and last_success.astimezone(ET) >= last_due:
-            state = "current"
-        elif overdue_after and now_et > overdue_after:
-            state = "overdue"
-        else:
-            state = "due_waiting"
-        rows.append({
-            "routine_id": routine_id,
-            "routine_name": expected.get("automation_name") or "",
-            "role": expected.get("role") or "",
-            "schedule": expected.get("schedule") or "",
-            "due_state": state,
-            "expected_since": routine_activation.isoformat(),
-            "last_due_at": last_due.isoformat() if last_due else "",
-            "next_due_at": next_due.isoformat() if next_due else "",
-            "overdue_after": overdue_after.isoformat() if overdue_after else "",
-            "last_success_at": receipt.get("last_success_at") or "",
-            "last_scheduled_success_at": receipt.get("last_scheduled_success_at") or "",
-        })
-    overdue = [row for row in rows if row["due_state"] == "overdue"]
-    due_waiting = [row for row in rows if row["due_state"] == "due_waiting"]
-    current = [row for row in rows if row["due_state"] == "current"]
-    not_due_yet = [row for row in rows if row["due_state"] == "not_due_yet"]
-    next_candidates = [row for row in rows if row.get("next_due_at")]
-    next_target = sorted(next_candidates, key=lambda row: row["next_due_at"])[0] if next_candidates else {}
-    return {
-        "activated_at": activation.isoformat(),
-        "now": now_et.isoformat(),
-        "grace_minutes": grace_minutes,
-        "overdue_count": len(overdue),
-        "due_waiting_count": len(due_waiting),
-        "current_count": len(current),
-        "not_due_yet_count": len(not_due_yet),
-        "next_due": next_target,
-        "rows": rows,
-        "overdue": overdue,
-        "due_waiting": due_waiting,
-        "not_due_yet": not_due_yet,
-    }
+    return cloud_routine_receipts.summarize_due_receipts(
+        receipts,
+        expected_automations,
+        activated_at=activated_at,
+        now=now,
+        grace_minutes=grace_minutes,
+    )
 
 
 def _operating_gaps(
@@ -770,7 +722,8 @@ def _operating_gaps(
         if not isinstance(row, dict):
             continue
         label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
-        gaps.append(f"{label} run receipt is overdue after {row.get('overdue_after')}.")
+        last_ran = row.get("last_ran_label") or "never"
+        gaps.append(f"{label} run receipt is overdue after {row.get('overdue_after')}; last ran {last_ran}.")
     source_capability = status.get("source_capability") or {}
     live_config = source_capability.get("live_source_config") or {}
     for row in live_config.get("missing") or []:
@@ -994,9 +947,10 @@ def format_text(report: dict[str, Any]) -> str:
     elif overdue:
         row = overdue[0]
         label = row.get("routine_name") or row.get("routine_id") or "unknown"
+        last_ran = row.get("last_ran_label") or "never"
         lines.append(
             f"Overdue receipt: {label} due at {row.get('last_due_at') or ''} "
-            f"| overdue after {row.get('overdue_after') or ''}"
+            f"| overdue after {row.get('overdue_after') or ''} | last ran {last_ran}"
         )
         if not report.get("first_scheduled_run_proven"):
             lines.append(f"First scheduled proof pending: {label} scheduled receipt is overdue.")

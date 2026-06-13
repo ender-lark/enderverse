@@ -24,6 +24,7 @@ from zoneinfo import ZoneInfo
 from collection import collect
 from collection_gate import validate_collection_gate
 from feed_assembler import assemble_feed
+import fs_ingest_guard
 from fundstrat_bible import build_fundstrat_bible_source
 from fundstrat_daily import build_fundstrat_daily_source
 from fundstrat_news import build_fundstrat_news, build_if_i_were_you
@@ -410,7 +411,7 @@ def _build_fundstrat_audit(src_dir: Path) -> dict[str, Any]:
     }
 
 
-def _build_cloud_routine_audit(src_dir: Path) -> dict[str, Any]:
+def _build_cloud_routine_audit(src_dir: Path, *, now: str | datetime | None = None) -> dict[str, Any]:
     proof = _read_json(src_dir / "cloud_automation_status.json", default={})
     expected = proof.get("routines") if isinstance(proof, dict) else []
     expected = [row for row in expected or [] if isinstance(row, dict)]
@@ -419,9 +420,16 @@ def _build_cloud_routine_audit(src_dir: Path) -> dict[str, Any]:
         receipts,
         expected_automations=expected,
     )
+    due = cloud_routine_receipts.summarize_due_receipts(
+        summary,
+        expected,
+        activated_at=proof.get("verified_at") if isinstance(proof, dict) else None,
+        now=now,
+    )
     expected_count = int(summary.get("expected_count") or 0)
     scheduled = int(summary.get("scheduled_success_count") or 0)
     failed = int(summary.get("failed_latest_count") or 0)
+    overdue_count = int(due.get("overdue_count") or 0)
     missing_rows = [
         {
             "routine_id": row.get("routine_id") or "",
@@ -433,18 +441,26 @@ def _build_cloud_routine_audit(src_dir: Path) -> dict[str, Any]:
         if isinstance(row, dict)
     ]
     status = (
-        "live_run_proven"
+        "overdue"
+        if overdue_count
+        else "live_run_proven"
         if expected_count and scheduled >= expected_count and not failed
         else "partial_live_run_proven"
         if scheduled and not failed
         else "not_proven"
     )
+    due_text = f"; overdue={overdue_count}" if overdue_count else ""
     return {
         "status": status,
-        "line": f"Background cloud proof: {scheduled}/{expected_count} scheduled receipts proven; failed latest={failed}.",
+        "line": f"Background cloud proof: {scheduled}/{expected_count} scheduled receipts proven; failed latest={failed}{due_text}.",
         "scheduled_success_count": scheduled,
         "expected_count": expected_count,
         "failed_latest_count": failed,
+        "overdue_count": overdue_count,
+        "due_waiting_count": int(due.get("due_waiting_count") or 0),
+        "routine_receipt_due": due,
+        "overdue": due.get("overdue") or [],
+        "due_waiting": due.get("due_waiting") or [],
         "missing_scheduled_success_count": int(summary.get("missing_scheduled_success_count") or 0),
         "missing_scheduled_success": missing_rows,
         "rows": summary.get("rows") or [],
@@ -574,10 +590,58 @@ def _build_connector_evidence(src_dir: Path, live_source_capability_module: Any)
     }
 
 
-def _build_source_audits(src_dir: Path, live_source_capability_module: Any) -> dict[str, Any]:
+def _build_trigger_registry_audit(src_dir: Path) -> dict[str, Any]:
+    registry = _read_json(src_dir / "trigger_registry.json", default=[])
+    triggers = registry.get("triggers") if isinstance(registry, dict) else registry
+    triggers = [row for row in triggers or [] if isinstance(row, dict)]
+    armed = [
+        row
+        for row in triggers
+        if str(row.get("status") or "armed").lower() in {"armed", "active"}
+    ]
+    summary = _read_json(src_dir / "trigger_check_summary.json", default={})
+    if not isinstance(summary, dict) or not summary:
+        return {
+            "status": "not_checked" if triggers else "checked_clear",
+            "line": (
+                f"Trigger registry: {len(armed)} armed trigger(s); not checked this build."
+                if triggers else "Trigger registry: no registered triggers."
+            ),
+            "armed_count": len(armed),
+            "fired_count": 0,
+            "not_checked_count": len(armed),
+            "rows": armed,
+            "honesty_rule": "Missing trigger-check proof is not a checked-clear trigger lane.",
+        }
+    fired = int(summary.get("fired_count") or 0)
+    not_checked = int(summary.get("not_checked_count") or 0)
+    status = "fired" if fired else "not_checked" if not_checked else "checked_clear"
+    return {
+        "status": status,
+        "line": summary.get("line")
+            or f"Trigger check: fired={fired}; not_checked={not_checked}; armed={len(armed)}.",
+        "checked_at": summary.get("checked_at") or "",
+        "armed_count": int(summary.get("armed_count") or len(armed)),
+        "fired_count": fired,
+        "not_checked_count": not_checked,
+        "expired_count": int(summary.get("expired_count") or 0),
+        "fired": summary.get("fired") or [],
+        "not_checked": summary.get("not_checked") or [],
+        "rows": triggers,
+        "honesty_rule": "Unfetched trigger quotes remain not_checked; never infer all clear.",
+    }
+
+
+def _build_source_audits(
+    src_dir: Path,
+    live_source_capability_module: Any,
+    *,
+    now: str | datetime | None = None,
+) -> dict[str, Any]:
     return {
         "fundstrat": _build_fundstrat_audit(src_dir),
-        "cloud_routines": _build_cloud_routine_audit(src_dir),
+        "cloud_routines": _build_cloud_routine_audit(src_dir, now=now),
+        "trigger_registry": _build_trigger_registry_audit(src_dir),
         "notion_writeback": _build_notion_writeback_audit(src_dir),
         "notion_collision": _build_notion_collision_audit(src_dir),
         "connector_evidence": _build_connector_evidence(src_dir, live_source_capability_module),
@@ -730,6 +794,7 @@ def build_full_feed_from_files(
     closes = normalize_closes_cache(closes_cache)
     macro = _load_optional(src, "macro")
     fs_bible = _load_optional(src, "fs_bible")
+    fs_ingest_inventory = _read_json(src / "fs_ingest_inventory.json", default={})
     fs_daily = _load_optional(src, "fs_daily")
     fs_intake_summary = _read_json(src / "fundstrat_intake_summary.json", default={})
     meridian = _load_optional(src, "meridian")
@@ -820,12 +885,19 @@ def build_full_feed_from_files(
     import live_source_capability
 
     feed["live_source_config"] = live_source_capability.live_config_report()
-    feed["source_audits"] = _build_source_audits(src, live_source_capability)
+    feed["source_audits"] = _build_source_audits(src, live_source_capability, now=now)
+    fs_ingest_findings = fs_ingest_guard.findings_for_bible(fs_ingest_inventory, fs_bible)
+    feed["fs_ingest_guard"] = {
+        "active_layers": fs_ingest_guard.active_bible_layers(fs_bible),
+        "findings": fs_ingest_findings,
+        "status": "warn" if fs_ingest_findings else "ok",
+    }
     feed["fundstrat_news"] = build_fundstrat_news(
         fundstrat_bible=fs_bible,
         fundstrat_daily_calls=fs_daily,
         top_prospects=top_prospects,
         intake_summary=fs_intake_summary if isinstance(fs_intake_summary, dict) else {},
+        ingest_findings=fs_ingest_findings,
         as_of=today,
     )
     feed["uw_routing"] = build_uw_routing_recommendations(feed)

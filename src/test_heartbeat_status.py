@@ -95,6 +95,30 @@ def test_heartbeat_rows_all_ok_when_report_is_clean():
     assert "checked clear" not in by_layer["Optional Source Lanes"]["note"]
 
 
+def test_heartbeat_rows_show_overdue_cloud_routine_receipts():
+    rows = heartbeat_rows(
+        _base_report(
+            routine_receipt_due={
+                "rows": [{"routine_id": "investing-os-post-close-refresh"}],
+                "overdue_count": 1,
+                "overdue": [{
+                    "routine_id": "investing-os-post-close-refresh",
+                    "routine_name": "Investing OS Post-Close Refresh",
+                    "last_ran_label": "never",
+                    "overdue_line": "overdue: Investing OS Post-Close Refresh, last ran never",
+                }],
+                "due_waiting_count": 0,
+            },
+        ),
+        generated_at="2026-06-05T21:10:00+00:00",
+    )
+    by_layer = {row["layer"]: row for row in rows}
+
+    assert by_layer["Cloud Routine Receipts"]["status"] == "down"
+    assert "overdue: Investing OS Post-Close Refresh, last ran never" in by_layer["Cloud Routine Receipts"]["note"]
+    assert validate_heartbeat(rows) == []
+
+
 def test_heartbeat_rows_show_stale_required_inputs():
     rows = heartbeat_rows(
         _base_report(stale_required_inputs=[{"key": "positions"}]),

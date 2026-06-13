@@ -6,6 +6,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from full_build_runner import (
+    _build_cloud_routine_audit,
     active_parabolic_tickers,
     build_full_feed_from_files,
     convention_input_status,
@@ -347,6 +348,19 @@ def test_full_build_runner_threads_fundstrat_news_and_if_i_were_you(tmp_path):
         "daily_calls": 1,
         "stored_daily_calls": 1,
     })
+    _write(src / "fs_ingest_inventory.json", {
+        "entries": [
+            {
+                "source_id": "fundstrat_core_stock_ideas:2026-05-28",
+                "title": "May Core",
+                "ingested_at": "2026-06-08T14:00:00Z",
+                "sections": [
+                    {"name": "top5", "status": "distilled"},
+                    {"name": "smid top5", "status": "skipped"},
+                ],
+            }
+        ]
+    })
     _write(src / "top_prospects.json", {
         "AMD": {
             "ticker": "AMD",
@@ -372,6 +386,8 @@ def test_full_build_runner_threads_fundstrat_news_and_if_i_were_you(tmp_path):
     assert feed["fundstrat_news"]["monthly"]["top_large_cap"][0]["ticker"] == "AMD"
     assert feed["fundstrat_news"]["monthly"]["top_large_cap"][1]["add_price_label"] == "not captured"
     assert any(gap["key"] == "missing_smid_top5" for gap in feed["fundstrat_news"]["gaps"])
+    assert feed["fs_ingest_guard"]["status"] == "warn"
+    assert any(gap["key"] == "fs_ingest_partial" for gap in feed["fundstrat_news"]["gaps"])
     assert feed["if_i_were_you"]["status"] == "review_only"
     assert feed["if_i_were_you"]["rows"]
 
@@ -554,6 +570,7 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "source_audits" in feed
     assert "fundstrat" in feed["source_audits"]
     assert "cloud_routines" in feed["source_audits"]
+    assert "trigger_registry" in feed["source_audits"]
     assert "uw_routing" in feed["source_audits"]
     assert "UW routing:" in feed["source_audits"]["uw_routing"]["line"]
     assert "uw_action_runbook" in feed
@@ -576,6 +593,28 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "fundstrat_signal_confirmation" in {
         row["mode"] for row in feed["uw_routing"]["rows"]
     }
+
+
+def test_cloud_routine_audit_surfaces_overdue_receipts_from_schedule_strings(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _write(src / "cloud_automation_status.json", {
+        "schema_version": 2,
+        "verified_at": "2026-06-05T12:00:00-04:00",
+        "routines": [{
+            "automation_id": "investing-os-post-close-refresh",
+            "automation_name": "Investing OS Post-Close Refresh",
+            "status": "ACTIVE",
+            "role": "post_close_refresh",
+            "schedule": "market weekdays 4:30 PM ET",
+        }],
+    })
+
+    audit = _build_cloud_routine_audit(src, now="2026-06-05T17:10:00-04:00")
+
+    assert audit["overdue_count"] == 1
+    assert audit["overdue"][0]["overdue_line"] == "overdue: Investing OS Post-Close Refresh, last ran never"
+    assert "overdue=1" in audit["line"]
 
 
 def test_full_build_runner_wires_captured_uw_endpoint_proof(tmp_path):

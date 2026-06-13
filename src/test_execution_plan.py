@@ -51,6 +51,45 @@ def test_classify_account_rules_cover_the_book():
     crypto = classify_account("Robinhood Crypto", "SKB", "Robinhood", rules)
     assert crypto["crypto_only"] is True
 
+def test_live_snaptrade_account_semantics_are_executable():
+    rules = load_rules()
+    account_ids = [a["account_id"] for a in rules["accounts"]]
+    assert len(account_ids) == 11
+    assert len(set(account_ids)) == 11
+
+    pcra = classify_account(
+        "Name can drift",
+        "Parents",
+        "Schwab",
+        rules,
+        account_id="974bb4da-e7a5-4a1f-a971-c79c8d5ad65a",
+    )
+    assert pcra["etf_only"] is True
+    assert pcra["tax_status"] == "retirement_plan"
+    assert pcra["tax_type"] == "retirement_plan"
+    assert "retirement plan" in pcra["tax_flag"]
+
+    hsa = classify_account(
+        "Health Savings Account *****7284",
+        "SKB",
+        "Fidelity",
+        rules,
+        account_id="fb496722-4428-4402-9c35-7c1250ff2cdf",
+    )
+    assert hsa["tax_status"] == "hsa"
+    assert hsa["tax_type"] == "hsa"
+    assert "HSA" in hsa["tax_flag"]
+
+    crypto = classify_account(
+        "Robinhood Crypto 5299",
+        "SKB",
+        "Robinhood",
+        rules,
+        account_id="3ca9adee-3f45-47a1-84ea-1f5e0268d43e",
+    )
+    assert crypto["crypto_only"] is True
+    assert crypto["tax_status"] == "taxable"
+
 def test_plan_buy_stock_excludes_pcra_with_hard_rule():
     plan = plan_buy("NVDA", 50000, accounts=_accounts(), is_etf=False)
     why = {e["account"]: e["why_not"] for e in plan["excluded"]}
