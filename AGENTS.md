@@ -30,6 +30,19 @@ technical elegance.
 - Use `python src/verify_standard.py` as the standard verification command
   unless a narrower focused check is explicitly appropriate before it.
 
+## Merge Authority
+
+- Codex may merge a pull request only when the operator explicitly asks Codex
+  to merge that PR, the PR is not draft, GitHub reports it mergeable, and the
+  required checks are green or the operator explicitly accepts the documented
+  check risk.
+- Codex must not bypass merge conflicts, failing checks, branch protection, or
+  stale review state. If GitHub blocks the merge, report the blocker and leave
+  the PR unmerged.
+- After any Codex-performed merge, sync `main`, update `docs/WORKBOARD.md` from
+  `PR#<n>` to `MERGED PR#<n>` when applicable, and verify the post-merge state
+  before starting the next slice.
+
 ## Dashboard Protocol
 
 - When the user asks for the dash, dashboard, cockpit, or conviction cockpit,
