@@ -1198,6 +1198,78 @@ def test_generated_html_surfaces_fundstrat_tab(tmp_path, monkeypatch):
     assert "If I Were You" in html
 
 
+def test_held_decisions_strip_uses_frozen_operator_date(tmp_path, monkeypatch):
+    held_path = tmp_path / "held_decisions.json"
+    held_path.write_text(json.dumps([
+        {
+            "id": "a",
+            "title": "A packet",
+            "notion_url": "https://app.notion.com/p/a",
+            "parked_date": "2026-06-13",
+            "review_by": "2026-06-14",
+            "status": "held",
+            "log": [],
+        },
+        {
+            "id": "b",
+            "title": "B packet",
+            "notion_url": "https://app.notion.com/p/b",
+            "parked_date": "2026-06-13",
+            "review_by": "2026-06-14",
+            "status": "held",
+            "log": [],
+        },
+        {
+            "id": "c",
+            "title": "C packet",
+            "notion_url": "https://app.notion.com/p/c",
+            "parked_date": "2026-06-13",
+            "review_by": "2026-06-14",
+            "status": "held",
+            "log": [],
+        },
+    ]), encoding="utf-8")
+    monkeypatch.setattr(cockpit_html_gen, "HELD_DECISIONS_PATH", held_path)
+
+    before = cockpit_html_gen._held_decisions_strip(now="2026-06-13T10:00:00-04:00")
+    due = cockpit_html_gen._held_decisions_strip(now="2026-06-14T10:00:00-04:00")
+    after = cockpit_html_gen._held_decisions_strip(now="2026-06-15T10:00:00-04:00")
+
+    assert "Held for you" in before
+    assert '<span class="held-title-badge">3</span>' in before
+    assert before.count("held-green") == 3
+    assert due.count("held-amber") == 3
+    assert after.count("held-red") == 3
+
+
+def test_held_decisions_missing_or_unreadable_warns(tmp_path, monkeypatch):
+    missing_path = tmp_path / "missing-held-decisions.json"
+    monkeypatch.setattr(cockpit_html_gen, "HELD_DECISIONS_PATH", missing_path)
+
+    missing_html = generate_html(_feed())
+
+    assert "held decisions: not checked" in missing_html
+
+    broken_path = tmp_path / "held_decisions.json"
+    broken_path.write_text("{not json", encoding="utf-8")
+    monkeypatch.setattr(cockpit_html_gen, "HELD_DECISIONS_PATH", broken_path)
+
+    broken_html = generate_html(_feed())
+
+    assert "held decisions: not checked" in broken_html
+
+
+def test_held_decisions_empty_list_renders_nothing(tmp_path, monkeypatch):
+    held_path = tmp_path / "held_decisions.json"
+    held_path.write_text("[]", encoding="utf-8")
+    monkeypatch.setattr(cockpit_html_gen, "HELD_DECISIONS_PATH", held_path)
+
+    html = generate_html(_feed())
+
+    assert "Held for you" not in html
+    assert "held decisions: not checked" not in html
+
+
 def test_generated_html_is_ascii_display_safe():
     html = generate_html(_feed())
 

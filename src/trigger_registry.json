@@ -64,5 +64,62 @@
     "registered_at": "2026-06-13T00:35:00Z",
     "expires": "2026-08-06",
     "status": "armed"
+  },
+  {
+    "id": "held-review-sunday-rebalance-packet",
+    "ticker": "HELD",
+    "condition": {
+      "type": "date_event",
+      "params": {
+        "date": "2026-06-14",
+        "event": "held_decision_review",
+        "held_decision_id": "sunday-rebalance-packet",
+        "title": "Full-book rebalance (Council synthesis)",
+        "notion_url": "https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4",
+        "note": "Operator-parked decision packet review date reached."
+      }
+    },
+    "source": "Held decision packet: Full-book rebalance (Council synthesis) (https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4)",
+    "registered_at": "2026-06-13T04:00:00Z",
+    "expires": "2026-06-21",
+    "status": "armed"
+  },
+  {
+    "id": "held-review-sunday-geo-risk-register-v0",
+    "ticker": "HELD",
+    "condition": {
+      "type": "date_event",
+      "params": {
+        "date": "2026-06-14",
+        "event": "held_decision_review",
+        "held_decision_id": "sunday-geo-risk-register-v0",
+        "title": "Geo Risk Register v0 (Power & Policy)",
+        "notion_url": "https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d",
+        "note": "Operator-parked decision packet review date reached."
+      }
+    },
+    "source": "Held decision packet: Geo Risk Register v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d)",
+    "registered_at": "2026-06-13T04:00:00Z",
+    "expires": "2026-06-21",
+    "status": "armed"
+  },
+  {
+    "id": "held-review-sunday-policy-money-map-v0",
+    "ticker": "HELD",
+    "condition": {
+      "type": "date_event",
+      "params": {
+        "date": "2026-06-14",
+        "event": "held_decision_review",
+        "held_decision_id": "sunday-policy-money-map-v0",
+        "title": "Policy Money Map v0 (Power & Policy)",
+        "notion_url": "https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959",
+        "note": "Operator-parked decision packet review date reached."
+      }
+    },
+    "source": "Held decision packet: Policy Money Map v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959)",
+    "registered_at": "2026-06-13T04:00:00Z",
+    "expires": "2026-06-21",
+    "status": "armed"
   }
 ]
