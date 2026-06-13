@@ -248,12 +248,14 @@ def test_todaydecide_jsx_consumes_canonical_payload_fields():
 def test_todaydecide_jsx_uses_canonical_card_fields():
     src = _jsx(TODAY_DECIDE_JSX)
     # Required card-level accesses for the parity contract.
-    for path in ("card.card_id", "card.ticker", "card.recheck_date",
+    for path in ("card.card_id", "card.ticker", "card.recheck_date", "card.sizing",
                  "card.conflicts"):
         assert path in src, f"TodayDecide.jsx must read {path}"
     # And inner sub-objects (read via local refs `win`, `conv`).
     for path in ("win.class", "conv.read", "conv.points",
                  "conv.groups", "conv.raises"):
+        assert path in src, f"TodayDecide.jsx must read {path}"
+    for path in ("sizing.source", "sizing.suggested_usd", "sizing.heat", "sizing.cap_basis"):
         assert path in src, f"TodayDecide.jsx must read {path}"
 
 

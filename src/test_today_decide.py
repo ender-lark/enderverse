@@ -141,6 +141,11 @@ def test_pcra_exclusion_rendered_on_stock_buys():
     html = render_today_decide_html(_payload())
     assert "ETF-ONLY" in html and "PCRA" in html
 
+def test_caps_sizing_renders_on_buy_cards():
+    html = render_today_decide_html(_payload())
+    assert "sizing: caps suggested" in html
+    assert "cap basis:" in html
+
 def test_mags_source_conflict_chip_renders():
     p = _payload()
     mags = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "MAGS"][0]

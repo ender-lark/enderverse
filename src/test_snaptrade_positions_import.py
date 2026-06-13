@@ -85,6 +85,7 @@ def test_build_combined_from_snaptrade_preserves_owner_account_broker_and_cash()
                             "name": "Fidelity Taxable",
                             "number": "...1234",
                             "institution_name": "Fidelity",
+                            "balance": {"total": {"amount": 2340.71}},
                         },
                         "positions": [
                             {
@@ -119,6 +120,8 @@ def test_build_combined_from_snaptrade_preserves_owner_account_broker_and_cash()
     assert row["owner"] == "SKB"
     assert row["broker"] == "Fidelity"
     assert row["account_name"] == "Fidelity Taxable ...1234"
+    assert row["reported_total"] == 2340.71
+    assert row["validation"]["reported_total"] == 2340.71
     assert row["positions"][0]["symbol"] == "NVDA"
     assert row["positions"][0]["quantity"] == 12.0
     assert row["positions"][0]["market_value"] == 2040.0

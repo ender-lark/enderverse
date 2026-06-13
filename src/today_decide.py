@@ -240,6 +240,7 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     win = card.get("window") or {}
     execn = card.get("execution") or {}
     impact = card.get("impact") or {}
+    sizing = card.get("sizing") or {}
     cid = _esc(card.get("card_id"))
     conflicted = " td-conflicted" if card.get("conflicts") else ""
     h = [f'<details class="td-card{conflicted}">', '<summary class="td-sum">']
@@ -300,6 +301,13 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
         h.append(f'<div class="td-chip">TRANSFER NEEDED: {_esc(execn["transfer_note"])}</div>')
     if execn.get("cash"):
         h.append(f'<div class="td-row">cash: {_esc(execn["cash"])}</div>')
+    if sizing:
+        suggested = sizing.get("suggested_usd")
+        suggested_txt = f'${float(suggested):,.0f}' if isinstance(suggested, (int, float)) else "n/a"
+        h.append(f'<div class="td-row">sizing: {_esc(sizing.get("source", "unknown"))} suggested {suggested_txt} '
+                 f'Â· heat {_esc(sizing.get("heat", "unknown"))}</div>')
+        if sizing.get("cap_basis"):
+            h.append(f'<div class="td-row">cap basis: {_esc(sizing["cap_basis"])}</div>')
     h.append(f'<div class="td-row">impact: {_esc(impact.get("band"))} Â· material: '
              f'{"yes" if impact.get("material") else "no"}</div>')
     if card.get("last_disposition"):

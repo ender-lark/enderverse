@@ -8,9 +8,9 @@ function for the 16-item auto-pull mandate documented in CI v11.18 and
 Operational_Reference_-_SKB.md.
 
 DESIGN PHILOSOPHY:
-  Pure-logic checklist generator. Does NOT make API calls itself.
-  Claude executes the actual UW MCP tool calls against the checklist
-  and fills in status as items complete.
+  Pure-logic checklist generator by default. Optional --battery mode can pull
+  or process bounded UW evidence for the target ticker, but missing/failing
+  lanes remain explicit not_checked rows.
 
   Mirrors v11.17 session_open_preflight.py pattern: "pure-logic core,
   JSON in / markdown out, no external dependencies."
@@ -46,7 +46,9 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass, asdict
-from typing import List, Optional
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
+from typing import Any, List, Optional
 
 
 @dataclass
@@ -192,12 +194,361 @@ def iv_overlay_items(ivr: Optional[float], atm_iv: Optional[float]) -> List[Chec
     ]
 
 
+def _arr(raw: Any) -> list[Any]:
+    if raw is None:
+        return []
+    if isinstance(raw, list):
+        return raw
+    if isinstance(raw, dict):
+        for key in ("data", "results", "signals", "result"):
+            value = raw.get(key)
+            if isinstance(value, list):
+                return value
+            if isinstance(value, dict):
+                return _arr(value)
+    return []
+
+
+def _f(value: Any) -> float | None:
+    if value in (None, "") or isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    text = str(value).replace("$", "").replace(",", "").replace("%", "").strip()
+    if not text:
+        return None
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def _first(row: dict[str, Any], *keys: str) -> Any:
+    for key in keys:
+        if key in row and row.get(key) not in (None, ""):
+            return row.get(key)
+    return None
+
+
+def _date(value: Any) -> date | None:
+    if not value:
+        return None
+    text = str(value).strip()[:10]
+    try:
+        return datetime.fromisoformat(text).date()
+    except ValueError:
+        return None
+
+
+def _today(now: datetime | date | str | None) -> date:
+    if isinstance(now, datetime):
+        return now.date()
+    if isinstance(now, date):
+        return now
+    parsed = _date(now)
+    if parsed:
+        return parsed
+    return datetime.now(timezone.utc).date()
+
+
+def _occ_expiry(symbol: Any) -> date | None:
+    text = str(symbol or "").strip().upper().replace(" ", "")
+    import re
+    match = re.search(r"(\d{2})(\d{2})(\d{2})[CP]\d{6,8}$", text)
+    if not match:
+        return None
+    yy, mm, dd = match.groups()
+    try:
+        return date(2000 + int(yy), int(mm), int(dd))
+    except ValueError:
+        return None
+
+
+def _option_side(row: dict[str, Any]) -> str:
+    raw = str(_first(row, "type", "option_type", "put_call") or "").strip().lower()
+    if raw.startswith("c"):
+        return "call"
+    if raw.startswith("p"):
+        return "put"
+    symbol = str(_first(row, "option_symbol", "option_chain", "symbol") or "").upper().replace(" ", "")
+    if "C" in symbol[-9:]:
+        return "call"
+    if "P" in symbol[-9:]:
+        return "put"
+    return "unknown"
+
+
+def _dte(row: dict[str, Any], as_of: date) -> int | None:
+    explicit = _f(_first(row, "dte", "days_to_expiration", "days_to_expiry"))
+    if explicit is not None:
+        return int(explicit)
+    expiry = _date(_first(row, "expiry", "expiration", "expiration_date"))
+    if expiry is None:
+        expiry = _occ_expiry(_first(row, "option_symbol", "option_chain", "symbol"))
+    if expiry is None:
+        return None
+    return (expiry - as_of).days
+
+
+def _oi_delta(row: dict[str, Any]) -> float:
+    return float(_f(_first(row, "oi_diff_plain", "oi_change_abs", "oi_diff", "change")) or 0.0)
+
+
+def analyze_multi_day_oi_build(
+    raw: Any,
+    *,
+    as_of: datetime | date | str | None = None,
+    min_dte: int = 30,
+) -> dict[str, Any]:
+    rows = [row for row in _arr(raw) if isinstance(row, dict)]
+    today = _today(as_of)
+    positive_dates: set[str] = set()
+    side_delta = {"call": 0.0, "put": 0.0, "unknown": 0.0}
+    included = 0
+    provided_increase_days = 0
+    skipped_short_dte = 0
+    skipped_undated = 0
+    for row in rows:
+        dte = _dte(row, today)
+        if dte is not None and dte < min_dte:
+            skipped_short_dte += 1
+            continue
+        row_date = _date(_first(row, "curr_date", "date", "as_of", "last_date", "executed_at", "created_at", "updated_at"))
+        if row_date is None:
+            skipped_undated += 1
+            continue
+        delta = _oi_delta(row)
+        if delta <= 0:
+            continue
+        included += 1
+        positive_dates.add(row_date.isoformat())
+        provided_days = _f(_first(row, "days_of_oi_increases", "oi_increase_days"))
+        if provided_days is not None:
+            provided_increase_days = max(provided_increase_days, int(provided_days))
+        side_delta[_option_side(row)] += delta
+    dominant_side = max(side_delta, key=lambda key: abs(side_delta[key])) if any(side_delta.values()) else "unknown"
+    days = max(len(positive_dates), provided_increase_days)
+    return {
+        "status": "fetched",
+        "endpoint": "get_open_interest_changes",
+        "min_dte": min_dte,
+        "rows_seen": len(rows),
+        "rows_included": included,
+        "days_of_oi_increases": days,
+        "flagged": days >= 3,
+        "dominant_side": dominant_side,
+        "positive_dates": sorted(positive_dates),
+        "skipped_short_dte": skipped_short_dte,
+        "skipped_undated": skipped_undated,
+        "summary": f"multi-day OI build: {days} dated increase day(s), min_dte {min_dte}, side {dominant_side}",
+    }
+
+
+def _notional(row: dict[str, Any]) -> float:
+    value = _f(_first(row, "premium", "notional", "value"))
+    if value is not None:
+        return abs(value)
+    size = _f(_first(row, "size", "volume", "quantity")) or 0.0
+    price = _f(_first(row, "price", "px", "fill_price")) or 0.0
+    return abs(size * price)
+
+
+def _dark_pool_sign(row: dict[str, Any]) -> float:
+    rel = _first(row, "above_vwap", "vwap_side")
+    if isinstance(rel, bool):
+        return 1.0 if rel else -1.0
+    if isinstance(rel, str):
+        return -1.0 if rel.lower() in ("below", "under", "sell") else 1.0
+    price = _f(_first(row, "price", "px", "fill_price"))
+    ask = _f(_first(row, "nbbo_ask", "ask"))
+    bid = _f(_first(row, "nbbo_bid", "bid"))
+    if price is not None and ask is not None and bid is not None:
+        return 1.0 if price >= (ask + bid) / 2.0 else -1.0
+    return 1.0
+
+
+def analyze_dark_pool_blocks(
+    raw: Any,
+    *,
+    as_of: datetime | date | str | None = None,
+    lookback_days: int = 10,
+    min_notional: float = 5_000_000.0,
+) -> dict[str, Any]:
+    rows = [row for row in _arr(raw) if isinstance(row, dict)]
+    today = _today(as_of)
+    cutoff = today - timedelta(days=lookback_days)
+    blocks: list[dict[str, Any]] = []
+    skipped_old = 0
+    skipped_small = 0
+    skipped_undated = 0
+    for row in rows:
+        row_date = _date(_first(row, "executed_at", "date", "timestamp", "created_at"))
+        if row_date is None:
+            skipped_undated += 1
+            continue
+        if row_date < cutoff or row_date > today:
+            skipped_old += 1
+            continue
+        notional = _notional(row)
+        if notional < min_notional:
+            skipped_small += 1
+            continue
+        signed = _dark_pool_sign(row) * notional
+        blocks.append({
+            "date": row_date.isoformat(),
+            "notional": round(notional, 2),
+            "signed_notional": round(signed, 2),
+            "price": _f(_first(row, "price", "px", "fill_price")),
+        })
+    net = sum(float(row["signed_notional"]) for row in blocks)
+    return {
+        "status": "fetched",
+        "endpoint": "get_dark_pool_trades",
+        "lookback_days": lookback_days,
+        "min_notional": min_notional,
+        "rows_seen": len(rows),
+        "qualifying_blocks": len(blocks),
+        "flagged": bool(blocks),
+        "total_notional": round(sum(float(row["notional"]) for row in blocks), 2),
+        "net_signed_notional": round(net, 2),
+        "blocks": blocks[:10],
+        "skipped_old": skipped_old,
+        "skipped_small": skipped_small,
+        "skipped_undated": skipped_undated,
+        "summary": (
+            f"dark-pool blocks: {len(blocks)} block(s) >= ${min_notional / 1_000_000:.0f}M "
+            f"inside {lookback_days}d, net ${net / 1_000_000:.1f}M"
+        ),
+    }
+
+
+def _not_checked_lane(name: str, endpoint: str, reason: str) -> dict[str, Any]:
+    return {
+        "name": name,
+        "endpoint": endpoint,
+        "status": "not_checked",
+        "flagged": False,
+        "summary": f"not checked - {reason}",
+    }
+
+
+class UWDeepdiveFetcher:
+    """Thin live adapter for --battery; tests use fakes instead."""
+    def __init__(self, *, timeout: float = 20.0, retries: int = 1, limit: int = 500) -> None:
+        from codex_uw.endpoints import UWEndpoints
+        from codex_uw.rest_client import UWRestClient
+        self._endpoints = UWEndpoints
+        self._client = UWRestClient(timeout=timeout, retries=retries)
+        self._limit = limit
+
+    def get_open_interest_changes(self, ticker: str, *, min_dte: int = 30) -> Any:
+        return self._client.get_json(
+            self._endpoints.TICKER_OI_CHANGE,
+            path_params={"ticker": ticker},
+            params={"limit": self._limit, "min_dte": min_dte},
+        )
+
+    def get_dark_pool_trades(self, ticker: str, *, days: int = 10, min_notional: float = 5_000_000.0) -> Any:
+        return self._client.get_json(
+            self._endpoints.DARKPOOL_TICKER,
+            path_params={"ticker": ticker},
+            params={"limit": self._limit, "days": days, "min_notional": int(min_notional)},
+        )
+
+
+def build_evidence_battery(
+    ticker: str,
+    *,
+    fetcher: Any = None,
+    oi_raw: Any = None,
+    dark_pool_raw: Any = None,
+    as_of: datetime | date | str | None = None,
+    min_dte: int = 30,
+    lookback_days: int = 10,
+    min_dark_pool_notional: float = 5_000_000.0,
+) -> dict[str, Any]:
+    ticker = ticker.upper()
+    lanes: list[dict[str, Any]] = []
+
+    if oi_raw is None and fetcher is not None:
+        try:
+            oi_raw = fetcher.get_open_interest_changes(ticker, min_dte=min_dte)
+        except Exception as exc:
+            lanes.append(_not_checked_lane(
+                "multi_day_oi_build",
+                "get_open_interest_changes",
+                f"UW OI fetch failed: {str(exc)[:160]}",
+            ))
+    if oi_raw is None and not any(row.get("name") == "multi_day_oi_build" for row in lanes):
+        lanes.append(_not_checked_lane(
+            "multi_day_oi_build",
+            "get_open_interest_changes",
+            "no UW OI response supplied",
+        ))
+    elif oi_raw is not None:
+        lanes.append({"name": "multi_day_oi_build", **analyze_multi_day_oi_build(oi_raw, as_of=as_of, min_dte=min_dte)})
+
+    if dark_pool_raw is None and fetcher is not None:
+        try:
+            dark_pool_raw = fetcher.get_dark_pool_trades(
+                ticker,
+                days=lookback_days,
+                min_notional=min_dark_pool_notional,
+            )
+        except Exception as exc:
+            lanes.append(_not_checked_lane(
+                "dark_pool_blocks",
+                "get_dark_pool_trades",
+                f"UW dark-pool fetch failed: {str(exc)[:160]}",
+            ))
+    if dark_pool_raw is None and not any(row.get("name") == "dark_pool_blocks" for row in lanes):
+        lanes.append(_not_checked_lane(
+            "dark_pool_blocks",
+            "get_dark_pool_trades",
+            "no UW dark-pool response supplied",
+        ))
+    elif dark_pool_raw is not None:
+        lanes.append({
+            "name": "dark_pool_blocks",
+            **analyze_dark_pool_blocks(
+                dark_pool_raw,
+                as_of=as_of,
+                lookback_days=lookback_days,
+                min_notional=min_dark_pool_notional,
+            ),
+        })
+
+    counts: dict[str, int] = {}
+    for lane in lanes:
+        status = str(lane.get("status") or "")
+        counts[status] = counts.get(status, 0) + 1
+    return {
+        "ticker": ticker,
+        "as_of": _today(as_of).isoformat(),
+        "source": "deepdive_runner",
+        "lanes": lanes,
+        "counts": counts,
+        "honesty_rule": "Fetched lanes are evidence checks only; not_checked lanes never imply all clear.",
+    }
+
+
+def _battery_markdown(battery: dict[str, Any]) -> list[str]:
+    lines = ["", "### UW Evidence Battery", ""]
+    for lane in battery.get("lanes") or []:
+        flag = " FLAG" if lane.get("flagged") else ""
+        lines.append(f"- `{lane.get('name')}`: {lane.get('status')}{flag} - {lane.get('summary')}")
+    lines.append("")
+    lines.append(f"> {battery.get('honesty_rule')}")
+    return lines
+
+
 def render_markdown(
     ticker: str,
     mode: str = "deepdive",
     tier_a: bool = False,
     post_er: bool = False,
     iv_data: Optional[dict] = None,
+    evidence_battery: Optional[dict] = None,
 ) -> str:
     items = [i for i in CHECKLIST if i.applies(mode, tier_a, post_er)]
     if iv_data:
@@ -237,6 +588,8 @@ def render_markdown(
     lines.append("")
     lines.append("> Claude replaces ⏳ with status emoji as each item executes. Surface any ❌ or ⚠️ inline before synthesis. Per P-SIMPLICITY: explicit checklist beats memory-dependent recall.")
 
+    if evidence_battery:
+        lines.extend(_battery_markdown(evidence_battery))
     return "\n".join(lines)
 
 
@@ -246,6 +599,7 @@ def render_json(
     tier_a: bool = False,
     post_er: bool = False,
     iv_data: Optional[dict] = None,
+    evidence_battery: Optional[dict] = None,
 ) -> str:
     items = [i for i in CHECKLIST if i.applies(mode, tier_a, post_er)]
     if iv_data:
@@ -257,7 +611,15 @@ def render_json(
         "item_count": len(items),
         "items": [asdict(i) for i in items],
     }
+    if evidence_battery:
+        output["evidence_battery"] = evidence_battery
     return json.dumps(output, indent=2)
+
+
+def _read_json(path: str | None) -> Any:
+    if not path:
+        return None
+    return json.loads(Path(path).read_text(encoding="utf-8-sig"))
 
 
 def self_test() -> bool:
@@ -321,6 +683,12 @@ def main():
     parser.add_argument("--post-er", action="store_true", help="Post-earnings ≥1σ — fires transcript per v11.8")
     parser.add_argument("--ivr", type=float, default=None, help="IV Rank 0-100 — activates IV overlay")
     parser.add_argument("--atm-iv", type=float, default=None, help="ATM IV decimal — activates IV overlay")
+    parser.add_argument("--battery", action="store_true", help="Attach bounded UW OI/dark-pool evidence battery")
+    parser.add_argument("--oi-json", help="Saved get_open_interest_changes response for battery mode")
+    parser.add_argument("--dark-pool-json", help="Saved get_dark_pool_trades response for battery mode")
+    parser.add_argument("--battery-as-of", help="YYYY-MM-DD date for battery lookback tests/renders")
+    parser.add_argument("--timeout", type=float, default=20.0, help="UW timeout for live --battery")
+    parser.add_argument("--retries", type=int, default=1, help="UW retries for live --battery")
     parser.add_argument("--json", action="store_true", help="JSON output")
     parser.add_argument("--self-test", action="store_true", help="Self-test and exit")
 
@@ -336,10 +704,26 @@ def main():
     if args.ivr is not None or args.atm_iv is not None:
         iv_data = {"ivr": args.ivr, "atm_iv": args.atm_iv}
 
+    battery = None
+    if args.battery or args.oi_json or args.dark_pool_json:
+        fetcher = None
+        if not args.oi_json or not args.dark_pool_json:
+            try:
+                fetcher = UWDeepdiveFetcher(timeout=args.timeout, retries=args.retries)
+            except Exception:
+                fetcher = None
+        battery = build_evidence_battery(
+            args.ticker,
+            fetcher=fetcher,
+            oi_raw=_read_json(args.oi_json),
+            dark_pool_raw=_read_json(args.dark_pool_json),
+            as_of=args.battery_as_of,
+        )
+
     if args.json:
-        print(render_json(args.ticker, args.mode, args.tier_a, args.post_er, iv_data))
+        print(render_json(args.ticker, args.mode, args.tier_a, args.post_er, iv_data, evidence_battery=battery))
     else:
-        print(render_markdown(args.ticker, args.mode, args.tier_a, args.post_er, iv_data))
+        print(render_markdown(args.ticker, args.mode, args.tier_a, args.post_er, iv_data, evidence_battery=battery))
 
 
 if __name__ == "__main__":
