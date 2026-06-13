@@ -590,6 +590,48 @@ def _build_connector_evidence(src_dir: Path, live_source_capability_module: Any)
     }
 
 
+def _build_trigger_registry_audit(src_dir: Path) -> dict[str, Any]:
+    registry = _read_json(src_dir / "trigger_registry.json", default=[])
+    triggers = registry.get("triggers") if isinstance(registry, dict) else registry
+    triggers = [row for row in triggers or [] if isinstance(row, dict)]
+    armed = [
+        row
+        for row in triggers
+        if str(row.get("status") or "armed").lower() in {"armed", "active"}
+    ]
+    summary = _read_json(src_dir / "trigger_check_summary.json", default={})
+    if not isinstance(summary, dict) or not summary:
+        return {
+            "status": "not_checked" if triggers else "checked_clear",
+            "line": (
+                f"Trigger registry: {len(armed)} armed trigger(s); not checked this build."
+                if triggers else "Trigger registry: no registered triggers."
+            ),
+            "armed_count": len(armed),
+            "fired_count": 0,
+            "not_checked_count": len(armed),
+            "rows": armed,
+            "honesty_rule": "Missing trigger-check proof is not a checked-clear trigger lane.",
+        }
+    fired = int(summary.get("fired_count") or 0)
+    not_checked = int(summary.get("not_checked_count") or 0)
+    status = "fired" if fired else "not_checked" if not_checked else "checked_clear"
+    return {
+        "status": status,
+        "line": summary.get("line")
+            or f"Trigger check: fired={fired}; not_checked={not_checked}; armed={len(armed)}.",
+        "checked_at": summary.get("checked_at") or "",
+        "armed_count": int(summary.get("armed_count") or len(armed)),
+        "fired_count": fired,
+        "not_checked_count": not_checked,
+        "expired_count": int(summary.get("expired_count") or 0),
+        "fired": summary.get("fired") or [],
+        "not_checked": summary.get("not_checked") or [],
+        "rows": triggers,
+        "honesty_rule": "Unfetched trigger quotes remain not_checked; never infer all clear.",
+    }
+
+
 def _build_source_audits(
     src_dir: Path,
     live_source_capability_module: Any,
@@ -599,6 +641,7 @@ def _build_source_audits(
     return {
         "fundstrat": _build_fundstrat_audit(src_dir),
         "cloud_routines": _build_cloud_routine_audit(src_dir, now=now),
+        "trigger_registry": _build_trigger_registry_audit(src_dir),
         "notion_writeback": _build_notion_writeback_audit(src_dir),
         "notion_collision": _build_notion_collision_audit(src_dir),
         "connector_evidence": _build_connector_evidence(src_dir, live_source_capability_module),

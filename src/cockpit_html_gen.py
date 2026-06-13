@@ -2213,6 +2213,7 @@ def _source_audits(audits: dict) -> str:
     rows = []
     for key, label in (
         ("cloud_routines", "Cloud routines"),
+        ("trigger_registry", "Trigger registry"),
         ("connector_evidence", "Connector evidence"),
         ("uw_routing", "UW routing"),
         ("uw_action_runbook", "UW action runbook"),

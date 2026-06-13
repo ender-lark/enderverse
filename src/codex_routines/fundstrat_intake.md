@@ -209,6 +209,14 @@ Accepted monthly file types:
    `trim`, `hedge`, or `size` posture. Low-value or context-only Fundstrat
    content should update neither the action stack nor Pushover.
 
+   Then run the missed-trigger guard, which may write fired/expired trigger
+   state, append a receipt on fire, and send a Pushover prompt only for newly
+   fired operator triggers:
+
+   ```bash
+   python src/trigger_check.py --write --send --routine-id investing-os-fundstrat-daytime-watch --format text
+   ```
+
 10. Run focused checks:
 
    ```bash
