@@ -822,7 +822,8 @@ def _operator_status(feed: dict) -> str:
     cloud_expected = int(cloud.get("expected_count") or 0)
     cloud_scheduled = int(cloud.get("scheduled_success_count") or 0)
     cloud_failed = int(cloud.get("failed_latest_count") or 0)
-    schedule_wait = bool(cloud_expected and cloud_scheduled < cloud_expected and not cloud_failed)
+    cloud_overdue = int(cloud.get("overdue_count") or 0)
+    schedule_wait = bool(cloud_expected and cloud_scheduled < cloud_expected and not cloud_failed and not cloud_overdue)
     if source_call_fail:
         source_call_value = f"{source_call_overdue} overdue"
     elif source_call_warn:
@@ -884,9 +885,26 @@ def _operator_status(feed: dict) -> str:
     <div class="operator-event-title">{_e(live_config_missing)} missing live-fetch setting{'' if live_config_missing == 1 else 's'}</div>
     <div class="operator-event-trigger">{_e('; '.join(lines))}</div>
   </div>"""
+    cloud_overdue_html = ""
+    if cloud_overdue:
+        overdue_rows = [
+            row for row in cloud.get("overdue") or []
+            if isinstance(row, dict)
+        ]
+        lines = []
+        for row in overdue_rows[:3]:
+            label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
+            line = row.get("overdue_line") or f"overdue: {label}, last ran {row.get('last_ran_label') or 'never'}"
+            lines.append(line)
+        cloud_overdue_html = f"""
+  <div class="operator-event-watch">
+    <div class="operator-label">Cloud routine overdue</div>
+    <div class="operator-event-title">{_e(cloud_overdue)} routine receipt{'' if cloud_overdue == 1 else 's'} overdue</div>
+    <div class="operator-event-trigger">{_e('; '.join(lines))}</div>
+  </div>"""
     status = (
         "FAIL"
-        if failed or source_call_fail
+        if failed or source_call_fail or cloud_failed or cloud_overdue
         else "WARN"
         if dark or stale or open_review_pressure or source_call_warn or live_config_missing
         else "PASS"
@@ -899,6 +917,8 @@ def _operator_status(feed: dict) -> str:
         build_blockers += 1
     if cloud_failed:
         build_blockers += 1
+    if cloud_overdue:
+        build_blockers += cloud_overdue
     build_cls = "operator-fail" if build_blockers else "operator-pass"
     wait_parts = []
     source_waits = dark + (1 if live_config_missing else 0)
@@ -906,6 +926,8 @@ def _operator_status(feed: dict) -> str:
         wait_parts.append(f"{source_waits} source wait{'s' if source_waits != 1 else ''}")
     if schedule_wait:
         wait_parts.append(f"background cloud proof {cloud_scheduled}/{cloud_expected}")
+    if cloud_overdue:
+        wait_parts.append(f"{cloud_overdue} overdue cloud routine{'s' if cloud_overdue != 1 else ''}")
     if open_stale:
         wait_parts.append(f"{open_stale} stale review{'s' if open_stale != 1 else ''}")
     if open_due:
@@ -959,6 +981,7 @@ def _operator_status(feed: dict) -> str:
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
   {live_config_html}
+  {cloud_overdue_html}
   {event_watch_html}
   <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
 </div>"""
@@ -2214,6 +2237,16 @@ def _source_audits(audits: dict) -> str:
         names = ", ".join(_e(row.get("routine_name") or row.get("routine_id") or "") for row in missing[:6])
         more = len(missing) - min(len(missing), 6)
         missing_html = f'<div class="feedback-line">Background scheduled receipts pending: {names}{f" +{more} more" if more else ""}</div>'
+    overdue = cloud.get("overdue") or []
+    overdue_html = ""
+    if overdue:
+        lines = []
+        for row in overdue[:6]:
+            if not isinstance(row, dict):
+                continue
+            label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
+            lines.append(row.get("overdue_line") or f"overdue: {label}, last ran {row.get('last_ran_label') or 'never'}")
+        overdue_html = f'<div class="feedback-line">Overdue cloud receipts: {"; ".join(_e(line) for line in lines)}</div>' if lines else ""
     uw = audits.get("uw_routing") or {}
     routing_rows = uw.get("rows") or []
     routing_html = ""
@@ -2231,6 +2264,7 @@ def _source_audits(audits: dict) -> str:
 <div class="card" id="source-audits">
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
   {''.join(rows)}
+  {overdue_html}
   {missing_html}
   {routing_html}
 </div>"""
