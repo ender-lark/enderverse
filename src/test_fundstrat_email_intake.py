@@ -291,16 +291,19 @@ def test_build_payload_and_write_convention_files(tmp_path):
         "inbox_call_dates",
         "source_call_candidates",
         "fundstrat_intake_summary",
+        "fs_ingest_inventory",
     }
     calls = json.loads((tmp_path / "fundstrat_daily_calls.json").read_text(encoding="utf-8"))
     dates = json.loads((tmp_path / "inbox_call_dates.json").read_text(encoding="utf-8"))
     inbox_entries = json.loads((tmp_path / "fundstrat_inbox_entries.json").read_text(encoding="utf-8"))
+    inventory = json.loads((tmp_path / "fs_ingest_inventory.json").read_text(encoding="utf-8"))
     assert calls[0]["ticker"] == "NVDA"
     assert dates == ["2026-06-05"]
     assert "body" not in inbox_entries[0]
     assert inbox_entries[0]["body_redacted"] is True
     assert inbox_entries[0]["body_chars"] == len(entries[0]["body"])
     assert len(inbox_entries[0]["body_sha256"]) == 64
+    assert inventory["entries"][0]["skipped_count"] == 0
 
 
 def test_full_body_context_without_action_does_not_update_inbox_call_dates(tmp_path):

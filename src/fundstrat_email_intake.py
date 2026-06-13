@@ -29,6 +29,7 @@ from html import unescape
 from pathlib import Path
 from typing import Any
 
+import fs_ingest_guard
 from fundstrat_lanes import classify_fundstrat_publication
 from full_build_runner import normalize_positions_cache
 
@@ -724,7 +725,8 @@ def write_convention_files(payload: dict, out_dir: str | Path, *,
                            top_prospects_path: str | Path | None = None,
                            source_calls_path: str | Path | None = None,
                            log_dates_path: str | Path | None = None,
-                           source_call_summary_path: str | Path | None = None) -> dict:
+                           source_call_summary_path: str | Path | None = None,
+                           inventory_path: str | Path | None = None) -> dict:
     out = Path(out_dir)
     entries = payload["entries"]
     daily_calls = payload["daily_calls"]
@@ -798,6 +800,16 @@ def write_convention_files(payload: dict, out_dir: str | Path, *,
             written["source_calls"] = Path(source_call_summary.get("path") or source_calls_path)
             written["log_call_dates"] = Path(source_call_summary.get("log_dates_path") or log_dates_path or out / "log_call_dates.json")
             written["source_call_cache_summary"] = Path(source_call_summary.get("summary_path") or source_call_summary_path or out / "source_call_cache_summary.json")
+    inventory_target = Path(inventory_path) if inventory_path else out / "fs_ingest_inventory.json"
+    inventory_entries = fs_ingest_guard.daily_note_inventory_entries(
+        entries_to_write,
+        ingested_at=payload.get("generated_at"),
+    )
+    if inventory_entries:
+        written["fs_ingest_inventory"] = fs_ingest_guard.upsert_inventory(
+            inventory_target,
+            inventory_entries,
+        )
     return {k: str(v) for k, v in written.items()}
 
 
@@ -879,6 +891,8 @@ def main(argv=None) -> int:
                         help="Path for log_call_dates.json when --source-calls is used")
     parser.add_argument("--source-call-summary", default=str(Path(__file__).resolve().parent / "source_call_cache_summary.json"),
                         help="Path for source_call_cache_summary.json when --source-calls is used")
+    parser.add_argument("--inventory", default=str(Path(__file__).resolve().parent / "fs_ingest_inventory.json"),
+                        help="Path for fs_ingest_inventory.json")
     parser.add_argument("--validate", help="Validate an output directory without writing")
     parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
@@ -916,6 +930,7 @@ def main(argv=None) -> int:
         source_calls_path=args.source_calls,
         log_dates_path=args.log_call_dates,
         source_call_summary_path=args.source_call_summary,
+        inventory_path=args.inventory,
     )
     print(json.dumps({
         "parsed": True,

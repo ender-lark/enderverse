@@ -61,6 +61,11 @@
       "canonical_surface": "News tab with monthly Bible/allocation, Top 5 large cap, Top 5 SMID rows/gap state, Bottom 5 lists, daily deltas, and data gaps",
       "summary_surface": "News tab in the summary/export mirror with monthly large-cap and SMID lists, daily deltas, and Fundstrat data gaps"
     },
+    "fs_ingest_guard": {
+      "primary_status": "summary-rendered",
+      "canonical_surface": "Rendered through fundstrat_news.gaps in FundStrat Data Gaps",
+      "summary_surface": "FundStrat Data Gaps and If I Were You review-only priorities"
+    },
     "if_i_were_you": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "If I Were You review-only section in Action view and News tab",

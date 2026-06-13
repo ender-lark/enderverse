@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T23:33:10.928665+00:00",
+  "generated_at": "2026-06-13T00:02:42.825873+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-12 \u00b7 uw_price 06-12 \u00b7 uw_macro 06-12 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-12",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-12T19:33:10.928665-04:00",
+        "date": "2026-06-12T20:02:42.825873-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-12T19:33:10.928665-04:00",
+        "date": "2026-06-12T20:02:42.825873-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -12791,7 +12791,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-12T10:01:50-04:00",
-        "connector_proof_age_hours": 9.52
+        "connector_proof_age_hours": 10.01
       }
     ],
     "missing": [],
@@ -12841,7 +12841,7 @@
           "routine_id": "investing-os-positions-sync",
           "routine_name": "Investing OS Positions Sync",
           "schedule": "market weekdays 4:45 PM ET",
-          "last_status": "started"
+          "last_status": "success"
         },
         {
           "routine_id": "investing-os-off-hours-alt-data-scout",
@@ -13075,13 +13075,13 @@
           "routine_name": "Investing OS Positions Sync",
           "role": "positions_sync",
           "schedule": "market weekdays 4:45 PM ET",
-          "receipt_count": 3,
-          "last_status": "started",
+          "receipt_count": 4,
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-12T23:32:22.688082Z",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-12T23:33:13.292876Z",
+          "last_success_at": "2026-06-12T23:33:13.292876Z",
           "last_scheduled_success_at": "",
-          "last_summary": "investing-os-positions-sync manual run started"
+          "last_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state"
         },
         {
           "routine_id": "investing-os-fundstrat-after-hours-catch-up",
@@ -13140,7 +13140,7 @@
           "routine_name": "Investing OS Deep Synthesis",
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
-          "receipt_count": 9,
+          "receipt_count": 8,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-08T21:27:16.907348Z",
@@ -14250,9 +14250,38 @@
         "one or more endpoint result rows are not same-session fresh"
       ],
       "problems": [],
-      "result_path": "src\\uw_endpoint_results.json",
+      "result_path": "C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-positions-sync-routine\\src\\uw_endpoint_results.json",
       "honesty_rule": "Only interpreted endpoint result rows count as UW proof; neutral fetch success is inconclusive and cannot promote actions."
     }
+  },
+  "fs_ingest_guard": {
+    "active_layers": [
+      {
+        "source_id": "fundstrat_sector_allocation:2026-06-11",
+        "title": "Fundstrat Sector Allocation 2026-06-11"
+      },
+      {
+        "source_id": "fundstrat_core_stock_ideas:2026-05-28",
+        "title": "Fundstrat Core Stock Ideas 2026-05-28"
+      }
+    ],
+    "findings": [
+      {
+        "key": "fs_ingest_partial",
+        "severity": "warn",
+        "source_id": "fundstrat_sector_allocation:2026-06-11",
+        "title": "Fundstrat Sector Allocation 2026-06-11",
+        "skipped_count": 2,
+        "total_sections": 6,
+        "skipped_sections": [
+          "tactical top/bottom",
+          "named levels"
+        ],
+        "line": "Fundstrat Sector Allocation 2026-06-11: 2 of 6 sections never distilled - verdicts leaning on this source are partial",
+        "next_step": "Distill or mark empty the skipped section(s): tactical top/bottom, named levels."
+      }
+    ],
+    "status": "warn"
   },
   "fundstrat_news": {
     "status": "has_data",
@@ -15133,7 +15162,15 @@
       "stored_daily_calls": 24,
       "freshness_judgment": "Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing."
     },
-    "gaps": [],
+    "gaps": [
+      {
+        "key": "fs_ingest_partial",
+        "severity": "warn",
+        "line": "Fundstrat Sector Allocation 2026-06-11: 2 of 6 sections never distilled - verdicts leaning on this source are partial",
+        "next_step": "Distill or mark empty the skipped section(s): tactical top/bottom, named levels.",
+        "source_id": "fundstrat_sector_allocation:2026-06-11"
+      }
+    ],
     "honesty_rule": "Fundstrat is the baseline source of truth, but monthly list membership is not an execution trigger; stale, missing, or snippet-only data stays labeled."
   },
   "uw_routing": {
@@ -15845,7 +15882,7 @@
       "one or more endpoint result rows are not same-session fresh"
     ],
     "problems": [],
-    "result_path": "src\\uw_endpoint_results.json",
+    "result_path": "C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-positions-sync-routine\\src\\uw_endpoint_results.json",
     "honesty_rule": "Only interpreted endpoint result rows count as UW proof; neutral fetch success is inconclusive and cannot promote actions."
   },
   "reallocation_brief": {
@@ -17105,7 +17142,7 @@
   },
   "if_i_were_you": {
     "status": "review_only",
-    "line": "If I were you: 4 review priority item(s), no execution from this section.",
+    "line": "If I were you: 5 review priority item(s), no execution from this section.",
     "rows": [
       {
         "rank": 1,
@@ -17133,6 +17170,14 @@
       },
       {
         "rank": 4,
+        "posture": "research/store",
+        "label": "Fix Fundstrat storage gaps before over-weighting monthly list performance.",
+        "why": "Fundstrat Sector Allocation 2026-06-11: 2 of 6 sections never distilled - verdicts leaning on this source are partial",
+        "what_i_would_do": "Use the May 28 list as baseline context today, but backfill SMID rows and add prices before judging missed opportunity or since-added returns.",
+        "source": "fundstrat_news"
+      },
+      {
+        "rank": 5,
         "posture": "context/re-check",
         "label": "Use daily Fundstrat calls as timing filters, not standalone thesis changes.",
         "why": "The current stored daily rows are fast-decay technical/timing evidence.",

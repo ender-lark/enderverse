@@ -230,6 +230,7 @@ def build_fundstrat_news(
     fundstrat_daily_calls: list[Any] | None = None,
     top_prospects: dict[str, Any] | None = None,
     intake_summary: dict[str, Any] | None = None,
+    ingest_findings: list[dict[str, Any]] | None = None,
     as_of: str | None = None,
 ) -> dict[str, Any]:
     """Build the feed block rendered by the Fundstrat News tab."""
@@ -288,6 +289,18 @@ def build_fundstrat_news(
                 "severity": "info",
                 "line": f"{snippet_only} Fundstrat inbox item(s) were snippet-only in the latest intake summary.",
                 "next_step": "Snippet-only discovery cannot be treated as synthesized full-body evidence.",
+            }
+        )
+    for finding in ingest_findings or []:
+        if not isinstance(finding, dict):
+            continue
+        gaps.append(
+            {
+                "key": finding.get("key") or "fs_ingest_guard",
+                "severity": finding.get("severity") or "warn",
+                "line": finding.get("line") or "",
+                "next_step": finding.get("next_step") or "Complete the Fundstrat ingest inventory.",
+                "source_id": finding.get("source_id") or "",
             }
         )
     daily_latest = daily[0]["date"] if daily else ""

@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import fs_ingest_guard
 from fundstrat_lanes import classify_fundstrat_lane, classify_fundstrat_publication
 
 
@@ -409,6 +410,7 @@ def write_compact_outputs(
     *,
     merge_existing: bool = False,
     generated_at: str | None = None,
+    inventory_path: str | Path | None = None,
 ) -> dict[str, str]:
     out = Path(out_dir)
     generated_at = generated_at or _utc_now_iso()
@@ -468,6 +470,16 @@ def write_compact_outputs(
     summary["source_calls"] = source_call_summary
     _atomic_write_json(out / "fundstrat_intake_summary.json", summary)
     written.update(source_call_written)
+    inventory_target = Path(inventory_path) if inventory_path else out / "fs_ingest_inventory.json"
+    inventory_entries = fs_ingest_guard.daily_note_inventory_entries(
+        new_audit_entries,
+        ingested_at=generated_at,
+    )
+    if inventory_entries:
+        written["fs_ingest_inventory"] = fs_ingest_guard.upsert_inventory(
+            inventory_target,
+            inventory_entries,
+        )
     return {key: str(path) for key, path in written.items()}
 
 
@@ -478,6 +490,7 @@ def main(argv=None) -> int:
     parser.add_argument("--out-dir", default=str(DEFAULT_OUT_DIR))
     parser.add_argument("--merge-existing", action="store_true")
     parser.add_argument("--generated-at")
+    parser.add_argument("--inventory")
     parser.add_argument("--validate", metavar="CALLS_JSON")
     args = parser.parse_args(argv)
 
@@ -504,6 +517,7 @@ def main(argv=None) -> int:
         args.out_dir,
         merge_existing=args.merge_existing,
         generated_at=args.generated_at,
+        inventory_path=args.inventory,
     )
     print(json.dumps({"written": True, "calls": len(calls), "out_dir": args.out_dir, "files": written}, indent=2))
     return 0

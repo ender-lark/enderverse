@@ -55,6 +55,7 @@ def test_cloud_routine_allowlist_preserves_v2_entries():
         "src/source_calls.json",
         "src/top_prospects.json",
         "src/parabolic_setups.json",
+        "src/fs_ingest_inventory.json",
     ):
         assert must_keep in paths
 
@@ -257,6 +258,11 @@ def test_morning_scan_honest_empty_when_no_inputs():
     out = ms.run_morning_scan(
         prospects={}, source_calls=[], current_prices={},
         weights=W, goal=G, parabolic_tickers=[],
+        fundstrat_bible={
+            "deck_date": "2026-06-11",
+            "sector_allocation": {"as_of": "2026-06-11"},
+        },
+        fs_ingest_inventory={"entries": []},
         as_of="2026-06-10T12:35:00+00:00",
     )
     assert out["summary"] == {
@@ -264,6 +270,7 @@ def test_morning_scan_honest_empty_when_no_inputs():
         "stale_leaps": 0, "overexposure_rotation": 0, "tier_b_side_play": 0,
     }
     assert out["honesty"]["parabolic_cache"].startswith("not_checked")
+    assert out["warnings"][0]["key"] == "fs_ingest_inventory_missing"
 
 
 def test_morning_scan_load_parabolic_tickers_extracts_phase_3_and_skip(tmp_path):

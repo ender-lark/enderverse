@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import fs_ingest_guard
 import pattern_engine as pe
 from tunables import load_conviction_weights, load_goal_tunables
 
@@ -29,6 +30,8 @@ SRC = Path(__file__).resolve().parent
 TOP_PROSPECTS_PATH = SRC / "top_prospects.json"
 SOURCE_CALLS_PATH = SRC / "source_calls.json"
 PARABOLIC_PATH = SRC.parent / "parabolic_setups.json"
+FUNDSTRAT_BIBLE_PATH = SRC / "fundstrat_bible.json"
+FS_INGEST_INVENTORY_PATH = SRC / "fs_ingest_inventory.json"
 
 
 def _now_iso() -> str:
@@ -82,10 +85,14 @@ def run_morning_scan(
     smid_top5: list[str] | None = None,
     parabolic_tickers: list[str] | None = None,
     factor_exposures: dict[str, float] | None = None,
+    fundstrat_bible: dict[str, Any] | None = None,
+    fs_ingest_inventory: dict[str, Any] | None = None,
     as_of: str | None = None,
     top_prospects_path: Path | str = TOP_PROSPECTS_PATH,
     source_calls_path: Path | str = SOURCE_CALLS_PATH,
     parabolic_path: Path | str = PARABOLIC_PATH,
+    fundstrat_bible_path: Path | str = FUNDSTRAT_BIBLE_PATH,
+    fs_ingest_inventory_path: Path | str = FS_INGEST_INVENTORY_PATH,
 ) -> dict[str, Any]:
     """Run all pattern_engine detectors + the two guards. Returns a
     routine-receipt-shaped payload.
@@ -102,6 +109,13 @@ def run_morning_scan(
         Path(source_calls_path), [])
     if parabolic_tickers is None:
         parabolic_tickers = load_parabolic_tickers(parabolic_path)
+    fundstrat_bible = fundstrat_bible if fundstrat_bible is not None else _read_json(
+        Path(fundstrat_bible_path), {})
+    fs_ingest_inventory = (
+        fs_ingest_inventory
+        if fs_ingest_inventory is not None
+        else _read_json(Path(fs_ingest_inventory_path), {})
+    )
 
     patterns = pe.detect_patterns(
         prospects=prospects, source_calls=source_calls,
@@ -127,11 +141,13 @@ def run_morning_scan(
     summary = {
         lane: len(cards) for lane, cards in patterns["cards"].items()
     }
+    fs_findings = fs_ingest_guard.findings_for_bible(fs_ingest_inventory, fundstrat_bible)
 
     return {
         "as_of": as_of,
         "summary": summary,
         "patterns": patterns,
+        "warnings": fs_findings,
         "guards_applied": {
             "parabolic_chase_dampener": sorted(set(parabolic_tickers or [])),
             "factor_overlap_caveat": sorted((factor_exposures or {}).keys()),
@@ -142,5 +158,8 @@ def run_morning_scan(
             "parabolic_cache": (str(Path(parabolic_path)) if parabolic_tickers
                                 else "not_checked — parabolic cache empty/absent"),
             "factor_exposure_supplied": bool(factor_exposures),
+            "fs_ingest_guard": (
+                f"{len(fs_findings)} warning(s)" if fs_findings else "checked - no active-layer ingest gaps"
+            ),
         },
     }
