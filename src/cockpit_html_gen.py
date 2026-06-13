@@ -2307,6 +2307,7 @@ def _source_audits(audits: dict) -> str:
     for key, label in (
         ("cloud_routines", "Cloud routines"),
         ("trigger_registry", "Trigger registry"),
+        ("integration_debt", "Integration debt"),
         ("connector_evidence", "Connector evidence"),
         ("uw_routing", "UW routing"),
         ("uw_action_runbook", "UW action runbook"),
