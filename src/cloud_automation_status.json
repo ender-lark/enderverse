@@ -211,7 +211,8 @@
       "automation_name": "Investing OS Deep Synthesis",
       "status": "ACTIVE",
       "role": "deep_synthesis",
-      "schedule": "Sunday 1:00 PM ET"
+      "schedule": "Sunday 1:00 PM ET",
+      "prompt": "src/codex_routines/deep_synthesis.md"
     },
     {
       "automation_id": "investing-os-weekly-pilot-run",
