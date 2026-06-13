@@ -20,9 +20,14 @@ from typing import Any
 
 
 DEFAULT_OUT = Path(__file__).resolve().parent / "research_queue.json"
+# Notion Research Queue data source (\ud83d\udcda Research Queue). Recorded as provenance
+# only; the rows themselves are supplied to --from-notion by the routine runner,
+# which pulls the data source through the Notion MCP and pipes them in.
+NOTION_DATA_SOURCE_ID = "cab89576-0933-40b0-ad2e-6f9a6188e804"
 TICKER_RE = re.compile(r"^\s*([A-Z]{1,6}(?:\.[A-Z]{1,4})?)\s*(?:[-:\u2014\u2013]|$)")
 PENDING_STATUSES = {"working", "queued", "in progress", "active", "research", "todo", "to do"}
 DONE_STATUSES = {"done", "complete", "completed", "closed"}
+KILLED_STATUSES = {"killed", "kill", "dropped", "rejected", "refiled", "refile"}
 PRIORITY_MAP = {
     "high": "high",
     "urgent": "high",
@@ -92,9 +97,63 @@ def _priority(value: Any) -> str:
 
 def _bucket(value: Any) -> str:
     status = str(value or "").strip().lower()
+    if status in KILLED_STATUSES:
+        return "killed"
     if status in DONE_STATUSES:
         return "done"
     return "pending"
+
+
+def _notion_property_value(prop: Any) -> Any:
+    """Unwrap one Notion API property object into a plain scalar/string."""
+    if not isinstance(prop, dict):
+        return prop
+    ptype = prop.get("type")
+    if ptype in ("title", "rich_text"):
+        parts = prop.get(ptype) or []
+        return "".join(
+            (seg.get("plain_text") or (seg.get("text") or {}).get("content") or "")
+            for seg in parts
+            if isinstance(seg, dict)
+        ).strip()
+    if ptype == "select":
+        sel = prop.get("select") or {}
+        return sel.get("name") if isinstance(sel, dict) else None
+    if ptype == "status":
+        st = prop.get("status") or {}
+        return st.get("name") if isinstance(st, dict) else None
+    if ptype == "multi_select":
+        return ", ".join(
+            o.get("name", "") for o in (prop.get("multi_select") or []) if isinstance(o, dict)
+        )
+    if ptype == "date":
+        d = prop.get("date") or {}
+        return d.get("start") if isinstance(d, dict) else None
+    if ptype == "created_time":
+        return prop.get("created_time")
+    if ptype == "number":
+        return prop.get("number")
+    # Fallback: common scalar holders on partially-shaped payloads.
+    for key in ("plain_text", "name", "start", "content"):
+        value = prop.get(key)
+        if isinstance(value, (str, int, float)):
+            return value
+    return None
+
+
+def _flatten_notion_row(row: dict[str, Any]) -> dict[str, Any]:
+    """Flatten a raw Notion API page (``{"properties": {...}}``) into a flat row.
+
+    Rows already in flat/SQLite shape (Topic/Ticker/Priority/Status as scalars)
+    pass through unchanged, so all input paths can share one normalizer.
+    """
+    if not isinstance(row, dict):
+        return row
+    props = row.get("properties")
+    if not isinstance(props, dict):
+        return row
+    flat = {key: _notion_property_value(prop) for key, prop in props.items()}
+    return {k: v for k, v in flat.items() if v not in (None, "")}
 
 
 def _ticker_from(row: dict[str, Any], text: str) -> str:
@@ -109,8 +168,9 @@ def normalize_row(row: dict[str, Any], *, as_of: str | None = None) -> dict[str,
     """Normalize one Research Queue row into the engine-friendly row shape."""
     if not isinstance(row, dict):
         return None
-    title = str(_first(row, "r", "title", "name", "task", "summary", "research") or "").strip()
-    notes = str(_first(row, "notes", "note", "description", "thesis") or "").strip()
+    row = _flatten_notion_row(row)
+    title = str(_first(row, "r", "title", "name", "task", "summary", "research", "topic") or "").strip()
+    notes = str(_first(row, "notes", "note", "description", "thesis", "findings", "reason") or "").strip()
     text = title or notes
     if not text:
         return None
@@ -183,31 +243,45 @@ def load_rows_from_stdin() -> list[dict[str, Any]]:
 
 def build_research_queue(rows: list[dict[str, Any]], *,
                          as_of: str | None = None,
-                         generated_at: str | None = None) -> dict[str, Any]:
+                         generated_at: str | None = None,
+                         source: str | None = None,
+                         data_source_id: str | None = None) -> dict[str, Any]:
     pending: list[dict[str, Any]] = []
     done: list[dict[str, Any]] = []
+    killed: list[dict[str, Any]] = []
     skipped = 0
     for row in rows:
         norm = normalize_row(row, as_of=as_of)
         if norm is None:
             skipped += 1
             continue
-        if _bucket(norm.get("status")) == "done":
+        bucket = _bucket(norm.get("status"))
+        if bucket == "done":
             done.append(norm)
+        elif bucket == "killed":
+            killed.append(norm)
         else:
             pending.append(norm)
-    return {
+    queue: dict[str, Any] = {
         "generated_at": generated_at or _utc_now_iso(),
-        "source": "research_queue_intake",
+        "source": source or "research_queue_intake",
         "pending": pending,
         "done": done,
         "summary": {
             "input_rows": len(rows),
             "pending": len(pending),
             "done": len(done),
+            "killed": len(killed),
             "skipped": skipped,
         },
     }
+    # Killed/refiled rows never surface in the pending dashboard block, but we
+    # keep them visible (never silently dropped) for the operator audit trail.
+    if killed:
+        queue["killed"] = killed
+    if data_source_id:
+        queue["data_source_id"] = data_source_id
+    return queue
 
 
 def _dedupe(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -307,6 +381,15 @@ def main(argv=None) -> int:
     parser.add_argument("--validate", help="Validate an existing research_queue.json")
     parser.add_argument("--stdin-json", action="store_true",
                         help="Read a Research Queue JSON payload from stdin")
+    parser.add_argument("--from-notion", action="store_true",
+                        help="Treat input as a Notion Research Queue pull (data source "
+                             f"{NOTION_DATA_SOURCE_ID}). Rows come from --notion-export and/or "
+                             "--stdin-json; export-file inputs remain a fallback. With no rows "
+                             "the existing research_queue.json is left unchanged (not_checked).")
+    parser.add_argument("--notion-export",
+                        help="Path to a Notion data-source pull (JSON) for --from-notion")
+    parser.add_argument("--notion-data-source", default=NOTION_DATA_SOURCE_ID,
+                        help="Notion data source id recorded as output provenance")
     parser.add_argument("--dry-run", action="store_true",
                         help="Validate and summarize without writing the output file")
     parser.add_argument("--self-test", action="store_true")
@@ -324,11 +407,34 @@ def main(argv=None) -> int:
     rows: list[dict[str, Any]] = []
     if args.stdin_json:
         rows.extend(load_rows_from_stdin())
+    if args.from_notion and args.notion_export:
+        rows.extend(load_rows(args.notion_export))
     for path in args.inputs:
         rows.extend(load_rows(path))
-    if not rows and not args.inputs and not args.stdin_json:
-        parser.error("provide at least one JSON/CSV input, --stdin-json, or use --self-test/--validate")
-    queue = build_research_queue(rows, as_of=args.as_of, generated_at=args.generated_at)
+    input_requested = bool(args.inputs or args.stdin_json or args.from_notion or args.notion_export)
+    if not input_requested:
+        parser.error("provide at least one JSON/CSV input, --from-notion/--notion-export, "
+                     "--stdin-json, or use --self-test/--validate")
+    if not rows:
+        # An input path was requested but produced nothing (Notion unreachable,
+        # empty export). Honesty rail: never overwrite the cache with an empty
+        # queue; report Research Queue as not_checked and leave the file as-is.
+        print(json.dumps({
+            "written": None,
+            "not_checked": True,
+            "reason": "no Research Queue rows supplied; existing research_queue.json left unchanged",
+            "from_notion": bool(args.from_notion),
+            "pending": 0,
+            "done": 0,
+        }, indent=2))
+        return 0
+    queue = build_research_queue(
+        rows,
+        as_of=args.as_of,
+        generated_at=args.generated_at,
+        source="research_queue_intake:notion" if args.from_notion else None,
+        data_source_id=args.notion_data_source if args.from_notion else None,
+    )
     if args.merge_existing:
         queue = merge_queues(_read_json(args.out, {}), queue)
     problems = validate_research_queue(queue)
@@ -340,8 +446,10 @@ def main(argv=None) -> int:
     print(json.dumps({
         "written": None if args.dry_run else args.out,
         "dry_run": bool(args.dry_run),
+        "source": queue.get("source"),
         "pending": len(queue["pending"]),
         "done": len(queue["done"]),
+        "killed": len(queue.get("killed", [])),
         "skipped": queue.get("summary", {}).get("skipped", 0),
     }, indent=2))
     return 0
