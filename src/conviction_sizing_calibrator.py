@@ -77,6 +77,21 @@ HITRATE_BAND_DISCOUNT = {
 
 
 # ============================================================================
+# INPUT GUARDS
+# ============================================================================
+
+def _reject_sample_inputs_path(label: str, path: Optional[str]) -> None:
+    if not path:
+        return
+    normalized = path.replace("\\", "/").lower()
+    if "/sample_inputs/" in normalized or normalized.startswith("sample_inputs/"):
+        raise ValueError(
+            f"{label} must not point at sample_inputs; use canonical position, "
+            "thesis, macro, and source-rate caches."
+        )
+
+
+# ============================================================================
 # DATA STRUCTURES
 # ============================================================================
 
@@ -659,6 +674,11 @@ def main():
 
     if not (args.positions and args.theses and args.sleeve_total):
         p.error("--positions, --theses, --sleeve-total required (or --self-test)")
+
+    _reject_sample_inputs_path("--positions", args.positions)
+    _reject_sample_inputs_path("--theses", args.theses)
+    _reject_sample_inputs_path("--macro", args.macro)
+    _reject_sample_inputs_path("--source-rates", args.source_rates)
 
     with open(args.positions) as f:
         positions = json.load(f)
