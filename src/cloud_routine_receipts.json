@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-12T23:33:13.292876Z",
+  "updated_at": "2026-06-14T23:13:34.145629Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T05:46:54.412595Z",
-      "summary": "off-hours worker started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T05:52:45.265784Z",
-      "summary": "archived 2 done items; drafted GEO + TSM dossiers; 2 Notion writes verified; AI Labor left queued; SQL/query fallback used"
-    },
     {
       "routine_id": "investing-os-off-hours-worker",
       "status": "started",
@@ -3363,6 +3349,20 @@
           }
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-social-watch-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-14T23:12:40.744341Z",
+      "summary": "social watch intake started"
+    },
+    {
+      "routine_id": "investing-os-social-watch-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-14T23:13:34.145629Z",
+      "summary": "8 subreddits checked; 8 blocked 403s; wrote not_checked cache; validation passed; no Research Queue/Notion writes; social lane dark"
     }
   ]
 }
