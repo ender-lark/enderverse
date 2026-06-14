@@ -43,6 +43,40 @@ technical elegance.
   `PR#<n>` to `MERGED PR#<n>` when applicable, and verify the post-merge state
   before starting the next slice.
 
+## Multi-Agent Coordination
+
+- Route work by environment: Codex owns live data, local environment,
+  scheduled routines, and Notion execution; Claude Code owns isolated,
+  self-contained logic on a branch/PR when no live data is needed, measures its
+  own baseline, and stays off other agents' files; Claude.ai owns architecture,
+  specs, cross-agent verification, and decision analysis, using live tools for
+  verification but shipping repo code only through prompts to Codex or Claude
+  Code.
+- Every task or prompt declares file ownership: the files it owns and the
+  rows/files it must not touch, explicitly naming other agents' claimed rows.
+- Shared files such as `src/trigger_registry.json` require isolated additions,
+  rebasing, and preservation of other branches' blocks.
+- Before speccing new work, inventory the repo first: grep existing modules and
+  read the in-flight pack. The engine often already exists; the remaining gap is
+  usually a thin data or wiring layer.
+
+## Verification Discipline
+
+- Trust evidence over reports: verify against `main` and live artifacts, never
+  against workboard status or an agent's own summary.
+- Establish ground truth before judging a claim: use a fresh clone or clean
+  checkout, run the full suite, record the actual count, and read the workboard.
+- Verify the boundary outcome, not the internal step. API success does not prove
+  a push reached the phone; credentials fixed in one shell do not prove a
+  scheduled job can see them.
+- Distinguish cosmetic flags from real failures empirically by reading live
+  timestamps and data, such as a connection's actual sync status.
+- Run the cheap diagnostic before the expensive fix; a fresh-process test can
+  separate a harmless stale-process issue from a broken environment.
+- When manual auditing recurs, turn the audit into a tool and schedule it. Prove
+  features against the real failures they target, and document honest gaps
+  instead of faking green.
+
 ## Dashboard Protocol
 
 - When the user asks for the dash, dashboard, cockpit, or conviction cockpit,
