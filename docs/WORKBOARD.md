@@ -16,7 +16,7 @@ Allowed statuses: `CLAIMED`, `IN-PROGRESS`, `PR#<n>`, `MERGED`, `SUPERSEDED`.
 | C2 | Codex | Gate semantics: close/touch/near-certain with 6/11 QQQ trap test | `src/timing_gates.json`; `src/timing_engine.py`; related tests | CLAIMED | 2026-06-12 19:25 ET |
 | C3 | Codex | Look-through auto-disclosure for wrapper ETFs on add/trim cards | look-through map/config; `src/today_decide.py`; execution/render tests | CLAIMED | 2026-06-12 19:25 ET |
 | C4 | Codex | Bible tactical extension: tactical top/bottom and named levels; full-text monthly checklist | `src/fundstrat_bible.json`; `src/fundstrat_sector_stances.py`; FundStrat intake docs/tests | CLAIMED | 2026-06-12 19:25 ET |
-| C5 | Codex | June catalyst additions and Notion Catalyst Calendar mirror | `src/catalysts.json`; catalyst intake outputs; Notion Catalyst Calendar | IN-PROGRESS | 2026-06-14 15:43 ET |
+| C5 | Codex | June catalyst additions and Notion Catalyst Calendar mirror | `src/catalysts.json`; catalyst intake outputs; Notion Catalyst Calendar | PR#28 | 2026-06-14 15:44 ET |
 | D | Codex | AUTO-OK lane design: analysis/code/docs only, never trades/doctrine/honesty rails | design doc; queue row `37dc5031-4bb6-8141-890b-cf4aa9d27625` | CLAIMED | 2026-06-12 19:25 ET |
 | P2-2 | Codex | FS ingestion completeness guard and inventory backfill for active Bible layers | `src/fs_ingest_inventory.json`; `src/fs_ingest_guard.py`; FundStrat dashboard/morning warning channel | MERGED PR#13 | 2026-06-12 20:20 ET |
 | P2-3 | Codex | Cadence-aware overdue alerts by extending receipts/heartbeat stack | `src/cloud_routine_receipts.py`; `src/cloud_ops_status.py`; `src/heartbeat_status.py`; dashboard/preflight warnings | MERGED PR#14 | 2026-06-12 20:55 ET |
