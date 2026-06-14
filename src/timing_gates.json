@@ -1,10 +1,17 @@
 {
   "updated": "2026-06-12",
+  "gate_type_docs": {
+    "close": "A stated level is confirmed only by a close on the requested side of the level. Intraday touches can move a red gate to red_but_tested, but never to green.",
+    "touch": "A live or intraday price touching the stated level or band is enough to confirm the gate. This is the default for legacy support-band gates.",
+    "near_certain": "A live price can confirm only when it clears the level by the gate's near_certain_buffer_abs or near_certain_buffer_pct; otherwise it remains red_but_tested until a close or clearer confirmation arrives.",
+    "context": "Context-only gates annotate timing and never confirm or block by themselves."
+  },
   "gates": [
     {
       "gate_id": "QQQ-NEWTON-BAND",
       "symbol": "QQQ",
       "kind": "support_band",
+      "gate_type": "close",
       "level_low": 717.5,
       "level_high": 717.5,
       "state": "red_but_tested",
@@ -19,6 +26,7 @@
       "gate_id": "SMH-WASHOUT-CONTEXT",
       "symbol": "SMH",
       "kind": "context",
+      "gate_type": "context",
       "state": "context",
       "source": "uw",
       "stated": "2026-06-09",
