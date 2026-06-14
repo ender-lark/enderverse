@@ -132,6 +132,9 @@ Current repo state:
 
 - `src/social_watch.py` normalizes a future Reddit/social cache into
   `feed.social_watch`.
+- `src/reddit_collector.py` writes `src/social_watch.json` from Chrome-browsed
+  or supplied Reddit-shaped payloads, using `reddit_signal_core.detect_signal`
+  for mention velocity and preserving `not_checked` on fetch failure.
 - `src/full_build_runner.py` loads `src/social_watch.json`, `src/reddit_watch.json`,
   or `src/reddit_signals.json`.
 - The dashboard renders Social Watch in the Action view and summary export.
@@ -152,9 +155,14 @@ Current repo state:
 ## Implementation Order
 
 1. Watch-only dashboard block and normalizer. Done 2026-06-07.
-2. Credential and compliance config: OAuth, User-Agent, rate-limit tracking, and
-   content expiry.
-3. Read-only fetcher for a small subreddit allowlist.
+2. Credential and compliance config: User-Agent, rate-limit/failure tracking,
+   and content expiry. Browser-browsed public payload path added 2026-06-14;
+   do not store credentials or author-identifying data.
+3. Read-only fetcher for a small subreddit allowlist. Added 2026-06-14 as
+   `src/reddit_collector.py`.
 4. Ticker/entity matching and snippet redaction upstream of `social_watch.py`.
-5. Research Queue escalation command.
+   Added 2026-06-14.
+5. Research Queue escalation command. Repo-local candidate generation added
+   2026-06-14; Notion write remains gated on independent confirmation and live
+   write verification.
 6. Backtest/calibration log before any Key Now promotion path.

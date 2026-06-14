@@ -285,6 +285,16 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-social-watch-intake",
+            "social watch intake manual support checked collector wiring and cache normalizer",
+            [
+                Step("social watch prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "social_watch_intake.md").is_file()
+                }),
+                Step("social watch normalize", _python("src/social_watch.py", "--cache", "src/social_watch.json", "--format", "text")),
+            ],
+        ),
+        Routine(
             "investing-os-fs-inbox-catch-up-evening",
             "FS inbox catch-up evening manual support checked prompt wiring only",
             [

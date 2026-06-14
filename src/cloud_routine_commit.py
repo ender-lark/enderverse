@@ -57,6 +57,7 @@ DEFAULT_ALLOWED_PATHS = [
     "src/top_prospects.json",
     "src/signal_log.json",
     "src/signal_log_intake_summary.json",
+    "src/social_watch.json",
     "src/catalysts.json",
     "src/catalyst_intake_summary.json",
     "src/event_risks.json",

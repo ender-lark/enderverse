@@ -311,11 +311,11 @@
       "id": "social_watch",
       "source_of_truth": "reddit_social_api_or_supplied_normalized_cache",
       "repo_artifact": "src/social_watch.json",
-      "producer": "future social_watch_intake -> social_watch.py normalizer",
+      "producer": "social_watch_intake -> reddit_collector.py -> social_watch.py normalizer",
       "feed_path": "full_build_runner.DEFAULT_FILES.social_watch -> feed.social_watch watch-only lane",
       "dashboard_surface": "Social Watch lane under Action view and summary export",
       "mirror_policy": "GitHub stores minimal normalized snippets, tickers/entities, timestamps, subreddits, derived scores, and expiry metadata; raw social content should not accumulate.",
-      "freshness_contract": "Use compliant API/OAuth intake, rate-limit tracking, and short retention; deleted or expired social content must not persist as current evidence.",
+      "freshness_contract": "Use Chrome-browsed or supplied Reddit payloads with short retention; deleted, failed, rate-limited, or expired social content must not persist as current evidence.",
       "not_checked_behavior": "Missing social cache is not checked, not no social anomalies.",
       "action_surface": "Watch-only early-signal context; can route to Research Queue or Re-check only after independent non-social confirmation."
     },

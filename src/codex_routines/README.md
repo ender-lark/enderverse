@@ -81,12 +81,20 @@ not-checked instead of being treated as clear.
    - Preserve watch-only context; this routine never promotes actions directly.
    - Missing supplied signal log remains not checked.
 
-7. Daily full build
+7. Social Watch intake
+   - Refresh `social_watch.json` from Chrome-browsed Reddit/social payloads.
+   - Preserve minimal snippets only, with 48-hour expiry metadata and no
+     author-identifying data.
+   - Missing, blocked, or rate-limited Reddit fetches remain not checked.
+   - Confirmed anomalies can route to Research Queue only after non-social
+     evidence is explicitly supplied; Reddit alone never creates action cards.
+
+8. Daily full build
    - Run `full_build_runner.py`.
    - Publish only through the publish gate.
    - Update action memory only after the feed is publish-safe.
 
-8. Off-hours research queue
+9. Off-hours research queue
    - Normalize supplied/exported Research Queue rows with
      `research_queue_intake.py`.
    - Write `research_queue.json` only when queue rows were actually supplied.
