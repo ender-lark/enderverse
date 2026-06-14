@@ -1,5 +1,6 @@
 ﻿import copy
 import os
+import json
 import sys
 
 import pytest
@@ -30,7 +31,10 @@ def _zone(price=348.0):
 
 def test_repo_gates_load_and_missing_is_honest(tmp_path):
     gates = load_gates()
-    assert any(g["gate_id"] == "QQQ-NEWTON-BAND" for g in gates)
+    qqq = next(g for g in gates if g["gate_id"] == "QQQ-NEWTON-BAND")
+    assert qqq["gate_type"] == "close"
+    docs = json.loads(te.GATES_PATH.read_text(encoding="utf-8"))["gate_type_docs"]
+    assert {"close", "touch", "near_certain", "context"} <= set(docs)
     with pytest.raises(GatesMissingError):
         load_gates(tmp_path / "absent.json")
 
@@ -45,6 +49,48 @@ def test_evaluate_gate_transitions():
     assert reclaim["suggested_state"] == "red_but_tested" and "awaiting confirm" in reclaim["why"]
     ctx = evaluate_gate({"kind": "context", "state": "context"}, 700.0)
     assert ctx["changed"] is False and "no evaluable" in ctx["why"]
+
+def test_close_gate_requires_close_not_intraday_touch():
+    gate = {
+        "gate_id": "QQQ-NEWTON-BAND",
+        "symbol": "QQQ",
+        "kind": "support_band",
+        "gate_type": "close",
+        "level_low": 717.5,
+        "level_high": 717.5,
+        "state": "red_but_tested",
+        "source": "newton",
+        "stated": "2026-06-11",
+        "note": "QQQ must close/hold above 717.50",
+        "confirm_rule": "full size only after QQQ closes/holds above 717.50",
+        "applies_to": ["ai_semis", "tech", "growth", "*BUY*"],
+        "blocks_full_size": True,
+    }
+    intraday_touch = evaluate_gate(gate, 718.4, price_type="live")
+    assert intraday_touch["suggested_state"] == "red_but_tested"
+    assert intraday_touch["changed"] is False
+    assert "close required" in intraday_touch["why"]
+
+    trap_close = evaluate_gate(gate, 717.22, price_type="close")
+    assert trap_close["suggested_state"] == "red_but_tested"
+    assert trap_close["changed"] is False
+    assert "remains unconfirmed" in trap_close["why"]
+
+    confirmed_close = evaluate_gate(gate, 718.4, price_type="close")
+    assert confirmed_close["suggested_state"] == "green"
+    assert confirmed_close["changed"] is True
+
+def test_near_certain_gate_requires_buffer_for_live_confirmation():
+    gate = _gate(state="red_but_tested") | {
+        "gate_type": "near_certain",
+        "near_certain_buffer_abs": 1.0,
+    }
+    marginal = evaluate_gate(gate, 705.5, price_type="live")
+    assert marginal["suggested_state"] == "red_but_tested"
+    assert "near-certain" in marginal["why"]
+
+    decisive = evaluate_gate(gate, 706.1, price_type="live")
+    assert decisive["suggested_state"] == "green"
 
 def test_red_gate_blocks_full_size():
     out = compute_timing("NVDA", direction="BUY", sleeves=["ai_semis"],

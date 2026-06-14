@@ -29,6 +29,7 @@ DEFAULT_ALLOWED_PATHS = [
     "src/heartbeat_summary.json",
     "src/daily_synthesis.json",
     "src/daily_synthesis_intake_summary.json",
+    "src/outcome_patterns.json",
     "src/source_call_candidates.json",
     "src/source_call_cache_summary.json",
     "src/open_opportunities.json",

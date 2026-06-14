@@ -224,6 +224,18 @@
       "action_surface": "Structured or ticker-led actionable items can promote conservatively."
     },
     {
+      "id": "outcome_patterns",
+      "source_of_truth": "deep_synthesis_routine",
+      "repo_artifact": "src/outcome_patterns.json",
+      "producer": "deep_synthesis -> outcome_patterns.py",
+      "feed_path": "monthly Deep Synthesis support artifact; not consumed by action generation",
+      "dashboard_surface": "Deep Synthesis write-up when the routine includes monthly outcome-pattern findings",
+      "mirror_policy": "GitHub stores explicit driver/category pattern findings; Notion may mirror findings in the synthesis page.",
+      "freshness_contract": "Run monthly or when explicitly requested against supplied Trade Outcomes and Decisions Log exports.",
+      "not_checked_behavior": "Missing exports or missing explicit driver/category tags are not_checked/insufficient_sample, not a clean learning read.",
+      "action_surface": "System-learning observations only; findings can inform review questions but do not create trade actions."
+    },
+    {
       "id": "meridian",
       "source_of_truth": "archived_meridian_thesis_cache",
       "repo_artifact": "src/meridian_items.json",

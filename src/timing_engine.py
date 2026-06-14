@@ -19,6 +19,10 @@ Doctrine enforced here:
   OPEN-NOW one notch to STAGE-ONLY when live.
 * SELL/TRIM legs: OPEN-NOW only on a scoped rotation trigger (sleeve TURNING
   DOWN / overexposed); otherwise STAGE-ONLY paired with the adds they fund.
+* Gate levels carry explicit confirmation semantics:
+  ``touch`` confirms from a live/intraday touch, ``close`` requires a closing
+  price, and ``near_certain`` requires a live price far enough beyond the level
+  to avoid treating a marginal intraday touch as confirmed.
 
 Pure functions; gate file I/O isolated in :func:`load_gates`.
 """
@@ -57,24 +61,75 @@ def load_gates(path: Path | str = GATES_PATH) -> list[dict[str, Any]]:
         raise GatesMissingError(f"{path.name}: 'gates' list missing")
     return gates
 
-def evaluate_gate(gate: dict[str, Any], price: float | None) -> dict[str, Any]:
+def _gate_type(gate: dict[str, Any]) -> str:
+    value = str(gate.get("gate_type") or gate.get("confirm_type") or "touch").lower()
+    aliases = {
+        "intraday_touch": "touch",
+        "level_touch": "touch",
+        "close_above": "close",
+        "closing": "close",
+        "near-certain": "near_certain",
+    }
+    return aliases.get(value, value)
+
+
+def _near_certain_level(gate: dict[str, Any], hi: float) -> float:
+    abs_buffer = gate.get("near_certain_buffer_abs")
+    pct_buffer = gate.get("near_certain_buffer_pct")
+    try:
+        if abs_buffer is not None:
+            return hi + float(abs_buffer)
+        if pct_buffer is not None:
+            return hi * (1.0 + float(pct_buffer))
+    except (TypeError, ValueError):
+        pass
+    return hi * 1.0025
+
+
+def evaluate_gate(
+    gate: dict[str, Any],
+    price: float | None,
+    *,
+    price_type: str = "live",
+) -> dict[str, Any]:
     """Suggest a gate state from a live price (the 9:40 routine / in-session
-    helper). Pure suggestion â€” writing the new state back is a separate act."""
+    helper). Pure suggestion â€” writing the new state back is a separate act.
+
+    ``price_type`` is ``live`` by default. Gates tagged ``gate_type: close``
+    only turn green when ``price_type`` is ``close``; this prevents an intraday
+    level touch from satisfying a stated close-confirmation rule.
+    """
     lo, hi = gate.get("level_low"), gate.get("level_high")
     state = gate.get("state")
     if price is None or lo is None or hi is None or gate.get("kind") != "support_band":
         return {"suggested_state": state, "changed": False, "why": "no evaluable levels/price"}
+    lo = float(lo)
+    hi = float(hi)
+    price = float(price)
+    gate_type = _gate_type(gate)
+    basis = str(price_type or "live").lower()
     if price < lo:
-        suggested = "red"
-        why = f"price {price} below band {lo}-{hi}"
+        if gate_type == "close" and basis == "close" and state == "red_but_tested":
+            suggested = "red_but_tested"
+            why = f"close {price} below required level {hi} - gate remains unconfirmed"
+        else:
+            suggested = "red"
+            why = f"{basis} price {price} below band {lo}-{hi}"
     elif price > hi:
-        suggested = "green" if state in ("red_but_tested", "green") else "red_but_tested"
-        why = f"price {price} above band {lo}-{hi}" + (
-            " â€” confirm rule satisfied this session" if suggested == "green" else " â€” reclaim, awaiting confirm"
-        )
+        if gate_type == "close" and basis != "close":
+            suggested = "red_but_tested"
+            why = f"intraday price {price} above band {lo}-{hi} - close required before confirmation"
+        elif gate_type == "near_certain" and basis != "close" and price < _near_certain_level(gate, hi):
+            suggested = "red_but_tested"
+            why = f"intraday price {price} above band {lo}-{hi} but below near-certain confirmation level"
+        else:
+            suggested = "green" if state in ("red_but_tested", "green") else "red_but_tested"
+            why = f"{basis} price {price} above band {lo}-{hi}" + (
+                " â€” confirm rule satisfied this session" if suggested == "green" else " â€” reclaim, awaiting confirm"
+            )
     else:
         suggested = "red_but_tested" if state in ("red", "red_but_tested") else state
-        why = f"price {price} inside band {lo}-{hi}"
+        why = f"{basis} price {price} inside band {lo}-{hi}"
     return {"suggested_state": suggested, "changed": suggested != state, "why": why}
 
 def _gate_applies(gate: dict[str, Any], sleeves: list[str]) -> bool:
