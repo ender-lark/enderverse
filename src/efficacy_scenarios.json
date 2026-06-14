@@ -1,19 +1,19 @@
 {
   "schema": "efficacy_scenarios.v1",
-  "purpose": "Replayable proof that the trigger spine (trigger_check.py + trigger_registry.json, PR#15) and the caps-based sizing block (directive_recs.py, PR#18) actually catch the documented misses they were built for. Each expressible scenario feeds a synthetic quote series through trigger_check.evaluate() and asserts the trigger fires exactly once, emits a push payload, and is idempotent. The parabolic miss is recorded as a coverage gap because no current condition type expresses acceleration.",
+  "purpose": "Replayable proof that the trigger spine (trigger_check.py + trigger_registry.json, PR#15) and the caps-based sizing block (directive_recs.py, PR#18) actually catch the documented misses they were built for. Each expressible scenario feeds a synthetic quote series through trigger_check.evaluate() and asserts the trigger fires exactly once, emits a push payload, and is idempotent. As of the PARABOLIC-TRIGGER slice the MU parabolic miss is also expressible: docs/efficacy_gaps.md GAP 1 is resolved by the new `acceleration` condition type, so all four documented misses are now proven-caught.",
   "owner_row": "EFFICACY-HARNESS (docs/WORKBOARD.md)",
   "baseline": {
     "ref": "origin/main 14d78ca (PRs #15-#19 merged)",
     "pytest_src": "1437 passed, 6 skipped",
     "verify_standard": "pass"
   },
-  "spine_condition_types": ["price_cross", "level_touch", "iv_threshold", "date_event"],
+  "spine_condition_types": ["price_cross", "level_touch", "iv_threshold", "date_event", "acceleration"],
   "condition_type_coverage": {
     "level_touch": "asts-reentry-2026-05",
     "price_cross": "ewre-weekly-close-2026-06-12",
     "date_event": "googl-tranche-2-2026-06-19",
     "iv_threshold": "generic-recheck-2026-06-09",
-    "_gap": "mu-parabolic-2026-05-27 needs a condition type the spine does not have"
+    "acceleration": "mu-parabolic-2026-05-27"
   },
   "scenarios": [
     {
@@ -135,28 +135,29 @@
       "miss_class": "mu_parabolic",
       "ticker": "MU",
       "dates": ["2026-05-27"],
-      "documented_miss": "MU went parabolic on 5/27 (rapid multi-day price acceleration / blow-off). parabolic_setup_screener.py can score the SETUP and even classify a 'Phase 3 (parabola)', but that screener is a research surface, not a trigger condition type. The spine has no way to ARM a trigger that fires on acceleration, so nothing pinged.",
-      "signal_that_existed": "Multi-day parabolic acceleration (e.g. a sharp N-day percent move / blow-off), detectable by the parabolic screener's phase classifier.",
-      "trigger_that_should_fire": "A condition that fires on rate-of-change / acceleration, not a static level.",
-      "coverage": "gap",
-      "condition_type": "parabolic_acceleration",
-      "provenance": "reconstructed_gap",
-      "would_require_condition_type": "parabolic_acceleration",
-      "maps_to_existing_type": false,
-      "why_no_existing_type_fits": "price_cross / level_touch fire on a fixed price; iv_threshold fires on an IV level; date_event fires on a calendar date. None express 'price accelerated X% over N days' or 'entered Phase 3', so a parabolic move can only be caught by hard-coding a guessed price level after the fact.",
-      "gap_probe": {
-        "as_of": "2026-05-27T14:00:00Z",
-        "unsupported_condition_type": "parabolic_acceleration",
-        "quote": {"price": 150.0, "last": 150.0, "pct_change_5d": 44.0},
-        "expected_status": "not_checked",
-        "expected_reason_contains": "unsupported condition"
+      "documented_miss": "MU went parabolic on 5/27 (rapid multi-day price acceleration / blow-off). parabolic_setup_screener.py could score the SETUP and classify 'Phase 3 (parabola)', but that screener was a research surface, not a trigger condition type, so nothing pinged. RESOLVED by the PARABOLIC-TRIGGER slice: the new `acceleration` condition type expresses rate-of-change, and the screener now auto-arms an acceleration trigger when it classifies Phase 3.",
+      "signal_that_existed": "Multi-day parabolic acceleration (a sharp N-day percent move / blow-off plus the screener's Phase 3 classifier).",
+      "trigger_that_should_fire": "An `acceleration` condition firing on rate-of-change (pct_change_5d above threshold) AND the Phase 3 floor -- not a static level. A slow grind to the same price prints a small percent move / lower phase and does not fire.",
+      "coverage": "expressible",
+      "condition_type": "acceleration",
+      "provenance": "real_registry",
+      "registry_id": "parabolic-accel-mu",
+      "expected_params_subset": {"field": "pct_change_5d", "threshold": 40.0, "min_phase": 3},
+      "resolves_gap": "docs/efficacy_gaps.md GAP 1 (parabolic-acceleration)",
+      "no_fire": {
+        "as_of": "2026-05-20T14:00:00Z",
+        "quote": {"price": 150.0, "last": 150.0, "pct_change_5d": 8.0, "phase": "Phase 2 (recognition)"}
       },
-      "expected": {
-        "expressible": false,
-        "honest_not_checked": true,
-        "never_false_all_clear": true,
-        "documented_in": "docs/efficacy_gaps.md"
-      }
+      "fire": {
+        "as_of": "2026-05-27T14:00:00Z",
+        "quote": {"price": 150.0, "last": 150.0, "pct_change_5d": 44.0, "phase": "Phase 3 (parabola)"},
+        "expected_fire_reason_contains": "pct_change_5d"
+      },
+      "fire_again": {
+        "as_of": "2026-05-28T14:00:00Z",
+        "quote": {"price": 158.0, "last": 158.0, "pct_change_5d": 50.0, "phase": "Phase 3 (parabola)"}
+      },
+      "expected": {"fired": true, "push_emitted": true, "idempotent": true}
     }
   ]
 }

@@ -9,15 +9,16 @@ and a caps-based sizing block (`directive_recs.py`) to fix real failures where
   * EWRE tactical trigger (6/12) -> price_cross weekly_close (real registry)
   * GOOGL tranche-2 (6/19)       -> date_event              (real registry)
   * generic 6/9 re-check         -> iv_threshold            (representative)
-  * MU parabolic (5/27)          -> NO condition type fits  -> coverage GAP
+  * MU parabolic (5/27)          -> acceleration            (real registry)
 
 Each expressible scenario feeds a synthetic quote series through the live
 `trigger_check.evaluate()` and asserts the trigger fires exactly once, emits a
 push payload, and is idempotent on a second pass. The honest path is asserted
 too: when quote data is missing the status is `not_checked`, never a false
-"all clear". The parabolic miss is proven to be a gap (an unsupported condition
-type is surfaced as `not_checked`, never silently cleared) and is documented in
-`docs/efficacy_gaps.md`.
+"all clear". The MU parabolic miss used to be an unexpressible coverage gap;
+the PARABOLIC-TRIGGER slice added the `acceleration` condition type and an
+auto-arm hook in `parabolic_setup_screener.py`, so docs/efficacy_gaps.md GAP 1
+is now RESOLVED and all four documented misses are proven-caught.
 
 This file is regression scaffolding only: it imports and exercises the existing
 modules, and never rebuilds the spine, the registry, or the card path.
@@ -115,8 +116,11 @@ def test_scenarios_file_wellformed_and_covers_the_four_misses():
     for required in ("asts_reentry", "mu_parabolic", "ewre_tactical", "generic_6_9"):
         assert required in miss_classes, f"missing documented miss: {required}"
 
-    # Exactly one coverage gap, and it is the MU parabolic class.
-    assert [g["miss_class"] for g in GAP] == ["mu_parabolic"]
+    # GAP 1 resolved: the MU parabolic class is now expressible via the
+    # `acceleration` condition type, so no coverage gaps remain -- all four
+    # documented misses are proven-caught.
+    assert GAP == [], f"unexpected unresolved coverage gap(s): {[g['id'] for g in GAP]}"
+    assert "mu_parabolic" in {s["miss_class"] for s in EXPRESSIBLE}
 
     for s in SCENARIOS:
         assert s["id"] and s["ticker"] and s["dates"]
@@ -222,47 +226,53 @@ def test_honest_path_missing_quote_is_not_checked_never_clear(scenario):
 
 
 # ---------------------------------------------------------------------------
-# The gap: parabolic acceleration cannot be expressed -> honest not_checked
+# GAP 1 resolved: parabolic acceleration is now expressible and proven-caught
 # ---------------------------------------------------------------------------
 
-def test_mu_parabolic_is_a_coverage_gap_not_a_false_all_clear():
-    scenario = GAP[0]
-    probe = scenario["gap_probe"]
-    unsupported = probe["unsupported_condition_type"]
+def test_mu_parabolic_now_caught_by_acceleration_condition_type():
+    """The miss that used to be an unexpressible gap now fires.
 
-    registry = [
-        trigger_check.make_trigger(
-            trigger_id=scenario["id"],
-            ticker=scenario["ticker"],
-            condition_type=unsupported,
-            params={"field": "pct_change_5d", "threshold": 40},
-            source="efficacy harness: parabolic gap probe",
-        )
-    ]
-    report = trigger_check.evaluate_registry(
+    The spine has an `acceleration` condition type, the MU scenario is armed in
+    the live registry, a slow grind to the same price does NOT fire, and the
+    documented 5/27 acceleration fires it exactly once -- flipping GAP 1 from
+    "armed but dead" to caught.
+    """
+    scenario = [s for s in SCENARIOS if s["miss_class"] == "mu_parabolic"][0]
+    assert scenario["coverage"] == "expressible"
+    assert scenario["condition_type"] == "acceleration"
+    assert "acceleration" in trigger_check.CONDITION_TYPES
+
+    registry = [_build_trigger(scenario)]
+    trigger_id = registry[0]["id"]
+
+    # A slow grind to the same price level (small percent move, lower phase) does
+    # NOT fire -- the false positive the gaps doc warned about.
+    pre = trigger_check.evaluate_registry(
         registry,
-        trigger_check.quote_fn_from_map({scenario["ticker"].upper(): probe["quote"]}),
-        as_of=probe["as_of"],
+        trigger_check.quote_fn_from_map(_quotes_for(scenario, "no_fire")),
+        as_of=scenario["no_fire"]["as_of"],
     )
-
-    # The spine has no vocabulary for acceleration ...
-    assert unsupported not in trigger_check.CONDITION_TYPES
-    # ... so the trigger is surfaced as not_checked, NOT a false all-clear and
-    # NOT a spurious fire, and is left armed (untouched).
-    assert report["fired_count"] == 0
-    assert report["status"] == "not_checked"
-    assert report["status"] != "checked_clear"
-    assert probe["expected_reason_contains"] in report["not_checked"][0]["reason"]
+    assert pre["fired_count"] == 0
     assert registry[0]["status"] == "armed"
 
+    # The documented 5/27 acceleration prints -> fires exactly once.
+    fired = trigger_check.evaluate(
+        registry,
+        trigger_check.quote_fn_from_map(_quotes_for(scenario, "fire")),
+        as_of=scenario["fire"]["as_of"],
+    )
+    assert [row["id"] for row in fired] == [trigger_id]
+    assert registry[0]["status"] == "fired"
 
-def test_efficacy_gaps_doc_names_the_parabolic_gap():
+
+def test_efficacy_gaps_doc_marks_parabolic_gap_resolved():
     doc = Path(__file__).resolve().parents[1] / "docs" / "efficacy_gaps.md"
     assert doc.is_file(), "docs/efficacy_gaps.md is missing"
     text = doc.read_text(encoding="utf-8").lower()
     assert "parabolic" in text
-    assert "cannot yet express" in text
     assert "mu parabolic" in text
+    assert "acceleration" in text
+    assert "resolved" in text
     assert "condition type" in text
 
 
@@ -389,6 +399,14 @@ _REQUIRED_PARAMS = {
     ),
     "iv_threshold": lambda p: trigger_check._num(_coalesce(p.get("threshold"), p.get("level"))) is not None,
     "date_event": lambda p: trigger_check._date_from_text(_coalesce(p.get("date"), p.get("event_date"))) is not None,
+    "acceleration": lambda p: any(
+        value is not None
+        for value in (
+            trigger_check._num(_coalesce(p.get("threshold"), p.get("level"))),
+            trigger_check._num(p.get("min_consecutive_up_days")),
+            trigger_check._num(p.get("min_phase")),
+        )
+    ),
 }
 
 

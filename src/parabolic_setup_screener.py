@@ -58,7 +58,7 @@ import json
 import os
 import sys
 from dataclasses import dataclass, asdict, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -824,6 +824,122 @@ def bundle_entry_from_uw(earnings, prices, income, info, profile=None) -> dict:
 
 
 # ============================================================================
+# TRIGGER AUTO-REGISTRATION HOOK (screener Phase 3 -> trigger spine)
+# ============================================================================
+# When the screener classifies a name as "Phase 3 (parabola)" that is the
+# acceleration signal docs/efficacy_gaps.md GAP 1 was tracking: the screener
+# "knew" but the parabola was only a research surface, never an armable trigger.
+# This hook bridges that gap by arming an `acceleration` trigger in the existing
+# trigger registry (trigger_check.load_registry -> upsert_trigger ->
+# save_registry). It is ADDITIVE: it never alters the research-surface output
+# (render_text_report / build_emit_payload); it only writes to the trigger
+# registry, and only when explicitly invoked (the --register-triggers flag or a
+# routine calling register_phase3_acceleration_triggers).
+
+# Canonical acceleration-trigger params for an auto-armed Phase 3 name. The
+# percent-move bar is the primary rate-of-change condition; the min_phase floor
+# pins it to the screener's own classifier so a slow grind never arms-and-fires.
+DEFAULT_ACCEL_PCT_FIELD = "pct_change_5d"
+DEFAULT_ACCEL_PCT_THRESHOLD = 40.0
+DEFAULT_ACCEL_MIN_PHASE = 3
+ACCEL_TRIGGER_EXPIRY_DAYS = 30
+
+
+def _result_field(result: Any, name: str, default: Any = None) -> Any:
+    """Read a field from a ScreenResult dataclass or its to_dict() form."""
+    if isinstance(result, dict):
+        return result.get(name, default)
+    return getattr(result, name, default)
+
+
+def is_phase3(result: Any) -> bool:
+    """True when a screen result is classified Phase 3 (parabola)."""
+    return str(_result_field(result, "phase", "") or "").lower().startswith("phase 3")
+
+
+def phase3_acceleration_trigger(
+    result: Any,
+    *,
+    registered_at: str | None = None,
+    expires: str | None = None,
+    pct_field: str = DEFAULT_ACCEL_PCT_FIELD,
+    pct_threshold: float = DEFAULT_ACCEL_PCT_THRESHOLD,
+    min_phase: int = DEFAULT_ACCEL_MIN_PHASE,
+) -> dict | None:
+    """Build an armed ``acceleration`` trigger for a name the screener just
+    classified as Phase 3 (parabola).
+
+    Returns ``None`` for any non-Phase-3 result (or a result with no ticker), so
+    callers can map this over a full screen safely. Uses the spine's public
+    ``make_trigger`` so the row matches the registry schema exactly.
+    """
+    if not is_phase3(result):
+        return None
+    import trigger_check  # local import keeps the screener's import surface lean
+
+    ticker = str(_result_field(result, "ticker", "") or "").upper().strip()
+    if not ticker:
+        return None
+    phase = str(_result_field(result, "phase", "") or "")
+    reg_dt = trigger_check._as_datetime(registered_at)
+    reg_iso = reg_dt.isoformat().replace("+00:00", "Z")
+    if expires is None:
+        expires = (reg_dt + timedelta(days=ACCEL_TRIGGER_EXPIRY_DAYS)).date().isoformat()
+    params = {
+        "field": pct_field,
+        "threshold": pct_threshold,
+        "operator": "above",
+        "min_phase": min_phase,
+        "phase_observed": phase,
+    }
+    return trigger_check.make_trigger(
+        trigger_id=f"parabolic-accel-{ticker.lower()}",
+        ticker=ticker,
+        condition_type="acceleration",
+        params=params,
+        source=f"parabolic_setup_screener Phase 3 auto-arm: {ticker} classified {phase}",
+        registered_at=reg_iso,
+        expires=expires,
+        note=(
+            "Auto-armed when the parabolic screener classified Phase 3 (parabola); "
+            "fires when a velocity-bearing quote confirms the acceleration."
+        ),
+    )
+
+
+def register_phase3_acceleration_triggers(
+    results: list,
+    *,
+    registry_path: Any = None,
+    registered_at: str | None = None,
+    write: bool = True,
+    **kwargs: Any,
+) -> list[dict]:
+    """Arm an ``acceleration`` trigger for every Phase 3 result via the existing
+    registry path (load -> upsert -> save).
+
+    Idempotent: re-running upserts the same ids without duplicating rows or
+    resetting a trigger that already fired. Returns the rows that were armed
+    (built regardless of ``write``); an empty list means nothing was Phase 3.
+    """
+    import trigger_check
+
+    if registry_path is None:
+        registry_path = trigger_check.DEFAULT_REGISTRY
+    built = [
+        trig
+        for result in (results or [])
+        if (trig := phase3_acceleration_trigger(result, registered_at=registered_at, **kwargs)) is not None
+    ]
+    if built and write:
+        registry = trigger_check.load_registry(registry_path)
+        for trig in built:
+            registry = trigger_check.upsert_trigger(registry, trig)
+        trigger_check.save_registry(registry, registry_path)
+    return built
+
+
+# ============================================================================
 # SELF-TEST (golden-master fixtures + producer contract)
 # ============================================================================
 
@@ -977,6 +1093,12 @@ def main() -> int:
         "--self-test", action="store_true",
         help="Run the built-in self-test (golden-master + producer contract) and exit.",
     )
+    parser.add_argument(
+        "--register-triggers", action="store_true",
+        help="Auto-arm an `acceleration` trigger in the trigger registry for any "
+             "name classified Phase 3 (parabola). Additive; does not change the "
+             "research-surface output.",
+    )
     args = parser.parse_args()
 
     if args.self_test:
@@ -987,6 +1109,10 @@ def main() -> int:
         with open(args.from_bundle) as fh:
             bundle = json.load(fh)
         results = screen_from_bundle(bundle)
+        if args.register_triggers:
+            armed = register_phase3_acceleration_triggers(results)
+            print(f"Auto-armed {len(armed)} Phase 3 acceleration trigger(s): "
+                  f"{', '.join(t['ticker'] for t in armed) or 'none'}", file=sys.stderr)
         payload = build_emit_payload(results, bundle.get("as_of"))
         if args.emit:
             with open(args.emit, "w") as fh:
@@ -1030,6 +1156,11 @@ def main() -> int:
         if r.error:
             failures += 1
         results.append(r)
+
+    if args.register_triggers:
+        armed = register_phase3_acceleration_triggers(results)
+        print(f"Auto-armed {len(armed)} Phase 3 acceleration trigger(s): "
+              f"{', '.join(t['ticker'] for t in armed) or 'none'}", file=sys.stderr)
 
     if args.emit:
         payload = build_emit_payload(results, None)
