@@ -93,6 +93,21 @@ ROUND_TRIP_VALUE_TOLERANCE = 0.05      # 5% value-match → split/merger suspect
 
 
 # ============================================================================
+# INPUT GUARDS
+# ============================================================================
+
+def _reject_sample_inputs_path(label: str, path: Optional[str]) -> None:
+    if not path:
+        return
+    normalized = path.replace("\\", "/").lower()
+    if "/sample_inputs/" in normalized or normalized.startswith("sample_inputs/"):
+        raise ValueError(
+            f"{label} must not point at sample_inputs; use the canonical "
+            "broker/current snapshot cache or an explicit extractor export."
+        )
+
+
+# ============================================================================
 # DATA STRUCTURES
 # ============================================================================
 
@@ -1225,6 +1240,7 @@ def main():
         is idempotent, so passing an already-flat file via --*-from-extractor
         is harmless too."""
         path = extractor_path or flat_path
+        _reject_sample_inputs_path("snapshot input", path)
         with open(path) as f:
             data = json.load(f)
         return flatten_extractor_snapshot(data) if extractor_path else data
@@ -1245,18 +1261,22 @@ def main():
 
     rationales = None
     if args.rationales:
+        _reject_sample_inputs_path("--rationales", args.rationales)
         with open(args.rationales) as f:
             rationales = json.load(f)
     theses = None
     if args.theses:
+        _reject_sample_inputs_path("--theses", args.theses)
         with open(args.theses) as f:
             theses = json.load(f)
     macro = None
     if args.macro:
+        _reject_sample_inputs_path("--macro", args.macro)
         with open(args.macro) as f:
             macro = json.load(f)
     source_calls = None
     if args.source_calls:
+        _reject_sample_inputs_path("--source-calls", args.source_calls)
         with open(args.source_calls) as f:
             source_calls = json.load(f)
 

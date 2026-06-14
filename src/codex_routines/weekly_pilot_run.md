@@ -28,6 +28,28 @@ stale, duplicated, or only manually checked.
    or STALE-LEAPS surface before treating option exits as fully covered.
 5. Summarize blockers, warnings, and next actions. Do not execute trades.
 
+## Options-Exit Cadence Check
+
+Weekly Pilot owns the manual review surface for the v11.10 options-exit
+cadence. Run the expiry preflight when a current portfolio/options export is
+available:
+
+```bash
+python src/options_expiry_preflight.py --portfolio <latest-portfolio-or-options-export.json> --format markdown
+```
+
+If a held or watchlist name has a catalyst/price shock that can leave long-dated
+contracts stale, run the stale LEAPS scanner as an on-demand follow-up:
+
+```bash
+python src/stale_leaps_scan.py --ticker <TICKER> --trigger <move|8k|thesis|manual> --json
+```
+
+`rationale_decay_v3.py` remains the rule engine for the 7-rule cadence; Weekly
+Pilot is the review routine that decides whether to run the portfolio-wide
+expiry pass or a ticker-specific stale-chain scan. Missing portfolio/options
+exports remain `not_checked`, not a clean options-exit read.
+
 ## Rules
 
 - Do not create a second weekly schedule.
