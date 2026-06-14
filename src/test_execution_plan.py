@@ -16,11 +16,11 @@ from execution_plan import (
 )
 
 def _acct(owner, broker, account, total, holdings, etf_only=False, crypto_only=False,
-          tax_type="taxable", tax_flag="TAXABLE â€” gains realize"):
+          tax_type="taxable", tax_flag="TAXABLE â€” gains realize", tax_status=None):
     return {
         "owner": owner, "broker": broker, "account": account,
         "etf_only": etf_only, "crypto_only": crypto_only,
-        "tax_type": tax_type, "tax_flag": tax_flag,
+        "tax_type": tax_type, "tax_status": tax_status or tax_type, "tax_flag": tax_flag,
         "total_value": total, "holdings": dict(holdings), "option_value": 0.0,
     }
 
@@ -56,6 +56,8 @@ def test_live_snaptrade_account_semantics_are_executable():
     account_ids = [a["account_id"] for a in rules["accounts"]]
     assert len(account_ids) == 11
     assert len(set(account_ids)) == 11
+    assert rules["execution_plan_policy"]["non_etf_buy_in_etf_only_account"] == "hard_flag"
+    assert rules["execution_plan_policy"]["leg_tax_status"] == "required_each_leg"
 
     pcra = classify_account(
         "Name can drift",
@@ -97,6 +99,26 @@ def test_plan_buy_stock_excludes_pcra_with_hard_rule():
     assert any("ETF-ONLY" in w for w in why.values())
     assert any("crypto-only" in w for w in why.values())
     assert all("PCRA" not in l["account"] for l in plan["eligible"])
+    assert plan["hard_flags"] == [{
+        "severity": "hard",
+        "code": "NON_ETF_BUY_IN_ETF_ONLY_ACCOUNT",
+        "account": "PCRA Trust",
+        "detail": "PCRA/ETF-only account cannot receive individual-stock buy legs.",
+    }]
+    pcra_excluded = [e for e in plan["excluded"] if "PCRA" in e["account"]][0]
+    assert pcra_excluded["severity"] == "hard"
+    assert pcra_excluded["code"] == "NON_ETF_BUY_IN_ETF_ONLY_ACCOUNT"
+
+def test_plan_buy_hard_flags_non_etf_pcra_even_when_largest_account():
+    accounts = [
+        _acct("Parents", "Schwab", "PCRA Trust", 900000.0, {}, etf_only=True,
+              tax_type="retirement_plan"),
+        _acct("SKB", "Fidelity", "Individual", 50000.0, {}, tax_type="taxable"),
+    ]
+    plan = plan_buy("AVGO", 10000, accounts=accounts, is_etf=False)
+    assert plan["suggested"]["account"] == "Individual"
+    assert plan["hard_flags"][0]["code"] == "NON_ETF_BUY_IN_ETF_ONLY_ACCOUNT"
+    assert "PCRA" in plan["hard_flags"][0]["account"]
 
 def test_plan_buy_prefers_existing_position_then_capacity():
     googl = plan_buy("GOOGL", 25000, accounts=_accounts(), is_etf=False)
@@ -110,6 +132,22 @@ def test_plan_buy_prefers_existing_position_then_capacity():
 def test_plan_buy_etf_can_route_into_pcra():
     plan = plan_buy("SMH", 10000, accounts=_accounts(), is_etf=True)
     assert "PCRA" in plan["suggested"]["account"]  # largest existing SMH position
+    assert plan["suggested"]["tax_bucket"] == "tax_advantaged"
+    assert "account:etf_only" in plan["suggested"]["leg_flags"]
+    assert plan["hard_flags"] == []
+
+def test_execution_plan_flags_taxable_vs_ira_per_leg():
+    buy = plan_buy("MSFT", 25000, accounts=_accounts(), is_etf=False)
+    buckets = {leg["account"]: leg["tax_bucket"] for leg in buy["eligible"]}
+    assert buckets["Joint WROS"] == "taxable"
+    assert buckets["Trad IRA"] == "tax_advantaged"
+    assert "tax_status:taxable" in buy["eligible"][0]["leg_flags"]
+
+    sell = plan_sell("MAGS", 30000, accounts=_accounts(), funded_buys_are_etf=True)
+    leg_buckets = {leg["account"]: leg["tax_bucket"] for leg in sell["legs"]}
+    assert leg_buckets["Joint WROS"] == "taxable"
+    assert leg_buckets["PCRA Trust"] == "tax_advantaged"
+    assert any("tax_status:traditional_ira" in leg["leg_flags"] for leg in sell["legs"])
 
 def test_plan_sell_drains_largest_first_and_reports_unfilled():
     plan = plan_sell("MAGS", 50000, accounts=_accounts(), funded_buys_are_etf=True)

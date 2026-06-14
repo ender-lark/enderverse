@@ -100,5 +100,10 @@
   "tax_advantaged_substrings": ["IRA", "Ira", "Health Savings"],
   "roth_substrings": ["ROTH", "Roth"],
   "crypto_only_substrings": ["Crypto"],
+  "execution_plan_policy": {
+    "non_etf_buy_in_etf_only_account": "hard_flag",
+    "leg_tax_status": "required_each_leg",
+    "cash": "not_checked_until_cash_source_exists"
+  },
   "notes": "Account rows are non-secret SnapTrade account identifiers plus executable tax/placement semantics. Exact account_id matches win first; name substring rules remain fallback. PCRA Trust (Parents/Schwab) is ETF-ONLY: individual-stock buys never route there; PCRA sale proceeds can only fund ETF buys or sit in cash unless the operator transfers funds out (transfers are an operator action and must be flagged explicitly)."
 }
