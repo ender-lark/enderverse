@@ -180,6 +180,8 @@
         "src/macro_pulse_summary.json",
         "src/uw_opportunity_signals.json",
         "src/parabolic_setups.json",
+        "src/insider_data.json",
+        "src/insider_cache_summary.json",
         "src/live_source_config.json"
       ],
       "commands": [
@@ -214,9 +216,13 @@
         {
           "id": "parabolic_cache",
           "command": "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1"
+        },
+        {
+          "id": "insider_cache",
+          "command": "python src/insider_cache_refresh.py --positions src/positions.json --out src/insider_data.json --summary src/insider_cache_summary.json"
         }
       ],
-      "verification": "python src/uw_opportunity_scan.py --self-test && python src/parabolic_setup_screener.py --self-test && python src/macro_pulse_scan.py --self-test && python -m pytest src/test_live_source_config_update.py src/test_uw_price_cache_intake.py src/test_macro_freshness.py src/test_uw_macro.py src/test_uw_macro_adapter.py src/test_uw_opportunity_scan.py src/test_full_build_runner.py -q",
+      "verification": "python src/uw_opportunity_scan.py --self-test && python src/parabolic_setup_screener.py --self-test && python src/macro_pulse_scan.py --self-test && python -m pytest src/test_live_source_config_update.py src/test_uw_price_cache_intake.py src/test_macro_freshness.py src/test_uw_macro.py src/test_uw_macro_adapter.py src/test_uw_opportunity_scan.py src/test_insider_cache_refresh.py src/test_full_build_runner.py -q",
       "no_input_behavior": "Do not mark UW lanes checked clear; report missing UW input as not checked and skipped or failed tickers explicitly."
     },
     {

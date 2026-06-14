@@ -200,6 +200,18 @@
       "action_surface": "Captured endpoint status can remove the 'not checked' gap, but neutral rows do not confirm a trade thesis or execute action."
     },
     {
+      "id": "insider_data",
+      "source_of_truth": "unusual_whales_api",
+      "repo_artifact": "src/insider_data.json",
+      "producer": "insider_cache_refresh.py via uw_cache_refresh routine",
+      "feed_path": "daily_preflight.py -> session_orchestrator.INSIDER ACTIVITY",
+      "dashboard_surface": "Session-open INSIDER ACTIVITY preflight and institutional/orphan evidence",
+      "mirror_policy": "GitHub stores normalized Form 4 rows plus _meta status only; raw UW payloads and API keys are not committed.",
+      "freshness_contract": "Refresh from UW insider transactions for held tickers and stamp _meta.status, checked_at, ticker_count, and transaction_count.",
+      "not_checked_behavior": "Missing token, failed UW request, or unstamped empty cache surfaces as not_checked/stub; only a stamped checked_clear zero-row run may read as no insider signal.",
+      "action_surface": "Open-market buys, clusters, and pre-catalyst sales can raise review priority; they do not execute trades."
+    },
+    {
       "id": "parabolic_setups",
       "source_of_truth": "unusual_whales_api",
       "repo_artifact": "src/parabolic_setups.json",

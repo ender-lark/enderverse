@@ -817,6 +817,9 @@ def normalize_uw_insider(raw: Any,
         code = (r.get("transaction_code") or r.get("code") or "").upper().strip()
         out.setdefault(tk, []).append({
             "date": r.get("transaction_date") or r.get("date"),
+            "filing_date": r.get("filing_date"),
+            "formtype": r.get("formtype") or r.get("form_type"),
+            "source_id": r.get("id") or r.get("ids"),
             "transaction_code": code or None,
             "transaction_type": r.get("transaction_type"),
             "insider_title": title,

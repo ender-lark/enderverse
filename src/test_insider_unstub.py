@@ -82,6 +82,37 @@ def test_empty_stub_surfaces_not_evaluated():
     assert "cache empty (stub)" in res.surface_line
 
 
+def test_live_zero_row_cache_is_checked_clear_not_stub():
+    cache = {
+        "_meta": {
+            "status": "checked_clear",
+            "source": "unusual_whales.insider_transactions",
+            "checked_at": "2026-06-14",
+        },
+        "NVDA": [],
+    }
+    res = so._run_insider([{"ticker": "NVDA"}], cache, None, None, None)
+    assert res.available is True
+    assert "no signal" in res.surface_line
+    assert res.payload["source_status"] == "checked_clear"
+
+
+def test_live_not_checked_cache_stays_unavailable():
+    cache = {
+        "_meta": {
+            "status": "not_checked",
+            "source": "unusual_whales.insider_transactions",
+            "checked_at": "2026-06-14",
+            "reason": "UW_API_KEY is not set",
+        },
+        "NVDA": [],
+    }
+    res = so._run_insider([{"ticker": "NVDA"}], cache, None, None, None)
+    assert res.available is False
+    assert "not_checked" in res.surface_line
+    assert "UW_API_KEY is not set" in res.surface_line
+
+
 def test_populated_cache_is_evaluated():
     data = ia.normalize_uw_insider([RAW_UW[0]])   # one real CEO buy
     res = so._run_insider([{"ticker": "NVDA"}], data, None, None, None)

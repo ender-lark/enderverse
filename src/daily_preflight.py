@@ -265,6 +265,10 @@ def main():
     p.add_argument("--macro", help="Override macro state JSON path")
     p.add_argument("--source-rates", help="Override source rates JSON path")
     p.add_argument("--insider-data", help="Override insider data JSON path")
+    p.add_argument("--refresh-insider-data", action="store_true",
+                   help="Refresh insider_data.json from UW before running preflight.")
+    p.add_argument("--insider-days-back", type=int, default=120,
+                   help="Lookback window for --refresh-insider-data.")
     p.add_argument("--catalysts", help="Override catalysts JSON path")
     p.add_argument("--source-calls", help="Override pending source calls JSON path")
     p.add_argument("--rationales", help="Override rationales JSON path")
@@ -324,6 +328,37 @@ def main():
 
     macro_data        = _load(paths["macro"])
     source_rates_data = _load(paths["source_rates"])
+    if args.refresh_insider_data:
+        try:
+            import insider_cache_refresh as icr
+            _summary = icr.refresh_from_paths(
+                positions_path=paths["positions"],
+                tickers_csv=None,
+                out_path=paths["insider_data"],
+                summary_path=str(Path(paths["insider_data"]).with_name("insider_cache_summary.json")),
+                days_back=args.insider_days_back,
+            )
+            _line = (
+                f"INSIDER CACHE REFRESH: {_summary.get('status')} | "
+                f"tickers={_summary.get('ticker_count')} | "
+                f"transactions={_summary.get('transaction_count')}"
+            )
+            if _summary.get("reason"):
+                _line += f" | {_summary.get('reason')}"
+            print(_line, file=(sys.stderr if args.json else sys.stdout))
+        except Exception as exc:
+            _fallback = {
+                "_meta": {
+                    "status": "not_checked",
+                    "source": "unusual_whales.insider_transactions",
+                    "checked_at": date.today().isoformat(),
+                    "reason": f"preflight refresh failed: {type(exc).__name__}: {exc}",
+                }
+            }
+            Path(paths["insider_data"]).parent.mkdir(parents=True, exist_ok=True)
+            with open(paths["insider_data"], "w") as f:
+                json.dump(_fallback, f, indent=2)
+                f.write("\n")
     insider_data_full = _load(paths["insider_data"])
     catalysts_data    = _load(paths["catalysts"])
     source_calls_data = _load(paths["source_calls"])

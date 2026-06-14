@@ -178,7 +178,7 @@ How the **live session** renders without cloning the repo (CI §6 Render Cockpit
 ## 9 · Known constraints & dead-spots
 
 - **Catalyst fetch still external to the engine** — `runtime_adapters.catalysts_from_calendar_rows(...)` now normalizes calendar rows into the feed contract and `build_full_feed(..., catalysts=...)` surfaces held-name catalysts as actions. The live routine still must fetch/provide the Catalyst Calendar rows; absence remains a `not_checked`/dark-lane condition, not "no catalysts."
-- **Parabolic cache + insider feed = down/stub** (heartbeat shows it) — two `fresh_signal` sources are non-functional, which is part of why `fresh_signals` can be empty.
+- **Parabolic cache remains separate from the insider feed** — insider/Form 4 now refreshes through `insider_cache_refresh.py` into status-stamped `insider_data.json`; missing UW credentials or failed pulls surface as `not_checked`, while stamped zero-row pulls can read as checked-clear no insider signal.
 - **Macro cache stale** (no auto-refresh) — the cockpit routine pulls macro *live*, so the macro line is fine despite the stale `macro_state.json`.
 - **UW route-arounds** (also in the high-level doc / CI §10): `get_option_trades` ignores filters → `get_flow_alerts`/`get_interval_flow --date`; screener ticker filter is comma-delimited; `MOVE` is a stock not the bond-vol index → DXY/VIX; dark-pool prints lag ~3 sessions; `get_interval_flow` depth ~12 days.
 - **Notion connector:** bare page-IDs can mis-resolve → use data-source handles; can't cleanly filter rows by status → enumerate + per-row fetch; large pages time out on update.
