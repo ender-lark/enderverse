@@ -181,6 +181,46 @@ def load_accounts(
 def _short(name: str) -> str:
     return name[:34] + ("â€¦" if len(name) > 34 else "")
 
+def _tax_status(acct: dict[str, Any]) -> str:
+    return str(acct.get("tax_status") or acct.get("tax_type") or "unknown").casefold()
+
+def _tax_bucket(acct: dict[str, Any]) -> str:
+    status = _tax_status(acct)
+    if status == "taxable":
+        return "taxable"
+    if status in {"roth", "traditional", "traditional_ira", "retirement_plan", "hsa"}:
+        return "tax_advantaged"
+    return "unknown"
+
+def _account_flags(acct: dict[str, Any]) -> list[str]:
+    flags: list[str] = []
+    if acct.get("etf_only"):
+        flags.append("etf_only")
+    if acct.get("crypto_only"):
+        flags.append("crypto_only")
+    return flags
+
+def _leg_semantics(acct: dict[str, Any]) -> dict[str, Any]:
+    bucket = _tax_bucket(acct)
+    status = _tax_status(acct)
+    leg_flags = [f"tax_bucket:{bucket}", f"tax_status:{status}"]
+    leg_flags.extend(f"account:{flag}" for flag in _account_flags(acct))
+    return {
+        "tax_status": status,
+        "tax_type": acct.get("tax_type") or status,
+        "tax_bucket": bucket,
+        "account_flags": _account_flags(acct),
+        "leg_flags": leg_flags,
+    }
+
+def _hard_flag(code: str, account: str, detail: str) -> dict[str, Any]:
+    return {
+        "severity": "hard",
+        "code": code,
+        "account": _short(account),
+        "detail": detail,
+    }
+
 def plan_buy(
     ticker: str,
     dollars: float,
@@ -192,15 +232,24 @@ def plan_buy(
     tick = ticker.upper()
     legs: list[dict[str, Any]] = []
     excluded: list[dict[str, Any]] = []
+    hard_flags: list[dict[str, Any]] = []
     for acct in accounts:
         if acct["crypto_only"]:
             excluded.append({"account": _short(acct["account"]), "why_not": "crypto-only account"})
             continue
         if acct["etf_only"] and not is_etf:
+            flag = _hard_flag(
+                "NON_ETF_BUY_IN_ETF_ONLY_ACCOUNT",
+                acct["account"],
+                "PCRA/ETF-only account cannot receive individual-stock buy legs.",
+            )
+            hard_flags.append(flag)
             excluded.append(
                 {
                     "account": _short(acct["account"]),
                     "why_not": "PCRA is ETF-ONLY â€” individual stocks cannot trade here (hard rule)",
+                    "severity": "hard",
+                    "code": flag["code"],
                 }
             )
             continue
@@ -213,6 +262,7 @@ def plan_buy(
                 "account_value": acct["total_value"],
                 "tax_flag": acct["tax_flag"],
                 "eligible": True,
+                **_leg_semantics(acct),
             }
         )
     if prefer_owner:
@@ -235,6 +285,7 @@ def plan_buy(
         "suggested": suggested,
         "eligible": legs,
         "excluded": excluded,
+        "hard_flags": hard_flags,
         "cash": "not_checked â€” cash balances are not in the positions cache; confirm buying power before placing",
     }
 
@@ -264,6 +315,7 @@ def plan_sell(
             "held_value": round(held, 2),
             "sell_usd": take,
             "tax_flag": acct["tax_flag"],
+            **_leg_semantics(acct),
         }
         if acct["etf_only"]:
             pcra_proceeds += take
