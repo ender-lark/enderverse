@@ -348,6 +348,19 @@ def _run_factor(positions: List[Dict], theses: List[Dict],
     )
 
 
+def _insider_meta(insider_data: Dict) -> Dict:
+    meta = insider_data.get("_meta") if isinstance(insider_data, dict) else None
+    return meta if isinstance(meta, dict) else {}
+
+
+def _insider_rows_only(insider_data: Dict) -> Dict[str, List[Dict]]:
+    return {
+        str(ticker).upper(): rows
+        for ticker, rows in insider_data.items()
+        if ticker != "_meta" and isinstance(rows, list)
+    }
+
+
 def _run_insider(positions: List[Dict],
                  insider_data: Optional[Dict],
                  catalysts: Optional[List[Dict]],
@@ -363,8 +376,21 @@ def _run_insider(positions: List[Dict],
     # v12.0 honesty guard — a present-but-empty cache (the stub) must not read as
     # "evaluated, nothing found." Surface the empty state explicitly so the insider
     # line can never be a silent false all-clear (Cat-5 stays honestly dark).
-    n_txns = sum(len(v) for v in insider_data.values() if isinstance(v, list))
-    if n_txns == 0:
+    meta = _insider_meta(insider_data)
+    source_status = meta.get("status")
+    if source_status in {"not_checked", "failed"}:
+        reason = meta.get("reason") or "UW insider pull did not complete"
+        return SubsystemResult(
+            name="INSIDER ACTIVITY",
+            available=False,
+            surface_line=f"INSIDER ACTIVITY: {source_status} - {reason}",
+            priority="INFO",
+            payload={"source_status": source_status, "reason": reason},
+        )
+
+    scan_data = _insider_rows_only(insider_data)
+    n_txns = sum(len(v) for v in scan_data.values())
+    if n_txns == 0 and source_status not in {"checked_clear", "has_data"}:
         return SubsystemResult(
             name="INSIDER ACTIVITY",
             available=False,
@@ -372,7 +398,7 @@ def _run_insider(positions: List[Dict],
                           "evaluated; populate via the insider refresh routine"),
             priority="INFO",
         )
-    report = ias.scan(positions, insider_data,
+    report = ias.scan(positions, scan_data,
                       _normalize_catalysts_for_routine(catalysts),
                       theses, macro_pulse)
     actionable = (len(report.bullish) + len(report.bearish)
@@ -395,7 +421,9 @@ def _run_insider(positions: List[Dict],
         payload={"bullish": len(report.bullish),
                  "bearish": len(report.bearish),
                  "cluster": len(report.cluster),
-                 "flagged": len(report.flagged)},
+                 "flagged": len(report.flagged),
+                 "source_status": source_status or "legacy_cache",
+                 "checked_at": meta.get("checked_at")},
     )
 
 
