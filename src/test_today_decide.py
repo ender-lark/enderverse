@@ -97,9 +97,9 @@ def _congruence(flagged=True):
         "flagged_ids": ["INSIGHT-950"] if flagged else [],
     }
 
-def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path=None):
+def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path=None, feed=None):
     return build_today_decide_payload(
-        feed=_feed(), weights=W, goal=goal or G, insights_payload=_insights(),
+        feed=feed or _feed(), weights=W, goal=goal or G, insights_payload=_insights(),
         accounts=_accounts(), gates=[_gate()], uw_states={}, entry_zones={},
         congruence_result=congruence_result or _congruence(),
         dispositions_path=(dispositions_path if dispositions_path else
@@ -145,6 +145,23 @@ def test_caps_sizing_renders_on_buy_cards():
     html = render_today_decide_html(_payload())
     assert "sizing: caps suggested" in html
     assert "cap basis:" in html
+
+def test_wrapper_etf_cards_disclose_lookthrough_overlap():
+    feed = _feed()
+    feed["reallocation_brief"]["rows"].append(
+        {"ticker": "SMH", "notional_usd": 25000, "current_pct": 4.0, "target_pct": 5.0}
+    )
+    p = _payload(feed=feed)
+    smh = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "SMH"][0]
+
+    assert smh["lookthrough"]["contains_line"].startswith("contains NVDA 14.5%")
+    assert "AVGO 6.1%" in smh["lookthrough"]["contains_line"]
+    assert smh["lookthrough"]["overlap_line"] == "overlap with held singles: NVDA 14.5%"
+
+    html = render_today_decide_html(p)
+    assert "look-through: contains NVDA 14.5%" in html
+    assert "AVGO 6.1%" in html
+    assert "overlap with held singles: NVDA 14.5%" in html
 
 def test_mags_source_conflict_chip_renders():
     p = _payload()
