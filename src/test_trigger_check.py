@@ -95,6 +95,92 @@ def test_date_event_fires_when_due():
     assert registry[0]["status"] == "fired"
 
 
+def _accel_trigger(params: dict | None = None) -> dict:
+    return trigger_check.make_trigger(
+        trigger_id="mu-accel",
+        ticker="MU",
+        condition_type="acceleration",
+        params=params or {"field": "pct_change_5d", "threshold": 40, "operator": "above", "min_phase": 3},
+        source="unit test",
+        registered_at="2026-05-01T00:00:00Z",
+    )
+
+
+def _pct_change(series: list[float], lookback: int = 5) -> float:
+    return (series[-1] / series[-1 - lookback] - 1) * 100
+
+
+def test_acceleration_fires_on_parabolic_series_once():
+    # A synthetic parabolic blow-off: price more than doubles over 5 sessions.
+    parabolic = [70, 78, 92, 115, 140, 150]
+    quote = {"price": parabolic[-1], "pct_change_5d": _pct_change(parabolic), "phase": "Phase 3 (parabola)"}
+    registry = [_accel_trigger()]
+
+    fired = trigger_check.evaluate(
+        registry, trigger_check.quote_fn_from_map({"MU": quote}), as_of="2026-05-27T14:00:00Z"
+    )
+    refired = trigger_check.evaluate(
+        registry, trigger_check.quote_fn_from_map({"MU": quote}), as_of="2026-05-28T14:00:00Z"
+    )
+
+    assert [row["id"] for row in fired] == ["mu-accel"]
+    assert "pct_change_5d" in fired[0]["fire_reason"]
+    assert refired == []  # idempotent: fires once
+    assert registry[0]["status"] == "fired"
+
+
+def test_acceleration_does_not_fire_on_slow_grind_to_same_level():
+    # The false positive the gaps doc warns about: the SAME end price (150)
+    # reached by a slow grind prints a small 5-day move and a lower phase.
+    grind = [142, 144, 146, 147, 149, 150]
+    quote = {"price": grind[-1], "pct_change_5d": _pct_change(grind), "phase": "Phase 2 (recognition)"}
+    registry = [_accel_trigger()]
+
+    report = trigger_check.evaluate_registry(
+        registry, trigger_check.quote_fn_from_map({"MU": quote}), as_of="2026-05-27T14:00:00Z"
+    )
+
+    assert report["fired_count"] == 0
+    assert report["status"] == "checked_clear"
+    assert registry[0]["status"] == "armed"
+
+
+def test_acceleration_not_checked_when_velocity_missing():
+    # The quote exists but carries only a last price -- no velocity fields. This
+    # must be not_checked (honest), never a false all-clear, and stay armed.
+    registry = [_accel_trigger()]
+    report = trigger_check.evaluate_registry(
+        registry, trigger_check.quote_fn_from_map({"MU": {"price": 150}}), as_of="2026-05-27T14:00:00Z"
+    )
+
+    assert report["fired_count"] == 0
+    assert report["status"] == "not_checked"
+    assert report["status"] != "checked_clear"
+    assert "no quote field pct_change_5d" in report["not_checked"][0]["reason"]
+    assert registry[0]["status"] == "armed"
+
+
+def test_acceleration_supports_consecutive_up_days_and_phase_floor():
+    # A slope+phase trigger (no percent-move bar) fires when both confirm ...
+    registry = [_accel_trigger({"min_consecutive_up_days": 5, "min_phase": 3})]
+    fired = trigger_check.evaluate(
+        registry,
+        trigger_check.quote_fn_from_map({"MU": {"consecutive_up_days": 6, "phase": "Phase 3 (parabola)"}}),
+        as_of="2026-05-27T14:00:00Z",
+    )
+    assert [row["id"] for row in fired] == ["mu-accel"]
+
+    # ... and is not_checked when the slope field is absent.
+    registry2 = [_accel_trigger({"min_consecutive_up_days": 5})]
+    report = trigger_check.evaluate_registry(
+        registry2,
+        trigger_check.quote_fn_from_map({"MU": {"phase": "Phase 3 (parabola)"}}),
+        as_of="2026-05-27T14:00:00Z",
+    )
+    assert report["status"] == "not_checked"
+    assert "no quote field consecutive_up_days" in report["not_checked"][0]["reason"]
+
+
 def test_cli_write_updates_registry_summary_and_fire_receipt(tmp_path, capsys):
     registry_path = tmp_path / "trigger_registry.json"
     summary_path = tmp_path / "trigger_check_summary.json"
