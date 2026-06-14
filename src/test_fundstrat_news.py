@@ -87,6 +87,43 @@ def test_fundstrat_news_uses_future_smid_cache_when_present():
     assert not any(gap["key"] == "missing_smid_top5" for gap in news["gaps"])
 
 
+def test_fundstrat_news_surfaces_tactical_sector_layer():
+    news = build_fundstrat_news(
+        fundstrat_bible={
+            "deck_date": "2026-06-11",
+            "top5_smid": ["FN"],
+            "sector_allocation": {
+                "as_of": "2026-06-11",
+                "tactical_top3": [
+                    {"sector": "Health Care", "ticker": "XLV"},
+                    {"sector": "Real Estate", "ticker": "XLRE"},
+                    {"sector": "Utilities", "ticker": "XLU"},
+                ],
+                "tactical_bottom3": [
+                    {"sector": "Energy", "ticker": "XLE"},
+                    {"sector": "Consumer Discretionary", "ticker": "XLY"},
+                    {"sector": "Consumer Staples", "ticker": "XLP"},
+                ],
+                "named_levels": [
+                    {"ticker": "EWRE", "condition": "weekly close above", "level": 38.0},
+                ],
+                "monthly_checklist": [
+                    {"item": "EWRE breakout gate", "status": "armed"},
+                ],
+            },
+        },
+        as_of="2026-06-14",
+    )
+
+    assert "tactical 3x3 3/3" in news["line"]
+    assert [row["ticker"] for row in news["monthly"]["tactical_top3"]] == ["XLV", "XLRE", "XLU"]
+    assert news["monthly"]["tactical_bottom3"][0]["ticker"] == "XLE"
+    assert news["monthly"]["named_levels"][0]["ticker"] == "EWRE"
+    assert news["monthly"]["monthly_checklist"][0]["item"] == "EWRE breakout gate"
+    assert not any(gap["key"] == "missing_tactical_3x3" for gap in news["gaps"])
+    assert not any(gap["key"] == "missing_named_levels" for gap in news["gaps"])
+
+
 def test_fundstrat_news_surfaces_ingest_guard_findings():
     news = build_fundstrat_news(
         fundstrat_bible={

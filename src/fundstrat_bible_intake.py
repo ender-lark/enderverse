@@ -396,6 +396,8 @@ def normalize_deck(deck: dict, *, source_file: str = "", as_of: str | None = Non
         out["what_to_own"] = deck["what_to_own"]
     if deck.get("consider"):
         out["consider"] = deck["consider"]
+    if isinstance(deck.get("sector_allocation"), dict):
+        out["sector_allocation"] = deck["sector_allocation"]
     for key in ("top5", "bottom5", "top5_smid", "bottom5_smid"):
         if deck.get(key):
             out[key] = deck[key]
@@ -410,7 +412,10 @@ def validate_bible_deck(deck: dict) -> list[str]:
         return ["deck must be an object"]
     if not deck.get("deck_date"):
         problems.append("deck_date missing")
-    section_keys = ("macro_stance", "what_to_own", "consider", "top5", "bottom5", "top5_smid", "bottom5_smid")
+    section_keys = (
+        "macro_stance", "what_to_own", "consider", "top5", "bottom5",
+        "top5_smid", "bottom5_smid", "sector_allocation",
+    )
     if not any(deck.get(k) for k in section_keys):
         problems.append("no stance, what_to_own, consider, top5, bottom5, or SMID sections found")
     for key in ("consider", "top5", "bottom5", "top5_smid", "bottom5_smid"):
@@ -452,6 +457,9 @@ def merge_decks(existing: dict | None, new: dict) -> dict:
     sectors = merge_items("what_to_own", "sector")
     if sectors:
         out["what_to_own"] = sectors
+    sector_allocation = new.get("sector_allocation") or existing.get("sector_allocation")
+    if isinstance(sector_allocation, dict):
+        out["sector_allocation"] = sector_allocation
     for key in ("consider", "top5", "bottom5", "top5_smid", "bottom5_smid"):
         items = merge_items(key, "ticker")
         if items:
@@ -489,7 +497,10 @@ def build_deck_from_paths(paths: list[str | Path], *, as_of: str | None = None,
     files = []
     for path in paths:
         next_deck, info = load_deck_from_path(path, as_of=as_of)
-        files.append({**info, "sections": [k for k in ("macro_stance", "what_to_own", "consider", "top5", "bottom5", "top5_smid", "bottom5_smid") if next_deck.get(k)]})
+        files.append({**info, "sections": [k for k in (
+            "macro_stance", "what_to_own", "consider", "top5", "bottom5",
+            "top5_smid", "bottom5_smid", "sector_allocation",
+        ) if next_deck.get(k)]})
         if next_deck:
             deck = merge_decks(deck, next_deck) if deck else next_deck
     problems = validate_bible_deck(deck)
@@ -505,6 +516,9 @@ def build_deck_from_paths(paths: list[str | Path], *, as_of: str | None = None,
         "bottom5_smid": len(deck.get("bottom5_smid") or []),
         "consider": len(deck.get("consider") or []),
         "what_to_own": len(deck.get("what_to_own") or []),
+        "tactical_top3": len(((deck.get("sector_allocation") or {}).get("tactical_top3") or []) if isinstance(deck.get("sector_allocation"), dict) else []),
+        "tactical_bottom3": len(((deck.get("sector_allocation") or {}).get("tactical_bottom3") or []) if isinstance(deck.get("sector_allocation"), dict) else []),
+        "named_levels": len(((deck.get("sector_allocation") or {}).get("named_levels") or []) if isinstance(deck.get("sector_allocation"), dict) else []),
     }
     return deck, summary
 

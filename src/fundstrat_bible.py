@@ -8,6 +8,8 @@ and emits uniform fact-cards carrying the deck's useful content VERBATIM:
   - What-to-Own sectors -> kind="what_to_own"  (one card per sector)
   - Top-5 / Bottom-5    -> kind="analyst_call"  (one card per ticker)
     Large-cap keys use top5/bottom5; SMID keys use top5_smid/bottom5_smid.
+  - sector tactical 3x3 -> kind="sector_stance" (one card per sector)
+  - named levels        -> kind="named_level" (one card per level)
 
 Boundary (Sources vs Analyst — RECORD): verbatim stance text + list membership
 are MECHANICAL, so they belong to the plug. The plug does NOT decide whether a
@@ -29,12 +31,18 @@ Deck shape (every section optional; missing -> no cards, never faked):
       "bottom5": ["XYZ", ...],
       "top5_smid": ["STRL", ...],
       "bottom5_smid": ["ELF", ...],
+      "sector_allocation": {
+          "tactical_top3": [{"sector": "Health Care", "ticker": "XLV"}],
+          "tactical_bottom3": [{"sector": "Energy", "ticker": "XLE"}],
+          "named_levels": [{"ticker": "EWRE", "condition": "weekly close above", "level": 38}],
+      },
     }
 """
 from __future__ import annotations
 
 from datetime import datetime, timezone
 
+import fundstrat_sector_stances as sector_stances
 from sources import BaseSource
 
 
@@ -97,6 +105,70 @@ def fundstrat_bible_reader(deck: dict, as_of: str | None = None) -> list[dict]:
                     "rank": i, "note": note, "verbatim": note or ticker,
                 },
             })
+
+    # --- Sector tactical top/bottom and named levels (June allocation layer) ---
+    for list_name, label, direction, items in (
+        ("tactical_top3", "FS Tactical Top-3", "favored", sector_stances.tactical_top3(deck)),
+        ("tactical_bottom3", "FS Tactical Bottom-3", "unfavored", sector_stances.tactical_bottom3(deck)),
+    ):
+        for i, item in enumerate(items, start=1):
+            sector = str(item.get("sector") or "").strip()
+            ticker = str(item.get("ticker") or "").strip().upper()
+            if not sector:
+                continue
+            adjustment = item.get("weight_adjustment_pct")
+            adjustment_text = f" ({adjustment:+g}%)" if isinstance(adjustment, (int, float)) else ""
+            content = f"{label}: {sector}{f' / {ticker}' if ticker else ''}{adjustment_text}"
+            rows.append({
+                "kind": "sector_stance",
+                "subject": ticker or sector,
+                "content": content,
+                "timestamp": ts,
+                "data": {
+                    "sector": sector,
+                    "ticker": ticker,
+                    "list": list_name,
+                    "direction": direction,
+                    "rank": item.get("rank") or i,
+                    "weight_adjustment_pct": adjustment,
+                    "current_weight_pct": item.get("current_weight_pct"),
+                    "vs_index_pct": item.get("vs_index_pct"),
+                    "note": item.get("why") or "",
+                    "verbatim": item.get("why") or sector,
+                },
+            })
+
+    for item in sector_stances.named_levels(deck):
+        ticker = str(item.get("ticker") or "").strip().upper()
+        condition = str(item.get("condition") or "").strip()
+        level = item.get("level")
+        unit = str(item.get("unit") or "").strip()
+        target = str(item.get("target") or "").strip()
+        if not ticker or not condition or level in (None, ""):
+            continue
+        if unit.upper() == "USD":
+            level_text = f"${float(level):g}"
+        else:
+            level_text = f"{level:g}" if isinstance(level, (int, float)) else str(level)
+        content = f"FS named level: {ticker} {condition} {level_text}"
+        if target:
+            content += f" -> {target}"
+        rows.append({
+            "kind": "named_level",
+            "subject": ticker,
+            "content": content,
+            "timestamp": ts,
+            "data": {
+                "ticker": ticker,
+                "asset": item.get("asset") or "",
+                "condition": condition,
+                "level": level,
+                "unit": unit,
+                "target": target,
+                "note": item.get("why") or "",
+                "verbatim": item.get("why") or content,
+            },
+        })
 
     return rows
 
