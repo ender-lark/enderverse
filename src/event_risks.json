@@ -112,5 +112,36 @@
     "summary": "Public prediction markets still price a 45% chance of a US-Iran nuclear deal by June 30 and 60% odds of a diplomatic meeting by June 30, but only about an 18% chance that Strait of Hormuz traffic normalizes by month-end. That argues against clearing the existing oil/rates timing risk for new exposure yet.",
     "trigger": "Re-check if official shipping/oil data or prediction odds show clear normalization, or if diplomacy odds break lower and the ceasefire/risk-off case re-accelerates.",
     "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-13",
+    "title": "Iran diplomacy odds rose, but Hormuz normalization still trails",
+    "severity": "medium",
+    "horizon": "daily",
+    "channels": [
+      "oil",
+      "rates",
+      "volatility",
+      "energy",
+      "growth",
+      "financials"
+    ],
+    "tickers": [
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "RYF"
+    ],
+    "affected": [
+      "Energy",
+      "Financials",
+      "High-duration growth",
+      "Portfolio hedges"
+    ],
+    "source": "Polymarket and Kalshi public markets checked 2026-06-13",
+    "summary": "Polymarket now shows about 63% odds of a US-Iran nuclear deal by June 30 and about 69% odds of a diplomatic meeting by June 30, but only about 24% odds that Strait of Hormuz traffic returns to normal by end-June. Kalshi's current 6/8-6/14 traffic market also sits near 50% for above-25 transits, which argues against clearing oil/rates timing risk for new exposure.",
+    "trigger": "Downgrade this row only if Hormuz normalization odds rise materially and shipping/market proxies improve together, or if diplomacy odds collapse and crude/rates reverse the other way.",
+    "direction": "risk_watch"
   }
 ]
