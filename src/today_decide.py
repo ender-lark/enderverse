@@ -34,6 +34,7 @@ import data_health as _dh
 import congruence as cg
 import directive_recs as dr
 import insight_register as ir
+import lookthrough_disclosure as ltd
 import timing_engine as te
 import disposition_log
 
@@ -138,6 +139,9 @@ def build_today_decide_payload(
     last = disposition_log.last_dispositions(dispositions_path)
     for card in stack["cards"] + stack["backlog"]:
         card["conflicts"] = detect_source_conflicts(feed, card)
+        disclosure = ltd.card_lookthrough_disclosure(card, accounts=accounts, feed=feed)
+        if disclosure:
+            card["lookthrough"] = disclosure
         card["recheck_date"] = recheck
         card["last_disposition"] = last.get(card["card_id"])
     honesty = dict(stack["honesty"])
@@ -297,6 +301,12 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
         h.append(f'<div class="td-row">execute: {line}</div>')
     for ex in (execn.get("excluded") or []):
         h.append(f'<div class="td-row">excluded: {_esc(ex.get("account"))} â€” {_esc(ex.get("why_not"))}</div>')
+    lookthrough = card.get("lookthrough") or {}
+    if lookthrough:
+        h.append(f'<div class="td-row">look-through: {_esc(lookthrough.get("contains_line"))}</div>')
+        h.append(f'<div class="td-chip">{_esc(lookthrough.get("overlap_line"))}</div>')
+        if lookthrough.get("source"):
+            h.append(f'<div class="td-row">look-through source: {_esc(lookthrough.get("source"))}</div>')
     if execn.get("transfer_note"):
         h.append(f'<div class="td-chip">TRANSFER NEEDED: {_esc(execn["transfer_note"])}</div>')
     if execn.get("cash"):
