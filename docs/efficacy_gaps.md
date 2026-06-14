@@ -12,7 +12,7 @@ Current spine condition types (`trigger_check.CONDITION_TYPES`):
 
 ---
 
-## GAP 1 — parabolic-acceleration — **RESOLVED 2026-06-14 (PARABOLIC-TRIGGER slice)**
+## GAP 1 — parabolic-acceleration — **RESOLVED 2026-06-14 (PARABOLIC-TRIGGER slice, PR#29)**
 
 - **Miss it blocked:** MU parabolic, 2026-05-27 (`mu-parabolic-2026-05-27` in
   `efficacy_scenarios.json`). MU accelerated into a multi-day blow-off; the
