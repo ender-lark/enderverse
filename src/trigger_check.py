@@ -29,7 +29,7 @@ DEFAULT_HELD_DECISIONS = ROOT / "src" / "held_decisions.json"
 
 ARMED_STATUSES = {"armed", "active"}
 TERMINAL_STATUSES = {"fired", "expired", "cancelled"}
-CONDITION_TYPES = {"price_cross", "level_touch", "iv_threshold", "date_event"}
+CONDITION_TYPES = {"price_cross", "level_touch", "iv_threshold", "date_event", "acceleration"}
 
 
 def _now_utc() -> datetime:
@@ -59,6 +59,28 @@ def _date_from_text(value: Any) -> date | None:
         return date.fromisoformat(str(value)[:10])
     except ValueError:
         return None
+
+
+def _phase_number(value: Any) -> int | None:
+    """Extract the integer phase from a parabolic-screener phase label.
+
+    The screener's classifier returns labels like ``"Phase 3 (parabola)"`` or
+    ``"Phase 1/2 (transition)"``; we read the first integer after ``phase`` so an
+    acceleration trigger can compare against a ``min_phase`` floor. ``"Unknown"``
+    (or any label without a leading phase number) returns ``None``, which the
+    evaluator treats as not-checked rather than a false all-clear.
+    """
+    text = str(value or "").lower()
+    idx = text.find("phase")
+    if idx == -1:
+        return None
+    digits = ""
+    for ch in text[idx + len("phase"):].strip():
+        if ch.isdigit():
+            digits += ch
+        else:
+            break
+    return int(digits) if digits else None
 
 
 def _atomic_write_json(path: str | Path, payload: Any) -> Path:
@@ -310,6 +332,70 @@ def _evaluate_iv_threshold(row: dict[str, Any], quote: Any) -> tuple[bool, str |
     return False, f"unsupported iv_threshold operator {operator}"
 
 
+def _evaluate_acceleration(row: dict[str, Any], quote: Any) -> tuple[bool, str | None]:
+    """Fire on price *velocity* (rate-of-change / parabolic acceleration) rather
+    than a static level — the miss-class no other condition type expresses
+    (docs/efficacy_gaps.md GAP 1, MU 2026-05-27).
+
+    Supports any combination of three sub-checks, all of which must pass to fire
+    (AND semantics, so a confirmation never loosens the trigger):
+
+      * percent move: ``field`` (default ``pct_change_5d``) ``operator`` (default
+        ``above``) ``threshold`` — the core rate-of-change bar;
+      * slope: ``min_consecutive_up_days`` vs the quote's ``consecutive_up_days``;
+      * phase: ``min_phase`` vs the parabolic screener's ``phase`` classifier
+        (e.g. ``"Phase 3 (parabola)"`` -> 3).
+
+    A slow grind to the same price prints a small percent move and a low phase,
+    so it does not fire — the false positive the gaps doc warns about. When a
+    configured sub-check's velocity field is absent the trigger returns a
+    ``no quote``/``acceleration missing`` reason so the spine routes it to
+    ``not_checked``, never a false all-clear.
+    """
+    condition = row.get("condition") if isinstance(row.get("condition"), dict) else {}
+    params = condition.get("params") if isinstance(condition.get("params"), dict) else {}
+
+    checks: list[tuple[bool, str]] = []
+
+    threshold = _num(params.get("threshold") or params.get("level"))
+    if threshold is not None:
+        field = str(params.get("field") or "pct_change_5d")
+        operator = str(params.get("operator") or params.get("direction") or "above").lower()
+        value = _quote_value(quote, field)
+        if value is None:
+            return False, f"no quote field {field}"
+        if operator in {"above", ">", ">=", "crosses_above"}:
+            checks.append((value >= threshold, f"{field} {value:g} >= {threshold:g}"))
+        elif operator in {"below", "<", "<=", "crosses_below"}:
+            checks.append((value <= threshold, f"{field} {value:g} <= {threshold:g}"))
+        else:
+            return False, f"unsupported acceleration operator {operator}"
+
+    min_up_days = _num(params.get("min_consecutive_up_days"))
+    if min_up_days is not None:
+        up_field = str(params.get("up_days_field") or "consecutive_up_days")
+        up_days = _quote_value(quote, up_field)
+        if up_days is None:
+            return False, f"no quote field {up_field}"
+        checks.append((up_days >= min_up_days, f"{up_field} {up_days:g} >= {min_up_days:g}"))
+
+    min_phase = _num(params.get("min_phase"))
+    if min_phase is not None:
+        phase_value = quote.get("phase") if isinstance(quote, dict) else None
+        phase_num = _phase_number(phase_value)
+        if phase_num is None:
+            return False, "no quote field phase"
+        checks.append((phase_num >= min_phase, f"phase {phase_value} (>= Phase {int(min_phase)})"))
+
+    if not checks:
+        return False, "acceleration missing threshold/min_phase/min_consecutive_up_days"
+
+    fired = all(passed for passed, _ in checks)
+    if not fired:
+        return False, None
+    return True, "; ".join(frag for _, frag in checks)
+
+
 def _evaluate_date_event(row: dict[str, Any], as_of: datetime) -> tuple[bool, str | None]:
     condition = row.get("condition") if isinstance(row.get("condition"), dict) else {}
     params = condition.get("params") if isinstance(condition.get("params"), dict) else {}
@@ -415,10 +501,12 @@ def evaluate_registry(
             did_fire, reason = _evaluate_level_touch(row, quote)
         elif condition_type == "iv_threshold":
             did_fire, reason = _evaluate_iv_threshold(row, quote)
+        elif condition_type == "acceleration":
+            did_fire, reason = _evaluate_acceleration(row, quote)
         else:
             did_fire, reason = _evaluate_date_event(row, checked_at)
 
-        if reason and reason.startswith(("no quote", "price_cross missing", "level_touch missing", "iv_threshold missing", "date_event missing", "unsupported")):
+        if reason and reason.startswith(("no quote", "price_cross missing", "level_touch missing", "iv_threshold missing", "date_event missing", "acceleration missing", "unsupported")):
             not_checked.append({**base, "reason": reason})
             continue
         checked.append({**base, "fired": did_fire})

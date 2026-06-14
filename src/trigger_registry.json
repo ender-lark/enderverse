@@ -121,5 +121,24 @@
     "registered_at": "2026-06-13T04:00:00Z",
     "expires": "2026-06-21",
     "status": "armed"
+  },
+  {
+    "id": "parabolic-accel-mu",
+    "ticker": "MU",
+    "condition": {
+      "type": "acceleration",
+      "params": {
+        "field": "pct_change_5d",
+        "threshold": 40.0,
+        "operator": "above",
+        "min_phase": 3,
+        "phase_observed": "Phase 3 (parabola)"
+      }
+    },
+    "source": "parabolic_setup_screener Phase 3 auto-arm: MU is parabolic and IV-pinned (efficacy GAP 1, MU 2026-05-27 miss-class). Fires when a velocity-bearing quote (pct_change_5d / phase) confirms the acceleration; honestly not_checked until the live quote cache surfaces velocity.",
+    "registered_at": "2026-06-14T13:30:00Z",
+    "expires": "2026-07-14",
+    "status": "armed",
+    "note": "Auto-armed acceleration trigger for the live MU parabola; matches parabolic_setup_screener.phase3_acceleration_trigger output so a re-run upserts in place."
   }
 ]
