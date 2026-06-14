@@ -57,6 +57,21 @@ def test_social_watch_empty_supplied_cache_is_checked_clear():
     assert "checked clear" in block["line"]
 
 
+def test_social_watch_preserves_not_checked_cache_status():
+    block = build_social_watch({
+        "generated_at": "2026-06-07T12:00:00Z",
+        "status": "not_checked",
+        "line": "Social watch not checked: Reddit fetch failed.",
+        "failures": [{"subreddit": "stocks", "error": "rate limited"}],
+        "rows": [],
+    })
+
+    assert block["status"] == "not_checked"
+    assert block["count"] == 0
+    assert block["failures"][0]["subreddit"] == "stocks"
+    assert "not checked" in block["line"].lower()
+
+
 def test_social_watch_feed_contract_rejects_trade_escalation():
     row = normalize_social_watch_row({
         "ticker": "BMNR",

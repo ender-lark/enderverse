@@ -25,6 +25,8 @@ CONNECTOR_TOKENS = (
     "notion",
     "unusual whales",
     "api",
+    "chrome",
+    "browser",
 )
 SUPPLIED_TOKENS = (
     "supplied",

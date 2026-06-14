@@ -203,6 +203,19 @@ def build_social_watch(
             "honesty_rule": "Watch-only until independently confirmed; never a standalone trade signal.",
             "command": "python src/social_watch.py --cache src/social_watch.json --format text",
         }
+    if isinstance(cache, dict) and str(cache.get("status") or "").strip().lower() == "not_checked":
+        generated_at = _iso(cache.get("generated_at") or cache.get("checked_at") or cache.get("ingested_at"))
+        line = str(cache.get("line") or "Social watch not checked: Reddit/social fetch failed.").strip()
+        return {
+            "status": "not_checked",
+            "line": line,
+            "generated_at": generated_at,
+            "rows": [],
+            "count": 0,
+            "failures": cache.get("failures") or [],
+            "honesty_rule": "Watch-only until independently confirmed; never a standalone trade signal.",
+            "command": "python src/social_watch.py --cache src/social_watch.json --format text",
+        }
     rows = [
         normalize_social_watch_row(row, material_tickers=material_tickers)
         for row in _candidate_rows(cache)

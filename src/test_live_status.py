@@ -269,7 +269,7 @@ def test_format_text_treats_social_watch_as_deferred_optional_dark_lane():
             dark_lane_details=[{
                 "key": "social_watch",
                 "label": "Social Watch",
-                "next_step": "Supply social_watch.json after queued social build starts.",
+                "next_step": "Run reddit_collector.py to refresh social_watch.json.",
             }],
             source_capability={
                 "present_inputs": 20,
@@ -283,7 +283,7 @@ def test_format_text_treats_social_watch_as_deferred_optional_dark_lane():
                 "rows": [{
                     "key": "social_watch",
                     "present": False,
-                    "source": "reddit/social API or supplied normalized social cache",
+                    "source": "social_watch_intake Reddit collector or supplied normalized social cache",
                     "routine_title": "Social Watch",
                     "primary_mode": "connector_or_api",
                     "candidate_paths": ["src/social_watch.json"],
@@ -293,7 +293,7 @@ def test_format_text_treats_social_watch_as_deferred_optional_dark_lane():
             },
             next_steps=[
                 "Review dark lanes; missing optional lanes must stay visible, not checked clear.",
-                "Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.",
+                "Social Watch: Run the Reddit collector before treating social anomalies as checked.",
             ],
         ),
         preview={
@@ -316,7 +316,7 @@ def test_format_text_treats_social_watch_as_deferred_optional_dark_lane():
     assert "dark_lanes=1 (1 deferred)" in text
     assert "Dark lanes: none" in text
     assert "Deferred optional dark lanes:" in text
-    assert "- Social Watch: Supply social_watch.json after queued social build starts." in text
+    assert "- Social Watch: Run reddit_collector.py to refresh social_watch.json." in text
     assert "No manual drop required for core go-live" in text
     assert "Dark lane intake commands:" not in text
     assert "Next steps:" not in text

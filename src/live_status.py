@@ -254,7 +254,7 @@ def _dark_lane_commands(key: str) -> list[str]:
             "python src/manual_source_drop.py <manual-drop.json> --src-dir src",
         ],
         "social_watch": [
-            "write normalized social cache to src/social_watch.json",
+            "python src/reddit_collector.py --input <reddit-json-file-or-dir> --out src/social_watch.json",
             "python src/social_watch.py --cache src/social_watch.json --format text",
             "python src/live_dashboard_refresh.py",
         ],

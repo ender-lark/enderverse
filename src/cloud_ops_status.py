@@ -190,6 +190,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-07T00:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-social-watch-intake",
+        "automation_name": "Investing OS Social Watch Intake",
+        "role": "social_watch_intake",
+        "schedule": "daily 7:10 PM ET",
+        "days": [0, 1, 2, 3, 4, 5, 6],
+        "hour": 19,
+        "minute": 10,
+        "expected_since": "2026-06-15T19:10:00-04:00",
+    },
+    {
         "automation_id": "investing-os-off-hours-research-queue",
         "automation_name": "Investing OS Off-Hours Research Queue",
         "role": "off_hours_research_queue",

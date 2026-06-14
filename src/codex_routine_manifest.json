@@ -292,6 +292,39 @@
       "no_input_behavior": "Do not overwrite signal_log.json; report Signal Log as not checked."
     },
     {
+      "id": "social_watch_intake",
+      "title": "Social Watch Intake",
+      "status": "active_safe_intake",
+      "cadence": "daily_browser_checked_reddit",
+      "doc": "src/codex_routines/social_watch_intake.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Chrome-browsed public Reddit subreddit listings or saved Reddit-shaped JSON exports",
+        "Optional non-social confirmation map from UW, price/news, Fundstrat, catalyst, or source-call evidence",
+        "Minimal normalized snippets only; no author-identifying data and no raw Reddit payload retention"
+      ],
+      "owns": [
+        "src/social_watch.json"
+      ],
+      "commands": [
+        {
+          "id": "browser_export_or_fixture_intake",
+          "command": "python src/reddit_collector.py --input <reddit-json-file-or-dir> --out src/social_watch.json"
+        },
+        {
+          "id": "direct_public_listing_fallback",
+          "command": "python src/reddit_collector.py --fetch-live --out src/social_watch.json",
+          "fallback_for": "manual/operator-approved public listing refresh when Chrome-browsed JSON export is unavailable"
+        },
+        {
+          "id": "validate_social_watch_cache",
+          "command": "python src/social_watch.py --cache src/social_watch.json --format text"
+        }
+      ],
+      "verification": "python -m pytest src/test_reddit_collector.py src/test_social_watch.py src/test_full_build_runner.py -q",
+      "no_input_behavior": "If Reddit fetch or browser export fails, write or preserve a not_checked social cache; missing social input is not checked, not no anomalies."
+    },
+    {
       "id": "event_risk_intake",
       "title": "Event Risk Intake",
       "status": "active_safe_intake",
@@ -419,7 +452,7 @@
           "key": "social_watch",
           "paths": ["src/social_watch.json", "src/reddit_watch.json", "src/reddit_signals.json"],
           "required": false,
-          "source": "reddit/social API or supplied normalized social cache",
+          "source": "social_watch_intake Reddit collector or supplied normalized social cache",
           "missing_behavior": "Social Watch is not checked; missing Reddit/social fetch is not no social anomalies."
         },
         {
