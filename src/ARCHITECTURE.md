@@ -224,7 +224,7 @@ The V3 decision layer is **additive** to the V2 engine described above. Every V2
 | `insight_register.py` + `congruence.py` | Active insights and the bullets-vs-evidence congruence strip. |
 | `conviction_engine.py` | Tier × calibration × freshness → groups (fs, uw, operator_insight, institutional) → read. Tier D never scores (doctrine). |
 | `timing_engine.py` | Six T-lanes → OPEN-NOW / STAGE-ONLY / GATED / WAIT. OPEN-NOW requires a named positive trigger. |
-| `execution_plan.py` | Per-account leg generation; PCRA ETF-only rule lives here. |
+| `execution_plan.py` | Per-account leg generation; PCRA ETF-only hard flags and per-leg tax-status flags live here. |
 | `directive_recs.py` | Ranks ADD + TRIM cards; threads `extra_cards`, `extra_fs_items`, `inst_states` from orphan wiring (Task 5). |
 | `today_decide.py` | TODAY—DECIDE payload + scoped HTML renderer; pace line is **display-only** (tested). |
 | `disposition_log.py` | Append-only ACT/PASS/RECHECK/UNDO spine; orphan escalation; 30-day lookback. |
