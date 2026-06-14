@@ -9,6 +9,7 @@ from __future__ import annotations
 from datetime import date
 from typing import Any
 
+import fundstrat_sector_stances as sector_stances
 from fundstrat_lanes import classify_fundstrat_lane
 
 
@@ -252,6 +253,7 @@ def build_fundstrat_news(
         top_prospects=prospects,
     )
     bottom_smid = _find_bottom_smid_rows(bible, prospects)
+    tactical = sector_stances.tactical_snapshot(bible)
     daily = _daily_rows(fundstrat_daily_calls if isinstance(fundstrat_daily_calls, list) else [])
     missing_prices = [
         row["ticker"]
@@ -279,6 +281,24 @@ def build_fundstrat_news(
                 "severity": "warn",
                 "line": "Top 5 SMID is not present in the live monthly bible/prospect caches.",
                 "next_step": "Re-read the May 28 monthly material or supplied PDF text and store the SMID rows explicitly.",
+            }
+        )
+    if bible.get("sector_allocation") and not (tactical["top3"] and tactical["bottom3"]):
+        gaps.append(
+            {
+                "key": "missing_tactical_3x3",
+                "severity": "warn",
+                "line": "June sector allocation exists, but tactical top/bottom 3x3 is not captured.",
+                "next_step": "Distill the monthly tactical top-3 and bottom-3 before leaning on sector rotation calls.",
+            }
+        )
+    if bible.get("sector_allocation") and not tactical["named_levels"]:
+        gaps.append(
+            {
+                "key": "missing_named_levels",
+                "severity": "warn",
+                "line": "June sector allocation exists, but named tactical levels are not captured.",
+                "next_step": "Capture named levels such as EWRE weekly close above $38 before treating breakouts as checked.",
             }
         )
     snippet_only = int(summary.get("snippet_only_entries") or 0)
@@ -309,6 +329,7 @@ def build_fundstrat_news(
     line = (
         f"Fundstrat News: monthly {deck_date or 'not checked'}; "
         f"Top 5 large cap {len(top_large)}, Top 5 SMID {len(top_smid) if top_smid else 'not captured'}, "
+        f"tactical 3x3 {len(tactical['top3'])}/{len(tactical['bottom3'])}, "
         f"daily calls {len(daily)}{f' latest {daily_latest}' if daily_latest else ''}."
     )
     return {
@@ -330,6 +351,10 @@ def build_fundstrat_news(
             "top_smid": top_smid,
             "bottom5": bottom_large,
             "bottom5_smid": bottom_smid,
+            "tactical_top3": tactical["top3"],
+            "tactical_bottom3": tactical["bottom3"],
+            "named_levels": tactical["named_levels"],
+            "monthly_checklist": tactical["monthly_checklist"],
             "price_coverage": {
                 "total_rows": len(top_large) + len(top_smid) + len(bottom_large) + len(bottom_smid),
                 "missing_count": len(missing_prices),

@@ -76,6 +76,24 @@ def test_active_bible_layers_derive_live_layer_ids():
     ]
 
 
+def test_bible_upload_inventory_marks_tactical_sections_distilled():
+    entries = guard.bible_upload_inventory_entries({
+        "deck_date": "2026-06-11",
+        "sector_allocation": {
+            "as_of": "2026-06-11",
+            "named_levels": [{"ticker": "EWRE", "level": 38.0}],
+            "tactical_top3": [{"sector": "Health Care", "ticker": "XLV"}],
+            "tactical_bottom3": [{"sector": "Energy", "ticker": "XLE"}],
+        },
+    })
+
+    sector = [row for row in entries if row["source_id"] == "fundstrat_sector_allocation:2026-06-11"][0]
+    statuses = {section["name"]: section["status"] for section in sector["sections"]}
+    assert statuses["named levels"] == "distilled"
+    assert statuses["tactical top/bottom"] == "distilled"
+    assert sector["skipped_count"] == 4
+
+
 def test_upsert_inventory_replaces_same_source_id(tmp_path):
     path = tmp_path / "fs_ingest_inventory.json"
     guard.upsert_inventory(path, {

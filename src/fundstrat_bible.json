@@ -59,7 +59,103 @@
         "theme": "autonomous/EV large-cap basket (NVDA, GOOGL, INTC, QCOM, TSLA, MSFT); leveraged automation exposure"
       }
     ],
-    "may_basket_grade": "Loss: -5.0% absolute, -3.7% vs SPX since 5/6 (best SNSR +4.8% rel; worst LIT -15.0% rel). Already graded in Source Call Log - do not re-log."
+    "may_basket_grade": "Loss: -5.0% absolute, -3.7% vs SPX since 5/6 (best SNSR +4.8% rel; worst LIT -15.0% rel). Already graded in Source Call Log - do not re-log.",
+    "tactical_top3": [
+      {
+        "rank": 1,
+        "sector": "Health Care",
+        "ticker": "XLV",
+        "weight_adjustment_pct": 2.0,
+        "current_weight_pct": 9.5,
+        "vs_index_pct": 2.0,
+        "why": "Strategic upgrade plus strongest short-term momentum; up 7.1% over the prior 30 days, Trend Score moved from #10 to #3, and seasonality supports June-August relative strength."
+      },
+      {
+        "rank": 2,
+        "sector": "Real Estate",
+        "ticker": "XLRE",
+        "weight_adjustment_pct": 2.0,
+        "current_weight_pct": 4.1,
+        "vs_index_pct": 2.5,
+        "why": "Carry-over top-3 sector and largest benchmark overweight; Trend Score #1 and broad member participation support adding on pullbacks ahead of a REIT breakout."
+      },
+      {
+        "rank": 3,
+        "sector": "Utilities",
+        "ticker": "XLU",
+        "weight_adjustment_pct": 2.0,
+        "current_weight_pct": 3.8,
+        "vs_index_pct": 2.0,
+        "why": "Expected to outperform as yields fall, with crude and long-term yields late in their bounces and ceasefire progress as a possible catalyst."
+      }
+    ],
+    "tactical_bottom3": [
+      {
+        "rank": 1,
+        "sector": "Energy",
+        "ticker": "XLE",
+        "weight_adjustment_pct": -2.0,
+        "current_weight_pct": 0.8,
+        "vs_index_pct": -2.0,
+        "why": "Third consecutive tactical bottom-3 month; Newton overrides strong backward-looking quant ranks because a more concrete ceasefire and Strait reopening could flush crude lower."
+      },
+      {
+        "rank": 2,
+        "sector": "Consumer Discretionary",
+        "ticker": "XLY",
+        "weight_adjustment_pct": -2.0,
+        "current_weight_pct": 6.6,
+        "vs_index_pct": -2.0,
+        "why": "New bottom-3 sector after the weakest May-to-June performance in coverage; travel/services demand and EPS revisions remain soft despite an XHB sub-sector offset."
+      },
+      {
+        "rank": 3,
+        "sector": "Consumer Staples",
+        "ticker": "XLP",
+        "weight_adjustment_pct": -2.0,
+        "current_weight_pct": 0.7,
+        "vs_index_pct": -3.9,
+        "why": "Defensive laggard with weaker risk/reward than Health Care, Utilities, or REITs; remains the largest benchmark underweight."
+      }
+    ],
+    "named_levels": [
+      {
+        "ticker": "EWRE",
+        "asset": "Equal-weight REITs",
+        "condition": "weekly close above",
+        "level": 38.0,
+        "unit": "USD",
+        "target": "mid-40s",
+        "why": "A weekly close above the $38 area would argue for an upside resolution of the multi-year symmetrical triangle."
+      }
+    ],
+    "monthly_checklist": [
+      {
+        "item": "Respect Newton tactical shelf life",
+        "status": "active_until_next_monthly_deck",
+        "decision_use": "Use tactical 3x3 as timing color through the next monthly sector allocation update, then supersede it."
+      },
+      {
+        "item": "Defensive rotation",
+        "status": "active",
+        "decision_use": "Lean Health Care, Real Estate, and Utilities over Energy, Consumer Discretionary, and Staples when comparing sector ETF adds."
+      },
+      {
+        "item": "Tech downgrade calibration",
+        "status": "active",
+        "decision_use": "Treat Tech as trimmed from double-overweight, not a bearish thesis break; stretched names need base-building before full-size adds."
+      },
+      {
+        "item": "EWRE breakout gate",
+        "status": "armed",
+        "decision_use": "Weekly close above $38 confirms the REIT breakout layer and can upgrade REIT/Real Estate timing."
+      },
+      {
+        "item": "June ETF basket",
+        "status": "active",
+        "decision_use": "CIBR, IHF, ARKG, IYT, and DRIV are the current 3% tactical ETF basket names; deleted May ETFs should not be treated as active Fundstrat adds."
+      }
+    ]
   },
   "what_to_own": [
     "MAG7",

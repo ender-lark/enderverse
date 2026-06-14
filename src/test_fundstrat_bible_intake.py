@@ -161,6 +161,12 @@ def test_json_deck_passthrough_and_merge_existing(tmp_path):
         "deck_date": "2026-06",
         "what_to_own": ["Technology"],
         "top5": ["NVDA"],
+        "sector_allocation": {
+            "as_of": "2026-06-11",
+            "tactical_top3": [{"sector": "Health Care", "ticker": "XLV"}],
+            "tactical_bottom3": [{"sector": "Energy", "ticker": "XLE"}],
+            "named_levels": [{"ticker": "EWRE", "level": 38.0}],
+        },
     }), encoding="utf-8")
     existing = {"deck_date": "2026-05", "top5": ["GOOGL"], "bottom5": ["XYZ"]}
 
@@ -169,6 +175,10 @@ def test_json_deck_passthrough_and_merge_existing(tmp_path):
     assert deck["deck_date"] == "2026-06"
     assert deck["top5"] == ["GOOGL", "NVDA"]
     assert deck["bottom5"] == ["XYZ"]
+    assert deck["sector_allocation"]["tactical_top3"][0]["ticker"] == "XLV"
+    assert summary["tactical_top3"] == 1
+    assert summary["tactical_bottom3"] == 1
+    assert summary["named_levels"] == 1
     assert summary["valid"] is True
 
 

@@ -136,6 +136,42 @@ def test_smid_top_bottom_cards_are_distinct_lists():
     assert rows[-1]["content"] == "FS Bottom-5 SMID: KTOS"
 
 
+def test_sector_tactical_and_named_level_cards_are_queryable():
+    deck = {
+        "deck_date": "2026-06-11",
+        "sector_allocation": {
+            "tactical_top3": [
+                {"sector": "Health Care", "ticker": "XLV", "weight_adjustment_pct": 2.0},
+                {"sector": "Real Estate", "ticker": "XLRE", "weight_adjustment_pct": 2.0},
+                {"sector": "Utilities", "ticker": "XLU", "weight_adjustment_pct": 2.0},
+            ],
+            "tactical_bottom3": [
+                {"sector": "Energy", "ticker": "XLE", "weight_adjustment_pct": -2.0},
+                {"sector": "Consumer Discretionary", "ticker": "XLY", "weight_adjustment_pct": -2.0},
+                {"sector": "Consumer Staples", "ticker": "XLP", "weight_adjustment_pct": -2.0},
+            ],
+            "named_levels": [
+                {
+                    "ticker": "EWRE",
+                    "condition": "weekly close above",
+                    "level": 38.0,
+                    "unit": "USD",
+                    "target": "mid-40s",
+                }
+            ],
+        },
+    }
+
+    rows = fundstrat_bible_reader(deck)
+
+    sector_rows = [r for r in rows if r["kind"] == "sector_stance"]
+    level_rows = [r for r in rows if r["kind"] == "named_level"]
+    assert [r["subject"] for r in sector_rows[:3]] == ["XLV", "XLRE", "XLU"]
+    assert [r["data"]["list"] for r in sector_rows[3:]] == ["tactical_bottom3"] * 3
+    assert level_rows[0]["subject"] == "EWRE"
+    assert "weekly close above $38" in level_rows[0]["content"]
+
+
 # --------------------------------------------------------------------------- #
 # resilience
 # --------------------------------------------------------------------------- #
