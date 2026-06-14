@@ -1,14 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-12T23:33:13.292876Z",
+  "updated_at": "2026-06-14T22:02:09.041215Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T05:46:54.412595Z",
-      "summary": "off-hours worker started"
-    },
     {
       "routine_id": "investing-os-off-hours-worker",
       "status": "success",
@@ -3363,6 +3356,13 @@
           }
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-weekly-pilot-run",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-14T22:02:09.041215Z",
+      "summary": "weekly pilot run started"
     }
   ]
 }
