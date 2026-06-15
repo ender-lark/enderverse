@@ -1,0 +1,428 @@
+{
+  "generated_at": "2026-06-15T13:08:10Z",
+  "status": "warn",
+  "warning_count": 1,
+  "finding_count": 14,
+  "line": "Integration debt: 1 warning(s), 14 total finding(s).",
+  "sections": {
+    "options_exit_cadence": {
+      "status": "ok",
+      "line": "Options-exit cadence: v11.10 7-rule cadence has visible routine or STALE-LEAPS wiring.",
+      "stale_leaps_surface": true,
+      "cadence_code_present": true,
+      "cadence_routine_present": true,
+      "stale_uses_full_cadence": false,
+      "findings": [],
+      "rows": []
+    },
+    "module_wiring": {
+      "status": "info",
+      "line": "Module wiring sweep: 34 candidate orphan module(s); 0 priority warning(s).",
+      "candidate_count": 34,
+      "priority_warning_count": 0,
+      "rows": [
+        {
+          "module": "13f_best_ideas",
+          "path": "src/13f_best_ideas.py",
+          "has_cli": true,
+          "line": "13f_best_ideas.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "13f_quarterly_pull",
+          "path": "src/13f_quarterly_pull.py",
+          "has_cli": true,
+          "line": "13f_quarterly_pull.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "benchmark_overlay",
+          "path": "src/benchmark_overlay.py",
+          "has_cli": true,
+          "line": "benchmark_overlay.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "build_golden",
+          "path": "src/build_golden.py",
+          "has_cli": false,
+          "line": "build_golden.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "cloud_routine_drill",
+          "path": "src/cloud_routine_drill.py",
+          "has_cli": true,
+          "line": "cloud_routine_drill.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "cloud_routine_manual_run",
+          "path": "src/cloud_routine_manual_run.py",
+          "has_cli": true,
+          "line": "cloud_routine_manual_run.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "cockpit_html_gen",
+          "path": "src/cockpit_html_gen.py",
+          "has_cli": true,
+          "line": "cockpit_html_gen.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "cockpit_jsx_preview",
+          "path": "src/cockpit_jsx_preview.py",
+          "has_cli": true,
+          "line": "cockpit_jsx_preview.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "completion_audit",
+          "path": "src/completion_audit.py",
+          "has_cli": true,
+          "line": "completion_audit.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "correlation_matrix",
+          "path": "src/correlation_matrix.py",
+          "has_cli": true,
+          "line": "correlation_matrix.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "deepdive_runner",
+          "path": "src/deepdive_runner.py",
+          "has_cli": true,
+          "line": "deepdive_runner.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "disconfirmation_registry",
+          "path": "src/disconfirmation_registry.py",
+          "has_cli": true,
+          "line": "disconfirmation_registry.py has no non-test import and no routine/prompt command reference."
+        }
+      ],
+      "findings": [
+        {
+          "id": "module_unwired_13f_best_ideas",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "13f_best_ideas.py has no visible wiring",
+          "line": "13f_best_ideas.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/13f_best_ideas.py"
+          ]
+        },
+        {
+          "id": "module_unwired_13f_quarterly_pull",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "13f_quarterly_pull.py has no visible wiring",
+          "line": "13f_quarterly_pull.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/13f_quarterly_pull.py"
+          ]
+        },
+        {
+          "id": "module_unwired_benchmark_overlay",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "benchmark_overlay.py has no visible wiring",
+          "line": "benchmark_overlay.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/benchmark_overlay.py"
+          ]
+        },
+        {
+          "id": "module_unwired_build_golden",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "build_golden.py has no visible wiring",
+          "line": "build_golden.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/build_golden.py"
+          ]
+        },
+        {
+          "id": "module_unwired_cloud_routine_drill",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "cloud_routine_drill.py has no visible wiring",
+          "line": "cloud_routine_drill.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/cloud_routine_drill.py"
+          ]
+        },
+        {
+          "id": "module_unwired_cloud_routine_manual_run",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "cloud_routine_manual_run.py has no visible wiring",
+          "line": "cloud_routine_manual_run.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/cloud_routine_manual_run.py"
+          ]
+        },
+        {
+          "id": "module_unwired_cockpit_html_gen",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "cockpit_html_gen.py has no visible wiring",
+          "line": "cockpit_html_gen.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/cockpit_html_gen.py"
+          ]
+        },
+        {
+          "id": "module_unwired_cockpit_jsx_preview",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "cockpit_jsx_preview.py has no visible wiring",
+          "line": "cockpit_jsx_preview.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/cockpit_jsx_preview.py"
+          ]
+        },
+        {
+          "id": "module_unwired_completion_audit",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "completion_audit.py has no visible wiring",
+          "line": "completion_audit.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/completion_audit.py"
+          ]
+        },
+        {
+          "id": "module_unwired_correlation_matrix",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "correlation_matrix.py has no visible wiring",
+          "line": "correlation_matrix.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/correlation_matrix.py"
+          ]
+        },
+        {
+          "id": "module_unwired_deepdive_runner",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "deepdive_runner.py has no visible wiring",
+          "line": "deepdive_runner.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/deepdive_runner.py"
+          ]
+        },
+        {
+          "id": "module_unwired_disconfirmation_registry",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "disconfirmation_registry.py has no visible wiring",
+          "line": "disconfirmation_registry.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/disconfirmation_registry.py"
+          ]
+        }
+      ]
+    },
+    "routine_schedule": {
+      "status": "info",
+      "line": "Routine schedule sweep: 1 prompt-only file(s), 0 scheduled routine(s) without repo prompt/doc coverage.",
+      "prompt_only": [
+        "research_action_promotion"
+      ],
+      "scheduled_without_doc": [],
+      "rows": [],
+      "findings": [
+        {
+          "id": "prompt_without_schedule_research_action_promotion",
+          "area": "routine_schedule",
+          "severity": "info",
+          "title": "research_action_promotion prompt is not visibly scheduled",
+          "line": "src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.",
+          "next_step": "Register it, mark it retired, or document why it is manual-only."
+        }
+      ]
+    },
+    "notion_queue": {
+      "status": "not_checked",
+      "line": "Notion queue sweep: not_checked; repo-local system queue has 1 active/queued item(s).",
+      "local_queue_active_or_queued": 1,
+      "rows": [
+        {
+          "id": "fundstrat-video-transcript-intake",
+          "title": "Handle Tom Lee and Fundstrat video updates through transcripts or captions",
+          "priority": "P3",
+          "status": "queued",
+          "area": "routines",
+          "why": "Some Tom Lee macro updates are video-first. They may matter, but video extraction is lower priority than text FlashInsights, email full-body intake, and dashboard action reliability.",
+          "done_when": "Authenticated Fundstrat video pages can produce compact transcript-derived rows only when a visible transcript, captions, companion article text, or user-supplied compact notes exist; video-only titles and thumbnails remain discovery/audit-only."
+        }
+      ],
+      "findings": [
+        {
+          "id": "notion_queue_not_checked",
+          "area": "notion_queue",
+          "severity": "warn",
+          "title": "Notion System Update Queue not checked",
+          "line": "Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status.",
+          "next_step": "Run with a Notion queue export/connector snapshot when doing the weekly debt review."
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "id": "module_unwired_13f_best_ideas",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "13f_best_ideas.py has no visible wiring",
+      "line": "13f_best_ideas.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/13f_best_ideas.py"
+      ]
+    },
+    {
+      "id": "module_unwired_13f_quarterly_pull",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "13f_quarterly_pull.py has no visible wiring",
+      "line": "13f_quarterly_pull.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/13f_quarterly_pull.py"
+      ]
+    },
+    {
+      "id": "module_unwired_benchmark_overlay",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "benchmark_overlay.py has no visible wiring",
+      "line": "benchmark_overlay.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/benchmark_overlay.py"
+      ]
+    },
+    {
+      "id": "module_unwired_build_golden",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "build_golden.py has no visible wiring",
+      "line": "build_golden.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/build_golden.py"
+      ]
+    },
+    {
+      "id": "module_unwired_cloud_routine_drill",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "cloud_routine_drill.py has no visible wiring",
+      "line": "cloud_routine_drill.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/cloud_routine_drill.py"
+      ]
+    },
+    {
+      "id": "module_unwired_cloud_routine_manual_run",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "cloud_routine_manual_run.py has no visible wiring",
+      "line": "cloud_routine_manual_run.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/cloud_routine_manual_run.py"
+      ]
+    },
+    {
+      "id": "module_unwired_cockpit_html_gen",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "cockpit_html_gen.py has no visible wiring",
+      "line": "cockpit_html_gen.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/cockpit_html_gen.py"
+      ]
+    },
+    {
+      "id": "module_unwired_cockpit_jsx_preview",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "cockpit_jsx_preview.py has no visible wiring",
+      "line": "cockpit_jsx_preview.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/cockpit_jsx_preview.py"
+      ]
+    },
+    {
+      "id": "module_unwired_completion_audit",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "completion_audit.py has no visible wiring",
+      "line": "completion_audit.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/completion_audit.py"
+      ]
+    },
+    {
+      "id": "module_unwired_correlation_matrix",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "correlation_matrix.py has no visible wiring",
+      "line": "correlation_matrix.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/correlation_matrix.py"
+      ]
+    },
+    {
+      "id": "module_unwired_deepdive_runner",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "deepdive_runner.py has no visible wiring",
+      "line": "deepdive_runner.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/deepdive_runner.py"
+      ]
+    },
+    {
+      "id": "module_unwired_disconfirmation_registry",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "disconfirmation_registry.py has no visible wiring",
+      "line": "disconfirmation_registry.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/disconfirmation_registry.py"
+      ]
+    },
+    {
+      "id": "prompt_without_schedule_research_action_promotion",
+      "area": "routine_schedule",
+      "severity": "info",
+      "title": "research_action_promotion prompt is not visibly scheduled",
+      "line": "src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.",
+      "next_step": "Register it, mark it retired, or document why it is manual-only."
+    },
+    {
+      "id": "notion_queue_not_checked",
+      "area": "notion_queue",
+      "severity": "warn",
+      "title": "Notion System Update Queue not checked",
+      "line": "Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status.",
+      "next_step": "Run with a Notion queue export/connector snapshot when doing the weekly debt review."
+    }
+  ]
+}
