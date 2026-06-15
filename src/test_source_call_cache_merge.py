@@ -32,6 +32,10 @@ def test_merge_source_calls_adds_candidates_and_dedupes():
             "date": "2026-06-02",
             "window_end": "2026-07-02",
             "verbatim_quote": "Favor GOOGL.",
+            "evidence_detail": {
+                "source_surface": "video_transcript",
+                "key_levels": "Hold support before action.",
+            },
         },
     ]
 
@@ -47,6 +51,7 @@ def test_merge_source_calls_adds_candidates_and_dedupes():
     assert rows[1]["ticker"] == "GOOGL"
     assert rows[1]["outcome"] == "Pending"
     assert rows[1]["repo_cache_only"] is True
+    assert rows[1]["evidence_detail"]["key_levels"] == "Hold support before action."
     assert rows[1]["id"].startswith("repo_")
 
 

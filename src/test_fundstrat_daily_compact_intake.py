@@ -203,6 +203,11 @@ def test_write_compact_outputs_merge_preserves_source_call_candidates(tmp_path):
         "date": "2026-06-05",
         "source_message_id": "read-2",
         "source": "Fundstrat full-body read",
+        "evidence_detail": {
+            "source_surface": "video_transcript",
+            "key_levels": "QQQ support zone must hold.",
+            "confirmation_needed": "Breadth confirmation.",
+        },
     }])
 
     write_compact_outputs(calls, tmp_path, merge_existing=True, generated_at="2026-06-07T16:00:00+00:00")
@@ -212,6 +217,10 @@ def test_write_compact_outputs_merge_preserves_source_call_candidates(tmp_path):
     log_dates = json.loads((tmp_path / "log_call_dates.json").read_text(encoding="utf-8"))
     assert {row["ticker"] for row in candidates} == {"TNX", "QQQ"}
     assert {row["ticker"] for row in source_calls} == {"TNX", "QQQ"}
+    qqq_candidate = next(row for row in candidates if row["ticker"] == "QQQ")
+    qqq_source_call = next(row for row in source_calls if row["ticker"] == "QQQ")
+    assert qqq_candidate["evidence_detail"]["key_levels"] == "QQQ support zone must hold."
+    assert qqq_source_call["evidence_detail"]["confirmation_needed"] == "Breadth confirmation."
     assert log_dates == ["2026-06-03", "2026-06-05"]
 
 

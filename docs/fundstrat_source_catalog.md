@@ -1,6 +1,6 @@
 # Fundstrat Source Catalog
 
-Last Chrome review: 2026-06-09.
+Last Chrome review: 2026-06-15.
 
 This catalog records how Fundstrat Direct web surfaces should feed the Investing
 OS. It is a routing guide, not a scraping plan. Fundstrat member content should
@@ -21,7 +21,7 @@ files.
 | Live Technical Stock Analysis | `latest-research/?category=live-technical-stock-analysis` | Named-stock technical context | Detail page required. Useful when it touches held names, queued research, or high-priority candidates. |
 | US Policy / Fed Watch | `latest-research/?category=us-policy`, `?category=fed-watch` | Macro/event-risk context | Detail page required. Promote only if it changes exposure review, rates/oil/geopolitical risk, or catalyst timing. |
 | Crypto Research | Digital Asset Strategy, Funding Fridays, Liquid Ventures, Special Reports | Crypto sleeve context | Detail page required. Promote only if it changes crypto sleeve posture, a held asset, or a priority crypto-equity proxy. |
-| Tom Lee Macro Minute and other videos | Macro Minute, Latest Videos, media pages | Discovery only today | A representative Macro Minute detail page had video player signals but no visible transcript/caption text. Checked rows require transcript, captions, companion article, or supplied compact notes. |
+| Tom Lee Macro Minute and other videos | Macro Minute, Latest Videos, media pages | Transcript proof only | Video-only cards remain discovery-only. Checked rows require visible transcript/captions, companion article, or supplied compact notes, and must be reduced to compact proof fields before cache landing. |
 | Webinars and appearances | Latest Webinars, market updates, in-the-news | Mostly noise | Discovery/audit only unless there is a concrete, transcript-backed call tied to current holdings or high-priority research. |
 | Top Ideas stock lists | Large-Cap, SMID-Cap | Baseline/watchlist, not daily-call | Tables include ticker, sector/industry, price, performance, support, resistance, and date added. Use later for adds/removes/support-resistance changes, not routine daily-call alerts. |
 | Upticks | Stock list, commentary, performance, historical | Baseline/watchlist | Same table-style baseline. Capture only meaningful list changes or technical levels that overlap portfolio/research priorities. |
@@ -41,7 +41,8 @@ files.
    `source_surface=article_detail` and a `full_content_basis` that explicitly
    says the article detail page text was visible.
 3. Video cards are discovery-only unless transcript/caption/companion text is
-   visible. Video transcript intake stays queued as medium-low priority.
+   visible. One Mark Newton transcript proof has landed; repeat work should use
+   the same compact fields and no raw transcript storage.
 4. Stock-list and crypto-list tables are not part of tomorrow's fast lane. They
    should become a slower baseline/diff lane only if they produce adds/removes,
    weight changes, support/resistance changes, or direct portfolio overlap.
@@ -73,6 +74,8 @@ Suppress by default:
 - Active for tomorrow: scheduled Fundstrat routines should prefer the
   authenticated Chrome web lane when Chrome is available and fall back to Gmail
   full-body intake when it is not.
-- Queued: transcript/caption handling for Tom Lee and other Fundstrat videos.
+- Proofed: one transcript/caption-backed Mark Newton video row through the
+  compact web wrapper. Repeatable automation remains unscheduled until the lane
+  proves useful across more than one video.
 - Deferred until evidence of usefulness: structured list-table baseline diffing
   for Top Ideas, Upticks, Sector Allocation, and Crypto Core Strategy.

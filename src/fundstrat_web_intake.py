@@ -58,6 +58,27 @@ RAW_TEXT_FIELDS = {
     "screenshot_text",
 }
 VIDEO_SURFACES = {"video_transcript", "video_captions"}
+VIDEO_DETAIL_FIELDS = {
+    "video_title": ("video_title", "title", "subject"),
+    "source_url": ("source_url", "url"),
+    "directional_bias": ("directional_bias", "bias_summary"),
+    "key_levels": ("key_levels", "levels"),
+    "timing_horizon": ("timing_horizon", "timing", "horizon", "window"),
+    "change_vs_prior": ("change_vs_prior", "change"),
+    "action_implication": ("action_implication", "implication", "direction"),
+}
+VIDEO_RICH_DETAIL_FIELDS = {
+    **VIDEO_DETAIL_FIELDS,
+    "presenter": ("presenter", "author", "analyst"),
+    "published_time_et": ("published_time_et", "time_et"),
+    "names_sectors": ("names_sectors", "names", "sectors", "tickers_called"),
+    "portfolio_implication": ("portfolio_implication", "portfolio_read", "operator_implication"),
+    "confidence": ("confidence", "confidence_level"),
+    "decay_speed": ("decay_speed", "decay"),
+    "confirmation_needed": ("confirmation_needed", "confirmation"),
+    "blocker_before_action": ("blocker_before_action", "blocker"),
+    "suggested_next_check": ("suggested_next_check", "next_check"),
+}
 
 
 def _rows_from_payload(payload: Any) -> list[dict[str, Any]]:
@@ -86,6 +107,32 @@ def _has_raw_text(row: dict[str, Any]) -> list[str]:
 
 def _full_content_basis(row: dict[str, Any]) -> str:
     return _text(row.get("full_content_basis") or row.get("content_basis") or row.get("evidence_basis"))
+
+
+def _first_present(row: dict[str, Any], keys: tuple[str, ...]) -> str:
+    for key in keys:
+        text = _text(row.get(key))
+        if text:
+            return text
+    return ""
+
+
+def _video_missing_fields(row: dict[str, Any]) -> list[str]:
+    missing = []
+    for field, keys in VIDEO_DETAIL_FIELDS.items():
+        if not _first_present(row, keys):
+            missing.append(field)
+    if not (_text(row.get("quote")) or _text(row.get("summary")) or _text(row.get("call"))):
+        useful_parts = [
+            _first_present(row, VIDEO_DETAIL_FIELDS["directional_bias"]),
+            _first_present(row, VIDEO_DETAIL_FIELDS["key_levels"]),
+            _first_present(row, VIDEO_DETAIL_FIELDS["timing_horizon"]),
+            _first_present(row, VIDEO_DETAIL_FIELDS["change_vs_prior"]),
+            _first_present(row, VIDEO_DETAIL_FIELDS["action_implication"]),
+        ]
+        if not any(useful_parts):
+            missing.append("quote_or_structured_distill")
+    return missing
 
 
 def _source_id(row: dict[str, Any], surface: str) -> str:
@@ -124,7 +171,37 @@ def validate_web_row(row: dict[str, Any], idx: int = 0) -> tuple[bool, str]:
         basis = _full_content_basis(row).lower()
         if "transcript" not in basis and "caption" not in basis:
             return False, f"items[{idx}] video rows require transcript/caption evidence"
+        missing = _video_missing_fields(row)
+        if missing:
+            return False, f"items[{idx}] video rows missing compact transcript fields: {', '.join(missing)}"
     return True, ""
+
+
+def _compact_video_quote(row: dict[str, Any]) -> str:
+    explicit = _text(row.get("quote") or row.get("summary") or row.get("call"))
+    if explicit:
+        return explicit
+    parts = [
+        f"Bias: {_first_present(row, VIDEO_DETAIL_FIELDS['directional_bias'])}",
+        f"Levels: {_first_present(row, VIDEO_DETAIL_FIELDS['key_levels'])}",
+        f"Timing: {_first_present(row, VIDEO_DETAIL_FIELDS['timing_horizon'])}",
+        f"Change: {_first_present(row, VIDEO_DETAIL_FIELDS['change_vs_prior'])}",
+        f"Implication: {_first_present(row, VIDEO_DETAIL_FIELDS['action_implication'])}",
+    ]
+    return "; ".join(part for part in parts if not part.endswith(": "))
+
+
+def _compact_video_evidence_detail(row: dict[str, Any], surface: str) -> dict[str, str]:
+    detail = {
+        "source_surface": surface,
+        "full_content_basis": _full_content_basis(row),
+        "date": _text(row.get("date") or row.get("published_at"))[:10],
+    }
+    for field, keys in VIDEO_RICH_DETAIL_FIELDS.items():
+        value = _first_present(row, keys)
+        if value:
+            detail[field] = value
+    return {key: value for key, value in detail.items() if value}
 
 
 def compact_row_from_web(row: dict[str, Any], surface: str) -> dict[str, Any]:
@@ -137,7 +214,7 @@ def compact_row_from_web(row: dict[str, Any], surface: str) -> dict[str, Any]:
         "companion_article": "Fundstrat Chrome companion article",
         "supplied_compact_notes": "Fundstrat supplied compact notes",
     }.get(surface, "Fundstrat Chrome web intake")
-    return {
+    compact = {
         "author": _text(row.get("author") or row.get("analyst") or "Fundstrat"),
         "ticker": _text(row.get("ticker") or row.get("symbol")).upper(),
         "direction": _text(row.get("direction") or row.get("bias")).lower() or None,
@@ -145,12 +222,15 @@ def compact_row_from_web(row: dict[str, Any], surface: str) -> dict[str, Any]:
         "stop": row.get("stop"),
         "target": row.get("target"),
         "window": _text(row.get("window") or row.get("horizon")) or None,
-        "quote": _text(row.get("quote") or row.get("summary") or row.get("call")),
+        "quote": _compact_video_quote(row) if surface in VIDEO_SURFACES else _text(row.get("quote") or row.get("summary") or row.get("call")),
         "date": _text(row.get("date") or row.get("published_at"))[:10],
         "subject": _text(row.get("subject") or row.get("title") or "Fundstrat web compact call"),
         "source_message_id": _source_id(row, surface),
         "source": _text(row.get("source") or source_label),
     }
+    if surface in VIDEO_SURFACES:
+        compact["evidence_detail"] = _compact_video_evidence_detail(row, surface)
+    return compact
 
 
 def normalize_web_compact_rows(payload: Any) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[str]]:
@@ -175,6 +255,15 @@ def normalize_web_compact_rows(payload: Any) -> tuple[list[dict[str, Any]], list
     if problems:
         return [], suppressed, problems
     calls = normalize_compact_calls(compact_inputs)
+    detail_by_key = {
+        (row.get("date"), row.get("author"), row.get("ticker"), row.get("quote")): row.get("evidence_detail")
+        for row in compact_inputs
+        if row.get("evidence_detail")
+    }
+    for call in calls:
+        detail = detail_by_key.get((call.get("date"), call.get("author"), call.get("ticker"), call.get("quote")))
+        if detail:
+            call["evidence_detail"] = detail
     compact_keys = {
         (call.get("date"), call.get("author"), call.get("ticker"), call.get("quote"))
         for call in calls

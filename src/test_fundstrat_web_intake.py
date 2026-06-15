@@ -125,6 +125,13 @@ def test_video_only_is_discovery_but_transcript_is_allowed():
             "author": "Tom Lee",
             "ticker": "QQQ",
             "direction": "watch",
+            "video_title": "Macro Minute: Breadth confirmation",
+            "source_url": "https://fundstratdirect.com/members/video/example/",
+            "directional_bias": "Constructive if breadth confirms.",
+            "key_levels": "QQQ support must hold.",
+            "timing_horizon": "This week.",
+            "change_vs_prior": "No explicit prior shift stated.",
+            "action_implication": "Re-check before adding AI/tech exposure.",
             "quote": "Transcript says to wait for breadth confirmation before adding QQQ exposure this week.",
             "date": "2026-06-09",
         }]
@@ -132,6 +139,89 @@ def test_video_only_is_discovery_but_transcript_is_allowed():
     assert problems == []
     assert suppressed == []
     assert calls[0]["source"] == "Fundstrat Chrome video transcript"
+
+
+def test_video_transcript_requires_compact_proof_fields_without_raw_transcript():
+    calls, suppressed, problems = normalize_web_compact_rows({
+        "items": [{
+            "source_surface": "video_transcript",
+            "full_content_basis": "visible transcript text on logged-in video page",
+            "author": "Mark L. Newton, CMT",
+            "ticker": "QQQ",
+            "direction": "watch",
+            "video_title": "Daily Technical Strategy video",
+            "source_url": "https://fundstratdirect.com/members/video/example/",
+            "directional_bias": "Higher if support holds.",
+            "key_levels": "QQQ support 520; upside confirmation above 530.",
+            "timing_horizon": "Tactical, next 1-2 weeks.",
+            "action_implication": "Re-check AI/tech exposure before adding.",
+            "quote": "Transcript-derived compact row with levels and re-check implication.",
+            "date": "2026-06-15",
+        }]
+    })
+
+    assert calls == []
+    assert suppressed == []
+    assert any("change_vs_prior" in problem for problem in problems)
+
+    calls, suppressed, problems = normalize_web_compact_rows({
+        "items": [{
+            "source_surface": "video_transcript",
+            "full_content_basis": "visible transcript text on logged-in video page",
+            "author": "Mark L. Newton, CMT",
+            "ticker": "QQQ",
+            "direction": "watch",
+            "video_title": "Daily Technical Strategy video",
+            "source_url": "https://fundstratdirect.com/members/video/example/",
+            "directional_bias": "Higher if support holds.",
+            "key_levels": "QQQ support 520; upside confirmation above 530.",
+            "timing_horizon": "Tactical, next 1-2 weeks.",
+            "change_vs_prior": "Shifted from caution to constructive above support.",
+            "action_implication": "Re-check AI/tech exposure before adding.",
+            "names_sectors": "QQQ, semiconductors, AI beta.",
+            "portfolio_implication": "Do not add until support/confirmation holds.",
+            "confirmation_needed": "Breadth confirmation and QQQ support hold.",
+            "blocker_before_action": "No action while confirmation is missing.",
+            "suggested_next_check": "Next regular technical update.",
+            "date": "2026-06-15",
+        }]
+    })
+
+    assert problems == []
+    assert suppressed == []
+    assert calls[0]["ticker"] == "QQQ"
+    assert "Shifted from caution" in calls[0]["quote"]
+    assert len(calls[0]["quote"]) <= 320
+    assert calls[0]["evidence_detail"]["video_title"] == "Daily Technical Strategy video"
+    assert calls[0]["evidence_detail"]["names_sectors"] == "QQQ, semiconductors, AI beta."
+    assert calls[0]["evidence_detail"]["confirmation_needed"] == "Breadth confirmation and QQQ support hold."
+    assert "transcript_text" not in calls[0]["evidence_detail"]
+
+
+def test_video_transcript_rejects_raw_transcript_text():
+    calls, suppressed, problems = normalize_web_compact_rows({
+        "items": [{
+            "source_surface": "video_transcript",
+            "full_content_basis": "visible transcript text on logged-in video page",
+            "author": "Mark L. Newton, CMT",
+            "ticker": "QQQ",
+            "direction": "watch",
+            "video_title": "Daily Technical Strategy video",
+            "source_url": "https://fundstratdirect.com/members/video/example/",
+            "directional_bias": "Higher if support holds.",
+            "key_levels": "QQQ support 520.",
+            "timing_horizon": "Tactical.",
+            "change_vs_prior": "No explicit prior shift stated.",
+            "action_implication": "Re-check before adding.",
+            "transcript_text": "Long raw transcript text must not be accepted.",
+            "quote": "Compact transcript-derived row.",
+            "date": "2026-06-15",
+        }]
+    })
+
+    assert calls == []
+    assert suppressed == []
+    assert any("raw text fields" in problem for problem in problems)
 
 
 def test_web_intake_cli_writes_outputs(tmp_path):
