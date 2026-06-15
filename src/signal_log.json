@@ -238,5 +238,21 @@
     "priority": "high",
     "source": "https://app.notion.com/p/37dc50314bb681b38d5af5771f1fb952",
     "note": "The repo's June 11 UW opportunity cache stayed split across held names: NVDA showed about $8.2M ask-side call sweeps, roughly +2583% call OI, and about $9M dark-pool net buy; MU showed about $9.6M ask-side call sweeps and about $87M dark-pool net buy; but SMH still carried about $16.9M ask-side put sweeps, roughly +1785% put OI, and about $48M dark-pool net sell. Watch-only held-name monitoring: single-name recovery improved, yet sector hedge pressure was still live into Friday."
+  },
+  {
+    "signal": "BMNR preferred financing adds weekly cash-burden and forced-funding risk",
+    "ticker": "BMNR",
+    "date": "2026-06-12",
+    "priority": "high",
+    "source": "https://www.sec.gov/Archives/edgar/data/1829311/000149315226028140/form8-k.htm",
+    "note": "SEC 8-K filed June 10, 2026 says Bitmine issued 3.5M shares of 9.50% Series A perpetual preferred for about $273.8M net proceeds to fund ETH/digital-asset strategy, staking infrastructure, strategic investments, working capital, and common repurchases. The terms add cumulative weekly cash dividends; after a deferral the company must use commercially reasonable efforts over the following 30 days to sell common stock, other securities, and/or digital assets to cover arrears. A June 12 follow-up declared the first cash dividends and said BMNP trading is expected to begin June 16. This matters to the BMNR special re-check and lowers conviction for any immediate add until fresh ETH deployment, common/preferred price reaction, and cleaner flow confirm the financing is accretive rather than overhang. Window: June 16 listing and June 22/26 dividend dates. Disconfirm if post-raise holdings deployment and price/flow turn clearly constructive. Missing: updated ETH holdings, cash-burden absorption, and live common/preferred reaction."
+  },
+  {
+    "signal": "XOP UW flow leaned bearish despite the Hormuz oil-risk backdrop",
+    "ticker": "XOP",
+    "date": "2026-06-12",
+    "priority": "medium",
+    "source": "unusual_whales.flow_recent; unusual_whales.etf_tide",
+    "note": "Unusual Whales June 12 flow-recent for XOP showed 50 recent prints with 28 bearish tags versus 20 bullish and 35 bid-side versus 13 ask-side. XLE ETF tide into 15:59 ET also showed negative net call premium (-$5.54M) and negative net put premium (-$2.66M), which is not a clean bullish confirmation of chasing the energy sleeve on geopolitics alone. This matters to the active Middle East oil/rates event-risk lane and the current XOP sell-fast posture: it supports keeping risk tight and treating weekend oil headlines as re-check inputs rather than automatic add signals. Window: next session. Disconfirm if Monday crude, XOP/XLE flow, and traffic headlines flip decisively bullish. Missing: Monday open tape, direct PortWatch time-series read, and same-session oil/rates reaction."
   }
 ]
