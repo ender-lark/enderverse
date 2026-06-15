@@ -20,6 +20,13 @@ until the core logic is stable; Notion sync comes later.
   - Prioritize system/routine/dashboard work over stock-specific research.
   - Do not promote Fundstrat Core List table ingestion; it is out of scope for
     the current system build and may never be needed.
+- Reddit/social side-lane is staged only.
+  - `critical_minerals_nuclear` is a detachable Reddit source group for
+    `r/criticalmineralstocks` + `r/UraniumSqueeze`.
+  - Keep output in `tmp/` or supplied cache files until the main build accepts
+    it; missing/blocked social data remains `not_checked`.
+  - Read `docs/reddit_critical_minerals_prototype_plan.md` before changing,
+    scheduling, or surfacing this lane.
 
 ## External Queue Audit
 

@@ -169,6 +169,8 @@ def normalize_social_watch_row(row: dict[str, Any], *, material_tickers: set[str
         "tickers": tickers,
         "entity": str(row.get("entity") or row.get("entities") or "").strip(),
         "source": str(row.get("source") or "reddit").strip(),
+        "source_group": str(row.get("source_group") or "").strip(),
+        "source_type": str(row.get("source_type") or "").strip(),
         "subreddits": subreddits,
         "first_seen": first_seen,
         "last_seen": last_seen,
@@ -185,6 +187,13 @@ def normalize_social_watch_row(row: dict[str, Any], *, material_tickers: set[str
         "confirmation_required": (
             "Needs non-social confirmation from UW, price/news, Fundstrat, catalyst, or source-call evidence."
         ),
+        "why_it_matters": str(row.get("why_it_matters") or "").strip(),
+        "portfolio_implication": str(row.get("portfolio_implication") or "").strip(),
+        "confidence": str(row.get("confidence") or "").strip(),
+        "decay_speed": str(row.get("decay_speed") or "").strip(),
+        "confirmation_needed": str(row.get("confirmation_needed") or row.get("confirmation_required") or "").strip(),
+        "blocker_before_action": str(row.get("blocker_before_action") or "").strip(),
+        "suggested_next_check": str(row.get("suggested_next_check") or "").strip(),
         "permalink": str(row.get("permalink") or row.get("url") or "").strip(),
     }
 

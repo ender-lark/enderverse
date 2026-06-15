@@ -1,0 +1,182 @@
+# Reddit Critical-Minerals / Nuclear Prototype Plan
+
+Last updated: 2026-06-15.
+
+## Purpose
+
+This is the first staged Reddit/social prototype candidate because the Meridian
+critical-minerals/nuclear source is stale as current context. The lane should
+surface low-trust research prompts from Reddit that can improve capital
+decisions, risk control, time saved, or confidence in acting/not acting.
+
+This lane is not a trade trigger. It must not promote buy/sell/size changes from
+Reddit alone.
+
+## Detachable Shape
+
+The implementation is intentionally a source group, not a cockpit dependency:
+
+- Source group: `critical_minerals_nuclear`
+- Initial subreddits: `r/criticalmineralstocks`, `r/UraniumSqueeze`
+- Command shape:
+  - `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <payload-or-dir> --out tmp/critical_minerals_social_watch.json --format text`
+  - `python src/reddit_collector.py --source-group critical_minerals_nuclear --fetch-live --out tmp/critical_minerals_social_watch.json --format text`
+- Output: normal `social_watch` cache shape, staged in `tmp/` unless the main
+  build explicitly accepts it.
+- Disable path: stop supplying this cache. The main dashboard remains dark /
+  `not_checked` for Social Watch.
+
+No live action-promotion, reallocation, SnapTrade, cloud-routine, or core
+dashboard logic should depend on this source group.
+
+## Deep-Pass Findings
+
+### `r/criticalmineralstocks`
+
+Best use: company and policy catalyst scout for rare earths, domestic processing,
+DoD deadlines, allied supply-chain partnerships, and small-cap critical-mineral
+names.
+
+Observed useful post types:
+
+- Ucore / Sumitomo rare-earth supply-chain collaboration.
+- USA Rare Earth commissioning hydrometallurgical demonstration facility.
+- REalloys / domestic heavy rare-earth supply and Russell 3000 inclusion.
+- Critical Mineral Monday open discussion thread.
+- China rare-earth deadline and DoD 2027 ban analysis.
+
+Observed risk:
+
+- Small community and low comment counts.
+- Some posts are crossposts or promotional in tone.
+- Company tickers and entity names need careful mapping.
+
+Interpretation rule: five to thirty comments can be meaningful in this small
+subreddit, but never sufficient for action.
+
+### `r/UraniumSqueeze`
+
+Best use: uranium/nuclear equity narrative, AI-data-center power-demand thesis,
+uranium miner sentiment, and crowding/risk warnings.
+
+Observed useful post types:
+
+- AI and data-center power demand causing nuclear bullishness.
+- UUUU underperformance discussion.
+- X-energy / advanced nuclear skepticism and HALEU constraints.
+- SPUT / uranium vehicle discussion.
+- EnCore Energy and uranium producer discussion.
+- NNE risk/counter-thesis posts.
+
+Observed risk:
+
+- More active than `criticalmineralstocks`, but crowding-heavy.
+- Some posts are thesis-like but uncited.
+- Good for narrative and risk warnings, not for timing by itself.
+
+## Prompt Contract
+
+Each normalized candidate should preserve:
+
+- `ticker/topic`
+- `source_group`
+- `source_type`
+- `subreddit`
+- `source/time`
+- `why_it_matters`
+- `portfolio_implication`
+- `confidence`
+- `decay_speed`
+- `confirmation_needed`
+- `blocker_before_action`
+- `suggested_next_check`
+
+The required blocker remains:
+
+> Reddit is not a trade trigger; no buy/sell/size change from Reddit alone.
+
+## Source Types
+
+Use these labels before trying to score fine-grained sentiment:
+
+- `company_or_policy_catalyst`
+- `ai_power_nuclear_narrative`
+- `daily_room_tone`
+- `positioning_or_crowding`
+- `research_prompt`
+- `possible_promotion`
+
+## Initial Ticker / Entity Universe
+
+The code adds a detachable critical-minerals/nuclear ticker universe including:
+
+- `MP`, `LEU`, `UUUU`, `UURAF`, `ALOY`, `CRML`
+- `CCJ`, `NXE`, `DNN`, `UEC`, `URG`, `UROY`
+- `URA`, `URNM`, `SPUT`
+- `NNE`, `SMR`, `OKLO`, `XE`, `LTBR`
+
+This is a starting point only. Do not assume every entity is investable,
+liquid, or valid for the user's portfolio. Unknown companies should remain
+entity/topic prompts until confirmed.
+
+## Confirmation Gates
+
+Before any Reddit item can matter to capital decisions, confirm with at least
+one non-social source and ideally two:
+
+- company press release or SEC/issuer filing
+- reliable news
+- UW price/options flow
+- price-volume / relative-strength check
+- Fundstrat or other trusted research alignment
+- catalyst calendar
+- portfolio exposure / sizing relevance
+
+## What To Store
+
+Store structured distillation, not raw comment archives:
+
+- title snippet
+- body snippet
+- matched terms
+- subreddit(s)
+- timestamps
+- score/comment counts observed
+- source type
+- prompt fields above
+- short evidence snippets
+- expiry timestamp
+
+Avoid author storage. Keep expiry/deletion behavior at the normal 48-hour
+retention boundary for stored Reddit content.
+
+## What Not To Do
+
+- Do not feed this into `actions` as a direct action source.
+- Do not route to Key Now unless Reddit is explicitly secondary evidence.
+- Do not treat missing data as checked clear.
+- Do not infer a ticker when the company/entity mapping is uncertain.
+- Do not let microcap/resource-stock promotion bypass confirmation gates.
+
+## First Prototype Acceptance
+
+- `--source-group critical_minerals_nuclear` resolves to the two initial
+  subreddits and the extra ticker universe.
+- Supplied/cache payloads normalize into `social_watch` rows with the full prompt
+  contract.
+- Live/public fetch failure remains `not_checked`.
+- Research Queue candidates still require fired velocity and independent
+  confirmation.
+- Focused tests pass.
+- Main cockpit logic stays untouched until explicitly accepted.
+
+## Recommended Next Build Slice
+
+Build a repeatable scout export for `critical_minerals_nuclear` that can consume:
+
+1. Reddit API/OAuth payloads when available.
+2. Browser-visible/manual JSON exports when API access is blocked.
+3. Prebuilt fixtures for tests.
+
+Then add a daily ranked prompt report in `tmp/` before any dashboard display is
+enabled.

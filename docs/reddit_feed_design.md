@@ -36,7 +36,7 @@ References:
 
 ## Candidate Subreddits
 
-Initial watch-only set:
+Initial broad watch-only set:
 
 - `r/stocks`
 - `r/investing`
@@ -51,6 +51,25 @@ Initial watch-only set:
 
 Crypto/BMNR-adjacent feeds should be separate from equity feeds because reflexivity,
 promotion, and echo risk are higher.
+
+### Detachable Source Groups
+
+Do not make one generic Reddit signal carry every job. Keep source groups
+detachable so they can be added or removed without disturbing the main cockpit.
+
+Current source groups:
+
+- `broad_social`: the broad watch-only set above.
+- `critical_minerals_nuclear`: `r/criticalmineralstocks` and
+  `r/UraniumSqueeze`, designed as the first staged replacement scout for stale
+  Meridian critical-minerals/nuclear context.
+
+The source group is a collector/cache concern. If its cache is absent, Social
+Watch remains dark / `not_checked`; the dashboard should not infer checked-clear
+or no-signal.
+
+Read `docs/reddit_critical_minerals_prototype_plan.md` before changing or
+promoting the critical-minerals/nuclear group.
 
 ## Intake Shape
 
@@ -135,6 +154,10 @@ Current repo state:
 - `src/reddit_collector.py` writes `src/social_watch.json` from Chrome-browsed
   or supplied Reddit-shaped payloads, using `reddit_signal_core.detect_signal`
   for mention velocity and preserving `not_checked` on fetch failure.
+- `src/reddit_collector.py --source-group critical_minerals_nuclear` selects the
+  detachable `r/criticalmineralstocks` + `r/UraniumSqueeze` prototype watchlist
+  and adds the critical-minerals/nuclear ticker universe without changing the
+  dashboard contract.
 - `src/full_build_runner.py` loads `src/social_watch.json`, `src/reddit_watch.json`,
   or `src/reddit_signals.json`.
 - The dashboard renders Social Watch in the Action view and summary export.

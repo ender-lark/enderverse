@@ -72,6 +72,30 @@ def test_social_watch_preserves_not_checked_cache_status():
     assert "not checked" in block["line"].lower()
 
 
+def test_social_watch_preserves_review_prompt_fields():
+    row = normalize_social_watch_row({
+        "ticker": "UUUU",
+        "summary": "AI data-center nuclear demand chatter",
+        "source_group": "critical_minerals_nuclear",
+        "source_type": "ai_power_nuclear_narrative",
+        "why_it_matters": "Could change uranium/nuclear research priority.",
+        "portfolio_implication": "Quiet Watch only until confirmed.",
+        "confidence": "low scout",
+        "decay_speed": "medium",
+        "confirmation_needed": "Check filings, news, UW, price-volume.",
+        "blocker_before_action": "No action from Reddit alone.",
+        "suggested_next_check": "Verify with non-social sources.",
+    })
+
+    assert row["source_group"] == "critical_minerals_nuclear"
+    assert row["source_type"] == "ai_power_nuclear_narrative"
+    assert row["why_it_matters"].startswith("Could change")
+    assert row["portfolio_implication"] == "Quiet Watch only until confirmed."
+    assert row["confirmation_needed"].startswith("Check filings")
+    assert row["blocker_before_action"].startswith("No action")
+    assert row["suggested_next_check"].startswith("Verify")
+
+
 def test_social_watch_feed_contract_rejects_trade_escalation():
     row = normalize_social_watch_row({
         "ticker": "BMNR",

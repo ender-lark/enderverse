@@ -108,6 +108,27 @@ DEFAULT_TICKERS = {
     "TSLA",
     "UUUU",
 }
+CRITICAL_MINERALS_TICKERS = {
+    "ALOY",
+    "CCJ",
+    "CRML",
+    "DNN",
+    "LEU",
+    "LTBR",
+    "MP",
+    "NNE",
+    "NXE",
+    "OKLO",
+    "SMR",
+    "SPUT",
+    "URA",
+    "URG",
+    "URNM",
+    "UROY",
+    "UURAF",
+    "UUUU",
+    "XE",
+}
 NAME_TO_TICKER = {
     "alphabet": "GOOGL",
     "amazon": "AMZN",
@@ -122,6 +143,26 @@ NAME_TO_TICKER = {
     "nvidia": "NVDA",
     "palantir": "PLTR",
     "tesla": "TSLA",
+    "centrus": "LEU",
+    "energy fuels": "UUUU",
+    "mp materials": "MP",
+    "ucore": "UURAF",
+    "ucore rare metals": "UURAF",
+}
+REDDIT_SOURCE_GROUPS = {
+    "broad_social": {
+        "description": "Broad retail and research Reddit watchlist.",
+        "subreddits": DEFAULT_SUBREDDITS,
+        "tickers": sorted(DEFAULT_TICKERS),
+    },
+    "critical_minerals_nuclear": {
+        "description": (
+            "Detachable critical-minerals and nuclear scout lane. Designed to replace "
+            "stale Meridian context with low-trust research prompts only."
+        ),
+        "subreddits": ["criticalmineralstocks", "UraniumSqueeze"],
+        "tickers": sorted(CRITICAL_MINERALS_TICKERS),
+    },
 }
 
 CASHTAG_RE = re.compile(r"(?<![A-Za-z0-9_])\$([A-Z]{1,6}(?:\.[A-Z]{1,4})?)\b")
@@ -203,6 +244,26 @@ def load_ticker_universe(paths: list[str] | None = None) -> set[str]:
     return tickers
 
 
+def source_group_names() -> list[str]:
+    return sorted(REDDIT_SOURCE_GROUPS)
+
+
+def source_group_config(name: str | None) -> dict[str, Any]:
+    if not name:
+        return {}
+    key = str(name).strip()
+    if key not in REDDIT_SOURCE_GROUPS:
+        raise ValueError(f"unknown Reddit source group: {key}")
+    return dict(REDDIT_SOURCE_GROUPS[key])
+
+
+def ticker_universe_for_group(base: set[str], source_group: str | None) -> set[str]:
+    tickers = set(base)
+    config = source_group_config(source_group)
+    tickers.update(str(t).upper() for t in config.get("tickers") or [])
+    return tickers
+
+
 def extract_mentions(text: str, *, ticker_universe: set[str] | None = None) -> dict[str, list[str]]:
     universe = ticker_universe or DEFAULT_TICKERS
     found: dict[str, set[str]] = defaultdict(set)
@@ -219,6 +280,70 @@ def extract_mentions(text: str, *, ticker_universe: set[str] | None = None) -> d
         if ticker in universe and re.search(rf"\b{re.escape(name)}\b", lower):
             found[ticker].add(name)
     return {ticker: sorted(terms) for ticker, terms in sorted(found.items())}
+
+
+def _source_type_for_item(item: dict[str, Any]) -> str:
+    text = " ".join([
+        str(item.get("title") or ""),
+        str(item.get("body") or ""),
+        str(item.get("subreddit") or ""),
+    ]).lower()
+    if "daily" in text and "discussion" in text:
+        return "daily_room_tone"
+    if any(term in text for term in (
+        "announce", "commission", "memorandum", "framework", "collaboration",
+        "department", "contract", "facility", "supply chain", "deadline",
+        "rare earth", "critical mineral", "uranium", "nuclear",
+    )):
+        return "company_or_policy_catalyst"
+    if any(term in text for term in ("ai", "data center", "datacentre", "power demand", "electricity")):
+        return "ai_power_nuclear_narrative"
+    if any(term in text for term in ("underperformance", "price action", "squeeze", "bullish", "bearish")):
+        return "positioning_or_crowding"
+    return "research_prompt"
+
+
+def _review_prompt_fields(
+    *,
+    ticker: str,
+    latest: dict[str, Any],
+    source_group: str | None,
+    confirmations: list[str],
+) -> dict[str, str]:
+    title = _snippet(latest.get("title") or latest.get("body"), limit=180)
+    source_type = _source_type_for_item(latest)
+    is_critical = source_group == "critical_minerals_nuclear"
+    if is_critical:
+        why = (
+            "Critical-minerals/nuclear Reddit scout item that may indicate a company catalyst, "
+            "policy/supply-chain change, AI power-demand narrative, or crowding shift."
+        )
+        implication = (
+            "Quiet Watch or Research Queue only. Relevant to critical-minerals/nuclear exposure "
+            "and adjacent AI-power infrastructure theses after non-social confirmation."
+        )
+        next_check = (
+            "Verify company release/filing or reliable news, then check price-volume/UW flow and "
+            "whether the item changes MP/LEU/UUUU/URA/URNM or nuclear-power research priority."
+        )
+    else:
+        why = "Reddit scout item that may point to an unusual ticker/topic cluster or external headline echo."
+        implication = "Research prompt only; no capital action without independent evidence and portfolio context."
+        next_check = "Verify with news/filing, UW, price action, Fundstrat, or catalyst calendar before use."
+    return {
+        "source_group": source_group or "custom",
+        "source_type": source_type,
+        "why_it_matters": f"{why} Latest observed item: {title}",
+        "portfolio_implication": implication,
+        "confidence": "low scout" if not confirmations else "medium-low scout after independent confirmation",
+        "decay_speed": "fast for company/news catalysts; medium for policy or structural supply-chain themes",
+        "confirmation_needed": (
+            "Independent non-social confirmation from news, filings, UW/price action, Fundstrat, "
+            "catalyst calendars, or primary company/source material."
+        ),
+        "blocker_before_action": "Reddit is not a trade trigger; no buy/sell/size change from Reddit alone.",
+        "suggested_next_check": next_check,
+    }
 
 
 def _children(payload: Any) -> list[dict[str, Any]]:
@@ -372,6 +497,7 @@ def build_cache(
     payloads: list[Any],
     *,
     subreddits: list[str] | None = None,
+    source_group: str | None = None,
     failures: list[dict[str, Any]] | None = None,
     generated_at: datetime | None = None,
     ticker_universe: set[str] | None = None,
@@ -382,7 +508,7 @@ def build_cache(
     generated = (generated_at or _now_et()).astimezone(ET).replace(microsecond=0)
     ingested_utc = generated.astimezone(UTC)
     expires = ingested_utc + timedelta(hours=RETENTION_HOURS)
-    ticker_universe = ticker_universe or DEFAULT_TICKERS
+    ticker_universe = ticker_universe_for_group(ticker_universe or DEFAULT_TICKERS, source_group)
     confirmation_map = confirmation_map or {}
     failure_rows = failures or []
     raw_items: list[dict[str, Any]] = []
@@ -399,6 +525,7 @@ def build_cache(
             "source": "reddit_chrome_collector",
             "status": "not_checked",
             "line": "Social watch not checked: Reddit fetch failed or returned no readable payloads.",
+            "source_group": source_group or "custom",
             "subreddits_checked": subreddits or [],
             "failures": failure_rows,
             "rows": [],
@@ -440,9 +567,17 @@ def build_cache(
         escalation = "Quiet Watch"
         if fired and confirmations:
             escalation = "Research Queue candidate"
+        review_fields = _review_prompt_fields(
+            ticker=ticker,
+            latest=latest,
+            source_group=source_group,
+            confirmations=confirmations,
+        )
         row = {
             "id": f"reddit-{ticker}-{generated.date().isoformat()}",
             "source": "reddit",
+            "source_group": review_fields["source_group"],
+            "source_type": review_fields["source_type"],
             "subreddit": subs[0] if subs else "",
             "subreddits": subs,
             "created_utc": _iso(items[0]["created_dt"].astimezone(UTC)),
@@ -481,6 +616,13 @@ def build_cache(
             "confirmation_required": (
                 "Needs non-social confirmation from UW, price/news, Fundstrat, catalyst, or source-call evidence."
             ),
+            "why_it_matters": review_fields["why_it_matters"],
+            "portfolio_implication": review_fields["portfolio_implication"],
+            "confidence": review_fields["confidence"],
+            "decay_speed": review_fields["decay_speed"],
+            "confirmation_needed": review_fields["confirmation_needed"],
+            "blocker_before_action": review_fields["blocker_before_action"],
+            "suggested_next_check": review_fields["suggested_next_check"],
         }
         rows.append(row)
 
@@ -497,6 +639,7 @@ def build_cache(
         "source": "reddit_chrome_collector",
         "status": status,
         "line": line,
+        "source_group": source_group or "custom",
         "subreddits_checked": sorted(scanned_subreddits or set(subreddits or [])),
         "failures": failure_rows,
         "retention_hours": RETENTION_HOURS,
@@ -590,6 +733,11 @@ def format_text(cache: dict[str, Any]) -> str:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Build src/social_watch.json from Reddit payloads.")
+    parser.add_argument(
+        "--source-group",
+        choices=source_group_names(),
+        help="Named detachable subreddit/ticker group. Overrides --subreddits when supplied.",
+    )
     parser.add_argument("--subreddits", default=",".join(DEFAULT_SUBREDDITS))
     parser.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
     parser.add_argument("--input", action="append", default=[], help="Reddit JSON file or directory of JSON fixtures/exports")
@@ -604,7 +752,11 @@ def main(argv=None) -> int:
     parser.add_argument("--format", choices=("text", "json"), default="text")
     args = parser.parse_args(argv)
 
-    subreddits = [part.strip().lstrip("r/") for part in args.subreddits.split(",") if part.strip()]
+    if args.source_group:
+        config = source_group_config(args.source_group)
+        subreddits = list(config.get("subreddits") or [])
+    else:
+        subreddits = [part.strip().lstrip("r/") for part in args.subreddits.split(",") if part.strip()]
     payloads = _payloads_from_inputs(args.input)
     failures: list[dict[str, Any]] = []
     if args.fetch_live:
@@ -616,8 +768,9 @@ def main(argv=None) -> int:
     cache = build_cache(
         payloads,
         subreddits=subreddits,
+        source_group=args.source_group,
         failures=failures,
-        ticker_universe=load_ticker_universe(args.ticker_universe),
+        ticker_universe=ticker_universe_for_group(load_ticker_universe(args.ticker_universe), args.source_group),
         confirmation_map=_load_confirmation_map(args.confirmations),
         kill_state=_load_kill_state(args.kill_switch_state),
     )
