@@ -79,6 +79,8 @@ def _norm_call(row: dict) -> dict | None:
         "call_summary": row.get("call_summary"),
         "repo_cache_only": bool(row.get("repo_cache_only", True)),
     }
+    if isinstance(row.get("evidence_detail"), dict):
+        out["evidence_detail"] = row["evidence_detail"]
     out["id"] = row.get("id") or _call_id(out)
     return out
 
@@ -97,7 +99,7 @@ def merge_source_calls(existing: list[dict] | None, candidates: list[dict] | Non
                        *, generated_at: str | None = None) -> tuple[list[dict], dict]:
     generated_at = generated_at or _utc_now_iso()
     rows: list[dict] = []
-    seen: set[tuple] = set()
+    seen: dict[tuple, int] = {}
     existing_n = 0
     added_n = 0
 
@@ -107,8 +109,10 @@ def merge_source_calls(existing: list[dict] | None, candidates: list[dict] | Non
             continue
         key = _key(row)
         if key in seen:
+            if row.get("evidence_detail") and not rows[seen[key]].get("evidence_detail"):
+                rows[seen[key]]["evidence_detail"] = row["evidence_detail"]
             continue
-        seen.add(key)
+        seen[key] = len(rows)
         rows.append(row)
         existing_n += 1
 
@@ -118,8 +122,10 @@ def merge_source_calls(existing: list[dict] | None, candidates: list[dict] | Non
             continue
         key = _key(row)
         if key in seen:
+            if row.get("evidence_detail") and not rows[seen[key]].get("evidence_detail"):
+                rows[seen[key]]["evidence_detail"] = row["evidence_detail"]
             continue
-        seen.add(key)
+        seen[key] = len(rows)
         rows.append(row)
         added_n += 1
 

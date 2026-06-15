@@ -152,10 +152,43 @@ lane yet. They can be handled safely only when one of these is available:
 - a Fundstrat email/article companion that summarizes the video
 - a user-supplied transcript or compact notes
 
-Until that is implemented, video-only items should remain discovery/audit-only
-unless a compact transcript-derived row is supplied. Add automated video
-transcript extraction as medium-low priority because it is useful but less
-urgent than the FlashInsights web lane and may depend on player/caption access.
+The first proof, run on 2026-06-15 against Mark Newton's 2026-06-12 Daily
+Technical Strategy video, used the user's logged-in Chrome session, the visible
+Vimeo transcript panel, and the player-exposed caption track. The accepted row
+was compact only and landed through `source_surface=video_transcript`.
+
+For video transcript rows, do not pass raw transcript text. Err on storing a
+richer structured distillation instead of the shortest possible note. Supply
+compact proof fields such as:
+
+- `presenter` or `author`
+- `video_title`
+- `source_url`
+- `directional_bias`
+- `key_levels`
+- `timing_horizon`
+- `names` or `sectors` when relevant
+- `change_vs_prior`
+- `action_implication`
+- `portfolio_implication`
+- `confidence`
+- `decay_speed`
+- `confirmation_needed`
+- `blocker_before_action`
+- `suggested_next_check`
+- short `quote`/summary, no more than the compact intake limit
+
+The short `quote` remains the dashboard-facing summary. The fuller structured
+fields are persisted as `evidence_detail` so review/debug paths can recover the
+why, levels, timing, and checks without storing the full transcript.
+
+Broad macro calls must map to a portfolio proxy before they can land: `SPY` for
+broad market, `RSP` for breadth/equal-weight, `QQQ` for AI/tech/Nasdaq/growth,
+`IWM` for small caps, `TLT` for rates/duration, and a sector ETF only when the
+call is clearly sector-specific.
+
+Video-only items still remain discovery/audit-only when no transcript, captions,
+companion article, or compact user-supplied notes are visible.
 
 ## Compact Row Policy
 

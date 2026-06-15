@@ -184,7 +184,7 @@ def normalize_compact_call(row: dict) -> dict | None:
         target=_num(row.get("target")),
         window=_text(row.get("window") or row.get("horizon")) or None,
     )
-    return {
+    out = {
         "author": _text(row.get("author") or row.get("analyst") or "Fundstrat"),
         "ticker": ticker,
         "direction": direction,
@@ -203,6 +203,9 @@ def normalize_compact_call(row: dict) -> dict | None:
         "decision_usefulness": publication.get("decision_usefulness") or "",
         "capture_reason": publication.get("capture_reason") or "",
     }
+    if isinstance(row.get("evidence_detail"), dict):
+        out["evidence_detail"] = row["evidence_detail"]
+    return out
 
 
 def normalize_compact_calls(payload: Any) -> list[dict]:
@@ -235,12 +238,14 @@ def validate_compact_calls(calls: Any) -> list[str]:
 
 def _merge_by_key(existing: list[dict], incoming: list[dict]) -> list[dict]:
     out = []
-    seen = set()
+    seen = {}
     for row in [*(existing or []), *(incoming or [])]:
         key = (row.get("date"), row.get("author"), row.get("ticker"), row.get("quote"))
         if key in seen:
+            if row.get("evidence_detail") and not out[seen[key]].get("evidence_detail"):
+                out[seen[key]]["evidence_detail"] = row["evidence_detail"]
             continue
-        seen.add(key)
+        seen[key] = len(out)
         out.append(row)
     out.sort(key=lambda r: (r.get("date") or "", r.get("author") or "", r.get("ticker") or ""))
     return out
@@ -286,11 +291,22 @@ def classify_compact_source_call_candidates(
             "ticker": call.get("ticker"),
             "date": call.get("date"),
             "text": call.get("quote") or call.get("subject") or "",
+            "evidence_detail": call.get("evidence_detail"),
         }
         for call in calls
         if call.get("ticker") and (call.get("quote") or call.get("subject"))
     ]
     rows = tracker.batch_classify(raw, now=(generated_at or "")[:10] or None)
+    detail_by_key = {
+        (
+            str(item.get("source") or "").strip().lower(),
+            str(item.get("ticker") or "").strip().upper(),
+            str(item.get("date") or "")[:10],
+            str(item.get("text") or "").strip(),
+        ): item.get("evidence_detail")
+        for item in raw
+        if item.get("evidence_detail")
+    }
     enriched = []
     for row in rows:
         lane = classify_fundstrat_lane(
@@ -298,7 +314,7 @@ def classify_compact_source_call_candidates(
             text=row.get("verbatim_quote") or row.get("text") or "",
             ticker=row.get("ticker") or "",
         )
-        enriched.append({
+        enriched_row = {
             **row,
             "fundstrat_lane": lane["fundstrat_lane"],
             "source_domain": lane["source_domain"],
@@ -309,7 +325,16 @@ def classify_compact_source_call_candidates(
             "use_case": lane.get("use_case"),
             "decision_usefulness": lane.get("decision_usefulness"),
             "capture_reason": lane.get("capture_reason"),
-        })
+        }
+        detail = detail_by_key.get((
+            str(row.get("source") or "").strip().lower(),
+            str(row.get("ticker") or "").strip().upper(),
+            str(row.get("date") or "")[:10],
+            str(row.get("verbatim_quote") or row.get("text") or "").strip(),
+        ))
+        if detail:
+            enriched_row["evidence_detail"] = detail
+        enriched.append(enriched_row)
     return enriched
 
 
@@ -332,14 +357,18 @@ def _candidate_key(row: dict) -> tuple:
 
 def _merge_source_call_candidates(existing: list[dict], incoming: list[dict]) -> list[dict]:
     out = []
-    seen = set()
+    seen = {}
     for row in [*(existing or []), *(incoming or [])]:
         if not isinstance(row, dict):
             continue
         key = _candidate_key(row)
-        if not key[0] or not (key[1] or key[3]) or key in seen:
+        if not key[0] or not (key[1] or key[3]):
             continue
-        seen.add(key)
+        if key in seen:
+            if row.get("evidence_detail") and not out[seen[key]].get("evidence_detail"):
+                out[seen[key]]["evidence_detail"] = row["evidence_detail"]
+            continue
+        seen[key] = len(out)
         out.append(row)
     return out
 
