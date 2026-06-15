@@ -525,5 +525,39 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_65a9753d6fb1"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "SPX",
+    "tier": "B",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton says the near-term framework stays bullish after the interim deal; treat pullbacks toward SPX 7430 as support, while a daily close below 7396 reopens near-term concern.",
+    "falsification_condition": "FALSIFIED if price closes ABOVE 7430 within window",
+    "date": "2026-06-15",
+    "window_end": "2026-07-15",
+    "window_days": 30,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-15",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_0e6bdcff60c9"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "XLI",
+    "tier": "C",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "Newton says equal-weight Industrials and Utilities have broken out, with XLI confirming a genuine upside breakout and sector broadening beyond Tech over the next 1-2 months.",
+    "falsification_condition": "Hard to falsify; score directional accuracy only at window end",
+    "date": "2026-06-15",
+    "window_end": "2026-10-13",
+    "window_days": 120,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-15",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_b4f226580430"
   }
 ]

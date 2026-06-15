@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T20:49:51.906750Z",
+  "updated_at": "2026-06-15T23:07:24.984509Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T19:46:15.765993Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T19:47:13.985410Z",
-      "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
-    },
     {
       "routine_id": "investing-os-post-close-refresh",
       "status": "started",
@@ -3350,6 +3336,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-15T20:49:51.906750Z",
       "summary": "positions sync succeeded: snapshot 2026-06-15; 11 accounts; 89 VALUE_CHANGE diffs; dashboard refresh passed"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T23:01:40.036873Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T23:07:24.984509Z",
+      "summary": "checked 11 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 3; validation passed; Notion none; dark/stale crypto flash no fresh June 15, intraday/fed-watch/live-technical stale or empty, social_watch dark; blockers none"
     }
   ]
 }

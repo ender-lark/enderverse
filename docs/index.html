@@ -297,7 +297,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Dashboard</h1>
-      <div class="stamp" title="built 2026-06-15 16:48 ET  sourced: portfolio 06-15  uw_price 06-15  uw_macro 06-15  fundstrat_bible 06-11  fundstrat_daily 06-15">built 06-15 16:48 ET &middot; data 06-15: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
+      <div class="stamp" title="built 2026-06-15 19:07 ET  sourced: portfolio 06-15  uw_price 06-15  uw_macro 06-15  fundstrat_bible 06-11  fundstrat_daily 06-15">built 06-15 19:07 ET &middot; data 06-15: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
 
     </div>
     <div style="text-align:right">
@@ -495,7 +495,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <a class="quick-link" href="#feedback-loops"><strong>0</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>1 deferred</strong> source lanes</a>
-  <a class="quick-link" href="#feedback-loops"><strong>31 scoring</strong> source calls</a>
+  <a class="quick-link" href="#feedback-loops"><strong>33 scoring</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
   <a class="quick-link" href="#social-watch"><strong>0</strong> social dark</a>
 </div>
@@ -783,7 +783,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </div>
 <div class="context-col">
   <div class="context-label">Radar</div>
-  <div class="context-row"><span class="context-ticker">SPCX</span>watch<span class="context-sub">Fundstrat Direct / Mark Newton | 2026-06-14</span></div><div class="context-row"><span class="context-ticker">EWRE</span>watch<span class="context-sub">Mark L. Newton, CMT | 2026-06-12</span></div><div class="context-row"><span class="context-ticker">SPX</span>watch<span class="context-sub">Mark L. Newton, CMT | 2026-06-12</span></div>
+  <div class="context-row"><span class="context-ticker">XLI</span>watch<span class="context-sub">Mark L. Newton, CMT | 2026-06-15</span></div><div class="context-row"><span class="context-ticker">SPCX</span>watch<span class="context-sub">Fundstrat Direct / Mark Newton | 2026-06-14</span></div><div class="context-row"><span class="context-ticker">EWRE</span>watch<span class="context-sub">Mark L. Newton, CMT | 2026-06-12</span></div>
 </div>
 <div class="context-col">
   <div class="context-label">Bullish flow</div>
@@ -905,7 +905,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="cmd-row"><span class="cmd-name">print brief</span><span class="cmd-desc"><code>python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text</code></span></div>
 </div>
 
-<div class="card" id="operator-status" data-summary="Blocked | 1 manual-support-only routine; 5 overdue cloud routines">
+<div class="card" id="operator-status" data-summary="Blocked | 5 overdue cloud routines">
   <div class="card-title"><span class="icon">!</span> Operator status
     <span class="operator-fail" style="font-size:11px;margin-left:auto">FAIL</span>
   </div>
@@ -913,11 +913,11 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">4</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">0</div></a>
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">31 scoring</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">33 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-fail">5</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | 1 manual-support-only routine; 5 overdue cloud routines</div>
+  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | 5 overdue cloud routines</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -928,11 +928,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
     <div class="operator-event-trigger">overdue: Investing OS Pre-Market Source Intake, last scheduled success 2026-06-12T12:15:39.205468Z; latest manual support 2026-06-15T13:10:01.923453Z; overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last scheduled success 2026-06-12T11:51:29.852709Z; latest manual support 2026-06-15T13:10:01.653270Z; overdue: Investing OS Morning Scan, last scheduled success 2026-06-12T12:42:40.160556Z; latest manual support 2026-06-15T13:10:02.124206Z</div>
   </div>
 
-  <div class="operator-event-watch">
-    <div class="operator-label">Manual support only</div>
-    <div class="operator-event-title">1 routine need scheduled proof</div>
-    <div class="operator-event-trigger">Investing OS Positions Sync</div>
-  </div>
 
   <div class="operator-event-watch">
     <div class="operator-label">Active event watch</div>
@@ -986,7 +981,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="context-ticker">Fundstrat signal confirmation</span>
   <span class="tag t-conf">priority 4</span>
   <span class="small-muted">Fundstrat-derived calls should be checked against live market structure before action.</span>
-  <span class="small-muted">Tickers: SPCX, EWRE, SPX, BTC, CL, MAGS, RYF, XOP</span>
+  <span class="small-muted">Tickers: XLI, SPCX, EWRE, SPX, BTC, MAGS, RYF, XOP</span>
 
   <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO</span>
   <span class="small-muted">Blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing</span>
@@ -1044,6 +1039,12 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="small-muted">event_risk | 2026-06-03</span>
 </div>
 <div class="small-item">
+  <span class="context-ticker">XLI</span>
+  <span>XLI watch</span>
+  <span class="small-muted">Newton says equal-weight Industrials and Utilities have broken out, with XLI confirming a genuine upside breakout and sector broadening beyond Tech over the next 1-2 months.</span>
+  <span class="small-muted">fundstrat_daily | 2026-06-15</span>
+</div>
+<div class="small-item">
   <span class="context-ticker">SPCX</span>
   <span>SPCX watch</span>
   <span class="small-muted">Fundstrat notes SpaceX IPO cash-raising likely pressured equities; Newton says do not chase the initial pop and expects a chance to buy between now and October.</span>
@@ -1054,17 +1055,11 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span>EWRE watch</span>
   <span class="small-muted">Newton said REITs are breaking out on above-average volume and he is overweight the space; EWRE is pushing to new highs and he expects REIT outperformance if rates fall on an Iran deal.</span>
   <span class="small-muted">fundstrat_daily | 2026-06-12</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">SPX</span>
-  <span>SPX watch</span>
-  <span class="small-muted">Newton says US equity lows likely are in place; use pullbacks to buy dips as breadth broadens and crude/TNX weaken. Near-term SPX resistance is 7456-7475, support near 7360, with some backing and filling possible into early next week.</span>
-  <span class="small-muted">fundstrat_daily | 2026-06-12</span>
 </div></div>
 </div>
 <div class="card">
   <div class="card-title"><span class="icon">!</span> Why not acting</div>
-  <div class="small-list"><div class="feedback-line">Why-not-acting lane: 48 watch-only signal(s) kept out of trade prompts.</div>
+  <div class="small-list"><div class="feedback-line">Why-not-acting lane: 49 watch-only signal(s) kept out of trade prompts.</div>
 <div class="small-item">
   <span class="context-ticker">XLF, GS, ITA</span>
   <span>Macro: complacent vol plus steep curve cyclical tailwind</span>
@@ -1202,7 +1197,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Core background cloud proof: 13/14 scheduled receipts proven; manual support only=1; failed latest=0; overdue=5; support monitored=11, support overdue=9.
+  <span class="audit-k">Cloud routines</span>Core background cloud proof: 14/14 scheduled receipts proven; failed latest=0; overdue=5; support monitored=11, support overdue=9.
 </div>
 <div class="audit-row">
   <span class="audit-k">Trigger registry</span>Trigger registry: 8 armed trigger(s); not checked this build.
@@ -1223,7 +1218,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-15 10:32 ET.
 </div>
 <div class="audit-row">
-  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 1 full-body, 0 snippet-only, 1 daily calls; stored cache: 40 inbox entries (29 full-body, 11 snippet-only), 31 daily calls, 31 stored source-call candidates.
+  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 2 full-body, 0 snippet-only, 2 daily calls; stored cache: 42 inbox entries (31 full-body, 11 snippet-only), 33 daily calls, 33 stored source-call candidates.
 </div>
 <div class="audit-row">
   <span class="audit-k">Notion/writeback</span>Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.
@@ -1232,8 +1227,8 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
   <div class="feedback-line">Overdue cloud receipts: overdue: Investing OS Pre-Market Source Intake, last scheduled success 2026-06-12T12:15:39.205468Z; latest manual support 2026-06-15T13:10:01.923453Z; overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last scheduled success 2026-06-12T11:51:29.852709Z; latest manual support 2026-06-15T13:10:01.653270Z; overdue: Investing OS Morning Scan, last scheduled success 2026-06-12T12:42:40.160556Z; latest manual support 2026-06-15T13:10:02.124206Z; overdue: Investing OS Early Cockpit Build, last scheduled success 2026-06-12T12:51:34.365421Z; latest manual support 2026-06-15T13:10:09.543680Z; overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z</div>
-  <div class="feedback-line">Background scheduled receipts pending: Investing OS Positions Sync</div>
-  <div class="feedback-line">Manual support receipts only, not unattended proof: Investing OS Positions Sync</div>
+
+
   <div class="feedback-line">UW next checks: Pre-market crash triage: High-volatility or re-check posture needs broad tape triage before single-name action. [MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, ETF_TIDE, SECTOR_TIDE]<br>Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Fundstrat signal confirmation: Fundstrat-derived calls should be checked against live market structure before action. [TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OHLC, TICKER_STOCK_STATE]</div>
 </div>
 
@@ -1241,12 +1236,12 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="card-title"><span class="icon"></span> Feedback loops
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">1 open signal(s)</span>
   </div>
-  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">SOURCE PERSISTENCE: 4 cluster(s), 1 LOUD -&gt; P-WAKE-UP + Signal Log: mark l. newton, cmt-&gt;CL 2x in 14d [LOUD, has A/B]  newton-&gt;QQQ 5x in 30d [quiet, has A/B]  mark l. newton, cmt-&gt;SPX 3x in 30d [quiet, has A/B]  mark l. newton, cmt-&gt;QQQ 2x in 14d [quiet, has A/B]</div><div class="feedback-line">Open action backlog clean.</div><div class="feedback-rec">Escalate LOUD source-persistence cluster into research/action review.</div>
+  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">SOURCE PERSISTENCE: 4 cluster(s), 1 LOUD -&gt; P-WAKE-UP + Signal Log: mark l. newton, cmt-&gt;CL 2x in 14d [LOUD, has A/B]  newton-&gt;QQQ 5x in 30d [quiet, has A/B]  mark l. newton, cmt-&gt;SPX 4x in 30d [quiet, has A/B]  mark l. newton, cmt-&gt;QQQ 2x in 14d [quiet, has A/B]</div><div class="feedback-line">Open action backlog clean.</div><div class="feedback-rec">Escalate LOUD source-persistence cluster into research/action review.</div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-15T20:48:14.628670+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-15T20:48:14.628670+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-15T20:48:14.628670+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-15T20:48:14.628670+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-15T20:48:14.628670+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge down" title="Cloud Routine Receipts | 2026-06-15T20:48:14.628670+00:00 | overdue: Investing OS Pre-Market Source Intake, last scheduled success 2026-06-12T12:15:39.205468Z; latest manual support 2026-06-15T13:10:01.923453Z; +4 more">Cloud Routine Receipts</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-15T23:07:13.301273+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-15T23:07:13.301273+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-15T23:07:13.301273+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-15T23:07:13.301273+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-15T23:07:13.301273+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge down" title="Cloud Routine Receipts | 2026-06-15T23:07:13.301273+00:00 | overdue: Investing OS Pre-Market Source Intake, last scheduled success 2026-06-12T12:15:39.205468Z; latest manual support 2026-06-15T13:10:01.923453Z; +4 more">Cloud Routine Receipts</span></div>
 </div>
 
 <div class="hero">
@@ -7907,7 +7902,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div id="tab-fundstrat" style="display:none">
   <div class="card">
     <div class="card-title"><span class="icon">F</span> FundStrat</div>
-    <div class="summary-line">FundStrat: sector allocation 2026-06-11; core stock ideas 2026-05-28; daily calls 31 latest 2026-06-15.</div>
+    <div class="summary-line">FundStrat: sector allocation 2026-06-11; core stock ideas 2026-05-28; daily calls 33 latest 2026-06-15.</div>
     <div class="summary-muted" style="font-size:11px">Fundstrat is the baseline source of truth, but monthly list membership is not an execution trigger; stale, missing, or snippet-only data stays labeled.</div>
   </div>
 
@@ -8179,14 +8174,26 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
   <div class="card">
     <div class="card-title"><span class="icon">D</span> Latest Daily Notes</div>
-    <div class="summary-line">Latest 2026-06-15 | showing latest 5 of 31</div>
+    <div class="summary-line">Latest 2026-06-15 | showing latest 5 of 33</div>
     <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing.</div>
     <div class="small-list">
+<div class="small-item">
+  <strong>XLI</strong>
+  <span class="small-muted">2026-06-15 | Mark L. Newton, CMT | re-check timing</span>
+  <span class="small-muted">Daily Technical Strategy: Interim Deal Underpins a Constructive Framework as Industrials Break Out and Semis Rebound</span>
+  <span class="small-muted">Newton says equal-weight Industrials and Utilities have broken out, with XLI confirming a genuine upside breakout and sector broadening beyond Tech over the next 1-2 months.</span>
+</div>
 <div class="small-item">
   <strong>SPX</strong>
   <span class="small-muted">2026-06-15 | Mark L. Newton, CMT | re-check timing</span>
   <span class="small-muted">FlashInsights: midday equity buy-the-dip posture</span>
   <span class="small-muted">Resistance sits near 7620.90; if this week fills today&#x27;s rally gap, Newton still views that consolidation as bullish buy-the-dip action rather than a fresh break of the June 9 low.</span>
+</div>
+<div class="small-item">
+  <strong>SPX</strong>
+  <span class="small-muted">2026-06-15 | Mark L. Newton, CMT | re-check timing</span>
+  <span class="small-muted">Daily Technical Strategy: Interim Deal Underpins a Constructive Framework as Industrials Break Out and Semis Rebound</span>
+  <span class="small-muted">Newton says the near-term framework stays bullish after the interim deal; treat pullbacks toward SPX 7430 as support, while a daily close below 7396 reopens near-term concern.</span>
 </div>
 <div class="small-item">
   <strong>QQQ</strong>
@@ -8199,18 +8206,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="small-muted">2026-06-15 | Mark L. Newton, CMT | avoid/re-check</span>
   <span class="small-muted">FlashInsights: WTI breakdown keeps Energy underweight</span>
   <span class="small-muted">WTI&#x27;s break below 85.95 points to further weakness into July, with initial crude support near 60-65; Newton says avoid buying Energy dips and treats the sector as a technical underweight.</span>
-</div>
-<div class="small-item">
-  <strong>SPCX</strong>
-  <span class="small-muted">2026-06-14 | Fundstrat Direct / Mark Newton | re-check timing</span>
-  <span class="small-muted">Snapshot: SpaceX Takes Off</span>
-  <span class="small-muted">Fundstrat notes SpaceX IPO cash-raising likely pressured equities; Newton says do not chase the initial pop and expects a chance to buy between now and October.</span>
-</div>
-<div class="small-item">
-  <strong>SPX</strong>
-  <span class="small-muted">2026-06-12 | Mark L. Newton, CMT | re-check timing</span>
-  <span class="small-muted">FlashInsights midday equity breadth and buy-the-dip posture</span>
-  <span class="small-muted">Newton says US equity lows likely are in place; use pullbacks to buy dips as breadth broadens and crude/TNX weaken. Near-term SPX resistance is 7456-7475, support near 7360, with some backing and filling possible into early next week.</span>
 </div></div>
   </div>
   <div class="card">
