@@ -7,12 +7,35 @@ const copyText = (t) => {
   if (navigator.clipboard?.writeText) navigator.clipboard.writeText(t);
 };
 
-function Rail({ cardId, verb, copy, state, setState }) {
+function reviewPosture(card, checkFirst, windowClass, direction) {
+  if (checkFirst || (card.conflicts || []).length || ["GATED", "WAIT"].includes(windowClass)) {
+    return {
+      label: "RECHECK",
+      stateVerb: "RECHECK",
+      copyVerb: "RECHECK",
+      copySuffix: " resolve blockers before action",
+      reason: `candidate ${direction}; blockers or conflicts must clear first`,
+    };
+  }
+  if (windowClass === "STAGE-ONLY") {
+    return {
+      label: "CANDIDATE",
+      stateVerb: "CANDIDATE",
+      copyVerb: "RECHECK",
+      copySuffix: " candidate only; confirm gates before action",
+      reason: `candidate ${direction}; stage-only until gates confirm`,
+    };
+  }
+  return { label: direction, stateVerb: "ACT", copyVerb: "ACT", copySuffix: "", reason: "" };
+}
+
+function Rail({ cardId, verb, copy, muted, state, setState }) {
   const on = state[cardId] === verb;
   return (
     <button
-      style={{ background: on ? "#34d399" : "#1e293b", color: on ? "#0b1220" : "#e2e8f0",
-               border: "1px solid #334155", borderRadius: 8, padding: "6px 12px",
+      style={{ background: on ? "#34d399" : (muted ? "#111827" : "#1e293b"),
+               color: on ? "#0b1220" : (muted ? "#cbd5e1" : "#e2e8f0"),
+               border: `1px solid ${muted ? "#64748b" : "#334155"}`, borderRadius: 8, padding: "6px 12px",
                marginRight: 8, marginTop: 6, cursor: "pointer", fontSize: 13,
                fontWeight: on ? 700 : 400 }}
       onClick={() => {
@@ -25,22 +48,28 @@ function Rail({ cardId, verb, copy, state, setState }) {
   );
 }
 
-function Card({ card, rank, railState, setRailState }) {
+function Card({ card, rank, checkFirst, railState, setRailState }) {
   const dc = card.decision_card || {};
   const move = dc.move || {}, conv = card.conviction || {}, win = card.window || {};
   const ex = card.execution || {}, impact = card.impact || {};
   const sizing = card.sizing || {};
   const conflicted = (card.conflicts || []).length > 0;
+  const posture = reviewPosture(card, checkFirst, win.class, move.direction);
+  const primaryCopy = posture.copyVerb === "ACT"
+    ? `ACT ${card.card_id}`
+    : `${posture.copyVerb} ${card.card_id}${posture.copySuffix}`;
   return (
     <div style={{ border: `1px solid ${conflicted ? "#fb923c" : "#1e293b"}`, borderRadius: 10,
                   padding: 12, margin: "10px 0", background: "#0f172a" }}>
+      {checkFirst && <div style={{ color: "#f87171", fontWeight: 700, fontSize: 12, marginBottom: 6 }}>CHECK DATA FIRST - inputs behind/stale</div>}
       <div style={{ fontSize: 16, fontWeight: 600 }}>
-        #{rank} {move.direction} {card.ticker} Â· {move.band}
+        #{rank} {posture.label} {card.ticker} Â· {move.band}
         <span style={{ background: CLASS_COLORS[win.class] || "#94a3b8", color: "#0b1220",
                        borderRadius: 6, padding: "1px 8px", fontSize: 12, marginLeft: 8 }}>{win.class}</span>
         <span style={{ background: "#818cf8", color: "#0b1220", borderRadius: 6,
                        padding: "1px 8px", fontSize: 12, marginLeft: 8 }}>{conv.read} {conv.points}</span>
       </div>
+      {posture.reason && <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}><strong>posture:</strong> {posture.reason}</div>}
       <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>
         evidence: {Object.entries(conv.groups || {}).map(([k, v]) => `${k} ${v >= 0 ? "+" : ""}${v}`).join(" Â· ")}
       </div>
@@ -64,9 +93,9 @@ function Card({ card, rank, railState, setRailState }) {
           SOURCE-CONFLICT â€” {c.with}: â€œ{c.their_claim}â€ vs this card: {c.card_claim} Â· resolve before acting
         </div>
       ))}
-      <Rail cardId={card.card_id} verb="ACT" copy={`ACT ${card.card_id}`} state={railState} setState={setRailState} />
+      <Rail cardId={card.card_id} verb={posture.stateVerb} copy={primaryCopy} muted={posture.copyVerb !== "ACT"} state={railState} setState={setRailState} />
       <Rail cardId={card.card_id} verb="PASS" copy={`PASS ${card.card_id} â€” reason: `} state={railState} setState={setRailState} />
-      <Rail cardId={card.card_id} verb="RECHECK" copy={`RECHECK ${card.card_id} resurface ${card.recheck_date}`} state={railState} setState={setRailState} />
+      {posture.label !== "RECHECK" && <Rail cardId={card.card_id} verb="RECHECK" copy={`RECHECK ${card.card_id} resurface ${card.recheck_date}`} state={railState} setState={setRailState} />}
     </div>
   );
 }
@@ -75,6 +104,7 @@ export default function TodayDecide({ payload }) {
   const [railState, setRailState] = useState({});
   if (!payload) return null;
   const ga = payload.goal_anchor || {}, pl = payload.plan_line || {};
+  const checkFirst = Boolean((payload.data_health || {}).blockers?.length);
   return (
     <section style={{ fontFamily: "-apple-system,'Segoe UI',Roboto,sans-serif", background: "#0b1220",
                       color: "#e2e8f0", border: "1px solid #1e293b", borderRadius: 12, padding: 18, marginBottom: 18 }}>
@@ -99,7 +129,7 @@ export default function TodayDecide({ payload }) {
         </span>
       ))}
       {(payload.cards || []).map((c, i) => (
-        <Card key={c.card_id} card={c} rank={i + 1} railState={railState} setRailState={setRailState} />
+        <Card key={c.card_id} card={c} rank={i + 1} checkFirst={checkFirst} railState={railState} setRailState={setRailState} />
       ))}
       <details style={{ fontSize: 12, color: "#94a3b8" }}>
         <summary>Backlog ({(payload.backlog || []).length})</summary>

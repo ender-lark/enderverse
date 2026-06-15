@@ -7,9 +7,9 @@ emit:
 
 * identical sets of ``(card_id, ticker, window.class, conviction.read,
   priority)`` for each card in ``payload.cards`` and ``payload.backlog``;
-* identical rail copy strings
-  (``ACT <card_id>`` / ``PASS <card_id> — reason: `` /
-  ``RECHECK <card_id> resurface <recheck_date>`` / ``UNDO <card_id>``).
+* identical rail copy strings. Unsafe cards expose a RECHECK/CANDIDATE primary
+  rail instead of ACT, while still preserving PASS, scheduled RECHECK when
+  applicable, and UNDO.
 
 The JSX cannot run inside pytest. Instead the test:
 
@@ -133,23 +133,37 @@ def _contract_from_card(card):
     )
 
 
-def _rail_copies_from_card(card):
+def _rail_copies_from_card(card, *, check_first=False):
     cid = card["card_id"]
-    return {
-        "ACT":     f"ACT {cid}",
+    move = (card.get("decision_card") or {}).get("move") or {}
+    window_class = (card.get("window") or {}).get("class", "WAIT")
+    posture = td._review_posture(
+        card,
+        check_first=check_first,
+        window_class=window_class,
+        direction=str(move.get("direction") or ""),
+    )
+    primary_copy = (
+        f"ACT {cid}" if posture["copy_verb"] == "ACT"
+        else f'{posture["copy_verb"]} {cid}{posture["copy_suffix"]}'
+    )
+    rails = {
+        posture["state_verb"]: primary_copy,
         "PASS":    f"PASS {cid} — reason: ",
-        "RECHECK": f"RECHECK {cid} resurface {card.get('recheck_date')}",
         "UNDO":    f"UNDO {cid}",
     }
+    if posture["label"] != "RECHECK":
+        rails["RECHECK"] = f"RECHECK {cid} resurface {card.get('recheck_date')}"
+    return rails
 
 
 # ---------------------------------------------------------------------------
 # HTML parsers
 # ---------------------------------------------------------------------------
 _DATA_CARD_RE = re.compile(
-    r'<button class="td-rail"[^>]*'
+    r'<button class="[^"]*\btd-rail\b[^"]*"[^>]*'
     r'data-card="(?P<cid>[^"]+)"[^>]*'
-    r'data-verb="(?P<verb>ACT|PASS|RECHECK)"[^>]*'
+    r'data-verb="(?P<verb>ACT|CANDIDATE|PASS|RECHECK)"[^>]*'
     r'data-copy="(?P<copy>[^"]*)"',
     re.DOTALL,
 )
@@ -206,12 +220,14 @@ def test_rail_copy_strings_match_payload_contract():
     payload = _build_payload()
     html = td.render_today_decide_html(payload)
     html_rails = _rail_copies_from_html(html)
+    check_first = bool((payload.get("data_health") or {}).get("blockers"))
     for card in payload["cards"]:
-        expected = _rail_copies_from_card(card)
+        expected = _rail_copies_from_card(card, check_first=check_first)
         actual = html_rails.get(card["card_id"], {})
-        assert actual.get("ACT") == expected["ACT"], card["card_id"]
-        assert actual.get("PASS") == expected["PASS"], card["card_id"]
-        assert actual.get("RECHECK") == expected["RECHECK"], card["card_id"]
+        for verb, copy in expected.items():
+            if verb == "UNDO":
+                continue
+            assert actual.get(verb) == copy, card["card_id"]
 
 
 # ---------------------------------------------------------------------------
@@ -260,11 +276,14 @@ def test_todaydecide_jsx_uses_canonical_card_fields():
 
 
 def test_todaydecide_jsx_rail_copy_templates_match_contract():
-    """The component must emit exactly the four operator-facing strings
+    """The component must emit the operator-facing rail strings
     the parity contract codifies."""
     src = _jsx(TODAY_DECIDE_JSX)
-    # ACT / PASS / RECHECK / UNDO templates.
+    # ACT / safe primary RECHECK / PASS / scheduled RECHECK / UNDO templates.
     assert "`ACT ${card.card_id}`" in src
+    assert "resolve blockers before action" in src
+    assert "candidate only; confirm gates before action" in src
+    assert "posture.stateVerb" in src
     assert "`PASS ${card.card_id} — reason: `" in src
     assert "`RECHECK ${card.card_id} resurface ${card.recheck_date}`" in src
     assert "`UNDO ${cardId}`" in src
@@ -285,15 +304,19 @@ def test_rail_copy_contract_present_in_both_html_and_jsx():
     html = td.render_today_decide_html(payload)
     html_rails = _rail_copies_from_html(html)
     jsx_src = _jsx(TODAY_DECIDE_JSX)
+    check_first = bool((payload.get("data_health") or {}).get("blockers"))
     for card in payload["cards"]:
-        expected = _rail_copies_from_card(card)
+        expected = _rail_copies_from_card(card, check_first=check_first)
         # HTML side: exact match.
         actual = html_rails[card["card_id"]]
-        assert actual["ACT"] == expected["ACT"]
-        assert actual["PASS"] == expected["PASS"]
-        assert actual["RECHECK"] == expected["RECHECK"]
+        for verb, copy in expected.items():
+            if verb == "UNDO":
+                continue
+            assert actual[verb] == copy
         # JSX side: the templates that produce these strings literally
         # appear in the component source.
         assert "`ACT ${card.card_id}`" in jsx_src
+        assert "resolve blockers before action" in jsx_src
+        assert "candidate only; confirm gates before action" in jsx_src
         assert "`PASS ${card.card_id} — reason: `" in jsx_src
         assert "`RECHECK ${card.card_id} resurface ${card.recheck_date}`" in jsx_src

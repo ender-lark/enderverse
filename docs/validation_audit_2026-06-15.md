@@ -63,9 +63,18 @@ The Investing OS is locally build-ready and useful for decision support today, b
 
 ## Recommended Next Slice
 
-Implement a focused runtime/dashboard-hardening slice:
+Status: implemented in the runtime/dashboard-hardening slice on 2026-06-15.
 
-1. Add `dashboard_preview_server.py --check-origin` or equivalent to verify the serving worktree and preview stamp.
-2. Add a dashboard warning when port 8765 serves a stale or wrong-worktree preview.
-3. Tighten TODAY-DECIDE conflicted/stage-only cards so the first visible verb is `RECHECK` or `CANDIDATE`, not `BUY`/`SELL`, until blockers clear.
-4. Update the Notion mirror to HTML-dashboard default after the repo doc stays canonical.
+Implemented:
+
+1. `src/dashboard_preview_server.py --check-origin` verifies that the served `dashboard_preview.html` matches this worktree's preview file by hash and rendered stamp.
+2. The preview server now exposes `/__dashboard_origin.json` so future checks can identify the serving preview directory and local preview metadata.
+3. TODAY-DECIDE now renders unsafe first-screen cards as review posture:
+   - blocked, stale, or conflicted cards show `RECHECK` first;
+   - clean stage-only cards show `CANDIDATE` first;
+   - the first rail copies a `RECHECK ...` line instead of `ACT ...` until blockers clear.
+
+Remaining follow-up:
+
+1. Separate manual-support routine receipts from true scheduled proof in the operator status surface.
+2. Keep Social Watch dark until a compliant normalized cache exists.

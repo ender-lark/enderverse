@@ -207,6 +207,7 @@ _CSS = """
 .td .td-checkfirst{color:#f87171;font-weight:700;font-size:12px;margin-bottom:6px;letter-spacing:.03em}
 .td .td-rail{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;
   padding:6px 12px;margin:6px 8px 0 0;cursor:pointer;font-size:13px}
+.td .td-rail-muted{background:#111827;color:#cbd5e1;border-color:#64748b}
 .td .td-rail.td-on{background:#34d399;color:#0b1220;font-weight:700}
 .td .td-rail.td-copy-fail{background:#7f1d1d;color:#fecaca;border-color:#ef4444;font-weight:700}
 .td .td-cong{font-size:13px;margin:3px 0}
@@ -237,6 +238,25 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 def _esc(value: Any) -> str:
     return str(value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
+def _review_posture(card: dict[str, Any], *, check_first: bool, window_class: str, direction: str) -> dict[str, str]:
+    if check_first or card.get("conflicts") or window_class in {"GATED", "WAIT"}:
+        return {
+            "label": "RECHECK",
+            "state_verb": "RECHECK",
+            "copy_verb": "RECHECK",
+            "copy_suffix": " resolve blockers before action",
+            "reason": f"candidate {direction}; blockers or conflicts must clear first",
+        }
+    if window_class == "STAGE-ONLY":
+        return {
+            "label": "CANDIDATE",
+            "state_verb": "CANDIDATE",
+            "copy_verb": "RECHECK",
+            "copy_suffix": " candidate only; confirm gates before action",
+            "reason": f"candidate {direction}; stage-only until gates confirm",
+        }
+    return {"label": direction, "state_verb": "ACT", "copy_verb": "ACT", "copy_suffix": "", "reason": ""}
+
 def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> list[str]:
     dcard = card.get("decision_card") or {}
     move = dcard.get("move") or {}
@@ -252,26 +272,41 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
         h.append('<div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>')
     cls = win.get("class", "WAIT")
     direction = str(move.get("direction") or "")
-    direction_color = "#94a3b8" if check_first else {"BUY": "#34d399", "SELL": "#f87171"}.get(direction, "#e2e8f0")
+    posture = _review_posture(card, check_first=check_first, window_class=cls, direction=direction)
+    visible_action = posture["label"]
+    direction_color = "#94a3b8" if visible_action != direction else {"BUY": "#34d399", "SELL": "#f87171"}.get(direction, "#e2e8f0")
     h.append(
-        f'<div class="td-move">#{rank} <span style="color:{direction_color};font-weight:700">{_esc(direction)}</span> {_esc(card.get("ticker"))}'
+        f'<div class="td-move">#{rank} <span style="color:{direction_color};font-weight:700">{_esc(visible_action)}</span> {_esc(card.get("ticker"))}'
         f' Â· {_esc(move.get("band"))}'
         f'<span class="td-pill" style="background:{_CLASS_COLORS.get(cls, "#94a3b8")}">{_esc(cls)}</span>'
         f'<span class="td-pill" style="background:#818cf8">{_esc(conv.get("read"))} {conv.get("points", 0)}</span>'
         "</div>"
     )
+    if posture["reason"]:
+        h.append(f'<div class="td-row"><strong>posture:</strong> {_esc(posture["reason"])}</div>')
     for c in card.get("conflicts") or []:
         h.append(f'<div class="td-chip">SOURCE-CONFLICT â€” {_esc(c["with"])}: â€œ{_esc(c["their_claim"])}â€ '
                  f'vs this card: {_esc(c["card_claim"])} Â· resolve before acting</div>')
+    primary_verb = posture["copy_verb"]
+    primary_state_verb = posture["state_verb"]
+    primary_label = posture["label"] if primary_verb != "ACT" else "ACT"
+    primary_copy = (
+        f"ACT {cid}" if primary_verb == "ACT"
+        else f'{primary_verb} {cid}{_esc(posture["copy_suffix"])}'
+    )
+    primary_class = "td-rail" if primary_verb == "ACT" else "td-rail td-rail-muted"
     h.append(
-        f'<button class="td-rail" data-card="{cid}" data-verb="ACT" data-copy="ACT {cid}" '
-        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button>'
+        f'<button class="{primary_class}" data-card="{cid}" data-verb="{primary_state_verb}" data-copy="{_esc(primary_copy)}" '
+        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">{_esc(primary_label)}</button>'
         f'<button class="td-rail" data-card="{cid}" data-verb="PASS" data-copy="PASS {cid} â€” reason: " '
         f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>'
+    )
+    if primary_label != "RECHECK":
+        h.append(
         f'<button class="td-rail" data-card="{cid}" data-verb="RECHECK" '
         f'data-copy="RECHECK {cid} resurface {_esc(card.get("recheck_date"))}" '
         f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>'
-    )
+        )
     h.append('<span class="td-chev">&#9656; details</span>')
     h.append('</summary><div class="td-body">')
     groups = conv.get("groups") or {}

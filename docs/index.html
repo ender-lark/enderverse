@@ -297,7 +297,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Dashboard</h1>
-      <div class="stamp" title="built 2026-06-15 10:32 ET  sourced: portfolio 06-15  uw_price 06-15  uw_macro 06-15  fundstrat_bible 06-11  fundstrat_daily 06-14">built 06-15 10:32 ET &middot; data 06-15: port&middot;px&middot;macro &#9474; <span style="color:#b08930">FS bible 06-11</span> &#9474; <span style="color:#b08930">FS daily 06-14</span></div>
+      <div class="stamp" title="built 2026-06-15 11:23 ET  sourced: portfolio 06-15  uw_price 06-15  uw_macro 06-15  fundstrat_bible 06-11  fundstrat_daily 06-14">built 06-15 11:23 ET &middot; data 06-15: port&middot;px&middot;macro &#9474; <span style="color:#b08930">FS bible 06-11</span> &#9474; <span style="color:#b08930">FS daily 06-14</span></div>
 
     </div>
     <div style="text-align:right">
@@ -348,6 +348,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .td .td-checkfirst{color:#f87171;font-weight:700;font-size:12px;margin-bottom:6px;letter-spacing:.03em}
 .td .td-rail{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;
   padding:6px 12px;margin:6px 8px 0 0;cursor:pointer;font-size:13px}
+.td .td-rail-muted{background:#111827;color:#cbd5e1;border-color:#64748b}
 .td .td-rail.td-on{background:#34d399;color:#0b1220;font-weight:700}
 .td .td-rail.td-copy-fail{background:#7f1d1d;color:#fecaca;border-color:#ef4444;font-weight:700}
 .td .td-cong{font-size:13px;margin:3px 0}
@@ -384,9 +385,10 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <details class="td-card td-conflicted">
 <summary class="td-sum">
 <div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>
-<div class="td-move">#1 <span style="color:#94a3b8;font-weight:700">SELL</span> MAGS  |  $389 (0.0% -> 0.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
+<div class="td-move">#1 <span style="color:#94a3b8;font-weight:700">RECHECK</span> MAGS  |  $389 (0.0% -> 0.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
+<div class="td-row"><strong>posture:</strong> candidate SELL; blockers or conflicts must clear first</div>
 <div class="td-chip">SOURCE-CONFLICT - lean_in lane: Lean-in  looks good vs this card: SELL $389  |  resolve before acting</div>
-<button class="td-rail" data-card="MAGS-TRIM-2026-06-15" data-verb="ACT" data-copy="ACT MAGS-TRIM-2026-06-15" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-15" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-15 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-15" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-15 resurface 2026-06-20" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
+<button class="td-rail td-rail-muted" data-card="MAGS-TRIM-2026-06-15" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-15 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-15" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-15 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
 <span class="td-chev">&#9656; details</span>
 </summary><div class="td-body">
 <div class="td-row">evidence: fs +0.00  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
@@ -401,8 +403,9 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <details class="td-card">
 <summary class="td-sum">
 <div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>
-<div class="td-move">#2 <span style="color:#94a3b8;font-weight:700">BUY</span> GOOGL  |  $150,965 (0.0% -> 8.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.34</span></div>
-<button class="td-rail" data-card="GOOGL-ADD-2026-06-15" data-verb="ACT" data-copy="ACT GOOGL-ADD-2026-06-15" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-15" data-verb="PASS" data-copy="PASS GOOGL-ADD-2026-06-15 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-15" data-verb="RECHECK" data-copy="RECHECK GOOGL-ADD-2026-06-15 resurface 2026-06-20" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
+<div class="td-move">#2 <span style="color:#94a3b8;font-weight:700">RECHECK</span> GOOGL  |  $150,965 (0.0% -> 8.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.34</span></div>
+<div class="td-row"><strong>posture:</strong> candidate BUY; blockers or conflicts must clear first</div>
+<button class="td-rail td-rail-muted" data-card="GOOGL-ADD-2026-06-15" data-verb="RECHECK" data-copy="RECHECK GOOGL-ADD-2026-06-15 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-15" data-verb="PASS" data-copy="PASS GOOGL-ADD-2026-06-15 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
 <span class="td-chev">&#9656; details</span>
 </summary><div class="td-body">
 <div class="td-row">evidence: fs +0.34  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
@@ -420,8 +423,9 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <details class="td-card">
 <summary class="td-sum">
 <div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>
-<div class="td-move">#3 <span style="color:#94a3b8;font-weight:700">BUY</span> MSFT  |  $94,353 (0.0% -> 5.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
-<button class="td-rail" data-card="MSFT-ADD-2026-06-15" data-verb="ACT" data-copy="ACT MSFT-ADD-2026-06-15" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="MSFT-ADD-2026-06-15" data-verb="PASS" data-copy="PASS MSFT-ADD-2026-06-15 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail" data-card="MSFT-ADD-2026-06-15" data-verb="RECHECK" data-copy="RECHECK MSFT-ADD-2026-06-15 resurface 2026-06-20" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
+<div class="td-move">#3 <span style="color:#94a3b8;font-weight:700">RECHECK</span> MSFT  |  $94,353 (0.0% -> 5.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
+<div class="td-row"><strong>posture:</strong> candidate BUY; blockers or conflicts must clear first</div>
+<button class="td-rail td-rail-muted" data-card="MSFT-ADD-2026-06-15" data-verb="RECHECK" data-copy="RECHECK MSFT-ADD-2026-06-15 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="MSFT-ADD-2026-06-15" data-verb="PASS" data-copy="PASS MSFT-ADD-2026-06-15 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
 <span class="td-chev">&#9656; details</span>
 </summary><div class="td-body">
 <div class="td-row">evidence: fs +0.00  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
@@ -1266,7 +1270,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-15T14:32:55.144776+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-15T14:32:55.144776+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-15T14:32:55.144776+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-15T14:32:55.144776+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-15T14:32:55.144776+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge down" title="Cloud Routine Receipts | 2026-06-15T14:32:55.144776+00:00 | overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z; +13 more">Cloud Routine Receipts</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-15T15:23:18.507902+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-15T15:23:18.507902+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-15T15:23:18.507902+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-15T15:23:18.507902+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-15T15:23:18.507902+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge down" title="Cloud Routine Receipts | 2026-06-15T15:23:18.507902+00:00 | overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z; +13 more">Cloud Routine Receipts</span></div>
 </div>
 
 <div class="hero">

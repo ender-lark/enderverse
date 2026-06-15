@@ -169,15 +169,28 @@ def test_mags_source_conflict_chip_renders():
     assert mags["conflicts"] and mags["conflicts"][0]["with"] == "lean_in lane"
     html = render_today_decide_html(p)
     assert "SOURCE-CONFLICT" in html and "hold/add MAGS" in html
+    assert "RECHECK</span> MAGS" in html
+    assert "candidate SELL; blockers or conflicts must clear first" in html
 
 def test_rails_carry_exact_copy_payloads():
     p = _payload()
     html = render_today_decide_html(p)
     cid = p["cards"][0]["card_id"]
-    assert f'data-copy="ACT {cid}"' in html
+    assert f'data-copy="RECHECK {cid} resolve blockers before action"' in html
+    assert f'data-copy="ACT {cid}"' not in html
     assert f'data-copy="PASS {cid} â€” reason: "' in html
-    assert f"resurface 2026-06-15" in html  # TODAY + recheck_default_days(5)
     assert "UNDO " in html  # second-tap undo path in the script
+
+
+def test_stage_only_cards_show_candidate_not_buy_sell_first():
+    p = _payload()
+    p["data_health"]["blockers"] = []
+    html = render_today_decide_html(p)
+    googl = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "GOOGL"][0]
+
+    assert "CANDIDATE</span> GOOGL" in html
+    assert f'data-copy="RECHECK {googl["card_id"]} candidate only; confirm gates before action"' in html
+    assert f'data-copy="RECHECK {googl["card_id"]} resurface 2026-06-15"' in html
 
 def test_backlog_is_collapsed_in_details():
     html = render_today_decide_html(_payload())
