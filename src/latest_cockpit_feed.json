@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-15T14:32:55.273209+00:00",
+  "generated_at": "2026-06-15T16:50:13.008056+00:00",
   "staleness": {
-    "stamp": "sourced: portfolio 06-15 \u00b7 uw_price 06-15 \u00b7 uw_macro 06-15 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-14",
+    "stamp": "sourced: portfolio 06-15 \u00b7 uw_price 06-15 \u00b7 uw_macro 06-15 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-15",
     "entries": [
       {
         "source": "portfolio",
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-15T10:32:55.273209-04:00",
+        "date": "2026-06-15T12:50:13.008056-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-15T10:32:55.273209-04:00",
+        "date": "2026-06-15T12:50:13.008056-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -37,8 +37,8 @@
       },
       {
         "source": "fundstrat_daily",
-        "date": "2026-06-14",
-        "age_days": 1,
+        "date": "2026-06-15",
+        "age_days": 0,
         "cadence": "daily",
         "stale": false,
         "flag": ""
@@ -1564,37 +1564,37 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-15T14:32:55.144776+00:00",
+      "last_run": "2026-06-15T16:50:12.863682+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-15T14:32:55.144776+00:00",
+      "last_run": "2026-06-15T16:50:12.863682+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-15T14:32:55.144776+00:00",
+      "last_run": "2026-06-15T16:50:12.863682+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-15T14:32:55.144776+00:00",
+      "last_run": "2026-06-15T16:50:12.863682+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-15T14:32:55.144776+00:00",
+      "last_run": "2026-06-15T16:50:12.863682+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "down",
-      "last_run": "2026-06-15T14:32:55.144776+00:00",
+      "last_run": "2026-06-15T16:50:12.863682+00:00",
       "note": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z; +13 more"
     }
   ],
@@ -2498,7 +2498,7 @@
     "source_calls": {
       "status": "has_data",
       "line": "SCORING LAG: clean \u2014 no calls past window-end awaiting a score.",
-      "pending_count": 28,
+      "pending_count": 30,
       "overdue_count": 0,
       "oldest_overdue_days": 0,
       "rates": [
@@ -2568,12 +2568,12 @@
         "status": "checked_fresh",
         "line": "Calibration chain checked fresh.",
         "worst_days_behind": 0,
-        "cache_as_of": "2026-06-14"
+        "cache_as_of": "2026-06-15"
       },
       "persistence": {
         "status": "has_data",
-        "line": "SOURCE PERSISTENCE: 2 cluster(s), 0 LOUD: newton->QQQ 5x in 30d [quiet, has A/B] \u00b7 mark l. newton, cmt->SPX 2x in 14d [quiet, has A/B]",
-        "cluster_count": 2,
+        "line": "SOURCE PERSISTENCE: 3 cluster(s), 0 LOUD: newton->QQQ 5x in 30d [quiet, has A/B] \u00b7 mark l. newton, cmt->SPX 3x in 30d [quiet, has A/B] \u00b7 mark l. newton, cmt->QQQ 2x in 14d [quiet, has A/B]",
+        "cluster_count": 3,
         "loud_count": 0,
         "provisional_count": 0,
         "guarded": false,
@@ -2592,6 +2592,17 @@
           {
             "source": "mark l. newton, cmt",
             "ticker": "SPX",
+            "count": 3,
+            "within_days": 30,
+            "has_ab": true,
+            "loud": false,
+            "provisional": false,
+            "quiet_reason": "macro_index",
+            "fired_on": "main"
+          },
+          {
+            "source": "mark l. newton, cmt",
+            "ticker": "QQQ",
             "count": 2,
             "within_days": 14,
             "has_ab": true,
@@ -12461,7 +12472,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-15T10:02:14-04:00",
-        "connector_proof_age_hours": 0.51
+        "connector_proof_age_hours": 2.8
       }
     ],
     "missing": [],
@@ -12471,19 +12482,19 @@
   "source_audits": {
     "fundstrat": {
       "status": "has_data",
-      "line": "Fundstrat latest intake: 4 full-body, 0 snippet-only, 4 daily calls; stored cache: 37 inbox entries (26 full-body, 11 snippet-only), 28 daily calls, 28 stored source-call candidates.",
-      "entries": 4,
-      "full_body_entries": 4,
+      "line": "Fundstrat latest intake: 2 full-body, 0 snippet-only, 2 daily calls; stored cache: 39 inbox entries (28 full-body, 11 snippet-only), 30 daily calls, 30 stored source-call candidates.",
+      "entries": 2,
+      "full_body_entries": 2,
       "snippet_only_entries": 0,
-      "daily_calls": 4,
-      "source_call_candidates": 4,
-      "stored_entries": 4,
-      "stored_cache_entries": 37,
-      "stored_full_body_entries": 26,
+      "daily_calls": 2,
+      "source_call_candidates": 2,
+      "stored_entries": 2,
+      "stored_cache_entries": 39,
+      "stored_full_body_entries": 28,
       "stored_snippet_only_entries": 11,
-      "stored_daily_calls": 28,
-      "stored_daily_call_rows": 28,
-      "stored_source_call_candidates": 28,
+      "stored_daily_calls": 30,
+      "stored_daily_call_rows": 30,
+      "stored_source_call_candidates": 30,
       "bodies_redacted": true,
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },
@@ -12494,35 +12505,35 @@
       "expected_count": 25,
       "failed_latest_count": 0,
       "overdue_count": 14,
-      "due_waiting_count": 1,
+      "due_waiting_count": 0,
       "routine_receipt_due": {
         "activated_at": "2026-06-12T19:25:00-04:00",
-        "now": "2026-06-15T10:32:55.273209-04:00",
+        "now": "2026-06-15T12:50:13.008056-04:00",
         "grace_minutes": 30,
         "overdue_count": 14,
-        "due_waiting_count": 1,
-        "current_count": 5,
-        "not_due_yet_count": 5,
+        "due_waiting_count": 0,
+        "current_count": 7,
+        "not_due_yet_count": 4,
         "next_due": {
-          "routine_id": "investing-os-fs-inbox-catch-up-midday",
-          "routine_name": "Investing OS FS Inbox Catch-up Midday",
-          "role": "fs_inbox_catchup_midday",
-          "schedule": "market weekdays 12:30 PM ET",
+          "routine_id": "investing-os-post-close-refresh",
+          "routine_name": "Investing OS Post-Close Refresh",
+          "role": "post_close_refresh",
+          "schedule": "market weekdays 4:30 PM ET",
           "due_state": "not_due_yet",
           "expected_since": "2026-06-12T19:25:00-04:00",
           "last_due_at": "",
-          "next_due_at": "2026-06-15T12:30:00-04:00",
+          "next_due_at": "2026-06-15T16:30:00-04:00",
           "overdue_after": "",
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-12T16:38:31.400490Z",
-          "last_success_at": "2026-06-12T16:38:31.400490Z",
-          "last_scheduled_success_at": "2026-06-12T16:38:31.400490Z",
-          "last_summary": "ingested 4 inbox entries; logged 10 Source Call rows; newest 06/12/2026 09:25 ET; no new decision flags",
-          "last_ran_at": "2026-06-12T16:38:31.400490Z",
-          "last_ran_label": "2026-06-12T16:38:31.400490Z",
-          "overdue_line": "overdue: Investing OS FS Inbox Catch-up Midday, last ran 2026-06-12T16:38:31.400490Z"
+          "last_recorded_at": "2026-06-11T20:31:37.159386Z",
+          "last_success_at": "2026-06-11T20:31:37.159386Z",
+          "last_scheduled_success_at": "2026-06-11T20:31:37.159386Z",
+          "last_summary": "post-close refresh succeeded",
+          "last_ran_at": "2026-06-11T20:31:37.159386Z",
+          "last_ran_label": "2026-06-11T20:31:37.159386Z",
+          "overdue_line": "overdue: Investing OS Post-Close Refresh, last ran 2026-06-11T20:31:37.159386Z"
         },
         "rows": [
           {
@@ -12704,15 +12715,15 @@
             "next_due_at": "2026-06-16T09:45:00-04:00",
             "overdue_after": "2026-06-15T10:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "success",
+            "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T13:49:24.722118Z",
-            "last_success_at": "2026-06-15T13:49:24.722118Z",
-            "last_scheduled_success_at": "2026-06-15T13:49:24.722118Z",
-            "last_summary": "checked 2 web pages, 1 Gmail message, landed 0 rows, suppressed 1 low-value, validation passed, alert quiet, FlashInsights stale, blockers none",
-            "last_ran_at": "2026-06-15T13:49:24.722118Z",
-            "last_ran_label": "2026-06-15T13:49:24.722118Z",
-            "overdue_line": "overdue: Investing OS Fundstrat Daytime Watch, last ran 2026-06-15T13:49:24.722118Z"
+            "last_recorded_at": "2026-06-15T16:47:32.231176Z",
+            "last_success_at": "2026-06-15T15:47:22.884653Z",
+            "last_scheduled_success_at": "2026-06-15T15:47:22.884653Z",
+            "last_summary": "fundstrat daytime watch started",
+            "last_ran_at": "2026-06-15T16:47:32.231176Z",
+            "last_ran_label": "2026-06-15T16:47:32.231176Z",
+            "overdue_line": "overdue: Investing OS Fundstrat Daytime Watch, last ran 2026-06-15T16:47:32.231176Z"
           },
           {
             "routine_id": "investing-os-uw-opportunity-cache",
@@ -12761,42 +12772,42 @@
             "routine_name": "Investing OS Full Cockpit Build",
             "role": "full_cockpit_build",
             "schedule": "market weekdays 10:30 AM ET",
-            "due_state": "due_waiting",
+            "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
             "last_due_at": "2026-06-15T10:30:00-04:00",
             "next_due_at": "2026-06-16T10:30:00-04:00",
             "overdue_after": "2026-06-15T11:00:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T14:32:52.120913Z",
-            "last_success_at": "2026-06-15T13:10:17.839859Z",
-            "last_scheduled_success_at": "2026-06-12T14:32:51.486675Z",
-            "last_summary": "investing-os-full-cockpit-build started",
-            "last_ran_at": "2026-06-15T14:32:52.120913Z",
-            "last_ran_label": "2026-06-15T14:32:52.120913Z",
-            "overdue_line": "overdue: Investing OS Full Cockpit Build, last ran 2026-06-15T14:32:52.120913Z"
+            "last_recorded_at": "2026-06-15T14:32:59.313578Z",
+            "last_success_at": "2026-06-15T14:32:59.313578Z",
+            "last_scheduled_success_at": "2026-06-15T14:32:59.313578Z",
+            "last_summary": "full cockpit build succeeded",
+            "last_ran_at": "2026-06-15T14:32:59.313578Z",
+            "last_ran_label": "2026-06-15T14:32:59.313578Z",
+            "overdue_line": "overdue: Investing OS Full Cockpit Build, last ran 2026-06-15T14:32:59.313578Z"
           },
           {
             "routine_id": "investing-os-fs-inbox-catch-up-midday",
             "routine_name": "Investing OS FS Inbox Catch-up Midday",
             "role": "fs_inbox_catchup_midday",
             "schedule": "market weekdays 12:30 PM ET",
-            "due_state": "not_due_yet",
+            "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "",
-            "next_due_at": "2026-06-15T12:30:00-04:00",
-            "overdue_after": "",
+            "last_due_at": "2026-06-15T12:30:00-04:00",
+            "next_due_at": "2026-06-16T12:30:00-04:00",
+            "overdue_after": "2026-06-15T13:00:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-12T16:38:31.400490Z",
-            "last_success_at": "2026-06-12T16:38:31.400490Z",
-            "last_scheduled_success_at": "2026-06-12T16:38:31.400490Z",
-            "last_summary": "ingested 4 inbox entries; logged 10 Source Call rows; newest 06/12/2026 09:25 ET; no new decision flags",
-            "last_ran_at": "2026-06-12T16:38:31.400490Z",
-            "last_ran_label": "2026-06-12T16:38:31.400490Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Midday, last ran 2026-06-12T16:38:31.400490Z"
+            "last_recorded_at": "2026-06-15T16:34:21.803870Z",
+            "last_success_at": "2026-06-15T16:34:21.803870Z",
+            "last_scheduled_success_at": "2026-06-15T16:34:21.803870Z",
+            "last_summary": "FS inbox catch-up midday ingested 2 entries; no new named calls",
+            "last_ran_at": "2026-06-15T16:34:21.803870Z",
+            "last_ran_label": "2026-06-15T16:34:21.803870Z",
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Midday, last ran 2026-06-15T16:34:21.803870Z"
           },
           {
             "routine_id": "investing-os-post-close-refresh",
@@ -12830,15 +12841,15 @@
             "next_due_at": "2026-06-15T16:35:00-04:00",
             "overdue_after": "",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T14:34:54.587338Z",
+            "last_success_at": "2026-06-15T14:34:54.587338Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Postclose, last ran never"
+            "last_summary": "FS inbox catch-up postclose manual support checked prompt wiring only",
+            "last_ran_at": "2026-06-15T14:34:54.587338Z",
+            "last_ran_label": "2026-06-15T14:34:54.587338Z",
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Postclose, last ran 2026-06-15T14:34:54.587338Z"
           },
           {
             "routine_id": "investing-os-positions-sync",
@@ -13347,51 +13358,8 @@
             "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last ran 2026-06-15T13:10:17.947815Z"
           }
         ],
-        "due_waiting": [
-          {
-            "routine_id": "investing-os-full-cockpit-build",
-            "routine_name": "Investing OS Full Cockpit Build",
-            "role": "full_cockpit_build",
-            "schedule": "market weekdays 10:30 AM ET",
-            "due_state": "due_waiting",
-            "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T10:30:00-04:00",
-            "next_due_at": "2026-06-16T10:30:00-04:00",
-            "overdue_after": "2026-06-15T11:00:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "started",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T14:32:52.120913Z",
-            "last_success_at": "2026-06-15T13:10:17.839859Z",
-            "last_scheduled_success_at": "2026-06-12T14:32:51.486675Z",
-            "last_summary": "investing-os-full-cockpit-build started",
-            "last_ran_at": "2026-06-15T14:32:52.120913Z",
-            "last_ran_label": "2026-06-15T14:32:52.120913Z",
-            "overdue_line": "overdue: Investing OS Full Cockpit Build, last ran 2026-06-15T14:32:52.120913Z"
-          }
-        ],
+        "due_waiting": [],
         "not_due_yet": [
-          {
-            "routine_id": "investing-os-fs-inbox-catch-up-midday",
-            "routine_name": "Investing OS FS Inbox Catch-up Midday",
-            "role": "fs_inbox_catchup_midday",
-            "schedule": "market weekdays 12:30 PM ET",
-            "due_state": "not_due_yet",
-            "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "",
-            "next_due_at": "2026-06-15T12:30:00-04:00",
-            "overdue_after": "",
-            "max_age_minutes": 30,
-            "last_status": "success",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-12T16:38:31.400490Z",
-            "last_success_at": "2026-06-12T16:38:31.400490Z",
-            "last_scheduled_success_at": "2026-06-12T16:38:31.400490Z",
-            "last_summary": "ingested 4 inbox entries; logged 10 Source Call rows; newest 06/12/2026 09:25 ET; no new decision flags",
-            "last_ran_at": "2026-06-12T16:38:31.400490Z",
-            "last_ran_label": "2026-06-12T16:38:31.400490Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Midday, last ran 2026-06-12T16:38:31.400490Z"
-          },
           {
             "routine_id": "investing-os-post-close-refresh",
             "routine_name": "Investing OS Post-Close Refresh",
@@ -13424,15 +13392,15 @@
             "next_due_at": "2026-06-15T16:35:00-04:00",
             "overdue_after": "",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T14:34:54.587338Z",
+            "last_success_at": "2026-06-15T14:34:54.587338Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Postclose, last ran never"
+            "last_summary": "FS inbox catch-up postclose manual support checked prompt wiring only",
+            "last_ran_at": "2026-06-15T14:34:54.587338Z",
+            "last_ran_label": "2026-06-15T14:34:54.587338Z",
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Postclose, last ran 2026-06-15T14:34:54.587338Z"
           },
           {
             "routine_id": "investing-os-positions-sync",
@@ -13774,29 +13742,7 @@
           "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last ran 2026-06-15T13:10:17.947815Z"
         }
       ],
-      "due_waiting": [
-        {
-          "routine_id": "investing-os-full-cockpit-build",
-          "routine_name": "Investing OS Full Cockpit Build",
-          "role": "full_cockpit_build",
-          "schedule": "market weekdays 10:30 AM ET",
-          "due_state": "due_waiting",
-          "expected_since": "2026-06-12T19:25:00-04:00",
-          "last_due_at": "2026-06-15T10:30:00-04:00",
-          "next_due_at": "2026-06-16T10:30:00-04:00",
-          "overdue_after": "2026-06-15T11:00:00-04:00",
-          "max_age_minutes": 30,
-          "last_status": "started",
-          "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T14:32:52.120913Z",
-          "last_success_at": "2026-06-15T13:10:17.839859Z",
-          "last_scheduled_success_at": "2026-06-12T14:32:51.486675Z",
-          "last_summary": "investing-os-full-cockpit-build started",
-          "last_ran_at": "2026-06-15T14:32:52.120913Z",
-          "last_ran_label": "2026-06-15T14:32:52.120913Z",
-          "overdue_line": "overdue: Investing OS Full Cockpit Build, last ran 2026-06-15T14:32:52.120913Z"
-        }
-      ],
+      "due_waiting": [],
       "missing_scheduled_success_count": 10,
       "missing_scheduled_success": [
         {
@@ -13809,7 +13755,7 @@
           "routine_id": "investing-os-fs-inbox-catch-up-postclose",
           "routine_name": "Investing OS FS Inbox Catch-up Postclose",
           "schedule": "market weekdays 4:35 PM ET",
-          "last_status": "no_receipt"
+          "last_status": "success"
         },
         {
           "routine_id": "investing-os-positions-sync",
@@ -13918,7 +13864,7 @@
           "routine_name": "Investing OS Morning Scan",
           "role": "morning_scan",
           "schedule": "market weekdays 8:35 AM ET",
-          "receipt_count": 15,
+          "receipt_count": 14,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-15T13:10:02.124206Z",
@@ -13931,7 +13877,7 @@
           "routine_name": "Investing OS Early Cockpit Build",
           "role": "early_cockpit_build",
           "schedule": "market weekdays 8:50 AM ET",
-          "receipt_count": 16,
+          "receipt_count": 14,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-15T13:10:09.543680Z",
@@ -13944,7 +13890,7 @@
           "routine_name": "Investing OS Daily Synthesis",
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-15T13:36:38.732296Z",
@@ -13970,20 +13916,20 @@
           "routine_name": "Investing OS Fundstrat Daytime Watch",
           "role": "fundstrat_daytime_watch",
           "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
-          "receipt_count": 44,
-          "last_status": "success",
+          "receipt_count": 47,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T13:49:24.722118Z",
-          "last_success_at": "2026-06-15T13:49:24.722118Z",
-          "last_scheduled_success_at": "2026-06-15T13:49:24.722118Z",
-          "last_summary": "checked 2 web pages, 1 Gmail message, landed 0 rows, suppressed 1 low-value, validation passed, alert quiet, FlashInsights stale, blockers none"
+          "last_recorded_at": "2026-06-15T16:47:32.231176Z",
+          "last_success_at": "2026-06-15T15:47:22.884653Z",
+          "last_scheduled_success_at": "2026-06-15T15:47:22.884653Z",
+          "last_summary": "fundstrat daytime watch started"
         },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
           "routine_name": "Investing OS UW Opportunity Cache",
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "receipt_count": 21,
+          "receipt_count": 19,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-15T14:15:27.041743Z",
@@ -13996,7 +13942,7 @@
           "routine_name": "Investing OS Parabolic Cache",
           "role": "parabolic_cache",
           "schedule": "market weekdays 10:05 AM ET",
-          "receipt_count": 18,
+          "receipt_count": 17,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-15T14:09:10.396094Z",
@@ -14009,26 +13955,26 @@
           "routine_name": "Investing OS Full Cockpit Build",
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
-          "receipt_count": 19,
-          "last_status": "started",
+          "receipt_count": 20,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T14:32:52.120913Z",
-          "last_success_at": "2026-06-15T13:10:17.839859Z",
-          "last_scheduled_success_at": "2026-06-12T14:32:51.486675Z",
-          "last_summary": "investing-os-full-cockpit-build started"
+          "last_recorded_at": "2026-06-15T14:32:59.313578Z",
+          "last_success_at": "2026-06-15T14:32:59.313578Z",
+          "last_scheduled_success_at": "2026-06-15T14:32:59.313578Z",
+          "last_summary": "full cockpit build succeeded"
         },
         {
           "routine_id": "investing-os-fs-inbox-catch-up-midday",
           "routine_name": "Investing OS FS Inbox Catch-up Midday",
           "role": "fs_inbox_catchup_midday",
           "schedule": "market weekdays 12:30 PM ET",
-          "receipt_count": 2,
+          "receipt_count": 4,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-12T16:38:31.400490Z",
-          "last_success_at": "2026-06-12T16:38:31.400490Z",
-          "last_scheduled_success_at": "2026-06-12T16:38:31.400490Z",
-          "last_summary": "ingested 4 inbox entries; logged 10 Source Call rows; newest 06/12/2026 09:25 ET; no new decision flags"
+          "last_recorded_at": "2026-06-15T16:34:21.803870Z",
+          "last_success_at": "2026-06-15T16:34:21.803870Z",
+          "last_scheduled_success_at": "2026-06-15T16:34:21.803870Z",
+          "last_summary": "FS inbox catch-up midday ingested 2 entries; no new named calls"
         },
         {
           "routine_id": "investing-os-post-close-refresh",
@@ -14048,13 +13994,13 @@
           "routine_name": "Investing OS FS Inbox Catch-up Postclose",
           "role": "fs_inbox_catchup_postclose",
           "schedule": "market weekdays 4:35 PM ET",
-          "receipt_count": 0,
-          "last_status": "no_receipt",
+          "receipt_count": 2,
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T14:34:54.587338Z",
+          "last_success_at": "2026-06-15T14:34:54.587338Z",
           "last_scheduled_success_at": "",
-          "last_summary": ""
+          "last_summary": "FS inbox catch-up postclose manual support checked prompt wiring only"
         },
         {
           "routine_id": "investing-os-positions-sync",
@@ -15460,7 +15406,7 @@
   },
   "fundstrat_news": {
     "status": "has_data",
-    "line": "Fundstrat News: monthly 2026-06-11; Top 5 large cap 5, Top 5 SMID 5, tactical 3x3 3/3, daily calls 28 latest 2026-06-14.",
+    "line": "Fundstrat News: monthly 2026-06-11; Top 5 large cap 5, Top 5 SMID 5, tactical 3x3 3/3, daily calls 30 latest 2026-06-15.",
     "as_of": "2026-06-15",
     "monthly": {
       "deck_date": "2026-06-11",
@@ -15968,8 +15914,46 @@
       }
     },
     "daily": {
-      "latest_date": "2026-06-14",
+      "latest_date": "2026-06-15",
       "rows": [
+        {
+          "date": "2026-06-15",
+          "ticker": "SPX",
+          "author": "Mark L. Newton, CMT",
+          "direction": "watch",
+          "subject": "FlashInsights: midday equity buy-the-dip posture",
+          "quote": "Resistance sits near 7620.90; if this week fills today's rally gap, Newton still views that consolidation as bullish buy-the-dip action rather than a fresh break of the June 9 low.",
+          "fundstrat_lane": "technical",
+          "source_domain": "technical_timing",
+          "author_role": "Mark Newton technical/timing view",
+          "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+          "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+          "publication_type": "daily_technical",
+          "capture_policy": "daily_call",
+          "use_case": "technical_timing",
+          "decision_usefulness": "high",
+          "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+          "action_implication": "re-check timing"
+        },
+        {
+          "date": "2026-06-15",
+          "ticker": "QQQ",
+          "author": "Mark L. Newton, CMT",
+          "direction": "watch",
+          "subject": "FlashInsights: QQQ near resistance but dips still buyable",
+          "quote": "QQQ is nearing 748.65 resistance; any near-term consolidation that fills today's gap is still framed as bullish for buying dips, not immediate June 9-low risk.",
+          "fundstrat_lane": "technical",
+          "source_domain": "technical_timing",
+          "author_role": "Mark Newton technical/timing view",
+          "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+          "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+          "publication_type": "daily_technical",
+          "capture_policy": "daily_call",
+          "use_case": "technical_timing",
+          "decision_usefulness": "high",
+          "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+          "action_implication": "re-check timing"
+        },
         {
           "date": "2026-06-14",
           "ticker": "SPCX",
@@ -16503,10 +16487,10 @@
           "action_implication": "avoid/re-check"
         }
       ],
-      "count": 28,
-      "full_body_entries": 4,
+      "count": 30,
+      "full_body_entries": 2,
       "snippet_only_entries": 0,
-      "stored_daily_calls": 28,
+      "stored_daily_calls": 30,
       "freshness_judgment": "Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing."
     },
     "gaps": [],

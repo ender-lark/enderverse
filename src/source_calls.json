@@ -474,5 +474,39 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_888ea2815abc"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "QQQ",
+    "tier": "B",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "QQQ is nearing 748.65 resistance; any near-term consolidation that fills today's gap is still framed as bullish for buying dips, not immediate June 9-low risk.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-15",
+    "window_end": "2026-08-14",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-15",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_9500633aa5e6"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "SPX",
+    "tier": "B",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Resistance sits near 7620.90; if this week fills today's rally gap, Newton still views that consolidation as bullish buy-the-dip action rather than a fresh break of the June 9 low.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-15",
+    "window_end": "2026-06-29",
+    "window_days": 14,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-15",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_7285e0da1c0b"
   }
 ]
