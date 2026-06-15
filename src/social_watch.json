@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-06-14T19:13:06-04:00",
+  "checked_at": "2026-06-15T19:11:13-04:00",
   "failures": [
     {
       "error": "HTTPError: HTTP Error 403: Blocked",
@@ -42,12 +42,13 @@
       "url": "https://www.reddit.com/r/StockMarket/new.json?limit=50"
     }
   ],
-  "generated_at": "2026-06-14T19:13:06-04:00",
+  "generated_at": "2026-06-15T19:11:13-04:00",
   "honesty_rule": "Fetch failure is not no-signal evidence; keep Social Watch dark/not_checked.",
   "line": "Social watch not checked: Reddit fetch failed or returned no readable payloads.",
   "retention_hours": 48,
   "rows": [],
   "source": "reddit_chrome_collector",
+  "source_group": "custom",
   "status": "not_checked",
   "subreddits_checked": [
     "stocks",
