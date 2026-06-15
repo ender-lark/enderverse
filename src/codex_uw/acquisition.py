@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 from parabolic_setup_screener import CANDIDATE_PROFILES, bundle_entry_from_uw
 from .endpoints import PARABOLIC_ENDPOINTS, UW_OPPORTUNITY_ENDPOINTS
-from uw_opportunity_scan import observation_from_uw
+from uw_opportunity_scan import observation_from_uw, normalize_oi
 from .rest_client import UWRestClient, unwrap_uw_rows
 
 
@@ -25,6 +25,7 @@ class NormalizedPull:
     entry: Optional[dict] = None
     observation: Optional[dict] = None
     source_counts: Optional[dict] = None
+    non_actionable_sources: Optional[list[str]] = None
     error: Optional[str] = None
 
     def to_jsonable(self) -> dict:
@@ -38,6 +39,8 @@ class NormalizedPull:
             out["entry"] = self.entry
         if self.observation is not None:
             out["observation"] = self.observation
+        if self.non_actionable_sources:
+            out["non_actionable_sources"] = self.non_actionable_sources
         if self.error:
             out["error"] = self.error
         return out
@@ -52,6 +55,47 @@ def _count(payload: Any) -> int:
                 return _count(payload.get(key))
         return 1 if payload else 0
     return 1 if payload else 0
+
+
+def _floatish(value: Any) -> Optional[float]:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _oi_rows_are_non_actionable(raw: Any) -> bool:
+    """True when UW returned OI rows, but none show a measurable OI build.
+
+    The availability gate should still block malformed rows, but a live endpoint
+    response full of zero-change contracts is a checked no-signal source, not a
+    normalization failure.
+    """
+    rows = unwrap_uw_rows(raw)
+    if not rows:
+        return False
+    saw_numeric = False
+    for row in rows:
+        if not isinstance(row, dict):
+            return False
+        change_values = [
+            row.get("oi_diff_plain"),
+            row.get("oi_change_abs"),
+            row.get("oi_diff"),
+            row.get("change"),
+            row.get("oi_change"),
+            row.get("oi_change_perc"),
+            row.get("oi_change_pct"),
+            row.get("pct_change"),
+            row.get("oi_pct"),
+        ]
+        nums = [_floatish(v) for v in change_values if v is not None]
+        if not nums:
+            return False
+        saw_numeric = True
+        if any(v != 0 for v in nums):
+            return False
+    return saw_numeric
 
 
 def build_parabolic_entry(
@@ -128,9 +172,13 @@ def build_opportunity_observation(
         obs = observation_from_uw(flow=flow, oi=oi, dark_pool=dark_pool,
                                   greek=greek, iv=iv, spot=spot, ticker=tk)
         counts = {"flow": _count(flow), "oi": _count(oi), "dark_pool": _count(dark_pool)}
+        non_actionable_sources = []
+        if counts["oi"] and "oi" not in obs and normalize_oi(oi) is None and _oi_rows_are_non_actionable(oi):
+            non_actionable_sources.append("oi")
         if include_modifiers:
             counts.update({"greek": _count(greek), "iv": _count(iv), "info": _count(info)})
         return NormalizedPull(ticker=tk, mode="opportunity", ok=True,
-                              observation=obs, source_counts=counts)
+                              observation=obs, source_counts=counts,
+                              non_actionable_sources=non_actionable_sources)
     except Exception as exc:  # noqa: BLE001 - fail one ticker, not the run
         return NormalizedPull(ticker=tk, mode="opportunity", ok=False, error=str(exc))

@@ -33,6 +33,19 @@ class FakeClient:
         raise AssertionError(f"unexpected endpoint {path_template}")
 
 
+class ZeroOiClient(FakeClient):
+    def get_json(self, path_template, *, path_params=None, params=None):
+        tk = (path_params or {}).get("ticker", "TST")
+        if path_template == UWEndpoints.TICKER_OI_CHANGE:
+            return {"data": [
+                {"option_symbol": f"{tk}260605C00010000",
+                 "oi_diff_plain": 0, "oi_change": "0.00000000000000000000"},
+                {"option_symbol": f"{tk}260605P00009000",
+                 "oi_diff_plain": 0, "oi_change": "0"},
+            ]}
+        return super().get_json(path_template, path_params=path_params, params=params)
+
+
 def test_parabolic_entry_is_normalized_and_counts_sources():
     pull = build_parabolic_entry(FakeClient(), "tst")
     assert pull.ok
@@ -53,6 +66,15 @@ def test_opportunity_observation_is_normalized_without_raw_wrappers():
     assert "dark_pool" in pull.observation
     assert "data" not in pull.observation
     assert pull.source_counts["flow"] == 1
+
+
+def test_opportunity_zero_change_oi_is_non_actionable_not_malformed():
+    pull = build_opportunity_observation(ZeroOiClient(), "volt")
+    assert pull.ok
+    assert pull.source_counts["oi"] == 2
+    assert "oi" not in pull.observation
+    assert pull.non_actionable_sources == ["oi"]
+    assert pull.to_jsonable()["non_actionable_sources"] == ["oi"]
 
 
 def test_merge_outputs_scorer_bundle_shapes():
@@ -92,6 +114,17 @@ def test_availability_marks_dark_sources_and_missing_normalized_keys():
     assert summary["missing_normalized"] == {"flow": ["AAA"]}
     assert summary["failed_entries"] == ["CCC"]
     assert _availability_has_blockers(summary, allow_empty_sources=True) is True
+
+
+def test_availability_allows_non_actionable_zero_change_source():
+    summary = _availability([
+        {"ticker": "VOLT", "ok": True, "source_counts": {"oi": 100},
+         "observation": {"flow": {}}, "non_actionable_sources": ["oi"]},
+    ], {"oi"}, {"oi"}, min_source_count=1)
+    assert summary["dark_sources"] == {}
+    assert summary["missing_normalized"] == {}
+    assert summary["failed_entries"] == []
+    assert _availability_has_blockers(summary, allow_empty_sources=True) is False
 
 
 def test_availability_can_warn_on_empty_sources_without_blocking():
