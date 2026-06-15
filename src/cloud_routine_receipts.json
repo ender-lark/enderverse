@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T14:15:27.041743Z",
+  "updated_at": "2026-06-15T14:32:59.313578Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T12:37:04.637340Z",
-      "summary": "morning scan started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T12:40:48.336994Z",
-      "summary": "3 Notion rows verified; repo Signal Log 14 rows; UW proof refreshed; macro unchanged; failures none"
-    },
     {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "started",
@@ -3338,6 +3324,27 @@
       "run_source": "manual",
       "recorded_at": "2026-06-15T14:15:27.041743Z",
       "summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T14:32:52.120913Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T14:32:59.313578Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ]
 }
