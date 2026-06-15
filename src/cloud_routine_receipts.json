@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-14T22:07:04.289542Z",
+  "updated_at": "2026-06-15T00:46:42.467052Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T05:47:18.966633Z",
-      "summary": "off-hours worker started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T05:51:24.184443Z",
-      "summary": "drafted AI Labor routing note; 1 Notion write verified; SQL/query fallback used; no second undrained top item found"
-    },
     {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
@@ -3363,6 +3349,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-14T22:07:04.289542Z",
       "summary": "checked 3 pilots; wrote Pilot Status + Sunday summary; v0 count 1 unchanged; gamma refreshed with GRNJ gap; 13F outside window and manager file missing; receipts pushed"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T00:45:56.651105Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T00:46:42.467052Z",
+      "summary": "self-test 19/19; BUILDING dry-run 8 GOOGL,UUUU,TPL,SOFI,SATS,PKG,KTOS,HOOD; HOT dry-run 0 so queued none; write verification no live write and src/top_prospects.json unchanged (21 unqueued uncorroborated, 0 queue ids); dark/stale lanes remain not_checked; blocker constrained HOT gate selected zero"
     }
   ]
 }
