@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T13:49:24.722118Z",
+  "updated_at": "2026-06-15T14:03:05.361645Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T05:50:16.380900Z",
-      "summary": "drafted CXW dossier; 1 Notion write verified; no second undrained in-scope item found; queue fallback used"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T11:46:15.356373Z",
-      "summary": "fundstrat pre-market safety sweep started"
-    },
     {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "success",
@@ -3338,6 +3324,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-15T13:49:24.722118Z",
       "summary": "checked 2 web pages, 1 Gmail message, landed 0 rows, suppressed 1 low-value, validation passed, alert quiet, FlashInsights stale, blockers none"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T14:01:56.865669Z",
+      "summary": "uw opportunity cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T14:03:05.361645Z",
+      "summary": "scanned 14 tickers; bundle held at 13 observations/0 cache landing; empty-source GRNJ; VOLT oi rows 100 but normalized oi missing; worker/auth failures 0"
     }
   ]
 }
