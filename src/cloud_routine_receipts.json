@@ -1,14 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T13:35:53.845320Z",
+  "updated_at": "2026-06-15T13:36:38.732296Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:53.173282Z",
-      "summary": "investing-os-deep-synthesis manual run started"
-    },
     {
       "routine_id": "investing-os-deep-synthesis",
       "status": "success",
@@ -3406,6 +3399,13 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-15T13:35:53.845320Z",
       "summary": "repo synthesis refreshed; signal log 30 rows; research queue 3 pending; Notion page written+verified; decisions/trade outcomes/source-calls/pilots row-level unverified"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T13:36:38.732296Z",
+      "summary": "repo synthesis refreshed; Notion page written and verified; Social Watch still not_checked; Decisions/Trade Outcomes/Pilot live row deltas not enumerated"
     }
   ]
 }
