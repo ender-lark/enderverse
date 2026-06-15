@@ -1,6 +1,6 @@
 # Integration Debt Report
 
-Generated: 2026-06-15T13:08:58Z
+Generated: 2026-06-15T14:15:09Z
 
 Status: warn | warnings: 1 | findings: 14
 

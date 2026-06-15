@@ -119,12 +119,15 @@ def _availability(entries: list[dict], required_sources: set[str],
                 dark_sources[src].append(tk)
         container = row.get("entry") if isinstance(row.get("entry"), dict) else row.get("observation")
         container = container if isinstance(container, dict) else {}
+        non_actionable_sources = set(row.get("non_actionable_sources") or [])
         for key in required_normalized_keys:
             try:
                 source_count = int(counts.get(key) or 0)
             except (TypeError, ValueError):
                 source_count = 0
             if source_count < min_source_count:
+                continue
+            if key in non_actionable_sources:
                 continue
             val = container.get(key)
             if val in (None, "", []) or val == {}:
