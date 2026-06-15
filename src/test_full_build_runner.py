@@ -613,7 +613,7 @@ def test_cloud_routine_audit_surfaces_overdue_receipts_from_schedule_strings(tmp
     audit = _build_cloud_routine_audit(src, now="2026-06-05T17:10:00-04:00")
 
     assert audit["overdue_count"] == 1
-    assert audit["overdue"][0]["overdue_line"] == "overdue: Investing OS Post-Close Refresh, last ran never"
+    assert audit["overdue"][0]["overdue_line"] == "overdue: Investing OS Post-Close Refresh, last scheduled success never"
     assert "overdue=1" in audit["line"]
 
 

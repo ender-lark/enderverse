@@ -642,12 +642,14 @@ def _receipt_summary(path: str | Path, expected_automations: list[dict[str, Any]
                 "expected_count": len(expected_automations),
                 "success_count": 0,
                 "scheduled_success_count": 0,
+                "manual_support_only_count": 0,
                 "failed_latest_count": 0,
                 "missing_success_count": len(expected_automations),
                 "missing_scheduled_success_count": len(expected_automations),
                 "rows": [],
                 "missing_success": expected_automations,
                 "missing_scheduled_success": expected_automations,
+                "manual_support_only": [],
                 "failed_latest": [],
             },
         }
@@ -722,8 +724,13 @@ def _operating_gaps(
         if not isinstance(row, dict):
             continue
         label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
-        last_ran = row.get("last_ran_label") or "never"
-        gaps.append(f"{label} run receipt is overdue after {row.get('overdue_after')}; last ran {last_ran}.")
+        last_scheduled = row.get("last_scheduled_success_label") or row.get("last_ran_label") or "never"
+        manual_support = row.get("latest_manual_support_label") or ""
+        suffix = f"; latest manual support {manual_support}" if manual_support else ""
+        gaps.append(
+            f"{label} scheduled receipt is overdue after {row.get('overdue_after')}; "
+            f"last scheduled success {last_scheduled}{suffix}."
+        )
     source_capability = status.get("source_capability") or {}
     live_config = source_capability.get("live_source_config") or {}
     for row in live_config.get("missing") or []:
@@ -914,6 +921,7 @@ def format_text(report: dict[str, Any]) -> str:
             "Cloud run receipts: "
             f"scheduled_success={int(receipts.get('scheduled_success_count') or 0)}/"
             f"{int(receipts.get('expected_count') or 0)} | "
+            f"manual_support_only={int(receipts.get('manual_support_only_count') or 0)} | "
             f"failed_latest={int(receipts.get('failed_latest_count') or 0)} | "
             f"missing_scheduled_success={int(receipts.get('missing_scheduled_success_count') or 0)}"
         ),
@@ -947,10 +955,13 @@ def format_text(report: dict[str, Any]) -> str:
     elif overdue:
         row = overdue[0]
         label = row.get("routine_name") or row.get("routine_id") or "unknown"
-        last_ran = row.get("last_ran_label") or "never"
+        last_scheduled = row.get("last_scheduled_success_label") or row.get("last_ran_label") or "never"
+        manual_support = row.get("latest_manual_support_label") or ""
+        manual_note = f" | latest manual support {manual_support}" if manual_support else ""
         lines.append(
             f"Overdue receipt: {label} due at {row.get('last_due_at') or ''} "
-            f"| overdue after {row.get('overdue_after') or ''} | last ran {last_ran}"
+            f"| overdue after {row.get('overdue_after') or ''} | "
+            f"last scheduled success {last_scheduled}{manual_note}"
         )
         if not report.get("first_scheduled_run_proven"):
             lines.append(f"First scheduled proof pending: {label} scheduled receipt is overdue.")

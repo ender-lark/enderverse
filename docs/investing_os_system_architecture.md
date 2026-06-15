@@ -408,6 +408,9 @@ Receipt rules:
 
 - Scheduled app automations must write receipts with `run_source=scheduled`.
 - Manual runs write `run_source=manual` and do not satisfy scheduled proof.
+- Status surfaces must display manual support separately from scheduled proof.
+  Manual support can prove the local routine path still works, but it cannot
+  make an overdue scheduled routine look current.
 - A routine normally writes `started`, then `success` or `failed`.
 - `cloud_ops_status.py --require-first-proof` fails until first scheduled proof.
 - `cloud_ops_status.py --require-live-run` fails until all expected routines have

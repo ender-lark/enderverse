@@ -88,7 +88,9 @@ def _routine_due_note(routine_due: dict[str, Any]) -> tuple[str, str]:
     if overdue:
         first = overdue[0]
         note = first.get("overdue_line") or (
-            f"overdue: {_routine_label(first)}, last ran {first.get('last_ran_label') or 'never'}"
+            "overdue: "
+            f"{_routine_label(first)}, last scheduled success "
+            f"{first.get('last_scheduled_success_label') or first.get('last_ran_label') or 'never'}"
         )
         extra = len(overdue) - 1
         if extra:
@@ -96,8 +98,12 @@ def _routine_due_note(routine_due: dict[str, Any]) -> tuple[str, str]:
         return "down", note
     if due_waiting:
         first = due_waiting[0]
+        manual_support = first.get("latest_manual_support_label") or ""
+        manual_note = f"; latest manual support {manual_support}" if manual_support else ""
         note = (
-            f"due waiting: {_routine_label(first)}, last ran {first.get('last_ran_label') or 'never'}; "
+            f"due waiting: {_routine_label(first)}, last scheduled success "
+            f"{first.get('last_scheduled_success_label') or first.get('last_ran_label') or 'never'}"
+            f"{manual_note}; "
             f"grace until {first.get('overdue_after') or 'unknown'}"
         )
         extra = len(due_waiting) - 1

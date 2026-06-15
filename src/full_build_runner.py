@@ -429,6 +429,7 @@ def _build_cloud_routine_audit(src_dir: Path, *, now: str | datetime | None = No
     )
     expected_count = int(summary.get("expected_count") or 0)
     scheduled = int(summary.get("scheduled_success_count") or 0)
+    manual_support_only_count = int(summary.get("manual_support_only_count") or 0)
     failed = int(summary.get("failed_latest_count") or 0)
     overdue_count = int(due.get("overdue_count") or 0)
     missing_rows = [
@@ -437,6 +438,9 @@ def _build_cloud_routine_audit(src_dir: Path, *, now: str | datetime | None = No
             "routine_name": row.get("routine_name") or row.get("routine_id") or "",
             "schedule": row.get("schedule") or "",
             "last_status": row.get("last_status") or "",
+            "last_scheduled_success_at": row.get("last_scheduled_success_at") or "",
+            "last_manual_success_at": row.get("last_manual_success_at") or "",
+            "manual_support_only": bool(row.get("manual_support_only")),
         }
         for row in (summary.get("missing_scheduled_success") or [])
         if isinstance(row, dict)
@@ -451,11 +455,16 @@ def _build_cloud_routine_audit(src_dir: Path, *, now: str | datetime | None = No
         else "not_proven"
     )
     due_text = f"; overdue={overdue_count}" if overdue_count else ""
+    manual_text = f"; manual support only={manual_support_only_count}" if manual_support_only_count else ""
     return {
         "status": status,
-        "line": f"Background cloud proof: {scheduled}/{expected_count} scheduled receipts proven; failed latest={failed}{due_text}.",
+        "line": (
+            f"Background cloud proof: {scheduled}/{expected_count} scheduled receipts proven"
+            f"{manual_text}; failed latest={failed}{due_text}."
+        ),
         "scheduled_success_count": scheduled,
         "expected_count": expected_count,
+        "manual_support_only_count": manual_support_only_count,
         "failed_latest_count": failed,
         "overdue_count": overdue_count,
         "due_waiting_count": int(due.get("due_waiting_count") or 0),
@@ -464,6 +473,7 @@ def _build_cloud_routine_audit(src_dir: Path, *, now: str | datetime | None = No
         "due_waiting": due.get("due_waiting") or [],
         "missing_scheduled_success_count": int(summary.get("missing_scheduled_success_count") or 0),
         "missing_scheduled_success": missing_rows,
+        "manual_support_only": summary.get("manual_support_only") or [],
         "rows": summary.get("rows") or [],
     }
 

@@ -297,7 +297,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Dashboard</h1>
-      <div class="stamp" title="built 2026-06-15 13:47 ET  sourced: portfolio 06-15  uw_price 06-15  uw_macro 06-15  fundstrat_bible 06-11  fundstrat_daily 06-15">built 06-15 13:47 ET &middot; data 06-15: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
+      <div class="stamp" title="built 2026-06-15 15:09 ET  sourced: portfolio 06-15  uw_price 06-15  uw_macro 06-15  fundstrat_bible 06-11  fundstrat_daily 06-15">built 06-15 15:09 ET &middot; data 06-15: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
 
     </div>
     <div style="text-align:right">
@@ -936,7 +936,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="cmd-row"><span class="cmd-name">print brief</span><span class="cmd-desc"><code>python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text</code></span></div>
 </div>
 
-<div class="card" id="operator-status">
+<div class="card" id="operator-status" data-summary="Blocked | 10 manual-support-only routines; 14 overdue cloud routines">
   <div class="card-title"><span class="icon">!</span> Operator status
     <span class="operator-fail" style="font-size:11px;margin-left:auto">FAIL</span>
   </div>
@@ -948,7 +948,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-fail">14</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | 14 overdue cloud routines</div>
+  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | 10 manual-support-only routines; 14 overdue cloud routines</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
@@ -956,7 +956,13 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="operator-event-watch">
     <div class="operator-label">Cloud routine overdue</div>
     <div class="operator-event-title">14 routine receipts overdue</div>
-    <div class="operator-event-trigger">overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z; overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last ran 2026-06-15T13:10:01.653270Z; overdue: Investing OS FS Inbox Catch-up Preopen, last ran 2026-06-15T13:10:01.950391Z</div>
+    <div class="operator-event-trigger">overdue: Investing OS Pre-Market Source Intake, last scheduled success 2026-06-12T12:15:39.205468Z; latest manual support 2026-06-15T13:10:01.923453Z; overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last scheduled success 2026-06-12T11:51:29.852709Z; latest manual support 2026-06-15T13:10:01.653270Z; overdue: Investing OS FS Inbox Catch-up Preopen, last scheduled success never; latest manual support 2026-06-15T13:10:01.950391Z</div>
+  </div>
+
+  <div class="operator-event-watch">
+    <div class="operator-label">Manual support only</div>
+    <div class="operator-event-title">10 routines need scheduled proof</div>
+    <div class="operator-event-trigger">Investing OS FS Inbox Catch-up Preopen, Investing OS FS Inbox Catch-up Postclose, Investing OS Positions Sync; +7 more</div>
   </div>
 
   <div class="operator-event-watch">
@@ -1227,7 +1233,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Background cloud proof: 15/25 scheduled receipts proven; failed latest=0; overdue=14.
+  <span class="audit-k">Cloud routines</span>Background cloud proof: 15/25 scheduled receipts proven; manual support only=10; failed latest=0; overdue=14.
 </div>
 <div class="audit-row">
   <span class="audit-k">Trigger registry</span>Trigger registry: 8 armed trigger(s); not checked this build.
@@ -1256,8 +1262,9 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="audit-row">
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
-  <div class="feedback-line">Overdue cloud receipts: overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z; overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last ran 2026-06-15T13:10:01.653270Z; overdue: Investing OS FS Inbox Catch-up Preopen, last ran 2026-06-15T13:10:01.950391Z; overdue: Investing OS Morning Scan, last ran 2026-06-15T13:10:02.124206Z; overdue: Investing OS Early Cockpit Build, last ran 2026-06-15T13:10:09.543680Z; overdue: Investing OS UW Opportunity Cache, last ran 2026-06-15T14:15:27.041743Z</div>
+  <div class="feedback-line">Overdue cloud receipts: overdue: Investing OS Pre-Market Source Intake, last scheduled success 2026-06-12T12:15:39.205468Z; latest manual support 2026-06-15T13:10:01.923453Z; overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last scheduled success 2026-06-12T11:51:29.852709Z; latest manual support 2026-06-15T13:10:01.653270Z; overdue: Investing OS FS Inbox Catch-up Preopen, last scheduled success never; latest manual support 2026-06-15T13:10:01.950391Z; overdue: Investing OS Morning Scan, last scheduled success 2026-06-12T12:42:40.160556Z; latest manual support 2026-06-15T13:10:02.124206Z; overdue: Investing OS Early Cockpit Build, last scheduled success 2026-06-12T12:51:34.365421Z; latest manual support 2026-06-15T13:10:09.543680Z; overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z</div>
   <div class="feedback-line">Background scheduled receipts pending: Investing OS FS Inbox Catch-up Preopen, Investing OS FS Inbox Catch-up Postclose, Investing OS Positions Sync, Investing OS Off-Hours Alt-Data Scout, Investing OS Off-Hours Queue Buffer, Investing OS Deep Synthesis +4 more</div>
+  <div class="feedback-line">Manual support receipts only, not unattended proof: Investing OS FS Inbox Catch-up Preopen, Investing OS FS Inbox Catch-up Postclose, Investing OS Positions Sync, Investing OS Off-Hours Alt-Data Scout, Investing OS Off-Hours Queue Buffer, Investing OS Deep Synthesis +4 more</div>
   <div class="feedback-line">UW next checks: Pre-market crash triage: High-volatility or re-check posture needs broad tape triage before single-name action. [MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, ETF_TIDE, SECTOR_TIDE]<br>Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Fundstrat signal confirmation: Fundstrat-derived calls should be checked against live market structure before action. [TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OHLC, TICKER_STOCK_STATE]</div>
 </div>
 
@@ -1270,7 +1277,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-15T17:47:33.732626+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-15T17:47:33.732626+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-15T17:47:33.732626+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-15T17:47:33.732626+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-15T17:47:33.732626+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge down" title="Cloud Routine Receipts | 2026-06-15T17:47:33.732626+00:00 | overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z; +13 more">Cloud Routine Receipts</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-15T19:09:59.424407+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-15T19:09:59.424407+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-15T19:09:59.424407+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-15T19:09:59.424407+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-15T19:09:59.424407+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge down" title="Cloud Routine Receipts | 2026-06-15T19:09:59.424407+00:00 | overdue: Investing OS Pre-Market Source Intake, last scheduled success 2026-06-12T12:15:39.205468Z; latest manual support 2026-06-15T13:10:01.923453Z; +13 more">Cloud Routine Receipts</span></div>
 </div>
 
 <div class="hero">

@@ -200,14 +200,19 @@ def summarize_due_receipts(
             state = "overdue"
         else:
             state = "due_waiting"
-        last_ran_at = (
-            receipt.get("last_recorded_at")
-            or receipt.get("last_scheduled_success_at")
-            or receipt.get("last_success_at")
-            or ""
-        )
+        last_scheduled_success_at = receipt.get("last_scheduled_success_at") or ""
+        last_scheduled_receipt_at = receipt.get("last_scheduled_recorded_at") or ""
+        last_manual_success_at = receipt.get("last_manual_success_at") or ""
+        last_manual_receipt_at = receipt.get("last_manual_recorded_at") or ""
+        last_ran_at = last_scheduled_success_at
         last_ran_label = last_ran_at or "never"
+        latest_manual_support_label = last_manual_success_at or last_manual_receipt_at or ""
         label = _label({"routine_name": receipt.get("routine_name"), **expected, "routine_id": routine_id})
+        manual_suffix = (
+            f"; latest manual support {latest_manual_support_label}"
+            if latest_manual_support_label
+            else ""
+        )
         rows.append({
             "routine_id": routine_id,
             "routine_name": expected.get("automation_name") or receipt.get("routine_name") or "",
@@ -223,11 +228,20 @@ def summarize_due_receipts(
             "last_run_source": receipt.get("last_run_source") or "",
             "last_recorded_at": receipt.get("last_recorded_at") or "",
             "last_success_at": receipt.get("last_success_at") or "",
-            "last_scheduled_success_at": receipt.get("last_scheduled_success_at") or "",
+            "last_scheduled_status": receipt.get("last_scheduled_status") or "",
+            "last_scheduled_recorded_at": last_scheduled_receipt_at,
+            "last_scheduled_success_at": last_scheduled_success_at,
+            "last_scheduled_summary": receipt.get("last_scheduled_summary") or "",
+            "last_manual_recorded_at": last_manual_receipt_at,
+            "last_manual_success_at": last_manual_success_at,
+            "last_manual_summary": receipt.get("last_manual_summary") or "",
+            "manual_support_only": bool(receipt.get("manual_support_only")),
             "last_summary": receipt.get("last_summary") or "",
             "last_ran_at": last_ran_at,
             "last_ran_label": last_ran_label,
-            "overdue_line": f"overdue: {label}, last ran {last_ran_label}",
+            "last_scheduled_success_label": last_ran_label,
+            "latest_manual_support_label": latest_manual_support_label,
+            "overdue_line": f"overdue: {label}, last scheduled success {last_ran_label}{manual_suffix}",
         })
     overdue = [row for row in rows if row["due_state"] == "overdue"]
     due_waiting = [row for row in rows if row["due_state"] == "due_waiting"]
@@ -365,13 +379,31 @@ def summarize_receipts(
         matching.sort(key=lambda row: str(row.get("recorded_at") or ""), reverse=True)
         last = matching[0] if matching else {}
         successes = [row for row in matching if str(row.get("status") or "").lower() == "success"]
+        scheduled_receipts = [
+            row
+            for row in matching
+            if str(row.get("run_source") or "manual").lower() == "scheduled"
+        ]
+        manual_receipts = [
+            row
+            for row in matching
+            if str(row.get("run_source") or "manual").lower() == "manual"
+        ]
         scheduled_successes = [
             row
             for row in successes
             if str(row.get("run_source") or "manual").lower() == "scheduled"
         ]
+        manual_successes = [
+            row
+            for row in successes
+            if str(row.get("run_source") or "manual").lower() == "manual"
+        ]
         success = successes[0] if successes else {}
+        latest_scheduled = scheduled_receipts[0] if scheduled_receipts else {}
+        latest_manual = manual_receipts[0] if manual_receipts else {}
         scheduled_success = scheduled_successes[0] if scheduled_successes else {}
+        manual_success = manual_successes[0] if manual_successes else {}
         expected_row = next((row for row in expected if row.get("automation_id") == routine_id), {})
         rows.append({
             "routine_id": routine_id,
@@ -384,23 +416,33 @@ def summarize_receipts(
             "last_recorded_at": last.get("recorded_at") or "",
             "last_success_at": success.get("recorded_at") or "",
             "last_scheduled_success_at": scheduled_success.get("recorded_at") or "",
+            "last_scheduled_status": latest_scheduled.get("status") or "",
+            "last_scheduled_recorded_at": latest_scheduled.get("recorded_at") or "",
+            "last_scheduled_summary": latest_scheduled.get("summary") or "",
+            "last_manual_recorded_at": latest_manual.get("recorded_at") or "",
+            "last_manual_success_at": manual_success.get("recorded_at") or "",
+            "last_manual_summary": manual_success.get("summary") or "",
+            "manual_support_only": bool(manual_success and not scheduled_success),
             "last_summary": last.get("summary") or "",
         })
 
     missing_success = [row for row in rows if not row.get("last_success_at")]
     missing_scheduled_success = [row for row in rows if not row.get("last_scheduled_success_at")]
+    manual_support_only = [row for row in rows if row.get("manual_support_only")]
     failed_latest = [row for row in rows if row.get("last_status") == "failed"]
     return {
         "receipt_file_present": bool(receipts),
         "expected_count": len(rows),
         "success_count": len(rows) - len(missing_success),
         "scheduled_success_count": len(rows) - len(missing_scheduled_success),
+        "manual_support_only_count": len(manual_support_only),
         "failed_latest_count": len(failed_latest),
         "missing_success_count": len(missing_success),
         "missing_scheduled_success_count": len(missing_scheduled_success),
         "rows": rows,
         "missing_success": missing_success,
         "missing_scheduled_success": missing_scheduled_success,
+        "manual_support_only": manual_support_only,
         "failed_latest": failed_latest,
     }
 
@@ -413,6 +455,7 @@ def format_text(summary: dict[str, Any]) -> str:
             f"{int(summary.get('expected_count') or 0)} | "
             f"scheduled_success={int(summary.get('scheduled_success_count') or 0)}/"
             f"{int(summary.get('expected_count') or 0)} | "
+            f"manual_support_only={int(summary.get('manual_support_only_count') or 0)} | "
             f"failed_latest={int(summary.get('failed_latest_count') or 0)} | "
             f"missing_scheduled_success={int(summary.get('missing_scheduled_success_count') or 0)}"
         )

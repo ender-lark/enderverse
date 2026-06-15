@@ -127,7 +127,45 @@ def test_due_summary_marks_killed_scheduled_routine_overdue():
     assert row["routine_id"] == "investing-os-post-close-refresh"
     assert row["last_due_at"] == "2026-06-05T16:30:00-04:00"
     assert row["last_ran_label"] == "never"
-    assert row["overdue_line"] == "overdue: Investing OS Post-Close Refresh, last ran never"
+    assert row["overdue_line"] == "overdue: Investing OS Post-Close Refresh, last scheduled success never"
+
+
+def test_due_summary_keeps_manual_support_separate_from_scheduled_proof(tmp_path):
+    path = tmp_path / "receipts.json"
+    expected = [{
+        "automation_id": "investing-os-post-close-refresh",
+        "automation_name": "Investing OS Post-Close Refresh",
+        "role": "post_close_refresh",
+        "schedule": "market weekdays 4:30 PM ET",
+    }]
+    cloud_routine_receipts.append_receipt(
+        path=path,
+        routine_id="investing-os-post-close-refresh",
+        status="success",
+        run_source="manual",
+        summary="manual support repaired the cache",
+        recorded_at="2026-06-05T20:55:00Z",
+    )
+    summary = cloud_routine_receipts.summarize_receipts(
+        cloud_routine_receipts.load_receipts(path),
+        expected_automations=expected,
+    )
+
+    due = cloud_routine_receipts.summarize_due_receipts(
+        summary,
+        expected,
+        activated_at="2026-06-05T12:00:00-04:00",
+        now="2026-06-05T17:10:00-04:00",
+    )
+
+    row = due["overdue"][0]
+    assert summary["manual_support_only_count"] == 1
+    assert row["last_scheduled_success_label"] == "never"
+    assert row["latest_manual_support_label"] == "2026-06-05T20:55:00Z"
+    assert (
+        row["overdue_line"]
+        == "overdue: Investing OS Post-Close Refresh, last scheduled success never; latest manual support 2026-06-05T20:55:00Z"
+    )
 
 
 def test_due_summary_respects_per_routine_max_age():
