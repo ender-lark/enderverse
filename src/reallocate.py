@@ -187,12 +187,16 @@ def build_funding_pool(weights: dict, total: float, dials: Dials,
                        model: TargetWeightModel) -> tuple:
     """Convertible ETF excess = current - keep_level, per AI-theme ETF.
     Returns (pool_usd, ordered_sources) with AI-factor wrappers drawn FIRST
-    (factor-flat funding), broad reservoirs LAST (net-AI-increasing)."""
+    (factor-flat funding), broad reservoirs LAST (net-AI-increasing), and
+    funding-protected wrappers excluded unless the dial is explicitly changed."""
     model_etf_targets = {t.ticker: t.target_pct for t in model.etfs()}
     etf_tickers = (set(dials.etf_keep_levels) | set(model_etf_targets)
                    | AI_FACTOR_WRAPPERS | BROAD_RESERVOIRS)
+    protected = set(getattr(dials, "funding_protected_wrappers", set()) or set())
     sources = []
     for etf in etf_tickers:
+        if etf in protected:
+            continue
         cur = weights.get(etf, 0.0)
         if cur <= 0:
             continue
@@ -338,9 +342,18 @@ def plan_reallocation(*, feed: Optional[dict] = None, positions: Optional[list] 
     weights = current_weights(positions, total_book_value)
     res = ReallocationResult(as_of=as_of, total_book_value=total_book_value,
                              dials_describe=dials.describe())
+    protected_wrappers = sorted(
+        tk for tk in set(getattr(dials, "funding_protected_wrappers", set()) or set())
+        if weights.get(tk, 0.0) > 0
+    )
 
     # 1. funding pool (one pool)
     pool, sources = build_funding_pool(weights, total_book_value, dials, model)
+    for tk in protected_wrappers:
+        res.notes.append(
+            f"{tk}: diversified Granny Shots wrapper protected from automatic funding trims; "
+            "trim only after an explicit thesis break, sizing cap, or operator override."
+        )
 
     # 2. ADD candidates + 3. rank by conviction+entry (not gap)
     cands = _add_candidates(weights, total_book_value, dials, model, run_up)
@@ -597,8 +610,9 @@ def reallocate(*, feed: Optional[dict] = None, positions: Optional[list] = None,
 
 # ===========================================================================
 # REFINEMENT BACKLOG (v1 ships; refine live)
-#   - GRNY/GRNJ broad-reservoir AI fraction is treated as fully net-AI-increasing;
+#   - GRNY broad-reservoir AI fraction is treated as fully net-AI-increasing;
 #     a future pass could net only its ~IT-weight fraction as factor-flat.
+#   - GRNJ is funding-protected by default after 2026-06-15 holdings review.
 #   - live pretrade_gate.evaluate wiring is a hook; the funded=AMBER / net-new=RED
 #     logic is inline. Wire the real gate in integration.
 #   - run-up tags come from a passed-in {ticker: 1M%} map (cockpit/UW supplies it);

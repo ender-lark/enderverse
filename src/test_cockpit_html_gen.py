@@ -158,6 +158,9 @@ def _feed():
                 "positions snapshot 2026-05-31 is 6 day(s) old; use as test-data only until current positions are supplied",
                 "same-session UW price/flow confirmation required before any capital action",
             ],
+            "notes": [
+                "GRNJ: diversified Granny Shots wrapper protected from automatic funding trims; trim only after an explicit thesis break, sizing cap, or operator override.",
+            ],
             "rows": [
                 {
                     "ticker": "NVDA",
@@ -930,6 +933,7 @@ def test_generated_html_surfaces_new_audit_and_missing_feed_blocks():
     assert 'id="reallocation-brief"' in html
     assert "Candidate reallocation brief" in html
     assert "positions snapshot 2026-05-31" in html
+    assert "GRNJ: diversified Granny Shots wrapper protected" in html
     assert "add $80,000" in html
     assert "Funding trims" in html
     assert "SMH $80,000 -&gt; NVDA $80,000" in html

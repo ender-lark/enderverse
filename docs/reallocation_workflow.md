@@ -1,6 +1,6 @@
 # Portfolio Reallocation Workflow
 
-Last updated: 2026-06-07.
+Last updated: 2026-06-15.
 
 ## Purpose
 
@@ -75,6 +75,9 @@ Helpful:
    - Separate fully funded from partially funded actions.
    - Avoid increasing the same factor through both wrapper and single-name exposure
      without an explicit risk label.
+   - Do not use GRNJ as an automatic funding source. The 2026-06-15 holdings
+     review showed it is a diversified, equal-weighted SMID Granny Shots sleeve;
+     trim only after an explicit thesis break, sizing cap, or operator override.
 
 7. Sequence actions.
    - `Act Now`: fresh evidence, high impact, clear trigger, acceptable risk.
@@ -115,6 +118,13 @@ add candidate carries a current-position blocker. Old planner sequencing dates a
 also blocked explicitly, so a stale catalyst label such as `after 2026-06-03` cannot
 read as current timing guidance.
 
+2026-06-15 calibration: GRNJ is funding-protected by default. Its current holdings
+are diversified across the Fundstrat SMID Granny Shots process rather than a narrow
+single-name proxy, so "same Fundstrat source" or a zero keep-level is not enough to
+make it a sell leg. GRNY can still appear as a reviewable reservoir when above its
+keep level because it has more large-cap overlap with direct AI/hyperscaler targets,
+but it remains candidate-only and gated.
+
 ### 2026-06-07 Sanity Pass
 
 Repo snapshot used:
@@ -146,10 +156,10 @@ Top test-data adds:
 - ANET: $57,286, sequence now, AMBER.
 - FN: $38,191, sequence now, AMBER.
 
-Top test-data trims:
+Top test-data trims from the stale 2026-06-07 mechanics run:
 
 - MAGS: $172,152, funding GOOGL/NVDA.
-- GRNJ: $139,887, funding AVGO/TSM.
+- GRNJ: $139,887, funding AVGO/TSM. Superseded by the 2026-06-15 funding-protection rule.
 - GRNY: $110,367, funding TSM/ANET/FN/VRT.
 - IGV: $98,106, funding NVDA/MSFT.
 - SMH: $84,812, funding MSFT/AMZN.

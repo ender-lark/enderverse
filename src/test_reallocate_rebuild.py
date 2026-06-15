@@ -57,6 +57,8 @@ def test_funding_pool_order():
         ok(max(ai_idx) < min(broad_idx), "AI-factor wrappers drawn before broad reservoirs")
     # pool > 0 (there IS convertible excess: MAGS 9, IGV 5.1, IVES 3.88, SOXX 1.51, SMH 3.88, GRNY 5.72...)
     ok(pool > 100_000, f"pool should be sizeable, got {pool}")
+    ok("GRNJ" not in etfs, "GRNJ is protected from default funding pool")
+    ok("GRNY" in etfs, "GRNY can still be a reviewable reservoir when above keep level")
 
 
 def test_end_to_end_default():
@@ -84,6 +86,8 @@ def test_end_to_end_default():
     ta = sum(l.notional_usd for l in adds)
     tt = sum(l.notional_usd for l in trims)
     ok(abs(ta - tt) < 1.0, f"AI held flat: adds {ta:.0f} ~= trims {tt:.0f}")
+    ok(all(l.ticker != "GRNJ" for l in trims), "GRNJ not trimmed by default")
+    ok(any("GRNJ" in n and "protected" in n for n in res.notes), "GRNJ protection noted")
     # MONITOR/non-AI names left alone
     ok("LEU" in res.other_left_alone and "GS" in res.other_left_alone, "non-AI/MONITOR left alone")
     # rail OFF by default -> no violations reported

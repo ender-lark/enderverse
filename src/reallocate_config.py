@@ -104,11 +104,15 @@ class Dials:
         "SMH": 5.0,     # under Approach B
         "GRNY": 3.0,    # keep a residual of the Lee flagship (your decision)
         "MAGS": 0.0,    # directional convert-target (drawn down only as names are funded)
-        "GRNJ": 0.0,
+        "GRNJ": 0.0,    # protected by default; keep-level is not a sell target
         "IGV": 0.0,
         "IVES": 0.0,
         "SOXX": 0.0,
     })
+    # Diversified wrappers that should not be used as automatic funding sources.
+    # Override with an empty set only after an explicit thesis break, sizing cap, or
+    # operator instruction.
+    funding_protected_wrappers: set = field(default_factory=lambda: {"GRNJ"})
 
     # -- OPTIONAL aggregate concentration rail (default OFF) --
     concentration_rail: ConcentrationRail = field(default_factory=lambda: RAIL_OFF)
@@ -136,6 +140,7 @@ class Dials:
         rail = (f"ON [{self.concentration_rail.label}]"
                 if self.concentration_rail.is_on else "OFF")
         keep = ", ".join(f"{k} {v:g}%" for k, v in self.etf_keep_levels.items() if v)
+        protected = ", ".join(sorted(self.funding_protected_wrappers)) or "(none)"
         gates = ", ".join(f"{k}->{v}" for k, v in self.catalyst_gates.items())
         corr = ", ".join(f"{k}->{'/'.join(v)}" for k, v in self.catalyst_correlated.items())
         return (
@@ -145,6 +150,7 @@ class Dials:
             f"({'singles carry semis' if self.smh_approach == SMH_APPROACH_B else 'SMH base + singles on top'})\n"
             f"  AI sleeve held ~flat at: {self.ai_sleeve_flat_pct:g}% of book\n"
             f"  ETF reservoir keep     : {keep or '(none kept)'}\n"
+            f"  Funding protected      : {protected}\n"
             f"  Concentration rail     : {rail}\n"
             f"  Chase block (1M run-up): > {self.chase_block_1m_runup_pct:g}% -> no market chase"
             f" (defined-risk {'allowed' if self.allow_defined_risk_on_parabolic else 'blocked'})\n"
@@ -329,6 +335,8 @@ def _selftest() -> None:
        "concentration rail OFF by default")
     ok(d.etf_keep_levels.get("SMH") == 5.0 and d.etf_keep_levels.get("GRNY") == 3.0,
        "ETF keep-levels default SMH 5 / GRNY 3")
+    ok("GRNJ" in d.funding_protected_wrappers,
+       "GRNJ default should be funding-protected unless explicitly overridden")
     ok(d.catalyst_gates.get("AVGO") == "2026-06-03", "AVGO catalyst gate default 6/3")
 
     # 2. the default Working Model is ~51-55% single-name (your deliberate bet)

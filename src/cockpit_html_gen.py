@@ -2118,6 +2118,7 @@ def _reallocation_brief(block: dict) -> str:
     rows = block.get("rows") or []
     trims = block.get("trims") or []
     special_reviews = block.get("special_reviews") or []
+    notes = block.get("notes") or []
     if not rows and not trims and not block.get("line"):
         return ""
     status = block.get("status") or "candidate_only"
@@ -2127,6 +2128,8 @@ def _reallocation_brief(block: dict) -> str:
     body = ""
     for blocker in (block.get("blockers") or [])[:4]:
         body += f'<div class="feedback-line"><strong>Blocker:</strong> {_e(blocker)}</div>'
+    for note in notes[:4]:
+        body += f'<div class="feedback-line"><strong>Note:</strong> {_e(note)}</div>'
     for row in rows[:6]:
         tone_cls = f"tone-{_placement_tone(row.get('account_placement') or {'status': 'candidate'})}"
         funded = ", ".join(

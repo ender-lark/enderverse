@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T19:34:06.302097+00:00",
+  "generated_at": "2026-06-15T20:12:52.946008+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-15 \u00b7 uw_price 06-15 \u00b7 uw_macro 06-15 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-15",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-15T15:34:06.302097-04:00",
+        "date": "2026-06-15T16:12:52.946008-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-15T15:34:06.302097-04:00",
+        "date": "2026-06-15T16:12:52.946008-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1564,37 +1564,37 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-15T19:34:06.157293+00:00",
+      "last_run": "2026-06-15T20:12:52.800733+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-15T19:34:06.157293+00:00",
+      "last_run": "2026-06-15T20:12:52.800733+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-15T19:34:06.157293+00:00",
+      "last_run": "2026-06-15T20:12:52.800733+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-15T19:34:06.157293+00:00",
+      "last_run": "2026-06-15T20:12:52.800733+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-15T19:34:06.157293+00:00",
+      "last_run": "2026-06-15T20:12:52.800733+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "down",
-      "last_run": "2026-06-15T19:34:06.157293+00:00",
+      "last_run": "2026-06-15T20:12:52.800733+00:00",
       "note": "overdue: Investing OS Pre-Market Source Intake, last scheduled success 2026-06-12T12:15:39.205468Z; latest manual support 2026-06-15T13:10:01.923453Z; +4 more"
     }
   ],
@@ -12483,7 +12483,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-15T10:02:14-04:00",
-        "connector_proof_age_hours": 5.53
+        "connector_proof_age_hours": 6.18
       }
     ],
     "missing": [],
@@ -12525,7 +12525,7 @@
       "due_waiting_count": 0,
       "routine_receipt_due": {
         "activated_at": "2026-06-12T19:25:00-04:00",
-        "now": "2026-06-15T15:34:06.302097-04:00",
+        "now": "2026-06-15T16:12:52.946008-04:00",
         "grace_minutes": 30,
         "overdue_count": 5,
         "due_waiting_count": 0,
@@ -12785,22 +12785,22 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T18:48:58.807492Z",
-            "last_success_at": "2026-06-15T18:48:58.807492Z",
+            "last_recorded_at": "2026-06-15T19:47:19.753271Z",
+            "last_success_at": "2026-06-15T19:47:19.753271Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-15T18:48:58.807492Z",
-            "last_scheduled_success_at": "2026-06-15T18:48:58.807492Z",
-            "last_scheduled_summary": "checked 2 Fundstrat web pages and 2 Gmail snippets; read 0 full bodies; landed 0 rows; suppressed 2 discovery-only Gmail rows; validation passed; alert quiet; no fresh full-content evidence so lane remains stale/not_checked; blockers none",
+            "last_scheduled_recorded_at": "2026-06-15T19:47:19.753271Z",
+            "last_scheduled_success_at": "2026-06-15T19:47:19.753271Z",
+            "last_scheduled_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none",
             "last_manual_recorded_at": "2026-06-08T21:27:09.563796Z",
             "last_manual_success_at": "2026-06-08T21:27:09.563796Z",
             "last_manual_summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending",
             "manual_support_only": false,
-            "last_summary": "checked 2 Fundstrat web pages and 2 Gmail snippets; read 0 full bodies; landed 0 rows; suppressed 2 discovery-only Gmail rows; validation passed; alert quiet; no fresh full-content evidence so lane remains stale/not_checked; blockers none",
-            "last_ran_at": "2026-06-15T18:48:58.807492Z",
-            "last_ran_label": "2026-06-15T18:48:58.807492Z",
-            "last_scheduled_success_label": "2026-06-15T18:48:58.807492Z",
+            "last_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none",
+            "last_ran_at": "2026-06-15T19:47:19.753271Z",
+            "last_ran_label": "2026-06-15T19:47:19.753271Z",
+            "last_scheduled_success_label": "2026-06-15T19:47:19.753271Z",
             "latest_manual_support_label": "2026-06-08T21:27:09.563796Z",
-            "overdue_line": "overdue: Investing OS Fundstrat Daytime Watch, last scheduled success 2026-06-15T18:48:58.807492Z; latest manual support 2026-06-08T21:27:09.563796Z"
+            "overdue_line": "overdue: Investing OS Fundstrat Daytime Watch, last scheduled success 2026-06-15T19:47:19.753271Z; latest manual support 2026-06-08T21:27:09.563796Z"
           },
           {
             "routine_id": "investing-os-uw-opportunity-cache",
@@ -13231,7 +13231,7 @@
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-12T19:25:00-04:00",
-        "now": "2026-06-15T15:34:06.302097-04:00",
+        "now": "2026-06-15T16:12:52.946008-04:00",
         "grace_minutes": 30,
         "overdue_count": 9,
         "due_waiting_count": 0,
@@ -14713,17 +14713,17 @@
           "receipt_count": 50,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T18:48:58.807492Z",
-          "last_success_at": "2026-06-15T18:48:58.807492Z",
-          "last_scheduled_success_at": "2026-06-15T18:48:58.807492Z",
+          "last_recorded_at": "2026-06-15T19:47:19.753271Z",
+          "last_success_at": "2026-06-15T19:47:19.753271Z",
+          "last_scheduled_success_at": "2026-06-15T19:47:19.753271Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-15T18:48:58.807492Z",
-          "last_scheduled_summary": "checked 2 Fundstrat web pages and 2 Gmail snippets; read 0 full bodies; landed 0 rows; suppressed 2 discovery-only Gmail rows; validation passed; alert quiet; no fresh full-content evidence so lane remains stale/not_checked; blockers none",
+          "last_scheduled_recorded_at": "2026-06-15T19:47:19.753271Z",
+          "last_scheduled_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none",
           "last_manual_recorded_at": "2026-06-08T21:27:09.563796Z",
           "last_manual_success_at": "2026-06-08T21:27:09.563796Z",
           "last_manual_summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending",
           "manual_support_only": false,
-          "last_summary": "checked 2 Fundstrat web pages and 2 Gmail snippets; read 0 full bodies; landed 0 rows; suppressed 2 discovery-only Gmail rows; validation passed; alert quiet; no fresh full-content evidence so lane remains stale/not_checked; blockers none"
+          "last_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none"
         },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
@@ -18076,22 +18076,22 @@
   },
   "reallocation_brief": {
     "status": "candidate_only",
-    "line": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,237; shortfall $300,406.",
+    "line": "Reallocation brief: candidate only from 2026-06-15 positions; 2 add candidate(s), 4 funding trim(s); allocated $194,930; shortfall $462,713.",
     "positions_snapshot_date": "2026-06-15",
     "positions_age_days": 0,
     "total_book_value": 1887067.0,
     "candidate_only": true,
     "counts": {
-      "adds": 4,
-      "trims": 5,
-      "sequence_now": 3,
-      "sequence_later": 1
+      "adds": 2,
+      "trims": 4,
+      "sequence_now": 2,
+      "sequence_later": 0
     },
     "funding": {
-      "pool_total_usd": 357236.88,
-      "allocated_usd": 357236.88,
+      "pool_total_usd": 194930.25,
+      "allocated_usd": 194930.25,
       "remaining_usd": 0.0,
-      "shortfall_usd": 300405.97
+      "shortfall_usd": 462712.6
     },
     "rows": [
       {
@@ -18107,7 +18107,7 @@
         "sequence_state": "current_or_unspecified",
         "entry_note": "size now (constructive/ok entry)",
         "gate": "AMBER",
-        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNJ -> increases net AI factor; deliberate overweight, log it",
+        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNY -> increases net AI factor; deliberate overweight, log it",
         "funded_by": [
           {
             "ticker": "IVES",
@@ -18122,7 +18122,7 @@
             "notional_usd": 388.74
           },
           {
-            "ticker": "GRNJ",
+            "ticker": "GRNY",
             "notional_usd": 79505.9
           }
         ],
@@ -18202,28 +18202,25 @@
         "ticker": "MSFT",
         "rank": 2,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 94353.35,
+        "notional_usd": 43964.89,
         "current_pct": 0.0,
         "target_pct": 5.0,
         "effective_current_pct": 0.0,
-        "delta_pct": 5.0,
+        "delta_pct": 2.3298,
         "sequence": "now",
         "sequence_state": "current_or_unspecified",
         "entry_note": "size now (constructive/ok entry)",
         "gate": "AMBER",
-        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNJ, GRNY -> increases net AI factor; deliberate overweight, log it",
+        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNY -> increases net AI factor; deliberate overweight, log it",
         "funded_by": [
           {
-            "ticker": "GRNJ",
-            "notional_usd": 82800.73
-          },
-          {
             "ticker": "GRNY",
-            "notional_usd": 11552.62
+            "notional_usd": 43964.89
           }
         ],
         "rationale": "hyperscaler; cheap laggard",
         "caveats": [
+          "partially funded: $43,965 of $94,353 gap",
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
@@ -18293,259 +18290,9 @@
             "No order is placed or sized from this recommendation."
           ]
         }
-      },
-      {
-        "ticker": "AMZN",
-        "rank": 3,
-        "action": "ADD_CANDIDATE",
-        "notional_usd": 75482.68,
-        "current_pct": 0.0,
-        "target_pct": 4.0,
-        "effective_current_pct": 0.0,
-        "delta_pct": 4.0,
-        "sequence": "now",
-        "sequence_state": "current_or_unspecified",
-        "entry_note": "size now (constructive/ok entry)",
-        "gate": "AMBER",
-        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNY -> increases net AI factor; deliberate overweight, log it",
-        "funded_by": [
-          {
-            "ticker": "GRNY",
-            "notional_usd": 75482.68
-          }
-        ],
-        "rationale": "AWS; mild pullback",
-        "caveats": [
-          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
-        ],
-        "blockers": [
-          "same-session UW price/flow",
-          "funding source confirmation",
-          "pre-trade gate"
-        ],
-        "capital_efficiency": {
-          "summary": "Use this candidate only if it beats the other current uses of capital after funding, tax/account, and same-session price/flow gates.",
-          "timing_balance": "Do not over-wait for a perfect bottom, but do not park capital in a merely good setup when a better live opportunity or risk-reduction use ranks higher.",
-          "compare_against": [
-            "all other urgent dashboard actions",
-            "funding trims and factor concentration",
-            "cash, hedges, or doing nothing through event risk"
-          ],
-          "consequence_of_doing_nothing": "AMZN remains below the working target; upside participation may stay too small if the thesis is right and live evidence confirms."
-        },
-        "options_review_prompt": {
-          "status": "review_only",
-          "label": "defined-risk option review only",
-          "why": "If the share entry is valid but timing/volatility risk is high, options may be reviewed as a capped-loss expression. The dashboard does not choose contracts.",
-          "max_loss_gate": "Maximum loss must be written before entry and fit within the intended add budget.",
-          "liquidity_gate": "Reject illiquid chains, wide spreads, or weak open interest/volume.",
-          "expiry_gate": "Use enough time for the thesis/catalyst to play out; avoid near-dated lottery tickets.",
-          "sizing_gate": "Option premium must be sized as risk capital, not as synthetic over-leverage.",
-          "disconfirmation": "Do not use options if live price/flow, volatility, or thesis evidence argues for waiting."
-        },
-        "disconfirmation": "live price, flow, funding, or thesis evidence argues for waiting",
-        "uw_ticker_checks": [],
-        "account_placement": {
-          "status": "candidate",
-          "ticker": "AMZN",
-          "side": "buy/add",
-          "instrument_class": "stock",
-          "owner": "SKB",
-          "broker": "Robinhood",
-          "account": "Robinhood Traditional Ira 1369",
-          "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-          "summary": "Suggested account: SKB Robinhood: Robinhood Traditional Ira 1369.",
-          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-          "rule": "Parents Schwab/PCRA Trust ETF-only",
-          "alternatives": [
-            {
-              "owner": "Parents",
-              "broker": "Fidelity",
-              "account": "Joint WROS - TOD *****2063",
-              "label": "Parents Fidelity: Joint WROS - TOD *****2063",
-              "market_value": 5725.2
-            },
-            {
-              "owner": "SKB",
-              "broker": "Robinhood",
-              "account": "Robinhood Individual 6550",
-              "label": "SKB Robinhood: Robinhood Individual 6550",
-              "market_value": 3816.64
-            },
-            {
-              "owner": "Parents",
-              "broker": "Fidelity",
-              "account": "ROLLOVER IRA - RamBalusu *****6333",
-              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
-              "market_value": 3578.25
-            }
-          ],
-          "caveats": [
-            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-            "No order is placed or sized from this recommendation."
-          ]
-        }
-      },
-      {
-        "ticker": "AVGO",
-        "rank": 4,
-        "action": "ADD_CANDIDATE",
-        "notional_usd": 36435.49,
-        "current_pct": 0.0,
-        "target_pct": 6.0,
-        "effective_current_pct": 0.4,
-        "delta_pct": 1.9308,
-        "sequence": "after 2026-06-03",
-        "sequence_state": "past_gate",
-        "entry_note": "size AFTER the 2026-06-03 print",
-        "gate": "AMBER",
-        "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNY -> increases net AI factor; deliberate overweight, log it",
-        "funded_by": [
-          {
-            "ticker": "GRNY",
-            "notional_usd": 36435.49
-          }
-        ],
-        "rationale": "custom ASIC + networking; size AFTER 6/3 print",
-        "caveats": [
-          "partially funded: $36,435 of $105,676 gap",
-          "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
-        ],
-        "blockers": [
-          "same-session UW price/flow",
-          "funding source confirmation",
-          "pre-trade gate",
-          "legacy catalyst sequencing date has passed; verify current post-catalyst setup"
-        ],
-        "capital_efficiency": {
-          "summary": "Use this candidate only if it beats the other current uses of capital after funding, tax/account, and same-session price/flow gates.",
-          "timing_balance": "Do not over-wait for a perfect bottom, but do not park capital in a merely good setup when a better live opportunity or risk-reduction use ranks higher.",
-          "compare_against": [
-            "all other urgent dashboard actions",
-            "funding trims and factor concentration",
-            "cash, hedges, or doing nothing through event risk"
-          ],
-          "consequence_of_doing_nothing": "AVGO remains below the working target; upside participation may stay too small if the thesis is right and live evidence confirms."
-        },
-        "options_review_prompt": {
-          "status": "review_only",
-          "label": "defined-risk option review only",
-          "why": "If the share entry is valid but timing/volatility risk is high, options may be reviewed as a capped-loss expression. The dashboard does not choose contracts.",
-          "max_loss_gate": "Maximum loss must be written before entry and fit within the intended add budget.",
-          "liquidity_gate": "Reject illiquid chains, wide spreads, or weak open interest/volume.",
-          "expiry_gate": "Use enough time for the thesis/catalyst to play out; avoid near-dated lottery tickets.",
-          "sizing_gate": "Option premium must be sized as risk capital, not as synthetic over-leverage.",
-          "disconfirmation": "Do not use options if live price/flow, volatility, or thesis evidence argues for waiting."
-        },
-        "disconfirmation": "live price, flow, funding, or thesis evidence argues for waiting",
-        "uw_ticker_checks": [],
-        "account_placement": {
-          "status": "candidate",
-          "ticker": "AVGO",
-          "side": "buy/add",
-          "instrument_class": "stock",
-          "owner": "Parents",
-          "broker": "Fidelity",
-          "account": "Joint WROS - TOD *****2063",
-          "label": "Parents Fidelity: Joint WROS - TOD *****2063",
-          "summary": "Suggested account: Parents Fidelity: Joint WROS - TOD *****2063.",
-          "why": "Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.",
-          "rule": "Parents Schwab/PCRA Trust ETF-only",
-          "alternatives": [
-            {
-              "owner": "SKB",
-              "broker": "Fidelity",
-              "account": "Individual - TOD *****1088",
-              "label": "SKB Fidelity: Individual - TOD *****1088",
-              "market_value": 9933.82
-            },
-            {
-              "owner": "SKB",
-              "broker": "Robinhood",
-              "account": "Robinhood Roth Ira 2211",
-              "label": "SKB Robinhood: Robinhood Roth Ira 2211",
-              "market_value": 5730.45
-            },
-            {
-              "owner": "SKB",
-              "broker": "Robinhood",
-              "account": "Robinhood Traditional Ira 1369",
-              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 4966.39
-            }
-          ],
-          "caveats": [
-            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-            "No order is placed or sized from this recommendation."
-          ]
-        }
       }
     ],
     "trims": [
-      {
-        "ticker": "GRNJ",
-        "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 162306.63,
-        "current_pct": 8.601,
-        "target_pct": 0.0,
-        "delta_pct": -8.601,
-        "gate": "GREEN",
-        "gate_reason": "trim reduces concentration",
-        "funds": [
-          {
-            "ticker": "GOOGL",
-            "notional_usd": 79505.9
-          },
-          {
-            "ticker": "MSFT",
-            "notional_usd": 82800.73
-          }
-        ],
-        "rationale": "reservoir drawn to fund the names above",
-        "caveats": [
-          "broad reservoir \u2014 trimming this raises net AI exposure (deliberate)"
-        ],
-        "account_placement": {
-          "status": "candidate",
-          "ticker": "GRNJ",
-          "side": "trim/sell",
-          "instrument_class": "ETF",
-          "owner": "Parents",
-          "broker": "Schwab",
-          "account": "PCRA Trust ...651 PCRA Trust ...651",
-          "label": "Parents Schwab: PCRA Trust ...651 PCRA Trust ...651",
-          "summary": "Suggested account: Parents Schwab: PCRA Trust ...651 PCRA Trust ...651.",
-          "why": "Trim/sell where the position is already held; largest current account position is simplest.",
-          "rule": "Parents Schwab/PCRA Trust ETF-only",
-          "alternatives": [
-            {
-              "owner": "SKB",
-              "broker": "Schwab",
-              "account": "Individual ...254 Individual ...254",
-              "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 24101.45
-            },
-            {
-              "owner": "Parents",
-              "broker": "Fidelity",
-              "account": "ROLLOVER IRA - RamBalusu *****6333",
-              "label": "Parents Fidelity: ROLLOVER IRA - RamBalusu *****6333",
-              "market_value": 18774.0
-            },
-            {
-              "owner": "SKB",
-              "broker": "Robinhood",
-              "account": "Robinhood Traditional Ira 1369",
-              "label": "SKB Robinhood: Robinhood Traditional Ira 1369",
-              "market_value": 17195.2
-            }
-          ],
-          "caveats": [
-            "Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting.",
-            "No order is placed or sized from this recommendation."
-          ]
-        }
-      },
       {
         "ticker": "GRNY",
         "action": "TRIM_FUNDING_CANDIDATE",
@@ -18557,16 +18304,12 @@
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
+            "ticker": "GOOGL",
+            "notional_usd": 79505.9
+          },
+          {
             "ticker": "MSFT",
-            "notional_usd": 11552.62
-          },
-          {
-            "ticker": "AMZN",
-            "notional_usd": 75482.68
-          },
-          {
-            "ticker": "AVGO",
-            "notional_usd": 36435.49
+            "notional_usd": 43964.89
           }
         ],
         "rationale": "reservoir drawn to fund the names above",
@@ -18839,9 +18582,12 @@
     ],
     "warnings": [
       "no run-up data supplied -> chase-gate inactive; verify entries live before acting",
-      "funding shortfall $300,406: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
+      "funding shortfall $462,713: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
     ],
     "notes": [
+      "GRNJ: diversified Granny Shots wrapper protected from automatic funding trims; trim only after an explicit thesis break, sizing cap, or operator override.",
+      "AMZN: gap 4.0% unfunded (pool exhausted)",
+      "AVGO: gap 5.6% unfunded (pool exhausted)",
       "TSM: gap 3.5% unfunded (pool exhausted)",
       "ANET: gap 3.0% unfunded (pool exhausted)",
       "FN: gap 2.0% unfunded (pool exhausted)",
@@ -18890,7 +18636,7 @@
         "priority": 2,
         "kind": "reallocation_review",
         "label": "Review current-position reallocation candidates",
-        "why": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,237; shortfall $300,406.",
+        "why": "Reallocation brief: candidate only from 2026-06-15 positions; 2 add candidate(s), 4 funding trim(s); allocated $194,930; shortfall $462,713.",
         "next_step": "Review funded add/trim legs, then run same-session UW/price and tax/account gates before acting.",
         "blocks": "same-session UW price/flow confirmation required before any capital action",
         "source": "reallocation_brief",
@@ -19076,7 +18822,7 @@
         "rank": 3,
         "posture": "size/compare",
         "label": "Compare the funded add candidates before parking capital: GOOGL leads the current reallocation brief.",
-        "why": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,237; shortfall $300,406.",
+        "why": "Reallocation brief: candidate only from 2026-06-15 positions; 2 add candidate(s), 4 funding trim(s); allocated $194,930; shortfall $462,713.",
         "what_i_would_do": "Use the brief as a capital-efficiency screen: choose the best current use of capital, stage if confirmed, and do not add a merely good idea ahead of a better one.",
         "source": "reallocation_brief"
       },

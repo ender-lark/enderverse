@@ -29,6 +29,7 @@ def _positions(snapshot_date="2026-05-31"):
         "MAGS": 8.0,
         "IGV": 5.5,
         "GRNY": 9.0,
+        "GRNJ": 7.0,
         "NVDA": 6.0,
         "MU": 3.0,
         "LEU": 4.0,
@@ -53,6 +54,13 @@ def test_reallocation_brief_labels_stale_positions_as_test_data():
     assert block["counts"]["adds"] > 0
     assert block["counts"]["trims"] > 0
     assert block["funding"]["allocated_usd"] > 0
+    assert all(row["ticker"] != "GRNJ" for row in block["trims"])
+    assert all(
+        funding["ticker"] != "GRNJ"
+        for row in block["rows"]
+        for funding in row.get("funded_by") or []
+    )
+    assert any("GRNJ" in note and "protected" in note for note in block["notes"])
     assert any("positions snapshot 2026-05-31" in blocker for blocker in block["blockers"])
     assert "same-session UW price/flow" in block["rows"][0]["blockers"]
     assert "TICKER_FLOW_RECENT" in block["rows"][0]["uw_ticker_checks"]

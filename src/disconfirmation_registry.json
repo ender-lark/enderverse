@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "_about": "Per-thesis disconfirmation registry (sidecar). For each ticker: the fastest way the thesis is wrong, the specific + checkable invalidating evidence, and the flip trigger that changes the call. Keyed by ticker under 'entries'. Owner: Claude Code (CC-C). This file is a SIDECAR: it never edits theses.json and never surfaces cards on its own. Seeded entries are status 'DRAFT - operator to confirm' - Claude does not invent invalidation logic as fact; an operator must review and set status to CONFIRMED before an entry counts as a real kill-switch. See docs/disconfirmation_gaps.md for everything still missing or DRAFT.",
-  "last_updated": "2026-06-13",
+  "last_updated": "2026-06-15",
   "statuses": {
     "DRAFT — operator to confirm": "Starter reasoning seeded by Claude Code; reasoned, specific, and checkable, but NOT operator-confirmed fact. Counts as a gap until confirmed.",
     "CONFIRMED": "Operator-reviewed and accepted as the live disconfirmation / kill-switch for this thesis."
@@ -41,6 +41,24 @@
       "invalidating_evidence": "Two consecutive quarters of declining DRAM average selling prices / bit pricing; rising days-of-inventory; or a confirmed HBM3E/HBM4 qualification loss at a major accelerator customer to SK Hynix or Samsung.",
       "flip_trigger": "DRAM ASPs decline for two straight quarters OR a public HBM qualification loss at a top customer - flip the cyclical-upturn call to late-cycle pending re-confirmation.",
       "last_reviewed": "2026-06-13",
+      "status": "DRAFT — operator to confirm"
+    },
+    "GRNJ": {
+      "ticker": "GRNJ",
+      "thesis_id": "thesis_grnj",
+      "fastest_way_wrong": "GRNJ stops being a diversified, research-backed SMID Granny Shots sleeve and becomes either concentrated factor beta, impaired liquidity, or a weaker use of capital than direct higher-conviction holdings/cash.",
+      "invalidating_evidence": "Official holdings or independent holdings data show the fund is no longer broadly diversified / theme-screened (operator to set exact concentration threshold); or AUM/liquidity/spread deterioration makes the ETF costly to use; or Fundstrat removes the key SMID AI/data/infrastructure/nuclear/cyclical holdings while price action materially lags SMID benchmarks through a full rebalance cycle.",
+      "flip_trigger": "A verified process/holdings break, liquidity impairment, or full-cycle relative failure flips GRNJ from protected diversified core to re-check/trim candidate. Same Fundstrat source alone is not enough.",
+      "last_reviewed": "2026-06-15",
+      "status": "DRAFT — operator to confirm"
+    },
+    "GRNY": {
+      "ticker": "GRNY",
+      "thesis_id": "thesis_grny",
+      "fastest_way_wrong": "GRNY duplicates large-cap AI/hyperscaler exposure already owned directly, so the flagship wrapper becomes lower-conviction overlap rather than useful diversified exposure.",
+      "invalidating_evidence": "Current look-through plus direct holdings show large duplicated exposure to the same mega-cap AI names without adding differentiated upside; or Fundstrat removes the core large-cap AI/quality leaders from the list; or GRNY materially lags SPY/QQQ while preserving the same crowded exposures through a full rebalance cycle.",
+      "flip_trigger": "If overlap is high and the direct-name model has fresher/stronger conviction, trim GRNY only as a reviewable funding source after price/flow, tax/account, and same-session gates. Do not treat the wrapper as a thesis break without this evidence.",
+      "last_reviewed": "2026-06-15",
       "status": "DRAFT — operator to confirm"
     }
   }
