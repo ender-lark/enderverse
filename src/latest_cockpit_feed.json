@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T13:04:28.787161+00:00",
+  "generated_at": "2026-06-15T13:11:04.973178+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-15 \u00b7 uw_price 06-15 \u00b7 uw_macro 06-15 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-14",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-15T09:04:28.787161-04:00",
+        "date": "2026-06-15T09:11:04.973178-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-15T09:04:28.787161-04:00",
+        "date": "2026-06-15T09:11:04.973178-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -965,7 +965,7 @@
         {
           "t": "NVDA",
           "n": "NVDA",
-          "pct": 10.951305979047104,
+          "pct": 10.95170441749021,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -985,7 +985,7 @@
         {
           "t": "SMH",
           "n": "SMH",
-          "pct": 5.203355430848555,
+          "pct": 5.203524835101245,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1005,7 +1005,7 @@
         {
           "t": "IVES",
           "n": "IVES",
-          "pct": 3.5629991150395584,
+          "pct": 3.562671595656116,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1025,7 +1025,7 @@
         {
           "t": "MU",
           "n": "MU",
-          "pct": 3.3809728205861935,
+          "pct": 3.3810140286486914,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1045,7 +1045,7 @@
         {
           "t": "MAGS",
           "n": "MAGS",
-          "pct": 0.020613749211749306,
+          "pct": 0.020614000456793534,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1073,7 +1073,7 @@
         {
           "t": "GRNY",
           "n": "GRNY",
-          "pct": 9.540615444944333,
+          "pct": 9.543010396557197,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1093,7 +1093,7 @@
         {
           "t": "GRNJ",
           "n": "GRNJ",
-          "pct": 8.600861644118723,
+          "pct": 8.60096647336846,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1121,7 +1121,7 @@
         {
           "t": "XLF",
           "n": "XLF",
-          "pct": 4.913544134090054,
+          "pct": 4.914557882682491,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1149,7 +1149,7 @@
         {
           "t": "LEU",
           "n": "LEU",
-          "pct": 4.7479452490342275,
+          "pct": 4.74800311806629,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1169,7 +1169,7 @@
         {
           "t": "UUUU",
           "n": "UUUU",
-          "pct": 1.7863482928742138,
+          "pct": 1.7863700652917993,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1197,7 +1197,7 @@
         {
           "t": "VOLT",
           "n": "VOLT",
-          "pct": 4.143416583204829,
+          "pct": 4.139969593024519,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1225,7 +1225,7 @@
         {
           "t": "BMNR",
           "n": "BMNR",
-          "pct": 2.979879073070177,
+          "pct": 2.98002137708942,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1253,7 +1253,7 @@
         {
           "t": "MP",
           "n": "MP",
-          "pct": 0.884483516949377,
+          "pct": 0.8844942972348094,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -1564,38 +1564,38 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-15T13:04:28.654132+00:00",
+      "last_run": "2026-06-15T13:11:04.836067+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-15T13:04:28.654132+00:00",
+      "last_run": "2026-06-15T13:11:04.836067+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-15T13:04:28.654132+00:00",
+      "last_run": "2026-06-15T13:11:04.836067+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-15T13:04:28.654132+00:00",
+      "last_run": "2026-06-15T13:11:04.836067+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-15T13:04:28.654132+00:00",
+      "last_run": "2026-06-15T13:11:04.836067+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "down",
-      "last_run": "2026-06-15T13:04:28.654132+00:00",
-      "note": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T12:55:54.974984Z; +11 more"
+      "last_run": "2026-06-15T13:11:04.836067+00:00",
+      "note": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z; +11 more"
     }
   ],
   "synthesis": {
@@ -2686,10 +2686,10 @@
       {
         "ticker": "GRNY",
         "direction": "OVERSIZED",
-        "actual_pct": 9.5406,
+        "actual_pct": 9.543,
         "target_pct": 3.0,
-        "drift_relative": 2.180205,
-        "drift_absolute_pct": 6.5406,
+        "drift_relative": 2.181003,
+        "drift_absolute_pct": 6.543,
         "flags": [
           "CONCENTRATION_CHECK",
           "ALARM_DRIFT"
@@ -2701,7 +2701,7 @@
         "direction": "OVERSIZED",
         "actual_pct": 3.381,
         "target_pct": 3.0,
-        "drift_relative": 0.126991,
+        "drift_relative": 0.127005,
         "drift_absolute_pct": 0.381,
         "flags": [
           "CONCENTRATION_CHECK"
@@ -3063,13 +3063,13 @@
     "views": {
       "combined": {
         "key": "combined",
-        "total_value": 1887090.0,
+        "total_value": 1887067.0,
         "rows": [
           {
             "ticker": "NVDA",
             "description": "NVIDIA Corporation",
             "shares": 1007.0,
-            "market_value": 206661.22,
+            "market_value": 206666.18,
             "tracked": true,
             "asset_type": "Common Stock",
             "option": null,
@@ -3083,7 +3083,7 @@
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 6574.0,
-            "market_value": 180039.8,
+            "market_value": 180082.64,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3111,7 +3111,7 @@
             "ticker": "SMH",
             "description": "VanEck Semiconductor ETF",
             "shares": 155.046,
-            "market_value": 98191.52,
+            "market_value": 98193.78,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3125,7 +3125,7 @@
             "ticker": "XLF",
             "description": "Financial Select Sector SPDR Fund",
             "shares": 1732.0,
-            "market_value": 92722.94,
+            "market_value": 92741.2,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3153,7 +3153,7 @@
             "ticker": "VOLT",
             "description": "Tema Electrification Fund",
             "shares": 1971.983,
-            "market_value": 78190.09,
+            "market_value": 78124.49,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3167,7 +3167,7 @@
             "ticker": "GOOGL",
             "description": "Alphabet Inc.",
             "shares": 195.0,
-            "market_value": 70454.24,
+            "market_value": 70461.58,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3181,7 +3181,7 @@
             "ticker": "IVES",
             "description": "Amplify Bloomberg AI Value Chain ETF",
             "shares": 1797.863,
-            "market_value": 67237.06,
+            "market_value": 67229.51,
             "tracked": true,
             "asset_type": "ETF",
             "option": null,
@@ -3209,7 +3209,7 @@
             "ticker": "BMNR",
             "description": "Bitmine Immersion Technologies, Inc.",
             "shares": 3486.0,
-            "market_value": 56232.53,
+            "market_value": 56234.72,
             "tracked": true,
             "asset_type": "Common Stock",
             "option": null,
@@ -3223,7 +3223,7 @@
             "ticker": "AVGO",
             "description": "Broadcom Inc.",
             "shares": 105.0,
-            "market_value": 40191.81,
+            "market_value": 40191.95,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3251,7 +3251,7 @@
             "ticker": "GDX",
             "description": "VanEck Gold Miners ETF",
             "shares": 390.0,
-            "market_value": 32514.39,
+            "market_value": 32525.95,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3265,7 +3265,7 @@
             "ticker": "SOXX",
             "description": "iShares Semiconductor ETF",
             "shares": 51.0,
-            "market_value": 31693.13,
+            "market_value": 31698.79,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3279,7 +3279,7 @@
             "ticker": "MSFT",
             "description": "Microsoft Corp.",
             "shares": 75.076,
-            "market_value": 29343.86,
+            "market_value": 29344.76,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3287,7 +3287,7 @@
             "category": "AI / Semiconductors",
             "account": "Multiple",
             "owner": "Multiple",
-            "pct": 1.55
+            "pct": 1.56
           },
           {
             "ticker": "IHF",
@@ -3391,7 +3391,7 @@
             "ticker": "CCJ",
             "description": "Cameco Corporation",
             "shares": 194.052,
-            "market_value": 19729.24,
+            "market_value": 19745.24,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3461,7 +3461,7 @@
             "ticker": "XLU",
             "description": "Utilities Select Sector SPDR Fund",
             "shares": 336.8893,
-            "market_value": 15021.93,
+            "market_value": 15022.2,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3475,7 +3475,7 @@
             "ticker": "PBW",
             "description": "Invesco WilderHill Clean Energy ETF",
             "shares": 329.0,
-            "market_value": 13479.35,
+            "market_value": 13387.35,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3559,7 +3559,7 @@
             "ticker": "SIL",
             "description": "Global X Silver Miners UCITS ETF USD Accumulating",
             "shares": 128.0,
-            "market_value": 10810.99,
+            "market_value": 10849.43,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3629,7 +3629,7 @@
             "ticker": "FN",
             "description": "Fabrinet",
             "shares": 13.0,
-            "market_value": 8066.58,
+            "market_value": 8058.08,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3685,7 +3685,7 @@
             "ticker": "JPM",
             "description": "JPMorgan Chase & Co.",
             "shares": 18.0,
-            "market_value": 5818.14,
+            "market_value": 5823.42,
             "tracked": false,
             "asset_type": "Common Stock",
             "option": null,
@@ -3727,7 +3727,7 @@
             "ticker": "FTXL",
             "description": "First Trust Nasdaq Semiconductor ETF",
             "shares": 18.0,
-            "market_value": 5101.2,
+            "market_value": 5100.19,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -3883,7 +3883,7 @@
             "ticker": "LIT",
             "description": "GLOBAL X LITHIUM & BATTERY T",
             "shares": 40.0,
-            "market_value": 3327.2,
+            "market_value": 3319.0,
             "tracked": false,
             "asset_type": "ETF",
             "option": null,
@@ -4211,7 +4211,7 @@
             "ticker": "HYPE",
             "description": "Hyperliquid",
             "shares": 18.0197,
-            "market_value": 1222.86,
+            "market_value": 1226.16,
             "tracked": false,
             "asset_type": "Cryptocurrency",
             "option": null,
@@ -4711,7 +4711,7 @@
             "ticker": "AAVE",
             "description": "Aave",
             "shares": 1.2613,
-            "market_value": 93.04,
+            "market_value": 93.37,
             "tracked": false,
             "asset_type": "Cryptocurrency",
             "option": null,
@@ -4901,7 +4901,7 @@
             "ticker": "TRUMP",
             "description": "OFFICIAL TRUMP",
             "shares": 13.0548,
-            "market_value": 26.41,
+            "market_value": 26.44,
             "tracked": false,
             "asset_type": "Cryptocurrency",
             "option": null,
@@ -5148,7 +5148,7 @@
           {
             "category": "AI / Semiconductors",
             "sleeve": "SMH",
-            "market_value": 680981.36,
+            "market_value": 680994.06,
             "pct": 36.09,
             "tickers": [
               "AMZN",
@@ -5178,8 +5178,8 @@
           {
             "category": "Quality core",
             "sleeve": "GRNY",
-            "market_value": 363526.56,
-            "pct": 19.26,
+            "market_value": 363569.4,
+            "pct": 19.27,
             "tickers": [
               "COST",
               "GRNJ",
@@ -5187,7 +5187,7 @@
               "RPG"
             ],
             "working_model_target_pct": 3.0,
-            "working_model_gap_pct": -16.26,
+            "working_model_gap_pct": -16.27,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-06-11",
             "fundstrat_reason": "Fundstrat what-to-own theme: small-caps",
@@ -5196,7 +5196,7 @@
           {
             "category": "Electrification",
             "sleeve": "VOLT",
-            "market_value": 174272.3,
+            "market_value": 174114.7,
             "pct": 9.23,
             "tickers": [
               "BE",
@@ -5220,8 +5220,8 @@
           {
             "category": "Nuclear",
             "sleeve": "URA",
-            "market_value": 169545.83,
-            "pct": 8.98,
+            "market_value": 169561.83,
+            "pct": 8.99,
             "tickers": [
               "BWXT",
               "CCJ",
@@ -5239,7 +5239,7 @@
           {
             "category": "Other holdings",
             "sleeve": "_other",
-            "market_value": 169174.98,
+            "market_value": 169167.11,
             "pct": 8.96,
             "tickers": [
               "AAVE",
@@ -5296,7 +5296,7 @@
           {
             "category": "Financials",
             "sleeve": "XLF",
-            "market_value": 112123.08,
+            "market_value": 112146.62,
             "pct": 5.94,
             "tickers": [
               "GS",
@@ -5314,7 +5314,7 @@
           {
             "category": "Crypto",
             "sleeve": "IBIT",
-            "market_value": 82940.51,
+            "market_value": 82946.0,
             "pct": 4.4,
             "tickers": [
               "BMNR",
@@ -5334,7 +5334,7 @@
           {
             "category": "Gold / Hedge",
             "sleeve": "GDX",
-            "market_value": 45872.75,
+            "market_value": 45922.75,
             "pct": 2.43,
             "tickers": [
               "GDX",
@@ -5370,7 +5370,7 @@
           {
             "category": "Critical minerals",
             "sleeve": "REMX",
-            "market_value": 21900.57,
+            "market_value": 21892.37,
             "pct": 1.16,
             "tickers": [
               "LIT",
@@ -5394,25 +5394,25 @@
               "ticker": "NVDA",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 206661.22,
-              "lookthrough_market_value": 25907.06,
-              "effective_market_value": 232568.28,
+              "direct_market_value": 206666.18,
+              "lookthrough_market_value": 25907.65,
+              "effective_market_value": 232573.83,
               "effective_pct": 12.32,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.2,
-                  "market_value": 19638.3
+                  "market_value": 19638.76
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.05,
-                  "market_value": 3361.85
+                  "market_value": 3361.48
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 2852.38
+                  "market_value": 2852.89
                 },
                 {
                   "etf": "MAGS",
@@ -5425,25 +5425,25 @@
               "ticker": "AVGO",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 40191.81,
-              "lookthrough_market_value": 13436.13,
-              "effective_market_value": 53627.94,
+              "direct_market_value": 40191.95,
+              "lookthrough_market_value": 13436.52,
+              "effective_market_value": 53628.47,
               "effective_pct": 2.84,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.08,
-                  "market_value": 7855.32
+                  "market_value": 7855.5
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 2689.48
+                  "market_value": 2689.18
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 2852.38
+                  "market_value": 2852.89
                 },
                 {
                   "etf": "MAGS",
@@ -5457,19 +5457,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 4239.3,
-              "lookthrough_market_value": 13336.52,
-              "effective_market_value": 17575.82,
+              "lookthrough_market_value": 13337.22,
+              "effective_market_value": 17576.52,
               "effective_pct": 0.93,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.11,
-                  "market_value": 10801.07
+                  "market_value": 10801.32
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.08,
-                  "market_value": 2535.45
+                  "market_value": 2535.9
                 }
               ]
             },
@@ -5478,19 +5478,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 8181.94,
-              "lookthrough_market_value": 7128.1,
-              "effective_market_value": 15310.04,
+              "lookthrough_market_value": 7128.6,
+              "effective_market_value": 15310.54,
               "effective_pct": 0.81,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.05,
-                  "market_value": 4909.58
+                  "market_value": 4909.69
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.07,
-                  "market_value": 2218.52
+                  "market_value": 2218.92
                 }
               ]
             },
@@ -5499,19 +5499,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 63801.95,
-              "lookthrough_market_value": 5512.32,
-              "effective_market_value": 69314.27,
+              "lookthrough_market_value": 5512.69,
+              "effective_market_value": 69314.64,
               "effective_pct": 3.67,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 3927.66
+                  "market_value": 3927.75
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.05,
-                  "market_value": 1584.66
+                  "market_value": 1584.94
                 }
               ]
             },
@@ -5520,19 +5520,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 8755.62,
-              "lookthrough_market_value": 5195.39,
-              "effective_market_value": 13951.01,
+              "lookthrough_market_value": 5195.7,
+              "effective_market_value": 13951.32,
               "effective_pct": 0.74,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 3927.66
+                  "market_value": 3927.75
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.04,
-                  "market_value": 1267.73
+                  "market_value": 1267.95
                 }
               ]
             },
@@ -5540,15 +5540,15 @@
               "ticker": "MSFT",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 29343.86,
-              "lookthrough_market_value": 2744.01,
-              "effective_market_value": 32087.87,
+              "direct_market_value": 29344.76,
+              "lookthrough_market_value": 2743.7,
+              "effective_market_value": 32088.46,
               "effective_pct": 1.7,
               "sources": [
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 2689.48
+                  "market_value": 2689.18
                 },
                 {
                   "etf": "MAGS",
@@ -5561,15 +5561,15 @@
               "ticker": "GOOGL",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 70454.24,
-              "lookthrough_market_value": 2067.74,
-              "effective_market_value": 72521.98,
+              "direct_market_value": 70461.58,
+              "lookthrough_market_value": 2067.52,
+              "effective_market_value": 72529.1,
               "effective_pct": 3.84,
               "sources": [
                 {
                   "etf": "IVES",
                   "fraction": 0.03,
-                  "market_value": 2017.11
+                  "market_value": 2016.89
                 },
                 {
                   "etf": "MAGS",
@@ -5631,9 +5631,9 @@
             {
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 680981.36,
-              "lookthrough_market_value": 54913.28,
-              "effective_market_value": 735894.64,
+              "direct_market_value": 680994.06,
+              "lookthrough_market_value": 54914.41,
+              "effective_market_value": 735908.47,
               "direct_pct": 36.09,
               "lookthrough_pct": 2.91,
               "effective_pct": 39.0,
@@ -5671,14 +5671,14 @@
             {
               "category": "Quality core",
               "sleeve": "GRNY",
-              "direct_market_value": 363526.56,
+              "direct_market_value": 363569.4,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 363526.56,
-              "direct_pct": 19.26,
+              "effective_market_value": 363569.4,
+              "direct_pct": 19.27,
               "lookthrough_pct": 0.0,
-              "effective_pct": 19.26,
+              "effective_pct": 19.27,
               "working_model_target_pct": 3.0,
-              "working_model_gap_pct": -16.26,
+              "working_model_gap_pct": -16.27,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-06-11",
               "fundstrat_reason": "Fundstrat what-to-own theme: small-caps",
@@ -5694,9 +5694,9 @@
             {
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 169174.98,
-              "lookthrough_market_value": 20565.88,
-              "effective_market_value": 189740.86,
+              "direct_market_value": 169167.11,
+              "lookthrough_market_value": 20567.08,
+              "effective_market_value": 189734.19,
               "direct_pct": 8.96,
               "lookthrough_pct": 1.09,
               "effective_pct": 10.05,
@@ -5762,9 +5762,9 @@
             {
               "category": "Electrification",
               "sleeve": "VOLT",
-              "direct_market_value": 174272.3,
+              "direct_market_value": 174114.7,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 174272.3,
+              "effective_market_value": 174114.7,
               "direct_pct": 9.23,
               "lookthrough_pct": 0.0,
               "effective_pct": 9.23,
@@ -5791,12 +5791,12 @@
             {
               "category": "Nuclear",
               "sleeve": "URA",
-              "direct_market_value": 169545.83,
+              "direct_market_value": 169561.83,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 169545.83,
-              "direct_pct": 8.98,
+              "effective_market_value": 169561.83,
+              "direct_pct": 8.99,
               "lookthrough_pct": 0.0,
-              "effective_pct": 8.98,
+              "effective_pct": 8.99,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -5815,9 +5815,9 @@
             {
               "category": "Financials",
               "sleeve": "XLF",
-              "direct_market_value": 112123.08,
+              "direct_market_value": 112146.62,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 112123.08,
+              "effective_market_value": 112146.62,
               "direct_pct": 5.94,
               "lookthrough_pct": 0.0,
               "effective_pct": 5.94,
@@ -5838,9 +5838,9 @@
             {
               "category": "Crypto",
               "sleeve": "IBIT",
-              "direct_market_value": 82940.51,
+              "direct_market_value": 82946.0,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 82940.51,
+              "effective_market_value": 82946.0,
               "direct_pct": 4.4,
               "lookthrough_pct": 0.0,
               "effective_pct": 4.4,
@@ -5863,9 +5863,9 @@
             {
               "category": "Gold / Hedge",
               "sleeve": "GDX",
-              "direct_market_value": 45872.75,
+              "direct_market_value": 45922.75,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 45872.75,
+              "effective_market_value": 45922.75,
               "direct_pct": 2.43,
               "lookthrough_pct": 0.0,
               "effective_pct": 2.43,
@@ -5909,9 +5909,9 @@
             {
               "category": "Critical minerals",
               "sleeve": "REMX",
-              "direct_market_value": 21900.57,
+              "direct_market_value": 21892.37,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 21900.57,
+              "effective_market_value": 21892.37,
               "direct_pct": 1.16,
               "lookthrough_pct": 0.0,
               "effective_pct": 1.16,
@@ -5933,7 +5933,7 @@
       },
       "skb": {
         "key": "skb",
-        "total_value": 602189.23,
+        "total_value": 602123.37,
         "rows": [
           {
             "ticker": "LEU",
@@ -6003,7 +6003,7 @@
             "ticker": "GOOGL",
             "description": "Alphabet Inc.",
             "shares": 55.0,
-            "market_value": 20099.56,
+            "market_value": 20106.9,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6051,7 +6051,7 @@
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 600.0,
-            "market_value": 16548.0,
+            "market_value": 16550.88,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6099,7 +6099,7 @@
             "ticker": "SMH",
             "description": "VanEck Semiconductor ETF",
             "shares": 21.0,
-            "market_value": 13473.18,
+            "market_value": 13477.59,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6211,7 +6211,7 @@
             "ticker": "VOLT",
             "description": "Tema Electrification Fund",
             "shares": 234.0,
-            "market_value": 9383.4,
+            "market_value": 9360.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6221,7 +6221,7 @@
             "option": null,
             "sleeve": "VOLT",
             "category": "Electrification",
-            "pct": 1.56
+            "pct": 1.55
           },
           {
             "ticker": "LEU",
@@ -6243,7 +6243,7 @@
             "ticker": "GDX",
             "description": "VanEck Gold Miners ETF",
             "shares": 100.0,
-            "market_value": 8522.0,
+            "market_value": 8529.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6259,7 +6259,7 @@
             "ticker": "PBW",
             "description": "Invesco WilderHill Clean Energy ETF",
             "shares": 200.0,
-            "market_value": 8300.0,
+            "market_value": 8208.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6269,7 +6269,7 @@
             "option": null,
             "sleeve": "VOLT",
             "category": "Electrification",
-            "pct": 1.38
+            "pct": 1.36
           },
           {
             "ticker": "NVDA",
@@ -6355,7 +6355,7 @@
             "ticker": "SOXX",
             "description": "iShares Semiconductor ETF",
             "shares": 11.0,
-            "market_value": 6836.5,
+            "market_value": 6840.79,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6483,7 +6483,7 @@
             "ticker": "JPM",
             "description": "JPMorgan Chase & Co.",
             "shares": 18.0,
-            "market_value": 5818.14,
+            "market_value": 5823.42,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6579,7 +6579,7 @@
             "ticker": "FTXL",
             "description": "First Trust Nasdaq Semiconductor ETF",
             "shares": 18.0,
-            "market_value": 5101.2,
+            "market_value": 5100.19,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6691,7 +6691,7 @@
             "ticker": "CCJ",
             "description": "Cameco Corporation",
             "shares": 40.0,
-            "market_value": 4176.0,
+            "market_value": 4192.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6701,7 +6701,7 @@
             "option": null,
             "sleeve": "URA",
             "category": "Nuclear",
-            "pct": 0.69
+            "pct": 0.7
           },
           {
             "ticker": "GRNY",
@@ -6787,7 +6787,7 @@
             "ticker": "NVDA",
             "description": "NVIDIA Corporation",
             "shares": 17.0,
-            "market_value": 3534.47,
+            "market_value": 3539.43,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -6891,7 +6891,7 @@
             "ticker": "FN",
             "description": "Fabrinet",
             "shares": 5.0,
-            "market_value": 3178.5,
+            "market_value": 3170.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7003,7 +7003,7 @@
             "ticker": "AVGO",
             "description": "Broadcom Inc.",
             "shares": 7.0,
-            "market_value": 2750.23,
+            "market_value": 2750.37,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7291,7 +7291,7 @@
             "ticker": "BMNR",
             "description": "Bitmine Immersion Technologies, Inc.",
             "shares": 73.0,
-            "market_value": 1259.25,
+            "market_value": 1261.44,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7347,7 +7347,7 @@
             "ticker": "HYPE",
             "description": "Hyperliquid",
             "shares": 18.0197,
-            "market_value": 1222.86,
+            "market_value": 1226.16,
             "account": "Robinhood Crypto 8794",
             "owner": "SKB",
             "owner_key": "skb",
@@ -7523,7 +7523,7 @@
             "ticker": "MSFT",
             "description": "Microsoft Corp.",
             "shares": 2.0,
-            "market_value": 792.1,
+            "market_value": 793.0,
             "account": "Individual ...254 Individual ...254",
             "owner": "SKB",
             "owner_key": "skb",
@@ -8227,7 +8227,7 @@
             "ticker": "AAVE",
             "description": "Aave",
             "shares": 1.2613,
-            "market_value": 93.04,
+            "market_value": 93.37,
             "account": "Robinhood Crypto 8794",
             "owner": "SKB",
             "owner_key": "skb",
@@ -8483,7 +8483,7 @@
             "ticker": "TRUMP",
             "description": "OFFICIAL TRUMP",
             "shares": 13.0548,
-            "market_value": 26.41,
+            "market_value": 26.44,
             "account": "Robinhood Crypto 8794",
             "owner": "SKB",
             "owner_key": "skb",
@@ -8692,7 +8692,7 @@
           {
             "category": "AI / Semiconductors",
             "sleeve": "SMH",
-            "market_value": 265238.13,
+            "market_value": 265259.16,
             "pct": 44.05,
             "tickers": [
               "AMZN",
@@ -8720,7 +8720,7 @@
           {
             "category": "Quality core",
             "sleeve": "GRNY",
-            "market_value": 116162.81,
+            "market_value": 116165.69,
             "pct": 19.29,
             "tickers": [
               "GRNJ",
@@ -8736,7 +8736,7 @@
           {
             "category": "Nuclear",
             "sleeve": "URA",
-            "market_value": 69528.45,
+            "market_value": 69544.45,
             "pct": 11.55,
             "tickers": [
               "BWXT",
@@ -8754,8 +8754,8 @@
           {
             "category": "Electrification",
             "sleeve": "VOLT",
-            "market_value": 61164.98,
-            "pct": 10.16,
+            "market_value": 61049.58,
+            "pct": 10.14,
             "tickers": [
               "DRIV",
               "GEV",
@@ -8774,8 +8774,8 @@
           {
             "category": "Crypto",
             "sleeve": "IBIT",
-            "market_value": 32481.11,
-            "pct": 5.39,
+            "market_value": 32486.6,
+            "pct": 5.4,
             "tickers": [
               "BMNR",
               "HYPE",
@@ -8791,7 +8791,7 @@
           {
             "category": "Financials",
             "sleeve": "XLF",
-            "market_value": 18127.78,
+            "market_value": 18133.06,
             "pct": 3.01,
             "tickers": [
               "GS",
@@ -8808,7 +8808,7 @@
           {
             "category": "Other holdings",
             "sleeve": "_other",
-            "market_value": 17810.41,
+            "market_value": 17802.27,
             "pct": 2.96,
             "tickers": [
               "AAVE",
@@ -8848,7 +8848,7 @@
           {
             "category": "Gold / Hedge",
             "sleeve": "GDX",
-            "market_value": 9321.02,
+            "market_value": 9328.02,
             "pct": 1.55,
             "tickers": [
               "GDX",
@@ -8902,15 +8902,15 @@
               "ticker": "NVDA",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 67337.21,
-              "lookthrough_market_value": 7637.19,
-              "effective_market_value": 74974.4,
+              "direct_market_value": 67342.17,
+              "lookthrough_market_value": 7638.46,
+              "effective_market_value": 74980.63,
               "effective_pct": 12.45,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.2,
-                  "market_value": 2694.64
+                  "market_value": 2695.52
                 },
                 {
                   "etf": "IVES",
@@ -8920,7 +8920,7 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 615.28
+                  "market_value": 615.67
                 },
                 {
                   "etf": "SMH",
@@ -8954,19 +8954,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 4073.98,
-              "effective_market_value": 4073.98,
+              "lookthrough_market_value": 4074.81,
+              "effective_market_value": 4074.81,
               "effective_pct": 0.68,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.11,
-                  "market_value": 1482.05
+                  "market_value": 1482.53
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.08,
-                  "market_value": 546.92
+                  "market_value": 547.26
                 },
                 {
                   "etf": "SMH",
@@ -8994,15 +8994,15 @@
               "ticker": "AVGO",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 24909.01,
-              "lookthrough_market_value": 3663.0,
-              "effective_market_value": 28572.01,
-              "effective_pct": 4.74,
+              "direct_market_value": 24909.15,
+              "lookthrough_market_value": 3663.74,
+              "effective_market_value": 28572.89,
+              "effective_pct": 4.75,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.08,
-                  "market_value": 1077.85
+                  "market_value": 1078.21
                 },
                 {
                   "etf": "IVES",
@@ -9012,7 +9012,7 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 615.28
+                  "market_value": 615.67
                 },
                 {
                   "etf": "SMH",
@@ -9046,19 +9046,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 3066.24,
-              "lookthrough_market_value": 2081.76,
-              "effective_market_value": 5148.0,
-              "effective_pct": 0.85,
+              "lookthrough_market_value": 2082.28,
+              "effective_market_value": 5148.52,
+              "effective_pct": 0.86,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.05,
-                  "market_value": 673.66
+                  "market_value": 673.88
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.07,
-                  "market_value": 478.56
+                  "market_value": 478.86
                 },
                 {
                   "etf": "SMH",
@@ -9087,19 +9087,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 24537.55,
-              "lookthrough_market_value": 1624.39,
-              "effective_market_value": 26161.94,
-              "effective_pct": 4.34,
+              "lookthrough_market_value": 1624.78,
+              "effective_market_value": 26162.33,
+              "effective_pct": 4.35,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 538.93
+                  "market_value": 539.1
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.05,
-                  "market_value": 341.83
+                  "market_value": 342.04
                 },
                 {
                   "etf": "SMH",
@@ -9128,19 +9128,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 8755.62,
-              "lookthrough_market_value": 1556.03,
-              "effective_market_value": 10311.65,
+              "lookthrough_market_value": 1556.37,
+              "effective_market_value": 10311.99,
               "effective_pct": 1.71,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 538.93
+                  "market_value": 539.1
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.04,
-                  "market_value": 273.46
+                  "market_value": 273.63
                 },
                 {
                   "etf": "SMH",
@@ -9168,9 +9168,9 @@
               "ticker": "MSFT",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 11730.86,
+              "direct_market_value": 11731.76,
               "lookthrough_market_value": 498.16,
-              "effective_market_value": 12229.02,
+              "effective_market_value": 12229.92,
               "effective_pct": 2.03,
               "sources": [
                 {
@@ -9189,10 +9189,10 @@
               "ticker": "GOOGL",
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 55347.68,
+              "direct_market_value": 55355.02,
               "lookthrough_market_value": 383.36,
-              "effective_market_value": 55731.04,
-              "effective_pct": 9.25,
+              "effective_market_value": 55738.38,
+              "effective_pct": 9.26,
               "sources": [
                 {
                   "etf": "IVES",
@@ -9259,9 +9259,9 @@
             {
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 265238.13,
-              "lookthrough_market_value": 15412.76,
-              "effective_market_value": 280650.89,
+              "direct_market_value": 265259.16,
+              "lookthrough_market_value": 15415.5,
+              "effective_market_value": 280674.66,
               "direct_pct": 44.05,
               "lookthrough_pct": 2.56,
               "effective_pct": 46.61,
@@ -9297,9 +9297,9 @@
             {
               "category": "Quality core",
               "sleeve": "GRNY",
-              "direct_market_value": 116162.81,
+              "direct_market_value": 116165.69,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 116162.81,
+              "effective_market_value": 116165.69,
               "direct_pct": 19.29,
               "lookthrough_pct": 0.0,
               "effective_pct": 19.29,
@@ -9318,9 +9318,9 @@
             {
               "category": "Nuclear",
               "sleeve": "URA",
-              "direct_market_value": 69528.45,
+              "direct_market_value": 69544.45,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 69528.45,
+              "effective_market_value": 69544.45,
               "direct_pct": 11.55,
               "lookthrough_pct": 0.0,
               "effective_pct": 11.55,
@@ -9341,12 +9341,12 @@
             {
               "category": "Electrification",
               "sleeve": "VOLT",
-              "direct_market_value": 61164.98,
+              "direct_market_value": 61049.58,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 61164.98,
-              "direct_pct": 10.16,
+              "effective_market_value": 61049.58,
+              "direct_pct": 10.14,
               "lookthrough_pct": 0.0,
-              "effective_pct": 10.16,
+              "effective_pct": 10.14,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -9366,12 +9366,12 @@
             {
               "category": "Crypto",
               "sleeve": "IBIT",
-              "direct_market_value": 32481.11,
+              "direct_market_value": 32486.6,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 32481.11,
-              "direct_pct": 5.39,
+              "effective_market_value": 32486.6,
+              "direct_pct": 5.4,
               "lookthrough_pct": 0.0,
-              "effective_pct": 5.39,
+              "effective_pct": 5.4,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -9388,9 +9388,9 @@
             {
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 17810.41,
-              "lookthrough_market_value": 6257.0,
-              "effective_market_value": 24067.41,
+              "direct_market_value": 17802.27,
+              "lookthrough_market_value": 6258.35,
+              "effective_market_value": 24060.62,
               "direct_pct": 2.96,
               "lookthrough_pct": 1.04,
               "effective_pct": 4.0,
@@ -9440,9 +9440,9 @@
             {
               "category": "Financials",
               "sleeve": "XLF",
-              "direct_market_value": 18127.78,
+              "direct_market_value": 18133.06,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 18127.78,
+              "effective_market_value": 18133.06,
               "direct_pct": 3.01,
               "lookthrough_pct": 0.0,
               "effective_pct": 3.01,
@@ -9462,9 +9462,9 @@
             {
               "category": "Gold / Hedge",
               "sleeve": "GDX",
-              "direct_market_value": 9321.02,
+              "direct_market_value": 9328.02,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 9321.02,
+              "effective_market_value": 9328.02,
               "direct_pct": 1.55,
               "lookthrough_pct": 0.0,
               "effective_pct": 1.55,
@@ -9526,7 +9526,7 @@
       },
       "parents": {
         "key": "parents",
-        "total_value": 1258912.88,
+        "total_value": 1258955.64,
         "rows": [
           {
             "ticker": "NVDA",
@@ -9548,7 +9548,7 @@
             "ticker": "GRNY",
             "description": "Fundstrat Granny Shots US Large Cap ETF",
             "shares": 2700.0,
-            "market_value": 74439.0,
+            "market_value": 74478.96,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9558,7 +9558,7 @@
             "option": null,
             "sleeve": "GRNY",
             "category": "Quality core",
-            "pct": 5.91
+            "pct": 5.92
           },
           {
             "ticker": "GRNJ",
@@ -9580,7 +9580,7 @@
             "ticker": "XLF",
             "description": "Financial Select Sector SPDR Fund",
             "shares": 913.0,
-            "market_value": 49037.23,
+            "market_value": 49055.49,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9596,7 +9596,7 @@
             "ticker": "SMH",
             "description": "VanEck Semiconductor ETF",
             "shares": 75.0,
-            "market_value": 48120.0,
+            "market_value": 48117.85,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9676,7 +9676,7 @@
             "ticker": "IVES",
             "description": "Amplify Bloomberg AI Value Chain ETF",
             "shares": 693.0,
-            "market_value": 26382.23,
+            "market_value": 26374.68,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9686,7 +9686,7 @@
             "option": null,
             "sleeve": "SMH",
             "category": "AI / Semiconductors",
-            "pct": 2.1
+            "pct": 2.09
           },
           {
             "ticker": "IVES",
@@ -9756,7 +9756,7 @@
             "ticker": "SOXX",
             "description": "iShares Semiconductor ETF",
             "shares": 40.0,
-            "market_value": 24856.63,
+            "market_value": 24858.0,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9868,7 +9868,7 @@
             "ticker": "VOLT",
             "description": "Tema Electrification Fund",
             "shares": 422.0,
-            "market_value": 16922.2,
+            "market_value": 16880.0,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9932,7 +9932,7 @@
             "ticker": "XLU",
             "description": "Utilities Select Sector SPDR Fund",
             "shares": 336.8893,
-            "market_value": 15021.93,
+            "market_value": 15022.2,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -9964,7 +9964,7 @@
             "ticker": "GDX",
             "description": "VanEck Gold Miners ETF",
             "shares": 151.0,
-            "market_value": 12868.22,
+            "market_value": 12872.78,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -10377,6 +10377,22 @@
             "pct": 0.48
           },
           {
+            "ticker": "SIL",
+            "description": "Global X Silver Miners UCITS ETF USD Accumulating",
+            "shares": 68.0,
+            "market_value": 5948.63,
+            "account": "PCRA Trust ...651 PCRA Trust ...651",
+            "owner": "Parents",
+            "owner_key": "parents",
+            "broker": "Schwab",
+            "tracked": false,
+            "asset_type": "ETF",
+            "option": null,
+            "sleeve": "GDX",
+            "category": "Gold / Hedge",
+            "pct": 0.47
+          },
+          {
             "ticker": "COST",
             "description": "Costco Wholesale Corporation",
             "shares": 6.017,
@@ -10390,22 +10406,6 @@
             "option": null,
             "sleeve": "GRNY",
             "category": "Quality core",
-            "pct": 0.47
-          },
-          {
-            "ticker": "SIL",
-            "description": "Global X Silver Miners UCITS ETF USD Accumulating",
-            "shares": 68.0,
-            "market_value": 5910.19,
-            "account": "PCRA Trust ...651 PCRA Trust ...651",
-            "owner": "Parents",
-            "owner_key": "parents",
-            "broker": "Schwab",
-            "tracked": false,
-            "asset_type": "ETF",
-            "option": null,
-            "sleeve": "GDX",
-            "category": "Gold / Hedge",
             "pct": 0.47
           },
           {
@@ -10988,7 +10988,7 @@
             "ticker": "LIT",
             "description": "GLOBAL X LITHIUM & BATTERY T",
             "shares": 20.0,
-            "market_value": 1679.8,
+            "market_value": 1671.6,
             "account": "PCRA Trust ...651 PCRA Trust ...651",
             "owner": "Parents",
             "owner_key": "parents",
@@ -11653,7 +11653,7 @@
           {
             "category": "AI / Semiconductors",
             "sleeve": "SMH",
-            "market_value": 415743.23,
+            "market_value": 415734.9,
             "pct": 33.02,
             "tickers": [
               "AMZN",
@@ -11680,7 +11680,7 @@
           {
             "category": "Quality core",
             "sleeve": "GRNY",
-            "market_value": 247363.75,
+            "market_value": 247403.71,
             "pct": 19.65,
             "tickers": [
               "COST",
@@ -11698,7 +11698,7 @@
           {
             "category": "Other holdings",
             "sleeve": "_other",
-            "market_value": 151364.57,
+            "market_value": 151364.84,
             "pct": 12.02,
             "tickers": [
               "AMD",
@@ -11745,7 +11745,7 @@
           {
             "category": "Electrification",
             "sleeve": "VOLT",
-            "market_value": 113107.32,
+            "market_value": 113065.12,
             "pct": 8.98,
             "tickers": [
               "BE",
@@ -11786,7 +11786,7 @@
           {
             "category": "Financials",
             "sleeve": "XLF",
-            "market_value": 93995.3,
+            "market_value": 94013.56,
             "pct": 7.47,
             "tickers": [
               "GS",
@@ -11821,8 +11821,8 @@
           {
             "category": "Gold / Hedge",
             "sleeve": "GDX",
-            "market_value": 36551.73,
-            "pct": 2.9,
+            "market_value": 36594.73,
+            "pct": 2.91,
             "tickers": [
               "GDX",
               "SIL",
@@ -11856,8 +11856,8 @@
           {
             "category": "Critical minerals",
             "sleeve": "REMX",
-            "market_value": 15806.45,
-            "pct": 1.26,
+            "market_value": 15798.25,
+            "pct": 1.25,
             "tickers": [
               "LIT",
               "LYSDY",
@@ -11881,19 +11881,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 139324.01,
-              "lookthrough_market_value": 18269.87,
-              "effective_market_value": 157593.88,
+              "lookthrough_market_value": 18269.19,
+              "effective_market_value": 157593.2,
               "effective_pct": 12.52,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.2,
-                  "market_value": 9624.0
+                  "market_value": 9623.57
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.05,
-                  "market_value": 1319.11
+                  "market_value": 1318.73
                 },
                 {
                   "etf": "IVES",
@@ -11903,7 +11903,7 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 2237.1
+                  "market_value": 2237.22
                 },
                 {
                   "etf": "SMH",
@@ -11932,19 +11932,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 15282.8,
-              "lookthrough_market_value": 9773.13,
-              "effective_market_value": 25055.93,
+              "lookthrough_market_value": 9772.78,
+              "effective_market_value": 25055.58,
               "effective_pct": 1.99,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.08,
-                  "market_value": 3849.6
+                  "market_value": 3849.43
                 },
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 1055.29
+                  "market_value": 1054.99
                 },
                 {
                   "etf": "IVES",
@@ -11954,7 +11954,7 @@
                 {
                   "etf": "SOXX",
                   "fraction": 0.09,
-                  "market_value": 2237.1
+                  "market_value": 2237.22
                 },
                 {
                   "etf": "SMH",
@@ -11983,19 +11983,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 4239.3,
-              "lookthrough_market_value": 9262.54,
-              "effective_market_value": 13501.84,
+              "lookthrough_market_value": 9262.41,
+              "effective_market_value": 13501.71,
               "effective_pct": 1.07,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.11,
-                  "market_value": 5293.2
+                  "market_value": 5292.96
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.08,
-                  "market_value": 1988.53
+                  "market_value": 1988.64
                 },
                 {
                   "etf": "SMH",
@@ -12019,19 +12019,19 @@
               "category": "Other holdings",
               "sleeve": "_other",
               "direct_market_value": 5115.7,
-              "lookthrough_market_value": 5046.33,
-              "effective_market_value": 10162.03,
+              "lookthrough_market_value": 5046.32,
+              "effective_market_value": 10162.02,
               "effective_pct": 0.81,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.05,
-                  "market_value": 2406.0
+                  "market_value": 2405.89
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.07,
-                  "market_value": 1739.96
+                  "market_value": 1740.06
                 },
                 {
                   "etf": "SMH",
@@ -12055,19 +12055,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 39264.4,
-              "lookthrough_market_value": 3887.93,
-              "effective_market_value": 43152.33,
+              "lookthrough_market_value": 3887.91,
+              "effective_market_value": 43152.31,
               "effective_pct": 3.43,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 1924.8
+                  "market_value": 1924.71
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.05,
-                  "market_value": 1242.83
+                  "market_value": 1242.9
                 },
                 {
                   "etf": "SMH",
@@ -12091,19 +12091,19 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 0.0,
-              "lookthrough_market_value": 3639.36,
-              "effective_market_value": 3639.36,
+              "lookthrough_market_value": 3639.33,
+              "effective_market_value": 3639.33,
               "effective_pct": 0.29,
               "sources": [
                 {
                   "etf": "SMH",
                   "fraction": 0.04,
-                  "market_value": 1924.8
+                  "market_value": 1924.71
                 },
                 {
                   "etf": "SOXX",
                   "fraction": 0.04,
-                  "market_value": 994.27
+                  "market_value": 994.32
                 },
                 {
                   "etf": "SMH",
@@ -12127,14 +12127,14 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 17613.0,
-              "lookthrough_market_value": 2245.84,
-              "effective_market_value": 19858.84,
+              "lookthrough_market_value": 2245.54,
+              "effective_market_value": 19858.54,
               "effective_pct": 1.58,
               "sources": [
                 {
                   "etf": "IVES",
                   "fraction": 0.04,
-                  "market_value": 1055.29
+                  "market_value": 1054.99
                 },
                 {
                   "etf": "IVES",
@@ -12153,14 +12153,14 @@
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
               "direct_market_value": 15106.56,
-              "lookthrough_market_value": 1684.38,
-              "effective_market_value": 16790.94,
+              "lookthrough_market_value": 1684.16,
+              "effective_market_value": 16790.72,
               "effective_pct": 1.33,
               "sources": [
                 {
                   "etf": "IVES",
                   "fraction": 0.03,
-                  "market_value": 791.47
+                  "market_value": 791.24
                 },
                 {
                   "etf": "IVES",
@@ -12179,9 +12179,9 @@
             {
               "category": "AI / Semiconductors",
               "sleeve": "SMH",
-              "direct_market_value": 415743.23,
-              "lookthrough_market_value": 39500.51,
-              "effective_market_value": 455243.74,
+              "direct_market_value": 415734.9,
+              "lookthrough_market_value": 39498.91,
+              "effective_market_value": 455233.81,
               "direct_pct": 33.02,
               "lookthrough_pct": 3.14,
               "effective_pct": 36.16,
@@ -12216,9 +12216,9 @@
             {
               "category": "Quality core",
               "sleeve": "GRNY",
-              "direct_market_value": 247363.75,
+              "direct_market_value": 247403.71,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 247363.75,
+              "effective_market_value": 247403.71,
               "direct_pct": 19.65,
               "lookthrough_pct": 0.0,
               "effective_pct": 19.65,
@@ -12239,9 +12239,9 @@
             {
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 151364.57,
-              "lookthrough_market_value": 14308.87,
-              "effective_market_value": 165673.44,
+              "direct_market_value": 151364.84,
+              "lookthrough_market_value": 14308.73,
+              "effective_market_value": 165673.57,
               "direct_pct": 12.02,
               "lookthrough_pct": 1.14,
               "effective_pct": 13.16,
@@ -12294,9 +12294,9 @@
             {
               "category": "Electrification",
               "sleeve": "VOLT",
-              "direct_market_value": 113107.32,
+              "direct_market_value": 113065.12,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 113107.32,
+              "effective_market_value": 113065.12,
               "direct_pct": 8.98,
               "lookthrough_pct": 0.0,
               "effective_pct": 8.98,
@@ -12345,9 +12345,9 @@
             {
               "category": "Financials",
               "sleeve": "XLF",
-              "direct_market_value": 93995.3,
+              "direct_market_value": 94013.56,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 93995.3,
+              "effective_market_value": 94013.56,
               "direct_pct": 7.47,
               "lookthrough_pct": 0.0,
               "effective_pct": 7.47,
@@ -12390,12 +12390,12 @@
             {
               "category": "Gold / Hedge",
               "sleeve": "GDX",
-              "direct_market_value": 36551.73,
+              "direct_market_value": 36594.73,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 36551.73,
-              "direct_pct": 2.9,
+              "effective_market_value": 36594.73,
+              "direct_pct": 2.91,
               "lookthrough_pct": 0.0,
-              "effective_pct": 2.9,
+              "effective_pct": 2.91,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "no_current_cue",
@@ -12435,12 +12435,12 @@
             {
               "category": "Critical minerals",
               "sleeve": "REMX",
-              "direct_market_value": 15806.45,
+              "direct_market_value": 15798.25,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 15806.45,
-              "direct_pct": 1.26,
+              "effective_market_value": 15798.25,
+              "direct_pct": 1.25,
               "lookthrough_pct": 0.0,
-              "effective_pct": 1.26,
+              "effective_pct": 1.25,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -12489,7 +12489,7 @@
         "connector_available": true,
         "connector_proof_fresh": false,
         "connector_verified_at": "2026-06-12T10:01:50-04:00",
-        "connector_proof_age_hours": 71.04
+        "connector_proof_age_hours": 71.15
       }
     ],
     "missing": [],
@@ -12522,14 +12522,14 @@
       "expected_count": 25,
       "failed_latest_count": 0,
       "overdue_count": 12,
-      "due_waiting_count": 2,
+      "due_waiting_count": 1,
       "routine_receipt_due": {
         "activated_at": "2026-06-12T19:25:00-04:00",
-        "now": "2026-06-15T09:04:28.787161-04:00",
+        "now": "2026-06-15T09:11:04.973178-04:00",
         "grace_minutes": 30,
         "overdue_count": 12,
-        "due_waiting_count": 2,
-        "current_count": 0,
+        "due_waiting_count": 1,
+        "current_count": 1,
         "not_due_yet_count": 11,
         "next_due": {
           "routine_id": "investing-os-daily-synthesis",
@@ -12544,13 +12544,13 @@
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:56:02.905297Z",
-          "last_success_at": "2026-06-15T12:56:02.905297Z",
+          "last_recorded_at": "2026-06-15T13:10:09.757197Z",
+          "last_success_at": "2026-06-15T13:10:09.757197Z",
           "last_scheduled_success_at": "2026-06-12T13:33:35.481717Z",
           "last_summary": "daily synthesis manual run completed from current cockpit feed evidence",
-          "last_ran_at": "2026-06-15T12:56:02.905297Z",
-          "last_ran_label": "2026-06-15T12:56:02.905297Z",
-          "overdue_line": "overdue: Investing OS Daily Synthesis, last ran 2026-06-15T12:56:02.905297Z"
+          "last_ran_at": "2026-06-15T13:10:09.757197Z",
+          "last_ran_label": "2026-06-15T13:10:09.757197Z",
+          "overdue_line": "overdue: Investing OS Daily Synthesis, last ran 2026-06-15T13:10:09.757197Z"
         },
         "rows": [
           {
@@ -12566,13 +12566,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:55:54.974984Z",
-            "last_success_at": "2026-06-15T12:55:54.974984Z",
+            "last_recorded_at": "2026-06-15T13:10:01.923453Z",
+            "last_success_at": "2026-06-15T13:10:01.923453Z",
             "last_scheduled_success_at": "2026-06-12T12:15:39.205468Z",
             "last_summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-            "last_ran_at": "2026-06-15T12:55:54.974984Z",
-            "last_ran_label": "2026-06-15T12:55:54.974984Z",
-            "overdue_line": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T12:55:54.974984Z"
+            "last_ran_at": "2026-06-15T13:10:01.923453Z",
+            "last_ran_label": "2026-06-15T13:10:01.923453Z",
+            "overdue_line": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z"
           },
           {
             "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
@@ -12587,34 +12587,34 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:55:54.656127Z",
-            "last_success_at": "2026-06-15T12:55:54.656127Z",
+            "last_recorded_at": "2026-06-15T13:10:01.653270Z",
+            "last_success_at": "2026-06-15T13:10:01.653270Z",
             "last_scheduled_success_at": "2026-06-12T11:51:29.852709Z",
             "last_summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
-            "last_ran_at": "2026-06-15T12:55:54.656127Z",
-            "last_ran_label": "2026-06-15T12:55:54.656127Z",
-            "overdue_line": "overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last ran 2026-06-15T12:55:54.656127Z"
+            "last_ran_at": "2026-06-15T13:10:01.653270Z",
+            "last_ran_label": "2026-06-15T13:10:01.653270Z",
+            "overdue_line": "overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last ran 2026-06-15T13:10:01.653270Z"
           },
           {
             "routine_id": "investing-os-broker-position-intake",
             "routine_name": "Investing OS Broker Position Intake",
             "role": "broker_position_intake",
             "schedule": "market weekdays 8:20 AM ET",
-            "due_state": "overdue",
+            "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
             "last_due_at": "2026-06-15T08:20:00-04:00",
             "next_due_at": "2026-06-16T08:20:00-04:00",
             "overdue_after": "2026-06-15T08:50:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T13:03:35.504356Z",
-            "last_success_at": "2026-06-12T13:16:26.135451Z",
-            "last_scheduled_success_at": "2026-06-12T13:16:26.135451Z",
-            "last_summary": "broker position intake recovery started on main",
-            "last_ran_at": "2026-06-15T13:03:35.504356Z",
-            "last_ran_label": "2026-06-15T13:03:35.504356Z",
-            "overdue_line": "overdue: Investing OS Broker Position Intake, last ran 2026-06-15T13:03:35.504356Z"
+            "last_status": "success",
+            "last_run_source": "manual",
+            "last_recorded_at": "2026-06-15T13:09:46.030742Z",
+            "last_success_at": "2026-06-15T13:09:46.030742Z",
+            "last_scheduled_success_at": "2026-06-15T13:09:26.051496Z",
+            "last_summary": "broker position intake manual run refreshed SnapTrade book only after strict validation",
+            "last_ran_at": "2026-06-15T13:09:46.030742Z",
+            "last_ran_label": "2026-06-15T13:09:46.030742Z",
+            "overdue_line": "overdue: Investing OS Broker Position Intake, last ran 2026-06-15T13:09:46.030742Z"
           },
           {
             "routine_id": "investing-os-fs-inbox-catch-up-preopen",
@@ -12629,20 +12629,20 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:55:55.168029Z",
-            "last_success_at": "2026-06-15T12:55:55.168029Z",
+            "last_recorded_at": "2026-06-15T13:10:01.950391Z",
+            "last_success_at": "2026-06-15T13:10:01.950391Z",
             "last_scheduled_success_at": "",
             "last_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
-            "last_ran_at": "2026-06-15T12:55:55.168029Z",
-            "last_ran_label": "2026-06-15T12:55:55.168029Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last ran 2026-06-15T12:55:55.168029Z"
+            "last_ran_at": "2026-06-15T13:10:01.950391Z",
+            "last_ran_label": "2026-06-15T13:10:01.950391Z",
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last ran 2026-06-15T13:10:01.950391Z"
           },
           {
             "routine_id": "investing-os-morning-scan",
             "routine_name": "Investing OS Morning Scan",
             "role": "morning_scan",
             "schedule": "market weekdays 8:35 AM ET",
-            "due_state": "due_waiting",
+            "due_state": "overdue",
             "expected_since": "2026-06-12T19:25:00-04:00",
             "last_due_at": "2026-06-15T08:35:00-04:00",
             "next_due_at": "2026-06-16T08:35:00-04:00",
@@ -12650,13 +12650,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:55:55.350095Z",
-            "last_success_at": "2026-06-15T12:55:55.350095Z",
+            "last_recorded_at": "2026-06-15T13:10:02.124206Z",
+            "last_success_at": "2026-06-15T13:10:02.124206Z",
             "last_scheduled_success_at": "2026-06-12T12:42:40.160556Z",
             "last_summary": "morning scan manual run completed; Signal Log remains watch-only",
-            "last_ran_at": "2026-06-15T12:55:55.350095Z",
-            "last_ran_label": "2026-06-15T12:55:55.350095Z",
-            "overdue_line": "overdue: Investing OS Morning Scan, last ran 2026-06-15T12:55:55.350095Z"
+            "last_ran_at": "2026-06-15T13:10:02.124206Z",
+            "last_ran_label": "2026-06-15T13:10:02.124206Z",
+            "overdue_line": "overdue: Investing OS Morning Scan, last ran 2026-06-15T13:10:02.124206Z"
           },
           {
             "routine_id": "investing-os-early-cockpit-build",
@@ -12671,13 +12671,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:02.693682Z",
-            "last_success_at": "2026-06-15T12:56:02.693682Z",
+            "last_recorded_at": "2026-06-15T13:10:09.543680Z",
+            "last_success_at": "2026-06-15T13:10:09.543680Z",
             "last_scheduled_success_at": "2026-06-12T12:51:34.365421Z",
             "last_summary": "early cockpit build manual run refreshed dashboard artifacts",
-            "last_ran_at": "2026-06-15T12:56:02.693682Z",
-            "last_ran_label": "2026-06-15T12:56:02.693682Z",
-            "overdue_line": "overdue: Investing OS Early Cockpit Build, last ran 2026-06-15T12:56:02.693682Z"
+            "last_ran_at": "2026-06-15T13:10:09.543680Z",
+            "last_ran_label": "2026-06-15T13:10:09.543680Z",
+            "overdue_line": "overdue: Investing OS Early Cockpit Build, last ran 2026-06-15T13:10:09.543680Z"
           },
           {
             "routine_id": "investing-os-daily-synthesis",
@@ -12692,13 +12692,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:02.905297Z",
-            "last_success_at": "2026-06-15T12:56:02.905297Z",
+            "last_recorded_at": "2026-06-15T13:10:09.757197Z",
+            "last_success_at": "2026-06-15T13:10:09.757197Z",
             "last_scheduled_success_at": "2026-06-12T13:33:35.481717Z",
             "last_summary": "daily synthesis manual run completed from current cockpit feed evidence",
-            "last_ran_at": "2026-06-15T12:56:02.905297Z",
-            "last_ran_label": "2026-06-15T12:56:02.905297Z",
-            "overdue_line": "overdue: Investing OS Daily Synthesis, last ran 2026-06-15T12:56:02.905297Z"
+            "last_ran_at": "2026-06-15T13:10:09.757197Z",
+            "last_ran_label": "2026-06-15T13:10:09.757197Z",
+            "overdue_line": "overdue: Investing OS Daily Synthesis, last ran 2026-06-15T13:10:09.757197Z"
           },
           {
             "routine_id": "investing-os-post-open-evidence-gate",
@@ -12755,13 +12755,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:03.115438Z",
-            "last_success_at": "2026-06-15T12:56:03.115438Z",
+            "last_recorded_at": "2026-06-15T13:10:09.953385Z",
+            "last_success_at": "2026-06-15T13:10:09.953385Z",
             "last_scheduled_success_at": "2026-06-12T14:03:02.827851Z",
             "last_summary": "UW opportunity cache manual run completed",
-            "last_ran_at": "2026-06-15T12:56:03.115438Z",
-            "last_ran_label": "2026-06-15T12:56:03.115438Z",
-            "overdue_line": "overdue: Investing OS UW Opportunity Cache, last ran 2026-06-15T12:56:03.115438Z"
+            "last_ran_at": "2026-06-15T13:10:09.953385Z",
+            "last_ran_label": "2026-06-15T13:10:09.953385Z",
+            "overdue_line": "overdue: Investing OS UW Opportunity Cache, last ran 2026-06-15T13:10:09.953385Z"
           },
           {
             "routine_id": "investing-os-parabolic-cache",
@@ -12776,13 +12776,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:04.100878Z",
-            "last_success_at": "2026-06-15T12:56:04.100878Z",
+            "last_recorded_at": "2026-06-15T13:10:10.271622Z",
+            "last_success_at": "2026-06-15T13:10:10.271622Z",
             "last_scheduled_success_at": "2026-06-12T14:07:56.153873Z",
             "last_summary": "parabolic cache manual run completed",
-            "last_ran_at": "2026-06-15T12:56:04.100878Z",
-            "last_ran_label": "2026-06-15T12:56:04.100878Z",
-            "overdue_line": "overdue: Investing OS Parabolic Cache, last ran 2026-06-15T12:56:04.100878Z"
+            "last_ran_at": "2026-06-15T13:10:10.271622Z",
+            "last_ran_label": "2026-06-15T13:10:10.271622Z",
+            "overdue_line": "overdue: Investing OS Parabolic Cache, last ran 2026-06-15T13:10:10.271622Z"
           },
           {
             "routine_id": "investing-os-full-cockpit-build",
@@ -12797,13 +12797,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:11.546896Z",
-            "last_success_at": "2026-06-15T12:56:11.546896Z",
+            "last_recorded_at": "2026-06-15T13:10:17.839859Z",
+            "last_success_at": "2026-06-15T13:10:17.839859Z",
             "last_scheduled_success_at": "2026-06-12T14:32:51.486675Z",
             "last_summary": "full cockpit build manual run refreshed dashboard artifacts",
-            "last_ran_at": "2026-06-15T12:56:11.546896Z",
-            "last_ran_label": "2026-06-15T12:56:11.546896Z",
-            "overdue_line": "overdue: Investing OS Full Cockpit Build, last ran 2026-06-15T12:56:11.546896Z"
+            "last_ran_at": "2026-06-15T13:10:17.839859Z",
+            "last_ran_label": "2026-06-15T13:10:17.839859Z",
+            "overdue_line": "overdue: Investing OS Full Cockpit Build, last ran 2026-06-15T13:10:17.839859Z"
           },
           {
             "routine_id": "investing-os-fs-inbox-catch-up-midday",
@@ -12922,14 +12922,14 @@
             "overdue_after": "2026-06-15T02:15:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-09T05:52:49.106106Z",
-            "last_success_at": "2026-06-09T05:52:49.106106Z",
+            "last_run_source": "manual",
+            "last_recorded_at": "2026-06-15T13:10:18.373713Z",
+            "last_success_at": "2026-06-15T13:10:18.373713Z",
             "last_scheduled_success_at": "2026-06-09T05:52:49.106106Z",
-            "last_summary": "drained 2 queued med-priority system-prep items; Notion query unavailable so search/fetch fallback used; wrote+verified trigger-registration and patch-cadence drafts; skipped recent AI Labor item; no confirmed Done/Killed moves",
-            "last_ran_at": "2026-06-09T05:52:49.106106Z",
-            "last_ran_label": "2026-06-09T05:52:49.106106Z",
-            "overdue_line": "overdue: Investing OS Off-Hours Worker, last ran 2026-06-09T05:52:49.106106Z"
+            "last_summary": "off-hours worker manual run checked research queue cache only",
+            "last_ran_at": "2026-06-15T13:10:18.373713Z",
+            "last_ran_label": "2026-06-15T13:10:18.373713Z",
+            "overdue_line": "overdue: Investing OS Off-Hours Worker, last ran 2026-06-15T13:10:18.373713Z"
           },
           {
             "routine_id": "investing-os-off-hours-alt-data-scout",
@@ -12944,13 +12944,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-09T13:09:41.912948Z",
-            "last_success_at": "2026-06-09T13:09:41.912948Z",
+            "last_recorded_at": "2026-06-15T13:10:18.260499Z",
+            "last_success_at": "2026-06-15T13:10:18.260499Z",
             "last_scheduled_success_at": "",
-            "last_summary": "manual scout found 5 useful packets; Notion Research Queue 2 verified, Signal Log 3 verified; repo caches validated; routine tuned around SEC-first sourcing and noise filters",
-            "last_ran_at": "2026-06-09T13:09:41.912948Z",
-            "last_ran_label": "2026-06-09T13:09:41.912948Z",
-            "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last ran 2026-06-09T13:09:41.912948Z"
+            "last_summary": "off-hours alt-data scout manual support checked policy/runbook wiring",
+            "last_ran_at": "2026-06-15T13:10:18.260499Z",
+            "last_ran_label": "2026-06-15T13:10:18.260499Z",
+            "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last ran 2026-06-15T13:10:18.260499Z"
           },
           {
             "routine_id": "investing-os-off-hours-queue-buffer",
@@ -12963,15 +12963,15 @@
             "next_due_at": "2026-06-16T04:45:00-04:00",
             "overdue_after": "2026-06-15T05:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T13:10:18.479869Z",
+            "last_success_at": "2026-06-15T13:10:18.479869Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS Off-Hours Queue Buffer, last ran never"
+            "last_summary": "off-hours queue buffer manual support checked queue-buffer wiring and research queue cache",
+            "last_ran_at": "2026-06-15T13:10:18.479869Z",
+            "last_ran_label": "2026-06-15T13:10:18.479869Z",
+            "overdue_line": "overdue: Investing OS Off-Hours Queue Buffer, last ran 2026-06-15T13:10:18.479869Z"
           },
           {
             "routine_id": "investing-os-deep-synthesis",
@@ -12986,13 +12986,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-08T21:27:16.907348Z",
-            "last_success_at": "2026-06-08T21:27:16.907348Z",
+            "last_recorded_at": "2026-06-15T13:10:18.667704Z",
+            "last_success_at": "2026-06-15T13:10:18.667704Z",
             "last_scheduled_success_at": "",
             "last_summary": "deep synthesis manual support run completed from repo evidence",
-            "last_ran_at": "2026-06-08T21:27:16.907348Z",
-            "last_ran_label": "2026-06-08T21:27:16.907348Z",
-            "overdue_line": "overdue: Investing OS Deep Synthesis, last ran 2026-06-08T21:27:16.907348Z"
+            "last_ran_at": "2026-06-15T13:10:18.667704Z",
+            "last_ran_label": "2026-06-15T13:10:18.667704Z",
+            "overdue_line": "overdue: Investing OS Deep Synthesis, last ran 2026-06-15T13:10:18.667704Z"
           },
           {
             "routine_id": "investing-os-weekly-pilot-run",
@@ -13007,13 +13007,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-08T21:27:17.261306Z",
-            "last_success_at": "2026-06-08T21:27:17.261306Z",
+            "last_recorded_at": "2026-06-15T13:10:19.692775Z",
+            "last_success_at": "2026-06-15T13:10:19.692775Z",
             "last_scheduled_success_at": "",
             "last_summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-            "last_ran_at": "2026-06-08T21:27:17.261306Z",
-            "last_ran_label": "2026-06-08T21:27:17.261306Z",
-            "overdue_line": "overdue: Investing OS Weekly Pilot Run, last ran 2026-06-08T21:27:17.261306Z"
+            "last_ran_at": "2026-06-15T13:10:19.692775Z",
+            "last_ran_label": "2026-06-15T13:10:19.692775Z",
+            "overdue_line": "overdue: Investing OS Weekly Pilot Run, last ran 2026-06-15T13:10:19.692775Z"
           },
           {
             "routine_id": "investing-os-top-prospects-auto-research",
@@ -13026,15 +13026,15 @@
             "next_due_at": "2026-06-15T20:45:00-04:00",
             "overdue_after": "2026-06-14T21:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T13:10:18.127860Z",
+            "last_success_at": "2026-06-15T13:10:18.127860Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS Top Prospects Auto-Research, last ran never"
+            "last_summary": "top prospects auto-research manual support run validated the bridge without queue writes",
+            "last_ran_at": "2026-06-15T13:10:18.127860Z",
+            "last_ran_label": "2026-06-15T13:10:18.127860Z",
+            "overdue_line": "overdue: Investing OS Top Prospects Auto-Research, last ran 2026-06-15T13:10:18.127860Z"
           },
           {
             "routine_id": "investing-os-fs-inbox-catch-up-evening",
@@ -13047,15 +13047,15 @@
             "next_due_at": "2026-06-15T20:45:00-04:00",
             "overdue_after": "2026-06-12T21:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T13:10:18.152183Z",
+            "last_success_at": "2026-06-15T13:10:18.152183Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Evening, last ran never"
+            "last_summary": "FS inbox catch-up evening manual support checked prompt wiring only",
+            "last_ran_at": "2026-06-15T13:10:18.152183Z",
+            "last_ran_label": "2026-06-15T13:10:18.152183Z",
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Evening, last ran 2026-06-15T13:10:18.152183Z"
           },
           {
             "routine_id": "investing-os-off-hours-research-queue",
@@ -13068,15 +13068,15 @@
             "next_due_at": "2026-06-15T19:30:00-04:00",
             "overdue_after": "2026-06-12T20:00:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T13:10:17.947815Z",
+            "last_success_at": "2026-06-15T13:10:17.947815Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last ran never"
+            "last_summary": "off-hours research queue manual support checked routine wiring and research queue cache",
+            "last_ran_at": "2026-06-15T13:10:17.947815Z",
+            "last_ran_label": "2026-06-15T13:10:17.947815Z",
+            "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last ran 2026-06-15T13:10:17.947815Z"
           }
         ],
         "overdue": [
@@ -13093,13 +13093,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:55:54.974984Z",
-            "last_success_at": "2026-06-15T12:55:54.974984Z",
+            "last_recorded_at": "2026-06-15T13:10:01.923453Z",
+            "last_success_at": "2026-06-15T13:10:01.923453Z",
             "last_scheduled_success_at": "2026-06-12T12:15:39.205468Z",
             "last_summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-            "last_ran_at": "2026-06-15T12:55:54.974984Z",
-            "last_ran_label": "2026-06-15T12:55:54.974984Z",
-            "overdue_line": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T12:55:54.974984Z"
+            "last_ran_at": "2026-06-15T13:10:01.923453Z",
+            "last_ran_label": "2026-06-15T13:10:01.923453Z",
+            "overdue_line": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z"
           },
           {
             "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
@@ -13114,34 +13114,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:55:54.656127Z",
-            "last_success_at": "2026-06-15T12:55:54.656127Z",
+            "last_recorded_at": "2026-06-15T13:10:01.653270Z",
+            "last_success_at": "2026-06-15T13:10:01.653270Z",
             "last_scheduled_success_at": "2026-06-12T11:51:29.852709Z",
             "last_summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
-            "last_ran_at": "2026-06-15T12:55:54.656127Z",
-            "last_ran_label": "2026-06-15T12:55:54.656127Z",
-            "overdue_line": "overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last ran 2026-06-15T12:55:54.656127Z"
-          },
-          {
-            "routine_id": "investing-os-broker-position-intake",
-            "routine_name": "Investing OS Broker Position Intake",
-            "role": "broker_position_intake",
-            "schedule": "market weekdays 8:20 AM ET",
-            "due_state": "overdue",
-            "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T08:20:00-04:00",
-            "next_due_at": "2026-06-16T08:20:00-04:00",
-            "overdue_after": "2026-06-15T08:50:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "started",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T13:03:35.504356Z",
-            "last_success_at": "2026-06-12T13:16:26.135451Z",
-            "last_scheduled_success_at": "2026-06-12T13:16:26.135451Z",
-            "last_summary": "broker position intake recovery started on main",
-            "last_ran_at": "2026-06-15T13:03:35.504356Z",
-            "last_ran_label": "2026-06-15T13:03:35.504356Z",
-            "overdue_line": "overdue: Investing OS Broker Position Intake, last ran 2026-06-15T13:03:35.504356Z"
+            "last_ran_at": "2026-06-15T13:10:01.653270Z",
+            "last_ran_label": "2026-06-15T13:10:01.653270Z",
+            "overdue_line": "overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last ran 2026-06-15T13:10:01.653270Z"
           },
           {
             "routine_id": "investing-os-fs-inbox-catch-up-preopen",
@@ -13156,13 +13135,34 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:55:55.168029Z",
-            "last_success_at": "2026-06-15T12:55:55.168029Z",
+            "last_recorded_at": "2026-06-15T13:10:01.950391Z",
+            "last_success_at": "2026-06-15T13:10:01.950391Z",
             "last_scheduled_success_at": "",
             "last_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
-            "last_ran_at": "2026-06-15T12:55:55.168029Z",
-            "last_ran_label": "2026-06-15T12:55:55.168029Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last ran 2026-06-15T12:55:55.168029Z"
+            "last_ran_at": "2026-06-15T13:10:01.950391Z",
+            "last_ran_label": "2026-06-15T13:10:01.950391Z",
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last ran 2026-06-15T13:10:01.950391Z"
+          },
+          {
+            "routine_id": "investing-os-morning-scan",
+            "routine_name": "Investing OS Morning Scan",
+            "role": "morning_scan",
+            "schedule": "market weekdays 8:35 AM ET",
+            "due_state": "overdue",
+            "expected_since": "2026-06-12T19:25:00-04:00",
+            "last_due_at": "2026-06-15T08:35:00-04:00",
+            "next_due_at": "2026-06-16T08:35:00-04:00",
+            "overdue_after": "2026-06-15T09:05:00-04:00",
+            "max_age_minutes": 30,
+            "last_status": "success",
+            "last_run_source": "manual",
+            "last_recorded_at": "2026-06-15T13:10:02.124206Z",
+            "last_success_at": "2026-06-15T13:10:02.124206Z",
+            "last_scheduled_success_at": "2026-06-12T12:42:40.160556Z",
+            "last_summary": "morning scan manual run completed; Signal Log remains watch-only",
+            "last_ran_at": "2026-06-15T13:10:02.124206Z",
+            "last_ran_label": "2026-06-15T13:10:02.124206Z",
+            "overdue_line": "overdue: Investing OS Morning Scan, last ran 2026-06-15T13:10:02.124206Z"
           },
           {
             "routine_id": "investing-os-off-hours-worker",
@@ -13176,14 +13176,14 @@
             "overdue_after": "2026-06-15T02:15:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-09T05:52:49.106106Z",
-            "last_success_at": "2026-06-09T05:52:49.106106Z",
+            "last_run_source": "manual",
+            "last_recorded_at": "2026-06-15T13:10:18.373713Z",
+            "last_success_at": "2026-06-15T13:10:18.373713Z",
             "last_scheduled_success_at": "2026-06-09T05:52:49.106106Z",
-            "last_summary": "drained 2 queued med-priority system-prep items; Notion query unavailable so search/fetch fallback used; wrote+verified trigger-registration and patch-cadence drafts; skipped recent AI Labor item; no confirmed Done/Killed moves",
-            "last_ran_at": "2026-06-09T05:52:49.106106Z",
-            "last_ran_label": "2026-06-09T05:52:49.106106Z",
-            "overdue_line": "overdue: Investing OS Off-Hours Worker, last ran 2026-06-09T05:52:49.106106Z"
+            "last_summary": "off-hours worker manual run checked research queue cache only",
+            "last_ran_at": "2026-06-15T13:10:18.373713Z",
+            "last_ran_label": "2026-06-15T13:10:18.373713Z",
+            "overdue_line": "overdue: Investing OS Off-Hours Worker, last ran 2026-06-15T13:10:18.373713Z"
           },
           {
             "routine_id": "investing-os-off-hours-alt-data-scout",
@@ -13198,13 +13198,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-09T13:09:41.912948Z",
-            "last_success_at": "2026-06-09T13:09:41.912948Z",
+            "last_recorded_at": "2026-06-15T13:10:18.260499Z",
+            "last_success_at": "2026-06-15T13:10:18.260499Z",
             "last_scheduled_success_at": "",
-            "last_summary": "manual scout found 5 useful packets; Notion Research Queue 2 verified, Signal Log 3 verified; repo caches validated; routine tuned around SEC-first sourcing and noise filters",
-            "last_ran_at": "2026-06-09T13:09:41.912948Z",
-            "last_ran_label": "2026-06-09T13:09:41.912948Z",
-            "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last ran 2026-06-09T13:09:41.912948Z"
+            "last_summary": "off-hours alt-data scout manual support checked policy/runbook wiring",
+            "last_ran_at": "2026-06-15T13:10:18.260499Z",
+            "last_ran_label": "2026-06-15T13:10:18.260499Z",
+            "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last ran 2026-06-15T13:10:18.260499Z"
           },
           {
             "routine_id": "investing-os-off-hours-queue-buffer",
@@ -13217,15 +13217,15 @@
             "next_due_at": "2026-06-16T04:45:00-04:00",
             "overdue_after": "2026-06-15T05:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T13:10:18.479869Z",
+            "last_success_at": "2026-06-15T13:10:18.479869Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS Off-Hours Queue Buffer, last ran never"
+            "last_summary": "off-hours queue buffer manual support checked queue-buffer wiring and research queue cache",
+            "last_ran_at": "2026-06-15T13:10:18.479869Z",
+            "last_ran_label": "2026-06-15T13:10:18.479869Z",
+            "overdue_line": "overdue: Investing OS Off-Hours Queue Buffer, last ran 2026-06-15T13:10:18.479869Z"
           },
           {
             "routine_id": "investing-os-deep-synthesis",
@@ -13240,13 +13240,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-08T21:27:16.907348Z",
-            "last_success_at": "2026-06-08T21:27:16.907348Z",
+            "last_recorded_at": "2026-06-15T13:10:18.667704Z",
+            "last_success_at": "2026-06-15T13:10:18.667704Z",
             "last_scheduled_success_at": "",
             "last_summary": "deep synthesis manual support run completed from repo evidence",
-            "last_ran_at": "2026-06-08T21:27:16.907348Z",
-            "last_ran_label": "2026-06-08T21:27:16.907348Z",
-            "overdue_line": "overdue: Investing OS Deep Synthesis, last ran 2026-06-08T21:27:16.907348Z"
+            "last_ran_at": "2026-06-15T13:10:18.667704Z",
+            "last_ran_label": "2026-06-15T13:10:18.667704Z",
+            "overdue_line": "overdue: Investing OS Deep Synthesis, last ran 2026-06-15T13:10:18.667704Z"
           },
           {
             "routine_id": "investing-os-weekly-pilot-run",
@@ -13261,13 +13261,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-08T21:27:17.261306Z",
-            "last_success_at": "2026-06-08T21:27:17.261306Z",
+            "last_recorded_at": "2026-06-15T13:10:19.692775Z",
+            "last_success_at": "2026-06-15T13:10:19.692775Z",
             "last_scheduled_success_at": "",
             "last_summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-            "last_ran_at": "2026-06-08T21:27:17.261306Z",
-            "last_ran_label": "2026-06-08T21:27:17.261306Z",
-            "overdue_line": "overdue: Investing OS Weekly Pilot Run, last ran 2026-06-08T21:27:17.261306Z"
+            "last_ran_at": "2026-06-15T13:10:19.692775Z",
+            "last_ran_label": "2026-06-15T13:10:19.692775Z",
+            "overdue_line": "overdue: Investing OS Weekly Pilot Run, last ran 2026-06-15T13:10:19.692775Z"
           },
           {
             "routine_id": "investing-os-top-prospects-auto-research",
@@ -13280,15 +13280,15 @@
             "next_due_at": "2026-06-15T20:45:00-04:00",
             "overdue_after": "2026-06-14T21:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T13:10:18.127860Z",
+            "last_success_at": "2026-06-15T13:10:18.127860Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS Top Prospects Auto-Research, last ran never"
+            "last_summary": "top prospects auto-research manual support run validated the bridge without queue writes",
+            "last_ran_at": "2026-06-15T13:10:18.127860Z",
+            "last_ran_label": "2026-06-15T13:10:18.127860Z",
+            "overdue_line": "overdue: Investing OS Top Prospects Auto-Research, last ran 2026-06-15T13:10:18.127860Z"
           },
           {
             "routine_id": "investing-os-fs-inbox-catch-up-evening",
@@ -13301,15 +13301,15 @@
             "next_due_at": "2026-06-15T20:45:00-04:00",
             "overdue_after": "2026-06-12T21:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T13:10:18.152183Z",
+            "last_success_at": "2026-06-15T13:10:18.152183Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Evening, last ran never"
+            "last_summary": "FS inbox catch-up evening manual support checked prompt wiring only",
+            "last_ran_at": "2026-06-15T13:10:18.152183Z",
+            "last_ran_label": "2026-06-15T13:10:18.152183Z",
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Evening, last ran 2026-06-15T13:10:18.152183Z"
           },
           {
             "routine_id": "investing-os-off-hours-research-queue",
@@ -13322,39 +13322,18 @@
             "next_due_at": "2026-06-15T19:30:00-04:00",
             "overdue_after": "2026-06-12T20:00:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "no_receipt",
+            "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-15T13:10:17.947815Z",
+            "last_success_at": "2026-06-15T13:10:17.947815Z",
             "last_scheduled_success_at": "",
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last ran never"
+            "last_summary": "off-hours research queue manual support checked routine wiring and research queue cache",
+            "last_ran_at": "2026-06-15T13:10:17.947815Z",
+            "last_ran_label": "2026-06-15T13:10:17.947815Z",
+            "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last ran 2026-06-15T13:10:17.947815Z"
           }
         ],
         "due_waiting": [
-          {
-            "routine_id": "investing-os-morning-scan",
-            "routine_name": "Investing OS Morning Scan",
-            "role": "morning_scan",
-            "schedule": "market weekdays 8:35 AM ET",
-            "due_state": "due_waiting",
-            "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T08:35:00-04:00",
-            "next_due_at": "2026-06-16T08:35:00-04:00",
-            "overdue_after": "2026-06-15T09:05:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "success",
-            "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:55:55.350095Z",
-            "last_success_at": "2026-06-15T12:55:55.350095Z",
-            "last_scheduled_success_at": "2026-06-12T12:42:40.160556Z",
-            "last_summary": "morning scan manual run completed; Signal Log remains watch-only",
-            "last_ran_at": "2026-06-15T12:55:55.350095Z",
-            "last_ran_label": "2026-06-15T12:55:55.350095Z",
-            "overdue_line": "overdue: Investing OS Morning Scan, last ran 2026-06-15T12:55:55.350095Z"
-          },
           {
             "routine_id": "investing-os-early-cockpit-build",
             "routine_name": "Investing OS Early Cockpit Build",
@@ -13368,13 +13347,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:02.693682Z",
-            "last_success_at": "2026-06-15T12:56:02.693682Z",
+            "last_recorded_at": "2026-06-15T13:10:09.543680Z",
+            "last_success_at": "2026-06-15T13:10:09.543680Z",
             "last_scheduled_success_at": "2026-06-12T12:51:34.365421Z",
             "last_summary": "early cockpit build manual run refreshed dashboard artifacts",
-            "last_ran_at": "2026-06-15T12:56:02.693682Z",
-            "last_ran_label": "2026-06-15T12:56:02.693682Z",
-            "overdue_line": "overdue: Investing OS Early Cockpit Build, last ran 2026-06-15T12:56:02.693682Z"
+            "last_ran_at": "2026-06-15T13:10:09.543680Z",
+            "last_ran_label": "2026-06-15T13:10:09.543680Z",
+            "overdue_line": "overdue: Investing OS Early Cockpit Build, last ran 2026-06-15T13:10:09.543680Z"
           }
         ],
         "not_due_yet": [
@@ -13391,13 +13370,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:02.905297Z",
-            "last_success_at": "2026-06-15T12:56:02.905297Z",
+            "last_recorded_at": "2026-06-15T13:10:09.757197Z",
+            "last_success_at": "2026-06-15T13:10:09.757197Z",
             "last_scheduled_success_at": "2026-06-12T13:33:35.481717Z",
             "last_summary": "daily synthesis manual run completed from current cockpit feed evidence",
-            "last_ran_at": "2026-06-15T12:56:02.905297Z",
-            "last_ran_label": "2026-06-15T12:56:02.905297Z",
-            "overdue_line": "overdue: Investing OS Daily Synthesis, last ran 2026-06-15T12:56:02.905297Z"
+            "last_ran_at": "2026-06-15T13:10:09.757197Z",
+            "last_ran_label": "2026-06-15T13:10:09.757197Z",
+            "overdue_line": "overdue: Investing OS Daily Synthesis, last ran 2026-06-15T13:10:09.757197Z"
           },
           {
             "routine_id": "investing-os-post-open-evidence-gate",
@@ -13454,13 +13433,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:03.115438Z",
-            "last_success_at": "2026-06-15T12:56:03.115438Z",
+            "last_recorded_at": "2026-06-15T13:10:09.953385Z",
+            "last_success_at": "2026-06-15T13:10:09.953385Z",
             "last_scheduled_success_at": "2026-06-12T14:03:02.827851Z",
             "last_summary": "UW opportunity cache manual run completed",
-            "last_ran_at": "2026-06-15T12:56:03.115438Z",
-            "last_ran_label": "2026-06-15T12:56:03.115438Z",
-            "overdue_line": "overdue: Investing OS UW Opportunity Cache, last ran 2026-06-15T12:56:03.115438Z"
+            "last_ran_at": "2026-06-15T13:10:09.953385Z",
+            "last_ran_label": "2026-06-15T13:10:09.953385Z",
+            "overdue_line": "overdue: Investing OS UW Opportunity Cache, last ran 2026-06-15T13:10:09.953385Z"
           },
           {
             "routine_id": "investing-os-parabolic-cache",
@@ -13475,13 +13454,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:04.100878Z",
-            "last_success_at": "2026-06-15T12:56:04.100878Z",
+            "last_recorded_at": "2026-06-15T13:10:10.271622Z",
+            "last_success_at": "2026-06-15T13:10:10.271622Z",
             "last_scheduled_success_at": "2026-06-12T14:07:56.153873Z",
             "last_summary": "parabolic cache manual run completed",
-            "last_ran_at": "2026-06-15T12:56:04.100878Z",
-            "last_ran_label": "2026-06-15T12:56:04.100878Z",
-            "overdue_line": "overdue: Investing OS Parabolic Cache, last ran 2026-06-15T12:56:04.100878Z"
+            "last_ran_at": "2026-06-15T13:10:10.271622Z",
+            "last_ran_label": "2026-06-15T13:10:10.271622Z",
+            "overdue_line": "overdue: Investing OS Parabolic Cache, last ran 2026-06-15T13:10:10.271622Z"
           },
           {
             "routine_id": "investing-os-full-cockpit-build",
@@ -13496,13 +13475,13 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T12:56:11.546896Z",
-            "last_success_at": "2026-06-15T12:56:11.546896Z",
+            "last_recorded_at": "2026-06-15T13:10:17.839859Z",
+            "last_success_at": "2026-06-15T13:10:17.839859Z",
             "last_scheduled_success_at": "2026-06-12T14:32:51.486675Z",
             "last_summary": "full cockpit build manual run refreshed dashboard artifacts",
-            "last_ran_at": "2026-06-15T12:56:11.546896Z",
-            "last_ran_label": "2026-06-15T12:56:11.546896Z",
-            "overdue_line": "overdue: Investing OS Full Cockpit Build, last ran 2026-06-15T12:56:11.546896Z"
+            "last_ran_at": "2026-06-15T13:10:17.839859Z",
+            "last_ran_label": "2026-06-15T13:10:17.839859Z",
+            "overdue_line": "overdue: Investing OS Full Cockpit Build, last ran 2026-06-15T13:10:17.839859Z"
           },
           {
             "routine_id": "investing-os-fs-inbox-catch-up-midday",
@@ -13625,13 +13604,13 @@
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:55:54.974984Z",
-          "last_success_at": "2026-06-15T12:55:54.974984Z",
+          "last_recorded_at": "2026-06-15T13:10:01.923453Z",
+          "last_success_at": "2026-06-15T13:10:01.923453Z",
           "last_scheduled_success_at": "2026-06-12T12:15:39.205468Z",
           "last_summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-          "last_ran_at": "2026-06-15T12:55:54.974984Z",
-          "last_ran_label": "2026-06-15T12:55:54.974984Z",
-          "overdue_line": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T12:55:54.974984Z"
+          "last_ran_at": "2026-06-15T13:10:01.923453Z",
+          "last_ran_label": "2026-06-15T13:10:01.923453Z",
+          "overdue_line": "overdue: Investing OS Pre-Market Source Intake, last ran 2026-06-15T13:10:01.923453Z"
         },
         {
           "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
@@ -13646,34 +13625,13 @@
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:55:54.656127Z",
-          "last_success_at": "2026-06-15T12:55:54.656127Z",
+          "last_recorded_at": "2026-06-15T13:10:01.653270Z",
+          "last_success_at": "2026-06-15T13:10:01.653270Z",
           "last_scheduled_success_at": "2026-06-12T11:51:29.852709Z",
           "last_summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
-          "last_ran_at": "2026-06-15T12:55:54.656127Z",
-          "last_ran_label": "2026-06-15T12:55:54.656127Z",
-          "overdue_line": "overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last ran 2026-06-15T12:55:54.656127Z"
-        },
-        {
-          "routine_id": "investing-os-broker-position-intake",
-          "routine_name": "Investing OS Broker Position Intake",
-          "role": "broker_position_intake",
-          "schedule": "market weekdays 8:20 AM ET",
-          "due_state": "overdue",
-          "expected_since": "2026-06-12T19:25:00-04:00",
-          "last_due_at": "2026-06-15T08:20:00-04:00",
-          "next_due_at": "2026-06-16T08:20:00-04:00",
-          "overdue_after": "2026-06-15T08:50:00-04:00",
-          "max_age_minutes": 30,
-          "last_status": "started",
-          "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T13:03:35.504356Z",
-          "last_success_at": "2026-06-12T13:16:26.135451Z",
-          "last_scheduled_success_at": "2026-06-12T13:16:26.135451Z",
-          "last_summary": "broker position intake recovery started on main",
-          "last_ran_at": "2026-06-15T13:03:35.504356Z",
-          "last_ran_label": "2026-06-15T13:03:35.504356Z",
-          "overdue_line": "overdue: Investing OS Broker Position Intake, last ran 2026-06-15T13:03:35.504356Z"
+          "last_ran_at": "2026-06-15T13:10:01.653270Z",
+          "last_ran_label": "2026-06-15T13:10:01.653270Z",
+          "overdue_line": "overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last ran 2026-06-15T13:10:01.653270Z"
         },
         {
           "routine_id": "investing-os-fs-inbox-catch-up-preopen",
@@ -13688,13 +13646,34 @@
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:55:55.168029Z",
-          "last_success_at": "2026-06-15T12:55:55.168029Z",
+          "last_recorded_at": "2026-06-15T13:10:01.950391Z",
+          "last_success_at": "2026-06-15T13:10:01.950391Z",
           "last_scheduled_success_at": "",
           "last_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
-          "last_ran_at": "2026-06-15T12:55:55.168029Z",
-          "last_ran_label": "2026-06-15T12:55:55.168029Z",
-          "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last ran 2026-06-15T12:55:55.168029Z"
+          "last_ran_at": "2026-06-15T13:10:01.950391Z",
+          "last_ran_label": "2026-06-15T13:10:01.950391Z",
+          "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last ran 2026-06-15T13:10:01.950391Z"
+        },
+        {
+          "routine_id": "investing-os-morning-scan",
+          "routine_name": "Investing OS Morning Scan",
+          "role": "morning_scan",
+          "schedule": "market weekdays 8:35 AM ET",
+          "due_state": "overdue",
+          "expected_since": "2026-06-12T19:25:00-04:00",
+          "last_due_at": "2026-06-15T08:35:00-04:00",
+          "next_due_at": "2026-06-16T08:35:00-04:00",
+          "overdue_after": "2026-06-15T09:05:00-04:00",
+          "max_age_minutes": 30,
+          "last_status": "success",
+          "last_run_source": "manual",
+          "last_recorded_at": "2026-06-15T13:10:02.124206Z",
+          "last_success_at": "2026-06-15T13:10:02.124206Z",
+          "last_scheduled_success_at": "2026-06-12T12:42:40.160556Z",
+          "last_summary": "morning scan manual run completed; Signal Log remains watch-only",
+          "last_ran_at": "2026-06-15T13:10:02.124206Z",
+          "last_ran_label": "2026-06-15T13:10:02.124206Z",
+          "overdue_line": "overdue: Investing OS Morning Scan, last ran 2026-06-15T13:10:02.124206Z"
         },
         {
           "routine_id": "investing-os-off-hours-worker",
@@ -13708,14 +13687,14 @@
           "overdue_after": "2026-06-15T02:15:00-04:00",
           "max_age_minutes": 30,
           "last_status": "success",
-          "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-09T05:52:49.106106Z",
-          "last_success_at": "2026-06-09T05:52:49.106106Z",
+          "last_run_source": "manual",
+          "last_recorded_at": "2026-06-15T13:10:18.373713Z",
+          "last_success_at": "2026-06-15T13:10:18.373713Z",
           "last_scheduled_success_at": "2026-06-09T05:52:49.106106Z",
-          "last_summary": "drained 2 queued med-priority system-prep items; Notion query unavailable so search/fetch fallback used; wrote+verified trigger-registration and patch-cadence drafts; skipped recent AI Labor item; no confirmed Done/Killed moves",
-          "last_ran_at": "2026-06-09T05:52:49.106106Z",
-          "last_ran_label": "2026-06-09T05:52:49.106106Z",
-          "overdue_line": "overdue: Investing OS Off-Hours Worker, last ran 2026-06-09T05:52:49.106106Z"
+          "last_summary": "off-hours worker manual run checked research queue cache only",
+          "last_ran_at": "2026-06-15T13:10:18.373713Z",
+          "last_ran_label": "2026-06-15T13:10:18.373713Z",
+          "overdue_line": "overdue: Investing OS Off-Hours Worker, last ran 2026-06-15T13:10:18.373713Z"
         },
         {
           "routine_id": "investing-os-off-hours-alt-data-scout",
@@ -13730,13 +13709,13 @@
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-09T13:09:41.912948Z",
-          "last_success_at": "2026-06-09T13:09:41.912948Z",
+          "last_recorded_at": "2026-06-15T13:10:18.260499Z",
+          "last_success_at": "2026-06-15T13:10:18.260499Z",
           "last_scheduled_success_at": "",
-          "last_summary": "manual scout found 5 useful packets; Notion Research Queue 2 verified, Signal Log 3 verified; repo caches validated; routine tuned around SEC-first sourcing and noise filters",
-          "last_ran_at": "2026-06-09T13:09:41.912948Z",
-          "last_ran_label": "2026-06-09T13:09:41.912948Z",
-          "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last ran 2026-06-09T13:09:41.912948Z"
+          "last_summary": "off-hours alt-data scout manual support checked policy/runbook wiring",
+          "last_ran_at": "2026-06-15T13:10:18.260499Z",
+          "last_ran_label": "2026-06-15T13:10:18.260499Z",
+          "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last ran 2026-06-15T13:10:18.260499Z"
         },
         {
           "routine_id": "investing-os-off-hours-queue-buffer",
@@ -13749,15 +13728,15 @@
           "next_due_at": "2026-06-16T04:45:00-04:00",
           "overdue_after": "2026-06-15T05:15:00-04:00",
           "max_age_minutes": 30,
-          "last_status": "no_receipt",
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T13:10:18.479869Z",
+          "last_success_at": "2026-06-15T13:10:18.479869Z",
           "last_scheduled_success_at": "",
-          "last_summary": "",
-          "last_ran_at": "",
-          "last_ran_label": "never",
-          "overdue_line": "overdue: Investing OS Off-Hours Queue Buffer, last ran never"
+          "last_summary": "off-hours queue buffer manual support checked queue-buffer wiring and research queue cache",
+          "last_ran_at": "2026-06-15T13:10:18.479869Z",
+          "last_ran_label": "2026-06-15T13:10:18.479869Z",
+          "overdue_line": "overdue: Investing OS Off-Hours Queue Buffer, last ran 2026-06-15T13:10:18.479869Z"
         },
         {
           "routine_id": "investing-os-deep-synthesis",
@@ -13772,13 +13751,13 @@
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:16.907348Z",
-          "last_success_at": "2026-06-08T21:27:16.907348Z",
+          "last_recorded_at": "2026-06-15T13:10:18.667704Z",
+          "last_success_at": "2026-06-15T13:10:18.667704Z",
           "last_scheduled_success_at": "",
           "last_summary": "deep synthesis manual support run completed from repo evidence",
-          "last_ran_at": "2026-06-08T21:27:16.907348Z",
-          "last_ran_label": "2026-06-08T21:27:16.907348Z",
-          "overdue_line": "overdue: Investing OS Deep Synthesis, last ran 2026-06-08T21:27:16.907348Z"
+          "last_ran_at": "2026-06-15T13:10:18.667704Z",
+          "last_ran_label": "2026-06-15T13:10:18.667704Z",
+          "overdue_line": "overdue: Investing OS Deep Synthesis, last ran 2026-06-15T13:10:18.667704Z"
         },
         {
           "routine_id": "investing-os-weekly-pilot-run",
@@ -13793,13 +13772,13 @@
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:17.261306Z",
-          "last_success_at": "2026-06-08T21:27:17.261306Z",
+          "last_recorded_at": "2026-06-15T13:10:19.692775Z",
+          "last_success_at": "2026-06-15T13:10:19.692775Z",
           "last_scheduled_success_at": "",
           "last_summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-          "last_ran_at": "2026-06-08T21:27:17.261306Z",
-          "last_ran_label": "2026-06-08T21:27:17.261306Z",
-          "overdue_line": "overdue: Investing OS Weekly Pilot Run, last ran 2026-06-08T21:27:17.261306Z"
+          "last_ran_at": "2026-06-15T13:10:19.692775Z",
+          "last_ran_label": "2026-06-15T13:10:19.692775Z",
+          "overdue_line": "overdue: Investing OS Weekly Pilot Run, last ran 2026-06-15T13:10:19.692775Z"
         },
         {
           "routine_id": "investing-os-top-prospects-auto-research",
@@ -13812,15 +13791,15 @@
           "next_due_at": "2026-06-15T20:45:00-04:00",
           "overdue_after": "2026-06-14T21:15:00-04:00",
           "max_age_minutes": 30,
-          "last_status": "no_receipt",
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T13:10:18.127860Z",
+          "last_success_at": "2026-06-15T13:10:18.127860Z",
           "last_scheduled_success_at": "",
-          "last_summary": "",
-          "last_ran_at": "",
-          "last_ran_label": "never",
-          "overdue_line": "overdue: Investing OS Top Prospects Auto-Research, last ran never"
+          "last_summary": "top prospects auto-research manual support run validated the bridge without queue writes",
+          "last_ran_at": "2026-06-15T13:10:18.127860Z",
+          "last_ran_label": "2026-06-15T13:10:18.127860Z",
+          "overdue_line": "overdue: Investing OS Top Prospects Auto-Research, last ran 2026-06-15T13:10:18.127860Z"
         },
         {
           "routine_id": "investing-os-fs-inbox-catch-up-evening",
@@ -13833,15 +13812,15 @@
           "next_due_at": "2026-06-15T20:45:00-04:00",
           "overdue_after": "2026-06-12T21:15:00-04:00",
           "max_age_minutes": 30,
-          "last_status": "no_receipt",
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T13:10:18.152183Z",
+          "last_success_at": "2026-06-15T13:10:18.152183Z",
           "last_scheduled_success_at": "",
-          "last_summary": "",
-          "last_ran_at": "",
-          "last_ran_label": "never",
-          "overdue_line": "overdue: Investing OS FS Inbox Catch-up Evening, last ran never"
+          "last_summary": "FS inbox catch-up evening manual support checked prompt wiring only",
+          "last_ran_at": "2026-06-15T13:10:18.152183Z",
+          "last_ran_label": "2026-06-15T13:10:18.152183Z",
+          "overdue_line": "overdue: Investing OS FS Inbox Catch-up Evening, last ran 2026-06-15T13:10:18.152183Z"
         },
         {
           "routine_id": "investing-os-off-hours-research-queue",
@@ -13854,39 +13833,18 @@
           "next_due_at": "2026-06-15T19:30:00-04:00",
           "overdue_after": "2026-06-12T20:00:00-04:00",
           "max_age_minutes": 30,
-          "last_status": "no_receipt",
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T13:10:17.947815Z",
+          "last_success_at": "2026-06-15T13:10:17.947815Z",
           "last_scheduled_success_at": "",
-          "last_summary": "",
-          "last_ran_at": "",
-          "last_ran_label": "never",
-          "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last ran never"
+          "last_summary": "off-hours research queue manual support checked routine wiring and research queue cache",
+          "last_ran_at": "2026-06-15T13:10:17.947815Z",
+          "last_ran_label": "2026-06-15T13:10:17.947815Z",
+          "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last ran 2026-06-15T13:10:17.947815Z"
         }
       ],
       "due_waiting": [
-        {
-          "routine_id": "investing-os-morning-scan",
-          "routine_name": "Investing OS Morning Scan",
-          "role": "morning_scan",
-          "schedule": "market weekdays 8:35 AM ET",
-          "due_state": "due_waiting",
-          "expected_since": "2026-06-12T19:25:00-04:00",
-          "last_due_at": "2026-06-15T08:35:00-04:00",
-          "next_due_at": "2026-06-16T08:35:00-04:00",
-          "overdue_after": "2026-06-15T09:05:00-04:00",
-          "max_age_minutes": 30,
-          "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:55:55.350095Z",
-          "last_success_at": "2026-06-15T12:55:55.350095Z",
-          "last_scheduled_success_at": "2026-06-12T12:42:40.160556Z",
-          "last_summary": "morning scan manual run completed; Signal Log remains watch-only",
-          "last_ran_at": "2026-06-15T12:55:55.350095Z",
-          "last_ran_label": "2026-06-15T12:55:55.350095Z",
-          "overdue_line": "overdue: Investing OS Morning Scan, last ran 2026-06-15T12:55:55.350095Z"
-        },
         {
           "routine_id": "investing-os-early-cockpit-build",
           "routine_name": "Investing OS Early Cockpit Build",
@@ -13900,13 +13858,13 @@
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:56:02.693682Z",
-          "last_success_at": "2026-06-15T12:56:02.693682Z",
+          "last_recorded_at": "2026-06-15T13:10:09.543680Z",
+          "last_success_at": "2026-06-15T13:10:09.543680Z",
           "last_scheduled_success_at": "2026-06-12T12:51:34.365421Z",
           "last_summary": "early cockpit build manual run refreshed dashboard artifacts",
-          "last_ran_at": "2026-06-15T12:56:02.693682Z",
-          "last_ran_label": "2026-06-15T12:56:02.693682Z",
-          "overdue_line": "overdue: Investing OS Early Cockpit Build, last ran 2026-06-15T12:56:02.693682Z"
+          "last_ran_at": "2026-06-15T13:10:09.543680Z",
+          "last_ran_label": "2026-06-15T13:10:09.543680Z",
+          "overdue_line": "overdue: Investing OS Early Cockpit Build, last ran 2026-06-15T13:10:09.543680Z"
         }
       ],
       "missing_scheduled_success_count": 10,
@@ -13939,7 +13897,7 @@
           "routine_id": "investing-os-off-hours-queue-buffer",
           "routine_name": "Investing OS Off-Hours Queue Buffer",
           "schedule": "daily 4:45 AM ET",
-          "last_status": "no_receipt"
+          "last_status": "success"
         },
         {
           "routine_id": "investing-os-deep-synthesis",
@@ -13957,19 +13915,19 @@
           "routine_id": "investing-os-top-prospects-auto-research",
           "routine_name": "Investing OS Top Prospects Auto-Research",
           "schedule": "daily 8:45 PM ET",
-          "last_status": "no_receipt"
+          "last_status": "success"
         },
         {
           "routine_id": "investing-os-fs-inbox-catch-up-evening",
           "routine_name": "Investing OS FS Inbox Catch-up Evening",
           "schedule": "market weekdays 8:45 PM ET",
-          "last_status": "no_receipt"
+          "last_status": "success"
         },
         {
           "routine_id": "investing-os-off-hours-research-queue",
           "routine_name": "Investing OS Off-Hours Research Queue",
           "schedule": "market weekdays 7:30 PM ET",
-          "last_status": "no_receipt"
+          "last_status": "success"
         }
       ],
       "rows": [
@@ -13981,8 +13939,8 @@
           "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:55:54.974984Z",
-          "last_success_at": "2026-06-15T12:55:54.974984Z",
+          "last_recorded_at": "2026-06-15T13:10:01.923453Z",
+          "last_success_at": "2026-06-15T13:10:01.923453Z",
           "last_scheduled_success_at": "2026-06-12T12:15:39.205468Z",
           "last_summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark"
         },
@@ -13994,8 +13952,8 @@
           "receipt_count": 12,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:55:54.656127Z",
-          "last_success_at": "2026-06-15T12:55:54.656127Z",
+          "last_recorded_at": "2026-06-15T13:10:01.653270Z",
+          "last_success_at": "2026-06-15T13:10:01.653270Z",
           "last_scheduled_success_at": "2026-06-12T11:51:29.852709Z",
           "last_summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending"
         },
@@ -14004,24 +13962,24 @@
           "routine_name": "Investing OS Broker Position Intake",
           "role": "broker_position_intake",
           "schedule": "market weekdays 8:20 AM ET",
-          "receipt_count": 9,
-          "last_status": "started",
-          "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T13:03:35.504356Z",
-          "last_success_at": "2026-06-12T13:16:26.135451Z",
-          "last_scheduled_success_at": "2026-06-12T13:16:26.135451Z",
-          "last_summary": "broker position intake recovery started on main"
+          "receipt_count": 12,
+          "last_status": "success",
+          "last_run_source": "manual",
+          "last_recorded_at": "2026-06-15T13:09:46.030742Z",
+          "last_success_at": "2026-06-15T13:09:46.030742Z",
+          "last_scheduled_success_at": "2026-06-15T13:09:26.051496Z",
+          "last_summary": "broker position intake manual run refreshed SnapTrade book only after strict validation"
         },
         {
           "routine_id": "investing-os-fs-inbox-catch-up-preopen",
           "routine_name": "Investing OS FS Inbox Catch-up Preopen",
           "role": "fs_inbox_catchup_preopen",
           "schedule": "market weekdays 8:20 AM ET",
-          "receipt_count": 2,
+          "receipt_count": 4,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:55:55.168029Z",
-          "last_success_at": "2026-06-15T12:55:55.168029Z",
+          "last_recorded_at": "2026-06-15T13:10:01.950391Z",
+          "last_success_at": "2026-06-15T13:10:01.950391Z",
           "last_scheduled_success_at": "",
           "last_summary": "FS inbox catch-up preopen manual support checked prompt wiring only"
         },
@@ -14033,8 +13991,8 @@
           "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:55:55.350095Z",
-          "last_success_at": "2026-06-15T12:55:55.350095Z",
+          "last_recorded_at": "2026-06-15T13:10:02.124206Z",
+          "last_success_at": "2026-06-15T13:10:02.124206Z",
           "last_scheduled_success_at": "2026-06-12T12:42:40.160556Z",
           "last_summary": "morning scan manual run completed; Signal Log remains watch-only"
         },
@@ -14046,8 +14004,8 @@
           "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:56:02.693682Z",
-          "last_success_at": "2026-06-15T12:56:02.693682Z",
+          "last_recorded_at": "2026-06-15T13:10:09.543680Z",
+          "last_success_at": "2026-06-15T13:10:09.543680Z",
           "last_scheduled_success_at": "2026-06-12T12:51:34.365421Z",
           "last_summary": "early cockpit build manual run refreshed dashboard artifacts"
         },
@@ -14056,11 +14014,11 @@
           "routine_name": "Investing OS Daily Synthesis",
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
-          "receipt_count": 17,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:56:02.905297Z",
-          "last_success_at": "2026-06-15T12:56:02.905297Z",
+          "last_recorded_at": "2026-06-15T13:10:09.757197Z",
+          "last_success_at": "2026-06-15T13:10:09.757197Z",
           "last_scheduled_success_at": "2026-06-12T13:33:35.481717Z",
           "last_summary": "daily synthesis manual run completed from current cockpit feed evidence"
         },
@@ -14082,7 +14040,7 @@
           "routine_name": "Investing OS Fundstrat Daytime Watch",
           "role": "fundstrat_daytime_watch",
           "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
-          "receipt_count": 46,
+          "receipt_count": 42,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-12T18:48:03.006250Z",
@@ -14095,11 +14053,11 @@
           "routine_name": "Investing OS UW Opportunity Cache",
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:56:03.115438Z",
-          "last_success_at": "2026-06-15T12:56:03.115438Z",
+          "last_recorded_at": "2026-06-15T13:10:09.953385Z",
+          "last_success_at": "2026-06-15T13:10:09.953385Z",
           "last_scheduled_success_at": "2026-06-12T14:03:02.827851Z",
           "last_summary": "UW opportunity cache manual run completed"
         },
@@ -14108,11 +14066,11 @@
           "routine_name": "Investing OS Parabolic Cache",
           "role": "parabolic_cache",
           "schedule": "market weekdays 10:05 AM ET",
-          "receipt_count": 18,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:56:04.100878Z",
-          "last_success_at": "2026-06-15T12:56:04.100878Z",
+          "last_recorded_at": "2026-06-15T13:10:10.271622Z",
+          "last_success_at": "2026-06-15T13:10:10.271622Z",
           "last_scheduled_success_at": "2026-06-12T14:07:56.153873Z",
           "last_summary": "parabolic cache manual run completed"
         },
@@ -14121,11 +14079,11 @@
           "routine_name": "Investing OS Full Cockpit Build",
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
-          "receipt_count": 20,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T12:56:11.546896Z",
-          "last_success_at": "2026-06-15T12:56:11.546896Z",
+          "last_recorded_at": "2026-06-15T13:10:17.839859Z",
+          "last_success_at": "2026-06-15T13:10:17.839859Z",
           "last_scheduled_success_at": "2026-06-12T14:32:51.486675Z",
           "last_summary": "full cockpit build manual run refreshed dashboard artifacts"
         },
@@ -14147,7 +14105,7 @@
           "routine_name": "Investing OS Post-Close Refresh",
           "role": "post_close_refresh",
           "schedule": "market weekdays 4:30 PM ET",
-          "receipt_count": 14,
+          "receipt_count": 10,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-11T20:31:37.159386Z",
@@ -14201,37 +14159,37 @@
           "schedule": "daily 1:45 AM ET",
           "receipt_count": 10,
           "last_status": "success",
-          "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-09T05:52:49.106106Z",
-          "last_success_at": "2026-06-09T05:52:49.106106Z",
+          "last_run_source": "manual",
+          "last_recorded_at": "2026-06-15T13:10:18.373713Z",
+          "last_success_at": "2026-06-15T13:10:18.373713Z",
           "last_scheduled_success_at": "2026-06-09T05:52:49.106106Z",
-          "last_summary": "drained 2 queued med-priority system-prep items; Notion query unavailable so search/fetch fallback used; wrote+verified trigger-registration and patch-cadence drafts; skipped recent AI Labor item; no confirmed Done/Killed moves"
+          "last_summary": "off-hours worker manual run checked research queue cache only"
         },
         {
           "routine_id": "investing-os-off-hours-alt-data-scout",
           "routine_name": "Investing OS Off-Hours Alt-Data Scout",
           "role": "off_hours_alt_data_scout",
           "schedule": "daily 9:15 PM ET",
-          "receipt_count": 2,
+          "receipt_count": 4,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-09T13:09:41.912948Z",
-          "last_success_at": "2026-06-09T13:09:41.912948Z",
+          "last_recorded_at": "2026-06-15T13:10:18.260499Z",
+          "last_success_at": "2026-06-15T13:10:18.260499Z",
           "last_scheduled_success_at": "",
-          "last_summary": "manual scout found 5 useful packets; Notion Research Queue 2 verified, Signal Log 3 verified; repo caches validated; routine tuned around SEC-first sourcing and noise filters"
+          "last_summary": "off-hours alt-data scout manual support checked policy/runbook wiring"
         },
         {
           "routine_id": "investing-os-off-hours-queue-buffer",
           "routine_name": "Investing OS Off-Hours Queue Buffer",
           "role": "off_hours_queue_buffer",
           "schedule": "daily 4:45 AM ET",
-          "receipt_count": 0,
-          "last_status": "no_receipt",
+          "receipt_count": 2,
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T13:10:18.479869Z",
+          "last_success_at": "2026-06-15T13:10:18.479869Z",
           "last_scheduled_success_at": "",
-          "last_summary": ""
+          "last_summary": "off-hours queue buffer manual support checked queue-buffer wiring and research queue cache"
         },
         {
           "routine_id": "investing-os-deep-synthesis",
@@ -14241,8 +14199,8 @@
           "receipt_count": 6,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:16.907348Z",
-          "last_success_at": "2026-06-08T21:27:16.907348Z",
+          "last_recorded_at": "2026-06-15T13:10:18.667704Z",
+          "last_success_at": "2026-06-15T13:10:18.667704Z",
           "last_scheduled_success_at": "",
           "last_summary": "deep synthesis manual support run completed from repo evidence"
         },
@@ -14254,8 +14212,8 @@
           "receipt_count": 6,
           "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "2026-06-08T21:27:17.261306Z",
-          "last_success_at": "2026-06-08T21:27:17.261306Z",
+          "last_recorded_at": "2026-06-15T13:10:19.692775Z",
+          "last_success_at": "2026-06-15T13:10:19.692775Z",
           "last_scheduled_success_at": "",
           "last_summary": "weekly pilot manual support run checked routine heartbeat/status evidence"
         },
@@ -14264,39 +14222,39 @@
           "routine_name": "Investing OS Top Prospects Auto-Research",
           "role": "top_prospects_autoresearch",
           "schedule": "daily 8:45 PM ET",
-          "receipt_count": 0,
-          "last_status": "no_receipt",
+          "receipt_count": 2,
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T13:10:18.127860Z",
+          "last_success_at": "2026-06-15T13:10:18.127860Z",
           "last_scheduled_success_at": "",
-          "last_summary": ""
+          "last_summary": "top prospects auto-research manual support run validated the bridge without queue writes"
         },
         {
           "routine_id": "investing-os-fs-inbox-catch-up-evening",
           "routine_name": "Investing OS FS Inbox Catch-up Evening",
           "role": "fs_inbox_catchup_evening",
           "schedule": "market weekdays 8:45 PM ET",
-          "receipt_count": 0,
-          "last_status": "no_receipt",
+          "receipt_count": 2,
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T13:10:18.152183Z",
+          "last_success_at": "2026-06-15T13:10:18.152183Z",
           "last_scheduled_success_at": "",
-          "last_summary": ""
+          "last_summary": "FS inbox catch-up evening manual support checked prompt wiring only"
         },
         {
           "routine_id": "investing-os-off-hours-research-queue",
           "routine_name": "Investing OS Off-Hours Research Queue",
           "role": "off_hours_research_queue",
           "schedule": "market weekdays 7:30 PM ET",
-          "receipt_count": 0,
-          "last_status": "no_receipt",
+          "receipt_count": 2,
+          "last_status": "success",
           "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
+          "last_recorded_at": "2026-06-15T13:10:17.947815Z",
+          "last_success_at": "2026-06-15T13:10:17.947815Z",
           "last_scheduled_success_at": "",
-          "last_summary": ""
+          "last_summary": "off-hours research queue manual support checked routine wiring and research queue cache"
         }
       ]
     },
@@ -17237,10 +17195,10 @@
   },
   "reallocation_brief": {
     "status": "candidate_only",
-    "line": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,198; shortfall $300,453.",
+    "line": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,237; shortfall $300,406.",
     "positions_snapshot_date": "2026-06-15",
     "positions_age_days": 0,
-    "total_book_value": 1887090.0,
+    "total_book_value": 1887067.0,
     "candidate_only": true,
     "counts": {
       "adds": 4,
@@ -17249,17 +17207,17 @@
       "sequence_later": 1
     },
     "funding": {
-      "pool_total_usd": 357197.83,
-      "allocated_usd": 357197.83,
+      "pool_total_usd": 357236.88,
+      "allocated_usd": 357236.88,
       "remaining_usd": 0.0,
-      "shortfall_usd": 300453.04
+      "shortfall_usd": 300405.97
     },
     "rows": [
       {
         "ticker": "GOOGL",
         "rank": 1,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 150967.2,
+        "notional_usd": 150965.36,
         "current_pct": 0.0,
         "target_pct": 8.0,
         "effective_current_pct": 0.0,
@@ -17272,11 +17230,11 @@
         "funded_by": [
           {
             "ticker": "IVES",
-            "notional_usd": 67237.02
+            "notional_usd": 67230.54
           },
           {
             "ticker": "SMH",
-            "notional_usd": 3838.34
+            "notional_usd": 3840.18
           },
           {
             "ticker": "MAGS",
@@ -17284,7 +17242,7 @@
           },
           {
             "ticker": "GRNJ",
-            "notional_usd": 79503.1
+            "notional_usd": 79505.9
           }
         ],
         "rationale": "full-stack incl TPUs; capex-confirmed; constructive entry",
@@ -17363,7 +17321,7 @@
         "ticker": "MSFT",
         "rank": 2,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 94354.5,
+        "notional_usd": 94353.35,
         "current_pct": 0.0,
         "target_pct": 5.0,
         "effective_current_pct": 0.0,
@@ -17376,11 +17334,11 @@
         "funded_by": [
           {
             "ticker": "GRNJ",
-            "notional_usd": 82803.62
+            "notional_usd": 82800.73
           },
           {
             "ticker": "GRNY",
-            "notional_usd": 11550.88
+            "notional_usd": 11552.62
           }
         ],
         "rationale": "hyperscaler; cheap laggard",
@@ -17446,7 +17404,7 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 792.1
+              "market_value": 793.0
             }
           ],
           "caveats": [
@@ -17459,7 +17417,7 @@
         "ticker": "AMZN",
         "rank": 3,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 75483.6,
+        "notional_usd": 75482.68,
         "current_pct": 0.0,
         "target_pct": 4.0,
         "effective_current_pct": 0.0,
@@ -17472,7 +17430,7 @@
         "funded_by": [
           {
             "ticker": "GRNY",
-            "notional_usd": 75483.6
+            "notional_usd": 75482.68
           }
         ],
         "rationale": "AWS; mild pullback",
@@ -17551,11 +17509,11 @@
         "ticker": "AVGO",
         "rank": 4,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 36392.53,
+        "notional_usd": 36435.49,
         "current_pct": 0.0,
         "target_pct": 6.0,
         "effective_current_pct": 0.4,
-        "delta_pct": 1.9285,
+        "delta_pct": 1.9308,
         "sequence": "after 2026-06-03",
         "sequence_state": "past_gate",
         "entry_note": "size AFTER the 2026-06-03 print",
@@ -17564,12 +17522,12 @@
         "funded_by": [
           {
             "ticker": "GRNY",
-            "notional_usd": 36392.53
+            "notional_usd": 36435.49
           }
         ],
         "rationale": "custom ASIC + networking; size AFTER 6/3 print",
         "caveats": [
-          "partially funded: $36,393 of $105,677 gap",
+          "partially funded: $36,435 of $105,676 gap",
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
@@ -17646,20 +17604,20 @@
       {
         "ticker": "GRNJ",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 162306.72,
-        "current_pct": 8.6009,
+        "notional_usd": 162306.63,
+        "current_pct": 8.601,
         "target_pct": 0.0,
-        "delta_pct": -8.6009,
+        "delta_pct": -8.601,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "GOOGL",
-            "notional_usd": 79503.1
+            "notional_usd": 79505.9
           },
           {
             "ticker": "MSFT",
-            "notional_usd": 82803.62
+            "notional_usd": 82800.73
           }
         ],
         "rationale": "reservoir drawn to fund the names above",
@@ -17710,24 +17668,24 @@
       {
         "ticker": "GRNY",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 123427.01,
-        "current_pct": 9.5406,
+        "notional_usd": 123470.79,
+        "current_pct": 9.543,
         "target_pct": 3.0,
-        "delta_pct": -6.5406,
+        "delta_pct": -6.543,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "MSFT",
-            "notional_usd": 11550.88
+            "notional_usd": 11552.62
           },
           {
             "ticker": "AMZN",
-            "notional_usd": 75483.6
+            "notional_usd": 75482.68
           },
           {
             "ticker": "AVGO",
-            "notional_usd": 36392.53
+            "notional_usd": 36435.49
           }
         ],
         "rationale": "reservoir drawn to fund the names above",
@@ -17766,7 +17724,7 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 16548.0
+              "market_value": 16550.88
             }
           ],
           "caveats": [
@@ -17778,16 +17736,16 @@
       {
         "ticker": "IVES",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 67237.02,
-        "current_pct": 3.563,
+        "notional_usd": 67230.54,
+        "current_pct": 3.5627,
         "target_pct": 0.0,
-        "delta_pct": -3.563,
+        "delta_pct": -3.5627,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "GOOGL",
-            "notional_usd": 67237.02
+            "notional_usd": 67230.54
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -17836,16 +17794,16 @@
       {
         "ticker": "SMH",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 3838.34,
-        "current_pct": 5.2034,
+        "notional_usd": 3840.18,
+        "current_pct": 5.2035,
         "target_pct": 5.0,
-        "delta_pct": -0.2034,
+        "delta_pct": -0.2035,
         "gate": "",
         "gate_reason": "",
         "funds": [
           {
             "ticker": "GOOGL",
-            "notional_usd": 3838.34
+            "notional_usd": 3840.18
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -17868,7 +17826,7 @@
               "broker": "Schwab",
               "account": "Individual ...254 Individual ...254",
               "label": "SKB Schwab: Individual ...254 Individual ...254",
-              "market_value": 13473.18
+              "market_value": 13477.59
             },
             {
               "owner": "Parents",
@@ -17932,7 +17890,7 @@
       {
         "ticker": "BMNR",
         "status": "undecided_recheck",
-        "market_value": 56233.0,
+        "market_value": 56235.0,
         "why": "Crypto/BMNR complex stays undecided until fresh price, flow, thesis, and risk evidence resolves defend versus reduce.",
         "next_step": "Re-check fresh crypto/BMNR evidence before adding, trimming, or treating the old thesis as current.",
         "disconfirmation": "If fresh evidence is split, stale, or contradicted, keep it out of promoted action lanes.",
@@ -18000,7 +17958,7 @@
     ],
     "warnings": [
       "no run-up data supplied -> chase-gate inactive; verify entries live before acting",
-      "funding shortfall $300,453: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
+      "funding shortfall $300,406: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
     ],
     "notes": [
       "TSM: gap 3.5% unfunded (pool exhausted)",
@@ -18051,7 +18009,7 @@
         "priority": 2,
         "kind": "reallocation_review",
         "label": "Review current-position reallocation candidates",
-        "why": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,198; shortfall $300,453.",
+        "why": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,237; shortfall $300,406.",
         "next_step": "Review funded add/trim legs, then run same-session UW/price and tax/account gates before acting.",
         "blocks": "same-session UW price/flow confirmation required before any capital action",
         "source": "reallocation_brief",
@@ -18237,7 +18195,7 @@
         "rank": 3,
         "posture": "size/compare",
         "label": "Compare the funded add candidates before parking capital: GOOGL leads the current reallocation brief.",
-        "why": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,198; shortfall $300,453.",
+        "why": "Reallocation brief: candidate only from 2026-06-15 positions; 4 add candidate(s), 5 funding trim(s); allocated $357,237; shortfall $300,406.",
         "what_i_would_do": "Use the brief as a capital-efficiency screen: choose the best current use of capital, stage if confirmed, and do not add a merely good idea ahead of a better one.",
         "source": "reallocation_brief"
       },

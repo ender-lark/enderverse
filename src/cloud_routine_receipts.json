@@ -1,848 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T13:09:26.051496Z",
+  "updated_at": "2026-06-15T13:11:32.643028Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:05.667881Z",
-      "summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: quiet - no new time-sensitive/action-changing Fundstrat item.\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 6, 'alert_candidates': 0, 'duplicates': 0, 'suppressed': 6}\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:05.678962Z",
-      "summary": "investing-os-uw-opportunity-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:05.902992Z",
-      "summary": "UW opportunity cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "uw opportunity self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "uw_opportunity_scan self-test: PASS",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 26
-            }
-          },
-          {
-            "label": "live source config validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_source_config_update.py",
-              "--validate",
-              "src/live_source_config.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity existing bundle score",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--from-bundle",
-              "tmp/uw/opportunity_bundle.json",
-              "--emit",
-              "src/uw_opportunity_signals.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "",
-            "stderr": "Emitted 40 signal(s) -> src/uw_opportunity_signals.json"
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:05.913903Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:06.450959Z",
-      "summary": "parabolic cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "parabolic self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "parabolic_setup_screener self-test\n- golden-master: known fixtures -> known tiers\n  [PASS] AUTOFIRE fixture score == 10.5 (got 10.5)\n  [PASS] AUTOFIRE fixture tier (got AUTOFIRE)\n  [PASS] WATCHLIST fixture score == 7.0 (got 7.0)\n  [PASS] WATCHLIST fixture tier (got WATCHLIST)\n  [PASS] SKIP fixture score == 0.0 (got 0.0)\n  [PASS] SKIP fixture tier (got SKIP)\n- contract: ScreenResult.to_dict() shape\n  [PASS] to_dict has 'ticker'\n  [PASS] to_dict has 'score'\n  [PASS] to_dict has 'surface_tier'\n  [PASS] to_dict has 'phase'\n  [PASS] to_dict has 'features'\n  [PASS] to_dict has 'weighted_total'\n  [PASS] to_dict has 'notes'\n  [PASS] to_dict features expanded with revenue_accel\n- producer: bundle -> results -> emit payload\n  [PASS] screen_from_bundle returns 3 (got 3)\n  [PASS] emit as_of preserved\n  [PASS] emit payload has required keys\n  [PASS] emit counts (got {'AUTOFIRE': 1, 'WATCHLIST': 1, 'SKIP': 1})\n  [PASS] emit has 3 results\n- producer: CANDIDATE_PROFILES fallback when bundle omits profile\n  [PASS] VIAV uses CANDIDATE_PROFILES (industry_conc == 1.0)\n- UW adapter: raw UW field names -> canonical (live-confirmed shapes)\n  [PASS] income total_revenue -> revenue\n  [PASS] earnings drops null reported_eps (unreported quarter)\n  [PASS] info pulls top-level price\n  [PASS] bundle_entry_from_uw produces a canonical entry\n  [PASS] prices 'c' -> 'close' (+ unwraps {data:[...]})\n\nALL PASS",
-            "stderr": ""
-          },
-          {
-            "label": "parabolic cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 16
-            }
-          },
-          {
-            "label": "parabolic existing bundle score",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--from-bundle",
-              "tmp/uw/parabolic_bundle.json",
-              "--emit",
-              "src/parabolic_setups.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER \u2014 2026-06-08 05:41 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 2 (recognition)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1/2 (transition)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1 (early)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 1/2 (transition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 2 (recognition)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
-            "stderr": "Emitted 16 results -> src/parabolic_setups.json (AUTOFIRE 0, WATCHLIST 4, SKIP 12)"
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:06.462408Z",
-      "summary": "investing-os-full-cockpit-build manual run started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:08.891768Z",
-      "summary": "full cockpit build manual run refreshed dashboard artifacts",
-      "details": {
-        "steps": [
-          {
-            "label": "live dashboard refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_dashboard_refresh.py"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 6,\n  \"drafted\": 6,\n  \"existing\": 6,\n  \"stored\": 6,\n  \"tickers\": [\n    \"QQQ\",\n    \"RSP\",\n    \"RYF\",\n    \"SOX\",\n    \"TNX\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-08T05:41:07.019766+00:00\",\n    \"existing\": 6,\n    \"candidates\": 6,\n    \"added\": 0,\n    \"stored\": 6,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_canonical_jsx ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-08 01:41 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | prices as-of build, not live (say `refresh`)\n\n== build_canonical_jsx_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 5,\n  \"research_actions\": 0,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_canonical_jsx\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_canonical_jsx_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-08T05:41:07.375505+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-07 \\u00b7 uw_price 06-08 \\u00b7 uw_macro 06-08 \\u00b7 fundstrat_bible 05-28 \\u00b7 fundstrat_daily 06-05 \\u26a0\\ufe0f\",\n      \"lanes_with_data\": 12,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 5,\n      \"top\": [\n        {\n          \"ticker\": \"NVDA\",\n          \"kind\": \"conviction_gap\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Conviction gap: NVDA is under target\"\n        },\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"ANET\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"GOOGL\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"MAGS\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"canonical_jsx\",\n      \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:08.903158Z",
-      "summary": "investing-os-post-close-refresh manual run started"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:11.274327Z",
-      "summary": "post-close manual run refreshed dashboard artifacts",
-      "details": {
-        "steps": [
-          {
-            "label": "post-close dashboard refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_dashboard_refresh.py"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 6,\n  \"drafted\": 6,\n  \"existing\": 6,\n  \"stored\": 6,\n  \"tickers\": [\n    \"QQQ\",\n    \"RSP\",\n    \"RYF\",\n    \"SOX\",\n    \"TNX\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-08T05:41:09.429259+00:00\",\n    \"existing\": 6,\n    \"candidates\": 6,\n    \"added\": 0,\n    \"stored\": 6,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_canonical_jsx ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-08 01:41 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | prices as-of build, not live (say `refresh`)\n\n== build_canonical_jsx_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 5,\n  \"research_actions\": 0,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_canonical_jsx\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_canonical_jsx_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-08T05:41:09.771615+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-07 \\u00b7 uw_price 06-08 \\u00b7 uw_macro 06-08 \\u00b7 fundstrat_bible 05-28 \\u00b7 fundstrat_daily 06-05 \\u26a0\\ufe0f\",\n      \"lanes_with_data\": 12,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 5,\n      \"top\": [\n        {\n          \"ticker\": \"NVDA\",\n          \"kind\": \"conviction_gap\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Conviction gap: NVDA is under target\"\n        },\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"ANET\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"GOOGL\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"MAGS\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"canonical_jsx\",\n      \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:11.285628Z",
-      "summary": "investing-os-off-hours-worker manual run started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:11.362468Z",
-      "summary": "off-hours worker manual run checked research queue cache only",
-      "details": {
-        "steps": [
-          {
-            "label": "research queue validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/research_queue_intake.py",
-              "--validate",
-              "src/research_queue.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:11.374430Z",
-      "summary": "investing-os-deep-synthesis manual run started"
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:11.525296Z",
-      "summary": "deep synthesis manual support run completed from repo evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "source call candidates merge",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/source_call_candidate_draft.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/source_call_candidates.json",
-              "--merge-existing",
-              "--merge-cache"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"out\": \"src/source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 6,\n  \"drafted\": 6,\n  \"existing\": 6,\n  \"stored\": 6,\n  \"tickers\": [\n    \"QQQ\",\n    \"RSP\",\n    \"RYF\",\n    \"SOX\",\n    \"TNX\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-08T05:41:11.504484+00:00\",\n    \"existing\": 6,\n    \"candidates\": 6,\n    \"added\": 0,\n    \"stored\": 6,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\"\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:11.536157Z",
-      "summary": "investing-os-weekly-pilot-run manual run started"
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:11.824992Z",
-      "summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "heartbeat status write",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--src-dir",
-              "src",
-              "--out",
-              "src/heartbeat.json",
-              "--summary",
-              "src/heartbeat_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src/heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          },
-          {
-            "label": "heartbeat validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--validate",
-              "src/heartbeat.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:43.296454Z",
-      "summary": "investing-os-pre-market-source-intake manual run started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:43.530113Z",
-      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "event risk validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/event_risk_intake.py",
-              "--validate",
-              "src/event_risks.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 3\n}",
-            "stderr": ""
-          },
-          {
-            "label": "catalyst cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 8,
-              "valid_rows": 8,
-              "problem": ""
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:43.542924Z",
-      "summary": "investing-os-fundstrat-pre-market-safety-sweep manual run started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:43.901956Z",
-      "summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: quiet - no new time-sensitive/action-changing Fundstrat item.\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 6, 'alert_candidates': 0, 'duplicates': 0, 'suppressed': 6}\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:43.912885Z",
-      "summary": "investing-os-morning-scan manual run started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:44.052538Z",
-      "summary": "morning scan manual run completed; Signal Log remains watch-only",
-      "details": {
-        "steps": [
-          {
-            "label": "signal log validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/signal_log_intake.py",
-              "--validate",
-              "src/signal_log.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 11\n}",
-            "stderr": ""
-          },
-          {
-            "label": "macro cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/macro_pulse_scan.py",
-              "--validate",
-              "src/macro_state.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:44.064388Z",
-      "summary": "investing-os-early-cockpit-build manual run started"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:46.578509Z",
-      "summary": "early cockpit build manual run refreshed dashboard artifacts",
-      "details": {
-        "steps": [
-          {
-            "label": "early live dashboard refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_dashboard_refresh.py"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 6,\n  \"drafted\": 6,\n  \"existing\": 6,\n  \"stored\": 6,\n  \"tickers\": [\n    \"QQQ\",\n    \"RSP\",\n    \"RYF\",\n    \"SOX\",\n    \"TNX\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-08T05:41:44.599547+00:00\",\n    \"existing\": 6,\n    \"candidates\": 6,\n    \"added\": 0,\n    \"stored\": 6,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_canonical_jsx ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-08 01:41 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | prices as-of build, not live (say `refresh`)\n\n== build_canonical_jsx_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 5,\n  \"research_actions\": 0,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_canonical_jsx\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_canonical_jsx_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-08T05:41:44.957464+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-07 \\u00b7 uw_price 06-08 \\u00b7 uw_macro 06-08 \\u00b7 fundstrat_bible 05-28 \\u00b7 fundstrat_daily 06-05 \\u26a0\\ufe0f\",\n      \"lanes_with_data\": 12,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 5,\n      \"top\": [\n        {\n          \"ticker\": \"NVDA\",\n          \"kind\": \"conviction_gap\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Conviction gap: NVDA is under target\"\n        },\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"ANET\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"GOOGL\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"MAGS\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"canonical_jsx\",\n      \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:46.591061Z",
-      "summary": "investing-os-daily-synthesis manual run started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:46.752664Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:46.765198Z",
-      "summary": "investing-os-fundstrat-daytime-watch manual run started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:47.125060Z",
-      "summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: quiet - no new time-sensitive/action-changing Fundstrat item.\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 6, 'alert_candidates': 0, 'duplicates': 0, 'suppressed': 6}\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:47.137022Z",
-      "summary": "investing-os-uw-opportunity-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:47.370627Z",
-      "summary": "UW opportunity cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "uw opportunity self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "uw_opportunity_scan self-test: PASS",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 40
-            }
-          },
-          {
-            "label": "live source config validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_source_config_update.py",
-              "--validate",
-              "src/live_source_config.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity existing bundle score",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--from-bundle",
-              "tmp/uw/opportunity_bundle.json",
-              "--emit",
-              "src/uw_opportunity_signals.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "",
-            "stderr": "Emitted 40 signal(s) -> src/uw_opportunity_signals.json"
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:47.383191Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:47.908283Z",
-      "summary": "parabolic cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "parabolic self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "parabolic_setup_screener self-test\n- golden-master: known fixtures -> known tiers\n  [PASS] AUTOFIRE fixture score == 10.5 (got 10.5)\n  [PASS] AUTOFIRE fixture tier (got AUTOFIRE)\n  [PASS] WATCHLIST fixture score == 7.0 (got 7.0)\n  [PASS] WATCHLIST fixture tier (got WATCHLIST)\n  [PASS] SKIP fixture score == 0.0 (got 0.0)\n  [PASS] SKIP fixture tier (got SKIP)\n- contract: ScreenResult.to_dict() shape\n  [PASS] to_dict has 'ticker'\n  [PASS] to_dict has 'score'\n  [PASS] to_dict has 'surface_tier'\n  [PASS] to_dict has 'phase'\n  [PASS] to_dict has 'features'\n  [PASS] to_dict has 'weighted_total'\n  [PASS] to_dict has 'notes'\n  [PASS] to_dict features expanded with revenue_accel\n- producer: bundle -> results -> emit payload\n  [PASS] screen_from_bundle returns 3 (got 3)\n  [PASS] emit as_of preserved\n  [PASS] emit payload has required keys\n  [PASS] emit counts (got {'AUTOFIRE': 1, 'WATCHLIST': 1, 'SKIP': 1})\n  [PASS] emit has 3 results\n- producer: CANDIDATE_PROFILES fallback when bundle omits profile\n  [PASS] VIAV uses CANDIDATE_PROFILES (industry_conc == 1.0)\n- UW adapter: raw UW field names -> canonical (live-confirmed shapes)\n  [PASS] income total_revenue -> revenue\n  [PASS] earnings drops null reported_eps (unreported quarter)\n  [PASS] info pulls top-level price\n  [PASS] bundle_entry_from_uw produces a canonical entry\n  [PASS] prices 'c' -> 'close' (+ unwraps {data:[...]})\n\nALL PASS",
-            "stderr": ""
-          },
-          {
-            "label": "parabolic cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 16
-            }
-          },
-          {
-            "label": "parabolic existing bundle score",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--from-bundle",
-              "tmp/uw/parabolic_bundle.json",
-              "--emit",
-              "src/parabolic_setups.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER \u2014 2026-06-08 05:41 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 2 (recognition)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1/2 (transition)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1 (early)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 1/2 (transition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 2 (recognition)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
-            "stderr": "Emitted 16 results -> src/parabolic_setups.json (AUTOFIRE 0, WATCHLIST 4, SKIP 12)"
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:47.920073Z",
-      "summary": "investing-os-full-cockpit-build manual run started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:50.337400Z",
-      "summary": "full cockpit build manual run refreshed dashboard artifacts",
-      "details": {
-        "steps": [
-          {
-            "label": "live dashboard refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_dashboard_refresh.py"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 6,\n  \"drafted\": 6,\n  \"existing\": 6,\n  \"stored\": 6,\n  \"tickers\": [\n    \"QQQ\",\n    \"RSP\",\n    \"RYF\",\n    \"SOX\",\n    \"TNX\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-08T05:41:48.447376+00:00\",\n    \"existing\": 6,\n    \"candidates\": 6,\n    \"added\": 0,\n    \"stored\": 6,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_canonical_jsx ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-08 01:41 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | prices as-of build, not live (say `refresh`)\n\n== build_canonical_jsx_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 5,\n  \"research_actions\": 0,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_canonical_jsx\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_canonical_jsx_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-08T05:41:48.787122+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-07 \\u00b7 uw_price 06-08 \\u00b7 uw_macro 06-08 \\u00b7 fundstrat_bible 05-28 \\u00b7 fundstrat_daily 06-05 \\u26a0\\ufe0f\",\n      \"lanes_with_data\": 12,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 5,\n      \"top\": [\n        {\n          \"ticker\": \"NVDA\",\n          \"kind\": \"conviction_gap\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Conviction gap: NVDA is under target\"\n        },\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"ANET\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"GOOGL\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"MAGS\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"canonical_jsx\",\n      \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:50.350214Z",
-      "summary": "investing-os-post-close-refresh manual run started"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:52.725694Z",
-      "summary": "post-close manual run refreshed dashboard artifacts",
-      "details": {
-        "steps": [
-          {
-            "label": "post-close dashboard refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_dashboard_refresh.py"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 6,\n  \"drafted\": 6,\n  \"existing\": 6,\n  \"stored\": 6,\n  \"tickers\": [\n    \"QQQ\",\n    \"RSP\",\n    \"RYF\",\n    \"SOX\",\n    \"TNX\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-08T05:41:50.877156+00:00\",\n    \"existing\": 6,\n    \"candidates\": 6,\n    \"added\": 0,\n    \"stored\": 6,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-08\",\n    \"open_count\": 2,\n    \"history_count\": 2,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_canonical_jsx ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-08 01:41 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | prices as-of build, not live (say `refresh`)\n\n== build_canonical_jsx_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 5,\n  \"research_actions\": 0,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_canonical_jsx\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_canonical_jsx_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-08T05:41:51.212082+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-07 \\u00b7 uw_price 06-08 \\u00b7 uw_macro 06-08 \\u00b7 fundstrat_bible 05-28 \\u00b7 fundstrat_daily 06-05 \\u26a0\\ufe0f\",\n      \"lanes_with_data\": 12,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 5,\n      \"top\": [\n        {\n          \"ticker\": \"NVDA\",\n          \"kind\": \"conviction_gap\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Conviction gap: NVDA is under target\"\n        },\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"ANET\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"GOOGL\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"MAGS\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"canonical_jsx\",\n      \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:52.737930Z",
-      "summary": "investing-os-fundstrat-after-hours-catch-up manual run started"
-    },
     {
       "routine_id": "investing-os-fundstrat-after-hours-catch-up",
       "status": "success",
@@ -3503,6 +2662,812 @@
         ],
         "corrects_later_manual_started_receipt": true,
         "corrected_manual_started_at": "2026-06-15T13:08:56.841680Z"
+      }
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:09:46.030742Z",
+      "summary": "broker position intake manual run refreshed SnapTrade book only after strict validation",
+      "details": {
+        "steps": [
+          {
+            "label": "snaptrade book refresh",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/snaptrade_book_refresh.py",
+              "--refresh-dashboard"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-15\",\n    \"open_count\": 0,\n    \"history_count\": 6,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 18,\n  \"drafted\": 18,\n  \"existing\": 28,\n  \"stored\": 28,\n  \"tickers\": [\n    \"BTC\",\n    \"CL\",\n    \"EWRE\",\n    \"EWY\",\n    \"GOLD\",\n    \"GOOGL\",\n    \"MSTR\",\n    \"QQQ\",\n    \"RSP\",\n    \"RSPT\",\n    \"RYF\",\n    \"SOX\",\n    \"SPCX\",\n    \"SPX\",\n    \"SPY\",\n    \"TNX\",\n    \"XHS\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-15T13:09:41.099810+00:00\",\n    \"existing\": 28,\n    \"candidates\": 28,\n    \"added\": 0,\n    \"stored\": 28,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\",\n      \"2026-06-08\",\n      \"2026-06-09\",\n      \"2026-06-10\",\n      \"2026-06-11\",\n      \"2026-06-12\",\n      \"2026-06-14\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-15\",\n    \"open_count\": 0,\n    \"history_count\": 6,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_jsx_validation_surface ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-15 09:09 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | heartbeat DOWN: Cloud Routine Receipts | prices as-of build, not live (say `refresh`)\n\n== build_jsx_validation_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 4,\n  \"research_actions\": 1,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_jsx_validation_surface\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_jsx_validation_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-15T13:09:42.197582+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-15 \\u00b7 uw_price 06-15 \\u00b7 uw_macro 06-15 \\u00b7 fundstrat_bible 06-11 \\u00b7 fundstrat_daily 06-14\",\n      \"lanes_with_data\": 13,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 4,\n      \"top\": [\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"MAGS\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"RYF\",\n          \"kind\": \"sell_fast\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Avoid-new-exposure watch\"\n        },\n        {\n          \"ticker\": \"XOP\",\n          \"kind\": \"sell_fast\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Avoid-new-exposure watch\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"html_dashboard\",\n      \"url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"jsx_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"jsx_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"jsx_preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}\n{\n  \"valid\": true,\n  \"promoted\": true,\n  \"profiles\": 1,\n  \"accounts\": 11,\n  \"raw_positions\": 275,\n  \"snapshot_date\": \"2026-06-15\",\n  \"prior_snapshot_date\": \"2026-06-15\",\n  \"sleeve_value\": 1887067,\n  \"thesis_positions\": 13,\n  \"account_rows\": 275,\n  \"position_diff_counts\": {\n    \"VALUE_CHANGE\": 23\n  },\n  \"share_change_count\": 0,\n  \"warnings\": [\n    \"PCRA Trust ...651 PCRA Trust ...651: stated-balance mismatch positions only $386,303.32 vs broker stated $376,968.60 (delta +9,334.72, tolerance $1,884.84)\",\n    \"Individual ...254 Individual ...254: stated-balance mismatch positions only $139,750.87 vs broker stated $135,850.49 (delta +3,900.38, tolerance $679.25)\",\n    \"Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,346.26 vs broker stated $1,204.47 (delta +141.79, tolerance $6.02)\"\n  ],\n  \"stated_balance_findings\": [\n    {\n      \"account\": \"PCRA Trust ...651 PCRA Trust ...651\",\n      \"source_file\": \"snaptrade://Parents/Schwab/974bb4da-e7a5-4a1f-a971-c79c8d5ad65a\",\n      \"computed_total\": 386303.32,\n      \"reported_total\": 376968.6,\n      \"delta\": 9334.72,\n      \"tolerance\": 1884.84,\n      \"computed_total_basis\": \"positions only\",\n      \"line\": \"PCRA Trust ...651 PCRA Trust ...651: stated-balance mismatch positions only $386,303.32 vs broker stated $376,968.60 (delta +9,334.72, tolerance $1,884.84)\",\n      \"missing_tickers\": [],\n      \"new_tickers\": []\n    },\n    {\n      \"account\": \"Individual ...254 Individual ...254\",\n      \"source_file\": \"snaptrade://SKB/Schwab/4ef4b4cd-e662-4055-a458-71106cd5046e\",\n      \"computed_total\": 139750.87,\n      \"reported_total\": 135850.49,\n      \"delta\": 3900.38,\n      \"tolerance\": 679.25,\n      \"computed_total_basis\": \"positions only\",\n      \"line\": \"Individual ...254 Individual ...254: stated-balance mismatch positions only $139,750.87 vs broker stated $135,850.49 (delta +3,900.38, tolerance $679.25)\",\n      \"missing_tickers\": [],\n      \"new_tickers\": []\n    },\n    {\n      \"account\": \"Robinhood Crypto 8794\",\n      \"source_file\": \"snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e\",\n      \"computed_total\": 1346.26,\n      \"reported_total\": 1204.47,\n      \"delta\": 141.79,\n      \"tolerance\": 6.02,\n      \"computed_total_basis\": \"non-cash positions + cash\",\n      \"line\": \"Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,346.26 vs broker stated $1,204.47 (delta +141.79, tolerance $6.02)\",\n      \"missing_tickers\": [],\n      \"new_tickers\": []\n    }\n  ],\n  \"written\": {\n    \"raw\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_raw.json\",\n    \"combined\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_combined.json\",\n    \"staged_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_positions.staged.json\",\n    \"staged_account_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_account_positions.staged.json\",\n    \"staged_position_reconciliation\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_position_reconciliation.staged.json\",\n    \"positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\positions.json\",\n    \"account_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\account_positions.json\",\n    \"position_reconciliation\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\position_reconciliation.json\"\n  },\n  \"dashboard_refresh_returncode\": 0\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:01.215315Z",
+      "summary": "investing-os-fundstrat-pre-market-safety-sweep manual run started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:01.653270Z",
+      "summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
+      "details": {
+        "steps": [
+          {
+            "label": "fundstrat cache validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/fundstrat_email_intake.py",
+              "--validate",
+              "src"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
+            "stderr": ""
+          },
+          {
+            "label": "fundstrat alert dry-run",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/fundstrat_daytime_alert.py",
+              "--dry-run",
+              "--format",
+              "text"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "Fundstrat daytime watch: quiet - no new time-sensitive/action-changing Fundstrat item.\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 28, 'alert_candidates': 0, 'duplicates': 0, 'suppressed': 28}\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert\n- quiet GOLD: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert",
+            "stderr": ""
+          },
+          {
+            "label": "pushover config self-test",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/pushover_notify.py",
+              "--self-test",
+              "--dry-run",
+              "--format",
+              "text"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:01.664426Z",
+      "summary": "investing-os-pre-market-source-intake manual run started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:01.923453Z",
+      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
+      "details": {
+        "steps": [
+          {
+            "label": "fundstrat cache validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/fundstrat_email_intake.py",
+              "--validate",
+              "src"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
+            "stderr": ""
+          },
+          {
+            "label": "event risk validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/event_risk_intake.py",
+              "--validate",
+              "src/event_risks.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 3\n}",
+            "stderr": ""
+          },
+          {
+            "label": "catalyst cache validate",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true,
+              "rows": 12,
+              "valid_rows": 12,
+              "problem": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:01.937679Z",
+      "summary": "investing-os-fs-inbox-catch-up-preopen manual run started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:01.950391Z",
+      "summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
+      "details": {
+        "steps": [
+          {
+            "label": "FS inbox catch-up prompt present",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:01.963506Z",
+      "summary": "investing-os-morning-scan manual run started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:02.124206Z",
+      "summary": "morning scan manual run completed; Signal Log remains watch-only",
+      "details": {
+        "steps": [
+          {
+            "label": "signal log validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/signal_log_intake.py",
+              "--validate",
+              "src/signal_log.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 30\n}",
+            "stderr": ""
+          },
+          {
+            "label": "macro cache validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/macro_pulse_scan.py",
+              "--validate",
+              "src/macro_state.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:02.135196Z",
+      "summary": "investing-os-early-cockpit-build manual run started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:09.543680Z",
+      "summary": "early cockpit build manual run refreshed dashboard artifacts",
+      "details": {
+        "steps": [
+          {
+            "label": "early live dashboard refresh",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/live_dashboard_refresh.py"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-15\",\n    \"open_count\": 0,\n    \"history_count\": 6,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 18,\n  \"drafted\": 18,\n  \"existing\": 28,\n  \"stored\": 28,\n  \"tickers\": [\n    \"BTC\",\n    \"CL\",\n    \"EWRE\",\n    \"EWY\",\n    \"GOLD\",\n    \"GOOGL\",\n    \"MSTR\",\n    \"QQQ\",\n    \"RSP\",\n    \"RSPT\",\n    \"RYF\",\n    \"SOX\",\n    \"SPCX\",\n    \"SPX\",\n    \"SPY\",\n    \"TNX\",\n    \"XHS\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-15T13:10:04.182882+00:00\",\n    \"existing\": 28,\n    \"candidates\": 28,\n    \"added\": 0,\n    \"stored\": 28,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\",\n      \"2026-06-08\",\n      \"2026-06-09\",\n      \"2026-06-10\",\n      \"2026-06-11\",\n      \"2026-06-12\",\n      \"2026-06-14\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-15\",\n    \"open_count\": 0,\n    \"history_count\": 6,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_jsx_validation_surface ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-15 09:10 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | heartbeat DOWN: Cloud Routine Receipts | prices as-of build, not live (say `refresh`)\n\n== build_jsx_validation_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 4,\n  \"research_actions\": 1,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_jsx_validation_surface\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_jsx_validation_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-15T13:10:05.366484+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-15 \\u00b7 uw_price 06-15 \\u00b7 uw_macro 06-15 \\u00b7 fundstrat_bible 06-11 \\u00b7 fundstrat_daily 06-14\",\n      \"lanes_with_data\": 13,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 4,\n      \"top\": [\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"MAGS\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"RYF\",\n          \"kind\": \"sell_fast\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Avoid-new-exposure watch\"\n        },\n        {\n          \"ticker\": \"XOP\",\n          \"kind\": \"sell_fast\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Avoid-new-exposure watch\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"html_dashboard\",\n      \"url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"jsx_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"jsx_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"jsx_preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:09.556986Z",
+      "summary": "investing-os-daily-synthesis manual run started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:09.757197Z",
+      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
+      "details": {
+        "steps": [
+          {
+            "label": "daily synthesis from feed",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/daily_synthesis_from_feed.py",
+              "--feed",
+              "src/latest_cockpit_feed.json",
+              "--out",
+              "src/daily_synthesis.json",
+              "--summary",
+              "src/daily_synthesis_intake_summary.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}",
+            "stderr": ""
+          },
+          {
+            "label": "daily synthesis validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/daily_synthesis_intake.py",
+              "--validate",
+              "src/daily_synthesis.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:09.772623Z",
+      "summary": "investing-os-uw-opportunity-cache manual run started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:09.953385Z",
+      "summary": "UW opportunity cache manual run completed",
+      "details": {
+        "steps": [
+          {
+            "label": "uw opportunity self-test",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/uw_opportunity_scan.py",
+              "--self-test"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "uw_opportunity_scan self-test: PASS",
+            "stderr": ""
+          },
+          {
+            "label": "uw opportunity cache validate",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true,
+              "rows": 38
+            }
+          },
+          {
+            "label": "live source config validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/live_source_config_update.py",
+              "--validate",
+              "src/live_source_config.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
+            "stderr": ""
+          },
+          {
+            "label": "uw opportunity bundle skipped",
+            "returncode": 0,
+            "optional": true,
+            "check": {
+              "valid": true,
+              "skipped": true,
+              "reason": "tmp/uw/opportunity_bundle.json missing or empty"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:09.966798Z",
+      "summary": "investing-os-parabolic-cache manual run started"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:10.271622Z",
+      "summary": "parabolic cache manual run completed",
+      "details": {
+        "steps": [
+          {
+            "label": "parabolic self-test",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/parabolic_setup_screener.py",
+              "--self-test"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "parabolic_setup_screener self-test\n- golden-master: known fixtures -> known tiers\n  [PASS] AUTOFIRE fixture score == 10.5 (got 10.5)\n  [PASS] AUTOFIRE fixture tier (got AUTOFIRE)\n  [PASS] WATCHLIST fixture score == 7.0 (got 7.0)\n  [PASS] WATCHLIST fixture tier (got WATCHLIST)\n  [PASS] SKIP fixture score == 0.0 (got 0.0)\n  [PASS] SKIP fixture tier (got SKIP)\n- contract: ScreenResult.to_dict() shape\n  [PASS] to_dict has 'ticker'\n  [PASS] to_dict has 'score'\n  [PASS] to_dict has 'surface_tier'\n  [PASS] to_dict has 'phase'\n  [PASS] to_dict has 'features'\n  [PASS] to_dict has 'weighted_total'\n  [PASS] to_dict has 'notes'\n  [PASS] to_dict features expanded with revenue_accel\n- producer: bundle -> results -> emit payload\n  [PASS] screen_from_bundle returns 3 (got 3)\n  [PASS] emit as_of preserved\n  [PASS] emit payload has required keys\n  [PASS] emit counts (got {'AUTOFIRE': 1, 'WATCHLIST': 1, 'SKIP': 1})\n  [PASS] emit has 3 results\n- producer: CANDIDATE_PROFILES fallback when bundle omits profile\n  [PASS] VIAV uses CANDIDATE_PROFILES (industry_conc == 1.0)\n- UW adapter: raw UW field names -> canonical (live-confirmed shapes)\n  [PASS] income total_revenue -> revenue\n  [PASS] earnings drops null reported_eps (unreported quarter)\n  [PASS] info pulls top-level price\n  [PASS] bundle_entry_from_uw produces a canonical entry\n  [PASS] prices 'c' -> 'close' (+ unwraps {data:[...]})\n\nALL PASS",
+            "stderr": ""
+          },
+          {
+            "label": "parabolic cache validate",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true,
+              "rows": 16
+            }
+          },
+          {
+            "label": "parabolic bundle skipped",
+            "returncode": 0,
+            "optional": true,
+            "check": {
+              "valid": true,
+              "skipped": true,
+              "reason": "tmp/uw/parabolic_bundle.json missing or empty"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:10.287526Z",
+      "summary": "investing-os-full-cockpit-build manual run started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:17.839859Z",
+      "summary": "full cockpit build manual run refreshed dashboard artifacts",
+      "details": {
+        "steps": [
+          {
+            "label": "live dashboard refresh",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/live_dashboard_refresh.py"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-15\",\n    \"open_count\": 0,\n    \"history_count\": 6,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 18,\n  \"drafted\": 18,\n  \"existing\": 28,\n  \"stored\": 28,\n  \"tickers\": [\n    \"BTC\",\n    \"CL\",\n    \"EWRE\",\n    \"EWY\",\n    \"GOLD\",\n    \"GOOGL\",\n    \"MSTR\",\n    \"QQQ\",\n    \"RSP\",\n    \"RSPT\",\n    \"RYF\",\n    \"SOX\",\n    \"SPCX\",\n    \"SPX\",\n    \"SPY\",\n    \"TNX\",\n    \"XHS\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-15T13:10:12.367884+00:00\",\n    \"existing\": 28,\n    \"candidates\": 28,\n    \"added\": 0,\n    \"stored\": 28,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\",\n      \"2026-06-08\",\n      \"2026-06-09\",\n      \"2026-06-10\",\n      \"2026-06-11\",\n      \"2026-06-12\",\n      \"2026-06-14\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-15\",\n    \"open_count\": 0,\n    \"history_count\": 6,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_jsx_validation_surface ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-15 09:10 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | heartbeat DOWN: Cloud Routine Receipts | prices as-of build, not live (say `refresh`)\n\n== build_jsx_validation_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 4,\n  \"research_actions\": 1,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_jsx_validation_surface\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_jsx_validation_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-15T13:10:13.506074+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-15 \\u00b7 uw_price 06-15 \\u00b7 uw_macro 06-15 \\u00b7 fundstrat_bible 06-11 \\u00b7 fundstrat_daily 06-14\",\n      \"lanes_with_data\": 13,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 4,\n      \"top\": [\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"MAGS\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"RYF\",\n          \"kind\": \"sell_fast\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Avoid-new-exposure watch\"\n        },\n        {\n          \"ticker\": \"XOP\",\n          \"kind\": \"sell_fast\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Avoid-new-exposure watch\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"html_dashboard\",\n      \"url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"jsx_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"jsx_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"jsx_preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:17.856132Z",
+      "summary": "investing-os-off-hours-research-queue manual run started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:17.947815Z",
+      "summary": "off-hours research queue manual support checked routine wiring and research queue cache",
+      "details": {
+        "steps": [
+          {
+            "label": "off-hours research docs present",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true
+            }
+          },
+          {
+            "label": "research queue validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/research_queue_intake.py",
+              "--validate",
+              "src/research_queue.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:17.960009Z",
+      "summary": "investing-os-top-prospects-auto-research manual run started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.127860Z",
+      "summary": "top prospects auto-research manual support run validated the bridge without queue writes",
+      "details": {
+        "steps": [
+          {
+            "label": "top prospects auto-research self-test",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/prospect_autoresearch.py",
+              "--self-test"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "19/19 assertions passed.",
+            "stderr": ""
+          },
+          {
+            "label": "top prospects auto-research dry-run",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/prospect_autoresearch.py",
+              "--dry-run",
+              "--min-conviction",
+              "BUILDING",
+              "--max-items",
+              "8"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"dry_run\": true,\n  \"selected\": 8,\n  \"rows\": [\n    {\n      \"ticker\": \"GOOGL\",\n      \"direction\": \"long\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"BUILDING\",\n      \"conviction_score\": 13.5,\n      \"urgency_score\": 8.1,\n      \"priority\": \"Med\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"UUUU\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"TPL\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"SOFI\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"SATS\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"PKG\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"KTOS\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"HOOD\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    }\n  ]\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.140008Z",
+      "summary": "investing-os-fs-inbox-catch-up-evening manual run started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.152183Z",
+      "summary": "FS inbox catch-up evening manual support checked prompt wiring only",
+      "details": {
+        "steps": [
+          {
+            "label": "FS inbox catch-up prompt present",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.167379Z",
+      "summary": "investing-os-off-hours-alt-data-scout manual run started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.260499Z",
+      "summary": "off-hours alt-data scout manual support checked policy/runbook wiring",
+      "details": {
+        "steps": [
+          {
+            "label": "off-hours alt-data docs present",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true
+            }
+          },
+          {
+            "label": "uw action runbook",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/uw_action_runbook.py",
+              "--feed",
+              "src/latest_cockpit_feed.json",
+              "--format",
+              "text"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "UW action runbook: 4 check set(s), 23 scoped ticker(s); endpoint results not claimed.\nhonesty: Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.\n\n1. Pre-market crash triage (pre_market_crash_triage)\n   why: High-volatility or re-check posture needs broad tape triage before single-name action.\n   question: Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?\n   freshness: Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.\n   tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, NVDA\n   market checks: MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, MARKET_MOVERS, MARKET_CORRELATIONS, ETF_TIDE, SECTOR_TIDE\n   ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, TICKER_OPTIONS_VOLUME, DARKPOOL_TICKER, TICKER_OI_CHANGE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, TICKER_VOL_TERM_STRUCTURE, TICKER_REALIZED_VOL, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_TECHNICAL_INDICATOR\n   blocks action if: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open\n   promote when: broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage\n   downgrade when: the shock stabilizes, pre-market pressure fades, or current flow contradicts crash-triage urgency\n\n2. Event-risk and political macro (event_risk_political_macro)\n   why: Active event-risk lane can overpower normal thesis and flow signals.\n   question: Is the external shock changing new-buy timing, hedges, or position sizing?\n   freshness: Intraday to one trading day; stale event evidence must force re-check before acting.\n   tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, NVDA\n   market checks: MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, ECONOMIC_CALENDAR, NEWS_HEADLINES, SECTOR_TIDE, ETF_TIDE, MARKET_CORRELATIONS\n   ticker checks: CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES\n   blocks action if: same-session headlines, rates/oil levels, or sector tape are missing or contradictory\n   promote when: macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing\n   downgrade when: the shock is stale, headlines reverse, or affected sectors stabilize against the warning\n\n4. Fundstrat signal confirmation (fundstrat_signal_confirmation)\n   why: Fundstrat-derived calls should be checked against live market structure before action.\n   question: Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?\n   freshness: Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.\n   tickers: SPCX, EWRE, SPX, BTC, CL, MAGS, RYF, XOP\n   ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO\n   blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing\n   promote when: Fundstrat call and live market structure point in the same direction\n   downgrade when: price/flow contradicts the call or the call was already absorbed by the tape\n\n5. Asymmetric discovery (asymmetric_discovery)\n   why: Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.\n   question: What deserves scarce review time because the upside/downside skew may be unusually large?\n   freshness: Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.\n   tickers: RYF, XOP, GOOGL, AVGO, MAGS, MSFT, AMZN, BMNR\n   market checks: FLOW_ALERTS, TOP_NET_IMPACT, DARKPOOL_RECENT, LIT_FLOW_RECENT, MARKET_MOVERS, OPTION_CONTRACT_SCREENER, STOCK_SCREENER\n   ticker checks: ANALYST_RATINGS, INSIDER_TRANSACTIONS, CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES, TICKER_FLOW_PER_EXPIRY, TICKER_FLOW_PER_STRIKE, TICKER_GREEK_FLOW, TICKER_VOL_TERM_STRUCTURE, TICKER_INFO\n   blocks action if: the setup is only flow/social/context without independent confirmation\n   promote when: fresh flow plus thesis, sponsor, price, or news evidence creates review-worthy skew\n   downgrade when: the anomaly is late, promotional, or unsupported by follow-up endpoints",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.275799Z",
+      "summary": "investing-os-off-hours-worker manual run started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.373713Z",
+      "summary": "off-hours worker manual run checked research queue cache only",
+      "details": {
+        "steps": [
+          {
+            "label": "research queue validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/research_queue_intake.py",
+              "--validate",
+              "src/research_queue.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.388312Z",
+      "summary": "investing-os-off-hours-queue-buffer manual run started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.479869Z",
+      "summary": "off-hours queue buffer manual support checked queue-buffer wiring and research queue cache",
+      "details": {
+        "steps": [
+          {
+            "label": "off-hours queue buffer docs present",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true
+            }
+          },
+          {
+            "label": "research queue validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/research_queue_intake.py",
+              "--validate",
+              "src/research_queue.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.493302Z",
+      "summary": "investing-os-deep-synthesis manual run started"
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.667704Z",
+      "summary": "deep synthesis manual support run completed from repo evidence",
+      "details": {
+        "steps": [
+          {
+            "label": "daily synthesis validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/daily_synthesis_intake.py",
+              "--validate",
+              "src/daily_synthesis.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
+            "stderr": ""
+          },
+          {
+            "label": "source call candidates merge",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/source_call_candidate_draft.py",
+              "--feed",
+              "src/latest_cockpit_feed.json",
+              "--out",
+              "src/source_call_candidates.json",
+              "--merge-existing",
+              "--merge-cache"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"out\": \"src/source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 18,\n  \"drafted\": 18,\n  \"existing\": 28,\n  \"stored\": 28,\n  \"tickers\": [\n    \"BTC\",\n    \"CL\",\n    \"EWRE\",\n    \"EWY\",\n    \"GOLD\",\n    \"GOOGL\",\n    \"MSTR\",\n    \"QQQ\",\n    \"RSP\",\n    \"RSPT\",\n    \"RYF\",\n    \"SOX\",\n    \"SPCX\",\n    \"SPX\",\n    \"SPY\",\n    \"TNX\",\n    \"XHS\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-15T13:10:18.650139+00:00\",\n    \"existing\": 28,\n    \"candidates\": 28,\n    \"added\": 0,\n    \"stored\": 28,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\",\n      \"2026-06-08\",\n      \"2026-06-09\",\n      \"2026-06-10\",\n      \"2026-06-11\",\n      \"2026-06-12\",\n      \"2026-06-14\"\n    ]\n  }\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-weekly-pilot-run",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:18.678451Z",
+      "summary": "investing-os-weekly-pilot-run manual run started"
+    },
+    {
+      "routine_id": "investing-os-weekly-pilot-run",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-15T13:10:19.692775Z",
+      "summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
+      "details": {
+        "steps": [
+          {
+            "label": "heartbeat status write",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/heartbeat_status.py",
+              "--src-dir",
+              "src",
+              "--out",
+              "src/heartbeat.json",
+              "--summary",
+              "src/heartbeat_summary.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src/heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
+            "stderr": ""
+          },
+          {
+            "label": "heartbeat validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/heartbeat_status.py",
+              "--validate",
+              "src/heartbeat.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
+            "stderr": ""
+          }
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T13:11:32.643028Z",
+      "summary": "broker position intake final main cache receipt; fresh 2026-06-15; T7 strict 8/11 with 3 warnings; June 12 diff restored",
+      "details": {
+        "profiles": 1,
+        "accounts": 11,
+        "raw_positions": 275,
+        "snapshot_date": "2026-06-15",
+        "positions_snapshot_date": "2026-06-15",
+        "prior_snapshot_date": "2026-06-12",
+        "tracked_positions": 13,
+        "sleeve_value": 1887067,
+        "position_diff_counts": {
+          "EXIT": 3,
+          "ADD": 4,
+          "TRIM": 2,
+          "VALUE_CHANGE": 142
+        },
+        "change_count": 151,
+        "share_change_count": 9,
+        "dashboard_refresh_returncode": 0,
+        "stated_balance_passed_count": 8,
+        "stated_balance_failed_count": 3,
+        "stated_balance_failed_accounts": [
+          "PCRA Trust ...651 PCRA Trust ...651",
+          "Individual ...254 Individual ...254",
+          "Robinhood Crypto 8794"
+        ],
+        "strict_t7_passed": false,
+        "independent_balance_spot_checks": {
+          "Joint WROS - TOD *****2063": 589110.73,
+          "ROLLOVER IRA - RamBalusu *****6333": 231724.56,
+          "ROTH IRA *****2650": 50950.4
+        },
+        "row_sum_spot_checks": {
+          "Joint WROS - TOD *****2063": 589865.66
+        },
+        "rotation_spot_checks": {
+          "NVDA": {
+            "shares": 1007.0,
+            "market_value": 206666.18
+          },
+          "SMH": {
+            "shares": 155.046,
+            "market_value": 98193.78
+          },
+          "MAGS": {
+            "shares": 6.0,
+            "market_value": 389.46
+          }
+        },
+        "warnings": [
+          "PCRA Trust ...651 PCRA Trust ...651: stated-balance mismatch positions only $386,303.32 vs broker stated $376,968.60 (delta +9,334.72, tolerance $1,884.84)",
+          "Individual ...254 Individual ...254: stated-balance mismatch positions only $139,750.87 vs broker stated $135,850.49 (delta +3,900.38, tolerance $679.25)",
+          "Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,346.26 vs broker stated $1,204.47 (delta +141.79, tolerance $6.02)"
+        ],
+        "corrects_later_manual_success_receipt": true,
+        "corrected_manual_success_at": "2026-06-15T13:09:46.030742Z"
       }
     }
   ]
