@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T14:34:54.587338Z",
+  "updated_at": "2026-06-15T14:48:12.736300Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T13:31:59.705807Z",
-      "summary": "daily synthesis started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T13:37:34.812147Z",
-      "summary": "repo synthesis refreshed; signal log 14 rows; RYF/XOP sell-fast reviews plus event-risk watch remain; Notion page written+verified; blocker row-query endpoint unavailable for decisions/trade outcomes/pilots"
-    },
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
@@ -3350,6 +3336,20 @@
           }
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T14:47:06.600575Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T14:48:12.736300Z",
+      "summary": "checked 2 Fundstrat FlashInsights pages; Gmail 0; rows landed 0; suppressed 0 discovery/low-value rows; validation passed; alert quiet with 0 candidates; macro and crypto FlashInsights stale/no new full-content evidence; blockers none"
     }
   ]
 }
