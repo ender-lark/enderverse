@@ -1,21 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T18:48:58.807492Z",
+  "updated_at": "2026-06-15T19:47:19.753271Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T15:45:59.974534Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T15:47:40.071094Z",
-      "summary": "checked 1 msg, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alert quiet, fundstrat lane unchanged, blockers none"
-    },
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
@@ -3343,6 +3329,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-15T18:48:58.807492Z",
       "summary": "checked 2 Fundstrat web pages and 2 Gmail snippets; read 0 full bodies; landed 0 rows; suppressed 2 discovery-only Gmail rows; validation passed; alert quiet; no fresh full-content evidence so lane remains stale/not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T19:46:01.066161Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T19:47:19.753271Z",
+      "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none"
     }
   ]
 }
