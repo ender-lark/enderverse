@@ -1,28 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T16:50:28.991889Z",
+  "updated_at": "2026-06-15T17:47:55.151606Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:32:26.320543Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:32:28.841249Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
@@ -3350,6 +3329,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-15T16:50:28.991889Z",
       "summary": "checked 2 web pages, 0 Gmail messages, landed 2 rows, suppressed 0 low-value/discovery rows, validation passed, alerts sent 2, dark lane social_watch, blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T17:46:12.474331Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T17:47:55.151606Z",
+      "summary": "checked 2 Fundstrat Chrome pages, 0 Gmail messages, landed 1 compact web row, suppressed 0 low-value/discovery-only rows, validation passed, daytime alert sent 1 CL alert, lanes dark social_watch only, blockers none"
     }
   ]
 }
