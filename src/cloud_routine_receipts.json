@@ -1,55 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T13:42:10.635920Z",
+  "updated_at": "2026-06-15T13:49:24.722118Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:53.618259Z",
-      "summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "heartbeat status write",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--src-dir",
-              "src",
-              "--out",
-              "src/heartbeat.json",
-              "--summary",
-              "src/heartbeat_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src/heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          },
-          {
-            "label": "heartbeat validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--validate",
-              "src/heartbeat.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T05:46:25.996347Z",
-      "summary": "off-hours worker started"
-    },
     {
       "routine_id": "investing-os-off-hours-worker",
       "status": "success",
@@ -3372,6 +3324,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-15T13:42:10.635920Z",
       "summary": "runbook 4 check sets/23 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing-failed; gates still blocked by SECTOR_TIDE unsupported path, MARKET_MOVERS 403 advanced_tier_required, TNX flow no rows; dashboard refresh skipped"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T13:47:36.737649Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-15T13:49:24.722118Z",
+      "summary": "checked 2 web pages, 1 Gmail message, landed 0 rows, suppressed 1 low-value, validation passed, alert quiet, FlashInsights stale, blockers none"
     }
   ]
 }
