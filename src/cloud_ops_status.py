@@ -270,6 +270,30 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
 ET = ZoneInfo("America/New_York")
 
 
+def _proof_scope(row: dict[str, Any]) -> str:
+    return cloud_routine_receipts.proof_scope(row)
+
+
+def _with_proof_scope(row: dict[str, Any]) -> dict[str, Any]:
+    return cloud_routine_receipts.with_proof_scope(row)
+
+
+def proof_required_automations(
+    expected_automations: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    """Return routines whose scheduled receipts gate unattended operator readiness."""
+    expected = expected_automations or DEFAULT_EXPECTED_AUTOMATIONS
+    return cloud_routine_receipts.proof_required_automations(expected)
+
+
+def support_automations(
+    expected_automations: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    """Return monitored routines that should stay visible but not block core proof."""
+    expected = expected_automations or DEFAULT_EXPECTED_AUTOMATIONS
+    return cloud_routine_receipts.support_automations(expected)
+
+
 def _automation_dirs(base: Path) -> list[Path]:
     if not base.exists():
         return []
@@ -774,6 +798,9 @@ def cloud_ops_status(
         automation_proof = src / DEFAULT_AUTOMATION_PROOF
     if receipt_proof is None:
         receipt_proof = src / DEFAULT_RECEIPT_PROOF
+    monitored_expected = [_with_proof_scope(row) for row in DEFAULT_EXPECTED_AUTOMATIONS]
+    proof_expected = proof_required_automations(monitored_expected)
+    support_expected = support_automations(monitored_expected)
     status = live_status_mod.live_status(src_dir=src)
     manifest = _manifest_summary(src)
     automation = _automation_summary(
@@ -781,13 +808,20 @@ def cloud_ops_status(
         automation_name=automation_name,
         automation_id=automation_id,
         automation_proof=automation_proof,
-        expected_automations=DEFAULT_EXPECTED_AUTOMATIONS,
+        expected_automations=monitored_expected,
     )
-    receipts = _receipt_summary(receipt_proof, DEFAULT_EXPECTED_AUTOMATIONS)
+    receipts = _receipt_summary(receipt_proof, proof_expected)
+    support_receipts = _receipt_summary(receipt_proof, support_expected)
     proof_meta = _proof_metadata(automation_proof)
     receipt_due = _receipt_due_summary(
         receipts,
-        DEFAULT_EXPECTED_AUTOMATIONS,
+        proof_expected,
+        activated_at=_parse_dt(proof_meta.get("verified_at")),
+        now=_parse_dt(now) if now is not None else None,
+    )
+    support_receipt_due = _receipt_due_summary(
+        support_receipts,
+        support_expected,
         activated_at=_parse_dt(proof_meta.get("verified_at")),
         now=_parse_dt(now) if now is not None else None,
     )
@@ -844,7 +878,16 @@ def cloud_ops_status(
         "routine_manifest": manifest,
         "cloud_automation": automation,
         "routine_receipts": receipts,
+        "support_routine_receipts": support_receipts,
         "routine_receipt_due": receipt_due,
+        "support_routine_receipt_due": support_receipt_due,
+        "routine_proof_scope": {
+            "monitored_count": len(monitored_expected),
+            "core_count": len(proof_expected),
+            "support_count": len(support_expected),
+            "core_ids": [row.get("automation_id") for row in proof_expected],
+            "support_ids": [row.get("automation_id") for row in support_expected],
+        },
         "dark_lanes": status.get("dark_lanes") or {},
         "source_capability": status.get("source_capability") or {},
         "open_actions": status.get("open_actions") or {},
@@ -863,7 +906,10 @@ def format_text(report: dict[str, Any]) -> str:
     manifest_summary = (report.get("routine_manifest") or {}).get("summary") or {}
     automation = report.get("cloud_automation") or {}
     receipts = ((report.get("routine_receipts") or {}).get("summary") or {})
+    support_receipts = ((report.get("support_routine_receipts") or {}).get("summary") or {})
     receipt_due = report.get("routine_receipt_due") or {}
+    support_due = report.get("support_routine_receipt_due") or {}
+    proof_scope = report.get("routine_proof_scope") or {}
     next_due = receipt_due.get("next_due") or {}
     dark = report.get("dark_lanes") or {}
     prompt_protocol = automation.get("prompt_protocol") or {}
@@ -893,6 +939,12 @@ def format_text(report: dict[str, Any]) -> str:
             f"active_superseded={int(automation.get('active_superseded_count') or 0)}"
         ),
         (
+            "Cloud proof scope: "
+            f"core={int(proof_scope.get('core_count') or 0)} | "
+            f"support_monitored={int(proof_scope.get('support_count') or 0)} | "
+            f"total_monitored={int(proof_scope.get('monitored_count') or 0)}"
+        ),
+        (
             "Cloud receipt protocol: "
             f"checked={int(prompt_protocol.get('checked_count') or 0)} | "
             f"ok={int(prompt_protocol.get('ok_count') or 0)} | "
@@ -918,7 +970,7 @@ def format_text(report: dict[str, Any]) -> str:
             f"stale={int((source_capability.get('live_source_config') or {}).get('stale_count') or 0)}"
         ),
         (
-            "Cloud run receipts: "
+            "Core cloud run receipts: "
             f"scheduled_success={int(receipts.get('scheduled_success_count') or 0)}/"
             f"{int(receipts.get('expected_count') or 0)} | "
             f"manual_support_only={int(receipts.get('manual_support_only_count') or 0)} | "
@@ -926,7 +978,14 @@ def format_text(report: dict[str, Any]) -> str:
             f"missing_scheduled_success={int(receipts.get('missing_scheduled_success_count') or 0)}"
         ),
         (
-            "Cloud receipt due state: "
+            "Support routine receipts: "
+            f"scheduled_success={int(support_receipts.get('scheduled_success_count') or 0)}/"
+            f"{int(support_receipts.get('expected_count') or 0)} | "
+            f"manual_support_only={int(support_receipts.get('manual_support_only_count') or 0)} | "
+            f"overdue={int(support_due.get('overdue_count') or 0)}"
+        ),
+        (
+            "Core cloud receipt due state: "
             f"overdue={int(receipt_due.get('overdue_count') or 0)} | "
             f"waiting={int(receipt_due.get('due_waiting_count') or 0)} | "
             f"not_due_yet={int(receipt_due.get('not_due_yet_count') or 0)} | "
@@ -943,6 +1002,7 @@ def format_text(report: dict[str, Any]) -> str:
         row for row in receipt_due.get("overdue") or []
         if isinstance(row, dict)
     ]
+    scheduled_proof_count = int(receipts.get("scheduled_success_count") or 0)
     if due_waiting:
         row = due_waiting[0]
         label = row.get("routine_name") or row.get("routine_id") or "unknown"
@@ -950,8 +1010,10 @@ def format_text(report: dict[str, Any]) -> str:
             f"Due receipt waiting: {label} due at {row.get('last_due_at') or ''} "
             f"| grace until {row.get('overdue_after') or ''}"
         )
-        if not report.get("first_scheduled_run_proven"):
+        if scheduled_proof_count == 0:
             lines.append(f"First scheduled proof pending: waiting for {label} scheduled receipt.")
+        elif not report.get("schedule_ready_for_unattended_run"):
+            lines.append(f"Core scheduled proof waiting: {label} is inside its receipt grace window.")
     elif overdue:
         row = overdue[0]
         label = row.get("routine_name") or row.get("routine_id") or "unknown"
@@ -963,12 +1025,14 @@ def format_text(report: dict[str, Any]) -> str:
             f"| overdue after {row.get('overdue_after') or ''} | "
             f"last scheduled success {last_scheduled}{manual_note}"
         )
-        if not report.get("first_scheduled_run_proven"):
+        if scheduled_proof_count == 0:
             lines.append(f"First scheduled proof pending: {label} scheduled receipt is overdue.")
+        else:
+            lines.append(f"Core scheduled proof blocked: {label} scheduled receipt is overdue.")
     elif next_due:
         label = next_due.get("routine_name") or next_due.get("routine_id") or "unknown"
         lines.append(f"Next expected receipt: {label} at {next_due.get('next_due_at') or ''}")
-        if not report.get("first_scheduled_run_proven"):
+        if scheduled_proof_count == 0:
             lines.append(
                 "First scheduled proof pending: "
                 f"{label} has not reached its next scheduled receipt window yet."

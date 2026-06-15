@@ -22,6 +22,24 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "src" / "cloud_routine_receipts.json"
 VALID_STATUSES = {"started", "success", "failed"}
 VALID_RUN_SOURCES = {"manual", "scheduled"}
+CORE_PROOF_AUTOMATION_IDS = {
+    "investing-os-pre-market-source-intake",
+    "investing-os-fundstrat-pre-market-safety-sweep",
+    "investing-os-morning-scan",
+    "investing-os-broker-position-intake",
+    "investing-os-early-cockpit-build",
+    "investing-os-daily-synthesis",
+    "investing-os-post-open-evidence-gate",
+    "investing-os-fundstrat-daytime-watch",
+    "investing-os-uw-opportunity-cache",
+    "investing-os-parabolic-cache",
+    "investing-os-full-cockpit-build",
+    "investing-os-post-close-refresh",
+    "investing-os-positions-sync",
+    "investing-os-fundstrat-after-hours-catch-up",
+}
+PROOF_SCOPE_CORE = "core"
+PROOF_SCOPE_SUPPORT = "support"
 ET = ZoneInfo("America/New_York")
 DAY_NAMES = {
     "monday": 0,
@@ -33,6 +51,36 @@ DAY_NAMES = {
     "sunday": 6,
 }
 TIME_RE = re.compile(r"\b(\d{1,2}):(\d{2})\s*([AP]M)\b", re.IGNORECASE)
+
+
+def proof_scope(row: dict[str, Any]) -> str:
+    explicit = str(row.get("proof_scope") or "").strip().lower()
+    if explicit:
+        return explicit
+    routine_id = str(row.get("automation_id") or row.get("routine_id") or "")
+    return PROOF_SCOPE_CORE if routine_id in CORE_PROOF_AUTOMATION_IDS else PROOF_SCOPE_SUPPORT
+
+
+def with_proof_scope(row: dict[str, Any]) -> dict[str, Any]:
+    scoped = dict(row)
+    scoped["proof_scope"] = proof_scope(scoped)
+    return scoped
+
+
+def proof_required_automations(expected_automations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        with_proof_scope(row)
+        for row in expected_automations
+        if isinstance(row, dict) and proof_scope(row) == PROOF_SCOPE_CORE
+    ]
+
+
+def support_automations(expected_automations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        with_proof_scope(row)
+        for row in expected_automations
+        if isinstance(row, dict) and proof_scope(row) != PROOF_SCOPE_CORE
+    ]
 
 
 def _now_utc() -> str:
@@ -410,6 +458,7 @@ def summarize_receipts(
             "routine_name": expected_row.get("automation_name") or "",
             "role": expected_row.get("role") or "",
             "schedule": expected_row.get("schedule") or "",
+            "proof_scope": expected_row.get("proof_scope") or "",
             "receipt_count": len(matching),
             "last_status": last.get("status") or "no_receipt",
             "last_run_source": last.get("run_source") or "manual",

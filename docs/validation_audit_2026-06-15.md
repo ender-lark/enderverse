@@ -79,7 +79,13 @@ Implemented in `CLOUD-PROOF-CLASSIFICATION-2026-06-15`:
 1. Manual-support routine receipts are now separated from true scheduled proof in `cloud_ops_status.py`, `cloud_routine_receipts.py`, heartbeat, and the dashboard source-audit/operator-status surfaces.
 2. Current live readout after the change: 15/25 scheduled success receipts, 10 manual-support-only routines, 0 failed latest receipts, 14 overdue scheduled receipts, and Social Watch still dark.
 
+Implemented in `CLOUD-ROUTINE-NEEDS-AUDIT-2026-06-15`:
+
+1. Scheduled proof is now scoped to 14 core unattended-readiness routines and 11 support-monitored routines, documented in `docs/scheduled_routine_proof_audit_2026-06-15.md`.
+2. The malformed Pre-Market Source Intake automation workspace was corrected in the app automation config.
+3. Current live readout after the proof-scope fix: 13/14 core scheduled success receipts, 1 core manual-support-only routine, 5 core overdue scheduled receipts, 2/11 support scheduled success receipts, 9 support overdue receipts, and Social Watch still dark.
+
 Remaining follow-up:
 
 1. Keep Social Watch dark until a compliant normalized cache exists.
-2. Let true scheduled receipts accumulate or repair the specific overdue automations; do not backfill scheduled proof with manual support receipts.
+2. Let the five overdue core scheduled receipts prove at their next natural windows; if they miss again, inspect the individual app automation run logs rather than backfilling scheduled proof with manual support receipts.

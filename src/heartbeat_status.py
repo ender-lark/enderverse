@@ -121,6 +121,7 @@ def _routine_due_report(src_dir: str | Path) -> dict[str, Any]:
     proof = _read_json_default(src / "cloud_automation_status.json", {})
     expected = proof.get("routines") if isinstance(proof, dict) else []
     expected = [row for row in expected or [] if isinstance(row, dict)]
+    expected = cloud_routine_receipts.proof_required_automations(expected)
     if not expected:
         return {}
     receipts = cloud_routine_receipts.load_receipts(src / "cloud_routine_receipts.json")

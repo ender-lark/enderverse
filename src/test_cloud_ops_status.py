@@ -553,10 +553,16 @@ def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monke
     assert report["first_scheduled_run_proven"] is False
     assert report["live_run_proven"] is False
     assert report["cloud_operating_state"] == "ready_pending_first_success"
-    assert report["routine_receipts"]["summary"]["success_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+    core_expected = cloud_ops_status.proof_required_automations()
+    support_expected = cloud_ops_status.support_automations()
+    assert report["routine_proof_scope"]["core_count"] == len(core_expected)
+    assert report["routine_proof_scope"]["support_count"] == len(support_expected)
+    assert report["routine_receipts"]["summary"]["success_count"] == len(core_expected)
+    assert report["support_routine_receipts"]["summary"]["success_count"] == len(support_expected)
     assert report["routine_receipts"]["summary"]["scheduled_success_count"] == 0
-    assert report["routine_receipt_due"]["not_due_yet_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
-    assert "Cloud run receipts: scheduled_success=0/" in text
+    assert report["routine_receipt_due"]["not_due_yet_count"] == len(core_expected)
+    assert "Core cloud run receipts: scheduled_success=0/" in text
+    assert "Support routine receipts: scheduled_success=0/" in text
     assert "not_due_yet=" in text
     assert "First scheduled proof pending: Investing OS Post-Close Refresh" in text
 
@@ -658,7 +664,7 @@ def test_cloud_ops_status_surfaces_failed_run_receipt(monkeypatch, tmp_path):
     text = cloud_ops_status.format_text(report)
 
     assert any("Investing OS Morning Scan latest run receipt failed" in gap for gap in report["gaps"])
-    assert "Cloud run receipts: scheduled_success=0/" in text
+    assert "Core cloud run receipts: scheduled_success=0/" in text
     assert "failed_latest=1" in text
 
 
@@ -690,5 +696,5 @@ def test_cloud_ops_status_marks_due_receipt_overdue(monkeypatch, tmp_path):
     assert report["routine_receipt_due"]["overdue"][0]["routine_id"] == "investing-os-post-close-refresh"
     assert report["routine_receipt_due"]["overdue"][0]["last_ran_label"] == "never"
     assert any("Investing OS Post-Close Refresh scheduled receipt is overdue" in gap for gap in report["gaps"])
-    assert "Cloud receipt due state: overdue=1" in text
+    assert "Core cloud receipt due state: overdue=1" in text
     assert "last scheduled success never" in text

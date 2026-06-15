@@ -416,14 +416,27 @@ def _build_cloud_routine_audit(src_dir: Path, *, now: str | datetime | None = No
     proof = _read_json(src_dir / "cloud_automation_status.json", default={})
     expected = proof.get("routines") if isinstance(proof, dict) else []
     expected = [row for row in expected or [] if isinstance(row, dict)]
+    expected = [cloud_routine_receipts.with_proof_scope(row) for row in expected]
+    core_expected = cloud_routine_receipts.proof_required_automations(expected)
+    support_expected = cloud_routine_receipts.support_automations(expected)
     receipts = cloud_routine_receipts.load_receipts(src_dir / "cloud_routine_receipts.json")
     summary = cloud_routine_receipts.summarize_receipts(
         receipts,
-        expected_automations=expected,
+        expected_automations=core_expected,
+    )
+    support_summary = cloud_routine_receipts.summarize_receipts(
+        receipts,
+        expected_automations=support_expected,
     )
     due = cloud_routine_receipts.summarize_due_receipts(
         summary,
-        expected,
+        core_expected,
+        activated_at=proof.get("verified_at") if isinstance(proof, dict) else None,
+        now=now,
+    )
+    support_due = cloud_routine_receipts.summarize_due_receipts(
+        support_summary,
+        support_expected,
         activated_at=proof.get("verified_at") if isinstance(proof, dict) else None,
         now=now,
     )
@@ -456,25 +469,39 @@ def _build_cloud_routine_audit(src_dir: Path, *, now: str | datetime | None = No
     )
     due_text = f"; overdue={overdue_count}" if overdue_count else ""
     manual_text = f"; manual support only={manual_support_only_count}" if manual_support_only_count else ""
+    support_overdue = int(support_due.get("overdue_count") or 0)
+    support_text = (
+        f"; support monitored={int(support_summary.get('expected_count') or 0)}"
+        f", support overdue={support_overdue}"
+    )
     return {
         "status": status,
         "line": (
-            f"Background cloud proof: {scheduled}/{expected_count} scheduled receipts proven"
-            f"{manual_text}; failed latest={failed}{due_text}."
+            f"Core background cloud proof: {scheduled}/{expected_count} scheduled receipts proven"
+            f"{manual_text}; failed latest={failed}{due_text}{support_text}."
         ),
         "scheduled_success_count": scheduled,
         "expected_count": expected_count,
+        "core_expected_count": expected_count,
+        "support_expected_count": int(support_summary.get("expected_count") or 0),
+        "support_scheduled_success_count": int(support_summary.get("scheduled_success_count") or 0),
+        "support_manual_support_only_count": int(support_summary.get("manual_support_only_count") or 0),
+        "support_overdue_count": support_overdue,
         "manual_support_only_count": manual_support_only_count,
         "failed_latest_count": failed,
         "overdue_count": overdue_count,
         "due_waiting_count": int(due.get("due_waiting_count") or 0),
         "routine_receipt_due": due,
+        "support_routine_receipt_due": support_due,
         "overdue": due.get("overdue") or [],
+        "support_overdue": support_due.get("overdue") or [],
         "due_waiting": due.get("due_waiting") or [],
         "missing_scheduled_success_count": int(summary.get("missing_scheduled_success_count") or 0),
         "missing_scheduled_success": missing_rows,
         "manual_support_only": summary.get("manual_support_only") or [],
+        "support_manual_support_only": support_summary.get("manual_support_only") or [],
         "rows": summary.get("rows") or [],
+        "support_rows": support_summary.get("rows") or [],
     }
 
 

@@ -370,22 +370,34 @@ The dashboard shows the feed plus operator state:
 The old single daily refresh was replaced by a split routine stack so source
 timing matches how the investment day works.
 
-| Routine id | Role | Normal schedule |
+Core proof routines gate unattended operator readiness. They directly protect
+portfolio truth, Fundstrat/timing intake, market-open decision quality,
+opportunity/risk caches, dashboard publication, and post-close account refresh.
+
+| Core routine id | Role | Normal schedule |
 |---|---|---|
 | `investing-os-pre-market-source-intake` | Pre-market source intake, including valid supplied broker uploads | Market weekdays 8:10 AM ET |
 | `investing-os-fundstrat-pre-market-safety-sweep` | Last safety sweep for overnight / early Fundstrat timing calls before the main pre-market stack | Market weekdays 7:45 AM ET |
+| `investing-os-broker-position-intake` | SnapTrade-first read-only account truth before allocation and risk review | Market weekdays 8:20 AM ET |
 | `investing-os-morning-scan` | Morning Signal Log / macro scan validation | Market weekdays 8:35 AM ET |
 | `investing-os-early-cockpit-build` | Earliest useful cockpit using overnight, pre-market, Morning Scan, and cached source state; later lanes remain visibly pending/stale when not run yet | Market weekdays 8:50 AM ET |
 | `investing-os-daily-synthesis` | Daily Synthesis after the Morning Scan | Market weekdays 9:30 AM ET |
+| `investing-os-post-open-evidence-gate` | Same-session evidence gate for action validity | Market weekdays 9:40 AM ET |
 | `investing-os-fundstrat-daytime-watch` | Hourly daytime Fundstrat watch; lands only action-relevant compact rows and pushes only urgent/action-changing alerts | Market weekdays hourly 9:45 AM-3:45 PM ET |
 | `investing-os-uw-opportunity-cache` | UW opportunity cache and non-secret connector proof | Market weekdays 10:00 AM ET |
 | `investing-os-parabolic-cache` | Parabolic/chase-risk cache | Market weekdays 10:05 AM ET |
 | `investing-os-full-cockpit-build` | Full dashboard build after source/synthesis/UW buffer | Market weekdays 10:30 AM ET |
 | `investing-os-post-close-refresh` | Post-close dashboard refresh and proof path | Market weekdays 4:30 PM ET |
+| `investing-os-positions-sync` | Post-close SnapTrade-first position refresh | Market weekdays 4:45 PM ET |
 | `investing-os-fundstrat-after-hours-catch-up` | After-hours Fundstrat catch-up for late notes and next-session prep | Market weekdays 7:00 PM ET |
-| `investing-os-off-hours-worker` | Overnight status/research support checks | Daily 1:45 AM ET |
-| `investing-os-deep-synthesis` | Weekly deeper synthesis support | Sunday 1:00 PM ET |
-| `investing-os-weekly-pilot-run` | Weekly pilot/status run | Sunday 6:00 PM ET |
+
+Support-monitored routines remain useful, but they do not gate core unattended
+readiness by themselves. This includes the four FS Inbox Catch-up schedules,
+Off-Hours Research Queue, Top Prospects Auto-Research, Off-Hours Alt-Data
+Scout, Off-Hours Worker, Off-Hours Queue Buffer, Deep Synthesis, and Weekly
+Pilot Run. Their missed scheduled receipts stay visible as support proof gaps,
+but the dashboard should not imply the whole operator cockpit is unready solely
+because one of those helper lanes has only manual support.
 
 `src/cloud_automation_status.json` records the expected app-created automation
 ids, superseded legacy routines, and the schedule basis. `cloud_ops_status.py`
@@ -399,8 +411,8 @@ Cloud readiness has three separate states:
   live-source config is fresh enough.
 - First scheduled proof: at least one expected scheduled routine has written a
   success receipt.
-- Full live-run proof: every expected routine has at least one scheduled success
-  receipt.
+- Full live-run proof: every core proof routine has at least one scheduled
+  success receipt and no core routine is overdue.
 
 The proof store is `src/cloud_routine_receipts.json`.
 
@@ -413,8 +425,9 @@ Receipt rules:
   make an overdue scheduled routine look current.
 - A routine normally writes `started`, then `success` or `failed`.
 - `cloud_ops_status.py --require-first-proof` fails until first scheduled proof.
-- `cloud_ops_status.py --require-live-run` fails until all expected routines have
-  scheduled success receipts.
+- `cloud_ops_status.py --require-live-run` fails until all core proof routines
+  have scheduled success receipts. Support-monitored routines are displayed
+  separately.
 
 The wrapper for scheduled commands is:
 

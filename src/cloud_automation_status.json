@@ -17,7 +17,9 @@
     "Fundstrat Daytime Watch, Post-Open Evidence Gate, and Post-Close Refresh should run src/trigger_check.py. Fired triggers write src/trigger_registry.json / src/trigger_check_summary.json, append a trigger receipt, and send Pushover only as an operator review prompt.",
     "Fundstrat after-hours catch-up and pre-market safety sweep are expected proof targets because Fundstrat timing calls can arrive outside the original 8:10 AM source intake window.",
     "Fundstrat Daytime Watch runs hourly during the market day so urgent/action-changing Fundstrat notes can trigger Pushover. Low-value Fundstrat content remains quiet audit/discovery context and must not become a daily-call row, action prompt, or alert.",
-    "FS Inbox Catch-up is registered as four explicit paired schedules (8:20 AM, 12:30 PM, 4:35 PM, 8:45 PM ET) instead of one multi-BYHOUR/BYMINUTE rule, so the automation does not accidentally run a cross-product of times."
+    "FS Inbox Catch-up is registered as four explicit paired schedules (8:20 AM, 12:30 PM, 4:35 PM, 8:45 PM ET) instead of one multi-BYHOUR/BYMINUTE rule, so the automation does not accidentally run a cross-product of times.",
+    "On 2026-06-15, readiness proof was scoped to 14 core unattended-readiness routines and 11 support-monitored routines. Support routines stay visible but no longer block core daily operator readiness by themselves.",
+    "On 2026-06-15, the Pre-Market Source Intake app automation workspace was corrected from a malformed duplicated path back to the canonical enderverse-held-decisions-strip repo path. The proof activation timestamp was not reset; missed core receipts remain overdue until the scheduler proves them naturally."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
