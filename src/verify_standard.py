@@ -78,6 +78,11 @@ def standard_checks() -> list[Check]:
             ],
             why="catches legacy-encoded receipt stores before dashboard builds break",
         ),
+        Check(
+            name="automation-prompt-audit",
+            command=[py, "src/automation_prompt_audit.py", "--format", "text"],
+            why="proves active Investing OS automations use the safe helper on hardened worktrees",
+        ),
     ]
 
 
