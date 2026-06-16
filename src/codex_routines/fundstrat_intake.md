@@ -106,8 +106,19 @@ Accepted monthly file types:
 
    Tom Lee macro videos and other video-only Fundstrat items are audit/discovery
    only unless a visible transcript, captions, companion article, or
-   user-supplied compact notes are available. Automated video transcript
-   extraction is queued as lower-priority system work; do not treat a video
+   user-supplied compact notes are available. When transcript/captions are
+   visible, store the full review pack in the private source vault and only safe
+   metadata in the public repo:
+
+   ```bash
+   python src/fundstrat_transcript_vault.py transcript_payload.json --commit-vault --push-vault
+   python src/fundstrat_transcript_vault.py --validate-public-index
+   ```
+
+   The transcript vault helper writes `transcript.md`, `source.json`,
+   `analysis.md`, and `extracts.json` under the private
+   `INVESTING_OS_SOURCE_VAULT`; `src/fundstrat_transcript_index.json` stores
+   only metadata, hashes, counts, and short synthesis. Do not treat a video
    thumbnail or title as full-body checked.
 
    Stock-list and crypto-list tables are slower baseline/diff sources. Do not

@@ -144,8 +144,13 @@ Discovery-only surfaces:
 
 ## Video Handling
 
-Tom Lee macro updates and other Fundstrat videos are not a first-class source
-lane yet. They can be handled safely only when one of these is available:
+Tom Lee macro updates and other Fundstrat videos now have two separate paths:
+full transcript review and compact cockpit intake. The full transcript review
+path writes source material only to the private source vault pointed to by
+`INVESTING_OS_SOURCE_VAULT`; the public repo stores only metadata, hashes,
+analysis summaries, and compact derived rows.
+
+Videos can be handled safely only when one of these is available:
 
 - a visible article transcript on the member page
 - captions/transcript text exposed by the video player
@@ -156,6 +161,19 @@ The first proof, run on 2026-06-15 against Mark Newton's 2026-06-12 Daily
 Technical Strategy video, used the user's logged-in Chrome session, the visible
 Vimeo transcript panel, and the player-exposed caption track. The accepted row
 was compact only and landed through `source_surface=video_transcript`.
+
+For full transcript review, use:
+
+```bash
+python src/fundstrat_transcript_vault.py transcript_payload.json --commit-vault --push-vault
+python src/fundstrat_transcript_vault.py --validate-public-index
+```
+
+The payload may include `transcript_text`, source metadata, `analysis`,
+`extracts`, and optional `compact_rows`. The helper writes full transcript text
+only to the private vault and updates `src/fundstrat_transcript_index.json` with
+safe metadata only. If no transcript/captions are visible, do not write a
+checked transcript entry; leave the video discovery-only / not checked.
 
 For video transcript rows, do not pass raw transcript text. Supply compact proof
 fields instead:
