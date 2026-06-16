@@ -2,27 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-05T20:32:28.464100Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-05T20:32:29.694662Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -7348,7 +7327,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T20:48:59.223298Z",
       "summary": "positions sync succeeded: snapshot 2026-06-16; 11 accounts; 275 raw positions; 88 VALUE_CHANGE diffs; 0 share changes; 76 orphans; dashboard refresh ok"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T23:02:04.156003Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T23:06:53.213393Z",
+      "summary": "checked 12 web pages, videos 0 detail/1 listing, transcript vault 0, Gmail 0; landed 0 rows; suppressed/discovery-only 2 duplicate-or-low-value items; validation passed; Notion none; dark/stale crypto flash June 8, intraday Sep 17 2025, first word June 12, live technical June 4, fed watch Apr 29, no June 16 daily technical or transcript-backed videos; blockers none"
     }
   ],
-  "updated_at": "2026-06-16T20:48:59.223298Z"
+  "updated_at": "2026-06-16T23:06:53.213393Z"
 }
