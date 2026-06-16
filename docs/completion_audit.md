@@ -9,13 +9,22 @@ manual evidence below as live:
 python src/completion_audit.py --format text
 ```
 
-Current command output classifies the build as
-`BUILD_CLEAR_WAITING_EXTERNAL`: local dashboard/go-live readiness is clear and
-there are 0 build blockers, but `all_clear` remains false while background
-cloud routine proof remains partial at `3/10`. Source waits are now 0, and
-`ANET`/`GOOGL` remain visible as fresh open reviews with `0 due / 0 stale`. Use
-`python src/completion_audit.py --require-all-clear` only when external waits
-and background monitors must fail the command.
+Latest refreshed audit, run 2026-06-16, classifies the repo as
+`NEEDS_BUILD_WORK`: local go-live readiness is true and there are 0 build
+blockers, but the system-improvement queue still has one active/queued item.
+The dashboard has 4 actions, 1 research action, feed
+`2026-06-15T12:57:07.557970+00:00`, 0 source waits, and no open reviews.
+Background cloud proof is partial at 20/26 scheduled successes; full
+live-run proof remains false. Use
+`python src/completion_audit.py --require-all-clear` only when external waits,
+background monitors, dark lanes, and queued work should fail the command.
+
+The active/queued improvement item is:
+
+- `fundstrat-video-transcript-intake`: handle Tom Lee and Fundstrat video
+  updates through transcripts or captions. Clean `main` does not yet include
+  the transcript-vault helper, so the next audit should treat this as queued
+  implementation work or cleanly bring forward the focused older-branch slice.
 
 Generated: 2026-06-05
 
