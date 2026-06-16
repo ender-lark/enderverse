@@ -73,6 +73,7 @@ def test_default_allowlist_includes_redacted_fundstrat_intake_bookkeeping():
     assert "src/fundstrat_inbox_entries.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_intake_state.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_intake_summary.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/fundstrat_transcript_index.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_daytime_alert_state.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/live_source_config.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_daily_calls.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
