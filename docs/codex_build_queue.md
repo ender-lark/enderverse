@@ -33,6 +33,10 @@ until the core logic is stable; Notion sync comes later.
     use `--weekly-report-out tmp/reddit_weekly_patterns.md` for recurring
     themes, louder/fading topics, cross-subreddit spread, counter-thesis/risk
     warnings, and destroy/noise.
+  - Repeat scans should pass `--snapshot-history tmp/reddit_history/<group>.jsonl`
+    so the daily report compares today against prior compact snapshots and the
+    weekly report uses scan dates, not old Reddit post dates, for
+    `getting_louder` / `fading`.
   - Keep output in `tmp/` or supplied cache files until the main build accepts
     it; missing/blocked social data remains `not_checked`.
   - Read `docs/reddit_critical_minerals_prototype_plan.md` before changing,

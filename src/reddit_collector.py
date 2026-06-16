@@ -46,6 +46,8 @@ DEFAULT_SUBREDDITS = [
 DEFAULT_LIMIT = 50
 USER_AGENT = "enderverse-social-watch/0.1 watch-only research collector"
 RETENTION_HOURS = 48
+SNAPSHOT_HISTORY_SCHEMA = "reddit_snapshot_history_v1"
+DEFAULT_HISTORY_WINDOW_DAYS = 14
 SOURCE_ROLE_SPECIALIZED_CATALYST = "specialized_catalyst_scout"
 SOURCE_ROLE_RETAIL_CROWDING = "retail_crowding_risk"
 SOURCE_ROLE_SPECIALIZED_RESEARCH = "specialized_research"
@@ -1195,6 +1197,45 @@ def build_scout_report(cache: dict[str, Any], *, max_rows: int = 12) -> str:
             )
         lines.append("")
 
+    repeat = cache.get("repeat_snapshot") or {}
+    if repeat:
+        lines.extend([
+            "## Repeat Snapshot Comparison",
+            "",
+            f"- Status: {_report_value(repeat.get('status'))}",
+            f"- Prior compact snapshots: {_report_value(repeat.get('prior_snapshot_count'), '0')}",
+            f"- Window: {_report_value(repeat.get('window_days'), str(DEFAULT_HISTORY_WINDOW_DAYS))} days",
+            f"- Note: {_report_value(repeat.get('message'))}",
+            "",
+        ])
+        latest_prior = repeat.get("latest_prior_snapshot") or {}
+        if latest_prior:
+            lines.append(
+                f"- Latest prior: {_report_value(latest_prior.get('scan_date'))} | "
+                f"status {_report_value(latest_prior.get('status'))} | "
+                f"topics {_report_value(latest_prior.get('topic_count'), '0')}"
+            )
+            lines.append("")
+        for title, key, empty in (
+            ("New Topics", "new_topics", "No new topics versus the latest prior snapshot."),
+            ("Getting Louder", "getting_louder", "No topic is materially louder versus the latest prior snapshot."),
+            ("Fading", "fading", "No prior topic faded materially in this scan."),
+            ("New Cross-Subreddit Spread", "cross_subreddit_spread", "No new cross-subreddit spread versus the latest prior snapshot."),
+        ):
+            rows_for_section = repeat.get(key) or []
+            lines.extend([f"### {title}", ""])
+            if not rows_for_section:
+                lines.append(empty)
+            for row in rows_for_section[:8]:
+                lines.append(
+                    f"- {_report_value(row.get('topic'), 'SOCIAL')}: "
+                    f"now {_report_value(row.get('current_attention'), '0')} attention / "
+                    f"prior {_report_value(row.get('prior_attention'), '0')} | "
+                    f"subs {', '.join(row.get('subreddits') or []) or 'none'} | "
+                    f"{_report_value(row.get('summary'), '')}"
+                )
+            lines.append("")
+
     rows = sorted(
         [row for row in cache.get("rows") or [] if isinstance(row, dict)],
         key=lambda row: float(row.get("collector_score") or 0.0),
@@ -1257,12 +1298,368 @@ def write_scout_report(cache: dict[str, Any], *, out: str) -> Path:
     return _atomic_write_text(out, build_scout_report(cache))
 
 
+def _safe_float(value: Any, default: float = 0.0) -> float:
+    try:
+        if value in (None, ""):
+            return default
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _snapshot_date(value: Any) -> str:
+    parsed = _parse_dt(value)
+    return parsed.astimezone(ET).date().isoformat() if parsed else "unknown"
+
+
+def _row_snapshot_mentions(row: dict[str, Any]) -> int:
+    series = row.get("mention_series")
+    if isinstance(series, list):
+        series_total = sum(int(_safe_float(value)) for value in series)
+    else:
+        series_total = 0
+    current = int(_safe_float(row.get("current_mentions") or row.get("mentions")))
+    snippets = row.get("snippets") if isinstance(row.get("snippets"), list) else []
+    return max(series_total, current, len(snippets), 1)
+
+
+def _row_attention_score(row: dict[str, Any]) -> float:
+    mentions = _row_snapshot_mentions(row)
+    score = max(_safe_float(row.get("score_observed")), 0.0)
+    comments = max(_safe_float(row.get("comment_count_observed")), 0.0)
+    collector = max(_safe_float(row.get("collector_score")), 0.0)
+    attention = (
+        mentions * 3.0
+        + min(score, 5_000.0) / 500.0
+        + min(comments, 1_000.0) / 100.0
+        + collector / 25.0
+    )
+    if row.get("signal_kind") == "destroy/noise":
+        attention *= 0.5
+    return round(attention, 2)
+
+
+def _history_topic_from_row(row: dict[str, Any]) -> dict[str, Any]:
+    topic = _row_topic(row)
+    return {
+        "topic": topic,
+        "tickers": row.get("tickers") or ([topic] if topic != "SOCIAL" else []),
+        "summary": _snippet(row.get("summary") or row.get("title_snippet") or row.get("body_snippet"), limit=180),
+        "signal_kind": row.get("signal_kind") or row.get("source_type") or "research_prompt",
+        "usefulness": row.get("usefulness") or "medium",
+        "source_type": row.get("source_type") or "research_prompt",
+        "source_health_status": row.get("source_health_status") or "unknown",
+        "source_interpretation_limit": row.get("source_interpretation_limit") or "",
+        "subreddits": sorted({
+            str(sub)
+            for sub in (row.get("subreddits") or [row.get("subreddit") or ""])
+            if str(sub).strip()
+        }),
+        "snapshot_mentions": _row_snapshot_mentions(row),
+        "attention_score": _row_attention_score(row),
+        "collector_score": _safe_float(row.get("collector_score")),
+        "score_observed": _parse_observed_count(row.get("score_observed")) or 0,
+        "comment_count_observed": _parse_observed_count(row.get("comment_count_observed")) or 0,
+        "destroy_reason": row.get("destroy_reason") or "",
+        "blocker_before_action": row.get("blocker_before_action") or "Reddit is not a trade trigger.",
+        "suggested_next_check": row.get("suggested_next_check") or "",
+        "permalink": row.get("permalink") or "",
+    }
+
+
+def build_snapshot_history_record(cache: dict[str, Any]) -> dict[str, Any]:
+    generated = cache.get("generated_at") or cache.get("checked_at") or _iso(_now_et())
+    topics = [_history_topic_from_row(row) for row in cache.get("rows") or [] if isinstance(row, dict)]
+    topics.sort(key=lambda row: (float(row.get("attention_score") or 0.0), row.get("topic") or ""), reverse=True)
+    seed = json.dumps(
+        {
+            "generated_at": generated,
+            "source_group": cache.get("source_group") or "custom",
+            "status": cache.get("status") or "",
+            "topics": [
+                {
+                    "topic": topic.get("topic"),
+                    "attention_score": topic.get("attention_score"),
+                    "snapshot_mentions": topic.get("snapshot_mentions"),
+                }
+                for topic in topics
+            ],
+        },
+        sort_keys=True,
+    )
+    return {
+        "schema": SNAPSHOT_HISTORY_SCHEMA,
+        "scan_id": hashlib.sha1(seed.encode("utf-8", errors="ignore")).hexdigest()[:16],
+        "generated_at": generated,
+        "scan_date": _snapshot_date(generated),
+        "source_group": cache.get("source_group") or "custom",
+        "source_role": cache.get("source_role") or "",
+        "status": cache.get("status") or "unknown",
+        "subreddits_checked": cache.get("subreddits_checked") or [],
+        "source_health": cache.get("source_health") or {},
+        "topic_count": len(topics),
+        "topics": topics,
+        "failure_count": len(cache.get("failures") or []),
+        "honesty_rule": "Compact Reddit history is for scout trend comparison only; never a trade trigger.",
+    }
+
+
+def load_snapshot_history(path: str | Path | None) -> list[dict[str, Any]]:
+    if not path:
+        return []
+    p = Path(path)
+    if not p.is_file():
+        return []
+    records: list[dict[str, Any]] = []
+    with p.open(encoding="utf-8-sig") as fh:
+        text = fh.read().strip()
+    if not text:
+        return []
+    if text.startswith("["):
+        payload = json.loads(text)
+        if isinstance(payload, list):
+            records.extend(row for row in payload if isinstance(row, dict))
+        return records
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            payload = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(payload, dict):
+            records.append(payload)
+    return records
+
+
+def append_snapshot_history(path: str | Path, record: dict[str, Any]) -> dict[str, Any]:
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    existing = load_snapshot_history(p)
+    existing_ids = {str(row.get("scan_id") or "") for row in existing}
+    appended = str(record.get("scan_id") or "") not in existing_ids
+    if appended:
+        with p.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(record, sort_keys=True))
+            fh.write("\n")
+    return {
+        "path": str(p),
+        "appended": appended,
+        "scan_id": record.get("scan_id"),
+        "records_before": len(existing),
+        "records_after": len(existing) + (1 if appended else 0),
+    }
+
+
+def _record_generated_dt(record: dict[str, Any]) -> datetime | None:
+    return _parse_dt(record.get("generated_at") or record.get("checked_at"))
+
+
+def _latest_records_by_day(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_day: dict[str, dict[str, Any]] = {}
+    for record in records:
+        day = str(record.get("scan_date") or _snapshot_date(record.get("generated_at")))
+        if day == "unknown":
+            continue
+        existing = by_day.get(day)
+        if not existing:
+            by_day[day] = record
+            continue
+        existing_dt = _record_generated_dt(existing)
+        record_dt = _record_generated_dt(record)
+        if record_dt and (not existing_dt or record_dt > existing_dt):
+            by_day[day] = record
+    return [by_day[day] for day in sorted(by_day)]
+
+
+def _topic_map(record: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    for topic in record.get("topics") or []:
+        if not isinstance(topic, dict):
+            continue
+        key = str(topic.get("topic") or "").strip().upper()
+        if not key:
+            continue
+        prior = out.get(key)
+        if not prior:
+            out[key] = dict(topic)
+            continue
+        prior["attention_score"] = round(
+            _safe_float(prior.get("attention_score")) + _safe_float(topic.get("attention_score")),
+            2,
+        )
+        prior["snapshot_mentions"] = int(_safe_float(prior.get("snapshot_mentions"))) + int(_safe_float(topic.get("snapshot_mentions")))
+        prior["subreddits"] = sorted(set(prior.get("subreddits") or []) | set(topic.get("subreddits") or []))
+    return out
+
+
+def _brief_topic(topic: dict[str, Any], *, prior: dict[str, Any] | None = None) -> dict[str, Any]:
+    prior = prior or {}
+    return {
+        "topic": topic.get("topic"),
+        "summary": topic.get("summary") or "",
+        "current_attention": topic.get("attention_score") or 0,
+        "prior_attention": prior.get("attention_score") or 0,
+        "current_mentions": topic.get("snapshot_mentions") or 0,
+        "prior_mentions": prior.get("snapshot_mentions") or 0,
+        "subreddits": topic.get("subreddits") or [],
+        "prior_subreddits": prior.get("subreddits") or [],
+        "signal_kind": topic.get("signal_kind") or "",
+        "usefulness": topic.get("usefulness") or "",
+        "suggested_next_check": topic.get("suggested_next_check") or "",
+    }
+
+
+def build_repeat_snapshot_comparison(
+    current_cache: dict[str, Any],
+    history_records: list[dict[str, Any]],
+    *,
+    window_days: int = DEFAULT_HISTORY_WINDOW_DAYS,
+) -> dict[str, Any]:
+    current_record = build_snapshot_history_record(current_cache)
+    current_dt = _record_generated_dt(current_record) or _now_et()
+    current_group = current_record.get("source_group")
+    cutoff = current_dt.astimezone(UTC) - timedelta(days=max(int(window_days), 1))
+    prior_records = []
+    for record in history_records:
+        if record.get("source_group") != current_group:
+            continue
+        if record.get("scan_id") == current_record.get("scan_id"):
+            continue
+        record_dt = _record_generated_dt(record)
+        if not record_dt or record_dt.astimezone(UTC) < cutoff:
+            continue
+        if record_dt.astimezone(UTC) >= current_dt.astimezone(UTC):
+            continue
+        prior_records.append(record)
+    prior_daily = _latest_records_by_day(prior_records)
+    current_topics = _topic_map(current_record)
+    if not prior_daily:
+        return {
+            "status": "baseline_started",
+            "source_group": current_group,
+            "window_days": window_days,
+            "prior_snapshot_count": 0,
+            "current_snapshot": {
+                "generated_at": current_record.get("generated_at"),
+                "topic_count": current_record.get("topic_count"),
+                "status": current_record.get("status"),
+            },
+            "message": "No prior compact snapshots for this source group. This run starts the baseline; the next scan can show new/louder/fading topics.",
+            "new_topics": [],
+            "getting_louder": [],
+            "fading": [],
+            "cross_subreddit_spread": [],
+        }
+
+    previous = prior_daily[-1]
+    previous_topics = _topic_map(previous)
+    previous_days = [record.get("scan_date") for record in prior_daily if record.get("scan_date")]
+    baseline_scores: dict[str, list[float]] = defaultdict(list)
+    for record in prior_daily:
+        topic_map = _topic_map(record)
+        for topic in set(topic_map) | set(current_topics):
+            baseline_scores[topic].append(_safe_float(topic_map.get(topic, {}).get("attention_score")))
+
+    new_topics = []
+    louder = []
+    fading = []
+    cross_spread = []
+    for topic, current in sorted(current_topics.items()):
+        prior = previous_topics.get(topic)
+        current_attention = _safe_float(current.get("attention_score"))
+        prior_attention = _safe_float((prior or {}).get("attention_score"))
+        baseline = sum(baseline_scores.get(topic, [])) / max(len(baseline_scores.get(topic, [])), 1)
+        current_subs = set(current.get("subreddits") or [])
+        prior_subs = set((prior or {}).get("subreddits") or [])
+        if not prior:
+            new_topics.append(_brief_topic(current))
+        elif current_attention > prior_attention and (
+            current_attention >= prior_attention * 1.5
+            or current_attention - prior_attention >= 2.0
+            or (baseline and current_attention >= baseline * 1.5)
+        ):
+            louder.append(_brief_topic(current, prior=prior))
+        if len(current_subs) > 1 and (not prior_subs or len(current_subs) > len(prior_subs)):
+            cross_spread.append(_brief_topic(current, prior=prior))
+
+    for topic, prior in sorted(previous_topics.items()):
+        current = current_topics.get(topic)
+        prior_attention = _safe_float(prior.get("attention_score"))
+        current_attention = _safe_float((current or {}).get("attention_score"))
+        if not current or (prior_attention > 0 and current_attention <= prior_attention * 0.5 and prior_attention - current_attention >= 2.0):
+            fading.append(_brief_topic(current or {"topic": topic, "subreddits": []}, prior=prior))
+
+    rank_key = lambda row: float(row.get("current_attention") or row.get("prior_attention") or 0.0)
+    return {
+        "status": "compared",
+        "source_group": current_group,
+        "window_days": window_days,
+        "prior_snapshot_count": len(prior_daily),
+        "prior_scan_dates": previous_days,
+        "latest_prior_snapshot": {
+            "generated_at": previous.get("generated_at"),
+            "scan_date": previous.get("scan_date"),
+            "status": previous.get("status"),
+            "topic_count": previous.get("topic_count"),
+        },
+        "current_snapshot": {
+            "generated_at": current_record.get("generated_at"),
+            "scan_date": current_record.get("scan_date"),
+            "status": current_record.get("status"),
+            "topic_count": current_record.get("topic_count"),
+        },
+        "new_topics": sorted(new_topics, key=rank_key, reverse=True)[:10],
+        "getting_louder": sorted(louder, key=rank_key, reverse=True)[:10],
+        "fading": sorted(fading, key=rank_key, reverse=True)[:10],
+        "cross_subreddit_spread": sorted(cross_spread, key=rank_key, reverse=True)[:10],
+        "message": "Comparison is based on compact per-scan topic presence and attention, not Reddit truth or trade evidence.",
+    }
+
+
+def _history_record_to_cache(record: dict[str, Any]) -> dict[str, Any]:
+    rows = []
+    generated = record.get("generated_at")
+    for topic in record.get("topics") or []:
+        if not isinstance(topic, dict):
+            continue
+        rows.append({
+            "_snapshot_generated_at": generated,
+            "tickers": topic.get("tickers") or ([topic.get("topic")] if topic.get("topic") else []),
+            "summary": topic.get("summary") or topic.get("topic") or "",
+            "signal_kind": topic.get("signal_kind") or "research_prompt",
+            "source_type": topic.get("source_type") or "research_prompt",
+            "subreddits": topic.get("subreddits") or [],
+            "collector_score": topic.get("collector_score") or 0,
+            "attention_score": topic.get("attention_score") or 0,
+            "current_mentions": topic.get("snapshot_mentions") or 0,
+            "mentions": topic.get("snapshot_mentions") or 0,
+            "score_observed": topic.get("score_observed") or 0,
+            "comment_count_observed": topic.get("comment_count_observed") or 0,
+            "destroy_reason": topic.get("destroy_reason") or "",
+        })
+    return {
+        "generated_at": generated,
+        "checked_at": generated,
+        "source_group": record.get("source_group") or "custom",
+        "source_role": record.get("source_role") or "",
+        "status": record.get("status") or "unknown",
+        "rows": rows,
+    }
+
+
 def _cache_rows(caches: list[dict[str, Any]]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for cache in caches:
+        if cache.get("schema") == SNAPSHOT_HISTORY_SCHEMA:
+            cache = _history_record_to_cache(cache)
+        snapshot_generated_at = cache.get("generated_at") or cache.get("checked_at")
         for row in cache.get("rows") or []:
             if isinstance(row, dict):
-                rows.append(row)
+                copied = dict(row)
+                copied.setdefault("_snapshot_generated_at", snapshot_generated_at)
+                rows.append(copied)
     return rows
 
 
@@ -1275,7 +1672,7 @@ def _row_topic(row: dict[str, Any]) -> str:
 
 
 def _row_date(row: dict[str, Any]) -> str:
-    parsed = _parse_dt(row.get("last_seen") or row.get("created_utc") or row.get("first_seen"))
+    parsed = _parse_dt(row.get("_snapshot_generated_at") or row.get("last_seen") or row.get("created_utc") or row.get("first_seen"))
     return parsed.astimezone(UTC).date().isoformat() if parsed else "unknown"
 
 
@@ -1298,29 +1695,76 @@ def build_weekly_pattern_report(caches: list[dict[str, Any]] | dict[str, Any], *
         ])
         return "\n".join(lines)
 
+    by_day_topic: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
     by_topic: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
-        by_topic[_row_topic(row)].append(row)
+        topic = _row_topic(row)
+        day = _row_date(row)
+        by_topic[topic].append(row)
+        bucket = by_day_topic[day].setdefault(
+            topic,
+            {
+                "attention": 0.0,
+                "rows": 0,
+                "subreddits": set(),
+                "signal_kinds": Counter(),
+                "destroy_count": 0,
+                "counter_count": 0,
+                "score": 0.0,
+            },
+        )
+        attention = _safe_float(row.get("attention_score"))
+        if attention <= 0:
+            attention = _row_attention_score(row)
+        bucket["attention"] = round(float(bucket["attention"]) + attention, 2)
+        bucket["rows"] = int(bucket["rows"]) + 1
+        bucket["subreddits"].update(
+            sub for sub in row.get("subreddits") or [row.get("subreddit") or ""] if sub
+        )
+        signal_kind = str(row.get("signal_kind") or row.get("source_type") or "research_prompt")
+        bucket["signal_kinds"][signal_kind] += 1
+        if row.get("destroy_reason") or row.get("signal_kind") == "destroy/noise":
+            bucket["destroy_count"] = int(bucket["destroy_count"]) + 1
+        if "counter" in signal_kind.lower():
+            bucket["counter_count"] = int(bucket["counter_count"]) + 1
+        bucket["score"] = round(float(bucket["score"]) + _safe_float(row.get("collector_score")), 2)
 
+    all_days = sorted(day for day in by_day_topic if day != "unknown")
+    if not all_days:
+        all_days = ["unknown"]
     summaries = []
     for topic, topic_rows in by_topic.items():
         subreddit_set = sorted({sub for row in topic_rows for sub in row.get("subreddits") or [row.get("subreddit") or ""] if sub})
-        date_counts = Counter(_row_date(row) for row in topic_rows)
-        ordered_dates = sorted(day for day in date_counts if day != "unknown")
-        first_half = ordered_dates[: max(len(ordered_dates) // 2, 1)]
-        second_half = ordered_dates[max(len(ordered_dates) // 2, 1):] or ordered_dates[-1:]
-        early = sum(date_counts[day] for day in first_half)
-        late = sum(date_counts[day] for day in second_half)
-        trend = "getting_louder" if late > early else "fading" if early > late else "persistent"
+        midpoint = max(len(all_days) // 2, 1)
+        first_half = all_days[:midpoint]
+        second_half = all_days[midpoint:] or all_days[-1:]
+        early_values = [
+            _safe_float(by_day_topic.get(day, {}).get(topic, {}).get("attention"))
+            for day in first_half
+        ]
+        late_values = [
+            _safe_float(by_day_topic.get(day, {}).get(topic, {}).get("attention"))
+            for day in second_half
+        ]
+        early = round(sum(early_values) / max(len(early_values), 1), 2)
+        late = round(sum(late_values) / max(len(late_values), 1), 2)
+        if early <= 0 and late > 0:
+            trend = "getting_louder"
+        elif late > early and (late >= early * 1.5 or late - early >= 2.0):
+            trend = "getting_louder"
+        elif early > 0 and (late <= 0 or (late <= early * 0.5 and early - late >= 2.0)):
+            trend = "fading"
+        else:
+            trend = "persistent"
         signal_kinds = Counter(str(row.get("signal_kind") or row.get("source_type") or "research_prompt") for row in topic_rows)
         destroy_count = sum(1 for row in topic_rows if row.get("destroy_reason") or row.get("signal_kind") == "destroy/noise")
         counter_count = sum(1 for row in topic_rows if "counter" in str(row.get("signal_kind") or "").lower())
-        score = round(sum(float(row.get("collector_score") or 0.0) for row in topic_rows), 2)
+        score = round(sum(_safe_float(row.get("collector_score")) for row in topic_rows), 2)
         summaries.append({
             "topic": topic,
             "rows": topic_rows,
             "subreddits": subreddit_set,
-            "dates": ordered_dates,
+            "dates": [day for day in all_days if topic in by_day_topic.get(day, {})],
             "early": early,
             "late": late,
             "trend": trend,
@@ -1335,7 +1779,8 @@ def build_weekly_pattern_report(caches: list[dict[str, Any]] | dict[str, Any], *
     for item in summaries[:max_topics]:
         lines.append(
             f"- {item['topic']}: {len(item['rows'])} staged item(s), "
-            f"{item['trend']}, subreddits {', '.join(item['subreddits']) or 'unknown'}, "
+            f"{item['trend']} (early {item['early']} -> late {item['late']}), "
+            f"subreddits {', '.join(item['subreddits']) or 'unknown'}, "
             f"signal {item['signal_kind']}, score {item['score']}"
         )
     lines.append("")
@@ -1358,7 +1803,9 @@ def build_weekly_pattern_report(caches: list[dict[str, Any]] | dict[str, Any], *
             lines.append(empty)
         for item in items[:max_topics]:
             lines.append(
-                f"- {item['topic']}: {item['trend']} across {', '.join(item['subreddits']) or 'unknown'}; "
+                f"- {item['topic']}: {item['trend']} "
+                f"(early {item['early']} -> late {item['late']}) across "
+                f"{', '.join(item['subreddits']) or 'unknown'}; "
                 "verify with non-social sources before changing research priority."
             )
         lines.append("")
@@ -1452,6 +1899,9 @@ def main(argv=None) -> int:
     parser.add_argument("--report-out", help="Optional Markdown scout report path, usually under tmp/")
     parser.add_argument("--weekly-report-out", help="Optional Markdown weekly pattern report path, usually under tmp/")
     parser.add_argument("--pattern-input", action="append", default=[], help="Optional prior staged social_watch cache JSON for weekly pattern reports")
+    parser.add_argument("--snapshot-history", help="Optional compact JSONL history path for repeat-snapshot louder/fading comparison")
+    parser.add_argument("--history-window-days", type=int, default=DEFAULT_HISTORY_WINDOW_DAYS, help="Lookback window for compact snapshot comparisons")
+    parser.add_argument("--no-history-append", action="store_true", help="Read snapshot history for reports but do not append the current scan")
     parser.add_argument("--confirmations", help="Optional non-social confirmation map JSON")
     parser.add_argument("--ticker-universe", action="append", default=[], help="Optional JSON cache to mine ticker symbols from")
     parser.add_argument("--kill-switch-state", help="Optional historical performance JSON for reddit_signal_core.kill_criterion_check")
@@ -1483,6 +1933,15 @@ def main(argv=None) -> int:
         confirmation_map=_load_confirmation_map(args.confirmations),
         kill_state=_load_kill_state(args.kill_switch_state),
     )
+    history_records: list[dict[str, Any]] = []
+    history_append_report = None
+    if args.snapshot_history:
+        history_records = load_snapshot_history(args.snapshot_history)
+        cache["repeat_snapshot"] = build_repeat_snapshot_comparison(
+            cache,
+            history_records,
+            window_days=args.history_window_days,
+        )
     rq_report = None
     if args.research_queue_out and cache.get("research_queue_candidates"):
         rq_report = write_research_queue(
@@ -1499,8 +1958,33 @@ def main(argv=None) -> int:
     if args.weekly_report_out and not args.dry_run:
         pattern_caches = [cache]
         pattern_caches.extend(_load_json(path) for path in args.pattern_input)
+        if history_records:
+            current_dt = _parse_dt(cache.get("generated_at")) or _now_et()
+            cutoff = current_dt.astimezone(UTC) - timedelta(days=max(int(args.history_window_days), 1))
+            for record in history_records:
+                record_dt = _record_generated_dt(record)
+                if record.get("source_group") != cache.get("source_group"):
+                    continue
+                if record_dt and record_dt.astimezone(UTC) < cutoff:
+                    continue
+                pattern_caches.append(record)
         weekly_report_path = str(write_weekly_pattern_report(pattern_caches, out=args.weekly_report_out))
         cache["weekly_pattern_report"] = weekly_report_path
+    if args.snapshot_history:
+        if not args.dry_run and not args.no_history_append:
+            history_append_report = append_snapshot_history(
+                args.snapshot_history,
+                build_snapshot_history_record(cache),
+            )
+        else:
+            history_append_report = {
+                "path": args.snapshot_history,
+                "appended": False,
+                "records_before": len(history_records),
+                "records_after": len(history_records),
+                "reason": "dry_run" if args.dry_run else "no_history_append",
+            }
+        cache["snapshot_history"] = history_append_report
     if not args.dry_run:
         _atomic_write_json(args.out, cache)
     if args.format == "json":
@@ -1510,6 +1994,7 @@ def main(argv=None) -> int:
             "research_queue": rq_report,
             "report": report_path,
             "weekly_report": weekly_report_path,
+            "snapshot_history": history_append_report,
         }, indent=2, sort_keys=True))
     else:
         print(format_text(cache))
@@ -1519,6 +2004,9 @@ def main(argv=None) -> int:
             print(f"report: {report_path}")
         if weekly_report_path:
             print(f"weekly report: {weekly_report_path}")
+        if history_append_report:
+            state = "appended" if history_append_report.get("appended") else "not appended"
+            print(f"snapshot history: {state} {history_append_report.get('path')}")
     return 0 if cache.get("status") != "not_checked" or failures else 2
 
 

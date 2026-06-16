@@ -9,13 +9,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from reddit_collector import (
     DEFAULT_TICKERS,
+    append_snapshot_history,
     build_cache,
     build_research_queue_rows,
+    build_repeat_snapshot_comparison,
     build_scout_report,
+    build_snapshot_history_record,
     build_source_health,
     build_weekly_pattern_report,
     extract_mentions,
     iter_reddit_items,
+    load_snapshot_history,
     source_group_config,
     source_group_names,
     source_group_role,
@@ -452,6 +456,74 @@ def test_weekly_pattern_report_surfaces_louder_fading_cross_subreddit_and_noise(
     assert "Cross-Subreddit Spread" in report
     assert "Destroy / Noise Bucket" in report
     assert "NVDA" in report
+
+
+def test_repeat_snapshot_history_flags_new_louder_fading_and_compact_storage(tmp_path):
+    prior = build_cache(
+        [[
+            {
+                "subreddit": "wallstreetbets",
+                "title": "$NVDA calls are everywhere",
+                "created_utc": "2026-06-15T13:00:00+00:00",
+                "score": 800,
+                "comments": 120,
+                "flair": "Discussion",
+            },
+            {
+                "subreddit": "UraniumSqueeze",
+                "title": "AI power keeps $UUUU in focus",
+                "created_utc": "2026-06-15T14:00:00+00:00",
+                "score": 10,
+                "comments": 2,
+            },
+        ]],
+        generated_at=datetime(2026, 6, 15, 9, 30, tzinfo=ZoneInfo("America/New_York")),
+    )
+    current = build_cache(
+        [[
+            {
+                "subreddit": "UraniumSqueeze",
+                "title": "AI data centers keep $UUUU uranium demand in focus",
+                "created_utc": "2026-06-16T13:00:00+00:00",
+                "score": 80,
+                "comments": 55,
+            },
+            {
+                "subreddit": "criticalmineralstocks",
+                "title": "Critical minerals and $UUUU nuclear fuel chain update",
+                "created_utc": "2026-06-16T14:00:00+00:00",
+                "score": 50,
+                "comments": 20,
+            },
+            {
+                "subreddit": "StockMarket",
+                "title": "$SPCX price discovery is spreading across Reddit",
+                "created_utc": "2026-06-16T15:00:00+00:00",
+                "score": 300,
+                "comments": 90,
+            },
+        ]],
+        generated_at=datetime(2026, 6, 16, 9, 30, tzinfo=ZoneInfo("America/New_York")),
+    )
+    history_path = tmp_path / "reddit_history.jsonl"
+    prior_record = build_snapshot_history_record(prior)
+    append_report = append_snapshot_history(history_path, prior_record)
+
+    comparison = build_repeat_snapshot_comparison(current, load_snapshot_history(history_path))
+    current["repeat_snapshot"] = comparison
+    report = build_scout_report(current)
+    weekly = build_weekly_pattern_report([current, *load_snapshot_history(history_path)])
+
+    assert append_report["appended"] is True
+    assert load_snapshot_history(history_path)[0]["schema"] == "reddit_snapshot_history_v1"
+    assert "raw_transcript" not in history_path.read_text(encoding="utf-8")
+    assert comparison["status"] == "compared"
+    assert {row["topic"] for row in comparison["new_topics"]} == {"SPCX"}
+    assert "UUUU" in {row["topic"] for row in comparison["getting_louder"]}
+    assert "NVDA" in {row["topic"] for row in comparison["fading"]}
+    assert "Repeat Snapshot Comparison" in report
+    assert "Getting Louder" in report
+    assert "UUUU: getting_louder" in weekly
 
 
 def test_retail_risk_wsb_source_group_is_detachable():

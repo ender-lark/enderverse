@@ -28,6 +28,8 @@ The implementation is intentionally a source group, not a cockpit dependency:
   cockpit display.
 - Optional weekly pattern report:
   `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/reddit_daily_scout.md --weekly-report-out tmp/reddit_weekly_patterns.md --format text`
+- Repeat-snapshot report for day-over-day pattern detection:
+  `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/reddit_daily_scout.md --weekly-report-out tmp/reddit_weekly_patterns.md --snapshot-history tmp/reddit_history/critical_minerals_nuclear.jsonl --format text`
 - Disable path: stop supplying this cache. The main dashboard remains dark /
   `not_checked` for Social Watch.
 
@@ -237,6 +239,15 @@ The weekly report can be generated from the current cache alone or with prior
 staged cache files via `--pattern-input <cache.json>`. It remains a research
 prompt report, not a dashboard or trade trigger.
 
+For repeatable scans, prefer `--snapshot-history tmp/reddit_history/<group>.jsonl`.
+That file stores one compact normalized record per run: source group, scan date,
+source-health summary, topic, subreddit spread, attention score, confirmation
+blocker, and suggested next check. It does not store authors, raw comment
+archives, credentials, screenshots, or long copied text. When a history file is
+supplied, the daily report gains a "Repeat Snapshot Comparison" section and the
+weekly report uses scan dates to detect `getting_louder`, `fading`, new topics,
+and new cross-subreddit spread.
+
 ## What Not To Do
 
 - Do not feed this into `actions` as a direct action source.
@@ -268,5 +279,7 @@ Build a repeatable scout export for `critical_minerals_nuclear` that can consume
    2026-06-16 through the existing `--input` path plus `--report-out`.
 3. Prebuilt fixtures for tests.
 
-Then add a daily ranked prompt report in `tmp/` before any dashboard display is
-enabled.
+Then run the same command on consecutive scan days with `--snapshot-history` so
+the second and later reports can distinguish one-off headlines from topics that
+are genuinely spreading, fading, or crossing into larger boards. Keep all
+outputs in `tmp/` before any dashboard display is enabled.
