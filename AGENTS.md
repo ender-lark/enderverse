@@ -16,12 +16,30 @@ Repo-local operating protocol for Codex agents working on the Investing OS.
   canonical checkout before editing:
   `C:\Users\suraj\Documents\Codex\2026-06-04\confirm-you-can-access-my-github\work\enderverse`.
 
-## Primary Objective
+## Primary Objective (Mission — canonical; never changes without operator)
 
-The product goal is early retirement through better capital decisions, risk
-control, time saved, and confidence in acting or not acting. Architecture,
-tests, dashboard design, and source routing should serve that outcome before
-technical elegance.
+Early retirement: grow the book from ~$1.9M to $3,000,000 — the level where
+returns cover life and work becomes optional — inside the closing 1–3 year AI
+window. The documented failure mode is passivity, not recklessness: right ideas
+under-sized, good setups rotting in queues, acting too slowly. Everything
+(architecture, tests, dashboard, source routing) exists to convert collected
+data into a few clear, evidence-backed, time-stamped decisions and force an
+explicit disposition on each — inside survival rails — before technical elegance.
+
+Drift test for any change: does it make a real, high-conviction, well-timed
+opportunity more likely to reach the operator's eyes and become a right-sized
+action before the window closes — without manufacturing urgency or tuning away
+discipline? If not, it's drift.
+
+"remember our goals" — standing trigger: when the operator says "remember our
+goals" (or close variants), respond FIRST with this surface, then continue:
+- GOAL: ~$1.9M → $3,000,000 (work becomes optional), inside the closing 1–3 yr
+  AI window; pull % there live from src/account_positions.json, never hardcode.
+- THE ENEMY: passivity — under-sized ideas, setups rotting in queues, slow action.
+- THE JOB: turn data into a few clear, evidence-backed, time-stamped decisions
+  and force a yes/no on each, inside survival rails.
+- DRIFT TEST: (as above).
+The Notion Boot Page (37bc5031-4bb6-818d-97a9-cd98c32729a4) carries the identical block.
 
 ## Build Protocol
 
