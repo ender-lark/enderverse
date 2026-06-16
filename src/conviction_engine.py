@@ -46,6 +46,7 @@ FEED_PATH = SRC / "latest_cockpit_feed.json"
 GROUPS = ("fs", "uw", "operator_insight", "institutional")
 TIERS = ("A", "B", "C", "D")
 _FS_SOURCES = {"fundstrat", "newton", "lee", "farrell", "tlee", "mark newton", "tom lee"}
+_EPS = 1e-9
 
 def _today(today: str | date | None) -> date:
     if today is None:
@@ -204,6 +205,100 @@ def institutional_group(
         "why": inst_state.get("why", ""),
     }
 
+def _read_from_magnitude(magnitude: float, *, high_min: float, mod_min: float) -> str:
+    return "HIGH" if magnitude >= high_min else "MODERATE" if magnitude >= mod_min else "LOW"
+
+def _strength_5(
+    magnitude: float, *, high_min: float, mod_min: float, weights: dict[str, Any]
+) -> int:
+    mapping = weights["read_to_5"]
+    if magnitude >= high_min:
+        return int(mapping["high_score"])
+    if magnitude >= mod_min:
+        return int(mapping["moderate_score"])
+    if magnitude >= mod_min * float(mapping["mid_fraction"]):
+        return int(mapping["moderate_0_66_score"])
+    if magnitude >= mod_min * float(mapping["low_fraction"]):
+        return int(mapping["moderate_0_33_score"])
+    return int(mapping["floor_score"])
+
+def _direction_from_points(points: float) -> str:
+    if points > _EPS:
+        return "BUY"
+    if points < -_EPS:
+        return "SELL"
+    return "NEUTRAL"
+
+def _live_fs_item_directions(fs: dict[str, Any]) -> set[str]:
+    directions: set[str] = set()
+    for item in fs.get("items", []):
+        if item.get("track_only") or item.get("expired"):
+            continue
+        if abs(float(item.get("weight") or 0.0)) <= _EPS:
+            continue
+        direction = item.get("direction")
+        if direction in ("bullish", "bearish"):
+            directions.add(direction)
+    return directions
+
+def _conflicted(
+    *,
+    direction: str,
+    fs: dict[str, Any],
+    groups: dict[str, float],
+    force_recheck: bool,
+) -> bool:
+    if force_recheck:
+        return True
+    live_fs = _live_fs_item_directions(fs)
+    has_positive = any(float(value) > _EPS for value in groups.values()) or "bullish" in live_fs
+    has_negative = any(float(value) < -_EPS for value in groups.values()) or "bearish" in live_fs
+    if direction == "BUY":
+        return has_negative
+    if direction == "SELL":
+        return has_positive
+    return has_positive and has_negative
+
+def conviction_label(action_direction: str, conviction: dict[str, Any]) -> dict[str, Any]:
+    action = str(action_direction or "").upper().strip()
+    if action in ("ADD", "BUY_ADD", "BUY/ADD"):
+        action = "BUY"
+    elif action in ("REDUCE", "EXIT", "SELL_FAST", "AVOID"):
+        action = "SELL" if action != "REDUCE" else "TRIM"
+    verb = {"BUY": "Buy", "TRIM": "Trim", "SELL": "Sell"}.get(action, action.title() or "Act")
+    evidence_direction = str(conviction.get("direction") or "NEUTRAL").upper()
+    strength = int(conviction.get("strength_5") or 1)
+    band = str(conviction.get("read") or "LOW").upper()
+    ticker = str(conviction.get("ticker") or "").upper()
+
+    aligned = (
+        (action == "BUY" and evidence_direction == "BUY")
+        or (action in ("TRIM", "SELL") and evidence_direction == "SELL")
+    )
+    conflict_note = ""
+    if evidence_direction == "NEUTRAL":
+        x5 = 1
+        aligned = False
+        conflict_note = "no directional evidence"
+    elif aligned:
+        x5 = strength
+        if conviction.get("conflicted"):
+            conflict_note = "mixed evidence present; re-check opposing factors"
+    else:
+        x5 = 1
+        opposing = "HOLD/BUY" if evidence_direction == "BUY" else "TRIM/SELL"
+        conflict_note = f"evidence favors {opposing} at {strength}/5"
+        if conviction.get("conflicted"):
+            conflict_note += "; mixed evidence present"
+
+    return {
+        "text": f"Conviction to {verb} {ticker}: {x5}/5 ({band})",
+        "x5": x5,
+        "band": band,
+        "aligned": aligned,
+        "conflict_note": conflict_note,
+    }
+
 # ---------------------------------------------------------------------------
 # The unified read
 # ---------------------------------------------------------------------------
@@ -237,7 +332,12 @@ def conviction(
 
     high_min = float(goal["signals_high_min"])
     mod_min = float(goal["signals_mod_min"])
-    read = "HIGH" if total >= high_min else "MODERATE" if total >= mod_min else "LOW"
+    magnitude = abs(total)
+    read = _read_from_magnitude(magnitude, high_min=high_min, mod_min=mod_min)
+    direction = _direction_from_points(total)
+    strength_5 = _strength_5(
+        magnitude, high_min=high_min, mod_min=mod_min, weights=weights
+    )
 
     contradictions: list[str] = []
     for s in fs["items"]:
@@ -272,6 +372,9 @@ def conviction(
     return {
         "ticker": tick,
         "points": total,
+        "magnitude": magnitude,
+        "direction": direction,
+        "strength_5": strength_5,
         "read": read,
         "n_groups": n_groups,
         "thresholds": {"high": high_min, "moderate": mod_min},
@@ -279,6 +382,12 @@ def conviction(
         "group_detail": {"fs": fs, "uw": uw, "operator_insight": op, "institutional": inst},
         "contradictions": contradictions,
         "force_recheck": uw["force_recheck"],
+        "conflicted": _conflicted(
+            direction=direction,
+            fs=fs,
+            groups=groups,
+            force_recheck=uw["force_recheck"],
+        ),
         "raises": raises,
         "not_checked": not_checked,
         "computed_at": _today(today).isoformat(),

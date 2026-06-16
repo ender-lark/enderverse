@@ -1,5 +1,6 @@
 import os
 import sys
+from copy import deepcopy
 
 import pytest
 
@@ -23,6 +24,18 @@ def _insights(ticker="GOOGL"):
         "tickers_mapped": [ticker], "tickers_adjacent": [], "watch_tickers": [],
         "factor_tags": [], "evidence_for": [], "evidence_against": [],
     }]}
+
+def _goal(high=4, mod=3):
+    goal = dict(G)
+    goal["signals_high_min"] = high
+    goal["signals_mod_min"] = mod
+    return goal
+
+def _weights_for_fs_points(points):
+    weights = deepcopy(W)
+    weights["tier_base"]["A"] = points
+    weights["group_caps"]["fs"] = max(10.0, points + 1.0)
+    return weights
 
 def test_tier_d_is_track_only_never_scores():
     out = ce.score_item(_item(tier="D"), weights=W, today=TODAY)
@@ -89,6 +102,8 @@ def test_cross_group_convergence_reaches_high():
         weights=W, goal=G, today=TODAY,
     )
     assert out["points"] == 4.75 and out["read"] == "HIGH" and out["n_groups"] == 4
+    assert out["magnitude"] == 4.75 and out["direction"] == "BUY"
+    assert out["strength_5"] == 5 and out["conflicted"] is False
 
 def test_moderate_and_low_reads():
     low = ce.conviction("GOOGL", fs_items=[_item(source=s) for s in ("newton", "lee")],
@@ -101,6 +116,94 @@ def test_moderate_and_low_reads():
         weights=W, goal=G, today=TODAY,
     )
     assert mod["points"] == pytest.approx(3.1) and mod["read"] == "MODERATE"
+
+def test_bearish_high_read_uses_magnitude_and_labels_sell_alignment():
+    out = ce.conviction(
+        "GOOGL",
+        fs_items=[
+            _item(source="newton", direction="bearish"),
+            _item(source="lee", direction="bearish"),
+        ],
+        weights=W,
+        goal=_goal(high=1.5, mod=1.0),
+        today=TODAY,
+    )
+
+    assert out["points"] == -1.5
+    assert out["magnitude"] == 1.5
+    assert out["read"] == "HIGH"
+    assert out["direction"] == "SELL"
+    assert out["strength_5"] == 5
+    label = ce.conviction_label("SELL", out)
+    assert label["x5"] == 5
+    assert label["aligned"] is True
+    assert label["text"] == "Conviction to Sell GOOGL: 5/5 (HIGH)"
+
+def test_bearish_moderate_read_uses_magnitude():
+    out = ce.conviction(
+        "GOOGL",
+        fs_items=[_item(source="newton", direction="bearish")],
+        inst_state={"points": -0.6, "why": "distribution"},
+        weights=_weights_for_fs_points(2.5),
+        goal=G,
+        today=TODAY,
+    )
+
+    assert out["points"] == pytest.approx(-3.1)
+    assert out["magnitude"] == pytest.approx(3.1)
+    assert out["read"] == "MODERATE"
+    assert out["direction"] == "SELL"
+    assert out["strength_5"] == 4
+
+def test_bullish_fs_uw_contradicts_marks_conflicted_and_label_note():
+    out = ce.conviction(
+        "GOOGL",
+        fs_items=[_item()],
+        uw_state={"interpretation": "contradicts"},
+        weights=W,
+        goal=G,
+        today=TODAY,
+    )
+
+    assert out["points"] == 0.0
+    assert out["direction"] == "NEUTRAL"
+    assert out["conflicted"] is True
+    assert out["force_recheck"] is True
+    label = ce.conviction_label("BUY", out)
+    assert label["aligned"] is False
+    assert label["x5"] == 1
+    assert label["conflict_note"] == "no directional evidence"
+
+def test_action_opposed_to_evidence_gets_low_label_and_conflict_note():
+    out = ce.conviction("GOOGL", fs_items=[_item()], weights=W, goal=G, today=TODAY)
+
+    label = ce.conviction_label("TRIM", out)
+
+    assert out["direction"] == "BUY"
+    assert label["aligned"] is False
+    assert label["x5"] == 1
+    assert label["conflict_note"] == "evidence favors HOLD/BUY at 2/5"
+    assert label["text"] == "Conviction to Trim GOOGL: 1/5 (LOW)"
+
+def test_strength_5_boundary_cases():
+    cases = [
+        (4.0, 5, "HIGH"),
+        (3.0, 4, "MODERATE"),
+        (3.0 * 0.66, 3, "LOW"),
+        (3.0 * 0.33, 2, "LOW"),
+        (3.0 * 0.33 - 0.01, 1, "LOW"),
+    ]
+    for points, expected_strength, expected_read in cases:
+        out = ce.conviction(
+            "GOOGL",
+            fs_items=[_item()],
+            weights=_weights_for_fs_points(points),
+            goal=G,
+            today=TODAY,
+        )
+        assert out["points"] == pytest.approx(points)
+        assert out["strength_5"] == expected_strength
+        assert out["read"] == expected_read
 
 def test_contradictions_collected_and_recheck_forced():
     out = ce.conviction(
