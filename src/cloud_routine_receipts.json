@@ -1,55 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-16T08:49:16.971419Z",
+  "updated_at": "2026-06-16T11:49:17.444281Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:08.897872Z",
-      "summary": "investing-os-daily-synthesis manual run started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:09.090769Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
@@ -3211,6 +3163,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T08:49:16.971419Z",
       "summary": "live Notion search/fetch fallback known queued High 2 Med 0 Low 0; no-op processed none; worker already verified BMNR/GOOGL/FN/INTC/cyber pages as Working; remaining backlog high 2: MU trigger wiring is framework/code follow-up, full-book rebalance is pending operator review; write verification n/a no writes; dark/not_checked ordered backlog remains unresolved without query tool"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T11:46:17.344125Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T11:49:17.444281Z",
+      "summary": "checked 11 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 6 duplicate-stale-or-low-value items; validation passed; Notion none; dark/stale crypto flash June 8, intraday empty, fed watch April 29 stale; blockers none"
     }
   ]
 }
