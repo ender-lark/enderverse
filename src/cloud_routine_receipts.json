@@ -1,55 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-16T00:48:16.518731Z",
+  "updated_at": "2026-06-16T00:51:48.166781Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.323437Z",
-      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "event risk validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/event_risk_intake.py",
-              "--validate",
-              "src/event_risks.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 3\n}",
-            "stderr": ""
-          },
-          {
-            "label": "catalyst cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 8,
-              "valid_rows": 8,
-              "problem": ""
-            }
-          }
-        ]
-      }
-    },
     {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "started",
@@ -3343,6 +3295,13 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T00:48:16.518731Z",
       "summary": "dry-run BUILDING 8; HOT 0 so queued none; write verification n/a no live writes; remaining unqueued 21; dark/stale missing pulls remain not_checked; blocker usage-constrained HOT gate selected zero"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T00:51:48.166781Z",
+      "summary": "FS inbox catch-up evening ingested 2 entries; logged 4 Newton calls; no new gate/card contradiction"
     }
   ]
 }
