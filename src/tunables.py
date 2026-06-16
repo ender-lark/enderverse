@@ -210,7 +210,7 @@ def load_goal_tunables(path: Path | str = GOAL_TUNABLES_PATH) -> dict[str, Any]:
         )
     return cfg
 
-_WEIGHTS_TOP_KEYS = {
+_WEIGHTS_REQUIRED_TOP_KEYS = {
     "tier_base",
     "tier_window_days",
     "calibration_bands",
@@ -225,6 +225,49 @@ _WEIGHTS_TOP_KEYS = {
     "pattern_thresholds",
     "timing",
 }
+_WEIGHTS_OPTIONAL_TOP_KEYS = {"battery_sources"}
+_WEIGHTS_TOP_KEYS = _WEIGHTS_REQUIRED_TOP_KEYS | _WEIGHTS_OPTIONAL_TOP_KEYS
+_BATTERY_SOURCE_KEYS = {
+    "deepdive_battery",
+    "price_rotation",
+    "uw_opportunity",
+    "group_rotation",
+}
+
+
+def _validate_battery_sources(section: Any, *, source: str) -> None:
+    if not isinstance(section, dict):
+        raise TunablesInvalidError(f"{source}: battery_sources must be an object.")
+    unknown = sorted(set(section) - _BATTERY_SOURCE_KEYS)
+    if unknown:
+        raise TunablesInvalidError(
+            f"{source}: battery_sources unknown source key(s) {unknown}. "
+            f"Valid: {sorted(_BATTERY_SOURCE_KEYS)}"
+        )
+    for key, row in section.items():
+        if not isinstance(row, dict):
+            raise TunablesInvalidError(
+                f"{source}: battery_sources[{key}] must be an object."
+            )
+        expected = {"enabled", "weight"}
+        if set(row) != expected:
+            raise TunablesInvalidError(
+                f"{source}: battery_sources[{key}] must define exactly "
+                f"{sorted(expected)}."
+            )
+        if not isinstance(row["enabled"], bool):
+            raise TunablesInvalidError(
+                f"{source}: battery_sources[{key}].enabled must be true/false."
+            )
+        weight = row["weight"]
+        if isinstance(weight, bool) or not isinstance(weight, (int, float)):
+            raise TunablesInvalidError(
+                f"{source}: battery_sources[{key}].weight must be a number in [0, 1]."
+            )
+        if weight < 0 or weight > 1:
+            raise TunablesInvalidError(
+                f"{source}: battery_sources[{key}].weight must be in [0, 1]."
+            )
 
 def load_conviction_weights(path: Path | str = CONVICTION_WEIGHTS_PATH) -> dict[str, Any]:
     """Load + validate conviction_weights.json (doctrine constraints enforced)."""
@@ -238,9 +281,11 @@ def load_conviction_weights(path: Path | str = CONVICTION_WEIGHTS_PATH) -> dict[
         raise TunablesInvalidError(
             f"{path.name}: unknown section(s) {unknown}. Valid: {sorted(_WEIGHTS_TOP_KEYS)}"
         )
-    missing = sorted(_WEIGHTS_TOP_KEYS - set(cfg))
+    missing = sorted(_WEIGHTS_REQUIRED_TOP_KEYS - set(cfg))
     if missing:
         raise TunablesInvalidError(f"{path.name}: missing section(s) {missing}.")
+    if "battery_sources" in cfg:
+        _validate_battery_sources(cfg["battery_sources"], source=path.name)
 
     tier_base = cfg["tier_base"]
     if set(tier_base) != {"A", "B", "C", "D"}:
