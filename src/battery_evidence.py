@@ -654,6 +654,113 @@ def _battery_summary(
     }
 
 
+BATTERY_SOURCE_KEYS = (
+    "deepdive_battery",
+    "price_rotation",
+    "uw_opportunity",
+    "group_rotation",
+)
+
+BATTERY_SOURCES = [
+    {
+        "key": "deepdive_battery",
+        "mapper": _deepdive_factors,
+        "input": "deepdive_battery",
+        "call": "input_only",
+        "returns": "list",
+        "skip_when_none": False,
+    },
+    {
+        "key": "price_rotation",
+        "mapper": _price_factors,
+        "input": "uw_price",
+        "call": "ticker_input",
+        "returns": "list",
+        "skip_when_none": False,
+    },
+    {
+        "key": "uw_opportunity",
+        "mapper": uw_opportunity_factors,
+        "input": "uw_opportunity",
+        "call": "input_with_ticker_kw",
+        "returns": "list",
+        "skip_when_none": True,
+    },
+    {
+        "key": "group_rotation",
+        "mapper": group_rotation_factor,
+        "input": "group_rotation",
+        "call": "input_only",
+        "returns": "single",
+        "skip_when_none": True,
+    },
+]
+
+
+def _source_settings(
+    source_key: str,
+    battery_source_config: dict[str, Any] | None,
+) -> tuple[bool, float]:
+    if battery_source_config is None:
+        return True, 1.0
+    if not isinstance(battery_source_config, dict):
+        raise ValueError("battery_source_config must be a map when supplied")
+    unknown = sorted(set(battery_source_config) - set(BATTERY_SOURCE_KEYS))
+    if unknown:
+        raise ValueError(f"battery_source_config unknown source key(s): {unknown}")
+    row = battery_source_config.get(source_key)
+    if row is None:
+        return True, 1.0
+    if not isinstance(row, dict):
+        raise ValueError(f"battery_source_config[{source_key}] must be an object")
+    enabled = row.get("enabled")
+    weight = row.get("weight")
+    if not isinstance(enabled, bool):
+        raise ValueError(f"battery_source_config[{source_key}].enabled must be true/false")
+    if isinstance(weight, bool) or not isinstance(weight, (int, float)):
+        raise ValueError(f"battery_source_config[{source_key}].weight must be numeric")
+    return enabled, max(0.0, min(1.0, float(weight)))
+
+
+def _scale_source_factors(
+    factors: list[dict[str, Any]],
+    *,
+    weight: float,
+) -> list[dict[str, Any]]:
+    if weight == 1.0:
+        return factors
+    scaled: list[dict[str, Any]] = []
+    for factor in factors:
+        row = dict(factor)
+        row["strength"] = _clamp01(float(row.get("strength") or 0.0) * weight)
+        scaled.append(row)
+    return scaled
+
+
+def _call_battery_source(
+    source: dict[str, Any],
+    *,
+    tick: str,
+    value: Any,
+) -> list[dict[str, Any]]:
+    mapper = source["mapper"]
+    call = source["call"]
+    if call == "ticker_input":
+        out = mapper(tick, value)
+    elif call == "input_with_ticker_kw":
+        out = mapper(value, ticker=tick)
+    else:
+        out = mapper(value)
+
+    if source.get("returns") == "single":
+        return [out] if isinstance(out, dict) else []
+    if isinstance(out, list):
+        return [row for row in out if isinstance(row, dict)]
+    if isinstance(out, dict):
+        return [out]
+    return []
+
+
 def build_battery_evidence(
     ticker: str,
     *,
@@ -662,16 +769,26 @@ def build_battery_evidence(
     deepdive_battery: Any = None,
     uw_opportunity: Any = None,
     group_rotation: Any = None,
+    battery_source_config: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Map injected producer outputs into the battery evidence contract."""
     tick = str(ticker or "").upper()
+    inputs = {
+        "deepdive_battery": deepdive_battery,
+        "uw_price": uw_price,
+        "uw_opportunity": uw_opportunity,
+        "group_rotation": group_rotation,
+    }
     factors: list[dict[str, Any]] = []
-    factors.extend(_deepdive_factors(deepdive_battery))
-    factors.extend(_price_factors(tick, uw_price))
-    if uw_opportunity is not None:
-        factors.extend(uw_opportunity_factors(uw_opportunity, ticker=tick))
-    if group_rotation is not None:
-        factors.append(group_rotation_factor(group_rotation))
+    for source in BATTERY_SOURCES:
+        value = inputs.get(str(source["input"]))
+        if source.get("skip_when_none") and value is None:
+            continue
+        enabled, weight = _source_settings(str(source["key"]), battery_source_config)
+        if not enabled:
+            continue
+        source_factors = _call_battery_source(source, tick=tick, value=value)
+        factors.extend(_scale_source_factors(source_factors, weight=weight))
     iv_hint = _iv_hint(iv_ctx)
     verdict_line = _verdict_line(factors)
     payload = {

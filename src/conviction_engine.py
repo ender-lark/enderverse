@@ -317,7 +317,14 @@ def conviction(
     battery: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     tick = ticker.upper()
-    battery_payload = battery if battery is not None else be.build_battery_evidence(tick)
+    battery_payload = (
+        battery
+        if battery is not None
+        else be.build_battery_evidence(
+            tick,
+            battery_source_config=weights.get("battery_sources"),
+        )
+    )
     be.assert_valid_battery_evidence(battery_payload)
     fs = fs_group(fs_items or [], weights=weights, rates=rates, today=today)
     uw = uw_group(uw_state, weights=weights)

@@ -39,6 +39,40 @@ def test_repo_conviction_weights_load():
     assert cfg["tier_base"]["D"] == 0.0
     assert cfg["uw_points"]["inconclusive"] == 0
     assert cfg["group_caps"]["operator_insight"] == 1.0
+    assert cfg["battery_sources"]["uw_opportunity"] == {"enabled": True, "weight": 1.0}
+
+
+def test_battery_sources_optional_for_back_compat(tmp_path):
+    cfg = load_conviction_weights()
+    cfg.pop("battery_sources")
+    path = _write(tmp_path, "conviction_weights.json", cfg)
+
+    loaded = load_conviction_weights(path)
+
+    assert "battery_sources" not in loaded
+
+
+def test_battery_sources_typo_guard(tmp_path):
+    cfg = load_conviction_weights()
+    cfg["battery_sources"]["uw_oppportunity"] = {"enabled": True, "weight": 1.0}
+    path = _write(tmp_path, "conviction_weights.json", cfg)
+
+    with pytest.raises(TunablesInvalidError):
+        load_conviction_weights(path)
+
+
+def test_battery_sources_shape_validation(tmp_path):
+    cfg = load_conviction_weights()
+    cfg["battery_sources"]["uw_opportunity"] = {"enabled": "yes", "weight": 1.0}
+    path = _write(tmp_path, "conviction_weights.json", cfg)
+    with pytest.raises(TunablesInvalidError):
+        load_conviction_weights(path)
+
+    cfg = load_conviction_weights()
+    cfg["battery_sources"]["uw_opportunity"] = {"enabled": True, "weight": 1.5}
+    path = _write(tmp_path, "conviction_weights.json", cfg)
+    with pytest.raises(TunablesInvalidError):
+        load_conviction_weights(path)
 
 def test_missing_file_is_honest_absence(tmp_path):
     with pytest.raises(TunablesMissingError):

@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,6 +23,164 @@ def _factor(key, direction, strength, decisive=False):
         "source": "test",
         "decisive": decisive,
     }
+
+
+def _canonical(payload):
+    return json.dumps(payload, sort_keys=True, separators=(",", ":"))
+
+
+def _registry_sample_kwargs(*, include_optional=True):
+    kwargs = {
+        "deepdive_battery": {
+            "lanes": [
+                {
+                    "name": "multi_day_oi_build",
+                    "status": "fetched",
+                    "days_of_oi_increases": 4,
+                    "dominant_side": "call",
+                    "flagged": True,
+                    "summary": "multi-day OI build: 4 dated increase day(s), side call",
+                },
+                {
+                    "name": "dark_pool_blocks",
+                    "status": "fetched",
+                    "flagged": True,
+                    "qualifying_blocks": 2,
+                    "net_signed_notional": -12_000_000,
+                    "total_notional": 20_000_000,
+                    "summary": "dark-pool blocks: 2 block(s), net -$12.0M",
+                },
+            ]
+        },
+        "uw_price": [
+            {"proxy": "SMH", "label": "LEADING", "rel_3m": 0.12, "rel_1m": 0.04},
+            {"proxy": "BMNR", "label": "TURNING UP", "rel_3m": 0.09, "rel_1m": 0.03},
+        ],
+        "iv_ctx": {
+            "classification": "cheap",
+            "recommended_structure": "LEAP_CALL",
+            "iv_rank": 15,
+        },
+    }
+    if include_optional:
+        kwargs["uw_opportunity"] = {
+            "status": "checked",
+            "ticker": "BMNR",
+            "as_of": "2026-06-16",
+            "signals": [
+                {
+                    "ticker": "BMNR",
+                    "signal_type": "sweep",
+                    "direction": "bullish",
+                    "strength": "strong",
+                    "evidence": "ask-side call sweeps $1.1M, 1:1 c/p",
+                    "detail": {"premium": 1_121_517, "call_put_ratio": 1.47},
+                },
+                {
+                    "ticker": "BMNR",
+                    "signal_type": "dark_pool_accum",
+                    "direction": "bearish",
+                    "strength": "weak",
+                    "evidence": "dark-pool blocks $1M net sell",
+                    "detail": {"notional": -861_447, "sessions": 1},
+                },
+            ],
+        }
+        kwargs["group_rotation"] = {
+            "status": "checked",
+            "ticker": "BMNR",
+            "category": "AI / Semiconductors",
+            "rot_w": "LEADING",
+            "cd": "up",
+        }
+    else:
+        kwargs["uw_opportunity"] = None
+        kwargs["group_rotation"] = None
+    return kwargs
+
+
+FROZEN_REGISTRY_ALL_SOURCES = (
+    '{"battery_summary":{"decisive_factors":[{"decisive":true,"direction":"bull","key":"uw_opportunity_sweep","label":"UW opportunity sweep","source":"uw_opportunity_signals:2026-06-16","strength":0.9,"value_str":"ask-side call sweeps $1.1M, 1:1 c/p; premium $1.1M; c/p 1.47 (as_of 2026-06-16)"},{"decisive":true,"direction":"bear","key":"dark_pool_blocks","label":"Dark-pool blocks","source":"deepdive_runner:get_dark_pool_trades","strength":0.48,"value_str":"dark-pool blocks: 2 block(s), net -$12.0M"},{"decisive":true,"direction":"bull","key":"multi_day_oi_build","label":"Multi-day OI build","source":"deepdive_runner:get_open_interest_changes","strength":0.8,"value_str":"multi-day OI build: 4 dated increase day(s), side call"},{"decisive":true,"direction":"bull","key":"price_rotation","label":"Price rotation","source":"uw_price","strength":0.6,"value_str":"TURNING UP; rel_3m +9.0%; rel_1m +3.0%"}],"iv_hint":{"instrument":"options","iv_rank":15.0,"why":"IV is cheap; options can carry convexity more efficiently (producer structure: LEAP_CALL)"},"verdict_line":"Battery evidence mixed: bull 2.80 vs bear 0.98."},"factors":[{"decisive":true,"direction":"bull","key":"multi_day_oi_build","label":"Multi-day OI build","source":"deepdive_runner:get_open_interest_changes","strength":0.8,"value_str":"multi-day OI build: 4 dated increase day(s), side call"},{"decisive":true,"direction":"bear","key":"dark_pool_blocks","label":"Dark-pool blocks","source":"deepdive_runner:get_dark_pool_trades","strength":0.48,"value_str":"dark-pool blocks: 2 block(s), net -$12.0M"},{"decisive":true,"direction":"bull","key":"price_rotation","label":"Price rotation","source":"uw_price","strength":0.6,"value_str":"TURNING UP; rel_3m +9.0%; rel_1m +3.0%"},{"decisive":true,"direction":"bull","key":"uw_opportunity_sweep","label":"UW opportunity sweep","source":"uw_opportunity_signals:2026-06-16","strength":0.9,"value_str":"ask-side call sweeps $1.1M, 1:1 c/p; premium $1.1M; c/p 1.47 (as_of 2026-06-16)"},{"decisive":false,"direction":"bear","key":"uw_opportunity_dark_pool_accum","label":"UW opportunity dark pool accum","source":"uw_opportunity_signals:2026-06-16","strength":0.5,"value_str":"dark-pool blocks $1M net sell; notional -$861,447; 1 session(s) (as_of 2026-06-16)"},{"decisive":false,"direction":"bull","key":"group_rotation_momentum","label":"Group rotation / momentum","source":"feed.holdings","strength":0.5,"value_str":"GROUP-level context: AI / Semiconductors rotation LEADING; ticker momentum up"}],"iv_hint":{"instrument":"options","iv_rank":15.0,"why":"IV is cheap; options can carry convexity more efficiently (producer structure: LEAP_CALL)"},"verdict_line":"Battery evidence mixed: bull 2.80 vs bear 0.98."}'
+)
+
+
+FROZEN_REGISTRY_NONE_SKIP = (
+    '{"battery_summary":{"decisive_factors":[{"decisive":true,"direction":"bull","key":"multi_day_oi_build","label":"Multi-day OI build","source":"deepdive_runner:get_open_interest_changes","strength":0.8,"value_str":"multi-day OI build: 4 dated increase day(s), side call"},{"decisive":true,"direction":"bear","key":"dark_pool_blocks","label":"Dark-pool blocks","source":"deepdive_runner:get_dark_pool_trades","strength":0.48,"value_str":"dark-pool blocks: 2 block(s), net -$12.0M"},{"decisive":true,"direction":"bull","key":"price_rotation","label":"Price rotation","source":"uw_price","strength":0.6,"value_str":"TURNING UP; rel_3m +9.0%; rel_1m +3.0%"}],"iv_hint":{"instrument":"options","iv_rank":15.0,"why":"IV is cheap; options can carry convexity more efficiently (producer structure: LEAP_CALL)"},"verdict_line":"Battery evidence mixed: bull 1.40 vs bear 0.48."},"factors":[{"decisive":true,"direction":"bull","key":"multi_day_oi_build","label":"Multi-day OI build","source":"deepdive_runner:get_open_interest_changes","strength":0.8,"value_str":"multi-day OI build: 4 dated increase day(s), side call"},{"decisive":true,"direction":"bear","key":"dark_pool_blocks","label":"Dark-pool blocks","source":"deepdive_runner:get_dark_pool_trades","strength":0.48,"value_str":"dark-pool blocks: 2 block(s), net -$12.0M"},{"decisive":true,"direction":"bull","key":"price_rotation","label":"Price rotation","source":"uw_price","strength":0.6,"value_str":"TURNING UP; rel_3m +9.0%; rel_1m +3.0%"}],"iv_hint":{"instrument":"options","iv_rank":15.0,"why":"IV is cheap; options can carry convexity more efficiently (producer structure: LEAP_CALL)"},"verdict_line":"Battery evidence mixed: bull 1.40 vs bear 0.48."}'
+)
+
+
+def test_default_config_golden_payload_matches_pre_registry_main():
+    cfg = load_conviction_weights()["battery_sources"]
+
+    all_sources = be.build_battery_evidence(
+        "BMNR",
+        **_registry_sample_kwargs(include_optional=True),
+        battery_source_config=cfg,
+    )
+    none_skip = be.build_battery_evidence(
+        "BMNR",
+        **_registry_sample_kwargs(include_optional=False),
+        battery_source_config=cfg,
+    )
+
+    assert _canonical(all_sources) == FROZEN_REGISTRY_ALL_SOURCES
+    assert _canonical(none_skip) == FROZEN_REGISTRY_NONE_SKIP
+
+
+def test_missing_battery_source_config_defaults_to_all_enabled():
+    with_default_config = be.build_battery_evidence(
+        "BMNR",
+        **_registry_sample_kwargs(include_optional=True),
+        battery_source_config=load_conviction_weights()["battery_sources"],
+    )
+    without_config = be.build_battery_evidence(
+        "BMNR",
+        **_registry_sample_kwargs(include_optional=True),
+        battery_source_config=None,
+    )
+
+    assert _canonical(without_config) == _canonical(with_default_config)
+
+
+def test_disabled_battery_source_removes_only_that_source():
+    base_cfg = load_conviction_weights()["battery_sources"]
+    cfg = {key: dict(value) for key, value in base_cfg.items()}
+    cfg["uw_opportunity"]["enabled"] = False
+
+    payload = be.build_battery_evidence(
+        "BMNR",
+        **_registry_sample_kwargs(include_optional=True),
+        battery_source_config=cfg,
+    )
+    keys = [row["key"] for row in payload["factors"]]
+
+    assert "uw_opportunity_sweep" not in keys
+    assert "uw_opportunity_dark_pool_accum" not in keys
+    assert {
+        "multi_day_oi_build",
+        "dark_pool_blocks",
+        "price_rotation",
+        "group_rotation_momentum",
+    } <= set(keys)
+
+
+def test_battery_source_weight_scales_strength_only():
+    base_cfg = load_conviction_weights()["battery_sources"]
+    cfg = {key: dict(value) for key, value in base_cfg.items()}
+    cfg["uw_opportunity"]["weight"] = 0.5
+
+    payload = be.build_battery_evidence(
+        "BMNR",
+        **_registry_sample_kwargs(include_optional=True),
+        battery_source_config=cfg,
+    )
+    rows = _by_key(payload)
+
+    assert rows["uw_opportunity_sweep"]["strength"] == 0.45
+    assert rows["uw_opportunity_sweep"]["decisive"] is True
+    assert rows["uw_opportunity_dark_pool_accum"]["strength"] == 0.25
+    assert rows["multi_day_oi_build"]["strength"] == 0.8
+    assert rows["price_rotation"]["strength"] == 0.6
 
 
 def test_deepdive_lanes_normalize_to_factor_contract():

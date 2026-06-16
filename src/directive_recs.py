@@ -282,6 +282,7 @@ def build_directive_cards(
             uw_opportunity=battery_inputs["uw_opportunity"],
             group_rotation=battery_inputs["group_rotation"],
             iv_ctx=battery_inputs["iv_ctx"],
+            battery_source_config=weights.get("battery_sources"),
         )
         return ce.conviction(
             ticker, fs_items=items, uw_state=uw, insight_payload=insights_payload,

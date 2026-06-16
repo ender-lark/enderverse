@@ -31,6 +31,12 @@
     "inconclusive": 0.0,
     "contradicts": -1.0
   },
+  "battery_sources": {
+    "deepdive_battery": {"enabled": true, "weight": 1.0},
+    "price_rotation": {"enabled": true, "weight": 1.0},
+    "uw_opportunity": {"enabled": true, "weight": 1.0},
+    "group_rotation": {"enabled": true, "weight": 1.0}
+  },
   "insight_match_points": 1.0,
   "insight_triage_boost": 15,
   "insight_max_active": 7,
