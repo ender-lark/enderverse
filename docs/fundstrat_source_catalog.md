@@ -1,6 +1,6 @@
 # Fundstrat Source Catalog
 
-Last Chrome review: 2026-06-09.
+Last Chrome review: 2026-06-16.
 
 This catalog records how Fundstrat Direct web surfaces should feed the Investing
 OS. It is a routing guide, not a scraping plan. Fundstrat member content should
@@ -21,7 +21,7 @@ files.
 | Live Technical Stock Analysis | `latest-research/?category=live-technical-stock-analysis` | Named-stock technical context | Detail page required. Useful when it touches held names, queued research, or high-priority candidates. |
 | US Policy / Fed Watch | `latest-research/?category=us-policy`, `?category=fed-watch` | Macro/event-risk context | Detail page required. Promote only if it changes exposure review, rates/oil/geopolitical risk, or catalyst timing. |
 | Crypto Research | Digital Asset Strategy, Funding Fridays, Liquid Ventures, Special Reports | Crypto sleeve context | Detail page required. Promote only if it changes crypto sleeve posture, a held asset, or a priority crypto-equity proxy. |
-| Tom Lee Macro Minute and other videos | Macro Minute, Latest Videos, media pages | Private transcript vault, Notion action notes, plus compact derived rows | Video-only cards remain discovery-only. Checked review requires visible transcript/captions, companion article, or supplied compact notes. Full transcript text goes only to the private source vault; public repo caches keep metadata, hashes, synthesis status, and compact derived rows. Derived action notes go to Notion after live fetch-back verification. |
+| Tom Lee Macro Minute and other videos | Macro Minute, Latest Videos, media pages | Private transcript vault, Notion action notes, plus compact derived rows | Codex should navigate Fundstrat Latest Videos/detail pages in the user's logged-in Chrome session and capture any visible transcript/caption track exposed by the page/player. Video-only cards remain discovery-only. Checked review requires visible transcript/captions, companion article, or supplied compact notes. Full transcript text goes only to the private source vault; public repo caches keep metadata, hashes, synthesis status, and compact derived rows. Derived action notes go to Notion after live fetch-back verification. |
 | Webinars and appearances | Latest Webinars, market updates, in-the-news | Mostly noise | Discovery/audit only unless there is a concrete, transcript-backed call tied to current holdings or high-priority research. |
 | Top Ideas stock lists | Large-Cap, SMID-Cap | Baseline/watchlist, not daily-call | Tables include ticker, sector/industry, price, performance, support, resistance, and date added. Use later for adds/removes/support-resistance changes, not routine daily-call alerts. |
 | Upticks | Stock list, commentary, performance, historical | Baseline/watchlist | Same table-style baseline. Capture only meaningful list changes or technical levels that overlap portfolio/research priorities. |
@@ -40,11 +40,15 @@ files.
    article, open the detail page before capture. Use
    `source_surface=article_detail` and a `full_content_basis` that explicitly
    says the article detail page text was visible.
-3. Video cards are discovery-only unless transcript/caption/companion text is
-   visible. Repeat work should use `fundstrat_transcript_vault.py` for full
-   private-vault review packs, `fundstrat_transcript_synthesis.py` for
-   action-oriented Notion notes, and the existing compact fields only for
-   cockpit/source-call derivation.
+3. Video scans are Chrome-driven: Codex opens the Latest Videos page, follows
+   newly posted detail pages, checks the embedded player and transcript/caption
+   controls, and scrolls transcript panes when available. The operator only has
+   to keep Chrome logged into Fundstrat. Login prompts, CAPTCHA, expired
+   sessions, or missing player transcript/caption tracks are the handoff states.
+   Repeat work should use `fundstrat_transcript_vault.py` for full private-vault
+   review packs, `fundstrat_transcript_synthesis.py` for action-oriented Notion
+   notes, and the existing compact fields only for cockpit/source-call
+   derivation.
 4. Stock-list and crypto-list tables are not part of tomorrow's fast lane. They
    should become a slower baseline/diff lane only if they produce adds/removes,
    weight changes, support/resistance changes, or direct portfolio overlap.

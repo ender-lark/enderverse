@@ -208,7 +208,13 @@ Important recent state:
   overlap.
 - Tom Lee/video-only Fundstrat items are audit/discovery-only unless a visible
   transcript, captions, companion article, or supplied compact notes are
-  available. Automated video transcript/caption intake is queued as P3.
+  available. Automated video transcript/caption intake is implemented through
+  the private source-vault flow and the late-evening sweep prompt. It is
+  Chrome-driven: Codex should navigate Latest Videos/detail pages in the user's
+  logged-in Chrome session and inspect player transcript/caption controls
+  itself. The remaining blocker states are login/CAPTCHA/session availability
+  or missing player-exposed transcript/caption/companion text; those stay
+  discovery-only / `not_checked`.
 - Low-value Fundstrat content is suppressed across the whole path. Webinars,
   replays, promotional notes, and broad context that does not change action
   posture, timing, sizing, risk, or research priority should stay quiet and
@@ -573,11 +579,12 @@ git status --short
 git log origin/main -5 --oneline
 ```
 
-Then read `docs/codex_build_queue.md`; the only queued implementation slice is
-the P3 Fundstrat video transcript/caption intake item. Keep it below text/web
-Fundstrat intake, source reliability, and cockpit action-surfacing work unless
-video-first Tom Lee macro updates become a repeated operating gap. Promote the
-next slice only from fresh audit/user evidence.
+Then read `docs/codex_build_queue.md`; the prior P3 Fundstrat video
+transcript/caption intake item is closed. If transcript work resumes, treat it
+as an operations/reliability follow-up around Chrome login/session proof,
+player transcript availability, compact-row usefulness, and Notion readback,
+not as a raw-vault build from scratch. Promote the next slice only from fresh
+audit/user evidence.
 
 Do not start with stock-specific research. If no concrete implementation slice
 is queued, run a fresh completion audit and promote the next system/routine/UI
