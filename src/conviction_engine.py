@@ -35,6 +35,7 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
+import battery_evidence as be
 from insight_register import conviction_points as _insight_points
 from insight_register import match as _insight_match
 
@@ -313,8 +314,11 @@ def conviction(
     goal: dict[str, Any],
     rates: dict[str, Any] | None = None,
     today: str | date | None = None,
+    battery: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     tick = ticker.upper()
+    battery_payload = battery if battery is not None else be.build_battery_evidence(tick)
+    be.assert_valid_battery_evidence(battery_payload)
     fs = fs_group(fs_items or [], weights=weights, rates=rates, today=today)
     uw = uw_group(uw_state, weights=weights)
     matches = _insight_match(insight_payload, ticker=tick, today=today) if insight_payload else []
@@ -388,6 +392,7 @@ def conviction(
             groups=groups,
             force_recheck=uw["force_recheck"],
         ),
+        "battery": battery_payload,
         "raises": raises,
         "not_checked": not_checked,
         "computed_at": _today(today).isoformat(),

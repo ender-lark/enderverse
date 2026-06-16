@@ -1,10 +1,12 @@
 ﻿import os
 import sys
+import json
 
 import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import battery_feed_adapter as bfa
 import decision_card as dc
 from directive_recs import build_directive_cards
 from tunables import load_conviction_weights, load_goal_tunables
@@ -57,6 +59,13 @@ def _feed():
         "actions": [
             {"ticker": "GOOGL", "goal_score": 80, "kind": "lean_in"},
             {"ticker": "MAGS", "goal_score": 70, "kind": "trim"},
+        ],
+        "holdings": [
+            {
+                "cat": "Quality core",
+                "rot": {"w": "LEADING"},
+                "pos": [{"t": "GOOGL", "cd": "up", "cdNote": "test momentum"}],
+            }
         ],
         "reallocation_brief": {
             "positions_snapshot_date": "2026-06-09",
@@ -144,6 +153,46 @@ def test_buy_cards_carry_caps_sizing_payload():
         assert isinstance(sizing["suggested_usd"], (int, float))
         assert sizing["heat"]
         assert sizing["cap_basis"]
+
+def test_directive_conviction_carries_battery_without_render_or_priority_coupling(monkeypatch, tmp_path):
+    cache = tmp_path / "uw_opportunity_signals.json"
+    cache.write_text(
+        json.dumps(
+            {
+                "as_of": TODAY,
+                "signals": [
+                    {
+                        "ticker": "GOOGL",
+                        "signal_type": "sweep",
+                        "direction": "bullish",
+                        "strength": "strong",
+                        "evidence": "ask-side call sweeps",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bfa, "DEFAULT_OPPORTUNITY_SIGNALS_PATH", cache)
+
+    out = _build()
+    googl = [c for c in out["cards"] + out["backlog"] if c["ticker"] == "GOOGL"][0]
+    battery = googl["conviction"]["battery"]
+    keys = {row["key"] for row in battery["factors"]}
+
+    assert "uw_opportunity_sweep" in keys
+    assert "group_rotation_momentum" in keys
+    assert "battery" not in googl["decision_card"]["conviction"]
+
+    blend = W["priority_blend"]
+    expected = round(
+        float(blend["capital_priority_weight"]) * 80
+        + float(blend["conviction_weight"]) * googl["conviction"]["points"]
+        + float(blend["window_decay_weight"]) * 0.66,
+        1,
+    ) + 5.0
+    assert googl["priority"] == expected
+
 
 def test_honesty_footer_and_funding_passthrough():
     out = _build()

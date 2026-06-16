@@ -6,6 +6,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import battery_evidence as be
 import conviction_engine as ce
 from tunables import load_conviction_weights, load_goal_tunables
 
@@ -230,6 +231,67 @@ def test_not_checked_lanes_are_explicit():
     assert "uw_same_session" in out["not_checked"]
     joined = " | ".join(out["raises"])
     assert "9:40" in joined and "13F" in joined
+
+
+def test_battery_attachment_does_not_change_score_or_groups():
+    base = ce.conviction(
+        "GOOGL",
+        fs_items=[_item(source=s) for s in ("newton", "lee")],
+        uw_state={"interpretation": "supports"},
+        inst_state={"points": 0.6, "why": "x"},
+        weights=W,
+        goal=G,
+        today=TODAY,
+    )
+    battery = be.build_battery_evidence(
+        "GOOGL",
+        uw_opportunity={
+            "status": "checked",
+            "ticker": "GOOGL",
+            "as_of": TODAY,
+            "signals": [
+                {
+                    "ticker": "GOOGL",
+                    "signal_type": "sweep",
+                    "direction": "bullish",
+                    "strength": "strong",
+                    "evidence": "ask-side call sweeps",
+                }
+            ],
+        },
+        group_rotation={
+            "status": "checked",
+            "category": "Quality",
+            "rot_w": "LEADING",
+            "cd": "up",
+        },
+    )
+    with_battery = ce.conviction(
+        "GOOGL",
+        fs_items=[_item(source=s) for s in ("newton", "lee")],
+        uw_state={"interpretation": "supports"},
+        inst_state={"points": 0.6, "why": "x"},
+        weights=W,
+        goal=G,
+        today=TODAY,
+        battery=battery,
+    )
+
+    for key in (
+        "points",
+        "magnitude",
+        "read",
+        "strength_5",
+        "direction",
+        "groups",
+        "group_detail",
+        "n_groups",
+        "conflicted",
+    ):
+        assert with_battery[key] == base[key]
+    assert with_battery["group_detail"]["uw"] == base["group_detail"]["uw"]
+    assert with_battery["battery"] == battery
+
 
 def test_source_calls_adapter_filters_ticker_and_cluster():
     calls = [
