@@ -85,6 +85,15 @@ def _run_git(args: list[str], *, cwd: Path, check: bool = True) -> subprocess.Co
     )
 
 
+def _run_git_bytes(args: list[str], *, cwd: Path, check: bool = True) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["git", *args],
+        cwd=cwd,
+        capture_output=True,
+        check=check,
+    )
+
+
 def _git_failure(exc: subprocess.CalledProcessError, *, step: str) -> dict[str, Any]:
     return {
         "valid": False,
@@ -144,6 +153,59 @@ def _normalize_receipts_if_allowed(repo: Path, allowed: set[str]) -> dict[str, A
     return report
 
 
+def _merge_upstream_receipts_if_allowed(repo: Path, allowed: set[str]) -> dict[str, Any]:
+    report = {
+        "upstream_receipts_checked": False,
+        "upstream_receipts_merged": False,
+        "upstream_receipts_added": 0,
+        "upstream_receipts_error": "",
+    }
+    if RECEIPT_PATH not in allowed:
+        return report
+    receipt_file = repo / RECEIPT_PATH
+    if not receipt_file.is_file():
+        return report
+    try:
+        upstream = _run_git(
+            ["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"],
+            cwd=repo,
+        ).stdout.strip()
+    except subprocess.CalledProcessError:
+        return report
+    if not upstream:
+        return report
+    report["upstream_receipts_checked"] = True
+    try:
+        _run_git(["fetch"], cwd=repo)
+        upstream_blob = _run_git_bytes(["show", f"{upstream}:{RECEIPT_PATH}"], cwd=repo).stdout
+    except subprocess.CalledProcessError as exc:
+        report["upstream_receipts_error"] = (
+            (exc.stderr or exc.stdout or b"").decode("utf-8", errors="replace").strip()
+            or f"git command failed with exit code {exc.returncode}"
+        )
+        return report
+    try:
+        local_payload = cloud_routine_receipts.load_receipts(receipt_file)
+        upstream_payload = cloud_routine_receipts.load_receipts_bytes(
+            upstream_blob,
+            label=f"{upstream}:{RECEIPT_PATH}",
+        )
+        before_count = len(local_payload.get("receipts") or [])
+        merged = cloud_routine_receipts.merge_receipt_payloads(
+            local_payload,
+            upstream_payload,
+        )
+        after_count = len(merged.get("receipts") or [])
+    except Exception as exc:  # pragma: no cover - defensive path is reported to operator.
+        report["upstream_receipts_error"] = str(exc)
+        return report
+    if merged != local_payload:
+        cloud_routine_receipts.merge_receipts_file(receipt_file, upstream_payload)
+        report["upstream_receipts_merged"] = True
+        report["upstream_receipts_added"] = max(0, after_count - before_count)
+    return report
+
+
 def cloud_routine_commit(
     *,
     message: str,
@@ -155,6 +217,7 @@ def cloud_routine_commit(
     """Stage/commit/push only the allowed changed paths."""
     repo = Path(cwd)
     allowed = {_normalize(path) for path in (allowed_paths or DEFAULT_ALLOWED_PATHS)}
+    upstream_merge_report = _merge_upstream_receipts_if_allowed(repo, allowed)
     normalize_report = _normalize_receipts_if_allowed(repo, allowed)
     try:
         rows = _status_rows(repo)
@@ -166,6 +229,7 @@ def cloud_routine_commit(
             "allowed_count": len(allowed),
             "selected_paths": [],
             "unrelated_dirty_paths": [],
+            **upstream_merge_report,
             **normalize_report,
             "committed": False,
             "pushed": False,
@@ -182,12 +246,17 @@ def cloud_routine_commit(
         "allowed_count": len(allowed),
         "selected_paths": selected,
         "unrelated_dirty_paths": unrelated,
+        **upstream_merge_report,
         **normalize_report,
         "committed": False,
         "pushed": False,
         "commit": "",
         "reason": "",
     }
+    if report.get("upstream_receipts_error"):
+        report["valid"] = False
+        report["reason"] = "upstream receipt merge failed"
+        return report
     if report.get("receipt_normalize_error"):
         report["valid"] = False
         report["reason"] = "receipt normalization failed"
@@ -248,6 +317,13 @@ def format_text(report: dict[str, Any]) -> str:
         lines.append("Receipt store normalized to UTF-8 before commit.")
     if report.get("receipt_normalize_error"):
         lines.append(f"Receipt normalize error: {report.get('receipt_normalize_error')}")
+    if report.get("upstream_receipts_merged"):
+        lines.append(
+            "Merged upstream receipt store before commit"
+            f" ({int(report.get('upstream_receipts_added') or 0)} new rows)."
+        )
+    if report.get("upstream_receipts_error"):
+        lines.append(f"Upstream receipt merge error: {report.get('upstream_receipts_error')}")
     if report.get("error"):
         lines.append(f"Error: {report.get('error')}")
     if report.get("stderr"):

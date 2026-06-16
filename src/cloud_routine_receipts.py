@@ -329,8 +329,7 @@ def _atomic_write_json(path: str | Path, payload: Any) -> Path:
     return path
 
 
-def _load_json_file(path: Path) -> Any:
-    raw = path.read_bytes()
+def load_receipts_bytes(raw: bytes, *, label: str = "<bytes>") -> dict[str, Any]:
     problems: list[str] = []
     for encoding in JSON_READ_ENCODINGS:
         try:
@@ -339,17 +338,12 @@ def _load_json_file(path: Path) -> Any:
             problems.append(f"{encoding}: {exc}")
             continue
         try:
-            return json.loads(text)
+            payload = json.loads(text)
+            break
         except json.JSONDecodeError as exc:
             problems.append(f"{encoding}: {exc}")
-    raise ValueError(f"{path} could not be decoded as JSON: {'; '.join(problems)}")
-
-
-def load_receipts(path: str | Path = DEFAULT_OUT) -> dict[str, Any]:
-    path = Path(path)
-    if not path.is_file():
-        return {"schema_version": 1, "receipts": []}
-    payload = _load_json_file(path)
+    else:
+        raise ValueError(f"{label} could not be decoded as JSON: {'; '.join(problems)}")
     if isinstance(payload, list):
         return {"schema_version": 1, "receipts": payload}
     if isinstance(payload, dict):
@@ -359,6 +353,63 @@ def load_receipts(path: str | Path = DEFAULT_OUT) -> dict[str, Any]:
             payload["receipts"] = []
         return payload
     return {"schema_version": 1, "receipts": []}
+
+
+def _load_json_file(path: Path) -> Any:
+    return load_receipts_bytes(path.read_bytes(), label=str(path))
+
+
+def load_receipts(path: str | Path = DEFAULT_OUT) -> dict[str, Any]:
+    path = Path(path)
+    if not path.is_file():
+        return {"schema_version": 1, "receipts": []}
+    return _load_json_file(path)
+
+
+def _receipt_sort_key(row: dict[str, Any]) -> tuple[float, str]:
+    parsed = parse_dt(row.get("recorded_at"))
+    timestamp = parsed.timestamp() if parsed else 0.0
+    return timestamp, json.dumps(row, sort_keys=True, ensure_ascii=True)
+
+
+def merge_receipt_payloads(*payloads: dict[str, Any], keep: int = 500) -> dict[str, Any]:
+    """Return a canonical receipt payload containing the union of input rows."""
+    merged: dict[str, dict[str, Any]] = {}
+    schema_version = 1
+    for payload in payloads:
+        if not isinstance(payload, dict):
+            continue
+        try:
+            schema_version = max(schema_version, int(payload.get("schema_version") or 1))
+        except (TypeError, ValueError):
+            schema_version = max(schema_version, 1)
+        for row in payload.get("receipts") or []:
+            if not isinstance(row, dict):
+                continue
+            key = json.dumps(row, sort_keys=True, ensure_ascii=True)
+            merged[key] = row
+    receipts = sorted(merged.values(), key=_receipt_sort_key)
+    if keep > 0:
+        receipts = receipts[-keep:]
+    updated_at = receipts[-1].get("recorded_at") if receipts else ""
+    result: dict[str, Any] = {"schema_version": schema_version, "receipts": receipts}
+    if updated_at:
+        result["updated_at"] = updated_at
+    problems = validate_receipts(result)
+    if problems:
+        raise ValueError("; ".join(problems))
+    return result
+
+
+def merge_receipts_file(
+    path: str | Path,
+    *payloads: dict[str, Any],
+    keep: int = 500,
+) -> dict[str, Any]:
+    current = load_receipts(path)
+    merged = merge_receipt_payloads(current, *payloads, keep=keep)
+    _atomic_write_json(path, merged)
+    return merged
 
 
 def validate_receipt_file_encoding(path: str | Path = DEFAULT_OUT) -> list[str]:
@@ -418,7 +469,7 @@ def append_receipt(
     run_source: str = "manual",
     details: dict[str, Any] | None = None,
     recorded_at: str | None = None,
-    keep: int = 250,
+    keep: int = 500,
 ) -> dict[str, Any]:
     normalized_status = status.strip().lower()
     if normalized_status not in VALID_STATUSES:
@@ -439,11 +490,13 @@ def append_receipt(
     if details:
         receipt["details"] = details
     receipts.append(receipt)
-    payload = {
-        "schema_version": int(payload.get("schema_version") or 1),
-        "updated_at": receipt["recorded_at"],
-        "receipts": receipts[-keep:],
-    }
+    payload = merge_receipt_payloads(
+        {
+            "schema_version": int(payload.get("schema_version") or 1),
+            "receipts": receipts,
+        },
+        keep=keep,
+    )
     problems = validate_receipts(payload)
     if problems:
         raise ValueError("; ".join(problems))

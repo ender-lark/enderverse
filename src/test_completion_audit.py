@@ -185,7 +185,7 @@ def test_completion_audit_cli_text_runs_against_current_repo():
     assert rc == 0
 
 
-def test_completion_audit_cli_require_all_clear_fails_current_repo():
+def test_completion_audit_cli_require_all_clear_passes_current_repo():
     rc = completion_audit.main(["--require-all-clear"])
 
-    assert rc == 3
+    assert rc == 0
