@@ -144,8 +144,15 @@ The system synthesizes only from explicit source or repo evidence:
   - Authenticated Fundstrat website content can be read through the user's
     Chrome session, then reduced to compact full-content-derived rows through
     `fundstrat_web_intake.py`.
+  - Fundstrat video transcript sweeps are Chrome-driven. Codex opens Fundstrat
+    in the user's logged-in Chrome session, navigates Latest Videos and detail
+    pages, and checks player transcript/caption controls itself. The operator
+    normally only keeps Chrome logged in.
   - Video-only cards remain discovery-only unless a visible transcript,
     captions, companion article, or supplied compact notes are available.
+  - Login prompts, CAPTCHA, unavailable Chrome session, permission prompts, or
+    missing player transcript/caption tracks are honest blocker states and stay
+    `not_checked`; they are not converted into short synthetic notes.
   - Full transcript review packs now go through
     `fundstrat_transcript_vault.py`; raw transcript/caption text is written
     only to the private source vault named by `INVESTING_OS_SOURCE_VAULT`.
@@ -456,9 +463,12 @@ support.
 | `investing-os-weekly-pilot-run` | Weekly pilot/status run | Sunday 6:00 PM ET |
 
 The Fundstrat late-evening web/transcript sweep has repo prompt coverage in
-`src/codex_routines/fundstrat_late_evening_web_transcript_sweep.md`. Missing
-transcript/caption/companion evidence must remain not checked; video-only
-discovery does not update compact caches or Notion review notes.
+`src/codex_routines/fundstrat_late_evening_web_transcript_sweep.md`. It should
+navigate Fundstrat in Chrome during the routine, including Latest Videos,
+detail pages, embedded transcript/caption controls, and companion text when
+available. Missing transcript/caption/companion evidence, login/CAPTCHA blocks,
+or inaccessible Chrome state must remain not checked; video-only discovery does
+not update compact caches or Notion review notes.
 
 `src/cloud_automation_status.json` records the expected app-created automation
 ids, superseded legacy routines, and the schedule basis. `cloud_ops_status.py`

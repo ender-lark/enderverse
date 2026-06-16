@@ -150,6 +150,15 @@ path writes source material only to the private source vault pointed to by
 `INVESTING_OS_SOURCE_VAULT`; the public repo stores only metadata, hashes,
 analysis summaries, and compact derived rows.
 
+The intended v1 operating model is Chrome-driven. Codex should open Fundstrat
+directly in the user's existing logged-in Chrome session, check Latest Videos
+and any relevant article/video detail pages, open player transcript/caption
+controls when they exist, and capture as much exposed transcript/caption text as
+Chrome can read. The user does not need to manually navigate Fundstrat for the
+routine. The real blockers are narrower: Chrome is not logged in or available
+to Codex, Fundstrat presents a login/CAPTCHA/permission wall, or the
+Fundstrat/Vimeo player exposes no transcript/caption/companion text.
+
 Videos can be handled safely only when one of these is available:
 
 - a visible article transcript on the member page
@@ -231,8 +240,11 @@ Suppress or audit-only:
 
 - This lane is faster than Gmail when Fundstrat delays email delivery.
 - It is not fully unattended unless Chrome is logged in and available to the
-  Codex session. Browser login prompts, CAPTCHA, or permission prompts are user
-  handoff states.
+  Codex session. Browser login prompts, CAPTCHA, permission prompts, and missing
+  player transcript/caption tracks are user handoff or `not_checked` states.
+- Routine scans should navigate Fundstrat themselves. The operator's normal
+  responsibility is keeping the Chrome session logged in; manual page driving is
+  only needed if Fundstrat blocks automation or hides the expected controls.
 - If Chrome access fails, fall back to Gmail full-body intake, Drive/manual
   source drop, or user-supplied website text/screenshots routed through compact
   intake.

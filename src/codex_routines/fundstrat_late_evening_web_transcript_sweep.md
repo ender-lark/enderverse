@@ -10,6 +10,12 @@ exposes a visible transcript, captions, companion article text, or a supplied
 compact note. Video-only titles, thumbnails, player embeds, and listing cards
 remain discovery-only.
 
+This is a Chrome-driven routine. Codex should navigate Fundstrat directly in
+the user's logged-in Chrome session, open recent video/article detail pages, and
+check transcript/caption/player controls itself. The operator is not expected to
+manually drive the page unless Fundstrat blocks the session, asks for login or
+CAPTCHA, or hides transcript controls that require human intervention.
+
 ## Inputs
 
 - Authenticated Fundstrat member pages through the user's logged-in Chrome
@@ -22,8 +28,14 @@ remain discovery-only.
 
 1. Write a `started` receipt with `run_source=scheduled` through
    `cloud_routine_runner.py` or `cloud_routine_receipts.py`.
-2. Check recent Fundstrat web/video detail pages. Do not treat listing cards or
-   video thumbnails as checked evidence.
+2. Open Fundstrat in Chrome and check recent web/video surfaces:
+   - Latest Videos and relevant analyst/category pages for new videos.
+   - Video detail pages, not only listing cards.
+   - Embedded player transcript/caption controls and any visible transcript
+     panes, scrolling the pane when needed.
+   - Companion article/detail text when attached to the video.
+   Do not treat listing cards, video thumbnails, or the player embed alone as
+   checked evidence.
 3. For each checked video/article payload with transcript, captions, companion
    article text, or supplied compact notes, run:
 
@@ -68,6 +80,11 @@ If no checked transcript, caption track, companion article text, or supplied
 compact note is available, write a successful not-checked/no-new-input receipt.
 Do not update public Fundstrat caches, do not create Notion review notes, and do
 not mark video-only discovery as checked clear.
+
+Chrome login/session failures, CAPTCHA, permission prompts, inaccessible tabs,
+or missing player transcript/caption tracks are not a reason to invent a short
+note. Record the exact blocker in the receipt or handoff and keep the item
+discovery-only / `not_checked`.
 
 ## Public/Private Boundary
 

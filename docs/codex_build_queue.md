@@ -53,6 +53,11 @@ before editing shared docs or routine code.
   Synthesis Log and recorded their URLs in private vault synthesis metadata.
 - Added `src/codex_routines/fundstrat_late_evening_web_transcript_sweep.md` so
   the scheduled late-evening sweep has repo prompt coverage.
+- Clarified the operating plan after Chrome proof: Codex should navigate
+  Fundstrat itself in the user's logged-in Chrome session, open Latest
+  Videos/detail pages, and inspect transcript/caption controls. The remaining
+  blockers are login/CAPTCHA/session availability or missing player-exposed
+  transcript/caption/companion text, which stay discovery-only / not checked.
 - Marked `fundstrat-video-transcript-intake` done in
   `src/system_improvement_queue.json`.
 
@@ -79,7 +84,8 @@ before editing shared docs or routine code.
     Allocation, and Crypto Core Strategy tables are baseline/diff candidates,
     not daily-call alerts unless they show meaningful change or portfolio
     overlap.
-  - Added a P3 queued item for Fundstrat video transcript/caption intake.
+  - Added a P3 queued item for Fundstrat video transcript/caption intake;
+    later closed by the private transcript-vault and synthesis workflow.
 - Account-placement guidance for trade review prompts.
   - Added `account_trade_placement.py` so action rows, research-action rows,
     market-open packet rows, and reallocation candidates can show a suggested
