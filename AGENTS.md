@@ -10,6 +10,11 @@ Repo-local operating protocol for Codex agents working on the Investing OS.
   readable mirror for recovery, rebuilds, upgrades, and troubleshooting.
 - Treat older CI, Notion, Claude, or chat handoffs as context only until they
   are reconciled against the current repo state.
+- If a task starts from
+  `C:\Users\suraj\OneDrive\Old\Documents\Investing OS (2.0)`, first verify
+  whether it is only a wrapper. When it is not a git repo, pivot to the
+  canonical checkout before editing:
+  `C:\Users\suraj\Documents\Codex\2026-06-04\confirm-you-can-access-my-github\work\enderverse`.
 
 ## Primary Objective
 
@@ -29,11 +34,20 @@ technical elegance.
 - Keep important operating decisions in repo docs; do not rely on chat memory.
 - Use `python src/verify_standard.py` as the standard verification command
   unless a narrower focused check is explicitly appropriate before it.
+- For larger architecture or system-maintenance tasks, plan first, then keep
+  moving in autopilot unless the user explicitly pauses, redirects, or asks for
+  a decision. Preserve deferred items in repo docs instead of chat.
+- For longer user-facing closeouts, include a short TLDR, who does what next,
+  and the recommended next step when that structure is useful.
 
 ## Merge Authority
 
-- Codex may merge a pull request only when the operator explicitly asks Codex
-  to merge that PR, the PR is not draft, GitHub reports it mergeable, and the
+- For verified Codex coding, docs, routine, and dashboard slices, the standing
+  closeout preference is full closeout: commit, push, open/update the PR when
+  needed, merge when GitHub reports the branch mergeable, sync `main`, and
+  update `docs/WORKBOARD.md`.
+- Codex may treat the user's requested slice as authorization for that standard
+  closeout when the branch is not draft, GitHub reports it mergeable, and the
   required checks are green or the operator explicitly accepts the documented
   check risk.
 - Codex must not bypass merge conflicts, failing checks, branch protection, or

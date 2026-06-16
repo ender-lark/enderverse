@@ -264,4 +264,67 @@ The parity is enforced by `src/test_jsx_parity.py`.
 
 ---
 
-*End — Conviction Engine Low-Level Architecture v1.0 + V3 decision layer (2026-06-11). Update here first when the engine or feed contract changes.*
+## 13 - Post-V3 implementation contracts (2026-06-16)
+
+These contracts sit around the pure engine. They matter because future source,
+routine, and proof work can otherwise make a lane look more proven than it is.
+
+### 13.1 - Fundstrat transcript vault boundary
+
+`fundstrat_transcript_vault.py` is not an engine input and must not place raw
+Fundstrat transcript text in the public repo.
+
+* Full transcript/caption text is written only to the private vault directory
+  named by `INVESTING_OS_SOURCE_VAULT`.
+* Public repo state is limited to `src/fundstrat_transcript_index.json`, which
+  may contain metadata, hashes, source dates, short synthesis, extract counts,
+  compact-row counts, and `vault://...` references.
+* Compact derived rows still enter the cockpit through existing compact
+  Fundstrat intake (`fundstrat_web_intake.py` /
+  `fundstrat_daily_compact_intake.py`). The vault index alone does not make a
+  dashboard call checked.
+* Video-only cards, thumbnails, and titles stay discovery-only unless a visible
+  transcript, captions, companion article, or supplied compact notes are
+  available.
+
+### 13.2 - UW proof remains separate from UW routing
+
+`uw_action_runbook.py` and `uw_routing_recommendations.py` describe what to
+check. `uw_endpoint_result_capture.py` and `uw_endpoint_result_proof.py` prove
+what was actually captured.
+
+* Captured endpoint rows prove fetch status only.
+* `neutral` or otherwise non-directional fetch success maps to
+  `inconclusive`, not `supports`.
+* Missing or malformed proof fails closed into Source Proof and should keep the
+  affected action/reallocation candidate gated.
+
+### 13.3 - Scheduled receipts are runtime proof, not architecture
+
+The active app automation stack is recorded in
+`src/cloud_automation_status.json`, but live-run proof is the receipt store:
+`src/cloud_routine_receipts.json`.
+
+* Manual receipts do not satisfy scheduled proof.
+* A routine should write a `started` receipt and then `success` or `failed` with
+  `run_source=scheduled`.
+* `cloud_ops_status.py` can report local go-live ready while the unattended
+  routine stack remains `not_ready`; these are different states.
+
+### 13.4 - Known low-level debt
+
+The 2026-06-16 integration-debt sweep still reports:
+
+* `options_expiry_preflight.py` and `stale_leaps_scan.py` have no visible
+  non-test/routine wiring.
+* v11.10 options-exit cadence is not fully wired into STALE-LEAPS or a routine.
+* `research_action_promotion.md` is prompt-only.
+* The late-evening Fundstrat web/transcript sweep is scheduled but lacks a repo
+  prompt/manifest doc match.
+
+Until that debt is resolved, do not describe those paths as fully scheduled
+decision architecture. Treat them as manual, prompt-only, or explicitly queued.
+
+---
+
+*End - Conviction Engine Low-Level Architecture v1.0 + V3 decision layer + post-V3 contracts (2026-06-16). Update here first when the engine or feed contract changes.*

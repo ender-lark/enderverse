@@ -1,0 +1,227 @@
+{
+  "generated_at": "2026-06-16T04:42:35Z",
+  "status": "warn",
+  "warning_count": 4,
+  "finding_count": 6,
+  "line": "Integration debt: 4 warning(s), 6 total finding(s).",
+  "sections": {
+    "options_exit_cadence": {
+      "status": "warn",
+      "line": "Options-exit cadence: STALE-LEAPS surface exists, but v11.10 7-rule cadence is not visibly wired into a routine or the STALE-LEAPS path.",
+      "stale_leaps_surface": true,
+      "cadence_code_present": true,
+      "cadence_routine_present": false,
+      "stale_uses_full_cadence": false,
+      "findings": [
+        {
+          "id": "options_exit_7_rule_cadence",
+          "area": "options_exit",
+          "severity": "warn",
+          "title": "v11.10 options-exit cadence is not fully wired",
+          "line": "Options-exit cadence: STALE-LEAPS surface exists, but v11.10 7-rule cadence is not visibly wired into a routine or the STALE-LEAPS path.",
+          "next_step": "Wire rationale_decay_v3/options_expiry_preflight into Weekly Pilot, a routine, or STALE-LEAPS; otherwise document it as manual-only.",
+          "evidence": [
+            "src/rationale_decay_v3.py present",
+            "src/pattern_engine.py STALE-LEAPS present",
+            "src/morning_scan.py held_options defaults to caller-supplied/not_checked"
+          ]
+        }
+      ],
+      "rows": [
+        {
+          "id": "options_exit_7_rule_cadence",
+          "area": "options_exit",
+          "severity": "warn",
+          "title": "v11.10 options-exit cadence is not fully wired",
+          "line": "Options-exit cadence: STALE-LEAPS surface exists, but v11.10 7-rule cadence is not visibly wired into a routine or the STALE-LEAPS path.",
+          "next_step": "Wire rationale_decay_v3/options_expiry_preflight into Weekly Pilot, a routine, or STALE-LEAPS; otherwise document it as manual-only.",
+          "evidence": [
+            "src/rationale_decay_v3.py present",
+            "src/pattern_engine.py STALE-LEAPS present",
+            "src/morning_scan.py held_options defaults to caller-supplied/not_checked"
+          ]
+        }
+      ]
+    },
+    "module_wiring": {
+      "status": "warn",
+      "line": "Module wiring sweep: 36 candidate orphan module(s); 2 priority warning(s).",
+      "candidate_count": 36,
+      "priority_warning_count": 2,
+      "rows": [
+        {
+          "module": "options_expiry_preflight",
+          "path": "src/options_expiry_preflight.py",
+          "has_cli": true,
+          "line": "options_expiry_preflight.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "stale_leaps_scan",
+          "path": "src/stale_leaps_scan.py",
+          "has_cli": true,
+          "line": "stale_leaps_scan.py has no non-test import and no routine/prompt command reference."
+        }
+      ],
+      "findings": [
+        {
+          "id": "module_unwired_options_expiry_preflight",
+          "area": "module_wiring",
+          "severity": "warn",
+          "title": "options_expiry_preflight.py has no visible wiring",
+          "line": "options_expiry_preflight.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/options_expiry_preflight.py"
+          ]
+        },
+        {
+          "id": "module_unwired_stale_leaps_scan",
+          "area": "module_wiring",
+          "severity": "warn",
+          "title": "stale_leaps_scan.py has no visible wiring",
+          "line": "stale_leaps_scan.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/stale_leaps_scan.py"
+          ]
+        }
+      ]
+    },
+    "routine_schedule": {
+      "status": "info",
+      "line": "Routine schedule sweep: 1 prompt-only file(s), 1 scheduled routine(s) without repo prompt/doc coverage.",
+      "prompt_only": [
+        "research_action_promotion"
+      ],
+      "scheduled_without_doc": [
+        {
+          "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+          "role": "fundstrat_late_evening_web_transcript_sweep",
+          "schedule": "market weekdays 10:45 PM ET",
+          "line": "fundstrat_late_evening_web_transcript_sweep is scheduled but has no repo prompt/manifest doc match."
+        }
+      ],
+      "rows": [
+        {
+          "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+          "role": "fundstrat_late_evening_web_transcript_sweep",
+          "schedule": "market weekdays 10:45 PM ET",
+          "line": "fundstrat_late_evening_web_transcript_sweep is scheduled but has no repo prompt/manifest doc match."
+        }
+      ],
+      "findings": [
+        {
+          "id": "prompt_without_schedule_research_action_promotion",
+          "area": "routine_schedule",
+          "severity": "info",
+          "title": "research_action_promotion prompt is not visibly scheduled",
+          "line": "src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.",
+          "next_step": "Register it, mark it retired, or document why it is manual-only."
+        },
+        {
+          "id": "scheduled_without_repo_prompt_fundstrat_late_evening_web_transcript_sweep",
+          "area": "routine_schedule",
+          "severity": "info",
+          "title": "fundstrat_late_evening_web_transcript_sweep lacks repo prompt coverage",
+          "line": "fundstrat_late_evening_web_transcript_sweep is scheduled but has no repo prompt/manifest doc match.",
+          "next_step": "Add a repo prompt/doc or map the schedule to an existing manifest entry.",
+          "evidence": [
+            "investing-os-fundstrat-late-evening-web-transcript-sweep",
+            "market weekdays 10:45 PM ET"
+          ]
+        }
+      ]
+    },
+    "notion_queue": {
+      "status": "not_checked",
+      "line": "Notion queue sweep: not_checked; repo-local system queue has 1 active/queued item(s).",
+      "local_queue_active_or_queued": 1,
+      "rows": [
+        {
+          "id": "fundstrat-video-transcript-intake",
+          "title": "Handle Tom Lee and Fundstrat video updates through transcripts or captions",
+          "priority": "P3",
+          "status": "queued",
+          "area": "routines",
+          "why": "Some Tom Lee macro updates are video-first. They may matter, but video extraction is lower priority than text FlashInsights, email full-body intake, and dashboard action reliability.",
+          "done_when": "Authenticated Fundstrat video pages can produce compact transcript-derived rows only when a visible transcript, captions, companion article text, or user-supplied compact notes exist; video-only titles and thumbnails remain discovery/audit-only."
+        }
+      ],
+      "findings": [
+        {
+          "id": "notion_queue_not_checked",
+          "area": "notion_queue",
+          "severity": "warn",
+          "title": "Notion System Update Queue not checked",
+          "line": "Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status.",
+          "next_step": "Run with a Notion queue export/connector snapshot when doing the weekly debt review."
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "id": "options_exit_7_rule_cadence",
+      "area": "options_exit",
+      "severity": "warn",
+      "title": "v11.10 options-exit cadence is not fully wired",
+      "line": "Options-exit cadence: STALE-LEAPS surface exists, but v11.10 7-rule cadence is not visibly wired into a routine or the STALE-LEAPS path.",
+      "next_step": "Wire rationale_decay_v3/options_expiry_preflight into Weekly Pilot, a routine, or STALE-LEAPS; otherwise document it as manual-only.",
+      "evidence": [
+        "src/rationale_decay_v3.py present",
+        "src/pattern_engine.py STALE-LEAPS present",
+        "src/morning_scan.py held_options defaults to caller-supplied/not_checked"
+      ]
+    },
+    {
+      "id": "module_unwired_options_expiry_preflight",
+      "area": "module_wiring",
+      "severity": "warn",
+      "title": "options_expiry_preflight.py has no visible wiring",
+      "line": "options_expiry_preflight.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/options_expiry_preflight.py"
+      ]
+    },
+    {
+      "id": "module_unwired_stale_leaps_scan",
+      "area": "module_wiring",
+      "severity": "warn",
+      "title": "stale_leaps_scan.py has no visible wiring",
+      "line": "stale_leaps_scan.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/stale_leaps_scan.py"
+      ]
+    },
+    {
+      "id": "prompt_without_schedule_research_action_promotion",
+      "area": "routine_schedule",
+      "severity": "info",
+      "title": "research_action_promotion prompt is not visibly scheduled",
+      "line": "src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.",
+      "next_step": "Register it, mark it retired, or document why it is manual-only."
+    },
+    {
+      "id": "scheduled_without_repo_prompt_fundstrat_late_evening_web_transcript_sweep",
+      "area": "routine_schedule",
+      "severity": "info",
+      "title": "fundstrat_late_evening_web_transcript_sweep lacks repo prompt coverage",
+      "line": "fundstrat_late_evening_web_transcript_sweep is scheduled but has no repo prompt/manifest doc match.",
+      "next_step": "Add a repo prompt/doc or map the schedule to an existing manifest entry.",
+      "evidence": [
+        "investing-os-fundstrat-late-evening-web-transcript-sweep",
+        "market weekdays 10:45 PM ET"
+      ]
+    },
+    {
+      "id": "notion_queue_not_checked",
+      "area": "notion_queue",
+      "severity": "warn",
+      "title": "Notion System Update Queue not checked",
+      "line": "Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status.",
+      "next_step": "Run with a Notion queue export/connector snapshot when doing the weekly debt review."
+    }
+  ]
+}

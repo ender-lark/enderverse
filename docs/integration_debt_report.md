@@ -1,8 +1,8 @@
 # Integration Debt Report
 
-Generated: 2026-06-13T17:16:09Z
+Generated: 2026-06-16T04:42:35Z
 
-Status: warn | warnings: 4 | findings: 5
+Status: warn | warnings: 4 | findings: 6
 
 ## Findings
 
@@ -25,7 +25,12 @@ Status: warn | warnings: 4 | findings: 5
    - Area: routine_schedule
    - Line: src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.
    - Next: Register it, mark it retired, or document why it is manual-only.
-5. [WARN] Notion System Update Queue not checked
+5. [INFO] fundstrat_late_evening_web_transcript_sweep lacks repo prompt coverage
+   - Area: routine_schedule
+   - Line: fundstrat_late_evening_web_transcript_sweep is scheduled but has no repo prompt/manifest doc match.
+   - Next: Add a repo prompt/doc or map the schedule to an existing manifest entry.
+   - Evidence: investing-os-fundstrat-late-evening-web-transcript-sweep; market weekdays 10:45 PM ET
+6. [WARN] Notion System Update Queue not checked
    - Area: notion_queue
    - Line: Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status.
    - Next: Run with a Notion queue export/connector snapshot when doing the weekly debt review.
@@ -38,11 +43,11 @@ Options-exit cadence: STALE-LEAPS surface exists, but v11.10 7-rule cadence is n
 
 ### module_wiring
 
-Module wiring sweep: 35 candidate orphan module(s); 2 priority warning(s).
+Module wiring sweep: 36 candidate orphan module(s); 2 priority warning(s).
 
 ### routine_schedule
 
-Routine schedule sweep: 1 prompt-only file(s), 0 scheduled routine(s) without repo prompt/doc coverage.
+Routine schedule sweep: 1 prompt-only file(s), 1 scheduled routine(s) without repo prompt/doc coverage.
 
 ### notion_queue
 
