@@ -72,6 +72,8 @@ def _calibration_feedback(calls: list, *, inbox_call_dates=None, log_call_dates=
             ),
             "worst_days_behind": 0,
             "cache_as_of": newest_cache,
+            "stale_hops": [],
+            "provisional": True,
         }, False)
 
     chain = sct.calibration_chain_staleness(
@@ -83,12 +85,26 @@ def _calibration_feedback(calls: list, *, inbox_call_dates=None, log_call_dates=
             "line": "Calibration chain checked fresh.",
             "worst_days_behind": 0,
             "cache_as_of": newest_cache,
+            "stale_hops": [],
+            "provisional": False,
         }, True)
+    stale_hops = chain.get("stale_hops") or []
+    hop_label = ", ".join(str(h).replace("_", "->") for h in stale_hops) or "unknown hop"
+    surface = sct.chain_staleness_surface(chain)
     return ({
         "status": "stale",
-        "line": f"Calibration chain stale: {chain.get('worst_days_behind', 0)}d behind.",
+        "line": (
+            "Calibration chain stale: "
+            f"{chain.get('worst_days_behind', 0)}d behind ({hop_label}); "
+            "SOURCE CALIB output is provisional."
+        ),
         "worst_days_behind": chain.get("worst_days_behind", 0),
         "cache_as_of": newest_cache,
+        "stale_hops": stale_hops,
+        "provisional": True,
+        "surface_line": surface,
+        "inbox_log": chain.get("inbox_log") or {},
+        "log_cache": chain.get("log_cache") or {},
     }, False)
 
 

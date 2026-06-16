@@ -70,6 +70,23 @@ def test_fs_inbox_absent_is_not_checked_never_all_clear():
     assert "FS inbox" not in out["blockers"]
 
 
+def test_stale_source_call_calibration_blocks():
+    feed = _feed(feedback={"source_calls": {"calibration": {
+        "status": "stale",
+        "line": "Calibration chain stale: 3d behind; SOURCE CALIB output is provisional.",
+        "worst_days_behind": 3,
+    }}})
+
+    out = dh.assess(feed, now=NOW, rates_path="/nonexistent/x.json", shelf_path="/nonexistent/s.json")
+
+    item = [row for row in out["items"] if row["source"] == "source_call_calibration"][0]
+    assert item["label"] == "Source-call calibration"
+    assert item["status"] == "behind"
+    assert item["blocks"] is True
+    assert "Source-call calibration" in out["blockers"]
+    assert out["worst"] == "blocked"
+
+
 def test_empty_track_record_announces_but_never_blocks(tmp_path):
     rates = tmp_path / "source_rates.json"
     rates.write_text(json.dumps({"newton": {"A": {"n": 0}}, "lee": {"A": {"n": 0}}}))

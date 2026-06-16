@@ -64,6 +64,23 @@ def test_source_call_feedback_surfaces_loud_persistence_when_calibration_fresh()
     assert "P-WAKE-UP" in persistence["line"]
 
 
+def test_source_call_feedback_preserves_stale_calibration_chain_details():
+    fb = source_call_feedback(
+        PERSISTENCE_CALLS,
+        as_of="2026-06-05",
+        inbox_call_dates=["2026-06-04"],
+        log_call_dates=["2026-06-02"],
+    )
+
+    calibration = fb["calibration"]
+    assert calibration["status"] == "stale"
+    assert calibration["worst_days_behind"] == 2
+    assert calibration["stale_hops"] == ["inbox_log"]
+    assert calibration["provisional"] is True
+    assert calibration["inbox_log"]["newest_inbox"] == "2026-06-04"
+    assert "SOURCE CALIB output is provisional" in calibration["line"]
+
+
 def test_source_call_feedback_keeps_persistence_provisional_when_not_checked():
     fb = source_call_feedback(PERSISTENCE_CALLS, as_of="2026-06-05")
     persistence = fb["persistence"]
