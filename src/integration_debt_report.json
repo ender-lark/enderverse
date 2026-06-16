@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-16T04:59:40Z",
+  "generated_at": "2026-06-16T05:16:52Z",
   "status": "warn",
   "warning_count": 1,
   "finding_count": 14,
@@ -250,19 +250,9 @@
     },
     "notion_queue": {
       "status": "not_checked",
-      "line": "Notion queue sweep: not_checked; repo-local system queue has 1 active/queued item(s).",
-      "local_queue_active_or_queued": 1,
-      "rows": [
-        {
-          "id": "fundstrat-video-transcript-intake",
-          "title": "Handle Tom Lee and Fundstrat video updates through transcripts or captions",
-          "priority": "P3",
-          "status": "queued",
-          "area": "routines",
-          "why": "Some Tom Lee macro updates are video-first. They may matter, but video extraction is lower priority than text FlashInsights, email full-body intake, and dashboard action reliability.",
-          "done_when": "Authenticated Fundstrat video pages can produce compact transcript-derived rows only when a visible transcript, captions, companion article text, or user-supplied compact notes exist; video-only titles and thumbnails remain discovery/audit-only."
-        }
-      ],
+      "line": "Notion queue sweep: not_checked; repo-local system queue has 0 active/queued item(s).",
+      "local_queue_active_or_queued": 0,
+      "rows": [],
       "findings": [
         {
           "id": "notion_queue_not_checked",

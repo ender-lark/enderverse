@@ -10,16 +10,15 @@ Use `python src/completion_audit.py --format text` and
 
 Latest audit state:
 
-- Local go-live/operator readiness is true.
-- The completion audit is `NEEDS_BUILD_WORK` because one queued P3 improvement
-  item remains: `fundstrat-video-transcript-intake`.
-- Clean `main` does not yet include the transcript-vault helper. The next
-  useful slice is a focused transcript-vault implementation or a clean
-  cherry-pick of the older branch's focused transcript work; do not close the
-  queued transcript item from docs alone.
-- Cloud ops is not ready: scheduled success receipts are 20/26 and 15 receipt
-  windows are overdue. Treat this as routine-proof debt, not as a local
-  dashboard readiness failure.
+- Local go-live/operator readiness is true; completion audit status is
+  `BUILD_CLEAR_WAITING_EXTERNAL`.
+- The queued P3 `fundstrat-video-transcript-intake` item is done: clean `main`
+  includes the private transcript-vault writer, public metadata index, compact
+  transcript synthesis helper, Notion Synthesis Log writeback proof, compact
+  Fundstrat cache updates, and the late-evening transcript sweep prompt.
+- Cloud ops is not ready: core scheduled proof is complete at 14/14, but core
+  receipt freshness and support receipts still have overdue windows. Treat this
+  as routine-proof debt, not as a local dashboard readiness failure.
 - The only dark source lane in live status is deferred optional `social_watch`.
 - The refreshed integration-debt report is `warn` with 1 warning and 14
   findings.
@@ -27,23 +26,10 @@ Latest audit state:
 
 ## Active Slice
 
-- The broad Monday go-live build is no longer the only foreground frame; check
-  the current completion audit before assuming a build slice is active.
-- Current audit slice: architecture and operating docs refresh.
-  - Follow `docs/monday_go_live_build_plan.md`.
-  - GitHub/repo docs are canonical implementation storage; mirror important
-    source-of-truth notes to Notion for readability and recovery.
-  - Default dashboard for operator use is
-    `http://127.0.0.1:8765/dashboard_preview.html`. The JSX page is an
-    internal parity/validation surface, not the default cockpit.
-  - Current priority: Stage 0 continuity, Stage 1 cockpit usability, Stage 1.5
-    synthesis-quality review, then Stage 2 Book/allocation usability.
-  - Cloud routine proof remains end-of-queue background monitoring. Let normal
-    schedules produce remaining `run_source=scheduled` receipts unless the user
-    explicitly asks to accelerate again.
-  - Prioritize system/routine/dashboard work over stock-specific research.
-  - Do not promote Fundstrat Core List table ingestion; it is out of scope for
-    the current system build and may never be needed.
+No repo build slice is active after the Fundstrat transcript closeout and
+architecture-doc refresh. Future work should start from a fresh completion audit
+or a new explicit user request, then claim a focused row in `docs/WORKBOARD.md`
+before editing shared docs or routine code.
 
 ## 2026-06-16 Docs Audit
 
@@ -55,6 +41,20 @@ Latest audit state:
   proof separation, and current integration debt.
 - Updated this queue and the new-chat handoff so older embedded counts are
   explicitly historical.
+
+## 2026-06-16 Fundstrat Transcript Intake Closeout
+
+- Added `src/fundstrat_transcript_vault.py` and
+  `src/fundstrat_transcript_synthesis.py`.
+- Public repo state stores only transcript metadata, hashes, short synthesis,
+  compact derived rows, and `vault://...` references. Raw transcripts remain in
+  the private source vault.
+- Verified two 2026-06-15 Fundstrat transcript review notes in Notion
+  Synthesis Log and recorded their URLs in private vault synthesis metadata.
+- Added `src/codex_routines/fundstrat_late_evening_web_transcript_sweep.md` so
+  the scheduled late-evening sweep has repo prompt coverage.
+- Marked `fundstrat-video-transcript-intake` done in
+  `src/system_improvement_queue.json`.
 
 ## External Queue Audit
 
@@ -1263,13 +1263,12 @@ Latest audit state:
     `cloud_routine_drill.py --format text --strict` passed for 24 expected
     routines; `cloud_ops_status.py --format text` reports schedule ready.
 
-- One low-priority queued implementation slice.
-  - The current system-improvement queue is valid with 21 done items and 1
-    queued P3 item: `fundstrat-video-transcript-intake`.
-  - Keep it below text/web Fundstrat intake, source reliability, and cockpit
-    action-surfacing work. Promote it only if transcript/caption access becomes
-    easy or video-first Tom Lee macro updates create a repeated operating gap.
-  - Keep Core List ingestion out of scope.
+- Former low-priority queued implementation slice.
+  - `fundstrat-video-transcript-intake` is closed after the private
+    transcript-vault writer, compact synthesis helper, public metadata index,
+    Notion writeback proof, and late transcript sweep prompt landed.
+  - Keep Core List ingestion out of scope unless a new user request makes it a
+    live operating need.
 
 ## Working Rules
 

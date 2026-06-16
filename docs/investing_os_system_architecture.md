@@ -29,18 +29,19 @@ the latest repo-verified architecture snapshot:
   `C:\Users\suraj\Documents\Codex\2026-06-04\confirm-you-can-access-my-github\work\enderverse`.
   The OneDrive Investing OS folder can be only a wrapper and should not be
   edited until the git root is verified.
-- `live_status.py --format text` reports `live_with_build_queue`: local
+- `live_status.py --format text` reports `live_clear`: local
   readiness, publish readiness, and live-data readiness are true; the feed stamp
-  is `2026-06-15T12:57:07.557970+00:00`; the dashboard has 4 actions, 1
+  is `2026-06-16T05:19:05.446825+00:00`; the dashboard has 4 actions, 1
   research action, and 0 open reviews.
 - The only dark source lane is deferred optional `social_watch`. It is visible
   as not checked, but it is not a core go-live source wait.
-- `cloud_ops_status.py --format text` reports cloud ops `not_ready`: 20 of 26
-  expected scheduled routines have scheduled success receipts, 15 receipt
-  windows are overdue, and full live-run proof is false.
-- `completion_audit.py --format text` reports `NEEDS_BUILD_WORK` because the
-  improvement queue still has one active/queued item:
-  `fundstrat-video-transcript-intake`.
+- `cloud_ops_status.py --format text` reports cloud ops `not_ready`: core
+  scheduled proof is complete at 14/14, support scheduled proof is 7/12, and
+  full live-run proof is false because receipt freshness/support proof still
+  lags.
+- `completion_audit.py --format text` reports `BUILD_CLEAR_WAITING_EXTERNAL`:
+  local go-live ready with 0 build blockers and no active/queued
+  system-improvement items after the Fundstrat transcript closeout.
 - `state_ownership_map.py` and `codex_routine_manifest.py` are valid.
 - The refreshed integration-debt sweep is `warn` with 1 warning and 14 total
   findings.
@@ -145,11 +146,14 @@ The system synthesizes only from explicit source or repo evidence:
     `fundstrat_web_intake.py`.
   - Video-only cards remain discovery-only unless a visible transcript,
     captions, companion article, or supplied compact notes are available.
-  - Full transcript review packs are planned as a private source-vault flow.
-    Raw transcript text must stay out of the public repo; public state should
-    be limited to safe metadata, hashes, short synthesis, compact derived rows,
-    and existing Fundstrat compact caches after the queued transcript-vault
-    slice is merged.
+  - Full transcript review packs now go through
+    `fundstrat_transcript_vault.py`; raw transcript/caption text is written
+    only to the private source vault named by `INVESTING_OS_SOURCE_VAULT`.
+  - `fundstrat_transcript_synthesis.py` reads private vault packs and emits
+    compact Notion-ready review notes without raw transcript text.
+  - Public repo state is limited to safe metadata, hashes, short synthesis,
+    compact derived rows, `vault://...` references, and existing Fundstrat
+    compact caches.
 
 - Event Risk: `src/event_risks.json`
   - Normalized by `event_risk_intake.py` or `sudden_event_refresh.py`.
@@ -451,10 +455,10 @@ support.
 | `investing-os-deep-synthesis` | Weekly deeper synthesis support | Sunday 1:00 PM ET |
 | `investing-os-weekly-pilot-run` | Weekly pilot/status run | Sunday 6:00 PM ET |
 
-The Fundstrat late-evening web/transcript sweep and private transcript-vault
-helper exist as unmerged/deferred work, not as current `main` architecture in
-this audit snapshot. Keep the private-vault rule above when that slice is
-revived.
+The Fundstrat late-evening web/transcript sweep has repo prompt coverage in
+`src/codex_routines/fundstrat_late_evening_web_transcript_sweep.md`. Missing
+transcript/caption/companion evidence must remain not checked; video-only
+discovery does not update compact caches or Notion review notes.
 
 `src/cloud_automation_status.json` records the expected app-created automation
 ids, superseded legacy routines, and the schedule basis. `cloud_ops_status.py`
@@ -832,18 +836,16 @@ python src/verify_standard.py
 As of the 2026-06-16 architecture audit:
 
 - Local operator readiness is true, but unattended cloud operations are not
-  healthy. `cloud_ops_status.py --format text` reports 20 of 26 expected
-  scheduled success receipts, 15 overdue receipt windows, and
+  healthy. `cloud_ops_status.py --format text` reports core scheduled proof at
+  14/14, support scheduled proof at 7/12, stale/overdue routine windows, and
   `Cloud live-run proven: False`.
-- The dashboard feed is from `2026-06-15T12:57:07.557970+00:00`. Future agents
+- The dashboard feed is from `2026-06-16T05:19:05.446825+00:00`. Future agents
   should rerun `live_status.py` and refresh the dashboard when current-session
   market posture matters.
 - Social Watch is the only dark lane and remains deferred optional. Its absence
   is not a no-signal read and should not block core go-live.
-- The improvement queue still has one queued P3 item:
-  `fundstrat-video-transcript-intake`. Current `main` does not include the
-  transcript-vault helper; older branch work should be cleanly cherry-picked or
-  rebuilt as a focused slice before this queue item is closed.
+- The system-improvement queue has no active/queued items after the Fundstrat
+  transcript closeout.
 - Integration debt is still `warn`: the clean 2026-06-16 sweep reports 14
   findings, including `research_action_promotion` as prompt-only, 12
   info-level module-wiring candidates, and the live Notion queue not checked.
