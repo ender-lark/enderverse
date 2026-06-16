@@ -30,6 +30,7 @@ from typing import Any
 
 import data_health as _dh
 import congruence as cg
+import conviction_engine as ce
 import directive_recs as dr
 import insight_register as ir
 import lookthrough_disclosure as ltd
@@ -41,6 +42,14 @@ FEED_PATH = SRC / "latest_cockpit_feed.json"
 
 _GATE_COLORS = {"red": "#f87171", "red_but_tested": "#fbbf24", "green": "#34d399", "context": "#94a3b8"}
 _CLASS_COLORS = {"OPEN-NOW": "#34d399", "STAGE-ONLY": "#fbbf24", "GATED": "#f87171", "WAIT": "#94a3b8"}
+_BAND_COLORS = {"LOW": "#94a3b8", "MODERATE": "#fbbf24", "HIGH": "#34d399"}
+_SELL_BAND_COLORS = {"LOW": "#94a3b8", "MODERATE": "#fbbf24", "HIGH": "#f87171"}
+_GROUP_LABELS = {
+    "fs": "Fundstrat / source calls",
+    "uw": "UW same-session proof",
+    "operator_insight": "Operator insight",
+    "institutional": "Institutional lane",
+}
 
 def _today(today: str | date | None) -> date:
     if today is None:
@@ -176,6 +185,126 @@ def _card_blockers(
     return blockers
 
 
+def _card_action_direction(card: dict[str, Any]) -> str:
+    move = (card.get("decision_card") or {}).get("move") or {}
+    direction = str(move.get("direction") or card.get("direction") or "").upper()
+    return "TRIM" if direction == "REDUCE" else direction
+
+
+def _opposes_action(direction: str, action: str) -> bool:
+    direction = str(direction or "").lower()
+    action = str(action or "").upper()
+    if action == "BUY":
+        return direction == "bear"
+    if action in {"TRIM", "SELL"}:
+        return direction == "bull"
+    return False
+
+
+def _group_display_rows(groups: dict[str, Any]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for key, value in (groups or {}).items():
+        try:
+            points = round(float(value), 3)
+        except (TypeError, ValueError):
+            points = 0.0
+        direction = "bull" if points > 0 else "bear" if points < 0 else "neutral"
+        rows.append({
+            "key": key,
+            "label": _GROUP_LABELS.get(key, str(key).replace("_", " ").title()),
+            "points": points,
+            "direction": direction,
+        })
+    rows.sort(key=lambda row: (abs(row["points"]), row["label"]), reverse=True)
+    return rows
+
+
+def _factor_display_rows(factors: list[dict[str, Any]], action: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for factor in factors or []:
+        if not isinstance(factor, dict):
+            continue
+        row = dict(factor)
+        row["conflict"] = bool(
+            factor.get("direction") in {"bull", "bear"}
+            and _opposes_action(str(factor.get("direction") or ""), action)
+        )
+        rows.append(row)
+    rows.sort(
+        key=lambda row: (
+            bool(row.get("conflict")),
+            bool(row.get("decisive")),
+            float(row.get("strength") or 0.0),
+        ),
+        reverse=True,
+    )
+    return rows
+
+
+def _display_band_color(action: str, band: str, conflict: str | None) -> str:
+    if conflict:
+        return "#fb923c"
+    colors = _SELL_BAND_COLORS if str(action or "").upper() in {"TRIM", "SELL"} else _BAND_COLORS
+    return colors.get(str(band or "").upper(), "#94a3b8")
+
+
+def build_conviction_display(card: dict[str, Any]) -> dict[str, Any]:
+    """Build the one render-ready conviction display consumed by all renderers."""
+    conviction = card.get("conviction") or {}
+    battery = conviction.get("battery") or {}
+    summary = battery.get("battery_summary") or {}
+    action = _card_action_direction(card)
+    label = ce.conviction_label(
+        action,
+        {**conviction, "ticker": conviction.get("ticker") or card.get("ticker")},
+    )
+    factors = _factor_display_rows(summary.get("decisive_factors") or [], action)
+
+    conflict = str(label.get("conflict_note") or "").strip() or None
+    opposing = [
+        row for row in factors
+        if row.get("conflict") and (row.get("decisive") or float(row.get("strength") or 0.0) >= 0.7)
+    ]
+    if opposing and not conflict:
+        labels = ", ".join(str(row.get("label") or row.get("key")) for row in opposing[:2])
+        conflict = f"decisive battery evidence opposes this {action or 'action'} setup: {labels}"
+    elif opposing and conflict and "battery" not in conflict.lower():
+        conflict = f"{conflict}; battery opposition: {opposing[0].get('label') or opposing[0].get('key')}"
+    if card.get("conflicts") and not conflict:
+        conflict = "source conflict present; resolve before action"
+
+    band = str(label.get("band") or "LOW").upper()
+    iv_hint = summary.get("iv_hint") or battery.get("iv_hint") or {
+        "status": "not_checked",
+        "value": "not_checked",
+        "hint": "IV options-vs-shares hint not checked",
+    }
+    if isinstance(iv_hint, dict) and "status" not in iv_hint:
+        why = str(iv_hint.get("why") or iv_hint.get("hint") or "")
+        status = "not_checked" if "not_checked" in why else "checked"
+        iv_hint = {**iv_hint, "status": status, "hint": iv_hint.get("hint") or why}
+    return {
+        "text": label.get("text") or "",
+        "x5": int(label.get("x5") or 1),
+        "band": band,
+        "band_color": _display_band_color(action, band, conflict),
+        "conflict": conflict,
+        "why": {
+            "groups": _group_display_rows(conviction.get("groups") or {}),
+            "decisive_factors": factors,
+        },
+        "raises": list(conviction.get("raises") or []),
+        "iv_hint": iv_hint,
+        "not_checked": list(conviction.get("not_checked") or []),
+    }
+
+
+def attach_conviction_displays(cards: list[dict[str, Any]]) -> None:
+    for card in cards or []:
+        if isinstance(card, dict):
+            card["conviction_display"] = build_conviction_display(card)
+
+
 def build_today_decide_payload(
     *,
     feed: dict[str, Any] | None = None,
@@ -221,6 +350,7 @@ def build_today_decide_payload(
     data_health = _dh.assess(feed, gates=gates, now=_today(today_iso))
     for card in stack["cards"] + stack["backlog"]:
         card["card_blockers"] = _card_blockers(card, data_health, gates)
+    attach_conviction_displays(stack["cards"] + stack["backlog"])
     honesty = dict(stack["honesty"])
     if congruence_result.get("status") != "ok":
         honesty["congruence"] = congruence_result.get("reason", "not checked")
@@ -268,10 +398,13 @@ _CSS = """
 .td details.td-card{padding:0}
 .td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
 .td details.td-card>summary::-webkit-details-marker{display:none}
-.td .td-chev{display:inline-block;font-size:11px;color:#64748b;margin:6px 0 0 2px}
-.td details.td-card[open] .td-chev{color:#334155}
 .td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
-.td .td-move{font-size:16px;font-weight:600}
+.td .td-move{font-size:18px;font-weight:750;line-height:1.25}
+.td .td-conv-line{display:block;border-radius:8px;padding:8px 10px;color:#0b1220}
+.td .td-section-title{font-size:11px;color:#94a3b8;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin:8px 0 4px}
+.td .td-why-item{font-size:13px;color:#cbd5e1;margin:3px 0}
+.td .td-why-item strong{color:#e2e8f0}
+.td .td-factor-conflict{color:#fdba74}
 .td .td-pill{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;
   font-weight:600;margin-left:8px;color:#0b1220}
 .td .td-row{font-size:13px;color:#cbd5e1;margin:4px 0}
@@ -315,6 +448,53 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 def _esc(value: Any) -> str:
     return str(value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
+
+def _render_group_breakdown(display: dict[str, Any]) -> str:
+    groups = ((display.get("why") or {}).get("groups") or [])
+    if not groups:
+        return '<div class="td-why-item">No scored group has moved the conviction yet.</div>'
+    bits = []
+    for row in groups:
+        points = float(row.get("points") or 0.0)
+        bits.append(
+            f'<div class="td-why-item"><strong>{_esc(row.get("label") or row.get("key"))}</strong> '
+            f'{points:+.2f}</div>'
+        )
+    return "".join(bits)
+
+
+def _render_factor_breakdown(display: dict[str, Any]) -> str:
+    factors = ((display.get("why") or {}).get("decisive_factors") or [])
+    if not factors:
+        return '<div class="td-why-item">Battery decisive factors: none surfaced.</div>'
+    bits = []
+    for row in factors:
+        cls = " td-factor-conflict" if row.get("conflict") else ""
+        tag = "conflicting" if row.get("conflict") else "decisive" if row.get("decisive") else "factor"
+        bits.append(
+            f'<div class="td-why-item{cls}"><strong>{_esc(tag)}:</strong> '
+            f'{_esc(row.get("label") or row.get("key"))} - {_esc(row.get("value_str") or "")}</div>'
+        )
+    return "".join(bits)
+
+
+def _render_iv_hint(display: dict[str, Any]) -> str:
+    hint = display.get("iv_hint") or {}
+    if not isinstance(hint, dict):
+        return f'<div class="td-row">IV options-vs-shares: {_esc(hint)}</div>'
+    text = hint.get("hint") or hint.get("value") or hint.get("status") or "not_checked"
+    status = hint.get("status")
+    prefix = "IV options-vs-shares"
+    if status:
+        prefix += f" ({_esc(status)})"
+    return f'<div class="td-row">{prefix}: {_esc(text)}</div>'
+
+
+def _render_not_checked(display: dict[str, Any]) -> str:
+    rows = display.get("not_checked") or []
+    text = ", ".join(str(row) for row in rows) if rows else "none"
+    return f'<div class="td-row">not checked: {_esc(text)}</div>'
+
 def _review_posture(card: dict[str, Any], *, check_first: bool, window_class: str, direction: str) -> dict[str, str]:
     if check_first or card.get("conflicts") or window_class in {"GATED", "WAIT"}:
         return {
@@ -337,33 +517,42 @@ def _review_posture(card: dict[str, Any], *, check_first: bool, window_class: st
 def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> list[str]:
     dcard = card.get("decision_card") or {}
     move = dcard.get("move") or {}
-    conv = card.get("conviction") or {}
+    display = card.get("conviction_display") or build_conviction_display(card)
     win = card.get("window") or {}
     execn = card.get("execution") or {}
     impact = card.get("impact") or {}
     sizing = card.get("sizing") or {}
     cid = _esc(card.get("card_id"))
-    conflicted = " td-conflicted" if card.get("conflicts") else ""
+    conflicted = " td-conflicted" if card.get("conflicts") or display.get("conflict") else ""
     h = [f'<details class="td-card{conflicted}">', '<summary class="td-sum">']
     if check_first:
         h.append('<div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>')
     cls = win.get("class", "WAIT")
     direction = str(move.get("direction") or "")
     posture = _review_posture(card, check_first=check_first, window_class=cls, direction=direction)
-    visible_action = posture["label"]
-    direction_color = "#94a3b8" if visible_action != direction else {"BUY": "#34d399", "SELL": "#f87171"}.get(direction, "#e2e8f0")
     h.append(
-        f'<div class="td-move">#{rank} <span style="color:{direction_color};font-weight:700">{_esc(visible_action)}</span> {_esc(card.get("ticker"))}'
-        f' Â· {_esc(move.get("band"))}'
-        f'<span class="td-pill" style="background:{_CLASS_COLORS.get(cls, "#94a3b8")}">{_esc(cls)}</span>'
-        f'<span class="td-pill" style="background:#818cf8">{_esc(conv.get("read"))} {conv.get("points", 0)}</span>'
-        "</div>"
+        f'<div class="td-move"><span class="td-conv-line" style="background:{_esc(display.get("band_color") or "#94a3b8")}">'
+        f'#{rank} {_esc(display.get("text") or "")}</span></div>'
     )
-    if posture["reason"]:
-        h.append(f'<div class="td-row"><strong>posture:</strong> {_esc(posture["reason"])}</div>')
+    if display.get("conflict"):
+        h.append(f'<div class="td-chip">CONFLICT - {_esc(display["conflict"])}</div>')
+    h.append('</summary><div class="td-body">')
+    h.append('<div class="td-section-title">Why it is this</div>')
+    h.append(_render_factor_breakdown(display))
+    h.append(_render_group_breakdown(display))
     for c in card.get("conflicts") or []:
         h.append(f'<div class="td-chip">SOURCE-CONFLICT â€” {_esc(c["with"])}: â€œ{_esc(c["their_claim"])}â€ '
                  f'vs this card: {_esc(c["card_claim"])} Â· resolve before acting</div>')
+    h.append('<div class="td-section-title">What would make it a confident move</div>')
+    raises = display.get("raises") or []
+    if raises:
+        h.extend(f'<div class="td-row">raise: {_esc(r)}</div>' for r in raises)
+    else:
+        h.append('<div class="td-row">No raise condition surfaced.</div>')
+    h.append('<div class="td-section-title">IV options-vs-shares</div>')
+    h.append(_render_iv_hint(display))
+    if posture["reason"]:
+        h.append(f'<div class="td-row"><strong>posture:</strong> {_esc(posture["reason"])}</div>')
     primary_verb = posture["copy_verb"]
     primary_state_verb = posture["state_verb"]
     primary_label = posture["label"] if primary_verb != "ACT" else "ACT"
@@ -384,22 +573,15 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
         f'data-copy="RECHECK {cid} resurface {_esc(card.get("recheck_date"))}" '
         f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>'
         )
-    h.append('<span class="td-chev">&#9656; details</span>')
-    h.append('</summary><div class="td-body">')
-    groups = conv.get("groups") or {}
-    h.append('<div class="td-row">evidence: '
-             + " Â· ".join(f"{_esc(k)} {v:+.2f}" for k, v in groups.items()) + "</div>")
     if win.get("named_trigger"):
         h.append(f'<div class="td-row">trigger: {_esc(win["named_trigger"])}'
                  + (f' Â· deadline {_esc(win.get("deadline"))}' if win.get("deadline") else "") + "</div>")
     for reason in (win.get("reasons") or [])[:2]:
         h.append(f'<div class="td-row">â€¢ {_esc(reason)}</div>')
     flips = win.get("flips") or []
-    raises = conv.get("raises") or []
-    if flips or raises:
+    if flips:
         h.append("<details><summary>what changes this</summary>"
                  + "".join(f"<div>flip: {_esc(f)}</div>" for f in flips)
-                 + "".join(f"<div>raise: {_esc(r)}</div>" for r in raises)
                  + "</details>")
     suggested = execn.get("suggested")
     if suggested:
@@ -435,6 +617,7 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     if card.get("last_disposition"):
         ld = card["last_disposition"]
         h.append(f'<div class="td-row">last disposition: {_esc(ld.get("verb"))} on {_esc(ld.get("et_date"))}</div>')
+    h.append(_render_not_checked(display))
     h.append("</div></details>")
     return h
 

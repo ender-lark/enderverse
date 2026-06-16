@@ -41,6 +41,11 @@
       "canonical_surface": "Today's Actions",
       "summary_surface": "Today's actions when non-empty; summary/export caveat when empty or dark lanes exist"
     },
+    "today_decide": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "TODAY/DECIDE cards with render-ready conviction_display payload",
+      "summary_surface": "TODAY/DECIDE section in the generated HTML summary/export"
+    },
     "action_decision_groups": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Today's Actions grouped into Key Now, Important Backlog, Re-check Before Acting, and Quiet Watch",

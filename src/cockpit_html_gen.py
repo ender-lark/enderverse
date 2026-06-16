@@ -2427,11 +2427,14 @@ def _book(holdings: list) -> str:
             nr  = _e(pos.get("nr") or "")
             cv_cls = "cv-yes" if cv == "Promising" else ""
             lock_html = f'<span class="lock-tag">{_e(lock)}</span>' if lock else ""
+            display = pos.get("conviction_display") or {}
+            display_text = _e(display.get("text") or cv) if isinstance(display, dict) else _e(cv)
+            note_text = _e((display.get("conflict") or pos.get("nr") or "") if isinstance(display, dict) else pos.get("nr") or "")
             rows += f"""<tr>
   <td><strong>{t}</strong>{lock_html}</td>
   <td>{pct}</td>
-  <td class="{cv_cls}">{_e(cv)}</td>
-  <td style="color:#484f58;font-size:11px">{nr[:60]}{"..." if len(nr)>60 else ""}</td>
+  <td class="{cv_cls}">{display_text}</td>
+  <td style="color:#484f58;font-size:11px">{note_text[:60]}{"..." if len(note_text)>60 else ""}</td>
 </tr>"""
 
     return f"""
@@ -2445,7 +2448,7 @@ def _book(holdings: list) -> str:
   <div class="card" style="margin-top:-2px;border-radius:0 0 8px 8px">
     <div class="book-wrap">
       <table class="book">
-        <tr><th>Name</th><th>Weight</th><th>Conviction</th><th>Read</th></tr>
+        <tr><th>Name</th><th>Weight</th><th>Conviction read</th><th>Why / note</th></tr>
         {rows}
       </table>
     </div>
@@ -2580,11 +2583,14 @@ def _book_tab(holdings: list, portfolio_views: dict | None = None, book_asof: st
             nr  = _e(pos.get("nr") or "")
             cv_cls = "cv-yes" if cv == "Promising" else ""
             lock_html = f'<span class="lock-tag">{_e(lock)}</span>' if lock else ""
+            display = pos.get("conviction_display") or {}
+            display_text = _e(display.get("text") or cv) if isinstance(display, dict) else _e(cv)
+            note_text = _e((display.get("conflict") or pos.get("nr") or "") if isinstance(display, dict) else pos.get("nr") or "")
             rows += f'''<tr>
   <td><strong>{t}</strong>{lock_html}</td>
   <td>{pct_str}</td>
-  <td class="{cv_cls}">{_e(cv)}</td>
-  <td style="color:#484f58;font-size:11px">{nr[:72]}{"..." if len(nr)>72 else ""}</td>
+  <td class="{cv_cls}">{display_text}</td>
+  <td style="color:#484f58;font-size:11px">{note_text[:72]}{"..." if len(note_text)>72 else ""}</td>
 </tr>'''
     asof_str = f'as-of {_e(book_asof)}' if book_asof else ""
     holdings_html = f'''
@@ -2595,7 +2601,7 @@ def _book_tab(holdings: list, portfolio_views: dict | None = None, book_asof: st
   </div>
   <div class="book-wrap">
     <table class="book">
-      <tr><th>Name</th><th>Weight</th><th>Conviction</th><th>Read</th></tr>
+      <tr><th>Name</th><th>Weight</th><th>Conviction read</th><th>Why / note</th></tr>
       {rows}
       <tr style="border-top:1px solid #30363d">
         <td style="color:#8b949e;font-size:11px">Total shown</td>
@@ -2987,11 +2993,14 @@ def generate_html(feed: dict) -> str:
         stale_warn = f'<div class="stale-warn">⚠ Stale sources: {names}</div>'
 
     # sections
-    today_decide_html = today_decide.build_and_render(
-        feed=feed,
-        weights=load_conviction_weights(),
-        goal=load_goal_tunables(),
-    )
+    today_decide_payload = feed.get("today_decide") if isinstance(feed.get("today_decide"), dict) else None
+    if not today_decide_payload or "cards" not in today_decide_payload:
+        today_decide_payload = today_decide.build_today_decide_payload(
+            feed=feed,
+            weights=load_conviction_weights(),
+            goal=load_goal_tunables(),
+        )
+    today_decide_html = today_decide.render_today_decide_html(today_decide_payload)
     held_decisions_html = _held_decisions_strip()
     summary_html = _summary_notice(feed)
     quick_html = _quick_nav(feed)

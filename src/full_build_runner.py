@@ -50,6 +50,9 @@ from social_watch import build_social_watch
 from market_open_packet import build_market_open_packet
 from alert_policy import build_alert_policy
 import cloud_routine_receipts
+import execution_plan as ep
+import today_decide
+from tunables import load_conviction_weights, load_goal_tunables
 
 
 class FullBuildError(RuntimeError):
@@ -836,6 +839,12 @@ def build_full_feed_from_files(
     theses_file = _resolve(src, "theses", theses_path)
     positions_cache = _read_json(positions_file, required=True)
     account_positions = _load_optional(src, "account_positions")
+    account_positions_file = _resolve(src, "account_positions")
+    execution_accounts = (
+        ep.load_accounts(account_positions_file)
+        if account_positions_file is not None and account_positions_file.is_file()
+        else None
+    )
     theses = _read_json(theses_file, required=True)
     positions, positions_as_of = normalize_positions_cache(positions_cache)
     if not positions:
@@ -977,6 +986,13 @@ def build_full_feed_from_files(
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["alert_policy"] = build_alert_policy(feed)
     feed["if_i_were_you"] = build_if_i_were_you(feed)
+    feed["today_decide"] = today_decide.build_today_decide_payload(
+        feed=feed,
+        weights=load_conviction_weights(),
+        goal=load_goal_tunables(),
+        accounts=execution_accounts,
+        today=today,
+    )
     feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     feed["source_audits"]["uw_action_runbook"] = feed.get("uw_action_runbook") or {}
     feed["source_audits"]["uw_endpoint_proof"] = feed.get("uw_endpoint_proof") or {}

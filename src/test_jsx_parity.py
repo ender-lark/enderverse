@@ -5,7 +5,7 @@ Same payload JSON → same fields out. The Python HTML renderer
 (`src/TodayDecide.jsx`, embedded into `src/conviction_cockpit_v6.jsx`) must
 emit:
 
-* identical sets of ``(card_id, ticker, window.class, conviction.read,
+* identical sets of ``(card_id, ticker, window.class, conviction_display.text,
   priority)`` for each card in ``payload.cards`` and ``payload.backlog``;
 * identical rail copy strings. Unsafe cards expose a RECHECK/CANDIDATE primary
   rail instead of ACT, while still preserving PASS, scheduled RECHECK when
@@ -127,7 +127,7 @@ def _contract_from_card(card):
         card["card_id"],
         card["ticker"],
         (card.get("window") or {}).get("class"),
-        (card.get("conviction") or {}).get("read"),
+        (card.get("conviction_display") or {}).get("text"),
         card.get("priority"),
         card.get("recheck_date"),
     )
@@ -196,15 +196,12 @@ def test_payload_contract_matches_html_card_ids():
     )
 
 
-def test_payload_window_class_and_conviction_read_render_in_html():
+def test_payload_window_class_and_conviction_display_render_in_html():
     payload = _build_payload()
     html = td.render_today_decide_html(payload)
     for card in payload["cards"]:
         assert card["card_id"] in html, f"missing card_id in HTML: {card['card_id']}"
-        # window.class pill is rendered with the literal class label.
-        assert card["window"]["class"] in html
-        # conviction.read pill ditto.
-        assert card["conviction"]["read"] in html
+        assert card["conviction_display"]["text"] in html
 
 
 def test_payload_backlog_card_ids_and_priority_in_html():
@@ -265,11 +262,11 @@ def test_todaydecide_jsx_uses_canonical_card_fields():
     src = _jsx(TODAY_DECIDE_JSX)
     # Required card-level accesses for the parity contract.
     for path in ("card.card_id", "card.ticker", "card.recheck_date", "card.sizing",
-                 "card.conflicts", "card.card_blockers"):
+                 "card.conflicts", "card.card_blockers", "card.conviction_display"):
         assert path in src, f"TodayDecide.jsx must read {path}"
-    # And inner sub-objects (read via local refs `win`, `conv`).
-    for path in ("win.class", "conv.read", "conv.points",
-                 "conv.groups", "conv.raises"):
+    for path in ("win.class", "display.text", "display.band_color",
+                 "display.why", "display.raises", "display.iv_hint",
+                 "display.not_checked"):
         assert path in src, f"TodayDecide.jsx must read {path}"
     for path in ("sizing.source", "sizing.suggested_usd", "sizing.heat", "sizing.cap_basis"):
         assert path in src, f"TodayDecide.jsx must read {path}"
