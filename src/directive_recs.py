@@ -23,6 +23,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+import battery_evidence as be
+import battery_feed_adapter as bfa
 import conviction_engine as ce
 import conviction_sizing_calibrator as csc
 import decision_card as dc
@@ -274,10 +276,18 @@ def build_directive_cards(
         if extras:
             items.extend(extras)
         uw = uw_states.get(ticker) or ce.uw_state_from_feed(ticker, feed)
+        battery_inputs = bfa.gather_battery_inputs(ticker, feed)
+        battery = be.build_battery_evidence(
+            ticker,
+            uw_opportunity=battery_inputs["uw_opportunity"],
+            group_rotation=battery_inputs["group_rotation"],
+            iv_ctx=battery_inputs["iv_ctx"],
+        )
         return ce.conviction(
             ticker, fs_items=items, uw_state=uw, insight_payload=insights_payload,
             inst_state=inst_states.get(ticker.upper()),
             weights=weights, goal=goal, rates=rates, today=today_iso,
+            battery=battery,
         )
 
     def _impact(dollars: float) -> dict[str, Any]:

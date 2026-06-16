@@ -11,6 +11,8 @@ from __future__ import annotations
 from dataclasses import asdict, is_dataclass
 from typing import Any
 
+from analyst_config import UW_OPP_STRENGTH_TRUST
+
 
 VALID_DIRECTIONS = {"bull", "bear", "neutral"}
 VALID_INSTRUMENTS = {"shares", "options", "either"}
@@ -83,11 +85,20 @@ def _money(value: Any) -> str:
     return f"{sign}${value:,.0f}"
 
 
+def _safe_text(value: Any) -> str:
+    return str(value or "").strip()
+
+
 def _pct(value: Any) -> str:
     parsed = _f(value)
     if parsed is None:
         return "n/a"
     return f"{parsed * 100:+.1f}%"
+
+
+def _source_with_as_of(source: str, as_of: Any) -> str:
+    stamp = _safe_text(as_of) or "unknown"
+    return f"{source}:{stamp}"
 
 
 def _factor(
@@ -327,6 +338,209 @@ def _price_factors(ticker: str, uw_price: Any) -> list[dict[str, Any]]:
     return factors
 
 
+def _signal_type_key(value: Any) -> str:
+    text = _safe_text(value).lower().replace("-", "_").replace(" ", "_")
+    return text or "unknown"
+
+
+def _opportunity_detail_text(detail: Any) -> str:
+    if not isinstance(detail, dict):
+        return ""
+    bits: list[str] = []
+    if "premium" in detail:
+        bits.append(f"premium {_money(detail.get('premium'))}")
+    if "notional" in detail:
+        bits.append(f"notional {_money(detail.get('notional'))}")
+    if "call_put_ratio" in detail:
+        ratio = _f(detail.get("call_put_ratio"))
+        if ratio is not None:
+            bits.append(f"c/p {ratio:.2f}")
+    if "side" in detail:
+        side = _safe_text(detail.get("side"))
+        if side:
+            bits.append(f"side {side}")
+    if "oi_change_pct" in detail:
+        pct = _f(detail.get("oi_change_pct"))
+        if pct is not None:
+            bits.append(f"OI {pct:+.0f}%")
+    if "sessions" in detail:
+        sessions = _f(detail.get("sessions"))
+        if sessions is not None:
+            bits.append(f"{sessions:.0f} session(s)")
+    strikes = detail.get("strikes")
+    if isinstance(strikes, list) and strikes:
+        bits.append("strikes " + "/".join(str(x) for x in strikes[:4]))
+    return "; ".join(bits)
+
+
+def _uw_opportunity_payload(uw_opportunity: Any) -> dict[str, Any]:
+    if uw_opportunity is None:
+        return {}
+    if isinstance(uw_opportunity, list):
+        return {"status": "checked", "signals": uw_opportunity}
+    if isinstance(uw_opportunity, dict):
+        return uw_opportunity
+    return {"status": "not_checked", "signals": []}
+
+
+def _uw_opportunity_unavailable_factor(
+    *, ticker: str, reason: str = "uw_opportunity source unavailable"
+) -> dict[str, Any]:
+    value = reason if "not_checked" in reason else f"not_checked: {reason}"
+    return _factor(
+        key="uw_opportunity_not_checked",
+        label="UW opportunity signals",
+        direction="neutral",
+        strength=0.0,
+        value_str=value,
+        source="uw_opportunity_signals:unavailable",
+        decisive=False,
+    )
+
+
+def _uw_opportunity_none_factor(*, ticker: str, as_of: Any) -> dict[str, Any]:
+    tick = str(ticker or "").upper() or "UNKNOWN"
+    stamp = _safe_text(as_of) or "unknown"
+    return _factor(
+        key="uw_opportunity_none",
+        label="UW opportunity signals",
+        direction="neutral",
+        strength=0.0,
+        value_str=f"UW opportunity sweep as_of {stamp}: no signal for {tick}",
+        source=_source_with_as_of("uw_opportunity_signals", stamp),
+        decisive=False,
+    )
+
+
+def uw_opportunity_factors(
+    signals_for_ticker: Any,
+    *,
+    ticker: str = "",
+    as_of: Any = None,
+    status: str = "checked",
+    unavailable_reason: str = "uw_opportunity source unavailable",
+) -> list[dict[str, Any]]:
+    """Map real uw_opportunity_signals rows into battery factor rows."""
+    payload = _uw_opportunity_payload(signals_for_ticker)
+    if payload:
+        status = str(payload.get("status") or status)
+        as_of = payload.get("as_of") or payload.get("generated_at") or as_of
+        ticker = str(payload.get("ticker") or ticker)
+        unavailable_reason = str(payload.get("reason") or unavailable_reason)
+        rows = payload.get("signals")
+    else:
+        rows = signals_for_ticker
+
+    if status != "checked":
+        return [
+            _uw_opportunity_unavailable_factor(
+                ticker=str(ticker or ""), reason=unavailable_reason
+            )
+        ]
+    if not isinstance(rows, list):
+        return [
+            _uw_opportunity_unavailable_factor(
+                ticker=str(ticker or ""),
+                reason="uw_opportunity source unavailable",
+            )
+        ]
+    if not rows:
+        return [_uw_opportunity_none_factor(ticker=str(ticker or ""), as_of=as_of)]
+
+    factors: list[dict[str, Any]] = []
+    stamp = _safe_text(as_of) or "unknown"
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        signal_type = _signal_type_key(row.get("signal_type"))
+        strength_label = _safe_text(row.get("strength")).lower()
+        strength = UW_OPP_STRENGTH_TRUST.get(strength_label)
+        direction = str(row.get("direction") or "").lower()
+        if strength is None:
+            mapped_direction = "neutral"
+            mapped_strength = 0.0
+        else:
+            mapped_direction = (
+                "bull" if direction == "bullish"
+                else "bear" if direction == "bearish"
+                else "neutral"
+            )
+            mapped_strength = strength if mapped_direction != "neutral" else 0.0
+        evidence = _safe_text(row.get("evidence")) or f"{direction or 'unknown'} {signal_type}"
+        detail_text = _opportunity_detail_text(row.get("detail"))
+        value = evidence
+        if detail_text:
+            value = f"{value}; {detail_text}"
+        value = f"{value} (as_of {stamp})"
+        factors.append(
+            _factor(
+                key=f"uw_opportunity_{signal_type}",
+                label=f"UW opportunity {signal_type.replace('_', ' ')}",
+                direction=mapped_direction,
+                strength=mapped_strength,
+                value_str=value,
+                source=_source_with_as_of("uw_opportunity_signals", stamp),
+                decisive=mapped_strength >= 0.9 and mapped_direction != "neutral",
+            )
+        )
+    if not factors:
+        return [_uw_opportunity_none_factor(ticker=str(ticker or ""), as_of=as_of)]
+    return factors
+
+
+def _group_rotation_payload(group_rotation: Any) -> dict[str, Any]:
+    if group_rotation is None:
+        return {}
+    if isinstance(group_rotation, dict):
+        return group_rotation
+    return {"status": "checked", "rot_w": group_rotation}
+
+
+def group_rotation_factor(group_rotation: Any = None, cd: Any = None) -> dict[str, Any]:
+    """Map holdings group rotation into one honest group-level battery factor."""
+    payload = _group_rotation_payload(group_rotation)
+    status = str(payload.get("status") or "checked")
+    tick = _safe_text(payload.get("ticker"))
+    if status != "checked":
+        suffix = f" for {tick}" if tick else ""
+        return _factor(
+            key="group_rotation_not_checked",
+            label="Group rotation / momentum",
+            direction="neutral",
+            strength=0.0,
+            value_str=f"not_checked: holdings group rotation unavailable{suffix}",
+            source="feed.holdings",
+            decisive=False,
+        )
+    rot_w = _safe_text(payload.get("rot_w") or payload.get("w") or payload.get("rotation"))
+    cd = _safe_text(payload.get("cd") if "cd" in payload else cd)
+    category = _safe_text(payload.get("category") or payload.get("cat"))
+    label = rot_w.upper() if rot_w else "NO DATA"
+    if label in {"LEADING", "TURNING UP"}:
+        direction = "bull"
+        strength = 0.5
+    elif label in {"LAGGING", "TURNING DOWN"}:
+        direction = "bear"
+        strength = 0.5
+    else:
+        direction = "neutral"
+        strength = 0.0
+    cat_text = category or "unknown group"
+    cd_text = cd or "unknown"
+    return _factor(
+        key="group_rotation_momentum",
+        label="Group rotation / momentum",
+        direction=direction,
+        strength=strength,
+        value_str=(
+            f"GROUP-level context: {cat_text} rotation {label}; "
+            f"ticker momentum {cd_text}"
+        ),
+        source="feed.holdings",
+        decisive=False,
+    )
+
+
 def _iv_hint(iv_ctx: Any) -> dict[str, Any]:
     data = _as_dict(iv_ctx)
     if not data:
@@ -382,21 +596,92 @@ def _verdict_line(factors: list[dict[str, Any]]) -> str:
     return "Battery evidence neutral; checked factors do not lean bull or bear."
 
 
+def select_decisive_factors(
+    factors: list[dict[str, Any]],
+    *,
+    cap: int = 4,
+) -> list[dict[str, Any]]:
+    """Select compact factors for later rendering without changing scoring."""
+    valid = [factor for factor in factors if isinstance(factor, dict)]
+    if not valid or cap <= 0:
+        return []
+    bull = sum(f["strength"] for f in valid if f.get("direction") == "bull")
+    bear = sum(f["strength"] for f in valid if f.get("direction") == "bear")
+    net = "bull" if bull > bear else "bear" if bear > bull else "neutral"
+
+    selected: list[dict[str, Any]] = []
+
+    def add(row: dict[str, Any]) -> None:
+        if row not in selected and len(selected) < cap:
+            selected.append(row)
+
+    if bull > 0 and bear > 0:
+        bull_top = max(
+            (f for f in valid if f.get("direction") == "bull"),
+            key=lambda f: (bool(f.get("decisive")), f.get("strength", 0.0)),
+        )
+        bear_top = max(
+            (f for f in valid if f.get("direction") == "bear"),
+            key=lambda f: (bool(f.get("decisive")), f.get("strength", 0.0)),
+        )
+        add(bull_top)
+        add(bear_top)
+
+    def priority(row: dict[str, Any]) -> tuple[int, int, float]:
+        direction = row.get("direction")
+        opposes = int(net != "neutral" and direction in {"bull", "bear"} and direction != net)
+        return (
+            int(bool(row.get("decisive"))),
+            opposes,
+            float(row.get("strength") or 0.0),
+        )
+
+    for row in sorted(valid, key=priority, reverse=True):
+        add(row)
+    return selected
+
+
+def _battery_summary(
+    factors: list[dict[str, Any]],
+    *,
+    verdict_line: str,
+    iv_hint: dict[str, Any],
+) -> dict[str, Any]:
+    return {
+        "decisive_factors": select_decisive_factors(factors, cap=4),
+        "verdict_line": verdict_line,
+        "iv_hint": iv_hint,
+    }
+
+
 def build_battery_evidence(
     ticker: str,
     *,
     uw_price: Any = None,
     iv_ctx: Any = None,
     deepdive_battery: Any = None,
+    uw_opportunity: Any = None,
+    group_rotation: Any = None,
 ) -> dict[str, Any]:
     """Map injected producer outputs into the battery evidence contract."""
     tick = str(ticker or "").upper()
     factors: list[dict[str, Any]] = []
     factors.extend(_deepdive_factors(deepdive_battery))
     factors.extend(_price_factors(tick, uw_price))
+    if uw_opportunity is not None:
+        factors.extend(uw_opportunity_factors(uw_opportunity, ticker=tick))
+    if group_rotation is not None:
+        factors.append(group_rotation_factor(group_rotation))
+    iv_hint = _iv_hint(iv_ctx)
+    verdict_line = _verdict_line(factors)
     payload = {
         "factors": factors,
-        "iv_hint": _iv_hint(iv_ctx),
-        "verdict_line": _verdict_line(factors),
+        "iv_hint": iv_hint,
+        "verdict_line": verdict_line,
+        "battery_summary": _battery_summary(
+            factors,
+            verdict_line=verdict_line,
+            iv_hint=iv_hint,
+        ),
     }
     return assert_valid_battery_evidence(payload)
