@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import json
 import subprocess
 from pathlib import Path
 
 import cloud_routine_commit
+import cloud_routine_receipts
 
 
 def _git(cwd: Path, *args: str) -> str:
@@ -67,6 +69,36 @@ def test_cloud_routine_commit_commits_only_allowed_paths(tmp_path):
     status = _git(repo, "status", "--short")
     assert "src/fundstrat_intake_state.json" in status
     assert "src/cloud_routine_receipts.json" not in status
+
+
+def test_cloud_routine_commit_normalizes_legacy_receipts_before_commit(tmp_path):
+    repo = _repo(tmp_path)
+    payload = {
+        "schema_version": 1,
+        "receipts": [
+            {
+                "routine_id": "investing-os-parabolic-cache",
+                "status": "success",
+                "run_source": "scheduled",
+                "recorded_at": "2026-06-16T14:37:00Z",
+                "summary": "PARABOLIC SETUP SCREENER \u2014 2026-06-16",
+            }
+        ],
+    }
+    (repo / "src" / "cloud_routine_receipts.json").write_bytes(
+        json.dumps(payload, indent=2, ensure_ascii=False).encode("cp1252")
+    )
+
+    report = cloud_routine_commit.cloud_routine_commit(
+        message="cloud receipt",
+        allowed_paths=["src/cloud_routine_receipts.json"],
+        cwd=repo,
+    )
+
+    assert report["committed"] is True
+    assert report["receipt_normalized"] is True
+    assert cloud_routine_receipts.validate_receipt_file_encoding(repo / "src" / "cloud_routine_receipts.json") == []
+    assert _git(repo, "show", "--name-only", "--format=", "HEAD") == "src/cloud_routine_receipts.json"
 
 
 def test_default_allowlist_includes_redacted_fundstrat_intake_bookkeeping():
