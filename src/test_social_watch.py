@@ -77,7 +77,13 @@ def test_social_watch_preserves_review_prompt_fields():
         "ticker": "UUUU",
         "summary": "AI data-center nuclear demand chatter",
         "source_group": "critical_minerals_nuclear",
+        "source_role": "specialized_catalyst_scout",
         "source_type": "ai_power_nuclear_narrative",
+        "source_health_status": "thin_but_current",
+        "source_interpretation_limit": "company/policy catalyst scout; verify outside Reddit",
+        "signal_kind": "theme/research prompt",
+        "usefulness": "medium",
+        "destroy_reason": "",
         "why_it_matters": "Could change uranium/nuclear research priority.",
         "portfolio_implication": "Quiet Watch only until confirmed.",
         "confidence": "low scout",
@@ -88,7 +94,11 @@ def test_social_watch_preserves_review_prompt_fields():
     })
 
     assert row["source_group"] == "critical_minerals_nuclear"
+    assert row["source_role"] == "specialized_catalyst_scout"
     assert row["source_type"] == "ai_power_nuclear_narrative"
+    assert row["source_health_status"] == "thin_but_current"
+    assert row["signal_kind"] == "theme/research prompt"
+    assert row["usefulness"] == "medium"
     assert row["why_it_matters"].startswith("Could change")
     assert row["portfolio_implication"] == "Quiet Watch only until confirmed."
     assert row["confirmation_needed"].startswith("Check filings")

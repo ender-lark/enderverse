@@ -103,12 +103,20 @@ Current staged implementation note:
   WSB-only retail-risk scout group; keep it separate from the critical-minerals
   lane because it is high-noise crowding/risk evidence.
 - Keep outputs in `tmp/` until explicitly accepted:
-  `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/critical_minerals_reddit_scout.md --format text`.
+  `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/reddit_daily_scout.md --weekly-report-out tmp/reddit_weekly_patterns.md --format text`.
 - Manual/Chrome-visible snapshots can use simple rows with `subreddit`, `title`,
   `body` or `snippet`, `permalink` or `url`, visible time or `created_utc`,
   `score`, `comments` or `num_comments`, and `flair`. Do not store authors,
   copied raw comment archives, screenshots, cookies, credentials, or long raw
   Reddit text.
+- Snapshot rows can also carry `members`, `online`, `source_sort`,
+  `scan_window`, `captured_at`, `visible_rank`, and `subreddit_health` so source
+  health can be classified before post usefulness is ranked.
+- Source-health labels are `active`, `thin_but_current`, `stale`, and `fringe`.
+  `stale` or `fringe` boards are link/catalyst scouts only, not sentiment or
+  crowding evidence.
+- Weekly pattern reports should surface recurring topics, louder/fading themes,
+  cross-subreddit spread, counter-thesis/risk warnings, and destroy/noise.
 - Missing/blocked fetches must stay `not_checked`.
 - The main cockpit should display this lane as more than dark/staged only after
   the user explicitly accepts the source group, confirmation gates, and cache

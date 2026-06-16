@@ -29,6 +29,10 @@ until the core logic is stable; Notion sync comes later.
     `src/reddit_collector.py --input <manual-snapshot.json>` and reviewed with
     `--report-out tmp/<scout-report>.md` while public Reddit JSON/API access is
     blocked.
+  - Reddit scout v2 adds source-health labels and weekly pattern reports:
+    use `--weekly-report-out tmp/reddit_weekly_patterns.md` for recurring
+    themes, louder/fading topics, cross-subreddit spread, counter-thesis/risk
+    warnings, and destroy/noise.
   - Keep output in `tmp/` or supplied cache files until the main build accepts
     it; missing/blocked social data remains `not_checked`.
   - Read `docs/reddit_critical_minerals_prototype_plan.md` before changing,

@@ -62,9 +62,11 @@ Current source groups:
 - `broad_social`: the broad watch-only set above.
 - `critical_minerals_nuclear`: `r/criticalmineralstocks` and
   `r/UraniumSqueeze`, designed as the first staged replacement scout for stale
-  Meridian critical-minerals/nuclear context.
+  Meridian critical-minerals/nuclear context. Source role:
+  `specialized_catalyst_scout`.
 - `retail_risk_wsb`: `r/wallstreetbets` only, designed as a detachable
   high-noise scout for retail crowding, reflexive risk, and topic discovery.
+  Source role: `retail_crowding_risk`.
 
 The source group is a collector/cache concern. If its cache is absent, Social
 Watch remains dark / `not_checked`; the dashboard should not infer checked-clear
@@ -110,6 +112,37 @@ Use the existing `src/reddit_signal_core.py` logic as the measurement contract:
   rate.
 - Score multiple horizons so social reflexivity and reversal can be seen.
 - Kill criterion should require poor accuracy, not merely lack of user action.
+
+### Source Health
+
+Rank the subreddit before ranking posts. A small or stale subreddit can still be
+useful as a link/catalyst scout, but it cannot support sentiment, crowding, or
+conviction conclusions.
+
+Source health labels:
+
+- `active`: newest meaningful post is within 24 hours and at least five visible
+  posts were seen in the last seven days.
+- `thin_but_current`: newest meaningful post is within 48 hours and at least two
+  visible posts were seen in the last seven days.
+- `stale`: newest meaningful post is older than seven days or visible activity
+  is too sparse.
+- `fringe`: low-activity and promotion/noise-heavy.
+
+Rows from `stale` or `fringe` sources must carry the interpretation limit:
+`primary-source/link scout only; no sentiment or crowding conclusion`.
+
+### Destroy / Noise Filter
+
+Demote or bucket, rather than over-rank:
+
+- memes, gain/loss screenshots, YOLO posts, and generic bullishness
+- duplicate headlines
+- unsupported "buy this" or moonshot framing
+- stale subreddit posts without outside evidence
+
+Keep counter-thesis/risk-warning posts when they affect a material holding,
+sizing decision, or conviction check.
 
 ## Escalation Rules
 
@@ -164,9 +197,12 @@ Current repo state:
 - `src/reddit_collector.py --source-group retail_risk_wsb` selects the
   detachable WSB-only retail-risk scout without changing the dashboard contract.
 - `src/reddit_collector.py --report-out tmp/<name>.md` writes a human-readable
-  ranked scout report with ticker/topic, source/time, why it matters, portfolio
-  implication, confidence, decay speed, confirmation needed, blocker before
-  action, and suggested next check.
+  ranked daily scout report with subreddit health, ticker/topic, source/time,
+  why it matters, portfolio implication, confidence, decay speed, confirmation
+  needed, blocker before action, suggested next check, and destroy/noise bucket.
+- `src/reddit_collector.py --weekly-report-out tmp/<name>.md` writes a staged
+  weekly pattern report showing recurring topics, themes getting louder, themes
+  fading, cross-subreddit spread, counter-thesis/risk warnings, and noise.
 - `src/full_build_runner.py` loads `src/social_watch.json`, `src/reddit_watch.json`,
   or `src/reddit_signals.json`.
 - The dashboard renders Social Watch in the Action view and summary export.

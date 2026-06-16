@@ -46,6 +46,11 @@ DEFAULT_SUBREDDITS = [
 DEFAULT_LIMIT = 50
 USER_AGENT = "enderverse-social-watch/0.1 watch-only research collector"
 RETENTION_HOURS = 48
+SOURCE_ROLE_SPECIALIZED_CATALYST = "specialized_catalyst_scout"
+SOURCE_ROLE_RETAIL_CROWDING = "retail_crowding_risk"
+SOURCE_ROLE_SPECIALIZED_RESEARCH = "specialized_research"
+SOURCE_ROLE_BROAD_ATTENTION = "broad_market_attention"
+SOURCE_ROLE_TICKER_ECHO = "ticker_echo_chamber"
 COMMON_WORD_FALSE_POSITIVES = {
     "A",
     "AI",
@@ -170,6 +175,7 @@ NAME_TO_TICKER = {
 REDDIT_SOURCE_GROUPS = {
     "broad_social": {
         "description": "Broad retail and research Reddit watchlist.",
+        "role": SOURCE_ROLE_BROAD_ATTENTION,
         "subreddits": DEFAULT_SUBREDDITS,
         "tickers": sorted(DEFAULT_TICKERS),
     },
@@ -178,6 +184,7 @@ REDDIT_SOURCE_GROUPS = {
             "Detachable critical-minerals and nuclear scout lane. Designed to replace "
             "stale Meridian context with low-trust research prompts only."
         ),
+        "role": SOURCE_ROLE_SPECIALIZED_CATALYST,
         "subreddits": ["criticalmineralstocks", "UraniumSqueeze"],
         "tickers": sorted(CRITICAL_MINERALS_TICKERS),
     },
@@ -186,6 +193,7 @@ REDDIT_SOURCE_GROUPS = {
             "Detachable WallStreetBets scout lane for retail crowding, reflexive risk, "
             "and high-noise topic discovery. Not a signal or trade trigger."
         ),
+        "role": SOURCE_ROLE_RETAIL_CROWDING,
         "subreddits": ["wallstreetbets"],
         "tickers": sorted(RETAIL_RISK_WSB_TICKERS),
     },
@@ -214,6 +222,68 @@ def _parse_dt(value: Any) -> datetime | None:
     except ValueError:
         return None
     return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
+
+
+def _parse_observed_count(value: Any) -> int | None:
+    if value in (None, ""):
+        return None
+    if isinstance(value, (int, float)):
+        return int(value)
+    text = str(value).strip().lower().replace(",", "")
+    if not text:
+        return None
+    multiplier = 1
+    if text.endswith("k"):
+        multiplier = 1_000
+        text = text[:-1]
+    elif text.endswith("m"):
+        multiplier = 1_000_000
+        text = text[:-1]
+    match = re.search(r"-?\d+(?:\.\d+)?", text)
+    if not match:
+        return None
+    try:
+        return int(float(match.group(0)) * multiplier)
+    except ValueError:
+        return None
+
+
+def _parse_relative_age(value: Any, *, anchor: datetime) -> datetime | None:
+    text = str(value or "").strip().lower()
+    if not text:
+        return None
+    text = text.replace("·", " ").replace(".", " ")
+    match = re.search(
+        r"(\d+(?:\.\d+)?)\s*(m|min|mins|minute|minutes|h|hr|hrs|hour|hours|d|day|days|w|week|weeks|mo|mon|month|months|y|yr|year|years)\s+ago",
+        text,
+    )
+    if not match:
+        return None
+    amount = float(match.group(1))
+    unit = match.group(2)
+    if unit.startswith("m") and unit not in {"mo", "mon", "month", "months"}:
+        delta = timedelta(minutes=amount)
+    elif unit.startswith("h"):
+        delta = timedelta(hours=amount)
+    elif unit.startswith("d"):
+        delta = timedelta(days=amount)
+    elif unit.startswith("w"):
+        delta = timedelta(weeks=amount)
+    elif unit in {"mo", "mon", "month", "months"}:
+        delta = timedelta(days=30 * amount)
+    else:
+        delta = timedelta(days=365 * amount)
+    return anchor - delta
+
+
+def _item_created_dt(item: dict[str, Any], *, generated: datetime) -> datetime:
+    parsed = _parse_dt(item.get("created_utc"))
+    if parsed:
+        return parsed
+    parsed = _parse_relative_age(item.get("source_time_label"), anchor=generated.astimezone(UTC))
+    if parsed:
+        return parsed
+    return generated.astimezone(UTC)
 
 
 def _iso(dt: datetime) -> str:
@@ -283,6 +353,13 @@ def _manual_snapshot_item(data: dict[str, Any], *, fallback_subreddit: str = "")
             or data.get("comments")
         ),
         "flair": str(data.get("flair") or data.get("link_flair_text") or "").strip(),
+        "members_observed": _parse_observed_count(data.get("members") or data.get("member_count")),
+        "online_observed": _parse_observed_count(data.get("online") or data.get("online_count")),
+        "source_sort": str(data.get("source_sort") or data.get("sort") or "").strip(),
+        "scan_window": str(data.get("scan_window") or "").strip(),
+        "captured_at": data.get("captured_at") or data.get("ingested_at") or "",
+        "visible_rank": _parse_observed_count(data.get("visible_rank") or data.get("rank")),
+        "subreddit_health_override": str(data.get("subreddit_health") or "").strip(),
     }
 
 
@@ -360,6 +437,11 @@ def source_group_config(name: str | None) -> dict[str, Any]:
     return dict(REDDIT_SOURCE_GROUPS[key])
 
 
+def source_group_role(name: str | None) -> str:
+    config = source_group_config(name)
+    return str(config.get("role") or SOURCE_ROLE_SPECIALIZED_RESEARCH)
+
+
 def ticker_universe_for_group(base: set[str], source_group: str | None) -> set[str]:
     tickers = set(base)
     config = source_group_config(source_group)
@@ -408,6 +490,203 @@ def _source_type_for_item(item: dict[str, Any]) -> str:
     return "research_prompt"
 
 
+def _median_int(values: list[int]) -> int:
+    nums = sorted(int(v) for v in values)
+    if not nums:
+        return 0
+    mid = len(nums) // 2
+    if len(nums) % 2:
+        return nums[mid]
+    return int(round((nums[mid - 1] + nums[mid]) / 2))
+
+
+def _has_external_link(item: dict[str, Any]) -> bool:
+    text = " ".join([
+        str(item.get("title") or ""),
+        str(item.get("body") or ""),
+        str(item.get("permalink") or ""),
+    ]).lower()
+    links = re.findall(r"https?://[^\s)]+", text)
+    return any("reddit.com" not in link for link in links)
+
+
+def _is_counter_thesis(item: dict[str, Any]) -> bool:
+    text = " ".join([str(item.get("title") or ""), str(item.get("body") or "")]).lower()
+    return any(term in text for term in (
+        "underperformance",
+        "bearish",
+        "risk",
+        "scam",
+        "skeptic",
+        "skeptical",
+        "concern",
+        "problem",
+        "short thesis",
+        "avoid",
+        "overvalued",
+    ))
+
+
+def _is_noise_like(item: dict[str, Any], *, source_type: str | None = None) -> bool:
+    flair = str(item.get("flair") or "").strip().lower()
+    text = " ".join([str(item.get("title") or ""), str(item.get("body") or "")]).lower()
+    if source_type == "possible_promotion":
+        return True
+    if flair in {"meme", "gain", "loss", "yolo"}:
+        return True
+    return any(term in text for term in (
+        "yolo",
+        "gain",
+        "loss",
+        "am i cooked",
+        "buy this",
+        "to the moon",
+        "moonshot",
+        "diamond hands",
+    ))
+
+
+def _source_health_note(status: str) -> str:
+    if status == "active":
+        return "Source appears active enough for current-topic scouting, still low trust."
+    if status == "thin_but_current":
+        return "Source is current but thin; use as link/catalyst scout, not sentiment proof."
+    if status == "fringe":
+        return "Source is low-activity and promotion/noise-heavy; treat only as a prompt to verify elsewhere."
+    return "Source is stale or too sparse; do not infer sentiment or crowding from it."
+
+
+def _interpretation_limit(status: str, source_role: str) -> str:
+    if status in {"stale", "fringe"}:
+        return "primary-source/link scout only; no sentiment or crowding conclusion"
+    if source_role == SOURCE_ROLE_RETAIL_CROWDING:
+        return "crowding/risk temperature only; not thesis quality"
+    if source_role == SOURCE_ROLE_SPECIALIZED_CATALYST:
+        return "company/policy catalyst scout; verify outside Reddit"
+    return "research prompt only; verify outside Reddit"
+
+
+def build_source_health(
+    raw_items: list[dict[str, Any]],
+    *,
+    subreddits: list[str] | None,
+    generated: datetime,
+) -> dict[str, dict[str, Any]]:
+    by_subreddit: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for item in raw_items:
+        subreddit = _clean_subreddit(item.get("subreddit"))
+        if subreddit:
+            by_subreddit[subreddit].append(item)
+    for subreddit in subreddits or []:
+        by_subreddit.setdefault(_clean_subreddit(subreddit), [])
+
+    out: dict[str, dict[str, Any]] = {}
+    generated_utc = generated.astimezone(UTC)
+    for subreddit, items in sorted(by_subreddit.items()):
+        created_rows = [_item_created_dt(item, generated=generated) for item in items]
+        ages = [
+            max((generated_utc - created.astimezone(UTC)).total_seconds() / 86400.0, 0.0)
+            for created in created_rows
+        ]
+        posts_24h = sum(1 for age in ages if age <= 1)
+        posts_7d = sum(1 for age in ages if age <= 7)
+        posts_30d = sum(1 for age in ages if age <= 30)
+        newest_age_days = round(min(ages), 2) if ages else None
+        upvotes = [
+            count for count in (_parse_observed_count(item.get("score_observed")) for item in items)
+            if count is not None
+        ]
+        comments = [
+            count for count in (_parse_observed_count(item.get("comment_count_observed")) for item in items)
+            if count is not None
+        ]
+        noise_count = sum(1 for item in items if _is_noise_like(item, source_type=_source_type_for_item(item)))
+        total = len(items)
+        noise_ratio = round(noise_count / total, 2) if total else 0.0
+        observed_members = [
+            count for count in (_parse_observed_count(item.get("members_observed")) for item in items)
+            if count is not None
+        ]
+        observed_online = [
+            count for count in (_parse_observed_count(item.get("online_observed")) for item in items)
+            if count is not None
+        ]
+        override = next((str(item.get("subreddit_health_override") or "").strip() for item in items if item.get("subreddit_health_override")), "")
+        if override in {"active", "thin_but_current", "stale", "fringe"}:
+            status = override
+        elif total and noise_ratio >= 0.5 and posts_7d < 5:
+            status = "fringe"
+        elif newest_age_days is None:
+            status = "stale"
+        elif newest_age_days <= 1 and posts_7d >= 5:
+            status = "active"
+        elif newest_age_days <= 2 and posts_7d >= 2:
+            status = "thin_but_current"
+        elif newest_age_days > 7 or posts_30d < 3:
+            status = "stale"
+        else:
+            status = "stale"
+        out[subreddit] = {
+            "status": status,
+            "note": _source_health_note(status),
+            "members_observed": max(observed_members) if observed_members else None,
+            "online_observed": max(observed_online) if observed_online else None,
+            "newest_meaningful_post_age_days": newest_age_days,
+            "posts_seen_24h": posts_24h,
+            "posts_seen_7d": posts_7d,
+            "posts_seen_30d": posts_30d,
+            "median_score_observed": _median_int(upvotes),
+            "median_comments_observed": _median_int(comments),
+            "promo_noise_ratio": noise_ratio,
+            "visible_posts_scanned": total,
+        }
+    return out
+
+
+def _usefulness_for_item(
+    item: dict[str, Any],
+    *,
+    source_type: str,
+    source_role: str,
+    health_status: str,
+) -> dict[str, str]:
+    if health_status in {"stale", "fringe"}:
+        if _has_external_link(item) or source_type == "company_or_policy_catalyst":
+            return {
+                "usefulness": "medium",
+                "signal_kind": "primary-source/link scout",
+                "destroy_reason": "",
+            }
+        return {
+            "usefulness": "low",
+            "signal_kind": "destroy/noise",
+            "destroy_reason": "Subreddit is stale/fringe and item lacks outside evidence.",
+        }
+    if source_role == SOURCE_ROLE_RETAIL_CROWDING:
+        if _is_noise_like(item, source_type=source_type):
+            return {
+                "usefulness": "low",
+                "signal_kind": "crowding/noise temperature",
+                "destroy_reason": "High-noise WSB item; useful only as crowding or mania temperature.",
+            }
+        return {
+            "usefulness": "medium",
+            "signal_kind": "retail crowding/risk",
+            "destroy_reason": "",
+        }
+    if source_type == "company_or_policy_catalyst" or _has_external_link(item):
+        return {"usefulness": "high", "signal_kind": "specific catalyst/link scout", "destroy_reason": ""}
+    if _is_counter_thesis(item):
+        return {"usefulness": "medium", "signal_kind": "counter-thesis/risk warning", "destroy_reason": ""}
+    if _is_noise_like(item, source_type=source_type):
+        return {
+            "usefulness": "low",
+            "signal_kind": "destroy/noise",
+            "destroy_reason": "Promotion, meme, gain/loss, or unsupported buy-this framing.",
+        }
+    return {"usefulness": "medium", "signal_kind": "theme/research prompt", "destroy_reason": ""}
+
+
 def _review_prompt_fields(
     *,
     ticker: str,
@@ -436,7 +715,7 @@ def _review_prompt_fields(
             "or a noisy topic that needs independent vetting."
         )
         implication = (
-            "Risk-control or research prompt only. Useful for checking crowding, late-entry risk, "
+            "Crowding/risk-control or research prompt only. Useful for checking crowding, late-entry risk, "
             "and whether a high-beta holding or target is becoming socially crowded."
         )
         next_check = (
@@ -486,9 +765,24 @@ def iter_reddit_items(payload: Any, *, fallback_subreddit: str = "") -> list[dic
         return out
     if isinstance(payload, dict) and isinstance(payload.get("items"), list):
         nested_fallback = _clean_subreddit(payload.get("subreddit") or fallback_subreddit)
+        inherited = {
+            key: payload.get(key)
+            for key in (
+                "members",
+                "member_count",
+                "online",
+                "online_count",
+                "source_sort",
+                "sort",
+                "scan_window",
+                "captured_at",
+                "subreddit_health",
+            )
+            if payload.get(key) not in (None, "")
+        }
         for row in payload["items"]:
             if isinstance(row, dict):
-                out.extend(iter_reddit_items(row, fallback_subreddit=nested_fallback))
+                out.extend(iter_reddit_items({**inherited, **row}, fallback_subreddit=nested_fallback))
         return out
     if isinstance(payload, dict):
         manual = _manual_snapshot_item(payload, fallback_subreddit=fallback_subreddit)
@@ -634,6 +928,18 @@ def _collector_score(row: dict[str, Any]) -> float:
         score += min(float(row.get("comment_count_observed") or 0.0), 100.0) / 10.0
     except (TypeError, ValueError):
         pass
+    if row.get("usefulness") == "high":
+        score += 15.0
+    elif row.get("usefulness") == "medium":
+        score += 6.0
+    elif row.get("usefulness") == "low":
+        score -= 8.0
+    if row.get("source_health_status") == "active":
+        score += 5.0
+    elif row.get("source_health_status") == "thin_but_current":
+        score += 2.0
+    elif row.get("source_health_status") in {"stale", "fringe"}:
+        score -= 8.0
     return round(score, 2)
 
 
@@ -652,6 +958,7 @@ def build_cache(
     generated = (generated_at or _now_et()).astimezone(ET).replace(microsecond=0)
     ingested_utc = generated.astimezone(UTC)
     expires = ingested_utc + timedelta(hours=RETENTION_HOURS)
+    source_role = source_group_role(source_group)
     ticker_universe = ticker_universe_for_group(ticker_universe or DEFAULT_TICKERS, source_group)
     confirmation_map = confirmation_map or {}
     failure_rows = failures or []
@@ -661,6 +968,7 @@ def build_cache(
         if isinstance(payload, dict):
             fallback = str(payload.get("subreddit") or "").strip()
         raw_items.extend(iter_reddit_items(payload, fallback_subreddit=fallback))
+    source_health = build_source_health(raw_items, subreddits=subreddits, generated=generated)
 
     if not raw_items and failure_rows:
         return {
@@ -670,7 +978,9 @@ def build_cache(
             "status": "not_checked",
             "line": "Social watch not checked: Reddit fetch failed or returned no readable payloads.",
             "source_group": source_group or "custom",
+            "source_role": source_role,
             "subreddits_checked": subreddits or [],
+            "source_health": source_health,
             "failures": failure_rows,
             "rows": [],
             "retention_hours": RETENTION_HOURS,
@@ -681,7 +991,7 @@ def build_cache(
     per_ticker_items: dict[str, list[dict[str, Any]]] = defaultdict(list)
     scanned_subreddits: set[str] = set()
     for item in raw_items:
-        created = _parse_dt(item.get("created_utc")) or ingested_utc
+        created = _item_created_dt(item, generated=generated)
         subreddit = str(item.get("subreddit") or "").strip()
         if subreddit:
             scanned_subreddits.add(subreddit)
@@ -717,13 +1027,32 @@ def build_cache(
             source_group=source_group,
             confirmations=confirmations,
         )
+        health_rows = [source_health.get(sub) for sub in subs if source_health.get(sub)]
+        health_status = "stale"
+        if health_rows:
+            order = {"active": 0, "thin_but_current": 1, "fringe": 2, "stale": 3}
+            health_status = sorted(health_rows, key=lambda row: order.get(str(row.get("status")), 9))[0]["status"]
+        interpretation_limit = _interpretation_limit(str(health_status), source_role)
+        usefulness = _usefulness_for_item(
+            latest,
+            source_type=review_fields["source_type"],
+            source_role=source_role,
+            health_status=str(health_status),
+        )
         row = {
             "id": f"reddit-{ticker}-{generated.date().isoformat()}",
             "source": "reddit",
             "source_group": review_fields["source_group"],
+            "source_role": source_role,
             "source_type": review_fields["source_type"],
+            "signal_kind": usefulness["signal_kind"],
+            "usefulness": usefulness["usefulness"],
+            "destroy_reason": usefulness["destroy_reason"],
             "subreddit": subs[0] if subs else "",
             "subreddits": subs,
+            "source_health_status": str(health_status),
+            "source_health_note": _source_health_note(str(health_status)),
+            "source_interpretation_limit": interpretation_limit,
             "created_utc": _iso(items[0]["created_dt"].astimezone(UTC)),
             "kind": "post_or_comment",
             "title_snippet": _snippet(latest.get("title")),
@@ -787,7 +1116,9 @@ def build_cache(
         "status": status,
         "line": line,
         "source_group": source_group or "custom",
+        "source_role": source_role,
         "subreddits_checked": sorted(scanned_subreddits or set(subreddits or [])),
+        "source_health": source_health,
         "failures": failure_rows,
         "retention_hours": RETENTION_HOURS,
         "expires_at": _iso(expires),
@@ -827,12 +1158,14 @@ def _report_value(value: Any, fallback: str = "not supplied") -> str:
 def build_scout_report(cache: dict[str, Any], *, max_rows: int = 12) -> str:
     generated = _report_value(cache.get("generated_at"))
     source_group = _report_value(cache.get("source_group"))
+    source_role = _report_value(cache.get("source_role"))
     status = _report_value(cache.get("status"))
     lines = [
-        "# Reddit Scout Report",
+        "# Reddit Daily Scout Report",
         "",
         f"- Generated: {generated}",
         f"- Source group: {source_group}",
+        f"- Source role: {source_role}",
         f"- Status: {status}",
         "- Rule: Reddit is low-trust scout evidence, never a standalone trade trigger.",
         "",
@@ -847,6 +1180,21 @@ def build_scout_report(cache: dict[str, Any], *, max_rows: int = 12) -> str:
         ])
         return "\n".join(lines)
 
+    health = cache.get("source_health") or {}
+    if health:
+        lines.extend([
+            "## Source Health",
+            "",
+        ])
+        for subreddit, row in sorted(health.items()):
+            lines.append(
+                f"- r/{subreddit}: {row.get('status')} | posts 24h/7d/30d "
+                f"{row.get('posts_seen_24h')}/{row.get('posts_seen_7d')}/{row.get('posts_seen_30d')} | "
+                f"median upvotes/comments {row.get('median_score_observed')}/{row.get('median_comments_observed')} | "
+                f"noise {row.get('promo_noise_ratio')}"
+            )
+        lines.append("")
+
     rows = sorted(
         [row for row in cache.get("rows") or [] if isinstance(row, dict)],
         key=lambda row: float(row.get("collector_score") or 0.0),
@@ -860,11 +1208,14 @@ def build_scout_report(cache: dict[str, Any], *, max_rows: int = 12) -> str:
         ])
         return "\n".join(lines)
 
+    ranked = [row for row in rows if row.get("signal_kind") != "destroy/noise"]
+    destroyed = [row for row in rows if row.get("signal_kind") == "destroy/noise" or row.get("destroy_reason")]
+
     lines.extend([
         "## Ranked Prompts",
         "",
     ])
-    for idx, row in enumerate(rows[:max_rows], 1):
+    for idx, row in enumerate(ranked[:max_rows], 1):
         ticker = (row.get("tickers") or [""])[0] or row.get("ticker") or "SOCIAL"
         subreddit = ", ".join(row.get("subreddits") or [row.get("subreddit") or ""])
         source_time = row.get("source_time_label") or row.get("last_seen") or row.get("created_utc")
@@ -874,7 +1225,9 @@ def build_scout_report(cache: dict[str, Any], *, max_rows: int = 12) -> str:
             "",
             f"- Source/time: r/{_report_value(subreddit, 'unknown')} | {_report_value(source_time)}",
             f"- Collector score: {_report_value(row.get('collector_score'), '0')} | mentions {_report_value(row.get('mentions'), '0')} | z {_report_value(row.get('velocity_z'), 'n/a')}",
+            f"- Source health: {_report_value(row.get('source_health_status'))} | {_report_value(row.get('source_interpretation_limit'))}",
             f"- Source type: {_report_value(row.get('source_type'))}",
+            f"- Signal kind: {_report_value(row.get('signal_kind'))} | usefulness {_report_value(row.get('usefulness'))}",
             f"- Why it matters: {_report_value(row.get('why_it_matters'))}",
             f"- Portfolio implication: {_report_value(row.get('portfolio_implication'))}",
             f"- Confidence: {_report_value(row.get('confidence'))}",
@@ -885,11 +1238,144 @@ def build_scout_report(cache: dict[str, Any], *, max_rows: int = 12) -> str:
             f"- Link: {link}",
             "",
         ])
+    if destroyed:
+        lines.extend([
+            "## Destroy / Noise",
+            "",
+        ])
+        for row in destroyed[:max_rows]:
+            ticker = (row.get("tickers") or [""])[0] or row.get("ticker") or "SOCIAL"
+            lines.append(
+                f"- {ticker}: {_report_value(row.get('summary'))} | "
+                f"{_report_value(row.get('destroy_reason'), 'demoted as low-usefulness social noise')}"
+            )
+        lines.append("")
     return "\n".join(lines)
 
 
 def write_scout_report(cache: dict[str, Any], *, out: str) -> Path:
     return _atomic_write_text(out, build_scout_report(cache))
+
+
+def _cache_rows(caches: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for cache in caches:
+        for row in cache.get("rows") or []:
+            if isinstance(row, dict):
+                rows.append(row)
+    return rows
+
+
+def _row_topic(row: dict[str, Any]) -> str:
+    ticker = (row.get("tickers") or [""])[0] or row.get("ticker")
+    if ticker:
+        return str(ticker).upper()
+    summary = str(row.get("summary") or "").strip()
+    return _snippet(summary, limit=60) or "SOCIAL"
+
+
+def _row_date(row: dict[str, Any]) -> str:
+    parsed = _parse_dt(row.get("last_seen") or row.get("created_utc") or row.get("first_seen"))
+    return parsed.astimezone(UTC).date().isoformat() if parsed else "unknown"
+
+
+def build_weekly_pattern_report(caches: list[dict[str, Any]] | dict[str, Any], *, max_topics: int = 10) -> str:
+    cache_list = [caches] if isinstance(caches, dict) else list(caches)
+    rows = _cache_rows(cache_list)
+    generated = _iso(_now_et())
+    lines = [
+        "# Reddit Weekly Pattern Report",
+        "",
+        f"- Generated: {generated}",
+        "- Rule: weekly Reddit patterns are research prompts only; no trade trigger.",
+        "",
+    ]
+    if not rows:
+        lines.extend([
+            "## No Pattern Data",
+            "",
+            "No staged Reddit rows were supplied. Missing Reddit remains not_checked, not checked clear.",
+        ])
+        return "\n".join(lines)
+
+    by_topic: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        by_topic[_row_topic(row)].append(row)
+
+    summaries = []
+    for topic, topic_rows in by_topic.items():
+        subreddit_set = sorted({sub for row in topic_rows for sub in row.get("subreddits") or [row.get("subreddit") or ""] if sub})
+        date_counts = Counter(_row_date(row) for row in topic_rows)
+        ordered_dates = sorted(day for day in date_counts if day != "unknown")
+        first_half = ordered_dates[: max(len(ordered_dates) // 2, 1)]
+        second_half = ordered_dates[max(len(ordered_dates) // 2, 1):] or ordered_dates[-1:]
+        early = sum(date_counts[day] for day in first_half)
+        late = sum(date_counts[day] for day in second_half)
+        trend = "getting_louder" if late > early else "fading" if early > late else "persistent"
+        signal_kinds = Counter(str(row.get("signal_kind") or row.get("source_type") or "research_prompt") for row in topic_rows)
+        destroy_count = sum(1 for row in topic_rows if row.get("destroy_reason") or row.get("signal_kind") == "destroy/noise")
+        counter_count = sum(1 for row in topic_rows if "counter" in str(row.get("signal_kind") or "").lower())
+        score = round(sum(float(row.get("collector_score") or 0.0) for row in topic_rows), 2)
+        summaries.append({
+            "topic": topic,
+            "rows": topic_rows,
+            "subreddits": subreddit_set,
+            "dates": ordered_dates,
+            "early": early,
+            "late": late,
+            "trend": trend,
+            "signal_kind": signal_kinds.most_common(1)[0][0] if signal_kinds else "research_prompt",
+            "destroy_count": destroy_count,
+            "counter_count": counter_count,
+            "score": score,
+        })
+    summaries.sort(key=lambda item: (item["trend"] == "getting_louder", len(item["subreddits"]), item["score"]), reverse=True)
+
+    lines.extend(["## Recurring Topics", ""])
+    for item in summaries[:max_topics]:
+        lines.append(
+            f"- {item['topic']}: {len(item['rows'])} staged item(s), "
+            f"{item['trend']}, subreddits {', '.join(item['subreddits']) or 'unknown'}, "
+            f"signal {item['signal_kind']}, score {item['score']}"
+        )
+    lines.append("")
+
+    louder = [item for item in summaries if item["trend"] == "getting_louder"]
+    fading = [item for item in summaries if item["trend"] == "fading"]
+    cross = [item for item in summaries if len(item["subreddits"]) > 1]
+    counters = [item for item in summaries if item["counter_count"]]
+    destroyed = [row for row in rows if row.get("destroy_reason") or row.get("signal_kind") == "destroy/noise"]
+
+    sections = [
+        ("Themes Getting Louder", louder, "No getting-louder theme in supplied staged rows."),
+        ("Themes Fading", fading, "No fading theme in supplied staged rows."),
+        ("Cross-Subreddit Spread", cross, "No topic crossed multiple subreddits in supplied staged rows."),
+        ("Counter-Thesis / Risk Warnings", counters, "No counter-thesis cluster in supplied staged rows."),
+    ]
+    for title, items, empty in sections:
+        lines.extend([f"## {title}", ""])
+        if not items:
+            lines.append(empty)
+        for item in items[:max_topics]:
+            lines.append(
+                f"- {item['topic']}: {item['trend']} across {', '.join(item['subreddits']) or 'unknown'}; "
+                "verify with non-social sources before changing research priority."
+            )
+        lines.append("")
+
+    lines.extend(["## Destroy / Noise Bucket", ""])
+    if not destroyed:
+        lines.append("No explicit destroy/noise rows in supplied staged rows.")
+    for row in destroyed[:max_topics]:
+        lines.append(
+            f"- {_row_topic(row)}: {_report_value(row.get('summary'))} | "
+            f"{_report_value(row.get('destroy_reason'), 'low-usefulness social noise')}"
+        )
+    return "\n".join(lines)
+
+
+def write_weekly_pattern_report(caches: list[dict[str, Any]] | dict[str, Any], *, out: str) -> Path:
+    return _atomic_write_text(out, build_weekly_pattern_report(caches))
 
 
 def write_research_queue(rows: list[dict[str, Any]], *, out: str, merge_existing: bool = True) -> dict[str, Any]:
@@ -964,6 +1450,8 @@ def main(argv=None) -> int:
     parser.add_argument("--fetch-live", action="store_true", help="Fetch public subreddit JSON listings directly")
     parser.add_argument("--out", default=str(DEFAULT_OUT))
     parser.add_argument("--report-out", help="Optional Markdown scout report path, usually under tmp/")
+    parser.add_argument("--weekly-report-out", help="Optional Markdown weekly pattern report path, usually under tmp/")
+    parser.add_argument("--pattern-input", action="append", default=[], help="Optional prior staged social_watch cache JSON for weekly pattern reports")
     parser.add_argument("--confirmations", help="Optional non-social confirmation map JSON")
     parser.add_argument("--ticker-universe", action="append", default=[], help="Optional JSON cache to mine ticker symbols from")
     parser.add_argument("--kill-switch-state", help="Optional historical performance JSON for reddit_signal_core.kill_criterion_check")
@@ -1007,6 +1495,12 @@ def main(argv=None) -> int:
     if args.report_out and not args.dry_run:
         report_path = str(write_scout_report(cache, out=args.report_out))
         cache["scout_report"] = report_path
+    weekly_report_path = None
+    if args.weekly_report_out and not args.dry_run:
+        pattern_caches = [cache]
+        pattern_caches.extend(_load_json(path) for path in args.pattern_input)
+        weekly_report_path = str(write_weekly_pattern_report(pattern_caches, out=args.weekly_report_out))
+        cache["weekly_pattern_report"] = weekly_report_path
     if not args.dry_run:
         _atomic_write_json(args.out, cache)
     if args.format == "json":
@@ -1015,6 +1509,7 @@ def main(argv=None) -> int:
             "written": None if args.dry_run else args.out,
             "research_queue": rq_report,
             "report": report_path,
+            "weekly_report": weekly_report_path,
         }, indent=2, sort_keys=True))
     else:
         print(format_text(cache))
@@ -1022,6 +1517,8 @@ def main(argv=None) -> int:
             print(f"wrote: {args.out}")
         if report_path:
             print(f"report: {report_path}")
+        if weekly_report_path:
+            print(f"weekly report: {weekly_report_path}")
     return 0 if cache.get("status") != "not_checked" or failures else 2
 
 

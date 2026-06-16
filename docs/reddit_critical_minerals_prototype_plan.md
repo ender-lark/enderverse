@@ -26,6 +26,8 @@ The implementation is intentionally a source group, not a cockpit dependency:
   build explicitly accepts it.
 - Optional report: Markdown scout report in `tmp/`, for human review before any
   cockpit display.
+- Optional weekly pattern report:
+  `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/reddit_daily_scout.md --weekly-report-out tmp/reddit_weekly_patterns.md --format text`
 - Disable path: stop supplying this cache. The main dashboard remains dark /
   `not_checked` for Social Watch.
 
@@ -198,6 +200,43 @@ Supported row fields are `subreddit`, `title`, `body` or `snippet`,
 `comments`, and `flair`. Author fields, copied raw transcripts, credentials,
 cookies, screenshots, and long raw comment archives must not be stored.
 
+Optional source-health fields:
+
+- `members`
+- `online`
+- `source_sort`
+- `scan_window`
+- `captured_at`
+- `visible_rank`
+- `subreddit_health`
+
+The collector classifies source health as `active`, `thin_but_current`,
+`stale`, or `fringe`. For small/stale/fringe boards, posts can remain useful as
+primary-source/link scouts, but must not be treated as sentiment, crowding, or
+conviction evidence.
+
+## Pattern Reports
+
+Daily scout report:
+
+- ranks useful prompts by source health and item usefulness
+- includes subreddit health caveats
+- keeps Reddit as watch-only
+- includes a destroy/noise bucket
+
+Weekly pattern report:
+
+- recurring tickers/topics
+- themes getting louder
+- themes fading
+- cross-subreddit spread
+- counter-thesis/risk warnings
+- destroy/noise bucket
+
+The weekly report can be generated from the current cache alone or with prior
+staged cache files via `--pattern-input <cache.json>`. It remains a research
+prompt report, not a dashboard or trade trigger.
+
 ## What Not To Do
 
 - Do not feed this into `actions` as a direct action source.
@@ -212,6 +251,8 @@ cookies, screenshots, and long raw comment archives must not be stored.
   subreddits and the extra ticker universe.
 - Supplied/cache payloads normalize into `social_watch` rows with the full prompt
   contract.
+- Source health is advisory and travels with rows/reports so thin or stale
+  subreddits do not look like sentiment proof.
 - Live/public fetch failure remains `not_checked`.
 - Research Queue candidates still require fired velocity and independent
   confirmation.

@@ -12,10 +12,13 @@ from reddit_collector import (
     build_cache,
     build_research_queue_rows,
     build_scout_report,
+    build_source_health,
+    build_weekly_pattern_report,
     extract_mentions,
     iter_reddit_items,
     source_group_config,
     source_group_names,
+    source_group_role,
     write_scout_report,
 )
 from social_watch import build_social_watch
@@ -76,6 +79,72 @@ def test_iter_reddit_items_accepts_manual_snapshot_rows_without_authors():
     assert items[0]["source_time_label"] == "3h ago"
     assert "author" not in items[0]
     assert "raw_transcript" not in items[0]
+
+
+def test_source_health_classifies_active_thin_stale_and_fringe_subreddits():
+    generated = datetime(2026, 6, 16, 9, 30, tzinfo=ZoneInfo("America/New_York"))
+    rows = [
+        *[
+            {
+                "subreddit": "activeSub",
+                "title": f"Policy catalyst {idx}",
+                "created_utc": f"2026-06-16T1{idx}:00:00+00:00",
+                "score_observed": 10 + idx,
+                "comment_count_observed": idx,
+            }
+            for idx in range(5)
+        ],
+        {
+            "subreddit": "thinSub",
+            "title": "Specific company update",
+            "source_time_label": "4 hr. ago",
+            "score_observed": 5,
+            "comment_count_observed": 1,
+        },
+        {
+            "subreddit": "thinSub",
+            "title": "Another current post",
+            "source_time_label": "1 day ago",
+            "score_observed": 7,
+            "comment_count_observed": 2,
+        },
+        {
+            "subreddit": "staleSub",
+            "title": "Old post",
+            "source_time_label": "9 days ago",
+            "score_observed": 3,
+            "comment_count_observed": 0,
+        },
+        {
+            "subreddit": "fringeSub",
+            "title": "Buy this moonshot YOLO",
+            "flair": "YOLO",
+            "source_time_label": "2 hr. ago",
+            "score_observed": 20,
+            "comment_count_observed": 4,
+        },
+        {
+            "subreddit": "fringeSub",
+            "title": "Gain screenshot to the moon",
+            "flair": "Gain",
+            "source_time_label": "3 hr. ago",
+            "score_observed": 25,
+            "comment_count_observed": 5,
+        },
+    ]
+
+    health = build_source_health(
+        rows,
+        subreddits=["activeSub", "thinSub", "staleSub", "fringeSub"],
+        generated=generated,
+    )
+
+    assert health["activeSub"]["status"] == "active"
+    assert health["thinSub"]["status"] == "thin_but_current"
+    assert health["staleSub"]["status"] == "stale"
+    assert health["fringeSub"]["status"] == "fringe"
+    assert health["activeSub"]["posts_seen_7d"] == 5
+    assert health["fringeSub"]["promo_noise_ratio"] == 1.0
 
 
 def test_fixture_cache_scores_velocity_and_matches_social_watch_schema():
@@ -242,6 +311,147 @@ def test_report_preserves_not_checked_honesty():
 
     assert "Status: not_checked" in report
     assert "Missing or blocked Reddit data is not checked" in report
+
+
+def test_stale_tiny_subreddit_cannot_create_sentiment_conclusion():
+    payload = [
+        {
+            "subreddit": "tinyminerals",
+            "title": "$MP is going to moon with no external source",
+            "snippet": "Unsupported thesis.",
+            "visible_time": "12 days ago",
+            "score": 1,
+            "comments": 0,
+        }
+    ]
+
+    cache = build_cache(
+        [payload],
+        subreddits=["tinyminerals"],
+        generated_at=datetime(2026, 6, 16, 9, 30, tzinfo=ZoneInfo("America/New_York")),
+    )
+    row = cache["rows"][0]
+
+    assert row["source_health_status"] == "stale"
+    assert row["signal_kind"] == "destroy/noise"
+    assert "primary-source/link scout only" in row["source_interpretation_limit"]
+    assert row["destroy_reason"]
+
+
+def test_wsb_high_engagement_becomes_crowding_prompt_not_buy_prompt():
+    payload = [
+        {
+            "subreddit": "wallstreetbets",
+            "members": "20m",
+            "online": "45k",
+            "source_sort": "hot",
+            "title": "$NVDA calls are everywhere after the bond offering",
+            "snippet": "Retail crowding thread.",
+            "visible_time": "2 hr. ago",
+            "score": "4.8k",
+            "comments": "1.5k",
+            "flair": "Discussion",
+        },
+        {
+            "subreddit": "wallstreetbets",
+            "title": "$NVDA meme",
+            "visible_time": "3 hr. ago",
+            "score": 900,
+            "comments": 120,
+            "flair": "Meme",
+        },
+        {
+            "subreddit": "wallstreetbets",
+            "title": "$MU YOLO",
+            "visible_time": "4 hr. ago",
+            "score": 300,
+            "comments": 60,
+            "flair": "YOLO",
+        },
+        {
+            "subreddit": "wallstreetbets",
+            "title": "$SPY calls gain",
+            "visible_time": "5 hr. ago",
+            "score": 200,
+            "comments": 40,
+            "flair": "Gain",
+        },
+        {
+            "subreddit": "wallstreetbets",
+            "title": "$TSLA discussion",
+            "visible_time": "6 hr. ago",
+            "score": 150,
+            "comments": 35,
+            "flair": "Discussion",
+        },
+    ]
+
+    cache = build_cache(
+        [payload],
+        subreddits=source_group_config("retail_risk_wsb")["subreddits"],
+        source_group="retail_risk_wsb",
+        generated_at=datetime(2026, 6, 16, 9, 30, tzinfo=ZoneInfo("America/New_York")),
+    )
+    nvda = next(row for row in cache["rows"] if row["tickers"] == ["NVDA"])
+
+    assert source_group_role("retail_risk_wsb") == "retail_crowding_risk"
+    assert nvda["source_role"] == "retail_crowding_risk"
+    assert nvda["signal_kind"] == "retail crowding/risk"
+    assert "crowding/risk" in nvda["portfolio_implication"].lower()
+    assert nvda["escalation"] == "Quiet Watch"
+    assert cache["research_queue_candidates"] == []
+
+
+def test_weekly_pattern_report_surfaces_louder_fading_cross_subreddit_and_noise():
+    early = build_cache(
+        [[
+            {
+                "subreddit": "criticalmineralstocks",
+                "title": "Ucore rare earth update $UURAF",
+                "created_utc": "2026-06-10T13:00:00+00:00",
+                "score": 6,
+                "comments": 1,
+            },
+            {
+                "subreddit": "wallstreetbets",
+                "title": "$NVDA meme gain screenshot",
+                "created_utc": "2026-06-10T14:00:00+00:00",
+                "score": 900,
+                "comments": 80,
+                "flair": "Meme",
+            },
+        ]],
+        source_group="critical_minerals_nuclear",
+        generated_at=datetime(2026, 6, 10, 9, 30, tzinfo=ZoneInfo("America/New_York")),
+    )
+    late = build_cache(
+        [[
+            {
+                "subreddit": "criticalmineralstocks",
+                "title": "AI power demand keeps $UUUU in uranium focus",
+                "created_utc": "2026-06-16T13:00:00+00:00",
+                "score": 12,
+                "comments": 4,
+            },
+            {
+                "subreddit": "UraniumSqueeze",
+                "title": "AI data center power demand and uranium $UUUU",
+                "created_utc": "2026-06-16T14:00:00+00:00",
+                "score": 42,
+                "comments": 30,
+            },
+        ]],
+        source_group="critical_minerals_nuclear",
+        generated_at=datetime(2026, 6, 16, 9, 30, tzinfo=ZoneInfo("America/New_York")),
+    )
+
+    report = build_weekly_pattern_report([early, late])
+
+    assert "UUUU" in report
+    assert "Themes Getting Louder" in report
+    assert "Cross-Subreddit Spread" in report
+    assert "Destroy / Noise Bucket" in report
+    assert "NVDA" in report
 
 
 def test_retail_risk_wsb_source_group_is_detachable():
