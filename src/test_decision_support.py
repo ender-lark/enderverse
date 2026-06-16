@@ -323,3 +323,41 @@ def test_asymmetric_opportunities_dedupes_to_strongest_source():
     assert block["rows"][0]["ticker"] == "NVDA"
     assert "target_drift" in block["rows"][0]["source"]
     assert block["rows"][0]["score"] >= 70
+
+
+def test_supporting_same_session_uw_endpoint_proof_supplies_action_freshness():
+    actions = [{
+        "kind": "buy_now",
+        "ticker": "NVDA",
+        "action_state": "ACT_NOW",
+        "source": "uw_action_runbook",
+        "goal_score": 90,
+        "goal_impact": "High",
+        "goal_channels": ["upside", "sizing_gap"],
+        "capital_effect": "add",
+        "time_window": "today",
+    }]
+    proof = {
+        "status": "has_data",
+        "blockers": [],
+        "same_session_date": "2026-06-05",
+        "rows": [{
+            "ticker": "NVDA",
+            "decision_interpretation": "supports",
+            "checked_at": "2026-06-05T13:45:00+00:00",
+        }],
+    }
+
+    enriched, groups = enrich_actions(
+        actions,
+        staleness={"entries": []},
+        generated_at="2026-06-05T14:00:00+00:00",
+        uw_endpoint_proof=proof,
+    )
+
+    row = enriched[0]
+    assert row["freshness_judgment"]["label"] == "fast-moving"
+    assert row["freshness_judgment"]["evidence_date"] == "2026-06-05"
+    assert row["action_state"] == "ACT_NOW"
+    assert row["decision_group"] == "key_now"
+    assert groups["counts"]["key_now"] == 1

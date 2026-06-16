@@ -220,8 +220,8 @@ def test_rail_copy_strings_match_payload_contract():
     payload = _build_payload()
     html = td.render_today_decide_html(payload)
     html_rails = _rail_copies_from_html(html)
-    check_first = bool((payload.get("data_health") or {}).get("blockers"))
     for card in payload["cards"]:
+        check_first = bool(card.get("card_blockers"))
         expected = _rail_copies_from_card(card, check_first=check_first)
         actual = html_rails.get(card["card_id"], {})
         for verb, copy in expected.items():
@@ -265,7 +265,7 @@ def test_todaydecide_jsx_uses_canonical_card_fields():
     src = _jsx(TODAY_DECIDE_JSX)
     # Required card-level accesses for the parity contract.
     for path in ("card.card_id", "card.ticker", "card.recheck_date", "card.sizing",
-                 "card.conflicts"):
+                 "card.conflicts", "card.card_blockers"):
         assert path in src, f"TodayDecide.jsx must read {path}"
     # And inner sub-objects (read via local refs `win`, `conv`).
     for path in ("win.class", "conv.read", "conv.points",
@@ -304,8 +304,8 @@ def test_rail_copy_contract_present_in_both_html_and_jsx():
     html = td.render_today_decide_html(payload)
     html_rails = _rail_copies_from_html(html)
     jsx_src = _jsx(TODAY_DECIDE_JSX)
-    check_first = bool((payload.get("data_health") or {}).get("blockers"))
     for card in payload["cards"]:
+        check_first = bool(card.get("card_blockers"))
         expected = _rail_copies_from_card(card, check_first=check_first)
         # HTML side: exact match.
         actual = html_rails[card["card_id"]]

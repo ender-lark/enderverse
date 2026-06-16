@@ -89,9 +89,33 @@ def test_scored_track_record_reads_fresh(tmp_path):
 
 
 def test_stale_gate_blocks():
-    out = dh.assess(_feed(), gates=[{"symbol": "QQQ", "stated": "2026-06-01"}], now=NOW, rates_path="/nonexistent/x.json", shelf_path="/nonexistent/s.json")
+    out = dh.assess(_feed(), gates=[{"symbol": "QQQ", "stated": "2026-06-01", "blocks_full_size": True}], now=NOW, rates_path="/nonexistent/x.json", shelf_path="/nonexistent/s.json")
     assert [row for row in out["items"] if row["source"] == "gates"][0]["status"] == "stale"
     assert "QQQ gate" in out["blockers"]
+
+
+def test_stale_context_gate_announces_without_blocking():
+    out = dh.assess(
+        _feed(),
+        gates=[{
+            "gate_id": "SMH-WASHOUT-CONTEXT",
+            "symbol": "SMH",
+            "kind": "context",
+            "gate_type": "context",
+            "state": "context",
+            "stated": "2026-06-01",
+            "confirm_rule": "context only - never blocks",
+            "blocks_full_size": False,
+        }],
+        now=NOW,
+        rates_path="/nonexistent/x.json",
+        shelf_path="/nonexistent/s.json",
+    )
+    item = [row for row in out["items"] if row["source"] == "gates"][0]
+    assert item["status"] == "context"
+    assert item["blocks"] is False
+    assert "SMH gate" not in out["blockers"]
+    assert out["worst"] == "announce"
 
 
 def test_renderer_shows_strip_and_check_first_when_blocked():
@@ -110,6 +134,7 @@ def test_renderer_shows_strip_and_check_first_when_blocked():
         "cards": [{
             "card_id": "X-1",
             "ticker": "GOOGL",
+            "card_blockers": ["FS inbox"],
             "decision_card": {"move": {"direction": "BUY", "band": "$1"}},
             "conviction": {"read": "LOW", "points": 0},
             "window": {"class": "STAGE-ONLY"},

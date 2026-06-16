@@ -5,6 +5,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import full_build_runner
 from full_build_runner import (
     _build_cloud_routine_audit,
     active_parabolic_tickers,
@@ -645,3 +646,39 @@ def test_full_build_runner_wires_captured_uw_endpoint_proof(tmp_path):
     assert feed["uw_endpoint_proof"]["interpretation_counts"]["supports"] == 1
     assert "supports=1" in feed["source_audits"]["uw_endpoint_proof"]["line"]
     assert feed["uw_action_runbook"]["endpoint_proof"]["status"] == "has_data"
+
+
+def test_full_build_runner_threads_uw_endpoint_proof_into_action_enrichment(tmp_path, monkeypatch):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "uw_endpoint_results.json", {
+        "results": [
+            {
+                "mode": "portfolio_reallocation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:45:00+00:00",
+                "status": "confirmed",
+                "summary": "Flow supports the active add/reallocation check.",
+            }
+        ]
+    })
+    captured = []
+    real_enrich = full_build_runner.enrich_actions
+
+    def spy_enrich_actions(actions, **kwargs):
+        captured.append(kwargs.get("uw_endpoint_proof"))
+        return real_enrich(actions, **kwargs)
+
+    monkeypatch.setattr(full_build_runner, "enrich_actions", spy_enrich_actions)
+
+    build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    assert captured
+    assert captured[0]["status"] == "has_data"
+    assert captured[0]["interpretation_counts"]["supports"] == 1

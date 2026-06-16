@@ -23,8 +23,6 @@ Mandate rails enforced by construction:
 
 from __future__ import annotations
 
-import data_health as _dh
-
 import json
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -102,6 +100,82 @@ def detect_source_conflicts(feed: dict[str, Any], card: dict[str, Any]) -> list[
                               "card_claim": f"BUY ${float(card.get('dollars') or 0):,.0f}"})
     return conflicts
 
+
+def _text_blob(*values: Any) -> str:
+    parts: list[str] = []
+    for value in values:
+        if isinstance(value, list):
+            parts.extend(str(v or "") for v in value)
+        elif isinstance(value, dict):
+            parts.extend(str(v or "") for v in value.values())
+        else:
+            parts.append(str(value or ""))
+    return " ".join(parts).upper()
+
+
+def _gate_lookup(gates: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    for gate in gates:
+        if not isinstance(gate, dict):
+            continue
+        for key in (gate.get("gate_id"), gate.get("symbol")):
+            text = str(key or "").strip().upper()
+            if text:
+                out[text] = gate
+    return out
+
+
+def _gate_applies_to_card(gate: dict[str, Any] | None, card: dict[str, Any]) -> bool:
+    if not gate:
+        return True
+    symbol = str(gate.get("symbol") or "").strip().upper()
+    gate_id = str(gate.get("gate_id") or "").strip().upper()
+    card_ticker = str(card.get("ticker") or "").strip().upper()
+    rb_gate = str(card.get("rb_gate") or "").strip().upper()
+    if card_ticker and card_ticker in {symbol, gate_id}:
+        return True
+    if rb_gate and rb_gate in {symbol, gate_id}:
+        return True
+    applies_to = {str(value or "").strip().upper() for value in gate.get("applies_to") or []}
+    if card_ticker and card_ticker in applies_to:
+        return True
+    window = card.get("window") or {}
+    blob = _text_blob(
+        card.get("entry_note"),
+        window.get("named_trigger"),
+        window.get("reasons") or [],
+        window.get("flips") or [],
+    )
+    return bool((symbol and symbol in blob) or (gate_id and gate_id in blob))
+
+
+def _card_blockers(
+    card: dict[str, Any],
+    data_health: dict[str, Any],
+    gates: list[dict[str, Any]],
+) -> list[str]:
+    lookup = _gate_lookup(gates)
+    blockers: list[str] = []
+    for item in data_health.get("items") or []:
+        if not isinstance(item, dict) or not item.get("blocks"):
+            continue
+        label = str(item.get("label") or "").strip()
+        if not label:
+            continue
+        if item.get("source") != "gates":
+            blockers.append(label)
+            continue
+        gate = None
+        for key in (item.get("gate_id"), item.get("symbol")):
+            text = str(key or "").strip().upper()
+            if text and text in lookup:
+                gate = lookup[text]
+                break
+        if _gate_applies_to_card(gate, card):
+            blockers.append(label)
+    return blockers
+
+
 def build_today_decide_payload(
     *,
     feed: dict[str, Any] | None = None,
@@ -144,6 +218,9 @@ def build_today_decide_payload(
             card["lookthrough"] = disclosure
         card["recheck_date"] = recheck
         card["last_disposition"] = last.get(card["card_id"])
+    data_health = _dh.assess(feed, gates=gates, now=_today(today_iso))
+    for card in stack["cards"] + stack["backlog"]:
+        card["card_blockers"] = _card_blockers(card, data_health, gates)
     honesty = dict(stack["honesty"])
     if congruence_result.get("status") != "ok":
         honesty["congruence"] = congruence_result.get("reason", "not checked")
@@ -166,7 +243,7 @@ def build_today_decide_payload(
             {k: g.get(k) for k in ("gate_id", "symbol", "state", "note", "confirm_rule", "stated")}
             for g in gates
         ],
-        "data_health": _dh.assess(feed, gates=gates),
+        "data_health": data_health,
         "cards": stack["cards"],
         "backlog": stack["backlog"],
         "congruence": congruence_result,
@@ -390,6 +467,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
                 "missing": "#f87171",
                 "empty": "#fbbf24",
                 "not_checked": "#94a3b8",
+                "context": "#94a3b8",
             }.get(item.get("status"), "#94a3b8")
             chips.append(
                 f'<span class="td-hchip" style="border-color:{color}">'
@@ -401,9 +479,8 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
         h.append(f'<span class="td-gate" style="border-color:{color};color:{color}">'
                  f'<b>{_esc(str(g.get("state") or "").replace("_"," ").upper())}</b> {_esc(g.get("symbol"))} Â· {_esc(g.get("confirm_rule"))} '
                  f'(as of {_esc(g.get("stated"))})</span>')
-    blocked = bool((payload.get("data_health") or {}).get("blockers"))
     for i, card in enumerate(payload["cards"], 1):
-        h.extend(_render_card(card, i, check_first=blocked))
+        h.extend(_render_card(card, i, check_first=bool(card.get("card_blockers"))))
     backlog = payload["backlog"]
     h.append(f"<details><summary>Backlog ({len(backlog)})</summary>")
     for c in backlog:

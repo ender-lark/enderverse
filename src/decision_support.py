@@ -50,6 +50,8 @@ SOURCE_ALIASES = {
     "fundstrat_daily": "fundstrat_daily",
     "research": "research",
     "research_queue": "research",
+    "uw_action_runbook": "uw_endpoint_proof",
+    "uw_endpoint_proof": "uw_endpoint_proof",
 }
 ET = ZoneInfo("America/New_York")
 
@@ -86,7 +88,36 @@ def _et_day(value: Any) -> str:
     return parsed.astimezone(ET).date().isoformat() if parsed else text[:10]
 
 
-def _date_index(staleness: dict[str, Any], synthesis: dict[str, Any] | None, event_risk: list[dict] | None) -> dict[str, str]:
+def _uw_endpoint_proof_dates(uw_endpoint_proof: dict[str, Any] | None) -> dict[str, str]:
+    if not isinstance(uw_endpoint_proof, dict):
+        return {}
+    if uw_endpoint_proof.get("status") != "has_data" or uw_endpoint_proof.get("blockers"):
+        return {}
+    dates: dict[str, str] = {}
+    for row in uw_endpoint_proof.get("rows") or []:
+        if not isinstance(row, dict):
+            continue
+        if row.get("decision_interpretation") != "supports":
+            continue
+        checked_day = _et_day(row.get("checked_at"))
+        if not checked_day:
+            continue
+        current = dates.get("uw_endpoint_proof")
+        dates["uw_endpoint_proof"] = max(current, checked_day) if current else checked_day
+        ticker = str(row.get("ticker") or "").strip().upper()
+        if ticker:
+            key = f"uw_endpoint_proof:{ticker}"
+            current = dates.get(key)
+            dates[key] = max(current, checked_day) if current else checked_day
+    return dates
+
+
+def _date_index(
+    staleness: dict[str, Any],
+    synthesis: dict[str, Any] | None,
+    event_risk: list[dict] | None,
+    uw_endpoint_proof: dict[str, Any] | None = None,
+) -> dict[str, str]:
     index: dict[str, str] = {}
     for row in (staleness or {}).get("entries") or []:
         if not isinstance(row, dict):
@@ -103,6 +134,7 @@ def _date_index(staleness: dict[str, Any], synthesis: dict[str, Any] | None, eve
     ]
     if event_dates:
         index["event_risk"] = sorted(event_dates)[-1]
+    index.update(_uw_endpoint_proof_dates(uw_endpoint_proof))
     return index
 
 
@@ -137,7 +169,10 @@ def _freshness_judgment(action: dict[str, Any], *, staleness: dict[str, Any], da
     kind = str(action.get("kind") or "")
     source_raw = str(action.get("source") or "")
     source = SOURCE_ALIASES.get(source_raw, source_raw)
+    ticker = str(action.get("ticker") or "").strip().upper()
     evidence_date = (
+        dates.get(f"{source}:{ticker}") if ticker else None
+    ) or (
         dates.get(source)
         or dates.get(source_raw)
         or _iso_day(action.get("when"))
@@ -507,11 +542,12 @@ def enrich_actions(
     staleness: dict[str, Any] | None = None,
     synthesis: dict[str, Any] | None = None,
     event_risk: list[dict] | None = None,
+    uw_endpoint_proof: dict[str, Any] | None = None,
     generated_at: str = "",
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Return enriched actions and a grouped dashboard summary."""
     staleness = staleness or {}
-    dates = _date_index(staleness, synthesis, event_risk)
+    dates = _date_index(staleness, synthesis, event_risk, uw_endpoint_proof)
     enriched: list[dict[str, Any]] = []
     for action in actions or []:
         row = dict(action)

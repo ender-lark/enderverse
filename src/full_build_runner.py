@@ -918,17 +918,9 @@ def build_full_feed_from_files(
         target_drift=target_drift,
     )
     feed["actions"] = annotate_actions(feed.get("actions") or [], account_positions)
-    feed["actions"], feed["action_decision_groups"] = enrich_actions(
-        feed.get("actions") or [],
-        staleness=feed.get("staleness") or {},
-        synthesis=feed.get("synthesis") or {},
-        event_risk=feed.get("event_risk") or [],
-        generated_at=feed.get("generated_at") or now,
-    )
     feed["research_actions"] = annotate_actions(feed.get("research_actions") or [], account_positions)
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
     feed["social_watch"] = social_watch
-    feed["operator_hardening"] = build_operator_hardening(feed)
     portfolio_views = build_portfolio_views(account_positions, fundstrat_bible=fs_bible)
     if portfolio_views:
         feed["portfolio_views"] = portfolio_views
@@ -943,14 +935,7 @@ def build_full_feed_from_files(
         "findings": fs_ingest_findings,
         "status": "warn" if fs_ingest_findings else "ok",
     }
-    feed["fundstrat_news"] = build_fundstrat_news(
-        fundstrat_bible=fs_bible,
-        fundstrat_daily_calls=fs_daily,
-        top_prospects=top_prospects,
-        intake_summary=fs_intake_summary if isinstance(fs_intake_summary, dict) else {},
-        ingest_findings=fs_ingest_findings,
-        as_of=today,
-    )
+    feed["operator_hardening"] = build_operator_hardening(feed)
     feed["uw_routing"] = build_uw_routing_recommendations(feed)
     feed["uw_action_runbook"] = build_uw_action_runbook(feed)
     uw_result_payload, uw_result_path, uw_result_problems = load_uw_endpoint_results(src)
@@ -967,6 +952,24 @@ def build_full_feed_from_files(
         "blockers": feed["uw_endpoint_proof"].get("blockers") or [],
         "newest_checked_at": feed["uw_endpoint_proof"].get("newest_checked_at") or "",
     }
+    feed["actions"], feed["action_decision_groups"] = enrich_actions(
+        feed.get("actions") or [],
+        staleness=feed.get("staleness") or {},
+        synthesis=feed.get("synthesis") or {},
+        event_risk=feed.get("event_risk") or [],
+        uw_endpoint_proof=feed.get("uw_endpoint_proof") or {},
+        generated_at=feed.get("generated_at") or now,
+    )
+    feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
+    feed["operator_hardening"] = build_operator_hardening(feed)
+    feed["fundstrat_news"] = build_fundstrat_news(
+        fundstrat_bible=fs_bible,
+        fundstrat_daily_calls=fs_daily,
+        top_prospects=top_prospects,
+        intake_summary=fs_intake_summary if isinstance(fs_intake_summary, dict) else {},
+        ingest_findings=fs_ingest_findings,
+        as_of=today,
+    )
     feed["reallocation_brief"] = annotate_reallocation_brief(
         build_reallocation_brief(feed, positions_cache, as_of=today),
         account_positions,
