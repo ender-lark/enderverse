@@ -2,55 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:11:59.464367Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:11:59.716110Z",
-      "summary": "parabolic cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "parabolic self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "parabolic_setup_screener self-test\n- golden-master: known fixtures -> known tiers\n  [PASS] AUTOFIRE fixture score == 10.5 (got 10.5)\n  [PASS] AUTOFIRE fixture tier (got AUTOFIRE)\n  [PASS] WATCHLIST fixture score == 7.0 (got 7.0)\n  [PASS] WATCHLIST fixture tier (got WATCHLIST)\n  [PASS] SKIP fixture score == 0.0 (got 0.0)\n  [PASS] SKIP fixture tier (got SKIP)\n- contract: ScreenResult.to_dict() shape\n  [PASS] to_dict has 'ticker'\n  [PASS] to_dict has 'score'\n  [PASS] to_dict has 'surface_tier'\n  [PASS] to_dict has 'phase'\n  [PASS] to_dict has 'features'\n  [PASS] to_dict has 'weighted_total'\n  [PASS] to_dict has 'notes'\n  [PASS] to_dict features expanded with revenue_accel\n- producer: bundle -> results -> emit payload\n  [PASS] screen_from_bundle returns 3 (got 3)\n  [PASS] emit as_of preserved\n  [PASS] emit payload has required keys\n  [PASS] emit counts (got {'AUTOFIRE': 1, 'WATCHLIST': 1, 'SKIP': 1})\n  [PASS] emit has 3 results\n- producer: CANDIDATE_PROFILES fallback when bundle omits profile\n  [PASS] VIAV uses CANDIDATE_PROFILES (industry_conc == 1.0)\n- UW adapter: raw UW field names -> canonical (live-confirmed shapes)\n  [PASS] income total_revenue -> revenue\n  [PASS] earnings drops null reported_eps (unreported quarter)\n  [PASS] info pulls top-level price\n  [PASS] bundle_entry_from_uw produces a canonical entry\n  [PASS] prices 'c' -> 'close' (+ unwraps {data:[...]})\n\nALL PASS",
-            "stderr": ""
-          },
-          {
-            "label": "parabolic cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 16
-            }
-          },
-          {
-            "label": "parabolic bundle skipped",
-            "returncode": 0,
-            "optional": true,
-            "check": {
-              "valid": true,
-              "skipped": true,
-              "reason": "tmp/uw/parabolic_bundle.json missing or empty"
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "manual",
@@ -7491,7 +7442,21 @@
       "run_source": "manual",
       "recorded_at": "2026-06-16T15:49:13.234854Z",
       "summary": "investing-os-early-cockpit-build manual run started"
+    },
+    {
+      "routine_id": "investing-os-social-watch-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T23:12:36.027475Z",
+      "summary": "social watch intake started"
+    },
+    {
+      "routine_id": "investing-os-social-watch-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T23:12:58.144146Z",
+      "summary": "8 subreddits checked; 8 blocked 403s; wrote not_checked cache; validation passed; no Research Queue/Notion writes; social lane dark"
     }
   ],
-  "updated_at": "2026-06-16T15:49:13.234854Z"
+  "updated_at": "2026-06-16T23:12:58.144146Z"
 }
