@@ -35,18 +35,18 @@ python src/integration_debt_sweep.py --out docs/integration_debt_report.md --jso
 
 Observed state:
 
-- Local operator status is `live_with_build_queue`.
+- Local operator status is `live_clear`.
 - Local readiness, publish readiness, and live-data readiness are true.
-- Current feed stamp is `2026-06-15T12:57:07.557970+00:00`.
+- Current feed stamp is `2026-06-16T05:19:05.446825+00:00`.
 - Dashboard has 4 actions, 1 research action, and 0 open reviews.
 - The only dark source lane is deferred optional `social_watch`.
-- System improvement queue is valid with 22 items, 21 done, and 1 queued P3
-  item: `fundstrat-video-transcript-intake`.
+- System improvement queue is valid with 22 items and no active/queued items
+  after transcript closeout.
 - Routine manifest is valid with 9 repo routines and 22 daily convention inputs.
 - State ownership map is valid.
-- Cloud ops is not ready: 20 of 26 expected scheduled routines have scheduled
-  success receipts, 15 receipt windows are overdue, and full live-run proof is
-  false.
+- Cloud ops is not ready: core scheduled proof is complete at 14/14, support
+  scheduled proof is 7/12, and full live-run proof is false because receipt
+  freshness/support proof still lags.
 
 ## Architecture Status
 
@@ -65,11 +65,10 @@ Important current additions:
   staged validation passes. Manual PDF/text extraction is fallback only.
 - Fundstrat web intake can use the authenticated Chrome session, but only
   compact full-content-derived rows land in repo.
-- Fundstrat video transcript review remains a queued/deferred source-vault
-  slice on clean `main`. The architecture rule is already settled: raw
-  transcripts must stay out of the public repo, and any future public state
-  should be limited to metadata, hashes, short synthesis, and compact derived
-  rows only.
+- Fundstrat video transcript review now uses the private source-vault flow on
+  clean `main`: raw transcripts stay out of the public repo, and public state is
+  limited to metadata, hashes, short synthesis, compact derived rows, and
+  private-vault references.
 - UW endpoint proof is separate from the UW runbook. Successful neutral endpoint
   fetches remain `inconclusive`, not supportive evidence.
 - Notion write success is proven only after live page readback. Repo mirrors and
@@ -93,19 +92,34 @@ The durable collaboration rules now live in `AGENTS.md` and `docs/WORKBOARD.md`:
 - Missing, stale, failed, inconclusive, or optional lanes stay visible as dark,
   stale, or `not_checked`; they are never summarized as checked clear.
 
+## Transcript Closeout Update
+
+After the initial docs audit, clean `main` added the Fundstrat transcript
+implementation:
+
+- `fundstrat_transcript_vault.py` writes raw transcript/caption text only to
+  the private source vault and keeps public repo state to metadata, hashes,
+  short synthesis, compact derived rows, and `vault://...` references.
+- `fundstrat_transcript_synthesis.py` emits compact Notion-ready review notes
+  without raw transcript text.
+- Two 2026-06-15 Fundstrat transcript review notes were written to Notion
+  Synthesis Log and fetched back successfully.
+- `src/codex_routines/fundstrat_late_evening_web_transcript_sweep.md` gives the
+  scheduled transcript sweep repo prompt coverage.
+- `fundstrat-video-transcript-intake` is now done in
+  `src/system_improvement_queue.json`.
+
 ## Open Gaps
 
 - Cloud proof is behind live local readiness. Do not call the unattended
   schedule healthy until `cloud_ops_status.py --format text --require-live-run`
   passes or the overdue receipt gaps are intentionally reclassified.
 - Integration debt sweep is `warn` with 1 warning and 14 findings on clean
-  `main`: 12 info-level module-wiring candidates,
+  `main`: 13 info-level module-wiring candidates,
   `research_action_promotion` is not scheduled, and the live Notion queue was
   not checked.
-- The only queued system-improvement item remains P3
-  `fundstrat-video-transcript-intake`; the next useful slice is a focused
-  transcript-vault implementation or a clean cherry-pick of the older branch's
-  focused transcript work.
+- The system-improvement queue has no active/queued items after transcript
+  closeout.
 - Social Watch remains watch-only and deferred optional. It must stay dark until
   a compliant Reddit/social API or supplied normalized cache is available.
 

@@ -1,6 +1,6 @@
 # Integration Debt Report
 
-Generated: 2026-06-16T04:59:40Z
+Generated: 2026-06-16T05:16:52Z
 
 Status: warn | warnings: 1 | findings: 14
 
@@ -91,5 +91,5 @@ Routine schedule sweep: 1 prompt-only file(s), 0 scheduled routine(s) without re
 
 ### notion_queue
 
-Notion queue sweep: not_checked; repo-local system queue has 1 active/queued item(s).
+Notion queue sweep: not_checked; repo-local system queue has 0 active/queued item(s).
 

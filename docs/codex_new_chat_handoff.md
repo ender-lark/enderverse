@@ -14,20 +14,20 @@ If a task starts from
 as a possible wrapper. Run a git-root check and pivot to the canonical checkout
 before editing.
 
-Fresh audit commands run on 2026-06-16:
+Fresh audit commands run on 2026-06-16 after the transcript closeout:
 
-- `python src/live_status.py --format text` -> `live_with_build_queue`; local
+- `python src/live_status.py --format text` -> `live_clear`; local
   readiness/publish/live-data readiness true; feed
-  `2026-06-15T12:57:07.557970+00:00`; 4 actions; 1 research action; 0 open
+  `2026-06-16T05:19:05.446825+00:00`; 4 actions; 1 research action; 0 open
   reviews; only deferred optional dark lane is `social_watch`.
 - `python src/cloud_ops_status.py --format text` -> cloud ops `not_ready`;
-  scheduled success receipts 20/26; 15 overdue receipt windows; full live-run
-  proof false.
-- `python src/completion_audit.py --format text` -> `NEEDS_BUILD_WORK`;
-  build blockers 0; go-live ready true; one active/queued improvement item:
-  `fundstrat-video-transcript-intake`.
-- `python src/system_improvement_queue.py` -> valid, 22 items, 21 done, one
-  queued P3.
+  core scheduled success receipts 14/14; support scheduled success receipts
+  7/12; full live-run proof false because receipt freshness/support proof still
+  lags.
+- `python src/completion_audit.py --format text` ->
+  `BUILD_CLEAR_WAITING_EXTERNAL`; local go-live ready; build blockers 0; no
+  active/queued improvement items after transcript closeout.
+- `python src/system_improvement_queue.py` -> valid, 22 items, all done.
 - `python src/state_ownership_map.py` and `python src/codex_routine_manifest.py`
   -> valid.
 - `python src/integration_debt_sweep.py --out docs/integration_debt_report.md
@@ -50,10 +50,11 @@ Current implementation posture:
 - SnapTrade remains the preferred read-only broker-position source when strict
   staged validation passes.
 - Fundstrat web handling is compact/public through `fundstrat_web_intake.py`.
-  Video transcript handling remains queued/deferred on clean `main`; when it is
-  implemented, raw transcripts must stay out of the public repo and public
-  state should be limited to metadata, hashes, short synthesis, and compact
-  derived rows only.
+  Video transcript handling is now implemented through
+  `fundstrat_transcript_vault.py` and `fundstrat_transcript_synthesis.py`: raw
+  transcripts stay in the private source vault, while the public repo keeps
+  metadata, hashes, short synthesis, compact derived rows, and `vault://...`
+  references only.
 - Missing, stale, failed, inconclusive, or optional lanes stay dark/stale/not
   checked. Do not summarize them as checked clear.
 - Default closeout preference is commit, push, merge when GitHub allows it,
@@ -155,8 +156,8 @@ Current verified snapshot (cloud proof is background monitoring; check live stat
   tests for action refresh, market-open packet, UW proof interpretation,
   full-build wiring, reallocation brief, and HTML rendering passed during the
   2026-06-07 upgrade slice.
-- The system-improvement queue is valid with 21 items done and one queued P3
-  item: `fundstrat-video-transcript-intake`.
+- The system-improvement queue is valid with 22 items done and no active/queued
+  items after `fundstrat-video-transcript-intake` closeout.
 
 Important recent state:
 

@@ -271,15 +271,18 @@ routine, and proof work can otherwise make a lane look more proven than it is.
 
 ### 13.1 - Fundstrat transcript vault boundary
 
-The transcript-vault helper is queued/deferred on clean `main`. When that slice
-is implemented or cleanly cherry-picked, it is not an engine input and must not
-place raw Fundstrat transcript text in the public repo.
+`fundstrat_transcript_vault.py` and `fundstrat_transcript_synthesis.py` are not
+engine inputs and must not place raw Fundstrat transcript text in the public
+repo.
 
 * Full transcript/caption text is written only to the private vault directory
   named by `INVESTING_OS_SOURCE_VAULT`.
 * Public repo state is limited to metadata, hashes, source dates, short
   synthesis, extract counts, compact-row counts, and private `vault://...`
   references.
+* Notion Synthesis Log notes are compact review notes only. They may include
+  decision-use summaries, action/re-check rows, source metadata, and transcript
+  hash proof, but not raw transcript/caption text.
 * Compact derived rows still enter the cockpit through existing compact
   Fundstrat intake (`fundstrat_web_intake.py` /
   `fundstrat_daily_compact_intake.py`). The vault index alone does not make a
@@ -316,7 +319,7 @@ The active app automation stack is recorded in
 
 The clean-main 2026-06-16 integration-debt sweep still reports:
 
-* 12 info-level module-wiring candidates for standalone/manual modules that
+* 13 info-level module-wiring candidates for standalone/manual modules that
   are not visibly imported by non-test code or routine/prompt command text.
 * `research_action_promotion.md` is prompt-only.
 * The live Notion System Update Queue was not checked by the repo-only sweep.
