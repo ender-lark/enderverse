@@ -1,51 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-16T01:21:57.785575Z",
+  "updated_at": "2026-06-16T05:51:10.261005Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.764188Z",
-      "summary": "investing-os-morning-scan manual run started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.941360Z",
-      "summary": "morning scan manual run completed; Signal Log remains watch-only",
-      "details": {
-        "steps": [
-          {
-            "label": "signal log validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/signal_log_intake.py",
-              "--validate",
-              "src/signal_log.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 14\n}",
-            "stderr": ""
-          },
-          {
-            "label": "macro cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/macro_pulse_scan.py",
-              "--validate",
-              "src/macro_state.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
     {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "started",
@@ -3256,6 +3212,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T01:21:57.785575Z",
       "summary": "sources SEC BMNR/GOOGL + UW tide/lit/insider/prediction + Polymarket/headlines; candidates 4; routed 1 Event Risk repo row, no-action 3; Notion writes none; Social Watch dark; blockers MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX flow empty"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T05:47:15.569130Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T05:51:10.261005Z",
+      "summary": "partial live queue known high 2 med 0 low 0; selected INTC/cyber/FN; drafted 3 verified writes; remaining MU system follow-up + full-book rebalance operator review; ordered backlog unresolved via Notion search/fetch"
     }
   ]
 }
