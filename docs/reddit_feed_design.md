@@ -63,6 +63,8 @@ Current source groups:
 - `critical_minerals_nuclear`: `r/criticalmineralstocks` and
   `r/UraniumSqueeze`, designed as the first staged replacement scout for stale
   Meridian critical-minerals/nuclear context.
+- `retail_risk_wsb`: `r/wallstreetbets` only, designed as a detachable
+  high-noise scout for retail crowding, reflexive risk, and topic discovery.
 
 The source group is a collector/cache concern. If its cache is absent, Social
 Watch remains dark / `not_checked`; the dashboard should not infer checked-clear
@@ -151,13 +153,20 @@ Current repo state:
 
 - `src/social_watch.py` normalizes a future Reddit/social cache into
   `feed.social_watch`.
-- `src/reddit_collector.py` writes `src/social_watch.json` from Chrome-browsed
-  or supplied Reddit-shaped payloads, using `reddit_signal_core.detect_signal`
-  for mention velocity and preserving `not_checked` on fetch failure.
+- `src/reddit_collector.py` writes `src/social_watch.json` from Chrome-visible
+  manual snapshots or supplied Reddit-shaped payloads, using
+  `reddit_signal_core.detect_signal` for mention velocity and preserving
+  `not_checked` on fetch failure.
 - `src/reddit_collector.py --source-group critical_minerals_nuclear` selects the
   detachable `r/criticalmineralstocks` + `r/UraniumSqueeze` prototype watchlist
   and adds the critical-minerals/nuclear ticker universe without changing the
   dashboard contract.
+- `src/reddit_collector.py --source-group retail_risk_wsb` selects the
+  detachable WSB-only retail-risk scout without changing the dashboard contract.
+- `src/reddit_collector.py --report-out tmp/<name>.md` writes a human-readable
+  ranked scout report with ticker/topic, source/time, why it matters, portfolio
+  implication, confidence, decay speed, confirmation needed, blocker before
+  action, and suggested next check.
 - `src/full_build_runner.py` loads `src/social_watch.json`, `src/reddit_watch.json`,
   or `src/reddit_signals.json`.
 - The dashboard renders Social Watch in the Action view and summary export.

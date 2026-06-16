@@ -9,6 +9,7 @@ payloads gathered by a browser or supplied on disk.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -129,6 +130,23 @@ CRITICAL_MINERALS_TICKERS = {
     "UUUU",
     "XE",
 }
+RETAIL_RISK_WSB_TICKERS = {
+    "AMD",
+    "AMZN",
+    "AVGO",
+    "COIN",
+    "GOOGL",
+    "META",
+    "MSFT",
+    "MU",
+    "NVDA",
+    "PLTR",
+    "QQQ",
+    "RIVN",
+    "SMCI",
+    "SPY",
+    "TSLA",
+}
 NAME_TO_TICKER = {
     "alphabet": "GOOGL",
     "amazon": "AMZN",
@@ -162,6 +180,14 @@ REDDIT_SOURCE_GROUPS = {
         ),
         "subreddits": ["criticalmineralstocks", "UraniumSqueeze"],
         "tickers": sorted(CRITICAL_MINERALS_TICKERS),
+    },
+    "retail_risk_wsb": {
+        "description": (
+            "Detachable WallStreetBets scout lane for retail crowding, reflexive risk, "
+            "and high-noise topic discovery. Not a signal or trade trigger."
+        ),
+        "subreddits": ["wallstreetbets"],
+        "tickers": sorted(RETAIL_RISK_WSB_TICKERS),
     },
 }
 
@@ -199,6 +225,67 @@ def _snippet(text: Any, *, limit: int = 240) -> str:
     return clean[:limit]
 
 
+def _clean_subreddit(value: Any) -> str:
+    text = str(value or "").strip()
+    return text[2:] if text.lower().startswith("r/") else text
+
+
+def _manual_row_id(data: dict[str, Any], subreddit: str, title: str, body: str, permalink: str) -> str:
+    explicit = str(data.get("name") or data.get("id") or "").strip()
+    if explicit:
+        return explicit
+    seed = "|".join([
+        subreddit,
+        str(data.get("created_utc") or data.get("created_at") or data.get("visible_time") or data.get("time") or ""),
+        permalink,
+        title,
+        body[:160],
+    ])
+    digest = hashlib.sha1(seed.encode("utf-8", errors="ignore")).hexdigest()[:12]
+    return f"manual-{digest}"
+
+
+def _manual_snapshot_item(data: dict[str, Any], *, fallback_subreddit: str = "") -> dict[str, Any] | None:
+    title = data.get("title") or data.get("headline") or ""
+    body = data.get("selftext") or data.get("body") or data.get("snippet") or data.get("text") or ""
+    if not title and not body:
+        return None
+    subreddit = _clean_subreddit(data.get("subreddit") or fallback_subreddit)
+    permalink = str(data.get("permalink") or data.get("url") or "").strip()
+    visible_time = str(
+        data.get("visible_time")
+        or data.get("source_time")
+        or data.get("age")
+        or data.get("time")
+        or ""
+    ).strip()
+    created = (
+        data.get("created_utc")
+        or data.get("created_at")
+        or data.get("posted_at")
+        or data.get("timestamp")
+        or visible_time
+    )
+    return {
+        "id": _manual_row_id(data, subreddit, str(title), str(body), permalink),
+        "source": "reddit",
+        "subreddit": subreddit,
+        "created_utc": created,
+        "source_time_label": visible_time,
+        "kind": str(data.get("kind") or "post").strip(),
+        "title": title,
+        "body": body,
+        "permalink": permalink,
+        "score_observed": data.get("score") or data.get("upvotes"),
+        "comment_count_observed": (
+            data.get("num_comments")
+            or data.get("comment_count")
+            or data.get("comments")
+        ),
+        "flair": str(data.get("flair") or data.get("link_flair_text") or "").strip(),
+    }
+
+
 def _load_json(path: str | Path) -> Any:
     with Path(path).open(encoding="utf-8-sig") as fh:
         return json.load(fh)
@@ -212,6 +299,22 @@ def _atomic_write_json(path: str | Path, payload: Any) -> Path:
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             json.dump(payload, fh, indent=2, sort_keys=True)
             fh.write("\n")
+        os.replace(tmp, path)
+    finally:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+    return path
+
+
+def _atomic_write_text(path: str | Path, text: str) -> Path:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".reddit_collector.", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(text)
+            if not text.endswith("\n"):
+                fh.write("\n")
         os.replace(tmp, path)
     finally:
         if os.path.exists(tmp):
@@ -300,6 +403,8 @@ def _source_type_for_item(item: dict[str, Any]) -> str:
         return "ai_power_nuclear_narrative"
     if any(term in text for term in ("underperformance", "price action", "squeeze", "bullish", "bearish")):
         return "positioning_or_crowding"
+    if any(term in text for term in ("yolo", "gain", "loss", "short interest", "short squeeze", "meme")):
+        return "possible_promotion"
     return "research_prompt"
 
 
@@ -312,8 +417,7 @@ def _review_prompt_fields(
 ) -> dict[str, str]:
     title = _snippet(latest.get("title") or latest.get("body"), limit=180)
     source_type = _source_type_for_item(latest)
-    is_critical = source_group == "critical_minerals_nuclear"
-    if is_critical:
+    if source_group == "critical_minerals_nuclear":
         why = (
             "Critical-minerals/nuclear Reddit scout item that may indicate a company catalyst, "
             "policy/supply-chain change, AI power-demand narrative, or crowding shift."
@@ -325,6 +429,19 @@ def _review_prompt_fields(
         next_check = (
             "Verify company release/filing or reliable news, then check price-volume/UW flow and "
             "whether the item changes MP/LEU/UUUU/URA/URNM or nuclear-power research priority."
+        )
+    elif source_group == "retail_risk_wsb":
+        why = (
+            "WSB scout item that may reveal retail crowding, reflexive chase risk, sentiment extremes, "
+            "or a noisy topic that needs independent vetting."
+        )
+        implication = (
+            "Risk-control or research prompt only. Useful for checking crowding, late-entry risk, "
+            "and whether a high-beta holding or target is becoming socially crowded."
+        )
+        next_check = (
+            "Check price-volume, UW options flow, reliable news, and whether the setup is already late "
+            "before using it for risk posture or research priority."
         )
     else:
         why = "Reddit scout item that may point to an unusual ticker/topic cluster or external headline echo."
@@ -368,13 +485,19 @@ def iter_reddit_items(payload: Any, *, fallback_subreddit: str = "") -> list[dic
             out.extend(iter_reddit_items(part, fallback_subreddit=fallback_subreddit))
         return out
     if isinstance(payload, dict) and isinstance(payload.get("items"), list):
+        nested_fallback = _clean_subreddit(payload.get("subreddit") or fallback_subreddit)
         for row in payload["items"]:
             if isinstance(row, dict):
-                out.extend(iter_reddit_items(row, fallback_subreddit=fallback_subreddit))
+                out.extend(iter_reddit_items(row, fallback_subreddit=nested_fallback))
         return out
+    if isinstance(payload, dict):
+        manual = _manual_snapshot_item(payload, fallback_subreddit=fallback_subreddit)
+        if manual:
+            out.append(manual)
+            return out
     if isinstance(payload, dict) and {"id", "created_utc"} & set(payload):
         data = payload
-        subreddit = str(data.get("subreddit") or fallback_subreddit or "").strip()
+        subreddit = _clean_subreddit(data.get("subreddit") or fallback_subreddit)
         title = data.get("title") or ""
         body = data.get("selftext") or data.get("body") or ""
         kind = str(data.get("kind") or "post").strip()
@@ -389,6 +512,7 @@ def iter_reddit_items(payload: Any, *, fallback_subreddit: str = "") -> list[dic
             "permalink": data.get("permalink") or data.get("url") or "",
             "score_observed": data.get("score"),
             "comment_count_observed": data.get("num_comments") or data.get("comment_count"),
+            "flair": data.get("flair") or data.get("link_flair_text") or "",
         })
         return out
     for child in _children(payload):
@@ -396,7 +520,7 @@ def iter_reddit_items(payload: Any, *, fallback_subreddit: str = "") -> list[dic
         kind_raw = str(child.get("kind") or data.get("kind") or "").strip()
         if kind_raw == "more":
             continue
-        subreddit = str(data.get("subreddit") or fallback_subreddit or "").strip()
+        subreddit = _clean_subreddit(data.get("subreddit") or fallback_subreddit)
         title = data.get("title") or ""
         body = data.get("selftext") or data.get("body") or ""
         if not title and not body:
@@ -412,6 +536,7 @@ def iter_reddit_items(payload: Any, *, fallback_subreddit: str = "") -> list[dic
             "permalink": data.get("permalink") or data.get("url") or "",
             "score_observed": data.get("score"),
             "comment_count_observed": data.get("num_comments") or data.get("comment_count"),
+            "flair": data.get("flair") or data.get("link_flair_text") or "",
         })
         replies = data.get("replies")
         if isinstance(replies, (dict, list)):
@@ -491,6 +616,25 @@ def _mention_series(counter: Counter[str], *, end_date: datetime, days: int) -> 
         for offset in range(days - 1, -1, -1)
     ]
     return [int(counter.get(day, 0)) for day in dates]
+
+
+def _collector_score(row: dict[str, Any]) -> float:
+    score = 0.0
+    if row.get("fired"):
+        score += 50.0
+    try:
+        score += max(float(row.get("velocity_z") or 0.0), 0.0) * 10.0
+    except (TypeError, ValueError):
+        pass
+    try:
+        score += min(float(row.get("mentions") or 0.0), 50.0)
+    except (TypeError, ValueError):
+        pass
+    try:
+        score += min(float(row.get("comment_count_observed") or 0.0), 100.0) / 10.0
+    except (TypeError, ValueError):
+        pass
+    return round(score, 2)
 
 
 def build_cache(
@@ -589,6 +733,8 @@ def build_cache(
             "permalink": str(latest.get("permalink") or "").strip(),
             "score_observed": latest.get("score_observed"),
             "comment_count_observed": latest.get("comment_count_observed"),
+            "flair": str(latest.get("flair") or "").strip(),
+            "source_time_label": str(latest.get("source_time_label") or "").strip(),
             "matched_terms": terms,
             "ingested_at": _iso(ingested_utc),
             "expires_at": _iso(expires),
@@ -624,9 +770,10 @@ def build_cache(
             "blocker_before_action": review_fields["blocker_before_action"],
             "suggested_next_check": review_fields["suggested_next_check"],
         }
+        row["collector_score"] = _collector_score(row)
         rows.append(row)
 
-    rows.sort(key=lambda row: (bool(row.get("fired")), float(row.get("velocity_z") or 0.0), int(row.get("mentions") or 0)), reverse=True)
+    rows.sort(key=lambda row: float(row.get("collector_score") or 0.0), reverse=True)
     status = "has_data" if rows else "checked_clear"
     line = (
         f"Social watch collector: {len(rows)} ticker mention candidate(s); watch-only until independently confirmed."
@@ -670,6 +817,79 @@ def build_research_queue_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]
             ),
         })
     return out
+
+
+def _report_value(value: Any, fallback: str = "not supplied") -> str:
+    text = str(value or "").strip()
+    return text if text else fallback
+
+
+def build_scout_report(cache: dict[str, Any], *, max_rows: int = 12) -> str:
+    generated = _report_value(cache.get("generated_at"))
+    source_group = _report_value(cache.get("source_group"))
+    status = _report_value(cache.get("status"))
+    lines = [
+        "# Reddit Scout Report",
+        "",
+        f"- Generated: {generated}",
+        f"- Source group: {source_group}",
+        f"- Status: {status}",
+        "- Rule: Reddit is low-trust scout evidence, never a standalone trade trigger.",
+        "",
+    ]
+    if cache.get("status") == "not_checked":
+        lines.extend([
+            "## Not Checked",
+            "",
+            _report_value(cache.get("line"), "Reddit fetch failed or returned no readable payloads."),
+            "",
+            "Missing or blocked Reddit data is not checked; do not treat it as no social signal.",
+        ])
+        return "\n".join(lines)
+
+    rows = sorted(
+        [row for row in cache.get("rows") or [] if isinstance(row, dict)],
+        key=lambda row: float(row.get("collector_score") or 0.0),
+        reverse=True,
+    )
+    if not rows:
+        lines.extend([
+            "## Checked Clear",
+            "",
+            _report_value(cache.get("line"), "No ticker/topic candidates in the supplied snapshot."),
+        ])
+        return "\n".join(lines)
+
+    lines.extend([
+        "## Ranked Prompts",
+        "",
+    ])
+    for idx, row in enumerate(rows[:max_rows], 1):
+        ticker = (row.get("tickers") or [""])[0] or row.get("ticker") or "SOCIAL"
+        subreddit = ", ".join(row.get("subreddits") or [row.get("subreddit") or ""])
+        source_time = row.get("source_time_label") or row.get("last_seen") or row.get("created_utc")
+        link = _report_value(row.get("permalink"), "not supplied")
+        lines.extend([
+            f"### {idx}. {ticker} - {_report_value(row.get('summary'), 'untitled Reddit prompt')}",
+            "",
+            f"- Source/time: r/{_report_value(subreddit, 'unknown')} | {_report_value(source_time)}",
+            f"- Collector score: {_report_value(row.get('collector_score'), '0')} | mentions {_report_value(row.get('mentions'), '0')} | z {_report_value(row.get('velocity_z'), 'n/a')}",
+            f"- Source type: {_report_value(row.get('source_type'))}",
+            f"- Why it matters: {_report_value(row.get('why_it_matters'))}",
+            f"- Portfolio implication: {_report_value(row.get('portfolio_implication'))}",
+            f"- Confidence: {_report_value(row.get('confidence'))}",
+            f"- Decay speed: {_report_value(row.get('decay_speed'))}",
+            f"- Confirmation needed: {_report_value(row.get('confirmation_needed'))}",
+            f"- Blocker before action: {_report_value(row.get('blocker_before_action'))}",
+            f"- Suggested next check: {_report_value(row.get('suggested_next_check'))}",
+            f"- Link: {link}",
+            "",
+        ])
+    return "\n".join(lines)
+
+
+def write_scout_report(cache: dict[str, Any], *, out: str) -> Path:
+    return _atomic_write_text(out, build_scout_report(cache))
 
 
 def write_research_queue(rows: list[dict[str, Any]], *, out: str, merge_existing: bool = True) -> dict[str, Any]:
@@ -743,6 +963,7 @@ def main(argv=None) -> int:
     parser.add_argument("--input", action="append", default=[], help="Reddit JSON file or directory of JSON fixtures/exports")
     parser.add_argument("--fetch-live", action="store_true", help="Fetch public subreddit JSON listings directly")
     parser.add_argument("--out", default=str(DEFAULT_OUT))
+    parser.add_argument("--report-out", help="Optional Markdown scout report path, usually under tmp/")
     parser.add_argument("--confirmations", help="Optional non-social confirmation map JSON")
     parser.add_argument("--ticker-universe", action="append", default=[], help="Optional JSON cache to mine ticker symbols from")
     parser.add_argument("--kill-switch-state", help="Optional historical performance JSON for reddit_signal_core.kill_criterion_check")
@@ -756,7 +977,7 @@ def main(argv=None) -> int:
         config = source_group_config(args.source_group)
         subreddits = list(config.get("subreddits") or [])
     else:
-        subreddits = [part.strip().lstrip("r/") for part in args.subreddits.split(",") if part.strip()]
+        subreddits = [_clean_subreddit(part) for part in args.subreddits.split(",") if part.strip()]
     payloads = _payloads_from_inputs(args.input)
     failures: list[dict[str, Any]] = []
     if args.fetch_live:
@@ -782,14 +1003,25 @@ def main(argv=None) -> int:
             merge_existing=not args.no_merge_research_queue,
         )
         cache["research_queue_write"] = rq_report
+    report_path = None
+    if args.report_out and not args.dry_run:
+        report_path = str(write_scout_report(cache, out=args.report_out))
+        cache["scout_report"] = report_path
     if not args.dry_run:
         _atomic_write_json(args.out, cache)
     if args.format == "json":
-        print(json.dumps({"cache": cache, "written": None if args.dry_run else args.out, "research_queue": rq_report}, indent=2, sort_keys=True))
+        print(json.dumps({
+            "cache": cache,
+            "written": None if args.dry_run else args.out,
+            "research_queue": rq_report,
+            "report": report_path,
+        }, indent=2, sort_keys=True))
     else:
         print(format_text(cache))
         if not args.dry_run:
             print(f"wrote: {args.out}")
+        if report_path:
+            print(f"report: {report_path}")
     return 0 if cache.get("status") != "not_checked" or failures else 2
 
 

@@ -20,9 +20,12 @@ The implementation is intentionally a source group, not a cockpit dependency:
 - Initial subreddits: `r/criticalmineralstocks`, `r/UraniumSqueeze`
 - Command shape:
   - `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <payload-or-dir> --out tmp/critical_minerals_social_watch.json --format text`
+  - `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/critical_minerals_reddit_scout.md --format text`
   - `python src/reddit_collector.py --source-group critical_minerals_nuclear --fetch-live --out tmp/critical_minerals_social_watch.json --format text`
 - Output: normal `social_watch` cache shape, staged in `tmp/` unless the main
   build explicitly accepts it.
+- Optional report: Markdown scout report in `tmp/`, for human review before any
+  cockpit display.
 - Disable path: stop supplying this cache. The main dashboard remains dark /
   `not_checked` for Social Watch.
 
@@ -150,6 +153,51 @@ Store structured distillation, not raw comment archives:
 Avoid author storage. Keep expiry/deletion behavior at the normal 48-hour
 retention boundary for stored Reddit content.
 
+## Manual / Chrome-Visible Snapshot Input
+
+When Reddit API access or public JSON is blocked, the collector can consume a
+manual JSON snapshot captured from a visible Reddit page. This is an interim
+bridge, not a separate source of truth.
+
+Accepted shapes:
+
+```json
+[
+  {
+    "subreddit": "criticalmineralstocks",
+    "title": "Visible Reddit post title",
+    "snippet": "Short visible body or note",
+    "permalink": "/r/criticalmineralstocks/comments/example/",
+    "visible_time": "2h ago",
+    "score": 18,
+    "comments": 6,
+    "flair": "Discussion"
+  }
+]
+```
+
+or:
+
+```json
+{
+  "subreddit": "UraniumSqueeze",
+  "items": [
+    {
+      "title": "Visible Reddit post title",
+      "body": "Short visible body or note",
+      "url": "https://www.reddit.com/r/UraniumSqueeze/comments/example/",
+      "created_utc": "2026-06-16T13:30:00+00:00",
+      "num_comments": 41
+    }
+  ]
+}
+```
+
+Supported row fields are `subreddit`, `title`, `body` or `snippet`,
+`permalink` or `url`, `created_utc` or visible time, `score`, `num_comments` or
+`comments`, and `flair`. Author fields, copied raw transcripts, credentials,
+cookies, screenshots, and long raw comment archives must not be stored.
+
 ## What Not To Do
 
 - Do not feed this into `actions` as a direct action source.
@@ -175,7 +223,8 @@ retention boundary for stored Reddit content.
 Build a repeatable scout export for `critical_minerals_nuclear` that can consume:
 
 1. Reddit API/OAuth payloads when available.
-2. Browser-visible/manual JSON exports when API access is blocked.
+2. Browser-visible/manual JSON exports when API access is blocked. Added
+   2026-06-16 through the existing `--input` path plus `--report-out`.
 3. Prebuilt fixtures for tests.
 
 Then add a daily ranked prompt report in `tmp/` before any dashboard display is

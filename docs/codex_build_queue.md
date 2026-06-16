@@ -23,6 +23,12 @@ until the core logic is stable; Notion sync comes later.
 - Reddit/social side-lane is staged only.
   - `critical_minerals_nuclear` is a detachable Reddit source group for
     `r/criticalmineralstocks` + `r/UraniumSqueeze`.
+  - `retail_risk_wsb` is a separate detachable WSB-only group for retail
+    crowding/risk scouting; do not mix it into the critical-minerals lane.
+  - Manual/Chrome-visible Reddit snapshots can be supplied through
+    `src/reddit_collector.py --input <manual-snapshot.json>` and reviewed with
+    `--report-out tmp/<scout-report>.md` while public Reddit JSON/API access is
+    blocked.
   - Keep output in `tmp/` or supplied cache files until the main build accepts
     it; missing/blocked social data remains `not_checked`.
   - Read `docs/reddit_critical_minerals_prototype_plan.md` before changing,

@@ -99,8 +99,16 @@ Current staged implementation note:
 - `src/reddit_collector.py --source-group critical_minerals_nuclear` selects the
   detachable `r/criticalmineralstocks` + `r/UraniumSqueeze` scout group and adds
   the critical-minerals/nuclear ticker universe.
+- `src/reddit_collector.py --source-group retail_risk_wsb` selects a detachable
+  WSB-only retail-risk scout group; keep it separate from the critical-minerals
+  lane because it is high-noise crowding/risk evidence.
 - Keep outputs in `tmp/` until explicitly accepted:
-  `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <payload-or-dir> --out tmp/critical_minerals_social_watch.json --format text`.
+  `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/critical_minerals_reddit_scout.md --format text`.
+- Manual/Chrome-visible snapshots can use simple rows with `subreddit`, `title`,
+  `body` or `snippet`, `permalink` or `url`, visible time or `created_utc`,
+  `score`, `comments` or `num_comments`, and `flair`. Do not store authors,
+  copied raw comment archives, screenshots, cookies, credentials, or long raw
+  Reddit text.
 - Missing/blocked fetches must stay `not_checked`.
 - The main cockpit should display this lane as more than dark/staged only after
   the user explicitly accepts the source group, confirmation gates, and cache
