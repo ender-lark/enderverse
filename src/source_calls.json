@@ -678,5 +678,39 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_48128aa1ac5d"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "SPX",
+    "tier": "C",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "Newton says today's US equity weakness does not look serious; eight of eleven sectors are positive, Tech's drop should be short-lived, and SPX support sits near 7475-7485.",
+    "falsification_condition": "Hard to falsify; score directional accuracy only at window end",
+    "date": "2026-06-16",
+    "window_end": "2026-08-15",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-16",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_0f075ca0b13c"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "XLU",
+    "tier": "C",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "Newton says Utilities have broken above a multi-month downtrend; RSPU and XLU are up about 1% and the February pattern now points to potential new highs for XLU in the months ahead.",
+    "falsification_condition": "Hard to falsify; score directional accuracy only at window end",
+    "date": "2026-06-16",
+    "window_end": "2026-10-14",
+    "window_days": 120,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-16",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_1e2c6feefafc"
   }
 ]

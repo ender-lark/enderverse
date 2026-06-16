@@ -696,5 +696,43 @@
     "use_case": "crypto_sleeve",
     "decision_usefulness": "medium",
     "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "SPX",
+    "direction": "hold",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "intraday",
+    "quote": "Newton says today's US equity weakness does not look serious; eight of eleven sectors are positive, Tech's drop should be short-lived, and SPX support sits near 7475-7485.",
+    "date": "2026-06-16",
+    "subject": "FlashInsights 1:06PM ET SPX support",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-16-1306-et-spx",
+    "source": "Fundstrat Chrome member FlashInsights page",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "XLU",
+    "direction": "add",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "months",
+    "quote": "Newton says Utilities have broken above a multi-month downtrend; RSPU and XLU are up about 1% and the February pattern now points to potential new highs for XLU in the months ahead.",
+    "date": "2026-06-16",
+    "subject": "FlashInsights 1:36PM ET Utilities breakout",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-16-1336-et-xlu",
+    "source": "Fundstrat Chrome member FlashInsights page",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]
