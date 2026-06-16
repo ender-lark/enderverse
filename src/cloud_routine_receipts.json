@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-05T21:41:56.628245Z",
-      "summary": "pre-market source intake started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-05T21:45:50.150086Z",
-      "summary": "0 new FS rows; catalysts unchanged at 8; positions stale no broker input; event-risk unchanged; blocker: Notion structured catalyst query unavailable"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "started",
       "run_source": "scheduled",
@@ -7341,7 +7327,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T23:06:53.213393Z",
       "summary": "checked 12 web pages, videos 0 detail/1 listing, transcript vault 0, Gmail 0; landed 0 rows; suppressed/discovery-only 2 duplicate-or-low-value items; validation passed; Notion none; dark/stale crypto flash June 8, intraday Sep 17 2025, first word June 12, live technical June 4, fed watch Apr 29, no June 16 daily technical or transcript-backed videos; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T23:32:44.808440Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T23:33:12.021366Z",
+      "summary": "no queue export; cache untouched; queue not_checked"
     }
   ],
-  "updated_at": "2026-06-16T23:06:53.213393Z"
+  "updated_at": "2026-06-16T23:33:12.021366Z"
 }
