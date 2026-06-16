@@ -10,7 +10,7 @@ import TodayDecide from "./TodayDecide";
 //   payload.{built, goal_anchor, plan_line, gates[], cards[], backlog[],
 //            congruence, honesty}
 //   card.{card_id, ticker, direction, recheck_date, conflicts[],
-//         conviction.{read, points, groups, raises},
+//         conviction_display.{text, band, band_color, conflict, why, raises, iv_hint, not_checked},
 //         window.{class, deadline, reasons, flips, named_trigger},
 //         decision_card.{move, conviction, window, evidence, impact},
 //         execution.{suggested, legs[], excluded[], cash}, sizing, impact}

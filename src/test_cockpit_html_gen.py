@@ -473,12 +473,72 @@ def test_generated_html_hero_uses_packet_attention_state():
 
 
 def test_generated_html_book_renders_allocation_guidance():
-    html = generate_html(_feed())
+    feed = _feed()
+    feed["holdings"] = [{
+        "cat": "AI / Semiconductors",
+        "rot": {"w": "LEADING"},
+        "pos": [{"t": "NVDA", "pct": 6.6, "cv": "Promising", "nr": "Core hold"}],
+    }]
+    html = generate_html(feed)
 
     assert "Allocation guide: working model target + Fundstrat cue" in html
     assert "visual guidance only; not an instruction to trade" in html
     assert "model target 32.0% | gap -68.0pp" in html
     assert "Fundstrat favored | 2026-05-28" in html
+    assert "Conviction read" in html
+    assert "Why / note" in html
+
+
+def test_generated_html_consumes_precomputed_conviction_display_payload():
+    feed = _feed()
+    feed["today_decide"] = {
+        "built": "2026-06-10",
+        "goal_anchor": {
+            "book_value": None,
+            "fi_target": 3000000,
+            "pct_to_target": None,
+            "gap_usd": None,
+            "pace_line": "display-only test",
+        },
+        "plan_line": {"pool_usd": None, "shortfall_usd": None, "positions_as_of": "2026-06-09"},
+        "gates": [],
+        "data_health": {"items": []},
+        "cards": [{
+            "card_id": "TEST-BUY-2026-06-10",
+            "ticker": "TEST",
+            "direction": "BUY",
+            "recheck_date": "2026-06-15",
+            "card_blockers": [],
+            "conflicts": [],
+            "decision_card": {"move": {"direction": "BUY", "band": "$1"}},
+            "window": {"class": "OPEN-NOW", "reasons": [], "flips": []},
+            "execution": {},
+            "impact": {"band": "small", "material": False},
+            "sizing": {},
+            "conviction_display": {
+                "text": "Conviction to Buy TEST: 4/5 (HIGH)",
+                "band": "HIGH",
+                "band_color": "#34d399",
+                "conflict": None,
+                "why": {
+                    "groups": [{"key": "fs", "label": "Fundstrat / source calls", "points": 1.0}],
+                    "decisive_factors": [{"key": "flow", "label": "UW flow", "value_str": "ask-side calls", "decisive": True}],
+                },
+                "raises": ["A dated entry call"],
+                "iv_hint": {"status": "not_checked", "hint": "IV options-vs-shares hint not checked"},
+                "not_checked": ["institutional"],
+            },
+        }],
+        "backlog": [],
+        "congruence": {"status": "ok", "rows": []},
+        "honesty": {},
+    }
+
+    html = generate_html(feed)
+
+    assert "Conviction to Buy TEST: 4/5 (HIGH)" in html
+    assert "A dated entry call" in html
+    assert "institutional" in html
 
 
 def test_generated_html_treats_social_watch_as_deferred_optional_lane():

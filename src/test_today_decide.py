@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import disposition_log as dl
 from today_decide import (
+    build_conviction_display,
     build_today_decide_payload,
     detect_source_conflicts,
     render_today_decide_html,
@@ -132,6 +133,24 @@ def test_html_renders_header_and_built_date():
     assert "TODAY â€” DECIDE" in html and f"built {TODAY}" in html
     assert 'id="today-decide"' in html
 
+
+def test_html_renders_minimal_conviction_face_and_breakdown():
+    html = render_today_decide_html(_payload())
+    assert "Conviction to Buy GOOGL:" in html
+    assert "Why it is this" in html
+    assert "What would make it a confident move" in html
+    assert "IV options-vs-shares" in html
+    assert "not checked:" in html
+    assert "LOW 0." not in html
+    assert "MODERATE 0." not in html
+    assert "HIGH 0." not in html
+    why_block = html.split("Why it is this", 1)[1].split("What would make it a confident move", 1)[0]
+    factor_pos = min(
+        pos for pos in (why_block.find("decisive:"), why_block.find("conflicting:"), why_block.find("factor:"))
+        if pos >= 0
+    )
+    assert factor_pos < why_block.find("Fundstrat / source calls")
+
 def test_card_count_respects_daily_max():
     p = _payload()
     assert len(p["cards"]) <= G["daily_card_max"]
@@ -145,6 +164,68 @@ def test_caps_sizing_renders_on_buy_cards():
     html = render_today_decide_html(_payload())
     assert "sizing: caps suggested" in html
     assert "cap basis:" in html
+
+
+def test_conviction_display_payload_contract_for_buy_and_not_checked():
+    p = _payload()
+    googl = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "GOOGL"][0]
+    display = googl["conviction_display"]
+
+    assert display["text"].startswith("Conviction to Buy GOOGL:")
+    assert display["band"] in {"LOW", "MODERATE", "HIGH"}
+    assert display["band_color"]
+    assert display["why"]["groups"]
+    assert "Fundstrat / source calls" in {row["label"] for row in display["why"]["groups"]}
+    assert isinstance(display["why"]["decisive_factors"], list)
+    assert display["raises"]
+    assert display["iv_hint"]["status"] == "not_checked"
+    assert "institutional" in display["not_checked"]
+
+
+def test_conviction_display_handles_strong_sell_and_battery_conflict():
+    strong_sell = build_conviction_display({
+        "ticker": "MAGS",
+        "direction": "SELL",
+        "decision_card": {"move": {"direction": "SELL"}},
+        "conviction": {
+            "ticker": "MAGS",
+            "direction": "SELL",
+            "strength_5": 5,
+            "read": "HIGH",
+            "groups": {"fs": -1.2, "uw": 0.0, "operator_insight": 0.0, "institutional": 0.0},
+            "raises": ["current target break confirmed"],
+            "not_checked": ["institutional"],
+            "battery": {"battery_summary": {"decisive_factors": [], "iv_hint": {"status": "not_checked"}}},
+        },
+    })
+    assert strong_sell["text"] == "Conviction to Sell MAGS: 5/5 (HIGH)"
+    assert strong_sell["conflict"] is None
+
+    conflicted = build_conviction_display({
+        "ticker": "MAGS",
+        "direction": "SELL",
+        "decision_card": {"move": {"direction": "SELL"}},
+        "conviction": {
+            "ticker": "MAGS",
+            "direction": "SELL",
+            "strength_5": 4,
+            "read": "HIGH",
+            "groups": {"fs": -1.0, "uw": 0.0, "operator_insight": 0.0, "institutional": 0.0},
+            "raises": [],
+            "not_checked": [],
+            "battery": {"battery_summary": {"decisive_factors": [{
+                "key": "uw_opportunity_sweep",
+                "label": "UW opportunity sweep",
+                "direction": "bull",
+                "strength": 0.9,
+                "value_str": "ask-side call sweeps",
+                "source": "test",
+                "decisive": True,
+            }], "iv_hint": {"status": "not_checked"}}},
+        },
+    })
+    assert "battery" in conflicted["conflict"]
+    assert conflicted["why"]["decisive_factors"][0]["conflict"] is True
 
 def test_wrapper_etf_cards_disclose_lookthrough_overlap():
     feed = _feed()
@@ -167,9 +248,11 @@ def test_mags_source_conflict_chip_renders():
     p = _payload()
     mags = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "MAGS"][0]
     assert mags["conflicts"] and mags["conflicts"][0]["with"] == "lean_in lane"
+    assert mags["conviction_display"]["conflict"]
     html = render_today_decide_html(p)
     assert "SOURCE-CONFLICT" in html and "hold/add MAGS" in html
-    assert "RECHECK</span> MAGS" in html
+    assert "Conviction to Sell MAGS" in html
+    assert "CONFLICT" in html
     assert "candidate SELL; blockers or conflicts must clear first" in html
 
 def test_rails_carry_exact_copy_payloads():
@@ -188,7 +271,7 @@ def test_stage_only_cards_show_candidate_not_buy_sell_first():
     html = render_today_decide_html(p)
     googl = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "GOOGL"][0]
 
-    assert "CANDIDATE</span> GOOGL" in html
+    assert "Conviction to Buy GOOGL" in html
     assert f'data-copy="RECHECK {googl["card_id"]} candidate only; confirm gates before action"' in html
     assert f'data-copy="RECHECK {googl["card_id"]} resurface 2026-06-15"' in html
 
@@ -214,7 +297,7 @@ def test_renderer_uses_card_scoped_blockers_not_global_blocked_state():
     html = render_today_decide_html(p)
 
     assert html.count("CHECK DATA FIRST") == 1
-    assert "RECHECK</span> GOOGL" in html
+    assert "Conviction to Buy GOOGL" in html
     assert 'data-copy="ACT MAGS-TRIM-2026-06-10"' in html
 
 
