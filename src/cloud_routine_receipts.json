@@ -1,55 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-16T13:41:54.186579Z",
+  "updated_at": "2026-06-16T13:48:08.826881Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:16.719771Z",
-      "summary": "investing-os-deep-synthesis manual run started"
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:16.907348Z",
-      "summary": "deep synthesis manual support run completed from repo evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "source call candidates merge",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/source_call_candidate_draft.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/source_call_candidates.json",
-              "--merge-existing",
-              "--merge-cache"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"out\": \"src/source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 7,\n  \"drafted\": 7,\n  \"existing\": 7,\n  \"stored\": 7,\n  \"tickers\": [\n    \"GOOGL\",\n    \"QQQ\",\n    \"RSP\",\n    \"RYF\",\n    \"SOX\",\n    \"TNX\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-08T21:27:16.885676+00:00\",\n    \"existing\": 7,\n    \"candidates\": 7,\n    \"added\": 0,\n    \"stored\": 7,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\"\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
     {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "started",
@@ -2952,6 +2904,20 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T13:41:54.186579Z",
       "summary": "4 check sets/22 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing; blocked SECTOR_TIDE unsupported MARKET_MOVERS 403 advanced_tier_required TNX flow empty; dashboard refresh skipped"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T13:46:17.446439Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T13:48:08.826881Z",
+      "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 stale visible flash cards; validation passed; alerts sent 5 prior-candidate prompts; dark/stale macro latest June 15 and crypto latest June 8; blockers none"
     }
   ]
 }
