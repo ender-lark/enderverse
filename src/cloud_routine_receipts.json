@@ -1,28 +1,7 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-15T23:33:01.887688Z",
+  "updated_at": "2026-06-16T00:48:16.518731Z",
   "receipts": [
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:07:02.589606Z",
-      "summary": "uw opportunity cache manual repair started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:07:11.765978Z",
-      "summary": "manual repair verified: scanned 14 tickers; cache landed 40 signals; GRNJ flow/oi empty rows reported, dark_pool normalized; scheduled proof still pending"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.032826Z",
-      "summary": "investing-os-pre-market-source-intake manual run started"
-    },
     {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "success",
@@ -3343,6 +3322,27 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-15T23:33:01.887688Z",
       "summary": "queue drop missing; Research Queue not_checked; cache unchanged"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T00:47:08.919196Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T00:47:53.452370Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T00:48:16.518731Z",
+      "summary": "dry-run BUILDING 8; HOT 0 so queued none; write verification n/a no live writes; remaining unqueued 21; dark/stale missing pulls remain not_checked; blocker usage-constrained HOT gate selected zero"
     }
   ]
 }
