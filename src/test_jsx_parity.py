@@ -262,13 +262,17 @@ def test_todaydecide_jsx_uses_canonical_card_fields():
     src = _jsx(TODAY_DECIDE_JSX)
     # Required card-level accesses for the parity contract.
     for path in ("card.card_id", "card.ticker", "card.recheck_date", "card.sizing",
-                 "card.conflicts", "card.card_blockers", "card.conviction_display"):
+                 "card.conflicts", "card.card_blockers", "card.conviction_display",
+                 "card.dossier"):
         assert path in src, f"TodayDecide.jsx must read {path}"
     for path in ("win.class", "display.text", "display.band_color",
                  "display.why", "display.raises", "display.iv_hint",
                  "display.not_checked"):
         assert path in src, f"TodayDecide.jsx must read {path}"
     for path in ("sizing.source", "sizing.suggested_usd", "sizing.heat", "sizing.cap_basis"):
+        assert path in src, f"TodayDecide.jsx must read {path}"
+    for path in ("dossier.reads", "dossier.one_liner", "dossier.notion_url",
+                 "dossier.status", "dossier.last_reviewed", "dossier.synced_at"):
         assert path in src, f"TodayDecide.jsx must read {path}"
 
 

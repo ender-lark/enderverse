@@ -28,6 +28,7 @@ import battery_feed_adapter as bfa
 import conviction_engine as ce
 import conviction_sizing_calibrator as csc
 import decision_card as dc
+import decision_dossiers as dd
 import execution_plan as ep
 import insight_register as ir
 import timing_engine as te
@@ -266,6 +267,7 @@ def build_directive_cards(
 
     rb = feed.get("reallocation_brief") or {}
     cards: list[dict[str, Any]] = []
+    dossier_rows = dd.load_dossiers()
 
     def _conviction(ticker: str) -> dict[str, Any]:
         items = ce.fs_items_from_source_calls(ticker)
@@ -450,6 +452,10 @@ def build_directive_cards(
                 1,
             )
         cards.append(card)
+
+    for card in cards:
+        if "dossier" not in card:
+            dd.attach_card_dossier(card, dossiers=dossier_rows, today=today_iso)
 
     cards.sort(key=lambda c: -c["priority"])
     max_cards = int(goal["daily_card_max"])

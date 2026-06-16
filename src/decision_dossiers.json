@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-06-16",
+  "source": {
+    "human_edit_source": "Live Theses Notion data source 0f083d6f-be67-4815-a64a-a21959812f0d",
+    "runtime_source": "repo mirror",
+    "sync_status": "manual_seed_pending_notion_sync"
+  },
+  "dossiers": {
+    "AVGO": {
+      "ticker": "AVGO",
+      "status": "pending_sync",
+      "one_liner": "AVGO dossier mirror pending verified Notion sync; do not treat any read as current.",
+      "notion_url": null,
+      "last_reviewed": null,
+      "synced_at": "2026-06-16",
+      "reads": {
+        "edge": {
+          "label": "Edge/moat",
+          "text": "UNKNOWN - repo has no verified AVGO moat read yet; sync the Live Theses dossier before using this on a decision card.",
+          "as_of": null,
+          "max_age_days": 90,
+          "source": "repo_honesty_seed"
+        },
+        "price": {
+          "label": "Good buy price?",
+          "text": "UNKNOWN - no fresh price, valuation, or battery read is mirrored yet.",
+          "as_of": null,
+          "max_age_days": 1,
+          "source": "repo_honesty_seed"
+        },
+        "timing": {
+          "label": "Good timing?",
+          "text": "UNKNOWN - prior AVGO timing catalyst passed; require fresh gate/window/catalyst evidence.",
+          "as_of": "2026-06-05",
+          "max_age_days": 1,
+          "source": "src/research_queue.json"
+        },
+        "avoid": {
+          "label": "What-not / avoid",
+          "text": "UNKNOWN - no operator-confirmed AVGO avoid/falsifier read is mirrored yet.",
+          "as_of": null,
+          "max_age_days": 90,
+          "source": "repo_honesty_seed"
+        }
+      }
+    }
+  }
+}

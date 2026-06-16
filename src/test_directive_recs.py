@@ -194,6 +194,26 @@ def test_directive_conviction_carries_battery_without_render_or_priority_couplin
     assert googl["priority"] == expected
 
 
+def test_avgo_card_attaches_pending_sync_dossier_as_peer_block():
+    feed = _feed()
+    feed["actions"].append({"ticker": "AVGO", "goal_score": 65, "kind": "lean_in"})
+    feed["reallocation_brief"]["rows"].append(
+        {"ticker": "AVGO", "notional_usd": 25000, "current_pct": 0.0, "target_pct": 6.0}
+    )
+
+    out = build_directive_cards(
+        feed=feed, weights=W, goal=G, insights_payload=_insights(),
+        accounts=_accounts(), gates=[_gate()], uw_states={}, entry_zones={},
+        today=TODAY,
+    )
+    avgo = [c for c in out["cards"] + out["backlog"] if c["ticker"] == "AVGO"][0]
+
+    assert avgo["dossier"]["status"] == "pending_sync"
+    assert avgo["dossier"]["reads"]["price"]["text"].startswith("UNKNOWN")
+    assert avgo["dossier"]["reads"]["timing"]["freshness"]["status"] == "stale"
+    assert "dossier" not in avgo["decision_card"]
+
+
 def test_honesty_footer_and_funding_passthrough():
     out = _build()
     h = out["honesty"]
