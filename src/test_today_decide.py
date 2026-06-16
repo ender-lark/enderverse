@@ -166,6 +166,25 @@ def test_caps_sizing_renders_on_buy_cards():
     assert "cap basis:" in html
 
 
+def test_avgo_dossier_renders_with_stale_dynamic_reads():
+    feed = _feed()
+    feed["actions"].append({"ticker": "AVGO", "goal_score": 65, "kind": "lean_in"})
+    feed["reallocation_brief"]["rows"].append(
+        {"ticker": "AVGO", "notional_usd": 25000, "current_pct": 0.0, "target_pct": 6.0}
+    )
+    p = _payload(feed=feed)
+    avgo = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "AVGO"][0]
+
+    assert avgo["dossier"]["status"] == "pending_sync"
+    html = render_today_decide_html(p)
+
+    assert "Decision dossier: AVGO" in html
+    assert "AVGO dossier mirror pending verified Notion sync" in html
+    assert "Good buy price? (not_checked):" in html
+    assert "Good timing? (stale):" in html
+    assert "UNKNOWN - prior AVGO timing catalyst passed" in html
+
+
 def test_conviction_display_payload_contract_for_buy_and_not_checked():
     p = _payload()
     googl = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "GOOGL"][0]

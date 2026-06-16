@@ -222,6 +222,7 @@ The V3 decision layer is **additive** to the V2 engine described above. Every V2
 |---|---|
 | `tunables.py` + `goal_tunables.json` + `conviction_weights.json` | Operator-tunable thresholds and weights; §3.4 honesty rails are NOT tunable (loader hard-fails). |
 | `decision_card.py` | 5-field card contract; UNKNOWN-stamped fields are valid, silent omission is not. |
+| `decision_dossiers.py` + `decision_dossiers.json` | Per-name dossier runtime mirror. Adds card context only; stale price/timing reads render UNKNOWN and never change scoring/ranking. |
 | `insight_register.py` + `congruence.py` | Active insights and the bullets-vs-evidence congruence strip. |
 | `conviction_engine.py` | Tier × calibration × freshness → groups (fs, uw, operator_insight, institutional) → read. Tier D never scores (doctrine). |
 | `timing_engine.py` | Six T-lanes → OPEN-NOW / STAGE-ONLY / GATED / WAIT. OPEN-NOW requires a named positive trigger. |
@@ -241,6 +242,7 @@ Both the Python HTML renderer (`today_decide.render_today_decide_html`) and the 
 
 * `payload.{built, goal_anchor, plan_line, gates[], cards[], backlog[], congruence, honesty}`
 * per card: `card.{card_id, ticker, direction, recheck_date, last_disposition, conflicts[], conviction.{read, points, groups, raises}, window.{class, deadline, reasons, flips, named_trigger}, decision_card.{move, conviction, window, evidence, impact}, execution, sizing, impact}`
+* Cards may carry optional `dossier.{ticker, status, one_liner, notion_url, last_reviewed, synced_at, reads}`. Dossier reads are context-only and validated/rendered separately from the 5-field `decision_card` contract.
 * BUY/ADD cards carry `sizing.{suggested_usd, source, heat, cap_basis}` from `conviction_sizing_calibrator`; this makes caps math visible before the operator accepts the card notional.
 * Wrapper ETF BUY/ADD/TRIM/SELL cards may carry display-only `lookthrough.{contains_line, overlap_line, holdings[], source}` from `lookthrough_disclosure.py`; this surfaces ETF-vs-single-name overlap without changing ranking, sizing, or account routing.
 * per-card rail copy: `ACT <card_id>` · `PASS <card_id> — reason: ` · `RECHECK <card_id> resurface <recheck_date>` · second tap copies `UNDO <card_id>`.

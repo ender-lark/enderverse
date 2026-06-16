@@ -56,6 +56,18 @@
       "action_surface": "Determines whether research, catalysts, and source calls can become ACT_NOW or stay MONITOR."
     },
     {
+      "id": "decision_dossiers",
+      "source_of_truth": "github_runtime_mirror_from_live_theses",
+      "repo_artifact": "src/decision_dossiers.json",
+      "producer": "decision_dossier_sync from Live Theses Notion rows, or explicit Codex seed/update after live readback",
+      "feed_path": "directive_recs.build_directive_cards -> TODAY-DECIDE card.dossier",
+      "dashboard_surface": "TODAY-DECIDE card dossier block: one-liner plus edge, price, timing, and avoid reads",
+      "mirror_policy": "Notion can be the human-editable narrative source, but runtime cards read only the repo mirror. Repo rows must carry sync/review stamps and per-read freshness.",
+      "freshness_contract": "Durable edge/avoid reads must have review stamps; price and timing reads require short freshness windows and render UNKNOWN when stale or not checked.",
+      "not_checked_behavior": "Absent ticker means no dossier block. Present but stale/not_checked reads render UNKNOWN and must not be treated as current.",
+      "action_surface": "Adds context to action cards only; does not change conviction scoring, ranking, sizing, gates, or trade posture."
+    },
+    {
       "id": "fundstrat_daily_calls",
       "source_of_truth": "gmail_fundstrat_full_body",
       "repo_artifact": "src/fundstrat_daily_calls.json",

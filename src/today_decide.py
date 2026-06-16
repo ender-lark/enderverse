@@ -410,6 +410,11 @@ _CSS = """
 .td .td-row{font-size:13px;color:#cbd5e1;margin:4px 0}
 .td .td-chip{border:1px solid #fb923c;color:#fdba74;border-radius:8px;padding:6px 8px;
   font-size:12px;margin:6px 0}
+.td .td-dossier{border:1px solid #334155;border-radius:8px;padding:8px;margin:8px 0;background:#0b1220}
+.td .td-dossier-head{font-size:12px;color:#e2e8f0;font-weight:800;margin-bottom:4px}
+.td .td-dossier-meta{font-size:11px;color:#94a3b8;margin:2px 0 6px}
+.td .td-dossier-read{font-size:12px;color:#cbd5e1;margin:3px 0}
+.td .td-dossier-read strong{color:#e2e8f0}
 .td details{margin:4px 0;font-size:12px;color:#94a3b8}
 .td .td-health{margin:8px 0 4px 0;line-height:2}
 .td .td-hlabel{font-size:11px;color:#64748b;font-weight:700;letter-spacing:.03em}
@@ -490,6 +495,42 @@ def _render_iv_hint(display: dict[str, Any]) -> str:
     return f'<div class="td-row">{prefix}: {_esc(text)}</div>'
 
 
+def _render_dossier_block(card: dict[str, Any]) -> str:
+    dossier = card.get("dossier") or {}
+    if not isinstance(dossier, dict):
+        return ""
+    reads = dossier.get("reads") or {}
+    if not isinstance(reads, dict):
+        return ""
+    read_labels = ("edge", "price", "timing", "avoid")
+    lines = [
+        '<div class="td-dossier">',
+        f'<div class="td-dossier-head">Decision dossier: {_esc(dossier.get("ticker") or card.get("ticker") or "")}</div>',
+        f'<div class="td-dossier-meta">status: {_esc(dossier.get("status") or "not_checked")}'
+        f' | reviewed: {_esc(dossier.get("last_reviewed") or "not_checked")}'
+        f' | synced: {_esc(dossier.get("synced_at") or "not_checked")}</div>',
+    ]
+    if dossier.get("one_liner"):
+        lines.append(f'<div class="td-row">{_esc(dossier.get("one_liner"))}</div>')
+    if dossier.get("notion_url"):
+        lines.append(
+            f'<div class="td-row"><a href="{_esc(dossier.get("notion_url"))}" '
+            f'style="color:#93c5fd">open full dossier</a></div>'
+        )
+    for key in read_labels:
+        read = reads.get(key) or {}
+        if not isinstance(read, dict):
+            continue
+        freshness = read.get("freshness") or {}
+        suffix = freshness.get("status") or "not_checked"
+        lines.append(
+            f'<div class="td-dossier-read"><strong>{_esc(read.get("label") or key)}'
+            f' ({_esc(suffix)}):</strong> {_esc(read.get("text") or "UNKNOWN")}</div>'
+        )
+    lines.append("</div>")
+    return "".join(lines)
+
+
 def _render_not_checked(display: dict[str, Any]) -> str:
     rows = display.get("not_checked") or []
     text = ", ".join(str(row) for row in rows) if rows else "none"
@@ -551,6 +592,7 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
         h.append('<div class="td-row">No raise condition surfaced.</div>')
     h.append('<div class="td-section-title">IV options-vs-shares</div>')
     h.append(_render_iv_hint(display))
+    h.append(_render_dossier_block(card))
     if posture["reason"]:
         h.append(f'<div class="td-row"><strong>posture:</strong> {_esc(posture["reason"])}</div>')
     primary_verb = posture["copy_verb"]

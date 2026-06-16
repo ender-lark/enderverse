@@ -83,11 +83,36 @@ function IvHint({ display }) {
   return <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>IV options-vs-shares{status}: {text}</div>;
 }
 
+function DossierBlock({ dossier, ticker }) {
+  if (!dossier || !dossier.reads) return null;
+  const labels = ["edge", "price", "timing", "avoid"];
+  return (
+    <div style={{ border: "1px solid #334155", borderRadius: 8, padding: 8, margin: "8px 0", background: "#0b1220" }}>
+      <div style={{ fontSize: 12, color: "#e2e8f0", fontWeight: 800, marginBottom: 4 }}>Decision dossier: {dossier.ticker || ticker}</div>
+      <div style={{ fontSize: 11, color: "#94a3b8", margin: "2px 0 6px" }}>
+        status: {dossier.status || "not_checked"} | reviewed: {dossier.last_reviewed || "not_checked"} | synced: {dossier.synced_at || "not_checked"}
+      </div>
+      {dossier.one_liner && <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>{dossier.one_liner}</div>}
+      {dossier.notion_url && <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}><a style={{ color: "#93c5fd" }} href={dossier.notion_url}>open full dossier</a></div>}
+      {labels.map((key) => {
+        const read = dossier.reads[key] || {};
+        const freshness = read.freshness || {};
+        return (
+          <div key={key} style={{ fontSize: 12, color: "#cbd5e1", margin: "3px 0" }}>
+            <strong style={{ color: "#e2e8f0" }}>{read.label || key} ({freshness.status || "not_checked"}):</strong> {read.text || "UNKNOWN"}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function Card({ card, rank, checkFirst, railState, setRailState }) {
   const dc = card.decision_card || {};
   const move = dc.move || {}, win = card.window || {};
   const ticker = card.ticker;
   const display = card.conviction_display || { text: "Conviction: not checked", band_color: "#94a3b8", why: {}, raises: [], not_checked: [] };
+  const dossier = card.dossier || null;
   const ex = card.execution || {}, impact = card.impact || {};
   const sizing = card.sizing || {};
   const cardBlockers = card.card_blockers || [];
@@ -124,6 +149,7 @@ function Card({ card, rank, checkFirst, railState, setRailState }) {
           : <div style={{ fontSize: 13, color: "#cbd5e1" }}>No raise condition surfaced.</div>}
         <SectionTitle>IV options-vs-shares</SectionTitle>
         <IvHint display={display} />
+        <DossierBlock dossier={dossier} ticker={ticker} />
         {posture.reason && <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}><strong>posture:</strong> {posture.reason}</div>}
         <Rail cardId={card.card_id} verb={posture.stateVerb} copy={primaryCopy} muted={posture.copyVerb !== "ACT"} state={railState} setState={setRailState} />
         <Rail cardId={card.card_id} verb="PASS" copy={`PASS ${card.card_id} â€” reason: `} state={railState} setState={setRailState} />
