@@ -64,6 +64,20 @@ def standard_checks() -> list[Check]:
             command=[py, "src/broker_pdf_extractor.py", "--self-test"],
             why="keeps broker position intake's standalone contract executable",
         ),
+        Check(
+            name="cloud-routine-receipts-utf8",
+            command=[
+                py,
+                "src/cloud_routine_receipts.py",
+                "--out",
+                "src/cloud_routine_receipts.json",
+                "--validate",
+                "--require-utf8",
+                "--format",
+                "text",
+            ],
+            why="catches legacy-encoded receipt stores before dashboard builds break",
+        ),
     ]
 
 

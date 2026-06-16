@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "src" / "cloud_routine_receipts.json"
 VALID_STATUSES = {"started", "success", "failed"}
 VALID_RUN_SOURCES = {"manual", "scheduled"}
+JSON_READ_ENCODINGS = ("utf-8", "utf-8-sig", "cp1252", "utf-16")
 CORE_PROOF_AUTOMATION_IDS = {
     "investing-os-pre-market-source-intake",
     "investing-os-fundstrat-pre-market-safety-sweep",
@@ -328,11 +329,27 @@ def _atomic_write_json(path: str | Path, payload: Any) -> Path:
     return path
 
 
+def _load_json_file(path: Path) -> Any:
+    raw = path.read_bytes()
+    problems: list[str] = []
+    for encoding in JSON_READ_ENCODINGS:
+        try:
+            text = raw.decode(encoding)
+        except UnicodeDecodeError as exc:
+            problems.append(f"{encoding}: {exc}")
+            continue
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError as exc:
+            problems.append(f"{encoding}: {exc}")
+    raise ValueError(f"{path} could not be decoded as JSON: {'; '.join(problems)}")
+
+
 def load_receipts(path: str | Path = DEFAULT_OUT) -> dict[str, Any]:
     path = Path(path)
     if not path.is_file():
         return {"schema_version": 1, "receipts": []}
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload = _load_json_file(path)
     if isinstance(payload, list):
         return {"schema_version": 1, "receipts": payload}
     if isinstance(payload, dict):
@@ -342,6 +359,30 @@ def load_receipts(path: str | Path = DEFAULT_OUT) -> dict[str, Any]:
             payload["receipts"] = []
         return payload
     return {"schema_version": 1, "receipts": []}
+
+
+def validate_receipt_file_encoding(path: str | Path = DEFAULT_OUT) -> list[str]:
+    path = Path(path)
+    if not path.is_file():
+        return []
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError as exc:
+        return [f"{path} must be UTF-8 JSON; decode failed: {exc}"]
+    try:
+        json.loads(text)
+    except json.JSONDecodeError as exc:
+        return [f"{path} must be valid JSON: {exc}"]
+    return []
+
+
+def normalize_receipts_file(path: str | Path = DEFAULT_OUT) -> dict[str, Any]:
+    payload = load_receipts(path)
+    problems = validate_receipts(payload)
+    if problems:
+        raise ValueError("; ".join(problems))
+    _atomic_write_json(path, payload)
+    return payload
 
 
 def validate_receipts(payload: Any) -> list[str]:
@@ -533,6 +574,16 @@ def main(argv=None) -> int:
     parser.add_argument("--run-source", choices=sorted(VALID_RUN_SOURCES), default="manual")
     parser.add_argument("--details-json", help="Optional JSON object with run details")
     parser.add_argument("--validate", action="store_true")
+    parser.add_argument(
+        "--require-utf8",
+        action="store_true",
+        help="fail validation unless the receipt file is strict UTF-8 JSON",
+    )
+    parser.add_argument(
+        "--normalize",
+        action="store_true",
+        help="rewrite the receipt file as canonical UTF-8 JSON without adding a receipt",
+    )
     parser.add_argument("--format", choices=["json", "text"], default="json")
     args = parser.parse_args(argv)
 
@@ -549,9 +600,13 @@ def main(argv=None) -> int:
             run_source=args.run_source,
             details=details,
         )
+    if args.normalize:
+        normalize_receipts_file(path)
 
     payload = load_receipts(path)
     problems = validate_receipts(payload)
+    if args.require_utf8:
+        problems.extend(validate_receipt_file_encoding(path))
     try:
         import cloud_ops_status
 

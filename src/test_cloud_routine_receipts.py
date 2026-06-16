@@ -40,6 +40,31 @@ def test_append_receipt_writes_valid_store(tmp_path):
     assert cloud_routine_receipts.validate_receipts(payload) == []
 
 
+def test_load_receipts_accepts_legacy_cp1252_then_normalizes_utf8(tmp_path):
+    path = tmp_path / "receipts.json"
+    payload = {
+        "schema_version": 1,
+        "receipts": [
+            {
+                "routine_id": "investing-os-parabolic-cache",
+                "status": "success",
+                "run_source": "scheduled",
+                "recorded_at": "2026-06-16T14:37:00Z",
+                "summary": "PARABOLIC SETUP SCREENER \u2014 2026-06-16",
+            }
+        ],
+    }
+    path.write_bytes(json.dumps(payload, indent=2, ensure_ascii=False).encode("cp1252"))
+
+    assert cloud_routine_receipts.load_receipts(path)["receipts"][0]["summary"].startswith("PARABOLIC")
+    assert cloud_routine_receipts.validate_receipt_file_encoding(path)
+
+    cloud_routine_receipts.normalize_receipts_file(path)
+
+    assert cloud_routine_receipts.validate_receipt_file_encoding(path) == []
+    assert cloud_routine_receipts.load_receipts(path)["receipts"][0]["summary"].endswith("2026-06-16")
+
+
 def test_summarize_receipts_reports_missing_and_failed(tmp_path):
     path = tmp_path / "receipts.json"
     cloud_routine_receipts.append_receipt(
