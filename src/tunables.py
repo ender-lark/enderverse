@@ -215,6 +215,7 @@ _WEIGHTS_TOP_KEYS = {
     "tier_window_days",
     "calibration_bands",
     "group_caps",
+    "read_to_5",
     "uw_points",
     "insight_match_points",
     "insight_triage_boost",
@@ -260,6 +261,42 @@ def load_conviction_weights(path: Path | str = CONVICTION_WEIGHTS_PATH) -> dict[
     if "operator_insight" not in cfg["group_caps"]:
         raise TunablesInvalidError(
             f"{path.name}: group_caps must include 'operator_insight'."
+        )
+
+    read_to_5 = cfg["read_to_5"]
+    expected_read_keys = {
+        "high_score",
+        "moderate_score",
+        "moderate_0_66_score",
+        "moderate_0_33_score",
+        "floor_score",
+        "mid_fraction",
+        "low_fraction",
+    }
+    if not isinstance(read_to_5, dict) or set(read_to_5) != expected_read_keys:
+        raise TunablesInvalidError(
+            f"{path.name}: read_to_5 must define {sorted(expected_read_keys)}."
+        )
+    score_path = [
+        read_to_5["high_score"],
+        read_to_5["moderate_score"],
+        read_to_5["moderate_0_66_score"],
+        read_to_5["moderate_0_33_score"],
+        read_to_5["floor_score"],
+    ]
+    if score_path != [5, 4, 3, 2, 1]:
+        raise TunablesInvalidError(
+            f"{path.name}: read_to_5 score ladder must be 5, 4, 3, 2, 1."
+        )
+    for key in ("mid_fraction", "low_fraction"):
+        value = read_to_5[key]
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not (0 < value < 1):
+            raise TunablesInvalidError(
+                f"{path.name}: read_to_5['{key}'] must be a fraction between 0 and 1."
+            )
+    if read_to_5["low_fraction"] >= read_to_5["mid_fraction"]:
+        raise TunablesInvalidError(
+            f"{path.name}: read_to_5 low_fraction must be below mid_fraction."
         )
 
     uw = cfg["uw_points"]

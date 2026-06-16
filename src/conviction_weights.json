@@ -15,6 +15,15 @@
     }
   },
   "group_caps": {"fs": 1.5, "uw": 1.25, "operator_insight": 1.0, "institutional": 1.0},
+  "read_to_5": {
+    "high_score": 5,
+    "moderate_score": 4,
+    "moderate_0_66_score": 3,
+    "moderate_0_33_score": 2,
+    "floor_score": 1,
+    "mid_fraction": 0.66,
+    "low_fraction": 0.33
+  },
   "uw_points": {
     "supports": 1.0,
     "battery_full": 1.25,
