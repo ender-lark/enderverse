@@ -1,12 +1,12 @@
 {
-  "snapshot_date": "2026-06-15",
-  "sleeve_value": 1899510,
+  "snapshot_date": "2026-06-16",
+  "sleeve_value": 1931736,
   "account_positions": [
     {
       "ticker": "AMD",
       "description": "Advanced Micro Devices, Inc.",
       "shares": 10.0,
-      "market_value": 5115.7,
+      "market_value": 5472.6,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -19,7 +19,7 @@
       "ticker": "AMZN",
       "description": "Amazon.com, Inc.",
       "shares": 24.0,
-      "market_value": 5725.2,
+      "market_value": 5904.48,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -32,7 +32,7 @@
       "ticker": "ARRRF",
       "description": "Ardea Resources Limited",
       "shares": 5000.0,
-      "market_value": 1657.0,
+      "market_value": 1665.5,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -45,7 +45,7 @@
       "ticker": "AVGO",
       "description": "Broadcom Inc.",
       "shares": 40.0,
-      "market_value": 15282.8,
+      "market_value": 15757.6,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -58,7 +58,7 @@
       "ticker": "BE",
       "description": "Bloom Energy Corporation",
       "shares": 67.0,
-      "market_value": 17434.74,
+      "market_value": 18391.5,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -71,7 +71,7 @@
       "ticker": "BMNR",
       "description": "Bitmine Immersion Technologies, Inc.",
       "shares": 1500.0,
-      "market_value": 24165.0,
+      "market_value": 25665.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -82,9 +82,9 @@
     },
     {
       "ticker": "BMNR",
-      "description": "30 Call 2026-08-21",
-      "shares": 3.0,
-      "market_value": 69.0,
+      "description": "80 Call 2027-01-15",
+      "shares": 5.0,
+      "market_value": 160.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -92,20 +92,41 @@
       "tracked": true,
       "asset_type": "option",
       "option": {
-        "occ_symbol": "BMNR  260821C00030000",
+        "occ_symbol": "BMNR  270115C00080000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 80.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
+    },
+    {
+      "ticker": "BMNR",
+      "description": "25 Call 2026-08-21",
+      "shares": 5.0,
+      "market_value": 305.0,
+      "account": "Joint WROS - TOD *****2063",
+      "owner": "Parents",
+      "broker": "Fidelity",
+      "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  260821C00025000",
         "underlying": "BMNR",
         "expiry": "2026-08-21",
         "call_put": "call",
-        "strike": 30.0,
+        "strike": 25.0,
         "multiplier": 100,
         "price_convention": "underlying_share"
       }
     },
     {
       "ticker": "BMNR",
-      "description": "50 Call 2028-01-21",
-      "shares": 5.0,
-      "market_value": 1300.0,
+      "description": "50 Call 2027-01-15",
+      "shares": 10.0,
+      "market_value": 590.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -113,32 +134,11 @@
       "tracked": true,
       "asset_type": "option",
       "option": {
-        "occ_symbol": "BMNR  280121C00050000",
+        "occ_symbol": "BMNR  270115C00050000",
         "underlying": "BMNR",
-        "expiry": "2028-01-21",
+        "expiry": "2027-01-15",
         "call_put": "call",
         "strike": 50.0,
-        "multiplier": 100,
-        "price_convention": "underlying_share"
-      }
-    },
-    {
-      "ticker": "BMNR",
-      "description": "80 Call 2028-01-21",
-      "shares": 6.0,
-      "market_value": 930.0,
-      "account": "Joint WROS - TOD *****2063",
-      "owner": "Parents",
-      "broker": "Fidelity",
-      "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true,
-      "asset_type": "option",
-      "option": {
-        "occ_symbol": "BMNR  280121C00080000",
-        "underlying": "BMNR",
-        "expiry": "2028-01-21",
-        "call_put": "call",
-        "strike": 80.0,
         "multiplier": 100,
         "price_convention": "underlying_share"
       }
@@ -166,9 +166,9 @@
     },
     {
       "ticker": "BMNR",
-      "description": "25 Call 2026-08-21",
-      "shares": 5.0,
-      "market_value": 220.0,
+      "description": "30 Call 2026-08-21",
+      "shares": 3.0,
+      "market_value": 84.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -176,20 +176,20 @@
       "tracked": true,
       "asset_type": "option",
       "option": {
-        "occ_symbol": "BMNR  260821C00025000",
+        "occ_symbol": "BMNR  260821C00030000",
         "underlying": "BMNR",
         "expiry": "2026-08-21",
         "call_put": "call",
-        "strike": 25.0,
+        "strike": 30.0,
         "multiplier": 100,
         "price_convention": "underlying_share"
       }
     },
     {
       "ticker": "BMNR",
-      "description": "80 Call 2027-01-15",
+      "description": "50 Call 2028-01-21",
       "shares": 5.0,
-      "market_value": 155.0,
+      "market_value": 1400.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -197,32 +197,32 @@
       "tracked": true,
       "asset_type": "option",
       "option": {
-        "occ_symbol": "BMNR  270115C00080000",
+        "occ_symbol": "BMNR  280121C00050000",
         "underlying": "BMNR",
-        "expiry": "2027-01-15",
-        "call_put": "call",
-        "strike": 80.0,
-        "multiplier": 100,
-        "price_convention": "underlying_share"
-      }
-    },
-    {
-      "ticker": "BMNR",
-      "description": "50 Call 2027-01-15",
-      "shares": 10.0,
-      "market_value": 560.0,
-      "account": "Joint WROS - TOD *****2063",
-      "owner": "Parents",
-      "broker": "Fidelity",
-      "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
-      "tracked": true,
-      "asset_type": "option",
-      "option": {
-        "occ_symbol": "BMNR  270115C00050000",
-        "underlying": "BMNR",
-        "expiry": "2027-01-15",
+        "expiry": "2028-01-21",
         "call_put": "call",
         "strike": 50.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
+    },
+    {
+      "ticker": "BMNR",
+      "description": "80 Call 2028-01-21",
+      "shares": 6.0,
+      "market_value": 1014.0,
+      "account": "Joint WROS - TOD *****2063",
+      "owner": "Parents",
+      "broker": "Fidelity",
+      "source_file": "snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669",
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  280121C00080000",
+        "underlying": "BMNR",
+        "expiry": "2028-01-21",
+        "call_put": "call",
+        "strike": 80.0,
         "multiplier": 100,
         "price_convention": "underlying_share"
       }
@@ -231,7 +231,7 @@
       "ticker": "BWXT",
       "description": "Bwx Technologies Inc.",
       "shares": 49.071,
-      "market_value": 9492.78,
+      "market_value": 9516.83,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -244,7 +244,7 @@
       "ticker": "CCJ",
       "description": "Cameco Corporation",
       "shares": 74.052,
-      "market_value": 7476.29,
+      "market_value": 7925.05,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -257,7 +257,7 @@
       "ticker": "COST",
       "description": "Costco Wholesale Corporation",
       "shares": 6.017,
-      "market_value": 5910.8,
+      "market_value": 5893.35,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -270,7 +270,7 @@
       "ticker": "CRS",
       "description": "Carpenter Technology Corporation",
       "shares": 6.0,
-      "market_value": 3368.94,
+      "market_value": 3381.6,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -283,7 +283,7 @@
       "ticker": "CRWD",
       "description": "CrowdStrike Holdings, Inc.",
       "shares": 7.0,
-      "market_value": 4779.6,
+      "market_value": 4850.37,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -296,7 +296,7 @@
       "ticker": "FIX",
       "description": "Comfort Systems USA, Inc.",
       "shares": 4.001,
-      "market_value": 7512.32,
+      "market_value": 7810.03,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -309,7 +309,7 @@
       "ticker": "FN",
       "description": "Fabrinet",
       "shares": 8.0,
-      "market_value": 4888.08,
+      "market_value": 5084.64,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -322,7 +322,7 @@
       "ticker": "GDX",
       "description": "VanEck Gold Miners ETF",
       "shares": 95.0,
-      "market_value": 7602.85,
+      "market_value": 8100.65,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -334,8 +334,8 @@
     {
       "ticker": "GOOGL",
       "description": "Alphabet Inc.",
-      "shares": 25.0,
-      "market_value": 8992.0,
+      "shares": 25.015,
+      "market_value": 9239.29,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -348,7 +348,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 500.0,
-      "market_value": 15645.0,
+      "market_value": 15960.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -361,7 +361,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 1000.0,
-      "market_value": 27200.0,
+      "market_value": 27640.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -374,7 +374,7 @@
       "ticker": "GS",
       "description": "The Goldman Sachs Group, Inc.",
       "shares": 9.0,
-      "market_value": 9564.75,
+      "market_value": 9685.53,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -387,7 +387,7 @@
       "ticker": "IESC",
       "description": "Ies Holdings Inc.",
       "shares": 11.0,
-      "market_value": 8248.13,
+      "market_value": 7990.51,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -400,7 +400,7 @@
       "ticker": "IVES",
       "description": "Amplify Bloomberg AI Value Chain ETF",
       "shares": 704.863,
-      "market_value": 26065.83,
+      "market_value": 27003.3,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -413,7 +413,7 @@
       "ticker": "LEU",
       "description": "Centrus Energy Corp.",
       "shares": 180.0,
-      "market_value": 29264.4,
+      "market_value": 31797.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -426,7 +426,7 @@
       "ticker": "LIT",
       "description": "GLOBAL X LITHIUM & BATTERY T",
       "shares": 20.0,
-      "market_value": 1647.4,
+      "market_value": 1681.6,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -439,7 +439,7 @@
       "ticker": "LITE",
       "description": "Lumentum Holdings Inc.",
       "shares": 2.0,
-      "market_value": 1843.12,
+      "market_value": 1914.48,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -452,7 +452,7 @@
       "ticker": "MSFT",
       "description": "Microsoft Corp.",
       "shares": 30.076,
-      "market_value": 11751.9,
+      "market_value": 12023.18,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -465,7 +465,7 @@
       "ticker": "MU",
       "description": "Micron Technology, Inc.",
       "shares": 30.0,
-      "market_value": 29448.3,
+      "market_value": 32639.7,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -478,7 +478,7 @@
       "ticker": "NBIS",
       "description": "Nebius Group N.V.",
       "shares": 51.0,
-      "market_value": 11850.36,
+      "market_value": 13263.57,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -491,7 +491,7 @@
       "ticker": "NVDA",
       "description": "NVIDIA Corporation",
       "shares": 580.0,
-      "market_value": 119010.2,
+      "market_value": 123221.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -504,7 +504,7 @@
       "ticker": "NXT",
       "description": "Nextracker Inc.",
       "shares": 20.0,
-      "market_value": 2437.6,
+      "market_value": 2516.6,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -517,7 +517,7 @@
       "ticker": "ORCL",
       "description": "Oracle Corporation",
       "shares": 50.0,
-      "market_value": 9206.5,
+      "market_value": 9632.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -530,7 +530,7 @@
       "ticker": "PANW",
       "description": "Palo Alto Networks, Inc.",
       "shares": 20.0,
-      "market_value": 5592.4,
+      "market_value": 5690.8,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -543,7 +543,7 @@
       "ticker": "PLTR",
       "description": "Palantir Technologies Inc.",
       "shares": 25.0,
-      "market_value": 3199.75,
+      "market_value": 3367.75,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -556,7 +556,7 @@
       "ticker": "PWR",
       "description": "Quanta Services Inc.",
       "shares": 12.002,
-      "market_value": 8494.3,
+      "market_value": 8693.65,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -569,7 +569,7 @@
       "ticker": "RDDT",
       "description": "Reddit Inc Class A",
       "shares": 90.0,
-      "market_value": 14589.0,
+      "market_value": 16369.2,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -582,7 +582,7 @@
       "ticker": "SIL",
       "description": "Global X Silver Miners UCITS ETF USD Accumulating",
       "shares": 48.0,
-      "market_value": 3920.64,
+      "market_value": 4173.6,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -595,7 +595,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 6.046,
-      "market_value": 3748.28,
+      "market_value": 3912.37,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -607,8 +607,8 @@
     {
       "ticker": "SPAXX",
       "description": "Fidelity Hereford Street Trust - Fidelity Government Money Market Fund",
-      "shares": 25413.95,
-      "market_value": 25413.95,
+      "shares": 24659.01,
+      "market_value": 24659.01,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -621,7 +621,7 @@
       "ticker": "STRL",
       "description": "Sterling Infrastructure, Inc.",
       "shares": 5.0,
-      "market_value": 4294.95,
+      "market_value": 4333.35,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -634,7 +634,7 @@
       "ticker": "TLOFF",
       "description": "Talon Metals Corp",
       "shares": 200.0,
-      "market_value": 869.12,
+      "market_value": 940.28,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -647,7 +647,7 @@
       "ticker": "TSM",
       "description": "Taiwan Semiconductor Manufacturing Co. Ltd. ADR",
       "shares": 10.0,
-      "market_value": 4239.3,
+      "market_value": 4414.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -660,7 +660,7 @@
       "ticker": "UMAC",
       "description": "Unusual Machines Inc.",
       "shares": 100.0,
-      "market_value": 2443.0,
+      "market_value": 2473.0,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -673,7 +673,7 @@
       "ticker": "UURAF",
       "description": "Ucore Rare Metals Inc",
       "shares": 200.0,
-      "market_value": 758.88,
+      "market_value": 837.24,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -686,7 +686,7 @@
       "ticker": "UUUU",
       "description": "Energy Fuels Inc.",
       "shares": 1210.0,
-      "market_value": 18198.4,
+      "market_value": 18924.4,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -699,7 +699,7 @@
       "ticker": "VOLT",
       "description": "Tema Electrification Fund",
       "shares": 649.983,
-      "market_value": 25628.83,
+      "market_value": 26155.32,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -712,7 +712,7 @@
       "ticker": "WPM",
       "description": "Wheaton Precious Metals Corp.",
       "shares": 15.059,
-      "market_value": 1748.35,
+      "market_value": 1866.41,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -725,7 +725,7 @@
       "ticker": "XLF",
       "description": "Financial Select Sector SPDR Fund",
       "shares": 348.0,
-      "market_value": 18562.32,
+      "market_value": 18638.88,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -738,7 +738,7 @@
       "ticker": "XLI",
       "description": "Industrial Select Sector SPDR Fund",
       "shares": 70.0,
-      "market_value": 12332.6,
+      "market_value": 12507.6,
       "account": "Joint WROS - TOD *****2063",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -751,7 +751,7 @@
       "ticker": "AMZN",
       "description": "Amazon.com, Inc.",
       "shares": 15.0,
-      "market_value": 3578.25,
+      "market_value": 3690.3,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -764,7 +764,7 @@
       "ticker": "ANET",
       "description": "Arista Networks, Inc.",
       "shares": 35.0,
-      "market_value": 5713.4,
+      "market_value": 5918.15,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -777,7 +777,7 @@
       "ticker": "ASTS",
       "description": "AST SpaceMobile, Inc.",
       "shares": 30.0,
-      "market_value": 2472.3,
+      "market_value": 2627.1,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -790,7 +790,7 @@
       "ticker": "BMNR",
       "description": "Bitmine Immersion Technologies, Inc.",
       "shares": 700.0,
-      "market_value": 11277.0,
+      "market_value": 11977.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -801,9 +801,9 @@
     },
     {
       "ticker": "BMNR",
-      "description": "30 Call 2027-01-15",
-      "shares": 3.0,
-      "market_value": 423.0,
+      "description": "60 Call 2028-01-21",
+      "shares": 1.0,
+      "market_value": 228.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -811,11 +811,11 @@
       "tracked": true,
       "asset_type": "option",
       "option": {
-        "occ_symbol": "BMNR  270115C00030000",
+        "occ_symbol": "BMNR  280121C00060000",
         "underlying": "BMNR",
-        "expiry": "2027-01-15",
+        "expiry": "2028-01-21",
         "call_put": "call",
-        "strike": 30.0,
+        "strike": 60.0,
         "multiplier": 100,
         "price_convention": "underlying_share"
       }
@@ -824,7 +824,7 @@
       "ticker": "BMNR",
       "description": "50 Call 2028-01-21",
       "shares": 1.0,
-      "market_value": 260.0,
+      "market_value": 280.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -843,9 +843,30 @@
     },
     {
       "ticker": "BMNR",
+      "description": "30 Call 2027-01-15",
+      "shares": 3.0,
+      "market_value": 489.0,
+      "account": "ROLLOVER IRA - RamBalusu *****6333",
+      "owner": "Parents",
+      "broker": "Fidelity",
+      "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
+      "tracked": true,
+      "asset_type": "option",
+      "option": {
+        "occ_symbol": "BMNR  270115C00030000",
+        "underlying": "BMNR",
+        "expiry": "2027-01-15",
+        "call_put": "call",
+        "strike": 30.0,
+        "multiplier": 100,
+        "price_convention": "underlying_share"
+      }
+    },
+    {
+      "ticker": "BMNR",
       "description": "30 Call 2026-08-21",
       "shares": 5.0,
-      "market_value": 115.0,
+      "market_value": 140.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -863,31 +884,10 @@
       }
     },
     {
-      "ticker": "BMNR",
-      "description": "60 Call 2028-01-21",
-      "shares": 1.0,
-      "market_value": 207.0,
-      "account": "ROLLOVER IRA - RamBalusu *****6333",
-      "owner": "Parents",
-      "broker": "Fidelity",
-      "source_file": "snaptrade://Parents/Fidelity/d3d1ccdc-2457-4db7-b09a-2863672921ea",
-      "tracked": true,
-      "asset_type": "option",
-      "option": {
-        "occ_symbol": "BMNR  280121C00060000",
-        "underlying": "BMNR",
-        "expiry": "2028-01-21",
-        "call_put": "call",
-        "strike": 60.0,
-        "multiplier": 100,
-        "price_convention": "underlying_share"
-      }
-    },
-    {
       "ticker": "BWXT",
       "description": "Bwx Technologies Inc.",
       "shares": 25.0,
-      "market_value": 4836.25,
+      "market_value": 4848.5,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -900,7 +900,7 @@
       "ticker": "CCJ",
       "description": "Cameco Corporation",
       "shares": 50.0,
-      "market_value": 5048.0,
+      "market_value": 5351.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -913,7 +913,7 @@
       "ticker": "CGC",
       "description": "10 Call 2027-01-15",
       "shares": 5.0,
-      "market_value": 20.0,
+      "market_value": 15.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -934,7 +934,7 @@
       "ticker": "CIBR",
       "description": "First Trust NASDAQ Cybersecurity ETF",
       "shares": 50.0,
-      "market_value": 4266.5,
+      "market_value": 4313.5,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -947,7 +947,7 @@
       "ticker": "COIN",
       "description": "Coinbase Global, Inc.",
       "shares": 10.0,
-      "market_value": 1597.8,
+      "market_value": 1696.2,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -960,7 +960,7 @@
       "ticker": "ETHA",
       "description": "iShares Ethereum Trust",
       "shares": 100.0,
-      "market_value": 1257.0,
+      "market_value": 1376.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -972,8 +972,8 @@
     {
       "ticker": "FDRXX",
       "description": "Fidelity Phillips Street Trust - Fidelity Government Cash Reserves",
-      "shares": 433.63,
-      "market_value": 433.63,
+      "shares": 314.51,
+      "market_value": 314.51,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -986,7 +986,7 @@
       "ticker": "GDX",
       "description": "VanEck Gold Miners ETF",
       "shares": 44.0,
-      "market_value": 3521.32,
+      "market_value": 3751.88,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -999,7 +999,7 @@
       "ticker": "GOOGL",
       "description": "Alphabet Inc.",
       "shares": 17.0,
-      "market_value": 6114.56,
+      "market_value": 6278.95,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1012,7 +1012,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 600.0,
-      "market_value": 18774.0,
+      "market_value": 19152.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1025,7 +1025,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 1100.0,
-      "market_value": 29920.0,
+      "market_value": 30404.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1038,7 +1038,7 @@
       "ticker": "GRNY",
       "description": "31 Call 2027-01-15",
       "shares": 5.0,
-      "market_value": 425.0,
+      "market_value": 500.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1059,7 +1059,7 @@
       "ticker": "HOOD",
       "description": "100 Call 2026-09-18",
       "shares": 2.0,
-      "market_value": 2230.0,
+      "market_value": 2560.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1080,7 +1080,7 @@
       "ticker": "IBIT",
       "description": "iShares Bitcoin Trust",
       "shares": 100.0,
-      "market_value": 3604.0,
+      "market_value": 3774.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1093,7 +1093,7 @@
       "ticker": "ITA",
       "description": "iShares U.S. Aerospace & Defense ETF",
       "shares": 50.0,
-      "market_value": 11689.5,
+      "market_value": 11870.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1106,7 +1106,7 @@
       "ticker": "IVES",
       "description": "Amplify Bloomberg AI Value Chain ETF",
       "shares": 100.0,
-      "market_value": 3698.0,
+      "market_value": 3831.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1119,7 +1119,7 @@
       "ticker": "LEU",
       "description": "Centrus Energy Corp.",
       "shares": 65.0,
-      "market_value": 10567.7,
+      "market_value": 11482.25,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1132,7 +1132,7 @@
       "ticker": "LEU",
       "description": "300 Call 2028-01-21",
       "shares": 1.0,
-      "market_value": 4470.0,
+      "market_value": 5300.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1153,7 +1153,7 @@
       "ticker": "LITE",
       "description": "Lumentum Holdings Inc.",
       "shares": 3.0,
-      "market_value": 2764.68,
+      "market_value": 2871.72,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1166,7 +1166,7 @@
       "ticker": "LUNR",
       "description": "Intuitive Machines, Inc.",
       "shares": 100.0,
-      "market_value": 2662.0,
+      "market_value": 2576.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1179,7 +1179,7 @@
       "ticker": "LYSDY",
       "description": "Lynas Rare Earths Limited - ADR",
       "shares": 100.0,
-      "market_value": 1257.0,
+      "market_value": 1255.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1192,7 +1192,7 @@
       "ticker": "MP",
       "description": "MP Materials Corp.",
       "shares": 195.0,
-      "market_value": 11222.25,
+      "market_value": 11360.7,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1205,7 +1205,7 @@
       "ticker": "MSFT",
       "description": "Microsoft Corp.",
       "shares": 15.0,
-      "market_value": 5861.1,
+      "market_value": 5996.4,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1218,7 +1218,7 @@
       "ticker": "MSOS",
       "description": "AdvisorShares Pure US Cannabis ETF",
       "shares": 0.39,
-      "market_value": 1.97,
+      "market_value": 1.93,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1231,7 +1231,7 @@
       "ticker": "NBIS",
       "description": "Nebius Group N.V.",
       "shares": 40.0,
-      "market_value": 9294.4,
+      "market_value": 10402.8,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1244,7 +1244,7 @@
       "ticker": "NVDA",
       "description": "NVIDIA Corporation",
       "shares": 50.0,
-      "market_value": 10259.5,
+      "market_value": 10622.5,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1257,7 +1257,7 @@
       "ticker": "PBW",
       "description": "Invesco WilderHill Clean Energy ETF",
       "shares": 129.0,
-      "market_value": 5179.35,
+      "market_value": 5268.36,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1270,7 +1270,7 @@
       "ticker": "POET",
       "description": "POET Technologies Inc.",
       "shares": 100.0,
-      "market_value": 1253.0,
+      "market_value": 1393.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1283,7 +1283,7 @@
       "ticker": "RDDT",
       "description": "Reddit Inc Class A",
       "shares": 20.0,
-      "market_value": 3242.0,
+      "market_value": 3637.6,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1296,7 +1296,7 @@
       "ticker": "SIL",
       "description": "Global X Silver Miners UCITS ETF USD Accumulating",
       "shares": 12.0,
-      "market_value": 980.16,
+      "market_value": 1043.4,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1309,7 +1309,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 20.0,
-      "market_value": 12399.2,
+      "market_value": 12942.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1322,7 +1322,7 @@
       "ticker": "SOFI",
       "description": "SoFi Technologies, Inc.",
       "shares": 50.0,
-      "market_value": 829.0,
+      "market_value": 856.5,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1335,7 +1335,7 @@
       "ticker": "TEM",
       "description": "Tempus AI, Inc.",
       "shares": 5.0,
-      "market_value": 239.1,
+      "market_value": 261.6,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1348,7 +1348,7 @@
       "ticker": "UURAF",
       "description": "Ucore Rare Metals Inc",
       "shares": 200.0,
-      "market_value": 758.88,
+      "market_value": 837.24,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1361,7 +1361,7 @@
       "ticker": "UUUU",
       "description": "Energy Fuels Inc.",
       "shares": 400.0,
-      "market_value": 6016.0,
+      "market_value": 6256.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1374,7 +1374,7 @@
       "ticker": "VOLT",
       "description": "Tema Electrification Fund",
       "shares": 400.0,
-      "market_value": 15772.0,
+      "market_value": 16096.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1387,7 +1387,7 @@
       "ticker": "XLF",
       "description": "Financial Select Sector SPDR Fund",
       "shares": 100.0,
-      "market_value": 5334.0,
+      "market_value": 5356.0,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1400,7 +1400,7 @@
       "ticker": "BMNR",
       "description": "Bitmine Immersion Technologies, Inc.",
       "shares": 100.0,
-      "market_value": 1611.0,
+      "market_value": 1711.0,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1413,7 +1413,7 @@
       "ticker": "ETHA",
       "description": "iShares Ethereum Trust",
       "shares": 100.0,
-      "market_value": 1257.0,
+      "market_value": 1376.0,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1426,7 +1426,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 149.0,
-      "market_value": 4662.21,
+      "market_value": 4756.08,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1439,7 +1439,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 189.0,
-      "market_value": 5140.8,
+      "market_value": 5223.96,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1452,7 +1452,7 @@
       "ticker": "IBIT",
       "description": "iShares Bitcoin Trust",
       "shares": 40.0,
-      "market_value": 1441.6,
+      "market_value": 1509.6,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1465,7 +1465,7 @@
       "ticker": "LEU",
       "description": "Centrus Energy Corp.",
       "shares": 10.0,
-      "market_value": 1625.8,
+      "market_value": 1766.5,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1478,7 +1478,7 @@
       "ticker": "MU",
       "description": "Micron Technology, Inc.",
       "shares": 10.0,
-      "market_value": 9816.1,
+      "market_value": 10879.9,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1491,7 +1491,7 @@
       "ticker": "NVDA",
       "description": "NVIDIA Corporation",
       "shares": 49.0,
-      "market_value": 10054.31,
+      "market_value": 10410.05,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1504,7 +1504,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 3.0,
-      "market_value": 1859.88,
+      "market_value": 1941.3,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1516,8 +1516,8 @@
     {
       "ticker": "SPAXX",
       "description": "Fidelity Hereford Street Trust - Fidelity Government Money Market Fund",
-      "shares": 118.26,
-      "market_value": 118.26,
+      "shares": 126.8,
+      "market_value": 126.8,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1530,7 +1530,7 @@
       "ticker": "UUUU",
       "description": "Energy Fuels Inc.",
       "shares": 100.0,
-      "market_value": 1504.0,
+      "market_value": 1564.0,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1543,7 +1543,7 @@
       "ticker": "VOLT",
       "description": "Tema Electrification Fund",
       "shares": 30.0,
-      "market_value": 1182.9,
+      "market_value": 1207.2,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1556,7 +1556,7 @@
       "ticker": "XLF",
       "description": "Financial Select Sector SPDR Fund",
       "shares": 200.0,
-      "market_value": 10668.0,
+      "market_value": 10712.0,
       "account": "ROTH IRA *****2650",
       "owner": "Parents",
       "broker": "Fidelity",
@@ -1569,7 +1569,7 @@
       "ticker": "GDX",
       "description": "VanEck Gold Miners ETF",
       "shares": 151.0,
-      "market_value": 12856.86,
+      "market_value": 13044.89,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1582,7 +1582,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 1628.0,
-      "market_value": 51965.76,
+      "market_value": 51778.54,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1595,7 +1595,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 2700.0,
-      "market_value": 74601.0,
+      "market_value": 74398.5,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1608,7 +1608,7 @@
       "ticker": "IHF",
       "description": "iShares U.S. Healthcare Providers ETF",
       "shares": 467.7277,
-      "market_value": 25000.05,
+      "market_value": 25032.79,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1621,7 +1621,7 @@
       "ticker": "IVES",
       "description": "Amplify Bloomberg AI Value Chain ETF",
       "shares": 693.0,
-      "market_value": 26522.22,
+      "market_value": 26305.03,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1634,7 +1634,7 @@
       "ticker": "LIT",
       "description": "GLOBAL X LITHIUM & BATTERY T",
       "shares": 20.0,
-      "market_value": 1663.9,
+      "market_value": 1675.2,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1647,7 +1647,7 @@
       "ticker": "RPG",
       "description": "Invesco S&P 500 Pure Growth ETF",
       "shares": 196.0,
-      "market_value": 12322.52,
+      "market_value": 12218.64,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1660,7 +1660,7 @@
       "ticker": "SIL",
       "description": "Global X Silver Miners UCITS ETF USD Accumulating",
       "shares": 68.0,
-      "market_value": 5902.4,
+      "market_value": 6006.44,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1673,7 +1673,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 75.0,
-      "market_value": 48437.25,
+      "market_value": 47883.75,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1686,7 +1686,7 @@
       "ticker": "SOXX",
       "description": "iShares Semiconductor ETF",
       "shares": 40.0,
-      "market_value": 25049.66,
+      "market_value": 24713.8,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1699,7 +1699,7 @@
       "ticker": "VOLT",
       "description": "Tema Electrification Fund",
       "shares": 422.0,
-      "market_value": 17251.36,
+      "market_value": 17065.68,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1712,7 +1712,7 @@
       "ticker": "XLF",
       "description": "Financial Select Sector SPDR Fund",
       "shares": 913.0,
-      "market_value": 48927.67,
+      "market_value": 49379.61,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1725,7 +1725,7 @@
       "ticker": "XLRE",
       "description": "The Real Estate Select Sector SPDR Fund",
       "shares": 441.4046,
-      "market_value": 19858.79,
+      "market_value": 19989.01,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1738,7 +1738,7 @@
       "ticker": "XLU",
       "description": "Utilities Select Sector SPDR Fund",
       "shares": 336.8893,
-      "market_value": 15075.8,
+      "market_value": 15257.72,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owner": "Parents",
       "broker": "Schwab",
@@ -1751,7 +1751,7 @@
       "ticker": "FBGKX",
       "description": "Fidelity Blue Chip Growth Fund - Class K",
       "shares": 3.328,
-      "market_value": 1027.85,
+      "market_value": 1068.85,
       "account": "Health Savings Account *****7284",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1777,7 +1777,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 100.0,
-      "market_value": 3129.0,
+      "market_value": 3192.0,
       "account": "Health Savings Account *****7284",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1790,7 +1790,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 158.0,
-      "market_value": 4297.6,
+      "market_value": 4367.12,
       "account": "Health Savings Account *****7284",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1803,7 +1803,7 @@
       "ticker": "LEU",
       "description": "Centrus Energy Corp.",
       "shares": 7.0,
-      "market_value": 1138.06,
+      "market_value": 1236.55,
       "account": "Health Savings Account *****7284",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1816,7 +1816,7 @@
       "ticker": "MAGS",
       "description": "Roundhill Magnificent Seven Fund",
       "shares": 6.0,
-      "market_value": 389.46,
+      "market_value": 399.72,
       "account": "Health Savings Account *****7284",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1829,7 +1829,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 3.0,
-      "market_value": 1859.88,
+      "market_value": 1941.3,
       "account": "Health Savings Account *****7284",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1842,7 +1842,7 @@
       "ticker": "ANET",
       "description": "Arista Networks, Inc.",
       "shares": 12.0,
-      "market_value": 1958.88,
+      "market_value": 2029.08,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1855,7 +1855,7 @@
       "ticker": "ASML",
       "description": "ASML Holding N.V. New York Registry Shares",
       "shares": 1.7,
-      "market_value": 3168.03,
+      "market_value": 3217.52,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1868,7 +1868,7 @@
       "ticker": "AVGO",
       "description": "Broadcom Inc.",
       "shares": 26.0,
-      "market_value": 9933.82,
+      "market_value": 10242.44,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1881,7 +1881,7 @@
       "ticker": "BMNR",
       "description": "Bitmine Immersion Technologies, Inc.",
       "shares": 98.0,
-      "market_value": 1578.78,
+      "market_value": 1676.78,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1894,7 +1894,7 @@
       "ticker": "BWXT",
       "description": "Bwx Technologies Inc.",
       "shares": 10.0,
-      "market_value": 1934.5,
+      "market_value": 1939.4,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1907,7 +1907,7 @@
       "ticker": "DRIV",
       "description": "Global X Autonomous & Electric Vehicles ETF",
       "shares": 100.0,
-      "market_value": 3976.0,
+      "market_value": 4066.09,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1919,8 +1919,8 @@
     {
       "ticker": "FCASH",
       "description": "CASH",
-      "shares": 10.97,
-      "market_value": 10.97,
+      "shares": 86.26,
+      "market_value": 86.26,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1933,7 +1933,7 @@
       "ticker": "GOOGL",
       "description": "Alphabet Inc.",
       "shares": 46.0,
-      "market_value": 16545.28,
+      "market_value": 16990.1,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1946,7 +1946,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 198.0,
-      "market_value": 6195.42,
+      "market_value": 6320.16,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1959,7 +1959,7 @@
       "ticker": "GS",
       "description": "The Goldman Sachs Group, Inc.",
       "shares": 3.0,
-      "market_value": 3188.25,
+      "market_value": 3228.51,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1972,7 +1972,7 @@
       "ticker": "LEU",
       "description": "Centrus Energy Corp.",
       "shares": 20.0,
-      "market_value": 3251.6,
+      "market_value": 3533.0,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1985,7 +1985,7 @@
       "ticker": "MP",
       "description": "MP Materials Corp.",
       "shares": 40.0,
-      "market_value": 2302.0,
+      "market_value": 2330.4,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -1998,7 +1998,7 @@
       "ticker": "MU",
       "description": "Micron Technology, Inc.",
       "shares": 22.0,
-      "market_value": 21595.42,
+      "market_value": 23935.78,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -2011,7 +2011,7 @@
       "ticker": "NVDA",
       "description": "NVIDIA Corporation",
       "shares": 84.0,
-      "market_value": 17235.96,
+      "market_value": 17845.8,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -2024,7 +2024,7 @@
       "ticker": "ORCL",
       "description": "Oracle Corporation",
       "shares": 34.0,
-      "market_value": 6260.42,
+      "market_value": 6549.76,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -2037,7 +2037,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 10.0,
-      "market_value": 6199.6,
+      "market_value": 6471.0,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -2050,7 +2050,7 @@
       "ticker": "SNSR",
       "description": "Global X Internet of Things ETF",
       "shares": 100.0,
-      "market_value": 5048.0,
+      "market_value": 5158.0,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -2063,7 +2063,7 @@
       "ticker": "UUUU",
       "description": "Energy Fuels Inc.",
       "shares": 125.0,
-      "market_value": 1880.0,
+      "market_value": 1955.0,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -2076,7 +2076,7 @@
       "ticker": "XLF",
       "description": "Financial Select Sector SPDR Fund",
       "shares": 122.0,
-      "market_value": 6507.48,
+      "market_value": 6534.32,
       "account": "Individual - TOD *****1088",
       "owner": "SKB",
       "broker": "Fidelity",
@@ -2089,7 +2089,7 @@
       "ticker": "AAVE",
       "description": "Aave",
       "shares": 1.2613,
-      "market_value": 93.73,
+      "market_value": 92.26,
       "account": "Robinhood Crypto 8794",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2102,7 +2102,7 @@
       "ticker": "ETH",
       "description": "Ethereum",
       "shares": 0.0002,
-      "market_value": 0.3,
+      "market_value": 0.29,
       "account": "Robinhood Crypto 8794",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2115,7 +2115,7 @@
       "ticker": "HYPE",
       "description": "Hyperliquid",
       "shares": 18.0197,
-      "market_value": 1215.06,
+      "market_value": 1329.86,
       "account": "Robinhood Crypto 8794",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2141,7 +2141,7 @@
       "ticker": "TRUMP",
       "description": "OFFICIAL TRUMP",
       "shares": 13.0548,
-      "market_value": 25.83,
+      "market_value": 24.28,
       "account": "Robinhood Crypto 8794",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2154,7 +2154,7 @@
       "ticker": "ACON",
       "description": "Aclarion Inc.",
       "shares": 1.7193,
-      "market_value": 5.14,
+      "market_value": 5.02,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2167,7 +2167,7 @@
       "ticker": "AMZN",
       "description": "Amazon.com, Inc.",
       "shares": 16.0,
-      "market_value": 3937.6,
+      "market_value": 3940.96,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2180,7 +2180,7 @@
       "ticker": "ASML",
       "description": "ASML Holding N.V. New York Registry Shares",
       "shares": 1.0,
-      "market_value": 1892.24,
+      "market_value": 1858.25,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2193,7 +2193,7 @@
       "ticker": "AVGO",
       "description": "Broadcom Inc.",
       "shares": 4.0,
-      "market_value": 1575.68,
+      "market_value": 1531.86,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2206,7 +2206,7 @@
       "ticker": "BMNR",
       "description": "Bitmine Immersion Technologies, Inc.",
       "shares": 215.0,
-      "market_value": 3675.42,
+      "market_value": 3562.53,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2219,7 +2219,7 @@
       "ticker": "BMNR",
       "description": "29 Call 2026-07-17",
       "shares": 5.0,
-      "market_value": 45.0,
+      "market_value": 35.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2240,7 +2240,7 @@
       "ticker": "BMNR",
       "description": "25 Call 2026-08-21",
       "shares": 5.0,
-      "market_value": 295.0,
+      "market_value": 245.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2261,7 +2261,7 @@
       "ticker": "BMNR",
       "description": "30 Call 2027-01-15",
       "shares": 4.0,
-      "market_value": 660.0,
+      "market_value": 592.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2282,7 +2282,7 @@
       "ticker": "BMNR",
       "description": "30 Call 2028-01-21",
       "shares": 4.0,
-      "market_value": 1852.0,
+      "market_value": 1732.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2303,7 +2303,7 @@
       "ticker": "BMNR",
       "description": "80 Call 2028-01-21",
       "shares": 4.0,
-      "market_value": 720.0,
+      "market_value": 636.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2345,7 +2345,7 @@
       "ticker": "BMNR",
       "description": "40 Call 2026-08-21",
       "shares": 2.0,
-      "market_value": 30.0,
+      "market_value": 22.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2366,7 +2366,7 @@
       "ticker": "BMNR",
       "description": "30 Call 2026-08-21",
       "shares": 14.0,
-      "market_value": 406.0,
+      "market_value": 336.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2387,7 +2387,7 @@
       "ticker": "BMNR",
       "description": "25 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 235.0,
+      "market_value": 215.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2408,7 +2408,7 @@
       "ticker": "BMNR",
       "description": "44 Call 2026-08-21",
       "shares": 11.0,
-      "market_value": 132.0,
+      "market_value": 88.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2429,7 +2429,7 @@
       "ticker": "BMNR",
       "description": "50 Call 2027-01-15",
       "shares": 5.0,
-      "market_value": 300.0,
+      "market_value": 285.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2450,7 +2450,7 @@
       "ticker": "BMNR",
       "description": "95 Call 2028-01-21",
       "shares": 3.0,
-      "market_value": 414.0,
+      "market_value": 402.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2471,7 +2471,7 @@
       "ticker": "BWXT",
       "description": "Bwx Technologies Inc.",
       "shares": 22.0,
-      "market_value": 4268.55,
+      "market_value": 4323.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2484,7 +2484,7 @@
       "ticker": "CCJ",
       "description": "Cameco Corporation",
       "shares": 30.0,
-      "market_value": 3210.77,
+      "market_value": 3198.15,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2497,7 +2497,7 @@
       "ticker": "DRIV",
       "description": "Global X Autonomous & Electric Vehicles ETF",
       "shares": 75.0,
-      "market_value": 3050.25,
+      "market_value": 3007.87,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2510,7 +2510,7 @@
       "ticker": "GEV",
       "description": "GE Vernova Inc.",
       "shares": 2.0,
-      "market_value": 1959.86,
+      "market_value": 1985.4,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2523,7 +2523,7 @@
       "ticker": "GOOGL",
       "description": "Alphabet Inc.",
       "shares": 17.0,
-      "market_value": 6278.27,
+      "market_value": 6316.69,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2536,7 +2536,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 400.0,
-      "market_value": 12768.0,
+      "market_value": 12722.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2549,7 +2549,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 498.0,
-      "market_value": 13764.72,
+      "market_value": 13722.39,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2562,7 +2562,7 @@
       "ticker": "GRNY",
       "description": "35 Call 2028-01-21",
       "shares": 5.0,
-      "market_value": 590.0,
+      "market_value": 575.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2583,7 +2583,7 @@
       "ticker": "GRNY",
       "description": "34 Call 2028-01-21",
       "shares": 1.0,
-      "market_value": 150.0,
+      "market_value": 143.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2604,7 +2604,7 @@
       "ticker": "GRNY",
       "description": "34 Call 2027-01-15",
       "shares": 16.0,
-      "market_value": 688.0,
+      "market_value": 800.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2625,7 +2625,7 @@
       "ticker": "LEU",
       "description": "Centrus Energy Corp.",
       "shares": 56.0,
-      "market_value": 9890.72,
+      "market_value": 9504.6,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2638,7 +2638,7 @@
       "ticker": "MP",
       "description": "MP Materials Corp.",
       "shares": 40.0,
-      "market_value": 2330.0,
+      "market_value": 2288.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2651,7 +2651,7 @@
       "ticker": "MSOS",
       "description": "10 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 46.0,
+      "market_value": 37.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2672,7 +2672,7 @@
       "ticker": "MSTR",
       "description": "Strategy Inc.",
       "shares": 10.0,
-      "market_value": 1311.0,
+      "market_value": 1270.1,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2685,7 +2685,7 @@
       "ticker": "MU",
       "description": "Micron Technology, Inc.",
       "shares": 3.0,
-      "market_value": 3263.4,
+      "market_value": 3213.96,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2698,7 +2698,7 @@
       "ticker": "NUE",
       "description": "Nucor Corporation",
       "shares": 3.0,
-      "market_value": 778.0,
+      "market_value": 784.71,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2711,7 +2711,7 @@
       "ticker": "NVDA",
       "description": "NVIDIA Corporation",
       "shares": 36.0,
-      "market_value": 7648.2,
+      "market_value": 7529.76,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2724,7 +2724,7 @@
       "ticker": "ORBS",
       "description": "Eightco Holdings Inc.",
       "shares": 140.0,
-      "market_value": 146.3,
+      "market_value": 148.4,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2737,7 +2737,7 @@
       "ticker": "POET",
       "description": "5 Call 2027-01-15",
       "shares": 4.0,
-      "market_value": 3912.0,
+      "market_value": 3632.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2758,7 +2758,7 @@
       "ticker": "PWR",
       "description": "Quanta Services Inc.",
       "shares": 10.0,
-      "market_value": 7243.85,
+      "market_value": 7277.8,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2771,7 +2771,7 @@
       "ticker": "STRL",
       "description": "Sterling Infrastructure, Inc.",
       "shares": 6.0,
-      "market_value": 5206.92,
+      "market_value": 5145.84,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2784,7 +2784,7 @@
       "ticker": "TSLA",
       "description": "460 Call 2026-07-17",
       "shares": 1.0,
-      "market_value": 720.0,
+      "market_value": 518.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2805,7 +2805,7 @@
       "ticker": "TSLA",
       "description": "450 Call 2026-07-17",
       "shares": 1.0,
-      "market_value": 915.0,
+      "market_value": 668.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2826,7 +2826,7 @@
       "ticker": "UUUU",
       "description": "Energy Fuels Inc.",
       "shares": 36.0,
-      "market_value": 562.68,
+      "market_value": 561.6,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2839,7 +2839,7 @@
       "ticker": "VOLT",
       "description": "Tema Electrification Fund",
       "shares": 100.0,
-      "market_value": 4022.0,
+      "market_value": 4050.0,
       "account": "Robinhood Individual 6550",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2852,7 +2852,7 @@
       "ticker": "AMD",
       "description": "Advanced Micro Devices, Inc.",
       "shares": 2.0,
-      "market_value": 1094.54,
+      "market_value": 1055.52,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2865,7 +2865,7 @@
       "ticker": "AMZN",
       "description": "Amazon.com, Inc.",
       "shares": 4.0,
-      "market_value": 984.4,
+      "market_value": 985.44,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2878,7 +2878,7 @@
       "ticker": "AVGO",
       "description": "Broadcom Inc.",
       "shares": 15.0,
-      "market_value": 5908.8,
+      "market_value": 5739.52,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2891,7 +2891,7 @@
       "ticker": "BMNR",
       "description": "Bitmine Immersion Technologies, Inc.",
       "shares": 200.0,
-      "market_value": 3419.0,
+      "market_value": 3308.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2904,7 +2904,7 @@
       "ticker": "BMNR",
       "description": "50 Call 2028-01-21",
       "shares": 2.0,
-      "market_value": 552.0,
+      "market_value": 522.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2925,7 +2925,7 @@
       "ticker": "BMNR",
       "description": "35 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 116.0,
+      "market_value": 111.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2946,7 +2946,7 @@
       "ticker": "BMNR",
       "description": "40 Call 2027-01-15",
       "shares": 2.0,
-      "market_value": 188.0,
+      "market_value": 166.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -2988,7 +2988,7 @@
       "ticker": "BMNR",
       "description": "80 Call 2028-01-21",
       "shares": 8.0,
-      "market_value": 1440.0,
+      "market_value": 1272.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3009,7 +3009,7 @@
       "ticker": "GOOGL",
       "description": "Alphabet Inc.",
       "shares": 4.0,
-      "market_value": 1477.24,
+      "market_value": 1486.24,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3022,7 +3022,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 224.0,
-      "market_value": 7150.08,
+      "market_value": 7124.32,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3035,7 +3035,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 150.0,
-      "market_value": 4146.0,
+      "market_value": 4134.0,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3048,7 +3048,7 @@
       "ticker": "LEU",
       "description": "Centrus Energy Corp.",
       "shares": 13.0,
-      "market_value": 2296.06,
+      "market_value": 2203.5,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3061,7 +3061,7 @@
       "ticker": "NVDA",
       "description": "NVIDIA Corporation",
       "shares": 33.0,
-      "market_value": 7010.85,
+      "market_value": 6899.31,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3074,7 +3074,7 @@
       "ticker": "PWR",
       "description": "Quanta Services Inc.",
       "shares": 1.0,
-      "market_value": 724.38,
+      "market_value": 727.78,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3087,7 +3087,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 7.0,
-      "market_value": 4533.8,
+      "market_value": 4466.98,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3100,7 +3100,7 @@
       "ticker": "XLF",
       "description": "Financial Select Sector SPDR Fund",
       "shares": 22.0,
-      "market_value": 1178.32,
+      "market_value": 1189.87,
       "account": "Robinhood Roth Ira 2211",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3113,7 +3113,7 @@
       "ticker": "AMD",
       "description": "Advanced Micro Devices, Inc.",
       "shares": 4.0,
-      "market_value": 2189.08,
+      "market_value": 2111.04,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3126,7 +3126,7 @@
       "ticker": "AMZN",
       "description": "Amazon.com, Inc.",
       "shares": 30.0,
-      "market_value": 7383.0,
+      "market_value": 7390.8,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3139,7 +3139,7 @@
       "ticker": "ASML",
       "description": "ASML Holding N.V. New York Registry Shares",
       "shares": 2.0,
-      "market_value": 3784.48,
+      "market_value": 3713.74,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3152,7 +3152,7 @@
       "ticker": "ASTS",
       "description": "AST SpaceMobile, Inc.",
       "shares": 38.0,
-      "market_value": 3328.8,
+      "market_value": 3173.77,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3165,7 +3165,7 @@
       "ticker": "AVGO",
       "description": "Broadcom Inc.",
       "shares": 13.0,
-      "market_value": 5120.96,
+      "market_value": 4974.26,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3178,7 +3178,7 @@
       "ticker": "BMNR",
       "description": "Bitmine Immersion Technologies, Inc.",
       "shares": 600.0,
-      "market_value": 10257.0,
+      "market_value": 9924.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3191,7 +3191,7 @@
       "ticker": "BMNR",
       "description": "28 Call 2026-08-21",
       "shares": 1.0,
-      "market_value": 40.0,
+      "market_value": 33.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3212,7 +3212,7 @@
       "ticker": "BMNR",
       "description": "35 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 116.0,
+      "market_value": 111.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3233,7 +3233,7 @@
       "ticker": "BMNR",
       "description": "40 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 94.0,
+      "market_value": 83.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3254,7 +3254,7 @@
       "ticker": "BMNR",
       "description": "80 Call 2028-01-21",
       "shares": 3.0,
-      "market_value": 540.0,
+      "market_value": 477.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3275,7 +3275,7 @@
       "ticker": "BMNR",
       "description": "50 Call 2028-01-21",
       "shares": 2.0,
-      "market_value": 552.0,
+      "market_value": 522.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3317,7 +3317,7 @@
       "ticker": "BMNR",
       "description": "55 Call 2028-01-21",
       "shares": 1.0,
-      "market_value": 246.0,
+      "market_value": 247.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3338,7 +3338,7 @@
       "ticker": "BMNR",
       "description": "45 Call 2027-01-15",
       "shares": 2.0,
-      "market_value": 148.0,
+      "market_value": 132.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3359,7 +3359,7 @@
       "ticker": "BMNR",
       "description": "85 Call 2027-01-15",
       "shares": 2.0,
-      "market_value": 62.0,
+      "market_value": 56.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3380,7 +3380,7 @@
       "ticker": "BMNR",
       "description": "95 Call 2028-01-21",
       "shares": 4.0,
-      "market_value": 552.0,
+      "market_value": 536.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3422,7 +3422,7 @@
       "ticker": "GOOGL",
       "description": "Alphabet Inc.",
       "shares": 31.0,
-      "market_value": 11448.61,
+      "market_value": 11518.36,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3435,7 +3435,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 550.0,
-      "market_value": 17556.0,
+      "market_value": 17492.75,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3448,7 +3448,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 179.0,
-      "market_value": 4947.56,
+      "market_value": 4933.24,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3545,7 +3545,7 @@
       "ticker": "GRNY",
       "description": "35 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 53.0,
+      "market_value": 45.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3566,7 +3566,7 @@
       "ticker": "GRNY",
       "description": "34 Call 2027-01-15",
       "shares": 5.0,
-      "market_value": 215.0,
+      "market_value": 250.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3587,7 +3587,7 @@
       "ticker": "GRNY",
       "description": "33 Call 2027-01-15",
       "shares": 1.0,
-      "market_value": 60.0,
+      "market_value": 48.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3608,7 +3608,7 @@
       "ticker": "GRNY",
       "description": "28 Call 2026-09-18",
       "shares": 1.0,
-      "market_value": 128.0,
+      "market_value": 130.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3671,7 +3671,7 @@
       "ticker": "IVES",
       "description": "Amplify Bloomberg AI Value Chain ETF",
       "shares": 300.0,
-      "market_value": 11493.0,
+      "market_value": 11387.46,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3684,7 +3684,7 @@
       "ticker": "LEU",
       "description": "Centrus Energy Corp.",
       "shares": 200.0,
-      "market_value": 35324.0,
+      "market_value": 33900.0,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3697,7 +3697,7 @@
       "ticker": "MP",
       "description": "MP Materials Corp.",
       "shares": 15.0,
-      "market_value": 873.75,
+      "market_value": 857.7,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3710,7 +3710,7 @@
       "ticker": "MSFT",
       "description": "Microsoft Corp.",
       "shares": 28.0,
-      "market_value": 11200.7,
+      "market_value": 10994.06,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3723,7 +3723,7 @@
       "ticker": "MSTR",
       "description": "Strategy Inc.",
       "shares": 6.0,
-      "market_value": 786.6,
+      "market_value": 760.83,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3736,7 +3736,7 @@
       "ticker": "NVDA",
       "description": "NVIDIA Corporation",
       "shares": 158.0,
-      "market_value": 33567.1,
+      "market_value": 33033.06,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3749,7 +3749,7 @@
       "ticker": "PWR",
       "description": "Quanta Services Inc.",
       "shares": 10.0,
-      "market_value": 7243.85,
+      "market_value": 7277.8,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3762,7 +3762,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 10.0,
-      "market_value": 6476.85,
+      "market_value": 6381.4,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3775,7 +3775,7 @@
       "ticker": "UUUU",
       "description": "Energy Fuels Inc.",
       "shares": 370.0,
-      "market_value": 5783.1,
+      "market_value": 5768.34,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3788,7 +3788,7 @@
       "ticker": "VOLT",
       "description": "Tema Electrification Fund",
       "shares": 136.0,
-      "market_value": 5469.92,
+      "market_value": 5499.84,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3822,7 +3822,7 @@
       "ticker": "XLF",
       "description": "Financial Select Sector SPDR Fund",
       "shares": 27.0,
-      "market_value": 1446.12,
+      "market_value": 1460.3,
       "account": "Robinhood Traditional Ira 1369",
       "owner": "SKB",
       "broker": "Robinhood",
@@ -3835,7 +3835,7 @@
       "ticker": "AVGO",
       "description": "Broadcom Inc.",
       "shares": 7.0,
-      "market_value": 2760.1,
+      "market_value": 2679.48,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3848,7 +3848,7 @@
       "ticker": "BMNR",
       "description": "Bitmine Immersion Technologies, Inc.",
       "shares": 73.0,
-      "market_value": 1249.03,
+      "market_value": 1208.15,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3861,7 +3861,7 @@
       "ticker": "CCJ",
       "description": "Cameco Corporation",
       "shares": 40.0,
-      "market_value": 4246.8,
+      "market_value": 4260.39,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3874,7 +3874,7 @@
       "ticker": "DRIV",
       "description": "Global X Autonomous & Electric Vehicles ETF",
       "shares": 130.0,
-      "market_value": 5265.0,
+      "market_value": 5213.65,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3887,7 +3887,7 @@
       "ticker": "FN",
       "description": "Fabrinet",
       "shares": 5.0,
-      "market_value": 3216.0,
+      "market_value": 2945.65,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3900,7 +3900,7 @@
       "ticker": "FTXL",
       "description": "First Trust Nasdaq Semiconductor ETF",
       "shares": 18.0,
-      "market_value": 5124.6,
+      "market_value": 5048.64,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3913,7 +3913,7 @@
       "ticker": "GDX",
       "description": "VanEck Gold Miners ETF",
       "shares": 100.0,
-      "market_value": 8511.0,
+      "market_value": 8640.0,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3926,7 +3926,7 @@
       "ticker": "GOOGL",
       "description": "Alphabet Inc.",
       "shares": 55.0,
-      "market_value": 20322.5,
+      "market_value": 20438.28,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3939,7 +3939,7 @@
       "ticker": "GRNJ",
       "description": "Fundstrat Granny Shots US Small- & Mid-Cap ETF",
       "shares": 739.0,
-      "market_value": 23588.88,
+      "market_value": 23503.9,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3952,7 +3952,7 @@
       "ticker": "GRNY",
       "description": "Fundstrat Granny Shots US Large Cap ETF",
       "shares": 600.0,
-      "market_value": 16620.0,
+      "market_value": 16533.0,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3965,7 +3965,7 @@
       "ticker": "JPM",
       "description": "JPMorgan Chase & Co.",
       "shares": 18.0,
-      "market_value": 5758.2,
+      "market_value": 5920.65,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3978,7 +3978,7 @@
       "ticker": "LYSDY",
       "description": "Lynas Rare Earths Limited - ADR",
       "shares": 50.0,
-      "market_value": 627.5,
+      "market_value": 633.75,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -3991,7 +3991,7 @@
       "ticker": "MSFT",
       "description": "Microsoft Corp.",
       "shares": 2.0,
-      "market_value": 799.5,
+      "market_value": 785.28,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -4004,7 +4004,7 @@
       "ticker": "NVDA",
       "description": "NVIDIA Corporation",
       "shares": 17.0,
-      "market_value": 3605.36,
+      "market_value": 3554.95,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -4017,7 +4017,7 @@
       "ticker": "PBW",
       "description": "Invesco WilderHill Clean Energy ETF",
       "shares": 200.0,
-      "market_value": 8248.0,
+      "market_value": 8078.0,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -4030,7 +4030,7 @@
       "ticker": "SMH",
       "description": "VanEck Semiconductor ETF",
       "shares": 21.0,
-      "market_value": 13556.55,
+      "market_value": 13404.3,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -4043,7 +4043,7 @@
       "ticker": "SOXX",
       "description": "iShares Semiconductor ETF",
       "shares": 11.0,
-      "market_value": 6883.8,
+      "market_value": 6794.81,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -4056,7 +4056,7 @@
       "ticker": "VOLT",
       "description": "Tema Electrification Fund",
       "shares": 234.0,
-      "market_value": 9565.92,
+      "market_value": 9462.96,
       "account": "Individual ...254 Individual ...254",
       "owner": "SKB",
       "broker": "Schwab",
@@ -4070,7 +4070,7 @@
     {
       "ticker": "NVDA",
       "shares": 1007.0,
-      "market_value": 208391,
+      "market_value": 213116,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4081,7 +4081,7 @@
     {
       "ticker": "GRNY",
       "shares": 6619.0,
-      "market_value": 183118,
+      "market_value": 184018,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4092,18 +4092,7 @@
     {
       "ticker": "GRNJ",
       "shares": 5088.0,
-      "market_value": 161434,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": true
-    },
-    {
-      "ticker": "SMH",
-      "shares": 155.046,
-      "market_value": 99071,
+      "market_value": 162002,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4114,7 +4103,18 @@
     {
       "ticker": "LEU",
       "shares": 552.0,
-      "market_value": 97828,
+      "market_value": 100723,
+      "account": "Multiple",
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "tracked": true
+    },
+    {
+      "ticker": "SMH",
+      "shares": 155.046,
+      "market_value": 99344,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4125,7 +4125,7 @@
     {
       "ticker": "XLF",
       "shares": 1732.0,
-      "market_value": 92624,
+      "market_value": 93271,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4136,7 +4136,7 @@
     {
       "ticker": "VOLT",
       "shares": 1971.983,
-      "market_value": 78893,
+      "market_value": 79537,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4147,7 +4147,7 @@
     {
       "ticker": "BMNR",
       "shares": 3671.0,
-      "market_value": 72779,
+      "market_value": 74151,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4157,8 +4157,8 @@
     },
     {
       "ticker": "GOOGL",
-      "shares": 195.0,
-      "market_value": 71178,
+      "shares": 195.015,
+      "market_value": 72268,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4167,9 +4167,9 @@
       "tracked": false
     },
     {
-      "ticker": "IVES",
-      "shares": 1797.863,
-      "market_value": 67779,
+      "ticker": "MU",
+      "shares": 65.0,
+      "market_value": 70669,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4178,9 +4178,9 @@
       "tracked": true
     },
     {
-      "ticker": "MU",
-      "shares": 65.0,
-      "market_value": 64123,
+      "ticker": "IVES",
+      "shares": 1797.863,
+      "market_value": 68527,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4191,7 +4191,7 @@
     {
       "ticker": "AVGO",
       "shares": 105.0,
-      "market_value": 40582,
+      "market_value": 40925,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4202,7 +4202,7 @@
     {
       "ticker": "UUUU",
       "shares": 2241.0,
-      "market_value": 33944,
+      "market_value": 35029,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4213,7 +4213,7 @@
     {
       "ticker": "GDX",
       "shares": 390.0,
-      "market_value": 32492,
+      "market_value": 33537,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4224,7 +4224,7 @@
     {
       "ticker": "SOXX",
       "shares": 51.0,
-      "market_value": 31933,
+      "market_value": 31509,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4235,7 +4235,7 @@
     {
       "ticker": "MSFT",
       "shares": 75.076,
-      "market_value": 29613,
+      "market_value": 29799,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4244,20 +4244,20 @@
       "tracked": false
     },
     {
-      "ticker": "SPAXX",
-      "shares": 25532.21,
-      "market_value": 25532,
-      "account": "Multiple",
+      "ticker": "IHF",
+      "shares": 467.7277,
+      "market_value": 25033,
+      "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owners": [
         "Parents"
       ],
       "tracked": false
     },
     {
-      "ticker": "IHF",
-      "shares": 467.7277,
-      "market_value": 25000,
-      "account": "PCRA Trust ...651 PCRA Trust ...651",
+      "ticker": "SPAXX",
+      "shares": 24785.81,
+      "market_value": 24786,
+      "account": "Multiple",
       "owners": [
         "Parents"
       ],
@@ -4266,18 +4266,7 @@
     {
       "ticker": "PWR",
       "shares": 33.002,
-      "market_value": 23706,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "AMZN",
-      "shares": 89.0,
-      "market_value": 21608,
+      "market_value": 23977,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4288,7 +4277,7 @@
     {
       "ticker": "NBIS",
       "shares": 91.0,
-      "market_value": 21145,
+      "market_value": 23666,
       "account": "Multiple",
       "owners": [
         "Parents"
@@ -4296,9 +4285,9 @@
       "tracked": false
     },
     {
-      "ticker": "BWXT",
-      "shares": 106.071,
-      "market_value": 20532,
+      "ticker": "AMZN",
+      "shares": 89.0,
+      "market_value": 21912,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4309,7 +4298,7 @@
     {
       "ticker": "CCJ",
       "shares": 194.052,
-      "market_value": 19982,
+      "market_value": 20735,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4318,20 +4307,31 @@
       "tracked": false
     },
     {
-      "ticker": "XLRE",
-      "shares": 441.4046,
-      "market_value": 19859,
-      "account": "PCRA Trust ...651 PCRA Trust ...651",
+      "ticker": "BWXT",
+      "shares": 106.071,
+      "market_value": 20628,
+      "account": "Multiple",
       "owners": [
-        "Parents"
+        "Parents",
+        "SKB"
       ],
       "tracked": false
     },
     {
       "ticker": "RDDT",
       "shares": 110.0,
-      "market_value": 17831,
+      "market_value": 20007,
       "account": "Multiple",
+      "owners": [
+        "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "XLRE",
+      "shares": 441.4046,
+      "market_value": 19989,
+      "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owners": [
         "Parents"
       ],
@@ -4340,7 +4340,7 @@
     {
       "ticker": "BE",
       "shares": 67.0,
-      "market_value": 17435,
+      "market_value": 18392,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
@@ -4350,7 +4350,7 @@
     {
       "ticker": "MP",
       "shares": 290.0,
-      "market_value": 16728,
+      "market_value": 16837,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4361,7 +4361,7 @@
     {
       "ticker": "ORCL",
       "shares": 84.0,
-      "market_value": 15467,
+      "market_value": 16182,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4372,7 +4372,7 @@
     {
       "ticker": "XLU",
       "shares": 336.8893,
-      "market_value": 15076,
+      "market_value": 15258,
       "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owners": [
         "Parents"
@@ -4382,7 +4382,7 @@
     {
       "ticker": "PBW",
       "shares": 329.0,
-      "market_value": 13427,
+      "market_value": 13346,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4393,7 +4393,7 @@
     {
       "ticker": "GS",
       "shares": 12.0,
-      "market_value": 12753,
+      "market_value": 12914,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4404,18 +4404,8 @@
     {
       "ticker": "XLI",
       "shares": 70.0,
-      "market_value": 12333,
+      "market_value": 12508,
       "account": "Joint WROS - TOD *****2063",
-      "owners": [
-        "Parents"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "RPG",
-      "shares": 196.0,
-      "market_value": 12323,
-      "account": "PCRA Trust ...651 PCRA Trust ...651",
       "owners": [
         "Parents"
       ],
@@ -4424,7 +4414,7 @@
     {
       "ticker": "DRIV",
       "shares": 305.0,
-      "market_value": 12291,
+      "market_value": 12288,
       "account": "Multiple",
       "owners": [
         "SKB"
@@ -4432,9 +4422,19 @@
       "tracked": false
     },
     {
+      "ticker": "RPG",
+      "shares": 196.0,
+      "market_value": 12219,
+      "account": "PCRA Trust ...651 PCRA Trust ...651",
+      "owners": [
+        "Parents"
+      ],
+      "tracked": false
+    },
+    {
       "ticker": "ITA",
       "shares": 50.0,
-      "market_value": 11690,
+      "market_value": 11870,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
@@ -4444,7 +4444,7 @@
     {
       "ticker": "SIL",
       "shares": 128.0,
-      "market_value": 10803,
+      "market_value": 11223,
       "account": "Multiple",
       "owners": [
         "Parents"
@@ -4454,7 +4454,7 @@
     {
       "ticker": "STRL",
       "shares": 11.0,
-      "market_value": 9502,
+      "market_value": 9479,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4465,7 +4465,7 @@
     {
       "ticker": "ASML",
       "shares": 4.7,
-      "market_value": 8845,
+      "market_value": 8790,
       "account": "Multiple",
       "owners": [
         "SKB"
@@ -4475,7 +4475,18 @@
     {
       "ticker": "AMD",
       "shares": 16.0,
-      "market_value": 8399,
+      "market_value": 8639,
+      "account": "Multiple",
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "FN",
+      "shares": 13.0,
+      "market_value": 8030,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4486,7 +4497,7 @@
     {
       "ticker": "IESC",
       "shares": 11.0,
-      "market_value": 8248,
+      "market_value": 7991,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
@@ -4494,20 +4505,9 @@
       "tracked": false
     },
     {
-      "ticker": "FN",
-      "shares": 13.0,
-      "market_value": 8104,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": false
-    },
-    {
       "ticker": "ANET",
       "shares": 47.0,
-      "market_value": 7672,
+      "market_value": 7947,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4518,7 +4518,7 @@
     {
       "ticker": "FIX",
       "shares": 4.001,
-      "market_value": 7512,
+      "market_value": 7810,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
@@ -4526,9 +4526,19 @@
       "tracked": false
     },
     {
+      "ticker": "JPM",
+      "shares": 18.0,
+      "market_value": 5921,
+      "account": "Individual ...254 Individual ...254",
+      "owners": [
+        "SKB"
+      ],
+      "tracked": false
+    },
+    {
       "ticker": "COST",
       "shares": 6.017,
-      "market_value": 5911,
+      "market_value": 5893,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
@@ -4547,19 +4557,9 @@
       "tracked": false
     },
     {
-      "ticker": "JPM",
-      "shares": 18.0,
-      "market_value": 5758,
-      "account": "Individual ...254 Individual ...254",
-      "owners": [
-        "SKB"
-      ],
-      "tracked": false
-    },
-    {
       "ticker": "PANW",
       "shares": 20.0,
-      "market_value": 5592,
+      "market_value": 5691,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
@@ -4567,9 +4567,39 @@
       "tracked": false
     },
     {
+      "ticker": "IBIT",
+      "shares": 140.0,
+      "market_value": 5284,
+      "account": "Multiple",
+      "owners": [
+        "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "SNSR",
+      "shares": 100.0,
+      "market_value": 5158,
+      "account": "Individual - TOD *****1088",
+      "owners": [
+        "SKB"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "FTXL",
+      "shares": 18.0,
+      "market_value": 5049,
+      "account": "Individual ...254 Individual ...254",
+      "owners": [
+        "SKB"
+      ],
+      "tracked": false
+    },
+    {
       "ticker": "POET",
       "shares": 104.0,
-      "market_value": 5165,
+      "market_value": 5025,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4578,39 +4608,9 @@
       "tracked": false
     },
     {
-      "ticker": "FTXL",
-      "shares": 18.0,
-      "market_value": 5125,
-      "account": "Individual ...254 Individual ...254",
-      "owners": [
-        "SKB"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "SNSR",
-      "shares": 100.0,
-      "market_value": 5048,
-      "account": "Individual - TOD *****1088",
-      "owners": [
-        "SKB"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "IBIT",
-      "shares": 140.0,
-      "market_value": 5046,
-      "account": "Multiple",
-      "owners": [
-        "Parents"
-      ],
-      "tracked": false
-    },
-    {
       "ticker": "CRWD",
       "shares": 7.0,
-      "market_value": 4780,
+      "market_value": 4850,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
@@ -4620,18 +4620,8 @@
     {
       "ticker": "LITE",
       "shares": 5.0,
-      "market_value": 4608,
+      "market_value": 4786,
       "account": "Multiple",
-      "owners": [
-        "Parents"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "CIBR",
-      "shares": 50.0,
-      "market_value": 4266,
-      "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
       ],
@@ -4640,8 +4630,18 @@
     {
       "ticker": "TSM",
       "shares": 10.0,
-      "market_value": 4239,
+      "market_value": 4414,
       "account": "Joint WROS - TOD *****2063",
+      "owners": [
+        "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "CIBR",
+      "shares": 50.0,
+      "market_value": 4314,
+      "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
       ],
@@ -4650,7 +4650,17 @@
     {
       "ticker": "CRS",
       "shares": 6.0,
-      "market_value": 3369,
+      "market_value": 3382,
+      "account": "Joint WROS - TOD *****2063",
+      "owners": [
+        "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "PLTR",
+      "shares": 25.0,
+      "market_value": 3368,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
@@ -4660,28 +4670,8 @@
     {
       "ticker": "LIT",
       "shares": 40.0,
-      "market_value": 3311,
+      "market_value": 3357,
       "account": "Multiple",
-      "owners": [
-        "Parents"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "PLTR",
-      "shares": 25.0,
-      "market_value": 3200,
-      "account": "Joint WROS - TOD *****2063",
-      "owners": [
-        "Parents"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "LUNR",
-      "shares": 100.0,
-      "market_value": 2662,
-      "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
       ],
@@ -4690,7 +4680,7 @@
     {
       "ticker": "ETHA",
       "shares": 200.0,
-      "market_value": 2514,
+      "market_value": 2752,
       "account": "Multiple",
       "owners": [
         "Parents"
@@ -4698,20 +4688,10 @@
       "tracked": false
     },
     {
-      "ticker": "UMAC",
+      "ticker": "LUNR",
       "shares": 100.0,
-      "market_value": 2443,
-      "account": "Joint WROS - TOD *****2063",
-      "owners": [
-        "Parents"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "NXT",
-      "shares": 20.0,
-      "market_value": 2438,
-      "account": "Joint WROS - TOD *****2063",
+      "market_value": 2576,
+      "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
       ],
@@ -4720,8 +4700,28 @@
     {
       "ticker": "HOOD",
       "shares": 2.0,
-      "market_value": 2230,
+      "market_value": 2560,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
+      "owners": [
+        "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "NXT",
+      "shares": 20.0,
+      "market_value": 2517,
+      "account": "Joint WROS - TOD *****2063",
+      "owners": [
+        "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "UMAC",
+      "shares": 100.0,
+      "market_value": 2473,
+      "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
       ],
@@ -4730,7 +4730,7 @@
     {
       "ticker": "MSTR",
       "shares": 16.0,
-      "market_value": 2098,
+      "market_value": 2031,
       "account": "Multiple",
       "owners": [
         "SKB"
@@ -4740,7 +4740,7 @@
     {
       "ticker": "GEV",
       "shares": 2.0,
-      "market_value": 1960,
+      "market_value": 1985,
       "account": "Robinhood Individual 6550",
       "owners": [
         "SKB"
@@ -4750,7 +4750,7 @@
     {
       "ticker": "LYSDY",
       "shares": 150.0,
-      "market_value": 1884,
+      "market_value": 1889,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4761,37 +4761,17 @@
     {
       "ticker": "WPM",
       "shares": 15.059,
-      "market_value": 1748,
+      "market_value": 1866,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "ARRRF",
-      "shares": 5000.0,
-      "market_value": 1657,
-      "account": "Joint WROS - TOD *****2063",
-      "owners": [
-        "Parents"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "TSLA",
-      "shares": 2.0,
-      "market_value": 1635,
-      "account": "Robinhood Individual 6550",
-      "owners": [
-        "SKB"
       ],
       "tracked": false
     },
     {
       "ticker": "COIN",
       "shares": 10.0,
-      "market_value": 1598,
+      "market_value": 1696,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
@@ -4801,8 +4781,18 @@
     {
       "ticker": "UURAF",
       "shares": 400.0,
-      "market_value": 1518,
+      "market_value": 1674,
       "account": "Multiple",
+      "owners": [
+        "Parents"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "ARRRF",
+      "shares": 5000.0,
+      "market_value": 1666,
+      "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
       ],
@@ -4811,8 +4801,18 @@
     {
       "ticker": "HYPE",
       "shares": 18.0197,
-      "market_value": 1215,
+      "market_value": 1330,
       "account": "Robinhood Crypto 8794",
+      "owners": [
+        "SKB"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "TSLA",
+      "shares": 2.0,
+      "market_value": 1186,
+      "account": "Robinhood Individual 6550",
       "owners": [
         "SKB"
       ],
@@ -4821,7 +4821,7 @@
     {
       "ticker": "FBGKX",
       "shares": 3.328,
-      "market_value": 1028,
+      "market_value": 1069,
       "account": "Health Savings Account *****7284",
       "owners": [
         "SKB"
@@ -4831,7 +4831,7 @@
     {
       "ticker": "TLOFF",
       "shares": 200.0,
-      "market_value": 869,
+      "market_value": 940,
       "account": "Joint WROS - TOD *****2063",
       "owners": [
         "Parents"
@@ -4841,7 +4841,7 @@
     {
       "ticker": "SOFI",
       "shares": 50.0,
-      "market_value": 829,
+      "market_value": 856,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
@@ -4851,7 +4851,7 @@
     {
       "ticker": "NUE",
       "shares": 3.0,
-      "market_value": 778,
+      "market_value": 785,
       "account": "Robinhood Individual 6550",
       "owners": [
         "SKB"
@@ -4860,8 +4860,8 @@
     },
     {
       "ticker": "FDRXX",
-      "shares": 622.09,
-      "market_value": 622,
+      "shares": 502.97,
+      "market_value": 503,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4872,7 +4872,7 @@
     {
       "ticker": "MAGS",
       "shares": 6.0,
-      "market_value": 389,
+      "market_value": 400,
       "account": "Health Savings Account *****7284",
       "owners": [
         "SKB"
@@ -4882,7 +4882,7 @@
     {
       "ticker": "TEM",
       "shares": 5.0,
-      "market_value": 239,
+      "market_value": 262,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
@@ -4892,7 +4892,7 @@
     {
       "ticker": "ORBS",
       "shares": 140.0,
-      "market_value": 146,
+      "market_value": 148,
       "account": "Robinhood Individual 6550",
       "owners": [
         "SKB"
@@ -4902,8 +4902,18 @@
     {
       "ticker": "AAVE",
       "shares": 1.2613,
-      "market_value": 94,
+      "market_value": 92,
       "account": "Robinhood Crypto 8794",
+      "owners": [
+        "SKB"
+      ],
+      "tracked": false
+    },
+    {
+      "ticker": "FCASH",
+      "shares": 86.26,
+      "market_value": 86,
+      "account": "Individual - TOD *****1088",
       "owners": [
         "SKB"
       ],
@@ -4912,7 +4922,7 @@
     {
       "ticker": "MSOS",
       "shares": 1.39,
-      "market_value": 48,
+      "market_value": 39,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -4923,7 +4933,7 @@
     {
       "ticker": "TRUMP",
       "shares": 13.0548,
-      "market_value": 26,
+      "market_value": 24,
       "account": "Robinhood Crypto 8794",
       "owners": [
         "SKB"
@@ -4933,20 +4943,10 @@
     {
       "ticker": "CGC",
       "shares": 5.0,
-      "market_value": 20,
+      "market_value": 15,
       "account": "ROLLOVER IRA - RamBalusu *****6333",
       "owners": [
         "Parents"
-      ],
-      "tracked": false
-    },
-    {
-      "ticker": "FCASH",
-      "shares": 10.97,
-      "market_value": 11,
-      "account": "Individual - TOD *****1088",
-      "owners": [
-        "SKB"
       ],
       "tracked": false
     },
@@ -4995,7 +4995,7 @@
     {
       "ticker": "NVDA",
       "shares": 1007.0,
-      "market_value": 208391,
+      "market_value": 213116,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5006,7 +5006,7 @@
     {
       "ticker": "GRNY",
       "shares": 6619.0,
-      "market_value": 183118,
+      "market_value": 184018,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5017,18 +5017,7 @@
     {
       "ticker": "GRNJ",
       "shares": 5088.0,
-      "market_value": 161434,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": true
-    },
-    {
-      "ticker": "SMH",
-      "shares": 155.046,
-      "market_value": 99071,
+      "market_value": 162002,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5039,7 +5028,18 @@
     {
       "ticker": "LEU",
       "shares": 552.0,
-      "market_value": 97828,
+      "market_value": 100723,
+      "account": "Multiple",
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "tracked": true
+    },
+    {
+      "ticker": "SMH",
+      "shares": 155.046,
+      "market_value": 99344,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5050,7 +5050,7 @@
     {
       "ticker": "XLF",
       "shares": 1732.0,
-      "market_value": 92624,
+      "market_value": 93271,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5061,7 +5061,7 @@
     {
       "ticker": "VOLT",
       "shares": 1971.983,
-      "market_value": 78893,
+      "market_value": 79537,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5072,18 +5072,7 @@
     {
       "ticker": "BMNR",
       "shares": 3671.0,
-      "market_value": 72779,
-      "account": "Multiple",
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "tracked": true
-    },
-    {
-      "ticker": "IVES",
-      "shares": 1797.863,
-      "market_value": 67779,
+      "market_value": 74151,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5094,7 +5083,18 @@
     {
       "ticker": "MU",
       "shares": 65.0,
-      "market_value": 64123,
+      "market_value": 70669,
+      "account": "Multiple",
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "tracked": true
+    },
+    {
+      "ticker": "IVES",
+      "shares": 1797.863,
+      "market_value": 68527,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5105,7 +5105,7 @@
     {
       "ticker": "UUUU",
       "shares": 2241.0,
-      "market_value": 33944,
+      "market_value": 35029,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5116,7 +5116,7 @@
     {
       "ticker": "MP",
       "shares": 290.0,
-      "market_value": 16728,
+      "market_value": 16837,
       "account": "Multiple",
       "owners": [
         "Parents",
@@ -5127,7 +5127,7 @@
     {
       "ticker": "MAGS",
       "shares": 6.0,
-      "market_value": 389,
+      "market_value": 400,
       "account": "Health Savings Account *****7284",
       "owners": [
         "SKB"
