@@ -97,14 +97,14 @@ def _congruence(flagged=True):
         "flagged_ids": ["INSIGHT-950"] if flagged else [],
     }
 
-def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path=None, feed=None):
+def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path=None, feed=None, gates=None, today=TODAY):
     return build_today_decide_payload(
         feed=feed or _feed(), weights=W, goal=goal or G, insights_payload=_insights(),
-        accounts=_accounts(), gates=[_gate()], uw_states={}, entry_zones={},
+        accounts=_accounts(), gates=(gates if gates is not None else [_gate()]), uw_states={}, entry_zones={},
         congruence_result=congruence_result or _congruence(),
         dispositions_path=(dispositions_path if dispositions_path else
-                          (tmp_path / "none.jsonl" if tmp_path else "_no_dispositions_.jsonl")),
-        today=TODAY,
+                           (tmp_path / "none.jsonl" if tmp_path else "_no_dispositions_.jsonl")),
+        today=today,
     )
 
 def test_payload_builds_and_goal_anchor_math():
@@ -176,7 +176,7 @@ def test_rails_carry_exact_copy_payloads():
     p = _payload()
     html = render_today_decide_html(p)
     cid = p["cards"][0]["card_id"]
-    assert f'data-copy="RECHECK {cid} resolve blockers before action"' in html
+    assert f'data-copy="RECHECK {cid} candidate only; confirm gates before action"' in html
     assert f'data-copy="ACT {cid}"' not in html
     assert f'data-copy="PASS {cid} â€” reason: "' in html
     assert "UNDO " in html  # second-tap undo path in the script
@@ -191,6 +191,32 @@ def test_stage_only_cards_show_candidate_not_buy_sell_first():
     assert "CANDIDATE</span> GOOGL" in html
     assert f'data-copy="RECHECK {googl["card_id"]} candidate only; confirm gates before action"' in html
     assert f'data-copy="RECHECK {googl["card_id"]} resurface 2026-06-15"' in html
+
+
+def test_payload_scopes_stale_gate_blockers_to_applicable_cards():
+    stale_gate = _gate()
+    stale_gate["stated"] = "2026-06-01"
+    p = _payload(gates=[stale_gate])
+    by_ticker = {card["ticker"]: card for card in p["cards"] + p["backlog"]}
+
+    assert "QQQ gate" in p["data_health"]["blockers"]
+    assert by_ticker["GOOGL"]["card_blockers"] == ["QQQ gate"]
+    assert by_ticker["MAGS"]["card_blockers"] == []
+
+
+def test_renderer_uses_card_scoped_blockers_not_global_blocked_state():
+    stale_gate = _gate()
+    stale_gate["stated"] = "2026-06-01"
+    feed = _feed()
+    feed["actions"] = [row for row in feed["actions"] if row["ticker"] != "MAGS"]
+    p = _payload(feed=feed, gates=[stale_gate])
+
+    html = render_today_decide_html(p)
+
+    assert html.count("CHECK DATA FIRST") == 1
+    assert "RECHECK</span> GOOGL" in html
+    assert 'data-copy="ACT MAGS-TRIM-2026-06-10"' in html
+
 
 def test_backlog_is_collapsed_in_details():
     html = render_today_decide_html(_payload())

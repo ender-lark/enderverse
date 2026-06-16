@@ -38,6 +38,7 @@ _RANK = {
     "not_checked": 1,
     "aging": 1,
     "empty": 1,
+    "context": 1,
     "behind": 2,
     "stale": 2,
     "missing": 2,
@@ -59,8 +60,56 @@ def _age_days(value: str, now: dt.date) -> float | None:
     return float((now - parsed).days)
 
 
-def _item(source: str, label: str, status: str, detail: str) -> dict[str, Any]:
-    return {"source": source, "label": label, "status": status, "detail": detail}
+def _item(
+    source: str,
+    label: str,
+    status: str,
+    detail: str,
+    *,
+    blocks: bool | None = None,
+    **extra: Any,
+) -> dict[str, Any]:
+    row = {"source": source, "label": label, "status": status, "detail": detail}
+    if blocks is not None:
+        row["blocks"] = blocks
+    row.update(extra)
+    return row
+
+
+def _gate_blocks_action(gate: dict[str, Any]) -> bool:
+    if "blocks" in gate:
+        return bool(gate.get("blocks"))
+    if "blocks_full_size" in gate:
+        return bool(gate.get("blocks_full_size"))
+    kind = str(gate.get("kind") or "").lower()
+    gate_type = str(gate.get("gate_type") or gate.get("confirm_type") or "").lower()
+    state = str(gate.get("state") or "").lower()
+    if "context" in {kind, gate_type, state}:
+        return False
+    text = " ".join(
+        str(gate.get(key) or "").lower()
+        for key in ("note", "confirm_rule", "status")
+    )
+    if "never blocks" in text or "context only" in text:
+        return False
+    if "stage-only" in text or "stage only" in text:
+        return False
+    return True
+
+
+def _blocks_item(item: dict[str, Any]) -> bool:
+    if "blocks" in item:
+        return bool(item.get("blocks"))
+    if item.get("source") == "track_record":
+        return False
+    return _RANK.get(item.get("status"), 1) >= _BLOCK_RANK
+
+
+def _rank_item(item: dict[str, Any]) -> int:
+    rank = _RANK.get(item.get("status"), 1)
+    if not _blocks_item(item):
+        return min(rank, 1)
+    return rank
 
 
 def load_shelf_life(path: Path | str = SHELF_PATH) -> dict[str, Any]:
@@ -137,13 +186,20 @@ def assess(
 
     for gate in gates or []:
         symbol = str(gate.get("symbol") or gate.get("gate_id") or "gate")
+        gate_id = str(gate.get("gate_id") or "")
+        blocks = _gate_blocks_action(gate)
         age = _age_days(str(gate.get("stated") or ""), today)
         if age is None:
-            items.append(_item("gates", f"{symbol} gate", "missing", "no as-of date"))
+            status = "missing" if blocks else "context"
+            detail = "no as-of date" if blocks else "context gate has no as-of date"
+            items.append(_item("gates", f"{symbol} gate", status, detail, blocks=blocks, symbol=symbol, gate_id=gate_id))
         elif age <= GATE_CADENCE_DAYS:
-            items.append(_item("gates", f"{symbol} gate", "fresh", f"as of {str(gate.get('stated'))[:10]}"))
+            items.append(_item("gates", f"{symbol} gate", "fresh", f"as of {str(gate.get('stated'))[:10]}", blocks=False, symbol=symbol, gate_id=gate_id))
         else:
-            items.append(_item("gates", f"{symbol} gate", "stale", f"stated {age:.0f}d ago - reconfirm"))
+            if blocks:
+                items.append(_item("gates", f"{symbol} gate", "stale", f"stated {age:.0f}d ago - reconfirm", blocks=True, symbol=symbol, gate_id=gate_id))
+            else:
+                items.append(_item("gates", f"{symbol} gate", "context", f"stated {age:.0f}d ago - context only; reconfirm for awareness", blocks=False, symbol=symbol, gate_id=gate_id))
 
     fs_unread = feed.get("fs_unread")
     if fs_unread is None:
@@ -179,13 +235,9 @@ def assess(
             else:
                 items.append(_item("track_record", "analyst track record", "fresh", f"{scored} graded calls"))
 
-    blockers = [
-        item["label"]
-        for item in items
-        if _RANK.get(item["status"], 1) >= _BLOCK_RANK and item["source"] != "track_record"
-    ]
-    ranks = [
-        _RANK.get(item["status"], 1) if item["source"] != "track_record" else min(_RANK.get(item["status"], 1), 1)
-        for item in items
-    ] or [0]
+    for item in items:
+        item.setdefault("blocks", _blocks_item(item))
+
+    blockers = [item["label"] for item in items if _blocks_item(item)]
+    ranks = [_rank_item(item) for item in items] or [0]
     return {"items": items, "worst": {0: "fresh", 1: "announce", 2: "blocked"}[max(ranks)], "blockers": blockers}

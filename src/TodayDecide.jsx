@@ -53,15 +53,17 @@ function Card({ card, rank, checkFirst, railState, setRailState }) {
   const move = dc.move || {}, conv = card.conviction || {}, win = card.window || {};
   const ex = card.execution || {}, impact = card.impact || {};
   const sizing = card.sizing || {};
+  const cardBlockers = card.card_blockers || [];
+  const scopedCheckFirst = checkFirst || Boolean(cardBlockers.length);
   const conflicted = (card.conflicts || []).length > 0;
-  const posture = reviewPosture(card, checkFirst, win.class, move.direction);
+  const posture = reviewPosture(card, scopedCheckFirst, win.class, move.direction);
   const primaryCopy = posture.copyVerb === "ACT"
     ? `ACT ${card.card_id}`
     : `${posture.copyVerb} ${card.card_id}${posture.copySuffix}`;
   return (
     <div style={{ border: `1px solid ${conflicted ? "#fb923c" : "#1e293b"}`, borderRadius: 10,
                   padding: 12, margin: "10px 0", background: "#0f172a" }}>
-      {checkFirst && <div style={{ color: "#f87171", fontWeight: 700, fontSize: 12, marginBottom: 6 }}>CHECK DATA FIRST - inputs behind/stale</div>}
+      {scopedCheckFirst && <div style={{ color: "#f87171", fontWeight: 700, fontSize: 12, marginBottom: 6 }}>CHECK DATA FIRST - inputs behind/stale</div>}
       <div style={{ fontSize: 16, fontWeight: 600 }}>
         #{rank} {posture.label} {card.ticker} Â· {move.band}
         <span style={{ background: CLASS_COLORS[win.class] || "#94a3b8", color: "#0b1220",
@@ -104,7 +106,6 @@ export default function TodayDecide({ payload }) {
   const [railState, setRailState] = useState({});
   if (!payload) return null;
   const ga = payload.goal_anchor || {}, pl = payload.plan_line || {};
-  const checkFirst = Boolean((payload.data_health || {}).blockers?.length);
   return (
     <section style={{ fontFamily: "-apple-system,'Segoe UI',Roboto,sans-serif", background: "#0b1220",
                       color: "#e2e8f0", border: "1px solid #1e293b", borderRadius: 12, padding: 18, marginBottom: 18 }}>
@@ -129,7 +130,7 @@ export default function TodayDecide({ payload }) {
         </span>
       ))}
       {(payload.cards || []).map((c, i) => (
-        <Card key={c.card_id} card={c} rank={i + 1} checkFirst={checkFirst} railState={railState} setRailState={setRailState} />
+        <Card key={c.card_id} card={c} rank={i + 1} checkFirst={Boolean((c.card_blockers || []).length)} railState={railState} setRailState={setRailState} />
       ))}
       <details style={{ fontSize: 12, color: "#94a3b8" }}>
         <summary>Backlog ({(payload.backlog || []).length})</summary>

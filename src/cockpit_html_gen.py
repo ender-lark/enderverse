@@ -2988,6 +2988,7 @@ def generate_html(feed: dict) -> str:
 
     # sections
     today_decide_html = today_decide.build_and_render(
+        feed=feed,
         weights=load_conviction_weights(),
         goal=load_goal_tunables(),
     )
