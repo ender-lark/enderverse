@@ -13,12 +13,15 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+import cloud_routine_receipts
+
 
 ROOT = Path(__file__).resolve().parents[1]
+RECEIPT_PATH = "src/cloud_routine_receipts.json"
 
 
 DEFAULT_ALLOWED_PATHS = [
-    "src/cloud_routine_receipts.json",
+    RECEIPT_PATH,
     "src/live_source_config.json",
     "src/latest_cockpit_feed.json",
     "src/rendered/conviction_cockpit_v5.jsx",
@@ -119,6 +122,28 @@ def _unrelated_paths(rows: list[dict[str, str]], selected: set[str]) -> list[str
     return sorted({row["path"] for row in rows if row["path"] not in selected})
 
 
+def _normalize_receipts_if_allowed(repo: Path, allowed: set[str]) -> dict[str, Any]:
+    report = {
+        "receipt_normalized": False,
+        "receipt_normalize_error": "",
+    }
+    if RECEIPT_PATH not in allowed:
+        return report
+    receipt_file = repo / RECEIPT_PATH
+    if not receipt_file.is_file():
+        return report
+    problems = cloud_routine_receipts.validate_receipt_file_encoding(receipt_file)
+    if not problems:
+        return report
+    try:
+        cloud_routine_receipts.normalize_receipts_file(receipt_file)
+    except Exception as exc:  # pragma: no cover - defensive path is reported to operator.
+        report["receipt_normalize_error"] = str(exc)
+    else:
+        report["receipt_normalized"] = True
+    return report
+
+
 def cloud_routine_commit(
     *,
     message: str,
@@ -130,6 +155,7 @@ def cloud_routine_commit(
     """Stage/commit/push only the allowed changed paths."""
     repo = Path(cwd)
     allowed = {_normalize(path) for path in (allowed_paths or DEFAULT_ALLOWED_PATHS)}
+    normalize_report = _normalize_receipts_if_allowed(repo, allowed)
     try:
         rows = _status_rows(repo)
     except subprocess.CalledProcessError as exc:
@@ -140,6 +166,7 @@ def cloud_routine_commit(
             "allowed_count": len(allowed),
             "selected_paths": [],
             "unrelated_dirty_paths": [],
+            **normalize_report,
             "committed": False,
             "pushed": False,
             "commit": "",
@@ -155,11 +182,16 @@ def cloud_routine_commit(
         "allowed_count": len(allowed),
         "selected_paths": selected,
         "unrelated_dirty_paths": unrelated,
+        **normalize_report,
         "committed": False,
         "pushed": False,
         "commit": "",
         "reason": "",
     }
+    if report.get("receipt_normalize_error"):
+        report["valid"] = False
+        report["reason"] = "receipt normalization failed"
+        return report
     if not selected:
         report["reason"] = "no allowed changed paths"
         return report
@@ -212,6 +244,10 @@ def format_text(report: dict[str, Any]) -> str:
         lines.append(f"Commit: {report.get('commit')}")
     if report.get("reason"):
         lines.append(f"Reason: {report.get('reason')}")
+    if report.get("receipt_normalized"):
+        lines.append("Receipt store normalized to UTF-8 before commit.")
+    if report.get("receipt_normalize_error"):
+        lines.append(f"Receipt normalize error: {report.get('receipt_normalize_error')}")
     if report.get("error"):
         lines.append(f"Error: {report.get('error')}")
     if report.get("stderr"):
