@@ -82,5 +82,36 @@
     "summary": "Fundstrat noted narrow semiconductor/AI leadership, oil swings, and a potential breadth shift as a rotation risk to monitor rather than an all-clear tape read.",
     "trigger": "Mag 7/AI leadership weakens while equal-weight participation improves, or oil swings disrupt growth leadership.",
     "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-15",
+    "title": "US-Iran framework deal cuts immediate oil shock but Hormuz normalization stays unresolved",
+    "severity": "medium",
+    "horizon": "1-3 sessions",
+    "channels": [
+      "oil",
+      "rates",
+      "shipping",
+      "financials",
+      "growth"
+    ],
+    "tickers": [
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "MAGS",
+      "SMH"
+    ],
+    "affected": [
+      "Energy",
+      "Financials",
+      "High-duration growth",
+      "New-buy timing"
+    ],
+    "source": "2026-06-15 public reporting on U.S.-Iran framework deal; Polymarket Hormuz Jun 30 market ~30% yes; UW market tide 2026-06-15 remained net call-premium positive",
+    "summary": "De-escalation headlines and strong same-session broad tape lower the odds that the June 3 oil/rates shock should be treated as unchanged tomorrow, but unresolved shipping normalization means the event-risk lane should stay active rather than clear.",
+    "trigger": "Invalidate the de-escalation read if Hormuz/shipping restrictions return, peace-deal terms break down, or WTI/TNX re-spike; upgrade only if official terms and unrestricted shipping are confirmed.",
+    "direction": "risk_watch"
   }
 ]
