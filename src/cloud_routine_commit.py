@@ -50,6 +50,7 @@ DEFAULT_ALLOWED_PATHS = [
     "src/fundstrat_inbox_entries.json",
     "src/fundstrat_intake_state.json",
     "src/fundstrat_intake_summary.json",
+    "src/fundstrat_transcript_index.json",
     "src/source_calls.json",
     "src/inbox_call_dates.json",
     "src/log_call_dates.json",
