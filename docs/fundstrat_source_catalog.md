@@ -21,7 +21,7 @@ files.
 | Live Technical Stock Analysis | `latest-research/?category=live-technical-stock-analysis` | Named-stock technical context | Detail page required. Useful when it touches held names, queued research, or high-priority candidates. |
 | US Policy / Fed Watch | `latest-research/?category=us-policy`, `?category=fed-watch` | Macro/event-risk context | Detail page required. Promote only if it changes exposure review, rates/oil/geopolitical risk, or catalyst timing. |
 | Crypto Research | Digital Asset Strategy, Funding Fridays, Liquid Ventures, Special Reports | Crypto sleeve context | Detail page required. Promote only if it changes crypto sleeve posture, a held asset, or a priority crypto-equity proxy. |
-| Tom Lee Macro Minute and other videos | Macro Minute, Latest Videos, media pages | Private transcript vault plus compact derived rows | Video-only cards remain discovery-only. Checked review requires visible transcript/captions, companion article, or supplied compact notes. Full transcript text goes only to the private source vault; public repo caches keep metadata, hashes, synthesis, and compact derived rows. |
+| Tom Lee Macro Minute and other videos | Macro Minute, Latest Videos, media pages | Private transcript vault, Notion action notes, plus compact derived rows | Video-only cards remain discovery-only. Checked review requires visible transcript/captions, companion article, or supplied compact notes. Full transcript text goes only to the private source vault; public repo caches keep metadata, hashes, synthesis status, and compact derived rows. Derived action notes go to Notion after live fetch-back verification. |
 | Webinars and appearances | Latest Webinars, market updates, in-the-news | Mostly noise | Discovery/audit only unless there is a concrete, transcript-backed call tied to current holdings or high-priority research. |
 | Top Ideas stock lists | Large-Cap, SMID-Cap | Baseline/watchlist, not daily-call | Tables include ticker, sector/industry, price, performance, support, resistance, and date added. Use later for adds/removes/support-resistance changes, not routine daily-call alerts. |
 | Upticks | Stock list, commentary, performance, historical | Baseline/watchlist | Same table-style baseline. Capture only meaningful list changes or technical levels that overlap portfolio/research priorities. |
@@ -41,9 +41,10 @@ files.
    `source_surface=article_detail` and a `full_content_basis` that explicitly
    says the article detail page text was visible.
 3. Video cards are discovery-only unless transcript/caption/companion text is
-   visible. One Mark Newton transcript proof has landed. Repeat work should use
-   `fundstrat_transcript_vault.py` for full private-vault review packs and the
-   existing compact fields only for cockpit/source-call derivation.
+   visible. Repeat work should use `fundstrat_transcript_vault.py` for full
+   private-vault review packs, `fundstrat_transcript_synthesis.py` for
+   action-oriented Notion notes, and the existing compact fields only for
+   cockpit/source-call derivation.
 4. Stock-list and crypto-list tables are not part of tomorrow's fast lane. They
    should become a slower baseline/diff lane only if they produce adds/removes,
    weight changes, support/resistance changes, or direct portfolio overlap.
@@ -79,5 +80,9 @@ Suppress by default:
   `src/fundstrat_transcript_vault.py`, with public metadata in
   `src/fundstrat_transcript_index.json` and compact rows still routed through
   the existing web wrapper when useful.
+- Implemented now: transcript synthesis notes through
+  `src/fundstrat_transcript_synthesis.py`; notes are compact, raw-free, and
+  intended for verified Notion writeback before they become action review
+  context.
 - Deferred until evidence of usefulness: structured list-table baseline diffing
   for Top Ideas, Upticks, Sector Allocation, and Crypto Core Strategy.

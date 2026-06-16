@@ -145,3 +145,14 @@ def test_trigger_check_is_wired_into_trigger_sensitive_manual_routines():
     ):
         commands = [" ".join(step.command or []) for step in routines[routine_id].steps]
         assert any("trigger_check.py" in command and "--dry-run" in command for command in commands)
+
+
+def test_fundstrat_transcript_routines_build_synthesis_notes():
+    routines = {routine.routine_id: routine for routine in cloud_routine_manual_run.default_routines()}
+    for routine_id in (
+        "investing-os-fundstrat-after-hours-catch-up",
+        "investing-os-fundstrat-late-evening-web-transcript-sweep",
+    ):
+        commands = [" ".join(step.command or []) for step in routines[routine_id].steps]
+        assert any("fundstrat_transcript_vault.py" in command and "--validate-public-index" in command for command in commands)
+        assert any("fundstrat_transcript_synthesis.py" in command for command in commands)

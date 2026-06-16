@@ -113,6 +113,8 @@ Accepted monthly file types:
    ```bash
    python src/fundstrat_transcript_vault.py transcript_payload.json --commit-vault --push-vault
    python src/fundstrat_transcript_vault.py --validate-public-index
+   python src/fundstrat_transcript_synthesis.py --since <source-date> --out tmp\fundstrat_transcript_notion_notes.json --write-vault-notes --commit-vault --push-vault
+   python src/fundstrat_transcript_synthesis.py --validate tmp\fundstrat_transcript_notion_notes.json
    ```
 
    The transcript vault helper writes `transcript.md`, `source.json`,
@@ -120,6 +122,22 @@ Accepted monthly file types:
    `INVESTING_OS_SOURCE_VAULT`; `src/fundstrat_transcript_index.json` stores
    only metadata, hashes, counts, and short synthesis. Do not treat a video
    thumbnail or title as full-body checked.
+
+   After the synthesis command succeeds, write relevant notes to Notion using
+   the generated `tmp\fundstrat_transcript_notion_notes.json` payload. Prefer
+   the Synthesis Log for cross-portfolio Fundstrat transcript reviews, and use
+   Research Queue/action pages only when the note is clearly tied to a specific
+   unresolved research decision. The Notion note must be compact and
+   action-oriented: decision use, action/re-check items, claims to test,
+   follow-up questions, source metadata, and explicit "raw transcript not
+   included" language. Do not paste full transcript text into Notion, chat, or
+   public repo files.
+
+   Notion writeback is not successful until the page is fetched back live and
+   the transcript id or note title is visible in the fetched page. If the
+   Notion connector is unavailable, report the Notion leg as `not_checked`,
+   keep the vault note artifacts, and do not call the transcript synthesized
+   for action use.
 
    Stock-list and crypto-list tables are slower baseline/diff sources. Do not
    convert unchanged tables into daily-call rows; defer them unless they show a
@@ -241,6 +259,8 @@ Accepted monthly file types:
    - daily calls emitted
    - source-call candidates emitted
    - source calls merged
+   - transcript synthesis notes generated
+   - Notion transcript notes written and fetched back, or `not_checked`
    - FS ingest inventory entries written and any skipped sections
    - monthly Top-5/Bottom-5/consider rows emitted, if a direct monthly upload
      was supplied

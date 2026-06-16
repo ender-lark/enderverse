@@ -167,6 +167,8 @@ For full transcript review, use:
 ```bash
 python src/fundstrat_transcript_vault.py transcript_payload.json --commit-vault --push-vault
 python src/fundstrat_transcript_vault.py --validate-public-index
+python src/fundstrat_transcript_synthesis.py --since YYYY-MM-DD --out tmp\fundstrat_transcript_notion_notes.json --write-vault-notes --commit-vault --push-vault
+python src/fundstrat_transcript_synthesis.py --validate tmp\fundstrat_transcript_notion_notes.json
 ```
 
 The payload may include `transcript_text`, source metadata, `analysis`,
@@ -174,6 +176,14 @@ The payload may include `transcript_text`, source metadata, `analysis`,
 only to the private vault and updates `src/fundstrat_transcript_index.json` with
 safe metadata only. If no transcript/captions are visible, do not write a
 checked transcript entry; leave the video discovery-only / not checked.
+
+The synthesis helper reads the private vault pack and emits compact
+Notion-ready action notes without raw transcript text. Write those notes to the
+Notion Synthesis Log or the relevant action/research page, then fetch the live
+Notion page back and verify the transcript id or title landed before reporting
+Notion success. If Notion is unavailable, report the Notion write as
+`not_checked` and keep the generated note in the private vault / temporary
+handoff file; do not paste the full transcript into chat or public repo files.
 
 For video transcript rows, do not pass raw transcript text. Supply compact proof
 fields instead:
