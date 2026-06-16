@@ -2,37 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:12:01.853429Z",
-      "summary": "investing-os-off-hours-worker manual run started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:12:01.932838Z",
-      "summary": "off-hours worker manual run checked research queue cache only",
-      "details": {
-        "steps": [
-          {
-            "label": "research queue validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/research_queue_intake.py",
-              "--validate",
-              "src/research_queue.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-deep-synthesis",
       "status": "started",
       "run_source": "manual",
@@ -7426,7 +7395,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T19:47:32.345947Z",
       "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 1 low-value macro flash and 2 stale already-handled macro cards; validation passed; alert quiet; dark/stale crypto flash June 8; blockers none"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T20:32:11.612455Z",
+      "summary": "investing-os-post-close-refresh started"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-16T20:32:19.433776Z",
+      "summary": "post-close refresh succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-16T19:47:32.345947Z"
+  "updated_at": "2026-06-16T20:32:19.433776Z"
 }
