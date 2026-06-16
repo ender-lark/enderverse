@@ -220,6 +220,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-12T09:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+        "automation_name": "Investing OS Fundstrat Late Evening Web/Transcript Sweep",
+        "role": "fundstrat_late_evening_web_transcript_sweep",
+        "schedule": "market weekdays 10:45 PM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 22,
+        "minute": 45,
+        "expected_since": "2026-06-16T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-off-hours-alt-data-scout",
         "automation_name": "Investing OS Off-Hours Alt-Data Scout",
         "role": "off_hours_alt_data_scout",

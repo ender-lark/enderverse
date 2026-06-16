@@ -280,6 +280,7 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
             [
                 Step("fundstrat cache validate", _python("src/fundstrat_email_intake.py", "--validate", "src")),
+                Step("fundstrat transcript public index validate", _python("src/fundstrat_transcript_vault.py", "--validate-public-index")),
                 Step("fundstrat alert dry-run", _python("src/fundstrat_daytime_alert.py", "--dry-run", "--format", "text")),
                 Step("pushover config self-test", _python("src/pushover_notify.py", "--self-test", "--dry-run", "--format", "text")),
             ],
@@ -291,6 +292,15 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
                 Step("FS inbox catch-up prompt present", check=lambda r: {
                     "valid": (r / "src" / "codex_routines" / "FS_Inbox_Catchup_Routine_Prompt_v1.md").is_file(),
                 }),
+            ],
+        ),
+        Routine(
+            "investing-os-fundstrat-late-evening-web-transcript-sweep",
+            "fundstrat late-evening web/transcript sweep manual support validated transcript index and intake plumbing",
+            [
+                Step("fundstrat transcript public index validate", _python("src/fundstrat_transcript_vault.py", "--validate-public-index")),
+                Step("fundstrat cache validate", _python("src/fundstrat_email_intake.py", "--validate", "src")),
+                Step("fundstrat alert dry-run", _python("src/fundstrat_daytime_alert.py", "--dry-run", "--format", "text")),
             ],
         ),
         Routine(

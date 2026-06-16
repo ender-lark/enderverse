@@ -15,11 +15,12 @@
     "Early Cockpit Build runs at 8:50 AM ET to publish the earliest useful cockpit after pre-market source intake and Morning Scan. It is intentionally an early build and must leave later Daily Synthesis, UW Opportunity Cache, and Parabolic Cache gaps visible until the 10:30 AM Full Cockpit Build.",
     "Post-Open Evidence Gate runs at 9:40 AM ET to capture same-session UW endpoint proof from the current action runbook. It can promote, downgrade, or keep Today/Reallocation candidates gated; missing, stale, failed, or inconclusive proof must not move candidates to Ready.",
     "Fundstrat Daytime Watch, Post-Open Evidence Gate, and Post-Close Refresh should run src/trigger_check.py. Fired triggers write src/trigger_registry.json / src/trigger_check_summary.json, append a trigger receipt, and send Pushover only as an operator review prompt.",
-    "Fundstrat after-hours catch-up and pre-market safety sweep are expected proof targets because Fundstrat timing calls can arrive outside the original 8:10 AM source intake window.",
+    "Fundstrat after-hours catch-up, the late-evening web/transcript sweep, and pre-market safety sweep are expected proof targets because Fundstrat timing calls can arrive outside the original 8:10 AM source intake window.",
     "Fundstrat Daytime Watch runs hourly during the market day so urgent/action-changing Fundstrat notes can trigger Pushover. Low-value Fundstrat content remains quiet audit/discovery context and must not become a daily-call row, action prompt, or alert.",
     "FS Inbox Catch-up is registered as four explicit paired schedules (8:20 AM, 12:30 PM, 4:35 PM, 8:45 PM ET) instead of one multi-BYHOUR/BYMINUTE rule, so the automation does not accidentally run a cross-product of times.",
     "On 2026-06-15, readiness proof was scoped to 14 core unattended-readiness routines and 11 support-monitored routines. Support routines stay visible but no longer block core daily operator readiness by themselves.",
-    "On 2026-06-15, the Pre-Market Source Intake app automation workspace was corrected from a malformed duplicated path back to the canonical enderverse-held-decisions-strip repo path. The proof activation timestamp was not reset; missed core receipts remain overdue until the scheduler proves them naturally."
+    "On 2026-06-15, the Pre-Market Source Intake app automation workspace was corrected from a malformed duplicated path back to the canonical enderverse-held-decisions-strip repo path. The proof activation timestamp was not reset; missed core receipts remain overdue until the scheduler proves them naturally.",
+    "Fundstrat Late Evening Web/Transcript Sweep runs at 10:45 PM ET market weekdays to catch late-posted web/video items after the 7:00 PM after-hours pass; transcript text must be written only to the private source vault."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
@@ -238,6 +239,14 @@
       "role": "fs_inbox_catchup_evening",
       "schedule": "market weekdays 8:45 PM ET",
       "expected_since": "2026-06-12T09:00:00-04:00"
+    },
+    {
+      "automation_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "automation_name": "Investing OS Fundstrat Late Evening Web/Transcript Sweep",
+      "status": "ACTIVE",
+      "role": "fundstrat_late_evening_web_transcript_sweep",
+      "schedule": "market weekdays 10:45 PM ET",
+      "expected_since": "2026-06-16T00:00:00-04:00"
     },
     {
       "automation_id": "investing-os-off-hours-research-queue",
