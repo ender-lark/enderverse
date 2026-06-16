@@ -297,7 +297,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Dashboard</h1>
-      <div class="stamp" title="built 2026-06-16 08:51 ET  sourced: portfolio 06-16  uw_price 06-16  uw_macro 06-16  fundstrat_bible 06-11  fundstrat_daily 06-15">built 06-16 08:51 ET &middot; data 06-16: port&middot;px&middot;macro &#9474; <span style="color:#b08930">FS bible 06-11</span> &#9474; <span style="color:#b08930">FS daily 06-15</span></div>
+      <div class="stamp" title="built 2026-06-16 10:31 ET  sourced: portfolio 06-16  uw_price 06-16  uw_macro 06-16  fundstrat_bible 06-11  fundstrat_daily 06-15">built 06-16 10:31 ET &middot; data 06-16: port&middot;px&middot;macro &#9474; <span style="color:#b08930">FS bible 06-11</span> &#9474; <span style="color:#b08930">FS daily 06-15</span></div>
 
     </div>
     <div style="text-align:right">
@@ -787,7 +787,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </div>
 <div class="context-col">
   <div class="context-label">Bullish flow</div>
-  <div class="context-row"><span class="context-ticker">BMNR</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">IVES</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">LEU</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div>
+  <div class="context-row"><span class="context-ticker">BMNR</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">IGV</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div>
 </div></div>
 </div>
 
@@ -857,7 +857,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="tag t-conf">score 68</span>
   <span class="tag t-cat">bullish_flow</span>
   <span class="small-muted">Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.</span>
-  <span class="small-muted">Evidence: ask-side call sweeps $1.1M, 1:1 c/p, call OI +14000% at 17/16/17.5 strikes</span>
+  <span class="small-muted">Evidence: ask-side call sweeps $1.1M, 1:1 c/p, call OI +13500% at 19/18/22 strikes</span>
   <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
 </div></div>
 </div>
@@ -905,9 +905,9 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="cmd-row"><span class="cmd-name">print brief</span><span class="cmd-desc"><code>python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text</code></span></div>
 </div>
 
-<div class="card" id="operator-status" data-summary="Blocked | 1 overdue cloud routine">
+<div class="card" id="operator-status" data-summary="All clear | no waits">
   <div class="card-title"><span class="icon">!</span> Operator status
-    <span class="operator-fail" style="font-size:11px;margin-left:auto">FAIL</span>
+    <span class="operator-pass" style="font-size:11px;margin-left:auto">PASS</span>
   </div>
   <div class="operator-grid">
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">4</div></a>
@@ -915,18 +915,13 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">40 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-fail">1</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
-  <div class="operator-readiness"><strong class="operator-fail">Blocked</strong> | 1 overdue cloud routine</div>
+  <div class="operator-readiness"><strong class="operator-pass">All clear</strong> | no waits</div>
   <div class="operator-command">python src/completion_audit.py --format text</div>
   <div class="operator-command">python src/go_live_checklist.py --format text</div>
 
 
-  <div class="operator-event-watch">
-    <div class="operator-label">Cloud routine overdue</div>
-    <div class="operator-event-title">1 routine receipt overdue</div>
-    <div class="operator-event-trigger">overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z</div>
-  </div>
 
 
   <div class="operator-event-watch">
@@ -951,9 +946,9 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
 <div class="small-item">
   <span class="tag t-warn">endpoint proof has_data</span>
-  <span class="small-muted">UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-15 10:32 ET.</span>
+  <span class="small-muted">UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-16 10:30 ET.</span>
 
-  <span class="small-muted">Proof blocker: inconclusive endpoint result(s) cannot promote related actions</span><span class="small-muted">Proof blocker: missing/failed endpoint result(s) keep related actions blocked</span><span class="small-muted">Proof blocker: one or more endpoint result rows are not same-session fresh</span>
+  <span class="small-muted">Proof blocker: inconclusive endpoint result(s) cannot promote related actions</span><span class="small-muted">Proof blocker: missing/failed endpoint result(s) keep related actions blocked</span>
 
 </div>
   <div class="small-list">
@@ -1197,7 +1192,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="card-title"><span class="icon">!</span> Source proof and audits</div>
 
 <div class="audit-row">
-  <span class="audit-k">Cloud routines</span>Core background cloud proof: 14/14 scheduled receipts proven; failed latest=0; overdue=1; support monitored=12, support overdue=2.
+  <span class="audit-k">Cloud routines</span>Core background cloud proof: 14/14 scheduled receipts proven; failed latest=0; support monitored=12, support overdue=2.
 </div>
 <div class="audit-row">
   <span class="audit-k">Trigger registry</span>Trigger registry: 8 armed trigger(s); not checked this build.
@@ -1215,7 +1210,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="audit-k">UW action runbook</span>UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.
 </div>
 <div class="audit-row">
-  <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-15 10:32 ET.
+  <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-16 10:30 ET.
 </div>
 <div class="audit-row">
   <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 7 full-body, 0 snippet-only, 7 daily calls; stored cache: 49 inbox entries (38 full-body, 11 snippet-only), 40 daily calls, 40 stored source-call candidates.
@@ -1226,7 +1221,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="audit-row">
   <span class="audit-k">Notion collision</span>Notion collision audit: Claude routines may have written shared Notion locations between Friday and Sunday; verify live page state before treating repo caches as current.
 </div>
-  <div class="feedback-line">Overdue cloud receipts: overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z</div>
+
 
 
   <div class="feedback-line">UW next checks: Pre-market crash triage: High-volatility or re-check posture needs broad tape triage before single-name action. [MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, ETF_TIDE, SECTOR_TIDE]<br>Event-risk and political macro: Active event-risk lane can overpower normal thesis and flow signals. [MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, SECTOR_TIDE, ETF_TIDE]<br>Fundstrat signal confirmation: Fundstrat-derived calls should be checked against live market structure before action. [TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OHLC, TICKER_STOCK_STATE]</div>
@@ -1241,7 +1236,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-16T12:51:28.757998+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-16T12:51:28.757998+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-16T12:51:28.757998+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-16T12:51:28.757998+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-16T12:51:28.757998+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge down" title="Cloud Routine Receipts | 2026-06-16T12:51:28.757998+00:00 | overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z">Cloud Routine Receipts</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-16T14:31:13.797101+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-16T14:31:13.797101+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-16T14:31:13.797101+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-16T14:31:13.797101+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-16T14:31:13.797101+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge stale" title="Cloud Routine Receipts | 2026-06-16T14:31:13.797101+00:00 | due waiting: Investing OS Full Cockpit Build, last scheduled success 2026-06-15T14:32:59.313578Z; latest manual support 2026-06-15T13:10:17.839859Z; grace until 2026-06-16T11:00:00-04:00">Cloud Routine Receipts</span></div>
 </div>
 
 <div class="hero">
@@ -1487,15 +1482,15 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
 <div class="lean-item">
-  <span class="lean-ticker">NVDA</span>
+  <span class="lean-ticker">IVES</span>
   <span class="tag lead" style="margin-left:6px">LEADING</span>
-  <div class="lean-headline">NVDA: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
+  <div class="lean-headline">IVES: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
   <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
 <div class="lean-item">
-  <span class="lean-ticker">SMH</span>
+  <span class="lean-ticker">NVDA</span>
   <span class="tag lead" style="margin-left:6px">LEADING</span>
-  <div class="lean-headline">SMH: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
+  <div class="lean-headline">NVDA: Promising, conviction building, tape not yet confirmed  hold, watch for the turn.</div>
   <div class="lean-sub">Clears when: Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.</div>
 </div>
 <div class="lean-item">
@@ -1550,6 +1545,12 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="lean-ticker">PWR</span>
   <span class="tag inl" style="margin-left:6px">TURNING DOWN</span>
   <div class="lean-headline">PWR: the case is cooling (TURNING DOWN)  watch / reassess, don&#x27;t add (not owned).</div>
+  <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
+</div>
+<div class="lean-item">
+  <span class="lean-ticker">SMH</span>
+  <span class="tag lead" style="margin-left:6px">LEADING</span>
+  <div class="lean-headline">SMH: the case is cooling (LEADING)  watch / reassess, don&#x27;t add (you own it).</div>
   <div class="lean-sub">Clears when: Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.</div>
 </div>
 <div class="lean-item">

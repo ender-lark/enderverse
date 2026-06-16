@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-16T12:51:28.893543+00:00",
+  "generated_at": "2026-06-16T14:31:13.933842+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-16 \u00b7 uw_price 06-16 \u00b7 uw_macro 06-16 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-15",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-16T08:51:28.893543-04:00",
+        "date": "2026-06-16T10:31:13.933842-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-16T08:51:28.893543-04:00",
+        "date": "2026-06-16T10:31:13.933842-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -117,7 +117,7 @@
         "label": "UW Flow",
         "status": "has_data",
         "detail": "checked",
-        "count": 37,
+        "count": 38,
         "checked_at": ""
       },
       {
@@ -1028,7 +1028,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1047,8 +1047,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "up",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity dark_pool_accum",
+          "cd": "down",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1068,7 +1068,7 @@
           "lock": "",
           "fresh": false,
           "cd": "down",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build \u00b7 06-15 uw_opportunity dark_pool_accum",
+          "cdNote": "06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1087,8 +1087,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "flat",
-          "cdNote": "06-15 uw_opportunity sweep vs 06-15 uw_opportunity dark_pool_accum vs 06-15 uw_opportunity oi_build \u2014 net flat",
+          "cd": "up",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 operator-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1108,7 +1108,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it. You're underweight to conviction here \u2014 the gap is the flag.",
           "dr": [
             [
@@ -1136,7 +1136,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Core hold \u2014 Lee-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1184,7 +1184,7 @@
           "lock": "\ud83d\udd12",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build \u00b7 06-15 uw_opportunity dark_pool_accum",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1204,7 +1204,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build \u00b7 06-15 uw_opportunity dark_pool_accum",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1232,7 +1232,7 @@
           "lock": "",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build \u00b7 06-15 uw_opportunity dark_pool_accum",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Catch-up \u2014 Lee-endorsed laggard; favorable entry, no rush.",
           "dr": [
             [
@@ -1259,8 +1259,8 @@
           "own": null,
           "lock": "",
           "fresh": false,
-          "cd": "up",
-          "cdNote": "06-15 uw_opportunity call_flow",
+          "cd": "down",
+          "cdNote": "06-16 uw_opportunity oi_build",
           "nr": "Core hold \u2014 operator-endorsed, leading; ride it.",
           "dr": [
             [
@@ -1288,7 +1288,7 @@
           "lock": "\ud83d\udd12",
           "fresh": false,
           "cd": "up",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build \u00b7 06-15 uw_opportunity dark_pool_accum",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1316,7 +1316,7 @@
           "lock": "",
           "fresh": false,
           "cd": "down",
-          "cdNote": "06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build \u00b7 06-15 uw_opportunity dark_pool_accum",
+          "cdNote": "06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity dark_pool_accum",
           "nr": "Hold light \u2014 burned sleeve; watch for YOUR re-entry trigger, no add on a source call.",
           "dr": [
             [
@@ -1619,38 +1619,38 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-16T12:51:28.757998+00:00",
+      "last_run": "2026-06-16T14:31:13.797101+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-16T12:51:28.757998+00:00",
+      "last_run": "2026-06-16T14:31:13.797101+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-16T12:51:28.757998+00:00",
+      "last_run": "2026-06-16T14:31:13.797101+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-16T12:51:28.757998+00:00",
+      "last_run": "2026-06-16T14:31:13.797101+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-16T12:51:28.757998+00:00",
+      "last_run": "2026-06-16T14:31:13.797101+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
-      "status": "down",
-      "last_run": "2026-06-16T12:51:28.757998+00:00",
-      "note": "overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z"
+      "status": "stale",
+      "last_run": "2026-06-16T14:31:13.797101+00:00",
+      "note": "due waiting: Investing OS Full Cockpit Build, last scheduled success 2026-06-15T14:32:59.313578Z; latest manual support 2026-06-15T13:10:17.839859Z; grace until 2026-06-16T11:00:00-04:00"
     }
   ],
   "synthesis": {
@@ -1934,11 +1934,11 @@
       "headline": "MAGS: Promising and the tape's with it (LEADING) \u2014 under your conviction \u2014 room to add.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build",
+        "Direction: 06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $4.6M, 8:1 c/p (1d)",
-        "UW \u25b2 call OI +450% at 65/65/67 strikes (1d)",
-        "UW \u25bc dark-pool blocks $0M net sell, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $4.7M, 8:1 c/p (0d)",
+        "UW \u25b2 call OI +2643% at 67/66.5/66 strikes (0d)",
+        "UW \u25bc dark-pool blocks $1M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Size toward the ceiling on conviction; if via options, a defined-risk structure. Raises it further: a 2nd independent source or a held rotation turn.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -1960,16 +1960,42 @@
       "headline": "GRNY: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build",
+        "Direction: 06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
         "Rotation: IN LINE",
-        "UW \u25b2 ask-side call sweeps $1.6M, 16:1 c/p (1d)",
-        "UW \u25b2 call OI +29% at 27/29/27 strikes (1d)",
-        "UW \u25bc dark-pool blocks $2M net sell, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $1.6M, 16:1 c/p (0d)",
+        "UW \u25b2 call OI +307% at 28/26/29 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $0M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "Still lagging SMH (-47%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
       "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
       "caveats": [],
+      "freshness": "as-of 2026-06-16",
+      "action": "NONE"
+    },
+    {
+      "ticker": "IVES",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "up",
+      "rotation": "LEADING",
+      "lean": "build",
+      "headline": "IVES: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
+      "evidence": [
+        "Conviction: real named backing (operator), not fully proven / single-source \u2014 moderate",
+        "Direction: 06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
+        "Rotation: LEADING",
+        "UW \u25b2 ask-side call sweeps $0.3M (0d)",
+        "UW \u25b2 call OI +167% at 40/30/41 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $0M net buy, 1 sessions (0d)"
+      ],
+      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
+      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Tactical \u2014 catalyst/cycle \u2014 medium, with a defined exit.",
+      "caveats": [
+        "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
+      ],
       "freshness": "as-of 2026-06-16",
       "action": "NONE"
     },
@@ -1984,43 +2010,16 @@
       "headline": "NVDA: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build",
+        "Direction: 06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $11.6M, 2:1 c/p (1d)",
-        "UW \u25b2 call OI +860% at 210/217.5/210 strikes (1d)",
-        "UW \u25bc dark-pool blocks $10M net sell, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $7.8M, 4:1 c/p (0d)",
+        "UW \u25b2 call OI +47567% at 220/215/222.5 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $18M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
       "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
       "caveats": [
-        "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
-      ],
-      "freshness": "as-of 2026-06-16",
-      "action": "NONE"
-    },
-    {
-      "ticker": "SMH",
-      "owned": true,
-      "stance_gate": "open",
-      "conviction": "Promising",
-      "cd": "up",
-      "rotation": "LEADING",
-      "lean": "build",
-      "headline": "SMH: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
-      "evidence": [
-        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity dark_pool_accum",
-        "Rotation: LEADING",
-        "UW \u25b2 ask-side call sweeps $5.5M, c/p 0.80 (1d)",
-        "UW \u25bc put OI +3917% at 465/380/415 strikes (1d)",
-        "UW \u25b2 dark-pool blocks $87M net buy, 1 sessions (1d)"
-      ],
-      "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
-      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
-      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
-      "caveats": [
-        "clustered: 1 independent source \u2014 not independent confirmation",
         "already moved: entry less asymmetric (sleeve leading) \u2014 flow is confirming a move already underway, not front-running it"
       ],
       "freshness": "as-of 2026-06-16",
@@ -2037,11 +2036,11 @@
       "headline": "XLF: Promising, conviction up but the sleeve's still lagging \u2014 research deeper / hold, watch for the rotation to turn.",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build \u00b7 06-15 uw_opportunity dark_pool_accum",
+        "Direction: 06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
         "Rotation: LAGGING",
-        "UW \u25b2 ask-side call sweeps $2.2M, 2:1 c/p (1d)",
-        "UW \u25b2 call OI +503867% at 54.5/56/55 strikes (1d)",
-        "UW \u25b2 dark-pool blocks $4M net buy, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $2.5M, 4:1 c/p (0d)",
+        "UW \u25b2 call OI +3686% at 56/56/55 strikes (0d)",
+        "UW \u25b2 dark-pool blocks $5M net buy, 1 sessions (0d)"
       ],
       "next_evidence": "Graduates it: the sleeve rotation turning up and holding, or a fresh independent catalyst.",
       "opportunity_cost": "Still lagging SMH (-57%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
@@ -2181,11 +2180,11 @@
       "headline": "MU: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
       "evidence": [
         "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-15 uw_opportunity sweep \u00b7 06-15 uw_opportunity oi_build \u00b7 06-15 uw_opportunity dark_pool_accum",
+        "Direction: 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
         "Rotation: LEADING",
-        "UW \u25bc ask-side put sweeps $29.8M, c/p 0.27 (1d)",
-        "UW \u25bc put OI +1550% at 540/530/470 strikes (1d)",
-        "UW \u25bc dark-pool blocks $8M net sell, 1 sessions (1d)"
+        "UW \u25b2 ask-side call sweeps $55.5M, 2:1 c/p (0d)",
+        "UW \u25bc put OI +22650% at 550/640/800 strikes (0d)",
+        "UW \u25bc dark-pool blocks $7M net sell, 1 sessions (0d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
@@ -2215,6 +2214,30 @@
       "action": "NONE"
     },
     {
+      "ticker": "SMH",
+      "owned": true,
+      "stance_gate": "open",
+      "conviction": "Promising",
+      "cd": "down",
+      "rotation": "LEADING",
+      "lean": "cooling",
+      "headline": "SMH: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
+      "evidence": [
+        "Conviction: real named backing (Lee), not fully proven / single-source \u2014 moderate",
+        "Direction: 06-16 uw_opportunity sweep \u00b7 06-16 uw_opportunity oi_build \u00b7 06-16 uw_opportunity dark_pool_accum",
+        "Rotation: LEADING",
+        "UW \u25bc ask-side put sweeps $8.8M, c/p 0.78 (0d)",
+        "UW \u25bc put OI +40640% at 440/465/440 strikes (0d)",
+        "UW \u25bc dark-pool blocks $8M net sell, 1 sessions (0d)"
+      ],
+      "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
+      "opportunity_cost": "This IS the SMH opportunity-cost benchmark.",
+      "ceiling": "Core \u2014 durable \u2014 can be a large position; conviction sizes toward the upper end.",
+      "caveats": [],
+      "freshness": "as-of 2026-06-16",
+      "action": "NONE"
+    },
+    {
       "ticker": "STRL",
       "owned": false,
       "stance_gate": "open",
@@ -2239,15 +2262,16 @@
       "owned": true,
       "stance_gate": "open",
       "conviction": "Promising",
-      "cd": "up",
+      "cd": "down",
       "rotation": "TURNING DOWN",
       "lean": "cooling",
       "headline": "VOLT: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (you own it).",
       "evidence": [
         "Conviction: real named backing (operator), not fully proven / single-source \u2014 moderate",
-        "Direction: 06-15 uw_opportunity call_flow",
+        "Direction: 06-16 uw_opportunity oi_build",
         "Rotation: TURNING DOWN",
-        "UW \u25b2 ask-side call flow $0.0M (1d)"
+        "UW \u25b2 ask-side call flow $0.0M (0d)",
+        "UW \u25bc put OI +100% at 39/39 strikes (0d)"
       ],
       "next_evidence": "Re-opens it: the direction turning back up on a fresh event, or the rotation re-leading.",
       "opportunity_cost": "Still lagging SMH (-42%/3M) \u2014 leaning in trades the benchmark for this name; size only as the relative trend turns.",
@@ -2258,8 +2282,8 @@
     }
   ],
   "bullish_flow": {
-    "as_of": "2026-06-15",
-    "count": 37,
+    "as_of": "2026-06-16",
+    "count": 38,
     "tickers": 13,
     "rows": [
       {
@@ -2274,10 +2298,44 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $1.1M, 1:1 c/p",
-          "call OI +14000% at 17/16/17.5 strikes",
-          "dark-pool blocks $4M net buy, 1 sessions"
+          "call OI +13500% at 19/18/22 strikes",
+          "dark-pool blocks $2M net buy, 1 sessions"
         ],
         "parked": true
+      },
+      {
+        "ticker": "GRNY",
+        "direction": "bullish",
+        "strength": "strong",
+        "signal_types": [
+          "sweep",
+          "oi_build",
+          "dark_pool_accum"
+        ],
+        "n": 3,
+        "evidence": [
+          "ask-side call sweeps $1.6M, 16:1 c/p",
+          "call OI +307% at 28/26/29 strikes",
+          "dark-pool blocks $0M net buy, 1 sessions"
+        ],
+        "parked": false
+      },
+      {
+        "ticker": "IGV",
+        "direction": "bullish",
+        "strength": "strong",
+        "signal_types": [
+          "sweep",
+          "oi_build",
+          "dark_pool_accum"
+        ],
+        "n": 3,
+        "evidence": [
+          "ask-side call sweeps $1.2M, 1:1 c/p",
+          "call OI +22813% at 105/120/95 strikes",
+          "dark-pool blocks $2M net buy, 1 sessions"
+        ],
+        "parked": false
       },
       {
         "ticker": "IVES",
@@ -2291,8 +2349,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $0.3M",
-          "put OI +10400% at 34/38/32 strikes",
-          "dark-pool blocks $1M net buy, 1 sessions"
+          "call OI +167% at 40/30/41 strikes",
+          "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2307,8 +2365,8 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $2.2M, 1:1 c/p",
-          "call OI +500% at 190/185/160 strikes",
+          "ask-side call sweeps $2.1M, 2:1 c/p",
+          "call OI +167% at 240/180/175 strikes",
           "dark-pool blocks $0M net buy, 1 sessions"
         ],
         "parked": true
@@ -2324,9 +2382,26 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $4.6M, 8:1 c/p",
-          "call OI +450% at 65/65/67 strikes",
-          "dark-pool blocks $0M net sell, 1 sessions"
+          "ask-side call sweeps $4.7M, 8:1 c/p",
+          "call OI +2643% at 67/66.5/66 strikes",
+          "dark-pool blocks $1M net sell, 1 sessions"
+        ],
+        "parked": false
+      },
+      {
+        "ticker": "MU",
+        "direction": "bullish",
+        "strength": "strong",
+        "signal_types": [
+          "sweep",
+          "oi_build",
+          "dark_pool_accum"
+        ],
+        "n": 3,
+        "evidence": [
+          "ask-side call sweeps $55.5M, 2:1 c/p",
+          "put OI +22650% at 550/640/800 strikes",
+          "dark-pool blocks $7M net sell, 1 sessions"
         ],
         "parked": false
       },
@@ -2341,26 +2416,9 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $11.6M, 2:1 c/p",
-          "call OI +860% at 210/217.5/210 strikes",
-          "dark-pool blocks $10M net sell, 1 sessions"
-        ],
-        "parked": false
-      },
-      {
-        "ticker": "SMH",
-        "direction": "bullish",
-        "strength": "strong",
-        "signal_types": [
-          "sweep",
-          "oi_build",
-          "dark_pool_accum"
-        ],
-        "n": 3,
-        "evidence": [
-          "ask-side call sweeps $5.5M, c/p 0.80",
-          "put OI +3917% at 465/380/415 strikes",
-          "dark-pool blocks $87M net buy, 1 sessions"
+          "ask-side call sweeps $7.8M, 4:1 c/p",
+          "call OI +47567% at 220/215/222.5 strikes",
+          "dark-pool blocks $18M net buy, 1 sessions"
         ],
         "parked": false
       },
@@ -2376,8 +2434,8 @@
         "n": 3,
         "evidence": [
           "ask-side call sweeps $2.1M, 6:1 c/p",
-          "call OI +400% at 20/16.5/18 strikes",
-          "dark-pool blocks $0M net buy, 1 sessions"
+          "call OI +767% at 18/16/17 strikes",
+          "dark-pool blocks $1M net buy, 1 sessions"
         ],
         "parked": true
       },
@@ -2392,56 +2450,24 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side call sweeps $2.2M, 2:1 c/p",
-          "call OI +503867% at 54.5/56/55 strikes",
-          "dark-pool blocks $4M net buy, 1 sessions"
-        ],
-        "parked": false
-      },
-      {
-        "ticker": "GRNY",
-        "direction": "bullish",
-        "strength": "moderate",
-        "signal_types": [
-          "sweep",
-          "oi_build",
-          "dark_pool_accum"
-        ],
-        "n": 3,
-        "evidence": [
-          "ask-side call sweeps $1.6M, 16:1 c/p",
-          "call OI +29% at 27/29/27 strikes",
-          "dark-pool blocks $2M net sell, 1 sessions"
+          "ask-side call sweeps $2.5M, 4:1 c/p",
+          "call OI +3686% at 56/56/55 strikes",
+          "dark-pool blocks $5M net buy, 1 sessions"
         ],
         "parked": false
       },
       {
         "ticker": "VOLT",
         "direction": "bullish",
-        "strength": "weak",
-        "signal_types": [
-          "call_flow"
-        ],
-        "n": 1,
-        "evidence": [
-          "ask-side call flow $0.0M"
-        ],
-        "parked": false
-      },
-      {
-        "ticker": "IGV",
-        "direction": "bearish",
         "strength": "strong",
         "signal_types": [
-          "sweep",
-          "oi_build",
-          "dark_pool_accum"
+          "call_flow",
+          "oi_build"
         ],
-        "n": 3,
+        "n": 2,
         "evidence": [
-          "ask-side put sweeps $0.8M, c/p 0.58",
-          "put OI +43474% at 89/84/83 strikes",
-          "dark-pool blocks $15M net sell, 1 sessions"
+          "ask-side call flow $0.0M",
+          "put OI +100% at 39/39 strikes"
         ],
         "parked": false
       },
@@ -2456,14 +2482,14 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side put sweeps $2.5M, c/p 0.92",
-          "put OI +5368% at 52/50/49 strikes",
-          "dark-pool blocks $3M net sell, 1 sessions"
+          "ask-side put sweeps $2.4M, c/p 0.94",
+          "call OI +3900% at 115/62/65 strikes",
+          "dark-pool blocks $0M net sell, 1 sessions"
         ],
         "parked": true
       },
       {
-        "ticker": "MU",
+        "ticker": "SMH",
         "direction": "bearish",
         "strength": "strong",
         "signal_types": [
@@ -2473,8 +2499,8 @@
         ],
         "n": 3,
         "evidence": [
-          "ask-side put sweeps $29.8M, c/p 0.27",
-          "put OI +1550% at 540/530/470 strikes",
+          "ask-side put sweeps $8.8M, c/p 0.78",
+          "put OI +40640% at 440/465/440 strikes",
           "dark-pool blocks $8M net sell, 1 sessions"
         ],
         "parked": false
@@ -3003,7 +3029,7 @@
         "source": "bullish_flow",
         "score": 68,
         "reason": "Fresh bullish flow can mark an asymmetric setup when it aligns with thesis and sizing.",
-        "evidence": "ask-side call sweeps $1.1M, 1:1 c/p, call OI +14000% at 17/16/17.5 strikes",
+        "evidence": "ask-side call sweeps $1.1M, 1:1 c/p, call OI +13500% at 19/18/22 strikes",
         "decay_window": "intraday to 1 trading day",
         "action": "review setup; no auto-trade"
       }
@@ -12612,8 +12638,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-15T10:02:14-04:00",
-        "connector_proof_age_hours": 22.82
+        "connector_verified_at": "2026-06-16T10:01:23-04:00",
+        "connector_proof_age_hours": 0.5
       }
     ],
     "missing": [],
@@ -12640,8 +12666,8 @@
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },
     "cloud_routines": {
-      "status": "overdue",
-      "line": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=0; overdue=1; support monitored=12, support overdue=2.",
+      "status": "live_run_proven",
+      "line": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=0; support monitored=12, support overdue=2.",
       "scheduled_success_count": 14,
       "expected_count": 14,
       "core_expected_count": 14,
@@ -12651,45 +12677,45 @@
       "support_overdue_count": 2,
       "manual_support_only_count": 0,
       "failed_latest_count": 0,
-      "overdue_count": 1,
+      "overdue_count": 0,
       "due_waiting_count": 1,
       "routine_receipt_due": {
         "activated_at": "2026-06-12T19:25:00-04:00",
-        "now": "2026-06-16T08:51:28.893543-04:00",
+        "now": "2026-06-16T10:31:13.933842-04:00",
         "grace_minutes": 30,
-        "overdue_count": 1,
+        "overdue_count": 0,
         "due_waiting_count": 1,
-        "current_count": 11,
+        "current_count": 12,
         "not_due_yet_count": 1,
         "next_due": {
-          "routine_id": "investing-os-daily-synthesis",
-          "routine_name": "Investing OS Daily Synthesis",
-          "role": "daily_synthesis",
-          "schedule": "market weekdays 9:30 AM ET",
+          "routine_id": "investing-os-post-close-refresh",
+          "routine_name": "Investing OS Post-Close Refresh",
+          "role": "post_close_refresh",
+          "schedule": "market weekdays 4:30 PM ET",
           "due_state": "current",
           "expected_since": "2026-06-12T19:25:00-04:00",
-          "last_due_at": "2026-06-15T09:30:00-04:00",
-          "next_due_at": "2026-06-16T09:30:00-04:00",
-          "overdue_after": "2026-06-15T10:00:00-04:00",
+          "last_due_at": "2026-06-15T16:30:00-04:00",
+          "next_due_at": "2026-06-16T16:30:00-04:00",
+          "overdue_after": "2026-06-15T17:00:00-04:00",
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T13:36:38.732296Z",
-          "last_success_at": "2026-06-15T13:36:38.732296Z",
+          "last_recorded_at": "2026-06-15T20:32:42.145765Z",
+          "last_success_at": "2026-06-15T20:32:42.145765Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-15T13:36:38.732296Z",
-          "last_scheduled_success_at": "2026-06-15T13:36:38.732296Z",
-          "last_scheduled_summary": "repo synthesis refreshed; Notion page written and verified; Social Watch still not_checked; Decisions/Trade Outcomes/Pilot live row deltas not enumerated",
-          "last_manual_recorded_at": "2026-06-15T13:10:09.757197Z",
-          "last_manual_success_at": "2026-06-15T13:10:09.757197Z",
-          "last_manual_summary": "daily synthesis manual run completed from current cockpit feed evidence",
+          "last_scheduled_recorded_at": "2026-06-15T20:32:42.145765Z",
+          "last_scheduled_success_at": "2026-06-15T20:32:42.145765Z",
+          "last_scheduled_summary": "post-close refresh succeeded",
+          "last_manual_recorded_at": "",
+          "last_manual_success_at": "",
+          "last_manual_summary": "",
           "manual_support_only": false,
-          "last_summary": "repo synthesis refreshed; Notion page written and verified; Social Watch still not_checked; Decisions/Trade Outcomes/Pilot live row deltas not enumerated",
-          "last_ran_at": "2026-06-15T13:36:38.732296Z",
-          "last_ran_label": "2026-06-15T13:36:38.732296Z",
-          "last_scheduled_success_label": "2026-06-15T13:36:38.732296Z",
-          "latest_manual_support_label": "2026-06-15T13:10:09.757197Z",
-          "overdue_line": "overdue: Investing OS Daily Synthesis, last scheduled success 2026-06-15T13:36:38.732296Z; latest manual support 2026-06-15T13:10:09.757197Z"
+          "last_summary": "post-close refresh succeeded",
+          "last_ran_at": "2026-06-15T20:32:42.145765Z",
+          "last_ran_label": "2026-06-15T20:32:42.145765Z",
+          "last_scheduled_success_label": "2026-06-15T20:32:42.145765Z",
+          "latest_manual_support_label": "",
+          "overdue_line": "overdue: Investing OS Post-Close Refresh, last scheduled success 2026-06-15T20:32:42.145765Z"
         },
         "rows": [
           {
@@ -12817,30 +12843,30 @@
             "routine_name": "Investing OS Early Cockpit Build",
             "role": "early_cockpit_build",
             "schedule": "market weekdays 8:50 AM ET",
-            "due_state": "due_waiting",
+            "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
             "last_due_at": "2026-06-16T08:50:00-04:00",
             "next_due_at": "2026-06-17T08:50:00-04:00",
             "overdue_after": "2026-06-16T09:20:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-16T12:51:25.775606Z",
-            "last_success_at": "2026-06-15T13:10:09.543680Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-16T12:51:25.775606Z",
-            "last_scheduled_success_at": "2026-06-12T12:51:34.365421Z",
-            "last_scheduled_summary": "investing-os-early-cockpit-build started",
+            "last_recorded_at": "2026-06-16T12:51:33.172129Z",
+            "last_success_at": "2026-06-16T12:51:33.172129Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-16T12:51:33.172129Z",
+            "last_scheduled_success_at": "2026-06-16T12:51:33.172129Z",
+            "last_scheduled_summary": "early cockpit build succeeded",
             "last_manual_recorded_at": "2026-06-15T13:10:09.543680Z",
             "last_manual_success_at": "2026-06-15T13:10:09.543680Z",
             "last_manual_summary": "early cockpit build manual run refreshed dashboard artifacts",
             "manual_support_only": false,
-            "last_summary": "investing-os-early-cockpit-build started",
-            "last_ran_at": "2026-06-12T12:51:34.365421Z",
-            "last_ran_label": "2026-06-12T12:51:34.365421Z",
-            "last_scheduled_success_label": "2026-06-12T12:51:34.365421Z",
+            "last_summary": "early cockpit build succeeded",
+            "last_ran_at": "2026-06-16T12:51:33.172129Z",
+            "last_ran_label": "2026-06-16T12:51:33.172129Z",
+            "last_scheduled_success_label": "2026-06-16T12:51:33.172129Z",
             "latest_manual_support_label": "2026-06-15T13:10:09.543680Z",
-            "overdue_line": "overdue: Investing OS Early Cockpit Build, last scheduled success 2026-06-12T12:51:34.365421Z; latest manual support 2026-06-15T13:10:09.543680Z"
+            "overdue_line": "overdue: Investing OS Early Cockpit Build, last scheduled success 2026-06-16T12:51:33.172129Z; latest manual support 2026-06-15T13:10:09.543680Z"
           },
           {
             "routine_id": "investing-os-daily-synthesis",
@@ -12849,28 +12875,28 @@
             "schedule": "market weekdays 9:30 AM ET",
             "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T09:30:00-04:00",
-            "next_due_at": "2026-06-16T09:30:00-04:00",
-            "overdue_after": "2026-06-15T10:00:00-04:00",
+            "last_due_at": "2026-06-16T09:30:00-04:00",
+            "next_due_at": "2026-06-17T09:30:00-04:00",
+            "overdue_after": "2026-06-16T10:00:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T13:36:38.732296Z",
-            "last_success_at": "2026-06-15T13:36:38.732296Z",
+            "last_recorded_at": "2026-06-16T13:36:03.458790Z",
+            "last_success_at": "2026-06-16T13:36:03.458790Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-15T13:36:38.732296Z",
-            "last_scheduled_success_at": "2026-06-15T13:36:38.732296Z",
-            "last_scheduled_summary": "repo synthesis refreshed; Notion page written and verified; Social Watch still not_checked; Decisions/Trade Outcomes/Pilot live row deltas not enumerated",
+            "last_scheduled_recorded_at": "2026-06-16T13:36:03.458790Z",
+            "last_scheduled_success_at": "2026-06-16T13:36:03.458790Z",
+            "last_scheduled_summary": "repo synthesis refreshed; signal log 33 rows; source calls 40 pending; research queue 3 queued; Notion page written+verified; row-level notion query unavailable",
             "last_manual_recorded_at": "2026-06-15T13:10:09.757197Z",
             "last_manual_success_at": "2026-06-15T13:10:09.757197Z",
             "last_manual_summary": "daily synthesis manual run completed from current cockpit feed evidence",
             "manual_support_only": false,
-            "last_summary": "repo synthesis refreshed; Notion page written and verified; Social Watch still not_checked; Decisions/Trade Outcomes/Pilot live row deltas not enumerated",
-            "last_ran_at": "2026-06-15T13:36:38.732296Z",
-            "last_ran_label": "2026-06-15T13:36:38.732296Z",
-            "last_scheduled_success_label": "2026-06-15T13:36:38.732296Z",
+            "last_summary": "repo synthesis refreshed; signal log 33 rows; source calls 40 pending; research queue 3 queued; Notion page written+verified; row-level notion query unavailable",
+            "last_ran_at": "2026-06-16T13:36:03.458790Z",
+            "last_ran_label": "2026-06-16T13:36:03.458790Z",
+            "last_scheduled_success_label": "2026-06-16T13:36:03.458790Z",
             "latest_manual_support_label": "2026-06-15T13:10:09.757197Z",
-            "overdue_line": "overdue: Investing OS Daily Synthesis, last scheduled success 2026-06-15T13:36:38.732296Z; latest manual support 2026-06-15T13:10:09.757197Z"
+            "overdue_line": "overdue: Investing OS Daily Synthesis, last scheduled success 2026-06-16T13:36:03.458790Z; latest manual support 2026-06-15T13:10:09.757197Z"
           },
           {
             "routine_id": "investing-os-post-open-evidence-gate",
@@ -12879,28 +12905,28 @@
             "schedule": "market weekdays 9:40 AM ET",
             "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T09:40:00-04:00",
-            "next_due_at": "2026-06-16T09:40:00-04:00",
-            "overdue_after": "2026-06-15T10:10:00-04:00",
+            "last_due_at": "2026-06-16T09:40:00-04:00",
+            "next_due_at": "2026-06-17T09:40:00-04:00",
+            "overdue_after": "2026-06-16T10:10:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T13:42:10.635920Z",
-            "last_success_at": "2026-06-15T13:42:10.635920Z",
+            "last_recorded_at": "2026-06-16T13:41:54.186579Z",
+            "last_success_at": "2026-06-16T13:41:54.186579Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-15T13:42:10.635920Z",
-            "last_scheduled_success_at": "2026-06-15T13:42:10.635920Z",
-            "last_scheduled_summary": "runbook 4 check sets/23 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing-failed; gates still blocked by SECTOR_TIDE unsupported path, MARKET_MOVERS 403 advanced_tier_required, TNX flow no rows; dashboard refresh skipped",
+            "last_scheduled_recorded_at": "2026-06-16T13:41:54.186579Z",
+            "last_scheduled_success_at": "2026-06-16T13:41:54.186579Z",
+            "last_scheduled_summary": "4 check sets/22 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing; blocked SECTOR_TIDE unsupported MARKET_MOVERS 403 advanced_tier_required TNX flow empty; dashboard refresh skipped",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
             "last_manual_summary": "",
             "manual_support_only": false,
-            "last_summary": "runbook 4 check sets/23 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing-failed; gates still blocked by SECTOR_TIDE unsupported path, MARKET_MOVERS 403 advanced_tier_required, TNX flow no rows; dashboard refresh skipped",
-            "last_ran_at": "2026-06-15T13:42:10.635920Z",
-            "last_ran_label": "2026-06-15T13:42:10.635920Z",
-            "last_scheduled_success_label": "2026-06-15T13:42:10.635920Z",
+            "last_summary": "4 check sets/22 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing; blocked SECTOR_TIDE unsupported MARKET_MOVERS 403 advanced_tier_required TNX flow empty; dashboard refresh skipped",
+            "last_ran_at": "2026-06-16T13:41:54.186579Z",
+            "last_ran_label": "2026-06-16T13:41:54.186579Z",
+            "last_scheduled_success_label": "2026-06-16T13:41:54.186579Z",
             "latest_manual_support_label": "",
-            "overdue_line": "overdue: Investing OS Post-Open Evidence Gate, last scheduled success 2026-06-15T13:42:10.635920Z"
+            "overdue_line": "overdue: Investing OS Post-Open Evidence Gate, last scheduled success 2026-06-16T13:41:54.186579Z"
           },
           {
             "routine_id": "investing-os-fundstrat-daytime-watch",
@@ -12909,58 +12935,58 @@
             "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
             "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T09:45:00-04:00",
-            "next_due_at": "2026-06-16T09:45:00-04:00",
-            "overdue_after": "2026-06-15T10:15:00-04:00",
+            "last_due_at": "2026-06-16T09:45:00-04:00",
+            "next_due_at": "2026-06-17T09:45:00-04:00",
+            "overdue_after": "2026-06-16T10:15:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T19:47:19.753271Z",
-            "last_success_at": "2026-06-15T19:47:19.753271Z",
+            "last_recorded_at": "2026-06-16T13:48:08.826881Z",
+            "last_success_at": "2026-06-16T13:48:08.826881Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-15T19:47:19.753271Z",
-            "last_scheduled_success_at": "2026-06-15T19:47:19.753271Z",
-            "last_scheduled_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none",
+            "last_scheduled_recorded_at": "2026-06-16T13:48:08.826881Z",
+            "last_scheduled_success_at": "2026-06-16T13:48:08.826881Z",
+            "last_scheduled_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 stale visible flash cards; validation passed; alerts sent 5 prior-candidate prompts; dark/stale macro latest June 15 and crypto latest June 8; blockers none",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
             "last_manual_summary": "",
             "manual_support_only": false,
-            "last_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none",
-            "last_ran_at": "2026-06-15T19:47:19.753271Z",
-            "last_ran_label": "2026-06-15T19:47:19.753271Z",
-            "last_scheduled_success_label": "2026-06-15T19:47:19.753271Z",
+            "last_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 stale visible flash cards; validation passed; alerts sent 5 prior-candidate prompts; dark/stale macro latest June 15 and crypto latest June 8; blockers none",
+            "last_ran_at": "2026-06-16T13:48:08.826881Z",
+            "last_ran_label": "2026-06-16T13:48:08.826881Z",
+            "last_scheduled_success_label": "2026-06-16T13:48:08.826881Z",
             "latest_manual_support_label": "",
-            "overdue_line": "overdue: Investing OS Fundstrat Daytime Watch, last scheduled success 2026-06-15T19:47:19.753271Z"
+            "overdue_line": "overdue: Investing OS Fundstrat Daytime Watch, last scheduled success 2026-06-16T13:48:08.826881Z"
           },
           {
             "routine_id": "investing-os-uw-opportunity-cache",
             "routine_name": "Investing OS UW Opportunity Cache",
             "role": "uw_opportunity_cache",
             "schedule": "market weekdays 10:00 AM ET",
-            "due_state": "overdue",
+            "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T10:00:00-04:00",
-            "next_due_at": "2026-06-16T10:00:00-04:00",
-            "overdue_after": "2026-06-15T10:30:00-04:00",
+            "last_due_at": "2026-06-16T10:00:00-04:00",
+            "next_due_at": "2026-06-17T10:00:00-04:00",
+            "overdue_after": "2026-06-16T10:30:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
-            "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T14:15:27.041743Z",
-            "last_success_at": "2026-06-15T14:15:27.041743Z",
-            "last_scheduled_status": "failed",
-            "last_scheduled_recorded_at": "2026-06-15T14:03:05.361645Z",
-            "last_scheduled_success_at": "2026-06-12T14:03:02.827851Z",
-            "last_scheduled_summary": "scanned 14 tickers; bundle held at 13 observations/0 cache landing; empty-source GRNJ; VOLT oi rows 100 but normalized oi missing; worker/auth failures 0",
+            "last_run_source": "scheduled",
+            "last_recorded_at": "2026-06-16T14:01:48.362074Z",
+            "last_success_at": "2026-06-16T14:01:48.362074Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-16T14:01:48.362074Z",
+            "last_scheduled_success_at": "2026-06-16T14:01:48.362074Z",
+            "last_scheduled_summary": "scanned 14 tickers; emitted 38 signals; cache landed src/uw_opportunity_signals.json; worker failures 0; empty-source tickers GRNJ,VOLT",
             "last_manual_recorded_at": "2026-06-15T14:15:27.041743Z",
             "last_manual_success_at": "2026-06-15T14:15:27.041743Z",
             "last_manual_summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed",
             "manual_support_only": false,
-            "last_summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed",
-            "last_ran_at": "2026-06-12T14:03:02.827851Z",
-            "last_ran_label": "2026-06-12T14:03:02.827851Z",
-            "last_scheduled_success_label": "2026-06-12T14:03:02.827851Z",
+            "last_summary": "scanned 14 tickers; emitted 38 signals; cache landed src/uw_opportunity_signals.json; worker failures 0; empty-source tickers GRNJ,VOLT",
+            "last_ran_at": "2026-06-16T14:01:48.362074Z",
+            "last_ran_label": "2026-06-16T14:01:48.362074Z",
+            "last_scheduled_success_label": "2026-06-16T14:01:48.362074Z",
             "latest_manual_support_label": "2026-06-15T14:15:27.041743Z",
-            "overdue_line": "overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z"
+            "overdue_line": "overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-16T14:01:48.362074Z; latest manual support 2026-06-15T14:15:27.041743Z"
           },
           {
             "routine_id": "investing-os-parabolic-cache",
@@ -12969,53 +12995,53 @@
             "schedule": "market weekdays 10:05 AM ET",
             "due_state": "current",
             "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T10:05:00-04:00",
-            "next_due_at": "2026-06-16T10:05:00-04:00",
-            "overdue_after": "2026-06-15T10:35:00-04:00",
+            "last_due_at": "2026-06-16T10:05:00-04:00",
+            "next_due_at": "2026-06-17T10:05:00-04:00",
+            "overdue_after": "2026-06-16T10:35:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T14:09:10.396094Z",
-            "last_success_at": "2026-06-15T14:09:10.396094Z",
+            "last_recorded_at": "2026-06-16T14:07:40.308289Z",
+            "last_success_at": "2026-06-16T14:07:40.308289Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-15T14:09:10.396094Z",
-            "last_scheduled_success_at": "2026-06-15T14:09:10.396094Z",
+            "last_scheduled_recorded_at": "2026-06-16T14:07:40.308289Z",
+            "last_scheduled_success_at": "2026-06-16T14:07:40.308289Z",
             "last_scheduled_summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none",
             "last_manual_recorded_at": "2026-06-15T13:10:10.271622Z",
             "last_manual_success_at": "2026-06-15T13:10:10.271622Z",
             "last_manual_summary": "parabolic cache manual run completed",
             "manual_support_only": false,
             "last_summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none",
-            "last_ran_at": "2026-06-15T14:09:10.396094Z",
-            "last_ran_label": "2026-06-15T14:09:10.396094Z",
-            "last_scheduled_success_label": "2026-06-15T14:09:10.396094Z",
+            "last_ran_at": "2026-06-16T14:07:40.308289Z",
+            "last_ran_label": "2026-06-16T14:07:40.308289Z",
+            "last_scheduled_success_label": "2026-06-16T14:07:40.308289Z",
             "latest_manual_support_label": "2026-06-15T13:10:10.271622Z",
-            "overdue_line": "overdue: Investing OS Parabolic Cache, last scheduled success 2026-06-15T14:09:10.396094Z; latest manual support 2026-06-15T13:10:10.271622Z"
+            "overdue_line": "overdue: Investing OS Parabolic Cache, last scheduled success 2026-06-16T14:07:40.308289Z; latest manual support 2026-06-15T13:10:10.271622Z"
           },
           {
             "routine_id": "investing-os-full-cockpit-build",
             "routine_name": "Investing OS Full Cockpit Build",
             "role": "full_cockpit_build",
             "schedule": "market weekdays 10:30 AM ET",
-            "due_state": "current",
+            "due_state": "due_waiting",
             "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T10:30:00-04:00",
-            "next_due_at": "2026-06-16T10:30:00-04:00",
-            "overdue_after": "2026-06-15T11:00:00-04:00",
+            "last_due_at": "2026-06-16T10:30:00-04:00",
+            "next_due_at": "2026-06-17T10:30:00-04:00",
+            "overdue_after": "2026-06-16T11:00:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "success",
+            "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-15T14:32:59.313578Z",
+            "last_recorded_at": "2026-06-16T14:31:10.840687Z",
             "last_success_at": "2026-06-15T14:32:59.313578Z",
-            "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-15T14:32:59.313578Z",
+            "last_scheduled_status": "started",
+            "last_scheduled_recorded_at": "2026-06-16T14:31:10.840687Z",
             "last_scheduled_success_at": "2026-06-15T14:32:59.313578Z",
-            "last_scheduled_summary": "full cockpit build succeeded",
+            "last_scheduled_summary": "investing-os-full-cockpit-build started",
             "last_manual_recorded_at": "2026-06-15T13:10:17.839859Z",
             "last_manual_success_at": "2026-06-15T13:10:17.839859Z",
             "last_manual_summary": "full cockpit build manual run refreshed dashboard artifacts",
             "manual_support_only": false,
-            "last_summary": "full cockpit build succeeded",
+            "last_summary": "investing-os-full-cockpit-build started",
             "last_ran_at": "2026-06-15T14:32:59.313578Z",
             "last_ran_label": "2026-06-15T14:32:59.313578Z",
             "last_scheduled_success_label": "2026-06-15T14:32:59.313578Z",
@@ -13041,16 +13067,16 @@
             "last_scheduled_recorded_at": "2026-06-15T20:32:42.145765Z",
             "last_scheduled_success_at": "2026-06-15T20:32:42.145765Z",
             "last_scheduled_summary": "post-close refresh succeeded",
-            "last_manual_recorded_at": "2026-06-08T21:27:16.114745Z",
-            "last_manual_success_at": "2026-06-08T21:27:16.114745Z",
-            "last_manual_summary": "post-close manual run refreshed dashboard artifacts",
+            "last_manual_recorded_at": "",
+            "last_manual_success_at": "",
+            "last_manual_summary": "",
             "manual_support_only": false,
             "last_summary": "post-close refresh succeeded",
             "last_ran_at": "2026-06-15T20:32:42.145765Z",
             "last_ran_label": "2026-06-15T20:32:42.145765Z",
             "last_scheduled_success_label": "2026-06-15T20:32:42.145765Z",
-            "latest_manual_support_label": "2026-06-08T21:27:16.114745Z",
-            "overdue_line": "overdue: Investing OS Post-Close Refresh, last scheduled success 2026-06-15T20:32:42.145765Z; latest manual support 2026-06-08T21:27:16.114745Z"
+            "latest_manual_support_label": "",
+            "overdue_line": "overdue: Investing OS Post-Close Refresh, last scheduled success 2026-06-15T20:32:42.145765Z"
           },
           {
             "routine_id": "investing-os-positions-sync",
@@ -13101,80 +13127,49 @@
             "last_scheduled_recorded_at": "2026-06-15T23:07:24.984509Z",
             "last_scheduled_success_at": "2026-06-15T23:07:24.984509Z",
             "last_scheduled_summary": "checked 11 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 3; validation passed; Notion none; dark/stale crypto flash no fresh June 15, intraday/fed-watch/live-technical stale or empty, social_watch dark; blockers none",
-            "last_manual_recorded_at": "2026-06-08T21:27:16.582890Z",
-            "last_manual_success_at": "2026-06-08T21:27:16.582890Z",
-            "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
+            "last_manual_recorded_at": "",
+            "last_manual_success_at": "",
+            "last_manual_summary": "",
             "manual_support_only": false,
             "last_summary": "checked 11 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 3; validation passed; Notion none; dark/stale crypto flash no fresh June 15, intraday/fed-watch/live-technical stale or empty, social_watch dark; blockers none",
             "last_ran_at": "2026-06-15T23:07:24.984509Z",
             "last_ran_label": "2026-06-15T23:07:24.984509Z",
             "last_scheduled_success_label": "2026-06-15T23:07:24.984509Z",
-            "latest_manual_support_label": "2026-06-08T21:27:16.582890Z",
-            "overdue_line": "overdue: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-15T23:07:24.984509Z; latest manual support 2026-06-08T21:27:16.582890Z"
+            "latest_manual_support_label": "",
+            "overdue_line": "overdue: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-15T23:07:24.984509Z"
           }
         ],
-        "overdue": [
-          {
-            "routine_id": "investing-os-uw-opportunity-cache",
-            "routine_name": "Investing OS UW Opportunity Cache",
-            "role": "uw_opportunity_cache",
-            "schedule": "market weekdays 10:00 AM ET",
-            "due_state": "overdue",
-            "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-15T10:00:00-04:00",
-            "next_due_at": "2026-06-16T10:00:00-04:00",
-            "overdue_after": "2026-06-15T10:30:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "success",
-            "last_run_source": "manual",
-            "last_recorded_at": "2026-06-15T14:15:27.041743Z",
-            "last_success_at": "2026-06-15T14:15:27.041743Z",
-            "last_scheduled_status": "failed",
-            "last_scheduled_recorded_at": "2026-06-15T14:03:05.361645Z",
-            "last_scheduled_success_at": "2026-06-12T14:03:02.827851Z",
-            "last_scheduled_summary": "scanned 14 tickers; bundle held at 13 observations/0 cache landing; empty-source GRNJ; VOLT oi rows 100 but normalized oi missing; worker/auth failures 0",
-            "last_manual_recorded_at": "2026-06-15T14:15:27.041743Z",
-            "last_manual_success_at": "2026-06-15T14:15:27.041743Z",
-            "last_manual_summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed",
-            "manual_support_only": false,
-            "last_summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed",
-            "last_ran_at": "2026-06-12T14:03:02.827851Z",
-            "last_ran_label": "2026-06-12T14:03:02.827851Z",
-            "last_scheduled_success_label": "2026-06-12T14:03:02.827851Z",
-            "latest_manual_support_label": "2026-06-15T14:15:27.041743Z",
-            "overdue_line": "overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z"
-          }
-        ],
+        "overdue": [],
         "due_waiting": [
           {
-            "routine_id": "investing-os-early-cockpit-build",
-            "routine_name": "Investing OS Early Cockpit Build",
-            "role": "early_cockpit_build",
-            "schedule": "market weekdays 8:50 AM ET",
+            "routine_id": "investing-os-full-cockpit-build",
+            "routine_name": "Investing OS Full Cockpit Build",
+            "role": "full_cockpit_build",
+            "schedule": "market weekdays 10:30 AM ET",
             "due_state": "due_waiting",
             "expected_since": "2026-06-12T19:25:00-04:00",
-            "last_due_at": "2026-06-16T08:50:00-04:00",
-            "next_due_at": "2026-06-17T08:50:00-04:00",
-            "overdue_after": "2026-06-16T09:20:00-04:00",
+            "last_due_at": "2026-06-16T10:30:00-04:00",
+            "next_due_at": "2026-06-17T10:30:00-04:00",
+            "overdue_after": "2026-06-16T11:00:00-04:00",
             "max_age_minutes": 30,
             "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-16T12:51:25.775606Z",
-            "last_success_at": "2026-06-15T13:10:09.543680Z",
+            "last_recorded_at": "2026-06-16T14:31:10.840687Z",
+            "last_success_at": "2026-06-15T14:32:59.313578Z",
             "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-16T12:51:25.775606Z",
-            "last_scheduled_success_at": "2026-06-12T12:51:34.365421Z",
-            "last_scheduled_summary": "investing-os-early-cockpit-build started",
-            "last_manual_recorded_at": "2026-06-15T13:10:09.543680Z",
-            "last_manual_success_at": "2026-06-15T13:10:09.543680Z",
-            "last_manual_summary": "early cockpit build manual run refreshed dashboard artifacts",
+            "last_scheduled_recorded_at": "2026-06-16T14:31:10.840687Z",
+            "last_scheduled_success_at": "2026-06-15T14:32:59.313578Z",
+            "last_scheduled_summary": "investing-os-full-cockpit-build started",
+            "last_manual_recorded_at": "2026-06-15T13:10:17.839859Z",
+            "last_manual_success_at": "2026-06-15T13:10:17.839859Z",
+            "last_manual_summary": "full cockpit build manual run refreshed dashboard artifacts",
             "manual_support_only": false,
-            "last_summary": "investing-os-early-cockpit-build started",
-            "last_ran_at": "2026-06-12T12:51:34.365421Z",
-            "last_ran_label": "2026-06-12T12:51:34.365421Z",
-            "last_scheduled_success_label": "2026-06-12T12:51:34.365421Z",
-            "latest_manual_support_label": "2026-06-15T13:10:09.543680Z",
-            "overdue_line": "overdue: Investing OS Early Cockpit Build, last scheduled success 2026-06-12T12:51:34.365421Z; latest manual support 2026-06-15T13:10:09.543680Z"
+            "last_summary": "investing-os-full-cockpit-build started",
+            "last_ran_at": "2026-06-15T14:32:59.313578Z",
+            "last_ran_label": "2026-06-15T14:32:59.313578Z",
+            "last_scheduled_success_label": "2026-06-15T14:32:59.313578Z",
+            "latest_manual_support_label": "2026-06-15T13:10:17.839859Z",
+            "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-15T14:32:59.313578Z; latest manual support 2026-06-15T13:10:17.839859Z"
           }
         ],
         "not_due_yet": [
@@ -13212,7 +13207,7 @@
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-12T19:25:00-04:00",
-        "now": "2026-06-16T08:51:28.893543-04:00",
+        "now": "2026-06-16T10:31:13.933842-04:00",
         "grace_minutes": 30,
         "overdue_count": 2,
         "due_waiting_count": 0,
@@ -13706,38 +13701,7 @@
           }
         ]
       },
-      "overdue": [
-        {
-          "routine_id": "investing-os-uw-opportunity-cache",
-          "routine_name": "Investing OS UW Opportunity Cache",
-          "role": "uw_opportunity_cache",
-          "schedule": "market weekdays 10:00 AM ET",
-          "due_state": "overdue",
-          "expected_since": "2026-06-12T19:25:00-04:00",
-          "last_due_at": "2026-06-15T10:00:00-04:00",
-          "next_due_at": "2026-06-16T10:00:00-04:00",
-          "overdue_after": "2026-06-15T10:30:00-04:00",
-          "max_age_minutes": 30,
-          "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T14:15:27.041743Z",
-          "last_success_at": "2026-06-15T14:15:27.041743Z",
-          "last_scheduled_status": "failed",
-          "last_scheduled_recorded_at": "2026-06-15T14:03:05.361645Z",
-          "last_scheduled_success_at": "2026-06-12T14:03:02.827851Z",
-          "last_scheduled_summary": "scanned 14 tickers; bundle held at 13 observations/0 cache landing; empty-source GRNJ; VOLT oi rows 100 but normalized oi missing; worker/auth failures 0",
-          "last_manual_recorded_at": "2026-06-15T14:15:27.041743Z",
-          "last_manual_success_at": "2026-06-15T14:15:27.041743Z",
-          "last_manual_summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed",
-          "manual_support_only": false,
-          "last_summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed",
-          "last_ran_at": "2026-06-12T14:03:02.827851Z",
-          "last_ran_label": "2026-06-12T14:03:02.827851Z",
-          "last_scheduled_success_label": "2026-06-12T14:03:02.827851Z",
-          "latest_manual_support_label": "2026-06-15T14:15:27.041743Z",
-          "overdue_line": "overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-12T14:03:02.827851Z; latest manual support 2026-06-15T14:15:27.041743Z"
-        }
-      ],
+      "overdue": [],
       "support_overdue": [
         {
           "routine_id": "investing-os-deep-synthesis",
@@ -13802,34 +13766,34 @@
       ],
       "due_waiting": [
         {
-          "routine_id": "investing-os-early-cockpit-build",
-          "routine_name": "Investing OS Early Cockpit Build",
-          "role": "early_cockpit_build",
-          "schedule": "market weekdays 8:50 AM ET",
+          "routine_id": "investing-os-full-cockpit-build",
+          "routine_name": "Investing OS Full Cockpit Build",
+          "role": "full_cockpit_build",
+          "schedule": "market weekdays 10:30 AM ET",
           "due_state": "due_waiting",
           "expected_since": "2026-06-12T19:25:00-04:00",
-          "last_due_at": "2026-06-16T08:50:00-04:00",
-          "next_due_at": "2026-06-17T08:50:00-04:00",
-          "overdue_after": "2026-06-16T09:20:00-04:00",
+          "last_due_at": "2026-06-16T10:30:00-04:00",
+          "next_due_at": "2026-06-17T10:30:00-04:00",
+          "overdue_after": "2026-06-16T11:00:00-04:00",
           "max_age_minutes": 30,
           "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-16T12:51:25.775606Z",
-          "last_success_at": "2026-06-15T13:10:09.543680Z",
+          "last_recorded_at": "2026-06-16T14:31:10.840687Z",
+          "last_success_at": "2026-06-15T14:32:59.313578Z",
           "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-16T12:51:25.775606Z",
-          "last_scheduled_success_at": "2026-06-12T12:51:34.365421Z",
-          "last_scheduled_summary": "investing-os-early-cockpit-build started",
-          "last_manual_recorded_at": "2026-06-15T13:10:09.543680Z",
-          "last_manual_success_at": "2026-06-15T13:10:09.543680Z",
-          "last_manual_summary": "early cockpit build manual run refreshed dashboard artifacts",
+          "last_scheduled_recorded_at": "2026-06-16T14:31:10.840687Z",
+          "last_scheduled_success_at": "2026-06-15T14:32:59.313578Z",
+          "last_scheduled_summary": "investing-os-full-cockpit-build started",
+          "last_manual_recorded_at": "2026-06-15T13:10:17.839859Z",
+          "last_manual_success_at": "2026-06-15T13:10:17.839859Z",
+          "last_manual_summary": "full cockpit build manual run refreshed dashboard artifacts",
           "manual_support_only": false,
-          "last_summary": "investing-os-early-cockpit-build started",
-          "last_ran_at": "2026-06-12T12:51:34.365421Z",
-          "last_ran_label": "2026-06-12T12:51:34.365421Z",
-          "last_scheduled_success_label": "2026-06-12T12:51:34.365421Z",
-          "latest_manual_support_label": "2026-06-15T13:10:09.543680Z",
-          "overdue_line": "overdue: Investing OS Early Cockpit Build, last scheduled success 2026-06-12T12:51:34.365421Z; latest manual support 2026-06-15T13:10:09.543680Z"
+          "last_summary": "investing-os-full-cockpit-build started",
+          "last_ran_at": "2026-06-15T14:32:59.313578Z",
+          "last_ran_label": "2026-06-15T14:32:59.313578Z",
+          "last_scheduled_success_label": "2026-06-15T14:32:59.313578Z",
+          "latest_manual_support_label": "2026-06-15T13:10:17.839859Z",
+          "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-15T14:32:59.313578Z; latest manual support 2026-06-15T13:10:17.839859Z"
         }
       ],
       "missing_scheduled_success_count": 0,
@@ -13842,7 +13806,7 @@
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
           "proof_scope": "support",
-          "receipt_count": 4,
+          "receipt_count": 2,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-15T13:10:18.667704Z",
@@ -13863,7 +13827,7 @@
           "role": "weekly_pilot_run",
           "schedule": "Sunday 6:00 PM ET",
           "proof_scope": "support",
-          "receipt_count": 4,
+          "receipt_count": 2,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-15T13:10:19.692775Z",
@@ -13970,20 +13934,20 @@
           "role": "early_cockpit_build",
           "schedule": "market weekdays 8:50 AM ET",
           "proof_scope": "core",
-          "receipt_count": 13,
-          "last_status": "started",
+          "receipt_count": 14,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-16T12:51:25.775606Z",
-          "last_success_at": "2026-06-15T13:10:09.543680Z",
-          "last_scheduled_success_at": "2026-06-12T12:51:34.365421Z",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-16T12:51:25.775606Z",
-          "last_scheduled_summary": "investing-os-early-cockpit-build started",
+          "last_recorded_at": "2026-06-16T12:51:33.172129Z",
+          "last_success_at": "2026-06-16T12:51:33.172129Z",
+          "last_scheduled_success_at": "2026-06-16T12:51:33.172129Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-16T12:51:33.172129Z",
+          "last_scheduled_summary": "early cockpit build succeeded",
           "last_manual_recorded_at": "2026-06-15T13:10:09.543680Z",
           "last_manual_success_at": "2026-06-15T13:10:09.543680Z",
           "last_manual_summary": "early cockpit build manual run refreshed dashboard artifacts",
           "manual_support_only": false,
-          "last_summary": "investing-os-early-cockpit-build started"
+          "last_summary": "early cockpit build succeeded"
         },
         {
           "routine_id": "investing-os-daily-synthesis",
@@ -13991,20 +13955,20 @@
           "role": "daily_synthesis",
           "schedule": "market weekdays 9:30 AM ET",
           "proof_scope": "core",
-          "receipt_count": 16,
+          "receipt_count": 18,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T13:36:38.732296Z",
-          "last_success_at": "2026-06-15T13:36:38.732296Z",
-          "last_scheduled_success_at": "2026-06-15T13:36:38.732296Z",
+          "last_recorded_at": "2026-06-16T13:36:03.458790Z",
+          "last_success_at": "2026-06-16T13:36:03.458790Z",
+          "last_scheduled_success_at": "2026-06-16T13:36:03.458790Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-15T13:36:38.732296Z",
-          "last_scheduled_summary": "repo synthesis refreshed; Notion page written and verified; Social Watch still not_checked; Decisions/Trade Outcomes/Pilot live row deltas not enumerated",
+          "last_scheduled_recorded_at": "2026-06-16T13:36:03.458790Z",
+          "last_scheduled_summary": "repo synthesis refreshed; signal log 33 rows; source calls 40 pending; research queue 3 queued; Notion page written+verified; row-level notion query unavailable",
           "last_manual_recorded_at": "2026-06-15T13:10:09.757197Z",
           "last_manual_success_at": "2026-06-15T13:10:09.757197Z",
           "last_manual_summary": "daily synthesis manual run completed from current cockpit feed evidence",
           "manual_support_only": false,
-          "last_summary": "repo synthesis refreshed; Notion page written and verified; Social Watch still not_checked; Decisions/Trade Outcomes/Pilot live row deltas not enumerated"
+          "last_summary": "repo synthesis refreshed; signal log 33 rows; source calls 40 pending; research queue 3 queued; Notion page written+verified; row-level notion query unavailable"
         },
         {
           "routine_id": "investing-os-post-open-evidence-gate",
@@ -14012,20 +13976,20 @@
           "role": "post_open_evidence_gate",
           "schedule": "market weekdays 9:40 AM ET",
           "proof_scope": "core",
-          "receipt_count": 10,
+          "receipt_count": 12,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T13:42:10.635920Z",
-          "last_success_at": "2026-06-15T13:42:10.635920Z",
-          "last_scheduled_success_at": "2026-06-15T13:42:10.635920Z",
+          "last_recorded_at": "2026-06-16T13:41:54.186579Z",
+          "last_success_at": "2026-06-16T13:41:54.186579Z",
+          "last_scheduled_success_at": "2026-06-16T13:41:54.186579Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-15T13:42:10.635920Z",
-          "last_scheduled_summary": "runbook 4 check sets/23 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing-failed; gates still blocked by SECTOR_TIDE unsupported path, MARKET_MOVERS 403 advanced_tier_required, TNX flow no rows; dashboard refresh skipped",
+          "last_scheduled_recorded_at": "2026-06-16T13:41:54.186579Z",
+          "last_scheduled_summary": "4 check sets/22 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing; blocked SECTOR_TIDE unsupported MARKET_MOVERS 403 advanced_tier_required TNX flow empty; dashboard refresh skipped",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
           "last_manual_summary": "",
           "manual_support_only": false,
-          "last_summary": "runbook 4 check sets/23 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing-failed; gates still blocked by SECTOR_TIDE unsupported path, MARKET_MOVERS 403 advanced_tier_required, TNX flow no rows; dashboard refresh skipped"
+          "last_summary": "4 check sets/22 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing; blocked SECTOR_TIDE unsupported MARKET_MOVERS 403 advanced_tier_required TNX flow empty; dashboard refresh skipped"
         },
         {
           "routine_id": "investing-os-fundstrat-daytime-watch",
@@ -14033,20 +13997,20 @@
           "role": "fundstrat_daytime_watch",
           "schedule": "market weekdays hourly 9:45 AM-3:45 PM ET",
           "proof_scope": "core",
-          "receipt_count": 40,
+          "receipt_count": 42,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T19:47:19.753271Z",
-          "last_success_at": "2026-06-15T19:47:19.753271Z",
-          "last_scheduled_success_at": "2026-06-15T19:47:19.753271Z",
+          "last_recorded_at": "2026-06-16T13:48:08.826881Z",
+          "last_success_at": "2026-06-16T13:48:08.826881Z",
+          "last_scheduled_success_at": "2026-06-16T13:48:08.826881Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-15T19:47:19.753271Z",
-          "last_scheduled_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none",
+          "last_scheduled_recorded_at": "2026-06-16T13:48:08.826881Z",
+          "last_scheduled_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 stale visible flash cards; validation passed; alerts sent 5 prior-candidate prompts; dark/stale macro latest June 15 and crypto latest June 8; blockers none",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
           "last_manual_summary": "",
           "manual_support_only": false,
-          "last_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate/stale feed rows; validation passed; alert quiet; dark/stale crypto flash no fresh June 15; blockers none"
+          "last_summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 stale visible flash cards; validation passed; alerts sent 5 prior-candidate prompts; dark/stale macro latest June 15 and crypto latest June 8; blockers none"
         },
         {
           "routine_id": "investing-os-uw-opportunity-cache",
@@ -14054,20 +14018,20 @@
           "role": "uw_opportunity_cache",
           "schedule": "market weekdays 10:00 AM ET",
           "proof_scope": "core",
-          "receipt_count": 15,
+          "receipt_count": 17,
           "last_status": "success",
-          "last_run_source": "manual",
-          "last_recorded_at": "2026-06-15T14:15:27.041743Z",
-          "last_success_at": "2026-06-15T14:15:27.041743Z",
-          "last_scheduled_success_at": "2026-06-12T14:03:02.827851Z",
-          "last_scheduled_status": "failed",
-          "last_scheduled_recorded_at": "2026-06-15T14:03:05.361645Z",
-          "last_scheduled_summary": "scanned 14 tickers; bundle held at 13 observations/0 cache landing; empty-source GRNJ; VOLT oi rows 100 but normalized oi missing; worker/auth failures 0",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-16T14:01:48.362074Z",
+          "last_success_at": "2026-06-16T14:01:48.362074Z",
+          "last_scheduled_success_at": "2026-06-16T14:01:48.362074Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-16T14:01:48.362074Z",
+          "last_scheduled_summary": "scanned 14 tickers; emitted 38 signals; cache landed src/uw_opportunity_signals.json; worker failures 0; empty-source tickers GRNJ,VOLT",
           "last_manual_recorded_at": "2026-06-15T14:15:27.041743Z",
           "last_manual_success_at": "2026-06-15T14:15:27.041743Z",
           "last_manual_summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed",
           "manual_support_only": false,
-          "last_summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed"
+          "last_summary": "scanned 14 tickers; emitted 38 signals; cache landed src/uw_opportunity_signals.json; worker failures 0; empty-source tickers GRNJ,VOLT"
         },
         {
           "routine_id": "investing-os-parabolic-cache",
@@ -14075,14 +14039,14 @@
           "role": "parabolic_cache",
           "schedule": "market weekdays 10:05 AM ET",
           "proof_scope": "core",
-          "receipt_count": 14,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T14:09:10.396094Z",
-          "last_success_at": "2026-06-15T14:09:10.396094Z",
-          "last_scheduled_success_at": "2026-06-15T14:09:10.396094Z",
+          "last_recorded_at": "2026-06-16T14:07:40.308289Z",
+          "last_success_at": "2026-06-16T14:07:40.308289Z",
+          "last_scheduled_success_at": "2026-06-16T14:07:40.308289Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-15T14:09:10.396094Z",
+          "last_scheduled_recorded_at": "2026-06-16T14:07:40.308289Z",
           "last_scheduled_summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none",
           "last_manual_recorded_at": "2026-06-15T13:10:10.271622Z",
           "last_manual_success_at": "2026-06-15T13:10:10.271622Z",
@@ -14096,20 +14060,20 @@
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
           "proof_scope": "core",
-          "receipt_count": 16,
-          "last_status": "success",
+          "receipt_count": 17,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-15T14:32:59.313578Z",
+          "last_recorded_at": "2026-06-16T14:31:10.840687Z",
           "last_success_at": "2026-06-15T14:32:59.313578Z",
           "last_scheduled_success_at": "2026-06-15T14:32:59.313578Z",
-          "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-15T14:32:59.313578Z",
-          "last_scheduled_summary": "full cockpit build succeeded",
+          "last_scheduled_status": "started",
+          "last_scheduled_recorded_at": "2026-06-16T14:31:10.840687Z",
+          "last_scheduled_summary": "investing-os-full-cockpit-build started",
           "last_manual_recorded_at": "2026-06-15T13:10:17.839859Z",
           "last_manual_success_at": "2026-06-15T13:10:17.839859Z",
           "last_manual_summary": "full cockpit build manual run refreshed dashboard artifacts",
           "manual_support_only": false,
-          "last_summary": "full cockpit build succeeded"
+          "last_summary": "investing-os-full-cockpit-build started"
         },
         {
           "routine_id": "investing-os-post-close-refresh",
@@ -14117,7 +14081,7 @@
           "role": "post_close_refresh",
           "schedule": "market weekdays 4:30 PM ET",
           "proof_scope": "core",
-          "receipt_count": 9,
+          "receipt_count": 8,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-15T20:32:42.145765Z",
@@ -14126,9 +14090,9 @@
           "last_scheduled_status": "success",
           "last_scheduled_recorded_at": "2026-06-15T20:32:42.145765Z",
           "last_scheduled_summary": "post-close refresh succeeded",
-          "last_manual_recorded_at": "2026-06-08T21:27:16.114745Z",
-          "last_manual_success_at": "2026-06-08T21:27:16.114745Z",
-          "last_manual_summary": "post-close manual run refreshed dashboard artifacts",
+          "last_manual_recorded_at": "",
+          "last_manual_success_at": "",
+          "last_manual_summary": "",
           "manual_support_only": false,
           "last_summary": "post-close refresh succeeded"
         },
@@ -14159,7 +14123,7 @@
           "role": "fundstrat_after_hours_catchup",
           "schedule": "market weekdays 7:00 PM ET",
           "proof_scope": "core",
-          "receipt_count": 6,
+          "receipt_count": 2,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-15T23:07:24.984509Z",
@@ -14168,9 +14132,9 @@
           "last_scheduled_status": "success",
           "last_scheduled_recorded_at": "2026-06-15T23:07:24.984509Z",
           "last_scheduled_summary": "checked 11 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 3; validation passed; Notion none; dark/stale crypto flash no fresh June 15, intraday/fed-watch/live-technical stale or empty, social_watch dark; blockers none",
-          "last_manual_recorded_at": "2026-06-08T21:27:16.582890Z",
-          "last_manual_success_at": "2026-06-08T21:27:16.582890Z",
-          "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
+          "last_manual_recorded_at": "",
+          "last_manual_success_at": "",
+          "last_manual_summary": "",
           "manual_support_only": false,
           "last_summary": "checked 11 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 3; validation passed; Notion none; dark/stale crypto flash no fresh June 15, intraday/fed-watch/live-technical stale or empty, social_watch dark; blockers none"
         }
@@ -14245,7 +14209,7 @@
           "role": "off_hours_worker",
           "schedule": "daily 1:45 AM ET",
           "proof_scope": "support",
-          "receipt_count": 8,
+          "receipt_count": 5,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-16T05:51:10.261005Z",
@@ -14308,7 +14272,7 @@
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
           "proof_scope": "support",
-          "receipt_count": 4,
+          "receipt_count": 2,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-15T13:10:18.667704Z",
@@ -14329,7 +14293,7 @@
           "role": "weekly_pilot_run",
           "schedule": "Sunday 6:00 PM ET",
           "proof_scope": "support",
-          "receipt_count": 4,
+          "receipt_count": 2,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-15T13:10:19.692775Z",
@@ -15518,18 +15482,17 @@
       "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
       "endpoint_proof": {
         "status": "has_data",
-        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-15 10:32 ET.",
+        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-16 10:30 ET.",
         "blockers": [
           "inconclusive endpoint result(s) cannot promote related actions",
-          "missing/failed endpoint result(s) keep related actions blocked",
-          "one or more endpoint result rows are not same-session fresh"
+          "missing/failed endpoint result(s) keep related actions blocked"
         ],
-        "newest_checked_at": "2026-06-15T14:32:34.990527+00:00"
+        "newest_checked_at": "2026-06-16T14:30:59.207170+00:00"
       }
     },
     "uw_endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-15 10:32 ET.",
+      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-16 10:30 ET.",
       "count": 13,
       "counts": {
         "missing": 2,
@@ -15540,9 +15503,9 @@
         "missing": 3,
         "inconclusive": 10
       },
-      "newest_checked_at": "2026-06-15T14:32:34.990527+00:00",
+      "newest_checked_at": "2026-06-16T14:30:59.207170+00:00",
       "same_session_date": "2026-06-16",
-      "stale_count": 13,
+      "stale_count": 0,
       "off_runbook_count": 0,
       "rows": [
         {
@@ -15551,7 +15514,7 @@
           "ticker": "",
           "status": "missing",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "unsupported path parameter(s): sector",
           "source": "uw_endpoint_result_capture"
         },
@@ -15561,7 +15524,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15571,7 +15534,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15581,7 +15544,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15591,7 +15554,7 @@
           "ticker": "",
           "status": "failed",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/dashboard/api?utm_source=api&utm_campaign=json_msg to upgrade, or contac",
           "source": "uw_endpoint_result_capture"
         },
@@ -15601,7 +15564,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15611,7 +15574,7 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15621,7 +15584,7 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15631,7 +15594,7 @@
           "ticker": "TNX",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15641,7 +15604,7 @@
           "ticker": "RYF",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15651,7 +15614,7 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15661,7 +15624,7 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -15671,15 +15634,14 @@
           "ticker": "TNX",
           "status": "missing",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-15T14:32:34.990527+00:00",
+          "checked_at": "2026-06-16T14:30:59.207170+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
           "source": "uw_endpoint_result_capture"
         }
       ],
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
-        "missing/failed endpoint result(s) keep related actions blocked",
-        "one or more endpoint result rows are not same-session fresh"
+        "missing/failed endpoint result(s) keep related actions blocked"
       ],
       "problems": [],
       "result_path": "src\\uw_endpoint_results.json",
@@ -17422,18 +17384,17 @@
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
     "endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-15 10:32 ET.",
+      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-16 10:30 ET.",
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
-        "missing/failed endpoint result(s) keep related actions blocked",
-        "one or more endpoint result rows are not same-session fresh"
+        "missing/failed endpoint result(s) keep related actions blocked"
       ],
-      "newest_checked_at": "2026-06-15T14:32:34.990527+00:00"
+      "newest_checked_at": "2026-06-16T14:30:59.207170+00:00"
     }
   },
   "uw_endpoint_proof": {
     "status": "has_data",
-    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=13. newest=2026-06-15 10:32 ET.",
+    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-16 10:30 ET.",
     "count": 13,
     "counts": {
       "missing": 2,
@@ -17444,9 +17405,9 @@
       "missing": 3,
       "inconclusive": 10
     },
-    "newest_checked_at": "2026-06-15T14:32:34.990527+00:00",
+    "newest_checked_at": "2026-06-16T14:30:59.207170+00:00",
     "same_session_date": "2026-06-16",
-    "stale_count": 13,
+    "stale_count": 0,
     "off_runbook_count": 0,
     "rows": [
       {
@@ -17455,7 +17416,7 @@
         "ticker": "",
         "status": "missing",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "unsupported path parameter(s): sector",
         "source": "uw_endpoint_result_capture"
       },
@@ -17465,7 +17426,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17475,7 +17436,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17485,7 +17446,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17495,7 +17456,7 @@
         "ticker": "",
         "status": "failed",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/dashboard/api?utm_source=api&utm_campaign=json_msg to upgrade, or contac",
         "source": "uw_endpoint_result_capture"
       },
@@ -17505,7 +17466,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17515,7 +17476,7 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17525,7 +17486,7 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17535,7 +17496,7 @@
         "ticker": "TNX",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17545,7 +17506,7 @@
         "ticker": "RYF",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17555,7 +17516,7 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17565,7 +17526,7 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -17575,15 +17536,14 @@
         "ticker": "TNX",
         "status": "missing",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-15T14:32:34.990527+00:00",
+        "checked_at": "2026-06-16T14:30:59.207170+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
         "source": "uw_endpoint_result_capture"
       }
     ],
     "blockers": [
       "inconclusive endpoint result(s) cannot promote related actions",
-      "missing/failed endpoint result(s) keep related actions blocked",
-      "one or more endpoint result rows are not same-session fresh"
+      "missing/failed endpoint result(s) keep related actions blocked"
     ],
     "problems": [],
     "result_path": "src\\uw_endpoint_results.json",
