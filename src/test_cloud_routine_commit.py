@@ -101,6 +101,55 @@ def test_cloud_routine_commit_normalizes_legacy_receipts_before_commit(tmp_path)
     assert _git(repo, "show", "--name-only", "--format=", "HEAD") == "src/cloud_routine_receipts.json"
 
 
+def test_cloud_routine_commit_merges_upstream_receipts_before_commit(tmp_path):
+    repo = _repo(tmp_path)
+    remote = tmp_path / "remote.git"
+    _git(tmp_path, "init", "--bare", str(remote))
+    _git(repo, "remote", "add", "origin", str(remote))
+    branch = _git(repo, "branch", "--show-current")
+    _git(repo, "push", "-u", "origin", branch)
+
+    other = tmp_path / "other"
+    _git(tmp_path, "clone", str(remote), str(other))
+    _git(other, "config", "user.email", "codex@example.invalid")
+    _git(other, "config", "user.name", "Codex Test")
+    cloud_routine_receipts.append_receipt(
+        path=other / "src" / "cloud_routine_receipts.json",
+        routine_id="investing-os-pre-market-source-intake",
+        status="success",
+        run_source="scheduled",
+        summary="upstream scheduled success",
+        recorded_at="2026-06-16T12:16:00Z",
+    )
+    _git(other, "add", "src/cloud_routine_receipts.json")
+    _git(other, "commit", "-m", "upstream receipt")
+    _git(other, "push")
+
+    cloud_routine_receipts.append_receipt(
+        path=repo / "src" / "cloud_routine_receipts.json",
+        routine_id="investing-os-fundstrat-daytime-watch",
+        status="success",
+        run_source="scheduled",
+        summary="local scheduled success",
+        recorded_at="2026-06-16T15:49:00Z",
+    )
+
+    report = cloud_routine_commit.cloud_routine_commit(
+        message="cloud receipt",
+        allowed_paths=["src/cloud_routine_receipts.json"],
+        cwd=repo,
+    )
+
+    payload = cloud_routine_receipts.load_receipts(repo / "src" / "cloud_routine_receipts.json")
+    routine_ids = {row["routine_id"] for row in payload["receipts"]}
+    assert report["committed"] is True
+    assert report["upstream_receipts_checked"] is True
+    assert report["upstream_receipts_merged"] is True
+    assert report["upstream_receipts_added"] == 1
+    assert "investing-os-pre-market-source-intake" in routine_ids
+    assert "investing-os-fundstrat-daytime-watch" in routine_ids
+
+
 def test_default_allowlist_includes_redacted_fundstrat_intake_bookkeeping():
     assert "src/fundstrat_inbox_entries.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_intake_state.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
