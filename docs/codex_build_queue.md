@@ -3,9 +3,33 @@
 Canonical repo queue for Investing OS rebuild work. GitHub files are canonical
 until the core logic is stable; Notion sync comes later.
 
+## Current Queue Snapshot - 2026-06-16
+
+Use `python src/completion_audit.py --format text` and
+`python src/system_improvement_queue.py` for live state before promoting work.
+
+Latest audit state:
+
+- Local go-live/operator readiness is true.
+- The completion audit is `NEEDS_BUILD_WORK` because one queued P3 improvement
+  item remains: `fundstrat-video-transcript-intake`.
+- Clean `main` does not yet include the transcript-vault helper. The next
+  useful slice is a focused transcript-vault implementation or a clean
+  cherry-pick of the older branch's focused transcript work; do not close the
+  queued transcript item from docs alone.
+- Cloud ops is not ready: scheduled success receipts are 20/26 and 15 receipt
+  windows are overdue. Treat this as routine-proof debt, not as a local
+  dashboard readiness failure.
+- The only dark source lane in live status is deferred optional `social_watch`.
+- The refreshed integration-debt report is `warn` with 1 warning and 14
+  findings.
+- The durable audit note is `docs/architecture_audit_2026_06_16.md`.
+
 ## Active Slice
 
-- Monday go-live build slice is active.
+- The broad Monday go-live build is no longer the only foreground frame; check
+  the current completion audit before assuming a build slice is active.
+- Current audit slice: architecture and operating docs refresh.
   - Follow `docs/monday_go_live_build_plan.md`.
   - GitHub/repo docs are canonical implementation storage; mirror important
     source-of-truth notes to Notion for readability and recovery.
@@ -20,6 +44,17 @@ until the core logic is stable; Notion sync comes later.
   - Prioritize system/routine/dashboard work over stock-specific research.
   - Do not promote Fundstrat Core List table ingestion; it is out of scope for
     the current system build and may never be needed.
+
+## 2026-06-16 Docs Audit
+
+- Refreshed `AGENTS.md` with wrapper-path routing, autopilot planning, TLDR
+  closeout guidance, and the standing full-closeout preference.
+- Added `docs/architecture_audit_2026_06_16.md` as the durable audit summary.
+- Updated high-level and low-level architecture docs for current status,
+  scheduled routine proof boundaries, Fundstrat transcript-vault policy, UW
+  proof separation, and current integration debt.
+- Updated this queue and the new-chat handoff so older embedded counts are
+  explicitly historical.
 
 ## External Queue Audit
 

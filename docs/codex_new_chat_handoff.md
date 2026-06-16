@@ -1,5 +1,64 @@
 # Codex New Chat Handoff
 
+## Current Audit Addendum - 2026-06-16
+
+Read this addendum before relying on older counts below. The long historical
+handoff remains useful context, but embedded feed stamps, proof counts, and
+position counts below this section are not live evidence.
+
+Canonical workspace:
+`C:\Users\suraj\Documents\Codex\2026-06-04\confirm-you-can-access-my-github\work\enderverse`
+
+If a task starts from
+`C:\Users\suraj\OneDrive\Old\Documents\Investing OS (2.0)`, treat that folder
+as a possible wrapper. Run a git-root check and pivot to the canonical checkout
+before editing.
+
+Fresh audit commands run on 2026-06-16:
+
+- `python src/live_status.py --format text` -> `live_with_build_queue`; local
+  readiness/publish/live-data readiness true; feed
+  `2026-06-15T12:57:07.557970+00:00`; 4 actions; 1 research action; 0 open
+  reviews; only deferred optional dark lane is `social_watch`.
+- `python src/cloud_ops_status.py --format text` -> cloud ops `not_ready`;
+  scheduled success receipts 20/26; 15 overdue receipt windows; full live-run
+  proof false.
+- `python src/completion_audit.py --format text` -> `NEEDS_BUILD_WORK`;
+  build blockers 0; go-live ready true; one active/queued improvement item:
+  `fundstrat-video-transcript-intake`.
+- `python src/system_improvement_queue.py` -> valid, 22 items, 21 done, one
+  queued P3.
+- `python src/state_ownership_map.py` and `python src/codex_routine_manifest.py`
+  -> valid.
+- `python src/integration_debt_sweep.py --out docs/integration_debt_report.md
+  --json-out src/integration_debt_report.json --format text` -> warn, 1
+  warning, 14 findings.
+
+Current source-of-truth docs to read first:
+
+- `AGENTS.md`
+- `docs/architecture_audit_2026_06_16.md`
+- `docs/investing_os_system_architecture.md`
+- `src/ARCHITECTURE.md`
+- `docs/codex_build_queue.md`
+- `docs/WORKBOARD.md`
+
+Current implementation posture:
+
+- Repo/GitHub docs are canonical. Notion is the readable mirror, and a Notion
+  write is proven only after live page readback.
+- SnapTrade remains the preferred read-only broker-position source when strict
+  staged validation passes.
+- Fundstrat web handling is compact/public through `fundstrat_web_intake.py`.
+  Video transcript handling remains queued/deferred on clean `main`; when it is
+  implemented, raw transcripts must stay out of the public repo and public
+  state should be limited to metadata, hashes, short synthesis, and compact
+  derived rows only.
+- Missing, stale, failed, inconclusive, or optional lanes stay dark/stale/not
+  checked. Do not summarize them as checked clear.
+- Default closeout preference is commit, push, merge when GitHub allows it,
+  sync `main`, and update `docs/WORKBOARD.md`.
+
 Use this prompt to restart the Investing OS rebuild in a fresh Codex chat.
 
 ## Copy/Paste Prompt

@@ -17,6 +17,34 @@ Active build plan:
 Monday plan Notion mirror:
 `https://app.notion.com/p/378c50314bb681afb39bcb82efce9d47`
 
+Current audit note:
+`docs/architecture_audit_2026_06_16.md`
+
+## Current Audit Snapshot - 2026-06-16
+
+Use the live commands in Section 12 before relying on these counts, but this is
+the latest repo-verified architecture snapshot:
+
+- Canonical checkout:
+  `C:\Users\suraj\Documents\Codex\2026-06-04\confirm-you-can-access-my-github\work\enderverse`.
+  The OneDrive Investing OS folder can be only a wrapper and should not be
+  edited until the git root is verified.
+- `live_status.py --format text` reports `live_with_build_queue`: local
+  readiness, publish readiness, and live-data readiness are true; the feed stamp
+  is `2026-06-15T12:57:07.557970+00:00`; the dashboard has 4 actions, 1
+  research action, and 0 open reviews.
+- The only dark source lane is deferred optional `social_watch`. It is visible
+  as not checked, but it is not a core go-live source wait.
+- `cloud_ops_status.py --format text` reports cloud ops `not_ready`: 20 of 26
+  expected scheduled routines have scheduled success receipts, 15 receipt
+  windows are overdue, and full live-run proof is false.
+- `completion_audit.py --format text` reports `NEEDS_BUILD_WORK` because the
+  improvement queue still has one active/queued item:
+  `fundstrat-video-transcript-intake`.
+- `state_ownership_map.py` and `codex_routine_manifest.py` are valid.
+- The refreshed integration-debt sweep is `warn` with 1 warning and 14 total
+  findings.
+
 ## 1. Operating Principle
 
 The Investing OS is built to surface actionable buy/sell/hold/research reviews
@@ -73,8 +101,8 @@ conviction cockpit.
 
 | Layer | Owns | Key files |
 |---|---|---|
-| Source access | Connector reads, supplied drops, manual exports | Gmail, Notion, Unusual Whales app/API, SnapTrade read-only broker pulls, broker uploads, manual JSON drops |
-| Intake | Normalize and validate external evidence | `fundstrat_email_intake.py`, `signal_log_intake.py`, `catalyst_calendar_intake.py`, `daily_synthesis_intake.py`, `event_risk_intake.py`, `live_source_config_update.py` |
+| Source access | Connector reads, browser reads, supplied drops, manual exports, and private-source-vault inputs when implemented | Gmail, Notion, Unusual Whales app/API, authenticated Fundstrat Chrome session, SnapTrade read-only broker pulls, broker uploads, manual JSON drops, planned private `INVESTING_OS_SOURCE_VAULT` |
+| Intake | Normalize and validate external evidence | `fundstrat_email_intake.py`, `fundstrat_web_intake.py`, `signal_log_intake.py`, `catalyst_calendar_intake.py`, `daily_synthesis_intake.py`, `event_risk_intake.py`, `live_source_config_update.py` |
 | Convention state | Machine-readable source facts | `src/*.json` convention files, `state_ownership_map.json`, `codex_routine_manifest.json` |
 | Feed engine | Deterministic read/assembly/validation | `full_build_runner.py`, `feed_assembler.py`, `analyst_judgment.py`, `validators.py`, `publish_gate.py` |
 | Synthesis/action surfacing | Conservative promotion into operator-visible actions | `daily_synthesis_from_feed.py`, `daily_synthesis_intake.py`, `source_call_candidate_draft.py`, `action_memory_resolve.py` |
@@ -110,6 +138,18 @@ The system synthesizes only from explicit source or repo evidence:
 - Source-call candidates: `src/source_call_candidates.json`
   - Drafted from current feed observations by `source_call_candidate_draft.py`.
   - Merged into source-call calibration only through the explicit merge path.
+
+- Fundstrat web and video transcript policy:
+  - Authenticated Fundstrat website content can be read through the user's
+    Chrome session, then reduced to compact full-content-derived rows through
+    `fundstrat_web_intake.py`.
+  - Video-only cards remain discovery-only unless a visible transcript,
+    captions, companion article, or supplied compact notes are available.
+  - Full transcript review packs are planned as a private source-vault flow.
+    Raw transcript text must stay out of the public repo; public state should
+    be limited to safe metadata, hashes, short synthesis, compact derived rows,
+    and existing Fundstrat compact caches after the queued transcript-vault
+    slice is merged.
 
 - Event Risk: `src/event_risks.json`
   - Normalized by `event_risk_intake.py` or `sudden_event_refresh.py`.
@@ -376,28 +416,45 @@ opportunity/risk caches, dashboard publication, and post-close account refresh.
 
 | Core routine id | Role | Normal schedule |
 |---|---|---|
-| `investing-os-pre-market-source-intake` | Pre-market source intake, including valid supplied broker uploads | Market weekdays 8:10 AM ET |
 | `investing-os-fundstrat-pre-market-safety-sweep` | Last safety sweep for overnight / early Fundstrat timing calls before the main pre-market stack | Market weekdays 7:45 AM ET |
-| `investing-os-broker-position-intake` | SnapTrade-first read-only account truth before allocation and risk review | Market weekdays 8:20 AM ET |
+| `investing-os-pre-market-source-intake` | Pre-market source intake, including valid supplied broker uploads | Market weekdays 8:10 AM ET |
+| `investing-os-broker-position-intake` | SnapTrade-first read-only broker position refresh | Market weekdays 8:20 AM ET |
 | `investing-os-morning-scan` | Morning Signal Log / macro scan validation | Market weekdays 8:35 AM ET |
 | `investing-os-early-cockpit-build` | Earliest useful cockpit using overnight, pre-market, Morning Scan, and cached source state; later lanes remain visibly pending/stale when not run yet | Market weekdays 8:50 AM ET |
 | `investing-os-daily-synthesis` | Daily Synthesis after the Morning Scan | Market weekdays 9:30 AM ET |
-| `investing-os-post-open-evidence-gate` | Same-session evidence gate for action validity | Market weekdays 9:40 AM ET |
+| `investing-os-post-open-evidence-gate` | Same-session UW endpoint proof from the current action runbook; inconclusive proof stays blocking | Market weekdays 9:40 AM ET |
 | `investing-os-fundstrat-daytime-watch` | Hourly daytime Fundstrat watch; lands only action-relevant compact rows and pushes only urgent/action-changing alerts | Market weekdays hourly 9:45 AM-3:45 PM ET |
 | `investing-os-uw-opportunity-cache` | UW opportunity cache and non-secret connector proof | Market weekdays 10:00 AM ET |
 | `investing-os-parabolic-cache` | Parabolic/chase-risk cache | Market weekdays 10:05 AM ET |
 | `investing-os-full-cockpit-build` | Full dashboard build after source/synthesis/UW buffer | Market weekdays 10:30 AM ET |
 | `investing-os-post-close-refresh` | Post-close dashboard refresh and proof path | Market weekdays 4:30 PM ET |
-| `investing-os-positions-sync` | Post-close SnapTrade-first position refresh | Market weekdays 4:45 PM ET |
+| `investing-os-positions-sync` | Post-close SnapTrade-first position sync | Market weekdays 4:45 PM ET |
 | `investing-os-fundstrat-after-hours-catch-up` | After-hours Fundstrat catch-up for late notes and next-session prep | Market weekdays 7:00 PM ET |
 
 Support-monitored routines remain useful, but they do not gate core unattended
-readiness by themselves. This includes the four FS Inbox Catch-up schedules,
-Off-Hours Research Queue, Top Prospects Auto-Research, Off-Hours Alt-Data
-Scout, Off-Hours Worker, Off-Hours Queue Buffer, Deep Synthesis, and Weekly
-Pilot Run. Their missed scheduled receipts stay visible as support proof gaps,
-but the dashboard should not imply the whole operator cockpit is unready solely
-because one of those helper lanes has only manual support.
+readiness by themselves. Their missed scheduled receipts stay visible as
+support proof gaps, but the dashboard should not imply the whole operator
+cockpit is unready solely because one of those helper lanes has only manual
+support.
+
+| Support routine id | Role | Normal schedule |
+|---|---|---|
+| `investing-os-fs-inbox-catch-up-preopen` | Fundstrat inbox catch-up slot | Market weekdays 8:20 AM ET |
+| `investing-os-fs-inbox-catch-up-midday` | Fundstrat inbox catch-up slot | Market weekdays 12:30 PM ET |
+| `investing-os-fs-inbox-catch-up-postclose` | Fundstrat inbox catch-up slot | Market weekdays 4:35 PM ET |
+| `investing-os-off-hours-research-queue` | Off-hours Research Queue intake when live Notion/export rows are available | Market weekdays 7:30 PM ET |
+| `investing-os-top-prospects-auto-research` | Top prospects auto-research support | Daily 8:45 PM ET |
+| `investing-os-fs-inbox-catch-up-evening` | Fundstrat inbox catch-up slot | Market weekdays 8:45 PM ET |
+| `investing-os-off-hours-alt-data-scout` | Off-hours alternative-data scout | Daily 9:15 PM ET |
+| `investing-os-off-hours-worker` | Overnight status/research support checks | Daily 1:45 AM ET |
+| `investing-os-off-hours-queue-buffer` | Off-hours queue buffer | Daily 4:45 AM ET |
+| `investing-os-deep-synthesis` | Weekly deeper synthesis support | Sunday 1:00 PM ET |
+| `investing-os-weekly-pilot-run` | Weekly pilot/status run | Sunday 6:00 PM ET |
+
+The Fundstrat late-evening web/transcript sweep and private transcript-vault
+helper exist as unmerged/deferred work, not as current `main` architecture in
+this audit snapshot. Keep the private-vault rule above when that slice is
+revived.
 
 `src/cloud_automation_status.json` records the expected app-created automation
 ids, superseded legacy routines, and the schedule basis. `cloud_ops_status.py`
@@ -772,20 +829,30 @@ python src/verify_standard.py
 
 ## 13. Current Known Gaps
 
-As of the 2026-06-05 cloud-ops build:
+As of the 2026-06-16 architecture audit:
 
-- Local go-live readiness is true.
-- The split cloud routine stack is installed and active.
-- Scheduled proof is partial: at least one scheduled success has landed, but
-  full live-run proof requires every expected active routine to write a
-  scheduled success receipt.
-- Account Positions can remain a dark optional lane when its source file is
-  absent.
+- Local operator readiness is true, but unattended cloud operations are not
+  healthy. `cloud_ops_status.py --format text` reports 20 of 26 expected
+  scheduled success receipts, 15 overdue receipt windows, and
+  `Cloud live-run proven: False`.
+- The dashboard feed is from `2026-06-15T12:57:07.557970+00:00`. Future agents
+  should rerun `live_status.py` and refresh the dashboard when current-session
+  market posture matters.
+- Social Watch is the only dark lane and remains deferred optional. Its absence
+  is not a no-signal read and should not block core go-live.
+- The improvement queue still has one queued P3 item:
+  `fundstrat-video-transcript-intake`. Current `main` does not include the
+  transcript-vault helper; older branch work should be cleanly cherry-picked or
+  rebuilt as a focused slice before this queue item is closed.
+- Integration debt is still `warn`: the clean 2026-06-16 sweep reports 14
+  findings, including `research_action_promotion` as prompt-only, 12
+  info-level module-wiring candidates, and the live Notion queue not checked.
+- Notion row-level certainty is unavailable unless a live Notion search/fetch
+  or export snapshot is supplied. Repo mirrors are fallback evidence only.
 - Meridian can remain absent as archived thesis context; it is not a live
   tactical source gap after March 2026.
-- Open action reviews can remain visible as warnings; they are not part of the
-  cloud-routine build unless explicitly requested.
-- Core List ingestion is out of scope.
+- Core List ingestion remains out of scope unless the user makes a new explicit
+  request after the working system needs it.
 
 ## 14. Update Policy
 
