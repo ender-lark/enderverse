@@ -26,12 +26,12 @@ Latest audit state:
 
 ## Active Slice
 
-- No active build slice is claimed after
-  `DECISION-DOSSIER-DYNAMIC-REFRESH-V1` merged in PR#62.
-
-Future unrelated work should start from a fresh completion audit or a new
-explicit user request, then claim a focused row in `docs/WORKBOARD.md` before
-editing shared docs or routine code.
+- `DECISION-DOSSIER-COVERAGE-V1` is in progress: add a Source Proof coverage
+  audit for current action/material tickers that lack a Decision Dossier row.
+- Sequencing rule: this slice must not compete with the staleness guard.
+  Missing dossier rows are coverage debt only; existing stale/not-checked
+  dossier reads remain the only path into `data_health`, card blockers, and
+  `alert_policy` review alerts.
 
 ## 2026-06-16 Decision Dossier Dynamic Refresh
 

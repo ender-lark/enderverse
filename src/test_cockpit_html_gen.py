@@ -601,6 +601,20 @@ def test_generated_html_treats_social_watch_as_deferred_optional_lane():
     assert "not an all-clear read" not in html
 
 
+def test_generated_html_surfaces_decision_dossier_coverage_audit():
+    feed = copy.deepcopy(_feed())
+    feed["source_audits"]["decision_dossier_coverage"] = {
+        "line": "Decision dossier coverage: 0/2 current action/material ticker(s) covered; missing=2; stale=0.",
+        "status": "missing",
+        "blocks": False,
+    }
+
+    html = generate_html(feed)
+
+    assert "Decision dossiers" in html
+    assert "Decision dossier coverage: 0/2 current action/material ticker(s) covered" in html
+
+
 def test_generated_html_surfaces_overdue_cloud_receipts():
     feed = copy.deepcopy(_feed())
     feed["source_audits"]["cloud_routines"] = {

@@ -40,6 +40,7 @@ from uw_macro import build_uw_macro_source
 from uw_price import build_uw_price_source
 from validators import validate_cockpit_feed
 from decision_support import enrich_actions, build_asymmetric_opportunities
+from decision_dossier_coverage import build_decision_dossier_coverage
 from operator_hardening import build_operator_hardening
 from uw_routing_recommendations import build_uw_routing_recommendations
 from uw_action_runbook import build_uw_action_runbook
@@ -990,6 +991,11 @@ def build_full_feed_from_files(
         weights=load_conviction_weights(),
         goal=load_goal_tunables(),
         accounts=execution_accounts,
+        today=today,
+    )
+    feed["source_audits"]["decision_dossier_coverage"] = build_decision_dossier_coverage(
+        feed,
+        dossier_path=src / "decision_dossiers.json",
         today=today,
     )
     feed["alert_policy"] = build_alert_policy(feed)

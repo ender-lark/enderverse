@@ -193,8 +193,13 @@
     },
     "source_audits": {
       "primary_status": "canonical-rendered",
-      "canonical_surface": "Source Proof panel with cloud routine, connector, Fundstrat, and Notion/writeback evidence",
+      "canonical_surface": "Source Proof panel with cloud routine, connector, Decision Dossier coverage, Fundstrat, and Notion/writeback evidence",
       "summary_surface": "Source proof and audits card"
+    },
+    "decision_dossier_coverage": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Source Proof panel Decision dossiers row",
+      "summary_surface": "Source proof and audits card Decision dossiers row; coverage debt only, no card blocking or alerts"
     },
     "uw_routing": {
       "primary_status": "canonical-rendered",

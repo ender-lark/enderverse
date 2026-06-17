@@ -684,6 +684,11 @@ staleness guard PR#57: stale or not-checked dynamic reads use `data_health` and
 before dashboard builds, performs no live fetches, and updates only
 ticker-matched price/timing evidence. It must not convert absent UW evidence
 into a checked-clear dossier read.
+`decision_dossier_coverage.py` is the Source Proof coverage audit. It surfaces
+current action/material tickers that lack a repo dossier row as coverage debt
+only. Missing dossiers must not enter `data_health`, card blockers, alert
+policy, scoring, sizing, gates, or trade posture; stale/not-checked reads on an
+existing dossier remain the staleness guard's responsibility.
 
 ## 8. Safe Write-Back
 

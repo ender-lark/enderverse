@@ -616,6 +616,9 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert feed["uw_endpoint_proof"]["status"] == "not_checked"
     assert "uw_endpoint_proof" in feed["source_audits"]
     assert "runbook remains instructions only" in feed["source_audits"]["uw_endpoint_proof"]["line"]
+    assert "decision_dossier_coverage" in feed["source_audits"]
+    assert feed["source_audits"]["decision_dossier_coverage"]["line"].startswith("Decision dossier coverage:")
+    assert feed["source_audits"]["decision_dossier_coverage"]["blocks"] is False
     assert "endpoint_proof" in feed["uw_action_runbook"]
     assert "reallocation_brief" in feed
     assert "Reallocation brief:" in feed["reallocation_brief"]["line"]
@@ -626,6 +629,9 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "key_now" in feed["market_open_packet"]["counts"]
     assert "alert_policy" in feed
     assert feed["alert_policy"]["delivery"] == "review_only_no_send"
+    assert "decision_dossier_freshness_blocker" not in {
+        row["kind"] for row in feed["alert_policy"]["rows"]
+    }
     assert "fundstrat_signal_confirmation" in {
         row["mode"] for row in feed["uw_routing"]["rows"]
     }
