@@ -83,3 +83,28 @@ def test_alert_policy_allows_only_blockers_and_urgent_invalidations():
         row["kind"] for row in block["system_health"]
     } == {"cloud_routine_failed"}
     assert all(row["delivery"] == "eligible_review_only" for row in block["rows"])
+
+
+def test_alert_policy_flags_stale_fundstrat_calibration_chain():
+    block = build_alert_policy({
+        "feedback": {
+            "source_calls": {
+                "calibration": {
+                    "status": "stale",
+                    "line": "Calibration chain stale: 3d behind; SOURCE CALIB output is provisional.",
+                    "worst_days_behind": 3,
+                    "stale_hops": ["inbox_log"],
+                }
+            }
+        }
+    })
+
+    assert block["status"] == "notify"
+    row = block["rows"][0]
+    assert row["kind"] == "source_call_calibration_stale"
+    assert row["severity"] == "high"
+    assert row["source"] == "source_call_calibration"
+    assert row["title"] == "Fundstrat source-call chain is stale"
+    assert "SOURCE CALIB output is provisional" in row["why"]
+    assert "days_behind=3" in row["trigger"]
+    assert "Source Call Log" in row["next_step"]

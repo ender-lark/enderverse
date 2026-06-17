@@ -50,6 +50,14 @@ def _strip_private(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [{k: v for k, v in row.items() if k != "_key"} for row in rows]
 
 
+def _calibration_detail(calibration: dict[str, Any]) -> str:
+    line = _text(calibration.get("line"))
+    if line:
+        return line
+    days = int(calibration.get("worst_days_behind") or 0)
+    return f"Fundstrat source-call calibration chain is stale ({days}d behind)."
+
+
 def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
     rows: list[dict[str, Any]] = []
     suppressed: list[dict[str, Any]] = []
@@ -82,6 +90,31 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
             "count": len(social_dark),
             "why": "Social Watch is intentionally queued/dark; absence is not an alert.",
         })
+
+    calibration = (
+        ((feed.get("feedback") or {}).get("source_calls") or {}).get("calibration") or {}
+    )
+    if calibration.get("status") == "stale":
+        days = int(calibration.get("worst_days_behind") or 0)
+        stale_hops = ", ".join(
+            str(h).replace("_", "->") for h in (calibration.get("stale_hops") or [])
+        )
+        _add(
+            rows,
+            severity="high" if days >= 2 else "warn",
+            kind="source_call_calibration_stale",
+            title="Fundstrat source-call chain is stale",
+            why=_calibration_detail(calibration),
+            source="source_call_calibration",
+            trigger=(
+                f"calibration.status=stale; days_behind={days}"
+                + (f"; stale_hops={stale_hops}" if stale_hops else "")
+            ),
+            next_step=(
+                "Classify the Fundstrat inbox into the Source Call Log and regenerate "
+                "source_calls.json before relying on Fundstrat/source-call evidence."
+            ),
+        )
 
     for action in feed.get("actions") or []:
         if not isinstance(action, dict):

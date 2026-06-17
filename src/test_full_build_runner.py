@@ -235,6 +235,41 @@ def test_full_build_runner_threads_source_call_freshness_files(tmp_path):
     assert sc["persistence"]["clusters"][0]["ticker"] == "FN"
 
 
+def test_full_build_runner_surfaces_source_call_chain_staleness(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "source_calls.json", [
+        {"source": "newton", "ticker": "FN", "tier": "A", "outcome": "Pending",
+         "date": "2026-06-01", "window_end": "2026-06-15"},
+    ])
+    _write(src / "inbox_call_dates.json", ["2026-06-04"])
+    _write(src / "log_call_dates.json", ["2026-06-01"])
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    assert validate_cockpit_feed(feed) == []
+    calibration = feed["feedback"]["source_calls"]["calibration"]
+    assert calibration["status"] == "stale"
+    assert calibration["stale_hops"] == ["inbox_log"]
+    assert calibration["worst_days_behind"] == 3
+    assert any(
+        row["kind"] == "source_call_calibration_stale"
+        for row in feed["alert_policy"]["rows"]
+    )
+    dh_rows = {
+        row["source"]: row
+        for row in feed["today_decide"]["data_health"]["items"]
+        if isinstance(row, dict)
+    }
+    assert dh_rows["source_call_calibration"]["blocks"] is True
+    assert "Source-call calibration" in feed["today_decide"]["data_health"]["blockers"]
+
+
 def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     src = tmp_path / "src"
     src.mkdir()

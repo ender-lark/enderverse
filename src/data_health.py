@@ -212,6 +212,23 @@ def assess(
         else:
             items.append(_item("fs_inbox", "FS inbox", "fresh", f"all notes read (checked {checked})"))
 
+    calibration = (
+        ((feed.get("feedback") or {}).get("source_calls") or {}).get("calibration") or {}
+    )
+    if calibration.get("status") == "stale":
+        days = int(calibration.get("worst_days_behind") or 0)
+        detail = str(calibration.get("line") or "").strip()
+        if not detail:
+            detail = f"source-call calibration chain stale ({days}d behind)"
+        items.append(_item(
+            "source_call_calibration",
+            "Source-call calibration",
+            "behind" if days else "stale",
+            detail,
+            blocks=True,
+            days_behind=days,
+        ))
+
     rates = Path(rates_path) if rates_path is not None else SRC / "source_rates.json"
     if not rates.exists():
         items.append(_item("track_record", "analyst track record", "missing", "hit-rate file absent"))
