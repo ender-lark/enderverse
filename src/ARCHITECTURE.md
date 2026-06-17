@@ -227,7 +227,7 @@ The V3 decision layer is **additive** to the V2 engine described above. Every V2
 | `conviction_engine.py` | Tier × calibration × freshness → groups (fs, uw, operator_insight, institutional) → read. Tier D never scores (doctrine). |
 | `timing_engine.py` | Six T-lanes → OPEN-NOW / STAGE-ONLY / GATED / WAIT. OPEN-NOW requires a named positive trigger. |
 | `execution_plan.py` | Per-account leg generation; PCRA ETF-only hard flags and per-leg tax-status flags live here. |
-| `directive_recs.py` | Ranks ADD + TRIM cards; threads `extra_cards`, `extra_fs_items`, `inst_states` from orphan wiring (Task 5). |
+| `directive_recs.py` | Ranks ADD + TRIM cards; material decisions outrank immaterial funding-only helper legs; threads `extra_cards`, `extra_fs_items`, `inst_states` from orphan wiring (Task 5). |
 | `today_decide.py` | TODAY—DECIDE payload + scoped HTML renderer; pace line is **display-only** (tested). |
 | `disposition_log.py` | Append-only ACT/PASS/RECHECK/UNDO spine; orphan escalation; 30-day lookback. |
 | `pattern_engine.py` | Wave-1 detectors (ENDORSED-DIP, EXPLICIT-ADD, DRUMBEAT, prediction_signals stub) and wave-2 (STALE-LEAPS, OVEREXPOSURE-ROTATION, TIER-B-SIDE-PLAY) + guards (`apply_factor_overlap_caveat`, `apply_parabolic_chase_dampener`). |
@@ -240,8 +240,17 @@ The V3 decision layer is **additive** to the V2 engine described above. Every V2
 
 Both the Python HTML renderer (`today_decide.render_today_decide_html`) and the React component (`TodayDecide.jsx` embedded by `conviction_cockpit_v6.jsx`) consume the same payload:
 
-* `payload.{built, goal_anchor, plan_line, gates[], cards[], backlog[], congruence, honesty}`
+* `payload.{built, goal_anchor, plan_line, trust_panel, gates[], cards[], backlog[], congruence, honesty}`
 * per card: `card.{card_id, ticker, direction, recheck_date, last_disposition, conflicts[], conviction.{read, points, groups, raises}, window.{class, deadline, reasons, flips, named_trigger}, decision_card.{move, conviction, window, evidence, impact}, execution, sizing, impact}`
+* Strategy gates have separate provenance and live evaluation. `timing_gates.json`
+  stores who stated the rule and when; `today_decide.build_today_decide_payload`
+  re-evaluates the price condition from current close/price inputs on every
+  render and attaches `gate.live_evaluation`, `gate.live_price`,
+  `gate.price_type`, and `gate.stored_state`. The provenance date must never
+  freeze the red/green render state.
+* Card renderers consume `card.gate_notes[]` for sizing constraints. QQQ/SMH
+  gates do not render as top-of-screen health unless the underlying live input
+  itself is missing or stale.
 * Cards may carry optional `dossier.{ticker, status, one_liner, notion_url, last_reviewed, next_review_due, synced_at, reads}`. Dossier reads are context-only and validated/rendered separately from the 5-field `decision_card` contract.
 * `decision_dossier_sync.py` reads Live Theses through the repo Notion API client when `NOTION_API_TOKEN` is present, or from a verified connector-fetch snapshot when Notion row-query tooling is unavailable. Missing rows stay `pending_sync`; stale/not-checked dynamic reads stay `UNKNOWN`.
 * `decision_dossier_refresh.py` runs from the dashboard refresh path before Today/Decide cards are assembled. It performs no live fetches and can update only ticker-matched `price`/`timing` reads from already-present UW price/opportunity/battery evidence; absent evidence leaves the previous stale/not-checked read unchanged.
@@ -259,6 +268,16 @@ The parity is enforced by `src/test_jsx_parity.py`.
 * Tier D is track-only; UW `inconclusive` = 0 ("a successful fetch is not a direction").
 * OPEN-NOW requires a named positive trigger; quiet days read WAIT.
 * Absent caches render `"not_checked"`; the loaders refuse silent defaults.
+* The top of TODAY-DECIDE is split into two questions: "Can I trust this
+  screen?" (`trust_panel`: source scoring, automation proof, FS inbox, core
+  data) and "Is there anything to act on?" (the verdict and cards).
+  Strategy/sizing gates belong on the constrained card, not in the trust strip.
+* Stale evidence can be shown as context, but it must say why it is shown and
+  not counted. Cached UW opportunity factors from older sessions are not
+  current edge and do not pull the score until same-session confirmation exists.
+* Funding-only helper sells are never standalone hero actions. They render as
+  paired funding legs, link to the funded add, and cannot sort above material
+  decisions when they are immaterial and stage-only.
 * MONITOR no-add-nudge stands: MONITOR-RE-ENTRY is the ONLY action path for `BMNR/LEU/UUUU/MP`, and the card REQUIRES defined-risk fields (`stop_loss`, `risk_band`, `max_loss_usd`) — without them no card emits.
 
 ### 12.4 · Routine + registration

@@ -30,6 +30,7 @@ from pathlib import Path
 from typing import Any
 
 import data_health as _dh
+import cloud_routine_receipts as crr
 import congruence as cg
 import conviction_engine as ce
 import directive_recs as dr
@@ -45,6 +46,8 @@ _GATE_COLORS = {"red": "#f87171", "red_but_tested": "#fbbf24", "green": "#34d399
 _CLASS_COLORS = {"OPEN-NOW": "#34d399", "STAGE-ONLY": "#fbbf24", "GATED": "#f87171", "WAIT": "#94a3b8"}
 _BAND_COLORS = {"LOW": "#94a3b8", "MODERATE": "#fbbf24", "HIGH": "#34d399"}
 _SELL_BAND_COLORS = {"LOW": "#94a3b8", "MODERATE": "#fbbf24", "HIGH": "#f87171"}
+_TRUST_COLORS = {"ok": "#34d399", "warn": "#fbbf24", "alert": "#f87171", "info": "#94a3b8"}
+_TRUST_HEALTH_SOURCES = {"portfolio", "uw_price", "uw_macro", "live_tape", "fundstrat_daily", "fundstrat_bible"}
 _GROUP_LABELS = {
     "fs": "Fundstrat / source calls",
     "uw": "UW same-session proof",
@@ -149,6 +152,11 @@ def _gate_applies_to_card(gate: dict[str, Any] | None, card: dict[str, Any]) -> 
     applies_to = {str(value or "").strip().upper() for value in gate.get("applies_to") or []}
     if card_ticker and card_ticker in applies_to:
         return True
+    direction = _card_action_direction(card)
+    if direction in {"BUY", "ADD"} and ("*BUY*" in applies_to or "BUY" in applies_to):
+        return True
+    if "*" in applies_to:
+        return True
     window = card.get("window") or {}
     blob = _text_blob(
         card.get("entry_note"),
@@ -196,6 +204,307 @@ def _card_blockers(
         if _gate_applies_to_card(gate, card):
             blockers.append(label)
     return blockers
+
+
+def _coerce_float(value: Any) -> float | None:
+    try:
+        if value is None or value == "":
+            return None
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _price_from_row(row: Any, symbol: str) -> float | None:
+    if isinstance(row, (int, float, str)):
+        return _coerce_float(row)
+    if not isinstance(row, dict):
+        return None
+    ticker = str(row.get("ticker") or row.get("symbol") or row.get("t") or "").upper()
+    if ticker and ticker != symbol:
+        return None
+    for key in ("price", "last", "last_price", "close", "c", "current_price", "mark"):
+        parsed = _coerce_float(row.get(key))
+        if parsed is not None:
+            return parsed
+    return None
+
+
+def _lookup_gate_price(feed: dict[str, Any], symbol: str) -> tuple[float | None, str]:
+    symbol = str(symbol or "").upper().strip()
+    if not symbol:
+        return None, ""
+    for key in ("current_closes", "latest_closes", "closes"):
+        value = feed.get(key)
+        if isinstance(value, dict):
+            for lookup_key in (symbol, symbol.lower()):
+                if lookup_key in value:
+                    parsed = _price_from_row(value.get(lookup_key), symbol)
+                    if parsed is not None:
+                        return parsed, "close"
+            for rows_key in ("rows", "data", "items", "prices"):
+                rows = value.get(rows_key)
+                if isinstance(rows, list):
+                    for row in rows:
+                        parsed = _price_from_row(row, symbol)
+                        if parsed is not None:
+                            return parsed, "close"
+        elif isinstance(value, list):
+            for row in value:
+                parsed = _price_from_row(row, symbol)
+                if parsed is not None:
+                    return parsed, "close"
+    for key in ("current_prices", "latest_prices", "prices", "quotes", "quote", "uw_prices"):
+        value = feed.get(key)
+        if isinstance(value, dict):
+            for lookup_key in (symbol, symbol.lower()):
+                if lookup_key in value:
+                    parsed = _price_from_row(value.get(lookup_key), symbol)
+                    if parsed is not None:
+                        return parsed, "live"
+            for rows_key in ("rows", "data", "items", "prices"):
+                rows = value.get(rows_key)
+                if isinstance(rows, list):
+                    for row in rows:
+                        parsed = _price_from_row(row, symbol)
+                        if parsed is not None:
+                            return parsed, "live"
+        elif isinstance(value, list):
+            for row in value:
+                parsed = _price_from_row(row, symbol)
+                if parsed is not None:
+                    return parsed, "live"
+    return None, ""
+
+
+def _gate_level_text(gate: dict[str, Any]) -> str:
+    low = _coerce_float(gate.get("level_low"))
+    high = _coerce_float(gate.get("level_high"))
+    if low is None and high is None:
+        return ""
+    if high is None:
+        high = low
+    if low is None:
+        low = high
+    if abs(float(low) - float(high)) < 0.005:
+        return f"{float(high):.2f}"
+    return f"{float(low):.2f}-{float(high):.2f}"
+
+
+def _gate_card_note(gate: dict[str, Any], feed: dict[str, Any]) -> dict[str, str]:
+    symbol = str(gate.get("symbol") or gate.get("gate_id") or "gate").upper()
+    source = str(gate.get("source") or "").strip()
+    stated = str(gate.get("stated") or "").strip()
+    state = str(gate.get("state") or "unknown").replace("_", " ").upper()
+    stored_state = str(gate.get("stored_state") or gate.get("state") or "unknown").replace("_", " ").upper()
+    rule = str(gate.get("confirm_rule") or gate.get("note") or "gate must confirm").strip()
+    level = _gate_level_text(gate)
+    blocks = _dh._gate_blocks_action(gate)  # local module helper; keeps render semantics aligned with data health
+    price = _coerce_float(gate.get("live_price"))
+    basis = str(gate.get("price_type") or "").strip()
+    if price is None:
+        price, basis = _lookup_gate_price(feed, symbol)
+    source_tail = "; ".join(part for part in (f"source {source}" if source else "", f"stated {stated}" if stated else "") if part)
+
+    if not blocks:
+        return {
+            "label": f"{symbol} context",
+            "status": "context",
+            "summary": f"Context only: {str(gate.get('note') or rule).strip()} ({source_tail or 'source not checked'}).",
+        }
+    if str(gate.get("state") or "").lower() == "green":
+        if stored_state != "GREEN" and price is not None:
+            level_text = f" clears {level}" if level else ""
+            return {
+                "label": f"{symbol} gate",
+                "status": "ok",
+                "summary": (
+                    f"Price condition now MET: {symbol} {basis or 'price'} {price:.2f}{level_text}; "
+                    f"stored gate was {stored_state.lower()} from {stated or 'unknown date'}."
+                ),
+            }
+        return {
+            "label": f"{symbol} gate",
+            "status": "ok",
+            "summary": f"Gate confirmed: {rule} ({source_tail or 'source not checked'}).",
+        }
+    if price is not None:
+        result = te.evaluate_gate(gate, price, price_type=basis or "live")
+        suggested = str(result.get("suggested_state") or "").lower()
+        if suggested == "green":
+            level_text = f" clears {level}" if level else ""
+            return {
+                "label": f"{symbol} gate",
+                "status": "warn",
+                "summary": (
+                    f"Condition now appears MET: {symbol} {basis or 'price'} {price:.2f}{level_text}; "
+                    "reconfirm to unlock full size."
+                ),
+            }
+        return {
+            "label": f"{symbol} gate",
+            "status": "warn",
+            "summary": (
+                f"Capped to stage-only until {rule}. Last {basis or 'price'} {price:.2f}; "
+                f"gate still {state.lower()} ({source_tail or 'source not checked'})."
+            ),
+        }
+    return {
+        "label": f"{symbol} gate",
+        "status": "warn",
+        "summary": (
+            f"Capped to stage-only until {rule}. Not live-rechecked in this render; "
+            f"gate still {state.lower()} ({source_tail or 'source not checked'})."
+        ),
+    }
+
+
+def _evaluate_gates_for_render(feed: dict[str, Any], gates: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    evaluated: list[dict[str, Any]] = []
+    for gate in gates or []:
+        if not isinstance(gate, dict):
+            continue
+        next_gate = dict(gate)
+        next_gate["stored_state"] = gate.get("state")
+        symbol = str(gate.get("symbol") or "").upper()
+        price, basis = _lookup_gate_price(feed, symbol)
+        if price is None:
+            next_gate["live_evaluation"] = {
+                "status": "not_checked",
+                "why": "no current price available to re-evaluate this render",
+            }
+            evaluated.append(next_gate)
+            continue
+        result = te.evaluate_gate(gate, price, price_type=basis or "live")
+        next_gate["live_price"] = price
+        next_gate["price_type"] = basis or "live"
+        next_gate["live_evaluation"] = {
+            "status": "checked",
+            "suggested_state": result.get("suggested_state"),
+            "changed": bool(result.get("changed")),
+            "why": result.get("why"),
+        }
+        suggested = str(result.get("suggested_state") or "").strip()
+        if suggested:
+            next_gate["state"] = suggested
+        evaluated.append(next_gate)
+    return evaluated
+
+
+def _card_gate_notes(card: dict[str, Any], gates: list[dict[str, Any]], feed: dict[str, Any]) -> list[dict[str, str]]:
+    notes: list[dict[str, str]] = []
+    for gate in gates or []:
+        if _gate_applies_to_card(gate, card):
+            notes.append(_gate_card_note(gate, feed))
+    return notes
+
+
+def _health_item(data_health: dict[str, Any], source: str) -> dict[str, Any] | None:
+    for item in data_health.get("items") or []:
+        if isinstance(item, dict) and item.get("source") == source:
+            return item
+    return None
+
+
+def _trust_rank(status: str) -> int:
+    return {"ok": 0, "info": 1, "warn": 2, "alert": 3}.get(status, 1)
+
+
+def _automation_trust_item() -> dict[str, str]:
+    proof_path = SRC / "cloud_automation_status.json"
+    receipt_path = SRC / "cloud_routine_receipts.json"
+    if not proof_path.exists():
+        return {
+            "label": "Automations",
+            "status": "warn",
+            "detail": "automation proof file not checked in this render",
+        }
+    try:
+        proof = json.loads(proof_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"label": "Automations", "status": "alert", "detail": "automation proof file unreadable"}
+    routines = [
+        row for row in proof.get("routines") or []
+        if isinstance(row, dict) and str(row.get("status") or "").upper() == "ACTIVE"
+    ]
+    expected = crr.proof_required_automations(routines)
+    if not expected:
+        return {"label": "Automations", "status": "warn", "detail": "no core scheduled routines listed as active"}
+    try:
+        receipts = crr.load_receipts(receipt_path)
+        summary = crr.summarize_receipts(receipts, expected_automations=expected)
+    except Exception as exc:
+        return {"label": "Automations", "status": "alert", "detail": f"routine receipts unreadable: {type(exc).__name__}"}
+    expected_count = int(summary.get("expected_count") or 0)
+    scheduled = int(summary.get("scheduled_success_count") or 0)
+    failed = int(summary.get("failed_latest_count") or 0)
+    missing = int(summary.get("missing_scheduled_success_count") or 0)
+    if failed:
+        return {"label": "Automations", "status": "alert", "detail": f"{failed} latest scheduled routine receipt failed"}
+    if missing:
+        return {
+            "label": "Automations",
+            "status": "alert",
+            "detail": f"scheduled proof {scheduled}/{expected_count}; {missing} core routine(s) not proven",
+        }
+    return {"label": "Automations", "status": "ok", "detail": f"scheduled proof {scheduled}/{expected_count}"}
+
+
+def _build_trust_panel(data_health: dict[str, Any]) -> dict[str, Any]:
+    items: list[dict[str, str]] = []
+    calibration = _health_item(data_health, "source_call_calibration")
+    track = _health_item(data_health, "track_record")
+    if calibration and calibration.get("status") in {"behind", "stale", "missing"}:
+        items.append({
+            "label": "Source scoring",
+            "status": "alert",
+            "detail": str(calibration.get("detail") or "source-call calibration is stale"),
+        })
+    elif not track or track.get("status") in {"empty", "missing"}:
+        items.append({
+            "label": "Source scoring",
+            "status": "alert",
+            "detail": "Source scoring is OFF - no graded track record yet, so analyst calls are not moving any score.",
+        })
+    elif track.get("status") == "fresh":
+        items.append({"label": "Source scoring", "status": "ok", "detail": str(track.get("detail") or "graded track record loaded")})
+    else:
+        items.append({"label": "Source scoring", "status": "warn", "detail": str((track or {}).get("detail") or "not checked")})
+
+    items.append(_automation_trust_item())
+
+    fs = _health_item(data_health, "fs_inbox")
+    if not fs:
+        items.append({"label": "FS inbox", "status": "warn", "detail": "not checked this render"})
+    elif fs.get("status") == "fresh":
+        items.append({"label": "FS inbox", "status": "ok", "detail": str(fs.get("detail") or "checked")})
+    elif fs.get("status") == "behind":
+        items.append({"label": "FS inbox", "status": "alert", "detail": str(fs.get("detail") or "behind")})
+    else:
+        items.append({"label": "FS inbox", "status": "warn", "detail": str(fs.get("detail") or fs.get("status") or "not checked")})
+
+    core = [
+        row for row in data_health.get("items") or []
+        if isinstance(row, dict) and row.get("source") in _TRUST_HEALTH_SOURCES
+    ]
+    bad = [row for row in core if row.get("status") in {"behind", "stale", "missing"}]
+    soft = [row for row in core if row.get("status") in {"aging", "empty", "not_checked"}]
+    if bad:
+        detail = "; ".join(f"{row.get('label')}: {row.get('detail')}" for row in bad[:3])
+        items.append({"label": "Core data", "status": "alert", "detail": detail})
+    elif soft:
+        detail = "; ".join(f"{row.get('label')}: {row.get('detail')}" for row in soft[:3])
+        items.append({"label": "Core data", "status": "warn", "detail": detail})
+    elif core:
+        labels = ", ".join(str(row.get("label") or row.get("source")) for row in core[:5])
+        items.append({"label": "Core data", "status": "ok", "detail": f"{labels} fresh"})
+    else:
+        items.append({"label": "Core data", "status": "warn", "detail": "freshness not checked"})
+
+    worst = max(items, key=lambda row: _trust_rank(row.get("status", "info")))
+    source = next((row for row in items if row["label"] == "Source scoring"), None)
+    headline = source["detail"] if source and source["status"] == "alert" else worst["detail"]
+    return {"status": worst.get("status", "info"), "headline": headline, "items": items}
 
 
 def _card_action_direction(card: dict[str, Any]) -> str:
@@ -398,6 +707,7 @@ def build_today_decide_payload(
     today_iso = today or date.today().isoformat()
     insights_payload = insights_payload or ir.load_insights()
     gates = gates if gates is not None else te.load_gates()
+    gates = _evaluate_gates_for_render(feed, gates)
     stack = dr.build_directive_cards(
         feed=feed, weights=weights, goal=goal, insights_payload=insights_payload,
         accounts=accounts, gates=gates, uw_states=uw_states, entry_zones=entry_zones,
@@ -425,6 +735,7 @@ def build_today_decide_payload(
     )
     for card in stack["cards"] + stack["backlog"]:
         card["card_blockers"] = _card_blockers(card, data_health, gates)
+        card["gate_notes"] = _card_gate_notes(card, gates, feed)
     attach_conviction_displays(stack["cards"] + stack["backlog"])
     honesty = dict(stack["honesty"])
     if congruence_result.get("status") != "ok":
@@ -445,10 +756,14 @@ def build_today_decide_payload(
             "positions_as_of": rb.get("positions_snapshot_date"),
         },
         "gates": [
-            {k: g.get(k) for k in ("gate_id", "symbol", "state", "note", "confirm_rule", "stated")}
+            {k: g.get(k) for k in (
+                "gate_id", "symbol", "state", "stored_state", "note", "confirm_rule",
+                "stated", "live_price", "price_type", "live_evaluation",
+            )}
             for g in gates
         ],
         "data_health": data_health,
+        "trust_panel": _build_trust_panel(data_health),
         "cards": stack["cards"],
         "backlog": stack["backlog"],
         "congruence": congruence_result,
@@ -470,8 +785,15 @@ _CSS = """
   background:#08111f;padding:10px 12px;margin:10px 0 12px}
 .td .td-verdict-title{font-size:15px;color:#f8fafc;font-weight:850;margin-bottom:3px}
 .td .td-verdict-line{font-size:12px;color:#cbd5e1;line-height:1.4}
-.td .td-gate{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;
-  margin:0 6px 8px 0;border:1px solid}
+.td .td-trust{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-trust-alert{border-color:#f87171;background:#1f0d12}
+.td .td-trust-warn{border-color:#fbbf24;background:#1b1607}
+.td .td-trust-ok{border-color:#34d399;background:#071910}
+.td .td-trust-head{font-size:15px;color:#f8fafc;font-weight:900;margin-bottom:8px}
+.td .td-trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.td .td-trust-item{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px}
+.td .td-trust-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-trust-detail{font-size:13px;color:#e2e8f0;line-height:1.35;margin-top:3px}
 .td .td-card{border:1px solid #243044;border-radius:10px;padding:12px;margin:10px 0;background:#0f172a}
 .td .td-card.td-conflicted{border-color:#f59e0b}
 .td details.td-card{padding:0}
@@ -483,6 +805,8 @@ _CSS = """
 .td .td-face-status{font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
 .td .td-face-title{font-size:20px;font-weight:850;line-height:1.18;margin:1px 0;color:#f8fafc}
 .td .td-face-subtitle{font-size:13px;color:#cbd5e1;line-height:1.35}
+.td .td-face-sentence{font-size:14px;color:#e2e8f0;line-height:1.4;margin-top:7px;max-width:760px}
+.td .td-face-gate{font-size:12px;color:#fde68a;line-height:1.35;margin-top:6px;max-width:760px}
 .td .td-face-right{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;min-width:150px}
 .td .td-face-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .td .td-score-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 9px;font-size:12px;
@@ -512,9 +836,16 @@ _CSS = """
 .td .td-evidence-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
 .td .td-evidence{border:1px solid #334155;border-radius:8px;padding:8px;background:#0b1220}
 .td .td-evidence-warn{border-color:#f59e0b;background:#1f1606}
+.td .td-evidence-stale{border-color:#475569;background:#0b1220;opacity:.74}
 .td .td-evidence-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.05em}
 .td .td-evidence-title{font-size:13px;color:#f8fafc;font-weight:800;margin-top:2px}
 .td .td-evidence-text{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
+.td .td-evidence-note{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px;
+  font-size:13px;color:#cbd5e1;line-height:1.4;margin:0 0 8px}
+.td .td-gate-note{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px;
+  font-size:13px;color:#cbd5e1;line-height:1.4;margin:0 0 8px}
+.td .td-gate-note-ok{border-color:#34d399;color:#bbf7d0;background:#071910}
+.td .td-gate-note-warn{border-color:#fbbf24;color:#fde68a;background:#1b1607}
 .td .td-layer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
 .td .td-layer-card{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px}
 .td .td-layer-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.05em}
@@ -525,6 +856,8 @@ _CSS = """
 .td .td-action-columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
 .td .td-action-column{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px}
 .td .td-action-column-title{font-size:10px;color:#94a3b8;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.td .td-card-section-title{font-size:11px;color:#94a3b8;text-transform:uppercase;font-weight:900;
+  letter-spacing:.08em;margin:14px 0 5px}
 .td .td-pill{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;
   font-weight:600;margin-left:8px;color:#0b1220}
 .td .td-row{font-size:13px;color:#cbd5e1;margin:4px 0}
@@ -539,8 +872,7 @@ _CSS = """
 .td .td-muted-details>summary{cursor:pointer;color:#94a3b8;font-size:12px;font-weight:750}
 .td details{margin:4px 0;font-size:12px;color:#94a3b8}
 .td .td-health{margin:8px 0 4px 0;line-height:2}
-.td .td-health-compact,.td .td-gates-compact{display:none}
-.td .td-gates-full{margin:0 0 2px}
+.td .td-health-compact{display:none}
 .td .td-compact-strip{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:7px 9px;margin:6px 0;color:#cbd5e1}
 .td .td-compact-strip>summary{cursor:pointer;font-size:12px;font-weight:800;color:#e2e8f0}
 .td .td-compact-body{margin-top:7px;line-height:1.8}
@@ -560,8 +892,8 @@ _CSS = """
   .td .td-anchor{font-size:16px}
   .td .td-pace{font-size:10px;margin-bottom:8px}
   .td .td-plan{font-size:12px;margin-bottom:6px}
-  .td .td-health-full,.td .td-gates-full{display:none}
-  .td .td-health-compact,.td .td-gates-compact{display:block}
+  .td .td-health-full{display:none}
+  .td .td-health-compact{display:block}
   .td .td-face-top{display:block}
   .td .td-face-right{justify-content:flex-start;margin-top:7px}
   .td .td-face-title{font-size:18px}
@@ -607,7 +939,64 @@ def _render_group_breakdown(display: dict[str, Any]) -> str:
     return "".join(bits)
 
 
-def _factor_tag(row: dict[str, Any], card: dict[str, Any] | None) -> str:
+def _factor_dates(factors: list[dict[str, Any]]) -> list[str]:
+    dates: set[str] = set()
+    for row in factors:
+        text = f"{row.get('value_str') or ''} {row.get('source') or ''}"
+        for match in re.findall(r"20\d{2}-\d{2}-\d{2}", text):
+            dates.add(match)
+    return sorted(dates)
+
+
+def _factor_as_of(row: dict[str, Any]) -> str | None:
+    text = f"{row.get('value_str') or ''} {row.get('source') or ''}"
+    match = re.search(r"20\d{2}-\d{2}-\d{2}", text)
+    return match.group(0) if match else None
+
+
+def _factor_is_stale_context(row: dict[str, Any], built_date: str | None) -> bool:
+    if not built_date:
+        return False
+    key_source = str(row.get("key") or "") + " " + str(row.get("source") or "")
+    if "uw_opportunity" not in key_source:
+        return False
+    as_of = _factor_as_of(row)
+    return bool(as_of and as_of != built_date)
+
+
+def _shown_not_counted_note(display: dict[str, Any], factors: list[dict[str, Any]], built_date: str | None = None) -> str:
+    groups = ((display.get("why") or {}).get("groups") or [])
+    group_points = sum(abs(float(row.get("points") or 0.0)) for row in groups)
+    has_context_flow = any(
+        "uw_opportunity" in str(row.get("key") or row.get("source") or "")
+        for row in factors
+    )
+    needs_same_session = any(
+        "same-session" in str(item).lower() or "uw proof" in str(item).lower()
+        for item in display.get("raises") or []
+    )
+    if not factors or group_points >= 0.1 or not (has_context_flow or needs_same_session):
+        return ""
+    dates = _factor_dates(factors)
+    date_text = ", ".join(dates) if dates else "earlier cached evidence"
+    if any(_factor_is_stale_context(row, built_date) for row in factors):
+        return (
+            f"Stale context, not current edge: these UW signals are from {date_text}, not this session's "
+            "9:40 gate. Treat them as already-played or expired until refreshed; they are not moving the score "
+            "and should not pull action."
+        )
+    return (
+        f"Shown but not counted: these signals are from {date_text} and have not been "
+        "re-confirmed this session (9:40 gate), so they are context only and are not moving the score yet."
+    )
+
+
+def _factor_tag(row: dict[str, Any], card: dict[str, Any] | None, built_date: str | None = None) -> str:
+    if _factor_is_stale_context(row, built_date):
+        direction = str(row.get("direction") or "").lower()
+        if direction in {"bull", "bear"}:
+            return f"stale {_direction_signal_word(direction)} context"
+        return "stale context"
     direction = str(row.get("direction") or "").lower()
     if card and _is_funding_leg(card) and direction in {"bull", "bear"}:
         return f"{_direction_signal_word(direction)} name signal"
@@ -618,14 +1007,24 @@ def _factor_tag(row: dict[str, Any], card: dict[str, Any] | None) -> str:
     return "context"
 
 
-def _render_factor_breakdown(display: dict[str, Any], card: dict[str, Any] | None = None) -> str:
+def _render_factor_breakdown(
+    display: dict[str, Any],
+    card: dict[str, Any] | None = None,
+    *,
+    built_date: str | None = None,
+) -> str:
     factors = ((display.get("why") or {}).get("decisive_factors") or [])
     if not factors:
         return '<div class="td-why-item">Battery decisive factors: none surfaced.</div>'
-    bits = ['<div class="td-evidence-grid">']
+    bits = []
+    note = _shown_not_counted_note(display, factors, built_date)
+    if note:
+        bits.append(f'<div class="td-evidence-note">{_esc(note)}</div>')
+    bits.append('<div class="td-evidence-grid">')
     for row in factors[:4]:
-        cls = " td-evidence-warn" if row.get("conflict") else ""
-        tag = _factor_tag(row, card)
+        stale = _factor_is_stale_context(row, built_date)
+        cls = " td-evidence-stale" if stale else (" td-evidence-warn" if row.get("conflict") else "")
+        tag = _factor_tag(row, card, built_date)
         bits.append(
             f'<div class="td-evidence{cls}">'
             f'<div class="td-evidence-label">{_esc(tag)}</div>'
@@ -750,6 +1149,32 @@ def _size_label(card: dict[str, Any]) -> str:
     return f"{size} / {material}"
 
 
+def _funding_sell_label(card: dict[str, Any]) -> str:
+    return f"{_money_text(card.get('dollars'))} funding sell — only if paired with the buy it funds"
+
+
+def _funded_adds(card: dict[str, Any]) -> list[dict[str, str]]:
+    links = (((card.get("decision_card") or {}).get("evidence") or {}).get("links") or [])
+    out: list[dict[str, str]] = []
+    for link in links:
+        label = str((link or {}).get("label") or "")
+        if "funds" not in label.lower():
+            continue
+        match = re.search(r"\b([A-Z]{1,6})\b\s+\$?([0-9][0-9,]*(?:\.\d+)?)", label)
+        if not match:
+            continue
+        out.append({"ticker": match.group(1), "amount": f"${match.group(2)}"})
+    return out
+
+
+def _funded_add_text(card: dict[str, Any]) -> str:
+    adds = _funded_adds(card)
+    if not adds:
+        return "the paired add it funds"
+    first = adds[0]
+    return f"the {first['ticker']} {first['amount']} add"
+
+
 def _direction_signal_word(direction: str) -> str:
     value = str(direction or "").lower()
     if value == "bull":
@@ -779,8 +1204,6 @@ def _name_signal_text(card: dict[str, Any], display: dict[str, Any]) -> str:
     if factor:
         word = _direction_signal_word(str(factor.get("direction") or ""))
         label = str(factor.get("label") or factor.get("key") or "evidence")
-        if _is_funding_leg(card):
-            return f"Name signal: {word} ({label}); action is plumbing"
         return f"Name signal: {word} ({label})"
     groups = ((display.get("why") or {}).get("groups") or [])
     moved = [row for row in groups if abs(float(row.get("points") or 0.0)) >= 0.25]
@@ -862,7 +1285,7 @@ def _primary_blocker_text(
     window_class: str,
 ) -> str:
     if _is_funding_leg(card):
-        return "Do not sell standalone; this is plumbing for a paired add."
+        return "Funding sell only; pair it with the add it pays for and do not sell the stock on its own."
     sizing = card.get("sizing") or {}
     if sizing.get("heat") == "ABOVE_CAP":
         return "Above cap; no size room until thesis/cap is revisited."
@@ -878,13 +1301,46 @@ def _primary_blocker_text(
     return "No blocking reason surfaced."
 
 
-def _split_raise_actions(display: dict[str, Any]) -> tuple[list[str], list[str]]:
+def _face_sentence(
+    card: dict[str, Any],
+    display: dict[str, Any],
+    *,
+    status: str,
+    blocker: str,
+) -> str:
+    ticker = str(card.get("ticker") or "").upper()
+    if _is_funding_leg(card):
+        factor = _strongest_directional_factor(display)
+        paired = _funded_add_text(card)
+        if str((factor or {}).get("direction") or "").lower() == "bull":
+            return (
+                f"Funding sell. Only do this alongside {paired}; "
+                "the stock itself looks bullish on flow, so don't sell it on its own."
+            )
+        return f"Funding sell. Only do this alongside {paired}; don't sell it on its own."
+    if status == "stage material buy":
+        return f"Material buy candidate. Stage {ticker} only after the blocker clears: {blocker}"
+    if status == "needs feed":
+        return f"Not actionable yet. Feed the missing evidence first; {blocker}"
+    if status == "resolve direction":
+        return f"Do not act yet. Resolve the conflicting evidence first: {blocker}"
+    if status == "stage only":
+        return f"Stage-only candidate. Keep it queued until the trigger and blocker checks clear."
+    if status == "lean-in candidate":
+        return f"Lean-in candidate. Evidence is clear enough to consider action inside the stated rails."
+    return f"Review first. {blocker}"
+
+
+def _split_raise_actions(display: dict[str, Any]) -> tuple[list[str], list[str], list[str]]:
     operator: list[str] = []
+    waiting: list[str] = []
     system: list[str] = []
     for item in display.get("raises") or []:
         text = str(item)
         low = text.lower()
-        if any(token in low for token in ("13f", "insider", "lane goes live", "uw proof", "same-session", "wired")):
+        if any(token in low for token in ("dated entry", "entry/stop/target", "tier a", "analyst call")):
+            waiting.append(text)
+        elif any(token in low for token in ("13f", "insider", "lane goes live", "uw proof", "same-session", "wired")):
             system.append(text)
         else:
             operator.append(text)
@@ -892,7 +1348,7 @@ def _split_raise_actions(display: dict[str, Any]) -> tuple[list[str], list[str]]
         operator.append("Decide whether the surfaced signal is real enough to write or refresh the thesis.")
     if not system:
         system.append("No separate system wiring task surfaced for this card.")
-    return operator[:3], system[:3]
+    return operator[:3], waiting[:3], system[:3]
 
 
 def _shadow_lift_text(display: dict[str, Any]) -> str:
@@ -939,8 +1395,8 @@ def _card_face_model(
     stage_material = str(direction or "").upper() in {"BUY", "ADD"} and material and window_class == "STAGE-ONLY"
     blocker = _primary_blocker_text(card, display, check_first=check_first, window_class=window_class)
     if funding_leg:
-        status = "funding leg only"
-        title = f"{_money_text(card.get('dollars'))} plumbing trim for {ticker}"
+        status = "funding sell only"
+        title = _funding_sell_label(card)
     elif has_directional_conflict:
         status = "resolve direction"
         title = f"Resolve signal before {_action_gerund(direction)} {ticker}"
@@ -960,30 +1416,33 @@ def _card_face_model(
         status = "review"
         title = f"Review {ticker} before acting"
 
-    subtitle_parts = [part for part in [str(direction or "").upper(), str(window_class or "").replace("-", " ").lower()] if part]
-
     tags: list[tuple[str, str]] = []
     tags.append(("material" if material else "muted", _size_label(card)))
-    if check_first or blockers:
-        tags.append(("danger", "stale or missing inputs"))
-    for tag in conflict_tags:
-        tags.append(("warn", tag))
-    if window_class == "STAGE-ONLY":
-        tags.append(("muted", "not standalone urgent"))
+    if funding_leg:
+        tags.append(("muted", "funding only"))
+    gate_note = _first_gate_note(card)
     return {
         "status": status,
         "title": title,
-        "subtitle": " | ".join(subtitle_parts),
+        "subtitle": "",
         "signal": _name_signal_text(card, display),
         "layer": _layer_summary_text(display),
         "blocker": blocker,
+        "sentence": _face_sentence(card, display, status=status, blocker=blocker),
+        "gate_note": gate_note.get("summary") if gate_note else "",
         "tags": tags,
     }
 
 
 def _first_raise(display: dict[str, Any]) -> str:
-    raises = display.get("raises") or []
-    return str(raises[0]) if raises else "Fresh confirming evidence that clears the current blocker."
+    operator_actions, waiting_actions, system_actions = _split_raise_actions(display)
+    if operator_actions:
+        return operator_actions[0]
+    if waiting_actions:
+        return f"Waiting on: {waiting_actions[0]}"
+    if system_actions:
+        return system_actions[0]
+    return "Fresh confirming evidence that clears the current blocker."
 
 
 def _decision_reason(card: dict[str, Any], display: dict[str, Any], *, check_first: bool, window_class: str) -> str:
@@ -1020,7 +1479,7 @@ def _render_decision_readout(
         window_class=window_class,
         direction=direction,
     )
-    if face["status"] == "funding leg only":
+    if face["status"] == "funding sell only":
         answer = "Do not treat as a standalone trade"
     elif posture.get("copy_verb") == "ACT" and not check_first and not display.get("conflict"):
         answer = "Lean-in candidate"
@@ -1079,11 +1538,9 @@ def _render_face(
         f'<div class="td-rank">#{rank} { _esc(str(card.get("ticker") or "")) }</div>'
         f'<div class="td-face-status">{_esc(face["status"])}</div>'
         f'<div class="td-face-title">{_esc(face["title"])}</div>'
-        f'<div class="td-face-subtitle">{_esc(face["subtitle"])}</div>'
-        f'<div class="td-layer-line">{_esc(face["signal"])}</div>'
-        f'<div class="td-layer-line">{_esc(face["layer"])}</div>'
-        f'<div class="td-main-blocker">{_esc(face["blocker"])}</div>'
-        '</div>'
+        f'<div class="td-face-sentence">{_esc(face["sentence"])}</div>'
+        + (f'<div class="td-face-gate">{_esc(face["gate_note"])}</div>' if face.get("gate_note") else "")
+        + '</div>'
         '<div class="td-face-right">'
         f'<span class="td-score-chip" style="background:{_esc(display.get("band_color") or "#94a3b8")}">{_esc(_score_text(display))}</span>'
         '</div></div>'
@@ -1151,6 +1608,40 @@ def _render_not_checked(display: dict[str, Any]) -> str:
     text = ", ".join(str(row) for row in rows) if rows else "none"
     return f'<div class="td-row">not checked: {_esc(text)}</div>'
 
+
+def _lookthrough_rationale(card: dict[str, Any]) -> str:
+    lookthrough = card.get("lookthrough") or {}
+    contains = str(lookthrough.get("contains_line") or "").strip()
+    if not contains:
+        return ""
+    return (
+        "Rationale: this funding sell rotates out of MAG7 basket exposure "
+        f"({contains.replace('contains ', '')}) to fund the paired single-name add."
+    )
+
+
+def _render_funding_pair_block(card: dict[str, Any]) -> str:
+    if not _is_funding_leg(card):
+        return ""
+    adds = _funded_adds(card)
+    if adds:
+        links = []
+        for add in adds:
+            ticker = _esc(add["ticker"])
+            amount = _esc(add["amount"])
+            links.append(f'<a href="#td-card-{ticker}" style="color:#93c5fd">{ticker} {amount} add</a>')
+        paired = ", ".join(links)
+    else:
+        paired = "the paired add it funds"
+    rationale = _lookthrough_rationale(card)
+    return (
+        '<div class="td-evidence-note">'
+        f'<strong>Pair this sell with:</strong> {paired}. '
+        'Do not do the sell by itself.'
+        + (f'<br/>{_esc(rationale)}' if rationale else "")
+        + '</div>'
+    )
+
 def _health_strip_summary(items: list[dict[str, Any]]) -> str:
     alert_statuses = {"behind", "stale", "missing", "empty"}
     alerts = sum(1 for item in items if item.get("status") in alert_statuses)
@@ -1189,7 +1680,7 @@ def _top_verdict(payload: dict[str, Any]) -> dict[str, str]:
         display = card.get("conviction_display") or build_conviction_display(card)
         if _card_is_evidence_starved(card, display):
             starved.append(card)
-        if _strongest_directional_factor(display):
+        if not _is_funding_leg(card) and _strongest_directional_factor(display):
             signals.append(f"{card.get('ticker')}: {_name_signal_text(card, display).replace('Name signal: ', '')}")
         win = card.get("window") or {}
         if (
@@ -1205,19 +1696,37 @@ def _top_verdict(payload: dict[str, Any]) -> dict[str, str]:
         item for item in dh_items
         if item.get("status") in {"behind", "stale", "missing", "empty", "not_checked"}
     ]
+    cap_cards = [
+        card for card in material
+        if str(((card.get("sizing") or {}).get("heat") or "")) == "ABOVE_CAP"
+    ]
+    lever_parts: list[str] = []
+    material_tickers = [str(card.get("ticker") or "").upper() for card in material if not _is_funding_leg(card)]
+    if material_tickers:
+        lever_parts.append(f"fresh-check material names ({'/'.join(material_tickers[:3])})")
+    if stale_or_unfed or starved:
+        lever_parts.append("load the FS inbox / get a graded call")
+    if cap_cards:
+        lever_parts.append(f"revisit the {str(cap_cards[0].get('ticker') or '').upper()} cap if conviction warrants")
+    if not lever_parts:
+        lever_parts.append("write or refresh the dated thesis that would change the action")
+
     if lean_ready:
         title = f"{len(lean_ready)} lean-in-ready material card{'s' if len(lean_ready) != 1 else ''}."
     else:
-        title = "No lean-in-ready card yet: scorer is starved or blocked, not necessarily bearish."
+        title = (
+            "Nothing actionable yet: scorer is starved or blocked, not bearish. "
+            f"Next lever: {' or '.join(lever_parts)}."
+        )
     line_parts = [
-        f"{len(material)} material candidate{'s' if len(material) != 1 else ''}",
-        f"{len(funding)} plumbing/funding leg{'s' if len(funding) != 1 else ''}",
+        f"{len(material)} material decision{'s' if len(material) != 1 else ''}",
+        f"{len(funding)} funding-only leg{'s' if len(funding) != 1 else ''}",
         f"{len(starved)} evidence-starved card{'s' if len(starved) != 1 else ''}",
     ]
     if stale_or_unfed:
         line_parts.append(f"{len(stale_or_unfed)} stale/not-checked lane{'s' if len(stale_or_unfed) != 1 else ''}")
     if signals:
-        line_parts.append("strongest signal: " + "; ".join(signals[:2]))
+        line_parts.append("strongest evidence: " + "; ".join(signals[:2]))
     return {"title": title, "line": " | ".join(line_parts)}
 
 
@@ -1230,14 +1739,68 @@ def _render_top_verdict(payload: dict[str, Any]) -> str:
         '</div>'
     )
 
+
+def _render_trust_panel(payload: dict[str, Any]) -> str:
+    panel = payload.get("trust_panel") or {}
+    if not panel:
+        panel = _build_trust_panel(payload.get("data_health") or {})
+    status = str(panel.get("status") or "info")
+    cls = {
+        "alert": "td-trust td-trust-alert",
+        "warn": "td-trust td-trust-warn",
+        "ok": "td-trust td-trust-ok",
+    }.get(status, "td-trust")
+    headline = str(panel.get("headline") or "Trust status not checked")
+    bits = [f'<div class="{cls}"><div class="td-trust-head">Can I trust this screen? {_esc(headline)}</div>']
+    bits.append('<div class="td-trust-grid">')
+    for item in panel.get("items") or []:
+        color = _TRUST_COLORS.get(str(item.get("status") or "info"), "#94a3b8")
+        bits.append(
+            '<div class="td-trust-item">'
+            f'<div class="td-trust-label" style="color:{color}">{_esc(item.get("label") or "status")}</div>'
+            f'<div class="td-trust-detail">{_esc(item.get("detail") or "")}</div>'
+            '</div>'
+        )
+    bits.append('</div></div>')
+    return "".join(bits)
+
+
+def _first_gate_note(card: dict[str, Any]) -> dict[str, str] | None:
+    notes = [row for row in card.get("gate_notes") or [] if isinstance(row, dict)]
+    if not notes:
+        return None
+    def note_rank(row: dict[str, str]) -> int:
+        return {"alert": 0, "warn": 1, "ok": 2, "context": 3, "info": 4}.get(str(row.get("status") or "info"), 4)
+
+    ranked = sorted(notes, key=note_rank)
+    return ranked[0]
+
+
+def _render_gate_notes(card: dict[str, Any]) -> str:
+    notes = [row for row in card.get("gate_notes") or [] if isinstance(row, dict)]
+    if not notes:
+        return ""
+    bits = []
+    for note in notes:
+        cls = {
+            "ok": "td-gate-note td-gate-note-ok",
+            "warn": "td-gate-note td-gate-note-warn",
+        }.get(str(note.get("status") or "info"), "td-gate-note")
+        bits.append(
+            f'<div class="{cls}"><strong>{_esc(note.get("label") or "Sizing gate")}:</strong> '
+            f'{_esc(note.get("summary") or "")}</div>'
+        )
+    return "".join(bits)
+
+
 def _review_posture(card: dict[str, Any], *, check_first: bool, window_class: str, direction: str) -> dict[str, str]:
     if _is_funding_leg(card):
         return {
-            "label": "FUNDING",
+            "label": "PAIR & FUND",
             "state_verb": "RECHECK",
             "copy_verb": "RECHECK",
-            "copy_suffix": " funding leg only; pair with funded add",
-            "reason": "funding leg only; do not sell standalone",
+            "copy_suffix": " funding sell only; pair with funded add",
+            "reason": "funding sell only; do not sell standalone",
         }
     if check_first or card.get("conflicts") or window_class in {"GATED", "WAIT"}:
         return {
@@ -1257,7 +1820,13 @@ def _review_posture(card: dict[str, Any], *, check_first: bool, window_class: st
         }
     return {"label": direction, "state_verb": "ACT", "copy_verb": "ACT", "copy_suffix": "", "reason": ""}
 
-def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> list[str]:
+def _render_card(
+    card: dict[str, Any],
+    rank: int,
+    check_first: bool = False,
+    *,
+    built_date: str | None = None,
+) -> list[str]:
     dcard = card.get("decision_card") or {}
     move = dcard.get("move") or {}
     display = card.get("conviction_display") or build_conviction_display(card)
@@ -1267,7 +1836,8 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     sizing = card.get("sizing") or {}
     cid = _esc(card.get("card_id"))
     conflicted = " td-conflicted" if card.get("conflicts") or display.get("conflict") else ""
-    h = [f'<details class="td-card{conflicted}">', '<summary class="td-sum">']
+    anchor = f'td-card-{_esc(str(card.get("ticker") or "").upper())}'
+    h = [f'<details id="{anchor}" class="td-card{conflicted}">', '<summary class="td-sum">']
     cls = win.get("class", "WAIT")
     direction = str(move.get("direction") or "")
     posture = _review_posture(card, check_first=check_first, window_class=cls, direction=direction)
@@ -1289,14 +1859,16 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
         window_class=cls,
         direction=direction,
     ))
+    h.append(_render_gate_notes(card))
+    h.append(_render_funding_pair_block(card))
     h.append('<div class="td-section-title">Evidence that matters</div>')
-    h.append(_render_factor_breakdown(display, card))
+    h.append(_render_factor_breakdown(display, card, built_date=built_date))
     h.append(_render_layer_breakdown(display))
     for c in card.get("conflicts") or []:
         if _is_funding_leg(card):
             h.append(
                 f'<div class="td-chip">Signal/action split: {_esc(c["with"])} says "{_esc(c["their_claim"])}"; '
-                f'this card is only {_esc(c["card_claim"])} funding plumbing.</div>'
+                f'this card is only a funding sell paired with the buy it funds.</div>'
             )
         else:
             h.append(f'<div class="td-chip">Source conflict: {_esc(c["with"])} says "{_esc(c["their_claim"])}"; '
@@ -1305,11 +1877,16 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     h.append(_render_group_breakdown(display))
     h.append('</details>')
     h.append('<div class="td-section-title">What would make this actionable</div>')
-    operator_actions, system_actions = _split_raise_actions(display)
+    operator_actions, waiting_actions, system_actions = _split_raise_actions(display)
     h.append('<div class="td-action-columns">')
     h.append('<div class="td-action-column"><div class="td-action-column-title">Operator can do now</div>')
     h.extend(f'<div class="td-row">{_esc(r)}</div>' for r in operator_actions)
-    h.append('</div><div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>')
+    h.append('</div>')
+    if waiting_actions:
+        h.append('<div class="td-action-column"><div class="td-action-column-title">Waiting on</div>')
+        h.extend(f'<div class="td-row">{_esc(r)}</div>' for r in waiting_actions)
+        h.append('</div>')
+    h.append('<div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>')
     h.extend(f'<div class="td-row">{_esc(r)}</div>' for r in system_actions)
     h.append('</div></div>')
     h.append(_render_dossier_block(card))
@@ -1329,7 +1906,7 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
         f'<button class="td-rail" data-card="{cid}" data-verb="PASS" data-copy="PASS {cid} â€” reason: " '
         f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>'
     )
-    if primary_label != "RECHECK":
+    if primary_state_verb != "RECHECK":
         h.append(
         f'<button class="td-rail" data-card="{cid}" data-verb="RECHECK" '
         f'data-copy="RECHECK {cid} resurface {_esc(card.get("recheck_date"))}" '
@@ -1386,6 +1963,65 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     h.append("</div></details>")
     return h
 
+
+def _card_dollars(card: dict[str, Any]) -> float:
+    try:
+        return float(card.get("dollars") or 0.0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _visible_card_sections(cards: list[dict[str, Any]]) -> list[tuple[str, list[dict[str, Any]]]]:
+    material = [card for card in cards if _is_material(card) and not _is_funding_leg(card)]
+    other = [card for card in cards if not _is_material(card) and not _is_funding_leg(card)]
+    funding = [card for card in cards if _is_funding_leg(card)]
+    sections: list[tuple[str, list[dict[str, Any]]]] = []
+    if material:
+        sections.append(("Material decisions", material))
+    if other:
+        sections.append(("Other rechecks", other))
+    if funding:
+        sections.append(("Funding / paired sells", funding))
+    return sections
+
+
+def _queue_tail_row(card: dict[str, Any], rank: int) -> str:
+    display = card.get("conviction_display") or build_conviction_display(card)
+    face = _card_face_model(
+        card,
+        display,
+        _review_posture(
+            card,
+            check_first=bool(card.get("card_blockers")),
+            window_class=(card.get("window") or {}).get("class", "WAIT"),
+            direction=_card_action_direction(card),
+        ),
+        check_first=bool(card.get("card_blockers")),
+        window_class=(card.get("window") or {}).get("class", "WAIT"),
+        direction=_card_action_direction(card),
+    )
+    return (
+        '<div class="td-row">'
+        f'<strong>#{rank} {_esc(card.get("ticker") or "")}</strong> - '
+        f'{_esc(face["status"])} - {_esc(face["title"])} '
+        f'({_esc(_size_label(card))}; {_esc(_score_text(display))}; p{_esc(card.get("priority"))})'
+        '</div>'
+    )
+
+
+def _render_action_queue_tail(payload: dict[str, Any], *, limit: int = 10) -> str:
+    queue = (payload.get("cards") or []) + (payload.get("backlog") or [])
+    if len(queue) <= len(payload.get("cards") or []):
+        return ""
+    rows = [_queue_tail_row(card, idx + 1) for idx, card in enumerate(queue[:limit])]
+    return (
+        '<details class="td-muted-details">'
+        f'<summary>Show top {min(limit, len(queue))} decision-queue items</summary>'
+        + "".join(rows)
+        + '</details>'
+    )
+
+
 def render_today_decide_html(payload: dict[str, Any]) -> str:
     ga = payload["goal_anchor"]
     pl = payload["plan_line"]
@@ -1403,46 +2039,15 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
              + (f'funding pool ${pool:,.0f}' if isinstance(pool, (int, float)) else 'funding pool n/a')
              + (f' Â· shortfall ${short:,.0f}' if isinstance(short, (int, float)) else '')
              + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
+    h.append(_render_trust_panel(payload))
     h.append(_render_top_verdict(payload))
-    dh = payload.get("data_health") or {}
-    if dh.get("items"):
-        chips = []
-        for item in dh["items"]:
-            color = {
-                "fresh": "#34d399",
-                "aging": "#fbbf24",
-                "behind": "#f87171",
-                "stale": "#f87171",
-                "missing": "#f87171",
-                "empty": "#fbbf24",
-                "not_checked": "#94a3b8",
-                "context": "#94a3b8",
-            }.get(item.get("status"), "#94a3b8")
-            chips.append(
-                f'<span class="td-hchip" style="border-color:{color}">'
-                f'{_esc(item.get("label"))}: <span style="color:{color}">{_esc(item.get("detail"))}</span></span>'
-            )
-        chip_html = ''.join(chips)
-        h.append('<div class="td-health td-health-full"><span class="td-hlabel">data freshness:</span> ' + chip_html + '</div>')
-        h.append(
-            f'<details class="td-compact-strip td-health-compact"><summary>{_esc(_health_strip_summary(dh["items"]))}</summary>'
-            f'<div class="td-compact-body">{chip_html}</div></details>'
-        )
-    gate_chips = []
-    for g in payload["gates"]:
-        color = _GATE_COLORS.get(g.get("state"), "#94a3b8")
-        gate_chips.append(f'<span class="td-gate" style="border-color:{color};color:{color}">'
-                          f'<b>{_esc(str(g.get("state") or "").replace("_"," ").upper())}</b> {_esc(g.get("symbol"))} Â· {_esc(g.get("confirm_rule"))} '
-                          f'(as of {_esc(g.get("stated"))})</span>')
-    if gate_chips:
-        gate_html = ''.join(gate_chips)
-        h.append(f'<div class="td-gates-full">{gate_html}</div>')
-        h.append(
-            f'<details class="td-compact-strip td-gates-compact"><summary>{_esc(_gate_strip_summary(payload["gates"]))}</summary>'
-            f'<div class="td-compact-body">{gate_html}</div></details>'
-        )
-    for i, card in enumerate(payload["cards"], 1):
-        h.extend(_render_card(card, i, check_first=bool(card.get("card_blockers"))))
+    rank = 1
+    for label, cards in _visible_card_sections(payload["cards"]):
+        h.append(f'<div class="td-card-section-title">{_esc(label)}</div>')
+        for card in cards:
+            h.extend(_render_card(card, rank, check_first=bool(card.get("card_blockers")), built_date=str(payload.get("built") or "")))
+            rank += 1
+    h.append(_render_action_queue_tail(payload))
     backlog = payload["backlog"]
     h.append(f"<details><summary>Backlog ({len(backlog)})</summary>")
     for c in backlog:

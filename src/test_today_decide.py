@@ -136,10 +136,11 @@ def test_html_renders_header_and_built_date():
 
 def test_html_renders_minimal_conviction_face_and_breakdown():
     html = render_today_decide_html(_payload())
-    assert "No lean-in-ready card yet: scorer is starved or blocked, not necessarily bearish." in html
+    assert "Nothing actionable yet: scorer is starved or blocked, not bearish." in html
+    assert "Next lever: fresh-check material names" in html
     assert "Stage $151,266 GOOGL buy" in html
     assert "$151,266 / material" in html
-    assert "Name: supportive LOW | Sector: supportive LOW | Shadow: LOW" in html
+    assert "Name: supportive LOW | Sector: supportive LOW | Shadow: LOW" not in html
     assert "Conviction 1/5 LOW" in html
     assert "Conviction to Buy GOOGL:" not in html
     assert "Current answer" in html
@@ -160,14 +161,15 @@ def test_html_renders_minimal_conviction_face_and_breakdown():
     )
     assert factor_pos < why_block.find("Fundstrat / source calls")
 
-def test_mobile_view_compacts_freshness_and_gates_before_cards():
+def test_top_panel_separates_trust_from_card_scoped_gates():
     html = render_today_decide_html(_payload())
-    assert 'class="td-health td-health-full"' in html
-    assert 'class="td-compact-strip td-health-compact"' in html
-    assert 'class="td-gates-full"' in html
-    assert 'class="td-compact-strip td-gates-compact"' in html
-    assert "data freshness:" in html
-    assert "gates: RED BUT TESTED QQQ" in html
+    assert "Can I trust this screen?" in html
+    assert "Source scoring is OFF" in html
+    assert "FS inbox" in html
+    assert "Core data" in html
+    assert 'class="td-gates-full"' not in html
+    assert "RED BUT TESTED" not in html
+    assert "Capped to stage-only until holds above ~705" in html
 
 def test_card_count_respects_daily_max():
     p = _payload()
@@ -341,7 +343,7 @@ def test_mags_source_conflict_chip_renders():
     assert "Source conflict:" in html and "hold/add MAGS" in html
     assert "Conviction to Sell MAGS" not in html
     assert "Resolve signal before selling MAGS" in html
-    assert "flow opposes move" in html
+    assert "resolve direction" in html
     assert "candidate SELL; blockers or conflicts must clear first" in html
 
 def test_immaterial_funding_leg_is_not_a_standalone_sell():
@@ -358,7 +360,10 @@ def test_immaterial_funding_leg_is_not_a_standalone_sell():
             "dollars": 400.0,
             "card_blockers": [],
             "conflicts": [{"with": "lean_in lane", "their_claim": "Lean-in looks good", "card_claim": "SELL $400"}],
-            "decision_card": {"move": {"direction": "SELL", "band": "$400"}},
+            "decision_card": {
+                "move": {"direction": "SELL", "lane": "funding_trim", "band": "$400"},
+                "evidence": {"links": [{"label": "funds -> GOOGL $400", "ref": "feed.reallocation_brief.trims"}]},
+            },
             "window": {"class": "STAGE-ONLY", "reasons": ["funding leg - execute paired with the adds it funds"], "flips": []},
             "execution": {"legs": [{"owner": "SKB", "broker": "Fidelity", "account": "HSA", "sell_usd": 400, "tax_flag": "tax-advantaged"}]},
             "impact": {"band": "about $400", "material": False},
@@ -376,7 +381,7 @@ def test_immaterial_funding_leg_is_not_a_standalone_sell():
                         "label": "UW opportunity sweep",
                         "direction": "bull",
                         "strength": 0.9,
-                        "value_str": "ask-side call sweeps",
+                        "value_str": "ask-side call sweeps (as_of 2026-06-01)",
                         "decisive": True,
                         "conflict": True,
                     }],
@@ -386,7 +391,11 @@ def test_immaterial_funding_leg_is_not_a_standalone_sell():
                     {"key": "sector", "label": "Sector/sleeve", "status": "checked_no_signal", "points": 0, "read": "LOW", "direction": "NEUTRAL"},
                     {"key": "overall", "label": "Shadow overall", "status": "shadow", "points": 0, "read": "LOW", "direction": "NEUTRAL"},
                 ]},
-                "raises": ["State the thesis if you believe it", "13F/insider lane goes live"],
+                "raises": [
+                    "A dated entry/stop/target call (Tier A) on MAGS",
+                    "State the thesis if you believe it",
+                    "13F/insider lane goes live",
+                ],
                 "iv_hint": {"status": "not_checked", "hint": "IV not checked"},
                 "not_checked": ["institutional"],
             },
@@ -397,13 +406,26 @@ def test_immaterial_funding_leg_is_not_a_standalone_sell():
     }
     html = render_today_decide_html(payload)
 
-    assert "funding leg only" in html
-    assert "$400 plumbing trim for MAGS" in html
+    assert "funding sell only" in html
+    assert "$400 funding sell" in html
+    assert "only if paired with the buy it funds" in html
     assert "$400 / immaterial" in html
-    assert "Name signal: bullish (UW opportunity sweep); action is plumbing" in html
-    assert "bullish name signal" in html
+    assert "Funding sell. Only do this alongside the GOOGL $400 add" in html
+    assert "Pair this sell with:" in html and "GOOGL $400 add" in html
+    assert "Stale context, not current edge" in html
+    assert "already-played or expired" in html
+    assert "stale bullish context" in html
     assert "Signal/action split:" in html
-    assert "funding leg only; do not sell standalone" in html
+    assert "funding sell only; do not sell standalone" in html
+    assert "PAIR &amp; FUND" in html
+    assert "Waiting on" in html
+    operator_block = html.split("Operator can do now", 1)[1].split("Waiting on", 1)[0]
+    assert "dated entry/stop/target" not in operator_block
+    next_check_block = html.split("Next check", 1)[1].split("Score", 1)[0]
+    assert "dated entry/stop/target" not in next_check_block
+    assert "State the thesis" in next_check_block
+    assert "dated entry/stop/target" in html.split("Waiting on", 1)[1]
+    assert "plumbing" not in html.lower()
 
 def test_rails_carry_exact_copy_payloads():
     p = _payload()
@@ -448,9 +470,40 @@ def test_renderer_uses_card_scoped_blockers_not_global_blocked_state():
     html = render_today_decide_html(p)
 
     assert html.count("Stage $151,266 GOOGL buy") == 1
-    assert "stale or missing inputs" in html
+    assert "Can I trust this screen?" in html
+    assert "Capped to stage-only until holds above ~705" in html
     assert "Conviction to Buy GOOGL" not in html
     assert 'data-copy="ACT MAGS-TRIM-2026-06-10"' in html
+
+
+def test_live_gate_evaluation_overrides_stale_stored_state_on_cards():
+    feed = _feed()
+    feed["current_closes"] = {"QQQ": 721.34}
+    gate = _gate()
+    gate.update({
+        "gate_type": "close",
+        "level_low": 717.5,
+        "level_high": 717.5,
+        "state": "red_but_tested",
+        "stated": "2026-06-11",
+        "confirm_rule": "full size only after QQQ closes/holds above 717.50",
+        "applies_to": ["*BUY*"],
+    })
+    p = _payload(feed=feed, gates=[gate])
+    googl = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "GOOGL"][0]
+
+    assert p["gates"][0]["stored_state"] == "red_but_tested"
+    assert p["gates"][0]["state"] == "green"
+    assert "QQQ gate" not in googl["card_blockers"]
+    assert googl["gate_notes"][0]["status"] == "ok"
+    assert "Price condition now MET" in googl["gate_notes"][0]["summary"]
+
+    html = render_today_decide_html(p)
+    googl_face = html.split('id="td-card-GOOGL"', 1)[1].split("</summary>", 1)[0]
+    assert "Price condition now MET: QQQ close 721.34 clears 717.50" in html
+    assert "Price condition now MET: QQQ close 721.34 clears 717.50" in googl_face
+    assert "Context only: SMH" not in googl_face
+    assert "RED BUT TESTED" not in html
 
 
 def test_backlog_is_collapsed_in_details():

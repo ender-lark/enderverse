@@ -253,7 +253,7 @@ def test_jsx_files_exist():
 def test_todaydecide_jsx_consumes_canonical_payload_fields():
     src = _jsx(TODAY_DECIDE_JSX)
     for path in (
-        "payload.goal_anchor", "payload.plan_line", "payload.gates",
+        "payload.goal_anchor", "payload.plan_line", "payload.trust_panel",
         "payload.data_health", "payload.cards", "payload.backlog", "payload.congruence",
         "payload.honesty",
     ):

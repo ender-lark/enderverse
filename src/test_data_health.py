@@ -156,6 +156,26 @@ def test_stale_gate_blocks():
     assert "QQQ gate" in out["blockers"]
 
 
+def test_live_evaluated_gate_does_not_block_on_old_provenance_date():
+    out = dh.assess(
+        _feed(),
+        gates=[{
+            "symbol": "QQQ",
+            "state": "green",
+            "stated": "2026-06-01",
+            "blocks_full_size": True,
+            "live_evaluation": {"status": "checked", "why": "close 721.34 above required level"},
+        }],
+        now=NOW,
+        rates_path="/nonexistent/x.json",
+        shelf_path="/nonexistent/s.json",
+    )
+    item = [row for row in out["items"] if row["source"] == "gates"][0]
+    assert item["status"] == "fresh"
+    assert item["blocks"] is False
+    assert "QQQ gate" not in out["blockers"]
+
+
 def test_stale_context_gate_announces_without_blocking():
     out = dh.assess(
         _feed(),
@@ -209,7 +229,7 @@ def test_renderer_shows_strip_and_check_first_when_blocked():
         "congruence": {},
     }
     html = td.render_today_decide_html(payload)
-    assert "data freshness:" in html
+    assert "Can I trust this screen?" in html
     assert "6 newer notes unread" in html
     assert "Feed evidence before buying GOOGL" in html
     assert "Conviction 1/5 LOW" in html

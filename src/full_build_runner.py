@@ -984,6 +984,7 @@ def build_full_feed_from_files(
         build_reallocation_brief(feed, positions_cache, as_of=today),
         account_positions,
     )
+    feed["current_closes"] = latest_prices_from_closes(closes)
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["if_i_were_you"] = build_if_i_were_you(feed)
     feed["today_decide"] = today_decide.build_today_decide_payload(

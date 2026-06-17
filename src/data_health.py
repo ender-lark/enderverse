@@ -274,6 +274,13 @@ def assess(
         symbol = str(gate.get("symbol") or gate.get("gate_id") or "gate")
         gate_id = str(gate.get("gate_id") or "")
         blocks = _gate_blocks_action(gate)
+        live_eval = gate.get("live_evaluation") or {}
+        if isinstance(live_eval, dict) and live_eval.get("status") == "checked":
+            state = str(gate.get("state") or "").lower()
+            detail = str(live_eval.get("why") or "live condition checked")
+            status = "fresh" if state == "green" else "aging"
+            items.append(_item("gates", f"{symbol} gate", status, detail, blocks=False, symbol=symbol, gate_id=gate_id))
+            continue
         age = _age_days(str(gate.get("stated") or ""), today)
         if age is None:
             status = "missing" if blocks else "context"

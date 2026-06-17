@@ -305,6 +305,22 @@ def build_directive_cards(
             + (f" = ${thresh:,.0f}" if thresh else ""),
         }
 
+    def _funding_only_low_salience(card: dict[str, Any]) -> bool:
+        move = ((card.get("decision_card") or {}).get("move") or {})
+        return (
+            move.get("lane") == "funding_trim"
+            and bool(card.get("funds"))
+            and not ((card.get("impact") or {}).get("material"))
+            and ((card.get("window") or {}).get("class") == "STAGE-ONLY")
+        )
+
+    def _salience_bucket(card: dict[str, Any]) -> int:
+        if _funding_only_low_salience(card):
+            return 2
+        if (card.get("impact") or {}).get("material"):
+            return 0
+        return 1
+
     # ---- ADD candidates -----------------------------------------------------
     for row in rb.get("rows") or []:
         ticker = str(row.get("ticker") or "").upper()
@@ -417,9 +433,14 @@ def build_directive_cards(
             },
         )
         base = goal_scores.get(ticker, 45.0)
-        card["priority"] = round(
+        raw_priority = round(
             cap_w * base + conv_w * max(0.0, -conv["points"]) + win_w * _WINDOW_FACTOR[window["class"]], 1
         )
+        if _funding_only_low_salience(card):
+            card["priority"] = min(raw_priority, 9.0)
+            card["priority_note"] = "funding-only immaterial leg; pair with funded add, never hero-ranked"
+        else:
+            card["priority"] = raw_priority
         cards.append(card)
 
     # Merge in orphan-wired extra cards (e.g. MONITOR-RE-ENTRY). Each extra
@@ -458,7 +479,7 @@ def build_directive_cards(
         if "dossier" not in card:
             dd.attach_card_dossier(card, dossiers=dossier_rows, today=today_iso)
 
-    cards.sort(key=lambda c: -c["priority"])
+    cards.sort(key=lambda c: (_salience_bucket(c), -c["priority"]))
     max_cards = int(goal["daily_card_max"])
     funding = rb.get("funding") or {}
     return {

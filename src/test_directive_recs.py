@@ -135,6 +135,29 @@ def test_priority_blend_orders_the_stack():
     assert ranked[0]["ticker"] == "GOOGL"
     assert googl["impact"]["material"] is True
 
+
+def test_immaterial_funding_leg_cannot_hero_rank_above_material_adds():
+    feed = _feed()
+    feed["target_drift"] = {"rows": []}
+    feed["reallocation_brief"]["trims"][0]["notional_usd"] = 400
+    feed["reallocation_brief"]["trims"][0]["funds"] = [{"ticker": "GOOGL", "notional_usd": 400}]
+
+    out = build_directive_cards(
+        feed=feed, weights=W, goal=G, insights_payload=_insights(),
+        accounts=_accounts(), gates=[_gate()], uw_states={}, entry_zones={},
+        today=TODAY,
+    )
+    ranked = out["cards"] + out["backlog"]
+    tickers = [c["ticker"] for c in ranked]
+    mags = [c for c in ranked if c["ticker"] == "MAGS"][0]
+
+    assert tickers.index("GOOGL") < tickers.index("MAGS")
+    assert tickers.index("NVDA") < tickers.index("MAGS")
+    assert mags["priority"] <= 9.0
+    assert mags["priority_note"].startswith("funding-only immaterial leg")
+    assert mags["window"]["class"] == "STAGE-ONLY"
+    assert mags["impact"]["material"] is False
+
 def test_execution_blocks_surface_pcra_and_cash_honesty():
     out = _build()
     buys = [c for c in out["cards"] + out["backlog"] if c["direction"] == "BUY"]
