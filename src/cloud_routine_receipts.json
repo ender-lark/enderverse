@@ -2,73 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-07T15:31:29.468174Z",
-      "summary": "UW opportunity cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "uw opportunity self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "uw_opportunity_scan self-test: PASS",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 40
-            }
-          },
-          {
-            "label": "live source config validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_source_config_update.py",
-              "--validate",
-              "src/live_source_config.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity existing bundle score",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--from-bundle",
-              "tmp/uw/opportunity_bundle.json",
-              "--emit",
-              "src/uw_opportunity_signals.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "",
-            "stderr": "Emitted 40 signal(s) -> src/uw_opportunity_signals.json"
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-07T15:31:29.480649Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "success",
       "run_source": "manual",
@@ -7138,7 +7071,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T13:50:50.519743Z",
       "summary": "checked Macro FlashInsights latest Jun16 3:06PM ET and Crypto FlashInsights latest Jun8; Gmail 4 full-body messages checked; landed 0 rows; suppressed/discovery-only 4 low-value or already-landed items; validation passed; daytime alert sent 3 SPY/BTC/STRC, duplicates 2, suppressed 44; stale/dark no Jun17 FlashInsights; blockers none"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T14:02:22.324391Z",
+      "summary": "uw opportunity cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T14:03:38.334566Z",
+      "summary": "scanned 14 tickers; emitted 38 UW opportunity signals; cache landed src/uw_opportunity_signals.json; failures 0; empty source rows VOLT dark_pool, GRNJ flow/oi"
     }
   ],
-  "updated_at": "2026-06-17T13:50:50.519743Z"
+  "updated_at": "2026-06-17T14:03:38.334566Z"
 }
