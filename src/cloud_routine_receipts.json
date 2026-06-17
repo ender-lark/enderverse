@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T03:01:18.988327Z",
-      "summary": "30d repo+Notion-page deep review; semis/event-risk and NVDA gap still hang; pilots first-run evidenced but thin; Notion deep page written; blocker: Notion DB query unavailable"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T05:46:54.412595Z",
-      "summary": "off-hours worker started"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "success",
       "run_source": "scheduled",
@@ -7138,7 +7124,21 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T13:31:54.688623Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T13:35:07.468461Z",
+      "summary": "repo synthesis refreshed 13 data lanes/1 dark Social Watch; Notion page written+readback verified; row-level Notion queries unavailable; verification passed"
     }
   ],
-  "updated_at": "2026-06-17T12:53:34.668612Z"
+  "updated_at": "2026-06-17T13:35:07.468461Z"
 }
