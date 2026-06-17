@@ -2,27 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:49:04.176126Z",
-      "summary": "parabolic cache started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:49:56.648783Z",
-      "summary": "cache unchanged; UW_API_KEY missing; UW connector proof available for 2026-06-05; no tmp/uw/parabolic_entries or parabolic_bundle; existing cache remains as_of 2026-06-04"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:52:03.547676Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
@@ -7138,7 +7117,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T12:14:00.872997Z",
       "summary": "Gmail 7 full-body candidates checked, Chrome latest research checked; landed 0 rows; positions unchanged snapshot 2026-06-17; catalysts unchanged 12; event risks unchanged 5; dark/stale lanes: Drive broker/catalyst/event drops absent, Catalyst Notion stale Jun 11, UW only Jun16 after-hours proof"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T12:21:41.821637Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T12:22:36.945366Z",
+      "summary": "broker position intake started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T12:23:56.419230Z",
+      "summary": "snapshot 2026-06-17; 11 accounts; 275 raw positions; diff ADD 1 TRIM 1 VALUE_CHANGE 145; 3 stated-balance warnings; dashboard refresh ok"
     }
   ],
-  "updated_at": "2026-06-17T12:14:00.872997Z"
+  "updated_at": "2026-06-17T12:23:56.419230Z"
 }

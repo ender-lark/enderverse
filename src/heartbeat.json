@@ -2,37 +2,37 @@
   {
     "layer": "Required Inputs",
     "status": "ok",
-    "last_run": "2026-06-17T06:01:38.232024+00:00",
+    "last_run": "2026-06-17T12:23:40.987509+00:00",
     "note": "positions/theses convention inputs present and fresh"
   },
   {
     "layer": "Minimum Market Data",
     "status": "ok",
-    "last_run": "2026-06-17T06:01:38.232024+00:00",
+    "last_run": "2026-06-17T12:23:40.987509+00:00",
     "note": "UW price and macro caches present"
   },
   {
     "layer": "Publish Gate",
     "status": "ok",
-    "last_run": "2026-06-17T06:01:38.232024+00:00",
+    "last_run": "2026-06-17T12:23:40.987509+00:00",
     "note": "publish-gate checks passed"
   },
   {
     "layer": "Optional Source Lanes",
     "status": "ok",
-    "last_run": "2026-06-17T06:01:38.232024+00:00",
+    "last_run": "2026-06-17T12:23:40.987509+00:00",
     "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
   },
   {
     "layer": "Daily Full Build",
     "status": "ok",
-    "last_run": "2026-06-17T06:01:38.232024+00:00",
+    "last_run": "2026-06-17T12:23:40.987509+00:00",
     "note": "rehearsal build can run"
   },
   {
     "layer": "Cloud Routine Receipts",
-    "status": "ok",
-    "last_run": "2026-06-17T06:01:38.232024+00:00",
-    "note": "routine receipts current; next Investing OS Fundstrat Pre-Market Safety Sweep at 2026-06-17T07:45:00-04:00"
+    "status": "stale",
+    "last_run": "2026-06-17T12:23:40.987509+00:00",
+    "note": "due waiting: Investing OS Broker Position Intake, last scheduled success 2026-06-16T12:23:26.004717Z; latest manual support 2026-06-16T15:49:12.978565Z; grace until 2026-06-17T08:50:00-04:00"
   }
 ]
