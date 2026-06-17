@@ -18,31 +18,41 @@ Repo-local operating protocol for Codex agents working on the Investing OS.
   cloud-routine maintenance is:
   `C:\Users\suraj\Documents\Codex\2026-06-17\auto-loose-thread-sweep\enderverse`.
 
-## Primary Objective (Mission — canonical; never changes without operator)
+## Primary Objective (Mission - canonical; never changes without operator)
 
-Early retirement: grow the book from ~$1.9M to $3,000,000 — the level where
-returns cover life and work becomes optional — inside the closing 1–3 year AI
-window. The documented failure mode is passivity, not recklessness: right ideas
-under-sized, good setups rotting in queues, acting too slowly. Everything
-(architecture, tests, dashboard, source routing) exists to convert collected
-data into a few clear, evidence-backed, time-stamped decisions and force an
-explicit disposition on each — inside survival rails — before technical elegance.
+Before any Investing OS system update or build, read
+`docs/investing_os_primary_goals.md` and judge the change against it. The short
+version:
 
-Drift test for any change: does it make a real, high-conviction, well-timed
-opportunity more likely to reach the operator's eyes and become a right-sized
-action before the window closes — without manufacturing urgency or tuning away
-discipline? If not, it's drift.
+- WHY: grow the book from about $1.9M to $3M inside the closing 1-3 year AI
+  window, where returns cover life and work becomes optional.
+- ENEMY: passivity, not recklessness. Right ideas under-sized, good setups
+  rotting in queues, acting too slowly, or a signal the system knew about but
+  never surfaced are all the same failure.
+- JOB: decide and direct, not just display. Turn collected data into specific
+  recommended moves, sized to conviction, with timing or trigger spelled out;
+  force explicit yes/no/recheck on real decisions.
+- SYNTHESIS: independent confirmation builds conviction; correlated echoes do
+  not. Conflicts must show both sides and what would settle them.
+- POSTURE: pull toward action. The strongest real move should be the loudest
+  thing in front; weak signals stay quiet; routine plumbing never out-shouts a
+  capital decision.
+- HONESTY RAIL: strength loud, weakness quiet, risk always visible. Never
+  inflate thin evidence, manufacture conviction, hide risk, or push a trade to
+  hit the number.
+- NO BUILD-AND-FORGET: detectors must surface in daily flow and outcomes must
+  feed back into the system.
 
-"remember our goals" — standing trigger: when the operator says "remember our
-goals" (or close variants), respond FIRST with this surface, then continue:
-- GOAL: ~$1.9M → $3,000,000 (work becomes optional), inside the closing 1–3 yr
-  AI window; pull % there live from src/account_positions.json, never hardcode.
-- THE ENEMY: passivity — under-sized ideas, setups rotting in queues, slow action.
-- THE JOB: turn data into a few clear, evidence-backed, time-stamped decisions
-  and force a yes/no on each, inside survival rails.
-- THE POSTURE (6/16): the system pulls toward action, not just informs - the strongest real move is the loudest thing on screen and one tap to act, and funding-only helper legs never outrank a real decision; a surface that nets out as "here's why to wait" is a failure, not honesty. (Salience/framing of TRUE info only - never inflate weak signals, hide risk, or push trades to hit a number.)
-- DRIFT TEST: (as above).
-The Notion Boot Page (37bc5031-4bb6-818d-97a9-cd98c32729a4) carries the identical block.
+Single drift test: does the change make a real, high-conviction, well-timed,
+right-sized opportunity more likely to reach the operator, clearly recommended,
+shown like a decision, with the call or question one tap from action, and get
+acted on before the window closes, without faking urgency or quietly loosening
+discipline? If not, it is drift.
+
+"remember our goals" / "consider our goals" / "why are we doing this" are
+standing triggers: respond first with this doctrine, then continue the task.
+The Notion Boot Page (37bc5031-4bb6-818d-97a9-cd98c32729a4) and its 2026-06-17
+child doctrine page mirror the same source-of-truth intent.
 
 ## End-of-Session Loose-Thread Sweep (all agents)
 At the end of any substantive task/session, before going idle, capture loose threads raised in that session that aren't already in Notion — any idea, research item, system/tooling task, or decision left parked / deferred / "do later".

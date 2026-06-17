@@ -1,5 +1,21 @@
 # Decision Surface Architecture
 
+## 2026-06-17 - Canonical Primary Goals
+
+Investing OS system and dashboard work now uses
+`docs/investing_os_primary_goals.md` as the first-read doctrine. The primary
+failure mode is passivity: right ideas under-sized, good setups rotting in
+queues, acting too slowly, or system-detected signals never reaching the
+operator. The dashboard must decide and direct, not merely display. Strength
+gets loud, weakness stays quiet, risk remains visible, and no UI change may
+manufacture urgency or loosen discipline.
+
+The next decision-surface phase is documented in
+`docs/decision_surface_consolidation_plan_2026_06_17.md`: consolidate stacked
+panels into one command surface, use `ACT` / `DECIDE` / `RESOLVE` / `WATCH`
+states, and show a data-readiness ladder so routine proof never masquerades as
+fresh interpreted decision evidence.
+
 ## 2026-06-17 - TODAY/DECIDE Action-First Readability
 
 TODAY/DECIDE remains display-only: ranking, scoring, sizing, gates, dispositions,
