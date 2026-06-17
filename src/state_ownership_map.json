@@ -59,13 +59,13 @@
       "id": "decision_dossiers",
       "source_of_truth": "github_runtime_mirror_from_live_theses",
       "repo_artifact": "src/decision_dossiers.json",
-      "producer": "decision_dossier_sync.py from Live Theses Notion API rows or verified connector-fetch snapshots; decision_dossier_refresh.py can update only dynamic price/timing reads from already-present ticker-matched UW price/opportunity/battery evidence before dashboard build",
-      "feed_path": "directive_recs.build_directive_cards -> TODAY-DECIDE card.dossier",
-      "dashboard_surface": "TODAY-DECIDE card dossier block: one-liner plus edge, price, timing, and avoid reads",
+      "producer": "decision_dossier_sync.py from Live Theses Notion API rows or verified connector-fetch snapshots; decision_dossier_refresh.py can update only dynamic price/timing reads from already-present ticker-matched UW price/opportunity/battery evidence before dashboard build; decision_dossier_coverage.py audits current action/material ticker coverage without writing dossiers",
+      "feed_path": "directive_recs.build_directive_cards -> TODAY-DECIDE card.dossier; full_build_runner -> source_audits.decision_dossier_coverage",
+      "dashboard_surface": "TODAY-DECIDE card dossier block: one-liner plus edge, price, timing, and avoid reads; Source Proof Decision dossiers row for coverage debt",
       "mirror_policy": "Notion can be the human-editable narrative source, but runtime cards read only the repo mirror. Repo rows must carry sync/review stamps and per-read freshness. If Notion row-query tooling is unavailable, use verified page search/fetch readback or leave the ticker pending_sync. Dynamic refresh is cache-only and may not fetch live sources.",
       "freshness_contract": "Durable edge/avoid reads must have review stamps; price and timing reads require short freshness windows and render UNKNOWN when stale or not checked. Cached-evidence refresh can stamp price/timing only when evidence is ticker-matched and checked.",
-      "not_checked_behavior": "Absent ticker means no dossier block. Present but stale/not_checked reads render UNKNOWN and must not be treated as current.",
-      "action_surface": "Adds context to action cards only; does not change conviction scoring, ranking, sizing, gates, or trade posture. Stale/not_checked price and timing reads feed the shared data_health staleness guard as ticker/card-scoped blockers for capital-action cards. alert_policy can emit only review-only decision_dossier_freshness_blocker candidates when a matching alert-actionable Today card is blocked."
+      "not_checked_behavior": "Absent ticker means no dossier block and appears only as Source Proof coverage debt when the ticker is current action/material. Present but stale/not_checked reads render UNKNOWN and must not be treated as current.",
+      "action_surface": "Adds context to action cards only; does not change conviction scoring, ranking, sizing, gates, or trade posture. Stale/not_checked price and timing reads feed the shared data_health staleness guard as ticker/card-scoped blockers for capital-action cards. alert_policy can emit only review-only decision_dossier_freshness_blocker candidates when a matching alert-actionable Today card is blocked. Missing coverage audit rows never block or alert."
     },
     {
       "id": "fundstrat_daily_calls",

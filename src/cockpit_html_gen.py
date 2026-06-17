@@ -2338,6 +2338,7 @@ def _source_audits(audits: dict) -> str:
         ("trigger_registry", "Trigger registry"),
         ("integration_debt", "Integration debt"),
         ("connector_evidence", "Connector evidence"),
+        ("decision_dossier_coverage", "Decision dossiers"),
         ("uw_routing", "UW routing"),
         ("uw_action_runbook", "UW action runbook"),
         ("uw_endpoint_proof", "UW endpoint proof"),
