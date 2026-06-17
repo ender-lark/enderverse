@@ -48,7 +48,7 @@ def test_first_viewport_answers_required_questions_without_hidden_queue():
     payload = _payload()
     html = render_today_decide_html(payload)
 
-    assert "Primary capital/risk decision" in html
+    assert "Primary command" in html
     assert "Size/tranche" in html
     assert "Blocked by" in html
     assert "Changed" in html
@@ -56,6 +56,25 @@ def test_first_viewport_answers_required_questions_without_hidden_queue():
     assert "Can wait" in html
     assert "No prior reliable committed build baseline yet" in html
     assert "hidden queue" not in html.lower()
+
+
+def test_command_strip_is_render_only_and_blocks_act_shape_when_resolving():
+    payload = _payload()
+    strip = payload["command_strip"]
+
+    assert strip["counts"] == {"ACT": 0, "DECIDE": 2, "RESOLVE": 3, "WATCH": 0}
+    assert strip["system_state"] == "starved"
+    assert "Render-only command surface" in strip["honesty_rule"]
+
+    for card in payload["cards"] + payload["backlog"]:
+        taxonomy = card.get("blocker_taxonomy") or {}
+        if taxonomy.get("unmet"):
+            assert card["command_state"] == "RESOLVE"
+
+    html = render_today_decide_html(payload)
+    for card in payload["cards"] + payload["backlog"]:
+        if card["command_state"] != "ACT":
+            assert f'data-copy="ACT {card["card_id"]}"' not in html
 
 
 def test_since_last_build_delta_uses_committed_baseline_without_view_state_file():
@@ -106,6 +125,22 @@ def test_change_delta_is_display_only_and_not_in_engine_paths():
 
     for path in engine_paths:
         assert "change_delta" not in path.read_text(encoding="utf-8")
+
+
+def test_command_state_is_display_only_and_not_in_engine_paths():
+    repo = Path(__file__).resolve().parents[1]
+    engine_paths = [
+        repo / "src" / "directive_recs.py",
+        repo / "src" / "conviction_engine.py",
+        repo / "src" / "timing_engine.py",
+        repo / "src" / "data_health.py",
+        repo / "src" / "disposition_log.py",
+    ]
+
+    for path in engine_paths:
+        text = path.read_text(encoding="utf-8")
+        assert "command_state" not in text
+        assert "command_strip" not in text
 
 
 def test_blocker_taxonomy_m_of_n_matches_real_unmet_blockers():

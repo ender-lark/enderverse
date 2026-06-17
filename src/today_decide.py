@@ -896,6 +896,16 @@ BLOCKER_CATEGORY_LABELS = {
 }
 
 
+COMMAND_STATES = ("ACT", "DECIDE", "RESOLVE", "WATCH")
+COMMAND_STATE_RANK = {"ACT": 0, "DECIDE": 1, "RESOLVE": 2, "WATCH": 3}
+COMMAND_STATE_COPY = {
+    "ACT": "all rails clear",
+    "DECIDE": "operator yes/no/recheck needed",
+    "RESOLVE": "named blocker must clear",
+    "WATCH": "weak, early, or research-only",
+}
+
+
 def _card_lane(card: dict[str, Any]) -> str:
     move = (card.get("decision_card") or {}).get("move") or {}
     lane = str(move.get("lane") or card.get("lane") or card.get("kind") or "").strip()
@@ -1179,19 +1189,176 @@ def _annotate_blocker_taxonomy(cards: list[dict[str, Any]]) -> None:
         card["blocker_taxonomy"] = _blocker_taxonomy(card, display)
 
 
+def _has_named_resolve_blocker(card: dict[str, Any], display: dict[str, Any] | None = None) -> bool:
+    display = display or card.get("conviction_display") or build_conviction_display(card)
+    taxonomy = card.get("blocker_taxonomy") or {}
+    window_class = str((card.get("window") or {}).get("class") or "WAIT")
+    sizing = card.get("sizing") or {}
+    return bool(
+        taxonomy.get("unmet")
+        or (taxonomy.get("enumerable") and int(taxonomy.get("total") or 0) > 0)
+        or card.get("card_blockers")
+        or card.get("conflicts")
+        or display.get("conflict")
+        or window_class in {"WAIT", "GATED", "STAGE-ONLY"}
+        or str(sizing.get("heat") or "") in {"ABOVE_CAP", "CAP_CLIPPED"}
+        or _is_funding_leg(card)
+    )
+
+
+def _card_command_state(card: dict[str, Any]) -> str:
+    display = card.get("conviction_display") or build_conviction_display(card)
+    if _has_named_resolve_blocker(card, display):
+        return "RESOLVE"
+    if not _is_material(card):
+        return "WATCH"
+    ownership = card.get("ownership") or {}
+    window_class = str((card.get("window") or {}).get("class") or "WAIT")
+    if ownership.get("bucket") == "operator_owned_actionable_now" and window_class == "OPEN-NOW":
+        return "ACT"
+    return "DECIDE"
+
+
+def _annotate_command_states(cards: list[dict[str, Any]]) -> None:
+    for card in cards:
+        state = _card_command_state(card)
+        card["command_state"] = state
+        card["command_state_detail"] = COMMAND_STATE_COPY[state]
+
+
+def _command_action_label(card: dict[str, Any]) -> str:
+    lane = _card_lane(card).replace("_", " ").lower()
+    direction = _card_action_direction(card).lower()
+    if "trim" in lane:
+        return "trim"
+    if "sell" in lane or direction == "sell":
+        return "sell"
+    if "add" in lane or direction in {"add", "buy"}:
+        return "add" if "add" in lane else "buy"
+    if lane and lane != "decision":
+        return lane
+    return direction or "decision"
+
+
+def _primary_command_title(card: dict[str, Any], state: str) -> str:
+    ticker = str(card.get("ticker") or "").strip().upper() or "decision"
+    action = _command_action_label(card)
+    if state == "ACT":
+        return f"{_card_action_direction(card).upper() or 'ACT'} {ticker}"
+    if state == "DECIDE":
+        return f"Decide {ticker} {action}"
+    if state == "RESOLVE":
+        return f"Resolve {ticker} {action}"
+    return f"Watch {ticker}"
+
+
+def _primary_leverage_score(card: dict[str, Any]) -> tuple[float, float]:
+    dollars = _coerce_float(card.get("dollars")) or 0.0
+    suggested = _coerce_float((card.get("sizing") or {}).get("suggested_usd")) or 0.0
+    priority = _coerce_float(card.get("priority")) or 0.0
+    return max(dollars, suggested), priority
+
+
 def _primary_capital_decision(cards: list[dict[str, Any]]) -> dict[str, Any] | None:
-    ranked = [
-        card for card in cards
-        if not _is_funding_leg(card) and _is_material(card)
-    ] or [
-        card for card in cards
-        if not _is_funding_leg(card)
-    ] or list(cards)
-    operator_ready = [
-        card for card in ranked
-        if (card.get("ownership") or {}).get("bucket") == "operator_owned_actionable_now"
+    ranked = list(cards)
+    if not ranked:
+        return None
+
+    def sort_key(card: dict[str, Any]) -> tuple[int, int, int, float, float]:
+        state = str(card.get("command_state") or _card_command_state(card))
+        leverage, priority = _primary_leverage_score(card)
+        return (
+            COMMAND_STATE_RANK.get(state, 99),
+            1 if _is_funding_leg(card) else 0,
+            0 if _is_material(card) else 1,
+            -leverage,
+            -priority,
+        )
+
+    ranked.sort(key=sort_key)
+    return ranked[0]
+
+
+def _source_decide_prompts(feed: dict[str, Any]) -> list[dict[str, str]]:
+    prompts: list[dict[str, str]] = []
+    for row in _candidate_rows(feed.get("actions")):
+        ticker = str(row.get("ticker") or row.get("symbol") or "SYSTEM").strip().upper() or "SYSTEM"
+        lane = str(row.get("kind") or row.get("decision_group") or "action_prompt").strip() or "action_prompt"
+        label = str(row.get("what") or row.get("your_move") or row.get("action_label") or lane).strip()
+        prompts.append({
+            "ticker": ticker,
+            "lane": lane,
+            "decision_key": f"{ticker}|{lane}",
+            "label": label,
+            "source": "feed.actions",
+        })
+    return prompts
+
+
+def _build_command_strip(
+    feed: dict[str, Any],
+    cards: list[dict[str, Any]],
+    watch_queue: list[dict[str, Any]],
+    trust_panel: dict[str, Any],
+) -> dict[str, Any]:
+    counts = {state: 0 for state in COMMAND_STATES}
+    for card in cards:
+        state = str(card.get("command_state") or _card_command_state(card))
+        if state not in counts:
+            state = "WATCH"
+        counts[state] += 1
+    decide_prompts = _source_decide_prompts(feed)
+    counts["DECIDE"] += len(decide_prompts)
+    counts["WATCH"] += len(watch_queue or [])
+    rows = [
+        {"state": state, "count": counts[state], "detail": COMMAND_STATE_COPY[state]}
+        for state in COMMAND_STATES
     ]
-    return (operator_ready or ranked or [None])[0]
+    system_state = "confident" if counts["ACT"] else "starved"
+    system_line = (
+        "Confident: at least one visible command has cleared all render-visible survival rails."
+        if counts["ACT"]
+        else "Starved: no executable command has cleared the rails; surface the highest-leverage unblock."
+    )
+    trust_status = str(trust_panel.get("status") or "info")
+    trust_headline = str(trust_panel.get("headline") or "").strip()
+    if trust_status in {"warn", "alert"} and trust_headline:
+        system_line = f"{system_line} System caveat: {trust_headline}"
+    return {
+        "counts": counts,
+        "rows": rows,
+        "line": " | ".join(f"{counts[state]} {state}" for state in COMMAND_STATES),
+        "system_state": system_state,
+        "system_line": system_line,
+        "source_decide_prompts": decide_prompts[:8],
+        "honesty_rule": "Render-only command surface; counts do not change scoring, sizing, gates, ranking, or dispositions.",
+    }
+
+
+def _command_button_for_state(card: dict[str, Any], state: str, cid: str) -> dict[str, str]:
+    if state == "DECIDE":
+        return {
+            "card_id": cid,
+            "label": "RECHECK",
+            "state_verb": "RECHECK",
+            "copy": f"RECHECK {cid} choose yes/pass/recheck before any action",
+            "muted": "1",
+        }
+    if state == "RESOLVE":
+        return {
+            "card_id": cid,
+            "label": "RESOLVE",
+            "state_verb": "RECHECK",
+            "copy": f"RECHECK {cid} resolve named blockers before action",
+            "muted": "1",
+        }
+    return {
+        "card_id": cid,
+        "label": "KEEP WATCH",
+        "state_verb": "WATCH",
+        "copy": f"WATCH {cid} keep quiet until evidence strengthens",
+        "muted": "1",
+    }
 
 
 def _rail_line_for_card(card: dict[str, Any]) -> str:
@@ -1471,6 +1638,10 @@ def _build_disposition_coverage(
 def _primary_button_model(card: dict[str, Any] | None) -> dict[str, str]:
     if not card:
         return {}
+    state = str(card.get("command_state") or _card_command_state(card))
+    cid = str(card.get("card_id") or "")
+    if state != "ACT":
+        return _command_button_for_state(card, state, cid)
     display = card.get("conviction_display") or build_conviction_display(card)
     window_class = str((card.get("window") or {}).get("class") or "WAIT")
     direction = _card_action_direction(card)
@@ -1480,7 +1651,6 @@ def _primary_button_model(card: dict[str, Any] | None) -> dict[str, str]:
         window_class=window_class,
         direction=direction,
     )
-    cid = str(card.get("card_id") or "")
     copy = (
         f"ACT {cid}" if posture["copy_verb"] == "ACT"
         else f'{posture["copy_verb"]} {cid}{posture["copy_suffix"]}'
@@ -1655,13 +1825,15 @@ def _first_viewport_model(
     window_class = str((card.get("window") or {}).get("class") or "WAIT")
     taxonomy = card.get("blocker_taxonomy") or {}
     blocker = taxonomy.get("line") or _primary_blocker_text(card, display, check_first=bool(card.get("card_blockers")), window_class=window_class)
-    direction = _card_action_direction(card).upper()
+    state = str(card.get("command_state") or _card_command_state(card))
     return {
         "status": "has_primary",
+        "command_state": state,
+        "command_state_detail": card.get("command_state_detail") or COMMAND_STATE_COPY.get(state, ""),
         "decision_key": card.get("decision_key") or _decision_key(card),
         "ticker": str(card.get("ticker") or "").upper(),
         "lane": _card_lane(card),
-        "decision": f"{direction or 'REVIEW'} {str(card.get('ticker') or '').upper()}",
+        "decision": _primary_command_title(card, state),
         "size": ((card.get("size_to_goal") or {}).get("line") or f"{_money_text(card.get('dollars'))} tranche; {_size_label(card)}"),
         "blocker": blocker,
         "changed": (change_delta or {}).get("line") or "No prior reliable build baseline yet.",
@@ -1736,10 +1908,13 @@ def build_today_decide_payload(
     watch_queue = _build_fed_day_watch_queue(fed_day_state, all_cards)
     _annotate_action_first_fields(all_cards)
     _annotate_blocker_taxonomy(all_cards)
+    _annotate_command_states(all_cards)
     goal_anchor = _goal_anchor(feed, goal, today_iso)
     _annotate_size_to_goal(all_cards, goal_anchor)
     passivity = _passivity_summary(all_cards, watch_queue)
     disposition_coverage = _build_disposition_coverage(feed, all_cards, watch_queue)
+    trust_panel = _build_trust_panel(data_health)
+    command_strip = _build_command_strip(feed, all_cards, watch_queue, trust_panel)
     gate_rows = [
         {k: g.get(k) for k in (
             "gate_id", "symbol", "state", "stored_state", "note", "confirm_rule",
@@ -1779,7 +1954,8 @@ def build_today_decide_payload(
         },
         "gates": gate_rows,
         "data_health": data_health,
-        "trust_panel": _build_trust_panel(data_health),
+        "trust_panel": trust_panel,
+        "command_strip": command_strip,
         "first_viewport": first_viewport,
         "change_delta": change_delta,
         "passivity": passivity,
@@ -1810,6 +1986,18 @@ _CSS = """
 .td .td-anchor{font-size:17px;margin:8px 0 2px 0}
 .td .td-pace{color:#94a3b8;font-style:italic;font-size:11px;margin:0 0 10px 0}
 .td .td-plan{color:#cbd5e1;font-size:13px;margin:0 0 10px 0}
+.td .td-command{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-command-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.td .td-command-line{font-size:16px;color:#f8fafc;font-weight:900;letter-spacing:.02em}
+.td .td-command-state{font-size:11px;text-transform:uppercase;font-weight:900;letter-spacing:.08em}
+.td .td-command-state-starved{color:#fbbf24}
+.td .td-command-state-confident{color:#34d399}
+.td .td-command-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin-top:8px}
+.td .td-command-cell{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:7px}
+.td .td-command-count{font-size:18px;color:#f8fafc;font-weight:900}
+.td .td-command-label{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-command-detail{font-size:11px;color:#94a3b8;line-height:1.3;margin-top:2px}
+.td .td-command-system{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:8px}
 .td .td-first{border:1px solid #475569;border-left:5px solid #38bdf8;border-radius:12px;
   background:#07101e;padding:12px;margin:10px 0 12px}
 .td .td-first-kicker{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.08em}
@@ -2874,6 +3062,41 @@ def _render_top_verdict(payload: dict[str, Any]) -> str:
     )
 
 
+def _render_command_strip(payload: dict[str, Any]) -> str:
+    strip = payload.get("command_strip") or {}
+    if not strip:
+        return ""
+    rows = strip.get("rows") or []
+    state = str(strip.get("system_state") or "starved")
+    state_cls = "td-command-state-confident" if state == "confident" else "td-command-state-starved"
+    ga = payload.get("goal_anchor") or {}
+    if ga.get("book_value") is not None:
+        goal_line = f"${ga['book_value']:,.0f} to ${ga['fi_target']:,.0f}; {ga['pct_to_target']}% there"
+    else:
+        goal_line = "goal anchor not readable"
+    return (
+        '<div class="td-command">'
+        '<div class="td-command-head">'
+        f'<div><div class="td-command-line">{_esc(strip.get("line") or "")}</div>'
+        f'<div class="td-command-system">goal: {_esc(goal_line)}</div></div>'
+        f'<div class="td-command-state {state_cls}">{_esc(state)}</div>'
+        '</div>'
+        '<div class="td-command-grid">'
+        + "".join(
+            '<div class="td-command-cell">'
+            f'<div class="td-command-count">{int(row.get("count") or 0)}</div>'
+            f'<div class="td-command-label">{_esc(row.get("state") or "")}</div>'
+            f'<div class="td-command-detail">{_esc(row.get("detail") or "")}</div>'
+            '</div>'
+            for row in rows
+        )
+        + '</div>'
+        f'<div class="td-command-system">{_esc(strip.get("system_line") or "")}</div>'
+        f'<div class="td-command-system">{_esc(strip.get("honesty_rule") or "")}</div>'
+        '</div>'
+    )
+
+
 def _render_first_viewport(payload: dict[str, Any]) -> str:
     model = payload.get("first_viewport") or {}
     decision = str(model.get("decision") or "No capital-changing decision surfaced.")
@@ -2895,7 +3118,9 @@ def _render_first_viewport(payload: dict[str, Any]) -> str:
     ]
     return (
         '<div class="td-first">'
-        '<div class="td-first-kicker">Primary capital/risk decision</div>'
+        f'<div class="td-first-kicker">Primary command'
+        + (f' - {_esc(model.get("command_state") or "")}' if model.get("command_state") else "")
+        + '</div>'
         '<div class="td-first-main">'
         f'<div class="td-first-decision">{_esc(decision)}</div>'
         + (f'<div class="td-first-rail">{button_html}<span class="td-row">Rail copy is render-only; no trade executes.</span></div>' if button_html else "")
@@ -3054,13 +3279,24 @@ def _render_card(
     execn = card.get("execution") or {}
     impact = card.get("impact") or {}
     sizing = card.get("sizing") or {}
-    cid = _esc(card.get("card_id"))
+    raw_cid = str(card.get("card_id") or "")
+    cid = _esc(raw_cid)
     conflicted = " td-conflicted" if card.get("conflicts") or display.get("conflict") else ""
     anchor = f'td-card-{_esc(str(card.get("ticker") or "").upper())}'
     h = [f'<details id="{anchor}" class="td-card{conflicted}">', '<summary class="td-sum">']
     cls = win.get("class", "WAIT")
     direction = str(move.get("direction") or "")
     posture = _review_posture(card, check_first=check_first, window_class=cls, direction=direction)
+    command_state = str(card.get("command_state") or _card_command_state(card))
+    if command_state != "ACT" and posture.get("copy_verb") == "ACT":
+        button_model = _command_button_for_state(card, command_state, raw_cid)
+        posture = {
+            "label": str(button_model.get("label") or "RECHECK"),
+            "state_verb": str(button_model.get("state_verb") or "RECHECK"),
+            "copy_verb": "WATCH" if command_state == "WATCH" else "RECHECK",
+            "copy_suffix": " " + str(card.get("command_state_detail") or COMMAND_STATE_COPY.get(command_state, "")).strip(),
+            "reason": f"{command_state}: {card.get('command_state_detail') or COMMAND_STATE_COPY.get(command_state, '')}",
+        }
     h.append(_render_face(
         card,
         rank,
@@ -3115,14 +3351,22 @@ def _render_card(
     h.append(_render_dossier_block(card))
     if posture["reason"]:
         h.append(f'<div class="td-row"><strong>Rail:</strong> {_esc(posture["reason"])}</div>')
-    primary_verb = posture["copy_verb"]
-    primary_state_verb = posture["state_verb"]
-    primary_label = posture["label"] if primary_verb != "ACT" else "ACT"
-    primary_copy = (
-        f"ACT {cid}" if primary_verb == "ACT"
-        else f'{primary_verb} {cid}{_esc(posture["copy_suffix"])}'
-    )
-    primary_class = "td-rail" if primary_verb == "ACT" else "td-rail td-rail-muted"
+    if command_state != "ACT" and posture.get("copy_verb") == "ACT":
+        button_model = _command_button_for_state(card, command_state, raw_cid)
+        primary_verb = "RECHECK"
+        primary_state_verb = str(button_model.get("state_verb") or "RECHECK")
+        primary_label = str(button_model.get("label") or "RECHECK")
+        primary_copy = str(button_model.get("copy") or f"RECHECK {raw_cid}")
+        primary_class = "td-rail td-rail-muted"
+    else:
+        primary_verb = posture["copy_verb"]
+        primary_state_verb = posture["state_verb"]
+        primary_label = posture["label"] if primary_verb != "ACT" else "ACT"
+        primary_copy = (
+            f"ACT {cid}" if primary_verb == "ACT"
+            else f'{primary_verb} {cid}{_esc(posture["copy_suffix"])}'
+        )
+        primary_class = "td-rail" if primary_verb == "ACT" else "td-rail td-rail-muted"
     h.append(
         f'<button class="{primary_class}" data-card="{cid}" data-verb="{primary_state_verb}" data-copy="{_esc(primary_copy)}" '
         f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">{_esc(primary_label)}</button>'
@@ -3280,6 +3524,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
              + (f'funding pool ${pool:,.0f}' if isinstance(pool, (int, float)) else 'funding pool n/a')
              + (f' Â· shortfall ${short:,.0f}' if isinstance(short, (int, float)) else '')
              + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
+    h.append(_render_command_strip(payload))
     h.append(_render_first_viewport(payload))
     h.append(_render_passivity_panel(payload))
     h.append(_render_disposition_coverage(payload))

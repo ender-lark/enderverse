@@ -143,6 +143,15 @@ def _rail_copies_from_card(card, *, check_first=False):
         window_class=window_class,
         direction=str(move.get("direction") or ""),
     )
+    command_state = str(card.get("command_state") or "")
+    if command_state and command_state != "ACT" and posture["copy_verb"] == "ACT":
+        detail = str(card.get("command_state_detail") or td.COMMAND_STATE_COPY.get(command_state, "")).strip()
+        posture = {
+            "label": "KEEP WATCH" if command_state == "WATCH" else command_state,
+            "state_verb": "KEEP WATCH" if command_state == "WATCH" else "RECHECK",
+            "copy_verb": "WATCH" if command_state == "WATCH" else "RECHECK",
+            "copy_suffix": f" {detail}" if detail else "",
+        }
     primary_copy = (
         f"ACT {cid}" if posture["copy_verb"] == "ACT"
         else f'{posture["copy_verb"]} {cid}{posture["copy_suffix"]}'
@@ -152,7 +161,7 @@ def _rail_copies_from_card(card, *, check_first=False):
         "PASS":    f"PASS {cid} — reason: ",
         "UNDO":    f"UNDO {cid}",
     }
-    if posture["label"] != "RECHECK":
+    if posture["state_verb"] != "RECHECK":
         rails["RECHECK"] = f"RECHECK {cid} resurface {card.get('recheck_date')}"
     return rails
 

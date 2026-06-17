@@ -127,6 +127,12 @@ def test_payload_builds_and_goal_anchor_math():
     assert "display-only" in ga["pace_line"]
     assert p["plan_line"]["positions_as_of"] == "2026-06-09"
     assert p["first_viewport"]["status"] == "has_primary"
+    assert p["first_viewport"]["command_state"] == "RESOLVE"
+    assert p["first_viewport"]["button"]["label"] == "RESOLVE"
+    assert not p["first_viewport"]["button"]["copy"].startswith("ACT ")
+    assert p["command_strip"]["counts"]["ACT"] == 0
+    assert p["command_strip"]["counts"]["RESOLVE"] == 3
+    assert "Render-only command surface" in p["command_strip"]["honesty_rule"]
     assert p["change_delta"]["status"] == "no_baseline"
     assert p["passivity"]["honesty_rule"].startswith("Only bucket operator_owned_actionable_now")
 
@@ -150,7 +156,10 @@ def test_html_renders_header_and_built_date():
 
 def test_html_renders_minimal_conviction_face_and_breakdown():
     html = render_today_decide_html(_payload())
-    assert "Primary capital/risk decision" in html
+    assert "Primary command" in html
+    assert "0 ACT | 2 DECIDE | 3 RESOLVE | 0 WATCH" in html
+    assert "Resolve GOOGL add" in html
+    assert 'data-copy="ACT GOOGL-ADD-2026-06-10"' not in html
     assert "Ownership-aware passivity" in html
     assert "Nothing actionable yet: scorer is starved or blocked, not bearish." in html
     assert "Next lever: fresh-check material names" in html
@@ -489,7 +498,11 @@ def test_renderer_uses_card_scoped_blockers_not_global_blocked_state():
     assert "Can I trust this screen?" in html
     assert "Capped to stage-only until holds above ~705" in html
     assert "Conviction to Buy GOOGL" not in html
-    assert 'data-copy="ACT MAGS-TRIM-2026-06-10"' in html
+    mags = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "MAGS"][0]
+    assert "QQQ gate" not in mags["card_blockers"]
+    assert mags["command_state"] == "RESOLVE"
+    assert 'data-copy="ACT MAGS-TRIM-2026-06-10"' not in html
+    assert 'data-copy="RECHECK MAGS-TRIM-2026-06-10 named blocker must clear"' in html
 
 
 def test_live_gate_evaluation_overrides_stale_stored_state_on_cards():

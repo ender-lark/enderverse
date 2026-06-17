@@ -236,6 +236,40 @@ const decisionKey = (card) => {
   return card?.decision_key || `${ticker}|${lane}`;
 };
 
+function CommandStrip({ payload }) {
+  const strip = payload.command_strip || {};
+  const rows = strip.rows || [];
+  if (!rows.length) return null;
+  const ga = payload.goal_anchor || {};
+  const goalLine = ga.book_value != null
+    ? `$${ga.book_value.toLocaleString()} to $${ga.fi_target.toLocaleString()}; ${ga.pct_to_target}% there`
+    : "goal anchor not readable";
+  const state = String(strip.system_state || "starved");
+  const stateColor = state === "confident" ? "#34d399" : "#fbbf24";
+  return (
+    <div style={{ border: "1px solid #334155", borderRadius: 10, background: "#08111f", padding: "10px 12px", margin: "10px 0 12px" }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap" }}>
+        <div>
+          <div style={{ fontSize: 16, color: "#f8fafc", fontWeight: 900, letterSpacing: ".02em" }}>{strip.line || ""}</div>
+          <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 3 }}>goal: {goalLine}</div>
+        </div>
+        <div style={{ fontSize: 11, color: stateColor, textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em" }}>{state}</div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(110px,1fr))", gap: 6, marginTop: 8 }}>
+        {rows.map((row) => (
+          <div key={row.state} style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 7 }}>
+            <div style={{ fontSize: 18, color: "#f8fafc", fontWeight: 900 }}>{row.count || 0}</div>
+            <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>{row.state}</div>
+            <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.3, marginTop: 2 }}>{row.detail || ""}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 8 }}>{strip.system_line || ""}</div>
+      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 8 }}>{strip.honesty_rule || ""}</div>
+    </div>
+  );
+}
+
 function FirstViewport({ payload, railState, setRailState }) {
   const model = payload.first_viewport || {};
   const delta = payload.change_delta || {};
@@ -248,14 +282,17 @@ function FirstViewport({ payload, railState, setRailState }) {
     ["Can wait", model.safe_wait || "Research/watch-only items can wait."],
   ];
   const cardId = button.card_id || "";
+  const railLabel = button.label || button.state_verb || "RECHECK";
   return (
     <div style={{ border: "1px solid #475569", borderLeft: "5px solid #38bdf8", borderRadius: 12, background: "#07101e", padding: 12, margin: "10px 0 12px" }}>
-      <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em" }}>Primary capital/risk decision</div>
+      <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em" }}>
+        Primary command{model.command_state ? ` - ${model.command_state}` : ""}
+      </div>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
         <div style={{ fontSize: 23, color: "#f8fafc", fontWeight: 900, lineHeight: 1.12, margin: "3px 0 8px" }}>{model.decision || "No capital-changing decision surfaced."}</div>
         {button.copy && (
           <div style={{ margin: "8px 0 9px", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-            <Rail cardId={cardId} verb={button.state_verb || "RECHECK"} copy={button.copy} muted={button.muted === "1"} state={railState} setState={setRailState} />
+            <Rail cardId={cardId} verb={railLabel} copy={button.copy} muted={button.muted === "1"} state={railState} setState={setRailState} />
             <span className="td-first-rail-note" style={{ fontSize: 13, color: "#cbd5e1" }}>Rail copy is render-only; no trade executes.</span>
           </div>
         )}
@@ -950,7 +987,18 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
   const cardBlockers = card.card_blockers || [];
   const scopedCheckFirst = checkFirst || Boolean(cardBlockers.length);
   const conflicted = Boolean(display.conflict) || (card.conflicts || []).length > 0;
-  const posture = reviewPosture(card, scopedCheckFirst, win.class, move.direction);
+  const commandState = String(card.command_state || "");
+  let posture = reviewPosture(card, scopedCheckFirst, win.class, move.direction);
+  if (commandState && commandState !== "ACT" && posture.copyVerb === "ACT") {
+    const label = commandState === "WATCH" ? "KEEP WATCH" : commandState;
+    posture = {
+      label,
+      stateVerb: label,
+      copyVerb: commandState === "WATCH" ? "WATCH" : "RECHECK",
+      copySuffix: ` ${card.command_state_detail || ""}`.trimEnd(),
+      reason: `${commandState}: ${card.command_state_detail || ""}`,
+    };
+  }
   const [operatorActions, waitingActions, systemActions] = splitRaiseActions(display);
   const primaryCopy = posture.copyVerb === "ACT"
     ? `ACT ${card.card_id}`
@@ -1111,6 +1159,7 @@ export default function TodayDecide({ payload }) {
         plan: {pl.pool_usd != null ? `funding pool $${pl.pool_usd.toLocaleString()}` : "funding pool n/a"}
         {pl.shortfall_usd != null ? ` - shortfall $${pl.shortfall_usd.toLocaleString()}` : ""} - positions as of {pl.positions_as_of}
       </div>
+      <CommandStrip payload={payload} />
       <FirstViewport payload={payload} railState={railState} setRailState={setRailState} />
       <PassivityPanel payload={payload} />
       <DispositionCoverage payload={payload} />
