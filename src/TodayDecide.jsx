@@ -366,10 +366,16 @@ const fedDaySummary = (context) => {
   }
   const discount = numeric(row.pct_below_high);
   const price = numeric(row.price);
+  const stale = String(context.freshness || "fresh") === "stale";
+  const priceText = price != null
+    ? stale
+      ? `price ${moneyText(price)} as of ${context.packet_as_of || "unknown"} - STALE, research context only`
+      : `price ${moneyText(price)}`
+    : "";
   const sources = (row.source_tags || []).join(", ") || row.source || "chart/source screen";
   return [
     discount != null ? `${discount.toFixed(1)}% below 52w high` : "",
-    price != null ? `price ${moneyText(price)}` : "",
+    priceText,
     sources,
   ].filter(Boolean).join("; ");
 };
@@ -378,9 +384,11 @@ function FedDayContextBlock({ card }) {
   const context = card.fed_day_context;
   if (!context?.row) return null;
   const row = context.row;
+  const stale = String(context.freshness || "fresh") === "stale";
   return (
     <div style={{ border: "1px solid #334155", borderRadius: 8, background: "#0b1220", padding: 8, fontSize: 13, color: "#cbd5e1", lineHeight: 1.4, margin: "0 0 8px" }}>
       <strong>{context.label || "Fed-day packet"}:</strong> {fedDaySummary(context)}
+      {stale && <><br /><strong>Shown but not counted:</strong> packet as of {context.packet_as_of || "unknown"} - STALE/not_checked; research context only, prices not current.</>}
       {row.do_nothing_cost && <><br /><strong>Why it matters:</strong> {row.do_nothing_cost}</>}
       {row.disconfirmation && <><br /><strong>Do not act if:</strong> {row.disconfirmation}</>}
     </div>
@@ -892,14 +900,17 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
 
 function WatchQueue({ payload }) {
   const queue = payload.watch_queue || [];
-  if (!queue.length) return null;
+  const meta = payload.watch_queue_meta || {};
+  const freshness = String(meta.freshness || (queue.length ? "fresh" : "absent"));
+  if (!queue.length && freshness !== "absent") return null;
+  const caption = meta.caption || "Ranked research/recheck candidates from the fed-day packet. They stay visible, but do not outrank executable decisions without fresh confirmation.";
   return (
     <div style={{ borderTop: "1px solid #1e293b", marginTop: 14, paddingTop: 10 }}>
       <div style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em", margin: "14px 0 5px" }}>
         Watchlist / pullback impact queue ({queue.length})
       </div>
       <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>
-        Ranked research/recheck candidates from the fed-day packet. They stay visible, but do not outrank executable decisions without fresh confirmation.
+        {caption}
       </div>
       {queue.map((row, i) => {
         const exposure = numeric(row.current_exposure_usd);
@@ -909,6 +920,7 @@ function WatchQueue({ payload }) {
           discount != null ? `${discount.toFixed(1)}% below 52w high` : "",
           row.research_status ? `research ${row.research_status}` : "",
           ...(row.source_tags || []),
+          String(row.freshness || "") === "stale" ? `as of ${row.packet_as_of || "unknown"} - STALE, research context only` : "",
         ].filter(Boolean);
         return (
           <div key={`${row.ticker}-${i}`} style={{ border: "1px solid #334155", borderRadius: 9, background: "#07101e", padding: 10, margin: "8px 0" }}>
