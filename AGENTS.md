@@ -41,6 +41,13 @@ goals" (or close variants), respond FIRST with this surface, then continue:
 - DRIFT TEST: (as above).
 The Notion Boot Page (37bc5031-4bb6-818d-97a9-cd98c32729a4) carries the identical block.
 
+## End-of-Session Loose-Thread Sweep (all agents)
+At the end of any substantive task/session, before going idle, capture loose threads raised in that session that aren't already in Notion — any idea, research item, system/tooling task, or decision left parked / deferred / "do later".
+(1) List candidates from THIS session's work only (Codex/Claude Code: your own commits, PRs, WORKBOARD entries, and punted TODOs since session start).
+(2) Read the board — dedupe against the target queue before writing: Research Queue ds cab89576-0933-40b0-ad2e-6f9a6188e804 · System Update Queue ds 968cfff4-369c-40bb-b748-5633b9ff7685.
+(3) Write only genuinely-new, still-timely rows, routed: research / decisions-to-make → Research Queue; system/tooling → System Update Queue; analyst calls → Source Call Log (e7def40e-1492-458a-9de8-bd77cd3f8471); firm decisions → Decisions Log (632c97f1-192a-4933-8682-60c730446caf).
+(4) Capture-only — never execute / stage / present-as-done; content-based staleness; if nothing qualifies, write nothing. The claude.ai equivalent lives on the Boot Page.
+
 ## Build Protocol
 
 - Read and update `docs/WORKBOARD.md` at the start and end of every

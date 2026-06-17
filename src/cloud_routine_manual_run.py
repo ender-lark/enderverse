@@ -324,6 +324,14 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-loose-thread-sweep",
+            "loose-thread sweep manual support extracted candidates without writing queues",
+            [
+                Step("loose-thread sweep self-test", _python("src/loose_thread_sweep.py", "--self-test")),
+                Step("loose-thread sweep candidate extraction", _python("src/loose_thread_sweep.py", "--format", "json")),
+            ],
+        ),
+        Routine(
             "investing-os-off-hours-research-queue",
             "off-hours research queue manual support checked routine wiring and research queue cache",
             [

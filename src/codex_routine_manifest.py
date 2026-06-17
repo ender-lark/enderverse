@@ -36,9 +36,10 @@ EXPECTED_ROUTINES = {
     "event_risk_intake",
     "daily_full_build",
     "off_hours_research_queue",
+    "loose_thread_sweep",
 }
 VALID_STATUSES = {"active", "active_safe_intake", "queued", "paused", "retired"}
-VALID_SEPARATION_GROUPS = {"source_intake", "market_data_refresh", "feed_build_publish"}
+VALID_SEPARATION_GROUPS = {"source_intake", "market_data_refresh", "feed_build_publish", "ops_capture"}
 
 
 def load_manifest(path: str | Path = DEFAULT_MANIFEST_PATH) -> dict[str, Any]:
@@ -273,6 +274,7 @@ def _self_test() -> bool:
             {**routine, "id": "event_risk_intake", "doc": "src/codex_routines/event_risk.md", "owns": ["src/event_risks.json"]},
             {**routine, "id": "daily_full_build", "doc": "src/codex_routines/daily_full_build.md", "separation_group": "feed_build_publish", "owns": ["src/latest_cockpit_feed.json"], "convention_inputs": convention_inputs},
             {**routine, "id": "off_hours_research_queue", "doc": "src/codex_routines/off_hours_research.md", "owns": ["src/research_queue.json"]},
+            {**routine, "id": "loose_thread_sweep", "doc": "src/codex_routines/Loose_Thread_Sweep_Routine_Prompt_v1.md", "separation_group": "ops_capture", "owns": ["src/cloud_routine_receipts.json"]},
         ],
     }
     assert validate_manifest(manifest) == []
