@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T17:10:36.318046Z",
-      "summary": "30d weekly deep: semis damage-control, closure gaps outrun new signals, pilots evidenced but thin; Notion page written+verified; blocker: Notion query endpoint unavailable"
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T22:02:42.797093Z",
-      "summary": "weekly pilot run started"
-    },
-    {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "success",
       "run_source": "scheduled",
@@ -7045,7 +7031,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T14:08:54.110395Z",
       "summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T14:31:43.722579Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T14:32:23.831399Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-17T14:08:54.110395Z"
+  "updated_at": "2026-06-17T14:32:23.831399Z"
 }
