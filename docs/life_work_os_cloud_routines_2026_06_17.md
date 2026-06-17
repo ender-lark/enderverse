@@ -6,18 +6,22 @@ Starting point:
 - The wrapper path `C:\Users\suraj\OneDrive\Old\Documents\Investing OS (2.0)` is not a git repo.
 - Existing installed Codex automations did not contain Life OS or Work OS briefing/review jobs.
 - This repo did not contain Life/Work prompt files, status entries, or Briefing & Review Log helpers before this slice.
-- The current implementation status is repo support only. App scheduling is still pending explicit confirmation of the final set.
+- The repo support slice was committed and pushed first, then the app automations were created after the final set was shown.
+- App scheduling status: all six Codex app automations are ACTIVE as of 2026-06-17 15:27 ET, pointed at the canonical main checkout `C:\Users\suraj\Documents\Codex\2026-06-17\auto-loose-thread-sweep\enderverse`.
+- Proof status: manual read-only proof passed for all six routines on 2026-06-17, with receipts written as `run_source=manual`. Those proofs exercised live Notion reads and output generation without Briefing Log writes, Pushover sends, or hygiene mutations. First real scheduled receipts are still pending and must land on main before scheduled proof is complete.
+- Manual proof fixes landed in the same slice: Drift Flags uses `Status = Active` instead of invalid task-style `Done/Cancelled` filters; Work Operations uses positive live statuses; text output is ASCII-safe for the Windows scheduled console path; safe hygiene skips settlement/retaliation/constructive-discharge case content.
+- Notion mirror: verified live on the Life OS page `Cloud Routines - Operations Reference` (`378c5031-4bb6-810f-a2bd-d806a4b2a015`) after fetchback at 2026-06-17T19:35Z.
 
 Final planned set:
 
 | routine | status | repo prompt | owned output |
 | --- | --- | --- | --- |
-| `life-os-daily-briefing` | CREATE | `src/codex_routines/Life_OS_Daily_Briefing_Routine_Prompt_v1.md` | `src/life_os_daily_briefing_last_run.json` |
-| `work-os-daily-briefing` | CREATE | `src/codex_routines/Work_OS_Daily_Briefing_Routine_Prompt_v1.md` | `src/work_os_daily_briefing_last_run.json` |
-| `life-os-weekly-review` | CREATE | `src/codex_routines/Life_OS_Weekly_Review_Routine_Prompt_v1.md` | `src/life_os_weekly_review_last_run.json` |
-| `work-os-weekly-review` | CREATE | `src/codex_routines/Work_OS_Weekly_Review_Routine_Prompt_v1.md` | `src/work_os_weekly_review_last_run.json` |
-| `life-work-os-heartbeat-watch` | CREATE | `src/codex_routines/Life_Work_OS_Heartbeat_Watcher_Routine_Prompt_v1.md` | `src/life_work_os_heartbeat.json` |
-| `life-work-os-safe-hygiene` | CREATE | `src/codex_routines/Life_Work_OS_Safe_Hygiene_Routine_Prompt_v1.md` | `src/life_work_os_hygiene_receipt.json` |
+| `life-os-daily-briefing` | CREATED/ACTIVE | `src/codex_routines/Life_OS_Daily_Briefing_Routine_Prompt_v1.md` | `src/life_os_daily_briefing_last_run.json` |
+| `work-os-daily-briefing` | CREATED/ACTIVE | `src/codex_routines/Work_OS_Daily_Briefing_Routine_Prompt_v1.md` | `src/work_os_daily_briefing_last_run.json` |
+| `life-os-weekly-review` | CREATED/ACTIVE | `src/codex_routines/Life_OS_Weekly_Review_Routine_Prompt_v1.md` | `src/life_os_weekly_review_last_run.json` |
+| `work-os-weekly-review` | CREATED/ACTIVE | `src/codex_routines/Work_OS_Weekly_Review_Routine_Prompt_v1.md` | `src/work_os_weekly_review_last_run.json` |
+| `life-work-os-heartbeat-watch` | CREATED/ACTIVE | `src/codex_routines/Life_Work_OS_Heartbeat_Watcher_Routine_Prompt_v1.md` | `src/life_work_os_heartbeat.json` |
+| `life-work-os-safe-hygiene` | CREATED/ACTIVE | `src/codex_routines/Life_Work_OS_Safe_Hygiene_Routine_Prompt_v1.md` | `src/life_work_os_hygiene_receipt.json` |
 
 ## Schedule Proposal
 
@@ -42,7 +46,7 @@ Final planned set:
 
 ## Open Before Scheduling
 
-- Confirm the Codex scheduled environment has `NOTION_TOKEN`, `PUSHOVER_TOKEN`, and `PUSHOVER_USER`.
+- Confirm a real scheduled run inherits `NOTION_TOKEN`, `PUSHOVER_TOKEN`, and `PUSHOVER_USER`. Manual read-only proofs confirmed the local runner env and live Notion access on 2026-06-17, but the first scheduled app execution is the authoritative scheduled-env proof.
 - Provide or configure `SYSTEM_CHANGELOG_DATA_SOURCE_ID`; safe-hygiene apply fails closed without it.
-- After app automations are created, update `src/cloud_automation_status.json` rows from `PLANNED` to `ACTIVE` and wait for real scheduled receipts on main.
+- Wait for real scheduled receipts on main for all six routines. Manual recovery receipts can support readiness, but do not count as scheduled proof.
 

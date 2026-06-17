@@ -9,6 +9,7 @@ from typing import Any
 
 NOTION_VERSION = "2025-09-03"
 TIMEZONE = "America/New_York"
+ACTIVATED_AT = "2026-06-17T15:27:23-04:00"
 
 TASKS_DATA_SOURCE_ID = "f5f573dd-8c8f-4f6b-bad5-e09d9e772e7f"
 INBOX_DATA_SOURCE_ID = "86e7a254-2d47-4f82-bed1-081e05ea57d5"
@@ -141,7 +142,7 @@ def automation_status_rows(status: str = "PLANNED") -> list[dict[str, Any]]:
             "status": status,
             "role": routine.role,
             "schedule": routine.schedule,
-            "expected_since": "2026-06-17T00:00:00-04:00",
+            "expected_since": ACTIVATED_AT,
             "proof_scope": routine.proof_scope,
             "prompt": routine.prompt,
             "writes_to": (
@@ -168,7 +169,7 @@ def cloud_expected_rows() -> list[dict[str, Any]]:
                 "days": list(routine.days),
                 "hour": routine.slot.hour,
                 "minute": routine.slot.minute,
-                "expected_since": "2026-06-17T00:00:00-04:00",
+                "expected_since": ACTIVATED_AT,
                 "proof_scope": routine.proof_scope,
             }
         )

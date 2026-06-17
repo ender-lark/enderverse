@@ -40,6 +40,21 @@ PAST_EVENT_RE = re.compile(
     r"\b(confirm|schedule|appointment|surgery|reservation|flight|hotel|visit|pickup|dropoff|may \d{1,2}|june \d{1,2}|july \d{1,2})\b",
     re.IGNORECASE,
 )
+TEXT_TRANSLATION = str.maketrans({
+    "\u2192": "->",
+    "\u2190": "<-",
+    "\u2014": "-",
+    "\u2013": "-",
+    "\u2018": "'",
+    "\u2019": "'",
+    "\u201c": '"',
+    "\u201d": '"',
+    "\U0001f4d2": "[notebook]",
+    "\U0001f5c4": "[file]",
+    "\ufe0f": "",
+    "\u00d7": "x",
+    "\u00a0": " ",
+})
 
 
 @dataclass(frozen=True)
@@ -93,7 +108,27 @@ def _is_work_case_content(row: Mapping[str, Any]) -> bool:
         property_text(row, "Project"),
         property_text(row, "Source Project"),
     ]).lower()
-    return any(token in text for token in ("eeoc", "claim", "case file", "strategic brief", "game plan", "evidence ledger"))
+    return any(
+        token in text
+        for token in (
+            "eeoc",
+            "claim",
+            "case file",
+            "strategic brief",
+            "game plan",
+            "evidence ledger",
+            "settlement",
+            "retaliation",
+            "constructive discharge",
+        )
+    )
+
+
+def _is_closed_or_cancelled(row: Mapping[str, Any]) -> bool:
+    status = property_text(row, "Status").lower()
+    title = page_title(row).lower()
+    closed_tokens = ("done", "cancelled", "canceled", "archived", "delivered", "superseded", "disconfirmed")
+    return any(token in status for token in closed_tokens) or any(token in title for token in closed_tokens)
 
 
 def _due_date(row: Mapping[str, Any]) -> datetime | None:
@@ -193,6 +228,8 @@ def plan_finance_source_project_backfill(
         title = page_title(row)
         source_project = property_text(row, "Source Project")
         domain_text = " ".join([title, property_text(row, "Domain"), property_text(row, "Area")]).lower()
+        if _is_closed_or_cancelled(row):
+            continue
         if source_project or "investing" not in domain_text and "finance" not in domain_text:
             continue
         ops.append(
@@ -472,7 +509,8 @@ def _format_text(report: Mapping[str, Any]) -> str:
             lines.append(f"- {op.get('op')}: {op.get('title')} | {op.get('reason')}")
     if report.get("error"):
         lines.append(f"Error: {report.get('error')}")
-    return "\n".join(lines)
+    text = "\n".join(lines).translate(TEXT_TRANSLATION)
+    return text.encode("ascii", errors="replace").decode("ascii")
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -13,6 +13,7 @@ from zoneinfo import ZoneInfo
 
 import codex_routine_manifest
 import cloud_routine_receipts
+import life_work_os_config
 import live_status as live_status_mod
 import live_source_capability
 
@@ -288,6 +289,7 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "minute": 0,
     },
 ]
+DEFAULT_EXPECTED_AUTOMATIONS.extend(life_work_os_config.cloud_expected_rows())
 ET = ZoneInfo("America/New_York")
 
 
@@ -590,9 +592,21 @@ def _automation_summary(
 
     for expected_row in expected:
         matches: list[dict[str, Any]] = []
+        expected_id = str(expected_row.get("automation_id") or "")
         expected_name = str(expected_row.get("automation_name") or "")
         for path, text in local_texts:
-            if expected_name and expected_name.lower() in text.lower():
+            local_id = ""
+            try:
+                local_id = str(tomllib.loads(text).get("id") or "")
+            except tomllib.TOMLDecodeError:
+                local_id = ""
+            exact_id_match = bool(expected_id) and (local_id == expected_id or path.parent.name == expected_id)
+            name_match = bool(
+                expected_name
+                and expected_name.lower() in text.lower()
+                and (not expected_id or not local_id)
+            )
+            if exact_id_match or name_match:
                 matches.append({
                     "path": str(path),
                     "active": _toml_text_has_active_status(text),

@@ -1,0 +1,1157 @@
+{
+  "routine_key": "life_weekly",
+  "routine": {
+    "automation_id": "life-os-weekly-review",
+    "name": "Life OS Weekly Review",
+    "os_name": "Life OS",
+    "report_type": "Weekly Review",
+    "schedule": "Saturday 1:00 PM ET; first Saturday emits Monthly Deep",
+    "days": [
+      5
+    ],
+    "slot": "13:00:00",
+    "prompt": "src/codex_routines/Life_OS_Weekly_Review_Routine_Prompt_v1.md",
+    "model": "gpt-5.5",
+    "reasoning_effort": "max",
+    "proof_scope": "support"
+  },
+  "generated_at": "2026-06-17T15:31:35.986571-04:00",
+  "items": [
+    {
+      "title": "Call IRS re: LT26 notice \u2014 case ref 2593985414",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Call-IRS-re-LT26-notice-case-ref-2593985414-36cc50314bb681f0a9c0e6f16228a55b",
+      "due": "2026-05-26",
+      "status": "Today",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "File missing IRS tax return(s) \u2014 LT26 notice",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/File-missing-IRS-tax-return-s-LT26-notice-36cc50314bb6814aa182f25ef9134485",
+      "due": "2026-05-31",
+      "status": "This Week",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Belle to send 30-day written notice on Walnut Creek lease (landlord confirmed; rest pro rata)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Belle-to-send-30-day-written-notice-on-Walnut-Creek-lease-landlord-confirmed-rest-pro-rata-36ec50314bb6814caf72f3e38a8d7ec1",
+      "due": "2026-05-28",
+      "status": "Today",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Buy Alexa speakers for Mom's music",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Buy-Alexa-speakers-for-Mom-s-music-36ec50314bb68105ab01c36d7126df70",
+      "due": "2026-05-30",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Research Inspire device for Mom's sleep apnea",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Research-Inspire-device-for-Mom-s-sleep-apnea-36ec50314bb68141a38cd6186e7fc2bb",
+      "due": "2026-05-30",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Confirm caregiver coverage for mom",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Confirm-caregiver-coverage-for-mom-344c50314bb681d5b9def95e81d94ae7",
+      "due": "2026-04-16",
+      "status": "Today",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Paste FMP data-routing patch into Project Instructions (Investing 2026)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Paste-FMP-data-routing-patch-into-Project-Instructions-Investing-2026-345c50314bb6817086fcdd949d48506c",
+      "due": "2026-04-18",
+      "status": "Today",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Protect sleep \u2014 stabilize routine",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Protect-sleep-stabilize-routine-344c50314bb6810481cbe2f0a7341bc4",
+      "due": "2026-04-19",
+      "status": "Today",
+      "domain": "Health",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Verify automations and reminders are actually live",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Verify-automations-and-reminders-are-actually-live-344c50314bb68107bdfcd3378570e71d",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Track weed use honestly (daily log)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Track-weed-use-honestly-daily-log-344c50314bb68114a239d3e34713536d",
+      "due": "2026-04-19",
+      "status": "Today",
+      "domain": "Health",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Finish 2024 taxes",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Finish-2024-taxes-344c50314bb681339a87cf09ccc9269e",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Follow up on mom's second-opinion / shunt-adjustment discussion",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Follow-up-on-mom-s-second-opinion-shunt-adjustment-discussion-344c50314bb68161a784e20195a24d34",
+      "due": "2026-04-19",
+      "status": "Waiting",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Life-admin sweep \u2014 gather all open action items",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Life-admin-sweep-gather-all-open-action-items-344c50314bb681b3b774e12bff9d1f4e",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Update structured summary of mom's condition",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Update-structured-summary-of-mom-s-condition-344c50314bb681b59429d8972bc64606",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Consolidate mom's active care issues into one master list",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Consolidate-mom-s-active-care-issues-into-one-master-list-344c50314bb681b7a1a8d47a1a67b0b8",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Decide: share financial/work stress with Belle now or hold",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Decide-share-financial-work-stress-with-Belle-now-or-hold-344c50314bb681bf9a10f855259d51bb",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Relationships",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Resolve mom's CPAP mask/headgear fit",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Resolve-mom-s-CPAP-mask-headgear-fit-344c50314bb681bfbe63e48e14b8eac8",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Nicole \u2014 prepare ADA accommodation request before return to work",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Nicole-prepare-ADA-accommodation-request-before-return-to-work-344c50314bb681c8a486c24a7c335e9c",
+      "due": "2026-04-19",
+      "status": "Waiting",
+      "domain": "Nicole",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Prepare explanation for dad and sister re: mom's misinterpretation of dad's help",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Prepare-explanation-for-dad-and-sister-re-mom-s-misinterpretation-of-dad-s-help-344c50314bb681da86b7f41035df41af",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Confirm bowel-regimen plan for mom (constipation recurrence)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Confirm-bowel-regimen-plan-for-mom-constipation-recurrence-344c50314bb681f0a41bfb3c2d140ecd",
+      "due": "2026-04-19",
+      "status": "Waiting",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Nicole \u2014 doctor completes Certification of Health Care Provider",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Nicole-doctor-completes-Certification-of-Health-Care-Provider-344c50314bb681f5a140eea292d31f89",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Nicole",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Game plan for mom's current + future treatments + next primary visit",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Game-plan-for-mom-s-current-future-treatments-next-primary-visit-344c50314bb6813aa801f8bc37f338b5",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Help Nicole find medical device sales jobs",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Help-Nicole-find-medical-device-sales-jobs-344c50314bb6815fb723ca0b0222400e",
+      "due": "2026-04-19",
+      "status": "Upcoming",
+      "domain": "Nicole",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Evaluate night caregiver option for mom",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Evaluate-night-caregiver-option-for-mom-344c50314bb681748e2bf9fc29a86286",
+      "due": "2026-04-19",
+      "status": "Upcoming",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Set up Voice Memos quick-capture + daily Shortcut",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Set-up-Voice-Memos-quick-capture-daily-Shortcut-344c50314bb681d8b35ded1cd2b83925",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Inventory + measure: walk Mom's apartment, list furniture to remove, measure doorways and new-bed footprints",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Inventory-measure-walk-Mom-s-apartment-list-furniture-to-remove-measure-doorways-and-new-bed-fo-345c50314bb68184afc7e72e8c7d7f00",
+      "due": "2026-04-20",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Grocery run: cottage cheese, broccoli, spicy cheese, coffee beans, jalape\u00f1os, garlic, cilantro",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Grocery-run-cottage-cheese-broccoli-spicy-cheese-coffee-beans-jalape-os-garlic-cilantro-348c50314bb681c68058f41d58147963",
+      "due": "2026-04-21",
+      "status": "Today",
+      "domain": "Home",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Hire Saturday mover (the guy who 'jumped' past job)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Hire-Saturday-mover-the-guy-who-jumped-past-job-348c50314bb681dfb158da6951e5a25a",
+      "due": "2026-04-21",
+      "status": "Today",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Reconcile April Fundstrat ETF basket execution into Trade Journal (Parents Schwab PCRA)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Reconcile-April-Fundstrat-ETF-basket-execution-into-Trade-Journal-Parents-Schwab-PCRA-345c50314bb6819094f0d02876216b97",
+      "due": "2026-04-22",
+      "status": "This Week",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Build canonical \ud83d\udcd2 Positions page from Apr 14 PDFs (one-time setup)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Build-canonical-Positions-page-from-Apr-14-PDFs-one-time-setup-348c50314bb6810eb1d6d35e060c725c",
+      "due": "2026-04-24",
+      "status": "This Week",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Design Scan vs Commit workflow split (two-phase commit pattern for 'update' command)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Design-Scan-vs-Commit-workflow-split-two-phase-commit-pattern-for-update-command-345c50314bb681a38cf5e2fa86780d6a",
+      "due": "2026-04-24",
+      "status": "Upcoming",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Formalize source-independence check (distinct from source-discipline) to address epistemic laundering risk",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Formalize-source-independence-check-distinct-from-source-discipline-to-address-epistemic-launderin-345c50314bb6816abe7fd3d4d8d33352",
+      "due": "2026-04-25",
+      "status": "Upcoming",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Document why each framework element exists (failure mode it closes) \u2014 REFRAMED from cut audit to keep-audit after disconfirmation",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Document-why-each-framework-element-exists-failure-mode-it-closes-REFRAMED-from-cut-audit-to-kee-345c50314bb681a992ade2f76e9581ed",
+      "due": "2026-04-25",
+      "status": "Upcoming",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Identify top 3 personal tasks creating background stress \u2014 assign next action",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Identify-top-3-personal-tasks-creating-background-stress-assign-next-action-344c50314bb6818d9ea8c2d868aea1ab",
+      "due": "2026-04-26",
+      "status": "This Week",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Create detailed daily/weekly task list for Kiara (mom's caregiver)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Create-detailed-daily-weekly-task-list-for-Kiara-mom-s-caregiver-344c50314bb6814386d1ceab5f23c671",
+      "due": "2026-04-26",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Coordinate same-day swap window (AM removal \u2192 PM delivery) + confirm caregiver + elevator",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Coordinate-same-day-swap-window-AM-removal-PM-delivery-confirm-caregiver-elevator-345c50314bb681989657d08c71db0bea",
+      "due": "2026-04-29",
+      "status": "Upcoming",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Build minimal risk/attribution/tax-location module (v0 spec: factor %, benchmark vs SPY, tax-location audit, drift alerts)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Build-minimal-risk-attribution-tax-location-module-v0-spec-factor-benchmark-vs-SPY-tax-locatio-345c50314bb6816b926ad4822ccf6150",
+      "due": "2026-04-30",
+      "status": "Upcoming",
+      "domain": "Finance",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Buy Belle a microwave",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Buy-Belle-a-microwave-345c50314bb681c79c04fc839c0d3bba",
+      "due": "2026-04-30",
+      "status": "Upcoming",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Research long-term care facilities \u2014 find, call, price",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Research-long-term-care-facilities-find-call-price-344c50314bb681059cdcee781bad0a1e",
+      "due": "2026-04-30",
+      "status": "Upcoming",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Design work-from-home AI job for Nicole (websites + small business pitching)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Design-work-from-home-AI-job-for-Nicole-websites-small-business-pitching-344c50314bb681a5a81fc06826769b19",
+      "due": "2026-04-30",
+      "status": "Upcoming",
+      "domain": "Nicole",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Financial planning: FL Medicaid asset transfer analysis",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Financial-planning-FL-Medicaid-asset-transfer-analysis-344c50314bb681b9882fd99b36693955",
+      "due": "2026-04-30",
+      "status": "Upcoming",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Buy a hammock",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Buy-a-hammock-345c50314bb68160a232f14fbd8bb4ad",
+      "due": "2026-05-01",
+      "status": "Upcoming",
+      "domain": "Home",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Confirm May 5 surgery time + arrival window",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Confirm-May-5-surgery-time-arrival-window-354c50314bb681e888a1ea517447ded8",
+      "due": "2026-05-03",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Confirm pre-op fasting / NPO instructions for May 5",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Confirm-pre-op-fasting-NPO-instructions-for-May-5-354c50314bb681ff949be67a0c7d28de",
+      "due": "2026-05-03",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Deploy Tripwire cron \u2014 Notion integration + GitHub repo + NOTION_TOKEN secret",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Deploy-Tripwire-cron-Notion-integration-GitHub-repo-NOTION_TOKEN-secret-353c50314bb68100bf6ce9520f8b7468",
+      "due": "2026-05-03",
+      "status": "This Week",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Prep Mom's recovery setup at home for post-op",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Prep-Mom-s-recovery-setup-at-home-for-post-op-354c50314bb6810c962bee7958a9d374",
+      "due": "2026-05-04",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Coordinate ride to/from May 5 surgery + overnight coverage",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Coordinate-ride-to-from-May-5-surgery-overnight-coverage-354c50314bb681589790e6448af6127e",
+      "due": "2026-05-04",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Fill / stage post-op meds for May 5 surgery",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Fill-stage-post-op-meds-for-May-5-surgery-354c50314bb681d2a8d0d4d5963c28b2",
+      "due": "2026-05-04",
+      "status": "This Week",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Mom \u2014 Surgery: Interstim X implantation (Dr. Briskin)",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Mom-Surgery-Interstim-X-implantation-Dr-Briskin-354c50314bb68196aa03e877d785f84c",
+      "due": "2026-05-05",
+      "status": "Upcoming",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Clean house + move boxes before sister & Danny arrive",
+      "source": "Slipped Life Tasks",
+      "url": "https://app.notion.com/p/Clean-house-move-boxes-before-sister-Danny-arrive-359c50314bb6813f93b1c8dd1f735d3a",
+      "due": "2026-05-07",
+      "status": "Today",
+      "domain": "Home",
+      "hat": "",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "(untitled)",
+      "source": "Life Hygiene Backlog",
+      "url": "https://app.notion.com/p/355c50314bb680759e24ca4db2f805a8",
+      "due": "",
+      "status": "",
+      "domain": "",
+      "hat": "",
+      "urgency": "plain"
+    },
+    {
+      "title": "(untitled)",
+      "source": "Life Hygiene Backlog",
+      "url": "https://app.notion.com/p/355c50314bb68182b2b8e82f4d962145",
+      "due": "",
+      "status": "",
+      "domain": "",
+      "hat": "",
+      "urgency": "plain"
+    },
+    {
+      "title": "(untitled)",
+      "source": "Life Hygiene Backlog",
+      "url": "https://app.notion.com/p/355c50314bb681479571f8aa540c3b2a",
+      "due": "",
+      "status": "",
+      "domain": "",
+      "hat": "",
+      "urgency": "plain"
+    },
+    {
+      "title": "SYNTHESIS [UNREVIEWED - AI-authored, Claude Fable 5] - Belle arc May 4 to Jun 7: stable concerns vs depletion-driven verdicts; two-pole blame pattern with the no-villain middle held only when resourced; move question = caretaking question; trust floor needs direction disambiguation",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/SYNTHESIS-UNREVIEWED-AI-authored-Claude-Fable-5-Belle-arc-May-4-to-Jun-7-stable-concerns-vs--37bc50314bb681349400dabe3a12feff",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Real-time arc in one high-load conversation (Jun 7): self-blame ('what's wrong with me') \u2192 list of grievances about Belle; both halves held open (grievances may be accurate AND the speed of the flip on a depleted night is notable)",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Real-time-arc-in-one-high-load-conversation-Jun-7-self-blame-what-s-wrong-with-me-list-of-g-378c50314bb681179a79ddc989da1333",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Articulated case against the relationship / Belle relocating (Jun 7) \u2014 under-prioritized ('not obsessed the way she should be'), recent near-breakup during his depression, anticipated dependence, absent trust vs. his 'no relationship without trust again' line",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Articulated-case-against-the-relationship-Belle-relocating-Jun-7-under-prioritized-not-obses-378c50314bb6810da283fcc373c4f75e",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Reframe: a trauma response is an alarm firing, not a verdict - and the self-blame conversion is what does the damage",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Reframe-a-trauma-response-is-an-alarm-firing-not-a-verdict-and-the-self-blame-conversion-is-what-378c50314bb6810f9a87d50179dc9490",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Belle Insights summary \u2014 cross-pattern synthesis (June 2026 session)",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Belle-Insights-summary-cross-pattern-synthesis-June-2026-session-378c50314bb68132b7e8f17c718f4094",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Why the relationship feels uncomfortable: Belle's negative reactions land as being put in her abusers' category, and it turns into self-blame",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Why-the-relationship-feels-uncomfortable-Belle-s-negative-reactions-land-as-being-put-in-her-abuser-371c50314bb6812c81ccfbb4ad95034c",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Manage the function, support the feelings \u2014 don't try to make the family grieve your way",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Manage-the-function-support-the-feelings-don-t-try-to-make-the-family-grieve-your-way-36cc50314bb681239cf9e0ad65a772a2",
+      "due": "",
+      "status": "Active",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Family is a step or two behind on the same road \u2014 seeing first means grieving first",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Family-is-a-step-or-two-behind-on-the-same-road-seeing-first-means-grieving-first-36cc50314bb6813c80fdf640964fc3b9",
+      "due": "",
+      "status": "Active",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Mom's progression: the window of awareness is finite \u2014 plan by last year's rate of change",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Mom-s-progression-the-window-of-awareness-is-finite-plan-by-last-year-s-rate-of-change-36cc50314bb6816681edd748beba6fed",
+      "due": "",
+      "status": "Active",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Reproductive legal helpline call notes (May 20) - Texas legal landscape: OB-GYN records not a risk, exposure falls on providers (criminal) and helpers (civil ~$10k) not the pregnant person, Belle has right to travel for care; ~12wk2d gestational using Feb 23 LMP; nearest out-of-state options NM (24wk) and Kansas (21wk); no decision made",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Reproductive-legal-helpline-call-notes-May-20-Texas-legal-landscape-OB-GYN-records-not-a-risk--366c50314bb681d793abe486e1f61aef",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Belle letter SENT Monday May 18 11pm ET - comprehensive session synthesis, Belle's flat acknowledgment response, open decisions awaiting substantive response (San Antonio trip, response timing, work re-engagement, Mom care), reach-again-after-letter pattern caught in real time, structural diagnosis preserved separately for therapy",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Belle-letter-SENT-Monday-May-18-11pm-ET-comprehensive-session-synthesis-Belle-s-flat-acknowledgme-366c50314bb681538bdcf6e7518cb67d",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Final-final letter to Belle (May 18 late / May 19 send) - single-pattern rejection-on-reach reframe, two examples (scared voice misread, closeness called weird) as expressions of the one pattern, Disney + life-load + resentment in one beat, implicit fork only at close; structurally most accurate version after weekend-long drafting arc",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Final-final-letter-to-Belle-May-18-late-May-19-send-single-pattern-rejection-on-reach-reframe--365c50314bb681a787aacf6c4eb3eb8b",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Structural diagnosis of Belle relationship dynamic (May 18 evening) - Belle came from people who didn't honor feelings/limits and lacked template for receiving an attuned partner; Ender's boundaries crumbled because Belle's trauma responses to limits (sobbing, suicidal ideation, self-harm) made enforcement feel like endangering her safety; self-reinforcing dynamic that explains the rejection-on-reach pattern and the resulting depletion",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Structural-diagnosis-of-Belle-relationship-dynamic-May-18-evening-Belle-came-from-people-who-did-365c50314bb681cb9781ef8ddc0ebaa2",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Final condensed letter to Belle (May 18 evening, held overnight for May 19 morning send) - drowning analogy for scared-misread-as-yelling pattern, closeness-as-language for being-made-to-feel-wrong-for-needing pattern, giving-frame as load-bearing center, soft fork with unconditional family/baby commitment; hostile paragraph + disclaimer + bullet list + Disney + swimsuit moment held back",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Final-condensed-letter-to-Belle-May-18-evening-held-overnight-for-May-19-morning-send-drowning--365c50314bb681d39ca6e094087e0365",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Disney response paragraph (drafted May 18, not used in letter) - both-halves framing connecting Disney comment and 'what a joke' as two instances of the same avoidance pattern; held back from letter as tangent but preserved for use if Belle raises Disney directly",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Disney-response-paragraph-drafted-May-18-not-used-in-letter-both-halves-framing-connecting-Disn-365c50314bb68164a471ffb73910d4d5",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Swimsuit picture moment on Ender's birthday - parallel anchor to the brushing video in the closeness pattern; previously-agreed scaled-down ask refused snappily on birthday night while at parents' caring for mom; cost severe enough that Ender couldn't sleep and it affected his entire week; the asymmetry with Belle's birthday a month earlier is direct and quantifiable",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Swimsuit-picture-moment-on-Ender-s-birthday-parallel-anchor-to-the-brushing-video-in-the-closeness-365c50314bb681918045d42914be760a",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Two-stage insight (May 17-18) - reciprocity as condition for continuing, and the wrong-shape-relationship frame; this relationship became a measurement against expectations Ender is failing, the same shape he left his prior marriage to escape",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Two-stage-insight-May-17-18-reciprocity-as-condition-for-continuing-and-the-wrong-shape-relatio-364c50314bb681888905e9525af1cccf",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Long draft text to Belle (May 16 evening, unsent) - maximalist version with scared-not-angry framing using 'wanting to live with me' call, the suppression dynamic, honest depression naming, and unconditional won't-abandon-pregnancy commitment; saved per Ender's request before drafting a fresh-perspective alternative",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Long-draft-text-to-Belle-May-16-evening-unsent-maximalist-version-with-scared-not-angry-framing-363c50314bb68160abc9d9bd43290295",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Belle conversation handoff UPDATE (May 13 \u2192 May 15) \u2014 read after the May 13 handoff page; covers Wed-through-Fri stretch including the not-sent long draft, the Friday McDonald's + apology move actually sent, Saturday FaceTime prep, and the still-unresolved medical track",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Belle-conversation-handoff-UPDATE-May-13-May-15-read-after-the-May-13-handoff-page-covers-Wed-362c50314bb681f09a8ccb2c958d3a18",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Ender owns 'What a joke' was cruel and the Mother's Day omission \u2014 first explicit self-application of the symmetry-principle to his contributions in the current stretch; 'going forward I will' on Mother's Day is the first concrete behavioral commitment",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Ender-owns-What-a-joke-was-cruel-and-the-Mother-s-Day-omission-first-explicit-self-application-o-361c50314bb681faacf1fbf4837d4da5",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Belle conversation continuity handoff (May 3\u2013May 13) \u2014 read this first in the new thread; includes the drafted but not-yet-sent boundaries-with-exit text, the live state, calibration notes, and a directory of Insights to pull",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Belle-conversation-continuity-handoff-May-3-May-13-read-this-first-in-the-new-thread-includes-t-360c50314bb6814a941dd3406dac39c2",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Belle's 4/16/26 formal incident report email to Action Behavior Centers manager Analisa Mason \u2014 workplace safety + pregnancy + denied reassignment, verbatim preserved",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Belle-s-4-16-26-formal-incident-report-email-to-Action-Behavior-Centers-manager-Analisa-Mason-work-35fc50314bb6816faff1dd6eb957613c",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "May 5\u2013May 13 chronology fill-in \u2014 Mother's Day collision, brushing-video rejection, Sunday-Monday escalation to Belle's 'find a hotel or stay with your ex' ultimatum; Ender has not responded ~16 hours; Sandra 1:1 + family visit consuming capacity",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/May-5-May-13-chronology-fill-in-Mother-s-Day-collision-brushing-video-rejection-Sunday-Monday-es-35fc50314bb681588376dd818342229a",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Principle \u2014 10-second interrupt rule: when I notice 'this is going wrong' in real time, say something within 10 seconds. Imperfect interruption beats letting the wrong thing complete.",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Principle-10-second-interrupt-rule-when-I-notice-this-is-going-wrong-in-real-time-say-somethin-35ec50314bb681d3b669db000141e3b0",
+      "due": "",
+      "status": "Active",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Hair (current cut): thinning shears over-texturized parts of wavy/curly hair \u2014 recoverable in 2-3 weeks; side asymmetry likely combo of cut + curl contraction",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Hair-current-cut-thinning-shears-over-texturized-parts-of-wavy-curly-hair-recoverable-in-2-3-we-35ec50314bb6811a98cfe88b30b0a87d",
+      "due": "",
+      "status": "Active",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Principle \u2014 what to tell the hairstylist: no thinning shears, scissors-only soft shaping",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Principle-what-to-tell-the-hairstylist-no-thinning-shears-scissors-only-soft-shaping-35ec50314bb6815ca839eba7729c88e8",
+      "due": "",
+      "status": "Active",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Back pain: on/off for years, started after lifting too heavy; sitting/desk job aggravates; consistent yoga+PT+stretch+core routine helps but compliance drops for months at a time; need to narrow diagnosis \u2192 shorter targeted routine \u2192 higher compliance",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Back-pain-on-off-for-years-started-after-lifting-too-heavy-sitting-desk-job-aggravates-consisten-35cc50314bb68120aabbee4bb90dd3bf",
+      "due": "",
+      "status": "Active",
+      "domain": "Health",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "The voice change is from insecurity-seeking-reassurance, not generalized stress \u2014 and the timing isn't random, it's specifically when Ender is reaching out in need / vulnerability",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/The-voice-change-is-from-insecurity-seeking-reassurance-not-generalized-stress-and-the-timing-isn-359c50314bb6815f8918c14ac87c5d6f",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Self-hypothesis: Belle's 'yelling' perception may be hearing a real panic/anxiety vocal signature that's audibly different from regular voice but is mislabeled as anger \u2014 both halves preserved without either canceling the other",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Self-hypothesis-Belle-s-yelling-perception-may-be-hearing-a-real-panic-anxiety-vocal-signature-th-358c50314bb681bd91aeed241a1c8307",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Prior couples therapy attempt \u2014 Ender arranged, Belle attended, therapist appeared to side with Ender (or Belle perceived sidedness), Belle reacted strongly and called therapist unprofessional; not a clean experience, complicates therapy as the easy answer",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Prior-couples-therapy-attempt-Ender-arranged-Belle-attended-therapist-appeared-to-side-with-Ende-358c50314bb681be82bff528bb541f06",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Recurring complaint-mirror pattern \u2014 Belle says 'I can't talk to you, you get angry,' which is what Ender has said to her; multiple readings held open (genuine symmetry vs defensive mirror vs Ender's objectivity-claim being its own defense vs combination)",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Recurring-complaint-mirror-pattern-Belle-says-I-can-t-talk-to-you-you-get-angry-which-is-what--358c50314bb681978a28de81e7c0b4d4",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "May 5 evening Belle call (day after breakthrough) \u2014 Ender raised hurt over 'no space for my stuff' comment instead of bottling; Belle responded 'why are you yelling at me' and exited sick; Ender says he wasn't yelling, was hurt/sad/scared",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/May-5-evening-Belle-call-day-after-breakthrough-Ender-raised-hurt-over-no-space-for-my-stuff-c-358c50314bb681f89931e9d7aeb028f8",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "May 4 late-evening callback \u2014 possible breakthrough; Ender articulated 'recognition, not guilt or revenge' principle; Belle committed to try; Ender flags open question of whether stated commitment translates to behavior",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/May-4-late-evening-callback-possible-breakthrough-Ender-articulated-recognition-not-guilt-or-re-357c50314bb68132a6eaec98fbd9edef",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "May 4 evening call with Belle \u2014 Ender accepted responsibility for bottling-and-explosion pattern; Belle says she loves him but is unsure about relationship; Saturday is load-bearing (trigger detail: declined sex with next-day deferral \u2192 Uber-to-airport response \u2192 yelling); Belle ended call crying unable to continue",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/May-4-evening-call-with-Belle-Ender-accepted-responsibility-for-bottling-and-explosion-pattern-Be-356c50314bb6812ab53fcdb6c4a3bdde",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "July 2025 Nicole drama \u2014 acts designed to hurt + jealousy origin (cause does not exempt act; same principle applied to Nicole as to self)",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/July-2025-Nicole-drama-acts-designed-to-hurt-jealousy-origin-cause-does-not-exempt-act-same-pr-356c50314bb681589cd8f9ecb61acb45",
+      "due": "",
+      "status": "Active",
+      "domain": "Nicole",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "2025 location trade-off named \u2014 Belle over Mom; naming it is the work, repeating it isn't",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/2025-location-trade-off-named-Belle-over-Mom-naming-it-is-the-work-repeating-it-isn-t-356c50314bb68185bdddd21d9e61a665",
+      "due": "",
+      "status": "Active",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "The losses were a risk-judgment failure, not a risk-taking failure \u2014 the high brain is the actual fix",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/The-losses-were-a-risk-judgment-failure-not-a-risk-taking-failure-the-high-brain-is-the-actual-fi-356c50314bb681ea95d1df233302d67e",
+      "due": "",
+      "status": "Active",
+      "domain": "Personal",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "When Mom says she feels like a burden \u2014 don't dismiss, don't overpromise",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/When-Mom-says-she-feels-like-a-burden-don-t-dismiss-don-t-overpromise-356c50314bb68128ba4afcac5fdfb31c",
+      "due": "",
+      "status": "Active",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Caregiver math \u2014 saying yes to every request isn't possible; guilt isn't fixed by trying harder",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Caregiver-math-saying-yes-to-every-request-isn-t-possible-guilt-isn-t-fixed-by-trying-harder-356c50314bb681bd97d7e5e632c92b62",
+      "due": "",
+      "status": "Active",
+      "domain": "Mom",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Trust Belle's actions, not her words \u2014 they tell different stories",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Trust-Belle-s-actions-not-her-words-they-tell-different-stories-356c50314bb681ac8622ec411e35a47f",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Hudson assault and Nicole's response \u2014 detailed factual record (ChatGPT memo, May 4 2026) filling the May 4 'Pre-Belle wound' gap",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Hudson-assault-and-Nicole-s-response-detailed-factual-record-ChatGPT-memo-May-4-2026-filling-th-356c50314bb6815ab826cb5ab1aba7d9",
+      "due": "",
+      "status": "Active",
+      "domain": "Nicole",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Pre-Belle wound \u2014 Hudson attack + Nicole turning on me, shortly before the May 2025 Belle seed event",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Pre-Belle-wound-Hudson-attack-Nicole-turning-on-me-shortly-before-the-May-2025-Belle-seed-event-356c50314bb68105bbedf0cf3787ea9b",
+      "due": "",
+      "status": "Active",
+      "domain": "Nicole",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "May 2025 'would you be with me if I had nothing' \u2014 the initial seed for fear-of-abandonment / fear-of-rejection-from-a-misused-word pattern",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/May-2025-would-you-be-with-me-if-I-had-nothing-the-initial-seed-for-fear-of-abandonment-fear-o-356c50314bb68155b89dfd6b74e05b12",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Cumulative stress arc since April 2025 \u2014 financial, relationship, career, investing, Mom, demotion stacked over ~13 months",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Cumulative-stress-arc-since-April-2025-financial-relationship-career-investing-Mom-demotion-s-356c50314bb68158a008d739c60ba029",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Belle's May 4 statement: 'felt like I didn't love her anymore' \u2014 her experience of cumulative pulling-away, with the birthday photo incident as inflection",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Belle-s-May-4-statement-felt-like-I-didn-t-love-her-anymore-her-experience-of-cumulative-pullin-356c50314bb681d084c9cb0fc677ad5b",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Three distinct internal states behind apparent withdrawal \u2014 overwhelm, fear-of-talking, resentment-over-small-unmet-asks",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Three-distinct-internal-states-behind-apparent-withdrawal-overwhelm-fear-of-talking-resentment-o-356c50314bb681f2a70ed03d0b5424c9",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Belle canceled May 7 OB appointment via text \u2014 unilateral relative to the call's deferral framing, but the appointment was hers",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Belle-canceled-May-7-OB-appointment-via-text-unilateral-relative-to-the-call-s-deferral-framing-b-356c50314bb68106877fffca011899f2",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Live experience of 'Belle goes colder when I cry for help' \u2014 with anger about the SA sacrifice underneath",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Live-experience-of-Belle-goes-colder-when-I-cry-for-help-with-anger-about-the-SA-sacrifice-under-356c50314bb68145bde7d9c6451bc020",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "May 4 call ended in deferral \u2014 Belle frames termination around \"don't want a kid with someone who'd yell at me\"; reading my pulling-away since birthday photo incident",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/May-4-call-ended-in-deferral-Belle-frames-termination-around-don-t-want-a-kid-with-someone-who-d--356c50314bb6811ab4c5eb4844c3a655",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    },
+    {
+      "title": "Origin of the absorption pattern \u2014 trying to hold her pain because reasoning couldn't reach her PTSD/anxiety",
+      "source": "Life Pattern Candidates",
+      "url": "https://app.notion.com/p/Origin-of-the-absorption-pattern-trying-to-hold-her-pain-because-reasoning-couldn-t-reach-her-PTSD-356c50314bb68108a3cec113a8450e84",
+      "due": "",
+      "status": "Active",
+      "domain": "Belle",
+      "hat": "",
+      "urgency": "gray"
+    }
+  ],
+  "source_summaries": [
+    {
+      "source": "Slipped Life Tasks",
+      "status": "checked",
+      "count": 92,
+      "shown": 50,
+      "pages_fetched": 1,
+      "filter": {
+        "and": [
+          {
+            "property": "Status",
+            "select": {
+              "does_not_equal": "Done"
+            }
+          },
+          {
+            "property": "Status",
+            "select": {
+              "does_not_equal": "Cancelled"
+            }
+          },
+          {
+            "property": "Domain",
+            "select": {
+              "does_not_equal": "Work"
+            }
+          },
+          {
+            "property": "Source Project",
+            "select": {
+              "does_not_equal": "Investing 2026"
+            }
+          }
+        ]
+      },
+      "sorts": [
+        {
+          "property": "Push On",
+          "direction": "ascending"
+        },
+        {
+          "property": "Due Date",
+          "direction": "ascending"
+        }
+      ]
+    },
+    {
+      "source": "Life Hygiene Backlog",
+      "status": "checked",
+      "count": 3,
+      "shown": 3,
+      "pages_fetched": 1,
+      "filter": {
+        "and": [
+          {
+            "property": "Processed",
+            "checkbox": {
+              "equals": false
+            }
+          },
+          {
+            "property": "Domain",
+            "select": {
+              "does_not_equal": "Work"
+            }
+          }
+        ]
+      },
+      "sorts": []
+    },
+    {
+      "source": "Life Pattern Candidates",
+      "status": "checked",
+      "count": 96,
+      "shown": 50,
+      "pages_fetched": 1,
+      "filter": {
+        "property": "Domain",
+        "select": {
+          "does_not_equal": "Work"
+        }
+      },
+      "sorts": []
+    }
+  ],
+  "issues": [],
+  "summary": "Life OS Weekly Review - 2026-06-17\nLegend: RED/BOLD = urgent, time-sensitive, important, no action logged; YELLOW = important-not-urgent or urgent in progress; GRAY = informational; PLAIN = routine.\n\n- RED/BOLD: Call IRS re: LT26 notice \u2014 case ref 2593985414 (Slipped Life Tasks) | due/push: 2026-05-26 | status: Today\n- RED/BOLD: File missing IRS tax return(s) \u2014 LT26 notice (Slipped Life Tasks) | due/push: 2026-05-31 | status: This Week\n- RED/BOLD: Belle to send 30-day written notice on Walnut Creek lease (landlord confirmed; rest pro rata) (Slipped Life Tasks) | due/push: 2026-05-28 | status: Today\n- RED/BOLD: Buy Alexa speakers for Mom's music (Slipped Life Tasks) | due/push: 2026-05-30 | status: This Week\n- RED/BOLD: Research Inspire device for Mom's sleep apnea (Slipped Life Tasks) | due/push: 2026-05-30 | status: This Week\n- RED/BOLD: Confirm caregiver coverage for mom (Slipped Life Tasks) | due/push: 2026-04-16 | status: Today\n- RED/BOLD: Paste FMP data-routing patch into Project Instructions (Investing 2026) (Slipped Life Tasks) | due/push: 2026-04-18 | status: Today\n- RED/BOLD: Protect sleep \u2014 stabilize routine (Slipped Life Tasks) | due/push: 2026-04-19 | status: Today\n- RED/BOLD: Verify automations and reminders are actually live (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Track weed use honestly (daily log) (Slipped Life Tasks) | due/push: 2026-04-19 | status: Today\n- RED/BOLD: Finish 2024 taxes (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Follow up on mom's second-opinion / shunt-adjustment discussion (Slipped Life Tasks) | due/push: 2026-04-19 | status: Waiting\n- RED/BOLD: Life-admin sweep \u2014 gather all open action items (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Update structured summary of mom's condition (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Consolidate mom's active care issues into one master list (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Decide: share financial/work stress with Belle now or hold (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Resolve mom's CPAP mask/headgear fit (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Nicole \u2014 prepare ADA accommodation request before return to work (Slipped Life Tasks) | due/push: 2026-04-19 | status: Waiting\n- RED/BOLD: Prepare explanation for dad and sister re: mom's misinterpretation of dad's help (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Confirm bowel-regimen plan for mom (constipation recurrence) (Slipped Life Tasks) | due/push: 2026-04-19 | status: Waiting\n- RED/BOLD: Nicole \u2014 doctor completes Certification of Health Care Provider (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Game plan for mom's current + future treatments + next primary visit (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Help Nicole find medical device sales jobs (Slipped Life Tasks) | due/push: 2026-04-19 | status: Upcoming\n- RED/BOLD: Evaluate night caregiver option for mom (Slipped Life Tasks) | due/push: 2026-04-19 | status: Upcoming\n- RED/BOLD: Set up Voice Memos quick-capture + daily Shortcut (Slipped Life Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD: Inventory + measure: walk Mom's apartment, list furniture to remove, measure doorways and new-bed footprints (Slipped Life Tasks) | due/push: 2026-04-20 | status: This Week\n- RED/BOLD: Grocery run: cottage cheese, broccoli, spicy cheese, coffee beans, jalape\u00f1os, garlic, cilantro (Slipped Life Tasks) | due/push: 2026-04-21 | status: Today\n- RED/BOLD: Hire Saturday mover (the guy who 'jumped' past job) (Slipped Life Tasks) | due/push: 2026-04-21 | status: Today\n- RED/BOLD: Reconcile April Fundstrat ETF basket execution into Trade Journal (Parents Schwab PCRA) (Slipped Life Tasks) | due/push: 2026-04-22 | status: This Week\n- RED/BOLD: Build canonical \ud83d\udcd2 Positions page from Apr 14 PDFs (one-time setup) (Slipped Life Tasks) | due/push: 2026-04-24 | status: This Week\n- RED/BOLD: Design Scan vs Commit workflow split (two-phase commit pattern for 'update' command) (Slipped Life Tasks) | due/push: 2026-04-24 | status: Upcoming\n- RED/BOLD: Formalize source-independence check (distinct from source-discipline) to address epistemic laundering risk (Slipped Life Tasks) | due/push: 2026-04-25 | status: Upcoming\n- RED/BOLD: Document why each framework element exists (failure mode it closes) \u2014 REFRAMED from cut audit to keep-audit after disconfirmation (Slipped Life Tasks) | due/push: 2026-04-25 | status: Upcoming\n- RED/BOLD: Identify top 3 personal tasks creating background stress \u2014 assign next action (Slipped Life Tasks) | due/push: 2026-04-26 | status: This Week\n- RED/BOLD: Create detailed daily/weekly task list for Kiara (mom's caregiver) (Slipped Life Tasks) | due/push: 2026-04-26 | status: This Week\n- RED/BOLD: Coordinate same-day swap window (AM removal \u2192 PM delivery) + confirm caregiver + elevator (Slipped Life Tasks) | due/push: 2026-04-29 | status: Upcoming\n- RED/BOLD: Build minimal risk/attribution/tax-location module (v0 spec: factor %, benchmark vs SPY, tax-location audit, drift alerts) (Slipped Life Tasks) | due/push: 2026-04-30 | status: Upcoming\n- RED/BOLD: Buy Belle a microwave (Slipped Life Tasks) | due/push: 2026-04-30 | status: Upcoming\n- RED/BOLD: Research long-term care facilities \u2014 find, call, price (Slipped Life Tasks) | due/push: 2026-04-30 | status: Upcoming\n- RED/BOLD: Design work-from-home AI job for Nicole (websites + small business pitching) (Slipped Life Tasks) | due/push: 2026-04-30 | status: Upcoming\n- RED/BOLD: Financial planning: FL Medicaid asset transfer analysis (Slipped Life Tasks) | due/push: 2026-04-30 | status: Upcoming\n- RED/BOLD: Buy a hammock (Slipped Life Tasks) | due/push: 2026-05-01 | status: Upcoming\n- RED/BOLD: Confirm May 5 surgery time + arrival window (Slipped Life Tasks) | due/push: 2026-05-03 | status: This Week\n- RED/BOLD: Confirm pre-op fasting / NPO instructions for May 5 (Slipped Life Tasks) | due/push: 2026-05-03 | status: This Week\n- RED/BOLD: Deploy Tripwire cron \u2014 Notion integration + GitHub repo + NOTION_TOKEN secret (Slipped Life Tasks) | due/push: 2026-05-03 | status: This Week\n- RED/BOLD: Prep Mom's recovery setup at home for post-op (Slipped Life Tasks) | due/push: 2026-05-04 | status: This Week\n- RED/BOLD: Coordinate ride to/from May 5 surgery + overnight coverage (Slipped Life Tasks) | due/push: 2026-05-04 | status: This Week\n- RED/BOLD: Fill / stage post-op meds for May 5 surgery (Slipped Life Tasks) | due/push: 2026-05-04 | status: This Week\n- RED/BOLD: Mom \u2014 Surgery: Interstim X implantation (Dr. Briskin) (Slipped Life Tasks) | due/push: 2026-05-05 | status: Upcoming\n- RED/BOLD: Clean house + move boxes before sister & Danny arrive (Slipped Life Tasks) | due/push: 2026-05-07 | status: Today\n\nSource counts:\n- Slipped Life Tasks: checked | count=92 | shown=50\n- Life Hygiene Backlog: checked | count=3 | shown=3\n- Life Pattern Candidates: checked | count=96 | shown=50",
+  "write_result": {
+    "created": false,
+    "verified": false,
+    "page_id": "",
+    "url": "",
+    "skipped": true
+  },
+  "push_result": {
+    "sent": false,
+    "skipped": true
+  },
+  "env_status": {
+    "notion_token": true,
+    "pushover_token": true,
+    "pushover_user": true,
+    "notion_version": "2025-09-03",
+    "secrets_source": "environment_only"
+  },
+  "valid": true
+}

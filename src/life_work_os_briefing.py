@@ -48,6 +48,18 @@ LEGEND = (
     "YELLOW = important-not-urgent or urgent in progress; GRAY = informational; "
     "PLAIN = routine."
 )
+TEXT_TRANSLATION = str.maketrans({
+    "\u2192": "->",
+    "\u2190": "<-",
+    "\u2014": "-",
+    "\u2013": "-",
+    "\u2018": "'",
+    "\u2019": "'",
+    "\u201c": '"',
+    "\u201d": '"',
+    "\u00d7": "x",
+    "\u00a0": " ",
+})
 
 
 @dataclass(frozen=True)
@@ -83,6 +95,21 @@ def _sorts_for(schema: Mapping[str, dict[str, Any]], names: list[str]) -> list[d
         if name in schema:
             sorts.append({"property": name, "direction": "ascending"})
     return sorts
+
+
+def _option_names(schema: Mapping[str, dict[str, Any]], name: str) -> set[str]:
+    row = schema.get(name)
+    if not isinstance(row, dict):
+        return set()
+    prop_type = str(row.get("type") or "")
+    config = row.get(prop_type)
+    if not isinstance(config, dict):
+        return set()
+    return {
+        str(option.get("name") or "")
+        for option in config.get("options") or []
+        if isinstance(option, dict) and option.get("name")
+    }
 
 
 def effective_routine(routine_key: str, now: datetime) -> RoutineSpec:
@@ -153,15 +180,10 @@ def _active_drift_filter(schema: Mapping[str, dict[str, Any]]) -> tuple[dict[str
     active, issue = checkbox_filter(schema, "Active", True)
     if active:
         return active, []
-    filters: list[dict[str, Any]] = []
-    issues = [issue] if issue else []
-    for value in ("Done", "Cancelled", "Resolved"):
-        row, row_issue = prop_filter(schema, "Status", "does_not_equal", value)
-        if row:
-            filters.append(row)
-        elif row_issue:
-            issues.append(row_issue)
-    return and_filter(*filters), issues if not filters else []
+    status, status_issue = prop_filter(schema, "Status", "equals", "Active")
+    if status:
+        return status, []
+    return None, [problem for problem in (issue, status_issue) if problem]
 
 
 def _recent_insights_filter(schema: Mapping[str, dict[str, Any]], now: datetime) -> tuple[dict[str, Any] | None, list[str]]:
@@ -191,13 +213,18 @@ def _recent_work_insights_filter(schema: Mapping[str, dict[str, Any]], now: date
 def _work_ops_filter(schema: Mapping[str, dict[str, Any]]) -> tuple[dict[str, Any] | None, list[str]]:
     filters: list[dict[str, Any]] = []
     issues: list[str] = []
-    for value in ("Done", "Cancelled", "Archived"):
-        row, issue = prop_filter(schema, "Status", "does_not_equal", value)
+    available = _option_names(schema, "Status")
+    live_values = ("Idea", "Active", "In Progress", "In Review", "Blocked", "Recurring")
+    values = [value for value in live_values if not available or value in available]
+    for value in values:
+        row, issue = prop_filter(schema, "Status", "equals", value)
         if row:
             filters.append(row)
         elif issue:
             issues.append(issue)
-    return and_filter(*filters), [] if filters else issues
+    if filters:
+        return {"or": filters}, []
+    return None, issues or ["missing Work Operations live status options"]
 
 
 def _ledger_filter(schema: Mapping[str, dict[str, Any]]) -> tuple[dict[str, Any] | None, list[str]]:
@@ -583,7 +610,8 @@ def _format_text(report: Mapping[str, Any]) -> str:
     lines.append(f"Briefing log: created={bool(write.get('created'))} verified={bool(write.get('verified'))} skipped={bool(write.get('skipped'))}")
     push = report.get("push_result") or {}
     lines.append(f"Pushover: sent={bool(push.get('sent'))} dry_run={bool(push.get('dry_run'))} skipped={bool(push.get('skipped'))}")
-    return "\n".join(lines)
+    text = "\n".join(lines).translate(TEXT_TRANSLATION)
+    return text.encode("ascii", errors="replace").decode("ascii")
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -1,0 +1,1474 @@
+{
+  "routine_key": "work_weekly",
+  "routine": {
+    "automation_id": "work-os-weekly-review",
+    "name": "Work OS Weekly Review",
+    "os_name": "Work",
+    "report_type": "Weekly Review",
+    "schedule": "Friday 4:00 PM ET",
+    "days": [
+      4
+    ],
+    "slot": "16:00:00",
+    "prompt": "src/codex_routines/Work_OS_Weekly_Review_Routine_Prompt_v1.md",
+    "model": "gpt-5.5",
+    "reasoning_effort": "xhigh",
+    "proof_scope": "support"
+  },
+  "generated_at": "2026-06-17T15:31:44.926580-04:00",
+  "items": [
+    {
+      "title": "C&E prototype \u2014 AWC portfolio family-disambiguation rating",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/C-E-prototype-AWC-portfolio-family-disambiguation-rating-36cc50314bb681248498dfc4b314f93d",
+      "due": "2026-06-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Reply to Sandra re: Medela patent enforcement assessment",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Reply-to-Sandra-re-Medela-patent-enforcement-assessment-36cc50314bb6810a90dac21e12f55945",
+      "due": "2026-05-29",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Counsel consult \u2014 pin down EEOC filing deadline(s) for ADA demotion claim",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Counsel-consult-pin-down-EEOC-filing-deadline-s-for-ADA-demotion-claim-36cc50314bb68163aabfca4c42a3128a",
+      "due": "2026-06-12",
+      "status": "Upcoming",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Verify health insurance status on work computer \u2014 confirm Solventum plan change (BCBS \u2192 HealthPartners)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Verify-health-insurance-status-on-work-computer-confirm-Solventum-plan-change-BCBS-HealthPartne-36dc50314bb6813c9123cae49c64c6b2",
+      "due": "2026-05-27",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Check health insurance status on work computer \u2014 confirm whether plan changed",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Check-health-insurance-status-on-work-computer-confirm-whether-plan-changed-36dc50314bb681e5943fd335ad64c0b1",
+      "due": "2026-05-27",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Preserve 2025 EPR NOW \u2014 check Workday Canceled section; download PDF + screenshot My Reviews if present; if gone, screenshot the absence (dated)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Preserve-2025-EPR-NOW-check-Workday-Canceled-section-download-PDF-screenshot-My-Reviews-if-pres-374c50314bb68164af60fd017a5ba354",
+      "due": "2026-06-02",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Monday (priority): issue the authorized FTO search orders for the AWC NPI programs \u2014 get searches started to deliver",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Monday-priority-issue-the-authorized-FTO-search-orders-for-the-AWC-NPI-programs-get-searches-st-37ec50314bb681dd9b2fea9769f5bddf",
+      "due": "2026-06-15",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Monday AM: brief Chris Miller (OC) to build Puffin / S&N FTO complexity + learnings deck",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Monday-AM-brief-Chris-Miller-OC-to-build-Puffin-S-N-FTO-complexity-learnings-deck-37ec50314bb6819090b2f2f3bb0e7c12",
+      "due": "2026-06-15",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Compile IP-deliverable status summaries for AWC June + July NPI gate reviews (per IP Deliverables deck) - reply to Sandra",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Compile-IP-deliverable-status-summaries-for-AWC-June-July-NPI-gate-reviews-per-IP-Deliverables-de-37ac50314bb681b98c9ad3f18830f905",
+      "due": "2026-06-22",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Send Sandra the AWC NPI FTO scope + cost + budget-alignment email (decision-forcing; DRAFT in body for review)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Send-Sandra-the-AWC-NPI-FTO-scope-cost-budget-alignment-email-decision-forcing-DRAFT-in-body-f-382c50314bb6812ab149ce1c17947620",
+      "due": "2026-06-19",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Puffin / NPWT FTO-complexity presentation \u2014 pitch broadly (IP + broader Legal + business) using Sandra's \"how did we miss this\" as the hook",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Puffin-NPWT-FTO-complexity-presentation-pitch-broadly-IP-broader-Legal-business-using-Sand-382c50314bb681af8d77f0692acdaed9",
+      "due": "2026-06-26",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Prep + script for 6/26 1:1 with new AWC president Kelley Moffett (present NPWT IP deck; corroborate with consultant digital-maturity assessment)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Prep-script-for-6-26-1-1-with-new-AWC-president-Kelley-Moffett-present-NPWT-IP-deck-corroborate--382c50314bb6815f8715f91a90df7642",
+      "due": "2026-06-26",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Draft 2026 Individual Development Plan (IDP) in Workday \u2014 due June 30; discuss at July 1:1",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Draft-2026-Individual-Development-Plan-IDP-in-Workday-due-June-30-discuss-at-July-1-1-37dc50314bb681018429c83319a71b44",
+      "due": "2026-06-30",
+      "status": "Upcoming",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Decide whether/when to follow up with Anthony Tropiano (R&D sponsor) - HOLD until after the 6/26 Kelley 1:1; value-additive framing, not role-positioning",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Decide-whether-when-to-follow-up-with-Anthony-Tropiano-R-D-sponsor-HOLD-until-after-the-6-26-Kel-382c50314bb68157b3c3dc7a9a4d6cde",
+      "due": "2026-06-29",
+      "status": "Upcoming",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Monitor AWC IP lead req posting (daily check)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Monitor-AWC-IP-lead-req-posting-daily-check-344c50314bb68156a23ef8f98fa4b05d",
+      "due": "2026-04-16",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Gate review prep: find next date, secure attendance (Anthony or self), review prior slides + pre-read, generate value-demonstrating questions",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Gate-review-prep-find-next-date-secure-attendance-Anthony-or-self-review-prior-slides-pre-rea-345c50314bb6812fa1aacd6de925f026",
+      "due": "2026-04-17",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Schedule Anthony + Neelu strategic follow-up (settlement strategy)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Schedule-Anthony-Neelu-strategic-follow-up-settlement-strategy-344c50314bb681e88b0ff781f1d50d34",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Prepare IP-focused questions on Leah vs Copilot for legal presentation",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Prepare-IP-focused-questions-on-Leah-vs-Copilot-for-legal-presentation-344c50314bb68115b54bdb6edbecb1fc",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Update master employment memo (source of truth)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Update-master-employment-memo-source-of-truth-344c50314bb68119b5f7e430aa0c55cd",
+      "due": "2026-04-19",
+      "status": "Upcoming",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Organize ADA / HR / Sedgwick records",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Organize-ADA-HR-Sedgwick-records-344c50314bb68150a297c4a3667ee2d0",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Prepare IP/business questions for R&D on Acera with NPWT",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Prepare-IP-business-questions-for-R-D-on-Acera-with-NPWT-344c50314bb6816c8a27c4e549a71d85",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Meet with Neelu (IP continuity outreach)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Meet-with-Neelu-IP-continuity-outreach-344c50314bb68188b3caf85d519253be",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Meet with Jake (IP continuity outreach)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Meet-with-Jake-IP-continuity-outreach-344c50314bb68193842bf80210e2d5e5",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Create master list of active work workstreams",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Create-master-list-of-active-work-workstreams-344c50314bb681ab99b5cd5815fab325",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Follow up with Sandra (after Anthony)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Follow-up-with-Sandra-after-Anthony-344c50314bb681ca9537fd9140b2ca20",
+      "due": "2026-04-19",
+      "status": "Upcoming",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Reach out to Anthony (IP continuity)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Reach-out-to-Anthony-IP-continuity-344c50314bb681e19423db9d8d167e13",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Make work plan for lead IP position",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Make-work-plan-for-lead-IP-position-344c50314bb68131a8e1dfc1524ac32d",
+      "due": "2026-04-19",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Prep Jake meeting deliverables (Smith & Nephew NPWT + Brad's narrow pattern coverage)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Prep-Jake-meeting-deliverables-Smith-Nephew-NPWT-Brad-s-narrow-pattern-coverage-348c50314bb681249e09ce8b680ca524",
+      "due": "2026-04-26",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "NPWT portfolio enhancement project \u2014 execution plan",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/NPWT-portfolio-enhancement-project-execution-plan-344c50314bb681d998addbef97181005",
+      "due": "2026-04-26",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Identify follow-up action items from Brent presentation \u2014 map each to senior leader + format",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Identify-follow-up-action-items-from-Brent-presentation-map-each-to-senior-leader-format-352c50314bb68157a52dd12ea6ded763",
+      "due": "2026-04-30",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Reply to Scott's April review \u2014 brief human reply",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Reply-to-Scott-s-April-review-brief-human-reply-352c50314bb6813aa5fad870dde02e68",
+      "due": "2026-04-30",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Forward all four Scott monthly reviews + April review email to personal Gmail",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Forward-all-four-Scott-monthly-reviews-April-review-email-to-personal-Gmail-352c50314bb681bc9574e62097c186dd",
+      "due": "2026-04-30",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Pull all prior Scott written praise \u2014 forward to personal email",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Pull-all-prior-Scott-written-praise-forward-to-personal-email-352c50314bb68194b15bf9928f186adb",
+      "due": "2026-04-30",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Save Sandra's \"Scott's reports report to me\" email \u2014 forward to personal + PDF",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Save-Sandra-s-Scott-s-reports-report-to-me-email-forward-to-personal-PDF-352c50314bb681eaa7dac99bf3cef8a7",
+      "due": "2026-04-30",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Monthly performance update to Scott",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Monthly-performance-update-to-Scott-344c50314bb681af95b8de9ba702b05f",
+      "due": "2026-04-30",
+      "status": "Upcoming",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Schedule follow-up meetings with senior leaders on Brent presentation action items \u2014 by May 1 EOD",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Schedule-follow-up-meetings-with-senior-leaders-on-Brent-presentation-action-items-by-May-1-EOD-352c50314bb681febbacdc34c32152f3",
+      "due": "2026-05-01",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Pull HR records confirming formal title (Sr. Managing IP Counsel) vs role description (patent specialist)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Pull-HR-records-confirming-formal-title-Sr-Managing-IP-Counsel-vs-role-description-patent-specia-352c50314bb68120bdb4fc205c101b68",
+      "due": "2026-05-03",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Begin scope narrowing \u2014 operate within JG15-defined responsibilities only",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Begin-scope-narrowing-operate-within-JG15-defined-responsibilities-only-352c50314bb681e49935c955bf6539c2",
+      "due": "2026-05-03",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Schedule employment lawyer consultation \u2014 BEFORE May 16, 2026",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Schedule-employment-lawyer-consultation-BEFORE-May-16-2026-352c50314bb681a99a4af8de265c93f6",
+      "due": "2026-05-04",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Photo the 2026 Workday Goals deck (3 slides: Top Quartile Performer / Trusted Partner / Best Place To Work) AND the AWC IP Division of Responsibilities Excel (capture BOTH tabs \u2014 Sheet1(1) and Sheet1(2) visible). Personal phone, private cloud folder. Foundational smoking-gun evidence \u2014 the two strongest pieces in the entire file.",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Photo-the-2026-Workday-Goals-deck-3-slides-Top-Quartile-Performer-Trusted-Partner-Best-Place-T-358c50314bb681f2b9b0e131db6549d4",
+      "due": "2026-05-06",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Thursday morning reset \u2014 read new Sandra emails fresh, reassess Lisa reply strategy, then draft both responses",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Thursday-morning-reset-read-new-Sandra-emails-fresh-reassess-Lisa-reply-strategy-then-draft-both-357c50314bb681c9b2d9efc212fc1e8b",
+      "due": "2026-05-07",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Draft Halunen re-engagement email (Charles Horowitz + Jackie Olson). Now writable with materially stronger fact pattern: Scott departed May 1, lead role open again, Workday Goals describe lead-counsel scope, Division of Responsibilities co-authored with Scott, Sandra April 2/May 5 self-contradiction on WHT settlement, May 4 written charter, May 5 'recommendations to IP attorneys' subordination language.",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Draft-Halunen-re-engagement-email-Charles-Horowitz-Jackie-Olson-Now-writable-with-materially-st-358c50314bb6819284a7da229cd504dc",
+      "due": "2026-05-08",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Reply to Lisa Fulton's AWC IP Priorities email (May 4 1:12 PM) \u2014 scope clarification questions. Mom surgery was Tue 5/5. Pushed to Fri 5/8 to allow Thu morning reset.",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Reply-to-Lisa-Fulton-s-AWC-IP-Priorities-email-May-4-1-12-PM-scope-clarification-questions-Mom--357c50314bb681339a90e8f197cd343e",
+      "due": "2026-05-08",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "URGENT \u2014 Re-engage Halunen Law (Charles Horowitz) per his Dec 19 2025 roadmap. Conditions for revisiting (company response + future status change) have materialized. Send brief update email referencing severance offer, role-restoration denial, written charter, Scott departure, and litigation CC exclusion. Also reach out to Darren Sharp at Schaefer Halleen (untried referral; reinstatement-focused, hourly basis).",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/URGENT-Re-engage-Halunen-Law-Charles-Horowitz-per-his-Dec-19-2025-roadmap-Conditions-for-revisi-357c50314bb681669f31cebb848b5006",
+      "due": "2026-05-08",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Research \u2192 decide whether to apply for ManyVids CEO AI-pivot role",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Research-decide-whether-to-apply-for-ManyVids-CEO-AI-pivot-role-354c50314bb681c2a8cde56d65f3c01c",
+      "due": "2026-05-09",
+      "status": "Upcoming",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Prep for Tuesday 5/12 12:30-1:00 PM ET 1:1 with Sandra (interim manager) \u2014 NOTE: meeting confirmed via calendar invite as Tuesday May 12 (NOT Monday May 11) and only 30 minutes. Review notes-taking approach, prepare 'rating project status' update, prepare neutral req-timing question, draft post-meeting written follow-up template. 30 min is tight \u2014 plan for 2-3 substantive items max.",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Prep-for-Tuesday-5-12-12-30-1-00-PM-ET-1-1-with-Sandra-interim-manager-NOTE-meeting-confirmed-v-358c50314bb681f69c29fc468480d109",
+      "due": "2026-05-11",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Resolve TX TCHRA / TWC 180-day pathway question with counsel BEFORE Sat May 16 2026 (Nov 17 2025 act clock)",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Resolve-TX-TCHRA-TWC-180-day-pathway-question-with-counsel-BEFORE-Sat-May-16-2026-Nov-17-2025-act-35dc50314bb681259cdfe722725b5558",
+      "due": "2026-05-15",
+      "status": "Today",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Decide filing strategy with lawyer \u2014 file now vs. wait for hiring decision",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Decide-filing-strategy-with-lawyer-file-now-vs-wait-for-hiring-decision-352c50314bb68126b5bcecbb0e14ba59",
+      "due": "2026-05-15",
+      "status": "Waiting",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Pick representative NPWT family for AWC Copilot agent test run",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Pick-representative-NPWT-family-for-AWC-Copilot-agent-test-run-358c50314bb6818b947dfcd4008b2a3d",
+      "due": "2026-05-20",
+      "status": "Upcoming",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Plan R01129974 application strategy \u2014 what to write, what to omit, internal-audience framing",
+      "source": "Slipped Work Tasks",
+      "url": "https://app.notion.com/p/Plan-R01129974-application-strategy-what-to-write-what-to-omit-internal-audience-framing-36dc50314bb68113b870d1d831822bba",
+      "due": "2026-05-28",
+      "status": "This Week",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "5/11 Mon \u2014 First 1:1 with Sandra as interim manager",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/5-11-Mon-First-1-1-with-Sandra-as-interim-manager-35bc50314bb68124bc45c267dcc6c15e",
+      "due": "2026-05-11",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Sandra 1:1 \u2014 5/12/2026 detailed response playbook (scripts, recap email template, HR email template)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Sandra-1-1-5-12-2026-detailed-response-playbook-scripts-recap-email-template-HR-email-template-35dc50314bb6816fb787ce59552aa10b",
+      "due": "2026-05-12",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "R01129974 - R\u00e9sum\u00e9 Build & Application (working doc)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/R01129974-R-sum-Build-Application-working-doc-37bc50314bb681dbb7dfe119c52eb99e",
+      "due": "2026-06-09",
+      "status": "In Progress",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "6/9 Sandra 1:1 - agenda & prep",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/6-9-Sandra-1-1-agenda-prep-37ac50314bb681ceafb8d3e0d5f4d5d0",
+      "due": "2026-06-09",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Session handoff - 6/11/26 EOD: Sandra purview email + Friday 6/12 double-meeting setup",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Session-handoff-6-11-26-EOD-Sandra-purview-email-Friday-6-12-double-meeting-setup-37dc50314bb681679968d36f26a6e4ef",
+      "due": "2026-06-12",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Friday 6/12 playbook: NPI decision menu + IPR (Meditech) meeting + Sandra 6/11 reply",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Friday-6-12-playbook-NPI-decision-menu-IPR-Meditech-meeting-Sandra-6-11-reply-37cc50314bb68189afd3e0c7262aa786",
+      "due": "2026-06-12",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Puffin / S&N FTO complexity + 'why we missed the reference' learnings deck - plan (Sandra-assigned 6/12)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Puffin-S-N-FTO-complexity-why-we-missed-the-reference-learnings-deck-plan-Sandra-assigned-6-37ec50314bb68119a107f3591d94f88c",
+      "due": "2026-06-15",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "red_bold"
+    },
+    {
+      "title": "Session handoff: 6/9/26 EOD - work/deliverables track",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Session-handoff-6-9-26-EOD-work-deliverables-track-37bc50314bb681b09ef9e05ce14c4d08",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Work project handoff prompt \u2014 paste as new Work-project custom instructions (case-file routing, calibration discipline, current state, reconciliation flags)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Work-project-handoff-prompt-paste-as-new-Work-project-custom-instructions-case-file-routing-cali-36cc50314bb681108332ca7522fc0bc6",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "claimant",
+      "urgency": "plain"
+    },
+    {
+      "title": "HEIC emails processing \u2014 delegation prompt for separate chat (14 unprocessed Outlook email screenshots)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/HEIC-emails-processing-delegation-prompt-for-separate-chat-14-unprocessed-Outlook-email-screensho-35dc50314bb68107aab4c86e89d65a7e",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Session handoff \u2014 5/8/26 EOD state (entry point for fresh chats)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Session-handoff-5-8-26-EOD-state-entry-point-for-fresh-chats-35dc50314bb681028198dfcb302c129e",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Reference: M365 Copilot \u2014 what's safe, what isn't",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Reference-M365-Copilot-what-s-safe-what-isn-t-35bc50314bb68124b6e5f91e92d22df2",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Prompt: EP Opposition tracker \u2014 consistency check",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Prompt-EP-Opposition-tracker-consistency-check-35bc50314bb68126951fdf5c04d868ff",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Prompt: Monthly Sandra Report \u2014 Excel analysis (stage 1)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Prompt-Monthly-Sandra-Report-Excel-analysis-stage-1-35bc50314bb68150aefefe81605c73b1",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "10% process-time reduction (May 4 charter)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/10-process-time-reduction-May-4-charter-35bc50314bb68156904ecfd5ed21ab01",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "UPC strategy (May 4 charter)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/UPC-strategy-May-4-charter-35bc50314bb681659e6ae6087e7e31aa",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Prompt: Email recall and triage",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Prompt-Email-recall-and-triage-35bc50314bb68172bb18ef232e9043e8",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Prompt: Monthly Sandra Report \u2014 Word draft (stage 2)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Prompt-Monthly-Sandra-Report-Word-draft-stage-2-35bc50314bb68185a913e72a19e49267",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Prompt: Outside counsel routine instruction email",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Prompt-Outside-counsel-routine-instruction-email-35bc50314bb681868569fe3b7edda33e",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Prompt: Critical reader pre-send review",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Prompt-Critical-reader-pre-send-review-35bc50314bb6819285c4e928f1975b3f",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Prompt: Pre-meeting context pull",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Prompt-Pre-meeting-context-pull-35bc50314bb681a0ab7ad19336084953",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Strategy: Sustainable-load operating mode (year-or-two horizon)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Strategy-Sustainable-load-operating-mode-year-or-two-horizon-35bc50314bb681c3ba39d3547e5f1174",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Recurring: AWC EP opposition tracker maintenance",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Recurring-AWC-EP-opposition-tracker-maintenance-35bc50314bb681c79be1f935026e5c2f",
+      "due": "",
+      "status": "Recurring",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "PROJECT: May 4 2026 Sandra Charter \u2014 execution & scope clarification",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/PROJECT-May-4-2026-Sandra-Charter-execution-scope-clarification-35bc50314bb681cea801d8ff928c2f59",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Prompt: Invention disclosure intake brief",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Prompt-Invention-disclosure-intake-brief-35bc50314bb681da95bfd744b930d9f7",
+      "due": "",
+      "status": "Active",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "Recurring: Monthly portfolio actions + 2026 savings + forward savings (Sandra)",
+      "source": "Work Operations",
+      "url": "https://app.notion.com/p/Recurring-Monthly-portfolio-actions-2026-savings-forward-savings-Sandra-35bc50314bb681f89665d164046c89db",
+      "due": "",
+      "status": "Recurring",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "plain"
+    },
+    {
+      "title": "2025 EPR rated 'Successful' \u2014 AUTHORED by Sandra (managed Suraj most of the review period), DELIVERED by Scott 3/5/2026; positive narrative ('leadership in assessing options,' 'growth mindset')",
+      "source": "Evidence Gaps",
+      "url": "https://app.notion.com/p/2025-EPR-rated-Successful-AUTHORED-by-Sandra-managed-Suraj-most-of-the-review-period-DELIVERE-36fc50314bb681ac800cf428ab99ece8",
+      "due": "",
+      "status": "Pending",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "yellow"
+    },
+    {
+      "title": "Protected activity #2: Suraj's Feb 10 2026 formal reconsideration request to Michael Morimoto (HR), citing the Robergelund admission; HR responds there is 'no reconsideration option'",
+      "source": "Evidence Gaps",
+      "url": "https://app.notion.com/p/Protected-activity-2-Suraj-s-Feb-10-2026-formal-reconsideration-request-to-Michael-Morimoto-HR--36fc50314bb681bf8b1ffd5c6ee6e85f",
+      "due": "",
+      "status": "Pending",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "yellow"
+    },
+    {
+      "title": "2025 year-end review found in Workday's 'Canceled' section (discovered 5/8/2026), breaking 5 consecutive years (2021-2024) of 'Effective performance' ratings",
+      "source": "Evidence Gaps",
+      "url": "https://app.notion.com/p/2025-year-end-review-found-in-Workday-s-Canceled-section-discovered-5-8-2026-breaking-5-consecu-36fc50314bb681cf8d35cba01f2bae78",
+      "due": "",
+      "status": "Pending",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "yellow"
+    },
+    {
+      "title": "Denial rationale #1 (Sedgwick examiner): early-return request characterized as an 'inappropriate request'",
+      "source": "Evidence Gaps",
+      "url": "https://app.notion.com/p/Denial-rationale-1-Sedgwick-examiner-early-return-request-characterized-as-an-inappropriate-req-36fc50314bb68147934af8120c4da432",
+      "due": "",
+      "status": "Pending",
+      "domain": "",
+      "hat": "employee",
+      "urgency": "yellow"
+    },
+    {
+      "title": "HYPOTHESIS (claimant-hat, speculative) \u2014 prior Anthony Tropiano (R&D sponsor) contact (~early May 2026) may have prompted Sandra's 5/4 scope-narrowing charter (AA2); unverified, temporal proximity noted, for counsel",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/HYPOTHESIS-claimant-hat-speculative-prior-Anthony-Tropiano-R-D-sponsor-contact-early-May-20-382c50314bb681538e08e2564c7b3e3e",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE \u2014 Kelsey MacConaghy 1:1 (~6/17/26): Andrea Evensen shares post-PDT (gate-review) info with her IPSS Patent Specialist; comparator to Sandra not sharing the equivalent with Suraj (AWC)",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-Kelsey-MacConaghy-1-1-6-17-26-Andrea-Evensen-shares-post-PDT-gate-review-info-with--382c50314bb68149b1d5fc891a45c69f",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE \u2014 Sandra 6/17/26 Teams thread: AWC NPI FTO budget + vendor cost (Cardinal ~$5K/search vs Concur), offset rules, 'budget part of your goals'; Sandra defers the search decision to Suraj",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-Sandra-6-17-26-Teams-thread-AWC-NPI-FTO-budget-vendor-cost-Cardinal-5K-search-vs-Co-382c50314bb6814380ade3af2de0459e",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "Sandra 6/11/26 looped Suraj into the Meditech IPR as a required attendee (outside-counsel strategy call, Fri 6/12) - litigation-inclusion data point",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Sandra-6-11-26-looped-Suraj-into-the-Meditech-IPR-as-a-required-attendee-outside-counsel-strategy-c-37dc50314bb6818ba8ddddd004c7510a",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Sandra 6/11/26 9:52 AM email to Lisa Fulton + Nicole Linden (cc Suraj): 'Suraj will review the portfolio... in his new role handling all of AWC other than Acera' - third-party-directed scope statement",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Sandra-6-11-26-9-52-AM-email-to-Lisa-Fulton-Nicole-Linden-cc-Suraj-Suraj-will-review-the-portf-37dc50314bb681959a16fe7ee0ec730b",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Sandra 6/11/26 written reply: purview = ALL patent and FTO work for ASC + AWC (only Acera excluded); directs AWC strategy authorship; IPR = Meditech, Friday meeting",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Sandra-6-11-26-written-reply-purview-ALL-patent-and-FTO-work-for-ASC-AWC-only-Acera-excluded--37cc50314bb681a5b2b7d99f34112618",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "6/9 1:1: Sandra reviewed 2026 Workday Goals (first time); NPWT CI deck send is goal-execution follow-through, not manager request - corrects earlier characterization",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/6-9-1-1-Sandra-reviewed-2026-Workday-Goals-first-time-NPWT-CI-deck-send-is-goal-execution-follow-37cc50314bb68116ae98f8815e77d9da",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Sandra 5/8/26 written directive: internal signature to show Patent Specialist role instead of title (Roland + Kelsey also named); external signature may keep title",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Sandra-5-8-26-written-directive-internal-signature-to-show-Patent-Specialist-role-instead-of-title--37bc50314bb6817cb9fcdb21104068f8",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Resume calibration principles (6/10/26) - mirror the reader's criterion language; strengthen via content specificity not verb strength; claim work and event, never adoption or impact, when reception was weak; temper absolutes to bounded claims; avoid ambiguous category words like 'strategy'",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Resume-calibration-principles-6-10-26-mirror-the-reader-s-criterion-language-strengthen-via-con-37bc50314bb6810cac06fd28dc98454b",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "\u2696\ufe0f CONSTRUCTIVE DISCHARGE + SEPARATION ECONOMICS (6/10/2026) \u2014 never quit as a litigation tactic: a resignation that fails constructive discharge cuts off back/front pay at the resignation date and makes the case LESS fundable; the CD bar (Suders) is high and current facts very likely don't meet it; the separation upside (~5-10x wage engine) comes only from Solventum's acts (R01129974 rejection, post-charge retaliation/termination) or a counsel-negotiated exit",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/CONSTRUCTIVE-DISCHARGE-SEPARATION-ECONOMICS-6-10-2026-never-quit-as-a-litigation-tactic-a-res-37bc50314bb681928f88f20e3cd2cfb8",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "\ud83d\udd01 FRESH-PASS RECONSIDERATION (6/10/2026) \u2014 standing decisions hold; revisions: R01129974 now the single most urgent item (the sent letter promises 'I plan to apply shortly' in writing); contingency downgraded to plausible-but-unproven; hard backstop = paid hourly consult by ~6/30 (earliest plausible federal clock ~Sept 13 2026 per Brief \u00a75A, verified this session); FCHR dual-filing preserves the FCRA uncapped lever; firm follow-ups ~6/16-17 (phone for Castronovo + Hadsell Stormer)",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/FRESH-PASS-RECONSIDERATION-6-10-2026-standing-decisions-hold-revisions-R01129974-now-the-singl-37bc50314bb681d19b13c11da3040d42",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Litigation involvement - extraction-vs-development tension + WHD business-reporting exclusion (Ender's recollection: not included on Sandra's reporting to the business on a matter he was supposed to be on). Resolution: softened 'glad to get more involved' line in the 6/10 recap (involvement, not task absorption); scope-shaping is behavioral (full IPR engagement = compounding work; meter if technical-only dumping; document exclusions); WHD final-report probe as separate learning-framed ask with dual value either way",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Litigation-involvement-extraction-vs-development-tension-WHD-business-reporting-exclusion-Ender-37bc50314bb681258c69ca0d66f996b0",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "R01129974 r\u00e9sum\u00e9 \u2014 defensibility framework + honest-framing standard (applied 6/9/2026)",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/R01129974-r-sum-defensibility-framework-honest-framing-standard-applied-6-9-2026-37bc50314bb6819d9bb7d8d59c890cdd",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "LLMs do judgment; code does orchestration (AI-tool architecture)",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/LLMs-do-judgment-code-does-orchestration-AI-tool-architecture-37bc50314bb681baa3fccf374e8877a7",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "\ud83d\udcb0 FORWARD-LOOKING DAMAGES MODEL (6/9/2026) \u2014 three-layer theory (back pay + front pay/lost earning capacity + emotional distress) on the claimant's actual inputs (age 42; base ~$260k preserved; ~13% bonus; ~$30k equity; LTI $60k\u2192$40k); two but-for scenarios (no-promotion vs Senior Director); FCRA uncaps compensatory (ADA caps comp+punitive at $300k); stacked best-case ceiling ~$2.5\u20134.5M incl. fees vs realistic high-6-to-low-7-figure settlement; age-42 + capacity double-edge on front-pay duration",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/FORWARD-LOOKING-DAMAGES-MODEL-6-9-2026-three-layer-theory-back-pay-front-pay-lost-earning-cap-37bc50314bb6817dbbf6ebaa6608e709",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "\u2696\ufe0f DON'T-DO + EEOC procedure (6/9/2026) \u2014 do NOT pre-disclose the draft EEOC charge to Solventum GC/litigation counsel (no leverage benefit, slight leverage cost); an EEOC charge + right-to-sue is a prerequisite to an ADA district-court suit; pro se is fine to preserve the charge but advised against for the litigation itself (expert-driven front-pay theory; contingency representation likely available)",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/DON-T-DO-EEOC-procedure-6-9-2026-do-NOT-pre-disclose-the-draft-EEOC-charge-to-Solventum-GC-lit-37bc50314bb6813299b6e2c6329a7476",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "ADA claim characterization - failure-to-restore (reopened role) and an R01129974 rejection read PRIMARILY as RETALIATION, pleaded alongside discrimination. Why retaliation fits this act (post-complaint timeline; unassailable qualifications/pretext; reopening guts the 'role eliminated' defense; independent of the discrimination merits). Discrimination still leads at AA1. Causation-standard split (Nassar but-for vs. motivating-factor) is contested/jurisdiction-specific, counsel to pin.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/ADA-claim-characterization-failure-to-restore-reopened-role-and-an-R01129974-rejection-read-PRIM-37ac50314bb6816fb8faec2b634c789c",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "AWC IP strategy deck - provenance & reception: SOLICITED by Brent (interim AWC president) as an IP position update; presented to the business leadership team (VPs Neelu + Jake + SVP R&D Anthony attended); Brent stepped out / didn't really see it; SVP R&D engaged & positive; the two VPs' follow-up meetings were CANCELED (hypotheses open: transition churn most likely vs. weak impression vs. Sandra interference; re-engagement is the right move regardless)",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/AWC-IP-strategy-deck-provenance-reception-SOLICITED-by-Brent-interim-AWC-president-as-an-IP-p-37ac50314bb681c8b5e7ec554269b734",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Scope-contradiction-as-evidence + the credit-theft worry's real remedy is PROVENANCE, not dilution. Corrects the overstatement that IP strategy is 'squarely expected' of the Patent Specialist role - it is contested OUT of the role by the May 4 'support and track' charter (AA2), which is precisely why Sandra assigning Suraj strategy work BUILDS his case. Produce requested work competently + attributed; don't volunteer extra; don't water down.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Scope-contradiction-as-evidence-the-credit-theft-worry-s-real-remedy-is-PROVENANCE-not-dilution--37ac50314bb681ca8b31fdb4bace05e7",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "6/9/26 Sandra 1:1 (2nd monthly) - EPR re-entry SECURED (Sandra agreed to fix); FTO/NPI-gate + GD-SB deliverables NOT addressed (still open); NEW asks: Karola budget-tool review, send strategy slides, write up UP/UPC strategy, fresh end-to-end Anaqua process proposal; litigation: Suraj asked to be more involved, Sandra to forward at least the IPR; Anja to stop validation/precommittee; info-flow exclusions noted but not raised; role chart + attorney-status HELD per plan",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/6-9-26-Sandra-1-1-2nd-monthly-EPR-re-entry-SECURED-Sandra-agreed-to-fix-FTO-NPI-gate-GD-SB--37ac50314bb681d4aa97dbcc0f9231f7",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Attorney-status argument already disclosed to HR (Feb 10 2026 reconsideration) - so the cost of raising it with Sandra in a 1:1 is FORUM + contemporaneous-record, NOT secrecy; preserve the role-scope contradiction for counsel/EEOC, do not deploy in the 1:1. PLUS Ender's hypothesis that the Feb 10 protected activity may have hardened the non-attorney boxing (test against the timeline).",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Attorney-status-argument-already-disclosed-to-HR-Feb-10-2026-reconsideration-so-the-cost-of-rais-37ac50314bb68180af55d01b533a06cc",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "\u2696\ufe0f CASE-LAW RESEARCH (6/7/26) \u2014 11th Cir./FL ADA & FCRA, leave or accommodation \u2192 adverse-action comparators + temporal-proximity doctrine + emotional-distress & career-harm damages (figures, \u00a71981a caps, FCRA uncapped-comp lever) + both-side litigation positions. ILLUSTRATIVE not controlling; confirm all citations against Westlaw/Lexis before any filing reliance.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/CASE-LAW-RESEARCH-6-7-26-11th-Cir-FL-ADA-FCRA-leave-or-accommodation-adverse-action-compar-378c50314bb681ba853cd1c8b5d7a51a",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "\ud83d\udcdd ATTORNEY INTAKE WRITEUP (final, bulleted) \u2014 reusable claimant-hat outreach text for firm intake forms / calls. Use for O&G, Nichols Kaster, Schwartz (after conflicts), Sass consult.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/ATTORNEY-INTAKE-WRITEUP-final-bulleted-reusable-claimant-hat-outreach-text-for-firm-intake-form-36fc50314bb6810bae73f9af46709c15",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "\u2696\ufe0f ATTORNEY OUTREACH STATUS \u2014 6/9/2026: SENT to 4 national front-pay firms (HMRH \u00b7 Castronovo \u00b7 Hadsell Stormer \u00b7 BGL), awaiting replies; clear conflicts (HMRH, Castronovo) before sharing detail. Front-pay/lost-earning-capacity lens governs fit. Shortlist, verified contacts, conflicts-opener decision + FINAL letter in body. Pipeline (O&G best-documented fit, etc.) in the 5/29 record below.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/ATTORNEY-OUTREACH-STATUS-6-9-2026-SENT-to-4-national-front-pay-firms-HMRH-Castronovo-Hadsell-36fc50314bb6815dada0f2640e8ba1b1",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "\u2696\ufe0f MN FORUM / MHRA FORECLOSED (5/29/26) \u2014 employer's MN HQ insufficient; user never resided/worked in MN. Controlling: Kuklenski v. Medtronic, 8th Cir. 4/9/2025. Operative law = federal ADA + FL FCRA (+ possible TX). Retracts prior 'MN strategic advantage' flag.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/MN-FORUM-MHRA-FORECLOSED-5-29-26-employer-s-MN-HQ-insufficient-user-never-resided-worked-in-M-36fc50314bb681b68d3ee44160e2a09b",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Counsel outreach screener \u2014 SENT 5/29/2026 (ADA matter; strongest-evidence-first)",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Counsel-outreach-screener-SENT-5-29-2026-ADA-matter-strongest-evidence-first-36fc50314bb681c5bb1acd15a4f08088",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "\u2696\ufe0f ATTORNEY LIST 2nd RE-CALIBRATION (5/27/26 evening) \u2014 USER IS IN FL \u2014 SUPERSEDES first re-calibration 36ec50314bb68144abbfe92542218f5c. New FL-resident tier-1 lead: SASS, EVERHART & SILVA (Tampa, 813-251-5599) \u2014 Lawdragon, FL Bar Board Certified, NELA Florida Chapter leadership, explicit ADA practice, hourly consults. SHSM Nashville and Outten & Golden remain tier-1 national alternatives (work remotely). Nashville-as-local angle from prior Insight is retracted.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/ATTORNEY-LIST-2nd-RE-CALIBRATION-5-27-26-evening-USER-IS-IN-FL-SUPERSEDES-first-re-calibration-36ec50314bb68103aa2ffe7cf2193d24",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "\u2696\ufe0f ATTORNEY LIST RE-CALIBRATED (5/27/26 evening) \u2014 SUPERSEDES first-pass list 36ec50314bb681b382dbd8ec6b9d80af. New tier-1 lead: SANFORD HEISLER SHARP McKNIGHT (Nashville office, LOCAL to user, 615-442-6886). Tier-1 alternatives: Outten & Golden (NYC, national reach), Rogge Dunn Group (Dallas TX, board-certified-in-two). Pollard PLLC and other first-pass candidates demoted to second-tier only.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/ATTORNEY-LIST-RE-CALIBRATED-5-27-26-evening-SUPERSEDES-first-pass-list-36ec50314bb681b382dbd8ec6-36ec50314bb68144abbfe92542218f5c",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "\u2696\ufe0f ATTORNEY EXPANSION \u2014 5 new FL/TX executive-focused plaintiff candidates (5/27/26). Pollard PLLC (Fort Lauderdale), Derek Smith Law Group (Miami), Jason L. Gunter (Fort Myers); Rogge Dunn Group (Dallas), Shellist Lazarz Slobin (Houston). Supplements the Game Plan 5/26 lawyer-path list.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/ATTORNEY-EXPANSION-5-new-FL-TX-executive-focused-plaintiff-candidates-5-27-26-Pollard-PLLC-For-36ec50314bb681b382dbd8ec6b9d80af",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "\ud83c\udfaf STRATEGIC FRAMING \u2014 case goals hierarchy, leverage architecture, 5-ramp exit model, R01129974 interview scenarios (5/27/26). Complements the 5/26 Game Plan Insight with the deeper strategic backbone the Game Plan operates on tactically.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/STRATEGIC-FRAMING-case-goals-hierarchy-leverage-architecture-5-ramp-exit-model-R01129974-interv-36ec50314bb6814cae3fdaa0170f112a",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "C&E project priority: BUILD the system rapidly = #1; executive deck/story is SECONDARY, reverse-engineered post-build from real design rationale",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/C-E-project-priority-BUILD-the-system-rapidly-1-executive-deck-story-is-SECONDARY-reverse-engi-36ec50314bb6811bb128f8d99fb8f457",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "Kelsey 1:1 (5/27/26) \u2014 Andrea framed Kelsey as a partner; Kelsey reported difficulty distinguishing Patent Specialist from Lead IP Counsel roles; Suraj told Kelsey for Sandra the role is supposed to be more patent prosecution focused. Direct comparator data point: IPSS Lead\u2194Specialist framing (Andrea partnership) differs from AWC framing (Sandra's May 4 'support and track' charter). Suraj characterized the relationship with Kelsey as one where he can be 'pretty frank and honest' and she appreciates it.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/Kelsey-1-1-5-27-26-Andrea-framed-Kelsey-as-a-partner-Kelsey-reported-difficulty-distinguishing--36dc50314bb6814596afc4e8c9c3c84b",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "STRATEGIC GAME PLAN (5/26/26, current operating strategy) \u2014 (1) WORK POSTURE: competent floor on everything assigned/documented, NOT minimal (underperformance hands Solventum a clean non-discriminatory reason for adverse action and wrecks both the ADA claim and severance leverage); discretionary excellence only where it compounds (case file / CV / outside-silo relationships / leverage). (2) R01129974: APPLY \u2014 REVERSES the earlier 'do not apply' recommendation in Insight 361c50314bb6812391fad829da2192a0; apply ~June 1-3 as a serious candidate, expect rejection, value the record. (3) EEOC CLOCK: ~300-day deadline likely ~early-Oct 2026 (demotion enacted Dec 11 2025), BEFORE the planned Nov reassessment \u2014 counsel consult within 2-4 weeks to pin the exact deadline. (4) Refines the Medela Insight framing. Supersedes earlier conflicting advice as noted.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/STRATEGIC-GAME-PLAN-5-26-26-current-operating-strategy-1-WORK-POSTURE-competent-floor-on-eve-36cc50314bb6818787b0d5c474f55755",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "PATTERN (running list) \u2014 Things Suraj previously requested/advocated and was denied or deferred, now treated by Sandra/Solventum as default or new-leadership initiative. Establishes the pre-restructure constraints were CHOICES, not necessities (company's current willingness to resource these things shows they were always resource-able). Instances: (1) outside counsel support for Medela patent enforcement \u2014 requested, not approved; Sandra now defaults to third-party involvement; (2) direct reports / managing attorneys \u2014 requested pre-leave, deferred by Sandra; restructure created the manager-managed relationship, given to Scott; 'management of attorneys' now an R01129974 requirement. DISCIPLINED FRAMING: facts only, no characterization of WHY (animus vs. ordinary corporate transformation is for counsel). Add instances as they surface.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/PATTERN-running-list-Things-Suraj-previously-requested-advocated-and-was-denied-or-deferred-now-36cc50314bb681b9ae8bfdc5c4b0ca38",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE + STRATEGIC \u2014 Sandra 5/21/26 'FW: Patent Enforcement - Medela' delegation. Sandra forwarded Suraj's own Aug 2022 Medela presuit-enforcement email + asked him to identify patents to assert and send patent numbers; she will have a third party check infringement evidence. THRESHOLD ISSUES Suraj identified (which Sandra's 'keep it moving' framing skips): strongest candidate patent expired 2023 (no injunctive leverage, closing past-damages window); claim-construction lock-in constrains future flexibility vs Smith & Nephew (the bigger competitor); Medela is #2 US tNPWT but ~5-8% share, modest. Recommended reply: answer + surface threshold considerations as IP counsel informing a decision, not resistance. Attorney-tier IP litigation work delegated under Patent Specialist designation (same pattern as Defcon, R01129974 specs). 2022 email documents Suraj's pre-demotion title 'Senior Intellectual Property Counsel.' Sandra Outlook flag due 5/25/26. COMPETING PRIORITY: C&E prototype end-of-May.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-STRATEGIC-Sandra-5-21-26-FW-Patent-Enforcement-Medela-delegation-Sandra-forwarded-36bc50314bb681a49665c43d2069e3bc",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "ACTION + EVIDENCE \u2014 Sandra 5/21/26 'FW: Open IS's - No Final Disposition' delegation. Sandra forwarded Liz Johnson's open-invention-disclosure report; asked Suraj to disposition pre-2026 AWC open IDs (pending since 2022, 2024, 2025). QUICK WIN - reconciles with backlog-cleanup work Suraj already doing with Anya (inventor follow-ups to close old IDs). AWC has 23 open IDs in the report (2+ from 2022, 3+ from 2024). Genuine patent-specialist-tier operational work (contrast: Medela is attorney-tier). Liz/Nicole-IP-Ops separately reworking invention submission process (inventor-selected Business Chargeable, Submitted to Final Disposition flow, auto Awaiting Pre-ranking) targeting June completion - overlaps Anaqua workstream. Sandra Outlook flag due 5/25/26. Lower priority than C&E prototype (end-of-May).",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/ACTION-EVIDENCE-Sandra-5-21-26-FW-Open-IS-s-No-Final-Disposition-delegation-Sandra-forward-36bc50314bb681c6a426c3abdedb8ea2",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE \u2014 5/15/26 Defcon Biohacking proposal escalation. Sandra delegated narrow IP-spotting task; Suraj escalated SAME EVENING to senior MedSurg business-law leadership (Ajit Narang, GC-side) with substantive cross-functional risk analysis framing it as broader Legal/Regulatory matter. Attorney-tier judgment (governance, stakeholder mapping, deference on ownership, competitive intelligence citing Medtronic/BD/Stryker/Cardinal) delivered under Option 2 'Role: Patent Specialist' signature. Same-day parallel: Sandra's 5/15 R01129974 specs response (Insight 361c50314bb6812391fad829da2192a0) listed required capabilities for the externally-recruited Assistant Chief IP Counsel role \u2014 every one of those capabilities except 'management of attorneys' (the circular requirement) was demonstrated by Suraj in the Defcon escalation the same day. Continues pattern from April 29 IP training delivery (35fc50314bb6813781ecd86372f29b2f) of attorney-tier work preserved organically under demoted role-designation.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-5-15-26-Defcon-Biohacking-proposal-escalation-Sandra-delegated-narrow-IP-spotting-task--364c50314bb681b58b66c4d1ce3d83d3",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE + STRATEGIC ANALYSIS \u2014 Sandra's 5/15/26 10:20 AM R01129974 role specs response (full verbatim preserved). Sandra cites 'management of attorneys (strongly preferred)' as key requirement \u2014 but CIRCULAR: pre-leave NO Lead IP Counsel had direct reports; Suraj asked for them, Sandra deferred; same restructure that demoted Suraj CREATED the management responsibility and gave it to Scott; Suraj was THE FIRST Patent Specialist (prototype). Other specs (competitive intelligence, strategic insight, IP litigation, IP attorney standards) MATCH Suraj's Scott-approved 2026 goals. Only genuine differentiator is M&A. 'Those skills [patent prep/pros] are less in use on a day-to-day basis' = Sandra's written confirmation the role oversees the work Suraj now does. Sandra chose to put detailed elevated specs in writing in response to Suraj's inquiry \u2014 the specs are now on paper at her hand. Strengthens pretext theory incrementally; clean structural argument against 'role evolved beyond Suraj's capabilities' defense; modestly improves severance-leverage scenarios; doesn't transform case but materially adds to existing strong pretext layer.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-STRATEGIC-ANALYSIS-Sandra-s-5-15-26-10-20-AM-R01129974-role-specs-response-full-verbat-361c50314bb6812391fad829da2192a0",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "FOUNDATIONAL \u2014 Solventum IP Org Structure (authoritative reference, 5/15/26). PRE-LEAVE: 5 Lead IP Counsels (one per business), all flat-reporting to Sandra, NO direct reports. 'Lead IP Counsel' = the role; titles by JG (15=Sr Managing IP Counsel; 16=Director & Asst Chief IP Counsel \u2014 Suraj's pre-leave; 17=Sr Director & Asst Chief IP Counsel). RESTRUCTURE: announced Nov 17 2025, enacted Dec 14 2025 on Suraj's return. NEW STRUCTURE: each Lead IP Counsel gets one Patent Specialist where business has enough patent work \u2014 3/5 have separate Patent Specialists (Dental/Roland, AWC/Suraj, IPSS/Kelsey 5/18); 2/5 don't (HIS/Bender, Drinking Water/Bramwell). SURAJ WAS THE FIRST PATENT SPECIALIST \u2014 structure went live with his return as the prototype. READ THIS INSIGHT FIRST for any future org-structure question.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/FOUNDATIONAL-Solventum-IP-Org-Structure-authoritative-reference-5-15-26-PRE-LEAVE-5-Lead-IP-C-361c50314bb68137b18edfa7014e7608",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE \u2014 ONE Nov 3 2025 LinkedIn posting for 'Assistant Chief IP Counsel, Director*' (Suraj's formal pre-leave title) at $259-316K. Posting title was generic across the 5 businesses, but AWC was the only open such seat at posting time \u2014 effectively recruiting Suraj's role. Posted ~9 days before Suraj's Nov 12 ADA request; taken down shortly after; predates HR's Nov 14 job-protection threshold. Per Suraj 5/15: Sandra never informed the IP team; Scott saw it on LinkedIn himself and was annoyed Sandra wasn't sharing info. Andrea (joined IPSS Lead Jan 2026) was the candidate hired through this same single posting, redirected into Scott's vacated IPSS seat via the internal cascade (Scott moved to AWC Dec 9, 2 days before Suraj's Dec 11 return) \u2014 Suraj's speculation but well-grounded. R01129974 (May 2026 for AWC Lead) was announced internally via Sandra's team email \u2014 the anomaly vs. the Nov 3 secrecy practice. Full Nov 3 evidentiary record (Memo's Exhibit O, held strategically) at Insight 358c50314bb681529ad6ecda40dfe6cb.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-ONE-Nov-3-2025-LinkedIn-posting-for-Assistant-Chief-IP-Counsel-Director-Suraj-s-form-361c50314bb681ff8c31e3659e66c592",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE \u2014 Sandra's 5/13/26 9:47 AM response to 5/12 recap. Elevates patent specialist role in writing: 'knowing patent law,' 'strategic revisions,' makes IP Ops the executor. Directs all training slides be marked Attorney Client Privileged. First explicitly positive written substantive characterization of Suraj's work product since narrowing pattern began. Materially inconsistent with May 4 'support and track' charter language. Suraj's hypothesis: Sandra may be retroactively elevating role scope to position attorney-level work Suraj is doing as within patent-specialist scope, defusing 'demoted from attorney to non-attorney work' framing. Locked-in written contradictions in role framing cut both ways evidentially regardless of intent.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-Sandra-s-5-13-26-9-47-AM-response-to-5-12-recap-Elevates-patent-specialist-role-in-writi-35fc50314bb68122b30ec6eddf8798bb",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE \u2014 April 29 2026 IP training deck (FTO + related legal/IP topics) delivered by Suraj to R&D lab, title slide displays 'Sr Managing IP Counsel' (formal Workday title). Attached to 5/12 recap email to Sandra per 1:1 commitment. Pre-Scott-departure (5/1) work product; pre-May 8 signature-change demand; within both 1/22 patent-specialist scope (Sandra's own description including FTO review) and IP-counsel scope. Sandra response pending at capture; pause unusual per Suraj's baseline read.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-April-29-2026-IP-training-deck-FTO-related-legal-IP-topics-delivered-by-Suraj-to-R-D--35fc50314bb6813781ecd86372f29b2f",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "5/12/26 Sandra 1:1 (first monthly under Sandra) \u2014 Sandra's soup-to-nuts process-design framing for patent specialists; C&E family-disambiguation scope confirmed (Scott-aligned); validation step removal planned; granular process-time tracking required; UPC strategy confirmed; Anaqua visibility (May 1 ask) reiterated and connected to process-design vision; R01129974 mentioned, deferred to separate email",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/5-12-26-Sandra-1-1-first-monthly-under-Sandra-Sandra-s-soup-to-nuts-process-design-framing-for-p-35ec50314bb6813b9b4dec3e0e3fef5a",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "STRUCTURAL CORRECTION \u2014 Kelsey is IPSS patent specialist (not AWC), joining 5/18. 3 patent specialists total across 5 businesses; 2 businesses get NO patent specialist. AWC's designation is selective, not default. No clear timeline on R01129974 (new AWC IP attorney). May 18 signature deadline rationale weakens \u2014 Kelsey isn't joining AWC. Suraj's named observation: Scott-as-partner working relationship is structurally not returning under Sandra or her hire.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/STRUCTURAL-CORRECTION-Kelsey-is-IPSS-patent-specialist-not-AWC-joining-5-18-3-patent-specialis-35dc50314bb68161b801ce9f36f757b9",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE \u2014 Sandra's verbal 'JG 15 fits better with the new role' upon Suraj's Dec 2025 return; Suraj's ask to restore JG-16 declined; subsequent JG-description clarification ask answered with vague pointers to old 3M JG description docs. Foundational management admission tying JG directly to role assignment. Per user: Solventum titles are assigned based on JG; attorney and non-attorney roles are typically on separate JG tracks.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-Sandra-s-verbal-JG-15-fits-better-with-the-new-role-upon-Suraj-s-Dec-2025-return-Suraj-35dc50314bb681a8bdbed3b12c59b882",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "GAP \u2014 None of the four active lawyer paths (Halunen MN; Hoyer FL; Kaplan FL; Wenzel TBD) is a Texas-licensed firm. TX state-law TCHRA pathway for 2025 adverse acts is not in any current firm's primary practice geography. Three TX plaintiff-side ADA candidates identified 5/11: Chris McKinney (San Antonio, board-cert L&E); Rob Wiley PC (multi-TX-office, board-cert L&E, 8 trial attorneys plaintiff-focus); Jeffrey Goldberg (San Antonio, plaintiff-only).",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/GAP-None-of-the-four-active-lawyer-paths-Halunen-MN-Hoyer-FL-Kaplan-FL-Wenzel-TBD-is-a-Texas--35dc50314bb681119df8c72f25167a77",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "JURISDICTIONAL FACT PATTERN \u2014 Suraj worked remotely from San Antonio TX through 2025 (formal TX employee on paper); moved between TX and FL early 2026 with formal FL move ~March 2026; Solventum HQ in MN. All three are EEOC deferral states (federal ADA charge clock = 300 days). TX TCHRA state-law clock = 180 days from each discrete adverse act, expires May 16 2026 for Nov 17 2025 act.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/JURISDICTIONAL-FACT-PATTERN-Suraj-worked-remotely-from-San-Antonio-TX-through-2025-formal-TX-empl-35dc50314bb681a18fefeccb740d6550",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "\ud83d\udd01 DEPRECATED \u2014 superseded by \ud83e\udded Strategic Brief \u2014 Work / RTW / ADA Case (Living Document) at 35dc5031-4bb6-81be-bc90-d28e26fe4ad2. This Insight is preserved for Insights-DB discoverability only (so a new chat searching 'RTW master index' still lands somewhere useful). Read the Strategic Brief instead \u2014 it is the canonical entry point for any work / RTW / ADA / Sandra / Solventum case-file conversation.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/DEPRECATED-superseded-by-Strategic-Brief-Work-RTW-ADA-Case-Living-Document-at-35dc5031--35dc50314bb681339e8bfda3a1f4a08d",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    },
+    {
+      "title": "CALIBRATION CORRECTION \u2014 AWC is NOT absent from Sandra's May 5 slides; it is represented under the MedSurg umbrella (Acera filings target, PMI development agreement). MedSurg contains AWC + IPSS as sub-businesses. Corrects original Insight (35dc50314bb681a082b9c58dfa09ae62). The underlying scope-narrowing observation refines but is not eliminated: Suraj's pre-leave AWC ex-Acera strategic scope is not separately surfaced; it's subsumed under MedSurg-umbrella, Sandra-Corp-Dev work, or IP-org-wide targets.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/CALIBRATION-CORRECTION-AWC-is-NOT-absent-from-Sandra-s-May-5-slides-it-is-represented-under-the-M-35dc50314bb681ceb400dc22af1639e5",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "employee",
+      "urgency": "gray"
+    },
+    {
+      "title": "EVIDENCE \u2014 Sandra's May 5 2026 1:08 PM 'KPI & Key Project Slides.pptx' (3 slides preserved): Business Specific IP Strategic Deliverables (HIS/MedSurg/Dental \u2014 AWC ABSENT), Strategic IP Projects 2026 (orange item 'IP strategy & competitive intelligence for Board presentations' framed as Sandra's work with Corp Dev), IP KPIs. The May 5 slides operationalize the May 4 charter narrowing. Direct overlap between orange item and Suraj's approved 2026 Top-Quartile-Performer goal of NPWT IP strategy + business leadership presentation. Continuing-narrowing pattern in slide form.",
+      "source": "Work Pattern Candidates",
+      "url": "https://app.notion.com/p/EVIDENCE-Sandra-s-May-5-2026-1-08-PM-KPI-Key-Project-Slides-pptx-3-slides-preserved-Busines-35dc50314bb681a082b9c58dfa09ae62",
+      "due": "",
+      "status": "Active",
+      "domain": "Work",
+      "hat": "claimant",
+      "urgency": "gray"
+    }
+  ],
+  "source_summaries": [
+    {
+      "source": "Slipped Work Tasks",
+      "status": "checked",
+      "count": 74,
+      "shown": 50,
+      "pages_fetched": 1,
+      "filter": {
+        "and": [
+          {
+            "property": "Status",
+            "select": {
+              "does_not_equal": "Done"
+            }
+          },
+          {
+            "property": "Status",
+            "select": {
+              "does_not_equal": "Cancelled"
+            }
+          },
+          {
+            "property": "Domain",
+            "select": {
+              "equals": "Work"
+            }
+          }
+        ]
+      },
+      "sorts": [
+        {
+          "property": "Push On",
+          "direction": "ascending"
+        },
+        {
+          "property": "Due Date",
+          "direction": "ascending"
+        }
+      ]
+    },
+    {
+      "source": "Work Operations",
+      "status": "checked",
+      "count": 26,
+      "shown": 26,
+      "pages_fetched": 1,
+      "filter": {
+        "or": [
+          {
+            "property": "Status",
+            "select": {
+              "equals": "Idea"
+            }
+          },
+          {
+            "property": "Status",
+            "select": {
+              "equals": "Active"
+            }
+          },
+          {
+            "property": "Status",
+            "select": {
+              "equals": "In Progress"
+            }
+          },
+          {
+            "property": "Status",
+            "select": {
+              "equals": "In Review"
+            }
+          },
+          {
+            "property": "Status",
+            "select": {
+              "equals": "Blocked"
+            }
+          },
+          {
+            "property": "Status",
+            "select": {
+              "equals": "Recurring"
+            }
+          }
+        ]
+      },
+      "sorts": [
+        {
+          "property": "Due Date",
+          "direction": "ascending"
+        }
+      ]
+    },
+    {
+      "source": "Evidence Gaps",
+      "status": "checked",
+      "count": 4,
+      "shown": 4,
+      "pages_fetched": 1,
+      "filter": {
+        "or": [
+          {
+            "property": "Preservation",
+            "select": {
+              "equals": "Pending"
+            }
+          },
+          {
+            "property": "Preservation",
+            "select": {
+              "equals": "Blocked"
+            }
+          }
+        ]
+      },
+      "sorts": []
+    },
+    {
+      "source": "Work Pattern Candidates",
+      "status": "checked",
+      "count": 145,
+      "shown": 50,
+      "pages_fetched": 2,
+      "filter": {
+        "property": "Domain",
+        "select": {
+          "equals": "Work"
+        }
+      },
+      "sorts": []
+    }
+  ],
+  "issues": [],
+  "summary": "Work OS Weekly Review - 2026-06-17\nLegend: RED/BOLD = urgent, time-sensitive, important, no action logged; YELLOW = important-not-urgent or urgent in progress; GRAY = informational; PLAIN = routine.\n\nBoundary: user's own Notion only; no Solventum tenant data. Every surfaced item is hat-labeled.\nDeadline ladder: >2mo hidden; 2mo neutral; 1mo yellow; final week daily/red unless action logged.\n\n- RED/BOLD [employee]: C&E prototype \u2014 AWC portfolio family-disambiguation rating (Slipped Work Tasks) | due/push: 2026-06-19 | status: This Week\n- RED/BOLD [employee]: Reply to Sandra re: Medela patent enforcement assessment (Slipped Work Tasks) | due/push: 2026-05-29 | status: This Week\n- RED/BOLD [claimant]: Counsel consult \u2014 pin down EEOC filing deadline(s) for ADA demotion claim (Slipped Work Tasks) | due/push: 2026-06-12 | status: Upcoming\n- RED/BOLD [employee]: Verify health insurance status on work computer \u2014 confirm Solventum plan change (BCBS \u2192 HealthPartners) (Slipped Work Tasks) | due/push: 2026-05-27 | status: This Week\n- RED/BOLD [employee]: Check health insurance status on work computer \u2014 confirm whether plan changed (Slipped Work Tasks) | due/push: 2026-05-27 | status: This Week\n- RED/BOLD [employee]: Preserve 2025 EPR NOW \u2014 check Workday Canceled section; download PDF + screenshot My Reviews if present; if gone, screenshot the absence (dated) (Slipped Work Tasks) | due/push: 2026-06-02 | status: Today\n- RED/BOLD [employee]: Monday (priority): issue the authorized FTO search orders for the AWC NPI programs \u2014 get searches started to deliver (Slipped Work Tasks) | due/push: 2026-06-15 | status: This Week\n- RED/BOLD [employee]: Monday AM: brief Chris Miller (OC) to build Puffin / S&N FTO complexity + learnings deck (Slipped Work Tasks) | due/push: 2026-06-15 | status: This Week\n- RED/BOLD [employee]: Compile IP-deliverable status summaries for AWC June + July NPI gate reviews (per IP Deliverables deck) - reply to Sandra (Slipped Work Tasks) | due/push: 2026-06-22 | status: Today\n- RED/BOLD [employee]: Send Sandra the AWC NPI FTO scope + cost + budget-alignment email (decision-forcing; DRAFT in body for review) (Slipped Work Tasks) | due/push: 2026-06-19 | status: Today\n- RED/BOLD [employee]: Puffin / NPWT FTO-complexity presentation \u2014 pitch broadly (IP + broader Legal + business) using Sandra's \"how did we miss this\" as the hook (Slipped Work Tasks) | due/push: 2026-06-26 | status: This Week\n- RED/BOLD [employee]: Prep + script for 6/26 1:1 with new AWC president Kelley Moffett (present NPWT IP deck; corroborate with consultant digital-maturity assessment) (Slipped Work Tasks) | due/push: 2026-06-26 | status: This Week\n- RED/BOLD [employee]: Draft 2026 Individual Development Plan (IDP) in Workday \u2014 due June 30; discuss at July 1:1 (Slipped Work Tasks) | due/push: 2026-06-30 | status: Upcoming\n- RED/BOLD [employee]: Decide whether/when to follow up with Anthony Tropiano (R&D sponsor) - HOLD until after the 6/26 Kelley 1:1; value-additive framing, not role-positioning (Slipped Work Tasks) | due/push: 2026-06-29 | status: Upcoming\n- RED/BOLD [employee]: Monitor AWC IP lead req posting (daily check) (Slipped Work Tasks) | due/push: 2026-04-16 | status: Today\n- RED/BOLD [employee]: Gate review prep: find next date, secure attendance (Anthony or self), review prior slides + pre-read, generate value-demonstrating questions (Slipped Work Tasks) | due/push: 2026-04-17 | status: Today\n- RED/BOLD [employee]: Schedule Anthony + Neelu strategic follow-up (settlement strategy) (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Prepare IP-focused questions on Leah vs Copilot for legal presentation (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Update master employment memo (source of truth) (Slipped Work Tasks) | due/push: 2026-04-19 | status: Upcoming\n- RED/BOLD [employee]: Organize ADA / HR / Sedgwick records (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Prepare IP/business questions for R&D on Acera with NPWT (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Meet with Neelu (IP continuity outreach) (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Meet with Jake (IP continuity outreach) (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Create master list of active work workstreams (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Follow up with Sandra (after Anthony) (Slipped Work Tasks) | due/push: 2026-04-19 | status: Upcoming\n- RED/BOLD [employee]: Reach out to Anthony (IP continuity) (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Make work plan for lead IP position (Slipped Work Tasks) | due/push: 2026-04-19 | status: This Week\n- RED/BOLD [employee]: Prep Jake meeting deliverables (Smith & Nephew NPWT + Brad's narrow pattern coverage) (Slipped Work Tasks) | due/push: 2026-04-26 | status: This Week\n- RED/BOLD [employee]: NPWT portfolio enhancement project \u2014 execution plan (Slipped Work Tasks) | due/push: 2026-04-26 | status: This Week\n- RED/BOLD [employee]: Identify follow-up action items from Brent presentation \u2014 map each to senior leader + format (Slipped Work Tasks) | due/push: 2026-04-30 | status: Today\n- RED/BOLD [employee]: Reply to Scott's April review \u2014 brief human reply (Slipped Work Tasks) | due/push: 2026-04-30 | status: Today\n- RED/BOLD [employee]: Forward all four Scott monthly reviews + April review email to personal Gmail (Slipped Work Tasks) | due/push: 2026-04-30 | status: Today\n- RED/BOLD [employee]: Pull all prior Scott written praise \u2014 forward to personal email (Slipped Work Tasks) | due/push: 2026-04-30 | status: Today\n- RED/BOLD [employee]: Save Sandra's \"Scott's reports report to me\" email \u2014 forward to personal + PDF (Slipped Work Tasks) | due/push: 2026-04-30 | status: Today\n- RED/BOLD [employee]: Monthly performance update to Scott (Slipped Work Tasks) | due/push: 2026-04-30 | status: Upcoming\n- RED/BOLD [employee]: Schedule follow-up meetings with senior leaders on Brent presentation action items \u2014 by May 1 EOD (Slipped Work Tasks) | due/push: 2026-05-01 | status: Today\n- RED/BOLD [employee]: Pull HR records confirming formal title (Sr. Managing IP Counsel) vs role description (patent specialist) (Slipped Work Tasks) | due/push: 2026-05-03 | status: This Week\n- RED/BOLD [employee]: Begin scope narrowing \u2014 operate within JG15-defined responsibilities only (Slipped Work Tasks) | due/push: 2026-05-03 | status: This Week\n- RED/BOLD [employee]: Schedule employment lawyer consultation \u2014 BEFORE May 16, 2026 (Slipped Work Tasks) | due/push: 2026-05-04 | status: Today\n- RED/BOLD [claimant]: Photo the 2026 Workday Goals deck (3 slides: Top Quartile Performer / Trusted Partner / Best Place To Work) AND the AWC IP Division of Responsibilities Excel (capture BOTH tabs \u2014 Sheet1(1) and Sheet1(2) visible). Personal phone, private cloud folder. Foundational smoking-gun evidence \u2014 the two strongest pieces in the entire file. (Slipped Work Tasks) | due/push: 2026-05-06 | status: Today\n- RED/BOLD [employee]: Thursday morning reset \u2014 read new Sandra emails fresh, reassess Lisa reply strategy, then draft both responses (Slipped Work Tasks) | due/push: 2026-05-07 | status: This Week\n- RED/BOLD [employee]: Draft Halunen re-engagement email (Charles Horowitz + Jackie Olson). Now writable with materially stronger fact pattern: Scott departed May 1, lead role open again, Workday Goals describe lead-counsel scope, Division of Responsibilities co-authored with Scott, Sandra April 2/May 5 self-contradiction on WHT settlement, May 4 written charter, May 5 'recommendations to IP attorneys' subordination language. (Slipped Work Tasks) | due/push: 2026-05-08 | status: This Week\n- RED/BOLD [employee]: Reply to Lisa Fulton's AWC IP Priorities email (May 4 1:12 PM) \u2014 scope clarification questions. Mom surgery was Tue 5/5. Pushed to Fri 5/8 to allow Thu morning reset. (Slipped Work Tasks) | due/push: 2026-05-08 | status: This Week\n- RED/BOLD [employee]: URGENT \u2014 Re-engage Halunen Law (Charles Horowitz) per his Dec 19 2025 roadmap. Conditions for revisiting (company response + future status change) have materialized. Send brief update email referencing severance offer, role-restoration denial, written charter, Scott departure, and litigation CC exclusion. Also reach out to Darren Sharp at Schaefer Halleen (untried referral; reinstatement-focused, hourly basis). (Slipped Work Tasks) | due/push: 2026-05-08 | status: This Week\n- RED/BOLD [employee]: Research \u2192 decide whether to apply for ManyVids CEO AI-pivot role (Slipped Work Tasks) | due/push: 2026-05-09 | status: Upcoming\n- RED/BOLD [employee]: Prep for Tuesday 5/12 12:30-1:00 PM ET 1:1 with Sandra (interim manager) \u2014 NOTE: meeting confirmed via calendar invite as Tuesday May 12 (NOT Monday May 11) and only 30 minutes. Review notes-taking approach, prepare 'rating project status' update, prepare neutral req-timing question, draft post-meeting written follow-up template. 30 min is tight \u2014 plan for 2-3 substantive items max. (Slipped Work Tasks) | due/push: 2026-05-11 | status: This Week\n- RED/BOLD [employee]: Resolve TX TCHRA / TWC 180-day pathway question with counsel BEFORE Sat May 16 2026 (Nov 17 2025 act clock) (Slipped Work Tasks) | due/push: 2026-05-15 | status: Today\n- RED/BOLD [employee]: Decide filing strategy with lawyer \u2014 file now vs. wait for hiring decision (Slipped Work Tasks) | due/push: 2026-05-15 | status: Waiting\n- RED/BOLD [employee]: Pick representative NPWT family for AWC Copilot agent test run (Slipped Work Tasks) | due/push: 2026-05-20 | status: Upcoming\n- RED/BOLD [employee]: Plan R01129974 application strategy \u2014 what to write, what to omit, internal-audience framing (Slipped Work Tasks) | due/push: 2026-05-28 | status: This Week\n\nSource counts:\n- Slipped Work Tasks: checked | count=74 | shown=50\n- Work Operations: checked | count=26 | shown=26\n- Evidence Gaps: checked | count=4 | shown=4\n- Work Pattern Candidates: checked | count=145 | shown=50",
+  "write_result": {
+    "created": false,
+    "verified": false,
+    "page_id": "",
+    "url": "",
+    "skipped": true
+  },
+  "push_result": {
+    "sent": false,
+    "skipped": true
+  },
+  "env_status": {
+    "notion_token": true,
+    "pushover_token": true,
+    "pushover_user": true,
+    "notion_version": "2025-09-03",
+    "secrets_source": "environment_only"
+  },
+  "valid": true
+}

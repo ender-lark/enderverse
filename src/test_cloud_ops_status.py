@@ -350,6 +350,58 @@ def test_cloud_ops_status_validates_prompt_writeback_and_source_honesty(tmp_path
     assert protocol["has_source_honesty"] is True
 
 
+def test_cloud_ops_status_matches_local_automation_by_id_not_dependency_mentions(tmp_path):
+    daily_dir = tmp_path / "automations" / "life-os-daily-briefing"
+    daily_dir.mkdir(parents=True)
+    weekly_dir = tmp_path / "automations" / "life-os-weekly-review"
+    weekly_dir.mkdir(parents=True)
+    good_prompt = (
+        "Run with python src/cloud_routine_runner.py --run-source scheduled "
+        "--routine-id life-os-daily-briefing --success-summary \"success\" "
+        "--failure-summary \"failed\" -- python src/life_work_os_briefing.py. "
+        "Do not manufacture missing data; missing pulls stay dark/not_checked. "
+        "Commit and push outputs with python src/cloud_routine_commit.py --push --format text; "
+        "if push fails, report it. Normalize receipts with python src/cloud_routine_receipts.py."
+    )
+    dependency_prompt = (
+        "Life OS Weekly Review checks days with no Life OS Daily Briefing, but its own "
+        "routine id is life-os-weekly-review."
+    )
+    (daily_dir / "automation.toml").write_text(
+        "\n".join([
+            'id = "life-os-daily-briefing"',
+            'name = "Life OS Daily Briefing"',
+            'status = "ACTIVE"',
+            f"prompt = {json.dumps(good_prompt)}",
+        ]),
+        encoding="utf-8",
+    )
+    (weekly_dir / "automation.toml").write_text(
+        "\n".join([
+            'id = "life-os-weekly-review"',
+            'name = "Life OS Weekly Review"',
+            'status = "ACTIVE"',
+            f"prompt = {json.dumps(dependency_prompt)}",
+        ]),
+        encoding="utf-8",
+    )
+
+    report = cloud_ops_status._automation_summary(
+        automations_dir=tmp_path / "automations",
+        expected_automations=[{
+            "automation_id": "life-os-daily-briefing",
+            "automation_name": "Life OS Daily Briefing",
+            "role": "life_os_daily_briefing",
+            "schedule": "",
+        }],
+    )
+
+    row = report["routines"][0]
+    assert row["installed"] is True
+    assert [match["path"] for match in row["matches"]] == [str(daily_dir / "automation.toml")]
+    assert report["prompt_protocol"]["missing_count"] == 0
+
+
 def test_cloud_ops_status_rejects_prompt_without_writeback_or_source_honesty(tmp_path):
     automation_dir = tmp_path / "automations" / "investing-os-morning-scan"
     automation_dir.mkdir(parents=True)

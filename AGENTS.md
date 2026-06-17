@@ -124,13 +124,14 @@ At the end of any substantive task/session, before going idle, capture loose thr
 - Life OS and Work OS routines live in this repo as support-monitored cloud
   routines on the same rail as Investing OS: `src/cloud_routine_runner.py`,
   `src/cloud_routine_receipts.py`, and `src/cloud_routine_commit.py`.
-- The registered planned routine set is:
+- The registered active support routine set is:
   `life-os-daily-briefing`, `work-os-daily-briefing`,
   `life-os-weekly-review`, `work-os-weekly-review`,
   `life-work-os-heartbeat-watch`, and `life-work-os-safe-hygiene`.
 - Routine prompts live under `src/codex_routines/`. Repo status is mirrored in
-  `src/cloud_automation_status.json`; actual app schedules must not be called
-  active until the Codex automation exists and scheduled receipts land.
+  `src/cloud_automation_status.json`; app-active status means the Codex
+  automation exists, while scheduled-proof status is proven only by
+  `run_source=scheduled` receipts landing on main.
 - Life/Work Notion reads must be deterministic REST reads using
   `Notion-Version: 2025-09-03` and `POST /v1/data_sources/{id}/query` with
   server-side filters and full pagination. Do not use agentic Notion search or

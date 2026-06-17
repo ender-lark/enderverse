@@ -1,0 +1,121 @@
+{
+  "valid": true,
+  "generated_at": "2026-06-17T15:33:46.520556-04:00",
+  "apply_requested": false,
+  "max_mutations": 10,
+  "planned_count": 10,
+  "operations": [
+    {
+      "op": "backfill_investing_source_project",
+      "page_id": "348c5031-4bb6-810e-b1d6-d35e060c725c",
+      "title": "Build canonical \ud83d\udcd2 Positions page from Apr 14 PDFs (one-time setup)",
+      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
+      "target_status": "",
+      "properties": {
+        "Source Project": "Investing 2026"
+      }
+    },
+    {
+      "op": "backfill_investing_source_project",
+      "page_id": "345c5031-4bb6-8190-94f0-d02876216b97",
+      "title": "Reconcile April Fundstrat ETF basket execution into Trade Journal (Parents Schwab PCRA)",
+      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
+      "target_status": "",
+      "properties": {
+        "Source Project": "Investing 2026"
+      }
+    },
+    {
+      "op": "backfill_investing_source_project",
+      "page_id": "345c5031-4bb6-816a-be7f-d3d4d8d33352",
+      "title": "Formalize source-independence check (distinct from source-discipline) to address epistemic laundering risk",
+      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
+      "target_status": "",
+      "properties": {
+        "Source Project": "Investing 2026"
+      }
+    },
+    {
+      "op": "backfill_investing_source_project",
+      "page_id": "345c5031-4bb6-816b-926a-d4822ccf6150",
+      "title": "Build minimal risk/attribution/tax-location module (v0 spec: factor %, benchmark vs SPY, tax-location audit, drift alerts)",
+      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
+      "target_status": "",
+      "properties": {
+        "Source Project": "Investing 2026"
+      }
+    },
+    {
+      "op": "backfill_investing_source_project",
+      "page_id": "345c5031-4bb6-81a3-8cf5-e2fa86780d6a",
+      "title": "Design Scan vs Commit workflow split (two-phase commit pattern for 'update' command)",
+      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
+      "target_status": "",
+      "properties": {
+        "Source Project": "Investing 2026"
+      }
+    },
+    {
+      "op": "backfill_investing_source_project",
+      "page_id": "345c5031-4bb6-81a9-92ad-e2f76e9581ed",
+      "title": "Document why each framework element exists (failure mode it closes) \u2014 REFRAMED from cut audit to keep-audit after disconfirmation",
+      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
+      "target_status": "",
+      "properties": {
+        "Source Project": "Investing 2026"
+      }
+    },
+    {
+      "op": "backfill_investing_source_project",
+      "page_id": "345c5031-4bb6-8170-86fc-dd949d48506c",
+      "title": "Paste FMP data-routing patch into Project Instructions (Investing 2026)",
+      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
+      "target_status": "",
+      "properties": {
+        "Source Project": "Investing 2026"
+      }
+    },
+    {
+      "op": "backfill_investing_source_project",
+      "page_id": "344c5031-4bb6-8133-9a87-cf09ccc9269e",
+      "title": "Finish 2024 taxes",
+      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
+      "target_status": "",
+      "properties": {
+        "Source Project": "Investing 2026"
+      }
+    },
+    {
+      "op": "cancel_past_event_task",
+      "page_id": "344c5031-4bb6-81d5-b9de-f95e81d94ae7",
+      "title": "Confirm caregiver coverage for mom",
+      "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
+      "target_status": "Cancelled",
+      "properties": null
+    },
+    {
+      "op": "cancel_past_event_task",
+      "page_id": "344c5031-4bb6-81f0-a41b-fb3c2d140ecd",
+      "title": "Confirm bowel-regimen plan for mom (constipation recurrence)",
+      "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
+      "target_status": "Cancelled",
+      "properties": null
+    }
+  ],
+  "changelog": {
+    "skipped": true
+  },
+  "apply_result": {
+    "applied": false,
+    "dry_run": true,
+    "count": 0,
+    "results": []
+  },
+  "guardrails": [
+    "idempotent",
+    "never_delete",
+    "cap_mutations_per_run",
+    "log_every_mutation",
+    "never_auto_mutate_work_case_content"
+  ]
+}
