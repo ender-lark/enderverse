@@ -26,12 +26,25 @@ Latest audit state:
 
 ## Active Slice
 
-- `DECISION-DOSSIER-COVERAGE-V1` is in progress: add a Source Proof coverage
+- No active build slice is claimed after
+  `DECISION-DOSSIER-COVERAGE-V1` merged in PR#65.
+
+Future unrelated work should start from a fresh completion audit or a new
+explicit user request, then claim a focused row in `docs/WORKBOARD.md` before
+editing shared docs or routine code.
+
+## 2026-06-16 Decision Dossier Coverage
+
+- Merged in PR#65: add `decision_dossier_coverage.py`, a Source Proof coverage
   audit for current action/material tickers that lack a Decision Dossier row.
-- Sequencing rule: this slice must not compete with the staleness guard.
-  Missing dossier rows are coverage debt only; existing stale/not-checked
-  dossier reads remain the only path into `data_health`, card blockers, and
-  `alert_policy` review alerts.
+- `full_build_runner.py` writes the audit to
+  `source_audits.decision_dossier_coverage` after Today/Decide assembly, and
+  `cockpit_html_gen.py` renders it as the Source Proof `Decision dossiers` row.
+- Sequencing rule: missing dossier rows are coverage debt only. Existing
+  stale/not-checked dossier reads remain the only path into `data_health`, card
+  blockers, and `alert_policy` review alerts.
+- No scoring, ranking, sizing, gate, trade-posture, execution, or alert
+  behavior changed.
 
 ## 2026-06-16 Decision Dossier Dynamic Refresh
 
