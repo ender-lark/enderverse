@@ -964,6 +964,29 @@ def test_generated_html_has_collapsible_dashboard_cards():
     assert "const keepOpen = new Set([]);" in html
 
 
+def test_generated_html_collapses_duplicate_feeder_panels_under_today_decide():
+    feed = _feed()
+    feed["actions"] = [{
+        "rank": 1,
+        "ticker": "NVDA",
+        "kind": "conviction_gap",
+        "action_state": "WATCH",
+        "action_label": "SIZE GAP",
+        "what": "NVDA is under target",
+        "your_move": "Gate before sizing.",
+    }]
+    html = generate_html(feed)
+
+    assert '<details class="feeder-drilldowns">' in html
+    assert "Feeder drill-downs / source panels" in html
+    assert "TODAY" in html and "DECIDE" in html
+    assert html.index('id="today-decide"') < html.index('class="feeder-drilldowns"')
+    assert html.index('class="feeder-drilldowns"') < html.index('id="operator-status"')
+    assert html.index('id="market-open-packet"') < html.index('id="today-actions"')
+    assert html.index('id="today-actions"') < html.index('id="source-conflicts"')
+    assert "Collapsed because TODAY/DECIDE now owns the merged action surface" in html
+
+
 def test_opportunity_context_radar_prefers_latest_rows():
     feed = _feed()
     feed["radar"] = [

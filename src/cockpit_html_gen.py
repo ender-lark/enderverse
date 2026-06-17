@@ -325,6 +325,11 @@ a{color:#58a6ff;text-decoration:none}
 .held-red{border-left-color:#da3633}
 .held-red .held-date{color:#ff7b72}
 .held-warning{border-color:#d2992255;background:#3b2c121f}
+.feeder-drilldowns{background:#111923;border:1px solid #30363d;border-left:4px solid #58a6ff;
+  border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.feeder-drilldowns>summary{cursor:pointer;color:#f0f6fc;font-size:12px;font-weight:800}
+.feeder-drilldowns .summary-muted{margin-top:5px;margin-bottom:8px}
+.feeder-drilldowns .card{margin-top:8px;margin-bottom:8px}
 
 /* summary/export honesty */
 .summary-caveat{border-left:3px solid #d29922}
@@ -2979,6 +2984,18 @@ def _commands_tab() -> str:
 
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
+def _feeder_drilldowns(sections: list[str]) -> str:
+    body = "".join(section for section in sections if str(section or "").strip())
+    if not body:
+        return ""
+    return f"""
+<details class="feeder-drilldowns">
+  <summary>Feeder drill-downs / source panels</summary>
+  <div class="summary-muted">Collapsed because TODAY/DECIDE now owns the merged action surface; these panels remain available for audit and drill-in.</div>
+  {body}
+</details>"""
+
+
 def generate_html(feed: dict) -> str:
     """Generate a self-contained HTML dashboard from a conviction feed dict."""
 
@@ -3046,6 +3063,17 @@ def generate_html(feed: dict) -> str:
     fundstrat_tab_html = _fundstrat_tab(feed.get("fundstrat_news") or {}, feed.get("if_i_were_you") or {})
 
     cmds_html = _commands_tab()
+    feeder_drilldowns_html = _feeder_drilldowns([
+        held_decisions_html,
+        market_open_packet_html,
+        actions_html,
+        source_conflicts_html,
+        context_html,
+        asymmetric_html,
+        reallocation_brief_html,
+        uw_action_runbook_html,
+        research_actions_html,
+    ])
 
     return _ascii_display_safe(_strip_trailing_ws(f"""<!DOCTYPE html>
 <html lang="en">
@@ -3083,20 +3111,12 @@ def generate_html(feed: dict) -> str:
 
   <div id="tab-dashboard">
     {today_decide_html}
-    {held_decisions_html}
     {summary_html}
     {quick_html}
-    {market_open_packet_html}
+    {feeder_drilldowns_html}
     {alert_policy_html}
-    {actions_html}
-    {source_conflicts_html}
-    {context_html}
-    {asymmetric_html}
-    {reallocation_brief_html}
     {operator_html}
-    {uw_action_runbook_html}
     {operator_hardening_html}
-    {research_actions_html}
     {lane_html}
     {source_audits_html}
     {feedback_html}
