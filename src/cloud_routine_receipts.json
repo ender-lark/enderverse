@@ -2,50 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:02.541578Z",
-      "summary": "morning scan manual run completed; Signal Log remains watch-only",
-      "details": {
-        "steps": [
-          {
-            "label": "signal log validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/signal_log_intake.py",
-              "--validate",
-              "src/signal_log.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 11\n}",
-            "stderr": ""
-          },
-          {
-            "label": "macro cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/macro_pulse_scan.py",
-              "--validate",
-              "src/macro_state.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:02.553426Z",
-      "summary": "investing-os-early-cockpit-build manual run started"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "manual",
@@ -6965,7 +6921,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T16:35:06.736173Z",
       "summary": "FS inbox catch-up midday ingested 1 entry; logged 1 Other row; marker advanced to [06/17/2026 09:10 ET]; no gate/card contradiction; query endpoint dark fallback search"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T16:47:14.682205Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T16:49:24.166777Z",
+      "summary": "checked Chrome Macro+Crypto FlashInsights 2 pages, Gmail 0; landed 0 rows; suppressed/discovery-only 2 stale/already-handled feed states; validation passed; alert quiet 0 candidates/5 duplicates/45 suppressed; dark/stale crypto latest Jun8, macro latest already-handled Jun17 10:02 ET; blockers none"
     }
   ],
-  "updated_at": "2026-06-17T16:35:06.736173Z"
+  "updated_at": "2026-06-17T16:49:24.166777Z"
 }
