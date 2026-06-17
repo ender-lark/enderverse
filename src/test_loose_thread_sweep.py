@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 import loose_thread_sweep as lts
 
 
-def test_cutoff_uses_latest_matching_receipt(tmp_path):
+def test_cutoff_uses_latest_eligible_success_receipt(tmp_path):
     receipts = tmp_path / "receipts.json"
     receipts.write_text(
         json.dumps({
@@ -29,6 +29,57 @@ def test_cutoff_uses_latest_matching_receipt(tmp_path):
                     "status": "success",
                     "run_source": "scheduled",
                     "recorded_at": "2026-06-17T02:05:00Z",
+                    "summary": "captured 1 loose thread",
+                },
+                {
+                    "routine_id": lts.ROUTINE_ID,
+                    "status": "started",
+                    "run_source": "scheduled",
+                    "recorded_at": "2026-06-17T02:10:00Z",
+                },
+            ],
+        }),
+        encoding="utf-8",
+    )
+
+    assert lts.cutoff_from_receipts(receipts) == datetime(2026, 6, 17, 2, 5, tzinfo=timezone.utc)
+
+
+def test_cutoff_ignores_legacy_nothing_new_success_without_details(tmp_path):
+    receipts = tmp_path / "receipts.json"
+    now = datetime(2026, 6, 17, 12, 0, tzinfo=timezone.utc)
+    receipts.write_text(
+        json.dumps({
+            "schema_version": 1,
+            "receipts": [
+                {
+                    "routine_id": lts.ROUTINE_ID,
+                    "status": "success",
+                    "run_source": "scheduled",
+                    "recorded_at": "2026-06-17T02:05:00Z",
+                    "summary": "loose-thread sweep nothing new",
+                },
+            ],
+        }),
+        encoding="utf-8",
+    )
+
+    assert lts.cutoff_from_receipts(receipts, now=now, default_lookback_hours=6) == now - timedelta(hours=6)
+
+
+def test_cutoff_accepts_versioned_nothing_new_success(tmp_path):
+    receipts = tmp_path / "receipts.json"
+    receipts.write_text(
+        json.dumps({
+            "schema_version": 1,
+            "receipts": [
+                {
+                    "routine_id": lts.ROUTINE_ID,
+                    "status": "success",
+                    "run_source": "scheduled",
+                    "recorded_at": "2026-06-17T02:05:00Z",
+                    "summary": "loose-thread sweep nothing new",
+                    "details": {"loose_thread_sweep_version": lts.CUTOFF_DETAILS_VERSION},
                 },
             ],
         }),

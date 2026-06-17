@@ -40,9 +40,10 @@ written by this scheduled automation.
 
 ## Candidate Scope
 
-Scope each run to Codex's own recent activity since the last
-`investing-os-loose-thread-sweep` receipt. If no prior sweep receipt exists,
-use the last 24 hours.
+Scope each run to Codex's own recent activity since the last eligible successful
+`investing-os-loose-thread-sweep` receipt. Started receipts, failed receipts,
+and legacy unversioned "nothing new" receipts are not cutoff boundaries. If no
+prior eligible success receipt exists, use the last 24 hours.
 
 Candidate sources:
 
@@ -118,7 +119,9 @@ Success summary must say exactly one of:
 Failed summary must name the blocker, such as Notion dedupe unavailable, git
 fast-forward failed, or write verification failed.
 
-Use details JSON when practical to preserve:
+Always include details JSON on the final success receipt. Include
+`"loose_thread_sweep_version": 2` so the next run can safely use that success
+receipt as its cutoff boundary. Preserve:
 
 - candidate count
 - captured count

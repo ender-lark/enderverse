@@ -19,6 +19,8 @@ ROOT = Path(__file__).resolve().parents[1]
 ROUTINE_ID = "investing-os-loose-thread-sweep"
 DEFAULT_RECEIPTS = ROOT / "src" / "cloud_routine_receipts.json"
 DEFAULT_LOOKBACK_HOURS = 24
+CUTOFF_DETAILS_VERSION = 2
+LEGACY_NOTHING_NEW_SUMMARY = "loose-thread sweep nothing new"
 ET = ZoneInfo("America/New_York")
 
 ROUTE_RESEARCH = "research_queue"
@@ -73,6 +75,19 @@ def _parse_dt(value: Any) -> datetime | None:
     return parsed.astimezone(timezone.utc)
 
 
+def _is_cutoff_receipt(row: dict[str, Any], *, routine_id: str = ROUTINE_ID) -> bool:
+    if row.get("routine_id") != routine_id:
+        return False
+    if str(row.get("status") or "").lower() != "success":
+        return False
+    details = row.get("details") if isinstance(row.get("details"), dict) else {}
+    version = details.get("loose_thread_sweep_version")
+    summary = str(row.get("summary") or "").strip().lower()
+    if summary == LEGACY_NOTHING_NEW_SUMMARY and not version:
+        return False
+    return _parse_dt(row.get("recorded_at")) is not None
+
+
 def cutoff_from_receipts(
     receipts_path: str | Path = DEFAULT_RECEIPTS,
     *,
@@ -85,7 +100,7 @@ def cutoff_from_receipts(
     matching = [
         _parse_dt(row.get("recorded_at"))
         for row in payload.get("receipts", [])
-        if isinstance(row, dict) and row.get("routine_id") == routine_id
+        if isinstance(row, dict) and _is_cutoff_receipt(row, routine_id=routine_id)
     ]
     matching = [dt for dt in matching if dt is not None]
     if matching:
@@ -343,6 +358,10 @@ def collect_candidates(
             "dedupe_before_write": True,
             "content_staleness_required": True,
             "notion_write_performed_by_this_script": False,
+        },
+        "receipt_details": {
+            "loose_thread_sweep_version": CUTOFF_DETAILS_VERSION,
+            "candidate_count": len(candidates),
         },
         "targets": ROUTE_TARGETS,
     }
