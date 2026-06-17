@@ -45,6 +45,10 @@ from decision_dossier_coverage import build_decision_dossier_coverage
 from operator_hardening import build_operator_hardening
 from uw_routing_recommendations import build_uw_routing_recommendations
 from uw_action_runbook import build_uw_action_runbook
+from uw_endpoint_interpret import (
+    apply_operator_interpretations,
+    load_uw_endpoint_interpretations,
+)
 from uw_endpoint_result_proof import build_uw_endpoint_result_proof, load_uw_endpoint_results
 from reallocation_brief import build_reallocation_brief
 from account_trade_placement import annotate_actions, annotate_reallocation_brief
@@ -822,7 +826,11 @@ def active_parabolic_tickers(cache: Any, tiers=("AUTOFIRE", "WATCHLIST")) -> set
     return active
 
 
-def _boundary_artifact_git_problems(path: Path | None) -> list[str]:
+def _boundary_artifact_git_problems(
+    path: Path | None,
+    *,
+    label: str = "UW endpoint proof boundary artifact",
+) -> list[str]:
     if path is None or not path.exists():
         return []
     try:
@@ -847,12 +855,12 @@ def _boundary_artifact_git_problems(path: Path | None) -> list[str]:
             check=True,
         )
     except (OSError, subprocess.CalledProcessError) as exc:
-        return [f"UW endpoint proof boundary artifact git check failed: {exc}"]
+        return [f"{label} git check failed: {exc}"]
     status_rows = [line.strip() for line in status_proc.stdout.splitlines() if line.strip()]
     if not status_rows:
         return []
     return [
-        "UW endpoint proof boundary artifact is dirty/uncommitted: "
+        f"{label} is dirty/uncommitted: "
         + "; ".join(status_rows)
         + f"; commit {rel} before building the cockpit feed from it."
     ]
@@ -988,13 +996,29 @@ def build_full_feed_from_files(
     feed["uw_routing"] = build_uw_routing_recommendations(feed)
     feed["uw_action_runbook"] = build_uw_action_runbook(feed)
     uw_result_payload, uw_result_path, uw_result_problems = load_uw_endpoint_results(src)
+    uw_interpretations, uw_interpretation_path, uw_interpretation_problems = (
+        load_uw_endpoint_interpretations(src)
+    )
     uw_result_problems.extend(_boundary_artifact_git_problems(uw_result_path))
+    if uw_interpretations or uw_interpretation_problems:
+        uw_interpretation_problems.extend(
+            _boundary_artifact_git_problems(
+                uw_interpretation_path,
+                label="UW endpoint interpretation boundary artifact",
+            )
+        )
+    uw_result_problems.extend(uw_interpretation_problems)
     if uw_result_problems:
         boundary_artifact_problems = [
             problem for problem in uw_result_problems if "boundary artifact" in problem
         ]
         if boundary_artifact_problems:
             raise FullBuildError("; ".join(boundary_artifact_problems))
+    uw_result_payload, uw_interpretation_summary = apply_operator_interpretations(
+        uw_result_payload,
+        uw_interpretations,
+    )
+    uw_result_problems.extend(uw_interpretation_summary.get("problems") or [])
     feed["uw_endpoint_proof"] = build_uw_endpoint_result_proof(
         uw_result_payload,
         feed.get("uw_action_runbook") or {},
@@ -1002,6 +1026,7 @@ def build_full_feed_from_files(
         result_path=uw_result_path,
         load_problems=uw_result_problems,
     )
+    feed["uw_endpoint_interpretations"] = uw_interpretation_summary
     feed["uw_action_runbook"]["endpoint_proof"] = {
         "status": feed["uw_endpoint_proof"].get("status") or "",
         "line": feed["uw_endpoint_proof"].get("line") or "",

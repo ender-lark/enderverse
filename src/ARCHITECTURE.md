@@ -330,6 +330,11 @@ what was actually captured.
 * Captured endpoint rows prove fetch status only.
 * `neutral` or otherwise non-directional fetch success maps to
   `inconclusive`, not `supports`.
+* `uw_endpoint_interpret.py` is the only operator interpretation path. It
+  writes `src/uw_endpoint_interpretations.json` rows keyed to a captured
+  neutral row's mode, endpoint, ticker, and exact `checked_at`. The full build
+  can apply those rows as `confirmed` or `contradicted`, but it never
+  auto-promotes a neutral fetch.
 * The captured boundary file (`src/uw_endpoint_results.json`) is routine-owned
   and must be committed with the receipt/feed artifacts when a scheduled proof
   run uses fresh endpoint results.
@@ -337,6 +342,8 @@ what was actually captured.
   staged-only, or untracked `src/uw_endpoint_results.json`; the proof boundary
   must be committed before downstream feed/dashboard artifacts can derive from
   it.
+* Non-empty operator interpretation overlays must also be committed before the
+  full build can derive a cockpit feed from them.
 * Missing or malformed proof fails closed into Source Proof and should keep the
   affected action/reallocation candidate gated.
 

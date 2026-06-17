@@ -701,6 +701,48 @@ def test_full_build_runner_wires_captured_uw_endpoint_proof(tmp_path):
     assert feed["uw_action_runbook"]["endpoint_proof"]["status"] == "has_data"
 
 
+def test_full_build_runner_applies_operator_uw_endpoint_interpretation(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "uw_endpoint_results.json", {
+        "results": [
+            {
+                "mode": "fundstrat_signal_confirmation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:45:00+00:00",
+                "status": "neutral",
+                "summary": "Fetched TICKER_FLOW_RECENT for NVDA; row_count=50.",
+            }
+        ]
+    })
+    _write(src / "uw_endpoint_interpretations.json", {
+        "interpretations": [
+            {
+                "mode": "fundstrat_signal_confirmation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:45:00+00:00",
+                "status": "confirmed",
+                "summary": "Operator read: NVDA flow supports the Fundstrat check.",
+                "interpreted_at": "2026-06-05T13:50:00+00:00",
+            }
+        ]
+    })
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-05",
+        run_timestamp="2026-06-05T14:00:00+00:00",
+    )
+
+    assert feed["uw_endpoint_interpretations"]["applied"] == 1
+    assert feed["uw_endpoint_proof"]["counts"]["confirmed"] == 1
+    assert feed["uw_endpoint_proof"]["interpretation_counts"]["supports"] == 1
+    assert feed["uw_endpoint_proof"]["rows"][0]["checked_at"] == "2026-06-05T13:45:00+00:00"
+
+
 def test_full_build_runner_rejects_modified_uw_endpoint_proof_boundary(tmp_path):
     repo = tmp_path / "repo"
     src = repo / "src"
@@ -780,6 +822,53 @@ def test_full_build_runner_rejects_untracked_uw_endpoint_proof_boundary(tmp_path
 
     assert "UW endpoint proof boundary artifact is dirty/uncommitted" in str(exc.value)
     assert "?? src/uw_endpoint_results.json" in str(exc.value)
+
+
+def test_full_build_runner_rejects_dirty_uw_endpoint_interpretation_boundary(tmp_path):
+    repo = tmp_path / "repo"
+    src = repo / "src"
+    src.mkdir(parents=True)
+    _required_files(src)
+    _write(src / "uw_endpoint_results.json", {
+        "results": [
+            {
+                "mode": "fundstrat_signal_confirmation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:45:00+00:00",
+                "status": "neutral",
+                "summary": "Fetched TICKER_FLOW_RECENT for NVDA; row_count=50.",
+            }
+        ]
+    })
+    _git(repo, "init")
+    _git(repo, "config", "user.email", "codex@example.invalid")
+    _git(repo, "config", "user.name", "Codex Test")
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-m", "base")
+    _write(src / "uw_endpoint_interpretations.json", {
+        "interpretations": [
+            {
+                "mode": "fundstrat_signal_confirmation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:45:00+00:00",
+                "status": "confirmed",
+                "summary": "Uncommitted interpretation must not feed the cockpit.",
+                "interpreted_at": "2026-06-05T13:50:00+00:00",
+            }
+        ]
+    })
+
+    with pytest.raises(full_build_runner.FullBuildError) as exc:
+        build_full_feed_from_files(
+            src_dir=src,
+            as_of="2026-06-05",
+            run_timestamp="2026-06-05T14:00:00+00:00",
+        )
+
+    assert "UW endpoint interpretation boundary artifact is dirty/uncommitted" in str(exc.value)
+    assert "?? src/uw_endpoint_interpretations.json" in str(exc.value)
 
 
 def test_full_build_runner_threads_uw_endpoint_proof_into_action_enrichment(tmp_path, monkeypatch):

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-09",
+  "generated_at": "2026-06-17",
   "owner": "Codex Investing OS",
   "policy": {
     "priority_order": ["P0", "P1", "P2", "P3"],
@@ -205,6 +205,70 @@
       "area": "routines",
       "why": "The live cockpit should use the available monthly Fundstrat source without storing noisy Core List tables or chart text.",
       "done_when": "The May 2026 monthly PDF writes compact fundstrat_bible and top_prospects convention files, dark lanes shrink, and uncorroborated quiet Bottom 5 rows stay out of Today's Actions."
+    },
+    {
+      "id": "scheduled-boundary-outcome-reporting",
+      "title": "Separate scheduled fired proof from fresh boundary-data proof",
+      "priority": "P1",
+      "status": "queued",
+      "area": "routines",
+      "why": "Scheduled proof can be green even when a routine fires but writes no fresh artifact. Operators need fired, committed, no-op, and stale-boundary outcomes split apart.",
+      "done_when": "Routine receipts and ops views distinguish fired from produced fresh committed boundary data for each cockpit-critical artifact."
+    },
+    {
+      "id": "uw-operator-interpretation-workflow",
+      "title": "Require explicit operator interpretation for UW supports or contradicts",
+      "priority": "P1",
+      "status": "done",
+      "area": "routines",
+      "why": "A successful UW fetch is not a direction. The system needs a named mechanism for turning inconclusive endpoint rows into supports or contradicts without auto-promoting neutral.",
+      "done_when": "Neutral UW rows remain inconclusive unless a committed operator interpretation tied to the captured row explicitly marks confirmed or contradicted.",
+      "outcome": "Added uw_endpoint_interpret.py plus full-build wiring. Operator overlays must target a captured neutral row by mode, endpoint, ticker, and checked_at; non-empty dirty overlays fail closed before the cockpit feed can derive from them."
+    },
+    {
+      "id": "local-dashboard-origin-tracking",
+      "title": "Keep the local dashboard visibly tied to the freshest scheduled build",
+      "priority": "P1",
+      "status": "queued",
+      "area": "dashboard",
+      "why": "A stale local tab can contradict origin/main scheduled proof and make operators distrust the cockpit.",
+      "done_when": "The local server either tracks the latest scheduled origin/main artifact or clearly reports checkout, branch, commit, feed timestamp, and hash in the UI and health endpoint."
+    },
+    {
+      "id": "source-scoring-maturation",
+      "title": "Keep source scoring honest until graded outcomes reach threshold",
+      "priority": "P2",
+      "status": "queued",
+      "area": "source_scoring",
+      "why": "Source scoring should refresh daily but remain off until enough closed graded calls exist. Lowering thresholds or fake backfills would create false confidence.",
+      "done_when": "source_rates regenerates from real source_calls, reports n=0 or insufficient data honestly, and flips on only when n>=15 per scored source/tier."
+    },
+    {
+      "id": "fundstrat-inbox-reliability-contract",
+      "title": "Make Fundstrat inbox checked/not-checked state explainable",
+      "priority": "P1",
+      "status": "queued",
+      "area": "fundstrat",
+      "why": "The cockpit must say whether the Fundstrat inbox was actually checked this render, not hide Gmail/Chrome gaps behind cached daily calls.",
+      "done_when": "Fundstrat intake surfaces last checked time, access path, snippet-only/full-body counts, and explicit not_checked reasons in the feed."
+    },
+    {
+      "id": "decision-surface-quality-pass",
+      "title": "Make the cockpit show why nothing is actionable",
+      "priority": "P1",
+      "status": "queued",
+      "area": "cockpit",
+      "why": "When there are no ACT_NOW rows, the operator needs the blocking reason, next proof needed, sizing implication, and time sensitivity rather than a quiet dashboard.",
+      "done_when": "The primary cockpit surfaces blocked-but-important candidates with proof gaps, timing sensitivity, sizing impact, and next operator step."
+    },
+    {
+      "id": "conviction-layer-tuning-roadmap",
+      "title": "Defer conviction tuning until honest proof rails are stable",
+      "priority": "P2",
+      "status": "deferred",
+      "area": "conviction",
+      "why": "Weight and threshold tuning can make the dashboard look more actionable before the proof and data-freshness contracts are reliable.",
+      "done_when": "After boundary proof, interpretation, local freshness, source scoring, and decision-surface gaps are stable, revisit conviction weights without weakening honesty rails."
     }
   ]
 }

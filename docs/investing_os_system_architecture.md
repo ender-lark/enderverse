@@ -420,6 +420,11 @@ The dashboard shows the feed plus operator state:
   - Captured rows prove endpoint fetch status only. Successful fetches remain
     inconclusive until interpretation explicitly supports or contradicts the
     dashboard thesis; they never auto-promote trades.
+  - `src/uw_endpoint_interpret.py` records that interpretation as an operator
+    overlay in `src/uw_endpoint_interpretations.json`, keyed to the captured
+    row's mode, endpoint, ticker, and exact `checked_at`. The full build applies
+    only committed non-empty overlays; dirty/uncommitted overlays fail closed so
+    support or contradiction cannot come from a local scratch file.
   - On Windows, `UWRestClient` can read `UW_API_KEY` from the current user's
     saved environment variable when the running Codex process did not inherit
     it. The key is not printed or committed.

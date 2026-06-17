@@ -71,6 +71,7 @@ DEFAULT_ALLOWED_PATHS = [
     "src/event_risk_intake_summary.json",
     "src/uw_opportunity_signals.json",
     "src/uw_endpoint_results.json",
+    "src/uw_endpoint_interpretations.json",
     "src/parabolic_setups.json",
     "src/research_queue.json",
     # V3 decision-layer state files (Task 8):

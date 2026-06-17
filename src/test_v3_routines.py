@@ -59,6 +59,7 @@ def test_cloud_routine_allowlist_preserves_v2_entries():
         "src/source_calls.json",
         "src/source_rates.json",
         "src/uw_endpoint_results.json",
+        "src/uw_endpoint_interpretations.json",
         "src/top_prospects.json",
         "src/parabolic_setups.json",
         "src/fs_ingest_inventory.json",

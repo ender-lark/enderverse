@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07",
+  "generated_at": "2026-06-17",
   "canonical_dashboard": {
     "renderer": "src/conviction_cockpit_v5.jsx",
     "injector": "src/render_cockpit.py",
@@ -220,6 +220,11 @@
       "primary_status": "canonical-rendered",
       "canonical_surface": "UW Action Runbook endpoint-proof banner plus Source Proof row",
       "summary_surface": "UW action runbook endpoint-proof row plus Source proof and audits row"
+    },
+    "uw_endpoint_interpretations": {
+      "primary_status": "intentionally-hidden",
+      "canonical_surface": "Consumed by uw_endpoint_proof as proof metadata; not a standalone dashboard panel",
+      "summary_surface": "Consumed by uw_endpoint_proof as proof metadata; not rendered as a separate summary card"
     },
     "reallocation_brief": {
       "primary_status": "canonical-rendered",
