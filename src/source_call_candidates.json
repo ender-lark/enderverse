@@ -1202,5 +1202,28 @@
     "use_case": "technical_timing",
     "decision_usefulness": "medium",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "source": "tom lee",
+    "ticker": "SPY",
+    "tier": "D",
+    "confidence_in_tier": "LOW",
+    "verbatim_quote": "Tom Lee says Warsh was not hawkish, just dynamically navigating rates; treat the post-FOMC equity dip as buyable rather than a reason to de-risk broad beta.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-17",
+    "window_end": "2026-08-16",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-17",
+    "fundstrat_lane": "macro",
+    "source_domain": "macro_strategy",
+    "source_weight_note": "Macro baseline from Fundstrat; useful for risk posture and capital timing, but confirm action with current tape and portfolio fit.",
+    "confidence_policy": "Use as the Fundstrat macro baseline; do not turn into a trade without current validation.",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]

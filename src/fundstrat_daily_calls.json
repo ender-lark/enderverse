@@ -943,5 +943,24 @@
     "use_case": "technical_timing",
     "decision_usefulness": "high",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Tom Lee",
+    "ticker": "SPY",
+    "direction": "buy",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "next session / post-FOMC dip-check",
+    "quote": "Tom Lee says Warsh was not hawkish, just dynamically navigating rates; treat the post-FOMC equity dip as buyable rather than a reason to de-risk broad beta.",
+    "date": "2026-06-17",
+    "subject": "Macro Minute: Warsh not hawkish; buy-the-dip read",
+    "source_message_id": "fundstrat-web-video-transcript-2026-06-17-1856-et-spy-warsh-not-hawkish",
+    "source": "Fundstrat Chrome video transcript",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]

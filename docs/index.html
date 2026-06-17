@@ -76,6 +76,11 @@ a{color:#58a6ff;text-decoration:none}
 .held-red{border-left-color:#da3633}
 .held-red .held-date{color:#ff7b72}
 .held-warning{border-color:#d2992255;background:#3b2c121f}
+.feeder-drilldowns{background:#111923;border:1px solid #30363d;border-left:4px solid #58a6ff;
+  border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.feeder-drilldowns>summary{cursor:pointer;color:#f0f6fc;font-size:12px;font-weight:800}
+.feeder-drilldowns .summary-muted{margin-top:5px;margin-bottom:8px}
+.feeder-drilldowns .card{margin-top:8px;margin-bottom:8px}
 
 /* summary/export honesty */
 .summary-caveat{border-left:3px solid #d29922}
@@ -301,7 +306,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Dashboard</h1>
-      <div class="stamp" title="built 2026-06-17 16:49 ET  sourced: portfolio 06-17  uw_price 06-17  uw_macro 06-17  fundstrat_bible 06-11  fundstrat_daily 06-17">built 06-17 16:49 ET &middot; data 06-17: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
+      <div class="stamp" title="built 2026-06-17 19:10 ET  sourced: portfolio 06-17  uw_price 06-17  uw_macro 06-17  fundstrat_bible 06-11  fundstrat_daily 06-17">built 06-17 19:10 ET &middot; data 06-17: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
 
     </div>
     <div style="text-align:right">
@@ -329,6 +334,18 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .td .td-anchor{font-size:17px;margin:8px 0 2px 0}
 .td .td-pace{color:#94a3b8;font-style:italic;font-size:11px;margin:0 0 10px 0}
 .td .td-plan{color:#cbd5e1;font-size:13px;margin:0 0 10px 0}
+.td .td-command{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-command-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.td .td-command-line{font-size:16px;color:#f8fafc;font-weight:900;letter-spacing:.02em}
+.td .td-command-state{font-size:11px;text-transform:uppercase;font-weight:900;letter-spacing:.08em}
+.td .td-command-state-starved{color:#fbbf24}
+.td .td-command-state-confident{color:#34d399}
+.td .td-command-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin-top:8px}
+.td .td-command-cell{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:7px}
+.td .td-command-count{font-size:18px;color:#f8fafc;font-weight:900}
+.td .td-command-label{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-command-detail{font-size:11px;color:#94a3b8;line-height:1.3;margin-top:2px}
+.td .td-command-system{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:8px}
 .td .td-first{border:1px solid #475569;border-left:5px solid #38bdf8;border-radius:12px;
   background:#07101e;padding:12px;margin:10px 0 12px}
 .td .td-first-kicker{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.08em}
@@ -339,6 +356,32 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .td .td-first-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
 .td .td-first-value{font-size:13px;color:#e2e8f0;line-height:1.35;margin-top:3px}
 .td .td-first-rail{margin:8px 0 9px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.td .td-readiness{border:1px solid #243044;border-radius:8px;background:#08111f;padding:8px;margin:9px 0}
+.td .td-readiness-title{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em;margin-bottom:6px}
+.td .td-readiness-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}
+.td .td-ready-chip{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:6px;min-width:0}
+.td .td-ready-ok{border-color:#166534;background:#071910}
+.td .td-ready-blocked{border-color:#ef4444;background:#220b0b}
+.td .td-ready-unknown{border-color:#f59e0b;background:#1f1606}
+.td .td-ready-label{font-size:10px;color:#cbd5e1;text-transform:uppercase;font-weight:900;letter-spacing:.04em}
+.td .td-ready-status{font-size:11px;color:#f8fafc;font-weight:900;margin-top:2px;text-transform:uppercase}
+.td .td-ready-detail{font-size:11px;color:#94a3b8;line-height:1.25;margin-top:2px}
+.td .td-pressure{border:1px solid #334155;border-left:4px solid #60a5fa;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-pressure-title{font-size:12px;color:#f8fafc;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+.td .td-pressure-line{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
+.td .td-pressure-row{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:8px;margin-top:8px}
+.td .td-pressure-head{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.td .td-pressure-state{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-pressure-name{font-size:14px;color:#f8fafc;font-weight:850;line-height:1.25;margin-top:2px}
+.td .td-pressure-detail{font-size:12px;color:#94a3b8;line-height:1.35;margin-top:3px}
+.td .td-pressure-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.td .td-feeder{border:1px solid #243044;border-radius:9px;background:#08111f;padding:9px;margin:9px 0}
+.td .td-feeder>summary{cursor:pointer;color:#e2e8f0;font-size:12px;font-weight:850}
+.td .td-feeder-row{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:7px;margin-top:7px}
+.td .td-feeder-top{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.td .td-feeder-key{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.05em}
+.td .td-feeder-title{font-size:13px;color:#f8fafc;font-weight:800;margin-top:2px}
+.td .td-feeder-meta{font-size:11px;color:#94a3b8;line-height:1.35;margin-top:3px}
 .td .td-passivity{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
 .td .td-passivity-title{font-size:12px;color:#f8fafc;font-weight:850;margin-bottom:4px}
 .td .td-passivity-line{font-size:12px;color:#cbd5e1;line-height:1.4}
@@ -510,10 +553,13 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-anchor">$1,898,621 -> $3,000,000  |  63.3% there</div>
 <div class="td-pace">(display-only) gap $1,101,379  |  18 months to 2027-12-31  |   $61,188/month - pace never feeds ranking or urgency</div>
 <div class="td-plan">plan: funding pool n/a  |  shortfall $467,497  |  positions as of 2026-06-17</div>
-<div class="td-first"><div class="td-first-kicker">Primary capital/risk decision</div><div class="td-first-main"><div class="td-first-decision">TRIM GRNY</div><div class="td-first-rail"><button class="td-rail" data-card="GRNY-TRIM-2026-06-17" data-verb="ACT" data-copy="ACT GRNY-TRIM-2026-06-17" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">TRIM</button><span class="td-row">Rail copy is render-only; no trade executes.</span></div></div><div class="td-first-grid"><div class="td-first-cell"><div class="td-first-label">Size/tranche</div><div class="td-first-value">$123,845 tranche; $123,845 / material</div></div><div class="td-first-cell"><div class="td-first-label">Blocked by</div><div class="td-first-value">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-first-cell"><div class="td-first-label">Changed</div><div class="td-first-value">No decision, watch, gate, or dark-lane change versus the last committed dashboard build.</div></div><div class="td-first-cell"><div class="td-first-label">Risk rail</div><div class="td-first-value">Normal source, sizing, concentration, and account rails still apply.</div></div><div class="td-first-cell"><div class="td-first-label">Can wait</div><div class="td-first-value">14 research/watch-only and 6 rail-constrained item(s) can wait.</div></div></div></div>
+<div class="td-command"><div class="td-command-head"><div><div class="td-command-line">0 ACT | 7 DECIDE | 6 RESOLVE | 14 WATCH</div><div class="td-command-system">goal: $1,898,621 to $3,000,000; 63.3% there</div></div><div class="td-command-state td-command-state-starved">starved</div></div><div class="td-command-grid"><div class="td-command-cell"><div class="td-command-count">0</div><div class="td-command-label">ACT</div><div class="td-command-detail">all rails clear</div></div><div class="td-command-cell"><div class="td-command-count">7</div><div class="td-command-label">DECIDE</div><div class="td-command-detail">operator yes/no/recheck needed</div></div><div class="td-command-cell"><div class="td-command-count">6</div><div class="td-command-label">RESOLVE</div><div class="td-command-detail">named blocker must clear</div></div><div class="td-command-cell"><div class="td-command-count">14</div><div class="td-command-label">WATCH</div><div class="td-command-detail">weak, early, or research-only</div></div></div><div class="td-command-system">Starved: no executable command has cleared the rails; surface the highest-leverage unblock. System caveat: Source scoring is OFF - no graded track record yet, so analyst calls are not moving any score.</div><div class="td-command-system">Render-only command surface; counts do not change scoring, sizing, gates, ranking, or dispositions.</div></div>
+<div class="td-first"><div class="td-first-kicker">Primary command - RESOLVE</div><div class="td-first-main"><div class="td-first-decision">Resolve GOOGL add</div><div class="td-first-rail"><button class="td-rail td-rail-muted" data-card="GOOGL-ADD-2026-06-17" data-verb="RECHECK" data-copy="RECHECK GOOGL-ADD-2026-06-17 resolve named blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RESOLVE</button><span class="td-row">Rail copy is render-only; no trade executes.</span></div></div><div class="td-first-grid"><div class="td-first-cell"><div class="td-first-label">Size/tranche</div><div class="td-first-value">$151,890 tranche = 13.8% of goal gap; cap room $0 (heat ABOVE_CAP); funding source IVES trim -&gt; GOOGL $67,912; SMH trim -&gt; GOOGL $2,016; concentration rail current 3.8% / floor 1.5% / ceiling 3.0%; account eligibility SKB Schwab Individual ...254 Individual ...25... eligible; flags tax_bucket:taxable, tax_status:taxable; leverage/margin: not_checked - cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.</div></div><div class="td-first-cell"><div class="td-first-label">Blocked by</div><div class="td-first-value">0 of 5 blockers cleared; blocked by price/tape gate; waiting on cap room, cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-first-cell"><div class="td-first-label">Changed</div><div class="td-first-value">No decision, watch, gate, or dark-lane change versus the last committed dashboard build.</div></div><div class="td-first-cell"><div class="td-first-label">Risk rail</div><div class="td-first-value">T3 floor 1.5% ($28,479) / ceiling 3.0% ($56,959); current 3.8% ($71,794); cap room $0; floor gap $0; flags no_thesis_row; heat ABOVE_CAP; cash not_checked - cash balances are not in the positions cache; confirm buying power before placing; account SKB Schwab Individual ...254 Individual ...25...</div></div><div class="td-first-cell"><div class="td-first-label">Can wait</div><div class="td-first-value">14 research/watch-only and 6 rail-constrained item(s) can wait.</div></div></div><div class="td-readiness"><div class="td-readiness-title">Readiness layers</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Routine fired</div><div class="td-ready-status">ok</div><div class="td-ready-detail">routine fired proof 14/14; boundary data not implied</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Boundary artifact</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">dark boundary lane(s): FS inbox, analyst track record</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Signal interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Decision eligible</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">0 of 5 blockers cleared; blocked by price/tape gate; waiting on cap room, cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Trade executable</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">RESOLVE state is not executable</div></div></div><div class="td-readiness-title" style="margin-top:8px">Resolve checklist</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">UW interpreted</div><div class="td-ready-status">ok</div><div class="td-ready-detail">UW-dependent blocker not visible</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cash/buying power</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">funding or cash rail</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Account eligibility</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">account/sleeve eligibility</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cap room</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">ABOVE_CAP</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Research/disconfirmation</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Event risk</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">event-risk blocker visible</div></div></div><div class="td-ready-detail">Routine proof is only the first layer; it never means fresh boundary data or executable trade.</div></div></div>
+<div class="td-pressure"><div class="td-pressure-title">Decision pressure</div><div class="td-pressure-line">3 DECIDE prompt(s): 3 overdue held review(s), 0 high-impact watch promotion(s).</div><div class="td-pressure-row"><div class="td-pressure-head"><div><div class="td-pressure-state">DECIDE | held_review_due</div><div class="td-pressure-name">Review due: Full-book rebalance (Council synthesis)</div></div><div class="td-pressure-state">HELD</div></div><div class="td-pressure-detail">Keep held, pass, or recheck with a new review date.</div><div class="td-pressure-detail">review_by 2026-06-14; parked 2026-06-13; 3 day(s) overdue</div><div class="td-pressure-detail"><a href="https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4">source</a></div><div class="td-pressure-actions"><button class="td-rail td-rail-muted" data-card="HELD|sunday-rebalance-packet" data-verb="KEEP_HELD" data-copy="KEEP_HELD sunday-rebalance-packet reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">KEEP HELD</button><button class="td-rail td-rail-muted" data-card="HELD|sunday-rebalance-packet" data-verb="PASS" data-copy="PASS sunday-rebalance-packet reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail td-rail-muted" data-card="HELD|sunday-rebalance-packet" data-verb="RECHECK" data-copy="RECHECK sunday-rebalance-packet new_review_by: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button></div></div><div class="td-pressure-row"><div class="td-pressure-head"><div><div class="td-pressure-state">DECIDE | held_review_due</div><div class="td-pressure-name">Review due: Geo Risk Register v0 (Power &amp; Policy)</div></div><div class="td-pressure-state">HELD</div></div><div class="td-pressure-detail">Keep held, pass, or recheck with a new review date.</div><div class="td-pressure-detail">review_by 2026-06-14; parked 2026-06-13; 3 day(s) overdue</div><div class="td-pressure-detail"><a href="https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d">source</a></div><div class="td-pressure-actions"><button class="td-rail td-rail-muted" data-card="HELD|sunday-geo-risk-register-v0" data-verb="KEEP_HELD" data-copy="KEEP_HELD sunday-geo-risk-register-v0 reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">KEEP HELD</button><button class="td-rail td-rail-muted" data-card="HELD|sunday-geo-risk-register-v0" data-verb="PASS" data-copy="PASS sunday-geo-risk-register-v0 reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail td-rail-muted" data-card="HELD|sunday-geo-risk-register-v0" data-verb="RECHECK" data-copy="RECHECK sunday-geo-risk-register-v0 new_review_by: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button></div></div><div class="td-pressure-row"><div class="td-pressure-head"><div><div class="td-pressure-state">DECIDE | held_review_due</div><div class="td-pressure-name">Review due: Policy Money Map v0 (Power &amp; Policy)</div></div><div class="td-pressure-state">HELD</div></div><div class="td-pressure-detail">Keep held, pass, or recheck with a new review date.</div><div class="td-pressure-detail">review_by 2026-06-14; parked 2026-06-13; 3 day(s) overdue</div><div class="td-pressure-detail"><a href="https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959">source</a></div><div class="td-pressure-actions"><button class="td-rail td-rail-muted" data-card="HELD|sunday-policy-money-map-v0" data-verb="KEEP_HELD" data-copy="KEEP_HELD sunday-policy-money-map-v0 reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">KEEP HELD</button><button class="td-rail td-rail-muted" data-card="HELD|sunday-policy-money-map-v0" data-verb="PASS" data-copy="PASS sunday-policy-money-map-v0 reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button><button class="td-rail td-rail-muted" data-card="HELD|sunday-policy-money-map-v0" data-verb="RECHECK" data-copy="RECHECK sunday-policy-money-map-v0 new_review_by: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button></div></div><div class="td-pressure-detail">Display-only disposition pressure; rows add yes/pass/recheck prompts but do not change scoring, sizing, gates, trades, or source grading.</div></div>
+<details class="td-feeder"><summary>Merged candidate feeder index (56): 0 ACT | 7 DECIDE | 27 RESOLVE | 22 WATCH</summary><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">DECIDE | HELD|sunday-rebalance-packet</div><div class="td-feeder-title">Review due: Full-book rebalance (Council synthesis)</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: held_review_due</div><div class="td-feeder-meta">evidence: review_by 2026-06-14; parked 2026-06-13; 3 day(s) overdue</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">DECIDE | HELD|sunday-geo-risk-register-v0</div><div class="td-feeder-title">Review due: Geo Risk Register v0 (Power &amp; Policy)</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: held_review_due</div><div class="td-feeder-meta">evidence: review_by 2026-06-14; parked 2026-06-13; 3 day(s) overdue</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">DECIDE | HELD|sunday-policy-money-map-v0</div><div class="td-feeder-title">Review due: Policy Money Map v0 (Power &amp; Policy)</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: held_review_due</div><div class="td-feeder-meta">evidence: review_by 2026-06-14; parked 2026-06-13; 3 day(s) overdue</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">DECIDE | MAGS|lean_in</div><div class="td-feeder-title">Lean-in  looks good</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: feed.actions</div><div class="td-feeder-meta">evidence: Lean-in  looks good</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">DECIDE | RYF|sell_fast</div><div class="td-feeder-title">Avoid-new-exposure watch</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: feed.actions</div><div class="td-feeder-meta">evidence: Avoid-new-exposure watch</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">DECIDE | SYSTEM|event_risk</div><div class="td-feeder-title">Event risk: Middle East oil/rates shock can affect new-buy timing</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: feed.actions</div><div class="td-feeder-meta">evidence: Event risk: Middle East oil/rates shock can affect new-buy timing</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">DECIDE | XOP|sell_fast</div><div class="td-feeder-title">Avoid-new-exposure watch</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: feed.actions</div><div class="td-feeder-meta">evidence: Avoid-new-exposure watch</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">RESOLVE | AMZN|uw_runbook</div><div class="td-feeder-title">Resolve AMZN UW check</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: uw_action_runbook</div><div class="td-feeder-meta">evidence: the setup is only flow/social/context without independent confirmation</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">RESOLVE | AVGO|uw_runbook</div><div class="td-feeder-title">Resolve AVGO UW check</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: uw_action_runbook</div><div class="td-feeder-meta">evidence: the setup is only flow/social/context without independent confirmation</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">RESOLVE | BMNR|uw_runbook</div><div class="td-feeder-title">Resolve BMNR UW check</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: uw_action_runbook</div><div class="td-feeder-meta">evidence: the setup is only flow/social/context without independent confirmation</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">RESOLVE | BX|uw_runbook</div><div class="td-feeder-title">Resolve BX UW check</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: uw_action_runbook</div><div class="td-feeder-meta">evidence: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; same-session headlines, rates/oil levels, or sector tape are missing or contradictory</div></div><div class="td-feeder-row"><div class="td-feeder-top"><div><div class="td-feeder-key">RESOLVE | COIN|uw_runbook</div><div class="td-feeder-title">Resolve COIN UW check</div></div><div class="td-feeder-key">1 independent</div></div><div class="td-feeder-meta">sources: uw_action_runbook</div><div class="td-feeder-meta">evidence: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open; same-session headlines, rates/oil levels, or sector tape are missing or contradictory</div></div><div class="td-feeder-meta">+44 more merged rows in payload.</div><div class="td-feeder-meta">Display-only merged feeder index keyed by ticker|lane; source families are shown for context only and never counted as conviction or sizing.</div></details>
 <div class="td-passivity"><div class="td-passivity-title">Ownership-aware passivity</div><div class="td-passivity-line">0 are yours to decide now; 0 waiting on market/price/tape; 0 waiting on source/data; 14 research/watch-only; 6 cap/risk/cash constrained; 0 system-blocked/not_checked.</div><div class="td-passivity-grid"><div class="td-passivity-bucket"><div class="td-passivity-count">0</div><div class="td-passivity-label">yours to decide now</div></div><div class="td-passivity-bucket"><div class="td-passivity-count">0</div><div class="td-passivity-label">waiting on market/price/tape gate</div></div><div class="td-passivity-bucket"><div class="td-passivity-count">0</div><div class="td-passivity-label">waiting on source/data freshness</div></div><div class="td-passivity-bucket"><div class="td-passivity-count">14</div><div class="td-passivity-label">research/watch-only</div></div><div class="td-passivity-bucket"><div class="td-passivity-count">6</div><div class="td-passivity-label">cap/risk/cash constrained</div></div><div class="td-passivity-bucket"><div class="td-passivity-count">0</div><div class="td-passivity-label">system-blocked/not_checked</div></div></div><div class="td-row">Only bucket operator_owned_actionable_now is operator latency; all other buckets are waiting on rails, markets, data, or research state.</div></div>
 <div class="td-coverage"><div class="td-coverage-title">Disposition coverage</div><div class="td-coverage-line">19 visible items not disposition-covered; 0 could promote to Today/Decide; 19 intentionally watch/research-only.</div><div class="td-coverage-row">feed.actions: intentionally_watch_research_only - action row is not a capital-decision kind</div><div class="td-coverage-row">RYF: intentionally_watch_research_only - action row is not a capital-decision kind</div><div class="td-coverage-row">XOP: intentionally_watch_research_only - action row is not a capital-decision kind</div><div class="td-coverage-row">prospects: intentionally_watch_research_only - prospects stays watch/research-only</div><div class="td-coverage-row">research: intentionally_watch_research_only - research stays watch/research-only</div><div class="td-coverage-row">Coverage is render-only; social/watch/research rows are not promoted into trade cards here.</div></div>
-<div class="td-trust td-trust-alert"><div class="td-trust-head">Can I trust this screen? Source scoring is OFF - no graded track record yet, so analyst calls are not moving any score.</div><div class="td-trust-grid"><div class="td-trust-item"><div class="td-trust-label" style="color:#f87171">Source scoring</div><div class="td-trust-detail">Source scoring is OFF - no graded track record yet, so analyst calls are not moving any score.</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#34d399">Automations</div><div class="td-trust-detail">scheduled proof 14/14</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#fbbf24">FS inbox</div><div class="td-trust-detail">not checked this render</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#34d399">Core data</div><div class="td-trust-detail">positions, prices, macro, analyst monthly, analyst daily notes fresh</div></div></div></div>
+<div class="td-trust td-trust-alert"><div class="td-trust-head">Can I trust this screen? Source scoring is OFF - no graded track record yet, so analyst calls are not moving any score.</div><div class="td-trust-grid"><div class="td-trust-item"><div class="td-trust-label" style="color:#f87171">Source scoring</div><div class="td-trust-detail">Source scoring is OFF - no graded track record yet, so analyst calls are not moving any score.</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#34d399">Automations</div><div class="td-trust-detail">routine fired proof 14/14; boundary data not implied</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#fbbf24">FS inbox</div><div class="td-trust-detail">not checked this render</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#34d399">Core data</div><div class="td-trust-detail">positions, prices, macro, analyst monthly, analyst daily notes fresh</div></div></div></div>
 <div class="td-verdict"><div class="td-verdict-title">Nothing actionable yet: scorer is starved or blocked, not bearish. Next lever: fresh-check material names (GRNY/GOOGL/MSFT) or load the FS inbox / get a graded call or revisit the GOOGL cap if conviction warrants.</div><div class="td-verdict-line">3 material decisions | 3 funding-only legs | 4 evidence-starved cards | 14 watchlist/pullback candidates | 2 stale/not-checked lanes | strongest evidence: GRNY: bullish (UW opportunity oi build)</div></div>
 <div class="td-card-section-title">Material decisions</div>
 <details id="td-card-GRNY" class="td-card td-conflicted">
@@ -521,6 +567,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#1 GRNY</div><div class="td-face-status">resolve direction</div><div class="td-face-title">Resolve signal before trimming GRNY</div><div class="td-face-sentence">Do not act yet. Resolve the conflicting evidence first: no directional evidence; battery opposition: UW opportunity oi build</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-material">$123,845 / material</span></div></div>
 </summary><div class="td-body">
 <div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Do not act yet</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">no directional evidence; battery opposition: UW opportunity oi build</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps GRNY - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-readiness"><div class="td-readiness-title">Readiness layers</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Routine fired</div><div class="td-ready-status">ok</div><div class="td-ready-detail">routine fired proof 14/14; boundary data not implied</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Boundary artifact</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">dark boundary lane(s): FS inbox, analyst track record</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Signal interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">no directional evidence; battery opposition: UW opportunity oi build</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Decision eligible</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Trade executable</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">RESOLVE state is not executable</div></div></div><div class="td-readiness-title" style="margin-top:8px">Resolve checklist</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">UW interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">no directional evidence; battery opposition: UW opportunity oi build</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cash/buying power</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">funding or cash rail</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Account eligibility</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">account/sleeve eligibility</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Cap room</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">no sizing/cap lane on this card</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Research/disconfirmation</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Event risk</div><div class="td-ready-status">ok</div><div class="td-ready-detail">no event-risk blocker visible</div></div></div><div class="td-ready-detail">Routine proof is only the first layer; it never means fresh boundary data or executable trade.</div></div>
 <div class="td-blocker-tax"><div class="td-blocker-tax-title">Distance to actionable</div><div class="td-blocker-tax-line">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div><div class="td-blocker-tax-row">flow/evidence conflict: no directional evidence; battery opposition: UW opportunity oi build</div><div class="td-blocker-tax-row">cash/funding: funding or cash rail</div><div class="td-blocker-tax-row">account/sleeve eligibility: account/sleeve eligibility</div><div class="td-blocker-tax-row">research/disconfirmation missing: research or disconfirmation lane</div><div class="td-blocker-tax-row">Count uses only currently visible unmet blocker categories; it never means the move is ready.</div></div>
 
 
@@ -545,8 +592,8 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">13F/insider lane goes live in the orphan-wiring chunk</div>
 </div></div>
 <details class="td-muted-details"><summary>Decision dossier not checked for GRNY</summary><div class="td-dossier-head">Decision dossier: GRNY</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></details>
-<button class="td-rail" data-card="GRNY-TRIM-2026-06-17" data-verb="ACT" data-copy="ACT GRNY-TRIM-2026-06-17" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="GRNY-TRIM-2026-06-17" data-verb="PASS" data-copy="PASS GRNY-TRIM-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
-<button class="td-rail" data-card="GRNY-TRIM-2026-06-17" data-verb="RECHECK" data-copy="RECHECK GRNY-TRIM-2026-06-17 resurface 2026-06-22" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
+<div class="td-row"><strong>Rail:</strong> RESOLVE: named blocker must clear</div>
+<button class="td-rail td-rail-muted" data-card="GRNY-TRIM-2026-06-17" data-verb="RECHECK" data-copy="RECHECK GRNY-TRIM-2026-06-17 named blocker must clear" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RESOLVE</button><button class="td-rail" data-card="GRNY-TRIM-2026-06-17" data-verb="PASS" data-copy="PASS GRNY-TRIM-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
 <div class="td-row">trigger: funding trim - sleeve overexposed vs model band (2026-06-17)  |  deadline 2026-06-17</div>
 <div class="td-row"> sleeve overexposed vs model band - scoped rotation trigger</div>
 <details><summary>what changes this</summary><div>flip: trigger clears if rotation state recovers / exposure returns to band</div></details>
@@ -559,6 +606,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-chip">TRANSFER NEEDED: $74,493 of these proceeds land inside PCRA and CANNOT buy individual stocks - the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding.</div>
 <div class="td-row">impact:  $123,845 (6.5% of book)  |  material: yes</div>
 <div class="td-row">after action: no ACT/PASS/RECHECK logged; open; next review 2026-06-22</div>
+<div class="td-row">outcome: pending disposition; source grading unchanged</div>
 <details class="td-muted-details"><summary>Not checked / optional context</summary>
 <div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
 <div class="td-row">not checked: institutional, uw_same_session</div>
@@ -569,6 +617,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#2 GOOGL</div><div class="td-face-status">review</div><div class="td-face-title">Review GOOGL before acting</div><div class="td-face-sentence">Review first. Above cap; no size room until thesis/cap is revisited.</div><div class="td-face-gate">Price condition now MET: QQQ close 729.86 clears 717.50; stored gate was red but tested from 2026-06-11.</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#94a3b8">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-material">$151,890 / material</span></div></div>
 </summary><div class="td-body">
 <div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Review first</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Above cap; no size room until thesis/cap is revisited.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps GOOGL - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-readiness"><div class="td-readiness-title">Readiness layers</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Routine fired</div><div class="td-ready-status">ok</div><div class="td-ready-detail">routine fired proof 14/14; boundary data not implied</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Boundary artifact</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">dark boundary lane(s): FS inbox, analyst track record</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Signal interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Decision eligible</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">0 of 5 blockers cleared; blocked by price/tape gate; waiting on cap room, cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Trade executable</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">RESOLVE state is not executable</div></div></div><div class="td-readiness-title" style="margin-top:8px">Resolve checklist</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">UW interpreted</div><div class="td-ready-status">ok</div><div class="td-ready-detail">UW-dependent blocker not visible</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cash/buying power</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">funding or cash rail</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Account eligibility</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">account/sleeve eligibility</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cap room</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">ABOVE_CAP</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Research/disconfirmation</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Event risk</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">event-risk blocker visible</div></div></div><div class="td-ready-detail">Routine proof is only the first layer; it never means fresh boundary data or executable trade.</div></div>
 <div class="td-blocker-tax"><div class="td-blocker-tax-title">Distance to actionable</div><div class="td-blocker-tax-line">0 of 5 blockers cleared; blocked by price/tape gate; waiting on cap room, cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div><div class="td-blocker-tax-row">price/tape gate: wait</div><div class="td-blocker-tax-row">cap room: ABOVE_CAP</div><div class="td-blocker-tax-row">cash/funding: funding or cash rail</div><div class="td-blocker-tax-row">account/sleeve eligibility: account/sleeve eligibility</div><div class="td-blocker-tax-row">research/disconfirmation missing: research or disconfirmation lane</div><div class="td-blocker-tax-row">Count uses only currently visible unmet blocker categories; it never means the move is ready.</div></div>
 <div class="td-size-goal"><div class="td-size-goal-title">Size to goal with rails</div><div class="td-size-goal-line">$151,890 tranche = 13.8% of goal gap; cap room $0 (heat ABOVE_CAP); funding source IVES trim -&gt; GOOGL $67,912; SMH trim -&gt; GOOGL $2,016; concentration rail current 3.8% / floor 1.5% / ceiling 3.0%; account eligibility SKB Schwab Individual ...254 Individual ...25... eligible; flags tax_bucket:taxable, tax_status:taxable; leverage/margin: not_checked - cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.</div><div class="td-blocker-tax-row">Goal contribution is render-only and always shown with survival rails.</div></div>
 <div class="td-gate-note td-gate-note-ok"><strong>QQQ gate:</strong> Price condition now MET: QQQ close 729.86 clears 717.50; stored gate was red but tested from 2026-06-11.</div><div class="td-gate-note"><strong>SMH context:</strong> Context only: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (source uw; stated 2026-06-09).</div>
@@ -606,6 +655,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">cap basis: T3 floor 1.5% ($28,479) / ceiling 3.0% ($56,959); current 3.8% ($71,794); cap room $0; floor gap $0; flags no_thesis_row</div>
 <div class="td-row">impact:  $151,890 (8.0% of book)  |  material: yes</div>
 <div class="td-row">after action: no ACT/PASS/RECHECK logged; open; next review 2026-06-22</div>
+<div class="td-row">outcome: pending disposition; source grading unchanged</div>
 <details class="td-muted-details"><summary>Not checked / optional context</summary>
 <div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
 <div class="td-row">not checked: institutional, uw_same_session</div>
@@ -617,6 +667,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#3 IVES</div><div class="td-face-status">funding sell only</div><div class="td-face-title">$67,912 funding sell  only if paired with the buy it funds</div><div class="td-face-sentence">Funding sell. Only do this alongside the GOOGL $67,912 add; the stock itself looks bullish on flow, so don't sell it on its own.</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-material">$67,912 / material</span><span class="td-size-chip td-size-muted">funding only</span></div></div>
 </summary><div class="td-body">
 <div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Do not treat as a standalone trade</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Funding sell only; pair it with the add it pays for and do not sell the stock on its own.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps IVES - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-readiness"><div class="td-readiness-title">Readiness layers</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Routine fired</div><div class="td-ready-status">ok</div><div class="td-ready-detail">routine fired proof 14/14; boundary data not implied</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Boundary artifact</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">dark boundary lane(s): FS inbox, analyst track record</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Signal interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">no directional evidence; battery opposition: UW opportunity oi build</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Decision eligible</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Trade executable</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">RESOLVE state is not executable</div></div></div><div class="td-readiness-title" style="margin-top:8px">Resolve checklist</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">UW interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">no directional evidence; battery opposition: UW opportunity oi build</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cash/buying power</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">funding or cash rail</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Account eligibility</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">account/sleeve eligibility</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Cap room</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">no sizing/cap lane on this card</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Research/disconfirmation</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Event risk</div><div class="td-ready-status">ok</div><div class="td-ready-detail">no event-risk blocker visible</div></div></div><div class="td-ready-detail">Routine proof is only the first layer; it never means fresh boundary data or executable trade.</div></div>
 <div class="td-blocker-tax"><div class="td-blocker-tax-title">Distance to actionable</div><div class="td-blocker-tax-line">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div><div class="td-blocker-tax-row">flow/evidence conflict: no directional evidence; battery opposition: UW opportunity oi build</div><div class="td-blocker-tax-row">cash/funding: funding or cash rail</div><div class="td-blocker-tax-row">account/sleeve eligibility: account/sleeve eligibility</div><div class="td-blocker-tax-row">research/disconfirmation missing: research or disconfirmation lane</div><div class="td-blocker-tax-row">Count uses only currently visible unmet blocker categories; it never means the move is ready.</div></div>
 
 
@@ -655,6 +706,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-chip">TRANSFER NEEDED: $26,327 of these proceeds land inside PCRA and CANNOT buy individual stocks - the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding.</div>
 <div class="td-row">impact:  $67,912 (3.6% of book)  |  material: yes</div>
 <div class="td-row">after action: no ACT/PASS/RECHECK logged; open; next review 2026-06-22</div>
+<div class="td-row">outcome: pending disposition; source grading unchanged</div>
 <details class="td-muted-details"><summary>Not checked / optional context</summary>
 <div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
 <div class="td-row">not checked: institutional, uw_same_session</div>
@@ -667,6 +719,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#4 MSFT</div><div class="td-face-status">needs feed</div><div class="td-face-title">Feed evidence before buying MSFT</div><div class="td-face-sentence">Not actionable yet. Feed the missing evidence first; Cap clipped; staged size must stay within room.</div><div class="td-face-gate">Price condition now MET: QQQ close 729.86 clears 717.50; stored gate was red but tested from 2026-06-11.</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-material">$42,282 / material</span></div></div>
 </summary><div class="td-body">
 <div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Feed evidence before action</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Cap clipped; staged size must stay within room.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps MSFT - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-readiness"><div class="td-readiness-title">Readiness layers</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Routine fired</div><div class="td-ready-status">ok</div><div class="td-ready-detail">routine fired proof 14/14; boundary data not implied</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Boundary artifact</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">dark boundary lane(s): FS inbox, analyst track record</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Signal interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">no directional evidence</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Decision eligible</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">0 of 6 blockers cleared; blocked by price/tape gate; waiting on flow/evidence conflict, cap room, cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Trade executable</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">RESOLVE state is not executable</div></div></div><div class="td-readiness-title" style="margin-top:8px">Resolve checklist</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">UW interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">no directional evidence</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cash/buying power</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">funding or cash rail</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Account eligibility</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">account/sleeve eligibility</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cap room</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">CAP_CLIPPED</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Research/disconfirmation</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Event risk</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">event-risk blocker visible</div></div></div><div class="td-ready-detail">Routine proof is only the first layer; it never means fresh boundary data or executable trade.</div></div>
 <div class="td-blocker-tax"><div class="td-blocker-tax-title">Distance to actionable</div><div class="td-blocker-tax-line">0 of 6 blockers cleared; blocked by price/tape gate; waiting on flow/evidence conflict, cap room, cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div><div class="td-blocker-tax-row">price/tape gate: wait</div><div class="td-blocker-tax-row">flow/evidence conflict: no directional evidence</div><div class="td-blocker-tax-row">cap room: CAP_CLIPPED</div><div class="td-blocker-tax-row">cash/funding: funding or cash rail</div><div class="td-blocker-tax-row">account/sleeve eligibility: account/sleeve eligibility</div><div class="td-blocker-tax-row">research/disconfirmation missing: research or disconfirmation lane</div><div class="td-blocker-tax-row">Count uses only currently visible unmet blocker categories; it never means the move is ready.</div></div>
 <div class="td-size-goal"><div class="td-size-goal-title">Size to goal with rails</div><div class="td-size-goal-line">$42,282 tranche = 3.8% of goal gap; cap room $27,839 (heat CAP_CLIPPED); funding source cash/buying power not_checked - cash balances are not in the positions cache; confirm buying power before placing; concentration rail current 1.5% / floor 1.5% / ceiling 3.0%; account eligibility Parents Fidelity Joint WROS - TOD *****2063 eligible; flags tax_bucket:taxable, tax_status:taxable; leverage/margin: not_checked - cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.</div><div class="td-blocker-tax-row">Goal contribution is render-only and always shown with survival rails.</div></div>
 <div class="td-gate-note td-gate-note-ok"><strong>QQQ gate:</strong> Price condition now MET: QQQ close 729.86 clears 717.50; stored gate was red but tested from 2026-06-11.</div><div class="td-gate-note"><strong>SMH context:</strong> Context only: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (source uw; stated 2026-06-09).</div>
@@ -704,6 +757,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">cap basis: T3 floor 1.5% ($28,479) / ceiling 3.0% ($56,959); current 1.5% ($29,120); cap room $27,839; floor gap $0; flags no_thesis_row</div>
 <div class="td-row">impact:  $42,282 (2.2% of book)  |  material: yes</div>
 <div class="td-row">after action: no ACT/PASS/RECHECK logged; open; next review 2026-06-22</div>
+<div class="td-row">outcome: pending disposition; source grading unchanged</div>
 <details class="td-muted-details"><summary>Not checked / optional context</summary>
 <div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
 <div class="td-row">not checked: institutional, uw_same_session</div>
@@ -715,6 +769,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#5 SMH</div><div class="td-face-status">funding sell only</div><div class="td-face-title">$2,016 funding sell  only if paired with the buy it funds</div><div class="td-face-sentence">Funding sell. Only do this alongside the GOOGL $2,016 add; the stock itself looks bullish on flow, so don't sell it on its own.</div><div class="td-face-gate">Context only: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (source uw; stated 2026-06-09).</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-muted">$2,016 / immaterial</span><span class="td-size-chip td-size-muted">funding only</span></div></div>
 </summary><div class="td-body">
 <div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Do not treat as a standalone trade</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Funding sell only; pair it with the add it pays for and do not sell the stock on its own.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps SMH - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-readiness"><div class="td-readiness-title">Readiness layers</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Routine fired</div><div class="td-ready-status">ok</div><div class="td-ready-detail">routine fired proof 14/14; boundary data not implied</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Boundary artifact</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">dark boundary lane(s): FS inbox, analyst track record</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Signal interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">evidence favors HOLD/BUY at 1/5; battery opposition: UW opportunity sweep</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Decision eligible</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Trade executable</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">RESOLVE state is not executable</div></div></div><div class="td-readiness-title" style="margin-top:8px">Resolve checklist</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">UW interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">evidence favors HOLD/BUY at 1/5; battery opposition: UW opportunity sweep</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cash/buying power</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">funding or cash rail</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Account eligibility</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">account/sleeve eligibility</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Cap room</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">no sizing/cap lane on this card</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Research/disconfirmation</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Event risk</div><div class="td-ready-status">ok</div><div class="td-ready-detail">no event-risk blocker visible</div></div></div><div class="td-ready-detail">Routine proof is only the first layer; it never means fresh boundary data or executable trade.</div></div>
 <div class="td-blocker-tax"><div class="td-blocker-tax-title">Distance to actionable</div><div class="td-blocker-tax-line">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div><div class="td-blocker-tax-row">flow/evidence conflict: evidence favors HOLD/BUY at 1/5; battery opposition: UW opportunity sweep</div><div class="td-blocker-tax-row">cash/funding: funding or cash rail</div><div class="td-blocker-tax-row">account/sleeve eligibility: account/sleeve eligibility</div><div class="td-blocker-tax-row">research/disconfirmation missing: research or disconfirmation lane</div><div class="td-blocker-tax-row">Count uses only currently visible unmet blocker categories; it never means the move is ready.</div></div>
 
 <div class="td-gate-note"><strong>SMH context:</strong> Context only: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (source uw; stated 2026-06-09).</div>
@@ -747,6 +802,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-chip">TRANSFER NEEDED: $2,016 of these proceeds land inside PCRA and CANNOT buy individual stocks - the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding.</div>
 <div class="td-row">impact:  $2,016 (0.1% of book)  |  material: no</div>
 <div class="td-row">after action: no ACT/PASS/RECHECK logged; open; next review 2026-06-22</div>
+<div class="td-row">outcome: pending disposition; source grading unchanged</div>
 <details class="td-muted-details"><summary>Not checked / optional context</summary>
 <div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
 <div class="td-row">not checked: institutional, uw_same_session</div>
@@ -757,6 +813,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#6 MAGS</div><div class="td-face-status">funding sell only</div><div class="td-face-title">$399 funding sell  only if paired with the buy it funds</div><div class="td-face-sentence">Funding sell. Only do this alongside the GOOGL $399 add; the stock itself looks bullish on flow, so don't sell it on its own.</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-muted">$399 / immaterial</span><span class="td-size-chip td-size-muted">funding only</span></div></div>
 </summary><div class="td-body">
 <div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Do not treat as a standalone trade</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Funding sell only; pair it with the add it pays for and do not sell the stock on its own.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps MAGS - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-readiness"><div class="td-readiness-title">Readiness layers</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Routine fired</div><div class="td-ready-status">ok</div><div class="td-ready-detail">routine fired proof 14/14; boundary data not implied</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Boundary artifact</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">dark boundary lane(s): FS inbox, analyst track record</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Signal interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">no directional evidence; battery opposition: UW opportunity sweep</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Decision eligible</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Trade executable</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">RESOLVE state is not executable</div></div></div><div class="td-readiness-title" style="margin-top:8px">Resolve checklist</div><div class="td-readiness-grid"><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">UW interpreted</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">no directional evidence; battery opposition: UW opportunity sweep</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Cash/buying power</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">funding or cash rail</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Account eligibility</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">account/sleeve eligibility</div></div><div class="td-ready-chip td-ready-unknown"><div class="td-ready-label">Cap room</div><div class="td-ready-status">unknown</div><div class="td-ready-detail">no sizing/cap lane on this card</div></div><div class="td-ready-chip td-ready-blocked"><div class="td-ready-label">Research/disconfirmation</div><div class="td-ready-status">blocked</div><div class="td-ready-detail">research or disconfirmation lane</div></div><div class="td-ready-chip td-ready-ok"><div class="td-ready-label">Event risk</div><div class="td-ready-status">ok</div><div class="td-ready-detail">no event-risk blocker visible</div></div></div><div class="td-ready-detail">Routine proof is only the first layer; it never means fresh boundary data or executable trade.</div></div>
 <div class="td-blocker-tax"><div class="td-blocker-tax-title">Distance to actionable</div><div class="td-blocker-tax-line">0 of 4 blockers cleared; blocked by flow/evidence conflict; waiting on cash/funding, account/sleeve eligibility, research/disconfirmation missing.</div><div class="td-blocker-tax-row">flow/evidence conflict: no directional evidence; battery opposition: UW opportunity sweep</div><div class="td-blocker-tax-row">cash/funding: funding or cash rail</div><div class="td-blocker-tax-row">account/sleeve eligibility: account/sleeve eligibility</div><div class="td-blocker-tax-row">research/disconfirmation missing: research or disconfirmation lane</div><div class="td-blocker-tax-row">Count uses only currently visible unmet blocker categories; it never means the move is ready.</div></div>
 
 
@@ -792,6 +849,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">look-through source: Roundhill/MAGS holdings snapshot June 2026</div>
 <div class="td-row">impact:  $399 (0.0% of book)  |  material: no</div>
 <div class="td-row">after action: no ACT/PASS/RECHECK logged; open; next review 2026-06-22</div>
+<div class="td-row">outcome: pending disposition; source grading unchanged</div>
 <details class="td-muted-details"><summary>Not checked / optional context</summary>
 <div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
 <div class="td-row">not checked: institutional, uw_same_session</div>
@@ -806,6 +864,32 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </details>
 <details class="td-muted-details"><summary>System honesty / data caveats</summary><div class="td-honesty">cash: not_checked - no cash rows in positions cache<br/>institutional: not wired (orphan-wiring chunk)<br/>uw_same_session: none provided this session<br/>gates_as_of: 2026-06-11<br/>positions_as_of: 2026-06-17<br/>dispositions: none logged yet (C6 spine pending)</div></details>
 </section>
+
+<div class="card summary-caveat">
+  <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
+  <div class="summary-line">Action-first dashboard view. JSX remains available for internal validation, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">Core source lanes are clear; 1 queued optional lane remains visible as not checked.</div>
+</div>
+
+<div class="quick-nav">
+  <a class="quick-link" href="#today-actions"><strong>4</strong> actions</a>
+  <a class="quick-link" href="#market-open-packet"><strong>open</strong> packet</a>
+  <a class="quick-link" href="#opportunity-context"><strong>top</strong> prospects</a>
+  <a class="quick-link" href="#asymmetric-opportunities"><strong>8</strong> asymmetry</a>
+  <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
+  <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
+  <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
+  <a class="quick-link" href="#source-audits"><strong>proof</strong> UW results</a>
+  <a class="quick-link" href="#feedback-loops"><strong>0</strong> open reviews</a>
+  <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
+  <a class="quick-link" href="#lane-status"><strong>1 deferred</strong> source lanes</a>
+  <a class="quick-link" href="#feedback-loops"><strong>54 scoring</strong> source calls</a>
+  <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
+  <a class="quick-link" href="#social-watch"><strong>0</strong> social dark</a>
+</div>
+
+<details class="feeder-drilldowns">
+  <summary>Feeder drill-downs / source panels</summary>
+  <div class="summary-muted">Collapsed because TODAY/DECIDE now owns the merged action surface; these panels remain available for audit and drill-in.</div>
 
 <div class="card held-strip" id="held-decisions">
   <div class="card-title"><span class="icon">&#9203;</span> Held for you
@@ -834,29 +918,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
     <div class="held-date">review 2026-06-14</div>
   </div>
 </div>
-
-<div class="card summary-caveat">
-  <div class="card-title"><span class="icon"></span> Summary/export caveat</div>
-  <div class="summary-line">Action-first dashboard view. JSX remains available for internal validation, but today&#x27;s decisions are surfaced here.</div><div class="summary-line">Core source lanes are clear; 1 queued optional lane remains visible as not checked.</div>
-</div>
-
-<div class="quick-nav">
-  <a class="quick-link" href="#today-actions"><strong>4</strong> actions</a>
-  <a class="quick-link" href="#market-open-packet"><strong>open</strong> packet</a>
-  <a class="quick-link" href="#opportunity-context"><strong>top</strong> prospects</a>
-  <a class="quick-link" href="#asymmetric-opportunities"><strong>8</strong> asymmetry</a>
-  <a class="quick-link" href="#reallocation-brief"><strong>realloc</strong> brief</a>
-  <a class="quick-link" href="#operator-status"><strong>status</strong> check</a>
-  <a class="quick-link" href="#uw-action-runbook"><strong>UW</strong> runbook</a>
-  <a class="quick-link" href="#source-audits"><strong>proof</strong> UW results</a>
-  <a class="quick-link" href="#feedback-loops"><strong>0</strong> open reviews</a>
-  <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
-  <a class="quick-link" href="#lane-status"><strong>1 deferred</strong> source lanes</a>
-  <a class="quick-link" href="#feedback-loops"><strong>53 scoring</strong> source calls</a>
-  <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
-  <a class="quick-link" href="#social-watch"><strong>0</strong> social dark</a>
-</div>
-
 <div class="card" id="market-open-packet">
   <div class="card-title"><span class="icon">!</span> Market-open packet
     <span class="tag t-warn" style="margin-left:auto">recheck first</span>
@@ -1010,8 +1071,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="feedback-line">Decision packet sequences review work only; it does not execute or recommend un-gated trades.</div>
   <div class="cmd-row"><span class="cmd-name">print packet</span><span class="cmd-desc"><code>python src/market_open_packet.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
 </div>
-
-
 <div class="card" id="today-actions">
   <div class="card-title"><span class="icon">!</span> Today&#39;s actions
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">4 ranked items; no auto-trade</span>
@@ -1116,7 +1175,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </div>
 </div>
 </div>
-
 <div class="card" id="source-conflicts">
   <div class="card-title"><span class="icon">!</span> Source conflicts
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">0 splits; review-only</span>
@@ -1124,7 +1182,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="small-list"><div class="feedback-line">No current bull/bear source splits surfaced by the conviction engine.</div></div>
   <div class="feedback-line">Conflicts downgrade action posture; they do not create buy/sell execution.</div>
 </div>
-
 <div class="card" id="opportunity-context">
   <div class="card-title"><span class="icon">+</span> Opportunity context
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">context, not orders</span>
@@ -1147,7 +1204,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="context-row"><span class="context-ticker">BMNR</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">GRNY</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div><div class="context-row"><span class="context-ticker">IGV</span>bullish strong<span class="context-sub">sweep, oi_build, dark_pool_accum</span></div>
 </div></div>
 </div>
-
 <div class="card" id="asymmetric-opportunities">
   <div class="card-title"><span class="icon">+</span> Asymmetric opportunities
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">One row per ticker; strongest evidence wins while source names are merged.</span>
@@ -1218,7 +1274,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="small-muted">Decay: intraday to 1 trading day | review setup; no auto-trade</span>
 </div></div>
 </div>
-
 <div class="card" id="reallocation-brief">
   <div class="card-title"><span class="icon">#</span> Candidate reallocation brief
     <span class="tag t-conf" style="margin-left:auto">candidate only</span>
@@ -1261,40 +1316,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="feedback-line">Candidate reallocation brief only; no trades are executed. Same-day positions still require gates before action.</div>
   <div class="cmd-row"><span class="cmd-name">print brief</span><span class="cmd-desc"><code>python src/reallocation_brief.py --feed src/latest_cockpit_feed.json --positions src/positions.json --format text</code></span></div>
 </div>
-
-<div class="card" id="operator-status" data-summary="All clear | no waits">
-  <div class="card-title"><span class="icon">!</span> Operator status
-    <span class="operator-pass" style="font-size:11px;margin-left:auto">PASS</span>
-  </div>
-  <div class="operator-grid">
-    <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">4</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">0</div></a>
-    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">53 scoring</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
-    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
-  </div>
-  <div class="operator-readiness"><strong class="operator-pass">All clear</strong> | no waits</div>
-  <div class="operator-command">python src/completion_audit.py --format text</div>
-  <div class="operator-command">python src/go_live_checklist.py --format text</div>
-
-
-
-
-  <div class="operator-event-watch">
-    <div class="operator-label">Active event watch</div>
-    <div class="operator-event-title">Middle East oil/rates shock can affect new-buy timing</div>
-    <div class="operator-event-meta">HIGH | oil, rates, volatility, energy, growth | XOP, XLE, TNX | trigger: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
-
-    <details class="action-details">
-      <summary>details</summary>
-      <div class="operator-event-trigger">Trigger: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
-      <div class="operator-event-trigger">Source note: Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.</div>
-    </details>
-  </div>
-  <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
-</div>
-
 <div class="card" id="uw-action-runbook">
   <div class="card-title"><span class="icon">?</span> UW action runbook
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
@@ -1351,6 +1372,67 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </div></div>
   <div class="feedback-line">Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.</div>
   <div class="cmd-row"><span class="cmd-name">print runbook</span><span class="cmd-desc"><code>python src/uw_action_runbook.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
+</div>
+<div class="card" id="research-actions">
+  <div class="card-title"><span class="icon">?</span> From Research
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">1 candidate review</span>
+  </div>
+
+<div class="action action-watch tone-green" id="research-action-1">
+  <div class="action-header">
+    <span class="rank-badge">#1</span>
+    <span class="ticker-tag">GOOGL</span>
+    <span class="action-what">Research dossier -- review</span>
+  </div>
+  <div class="tags">
+    <span class="tag t-cat">Research Review</span>
+    <span class="tag t-conf">conf: High</span>
+    <span class="tag t-gate-a">size  gate</span>
+    <span class="tag t-cat">RESEARCH</span><span class="tag t-cat">RESEARCH NOW</span><span class="tag t-gate-a">no_capital_yet</span><span class="tag t-conf">acct: SKB Schwab: Individual ...254 Individual ...254</span><span class="tag t-conf">goal: Medium</span>
+  </div>
+  <div class="action-move">GOOGL: review the Off-Hours dossier -- confirm the thesis, then size / decide (run the pre-trade gate if you act). A research item, not a fired trigger.</div>
+
+  <details class="action-details">
+    <summary>Why this matters</summary>
+    <div class="action-detail-body"><strong>Why this matters:</strong> Research may raise conviction enough to justify a capital move.<br><strong>Rationale:</strong> GOOGL - re-check AI infrastructure financing, ATM, and Berkshire placement implications<br><strong>Goal/capital:</strong> conviction / upside | capital no_capital_yet | score 54/100<br><strong>Account placement:</strong> Suggested account: SKB Schwab: Individual ...254 Individual ...254.<br>Why: Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.<br>Rule: Parents Schwab/PCRA Trust ETF-only<br>Caveats: Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting. / No order is placed or sized from this recommendation.<br><strong>Missing/re-check:</strong> decision-grade thesis</div>
+  </details>
+  <div class="action-foot">research_queue</div>
+</div>
+</div>
+</details>
+
+
+<div class="card" id="operator-status" data-summary="All clear | no waits">
+  <div class="card-title"><span class="icon">!</span> Operator status
+    <span class="operator-pass" style="font-size:11px;margin-left:auto">PASS</span>
+  </div>
+  <div class="operator-grid">
+    <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">4</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">0</div></a>
+    <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">54 scoring</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
+    <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
+  </div>
+  <div class="operator-readiness"><strong class="operator-pass">All clear</strong> | no waits</div>
+  <div class="operator-command">python src/completion_audit.py --format text</div>
+  <div class="operator-command">python src/go_live_checklist.py --format text</div>
+
+
+
+
+  <div class="operator-event-watch">
+    <div class="operator-label">Active event watch</div>
+    <div class="operator-event-title">Middle East oil/rates shock can affect new-buy timing</div>
+    <div class="operator-event-meta">HIGH | oil, rates, volatility, energy, growth | XOP, XLE, TNX | trigger: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
+
+    <details class="action-details">
+      <summary>details</summary>
+      <div class="operator-event-trigger">Trigger: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.</div>
+      <div class="operator-event-trigger">Source note: Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.</div>
+    </details>
+  </div>
+  <div class="operator-command">python src/sudden_event_refresh.py --title &quot;&lt;event headline&gt;&quot; --channels &quot;oil,rates,volatility&quot; --tickers &quot;XOP,TNX&quot; --why &quot;&lt;why exposure, hedges, or new-buy timing changes&gt;&quot; --trigger &quot;&lt;what confirms or changes the risk&gt;&quot;</div>
 </div>
 
 <div id="operator-hardening">
@@ -1451,33 +1533,6 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </div>
 </div>
 
-<div class="card" id="research-actions">
-  <div class="card-title"><span class="icon">?</span> From Research
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">1 candidate review</span>
-  </div>
-
-<div class="action action-watch tone-green" id="research-action-1">
-  <div class="action-header">
-    <span class="rank-badge">#1</span>
-    <span class="ticker-tag">GOOGL</span>
-    <span class="action-what">Research dossier -- review</span>
-  </div>
-  <div class="tags">
-    <span class="tag t-cat">Research Review</span>
-    <span class="tag t-conf">conf: High</span>
-    <span class="tag t-gate-a">size  gate</span>
-    <span class="tag t-cat">RESEARCH</span><span class="tag t-cat">RESEARCH NOW</span><span class="tag t-gate-a">no_capital_yet</span><span class="tag t-conf">acct: SKB Schwab: Individual ...254 Individual ...254</span><span class="tag t-conf">goal: Medium</span>
-  </div>
-  <div class="action-move">GOOGL: review the Off-Hours dossier -- confirm the thesis, then size / decide (run the pre-trade gate if you act). A research item, not a fired trigger.</div>
-
-  <details class="action-details">
-    <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> Research may raise conviction enough to justify a capital move.<br><strong>Rationale:</strong> GOOGL - re-check AI infrastructure financing, ATM, and Berkshire placement implications<br><strong>Goal/capital:</strong> conviction / upside | capital no_capital_yet | score 54/100<br><strong>Account placement:</strong> Suggested account: SKB Schwab: Individual ...254 Individual ...254.<br>Why: Individual-stock candidate: avoid Parents Schwab/PCRA Trust; add where already held if possible, otherwise use a stock-capable account.<br>Rule: Parents Schwab/PCRA Trust ETF-only<br>Caveats: Guidance only; check available cash, taxes, wash-sale rules, account permissions, and live trade gate before acting. / No order is placed or sized from this recommendation.<br><strong>Missing/re-check:</strong> decision-grade thesis</div>
-  </details>
-  <div class="action-foot">research_queue</div>
-</div>
-</div>
-
 <div class="card" id="lane-status">
   <div class="card-title"><span class="icon"></span> Lane status</div>
   <div class="lane-counts"><span class="lane-status ls-has_data">has data: 13</span><span class="lane-status ls-checked_clear">checked clear: 0</span><span class="lane-status ls-not_checked">not checked: 1</span><span class="lane-status ls-stale">stale: 0</span><span class="lane-status ls-failed">failed: 0</span></div>
@@ -1573,7 +1628,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-17 10:31 ET.
 </div>
 <div class="audit-row">
-  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 1 full-body, 0 snippet-only, 1 daily calls; stored cache: 62 inbox entries (51 full-body, 11 snippet-only), 53 daily calls, 53 stored source-call candidates.
+  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 1 full-body, 0 snippet-only, 1 daily calls; stored cache: 63 inbox entries (52 full-body, 11 snippet-only), 54 daily calls, 54 stored source-call candidates.
 </div>
 <div class="audit-row">
   <span class="audit-k">Notion/writeback</span>Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.
@@ -1596,7 +1651,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-17T20:49:45.429771+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-17T20:49:45.429771+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-17T20:49:45.429771+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-17T20:49:45.429771+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-17T20:49:45.429771+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge stale" title="Cloud Routine Receipts | 2026-06-17T20:49:45.429771+00:00 | due waiting: Investing OS Positions Sync, last scheduled success 2026-06-16T20:48:59.223298Z; latest manual support 2026-06-16T14:38:48.818422Z; grace until 2026-06-17T17:15:00-04:00">Cloud Routine Receipts</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-17T23:10:25.178856+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-17T23:10:25.178856+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-17T23:10:25.178856+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-17T23:10:25.178856+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-17T23:10:25.178856+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge stale" title="Cloud Routine Receipts | 2026-06-17T23:10:25.178856+00:00 | due waiting: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-16T23:06:53.213393Z; latest manual support 2026-06-16T14:38:49.463256Z; grace until 2026-06-17T19:30:00-04:00">Cloud Routine Receipts</span></div>
 </div>
 
 <div class="hero">
@@ -8275,7 +8330,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div id="tab-fundstrat" style="display:none">
   <div class="card">
     <div class="card-title"><span class="icon">F</span> FundStrat</div>
-    <div class="summary-line">FundStrat: sector allocation 2026-06-11; core stock ideas 2026-05-28; daily calls 53 latest 2026-06-17.</div>
+    <div class="summary-line">FundStrat: sector allocation 2026-06-11; core stock ideas 2026-05-28; daily calls 54 latest 2026-06-17.</div>
     <div class="summary-muted" style="font-size:11px">Fundstrat is the baseline source of truth, but monthly list membership is not an execution trigger; stale, missing, or snippet-only data stays labeled.</div>
   </div>
 
@@ -8547,7 +8602,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
   <div class="card">
     <div class="card-title"><span class="icon">D</span> Latest Daily Notes</div>
-    <div class="summary-line">Latest 2026-06-17 | showing latest 5 of 53</div>
+    <div class="summary-line">Latest 2026-06-17 | showing latest 5 of 54</div>
     <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing.</div>
     <div class="small-list">
 <div class="small-item">
@@ -8569,16 +8624,16 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="small-muted">Newton flags a hawkish FOMC/rates shift: 2Y yields and USD spiked, yield-sensitive groups fell, but broad equities/SOX held up; re-check broad beta before adding exposure.</span>
 </div>
 <div class="small-item">
+  <strong>SPY</strong>
+  <span class="small-muted">2026-06-17 | Tom Lee | hedge/re-check</span>
+  <span class="small-muted">Macro Minute: Warsh not hawkish; buy-the-dip read</span>
+  <span class="small-muted">Tom Lee says Warsh was not hawkish, just dynamically navigating rates; treat the post-FOMC equity dip as buyable rather than a reason to de-risk broad beta.</span>
+</div>
+<div class="small-item">
   <strong>SPCX</strong>
   <span class="small-muted">2026-06-17 | Mark L. Newton, CMT | re-check timing</span>
   <span class="small-muted">FlashInsights: SPCX micro-term bullish structure</span>
   <span class="small-muted">Newton flags SPCX as bullish micro-term only: flows/options could carry it toward $229-$237 into end of week if $195 holds; re-check before sizing because fundamentals are not the basis.</span>
-</div>
-<div class="small-item">
-  <strong>XLU</strong>
-  <span class="small-muted">2026-06-16 | Mark L. Newton, CMT | re-check timing</span>
-  <span class="small-muted">FlashInsights 1:36PM ET Utilities breakout</span>
-  <span class="small-muted">Newton says Utilities have broken above a multi-month downtrend; RSPU and XLU are up about 1% and the February pattern now points to potential new highs for XLU in the months ahead.</span>
 </div></div>
   </div>
   <div class="card">

@@ -2,60 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:47.908283Z",
-      "summary": "parabolic cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "parabolic self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "parabolic_setup_screener self-test\n- golden-master: known fixtures -> known tiers\n  [PASS] AUTOFIRE fixture score == 10.5 (got 10.5)\n  [PASS] AUTOFIRE fixture tier (got AUTOFIRE)\n  [PASS] WATCHLIST fixture score == 7.0 (got 7.0)\n  [PASS] WATCHLIST fixture tier (got WATCHLIST)\n  [PASS] SKIP fixture score == 0.0 (got 0.0)\n  [PASS] SKIP fixture tier (got SKIP)\n- contract: ScreenResult.to_dict() shape\n  [PASS] to_dict has 'ticker'\n  [PASS] to_dict has 'score'\n  [PASS] to_dict has 'surface_tier'\n  [PASS] to_dict has 'phase'\n  [PASS] to_dict has 'features'\n  [PASS] to_dict has 'weighted_total'\n  [PASS] to_dict has 'notes'\n  [PASS] to_dict features expanded with revenue_accel\n- producer: bundle -> results -> emit payload\n  [PASS] screen_from_bundle returns 3 (got 3)\n  [PASS] emit as_of preserved\n  [PASS] emit payload has required keys\n  [PASS] emit counts (got {'AUTOFIRE': 1, 'WATCHLIST': 1, 'SKIP': 1})\n  [PASS] emit has 3 results\n- producer: CANDIDATE_PROFILES fallback when bundle omits profile\n  [PASS] VIAV uses CANDIDATE_PROFILES (industry_conc == 1.0)\n- UW adapter: raw UW field names -> canonical (live-confirmed shapes)\n  [PASS] income total_revenue -> revenue\n  [PASS] earnings drops null reported_eps (unreported quarter)\n  [PASS] info pulls top-level price\n  [PASS] bundle_entry_from_uw produces a canonical entry\n  [PASS] prices 'c' -> 'close' (+ unwraps {data:[...]})\n\nALL PASS",
-            "stderr": ""
-          },
-          {
-            "label": "parabolic cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 16
-            }
-          },
-          {
-            "label": "parabolic existing bundle score",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--from-bundle",
-              "tmp/uw/parabolic_bundle.json",
-              "--emit",
-              "src/parabolic_setups.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER \u2014 2026-06-08 05:41 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 2 (recognition)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1/2 (transition)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1 (early)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 1/2 (transition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 2 (recognition)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
-            "stderr": "Emitted 16 results -> src/parabolic_setups.json (AUTOFIRE 0, WATCHLIST 4, SKIP 12)"
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:47.920073Z",
-      "summary": "investing-os-full-cockpit-build manual run started"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "success",
       "run_source": "manual",
@@ -6562,7 +6508,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T20:51:45.588859Z",
       "summary": "positions sync succeeded: snapshot 2026-06-17; 11 accounts; 275 raw positions; 89 VALUE_CHANGE diffs; 0 share changes; 76 orphans; 3 warnings; dashboard refresh ok"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T23:01:13.987630Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T23:11:06.907234Z",
+      "summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none"
     }
   ],
-  "updated_at": "2026-06-17T20:51:45.588859Z"
+  "updated_at": "2026-06-17T23:11:06.907234Z"
 }
