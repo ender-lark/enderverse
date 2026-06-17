@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-06-17T18:49:27.721752Z",
+  "checked_at": "2026-06-17T19:50:03.410436Z",
   "status": "fired",
   "fired_count": 3,
   "not_checked_count": 4,
   "expired_count": 0,
-  "checked_count": 4,
+  "checked_count": 1,
   "armed_count": 5,
   "fired": [
     {
@@ -13,7 +13,7 @@
       "condition_type": "date_event",
       "source": "Held decision packet: Full-book rebalance (Council synthesis) (https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4)",
       "status": "fired",
-      "fire_reason": "held decision review due: Full-book rebalance (Council synthesis)"
+      "fire_reason": "held decision still held one day after review_by 2026-06-14"
     },
     {
       "id": "held-review-sunday-geo-risk-register-v0",
@@ -21,7 +21,7 @@
       "condition_type": "date_event",
       "source": "Held decision packet: Geo Risk Register v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d)",
       "status": "fired",
-      "fire_reason": "held decision review due: Geo Risk Register v0 (Power & Policy)"
+      "fire_reason": "held decision still held one day after review_by 2026-06-14"
     },
     {
       "id": "held-review-sunday-policy-money-map-v0",
@@ -29,7 +29,7 @@
       "condition_type": "date_event",
       "source": "Held decision packet: Policy Money Map v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959)",
       "status": "fired",
-      "fire_reason": "held decision review due: Policy Money Map v0 (Power & Policy)"
+      "fire_reason": "held decision still held one day after review_by 2026-06-14"
     }
   ],
   "not_checked": [
@@ -74,7 +74,7 @@
     "status_code": 200,
     "response": {
       "status": 1,
-      "request": "f965b22e-af70-4d5d-9cbe-c13123c51ff2"
+      "request": "d61c384f-73de-460a-a8b0-fd23c3595650"
     },
     "dry_run": false
   }
