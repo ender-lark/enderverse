@@ -502,8 +502,8 @@
           "key": "fed_day_reallocation_packet",
           "paths": ["src/fed_day_reallocation_packet.json"],
           "required": false,
-          "source": "fed_day_reallocation_packet.py repo convention packet builder",
-          "missing_behavior": "Fed-day action/watchlist packet is not checked; missing packet is not no pullback or reallocation candidates."
+          "source": "fed_day_reallocation_packet.py daily pullback/reallocation packet builder",
+          "missing_behavior": "Daily pullback/action/watchlist packet is not checked; missing packet is not no pullback or reallocation candidates."
         },
         {
           "key": "parabolic",
@@ -518,6 +518,8 @@
         "src/heartbeat_summary.json",
         "src/decision_dossiers.json",
         "src/latest_cockpit_feed.json",
+        "src/fed_day_reallocation_packet.json",
+        "docs/daily_pullback_packet.md",
         "src/open_opportunities.json"
       ],
       "commands": [
@@ -533,6 +535,11 @@
           "id": "refresh_decision_dossier_dynamic_reads",
           "command": "python src/decision_dossier_refresh.py --in src/decision_dossiers.json --out src/decision_dossiers.json",
           "fallback_for": "refresh dossier price/timing reads from already-present UW price/opportunity evidence before Today/Decide cards are assembled"
+        },
+        {
+          "id": "build_daily_pullback_packet",
+          "command": "python src/fed_day_reallocation_packet.py --json-out src/fed_day_reallocation_packet.json --md-out docs/daily_pullback_packet.md",
+          "fallback_for": "refresh rail-free pullback/watchlist packet before the final Today/Decide build"
         },
         {
           "id": "readiness_check",

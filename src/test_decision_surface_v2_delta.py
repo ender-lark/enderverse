@@ -10,6 +10,7 @@ from today_decide import render_today_decide_html
 
 def _packet(as_of: str = "2026-06-17") -> dict:
     return {
+        "display_label": "Daily pullback packet",
         "as_of": as_of,
         "act_if_green": [{
             "ticker": "GOOGL",
@@ -45,7 +46,7 @@ def test_fed_packet_fresh_populates_watch_queue_without_stale_note():
     assert payload["watch_queue"][0]["ticker"] == "AVGO"
     assert "fed_day_packet" not in payload["honesty"]
     assert "STALE/not_checked" not in html
-    assert "Fed-day packet current as of 2026-06-17" in html
+    assert "Daily pullback packet current as of 2026-06-17" in html
 
 
 def test_fed_packet_stale_keeps_rows_but_marks_research_context_only():
@@ -70,5 +71,5 @@ def test_fed_packet_absent_does_not_fabricate_watch_rows():
     assert payload["watch_queue"] == []
     assert payload["watch_queue_meta"]["freshness"] == "absent"
     assert payload["honesty"]["fed_day_packet"] == "not_checked - no packet on disk"
-    assert "Fed-day packet not_checked - no packet on disk" in html
+    assert "Daily pullback packet not_checked - no packet on disk" in html
     assert "Watchlist / pullback impact queue (0)" in html

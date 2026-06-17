@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build the June 17 Fed-day reallocation packet.
+"""Build the daily pullback/reallocation packet.
 
 The packet is candidate-only. It combines the existing reallocation brief with
-same-day broker exposure, UW endpoint proof, live 52-week-high chart data, and
+current broker exposure, UW endpoint proof, 52-week-high chart data, and
 research queue context. It never executes trades or selects option contracts.
 """
 from __future__ import annotations
@@ -14,7 +14,7 @@ import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -83,15 +83,17 @@ LIVE_NOTION_RESEARCH = {
         "status": "Working",
         "priority": "Med",
         "state": "STAGE",
-        "line": "Live AVGO diligence supports a high-quality pullback/swap candidate, but says stage during anti-semis rotation and FOMC risk.",
+        "line": "Live AVGO diligence supports a high-quality pullback/swap candidate, but says stage while tape and source confirmation remain mixed.",
         "url": "https://app.notion.com/p/381c50314bb681a7a124cc8abf0fe78f",
         "fetched_at": "2026-06-17T05:10:00Z",
     },
 }
 
-FED_SOURCE_LINKS = {
-    "federal_reserve_calendar": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-    "cme_fedwatch": "https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html",
+MARKET_SOURCE_LINKS = {
+    "qqq": "https://finance.yahoo.com/quote/QQQ",
+    "spy": "https://finance.yahoo.com/quote/SPY",
+    "ten_year_yield": "https://finance.yahoo.com/quote/%5ETNX",
+    "crude_oil": "https://finance.yahoo.com/quote/CL%3DF",
 }
 
 
@@ -165,6 +167,10 @@ def _clean_text(value: Any) -> str:
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _today_iso() -> str:
+    return date.today().isoformat()
 
 
 def _date_from_ts(ts: Any) -> str:
@@ -353,12 +359,12 @@ def _disconfirmation(ticker: str, source_context: dict[str, Any]) -> str:
         "ELF": "Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence.",
         "SOFI": "Fundstrat bottom-list conflict and small current exposure make this research-only.",
         "HOOD": "Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review.",
-        "AVGO": "Advance only if post-FOMC tape and fresh flow beat GOOGL/MSFT on capital efficiency.",
+        "AVGO": "Advance only if current tape and fresh flow beat GOOGL/MSFT on capital efficiency.",
         "FN": "Advance only if optical/AI infrastructure evidence and flow beat the base packet.",
         "VRT": "Advance only if power/cooling flow and entry quality beat the base packet.",
         "AMZN": "Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet.",
         "NVDA": "Already large; pullback is not enough unless target/sizing room and flow support it.",
-        "GOOGL": "Do not deploy if Fed reaction, QQQ/SPY, yields, oil, or flow contradict the staged add.",
+        "GOOGL": "Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add.",
         "MSFT": "Do not deploy if the laggard thesis remains only valuation-based without live confirmation.",
     }
     if ticker in specific:
@@ -494,7 +500,7 @@ def _action_row(
     return {
         "ticker": ticker,
         "status": "candidate_only",
-        "gate_status": "AMBER_PRE_FOMC",
+        "gate_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
         "dollar_band": {"low": band[0], "high": band[1]},
         "green_first_tranche": {"low": round(band[0] * 0.5, 2), "high": round(band[1] * 0.7, 2)},
         "amber_starter_context": "Use the combined $25k-$60k amber starter cap across GOOGL/MSFT, not this full band.",
@@ -510,8 +516,8 @@ def _action_row(
         "funding_pool_context": _funding_band(reallocation),
         "account_placement_candidate": _placement_candidate(ticker, mid, accounts),
         "do_nothing_cost": (
-            f"{ticker} stays under the intended AI-core exposure if the thesis is right and Fed/tape gates confirm; "
-            "cash/funding avoids churn if the Fed reaction is red."
+            f"{ticker} stays under the intended AI-core exposure if the thesis is right and live tape confirms; "
+            "cash/funding avoids churn if price, flow, rates, oil, or source review turn hostile."
         ),
         "disconfirmation": _disconfirmation(ticker, _source_context(ticker, top_prospects={}, source_calls=[], research_queue={})),
         "options_status": "review_only",
@@ -519,22 +525,22 @@ def _action_row(
     }
 
 
-def _fed_gates() -> dict[str, Any]:
+def _market_gates() -> dict[str, Any]:
     return {
-        "current_pre_event_status": "AMBER_PRE_FOMC",
+        "current_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
         "green": [
-            "FOMC statement and press conference do not create a hawkish shock.",
             "QQQ/SPY hold up and AI/semi tape is not rejecting the move.",
             "Yields and oil are not spiking against duration/growth exposure.",
             "UW price/flow fetches are present and not manually interpreted as contradictory.",
+            "Current source review does not contradict the staged add.",
         ],
-        "amber": [
-            "Tape is mixed, breadth/rates/oil conflict, or UW rows remain inconclusive.",
-            "Deploy only a $25k-$60k total starter or stage orders without action.",
+        "stage": [
+            "Tape is mixed, breadth/rates/oil conflict, UW rows remain inconclusive, or source review is incomplete.",
+            "Keep rows as research/recheck context or use only a deliberately reviewed starter plan.",
         ],
         "red": [
-            "No net-new AI concentration if Fed/tape reaction breaks down.",
-            "Refresh after the statement/press conference and review defensive trims/hedges separately.",
+            "No net-new AI concentration if QQQ/SPY, rates/oil, source review, or same-session flow breaks down.",
+            "Refresh the packet and review defensive trims/hedges separately.",
         ],
     }
 
@@ -542,9 +548,10 @@ def _fed_gates() -> dict[str, Any]:
 def build_packet(
     *,
     quote_provider: Callable[[str], dict[str, Any]] = fetch_yahoo_quote,
-    as_of: str = "2026-06-17",
+    as_of: str | None = None,
     max_tickers: int | None = None,
 ) -> dict[str, Any]:
+    as_of = as_of or _today_iso()
     feed = _load_json(SRC / "latest_cockpit_feed.json", {})
     positions = _load_json(SRC / "positions.json", {})
     account_positions = _load_json(SRC / "account_positions.json", {})
@@ -602,7 +609,7 @@ def build_packet(
         },
         "fundstrat": {
             "status": "checked_no_new_action_row",
-            "line": "Chrome session was logged in; visible June 16 Fed/XLU/SPX items did not add a new posture-changing compact row beyond existing cache.",
+            "line": "Use current source-call cache/top-prospect context; no new posture is inferred by this packet alone.",
         },
         "uw": _uw_status(uw_results),
         "notion_research_queue": {
@@ -611,24 +618,26 @@ def build_packet(
             "writeback": "not_needed_no_new_notion_write",
         },
         "social_watch": _social_watch_status(feed),
-        "fed_sources": {
+        "market_timing": {
             "status": "checked",
-            "links": FED_SOURCE_LINKS,
-            "line": "Federal Reserve calendar marks June 16-17, 2026 with an SEP asterisk; CME FedWatch remains the rate-probability reference.",
+            "links": MARKET_SOURCE_LINKS,
+            "line": "Packet rows require current tape/source confirmation before any capital action.",
         },
     }
 
     return {
         "schema_version": "1.0",
+        "packet_kind": "daily_pullback_reallocation",
+        "display_label": "Daily pullback packet",
         "as_of": as_of,
         "generated_at": _utc_now(),
         "candidate_only": True,
         "honesty_rule": "No trades executed. No option contracts selected. Stale/dark lanes remain visible.",
         "total_book_value_usd": total_book_value,
         "source_status": source_status,
-        "gates": _fed_gates(),
+        "gates": _market_gates(),
         "base_packet": {
-            "summary": "Gated rotation into GOOGL/MSFT if Fed/tape gates pass, funded primarily by GRNY/IVES with small MAGS/SMH cleanup only if useful.",
+            "summary": "Gated rotation into GOOGL/MSFT if live tape and source gates pass, funded primarily by GRNY/IVES with small MAGS/SMH cleanup only if useful.",
             "actions": action_rows,
             "funding_reality_check": funding_check,
         },
@@ -638,7 +647,7 @@ def build_packet(
             "preferred_sequence": [
                 "Stage GOOGL first because it is the larger model gap and has live Research Queue support.",
                 "Add MSFT only as a smaller laggard/capital-efficiency complement.",
-                "Keep AVGO/FN/VRT/AMZN secondary unless live price/flow and source review beat GOOGL/MSFT.",
+                "Keep AVGO/FN/VRT/AMZN secondary unless current price/flow and source review beat GOOGL/MSFT.",
             ],
             "execution_status": "not_executed",
         },
@@ -685,8 +694,9 @@ def _table(rows: list[dict[str, Any]], *, limit: int | None = None) -> list[str]
 
 
 def render_markdown(packet: dict[str, Any]) -> str:
+    label = str(packet.get("display_label") or "Daily pullback packet")
     lines: list[str] = [
-        "# Fed-Day Reallocation Packet - 2026-06-17",
+        f"# {label} - {packet.get('as_of') or 'not_checked'}",
         "",
         "Candidate-only packet. No trades executed. No option contracts selected.",
         "",
@@ -696,7 +706,7 @@ def render_markdown(packet: dict[str, Any]) -> str:
         f"- Fundstrat: {packet['source_status']['fundstrat']['line']}",
         f"- Notion Research Queue: {packet['source_status']['notion_research_queue']['status']}; no writeback needed.",
         f"- Social Watch: {packet['source_status']['social_watch']['status']} - {packet['source_status']['social_watch']['line']}",
-        f"- Fed source: Federal Reserve calendar and CME FedWatch links are in JSON source_status.fed_sources.",
+        f"- Market timing: {packet['source_status']['market_timing']['line']}",
         "",
         "## Act If Green",
         "| Ticker | Band | First tranche | Existing exposure | Post-band exposure | Funding | Placement candidate | Do-nothing cost |",
@@ -722,7 +732,7 @@ def render_markdown(packet: dict[str, Any]) -> str:
         )
     lines.extend([
         "",
-        "Green gate: deploy only if FOMC/tape reaction is constructive, QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.",
+        "Green gate: deploy only if QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.",
         "",
         "## Stage If Amber",
         f"- Starter only: {_fmt_usd(packet['stage_if_amber']['total_starter_band_usd']['low'])}-{_fmt_usd(packet['stage_if_amber']['total_starter_band_usd']['high'])} total across GOOGL/MSFT.",
@@ -749,29 +759,30 @@ def render_markdown(packet: dict[str, Any]) -> str:
         f"- Screened rows with chart data: {packet['watchlist_discount_screen']['row_count']}.",
         f"- Not checked: {', '.join(packet['watchlist_discount_screen']['not_checked']) or 'none'}.",
         "",
-        "TLDR: Base plan is a gated GOOGL/MSFT rotation, but current broker exposure and Fed reaction determine whether to deploy, stage, or do nothing.",
+        "TLDR: Base plan is a gated GOOGL/MSFT rotation, but current broker exposure and live tape determine whether to deploy, stage, or do nothing.",
         "YOUR MOVE: Do not execute until execution mode and green/amber/red gates are explicitly reviewed.",
-        "NEXT STEP: Re-check after the Fed statement and press conference reaction, then choose green tranche, amber starter, or red no-new-concentration.",
+        "NEXT STEP: Re-check current tape/source evidence, then choose green tranche, staged starter, or red no-new-concentration.",
     ])
     return "\n".join(lines)
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build the Fed-day reallocation packet.")
+    parser = argparse.ArgumentParser(description="Build the daily pullback/reallocation packet.")
+    parser.add_argument("--as-of", default=None, help="ISO date for packet freshness; defaults to today's local date.")
     parser.add_argument("--json-out", default=str(SRC / "fed_day_reallocation_packet.json"))
-    parser.add_argument("--md-out", default=str(ROOT / "docs" / "fed_day_reallocation_packet_2026_06_17.md"))
+    parser.add_argument("--md-out", default=str(ROOT / "docs" / "daily_pullback_packet.md"))
     parser.add_argument("--max-tickers", type=int, default=None)
     parser.add_argument("--format", choices=("text", "json"), default="text")
     args = parser.parse_args()
 
-    packet = build_packet(max_tickers=args.max_tickers)
+    packet = build_packet(as_of=args.as_of, max_tickers=args.max_tickers)
     _atomic_write_json(Path(args.json_out), packet)
     markdown = render_markdown(packet)
     _atomic_write_text(Path(args.md_out), markdown)
     if args.format == "json":
         print(json.dumps(packet, indent=2, sort_keys=True))
     else:
-        print(f"Fed-day packet written: {args.json_out}; {args.md_out}")
+        print(f"Daily pullback packet written: {args.json_out}; {args.md_out}")
         print(f"Act-if-green: {len(packet['act_if_green'])}; deep-discount rows: {len(packet['deep_discount_research'])}; watchlist rows: {packet['watchlist_discount_screen']['row_count']}")
     return 0
 

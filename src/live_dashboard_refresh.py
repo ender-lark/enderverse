@@ -82,6 +82,11 @@ def refresh_plan(
             "--merge-existing",
             "--merge-cache",
         ]),
+        Step("build_daily_pullback_packet", [
+            py, "src/fed_day_reallocation_packet.py",
+            "--json-out", _rel(src / "fed_day_reallocation_packet.json"),
+            "--md-out", _rel(ROOT / "docs" / "daily_pullback_packet.md"),
+        ]),
         Step("repo_evidence_synthesis", [
             py, "src/daily_synthesis_from_feed.py",
             "--feed", _rel(feed),
