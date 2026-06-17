@@ -729,6 +729,7 @@ Important owned outputs include:
 - `src/heartbeat.json`
 - `src/daily_synthesis.json`
 - `src/source_call_candidates.json`
+- `src/uw_endpoint_results.json`
 - redacted Fundstrat intake/alert state such as `fundstrat_daily_calls.json`,
   `fundstrat_inbox_entries.json`, `fundstrat_intake_state.json`,
   `fundstrat_intake_summary.json`, and `fundstrat_daytime_alert_state.json`

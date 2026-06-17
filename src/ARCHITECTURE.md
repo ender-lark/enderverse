@@ -282,7 +282,7 @@ The parity is enforced by `src/test_jsx_parity.py`.
 
 ### 12.4 · Routine + registration
 
-* `cloud_routine_commit.DEFAULT_ALLOWED_PATHS` now allows `dispositions.jsonl`, `timing_gates.json`, and `prediction_signals.json` to be committed by scheduled routines.
+* `cloud_routine_commit.DEFAULT_ALLOWED_PATHS` now allows `dispositions.jsonl`, `timing_gates.json`, `prediction_signals.json`, and `uw_endpoint_results.json` to be committed by scheduled routines.
 * `state_ownership_map.json` registers `dispositions` and `prediction_signals` alongside the existing `timing_gates` entry.
 * The 9:40 ET Post-Open Evidence Gate routine flows: load gates → `evaluate_all_gates(price_fn=…, writer=file_writer(…))` → on any change, the writer rewrites `timing_gates.json` and the L5 wrapper appends a receipt. The QQQ confirm / re-red flow is now mechanized end-to-end.
 * The 8:35 ET Morning Scan routine flows: `run_morning_scan(...)` returns a JSON-serialisable payload containing pattern lanes + guard application + an honesty footer. The L5 wrapper persists the result as a routine receipt and the cockpit folds the cards into TODAY—DECIDE.
@@ -325,6 +325,9 @@ what was actually captured.
 * Captured endpoint rows prove fetch status only.
 * `neutral` or otherwise non-directional fetch success maps to
   `inconclusive`, not `supports`.
+* The captured boundary file (`src/uw_endpoint_results.json`) is routine-owned
+  and must be committed with the receipt/feed artifacts when a scheduled proof
+  run uses fresh endpoint results.
 * Missing or malformed proof fails closed into Source Proof and should keep the
   affected action/reallocation candidate gated.
 
