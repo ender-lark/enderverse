@@ -85,6 +85,7 @@ DEFAULT_FILES = {
     "inbox_call_dates": ("inbox_call_dates.json",),
     "log_call_dates": ("log_call_dates.json",),
     "parabolic": ("parabolic_setups.json",),
+    "fed_day_reallocation_packet": ("fed_day_reallocation_packet.json",),
 }
 
 SOURCE_GAP_LABELS = {
@@ -873,6 +874,7 @@ def build_full_feed_from_files(
     inbox_call_dates = _load_optional(src, "inbox_call_dates")
     log_call_dates = _load_optional(src, "log_call_dates")
     parabolic_cache = _load_optional(src, "parabolic")
+    fed_day_packet = _load_optional(src, "fed_day_reallocation_packet")
     target_drift = target_weight_drift_summary(positions_cache)
     social_watch = build_social_watch(
         social_watch_cache,
@@ -984,6 +986,8 @@ def build_full_feed_from_files(
         build_reallocation_brief(feed, positions_cache, as_of=today),
         account_positions,
     )
+    if isinstance(fed_day_packet, dict) and fed_day_packet:
+        feed["fed_day_reallocation_packet"] = fed_day_packet
     feed["current_closes"] = latest_prices_from_closes(closes)
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["if_i_were_you"] = build_if_i_were_you(feed)

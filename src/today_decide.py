@@ -684,6 +684,125 @@ def attach_conviction_displays(cards: list[dict[str, Any]]) -> None:
             card["conviction_display"] = build_conviction_display(card)
 
 
+def _fed_day_packet(feed: dict[str, Any]) -> dict[str, Any]:
+    packet = feed.get("fed_day_reallocation_packet") or {}
+    return packet if isinstance(packet, dict) else {}
+
+
+def _fed_day_rows_by_ticker(packet: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    labels = {
+        "act_if_green": "Fed-day act-if-green packet",
+        "higher_quality_pullbacks": "Higher-quality pullback",
+        "deep_discount_research": "Deep-discount research",
+    }
+    for section, label in labels.items():
+        for row in packet.get(section) or []:
+            if not isinstance(row, dict):
+                continue
+            ticker = str(row.get("ticker") or "").upper()
+            if ticker and ticker not in out:
+                out[ticker] = {"section": section, "label": label, "row": row}
+    return out
+
+
+def _attach_fed_day_context(cards: list[dict[str, Any]], feed: dict[str, Any]) -> None:
+    by_ticker = _fed_day_rows_by_ticker(_fed_day_packet(feed))
+    for card in cards or []:
+        ticker = str(card.get("ticker") or "").upper()
+        if ticker in by_ticker:
+            card["fed_day_context"] = by_ticker[ticker]
+
+
+def _coerce_money(value: Any) -> float | None:
+    parsed = _coerce_float(value)
+    return parsed if parsed is not None and parsed >= 0 else None
+
+
+def _band_text(band: Any) -> str:
+    if isinstance(band, dict):
+        low = _coerce_money(band.get("low"))
+        high = _coerce_money(band.get("high"))
+        if low is not None and high is not None:
+            if abs(low - high) < 0.5:
+                return f"${high:,.0f}"
+            return f"${low:,.0f}-${high:,.0f}"
+        if high is not None:
+            return f"up to ${high:,.0f}"
+        if low is not None:
+            return f"from ${low:,.0f}"
+    parsed = _coerce_money(band)
+    return f"${parsed:,.0f}" if parsed is not None else ""
+
+
+def _fed_day_card_summary(context: dict[str, Any]) -> str:
+    row = context.get("row") or {}
+    section = str(context.get("section") or "")
+    if section == "act_if_green":
+        band = _band_text(row.get("dollar_band"))
+        first = _band_text(row.get("green_first_tranche"))
+        gate = str(row.get("gate_status") or "green/amber/red gate must be reviewed").strip()
+        parts = [
+            f"Candidate band {band}" if band else "",
+            f"first tranche {first}" if first else "",
+            gate,
+        ]
+        return "; ".join(part for part in parts if part)
+    discount = _coerce_float(row.get("pct_below_high"))
+    price = _coerce_money(row.get("price"))
+    sources = ", ".join(str(tag) for tag in row.get("source_tags") or [] if tag) or str(row.get("source") or "chart/source screen")
+    bits = [
+        f"{discount:.1f}% below 52w high" if discount is not None else "",
+        f"price ${price:,.0f}" if price is not None else "",
+        sources,
+    ]
+    return "; ".join(bit for bit in bits if bit)
+
+
+def _build_fed_day_watch_queue(feed: dict[str, Any], cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    packet = _fed_day_packet(feed)
+    if not packet:
+        return []
+    existing = {str(card.get("ticker") or "").upper() for card in cards or []}
+    queue: list[dict[str, Any]] = []
+    section_meta = {
+        "act_if_green": ("Act-if-green candidate", 0),
+        "higher_quality_pullbacks": ("Higher-quality pullback", 1),
+        "deep_discount_research": ("Deep-discount research", 2),
+    }
+    for section, (label, bucket) in section_meta.items():
+        for row in packet.get(section) or []:
+            if not isinstance(row, dict):
+                continue
+            ticker = str(row.get("ticker") or "").upper()
+            if not ticker or ticker in existing:
+                continue
+            rank_score = _coerce_float(row.get("rank_score"))
+            exposure = _coerce_money(row.get("current_exposure_usd"))
+            discount = _coerce_float(row.get("pct_below_high"))
+            impact_score = (
+                rank_score if rank_score is not None
+                else min(100.0, abs(discount or 0.0) + min((exposure or 0.0) / 10_000.0, 20.0))
+            )
+            queue.append({
+                "ticker": ticker,
+                "section": section,
+                "label": label,
+                "bucket": bucket,
+                "impact_score": round(float(impact_score), 2),
+                "status": str(row.get("status") or "not_checked"),
+                "research_status": str(row.get("research_status") or ""),
+                "summary": _fed_day_card_summary({"section": section, "row": row}),
+                "disconfirmation": str(row.get("disconfirmation") or ""),
+                "price": row.get("price"),
+                "pct_below_high": row.get("pct_below_high"),
+                "current_exposure_usd": row.get("current_exposure_usd"),
+                "source_tags": list(row.get("source_tags") or []),
+            })
+    queue.sort(key=lambda row: (int(row["bucket"]), -float(row["impact_score"]), str(row["ticker"])))
+    return queue
+
+
 def build_today_decide_payload(
     *,
     feed: dict[str, Any] | None = None,
@@ -736,7 +855,9 @@ def build_today_decide_payload(
     for card in stack["cards"] + stack["backlog"]:
         card["card_blockers"] = _card_blockers(card, data_health, gates)
         card["gate_notes"] = _card_gate_notes(card, gates, feed)
-    attach_conviction_displays(stack["cards"] + stack["backlog"])
+    all_cards = stack["cards"] + stack["backlog"]
+    attach_conviction_displays(all_cards)
+    _attach_fed_day_context(all_cards, feed)
     honesty = dict(stack["honesty"])
     if congruence_result.get("status") != "ok":
         honesty["congruence"] = congruence_result.get("reason", "not checked")
@@ -766,6 +887,10 @@ def build_today_decide_payload(
         "trust_panel": _build_trust_panel(data_health),
         "cards": stack["cards"],
         "backlog": stack["backlog"],
+        "watch_queue": _build_fed_day_watch_queue(feed, all_cards),
+        "fed_day_do_not_touch": [
+            str(row) for row in (_fed_day_packet(feed).get("do_not_touch_yet") or []) if row
+        ],
         "congruence": congruence_result,
         "honesty": honesty,
     }
@@ -858,6 +983,14 @@ _CSS = """
 .td .td-action-column-title{font-size:10px;color:#94a3b8;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
 .td .td-card-section-title{font-size:11px;color:#94a3b8;text-transform:uppercase;font-weight:900;
   letter-spacing:.08em;margin:14px 0 5px}
+.td .td-subqueue{border-top:1px solid #1e293b;margin-top:14px;padding-top:10px}
+.td .td-queue-card{border:1px solid #334155;border-radius:9px;background:#07101e;padding:10px;margin:8px 0}
+.td .td-queue-top{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.td .td-queue-rank{font-size:14px;font-weight:900;color:#f8fafc}
+.td .td-queue-label{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.06em;margin-bottom:3px}
+.td .td-queue-summary{font-size:13px;color:#cbd5e1;line-height:1.4;margin-top:4px}
+.td .td-queue-meta{font-size:12px;color:#94a3b8;line-height:1.4;margin-top:5px}
+.td .td-queue-score{font-size:12px;color:#f8fafc;border:1px solid #334155;border-radius:999px;padding:3px 7px;background:#0f172a}
 .td .td-pill{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;
   font-weight:600;margin-left:8px;color:#0b1220}
 .td .td-row{font-size:13px;color:#cbd5e1;margin:4px 0}
@@ -1642,6 +1775,29 @@ def _render_funding_pair_block(card: dict[str, Any]) -> str:
         + '</div>'
     )
 
+
+def _render_fed_day_context_block(card: dict[str, Any]) -> str:
+    context = card.get("fed_day_context") or {}
+    if not isinstance(context, dict) or not context:
+        return ""
+    row = context.get("row") or {}
+    if not isinstance(row, dict):
+        return ""
+    summary = _fed_day_card_summary(context)
+    disconfirmation = str(row.get("disconfirmation") or "").strip()
+    do_nothing = str(row.get("do_nothing_cost") or "").strip()
+    label = str(context.get("label") or "Fed-day packet").strip()
+    lines = [
+        '<div class="td-evidence-note">',
+        f'<strong>{_esc(label)}:</strong> {_esc(summary)}',
+    ]
+    if do_nothing:
+        lines.append(f'<br/><strong>Why it matters:</strong> {_esc(do_nothing)}')
+    if disconfirmation:
+        lines.append(f'<br/><strong>Do not act if:</strong> {_esc(disconfirmation)}')
+    lines.append("</div>")
+    return "".join(lines)
+
 def _health_strip_summary(items: list[dict[str, Any]]) -> str:
     alert_statuses = {"behind", "stale", "missing", "empty"}
     alerts = sum(1 for item in items if item.get("status") in alert_statuses)
@@ -1670,9 +1826,10 @@ def _gate_strip_summary(gates: list[dict[str, Any]]) -> str:
 
 
 def _top_verdict(payload: dict[str, Any]) -> dict[str, str]:
-    cards = payload.get("cards") or []
-    material = [card for card in cards if _is_material(card)]
+    cards = list(payload.get("cards") or []) + list(payload.get("backlog") or [])
+    material = [card for card in cards if _is_material(card) and not _is_funding_leg(card)]
     funding = [card for card in cards if _is_funding_leg(card)]
+    watch_queue = payload.get("watch_queue") or []
     lean_ready = []
     starved = []
     signals = []
@@ -1723,6 +1880,8 @@ def _top_verdict(payload: dict[str, Any]) -> dict[str, str]:
         f"{len(funding)} funding-only leg{'s' if len(funding) != 1 else ''}",
         f"{len(starved)} evidence-starved card{'s' if len(starved) != 1 else ''}",
     ]
+    if watch_queue:
+        line_parts.append(f"{len(watch_queue)} watchlist/pullback candidate{'s' if len(watch_queue) != 1 else ''}")
     if stale_or_unfed:
         line_parts.append(f"{len(stale_or_unfed)} stale/not-checked lane{'s' if len(stale_or_unfed) != 1 else ''}")
     if signals:
@@ -1861,6 +2020,7 @@ def _render_card(
     ))
     h.append(_render_gate_notes(card))
     h.append(_render_funding_pair_block(card))
+    h.append(_render_fed_day_context_block(card))
     h.append('<div class="td-section-title">Evidence that matters</div>')
     h.append(_render_factor_breakdown(display, card, built_date=built_date))
     h.append(_render_layer_breakdown(display))
@@ -1985,39 +2145,52 @@ def _visible_card_sections(cards: list[dict[str, Any]]) -> list[tuple[str, list[
     return sections
 
 
-def _queue_tail_row(card: dict[str, Any], rank: int) -> str:
-    display = card.get("conviction_display") or build_conviction_display(card)
-    face = _card_face_model(
-        card,
-        display,
-        _review_posture(
-            card,
-            check_first=bool(card.get("card_blockers")),
-            window_class=(card.get("window") or {}).get("class", "WAIT"),
-            direction=_card_action_direction(card),
-        ),
-        check_first=bool(card.get("card_blockers")),
-        window_class=(card.get("window") or {}).get("class", "WAIT"),
-        direction=_card_action_direction(card),
-    )
-    return (
-        '<div class="td-row">'
-        f'<strong>#{rank} {_esc(card.get("ticker") or "")}</strong> - '
-        f'{_esc(face["status"])} - {_esc(face["title"])} '
-        f'({_esc(_size_label(card))}; {_esc(_score_text(display))}; p{_esc(card.get("priority"))})'
-        '</div>'
-    )
-
-
-def _render_action_queue_tail(payload: dict[str, Any], *, limit: int = 10) -> str:
-    queue = (payload.get("cards") or []) + (payload.get("backlog") or [])
-    if len(queue) <= len(payload.get("cards") or []):
+def _render_watch_queue(payload: dict[str, Any]) -> str:
+    queue = payload.get("watch_queue") or []
+    if not queue:
         return ""
-    rows = [_queue_tail_row(card, idx + 1) for idx, card in enumerate(queue[:limit])]
+    h = [
+        '<div class="td-subqueue">',
+        f'<div class="td-card-section-title">Watchlist / pullback impact queue ({len(queue)})</div>',
+        '<div class="td-row">These are ranked research/recheck candidates from the fed-day packet. They are visible so discounted or watched names do not disappear, but they do not outrank executable decisions without fresh confirmation.</div>',
+    ]
+    for idx, row in enumerate(queue, 1):
+        tags = []
+        exposure = _coerce_money(row.get("current_exposure_usd"))
+        if exposure is not None:
+            tags.append(f"exposure ${exposure:,.0f}")
+        discount = _coerce_float(row.get("pct_below_high"))
+        if discount is not None:
+            tags.append(f"{discount:.1f}% below 52w high")
+        research = str(row.get("research_status") or "").strip()
+        if research:
+            tags.append(f"research {research}")
+        sources = ", ".join(str(tag) for tag in row.get("source_tags") or [] if tag)
+        if sources:
+            tags.append(sources)
+        h.append(
+            '<div class="td-queue-card">'
+            '<div class="td-queue-top">'
+            f'<div><div class="td-queue-label">{_esc(row.get("label") or "watch")}</div>'
+            f'<div class="td-queue-rank">#{idx} {_esc(row.get("ticker") or "")}</div></div>'
+            f'<div class="td-queue-score">impact {_esc(row.get("impact_score"))}</div>'
+            '</div>'
+            f'<div class="td-queue-summary">{_esc(row.get("summary") or "")}</div>'
+            + (f'<div class="td-queue-meta">{" | ".join(_esc(tag) for tag in tags)}</div>' if tags else "")
+            + (f'<div class="td-queue-meta"><strong>Do not promote if:</strong> {_esc(row.get("disconfirmation") or "")}</div>' if row.get("disconfirmation") else "")
+            + '</div>'
+        )
+    return "".join(h) + "</div>"
+
+
+def _render_do_not_touch(payload: dict[str, Any]) -> str:
+    rows = payload.get("fed_day_do_not_touch") or []
+    if not rows:
+        return ""
     return (
         '<details class="td-muted-details">'
-        f'<summary>Show top {min(limit, len(queue))} decision-queue items</summary>'
-        + "".join(rows)
+        f'<summary>Do-not-touch / research-only guardrails ({len(rows)})</summary>'
+        + "".join(f'<div class="td-row">{_esc(row)}</div>' for row in rows)
         + '</details>'
     )
 
@@ -2047,23 +2220,29 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
         for card in cards:
             h.extend(_render_card(card, rank, check_first=bool(card.get("card_blockers")), built_date=str(payload.get("built") or "")))
             rank += 1
-    h.append(_render_action_queue_tail(payload))
     backlog = payload["backlog"]
-    h.append(f"<details><summary>Backlog ({len(backlog)})</summary>")
-    for c in backlog:
-        h.append(f'<div class="td-row">{_esc(c["ticker"])} Â· {_esc(c["direction"])} Â· '
-                 f'${float(c.get("dollars") or 0):,.0f} Â· p{c.get("priority")}</div>')
-    h.append("</details>")
+    if backlog:
+        h.append(f'<div class="td-subqueue"><div class="td-card-section-title">More impact-ranked decisions ({len(backlog)})</div>')
+        for label, cards in _visible_card_sections(backlog):
+            h.append(f'<div class="td-card-section-title">{_esc(label)}</div>')
+            for card in cards:
+                h.extend(_render_card(card, rank, check_first=bool(card.get("card_blockers")), built_date=str(payload.get("built") or "")))
+                rank += 1
+        h.append("</div>")
+    h.append(_render_watch_queue(payload))
+    h.append(_render_do_not_touch(payload))
     cong = payload["congruence"]
+    h.append('<details class="td-muted-details"><summary>Portfolio thesis context</summary>')
     if cong.get("status") == "ok":
         for row in cong.get("rows") or []:
             flag = "\U0001f6a9 " if row.get("flagged") else ""
             h.append(f'<div class="td-cong">{flag}{_esc(row["insight_id"])} Â· {_esc(row["line"])}</div>')
     else:
         h.append(f'<div class="td-cong">congruence: not checked â€” {_esc(cong.get("reason", ""))}</div>')
-    h.append('<div class="td-honesty">'
+    h.append("</details>")
+    h.append('<details class="td-muted-details"><summary>System honesty / data caveats</summary><div class="td-honesty">'
              + "<br/>".join(f"{_esc(k)}: {_esc(v)}" for k, v in payload["honesty"].items())
-             + "</div>")
+             + "</div></details>")
     h.append("</section>")
     return "\n".join(h)
 

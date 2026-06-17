@@ -225,6 +225,11 @@
       "primary_status": "canonical-rendered",
       "canonical_surface": "Candidate Reallocation Brief section in the Action view",
       "summary_surface": "Candidate reallocation brief card in the summary dashboard"
+    },
+    "fed_day_reallocation_packet": {
+      "primary_status": "summary-rendered",
+      "canonical_surface": "Consumed by TODAY/DECIDE as card context and impact-ranked watchlist/pullback queue",
+      "summary_surface": "TODAY/DECIDE remaining decision cards plus watchlist/pullback queue"
     }
   }
 }

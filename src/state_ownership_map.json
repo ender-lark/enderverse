@@ -308,6 +308,18 @@
       "action_surface": "Prevents urgent opportunities from disappearing after one mention."
     },
     {
+      "id": "fed_day_reallocation_packet",
+      "source_of_truth": "github_packet_builder",
+      "repo_artifact": "src/fed_day_reallocation_packet.json",
+      "producer": "fed_day_reallocation_packet.py",
+      "feed_path": "full_build_runner.DEFAULT_FILES.fed_day_reallocation_packet -> feed.fed_day_reallocation_packet -> TODAY-DECIDE card context and watchlist/pullback queue",
+      "dashboard_surface": "TODAY-DECIDE Fed-day card context and Watchlist / pullback impact queue",
+      "mirror_policy": "GitHub stores the compact candidate packet and guardrails only; raw source pulls and ad hoc analysis stay outside repo unless separately approved.",
+      "freshness_contract": "Refresh the packet for the relevant market session before treating it as current action context; stale rows must stay context/recheck candidates unless separate live evidence promotes them.",
+      "not_checked_behavior": "Missing packet is not checked and must not imply there are no pullback, watchlist, or reallocation candidates.",
+      "action_surface": "Adds candidate context and research/recheck queue rows; it does not change conviction scores, ranking doctrine, sizing, gates, or execution posture by itself."
+    },
+    {
       "id": "heartbeat",
       "source_of_truth": "routine_status",
       "repo_artifact": "src/heartbeat.json",

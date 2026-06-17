@@ -506,9 +506,80 @@ def test_live_gate_evaluation_overrides_stale_stored_state_on_cards():
     assert "RED BUT TESTED" not in html
 
 
-def test_backlog_is_collapsed_in_details():
-    html = render_today_decide_html(_payload())
-    assert "<details><summary>Backlog (" in html
+def test_remaining_decisions_render_as_full_cards_not_raw_backlog():
+    goal = copy.deepcopy(G)
+    goal["daily_card_max"] = 1
+    p = _payload(goal=goal)
+    html = render_today_decide_html(p)
+    backlog_ticker = p["backlog"][0]["ticker"]
+
+    assert "More impact-ranked decisions" in html
+    assert "Backlog (" not in html
+    assert "Show top" not in html
+    assert f'id="td-card-{backlog_ticker}"' in html
+    backlog_block = html.split(f'id="td-card-{backlog_ticker}"', 1)[1]
+    assert "Current answer" in backlog_block
+    assert "Evidence that matters" in backlog_block
+
+
+def test_fed_day_packet_builds_watch_queue_and_card_context():
+    feed = copy.deepcopy(_feed())
+    feed["fed_day_reallocation_packet"] = {
+        "act_if_green": [{
+            "ticker": "GOOGL",
+            "dollar_band": {"low": 100000, "high": 155000},
+            "green_first_tranche": {"low": 50000, "high": 108500},
+            "gate_status": "green only after Fed/tape confirms",
+            "do_nothing_cost": "GOOGL stays undersized if thesis is right.",
+            "disconfirmation": "Do not deploy if QQQ/SPY fail.",
+        }],
+        "higher_quality_pullbacks": [
+            {
+                "ticker": "AVGO",
+                "rank_score": 23.49,
+                "pct_below_high": -23.9,
+                "price": 377,
+                "current_exposure_usd": 40696,
+                "research_status": "STAGE",
+                "source_tags": ["Notion Working STAGE"],
+                "disconfirmation": "Advance only if flow beats GOOGL/MSFT.",
+            },
+            {
+                "ticker": "VRT",
+                "rank_score": 21.14,
+                "pct_below_high": -21.14,
+                "price": 300,
+                "current_exposure_usd": 0,
+                "source_tags": [],
+                "disconfirmation": "Needs power/cooling confirmation.",
+            },
+        ],
+        "deep_discount_research": [{
+            "ticker": "BMNR",
+            "rank_score": 89.2,
+            "pct_below_high": -89.93,
+            "price": 16,
+            "current_exposure_usd": 73020,
+            "research_status": "MONITOR",
+            "source_tags": ["Notion Working MONITOR"],
+            "disconfirmation": "Do not add until financing impact clears.",
+        }],
+        "do_not_touch_yet": ["Social Watch remains dark/watch-only."],
+    }
+    p = _payload(feed=feed)
+    googl = [card for card in p["cards"] + p["backlog"] if card["ticker"] == "GOOGL"][0]
+    html = render_today_decide_html(p)
+
+    assert googl["fed_day_context"]["label"] == "Fed-day act-if-green packet"
+    assert [row["ticker"] for row in p["watch_queue"]] == ["AVGO", "VRT", "BMNR"]
+    assert "GOOGL" not in {row["ticker"] for row in p["watch_queue"]}
+    assert "Fed-day act-if-green packet" in html
+    assert "Watchlist / pullback impact queue (3)" in html
+    assert "3 watchlist/pullback candidates" in html
+    assert "AVGO" in html and "BMNR" in html
+    assert "Do-not-touch / research-only guardrails (1)" in html
+    assert "Show top" not in html
+    assert "Backlog (" not in html
 
 def test_congruence_strip_flag_and_not_checked():
     flagged_html = render_today_decide_html(_payload())

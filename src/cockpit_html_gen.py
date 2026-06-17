@@ -509,9 +509,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 
 /* ── tabs ── */
-.tab-bar{display:flex;gap:2px;margin-bottom:12px;border-bottom:1px solid #21262d;padding-bottom:0}
+.tab-bar{display:flex;gap:2px;margin-bottom:12px;border-bottom:1px solid #21262d;padding-bottom:0;
+  max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
 .tab-btn{padding:7px 14px;font-size:12px;font-weight:600;color:#8b949e;background:none;border:none;
-  border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;letter-spacing:.3px}
+  border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;letter-spacing:.3px;flex:0 0 auto}
 .tab-btn.active{color:#f0f6fc;border-bottom-color:#58a6ff}
 /* ── commands panel ── */
 .cmd-section{margin-bottom:16px}
@@ -532,6 +534,8 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 @media(max-width:600px){
   .wrap{padding:10px 8px}
   .hdr{flex-direction:column}
+  .tab-bar{flex-wrap:wrap;overflow-x:visible;gap:4px}
+  .tab-btn{padding:7px 10px}
   .hero-num{font-size:24px}
   .lane-command-list{margin-left:0}
 }

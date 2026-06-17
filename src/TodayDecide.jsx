@@ -177,9 +177,10 @@ function TrustPanel({ payload }) {
 }
 
 function TopVerdict({ payload }) {
-  const cards = payload.cards || [];
-  const material = cards.filter(isMaterial);
+  const cards = [...(payload.cards || []), ...(payload.backlog || [])];
+  const material = cards.filter((card) => isMaterial(card) && !isFundingLeg(card));
   const funding = cards.filter(isFundingLeg);
+  const watchQueue = payload.watch_queue || [];
   const starved = cards.filter((card) => cardIsEvidenceStarved(card, card.conviction_display || {}));
   const leanReady = cards.filter((card) => {
     const display = card.conviction_display || {};
@@ -207,6 +208,7 @@ function TopVerdict({ payload }) {
     `${material.length} material decision${material.length === 1 ? "" : "s"}`,
     `${funding.length} funding-only leg${funding.length === 1 ? "" : "s"}`,
     `${starved.length} evidence-starved card${starved.length === 1 ? "" : "s"}`,
+    watchQueue.length ? `${watchQueue.length} watchlist/pullback candidate${watchQueue.length === 1 ? "" : "s"}` : "",
     staleOrUnfed.length ? `${staleOrUnfed.length} stale/not-checked lane${staleOrUnfed.length === 1 ? "" : "s"}` : "",
     signals.length ? `strongest evidence: ${signals.slice(0, 2).join("; ")}` : "",
   ].filter(Boolean).join(" | ");
@@ -332,6 +334,55 @@ function FundingPairBlock({ card }) {
         : "the paired add it funds"}
       . Do not do the sell by itself.
       {rationale && <><br />{rationale}</>}
+    </div>
+  );
+}
+
+const numeric = (value) => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
+const moneyBandText = (band) => {
+  if (band && typeof band === "object") {
+    const low = numeric(band.low);
+    const high = numeric(band.high);
+    if (low != null && high != null) return Math.abs(low - high) < 0.5 ? moneyText(high) : `${moneyText(low)}-${moneyText(high)}`;
+    if (high != null) return `up to ${moneyText(high)}`;
+    if (low != null) return `from ${moneyText(low)}`;
+  }
+  const parsed = numeric(band);
+  return parsed != null ? moneyText(parsed) : "";
+};
+
+const fedDaySummary = (context) => {
+  const row = context?.row || {};
+  if (context?.section === "act_if_green") {
+    return [
+      row.dollar_band ? `Candidate band ${moneyBandText(row.dollar_band)}` : "",
+      row.green_first_tranche ? `first tranche ${moneyBandText(row.green_first_tranche)}` : "",
+      row.gate_status || "green/amber/red gate must be reviewed",
+    ].filter(Boolean).join("; ");
+  }
+  const discount = numeric(row.pct_below_high);
+  const price = numeric(row.price);
+  const sources = (row.source_tags || []).join(", ") || row.source || "chart/source screen";
+  return [
+    discount != null ? `${discount.toFixed(1)}% below 52w high` : "",
+    price != null ? `price ${moneyText(price)}` : "",
+    sources,
+  ].filter(Boolean).join("; ");
+};
+
+function FedDayContextBlock({ card }) {
+  const context = card.fed_day_context;
+  if (!context?.row) return null;
+  const row = context.row;
+  return (
+    <div style={{ border: "1px solid #334155", borderRadius: 8, background: "#0b1220", padding: 8, fontSize: 13, color: "#cbd5e1", lineHeight: 1.4, margin: "0 0 8px" }}>
+      <strong>{context.label || "Fed-day packet"}:</strong> {fedDaySummary(context)}
+      {row.do_nothing_cost && <><br /><strong>Why it matters:</strong> {row.do_nothing_cost}</>}
+      {row.disconfirmation && <><br /><strong>Do not act if:</strong> {row.disconfirmation}</>}
     </div>
   );
 }
@@ -779,6 +830,7 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
         <DecisionReadout card={card} display={display} posture={posture} checkFirst={scopedCheckFirst} windowClass={win.class} direction={move.direction} />
         <GateNotes card={card} />
         <FundingPairBlock card={card} />
+        <FedDayContextBlock card={card} />
         <SectionTitle>Evidence that matters</SectionTitle>
         <WhyBreakdown display={display} card={card} builtDate={builtDate} />
         <LayerBreakdown display={display} />
@@ -838,38 +890,67 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
   );
 }
 
-function ActionQueueTail({ payload, limit = 10 }) {
-  const queue = [...(payload.cards || []), ...(payload.backlog || [])];
-  if (queue.length <= (payload.cards || []).length) return null;
+function WatchQueue({ payload }) {
+  const queue = payload.watch_queue || [];
+  if (!queue.length) return null;
   return (
-    <details style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, margin: "8px 0", fontSize: 12, color: "#94a3b8" }}>
-      <summary style={{ cursor: "pointer", fontWeight: 750 }}>Show top {Math.min(limit, queue.length)} decision-queue items</summary>
-      {queue.slice(0, limit).map((card, i) => {
-        const display = card.conviction_display || { why: {}, raises: [], not_checked: [] };
-        const win = card.window || {};
-        const checkFirst = Boolean((card.card_blockers || []).length);
-        const direction = cardDirection(card);
-        const posture = reviewPosture(card, checkFirst, win.class || "WAIT", direction);
-        const face = faceModel(card, display, posture, checkFirst, win.class || "WAIT", direction);
+    <div style={{ borderTop: "1px solid #1e293b", marginTop: 14, paddingTop: 10 }}>
+      <div style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em", margin: "14px 0 5px" }}>
+        Watchlist / pullback impact queue ({queue.length})
+      </div>
+      <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>
+        Ranked research/recheck candidates from the fed-day packet. They stay visible, but do not outrank executable decisions without fresh confirmation.
+      </div>
+      {queue.map((row, i) => {
+        const exposure = numeric(row.current_exposure_usd);
+        const discount = numeric(row.pct_below_high);
+        const tags = [
+          exposure != null ? `exposure ${moneyText(exposure)}` : "",
+          discount != null ? `${discount.toFixed(1)}% below 52w high` : "",
+          row.research_status ? `research ${row.research_status}` : "",
+          ...(row.source_tags || []),
+        ].filter(Boolean);
         return (
-          <div key={`queue-${card.card_id || i}`} style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>
-            <strong style={{ color: "#e2e8f0" }}>#{i + 1} {card.ticker || ""}</strong> - {face.status} - {face.title} ({sizeLabel(card)}; {scoreText(display)}; p{card.priority})
+          <div key={`${row.ticker}-${i}`} style={{ border: "1px solid #334155", borderRadius: 9, background: "#07101e", padding: 10, margin: "8px 0" }}>
+            <div style={{ display: "flex", gap: 8, alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap" }}>
+              <div>
+                <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em", marginBottom: 3 }}>{row.label || "watch"}</div>
+                <div style={{ fontSize: 14, fontWeight: 900, color: "#f8fafc" }}>#{i + 1} {row.ticker}</div>
+              </div>
+              <div style={{ fontSize: 12, color: "#f8fafc", border: "1px solid #334155", borderRadius: 999, padding: "3px 7px", background: "#0f172a" }}>impact {row.impact_score}</div>
+            </div>
+            <div style={{ fontSize: 13, color: "#cbd5e1", lineHeight: 1.4, marginTop: 4 }}>{row.summary}</div>
+            {tags.length > 0 && <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.4, marginTop: 5 }}>{tags.join(" | ")}</div>}
+            {row.disconfirmation && <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.4, marginTop: 5 }}><strong>Do not promote if:</strong> {row.disconfirmation}</div>}
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function DoNotTouch({ payload }) {
+  const rows = payload.fed_day_do_not_touch || [];
+  if (!rows.length) return null;
+  return (
+    <details style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, margin: "8px 0", fontSize: 12, color: "#94a3b8" }}>
+      <summary style={{ cursor: "pointer", fontWeight: 750 }}>Do-not-touch / research-only guardrails ({rows.length})</summary>
+      {rows.map((row, i) => <div key={i} style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>{row}</div>)}
     </details>
   );
 }
+
+const cardSections = (cards) => [
+  ["Material decisions", (cards || []).filter((card) => isMaterial(card) && !isFundingLeg(card))],
+  ["Other rechecks", (cards || []).filter((card) => !isMaterial(card) && !isFundingLeg(card))],
+  ["Funding / paired sells", (cards || []).filter(isFundingLeg)],
+].filter(([, rows]) => rows.length);
 
 export default function TodayDecide({ payload }) {
   const [railState, setRailState] = useState({});
   if (!payload) return null;
   const ga = payload.goal_anchor || {}, pl = payload.plan_line || {};
-  const sections = [
-    ["Material decisions", (payload.cards || []).filter((card) => isMaterial(card) && !isFundingLeg(card))],
-    ["Other rechecks", (payload.cards || []).filter((card) => !isMaterial(card) && !isFundingLeg(card))],
-    ["Funding / paired sells", (payload.cards || []).filter(isFundingLeg)],
-  ].filter(([, cards]) => cards.length);
+  const sections = cardSections(payload.cards || []);
   let rank = 1;
   return (
     <section className="td-react-shell" style={{ fontFamily: "-apple-system,'Segoe UI',Roboto,sans-serif", background: "#0b1220",
@@ -900,21 +981,38 @@ export default function TodayDecide({ payload }) {
           })}
         </div>
       ))}
-      <ActionQueueTail payload={payload} />
-      <details style={{ fontSize: 12, color: "#94a3b8" }}>
-        <summary>Backlog ({(payload.backlog || []).length})</summary>
-        {(payload.backlog || []).map((c, i) => (
-          <div key={i} style={{ fontSize: 13 }}>{c.ticker} - {c.direction} - ${(c.dollars || 0).toLocaleString()} - p{c.priority}</div>
-        ))}
+      {(payload.backlog || []).length > 0 && (
+        <div style={{ borderTop: "1px solid #1e293b", marginTop: 14, paddingTop: 10 }}>
+          <div style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em", margin: "14px 0 5px" }}>
+            More impact-ranked decisions ({(payload.backlog || []).length})
+          </div>
+          {cardSections(payload.backlog || []).map(([label, cards]) => (
+            <div key={`more-${label}`}>
+              <div style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em", margin: "14px 0 5px" }}>{label}</div>
+              {cards.map((c) => {
+                const thisRank = rank;
+                rank += 1;
+                return <Card key={c.card_id} card={c} rank={thisRank} checkFirst={Boolean((c.card_blockers || []).length)} railState={railState} setRailState={setRailState} builtDate={payload.built} />;
+              })}
+            </div>
+          ))}
+        </div>
+      )}
+      <WatchQueue payload={payload} />
+      <DoNotTouch payload={payload} />
+      <details style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, margin: "8px 0", fontSize: 12, color: "#94a3b8" }}>
+        <summary style={{ cursor: "pointer", fontWeight: 750 }}>Portfolio thesis context</summary>
+        {payload.congruence?.status === "ok"
+          ? (payload.congruence.rows || []).map((r, i) => (
+              <div key={i} style={{ fontSize: 13, margin: "3px 0" }}>{r.flagged ? "\ud83d\udea9 " : ""}{r.insight_id} - {r.line}</div>))
+          : <div style={{ fontSize: 13 }}>congruence: not checked - {payload.congruence?.reason}</div>}
       </details>
-      {payload.congruence?.status === "ok"
-        ? (payload.congruence.rows || []).map((r, i) => (
-            <div key={i} style={{ fontSize: 13, margin: "3px 0" }}>{r.flagged ? "\ud83d\udea9 " : ""}{r.insight_id} - {r.line}</div>))
-        : <div style={{ fontSize: 13 }}>congruence: not checked - {payload.congruence?.reason}</div>}
-      <div style={{ fontFamily: "ui-monospace,Menlo,monospace", fontSize: 11, color: "#94a3b8",
-                    borderTop: "1px solid #1e293b", marginTop: 12, paddingTop: 8 }}>
-        {Object.entries(payload.honesty || {}).map(([k, v]) => <div key={k}>{k}: {String(v)}</div>)}
-      </div>
+      <details style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, margin: "8px 0", fontSize: 12, color: "#94a3b8" }}>
+        <summary style={{ cursor: "pointer", fontWeight: 750 }}>System honesty / data caveats</summary>
+        <div style={{ fontFamily: "ui-monospace,Menlo,monospace", fontSize: 11, color: "#94a3b8", borderTop: "1px solid #1e293b", marginTop: 8, paddingTop: 8 }}>
+          {Object.entries(payload.honesty || {}).map(([k, v]) => <div key={k}>{k}: {String(v)}</div>)}
+        </div>
+      </details>
     </section>
   );
 }
