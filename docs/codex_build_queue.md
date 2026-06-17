@@ -26,15 +26,8 @@ Latest audit state:
 
 ## Active Slice
 
-- `DECISION-DOSSIER-DYNAMIC-REFRESH-V1` claimed by Codex on 2026-06-16 20:51 ET.
-- Scope: add a repo-local dynamic-read refresh step that can update dossier
-  `price` and `timing` reads from already-present UW price/opportunity/battery
-  evidence before the dashboard build.
-- Honesty rule: only ticker-matched checked evidence can update a read. Missing
-  evidence leaves the prior stale/not-checked read in place; the merged
-  staleness guard remains the only alert/watch freshness policy.
-- Explicit non-goals: no scoring, ranking, sizing, gate, trade-posture, or
-  execution behavior changes.
+- No active build slice is claimed after
+  `DECISION-DOSSIER-DYNAMIC-REFRESH-V1` merged in PR#62.
 
 Future unrelated work should start from a fresh completion audit or a new
 explicit user request, then claim a focused row in `docs/WORKBOARD.md` before
@@ -42,9 +35,17 @@ editing shared docs or routine code.
 
 ## 2026-06-16 Decision Dossier Dynamic Refresh
 
-- In progress: route existing cached evidence into dossier dynamic reads before
-  dashboard build without treating absent evidence as checked-clear.
-- Expected output: updater script, routine wiring, focused tests, and docs.
+- Merged in PR#62: add `decision_dossier_refresh.py`, a cache-only dynamic-read
+  updater for dossier `price` and `timing` reads.
+- `live_dashboard_refresh.py` now runs the updater before the first cockpit
+  build, so Today/Decide cards consume the refreshed repo mirror when
+  ticker-matched evidence exists.
+- Honesty rule: only ticker-matched checked UW price/opportunity/battery
+  evidence updates a read. Missing evidence leaves the prior stale/not-checked
+  read in place; the merged staleness guard remains the only alert/watch
+  freshness policy.
+- No scoring, ranking, sizing, gate, trade-posture, or execution behavior
+  changed.
 
 ## 2026-06-16 Decision Dossier Alerts
 
