@@ -536,7 +536,8 @@ def test_generated_html_consumes_precomputed_conviction_display_payload():
 
     html = generate_html(feed)
 
-    assert "Conviction to Buy TEST: 4/5 (HIGH)" in html
+    assert "Conviction to Buy TEST: 4/5 (HIGH)" not in html
+    assert "Conviction 4/5 HIGH" in html
     assert "A dated entry call" in html
     assert "institutional" in html
 

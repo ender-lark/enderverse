@@ -499,6 +499,13 @@
           "missing_behavior": "Log date calibration is not checked; do not treat persistence as fully calibrated."
         },
         {
+          "key": "fed_day_reallocation_packet",
+          "paths": ["src/fed_day_reallocation_packet.json"],
+          "required": false,
+          "source": "fed_day_reallocation_packet.py repo convention packet builder",
+          "missing_behavior": "Fed-day action/watchlist packet is not checked; missing packet is not no pullback or reallocation candidates."
+        },
+        {
           "key": "parabolic",
           "paths": ["src/parabolic_setups.json"],
           "required": false,

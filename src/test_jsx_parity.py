@@ -201,7 +201,9 @@ def test_payload_window_class_and_conviction_display_render_in_html():
     html = td.render_today_decide_html(payload)
     for card in payload["cards"]:
         assert card["card_id"] in html, f"missing card_id in HTML: {card['card_id']}"
-        assert card["conviction_display"]["text"] in html
+        display = card["conviction_display"]
+        assert display["text"] not in html
+        assert f'Conviction {display.get("x5", 1)}/5 {display.get("band", "LOW").upper()}' in html
 
 
 def test_payload_backlog_card_ids_and_priority_in_html():
@@ -251,8 +253,8 @@ def test_jsx_files_exist():
 def test_todaydecide_jsx_consumes_canonical_payload_fields():
     src = _jsx(TODAY_DECIDE_JSX)
     for path in (
-        "payload.goal_anchor", "payload.plan_line", "payload.gates",
-        "payload.cards", "payload.backlog", "payload.congruence",
+        "payload.goal_anchor", "payload.plan_line", "payload.trust_panel",
+        "payload.data_health", "payload.cards", "payload.backlog", "payload.congruence",
         "payload.honesty",
     ):
         assert path in src, f"TodayDecide.jsx must read {path}"
