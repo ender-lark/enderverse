@@ -57,6 +57,7 @@ def test_cloud_routine_allowlist_preserves_v2_entries():
         "src/heartbeat.json",
         "src/positions.json",
         "src/source_calls.json",
+        "src/source_rates.json",
         "src/uw_endpoint_results.json",
         "src/top_prospects.json",
         "src/parabolic_setups.json",

@@ -15,6 +15,7 @@ def test_refresh_plan_tracks_source_calls_before_final_build():
     assert names == [
         "heartbeat_pre_synthesis",
         "refresh_decision_dossier_dynamic_reads",
+        "refresh_source_rates",
         "build_publish_pre_synthesis",
         "draft_source_call_candidates",
         "build_daily_pullback_packet",
@@ -28,13 +29,18 @@ def test_refresh_plan_tracks_source_calls_before_final_build():
         "write_parity_feed",
     ]
     dossier_refresh = steps[1].command
-    first_build = steps[2].command
-    source_calls = steps[3].command
-    packet = steps[4].command
-    synthesis = steps[5].command
-    final_build = steps[7].command
+    source_rates = steps[2].command
+    first_build = steps[3].command
+    source_calls = steps[4].command
+    packet = steps[5].command
+    synthesis = steps[6].command
+    final_build = steps[8].command
     assert "src/decision_dossier_refresh.py" in dossier_refresh
     assert any(part.replace("\\", "/") == "src/decision_dossiers.json" for part in dossier_refresh)
+    assert "src/source_call_tracker.py" in source_rates
+    assert "--hit-rates" in source_rates
+    assert any(part.replace("\\", "/") == "src/source_calls.json" for part in source_rates)
+    assert any(part.replace("\\", "/") == "src/source_rates.json" for part in source_rates)
     assert "src/full_build_runner.py" in first_build
     assert "--publish" in first_build
     assert first_build == final_build
@@ -53,7 +59,8 @@ def test_refresh_plan_can_rehearse_without_publish():
     steps = refresh.refresh_plan(publish=False)
 
     assert "--publish" not in steps[2].command
-    assert "--publish" not in steps[7].command
+    assert "--publish" not in steps[3].command
+    assert "--publish" not in steps[8].command
 
 
 def test_live_dashboard_refresh_dry_run_lists_steps():
@@ -69,9 +76,10 @@ def test_live_dashboard_refresh_dry_run_lists_steps():
     assert proc.returncode == 0, proc.stderr
     payload = json.loads(proc.stdout)
     assert payload["steps"][1]["name"] == "refresh_decision_dossier_dynamic_reads"
-    assert payload["steps"][3]["name"] == "draft_source_call_candidates"
-    assert payload["steps"][4]["name"] == "build_daily_pullback_packet"
-    assert payload["steps"][5]["name"] == "repo_evidence_synthesis"
+    assert payload["steps"][2]["name"] == "refresh_source_rates"
+    assert payload["steps"][4]["name"] == "draft_source_call_candidates"
+    assert payload["steps"][5]["name"] == "build_daily_pullback_packet"
+    assert payload["steps"][6]["name"] == "repo_evidence_synthesis"
     assert payload["steps"][-1]["name"] == "write_parity_feed"
 
 

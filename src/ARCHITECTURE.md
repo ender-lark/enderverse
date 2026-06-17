@@ -282,10 +282,15 @@ The parity is enforced by `src/test_jsx_parity.py`.
 
 ### 12.4 · Routine + registration
 
-* `cloud_routine_commit.DEFAULT_ALLOWED_PATHS` now allows `dispositions.jsonl`, `timing_gates.json`, `prediction_signals.json`, and `uw_endpoint_results.json` to be committed by scheduled routines.
+* `cloud_routine_commit.DEFAULT_ALLOWED_PATHS` now allows `dispositions.jsonl`, `timing_gates.json`, `prediction_signals.json`, `uw_endpoint_results.json`, and `source_rates.json` to be committed by scheduled routines.
 * `state_ownership_map.json` registers `dispositions` and `prediction_signals` alongside the existing `timing_gates` entry.
 * The 9:40 ET Post-Open Evidence Gate routine flows: load gates → `evaluate_all_gates(price_fn=…, writer=file_writer(…))` → on any change, the writer rewrites `timing_gates.json` and the L5 wrapper appends a receipt. The QQQ confirm / re-red flow is now mechanized end-to-end.
 * The 8:35 ET Morning Scan routine flows: `run_morning_scan(...)` returns a JSON-serialisable payload containing pattern lanes + guard application + an honesty footer. The L5 wrapper persists the result as a routine receipt and the cockpit folds the cards into TODAY—DECIDE.
+* The dashboard refresh sequence runs `source_call_tracker.py --hit-rates`
+  before feed builds, regenerating `src/source_rates.json` from real
+  `source_calls.json` rows. This is freshness only: `MIN_N_FOR_BANDING` remains
+  15 per source x tier, pending rows do not count, and empty graded history
+  stays `INSUFFICIENT_DATA`.
 
 ---
 

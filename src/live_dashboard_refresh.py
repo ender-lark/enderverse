@@ -74,6 +74,11 @@ def refresh_plan(
             "--feed", _rel(feed),
             "--live-source-config", _rel(src / "live_source_config.json"),
         ]),
+        Step("refresh_source_rates", [
+            py, "src/source_call_tracker.py", "--hit-rates",
+            "--calls", _rel(src / "source_calls.json"),
+            "--out", _rel(src / "source_rates.json"),
+        ]),
         Step("build_publish_pre_synthesis", build_cmd),
         Step("draft_source_call_candidates", [
             py, "src/source_call_candidate_draft.py",
