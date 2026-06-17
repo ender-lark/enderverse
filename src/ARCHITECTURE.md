@@ -222,7 +222,7 @@ The V3 decision layer is **additive** to the V2 engine described above. Every V2
 |---|---|
 | `tunables.py` + `goal_tunables.json` + `conviction_weights.json` | Operator-tunable thresholds and weights; §3.4 honesty rails are NOT tunable (loader hard-fails). |
 | `decision_card.py` | 5-field card contract; UNKNOWN-stamped fields are valid, silent omission is not. |
-| `decision_dossier_sync.py` + `decision_dossiers.py` + `decision_dossiers.json` | Live Theses-to-repo dossier sync and runtime mirror. Adds card context only; stale price/timing reads render UNKNOWN and never change scoring/ranking. |
+| `decision_dossier_sync.py` + `decision_dossier_refresh.py` + `decision_dossiers.py` + `decision_dossiers.json` | Live Theses-to-repo dossier sync, cached-evidence dynamic read refresh, and runtime mirror. Adds card context only; stale price/timing reads render UNKNOWN and never change scoring/ranking. |
 | `insight_register.py` + `congruence.py` | Active insights and the bullets-vs-evidence congruence strip. |
 | `conviction_engine.py` | Tier × calibration × freshness → groups (fs, uw, operator_insight, institutional) → read. Tier D never scores (doctrine). |
 | `timing_engine.py` | Six T-lanes → OPEN-NOW / STAGE-ONLY / GATED / WAIT. OPEN-NOW requires a named positive trigger. |
@@ -244,6 +244,7 @@ Both the Python HTML renderer (`today_decide.render_today_decide_html`) and the 
 * per card: `card.{card_id, ticker, direction, recheck_date, last_disposition, conflicts[], conviction.{read, points, groups, raises}, window.{class, deadline, reasons, flips, named_trigger}, decision_card.{move, conviction, window, evidence, impact}, execution, sizing, impact}`
 * Cards may carry optional `dossier.{ticker, status, one_liner, notion_url, last_reviewed, next_review_due, synced_at, reads}`. Dossier reads are context-only and validated/rendered separately from the 5-field `decision_card` contract.
 * `decision_dossier_sync.py` reads Live Theses through the repo Notion API client when `NOTION_API_TOKEN` is present, or from a verified connector-fetch snapshot when Notion row-query tooling is unavailable. Missing rows stay `pending_sync`; stale/not-checked dynamic reads stay `UNKNOWN`.
+* `decision_dossier_refresh.py` runs from the dashboard refresh path before Today/Decide cards are assembled. It performs no live fetches and can update only ticker-matched `price`/`timing` reads from already-present UW price/opportunity/battery evidence; absent evidence leaves the previous stale/not-checked read unchanged.
 * Dossier alert/watch wiring consumes the shared staleness guard from PR#57. Stale or not-checked dossier price/timing reads add `data_health` blockers only to matching capital-action cards; unrelated cards are not blocked. `alert_policy` may emit a review-only `decision_dossier_freshness_blocker` only when an alert-actionable Today card is blocked by that dossier item.
 * BUY/ADD cards carry `sizing.{suggested_usd, source, heat, cap_basis}` from `conviction_sizing_calibrator`; this makes caps math visible before the operator accepts the card notional.
 * Wrapper ETF BUY/ADD/TRIM/SELL cards may carry display-only `lookthrough.{contains_line, overlap_line, holdings[], source}` from `lookthrough_disclosure.py`; this surfaces ETF-vs-single-name overlap without changing ranking, sizing, or account routing.

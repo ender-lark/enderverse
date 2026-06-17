@@ -280,13 +280,17 @@ The dashboard shows the feed plus operator state:
     "best use of scarce capital now" before any review prompt is promoted.
   - Cards can carry optional `card.dossier` context from
     `src/decision_dossiers.json`. Dossiers mirror Live Theses through
-    `src/decision_dossier_sync.py`, but stay context-only: they do not change
-    conviction scoring, ranking, sizing, gates, or trade posture. Stale or
-    not-checked price/timing reads render as `UNKNOWN`; for capital-action
-    cards they also enter the shared `data_health` staleness guard as
-    ticker/card-scoped blockers. `alert_policy` can surface those blockers only
-    as review-only alert candidates when the blocked Today card is otherwise
-    alert-actionable.
+    `src/decision_dossier_sync.py`. The dashboard refresh path runs
+    `src/decision_dossier_refresh.py` before card assembly so ticker-matched
+    cached UW price/opportunity/battery evidence can refresh the dynamic
+    `price` and `timing` reads. Dossiers stay context-only: they do not change
+    conviction scoring, ranking, sizing, gates, or trade posture. Missing
+    ticker-matched evidence leaves the prior stale/not-checked read in place.
+    Stale or not-checked price/timing reads render as `UNKNOWN`; for
+    capital-action cards they also enter the shared `data_health` staleness
+    guard as ticker/card-scoped blockers. `alert_policy` can surface those
+    blockers only as review-only alert candidates when the blocked Today card
+    is otherwise alert-actionable.
   - Capital-using review prompts can also carry `account_placement`: candidate
     account, why that account, and caveats. Parent Schwab/PCRA Trust is treated
     as ETF-only; this still does not place or size trades.
@@ -676,6 +680,10 @@ row-query tooling is unavailable, use verified Notion page search/fetch readback
 or leave the ticker `pending_sync`. Dossier alert/watch wiring consumes merged
 staleness guard PR#57: stale or not-checked dynamic reads use `data_health` and
 `alert_policy`, not a separate dossier freshness policy.
+`decision_dossier_refresh.py` is the cached-evidence dynamic read path. It runs
+before dashboard builds, performs no live fetches, and updates only
+ticker-matched price/timing evidence. It must not convert absent UW evidence
+into a checked-clear dossier read.
 
 ## 8. Safe Write-Back
 

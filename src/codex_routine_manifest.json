@@ -509,6 +509,7 @@
       "owns": [
         "src/heartbeat.json",
         "src/heartbeat_summary.json",
+        "src/decision_dossiers.json",
         "src/latest_cockpit_feed.json",
         "src/open_opportunities.json"
       ],
@@ -520,6 +521,11 @@
         {
           "id": "validate_heartbeat_status",
           "command": "python src/heartbeat_status.py --validate src/heartbeat.json"
+        },
+        {
+          "id": "refresh_decision_dossier_dynamic_reads",
+          "command": "python src/decision_dossier_refresh.py --in src/decision_dossiers.json --out src/decision_dossiers.json",
+          "fallback_for": "refresh dossier price/timing reads from already-present UW price/opportunity evidence before Today/Decide cards are assembled"
         },
         {
           "id": "readiness_check",
