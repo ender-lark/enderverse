@@ -26,17 +26,30 @@ Latest audit state:
 
 ## Active Slice
 
-- No active build slice is claimed after `DECISION-DOSSIER-SYNC-V1` merged in
-  PR#58.
-- Scope: Live Theses-to-`decision_dossiers.json` sync path, verified AVGO
-  mirror, and tests/docs for the connector-query fallback.
-- Explicit sequencing: dossier alert/watch work is deferred to a follow-up that
-  consumes merged staleness guard PR#57, so alert surfaces do not grow a
-  competing freshness policy.
+- `DECISION-DOSSIER-ALERTS-V1` is active on branch
+  `codex/decision-dossier-alerts-v1` in PR#60.
+- Scope: route stale/not-checked decision-dossier reads into the shared
+  `data_health` and `alert_policy` staleness guard, then surface only
+  review-only alert candidates when an actionable card is blocked.
+- Explicit sequencing: this slice consumes merged staleness guard PR#57. It
+  must not add a second dossier-specific alert freshness policy.
 
 Future unrelated work should start from a fresh completion audit or a new
 explicit user request, then claim a focused row in `docs/WORKBOARD.md` before
 editing shared docs or routine code.
+
+## 2026-06-16 Decision Dossier Alerts
+
+- In progress: route dossier freshness into the shared staleness guard instead
+  of adding a separate dossier alert policy.
+- `data_health.assess` now consumes Today card dossiers and adds
+  `decision_dossier` blockers only for matching capital-action cards with stale
+  or not-checked dynamic reads.
+- `today_decide` scopes those blockers by ticker/card id so one stale dossier
+  cannot mark unrelated cards `CHECK DATA FIRST`.
+- `alert_policy` consumes the built Today payload and can emit a review-only
+  `decision_dossier_freshness_blocker` only when the matching blocked card is
+  alert-actionable.
 
 ## 2026-06-16 Decision Dossier Sync
 
