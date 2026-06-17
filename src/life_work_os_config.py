@@ -24,9 +24,11 @@ AFTER_HOURS_QUEUE_DATA_SOURCE_ID = "cbed1875-56c4-46de-b983-275d1454b484"
 LEGACY_INBOX_PARENT_PAGE_ID = "343c50314bb681128b26e00491df0b4a"
 EEOC_FILING_DEADLINE_PAGE_ID = "382c5031-4bb6-8177-9b8a-e8b774e1a333"
 
-# The Notion audit did not provide this data source id. The hygiene runner
-# requires it before applying mutations so every mutation can be logged.
+# The live System Changelog is an append-only Notion page. A data-source id can
+# override this when one exists, but the page fallback is the canonical path.
 SYSTEM_CHANGELOG_DATA_SOURCE_ENV = "SYSTEM_CHANGELOG_DATA_SOURCE_ID"
+SYSTEM_CHANGELOG_PAGE_ENV = "SYSTEM_CHANGELOG_PAGE_ID"
+SYSTEM_CHANGELOG_PAGE_ID = "351c5031-4bb6-813a-876b-f2a4835f65fb"
 
 
 @dataclass(frozen=True)

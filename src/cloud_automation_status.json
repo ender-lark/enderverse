@@ -328,7 +328,7 @@
       "expected_since": "2026-06-17T15:27:23-04:00",
       "proof_scope": "support",
       "prompt": "src/codex_routines/Life_Work_OS_Heartbeat_Watcher_Routine_Prompt_v1.md",
-      "writes_to": "Briefing & Review Log/Pushover status",
+      "writes_to": "heartbeat status artifact, Pushover alarms",
       "model": "gpt-5.5",
       "reasoning_effort": "medium"
     },
@@ -341,7 +341,7 @@
       "expected_since": "2026-06-17T15:27:23-04:00",
       "proof_scope": "support",
       "prompt": "src/codex_routines/Life_Work_OS_Safe_Hygiene_Routine_Prompt_v1.md",
-      "writes_to": "Briefing & Review Log/Pushover status",
+      "writes_to": "hygiene receipt, bounded Notion mutations, System Changelog page",
       "model": "gpt-5.5",
       "reasoning_effort": "high"
     }

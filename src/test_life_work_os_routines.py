@@ -15,11 +15,13 @@ from life_work_os_briefing import (
 from life_work_os_config import DAILY_LIFE, DAILY_WORK
 from life_work_os_heartbeat import evaluate_staleness
 from life_work_os_hygiene import (
+    HygieneOperation,
     _format_text as _hygiene_format_text,
     plan_duplicate_cancellations,
     plan_finance_source_project_backfill,
     plan_orphan_inbox_recovery,
     plan_past_event_closures,
+    write_changelog,
 )
 from life_work_os_notion import NotionRestClient, env_status
 
@@ -192,9 +194,12 @@ def test_heartbeat_marks_missing_rows_stale_after_threshold():
 def test_hygiene_plans_conservative_past_event_closure():
     rows = [
         _page("past", "Confirm May 5 surgery time", **{"Due Date": "2026-05-05", "Recurring": "false"}),
+        _page("caregiver", "Confirm caregiver coverage for mom", **{"Due Date": "2026-04-16"}),
+        _page("bowel", "Confirm bowel-regimen plan for mom", **{"Due Date": "2026-04-19"}),
         _page("future", "Confirm July appointment", **{"Due Date": "2026-07-05"}),
         _page("case", "EEOC evidence follow-up", **{"Due Date": "2026-05-05", "Domain": "Work"}),
         _page("settlement", "Schedule Anthony + Neelu strategic follow-up (settlement strategy)", **{"Due Date": "2026-05-05"}),
+        _page("awc", "Schedule follow-up meetings with senior leaders on Brent presentation action items", **{"Due Date": "2026-05-01"}),
     ]
 
     ops = plan_past_event_closures(rows, now=datetime(2026, 6, 17, tzinfo=ET), cap=10)
@@ -220,14 +225,18 @@ def test_hygiene_duplicate_planner_skips_case_content_and_keeps_richer_row():
 def test_finance_source_project_backfill_is_bounded_and_specific():
     rows = [
         _page("finance", "Finance task - rebalance account", **{"Source Project": "", "Domain": "Finance"}),
+        _page("positions", "Build canonical Positions page", **{"Source Project": ""}),
+        _page("nicole", "Nicole - confirm light-duty position treatment", **{"Source Project": "", "Domain": "Nicole"}),
+        _page("work", "Gate review prep for AWC IP lead req posting", **{"Source Project": "", "Domain": "Work"}),
         _page("cancelled", "[CANCELLED] Investing task", **{"Source Project": "", "Domain": "Finance"}),
         _page("done", "Investing task already closed", **{"Source Project": "", "Domain": "Finance", "Status": "Done"}),
+        _page("taxes", "Finish 2024 taxes", **{"Source Project": "", "Domain": "Finance"}),
         _page("other", "Buy neck heater", **{"Source Project": ""}),
     ]
 
     ops = plan_finance_source_project_backfill(rows, cap=10)
 
-    assert [op.page_id for op in ops] == ["finance"]
+    assert [op.page_id for op in ops] == ["finance", "positions"]
     assert ops[0].properties == {"Source Project": "Investing 2026"}
 
 
@@ -248,6 +257,37 @@ def test_hygiene_text_output_is_ascii_safe_for_windows_console():
     assert "[notebook] Positions page - setup" in text
     assert "Source Project -> Investing 2026" in text
     text.encode("cp1252")
+
+
+class ChangelogPageClient:
+    def __init__(self):
+        self.appended = []
+
+    def append_block_children(self, block_id, children):
+        self.appended.append((block_id, children))
+        return {"id": block_id}
+
+    def retrieve_page(self, page_id):
+        return {"id": page_id, "url": f"https://notion.test/{page_id}"}
+
+
+def test_safe_hygiene_changelog_falls_back_to_canonical_page(monkeypatch):
+    monkeypatch.delenv("SYSTEM_CHANGELOG_DATA_SOURCE_ID", raising=False)
+    monkeypatch.delenv("SYSTEM_CHANGELOG_PAGE_ID", raising=False)
+    client = ChangelogPageClient()
+
+    report = write_changelog(
+        client,
+        [HygieneOperation(op="cancel_past_event_task", page_id="p1", title="Confirm May 5 surgery time", reason="past event")],
+        now=datetime(2026, 6, 17, 15, 45, tzinfo=ET),
+    )
+
+    assert report["mode"] == "page_append"
+    assert report["verified"] is True
+    assert client.appended
+    children = client.appended[0][1]
+    assert children[0]["type"] == "heading_2"
+    assert any("cancel_past_event_task" in str(child) for child in children)
 
 
 def test_orphan_inbox_recovery_dedupes_existing_source_blocks():

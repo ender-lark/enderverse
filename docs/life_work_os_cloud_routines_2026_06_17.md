@@ -9,7 +9,7 @@ Starting point:
 - The repo support slice was committed and pushed first, then the app automations were created after the final set was shown.
 - App scheduling status: all six Codex app automations are ACTIVE as of 2026-06-17 15:27 ET, pointed at the canonical main checkout `C:\Users\suraj\Documents\Codex\2026-06-17\auto-loose-thread-sweep\enderverse`.
 - Proof status: manual read-only proof passed for all six routines on 2026-06-17, with receipts written as `run_source=manual`. Those proofs exercised live Notion reads and output generation without Briefing Log writes, Pushover sends, or hygiene mutations. First real scheduled receipts are still pending and must land on main before scheduled proof is complete.
-- Manual proof fixes landed in the same slice: Drift Flags uses `Status = Active` instead of invalid task-style `Done/Cancelled` filters; Work Operations uses positive live statuses; text output is ASCII-safe for the Windows scheduled console path; safe hygiene skips settlement/retaliation/constructive-discharge case content.
+- Manual proof fixes landed in the same slice: Drift Flags uses `Status = Active` instead of invalid task-style `Done/Cancelled` filters; Work Operations uses positive live statuses; text output is ASCII-safe for the Windows scheduled console path; safe hygiene skips Work/Nicole/AWC/Solventum/settlement/retaliation/constructive-discharge case content and only backfills explicit Investing/portfolio tasks.
 - Notion mirror: verified live on the Life OS page `Cloud Routines - Operations Reference` (`378c5031-4bb6-810f-a2bd-d806a4b2a015`) after fetchback at 2026-06-17T19:35Z.
 
 Final planned set:
@@ -32,7 +32,7 @@ Final planned set:
 | Life OS Weekly Review | Saturday 1:00 PM; first Saturday emits Monthly Deep | America/New_York | `gpt-5.5`, `max` for monthly-capable review | Briefing & Review Log | yes |
 | Work OS Weekly Review | Friday 4:00 PM | America/New_York | `gpt-5.5`, `xhigh` | Briefing & Review Log | yes |
 | Life/Work OS Heartbeat Watch | daily 9:15 AM and 9:15 PM | America/New_York | `gpt-5.5`, `medium` | heartbeat status artifact, Pushover alarms | alarm only |
-| Life/Work OS Safe Hygiene | daily 2:30 AM | America/New_York | `gpt-5.5`, `high` | hygiene receipt, Notion task/inbox/queue mutations, System Changelog when configured | summary/alarm only |
+| Life/Work OS Safe Hygiene | daily 2:30 AM | America/New_York | `gpt-5.5`, `high` | hygiene receipt, Notion task/inbox/queue mutations, System Changelog page append | summary/alarm only |
 
 ## Architecture Rules
 
@@ -47,6 +47,6 @@ Final planned set:
 ## Open Before Scheduling
 
 - Confirm a real scheduled run inherits `NOTION_TOKEN`, `PUSHOVER_TOKEN`, and `PUSHOVER_USER`. Manual read-only proofs confirmed the local runner env and live Notion access on 2026-06-17, but the first scheduled app execution is the authoritative scheduled-env proof.
-- Provide or configure `SYSTEM_CHANGELOG_DATA_SOURCE_ID`; safe-hygiene apply fails closed without it.
+- System Changelog logging defaults to the canonical append-only page `351c5031-4bb6-813a-876b-f2a4835f65fb`; `SYSTEM_CHANGELOG_DATA_SOURCE_ID` or `SYSTEM_CHANGELOG_PAGE_ID` may override it if the storage model changes.
 - Wait for real scheduled receipts on main for all six routines. Manual recovery receipts can support readiness, but do not count as scheduled proof.
 

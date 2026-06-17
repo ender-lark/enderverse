@@ -9,12 +9,12 @@ Contract:
 - Run the routine through the receipt wrapper: `python src/cloud_routine_runner.py --run-source scheduled --routine-id life-work-os-safe-hygiene --success-summary "Life/Work OS safe hygiene succeeded" --failure-summary "Life/Work OS safe hygiene failed" -- python src/life_work_os_hygiene.py --apply --max-mutations 10 --out src/life_work_os_hygiene_receipt.json --format text`.
 - The helper may only perform bounded, guardrailed mechanical hygiene writes:
   - Recover orphaned legacy Inbox child-page captures from page `343c50314bb681128b26e00491df0b4a` into Inbox DB rows verbatim, preserving Raw Content and tagging source=recovered.
-  - Close clearly past one-time event Tasks by setting Status=Cancelled with a note. Never delete.
-  - Backfill Finance/Investing tasks with null Source Project to `Investing 2026`.
+  - Close clearly past one-time event Tasks with explicit past event/date signals by setting Status=Cancelled with a note. Never delete. Skip Work, Nicole, AWC, Solventum, settlement, retaliation, constructive-discharge, and case-adjacent content.
+  - Backfill explicit Investing/portfolio tasks with null Source Project to `Investing 2026`; do not backfill generic Finance, Work, Nicole, tax, or personal-admin tasks.
   - Cancel conservative exact-title duplicate Task rows, keeping the richer row.
   - Drain autonomous-safe After-Hours Queue items and mark them Done with a closeout note.
-- Hard guardrails: idempotent, never delete, cap mutations per run, log every mutation in receipt + briefing summary + System Changelog, and never auto-mutate Work case-file content including Strategic Brief, Game Plan, Insights, or Evidence Ledger.
-- If `SYSTEM_CHANGELOG_DATA_SOURCE_ID` is not configured, the helper must fail before applying mutations so mutation logging is never skipped.
+- Hard guardrails: idempotent, never delete, cap mutations per run, log every mutation in receipt + briefing summary + System Changelog, and never auto-mutate Work case-file content including Strategic Brief, Game Plan, Insights, Evidence Ledger, settlement, retaliation, or constructive-discharge content.
+- System Changelog logging uses `SYSTEM_CHANGELOG_DATA_SOURCE_ID` when configured; otherwise it appends to the canonical System Changelog page `351c5031-4bb6-813a-876b-f2a4835f65fb`. If neither path is available, the helper must fail before applying mutations so mutation logging is never skipped.
 - Missing, blocked, stale, schema-mismatched, or credential-missing sources must remain `not_checked` / dark in the summary. Do not manufacture checked-clear counts.
 
 Closeout:

@@ -17,6 +17,8 @@ from life_work_os_config import (
     INBOX_DATA_SOURCE_ID,
     LEGACY_INBOX_PARENT_PAGE_ID,
     SYSTEM_CHANGELOG_DATA_SOURCE_ENV,
+    SYSTEM_CHANGELOG_PAGE_ENV,
+    SYSTEM_CHANGELOG_PAGE_ID,
     TASKS_DATA_SOURCE_ID,
     TIMEZONE,
 )
@@ -37,7 +39,17 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "src" / "life_work_os_hygiene_receipt.json"
 ET = ZoneInfo(TIMEZONE)
 PAST_EVENT_RE = re.compile(
-    r"\b(confirm|schedule|appointment|surgery|reservation|flight|hotel|visit|pickup|dropoff|may \d{1,2}|june \d{1,2}|july \d{1,2})\b",
+    r"\b("
+    r"may \d{1,2}|june \d{1,2}|july \d{1,2}|august \d{1,2}|"
+    r"appointment|surgery|reservation|flight|hotel|pickup|dropoff"
+    r")\b",
+    re.IGNORECASE,
+)
+INVESTING_BACKFILL_RE = re.compile(
+    r"\b("
+    r"investing|position|positions|fundstrat|etf|sleeve|portfolio|"
+    r"rebalance|allocation|risk|attribution|tax-location|fmp|trade journal"
+    r")\b",
     re.IGNORECASE,
 )
 TEXT_TRANSLATION = str.maketrans({
@@ -120,6 +132,12 @@ def _is_work_case_content(row: Mapping[str, Any]) -> bool:
             "settlement",
             "retaliation",
             "constructive discharge",
+            "awc",
+            "solventum",
+            "sandra",
+            "brent",
+            "senior leaders",
+            "ip lead",
         )
     )
 
@@ -141,6 +159,22 @@ def _due_date(row: Mapping[str, Any]) -> datetime | None:
         return None
 
 
+def _is_investing_backfill_candidate(row: Mapping[str, Any]) -> bool:
+    domain = property_text(row, "Domain").strip().lower()
+    if domain and domain not in {"finance", "investing", "investing 2026"}:
+        return False
+    if _is_work_case_content(row):
+        return False
+    text = " ".join([
+        page_title(row),
+        domain,
+        property_text(row, "Area"),
+        property_text(row, "Project"),
+        property_text(row, "Notes"),
+    ])
+    return bool(INVESTING_BACKFILL_RE.search(text))
+
+
 def plan_past_event_closures(
     rows: list[Mapping[str, Any]],
     *,
@@ -156,7 +190,8 @@ def plan_past_event_closures(
         due = _due_date(row)
         if not title or not due or due >= cutoff:
             continue
-        if _is_recurring(row) or _is_work_case_content(row):
+        domain = property_text(row, "Domain").strip().lower()
+        if domain in {"work", "nicole"} or _is_recurring(row) or _is_work_case_content(row):
             continue
         if not PAST_EVENT_RE.search(title):
             continue
@@ -227,10 +262,9 @@ def plan_finance_source_project_backfill(
             break
         title = page_title(row)
         source_project = property_text(row, "Source Project")
-        domain_text = " ".join([title, property_text(row, "Domain"), property_text(row, "Area")]).lower()
         if _is_closed_or_cancelled(row):
             continue
-        if source_project or "investing" not in domain_text and "finance" not in domain_text:
+        if source_project or not _is_investing_backfill_candidate(row):
             continue
         ops.append(
             HygieneOperation(
@@ -418,20 +452,56 @@ def _custom_properties(schema: Mapping[str, dict[str, Any]], values: Mapping[str
     return props
 
 
+def _rich_text(text: str) -> list[dict[str, Any]]:
+    return [{"type": "text", "text": {"content": text[:1900]}}]
+
+
+def _heading_block(level: int, text: str) -> dict[str, Any]:
+    block_type = f"heading_{level}"
+    return {"object": "block", "type": block_type, block_type: {"rich_text": _rich_text(text)}}
+
+
+def _paragraph_block(text: str) -> dict[str, Any]:
+    return {"object": "block", "type": "paragraph", "paragraph": {"rich_text": _rich_text(text)}}
+
+
+def _bulleted_block(text: str) -> dict[str, Any]:
+    return {"object": "block", "type": "bulleted_list_item", "bulleted_list_item": {"rich_text": _rich_text(text)}}
+
+
 def write_changelog(client: NotionRestClient, operations: list[HygieneOperation], *, now: datetime) -> dict[str, Any]:
     changelog_ds = str(os.environ.get(SYSTEM_CHANGELOG_DATA_SOURCE_ENV) or "").strip()
-    if not changelog_ds:
-        raise RuntimeError(f"{SYSTEM_CHANGELOG_DATA_SOURCE_ENV} is required before applying hygiene mutations")
-    schema = properties_schema(client.retrieve_data_source(changelog_ds))
     title = f"Life/Work OS safe hygiene - {now.isoformat(timespec='minutes')}"
     summary = "\n".join(f"- {op.op}: {op.title} ({op.reason})" for op in operations)[:1900]
+    if not changelog_ds:
+        page_id = str(os.environ.get(SYSTEM_CHANGELOG_PAGE_ENV) or SYSTEM_CHANGELOG_PAGE_ID).strip()
+        if not page_id:
+            raise RuntimeError(
+                f"{SYSTEM_CHANGELOG_DATA_SOURCE_ENV} or {SYSTEM_CHANGELOG_PAGE_ENV} is required before applying hygiene mutations"
+            )
+        children = [
+            _heading_block(2, title),
+            _paragraph_block("Change type: bounded safe-hygiene mutations. No deletions."),
+            _paragraph_block("What:"),
+            *[_bulleted_block(f"{op.op}: {op.title} - {op.reason}") for op in operations],
+            _paragraph_block("Reversible: Yes. Roll back by restoring the affected Notion row properties from this receipt."),
+        ]
+        payload = client.append_block_children(page_id, children)
+        verified = client.retrieve_page(page_id)
+        return {
+            "mode": "page_append",
+            "page_id": page_id,
+            "url": verified.get("url") or payload.get("url") or "",
+            "verified": bool(verified.get("id")),
+        }
+    schema = properties_schema(client.retrieve_data_source(changelog_ds))
     props: dict[str, Any] = {}
     for name, value in {"Name": title, "Title": title, "Date": now.date(), "Summary": summary}.items():
         payload = property_payload(schema, name, value)
         if payload:
             props[name] = payload
     page = client.create_page(data_source_id=changelog_ds, properties=props)
-    return {"page_id": page.get("id") or "", "url": page.get("url") or ""}
+    return {"mode": "data_source", "page_id": page.get("id") or "", "url": page.get("url") or "", "verified": bool(page.get("id"))}
 
 
 def apply_operations(client: NotionRestClient, operations: list[HygieneOperation], *, dry_run: bool) -> dict[str, Any]:

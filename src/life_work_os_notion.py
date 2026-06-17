@@ -146,6 +146,9 @@ class NotionRestClient:
                 break
         return rows
 
+    def append_block_children(self, block_id: str, children: list[dict[str, Any]]) -> dict[str, Any]:
+        return self._request("PATCH", f"/blocks/{block_id}/children", {"children": children})
+
     def create_page(
         self,
         *,
