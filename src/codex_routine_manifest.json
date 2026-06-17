@@ -582,6 +582,39 @@
       ],
       "verification": "python -m pytest src/test_research_queue_intake.py src/test_research_actions.py -q",
       "no_input_behavior": "Do not overwrite research_queue.json; report Research Queue as not checked."
+    },
+    {
+      "id": "loose_thread_sweep",
+      "title": "Loose Thread Sweep",
+      "status": "active_safe_intake",
+      "cadence": "daily_2215_et",
+      "doc": "src/codex_routines/Loose_Thread_Sweep_Routine_Prompt_v1.md",
+      "separation_group": "ops_capture",
+      "input_boundaries": [
+        "Codex-owned recent commits on main since the last loose-thread sweep receipt",
+        "Codex-owned Workboard rows touched since the last loose-thread sweep receipt",
+        "Deferred, TODO, FOLLOW-UP, punted, or do-later markers in docs/codex_tasks and task notes",
+        "Live Notion target queue/log reads for dedupe before any write"
+      ],
+      "owns": [
+        "src/cloud_routine_receipts.json"
+      ],
+      "commands": [
+        {
+          "id": "extract_candidates",
+          "command": "python src/loose_thread_sweep.py --format json"
+        },
+        {
+          "id": "self_test",
+          "command": "python src/loose_thread_sweep.py --self-test"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Loose-thread sweep scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python src/loose_thread_sweep.py --self-test && python -m pytest src/test_loose_thread_sweep.py -q",
+      "no_input_behavior": "If no candidates qualify, write no Notion rows, append a success receipt saying nothing new, and leave unavailable target queues not checked rather than checked clear."
     }
   ]
 }

@@ -20,7 +20,8 @@
     "FS Inbox Catch-up is registered as four explicit paired schedules (8:20 AM, 12:30 PM, 4:35 PM, 8:45 PM ET) instead of one multi-BYHOUR/BYMINUTE rule, so the automation does not accidentally run a cross-product of times.",
     "On 2026-06-15, readiness proof was scoped to 14 core unattended-readiness routines and 11 support-monitored routines. Support routines stay visible but no longer block core daily operator readiness by themselves.",
     "On 2026-06-15, the Pre-Market Source Intake app automation workspace was corrected from a malformed duplicated path back to the canonical enderverse-held-decisions-strip repo path. The proof activation timestamp was not reset; missed core receipts remain overdue until the scheduler proves them naturally.",
-    "Fundstrat Late Evening Web/Transcript Sweep runs at 10:45 PM ET market weekdays to catch late-posted web/video items after the 7:00 PM after-hours pass; transcript text must be written only to the private source vault."
+    "Fundstrat Late Evening Web/Transcript Sweep runs at 10:45 PM ET market weekdays to catch late-posted web/video items after the 7:00 PM after-hours pass; transcript text must be written only to the private source vault.",
+    "Loose-Thread Sweep runs daily at 10:15 PM ET as a support routine. It is capture-only, dedupe-first, and writes only genuinely new still-timely loose threads to the correct Notion queue/log after live readback verification."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
@@ -200,6 +201,16 @@
       "role": "off_hours_alt_data_scout",
       "schedule": "daily 9:15 PM ET",
       "expected_since": "2026-06-09T00:00:00-04:00"
+    },
+    {
+      "automation_id": "investing-os-loose-thread-sweep",
+      "automation_name": "Investing OS Loose-Thread Sweep",
+      "status": "ACTIVE",
+      "role": "loose_thread_sweep",
+      "schedule": "daily 10:15 PM ET",
+      "expected_since": "2026-06-17T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/Loose_Thread_Sweep_Routine_Prompt_v1.md"
     },
     {
       "automation_id": "investing-os-off-hours-queue-buffer",
