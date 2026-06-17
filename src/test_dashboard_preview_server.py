@@ -30,6 +30,12 @@ def test_preview_status_reports_file_and_url(tmp_path):
     assert status["preview_file"].endswith("dashboard_preview.html")
     assert status["html_preview_exists"] is True
     assert status["jsx_preview_exists"] is True
+    assert status["server_health"]["checkout"]
+    assert "branch" in status["server_health"]
+    assert "commit" in status["server_health"]
+    assert "generated_at" in status["server_health"]["feed"]
+    assert "sha256" in status["server_health"]["feed"]
+    assert "feed_sha256=" in status["server_health"]["text"]
 
 
 def test_extract_preview_stamp_prefers_title():
@@ -51,6 +57,12 @@ def test_served_origin_status_passes_when_served_preview_matches(tmp_path, monke
     endpoint = {
         "directory": str(tmp_path),
         "local_preview": server.preview_file_metadata(tmp_path / "dashboard_preview.html"),
+        "server_health": {
+            "checkout": "C:/repo",
+            "branch": "main",
+            "commit": "abc1234",
+            "feed": {"generated_at": "2026-06-17T14:51:54+00:00", "sha256": "feedhash"},
+        },
     }
     fetch = _fetcher(
         {
@@ -64,6 +76,8 @@ def test_served_origin_status_passes_when_served_preview_matches(tmp_path, monke
     assert status["ok"] is True
     assert status["status"] == "ok"
     assert status["problems"] == []
+    assert status["server_health"]["checkout"] == "C:/repo"
+    assert status["server_health"]["commit"] == "abc1234"
 
 
 def test_served_origin_status_flags_stale_or_wrong_worktree(tmp_path, monkeypatch):

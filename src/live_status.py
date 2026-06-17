@@ -306,6 +306,7 @@ def format_text(status: dict[str, Any]) -> str:
     preview_url = preview.get("canonical_url") or preview.get("url") or "preview URL unavailable"
     jsx_url = preview.get("jsx_url") or ""
     preview_state = "running" if preview.get("server_running") else "not running"
+    server_health = preview.get("server_health") or {}
     top_kind = top_action.get("kind") or "none"
     top_what = top_action.get("what") or ""
     top_text = top_kind if not top_what else f"{top_kind}: {top_what}"
@@ -368,6 +369,14 @@ def format_text(status: dict[str, Any]) -> str:
         lines.append("Active event watch: none supplied")
     lines.extend([
         f"Dashboard: {preview_url} ({preview_state})",
+        (
+            "Dashboard server: "
+            f"checkout={server_health.get('checkout') or 'unknown'} | "
+            f"branch={server_health.get('branch') or 'unknown'} | "
+            f"commit={server_health.get('commit') or 'unknown'} | "
+            f"feed={((server_health.get('feed') or {}).get('generated_at')) or 'missing'} | "
+            f"feed_sha256={(((server_health.get('feed') or {}).get('sha256')) or '')[:16]}"
+        ) if server_health else "Dashboard server: not checked",
         f"JSX validation surface: {jsx_url}" if jsx_url else "JSX validation surface: unavailable",
         (
             f"Open review tickers: {_join_values(open_actions.get('tickers') or [])} | "

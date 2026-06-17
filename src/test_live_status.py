@@ -158,6 +158,15 @@ def test_format_text_is_operator_scannable():
             "canonical_url": "http://127.0.0.1:8765/dashboard_preview.html",
             "html_url": "http://127.0.0.1:8765/dashboard_preview.html",
             "jsx_url": "http://127.0.0.1:8765/cockpit_jsx_preview.html",
+            "server_health": {
+                "checkout": "C:/repo/enderverse-held-decisions-strip",
+                "branch": "main",
+                "commit": "8d43e94",
+                "feed": {
+                    "generated_at": "2026-06-05T10:03:31+00:00",
+                    "sha256": "0123456789abcdef9999",
+                },
+            },
         },
         open_store={"opportunities": [{"ticker": "ANET", "status": "open", "first_flagged": "2026-06-05"}]},
         queue=_queue(),
@@ -199,6 +208,7 @@ def test_format_text_is_operator_scannable():
     assert "expected path: src/account_positions.json" in text
     assert "Active event watch: high | Oil shock | channels=oil, rates | tickers=XOP, TNX | trigger=WTI spike" in text
     assert "Dashboard: http://127.0.0.1:8765/dashboard_preview.html" in text
+    assert "Dashboard server: checkout=C:/repo/enderverse-held-decisions-strip | branch=main | commit=8d43e94 | feed=2026-06-05T10:03:31+00:00 | feed_sha256=0123456789abcdef" in text
     assert "JSX validation surface: http://127.0.0.1:8765/cockpit_jsx_preview.html" in text
     assert "Sudden event command:" in text
     assert "python src/sudden_event_refresh.py --title \"<event headline>\"" in text

@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import socket
+import subprocess
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -31,6 +32,20 @@ STAMP_RE = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 TITLE_RE = re.compile(r'title="(?P<title>[^"]*)"', re.IGNORECASE)
+
+
+def _git_text(args: list[str]) -> str:
+    try:
+        proc = subprocess.run(
+            ["git", *args],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return ""
+    return proc.stdout.strip()
 
 
 def preview_url(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> str:
@@ -86,6 +101,47 @@ def preview_file_metadata(path: str | Path) -> dict:
     }
 
 
+def feed_file_metadata(path: str | Path | None = None) -> dict:
+    feed = Path(path) if path else ROOT / "src" / "latest_cockpit_feed.json"
+    if not feed.is_file():
+        return {"exists": False, "path": str(feed), "generated_at": "", "sha256": ""}
+    raw = feed.read_bytes()
+    generated_at = ""
+    try:
+        payload = json.loads(raw.decode("utf-8-sig"))
+        if isinstance(payload, dict):
+            generated_at = str(payload.get("generated_at") or "")
+    except Exception:
+        generated_at = ""
+    return {
+        "exists": True,
+        "path": str(feed),
+        "generated_at": generated_at,
+        "sha256": hashlib.sha256(raw).hexdigest(),
+    }
+
+
+def served_checkout_metadata(*, feed_path: str | Path | None = None) -> dict:
+    status = _git_text(["status", "--short"])
+    feed = feed_file_metadata(feed_path)
+    branch = _git_text(["rev-parse", "--abbrev-ref", "HEAD"])
+    commit = _git_text(["rev-parse", "--short", "HEAD"])
+    return {
+        "checkout": str(ROOT),
+        "branch": branch,
+        "commit": commit,
+        "dirty": bool(status),
+        "dirty_count": len([line for line in status.splitlines() if line.strip()]),
+        "feed": feed,
+        "text": (
+            f"checkout={ROOT} | branch={branch or 'unknown'} | "
+            f"commit={commit or 'unknown'} | "
+            f"feed={feed.get('generated_at') or 'missing'} | "
+            f"feed_sha256={(feed.get('sha256') or '')[:16]}"
+        ),
+    }
+
+
 def _fetch_text(url: str, *, timeout: float = 1.5) -> dict:
     try:
         request = Request(url, headers={"Cache-Control": "no-cache"})
@@ -117,6 +173,8 @@ def served_origin_status(
         "status": "not_checked",
         "ok": False,
         "problems": [],
+        "local_server_health": status.get("server_health") or {},
+        "server_health": {},
         "local": local,
         "served": {"available": False, "sha256": "", "stamp": {"present": False, "title": "", "text": ""}},
         "server_report": None,
@@ -158,6 +216,10 @@ def served_origin_status(
         result["problems"].append("served dashboard stamp does not match this worktree's preview stamp")
     if result["server_report"] and result["server_report"].get("directory") != status["directory"]:
         result["problems"].append("origin endpoint reports a different preview directory")
+    if result["server_report"]:
+        result["server_health"] = result["server_report"].get("server_health") or result["server_health"]
+        if not result["server_health"]:
+            result["problems"].append("origin endpoint missing server health metadata")
 
     result["ok"] = not result["problems"]
     result["status"] = "ok" if result["ok"] else "stale_or_wrong_worktree"
@@ -191,6 +253,7 @@ def preview_status(
         "jsx_preview_file": str(jsx),
         "jsx_preview_exists": jsx.is_file(),
         "server_running": port_is_open(host, port),
+        "server_health": served_checkout_metadata(),
     }
 
 
