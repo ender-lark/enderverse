@@ -297,7 +297,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Dashboard</h1>
-      <div class="stamp" title="built 2026-06-16 16:47 ET  sourced: portfolio 06-16  uw_price 06-16  uw_macro 06-16  fundstrat_bible 06-11  fundstrat_daily 06-16">built 06-16 16:47 ET &middot; data 06-16: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
+      <div class="stamp" title="built 2026-06-16 22:50 ET  sourced: portfolio 06-16  uw_price 06-16  uw_macro 06-16  fundstrat_bible 06-11  fundstrat_daily 06-16">built 06-16 22:50 ET &middot; data 06-16: port&middot;px&middot;macro&middot;FS daily &#9474; <span style="color:#b08930">FS bible 06-11</span></div>
 
     </div>
     <div style="text-align:right">
@@ -332,15 +332,23 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .td details.td-card{padding:0}
 .td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
 .td details.td-card>summary::-webkit-details-marker{display:none}
-.td .td-chev{display:inline-block;font-size:11px;color:#64748b;margin:6px 0 0 2px}
-.td details.td-card[open] .td-chev{color:#334155}
 .td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
-.td .td-move{font-size:16px;font-weight:600}
+.td .td-move{font-size:18px;font-weight:750;line-height:1.25}
+.td .td-conv-line{display:block;border-radius:8px;padding:8px 10px;color:#0b1220}
+.td .td-section-title{font-size:11px;color:#94a3b8;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin:8px 0 4px}
+.td .td-why-item{font-size:13px;color:#cbd5e1;margin:3px 0}
+.td .td-why-item strong{color:#e2e8f0}
+.td .td-factor-conflict{color:#fdba74}
 .td .td-pill{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;
   font-weight:600;margin-left:8px;color:#0b1220}
 .td .td-row{font-size:13px;color:#cbd5e1;margin:4px 0}
 .td .td-chip{border:1px solid #fb923c;color:#fdba74;border-radius:8px;padding:6px 8px;
   font-size:12px;margin:6px 0}
+.td .td-dossier{border:1px solid #334155;border-radius:8px;padding:8px;margin:8px 0;background:#0b1220}
+.td .td-dossier-head{font-size:12px;color:#e2e8f0;font-weight:800;margin-bottom:4px}
+.td .td-dossier-meta{font-size:11px;color:#94a3b8;margin:2px 0 6px}
+.td .td-dossier-read{font-size:12px;color:#cbd5e1;margin:3px 0}
+.td .td-dossier-read strong{color:#e2e8f0}
 .td details{margin:4px 0;font-size:12px;color:#94a3b8}
 .td .td-health{margin:8px 0 4px 0;line-height:2}
 .td .td-hlabel{font-size:11px;color:#64748b;font-weight:700;letter-spacing:.03em}
@@ -384,33 +392,53 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <span class="td-gate" style="border-color:#94a3b8;color:#94a3b8"><b>CONTEXT</b> SMH  |  context only - never blocks (as of 2026-06-09)</span>
 <details class="td-card td-conflicted">
 <summary class="td-sum">
-<div class="td-move">#1 <span style="color:#94a3b8;font-weight:700">RECHECK</span> MAGS  |  $400 (0.0% -> 0.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
-<div class="td-row"><strong>posture:</strong> candidate SELL; blockers or conflicts must clear first</div>
-<div class="td-chip">SOURCE-CONFLICT - lean_in lane: Lean-in  looks good vs this card: SELL $400  |  resolve before acting</div>
-<button class="td-rail td-rail-muted" data-card="MAGS-TRIM-2026-06-16" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-16 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-16" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-16 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
-<span class="td-chev">&#9656; details</span>
+<div class="td-move"><span class="td-conv-line" style="background:#fb923c">#1 Conviction to Sell MAGS: 1/5 (LOW)</span></div>
+<div class="td-chip">CONFLICT - no directional evidence; battery opposition: UW opportunity sweep</div>
 </summary><div class="td-body">
-<div class="td-row">evidence: fs +0.00  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
+<div class="td-section-title">Why it is this</div>
+<div class="td-why-item td-factor-conflict"><strong>conflicting:</strong> UW opportunity sweep - ask-side call sweeps $3.6M, 10:1 c/p; premium $3.6M; c/p 9.57; side ask (as_of 2026-06-12)</div><div class="td-why-item td-factor-conflict"><strong>conflicting:</strong> UW opportunity oi build - call OI +12710% at 65/65/68 strikes; OI +12710%; strikes 65/65/68 (as_of 2026-06-12)</div><div class="td-why-item td-factor-conflict"><strong>conflicting:</strong> UW opportunity dark pool accum - dark-pool blocks $1M net buy, 1 sessions; notional $863,017; 1 session(s) (as_of 2026-06-12)</div><div class="td-why-item td-factor-conflict"><strong>conflicting:</strong> Group rotation / momentum - GROUP-level context: AI / Semiconductors rotation LEADING; ticker momentum up</div>
+<div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div><div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.00</div>
+<div class="td-chip">SOURCE-CONFLICT - lean_in lane: Lean-in  looks good vs this card: SELL $400  |  resolve before acting</div>
+<div class="td-section-title">What would make it a confident move</div>
+<div class="td-row">raise: A dated entry/stop/target call (Tier A) on MAGS</div>
+<div class="td-row">raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">raise: No ACTIVE insight maps MAGS - state the thesis as one if you believe it</div>
+<div class="td-row">raise: 13F/insider lane goes live in the orphan-wiring chunk</div>
+<div class="td-section-title">IV options-vs-shares</div>
+<div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
+<div class="td-dossier"><div class="td-dossier-head">Decision dossier: MAGS</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></div>
+<div class="td-row"><strong>posture:</strong> candidate SELL; blockers or conflicts must clear first</div>
+<button class="td-rail td-rail-muted" data-card="MAGS-TRIM-2026-06-16" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-16 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-16" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-16 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
 <div class="td-row"> funding leg - execute paired with the adds it funds (no standalone urgency)</div>
-<details><summary>what changes this</summary><div>flip: sleeve turns down or goes overexposed -> OPEN-NOW</div><div>flip: the funded add's window opens</div><div>raise: A dated entry/stop/target call (Tier A) on MAGS</div><div>raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div><div>raise: No ACTIVE insight maps MAGS - state the thesis as one if you believe it</div><div>raise: 13F/insider lane goes live in the orphan-wiring chunk</div></details>
+<details><summary>what changes this</summary><div>flip: sleeve turns down or goes overexposed -> OPEN-NOW</div><div>flip: the funded add's window opens</div></details>
 <div class="td-row">execute: sell $400 in SKB Fidelity Health Savings Account *****7284  |  tax-advantaged HSA</div>
 <div class="td-row">look-through: contains GOOGL 15.8%, NVDA 15.0%, AAPL 14.8%, AMZN 14.5%, META 14.2%, MSFT 14.1%</div>
 <div class="td-chip">overlap with held singles: GOOGL 15.8%, NVDA 15.0%, AMZN 14.5%, MSFT 14.1%</div>
 <div class="td-row">look-through source: Roundhill/MAGS holdings snapshot June 2026</div>
 <div class="td-row">impact:  $400 (0.0% of book)  |  material: no</div>
+<div class="td-row">not checked: institutional, uw_same_session</div>
 </div></details>
 <details class="td-card">
 <summary class="td-sum">
 <div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>
-<div class="td-move">#2 <span style="color:#94a3b8;font-weight:700">RECHECK</span> GOOGL  |  $153,747 (0.0% -> 8.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.337</span></div>
+<div class="td-move"><span class="td-conv-line" style="background:#94a3b8">#2 Conviction to Buy GOOGL: 1/5 (LOW)</span></div>
+</summary><div class="td-body">
+<div class="td-section-title">Why it is this</div>
+<div class="td-why-item"><strong>factor:</strong> UW opportunity signals - UW opportunity sweep as_of 2026-06-12: no signal for GOOGL</div><div class="td-why-item"><strong>factor:</strong> Group rotation / momentum - not_checked: holdings group rotation unavailable for GOOGL</div>
+<div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.34</div><div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div>
+<div class="td-section-title">What would make it a confident move</div>
+<div class="td-row">raise: A dated entry/stop/target call (Tier A) on GOOGL</div>
+<div class="td-row">raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">raise: No ACTIVE insight maps GOOGL - state the thesis as one if you believe it</div>
+<div class="td-row">raise: 13F/insider lane goes live in the orphan-wiring chunk</div>
+<div class="td-section-title">IV options-vs-shares</div>
+<div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
+<div class="td-dossier"><div class="td-dossier-head">Decision dossier: GOOGL</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></div>
 <div class="td-row"><strong>posture:</strong> candidate BUY; blockers or conflicts must clear first</div>
 <button class="td-rail td-rail-muted" data-card="GOOGL-ADD-2026-06-16" data-verb="RECHECK" data-copy="RECHECK GOOGL-ADD-2026-06-16 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-16" data-verb="PASS" data-copy="PASS GOOGL-ADD-2026-06-16 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
-<span class="td-chev">&#9656; details</span>
-</summary><div class="td-body">
-<div class="td-row">evidence: fs +0.34  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
 <div class="td-row"> gate red-but-tested: Canonical Notion gate from Newton 2026-06-11 3:06 PM ET: QQQ must close/hold above 717.50 before tech/growth add windows can be treated as confirmed. Prior 695-705 band is historical context only; QQQ closed 2026-06-11 at 717.22, so the gate remained unconfirmed. (2026-06-11)</div>
 <div class="td-row"> context: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (2026-06-09)</div>
-<details><summary>what changes this</summary><div>flip: full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only</div><div>raise: A dated entry/stop/target call (Tier A) on GOOGL</div><div>raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div><div>raise: No ACTIVE insight maps GOOGL - state the thesis as one if you believe it</div><div>raise: 13F/insider lane goes live in the orphan-wiring chunk</div></details>
+<details><summary>what changes this</summary><div>flip: full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only</div></details>
 <div class="td-row">execute: SKB Schwab Individual ...254 Individual ...25...  |  TAXABLE - gains realize  |  largest existing GOOGL position (add-to-position)</div>
 <div class="td-row">excluded: PCRA Trust ...651 PCRA Trust ...65... - PCRA is ETF-ONLY - individual stocks cannot trade here (hard rule)</div>
 <div class="td-row">excluded: Robinhood Crypto 8794 - crypto-only account</div>
@@ -418,19 +446,30 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">sizing: caps suggested $0  |  heat ABOVE_CAP</div>
 <div class="td-row">cap basis: T3 floor 1.5% ($28,828) / ceiling 3.0% ($57,655); current 3.8% ($72,382); cap room $0; floor gap $0; flags no_thesis_row</div>
 <div class="td-row">impact:  $153,747 (8.0% of book)  |  material: yes</div>
+<div class="td-row">not checked: institutional, uw_same_session</div>
 </div></details>
-<details class="td-card">
+<details class="td-card td-conflicted">
 <summary class="td-sum">
 <div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>
-<div class="td-move">#3 <span style="color:#94a3b8;font-weight:700">RECHECK</span> MSFT  |  $38,650 (0.0% -> 5.0%)<span class="td-pill" style="background:#fbbf24">STAGE-ONLY</span><span class="td-pill" style="background:#818cf8">LOW 0.0</span></div>
+<div class="td-move"><span class="td-conv-line" style="background:#fb923c">#3 Conviction to Buy MSFT: 1/5 (LOW)</span></div>
+<div class="td-chip">CONFLICT - no directional evidence</div>
+</summary><div class="td-body">
+<div class="td-section-title">Why it is this</div>
+<div class="td-why-item"><strong>factor:</strong> UW opportunity signals - UW opportunity sweep as_of 2026-06-12: no signal for MSFT</div><div class="td-why-item"><strong>factor:</strong> Group rotation / momentum - not_checked: holdings group rotation unavailable for MSFT</div>
+<div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div><div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.00</div>
+<div class="td-section-title">What would make it a confident move</div>
+<div class="td-row">raise: A dated entry/stop/target call (Tier A) on MSFT</div>
+<div class="td-row">raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">raise: No ACTIVE insight maps MSFT - state the thesis as one if you believe it</div>
+<div class="td-row">raise: 13F/insider lane goes live in the orphan-wiring chunk</div>
+<div class="td-section-title">IV options-vs-shares</div>
+<div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
+<div class="td-dossier"><div class="td-dossier-head">Decision dossier: MSFT</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></div>
 <div class="td-row"><strong>posture:</strong> candidate BUY; blockers or conflicts must clear first</div>
 <button class="td-rail td-rail-muted" data-card="MSFT-ADD-2026-06-16" data-verb="RECHECK" data-copy="RECHECK MSFT-ADD-2026-06-16 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="MSFT-ADD-2026-06-16" data-verb="PASS" data-copy="PASS MSFT-ADD-2026-06-16 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
-<span class="td-chev">&#9656; details</span>
-</summary><div class="td-body">
-<div class="td-row">evidence: fs +0.00  |  uw +0.00  |  operator_insight +0.00  |  institutional +0.00</div>
 <div class="td-row"> gate red-but-tested: Canonical Notion gate from Newton 2026-06-11 3:06 PM ET: QQQ must close/hold above 717.50 before tech/growth add windows can be treated as confirmed. Prior 695-705 band is historical context only; QQQ closed 2026-06-11 at 717.22, so the gate remained unconfirmed. (2026-06-11)</div>
 <div class="td-row"> context: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (2026-06-09)</div>
-<details><summary>what changes this</summary><div>flip: full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only</div><div>raise: A dated entry/stop/target call (Tier A) on MSFT</div><div>raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div><div>raise: No ACTIVE insight maps MSFT - state the thesis as one if you believe it</div><div>raise: 13F/insider lane goes live in the orphan-wiring chunk</div></details>
+<details><summary>what changes this</summary><div>flip: full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only</div></details>
 <div class="td-row">execute: Parents Fidelity Joint WROS - TOD *****2063  |  TAXABLE - gains realize  |  largest existing MSFT position (add-to-position)</div>
 <div class="td-row">excluded: PCRA Trust ...651 PCRA Trust ...65... - PCRA is ETF-ONLY - individual stocks cannot trade here (hard rule)</div>
 <div class="td-row">excluded: Robinhood Crypto 8794 - crypto-only account</div>
@@ -438,6 +477,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">sizing: caps suggested $27,820  |  heat CAP_CLIPPED</div>
 <div class="td-row">cap basis: T3 floor 1.5% ($28,828) / ceiling 3.0% ($57,655); current 1.6% ($29,835); cap room $27,820; floor gap $0; flags no_thesis_row</div>
 <div class="td-row">impact:  $38,650 (2.0% of book)  |  material: yes</div>
+<div class="td-row">not checked: institutional, uw_same_session</div>
 </div></details>
 <details><summary>Backlog (3)</summary>
 <div class="td-row">GRNY  |  TRIM  |  $122,969  |  p65.0</div>
@@ -494,7 +534,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <a class="quick-link" href="#feedback-loops"><strong>0</strong> open reviews</a>
   <a class="quick-link" href="#operator-hardening"><strong>hardening</strong> checks</a>
   <a class="quick-link" href="#lane-status"><strong>1 deferred</strong> source lanes</a>
-  <a class="quick-link" href="#feedback-loops"><strong>42 scoring</strong> source calls</a>
+  <a class="quick-link" href="#feedback-loops"><strong>49 scoring</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
   <a class="quick-link" href="#social-watch"><strong>0</strong> social dark</a>
 </div>
@@ -510,10 +550,10 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="context-ticker">Re-check: EVENT: Event risk: Middle East oil/rates shock can affect new-buy timing</span>
   <span class="tag t-warn" title="Something important is missing, old, or changed. Confirm same-session price, flow, position, source, or event-risk evidence before acting.">Needs re-check</span>
   <span class="small-muted">Priority: 119</span>
-  <span class="tag t-amber" title="Fast-moving evidence can go stale intraday. Re-check same-session levels/headlines before acting. Evidence date: 2026-06-15. Last checked: 2026-06-16. Decay window: intraday to 1 trading day.">fast-moving</span> <span class="small-muted">Freshness: fast-moving | evidence 2026-06-15 | checked 2026-06-16 | decays intraday to 1 trading day</span>
-  <span class="small-muted">Changed: Fast-moving evidence is dated 2026-06-15; re-check levels/headlines before any capital action.</span>
-  <span class="small-muted">Assumptions: evidence 2026-06-15 is fast-moving; decays intraday to 1 trading day; time window today; capital posture protect capital</span>
-  <span class="small-muted">Why: Fast-moving evidence is dated 2026-06-15; re-check levels/headlines before any capital action.</span>
+  <span class="tag t-amber" title="Fast-moving evidence can go stale intraday. Re-check same-session levels/headlines before acting. Evidence date: 2026-06-17. Last checked: 2026-06-16. Decay window: intraday to 1 trading day.">fast-moving</span> <span class="small-muted">Freshness: fast-moving | evidence 2026-06-17 | checked 2026-06-16 | decays intraday to 1 trading day</span>
+  <span class="small-muted">Changed: Fast-moving evidence is dated 2026-06-17; re-check levels/headlines before any capital action.</span>
+  <span class="small-muted">Assumptions: evidence 2026-06-17 is fast-moving; decays intraday to 1 trading day; time window today; capital posture protect capital</span>
+  <span class="small-muted">Why: Fast-moving evidence is dated 2026-06-17; re-check levels/headlines before any capital action.</span>
   <span class="small-muted">Capital priority: Protection and timing risk outrank new adds while the shock is unresolved.</span>
   <span class="small-muted">Do nothing: Doing nothing preserves optionality, but if the shock is real it can leave exposed capital unprotected or new buys mistimed.</span>
   <span class="small-muted">Next: Refresh the evidence lane and confirm the action still survives with same-session data.</span>
@@ -680,9 +720,9 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
   <details class="action-details">
     <summary>Why this matters</summary>
-    <div class="action-detail-body"><strong>Why this matters:</strong> Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.<br><strong>Rationale:</strong> Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.<br><strong>Freshness:</strong> Fast-moving evidence is dated 2026-06-15; re-check levels/headlines before any capital action. (2026-06-15; intraday to 1 trading day)<br><strong>Goal/capital:</strong> downside_protection / opportunity_cost / data_quality | capital review | score 75/100 | priority 119<br><strong>Capital efficiency:</strong> Efficient capital use can mean not adding risk until the shock is re-checked.<br>Priority: Protection and timing risk outrank new adds while the shock is unresolved.<br>Do nothing: Doing nothing preserves optionality, but if the shock is real it can leave exposed capital unprotected or new buys mistimed.<br>Timing balance: Re-check first, but do not turn that into indefinite waiting; once fresh evidence confirms, stage rather than chase perfection.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 75/100<br><strong>Assumption refresh:</strong> Status: changed recheck<br>Next: Refresh assumptions before acting; do not treat the old setup as still valid.<br>Changed: Fast-moving evidence is dated 2026-06-15; re-check levels/headlines before any capital action. / Required live checks are missing: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br>Invalidates if: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.<br><strong>Missing/re-check:</strong> WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br><strong>What could make this wrong?</strong> Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.<br>Invalidates if: Evidence is stale, missing, or too fast-moving for a capital action without a live re-check. / The listed event trigger does not occur or reverses. / Affected exposures stabilize while rates, oil, volatility, or headlines stop worsening.<br>Confirm: Refresh the evidence lane and confirm the action still survives with same-session data. / WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br>Downgrade to: Re-check Before Acting</div>
+    <div class="action-detail-body"><strong>Why this matters:</strong> Fast exogenous shocks can change sizing, hedging, and opportunity cost before normal source lanes update.<br><strong>Rationale:</strong> Fundstrat technical work flagged a near-term WTI and 10-year yield bounce tied to Gulf/Iran-war headlines before a possible reversal; review exposure before new risk adds.<br><strong>Freshness:</strong> Fast-moving evidence is dated 2026-06-17; re-check levels/headlines before any capital action. (2026-06-17; intraday to 1 trading day)<br><strong>Goal/capital:</strong> downside_protection / opportunity_cost / data_quality | capital review | score 75/100 | priority 119<br><strong>Capital efficiency:</strong> Efficient capital use can mean not adding risk until the shock is re-checked.<br>Priority: Protection and timing risk outrank new adds while the shock is unresolved.<br>Do nothing: Doing nothing preserves optionality, but if the shock is real it can leave exposed capital unprotected or new buys mistimed.<br>Timing balance: Re-check first, but do not turn that into indefinite waiting; once fresh evidence confirms, stage rather than chase perfection.<br>Compare against: higher-ranked Key Now actions / funded reallocation legs / risk reduction or hedging if event risk is active / goal score 75/100<br><strong>Assumption refresh:</strong> Status: changed recheck<br>Next: Refresh assumptions before acting; do not treat the old setup as still valid.<br>Changed: Fast-moving evidence is dated 2026-06-17; re-check levels/headlines before any capital action. / Required live checks are missing: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br>Invalidates if: Fresh price, flow, position, source, or event-risk evidence changes the expected risk/reward.<br><strong>Missing/re-check:</strong> WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br><strong>What could make this wrong?</strong> Do not act if evidence is stale, missing, or too fast-moving for a capital action without a live re-check.<br>Invalidates if: Evidence is stale, missing, or too fast-moving for a capital action without a live re-check. / The listed event trigger does not occur or reverses. / Affected exposures stabilize while rates, oil, volatility, or headlines stop worsening.<br>Confirm: Refresh the evidence lane and confirm the action still survives with same-session data. / WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.<br>Downgrade to: Re-check Before Acting</div>
   </details>
-  <div class="action-foot">event_risk | fast-moving: evidence 2026-06-15; decays intraday to 1 trading day</div>
+  <div class="action-foot">event_risk | fast-moving: evidence 2026-06-17; decays intraday to 1 trading day</div>
 </div>
 </div>
 <div class="action-group">
@@ -912,7 +952,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
     <a class="operator-pill" href="#today-actions"><div class="operator-label">Today actions</div><div class="operator-value">4</div></a>
     <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Open reviews</div><div class="operator-value operator-pass">0</div></a>
     <a class="operator-pill" href="#lane-status"><div class="operator-label">Source lanes</div><div class="operator-value operator-pass">1 deferred</div></a>
-    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">42 scoring</div></a>
+    <a class="operator-pill" href="#feedback-loops"><div class="operator-label">Source calls</div><div class="operator-value operator-pass">49 scoring</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Live fetch</div><div class="operator-value operator-pass">1/1</div></a>
     <a class="operator-pill" href="#operator-status"><div class="operator-label">Build blockers</div><div class="operator-value operator-pass">0</div></a>
   </div>
@@ -941,7 +981,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <div class="card-title"><span class="icon">?</span> UW action runbook
     <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">checks, not proof</span>
   </div>
-  <div class="feedback-line">UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.</div>
+  <div class="feedback-line">UW action runbook: 4 check set(s), 21 scoped ticker(s); endpoint results not claimed.</div>
 
 <div class="small-item">
   <span class="tag t-warn">endpoint proof has_data</span>
@@ -975,7 +1015,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="context-ticker">Fundstrat signal confirmation</span>
   <span class="tag t-conf">priority 4</span>
   <span class="small-muted">Fundstrat-derived calls should be checked against live market structure before action.</span>
-  <span class="small-muted">Tickers: XLU, RGI, RYE, XLI, RYF, XOP, MAGS</span>
+  <span class="small-muted">Tickers: XLU, RGI, RYE, RYF, XOP, MAGS</span>
 
   <span class="small-muted">Ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO</span>
   <span class="small-muted">Blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing</span>
@@ -1003,8 +1043,8 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="small-item">
   <span class="context-ticker">EVENT</span>
   <span>Event risk: Middle East oil/rates shock can affect new-buy timing</span>
-  <span class="small-muted">Fast-moving evidence is dated 2026-06-15; re-check levels/headlines before any capital action.</span>
-  <span class="small-muted">event_risk | 2026-06-15 | WATCH</span>
+  <span class="small-muted">Fast-moving evidence is dated 2026-06-17; re-check levels/headlines before any capital action.</span>
+  <span class="small-muted">event_risk | 2026-06-17 | WATCH</span>
 </div></div>
 </div>
 <div class="card">
@@ -1013,7 +1053,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 </div>
 <div class="card">
   <div class="card-title"><span class="icon">!</span> Pre-action condition checklist</div>
-  <div class="small-list"><div class="feedback-line">Condition checklist: 9 pre-action level/headline check(s).</div>
+  <div class="small-list"><div class="feedback-line">Condition checklist: 10 pre-action level/headline check(s).</div>
 <div class="small-item">
   <span class="context-ticker">XOP, XLE, TNX</span>
   <span>Middle East oil/rates shock can affect new-buy timing</span>
@@ -1039,21 +1079,21 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="small-muted">event_risk | 2026-06-15</span>
 </div>
 <div class="small-item">
+  <span class="context-ticker">XOP, XLE, TNX, XLF, SMH, MAGS</span>
+  <span>Hormuz peace odds improve but traffic normalization still not cleared</span>
+  <span class="small-muted">Keep event-risk lane active until IMF PortWatch transit calls recover, WTI/TNX stay lower, and shipping/insurance friction fades; invalidate relief if deal terms break or Hormuz restrictions return.</span>
+  <span class="small-muted">event_risk | 2026-06-17</span>
+</div>
+<div class="small-item">
   <span class="context-ticker">XLU</span>
   <span>XLU add</span>
   <span class="small-muted">Newton says Utilities have broken above a multi-month downtrend; RSPU and XLU are up about 1% and the February pattern now points to potential new highs for XLU in the months ahead.</span>
   <span class="small-muted">fundstrat_daily | 2026-06-16</span>
-</div>
-<div class="small-item">
-  <span class="context-ticker">RGI</span>
-  <span>RGI watch</span>
-  <span class="small-muted">Equal-weight Industrials broke above multi-month resistance near 62 and can test 64, but relative confirmation versus equal-weight S&amp;P is still needed.</span>
-  <span class="small-muted">fundstrat_daily | 2026-06-15</span>
 </div></div>
 </div>
 <div class="card">
   <div class="card-title"><span class="icon">!</span> Why not acting</div>
-  <div class="small-list"><div class="feedback-line">Why-not-acting lane: 57 watch-only signal(s) kept out of trade prompts.</div>
+  <div class="small-list"><div class="feedback-line">Why-not-acting lane: 60 watch-only signal(s) kept out of trade prompts.</div>
 <div class="small-item">
   <span class="context-ticker">XLF, GS, ITA</span>
   <span>Macro: complacent vol plus steep curve cyclical tailwind</span>
@@ -1145,7 +1185,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="lane-row">
   <span class="lane-key">Event Risk</span>
   <span class="lane-status ls-has_data">has data</span>
-  <span class="summary-muted">checked (4)</span>
+  <span class="summary-muted">checked (5)</span>
 
 </div>
 <div class="lane-row">
@@ -1206,13 +1246,13 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="audit-k">UW routing</span>UW routing: 4 scenario profile(s) recommended; top=Pre-market crash triage.
 </div>
 <div class="audit-row">
-  <span class="audit-k">UW action runbook</span>UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.
+  <span class="audit-k">UW action runbook</span>UW action runbook: 4 check set(s), 21 scoped ticker(s); endpoint results not claimed.
 </div>
 <div class="audit-row">
   <span class="audit-k">UW endpoint proof</span>UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-16 10:37 ET.
 </div>
 <div class="audit-row">
-  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 2 full-body, 0 snippet-only, 2 daily calls; stored cache: 51 inbox entries (40 full-body, 11 snippet-only), 42 daily calls, 42 stored source-call candidates.
+  <span class="audit-k">Fundstrat intake</span>Fundstrat latest intake: 7 full-body, 0 snippet-only, 7 daily calls; stored cache: 58 inbox entries (47 full-body, 11 snippet-only), 49 daily calls, 49 stored source-call candidates.
 </div>
 <div class="audit-row">
   <span class="audit-k">Notion/writeback</span>Notion/writeback audit: 2 repo cache write(s) proven; connector writes must be verified by routine receipts when used.
@@ -1228,14 +1268,14 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
 <div class="card" id="feedback-loops">
   <div class="card-title"><span class="icon"></span> Feedback loops
-    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">1 open signal(s)</span>
+    <span style="font-size:10px;color:#484f58;font-weight:400;margin-left:auto">2 open signal(s)</span>
   </div>
-  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">SOURCE PERSISTENCE: 4 cluster(s), 1 LOUD -&gt; P-WAKE-UP + Signal Log: mark l. newton, cmt-&gt;CL 2x in 14d [LOUD, has A/B]  newton-&gt;QQQ 5x in 30d [quiet, has A/B]  mark l. newton, cmt-&gt;SPX 5x in 30d [quiet, has A/B]  mark l. newton, cmt-&gt;QQQ 2x in 14d [quiet, has A/B]</div><div class="feedback-line">Open action backlog clean.</div><div class="feedback-rec">Escalate LOUD source-persistence cluster into research/action review.</div>
+  <div class="feedback-line">SCORING LAG: clean  no calls past window-end awaiting a score.</div><div class="feedback-line">Calibration chain checked fresh.</div><div class="feedback-line">SOURCE PERSISTENCE: 5 cluster(s), 2 LOUD -&gt; P-WAKE-UP + Signal Log: sean farrell-&gt;BTC 3x in 30d [LOUD]  mark l. newton, cmt-&gt;CL 2x in 14d [LOUD, has A/B]  newton-&gt;QQQ 5x in 30d [quiet, has A/B]  mark l. newton, cmt-&gt;SPX 5x in 30d [quiet, has A/B]  mark l. newton, cmt-&gt;QQQ 2x in 14d [quiet, has A/B]</div><div class="feedback-line">Open action backlog clean.</div><div class="feedback-rec">Escalate LOUD source-persistence cluster into research/action review.</div>
 </div>
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-16T20:47:15.953235+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-16T20:47:15.953235+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-16T20:47:15.953235+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-16T20:47:15.953235+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-16T20:47:15.953235+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge stale" title="Cloud Routine Receipts | 2026-06-16T20:47:15.953235+00:00 | due waiting: Investing OS Positions Sync, last scheduled success 2026-06-15T20:49:51.906750Z; latest manual support 2026-06-16T14:38:48.818422Z; grace until 2026-06-16T17:15:00-04:00">Cloud Routine Receipts</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-17T02:50:52.563962+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-17T02:50:52.563962+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-17T02:50:52.563962+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-17T02:50:52.563962+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-17T02:50:52.563962+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge ok" title="Cloud Routine Receipts | 2026-06-17T02:50:52.563962+00:00 | routine receipts current; next Investing OS Fundstrat Pre-Market Safety Sweep at 2026-06-17T07:45:00-04:00">Cloud Routine Receipts</span></div>
 </div>
 
 <div class="hero">
@@ -4609,7 +4649,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   </div>
   <div class="book-wrap">
     <table class="book">
-      <tr><th>Name</th><th>Weight</th><th>Conviction</th><th>Read</th></tr>
+      <tr><th>Name</th><th>Weight</th><th>Conviction read</th><th>Why / note</th></tr>
       <tr class="book-cat-row">
   <td colspan="4">AI / Semiconductors
     <span class="lead" style="font-size:10px;margin-left:6px">LEADING</span>
@@ -7908,7 +7948,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div id="tab-fundstrat" style="display:none">
   <div class="card">
     <div class="card-title"><span class="icon">F</span> FundStrat</div>
-    <div class="summary-line">FundStrat: sector allocation 2026-06-11; core stock ideas 2026-05-28; daily calls 42 latest 2026-06-16.</div>
+    <div class="summary-line">FundStrat: sector allocation 2026-06-11; core stock ideas 2026-05-28; daily calls 49 latest 2026-06-16.</div>
     <div class="summary-muted" style="font-size:11px">Fundstrat is the baseline source of truth, but monthly list membership is not an execution trigger; stale, missing, or snippet-only data stays labeled.</div>
   </div>
 
@@ -8180,7 +8220,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
   <div class="card">
     <div class="card-title"><span class="icon">D</span> Latest Daily Notes</div>
-    <div class="summary-line">Latest 2026-06-16 | showing latest 5 of 42</div>
+    <div class="summary-line">Latest 2026-06-16 | showing latest 5 of 49</div>
     <div class="summary-muted" style="font-size:11px;margin-bottom:8px">Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing.</div>
     <div class="small-list">
 <div class="small-item">
@@ -8190,28 +8230,28 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="small-muted">Newton says Utilities have broken above a multi-month downtrend; RSPU and XLU are up about 1% and the February pattern now points to potential new highs for XLU in the months ahead.</span>
 </div>
 <div class="small-item">
+  <strong>STRC</strong>
+  <span class="small-muted">2026-06-16 | Sean Farrell | re-check timing</span>
+  <span class="small-muted">Crypto Comments: STRC remains key risk variable</span>
+  <span class="small-muted">STRC weakness below roughly 92 remains a BTC demand-engine risk; sustained preferred-stock pressure should keep crypto sleeve sizing conservative.</span>
+</div>
+<div class="small-item">
+  <strong>SPY</strong>
+  <span class="small-muted">2026-06-16 | Mark L. Newton, CMT | re-check timing</span>
+  <span class="small-muted">Daily Technical Strategy: broadening and trend check</span>
+  <span class="small-muted">Near-term US equity trend remains bullish and dips remain buyable, but FOMC could briefly stall the move; bigger setback risk is pushed toward late summer.</span>
+</div>
+<div class="small-item">
+  <strong>SPY</strong>
+  <span class="small-muted">2026-06-16 | Tom Lee | hedge/re-check</span>
+  <span class="small-muted">Macro Minute: Warsh FOMC communication risk checkpoint</span>
+  <span class="small-muted">Warsh&#x27;s first FOMC presser and limited-comms style are tomorrow&#x27;s macro risk checkpoint; review market reaction before adding broad beta.</span>
+</div>
+<div class="small-item">
   <strong>SPX</strong>
   <span class="small-muted">2026-06-16 | Mark L. Newton, CMT | re-check timing</span>
   <span class="small-muted">FlashInsights 1:06PM ET SPX support</span>
   <span class="small-muted">Newton says today&#x27;s US equity weakness does not look serious; eight of eleven sectors are positive, Tech&#x27;s drop should be short-lived, and SPX support sits near 7475-7485.</span>
-</div>
-<div class="small-item">
-  <strong>XLI</strong>
-  <span class="small-muted">2026-06-15 | Mark L. Newton, CMT | re-check timing</span>
-  <span class="small-muted">Daily Technical Strategy: Interim Deal Underpins a Constructive Framework as Industrials Break Out and Semis Rebound</span>
-  <span class="small-muted">Newton says equal-weight Industrials and Utilities have broken out, with XLI confirming a genuine upside breakout and sector broadening beyond Tech over the next 1-2 months.</span>
-</div>
-<div class="small-item">
-  <strong>STRC</strong>
-  <span class="small-muted">2026-06-15 | Sean Farrell | re-check timing</span>
-  <span class="small-muted">Crypto Comments: Strategy reserve coverage remains key risk</span>
-  <span class="small-muted">Strategy stabilization is constructive, but STRC reserve coverage remains below the confidence threshold; keep MSTR/STRC funding flywheel on risk watch.</span>
-</div>
-<div class="small-item">
-  <strong>SPY</strong>
-  <span class="small-muted">2026-06-15 | Mark L. Newton, CMT | re-check timing</span>
-  <span class="small-muted">Daily Technical Strategy: interim deal constructive framework</span>
-  <span class="small-muted">Newton remains near-term bullish as WTI, yields and USD weaken together; use FOMC/gap-fill weakness as an add opportunity rather than chasing every gap.</span>
 </div></div>
   </div>
   <div class="card">
