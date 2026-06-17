@@ -525,6 +525,7 @@ def test_remaining_decisions_render_as_full_cards_not_raw_backlog():
 def test_fed_day_packet_builds_watch_queue_and_card_context():
     feed = copy.deepcopy(_feed())
     feed["fed_day_reallocation_packet"] = {
+        "display_label": "Daily pullback packet",
         "act_if_green": [{
             "ticker": "GOOGL",
             "dollar_band": {"low": 100000, "high": 155000},
@@ -570,10 +571,10 @@ def test_fed_day_packet_builds_watch_queue_and_card_context():
     googl = [card for card in p["cards"] + p["backlog"] if card["ticker"] == "GOOGL"][0]
     html = render_today_decide_html(p)
 
-    assert googl["fed_day_context"]["label"] == "Fed-day act-if-green packet"
+    assert googl["fed_day_context"]["label"] == "Daily pullback packet act-if-green candidate"
     assert [row["ticker"] for row in p["watch_queue"]] == ["AVGO", "VRT", "BMNR"]
     assert "GOOGL" not in {row["ticker"] for row in p["watch_queue"]}
-    assert "Fed-day act-if-green packet" in html
+    assert "Daily pullback packet act-if-green candidate" in html
     assert "Watchlist / pullback impact queue (3)" in html
     assert "3 watchlist/pullback candidates" in html
     assert "AVGO" in html and "BMNR" in html

@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -40,21 +41,25 @@ def _fake_quote(ticker):
     }
 
 
-def test_fed_day_packet_is_candidate_only_and_has_required_sections():
-    packet = build_packet(quote_provider=_fake_quote, max_tickers=8)
+def test_daily_packet_is_candidate_only_and_has_required_sections():
+    packet = build_packet(quote_provider=_fake_quote, as_of="2026-06-17", max_tickers=8)
 
+    assert packet["packet_kind"] == "daily_pullback_reallocation"
+    assert packet["display_label"] == "Daily pullback packet"
     assert packet["candidate_only"] is True
     assert "No trades executed" in packet["honesty_rule"]
     assert packet["source_status"]["positions"]["snapshot_date"] == "2026-06-17"
+    assert packet["source_status"]["market_timing"]["status"] == "checked"
     assert packet["source_status"]["social_watch"]["status"] == "not_checked"
     assert packet["source_status"]["notion_research_queue"]["writeback"] == "not_needed_no_new_notion_write"
     assert [row["ticker"] for row in packet["act_if_green"]] == BASE_ADD_TICKERS
     assert packet["stage_if_amber"]["total_starter_band_usd"] == {"low": 25000, "high": 60000}
     assert any("Options remain review-only" in row for row in packet["do_not_touch_yet"])
+    assert "AMBER_PRE_FOMC" not in json.dumps(packet, sort_keys=True)
 
 
-def test_fed_day_packet_uses_broker_exposure_not_only_tracked_positions():
-    packet = build_packet(quote_provider=_fake_quote, max_tickers=8)
+def test_daily_packet_uses_broker_exposure_not_only_tracked_positions():
+    packet = build_packet(quote_provider=_fake_quote, as_of="2026-06-17", max_tickers=8)
     by_ticker = {row["ticker"]: row for row in packet["act_if_green"]}
 
     assert by_ticker["GOOGL"]["existing_exposure_usd"] > 0
@@ -65,7 +70,7 @@ def test_fed_day_packet_uses_broker_exposure_not_only_tracked_positions():
 
 
 def test_deep_discounts_are_research_not_automatic_buys():
-    packet = build_packet(quote_provider=_fake_quote, max_tickers=8)
+    packet = build_packet(quote_provider=_fake_quote, as_of="2026-06-17", max_tickers=8)
     deep = {row["ticker"]: row for row in packet["deep_discount_research"]}
 
     assert deep["BMNR"]["pct_below_high"] < -80
@@ -73,3 +78,12 @@ def test_deep_discounts_are_research_not_automatic_buys():
     assert "mNAV" in deep["BMNR"]["disconfirmation"]
     assert "source_disagreement" in deep["KTOS"]["source_flags"]
     assert "Fundstrat" in deep["KTOS"]["disconfirmation"]
+
+
+def test_daily_packet_accepts_new_as_of_without_event_specific_status():
+    packet = build_packet(quote_provider=_fake_quote, as_of="2026-06-18", max_tickers=8)
+
+    assert packet["as_of"] == "2026-06-18"
+    assert packet["display_label"] == "Daily pullback packet"
+    assert packet["gates"]["current_status"] == "STAGE_UNTIL_LIVE_TAPE_CONFIRMS"
+    assert "Fed-day" not in json.dumps(packet, sort_keys=True)

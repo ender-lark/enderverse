@@ -689,6 +689,11 @@ def _fed_day_packet(feed: dict[str, Any]) -> dict[str, Any]:
     return packet if isinstance(packet, dict) else {}
 
 
+def _fed_packet_display_label(packet: dict[str, Any] | None = None) -> str:
+    label = str((packet or {}).get("display_label") or "").strip()
+    return label or "Daily pullback packet"
+
+
 def _date_string(value: Any) -> str:
     text = str(value or "").strip()
     if not text:
@@ -702,13 +707,15 @@ def _date_string(value: Any) -> str:
 def _fed_day_freshness(feed: dict[str, Any], today_iso: str) -> dict[str, Any]:
     packet = _fed_day_packet(feed)
     if not packet:
+        label = _fed_packet_display_label()
         return {
             "packet": {},
             "freshness": "absent",
             "packet_as_of": None,
-            "caption": "Fed-day packet not_checked - no packet on disk; no pullback rows fabricated.",
+            "caption": f"{label} not_checked - no packet on disk; no pullback rows fabricated.",
             "honesty": "not_checked - no packet on disk",
         }
+    label = _fed_packet_display_label(packet)
     as_of_raw = str(packet.get("as_of") or "").strip()
     as_of = _date_string(as_of_raw)
     today_day = _date_string(today_iso) or today_iso
@@ -717,7 +724,7 @@ def _fed_day_freshness(feed: dict[str, Any], today_iso: str) -> dict[str, Any]:
             "packet": packet,
             "freshness": "fresh",
             "packet_as_of": as_of,
-            "caption": f"Fed-day packet current as of {as_of}. Research/recheck rows stay rail-free until separately confirmed.",
+            "caption": f"{label} current as of {as_of}. Research/recheck rows stay rail-free until separately confirmed.",
             "honesty": "",
         }
     display_as_of = as_of or as_of_raw or "unknown"
@@ -725,7 +732,7 @@ def _fed_day_freshness(feed: dict[str, Any], today_iso: str) -> dict[str, Any]:
         "packet": packet,
         "freshness": "stale",
         "packet_as_of": display_as_of,
-        "caption": f"Fed-day packet STALE/not_checked as of {display_as_of}; rows are research context only and prices are not current.",
+        "caption": f"{label} STALE/not_checked as of {display_as_of}; rows are research context only and prices are not current.",
         "honesty": f"stale (as_of {display_as_of}) - research context only, prices not current",
     }
 
@@ -733,8 +740,9 @@ def _fed_day_freshness(feed: dict[str, Any], today_iso: str) -> dict[str, Any]:
 def _fed_day_rows_by_ticker(state: dict[str, Any]) -> dict[str, dict[str, Any]]:
     packet = state.get("packet") or {}
     out: dict[str, dict[str, Any]] = {}
+    packet_label = _fed_packet_display_label(packet)
     labels = {
-        "act_if_green": "Fed-day act-if-green packet",
+        "act_if_green": f"{packet_label} act-if-green candidate",
         "higher_quality_pullbacks": "Higher-quality pullback",
         "deep_discount_research": "Deep-discount research",
     }
@@ -1857,7 +1865,7 @@ def _render_fed_day_context_block(card: dict[str, Any]) -> str:
     summary = _fed_day_card_summary(context)
     disconfirmation = str(row.get("disconfirmation") or "").strip()
     do_nothing = str(row.get("do_nothing_cost") or "").strip()
-    label = str(context.get("label") or "Fed-day packet").strip()
+    label = str(context.get("label") or "Daily pullback packet").strip()
     freshness = str(context.get("freshness") or "fresh")
     packet_as_of = str(context.get("packet_as_of") or "").strip()
     lines = [
@@ -2227,7 +2235,7 @@ def _render_watch_queue(payload: dict[str, Any]) -> str:
     queue = payload.get("watch_queue") or []
     meta = payload.get("watch_queue_meta") or {}
     freshness = str(meta.get("freshness") or ("fresh" if queue else "absent"))
-    caption = str(meta.get("caption") or "These are ranked research/recheck candidates from the fed-day packet. They are visible so discounted or watched names do not disappear, but they do not outrank executable decisions without fresh confirmation.")
+    caption = str(meta.get("caption") or "These are ranked research/recheck candidates from the daily pullback packet. They are visible so discounted or watched names do not disappear, but they do not outrank executable decisions without fresh confirmation.")
     if not queue and freshness != "absent":
         return ""
     h = [

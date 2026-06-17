@@ -203,8 +203,8 @@ At the end of any substantive task/session, before going idle, capture loose thr
   candidate artifact with no decision-path reader, no real
   `state_ownership_map.json` feed path, and no explicit
   `src/non_surfacing_allowlist.json` reason.
-- Fed-day reallocation packets are current only when `packet.as_of` equals the
-  build date. Stale packets may remain visible as research context, but they
-  must render as STALE/not_checked with stale price wording and must not move
-  conviction, ranking, sizing, gates, or action posture. Missing packets produce
-  no fabricated watch rows and must write an honesty note.
+- Daily pullback/reallocation packets are current only when `packet.as_of`
+  equals the build date. Stale packets may remain visible as research context,
+  but they must render as STALE/not_checked with stale price wording and must
+  not move conviction, ranking, sizing, gates, or action posture. Missing
+  packets produce no fabricated watch rows and must write an honesty note.

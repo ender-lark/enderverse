@@ -387,7 +387,7 @@ function FedDayContextBlock({ card }) {
   const stale = String(context.freshness || "fresh") === "stale";
   return (
     <div style={{ border: "1px solid #334155", borderRadius: 8, background: "#0b1220", padding: 8, fontSize: 13, color: "#cbd5e1", lineHeight: 1.4, margin: "0 0 8px" }}>
-      <strong>{context.label || "Fed-day packet"}:</strong> {fedDaySummary(context)}
+      <strong>{context.label || "Daily pullback packet"}:</strong> {fedDaySummary(context)}
       {stale && <><br /><strong>Shown but not counted:</strong> packet as of {context.packet_as_of || "unknown"} - STALE/not_checked; research context only, prices not current.</>}
       {row.do_nothing_cost && <><br /><strong>Why it matters:</strong> {row.do_nothing_cost}</>}
       {row.disconfirmation && <><br /><strong>Do not act if:</strong> {row.disconfirmation}</>}
@@ -903,7 +903,7 @@ function WatchQueue({ payload }) {
   const meta = payload.watch_queue_meta || {};
   const freshness = String(meta.freshness || (queue.length ? "fresh" : "absent"));
   if (!queue.length && freshness !== "absent") return null;
-  const caption = meta.caption || "Ranked research/recheck candidates from the fed-day packet. They stay visible, but do not outrank executable decisions without fresh confirmation.";
+  const caption = meta.caption || "Ranked research/recheck candidates from the daily pullback packet. They stay visible, but do not outrank executable decisions without fresh confirmation.";
   return (
     <div style={{ borderTop: "1px solid #1e293b", marginTop: 14, paddingTop: 10 }}>
       <div style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em", margin: "14px 0 5px" }}>

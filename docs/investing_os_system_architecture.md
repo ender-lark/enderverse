@@ -275,15 +275,15 @@ The dashboard shows the feed plus operator state:
     Material decisions, Other rechecks, and Funding / paired sells; funding
     helper legs never outrank standalone material decisions. Remaining
     impact-ranked decisions render as full cards rather than raw backlog rows.
-  - The Fed-day reallocation packet feeds Today/Decide only as visible decision
-    context and a rail-free `watch_queue`. The queue keeps deep-discount and
-    pullback candidates visible with disconfirmation text, but it does not add
-    ACT/PASS/RECHECK affordances and does not change conviction, ranking,
-    sizing, gates, or execution posture.
-  - Fed-day packet freshness is explicit. A packet is current only when `as_of`
-    equals the build date. Stale packets remain visible as research context with
-    STALE/not_checked labels and stale price wording; absent packets create no
-    fabricated rows and add an honesty note.
+  - The daily pullback/reallocation packet feeds Today/Decide only as visible
+    decision context and a rail-free `watch_queue`. The queue keeps
+    deep-discount and pullback candidates visible with disconfirmation text, but
+    it does not add ACT/PASS/RECHECK affordances and does not change conviction,
+    ranking, sizing, gates, or execution posture.
+  - Daily pullback packet freshness is explicit. A packet is current only when
+    `as_of` equals the build date. Stale packets remain visible as research
+    context with STALE/not_checked labels and stale price wording; absent
+    packets create no fabricated rows and add an honesty note.
 
 - Today's Actions: `feed.actions`
   - Includes engine actions, catalyst/event-risk review prompts, and
@@ -781,17 +781,22 @@ Dark-lane rules:
 It runs, in order:
 
 1. `heartbeat_status.py` before synthesis.
-2. `full_build_runner.py --publish` to build/publish a pre-synthesis feed.
-3. `source_call_candidate_draft.py` to update source-call candidates from feed
+2. `decision_dossier_refresh.py` to refresh dossier dynamic reads from checked
+   repo evidence.
+3. `full_build_runner.py --publish` to build/publish a pre-synthesis feed.
+4. `source_call_candidate_draft.py` to update source-call candidates from feed
    observations.
-4. `daily_synthesis_from_feed.py --merge-existing` to refresh repo-evidence
+5. `fed_day_reallocation_packet.py` to regenerate the daily pullback packet for
+   the final Today/Decide watch queue.
+6. `daily_synthesis_from_feed.py --merge-existing` to refresh repo-evidence
    synthesis without deleting explicit synthesis actions.
-5. `heartbeat_status.py` after synthesis.
-6. `full_build_runner.py --publish` again for the final feed.
-7. `render_cockpit.py` to inject the feed into the JSX validation surface.
-8. `cockpit_html_gen.py` for `docs/index.html`.
-9. `cockpit_html_gen.py` for `tmp/dashboard_preview.html`.
-10. `full_build_runner.py` for `tmp/dashboard_parity_feed.json`.
+7. `heartbeat_status.py` after synthesis.
+8. `full_build_runner.py --publish` again for the final feed.
+9. `render_cockpit.py` to inject the feed into the JSX validation surface.
+10. `cockpit_jsx_preview.py` for the JSX preview shell.
+11. `cockpit_html_gen.py` for `docs/index.html`.
+12. `cockpit_html_gen.py` for `tmp/dashboard_preview.html`.
+13. `full_build_runner.py` for `tmp/dashboard_parity_feed.json`.
 
 This two-pass flow matters because the first feed creates evidence that
 synthesis/source-call tracking can use, and the second feed shows the resulting

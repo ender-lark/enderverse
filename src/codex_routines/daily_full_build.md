@@ -72,7 +72,17 @@ This is the main replacement for Claude's FULL-build prompt.
    This command performs no live fetches. It updates only ticker-matched
    `price` and `timing` reads from checked UW price/opportunity evidence.
    Missing evidence leaves the prior stale/not-checked dossier read in place.
-11. When the readiness report is clean, run:
+11. Refresh the rail-free daily pullback packet before the final dashboard
+    build consumes it:
+
+   ```bash
+   python src/fed_day_reallocation_packet.py --json-out src/fed_day_reallocation_packet.json --md-out docs/daily_pullback_packet.md
+   ```
+
+   The packet is candidate/recheck context only. It keeps discounted watchlist
+   names and staged add candidates visible, but it does not change conviction
+   scores, action ranking, sizing, or execution posture.
+12. When the readiness report is clean, run:
 
    ```bash
    python src/full_build_runner.py --src-dir src --feed-out src/latest_cockpit_feed.json --publish
@@ -88,7 +98,8 @@ This is the main replacement for Claude's FULL-build prompt.
    The trigger check should run before the render when this is the 4:30 PM ET
    post-close refresh, so `trigger_check_summary.json` is visible in the
    dashboard source-audit row. The dashboard refresh writes heartbeat status,
-   publishes a feed, refreshes repo-evidence Daily Synthesis from that feed,
+   publishes a feed, drafts source-call candidates, regenerates the daily
+   pullback packet, refreshes repo-evidence Daily Synthesis from that feed,
    republishes, and renders both the canonical JSX artifact and the
    summary/preview HTML. The final JSON summary is the operator readout: it
    includes `go_live_ready`, required-input status, live market-data status,
@@ -113,14 +124,14 @@ This is the main replacement for Claude's FULL-build prompt.
    python src/dashboard_preview_server.py
    ```
 
-12. If publish fails, do not force-write a feed. Report the publish-gate problems.
-13. Run focused checks:
+13. If publish fails, do not force-write a feed. Report the publish-gate problems.
+14. Run focused checks:
 
    ```bash
    python -m pytest src/test_full_build_runner.py src/test_live_readiness.py src/test_heartbeat_status.py src/test_runtime_full.py src/test_cockpit_blocks.py src/test_live_dashboard_refresh.py -q
    ```
 
-14. Summarize:
+15. Summarize:
    - action count
    - ACT_NOW names
    - research-action count
@@ -129,7 +140,7 @@ This is the main replacement for Claude's FULL-build prompt.
    - trigger-check fired/not_checked count
    - `go_live_ready`
    - whether `open_opportunities.json` was updated
-15. If open action-memory items remain after operator review, list or resolve
+16. If open action-memory items remain after operator review, list or resolve
     them explicitly:
 
    ```bash
