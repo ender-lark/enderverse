@@ -1,0 +1,65 @@
+# Fed-Day Reallocation Packet - 2026-06-17
+
+Candidate-only packet. No trades executed. No option contracts selected.
+
+## Source Status
+- Positions: has_data from 2026-06-17 on $1,923,513.
+- UW: UW endpoint proof: 43 captured row(s); neutral/inconclusive rows do not promote trades.
+- Fundstrat: Chrome session was logged in; visible June 16 Fed/XLU/SPX items did not add a new posture-changing compact row beyond existing cache.
+- Notion Research Queue: fetched; no writeback needed.
+- Social Watch: not_checked - Social watch not checked: no Reddit/social cache supplied.
+- Fed source: Federal Reserve calendar and CME FedWatch links are in JSON source_status.fed_sources.
+
+## Act If Green
+| Ticker | Band | First tranche | Existing exposure | Post-band exposure | Funding | Placement candidate | Do-nothing cost |
+| --- | ---: | ---: | ---: | ---: | --- | --- | --- |
+| GOOGL | $100,000-$155,000 | $50,000-$108,500 | $72,376 (3.8%) | 9.0%-11.8% | IVES $68,104, SMH $968, MAGS $400, GRNY $84,410 | Schwab / Individual ...254 Individual ...25... / taxable | GOOGL stays under the intended AI-core exposure if the thesis is right and Fed/tape gates confirm; cash/funding avoids churn if the Fed reaction is red. |
+| MSFT | $25,000-$40,000 | $12,500-$28,000 | $29,836 (1.6%) | 2.9%-3.6% | GRNY $38,674 | Fidelity / Joint WROS - TOD *****2063 / taxable | MSFT stays under the intended AI-core exposure if the thesis is right and Fed/tape gates confirm; cash/funding avoids churn if the Fed reaction is red. |
+
+Green gate: deploy only if FOMC/tape reaction is constructive, QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.
+
+## Stage If Amber
+- Starter only: $25,000-$60,000 total across GOOGL/MSFT.
+- Stage GOOGL first because it is the larger model gap and has live Research Queue support.
+- Add MSFT only as a smaller laggard/capital-efficiency complement.
+- Keep AVGO/FN/VRT/AMZN secondary unless live price/flow and source review beat GOOGL/MSFT.
+
+## Do Not Touch Yet
+- GRNJ remains protected unless explicit thesis break or operator override.
+- BMNR stays monitor-first until financing/mNAV/ETH-per-share work clears.
+- LEU/UUUU/MP require critical-minerals and flow checks before any add review.
+- KTOS/ELF/SOFI/HOOD require Fundstrat top/bottom-list reconciliation.
+- Social Watch remains dark/watch-only.
+- Options remain review-only with no contract selection.
+
+## Deep Discount Research
+| Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
+| --- | ---: | ---: | ---: | ---: | --- | --- |
+| BMNR | $16 | $161 | -89.9% | $73,020 | Notion Working MONITOR, repo research queue Queued | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
+| LEU | $165 | $464 | -64.4% | $99,621 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
+| AVAV | $167 | $418 | -60.1% | $0 | chart only | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
+| KTOS | $56 | $134 | -58.0% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
+| ELF | $67 | $151 | -55.7% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
+| SOFI | $18 | $33 | -45.9% | $856 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
+| UUUU | $15 | $28 | -45.0% | $34,940 | Fundstrat bottom/avoid-list | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
+| MP | $57 | $100 | -43.1% | $16,829 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
+| HOOD | $97 | $154 | -37.1% | $2,560 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review. |
+
+## Higher Quality Pullbacks
+| Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
+| --- | ---: | ---: | ---: | ---: | --- | --- |
+| MSFT | $394 | $555 | -29.1% | $29,836 | chart only | Do not deploy if the laggard thesis remains only valuation-based without live confirmation. |
+| GOOGL | $373 | $409 | -8.7% | $72,376 | Fundstrat top-list, Notion Working WATCH, fundstrat D, repo research queue Queued | Do not deploy if Fed reaction, QQQ/SPY, yields, oil, or flow contradict the staged add. |
+| AVGO | $377 | $495 | -23.9% | $40,696 | Notion Working STAGE, repo research queue Queued | Advance only if post-FOMC tape and fresh flow beat GOOGL/MSFT on capital efficiency. |
+| FN | $588 | $749 | -21.5% | $8,050 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
+| VRT | $300 | $380 | -21.1% | $0 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
+| NVDA | $207 | $237 | -12.3% | $212,710 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
+| AMZN | $246 | $279 | -11.7% | $21,900 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
+
+## Full Watchlist Screen
+- Screened rows with chart data: 107.
+- Not checked: SOX, SPX, TNX.
+
+TLDR: Base plan is a gated GOOGL/MSFT rotation, but current broker exposure and Fed reaction determine whether to deploy, stage, or do nothing.
+YOUR MOVE: Do not execute until execution mode and green/amber/red gates are explicitly reviewed.
+NEXT STEP: Re-check after the Fed statement and press conference reaction, then choose green tranche, amber starter, or red no-new-concentration.

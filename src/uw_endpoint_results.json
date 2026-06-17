@@ -1,143 +1,442 @@
 {
-  "generated_at": "2026-06-16T14:37:21.681611+00:00",
+  "generated_at": "2026-06-17T05:07:12.862466+00:00",
   "source": "uw_endpoint_result_capture",
-  "runbook_line": "UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.",
-  "planned_checks": 12,
+  "runbook_line": "Fed-day requested UW runbook: pull same-session price/flow status for allocation packet tickers; endpoint rows are proof only and do not promote trades.",
+  "planned_checks": 43,
   "rows": [
     {
-      "mode": "pre_market_crash_triage",
-      "endpoint": "SECTOR_TIDE",
-      "ticker": "",
-      "status": "missing",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "unsupported path parameter(s): sector",
-      "source": "uw_endpoint_result_capture"
-    },
-    {
-      "mode": "pre_market_crash_triage",
+      "mode": "fed_day_requested_price_flow",
       "endpoint": "MARKET_TIDE",
       "ticker": "",
       "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "Fetched MARKET_TIDE; row_count=14. Result requires operator interpretation before any promotion.",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
-      "row_count": 14
+      "row_count": 81
     },
     {
-      "mode": "pre_market_crash_triage",
+      "mode": "fed_day_requested_price_flow",
       "endpoint": "TOP_NET_IMPACT",
       "ticker": "",
       "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
       "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 20
     },
     {
-      "mode": "pre_market_crash_triage",
+      "mode": "fed_day_requested_price_flow",
       "endpoint": "TOTAL_OPTIONS_VOLUME",
       "ticker": "",
       "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
       "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 1
     },
     {
-      "mode": "pre_market_crash_triage",
-      "endpoint": "MARKET_MOVERS",
-      "ticker": "",
-      "status": "failed",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/dashboard/api?utm_source=api&utm_campaign=json_msg to upgrade, or contac",
-      "source": "uw_endpoint_result_capture",
-      "row_count": 0
-    },
-    {
-      "mode": "pre_market_crash_triage",
-      "endpoint": "MARKET_CORRELATIONS",
-      "ticker": "",
-      "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "Fetched MARKET_CORRELATIONS; row_count=2. Result requires operator interpretation before any promotion.",
-      "source": "uw_endpoint_result_capture",
-      "row_count": 2
-    },
-    {
-      "mode": "pre_market_crash_triage",
-      "endpoint": "ETF_TIDE",
-      "ticker": "XOP",
-      "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
-      "source": "uw_endpoint_result_capture",
-      "row_count": 390
-    },
-    {
-      "mode": "pre_market_crash_triage",
-      "endpoint": "ETF_TIDE",
-      "ticker": "XLE",
-      "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
-      "source": "uw_endpoint_result_capture",
-      "row_count": 390
-    },
-    {
-      "mode": "pre_market_crash_triage",
-      "endpoint": "ETF_TIDE",
-      "ticker": "TNX",
-      "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
-      "source": "uw_endpoint_result_capture",
-      "row_count": 390
-    },
-    {
-      "mode": "pre_market_crash_triage",
-      "endpoint": "ETF_TIDE",
-      "ticker": "RYF",
-      "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "Fetched ETF_TIDE for RYF; row_count=390. Result requires operator interpretation before any promotion.",
-      "source": "uw_endpoint_result_capture",
-      "row_count": 390
-    },
-    {
-      "mode": "pre_market_crash_triage",
+      "mode": "fed_day_requested_price_flow",
       "endpoint": "TICKER_FLOW_RECENT",
-      "ticker": "XOP",
+      "ticker": "GOOGL",
       "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for GOOGL; row_count=50. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 50
     },
     {
-      "mode": "pre_market_crash_triage",
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "MSFT",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for MSFT; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "GRNY",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for GRNY; row_count=36. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 36
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "IVES",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for IVES; row_count=6. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 6
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "AVGO",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for AVGO; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "AMZN",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for AMZN; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "FN",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for FN; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "VRT",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for VRT; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "BMNR",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for BMNR; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "LEU",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for LEU; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "UUUU",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for UUUU; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "MP",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for MP; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "NVDA",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for NVDA; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "SMH",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for SMH; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "QQQ",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for QQQ; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "SPY",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for SPY; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
       "endpoint": "TICKER_FLOW_RECENT",
       "ticker": "XLE",
       "status": "neutral",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
       "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 50
     },
     {
-      "mode": "pre_market_crash_triage",
+      "mode": "fed_day_requested_price_flow",
       "endpoint": "TICKER_FLOW_RECENT",
-      "ticker": "TNX",
-      "status": "missing",
-      "checked_at": "2026-06-16T14:37:21.681611+00:00",
-      "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
+      "ticker": "XOP",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
-      "row_count": 0
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "XLU",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for XLU; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "XLRE",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for XLRE; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "GOOGL",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for GOOGL; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "MSFT",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for MSFT; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "GRNY",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for GRNY; row_count=62. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 62
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "IVES",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for IVES; row_count=58. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 58
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "AVGO",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for AVGO; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "AMZN",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for AMZN; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "FN",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for FN; row_count=62. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 62
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "VRT",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for VRT; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "BMNR",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for BMNR; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "LEU",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for LEU; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "UUUU",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for UUUU; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "MP",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for MP; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "NVDA",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for NVDA; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "SMH",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for SMH; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "QQQ",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for QQQ; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "SPY",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for SPY; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "XLE",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for XLE; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "XOP",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for XOP; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "XLU",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for XLU; row_count=63. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 63
+    },
+    {
+      "mode": "fed_day_requested_price_flow",
+      "endpoint": "TICKER_OHLC",
+      "ticker": "XLRE",
+      "status": "neutral",
+      "checked_at": "2026-06-17T05:07:12.862466+00:00",
+      "summary": "Fetched TICKER_OHLC for XLRE; row_count=60. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 60
     }
   ],
   "counts": {
-    "missing": 2,
-    "neutral": 10,
-    "failed": 1
+    "neutral": 43
   },
   "honesty_rule": "Rows prove endpoint fetch status only; neutral rows do not confirm a trade thesis."
 }
