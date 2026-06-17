@@ -65,6 +65,15 @@ def refresh_plan(
             "--out", _rel(src / "heartbeat.json"),
             "--summary", _rel(src / "heartbeat_summary.json"),
         ]),
+        Step("refresh_decision_dossier_dynamic_reads", [
+            py, "src/decision_dossier_refresh.py",
+            "--in", _rel(src / "decision_dossiers.json"),
+            "--out", _rel(src / "decision_dossiers.json"),
+            "--uw-prices", _rel(src / "uw_closes.json"),
+            "--uw-opportunity", _rel(src / "uw_opportunity_signals.json"),
+            "--feed", _rel(feed),
+            "--live-source-config", _rel(src / "live_source_config.json"),
+        ]),
         Step("build_publish_pre_synthesis", build_cmd),
         Step("draft_source_call_candidates", [
             py, "src/source_call_candidate_draft.py",

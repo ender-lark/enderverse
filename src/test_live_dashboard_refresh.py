@@ -14,6 +14,7 @@ def test_refresh_plan_tracks_source_calls_before_final_build():
 
     assert names == [
         "heartbeat_pre_synthesis",
+        "refresh_decision_dossier_dynamic_reads",
         "build_publish_pre_synthesis",
         "draft_source_call_candidates",
         "repo_evidence_synthesis",
@@ -25,10 +26,13 @@ def test_refresh_plan_tracks_source_calls_before_final_build():
         "render_preview_html",
         "write_parity_feed",
     ]
-    first_build = steps[1].command
-    source_calls = steps[2].command
-    synthesis = steps[3].command
-    final_build = steps[5].command
+    dossier_refresh = steps[1].command
+    first_build = steps[2].command
+    source_calls = steps[3].command
+    synthesis = steps[4].command
+    final_build = steps[6].command
+    assert "src/decision_dossier_refresh.py" in dossier_refresh
+    assert any(part.replace("\\", "/") == "src/decision_dossiers.json" for part in dossier_refresh)
     assert "src/full_build_runner.py" in first_build
     assert "--publish" in first_build
     assert first_build == final_build
@@ -43,8 +47,8 @@ def test_refresh_plan_tracks_source_calls_before_final_build():
 def test_refresh_plan_can_rehearse_without_publish():
     steps = refresh.refresh_plan(publish=False)
 
-    assert "--publish" not in steps[1].command
-    assert "--publish" not in steps[5].command
+    assert "--publish" not in steps[2].command
+    assert "--publish" not in steps[6].command
 
 
 def test_live_dashboard_refresh_dry_run_lists_steps():
@@ -59,8 +63,9 @@ def test_live_dashboard_refresh_dry_run_lists_steps():
 
     assert proc.returncode == 0, proc.stderr
     payload = json.loads(proc.stdout)
-    assert payload["steps"][2]["name"] == "draft_source_call_candidates"
-    assert payload["steps"][3]["name"] == "repo_evidence_synthesis"
+    assert payload["steps"][1]["name"] == "refresh_decision_dossier_dynamic_reads"
+    assert payload["steps"][3]["name"] == "draft_source_call_candidates"
+    assert payload["steps"][4]["name"] == "repo_evidence_synthesis"
     assert payload["steps"][-1]["name"] == "write_parity_feed"
 
 
