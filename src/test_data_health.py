@@ -211,8 +211,9 @@ def test_renderer_shows_strip_and_check_first_when_blocked():
     html = td.render_today_decide_html(payload)
     assert "data freshness:" in html
     assert "6 newer notes unread" in html
-    assert "CHECK DATA FIRST" in html
-    assert "Conviction to Buy GOOGL" in html
+    assert "Feed evidence before buying GOOGL" in html
+    assert "Conviction 1/5 LOW" in html
+    assert "Conviction to Buy GOOGL" not in html
     assert 'data-copy="RECHECK X-1 resolve blockers before action"' in html
     assert "candidate BUY; blockers or conflicts must clear first" in html
 
@@ -245,8 +246,10 @@ def test_renderer_no_check_first_when_all_fresh():
         "congruence": {},
     }
     html = td.render_today_decide_html(payload)
-    assert "CHECK DATA FIRST" not in html
-    assert "Conviction to Buy GOOGL" in html
+    assert "Check data before buying GOOGL" not in html
+    assert "Feed evidence before buying GOOGL" in html
+    assert "Conviction 1/5 LOW" in html
+    assert "Conviction to Buy GOOGL" not in html
     assert 'data-copy="RECHECK X-1 candidate only; confirm gates before action"' in html
     assert "candidate BUY; stage-only until gates confirm" in html
 

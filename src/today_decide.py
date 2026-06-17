@@ -24,6 +24,7 @@ Mandate rails enforced by construction:
 from __future__ import annotations
 
 import json
+import re
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -465,32 +466,84 @@ _CSS = """
 .td .td-anchor{font-size:17px;margin:8px 0 2px 0}
 .td .td-pace{color:#94a3b8;font-style:italic;font-size:11px;margin:0 0 10px 0}
 .td .td-plan{color:#cbd5e1;font-size:13px;margin:0 0 10px 0}
+.td .td-verdict{border:1px solid #334155;border-left:4px solid #38bdf8;border-radius:10px;
+  background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-verdict-title{font-size:15px;color:#f8fafc;font-weight:850;margin-bottom:3px}
+.td .td-verdict-line{font-size:12px;color:#cbd5e1;line-height:1.4}
 .td .td-gate{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;
   margin:0 6px 8px 0;border:1px solid}
-.td .td-card{border:1px solid #1e293b;border-radius:10px;padding:12px;margin:10px 0;background:#0f172a}
-.td .td-card.td-conflicted{border-color:#fb923c}
+.td .td-card{border:1px solid #243044;border-radius:10px;padding:12px;margin:10px 0;background:#0f172a}
+.td .td-card.td-conflicted{border-color:#f59e0b}
 .td details.td-card{padding:0}
 .td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
 .td details.td-card>summary::-webkit-details-marker{display:none}
-.td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
-.td .td-move{font-size:18px;font-weight:750;line-height:1.25}
-.td .td-conv-line{display:block;border-radius:8px;padding:8px 10px;color:#0b1220}
-.td .td-section-title{font-size:11px;color:#94a3b8;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin:8px 0 4px}
-.td .td-why-item{font-size:13px;color:#cbd5e1;margin:3px 0}
+.td .td-card-face{display:grid;gap:8px}
+.td .td-face-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.td .td-rank{font-size:12px;color:#94a3b8;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.td .td-face-status{font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.td .td-face-title{font-size:20px;font-weight:850;line-height:1.18;margin:1px 0;color:#f8fafc}
+.td .td-face-subtitle{font-size:13px;color:#cbd5e1;line-height:1.35}
+.td .td-face-right{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;min-width:150px}
+.td .td-face-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.td .td-score-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 9px;font-size:12px;
+  font-weight:850;color:#0b1220;white-space:nowrap}
+.td .td-score-full{font-size:11px;color:#94a3b8}
+.td .td-size-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 9px;font-size:12px;
+  font-weight:850;border:1px solid #334155;background:#0b1220;color:#cbd5e1;white-space:nowrap}
+.td .td-size-material{border-color:#38bdf8;color:#bfdbfe;background:#061321}
+.td .td-size-muted{border-color:#475569;color:#94a3b8;background:#0b1220}
+.td .td-layer-line{font-size:12px;color:#a5b4fc;line-height:1.35;margin-top:4px}
+.td .td-main-blocker{font-size:12px;color:#fde68a;line-height:1.35;margin-top:3px}
+.td .td-face-tags{display:flex;flex-wrap:wrap;gap:6px}
+.td .td-tag{display:inline-flex;align-items:center;border-radius:999px;border:1px solid #334155;
+  color:#cbd5e1;background:#0b1220;padding:3px 8px;font-size:12px;font-weight:650}
+.td .td-tag-warn{border-color:#f59e0b;color:#fde68a;background:#1f1606}
+.td .td-tag-danger{border-color:#ef4444;color:#fecaca;background:#220b0b}
+.td .td-tag-muted{border-color:#334155;color:#94a3b8}
+.td .td-body{padding:10px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:8px}
+.td .td-readout{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:10px;margin:0 0 10px}
+.td .td-readout-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.td .td-readout-k{font-size:10px;color:#94a3b8;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.td .td-readout-v{font-size:14px;color:#f8fafc;font-weight:750;margin-top:2px;line-height:1.3}
+.td .td-section-title{font-size:11px;color:#94a3b8;font-weight:850;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px}
+.td .td-why-item{font-size:13px;color:#cbd5e1;margin:4px 0;line-height:1.35}
 .td .td-why-item strong{color:#e2e8f0}
 .td .td-factor-conflict{color:#fdba74}
+.td .td-evidence-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+.td .td-evidence{border:1px solid #334155;border-radius:8px;padding:8px;background:#0b1220}
+.td .td-evidence-warn{border-color:#f59e0b;background:#1f1606}
+.td .td-evidence-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.05em}
+.td .td-evidence-title{font-size:13px;color:#f8fafc;font-weight:800;margin-top:2px}
+.td .td-evidence-text{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
+.td .td-layer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.td .td-layer-card{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px}
+.td .td-layer-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.05em}
+.td .td-layer-value{font-size:14px;color:#f8fafc;font-weight:800;margin-top:2px}
+.td .td-layer-detail{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
+.td .td-layer-compact{border:1px solid #334155;border-radius:8px;background:#0b1220;
+  padding:8px;font-size:13px;color:#cbd5e1;line-height:1.35}
+.td .td-action-columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.td .td-action-column{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px}
+.td .td-action-column-title{font-size:10px;color:#94a3b8;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
 .td .td-pill{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;
   font-weight:600;margin-left:8px;color:#0b1220}
 .td .td-row{font-size:13px;color:#cbd5e1;margin:4px 0}
-.td .td-chip{border:1px solid #fb923c;color:#fdba74;border-radius:8px;padding:6px 8px;
+.td .td-chip{border:1px solid #f59e0b;color:#fdba74;border-radius:8px;padding:6px 8px;
   font-size:12px;margin:6px 0}
 .td .td-dossier{border:1px solid #334155;border-radius:8px;padding:8px;margin:8px 0;background:#0b1220}
 .td .td-dossier-head{font-size:12px;color:#e2e8f0;font-weight:800;margin-bottom:4px}
 .td .td-dossier-meta{font-size:11px;color:#94a3b8;margin:2px 0 6px}
 .td .td-dossier-read{font-size:12px;color:#cbd5e1;margin:3px 0}
 .td .td-dossier-read strong{color:#e2e8f0}
+.td .td-muted-details{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:8px;margin:8px 0}
+.td .td-muted-details>summary{cursor:pointer;color:#94a3b8;font-size:12px;font-weight:750}
 .td details{margin:4px 0;font-size:12px;color:#94a3b8}
 .td .td-health{margin:8px 0 4px 0;line-height:2}
+.td .td-health-compact,.td .td-gates-compact{display:none}
+.td .td-gates-full{margin:0 0 2px}
+.td .td-compact-strip{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:7px 9px;margin:6px 0;color:#cbd5e1}
+.td .td-compact-strip>summary{cursor:pointer;font-size:12px;font-weight:800;color:#e2e8f0}
+.td .td-compact-body{margin-top:7px;line-height:1.8}
 .td .td-hlabel{font-size:11px;color:#64748b;font-weight:700;letter-spacing:.03em}
 .td .td-hchip{display:inline-block;border:1px solid;border-radius:7px;padding:1px 7px;font-size:11px;color:#cbd5e1;margin:0 4px 4px 0;background:#0b1220}
 .td .td-checkfirst{color:#f87171;font-weight:700;font-size:12px;margin-bottom:6px;letter-spacing:.03em}
@@ -502,6 +555,18 @@ _CSS = """
 .td .td-cong{font-size:13px;margin:3px 0}
 .td .td-honesty{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#94a3b8;
   border-top:1px solid #1e293b;margin-top:12px;padding-top:8px}
+@media (max-width: 620px){
+  .td{padding:12px}
+  .td .td-anchor{font-size:16px}
+  .td .td-pace{font-size:10px;margin-bottom:8px}
+  .td .td-plan{font-size:12px;margin-bottom:6px}
+  .td .td-health-full,.td .td-gates-full{display:none}
+  .td .td-health-compact,.td .td-gates-compact{display:block}
+  .td .td-face-top{display:block}
+  .td .td-face-right{justify-content:flex-start;margin-top:7px}
+  .td .td-face-title{font-size:18px}
+  .td .td-readout-grid{grid-template-columns:1fr}
+}
 </style>
 """
 
@@ -542,18 +607,33 @@ def _render_group_breakdown(display: dict[str, Any]) -> str:
     return "".join(bits)
 
 
-def _render_factor_breakdown(display: dict[str, Any]) -> str:
+def _factor_tag(row: dict[str, Any], card: dict[str, Any] | None) -> str:
+    direction = str(row.get("direction") or "").lower()
+    if card and _is_funding_leg(card) and direction in {"bull", "bear"}:
+        return f"{_direction_signal_word(direction)} name signal"
+    if row.get("conflict"):
+        return "opposes card action"
+    if direction in {"bull", "bear"}:
+        return f"{_direction_signal_word(direction)} setup"
+    return "context"
+
+
+def _render_factor_breakdown(display: dict[str, Any], card: dict[str, Any] | None = None) -> str:
     factors = ((display.get("why") or {}).get("decisive_factors") or [])
     if not factors:
         return '<div class="td-why-item">Battery decisive factors: none surfaced.</div>'
-    bits = []
-    for row in factors:
-        cls = " td-factor-conflict" if row.get("conflict") else ""
-        tag = "conflicting" if row.get("conflict") else "decisive" if row.get("decisive") else "factor"
+    bits = ['<div class="td-evidence-grid">']
+    for row in factors[:4]:
+        cls = " td-evidence-warn" if row.get("conflict") else ""
+        tag = _factor_tag(row, card)
         bits.append(
-            f'<div class="td-why-item{cls}"><strong>{_esc(tag)}:</strong> '
-            f'{_esc(row.get("label") or row.get("key"))} - {_esc(row.get("value_str") or "")}</div>'
+            f'<div class="td-evidence{cls}">'
+            f'<div class="td-evidence-label">{_esc(tag)}</div>'
+            f'<div class="td-evidence-title">{_esc(row.get("label") or row.get("key"))}</div>'
+            f'<div class="td-evidence-text">{_esc(_short_text(row.get("value_str") or "", 130))}</div>'
+            '</div>'
         )
+    bits.append('</div>')
     return "".join(bits)
 
 
@@ -563,24 +643,34 @@ def _render_layer_breakdown(display: dict[str, Any]) -> str:
     if not rows or layers.get("mode") == "off":
         return ""
     bits = ['<div class="td-section-title">Name / sector split</div>']
+    if _layers_empty(display):
+        return (
+            "".join(bits)
+            + '<div class="td-layer-compact">Name/sector evidence not fed yet; no positive layer is active.</div>'
+        )
+    bits.append('<div class="td-layer-grid">')
     for row in rows:
         status = row.get("status") or "not_checked"
         points = _layer_points_text(row.get("points"))
         detail = str(row.get("detail") or "").strip()
-        detail_html = f' - {_esc(detail)}' if detail else ""
         bits.append(
-            f'<div class="td-why-item"><strong>{_esc(row.get("label") or row.get("key"))}</strong> '
-            f'{points} {_esc(row.get("read") or "LOW")} ({_esc(status)}){detail_html}</div>'
+            '<div class="td-layer-card">'
+            f'<div class="td-layer-label">{_esc(row.get("label") or row.get("key"))}</div>'
+            f'<div class="td-layer-value">{_esc(row.get("read") or "LOW")} {points}</div>'
+            f'<div class="td-layer-detail">{_esc(status)}'
+            + (f' | {_esc(detail)}' if detail else "")
+            + '</div></div>'
         )
+    bits.append('</div>')
     if layers.get("conflict"):
-        bits.append(f'<div class="td-chip">LAYER CONFLICT - {_esc(layers.get("conflict"))}</div>')
+        bits.append(f'<div class="td-chip">Layer guard: {_esc(layers.get("conflict"))}</div>')
     for reason in layers.get("clamped_reasons") or []:
-        bits.append(f'<div class="td-row">layer guard: {_esc(reason)}</div>')
+        bits.append(f'<div class="td-row">Layer guard: {_esc(reason)}</div>')
     recheck = layers.get("sector_only_recheck") or {}
     if recheck.get("eligible"):
         suffix = "alert disabled in shadow mode" if not recheck.get("alert_enabled") else "alert enabled"
         bits.append(
-            f'<div class="td-row">sector-only recheck: {_esc(recheck.get("next_step") or "re-check")} '
+            f'<div class="td-row">Sector-only recheck: {_esc(recheck.get("next_step") or "re-check")} '
             f'({_esc(suffix)})</div>'
         )
     return "".join(bits)
@@ -598,6 +688,410 @@ def _render_iv_hint(display: dict[str, Any]) -> str:
     return f'<div class="td-row">{prefix}: {_esc(text)}</div>'
 
 
+def _short_text(value: Any, limit: int = 150) -> str:
+    text = " ".join(str(value or "").split())
+    if len(text) <= limit:
+        return text
+    return text[: max(0, limit - 1)].rstrip() + "..."
+
+
+def _action_gerund(direction: str) -> str:
+    direction = str(direction or "act").upper()
+    return {
+        "BUY": "buying",
+        "ADD": "adding",
+        "SELL": "selling",
+        "TRIM": "trimming",
+        "REDUCE": "trimming",
+    }.get(direction, "acting on")
+
+
+def _score_text(display: dict[str, Any]) -> str:
+    label = str(display.get("text") or "")
+    score_match = re.search(r"([1-5])\s*/\s*5", label)
+    band_match = re.search(r"\((LOW|MODERATE|HIGH)\)", label, flags=re.IGNORECASE)
+    x5 = display.get("x5")
+    if x5 is None:
+        x5 = score_match.group(1) if score_match else 1
+    band = str(display.get("band") or (band_match.group(1) if band_match else "LOW")).upper()
+    return f"Conviction {x5}/5 {band}"
+
+
+def _money_text(value: Any) -> str:
+    if isinstance(value, (int, float)):
+        return f"${float(value):,.0f}"
+    try:
+        return f"${float(value):,.0f}"
+    except (TypeError, ValueError):
+        return "size n/a"
+
+
+def _is_material(card: dict[str, Any]) -> bool:
+    return bool((card.get("impact") or {}).get("material"))
+
+
+def _is_funding_leg(card: dict[str, Any]) -> bool:
+    direction = _card_action_direction(card).upper()
+    if direction not in {"SELL", "TRIM", "REDUCE"}:
+        return False
+    win = card.get("window") or {}
+    reasons = " ".join(str(row or "") for row in win.get("reasons") or []).lower()
+    if "funding leg" in reasons or "paired with the adds" in reasons:
+        return True
+    execn = card.get("execution") or {}
+    if execn.get("legs") and not _is_material(card):
+        return True
+    return False
+
+
+def _size_label(card: dict[str, Any]) -> str:
+    size = _money_text(card.get("dollars"))
+    material = "material" if _is_material(card) else "immaterial"
+    return f"{size} / {material}"
+
+
+def _direction_signal_word(direction: str) -> str:
+    value = str(direction or "").lower()
+    if value == "bull":
+        return "bullish"
+    if value == "bear":
+        return "bearish"
+    return "neutral"
+
+
+def _strongest_directional_factor(display: dict[str, Any]) -> dict[str, Any] | None:
+    factors = ((display.get("why") or {}).get("decisive_factors") or [])
+    directional = [
+        row for row in factors
+        if str(row.get("direction") or "").lower() in {"bull", "bear"}
+    ]
+    if not directional:
+        return None
+    return sorted(
+        directional,
+        key=lambda row: (bool(row.get("decisive")), float(row.get("strength") or 0.0)),
+        reverse=True,
+    )[0]
+
+
+def _name_signal_text(card: dict[str, Any], display: dict[str, Any]) -> str:
+    factor = _strongest_directional_factor(display)
+    if factor:
+        word = _direction_signal_word(str(factor.get("direction") or ""))
+        label = str(factor.get("label") or factor.get("key") or "evidence")
+        if _is_funding_leg(card):
+            return f"Name signal: {word} ({label}); action is plumbing"
+        return f"Name signal: {word} ({label})"
+    groups = ((display.get("why") or {}).get("groups") or [])
+    moved = [row for row in groups if abs(float(row.get("points") or 0.0)) >= 0.25]
+    if moved:
+        row = moved[0]
+        direction = str(row.get("direction") or "neutral").lower()
+        label = str(row.get("label") or row.get("key") or "source")
+        return f"Name signal: {direction} ({label})"
+    return "Name signal: not fed yet"
+
+
+def _layer_status_word(row: dict[str, Any] | None) -> str:
+    if not row:
+        return "off"
+    status = str(row.get("status") or "not_checked")
+    direction = str(row.get("direction") or "NEUTRAL").upper()
+    read = str(row.get("read") or "LOW").upper()
+    points = abs(float(row.get("points") or 0.0))
+    if status == "not_checked":
+        return "unfed"
+    if status == "checked_no_signal" or (points < 0.005 and direction == "NEUTRAL"):
+        return "quiet"
+    if status == "not_applicable":
+        return "n/a"
+    if direction in {"BUY", "BULL"}:
+        return f"supportive {read}"
+    if direction in {"SELL", "TRIM", "BEAR"}:
+        return f"bearish {read}"
+    return read
+
+
+def _layer_rows(display: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    layers = display.get("layers") or {}
+    return {
+        str(row.get("key") or ""): row
+        for row in layers.get("rows") or []
+        if isinstance(row, dict)
+    }
+
+
+def _layer_summary_text(display: dict[str, Any]) -> str:
+    rows = _layer_rows(display)
+    if not rows:
+        return "Name/sector layer: off"
+    return (
+        f"Name: {_layer_status_word(rows.get('name'))} | "
+        f"Sector: {_layer_status_word(rows.get('sector'))} | "
+        f"Shadow: {str((rows.get('overall') or {}).get('read') or 'LOW').upper()}"
+    )
+
+
+def _layers_empty(display: dict[str, Any]) -> bool:
+    layers = display.get("layers") or {}
+    rows = layers.get("rows") or []
+    if not rows or layers.get("mode") == "off" or layers.get("conflict"):
+        return False
+    name = next((row for row in rows if row.get("key") == "name"), {})
+    sector = next((row for row in rows if row.get("key") == "sector"), {})
+    actionable_statuses = {"active"}
+    if name.get("status") in actionable_statuses or sector.get("status") in actionable_statuses:
+        return False
+    return all(abs(float(row.get("points") or 0.0)) < 0.005 for row in rows)
+
+
+def _card_is_evidence_starved(card: dict[str, Any], display: dict[str, Any]) -> bool:
+    groups = ((display.get("why") or {}).get("groups") or [])
+    group_points = sum(abs(float(row.get("points") or 0.0)) for row in groups)
+    rows = _layer_rows(display)
+    name_status = str((rows.get("name") or {}).get("status") or "not_checked")
+    missing = set(str(row) for row in display.get("not_checked") or [])
+    return group_points < 0.1 and (name_status == "not_checked" or bool(missing))
+
+
+def _primary_blocker_text(
+    card: dict[str, Any],
+    display: dict[str, Any],
+    *,
+    check_first: bool,
+    window_class: str,
+) -> str:
+    if _is_funding_leg(card):
+        return "Do not sell standalone; this is plumbing for a paired add."
+    sizing = card.get("sizing") or {}
+    if sizing.get("heat") == "ABOVE_CAP":
+        return "Above cap; no size room until thesis/cap is revisited."
+    if sizing.get("heat") == "CAP_CLIPPED":
+        return "Cap clipped; staged size must stay within room."
+    blockers = card.get("card_blockers") or []
+    if blockers:
+        return f"{blockers[0]} blocks full action."
+    if display.get("conflict"):
+        return str(display.get("conflict"))
+    if window_class == "STAGE-ONLY":
+        return "Stage only; wait for trigger before full action."
+    return "No blocking reason surfaced."
+
+
+def _split_raise_actions(display: dict[str, Any]) -> tuple[list[str], list[str]]:
+    operator: list[str] = []
+    system: list[str] = []
+    for item in display.get("raises") or []:
+        text = str(item)
+        low = text.lower()
+        if any(token in low for token in ("13f", "insider", "lane goes live", "uw proof", "same-session", "wired")):
+            system.append(text)
+        else:
+            operator.append(text)
+    if not operator:
+        operator.append("Decide whether the surfaced signal is real enough to write or refresh the thesis.")
+    if not system:
+        system.append("No separate system wiring task surfaced for this card.")
+    return operator[:3], system[:3]
+
+
+def _shadow_lift_text(display: dict[str, Any]) -> str:
+    layers = display.get("layers") or {}
+    for row in layers.get("rows") or []:
+        if row.get("key") == "overall":
+            detail = str(row.get("detail") or "").strip()
+            if detail:
+                return detail.replace("sector lift ", "shadow ")
+    return "shadow layer present"
+
+
+def _conflict_tags(display: dict[str, Any], card: dict[str, Any]) -> list[str]:
+    tags: list[str] = []
+    conflict = str(display.get("conflict") or "").lower()
+    if "battery" in conflict or "opposes" in conflict or "opposition" in conflict:
+        tags.append("positive signal conflicts" if _is_funding_leg(card) else "flow opposes move")
+    if "no directional evidence" in conflict:
+        tags.append("no direct score support")
+    if display.get("conflict") and not tags:
+        tags.append("evidence conflict")
+    if card.get("conflicts"):
+        tags.append("another lane disagrees")
+    return tags
+
+
+def _card_face_model(
+    card: dict[str, Any],
+    display: dict[str, Any],
+    posture: dict[str, str],
+    *,
+    check_first: bool,
+    window_class: str,
+    direction: str,
+) -> dict[str, Any]:
+    ticker = str(card.get("ticker") or "").upper()
+    blockers = card.get("card_blockers") or []
+    conflict_tags = _conflict_tags(display, card)
+    has_directional_conflict = any(tag != "no direct score support" for tag in conflict_tags)
+    no_directional_support = "no direct score support" in conflict_tags and not has_directional_conflict
+    funding_leg = _is_funding_leg(card)
+    material = _is_material(card)
+    blockers_are_gates = bool(blockers) and all("gate" in str(blocker).lower() for blocker in blockers)
+    stage_material = str(direction or "").upper() in {"BUY", "ADD"} and material and window_class == "STAGE-ONLY"
+    blocker = _primary_blocker_text(card, display, check_first=check_first, window_class=window_class)
+    if funding_leg:
+        status = "funding leg only"
+        title = f"{_money_text(card.get('dollars'))} plumbing trim for {ticker}"
+    elif has_directional_conflict:
+        status = "resolve direction"
+        title = f"Resolve signal before {_action_gerund(direction)} {ticker}"
+    elif stage_material and (not blockers or blockers_are_gates):
+        status = "stage material buy"
+        title = f"Stage {_money_text(card.get('dollars'))} {ticker} buy"
+    elif check_first or blockers or no_directional_support:
+        status = "needs feed"
+        title = f"Feed evidence before {_action_gerund(direction)} {ticker}"
+    elif window_class == "STAGE-ONLY":
+        status = "stage only"
+        title = f"Stage {direction.lower()} candidate for {ticker}"
+    elif posture.get("state_verb") == "ACT":
+        status = "lean-in candidate"
+        title = f"{direction.title()} {ticker} can be considered"
+    else:
+        status = "review"
+        title = f"Review {ticker} before acting"
+
+    subtitle_parts = [part for part in [str(direction or "").upper(), str(window_class or "").replace("-", " ").lower()] if part]
+
+    tags: list[tuple[str, str]] = []
+    tags.append(("material" if material else "muted", _size_label(card)))
+    if check_first or blockers:
+        tags.append(("danger", "stale or missing inputs"))
+    for tag in conflict_tags:
+        tags.append(("warn", tag))
+    if window_class == "STAGE-ONLY":
+        tags.append(("muted", "not standalone urgent"))
+    return {
+        "status": status,
+        "title": title,
+        "subtitle": " | ".join(subtitle_parts),
+        "signal": _name_signal_text(card, display),
+        "layer": _layer_summary_text(display),
+        "blocker": blocker,
+        "tags": tags,
+    }
+
+
+def _first_raise(display: dict[str, Any]) -> str:
+    raises = display.get("raises") or []
+    return str(raises[0]) if raises else "Fresh confirming evidence that clears the current blocker."
+
+
+def _decision_reason(card: dict[str, Any], display: dict[str, Any], *, check_first: bool, window_class: str) -> str:
+    tags = [tag for _, tag in _card_face_model(
+        card,
+        display,
+        _review_posture(
+            card,
+            check_first=check_first,
+            window_class=window_class,
+            direction=_card_action_direction(card),
+        ),
+        check_first=check_first,
+        window_class=window_class,
+        direction=_card_action_direction(card),
+    )["tags"]]
+    return "; ".join(tags[:3]) if tags else "No blocker surfaced in the rendered card."
+
+
+def _render_decision_readout(
+    card: dict[str, Any],
+    display: dict[str, Any],
+    posture: dict[str, str],
+    *,
+    check_first: bool,
+    window_class: str,
+    direction: str,
+) -> str:
+    face = _card_face_model(
+        card,
+        display,
+        posture,
+        check_first=check_first,
+        window_class=window_class,
+        direction=direction,
+    )
+    if face["status"] == "funding leg only":
+        answer = "Do not treat as a standalone trade"
+    elif posture.get("copy_verb") == "ACT" and not check_first and not display.get("conflict"):
+        answer = "Lean-in candidate"
+    elif face["status"] == "stage only":
+        answer = "Stage only"
+    elif face["status"] == "stage material buy":
+        answer = "Stage material buy; full action still blocked"
+    elif face["status"] == "needs feed":
+        answer = "Feed evidence before action"
+    elif face["status"] == "resolve direction":
+        answer = "Do not act yet"
+    else:
+        answer = "Review first"
+    why = face.get("blocker") or _decision_reason(card, display, check_first=check_first, window_class=window_class)
+    return (
+        '<div class="td-readout"><div class="td-readout-grid">'
+        f'<div><div class="td-readout-k">Current answer</div><div class="td-readout-v">{_esc(answer)}</div></div>'
+        f'<div><div class="td-readout-k">Why</div><div class="td-readout-v">{_esc(why)}</div></div>'
+        f'<div><div class="td-readout-k">Next check</div><div class="td-readout-v">{_esc(_first_raise(display))}</div></div>'
+        f'<div><div class="td-readout-k">Score</div><div class="td-readout-v">{_esc(_score_text(display))}</div></div>'
+        '</div></div>'
+    )
+
+
+def _render_face(
+    card: dict[str, Any],
+    rank: int,
+    display: dict[str, Any],
+    posture: dict[str, str],
+    *,
+    check_first: bool,
+    window_class: str,
+    direction: str,
+) -> str:
+    face = _card_face_model(
+        card,
+        display,
+        posture,
+        check_first=check_first,
+        window_class=window_class,
+        direction=direction,
+    )
+    tag_html = []
+    for kind, label in face["tags"]:
+        cls = {
+            "warn": "td-tag td-tag-warn",
+            "danger": "td-tag td-tag-danger",
+            "material": "td-size-chip td-size-material",
+            "muted": "td-size-chip td-size-muted",
+        }.get(kind, "td-tag td-tag-muted")
+        tag_html.append(f'<span class="{cls}">{_esc(label)}</span>')
+    return (
+        '<div class="td-card-face">'
+        '<div class="td-face-top">'
+        '<div>'
+        f'<div class="td-rank">#{rank} { _esc(str(card.get("ticker") or "")) }</div>'
+        f'<div class="td-face-status">{_esc(face["status"])}</div>'
+        f'<div class="td-face-title">{_esc(face["title"])}</div>'
+        f'<div class="td-face-subtitle">{_esc(face["subtitle"])}</div>'
+        f'<div class="td-layer-line">{_esc(face["signal"])}</div>'
+        f'<div class="td-layer-line">{_esc(face["layer"])}</div>'
+        f'<div class="td-main-blocker">{_esc(face["blocker"])}</div>'
+        '</div>'
+        '<div class="td-face-right">'
+        f'<span class="td-score-chip" style="background:{_esc(display.get("band_color") or "#94a3b8")}">{_esc(_score_text(display))}</span>'
+        '</div></div>'
+        f'<div class="td-face-tags">{"".join(tag_html)}</div>'
+        '</div>'
+    )
+
+
 def _render_dossier_block(card: dict[str, Any]) -> str:
     dossier = card.get("dossier") or {}
     if not isinstance(dossier, dict):
@@ -605,9 +1099,26 @@ def _render_dossier_block(card: dict[str, Any]) -> str:
     reads = dossier.get("reads") or {}
     if not isinstance(reads, dict):
         return ""
+    all_unknown = True
+    for read in reads.values():
+        if not isinstance(read, dict):
+            continue
+        freshness = read.get("freshness") or {}
+        text = str(read.get("text") or "UNKNOWN").upper()
+        status = str(freshness.get("status") or "not_checked")
+        if status != "not_checked" or text != "UNKNOWN":
+            all_unknown = False
+            break
     read_labels = ("edge", "price", "timing", "avoid")
+    shell_open = (
+        f'<details class="td-muted-details"><summary>Decision dossier not checked for '
+        f'{_esc(dossier.get("ticker") or card.get("ticker") or "")}</summary>'
+        if all_unknown
+        else '<div class="td-dossier">'
+    )
+    shell_close = "</details>" if all_unknown else "</div>"
     lines = [
-        '<div class="td-dossier">',
+        shell_open,
         f'<div class="td-dossier-head">Decision dossier: {_esc(dossier.get("ticker") or card.get("ticker") or "")}</div>',
         f'<div class="td-dossier-meta">status: {_esc(dossier.get("status") or "not_checked")}'
         f' | reviewed: {_esc(dossier.get("last_reviewed") or "not_checked")}'
@@ -631,7 +1142,7 @@ def _render_dossier_block(card: dict[str, Any]) -> str:
             f'<div class="td-dossier-read"><strong>{_esc(read.get("label") or key)}'
             f' ({_esc(suffix)}):</strong> {_esc(read.get("text") or "UNKNOWN")}</div>'
         )
-    lines.append("</div>")
+    lines.append(shell_close)
     return "".join(lines)
 
 
@@ -640,7 +1151,94 @@ def _render_not_checked(display: dict[str, Any]) -> str:
     text = ", ".join(str(row) for row in rows) if rows else "none"
     return f'<div class="td-row">not checked: {_esc(text)}</div>'
 
+def _health_strip_summary(items: list[dict[str, Any]]) -> str:
+    alert_statuses = {"behind", "stale", "missing", "empty"}
+    alerts = sum(1 for item in items if item.get("status") in alert_statuses)
+    fresh = sum(1 for item in items if item.get("status") == "fresh")
+    not_checked = sum(1 for item in items if item.get("status") == "not_checked")
+    parts = []
+    if alerts:
+        parts.append(f"{alerts} alert{'s' if alerts != 1 else ''}")
+    if fresh:
+        parts.append(f"{fresh} fresh")
+    if not_checked:
+        parts.append(f"{not_checked} not checked")
+    return "data freshness: " + (", ".join(parts) if parts else f"{len(items)} checked")
+
+def _gate_strip_summary(gates: list[dict[str, Any]]) -> str:
+    if not gates:
+        return "gates: none"
+    bits = []
+    for gate in gates[:3]:
+        state = str(gate.get("state") or "unknown").replace("_", " ").upper()
+        symbol = str(gate.get("symbol") or "").upper()
+        bits.append(f"{state} {symbol}".strip())
+    if len(gates) > 3:
+        bits.append(f"+{len(gates) - 3} more")
+    return "gates: " + "; ".join(bits)
+
+
+def _top_verdict(payload: dict[str, Any]) -> dict[str, str]:
+    cards = payload.get("cards") or []
+    material = [card for card in cards if _is_material(card)]
+    funding = [card for card in cards if _is_funding_leg(card)]
+    lean_ready = []
+    starved = []
+    signals = []
+    for card in cards:
+        display = card.get("conviction_display") or build_conviction_display(card)
+        if _card_is_evidence_starved(card, display):
+            starved.append(card)
+        if _strongest_directional_factor(display):
+            signals.append(f"{card.get('ticker')}: {_name_signal_text(card, display).replace('Name signal: ', '')}")
+        win = card.get("window") or {}
+        if (
+            _is_material(card)
+            and not card.get("card_blockers")
+            and not display.get("conflict")
+            and str(win.get("class") or "") == "OPEN-NOW"
+        ):
+            lean_ready.append(card)
+
+    dh_items = (payload.get("data_health") or {}).get("items") or []
+    stale_or_unfed = [
+        item for item in dh_items
+        if item.get("status") in {"behind", "stale", "missing", "empty", "not_checked"}
+    ]
+    if lean_ready:
+        title = f"{len(lean_ready)} lean-in-ready material card{'s' if len(lean_ready) != 1 else ''}."
+    else:
+        title = "No lean-in-ready card yet: scorer is starved or blocked, not necessarily bearish."
+    line_parts = [
+        f"{len(material)} material candidate{'s' if len(material) != 1 else ''}",
+        f"{len(funding)} plumbing/funding leg{'s' if len(funding) != 1 else ''}",
+        f"{len(starved)} evidence-starved card{'s' if len(starved) != 1 else ''}",
+    ]
+    if stale_or_unfed:
+        line_parts.append(f"{len(stale_or_unfed)} stale/not-checked lane{'s' if len(stale_or_unfed) != 1 else ''}")
+    if signals:
+        line_parts.append("strongest signal: " + "; ".join(signals[:2]))
+    return {"title": title, "line": " | ".join(line_parts)}
+
+
+def _render_top_verdict(payload: dict[str, Any]) -> str:
+    verdict = _top_verdict(payload)
+    return (
+        '<div class="td-verdict">'
+        f'<div class="td-verdict-title">{_esc(verdict["title"])}</div>'
+        f'<div class="td-verdict-line">{_esc(verdict["line"])}</div>'
+        '</div>'
+    )
+
 def _review_posture(card: dict[str, Any], *, check_first: bool, window_class: str, direction: str) -> dict[str, str]:
+    if _is_funding_leg(card):
+        return {
+            "label": "FUNDING",
+            "state_verb": "RECHECK",
+            "copy_verb": "RECHECK",
+            "copy_suffix": " funding leg only; pair with funded add",
+            "reason": "funding leg only; do not sell standalone",
+        }
     if check_first or card.get("conflicts") or window_class in {"GATED", "WAIT"}:
         return {
             "label": "RECHECK",
@@ -670,36 +1268,53 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     cid = _esc(card.get("card_id"))
     conflicted = " td-conflicted" if card.get("conflicts") or display.get("conflict") else ""
     h = [f'<details class="td-card{conflicted}">', '<summary class="td-sum">']
-    if check_first:
-        h.append('<div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>')
     cls = win.get("class", "WAIT")
     direction = str(move.get("direction") or "")
     posture = _review_posture(card, check_first=check_first, window_class=cls, direction=direction)
-    h.append(
-        f'<div class="td-move"><span class="td-conv-line" style="background:{_esc(display.get("band_color") or "#94a3b8")}">'
-        f'#{rank} {_esc(display.get("text") or "")}</span></div>'
-    )
-    if display.get("conflict"):
-        h.append(f'<div class="td-chip">CONFLICT - {_esc(display["conflict"])}</div>')
+    h.append(_render_face(
+        card,
+        rank,
+        display,
+        posture,
+        check_first=check_first,
+        window_class=cls,
+        direction=direction,
+    ))
     h.append('</summary><div class="td-body">')
-    h.append('<div class="td-section-title">Why it is this</div>')
-    h.append(_render_factor_breakdown(display))
-    h.append(_render_group_breakdown(display))
+    h.append(_render_decision_readout(
+        card,
+        display,
+        posture,
+        check_first=check_first,
+        window_class=cls,
+        direction=direction,
+    ))
+    h.append('<div class="td-section-title">Evidence that matters</div>')
+    h.append(_render_factor_breakdown(display, card))
     h.append(_render_layer_breakdown(display))
     for c in card.get("conflicts") or []:
-        h.append(f'<div class="td-chip">SOURCE-CONFLICT â€” {_esc(c["with"])}: â€œ{_esc(c["their_claim"])}â€ '
-                 f'vs this card: {_esc(c["card_claim"])} Â· resolve before acting</div>')
-    h.append('<div class="td-section-title">What would make it a confident move</div>')
-    raises = display.get("raises") or []
-    if raises:
-        h.extend(f'<div class="td-row">raise: {_esc(r)}</div>' for r in raises)
-    else:
-        h.append('<div class="td-row">No raise condition surfaced.</div>')
-    h.append('<div class="td-section-title">IV options-vs-shares</div>')
-    h.append(_render_iv_hint(display))
+        if _is_funding_leg(card):
+            h.append(
+                f'<div class="td-chip">Signal/action split: {_esc(c["with"])} says "{_esc(c["their_claim"])}"; '
+                f'this card is only {_esc(c["card_claim"])} funding plumbing.</div>'
+            )
+        else:
+            h.append(f'<div class="td-chip">Source conflict: {_esc(c["with"])} says "{_esc(c["their_claim"])}"; '
+                     f'this card says {_esc(c["card_claim"])}. Resolve before acting.</div>')
+    h.append('<details class="td-muted-details"><summary>Scoring inputs</summary>')
+    h.append(_render_group_breakdown(display))
+    h.append('</details>')
+    h.append('<div class="td-section-title">What would make this actionable</div>')
+    operator_actions, system_actions = _split_raise_actions(display)
+    h.append('<div class="td-action-columns">')
+    h.append('<div class="td-action-column"><div class="td-action-column-title">Operator can do now</div>')
+    h.extend(f'<div class="td-row">{_esc(r)}</div>' for r in operator_actions)
+    h.append('</div><div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>')
+    h.extend(f'<div class="td-row">{_esc(r)}</div>' for r in system_actions)
+    h.append('</div></div>')
     h.append(_render_dossier_block(card))
     if posture["reason"]:
-        h.append(f'<div class="td-row"><strong>posture:</strong> {_esc(posture["reason"])}</div>')
+        h.append(f'<div class="td-row"><strong>Rail:</strong> {_esc(posture["reason"])}</div>')
     primary_verb = posture["copy_verb"]
     primary_state_verb = posture["state_verb"]
     primary_label = posture["label"] if primary_verb != "ACT" else "ACT"
@@ -764,7 +1379,10 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     if card.get("last_disposition"):
         ld = card["last_disposition"]
         h.append(f'<div class="td-row">last disposition: {_esc(ld.get("verb"))} on {_esc(ld.get("et_date"))}</div>')
+    h.append('<details class="td-muted-details"><summary>Not checked / optional context</summary>')
+    h.append(_render_iv_hint(display))
     h.append(_render_not_checked(display))
+    h.append('</details>')
     h.append("</div></details>")
     return h
 
@@ -785,6 +1403,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
              + (f'funding pool ${pool:,.0f}' if isinstance(pool, (int, float)) else 'funding pool n/a')
              + (f' Â· shortfall ${short:,.0f}' if isinstance(short, (int, float)) else '')
              + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
+    h.append(_render_top_verdict(payload))
     dh = payload.get("data_health") or {}
     if dh.get("items"):
         chips = []
@@ -803,12 +1422,25 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
                 f'<span class="td-hchip" style="border-color:{color}">'
                 f'{_esc(item.get("label"))}: <span style="color:{color}">{_esc(item.get("detail"))}</span></span>'
             )
-        h.append('<div class="td-health"><span class="td-hlabel">data freshness:</span> ' + ''.join(chips) + '</div>')
+        chip_html = ''.join(chips)
+        h.append('<div class="td-health td-health-full"><span class="td-hlabel">data freshness:</span> ' + chip_html + '</div>')
+        h.append(
+            f'<details class="td-compact-strip td-health-compact"><summary>{_esc(_health_strip_summary(dh["items"]))}</summary>'
+            f'<div class="td-compact-body">{chip_html}</div></details>'
+        )
+    gate_chips = []
     for g in payload["gates"]:
         color = _GATE_COLORS.get(g.get("state"), "#94a3b8")
-        h.append(f'<span class="td-gate" style="border-color:{color};color:{color}">'
-                 f'<b>{_esc(str(g.get("state") or "").replace("_"," ").upper())}</b> {_esc(g.get("symbol"))} Â· {_esc(g.get("confirm_rule"))} '
-                 f'(as of {_esc(g.get("stated"))})</span>')
+        gate_chips.append(f'<span class="td-gate" style="border-color:{color};color:{color}">'
+                          f'<b>{_esc(str(g.get("state") or "").replace("_"," ").upper())}</b> {_esc(g.get("symbol"))} Â· {_esc(g.get("confirm_rule"))} '
+                          f'(as of {_esc(g.get("stated"))})</span>')
+    if gate_chips:
+        gate_html = ''.join(gate_chips)
+        h.append(f'<div class="td-gates-full">{gate_html}</div>')
+        h.append(
+            f'<details class="td-compact-strip td-gates-compact"><summary>{_esc(_gate_strip_summary(payload["gates"]))}</summary>'
+            f'<div class="td-compact-body">{gate_html}</div></details>'
+        )
     for i, card in enumerate(payload["cards"], 1):
         h.extend(_render_card(card, i, check_first=bool(card.get("card_blockers"))))
     backlog = payload["backlog"]

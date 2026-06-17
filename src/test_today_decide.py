@@ -136,21 +136,38 @@ def test_html_renders_header_and_built_date():
 
 def test_html_renders_minimal_conviction_face_and_breakdown():
     html = render_today_decide_html(_payload())
-    assert "Conviction to Buy GOOGL:" in html
-    assert "Why it is this" in html
+    assert "No lean-in-ready card yet: scorer is starved or blocked, not necessarily bearish." in html
+    assert "Stage $151,266 GOOGL buy" in html
+    assert "$151,266 / material" in html
+    assert "Name: supportive LOW | Sector: supportive LOW | Shadow: LOW" in html
+    assert "Conviction 1/5 LOW" in html
+    assert "Conviction to Buy GOOGL:" not in html
+    assert "Current answer" in html
+    assert "Evidence that matters" in html
     assert "Name / sector split" in html
-    assert "What would make it a confident move" in html
+    assert "What would make this actionable" in html
+    assert "Operator can do now" in html
+    assert "System still needs wired" in html
     assert "IV options-vs-shares" in html
     assert "not checked:" in html
     assert "LOW 0." not in html
     assert "MODERATE 0." not in html
     assert "HIGH 0." not in html
-    why_block = html.split("Why it is this", 1)[1].split("What would make it a confident move", 1)[0]
+    why_block = html.split("Evidence that matters", 1)[1].split("What would make this actionable", 1)[0]
     factor_pos = min(
-        pos for pos in (why_block.find("decisive:"), why_block.find("conflicting:"), why_block.find("factor:"))
+        pos for pos in (why_block.find("bullish setup"), why_block.find("opposes card action"), why_block.find("context"))
         if pos >= 0
     )
     assert factor_pos < why_block.find("Fundstrat / source calls")
+
+def test_mobile_view_compacts_freshness_and_gates_before_cards():
+    html = render_today_decide_html(_payload())
+    assert 'class="td-health td-health-full"' in html
+    assert 'class="td-compact-strip td-health-compact"' in html
+    assert 'class="td-gates-full"' in html
+    assert 'class="td-compact-strip td-gates-compact"' in html
+    assert "data freshness:" in html
+    assert "gates: RED BUT TESTED QQQ" in html
 
 def test_card_count_respects_daily_max():
     p = _payload()
@@ -321,10 +338,72 @@ def test_mags_source_conflict_chip_renders():
     assert mags["conflicts"] and mags["conflicts"][0]["with"] == "lean_in lane"
     assert mags["conviction_display"]["conflict"]
     html = render_today_decide_html(p)
-    assert "SOURCE-CONFLICT" in html and "hold/add MAGS" in html
-    assert "Conviction to Sell MAGS" in html
-    assert "CONFLICT" in html
+    assert "Source conflict:" in html and "hold/add MAGS" in html
+    assert "Conviction to Sell MAGS" not in html
+    assert "Resolve signal before selling MAGS" in html
+    assert "flow opposes move" in html
     assert "candidate SELL; blockers or conflicts must clear first" in html
+
+def test_immaterial_funding_leg_is_not_a_standalone_sell():
+    payload = {
+        "built": TODAY,
+        "goal_anchor": {"pace_line": "display-only"},
+        "plan_line": {},
+        "gates": [],
+        "data_health": {"items": []},
+        "cards": [{
+            "card_id": "MAGS-FUND-TEST",
+            "ticker": "MAGS",
+            "direction": "SELL",
+            "dollars": 400.0,
+            "card_blockers": [],
+            "conflicts": [{"with": "lean_in lane", "their_claim": "Lean-in looks good", "card_claim": "SELL $400"}],
+            "decision_card": {"move": {"direction": "SELL", "band": "$400"}},
+            "window": {"class": "STAGE-ONLY", "reasons": ["funding leg - execute paired with the adds it funds"], "flips": []},
+            "execution": {"legs": [{"owner": "SKB", "broker": "Fidelity", "account": "HSA", "sell_usd": 400, "tax_flag": "tax-advantaged"}]},
+            "impact": {"band": "about $400", "material": False},
+            "recheck_date": TODAY,
+            "conviction_display": {
+                "text": "Conviction to Sell MAGS: 1/5 (LOW)",
+                "x5": 1,
+                "band": "LOW",
+                "band_color": "#fb923c",
+                "conflict": "no directional evidence; battery opposition: UW opportunity sweep",
+                "why": {
+                    "groups": [],
+                    "decisive_factors": [{
+                        "key": "uw_opportunity_sweep",
+                        "label": "UW opportunity sweep",
+                        "direction": "bull",
+                        "strength": 0.9,
+                        "value_str": "ask-side call sweeps",
+                        "decisive": True,
+                        "conflict": True,
+                    }],
+                },
+                "layers": {"mode": "shadow", "rows": [
+                    {"key": "name", "label": "Name-specific", "status": "not_checked", "points": 0, "read": "LOW", "direction": "NEUTRAL"},
+                    {"key": "sector", "label": "Sector/sleeve", "status": "checked_no_signal", "points": 0, "read": "LOW", "direction": "NEUTRAL"},
+                    {"key": "overall", "label": "Shadow overall", "status": "shadow", "points": 0, "read": "LOW", "direction": "NEUTRAL"},
+                ]},
+                "raises": ["State the thesis if you believe it", "13F/insider lane goes live"],
+                "iv_hint": {"status": "not_checked", "hint": "IV not checked"},
+                "not_checked": ["institutional"],
+            },
+        }],
+        "backlog": [],
+        "honesty": {},
+        "congruence": {},
+    }
+    html = render_today_decide_html(payload)
+
+    assert "funding leg only" in html
+    assert "$400 plumbing trim for MAGS" in html
+    assert "$400 / immaterial" in html
+    assert "Name signal: bullish (UW opportunity sweep); action is plumbing" in html
+    assert "bullish name signal" in html
+    assert "Signal/action split:" in html
+    assert "funding leg only; do not sell standalone" in html
 
 def test_rails_carry_exact_copy_payloads():
     p = _payload()
@@ -342,7 +421,8 @@ def test_stage_only_cards_show_candidate_not_buy_sell_first():
     html = render_today_decide_html(p)
     googl = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "GOOGL"][0]
 
-    assert "Conviction to Buy GOOGL" in html
+    assert "Stage $151,266 GOOGL buy" in html
+    assert "Conviction to Buy GOOGL" not in html
     assert f'data-copy="RECHECK {googl["card_id"]} candidate only; confirm gates before action"' in html
     assert f'data-copy="RECHECK {googl["card_id"]} resurface 2026-06-15"' in html
 
@@ -367,8 +447,9 @@ def test_renderer_uses_card_scoped_blockers_not_global_blocked_state():
 
     html = render_today_decide_html(p)
 
-    assert html.count("CHECK DATA FIRST") == 1
-    assert "Conviction to Buy GOOGL" in html
+    assert html.count("Stage $151,266 GOOGL buy") == 1
+    assert "stale or missing inputs" in html
+    assert "Conviction to Buy GOOGL" not in html
     assert 'data-copy="ACT MAGS-TRIM-2026-06-10"' in html
 
 
