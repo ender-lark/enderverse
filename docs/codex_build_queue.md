@@ -26,8 +26,8 @@ Latest audit state:
 
 ## Active Slice
 
-- `DECISION-DOSSIER-ALERTS-V1` is active on branch
-  `codex/decision-dossier-alerts-v1` in PR#60.
+- No active build slice is claimed after `DECISION-DOSSIER-ALERTS-V1` merged
+  in PR#60.
 - Scope: route stale/not-checked decision-dossier reads into the shared
   `data_health` and `alert_policy` staleness guard, then surface only
   review-only alert candidates when an actionable card is blocked.
@@ -40,8 +40,8 @@ editing shared docs or routine code.
 
 ## 2026-06-16 Decision Dossier Alerts
 
-- In progress: route dossier freshness into the shared staleness guard instead
-  of adding a separate dossier alert policy.
+- Merged in PR#60: route dossier freshness into the shared staleness guard
+  instead of adding a separate dossier alert policy.
 - `data_health.assess` now consumes Today card dossiers and adds
   `decision_dossier` blockers only for matching capital-action cards with stale
   or not-checked dynamic reads.
