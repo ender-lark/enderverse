@@ -3,20 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:54:23.069091Z",
-      "summary": "off-hours worker started"
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:55:56.714155Z",
-      "summary": "deep synthesis started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-06T02:57:22.863220Z",
@@ -7131,7 +7117,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T12:26:38.741711Z",
       "summary": "FS inbox catch-up preopen ingested 2 entries; logged 4 calls; marker advanced to [06/16/2026 22:40 ET]; flags crypto tactical/STRC risk, no gate/card contradiction"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T12:37:25.940501Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T12:42:05.690886Z",
+      "summary": "3 Signal Log rows written+verified; repo cache 39 rows; UW proof refreshed through 2026-06-16 16:10 ET; Jun17 tide not open, macro supplied inputs absent, Social Watch dark"
     }
   ],
-  "updated_at": "2026-06-17T12:26:38.741711Z"
+  "updated_at": "2026-06-17T12:42:05.690886Z"
 }
