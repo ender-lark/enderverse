@@ -2,27 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-05T22:55:59.786677Z",
-      "summary": "morning scan started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-05T23:00:09.235927Z",
-      "summary": "5 Signal Log rows written to Notion; repo Signal Log merged to 11 rows; UW proof refreshed to 2026-06-05 16:14 ET; macro cache left unchanged"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:31.731893Z",
-      "summary": "investing-os-daily-synthesis manual run started"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "success",
       "run_source": "manual",
@@ -7341,7 +7320,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T23:33:12.021366Z",
       "summary": "no queue export; cache untouched; queue not_checked"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T00:45:56.801020Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T00:46:40.711965Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T00:47:04.877898Z",
+      "summary": "BUILDING dry-run 8; HOT dry-run 0; queued none; cache verified 21 unqueued uncorroborated, 0 HOT/ACT_NOW; Notion write/readback n/a; blocker constrained HOT gate empty"
     }
   ],
-  "updated_at": "2026-06-16T23:33:12.021366Z"
+  "updated_at": "2026-06-17T00:47:04.877898Z"
 }
