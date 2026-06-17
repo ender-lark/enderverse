@@ -328,6 +328,10 @@ what was actually captured.
 * The captured boundary file (`src/uw_endpoint_results.json`) is routine-owned
   and must be committed with the receipt/feed artifacts when a scheduled proof
   run uses fresh endpoint results.
+* `full_build_runner.py` refuses to build a cockpit feed from a dirty,
+  staged-only, or untracked `src/uw_endpoint_results.json`; the proof boundary
+  must be committed before downstream feed/dashboard artifacts can derive from
+  it.
 * Missing or malformed proof fails closed into Source Proof and should keep the
   affected action/reallocation candidate gated.
 

@@ -3,6 +3,8 @@ import os
 import subprocess
 import sys
 
+import pytest
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import full_build_runner
@@ -20,6 +22,16 @@ from validators import validate_cockpit_feed
 
 def _write(path, payload):
     path.write_text(json.dumps(payload), encoding="utf-8")
+
+
+def _git(cwd, *args):
+    return subprocess.run(
+        ["git", *args],
+        cwd=cwd,
+        text=True,
+        capture_output=True,
+        check=True,
+    )
 
 
 def _series(base, n=70):
@@ -687,6 +699,87 @@ def test_full_build_runner_wires_captured_uw_endpoint_proof(tmp_path):
     assert feed["uw_endpoint_proof"]["interpretation_counts"]["supports"] == 1
     assert "supports=1" in feed["source_audits"]["uw_endpoint_proof"]["line"]
     assert feed["uw_action_runbook"]["endpoint_proof"]["status"] == "has_data"
+
+
+def test_full_build_runner_rejects_modified_uw_endpoint_proof_boundary(tmp_path):
+    repo = tmp_path / "repo"
+    src = repo / "src"
+    src.mkdir(parents=True)
+    _required_files(src)
+    proof_path = src / "uw_endpoint_results.json"
+    _write(proof_path, {
+        "results": [
+            {
+                "mode": "fundstrat_signal_confirmation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:45:00+00:00",
+                "status": "neutral",
+                "summary": "Initial committed neutral fetch.",
+            }
+        ]
+    })
+    _git(repo, "init")
+    _git(repo, "config", "user.email", "codex@example.invalid")
+    _git(repo, "config", "user.name", "Codex Test")
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-m", "base")
+    _write(proof_path, {
+        "results": [
+            {
+                "mode": "fundstrat_signal_confirmation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:50:00+00:00",
+                "status": "neutral",
+                "summary": "Dirty neutral fetch must not feed the cockpit.",
+            }
+        ]
+    })
+
+    with pytest.raises(full_build_runner.FullBuildError) as exc:
+        build_full_feed_from_files(
+            src_dir=src,
+            as_of="2026-06-05",
+            run_timestamp="2026-06-05T14:00:00+00:00",
+        )
+
+    assert "UW endpoint proof boundary artifact is dirty/uncommitted" in str(exc.value)
+    assert "src/uw_endpoint_results.json" in str(exc.value)
+
+
+def test_full_build_runner_rejects_untracked_uw_endpoint_proof_boundary(tmp_path):
+    repo = tmp_path / "repo"
+    src = repo / "src"
+    src.mkdir(parents=True)
+    _required_files(src)
+    _git(repo, "init")
+    _git(repo, "config", "user.email", "codex@example.invalid")
+    _git(repo, "config", "user.name", "Codex Test")
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-m", "base")
+    _write(src / "uw_endpoint_results.json", {
+        "results": [
+            {
+                "mode": "fundstrat_signal_confirmation",
+                "endpoint": "TICKER_FLOW_RECENT",
+                "ticker": "NVDA",
+                "checked_at": "2026-06-05T13:45:00+00:00",
+                "status": "neutral",
+                "summary": "Untracked proof must not feed the cockpit.",
+            }
+        ]
+    })
+
+    with pytest.raises(full_build_runner.FullBuildError) as exc:
+        build_full_feed_from_files(
+            src_dir=src,
+            as_of="2026-06-05",
+            run_timestamp="2026-06-05T14:00:00+00:00",
+        )
+
+    assert "UW endpoint proof boundary artifact is dirty/uncommitted" in str(exc.value)
+    assert "?? src/uw_endpoint_results.json" in str(exc.value)
 
 
 def test_full_build_runner_threads_uw_endpoint_proof_into_action_enrichment(tmp_path, monkeypatch):

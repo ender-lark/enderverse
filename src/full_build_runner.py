@@ -15,6 +15,7 @@ import argparse
 import dataclasses
 import json
 import os
+import subprocess
 import tempfile
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -821,6 +822,42 @@ def active_parabolic_tickers(cache: Any, tiers=("AUTOFIRE", "WATCHLIST")) -> set
     return active
 
 
+def _boundary_artifact_git_problems(path: Path | None) -> list[str]:
+    if path is None or not path.exists():
+        return []
+    try:
+        top_proc = subprocess.run(
+            ["git", "-C", str(path.parent), "rev-parse", "--show-toplevel"],
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return []
+    repo = Path(top_proc.stdout.strip())
+    try:
+        rel = path.resolve().relative_to(repo.resolve()).as_posix()
+    except ValueError:
+        return []
+    try:
+        status_proc = subprocess.run(
+            ["git", "-C", str(repo), "status", "--porcelain=v1", "-uall", "--", rel],
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        return [f"UW endpoint proof boundary artifact git check failed: {exc}"]
+    status_rows = [line.strip() for line in status_proc.stdout.splitlines() if line.strip()]
+    if not status_rows:
+        return []
+    return [
+        "UW endpoint proof boundary artifact is dirty/uncommitted: "
+        + "; ".join(status_rows)
+        + f"; commit {rel} before building the cockpit feed from it."
+    ]
+
+
 def build_full_feed_from_files(
     *,
     src_dir: str | Path | None = None,
@@ -951,6 +988,13 @@ def build_full_feed_from_files(
     feed["uw_routing"] = build_uw_routing_recommendations(feed)
     feed["uw_action_runbook"] = build_uw_action_runbook(feed)
     uw_result_payload, uw_result_path, uw_result_problems = load_uw_endpoint_results(src)
+    uw_result_problems.extend(_boundary_artifact_git_problems(uw_result_path))
+    if uw_result_problems:
+        boundary_artifact_problems = [
+            problem for problem in uw_result_problems if "boundary artifact" in problem
+        ]
+        if boundary_artifact_problems:
+            raise FullBuildError("; ".join(boundary_artifact_problems))
     feed["uw_endpoint_proof"] = build_uw_endpoint_result_proof(
         uw_result_payload,
         feed.get("uw_action_runbook") or {},
