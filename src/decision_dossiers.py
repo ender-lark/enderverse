@@ -183,6 +183,7 @@ def card_dossier(
         "one_liner": row.get("one_liner"),
         "notion_url": row.get("notion_url"),
         "last_reviewed": row.get("last_reviewed"),
+        "next_review_due": row.get("next_review_due"),
         "synced_at": row.get("synced_at"),
         "reads": reads,
     }

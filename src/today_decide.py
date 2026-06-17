@@ -508,6 +508,7 @@ def _render_dossier_block(card: dict[str, Any]) -> str:
         f'<div class="td-dossier-head">Decision dossier: {_esc(dossier.get("ticker") or card.get("ticker") or "")}</div>',
         f'<div class="td-dossier-meta">status: {_esc(dossier.get("status") or "not_checked")}'
         f' | reviewed: {_esc(dossier.get("last_reviewed") or "not_checked")}'
+        f' | due: {_esc(dossier.get("next_review_due") or "not_checked")}'
         f' | synced: {_esc(dossier.get("synced_at") or "not_checked")}</div>',
     ]
     if dossier.get("one_liner"):

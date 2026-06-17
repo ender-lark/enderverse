@@ -194,7 +194,7 @@ def test_directive_conviction_carries_battery_without_render_or_priority_couplin
     assert googl["priority"] == expected
 
 
-def test_avgo_card_attaches_pending_sync_dossier_as_peer_block():
+def test_avgo_card_attaches_synced_stale_dossier_as_peer_block():
     feed = _feed()
     feed["actions"].append({"ticker": "AVGO", "goal_score": 65, "kind": "lean_in"})
     feed["reallocation_brief"]["rows"].append(
@@ -208,7 +208,8 @@ def test_avgo_card_attaches_pending_sync_dossier_as_peer_block():
     )
     avgo = [c for c in out["cards"] + out["backlog"] if c["ticker"] == "AVGO"][0]
 
-    assert avgo["dossier"]["status"] == "pending_sync"
+    assert avgo["dossier"]["status"] == "stale"
+    assert avgo["dossier"]["next_review_due"] == "2026-05-27"
     assert avgo["dossier"]["reads"]["price"]["text"].startswith("UNKNOWN")
     assert avgo["dossier"]["reads"]["timing"]["freshness"]["status"] == "stale"
     assert "dossier" not in avgo["decision_card"]

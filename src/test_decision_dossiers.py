@@ -44,18 +44,22 @@ def _payload(reads=None, status="fresh"):
     }
 
 
-def test_seeded_avgo_dossier_validates_and_stays_not_current():
+def test_synced_avgo_dossier_validates_and_keeps_dynamic_reads_not_current():
     payload = dd.load_payload()
     assert dd.validate_payload(payload) == []
 
     dossier = dd.card_dossier("AVGO", today="2026-06-16")
 
-    assert dossier["status"] == "pending_sync"
-    assert dossier["one_liner"].startswith("AVGO dossier mirror pending")
+    assert dossier["status"] == "stale"
+    assert dossier["notion_url"].endswith("360c50314bb68150b452e2176b79307f")
+    assert dossier["last_reviewed"] == "2026-05-13"
+    assert dossier["next_review_due"] == "2026-05-27"
+    assert "Custom AI silicon leader" in dossier["one_liner"]
+    assert dossier["reads"]["edge"]["freshness"]["status"] == "fresh"
     assert dossier["reads"]["price"]["freshness"]["status"] == "not_checked"
     assert dossier["reads"]["price"]["text"].startswith("UNKNOWN")
     assert dossier["reads"]["timing"]["freshness"]["status"] == "stale"
-    assert dossier["reads"]["timing"]["text"].startswith("UNKNOWN")
+    assert "review was due 2026-05-27" in dossier["reads"]["timing"]["text"]
 
 
 def test_fresh_source_status_is_downgraded_when_dynamic_reads_are_stale():

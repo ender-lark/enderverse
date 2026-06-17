@@ -278,6 +278,11 @@ The dashboard shows the feed plus operator state:
   - Every enriched action carries freshness, disconfirmation, and
     capital-efficiency judgment so the dashboard compares "good idea" against
     "best use of scarce capital now" before any review prompt is promoted.
+  - Cards can carry optional `card.dossier` context from
+    `src/decision_dossiers.json`. Dossiers mirror Live Theses through
+    `src/decision_dossier_sync.py`, but stay context-only: they do not change
+    conviction scoring, ranking, sizing, gates, alerts, or trade posture.
+    Stale or not-checked price/timing reads render as `UNKNOWN`.
   - Capital-using review prompts can also carry `account_placement`: candidate
     account, why that account, and caveats. Parent Schwab/PCRA Trust is treated
     as ETF-only; this still does not place or size trades.
@@ -660,6 +665,13 @@ page is searched/fetched and reconciled.
 
 The active scheduled prompts that write or may write to Notion now require live
 page readback before reporting write success or updating page status.
+
+Decision Dossier sync follows the same proof rule. `decision_dossier_sync.py`
+can use the repo Notion API client when `NOTION_API_TOKEN` is available; when
+row-query tooling is unavailable, use verified Notion page search/fetch readback
+or leave the ticker `pending_sync`. Dossier alert/watch wiring is deferred to a
+follow-up that consumes merged staleness guard PR#57, so there is one freshness
+policy.
 
 ## 8. Safe Write-Back
 
