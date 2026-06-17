@@ -91,30 +91,35 @@ def audit_automations(automations_dir: Path = DEFAULT_AUTOMATIONS_DIR) -> dict[s
             continue
         if str(data.get("status") or "").upper() != "ACTIVE":
             continue
+        kind = str(data.get("kind") or "").lower()
         prompt = str(data.get("prompt") or "")
         cwds = [str(cwd) for cwd in data.get("cwds") or []]
         row_problems: list[str] = []
-        if "cloud_routine_commit.py" not in prompt:
-            row_problems.append("active prompt does not use src/cloud_routine_commit.py safe helper")
-        if not cwds:
-            row_problems.append("active prompt has no cwd")
-        for cwd_text in cwds:
-            cwd = Path(cwd_text)
-            if not cwd.exists():
-                row_problems.append(f"cwd missing: {cwd}")
-                continue
-            cache_key = str(cwd.resolve())
-            if cache_key not in worktree_cache:
-                worktree_cache[cache_key] = _worktree_hardened(cwd)
-            hardened, cwd_problems = worktree_cache[cache_key]
-            if not hardened:
-                for problem in cwd_problems:
-                    row_problems.append(f"{cwd}: {problem}")
+        requires_workspace_safety = kind != "heartbeat"
+        if requires_workspace_safety:
+            if "cloud_routine_commit.py" not in prompt:
+                row_problems.append("active prompt does not use src/cloud_routine_commit.py safe helper")
+            if not cwds:
+                row_problems.append("active prompt has no cwd")
+            for cwd_text in cwds:
+                cwd = Path(cwd_text)
+                if not cwd.exists():
+                    row_problems.append(f"cwd missing: {cwd}")
+                    continue
+                cache_key = str(cwd.resolve())
+                if cache_key not in worktree_cache:
+                    worktree_cache[cache_key] = _worktree_hardened(cwd)
+                hardened, cwd_problems = worktree_cache[cache_key]
+                if not hardened:
+                    for problem in cwd_problems:
+                        row_problems.append(f"{cwd}: {problem}")
         row = {
             "id": data.get("id") or toml_path.parent.name,
             "name": data.get("name") or "",
+            "kind": kind,
             "path": str(toml_path),
             "cwds": cwds,
+            "requires_workspace_safety": requires_workspace_safety,
             "has_safe_helper": "cloud_routine_commit.py" in prompt,
             "has_prompt_receipt_normalize": "--normalize" in prompt and "--require-utf8" in prompt,
             "problems": row_problems,

@@ -88,6 +88,30 @@ def test_audit_includes_life_and_work_os_automations(tmp_path):
     assert report["active_investing_os_automations"] == 2
 
 
+def test_audit_allows_thread_heartbeat_without_workspace_contract(tmp_path):
+    automations = tmp_path / "automations"
+    heartbeat_dir = automations / "life-work-os-receipt-audit"
+    heartbeat_dir.mkdir(parents=True)
+    (heartbeat_dir / "automation.toml").write_text(
+        'version = 1\n'
+        'id = "life-work-os-receipt-audit"\n'
+        'kind = "heartbeat"\n'
+        'name = "Life/Work OS Receipt Audit"\n'
+        'prompt = "Continue the active goal to audit Life OS and Work OS receipts."\n'
+        'status = "ACTIVE"\n'
+        'rrule = "FREQ=DAILY"\n',
+        encoding="utf-8",
+    )
+
+    report = automation_prompt_audit.audit_automations(automations)
+
+    assert report["valid"] is True
+    assert report["active_monitored_os_automations"] == 1
+    assert report["rows"][0]["kind"] == "heartbeat"
+    assert report["rows"][0]["requires_workspace_safety"] is False
+    assert report["rows"][0]["problems"] == []
+
+
 def test_audit_rejects_active_prompt_without_safe_helper(tmp_path):
     repo = tmp_path / "repo"
     _write_hardened_repo(repo)
