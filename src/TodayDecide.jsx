@@ -220,6 +220,82 @@ function TopVerdict({ payload }) {
   );
 }
 
+const PASSIVITY_BUCKET_LABELS = {
+  operator_owned_actionable_now: "yours to decide now",
+  waiting_market_price_tape_gate: "waiting on market/price/tape gate",
+  waiting_source_data_freshness: "waiting on source/data freshness",
+  research_watch_only: "research/watch-only",
+  cap_risk_cash_constrained: "cap/risk/cash constrained",
+  system_blocked_not_checked: "system-blocked/not_checked",
+};
+
+const decisionKey = (card) => {
+  const ticker = String(card?.ticker || "UNKNOWN").trim().toUpperCase() || "UNKNOWN";
+  const lane = String(card?.decision_key_parts?.lane || card?.decision_card?.move?.lane || card?.lane || card?.kind || card?.decision || "decision").trim() || "decision";
+  return card?.decision_key || `${ticker}|${lane}`;
+};
+
+function FirstViewport({ payload, railState, setRailState }) {
+  const model = payload.first_viewport || {};
+  const button = model.button || {};
+  const cells = [
+    ["Size/tranche", model.size || "No tranche implied."],
+    ["Blocked by", model.blocker || "No blocker surfaced."],
+    ["Changed", model.changed || "No prior reliable build baseline yet."],
+    ["Risk rail", model.risk_rail || "Normal survival rails still apply."],
+    ["Can wait", model.safe_wait || "Research/watch-only items can wait."],
+  ];
+  const cardId = button.card_id || "";
+  return (
+    <div style={{ border: "1px solid #475569", borderLeft: "5px solid #38bdf8", borderRadius: 12, background: "#07101e", padding: 12, margin: "10px 0 12px" }}>
+      <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em" }}>Primary capital/risk decision</div>
+      <div style={{ fontSize: 23, color: "#f8fafc", fontWeight: 900, lineHeight: 1.12, margin: "3px 0 8px" }}>{model.decision || "No capital-changing decision surfaced."}</div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 8 }}>
+        {cells.map(([label, value]) => (
+          <div key={label} style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, minWidth: 0 }}>
+            <div style={{ fontSize: 10, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>{label}</div>
+            <div style={{ fontSize: 13, color: "#e2e8f0", lineHeight: 1.35, marginTop: 3 }}>{value}</div>
+          </div>
+        ))}
+      </div>
+      {button.copy && (
+        <div style={{ marginTop: 9, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <Rail cardId={cardId} verb={button.state_verb || "RECHECK"} copy={button.copy} muted={button.muted === "1"} state={railState} setState={setRailState} />
+          <span style={{ fontSize: 13, color: "#cbd5e1" }}>Rail copy is render-only; no trade executes.</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PassivityPanel({ payload }) {
+  const passivity = payload.passivity || {};
+  const counts = passivity.counts || {};
+  const buckets = [
+    "operator_owned_actionable_now",
+    "waiting_market_price_tape_gate",
+    "waiting_source_data_freshness",
+    "research_watch_only",
+    "cap_risk_cash_constrained",
+    "system_blocked_not_checked",
+  ];
+  return (
+    <div style={{ border: "1px solid #334155", borderRadius: 10, background: "#08111f", padding: "10px 12px", margin: "10px 0 12px" }}>
+      <div style={{ fontSize: 12, color: "#f8fafc", fontWeight: 850, marginBottom: 4 }}>Ownership-aware passivity</div>
+      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.4 }}>{passivity.line || ""}</div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 6, marginTop: 8 }}>
+        {buckets.map((bucket) => (
+          <div key={bucket} style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 7 }}>
+            <div style={{ fontSize: 16, color: "#f8fafc", fontWeight: 900 }}>{counts[bucket] || 0}</div>
+            <div style={{ fontSize: 10, color: "#94a3b8", textTransform: "uppercase", fontWeight: 850, letterSpacing: ".04em" }}>{PASSIVITY_BUCKET_LABELS[bucket] || bucket}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>{passivity.honesty_rule || ""}</div>
+    </div>
+  );
+}
+
 const shortText = (value, limit = 130) => {
   const text = String(value || "").replace(/\s+/g, " ").trim();
   return text.length <= limit ? text : `${text.slice(0, Math.max(0, limit - 1)).trim()}...`;
@@ -981,6 +1057,8 @@ export default function TodayDecide({ payload }) {
         plan: {pl.pool_usd != null ? `funding pool $${pl.pool_usd.toLocaleString()}` : "funding pool n/a"}
         {pl.shortfall_usd != null ? ` - shortfall $${pl.shortfall_usd.toLocaleString()}` : ""} - positions as of {pl.positions_as_of}
       </div>
+      <FirstViewport payload={payload} railState={railState} setRailState={setRailState} />
+      <PassivityPanel payload={payload} />
       <TrustPanel payload={payload} />
       <TopVerdict payload={payload} />
       {sections.map(([label, cards]) => (
@@ -989,7 +1067,7 @@ export default function TodayDecide({ payload }) {
           {cards.map((c) => {
             const thisRank = rank;
             rank += 1;
-            return <Card key={c.card_id} card={c} rank={thisRank} checkFirst={Boolean((c.card_blockers || []).length)} railState={railState} setRailState={setRailState} builtDate={payload.built} />;
+            return <Card key={decisionKey(c)} card={c} rank={thisRank} checkFirst={Boolean((c.card_blockers || []).length)} railState={railState} setRailState={setRailState} builtDate={payload.built} />;
           })}
         </div>
       ))}
@@ -1004,7 +1082,7 @@ export default function TodayDecide({ payload }) {
               {cards.map((c) => {
                 const thisRank = rank;
                 rank += 1;
-                return <Card key={c.card_id} card={c} rank={thisRank} checkFirst={Boolean((c.card_blockers || []).length)} railState={railState} setRailState={setRailState} builtDate={payload.built} />;
+                return <Card key={decisionKey(c)} card={c} rank={thisRank} checkFirst={Boolean((c.card_blockers || []).length)} railState={railState} setRailState={setRailState} builtDate={payload.built} />;
               })}
             </div>
           ))}

@@ -115,6 +115,8 @@ def test_payload_builds_and_goal_anchor_math():
     assert ga["pct_to_target"] == 63.0 and ga["gap_usd"] == 1110000.0
     assert "display-only" in ga["pace_line"]
     assert p["plan_line"]["positions_as_of"] == "2026-06-09"
+    assert p["first_viewport"]["status"] == "has_primary"
+    assert p["passivity"]["honesty_rule"].startswith("Only bucket operator_owned_actionable_now")
 
 def test_pace_is_display_only_and_isolated():
     p1 = _payload()
@@ -136,6 +138,8 @@ def test_html_renders_header_and_built_date():
 
 def test_html_renders_minimal_conviction_face_and_breakdown():
     html = render_today_decide_html(_payload())
+    assert "Primary capital/risk decision" in html
+    assert "Ownership-aware passivity" in html
     assert "Nothing actionable yet: scorer is starved or blocked, not bearish." in html
     assert "Next lever: fresh-check material names" in html
     assert "Stage $151,266 GOOGL buy" in html

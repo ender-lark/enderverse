@@ -874,6 +874,275 @@ def _build_fed_day_watch_queue(state: dict[str, Any], cards: list[dict[str, Any]
     return queue
 
 
+PASSIVITY_BUCKET_LABELS = {
+    "operator_owned_actionable_now": "yours to decide now",
+    "waiting_market_price_tape_gate": "waiting on market/price/tape gate",
+    "waiting_source_data_freshness": "waiting on source/data freshness",
+    "research_watch_only": "research/watch-only",
+    "cap_risk_cash_constrained": "cap/risk/cash constrained",
+    "system_blocked_not_checked": "system-blocked/not_checked",
+}
+
+
+def _card_lane(card: dict[str, Any]) -> str:
+    move = (card.get("decision_card") or {}).get("move") or {}
+    lane = str(move.get("lane") or card.get("lane") or card.get("kind") or "").strip()
+    if lane:
+        return lane
+    direction = _card_action_direction(card).lower()
+    return direction or "decision"
+
+
+def _decision_key(card: dict[str, Any]) -> str:
+    ticker = str(card.get("ticker") or "").strip().upper() or "UNKNOWN"
+    return f"{ticker}|{_card_lane(card)}"
+
+
+def _card_text_blob(card: dict[str, Any], display: dict[str, Any]) -> str:
+    move = (card.get("decision_card") or {}).get("move") or {}
+    window = card.get("window") or {}
+    sizing = card.get("sizing") or {}
+    return _text_blob(
+        move,
+        window.get("class"),
+        window.get("reasons") or [],
+        window.get("flips") or [],
+        card.get("card_blockers") or [],
+        card.get("gate_notes") or [],
+        display.get("raises") or [],
+        display.get("not_checked") or [],
+        display.get("conflict") or "",
+        sizing,
+    ).lower()
+
+
+def _card_is_operator_actionable(
+    card: dict[str, Any],
+    display: dict[str, Any],
+    *,
+    window_class: str,
+    posture: dict[str, str],
+) -> bool:
+    return (
+        not _is_funding_leg(card)
+        and posture.get("copy_verb") == "ACT"
+        and window_class == "OPEN-NOW"
+        and not card.get("card_blockers")
+        and not card.get("conflicts")
+        and not display.get("conflict")
+    )
+
+
+def _ownership_bucket_for_card(card: dict[str, Any], display: dict[str, Any]) -> dict[str, Any]:
+    window = card.get("window") or {}
+    window_class = str(window.get("class") or "WAIT")
+    direction = _card_action_direction(card)
+    posture = _review_posture(
+        card,
+        check_first=bool(card.get("card_blockers")),
+        window_class=window_class,
+        direction=direction,
+    )
+    blob = _card_text_blob(card, display)
+    sizing = card.get("sizing") or {}
+    if _card_is_operator_actionable(card, display, window_class=window_class, posture=posture):
+        return {
+            "bucket": "operator_owned_actionable_now",
+            "label": PASSIVITY_BUCKET_LABELS["operator_owned_actionable_now"],
+            "reason": "No card blocker, conflict, or wait gate is visible in this render.",
+            "operator_latency": True,
+            "open_days": 0,
+        }
+    if _is_funding_leg(card) or sizing.get("heat") in {"ABOVE_CAP", "CAP_CLIPPED"} or any(
+        token in blob for token in ("cap", "cash", "funding", "concentration", "leverage", "margin", "eligibility")
+    ):
+        return {
+            "bucket": "cap_risk_cash_constrained",
+            "label": PASSIVITY_BUCKET_LABELS["cap_risk_cash_constrained"],
+            "reason": "Capital, funding, account, or risk rail constrains this item.",
+            "operator_latency": False,
+        }
+    if any(token in blob for token in ("not_checked", "not checked", "source", "13f", "insider", "fs inbox", "fundstrat", "uw proof", "same-session", "graded call")):
+        return {
+            "bucket": "waiting_source_data_freshness",
+            "label": PASSIVITY_BUCKET_LABELS["waiting_source_data_freshness"],
+            "reason": "Source, same-session proof, or data freshness is still missing.",
+            "operator_latency": False,
+        }
+    if window_class in {"WAIT", "GATED", "STAGE-ONLY"} or any(
+        token in blob for token in ("gate", "price", "tape", "trigger", "market", "flow")
+    ):
+        return {
+            "bucket": "waiting_market_price_tape_gate",
+            "label": PASSIVITY_BUCKET_LABELS["waiting_market_price_tape_gate"],
+            "reason": "Market, price, tape, or timing gate is still waiting.",
+            "operator_latency": False,
+        }
+    if any(token in blob for token in ("wired", "system", "lane goes live")):
+        return {
+            "bucket": "system_blocked_not_checked",
+            "label": PASSIVITY_BUCKET_LABELS["system_blocked_not_checked"],
+            "reason": "The system has not checked or wired one required lane.",
+            "operator_latency": False,
+        }
+    return {
+        "bucket": "research_watch_only",
+        "label": PASSIVITY_BUCKET_LABELS["research_watch_only"],
+        "reason": "Visible for research/watch context; not an operator-latency item.",
+        "operator_latency": False,
+    }
+
+
+def _annotate_action_first_fields(cards: list[dict[str, Any]]) -> None:
+    for card in cards:
+        display = card.get("conviction_display") or build_conviction_display(card)
+        key = _decision_key(card)
+        card["decision_key"] = key
+        card["decision_key_parts"] = {
+            "ticker": str(card.get("ticker") or "").strip().upper() or "UNKNOWN",
+            "lane": _card_lane(card),
+        }
+        card["ownership"] = _ownership_bucket_for_card(card, display)
+
+
+def _passivity_summary(cards: list[dict[str, Any]], watch_queue: list[dict[str, Any]]) -> dict[str, Any]:
+    counts = {key: 0 for key in PASSIVITY_BUCKET_LABELS}
+    rows: list[dict[str, Any]] = []
+    for card in cards:
+        ownership = card.get("ownership") or {}
+        bucket = ownership.get("bucket") or "research_watch_only"
+        counts[bucket] = counts.get(bucket, 0) + 1
+        row = {
+            "decision_key": card.get("decision_key") or _decision_key(card),
+            "ticker": str(card.get("ticker") or "").strip().upper(),
+            "lane": _card_lane(card),
+            "bucket": bucket,
+            "label": PASSIVITY_BUCKET_LABELS.get(bucket, bucket),
+            "reason": ownership.get("reason") or "",
+        }
+        if ownership.get("operator_latency"):
+            row["open_days"] = int(ownership.get("open_days") or 0)
+        rows.append(row)
+    if watch_queue:
+        counts["research_watch_only"] = counts.get("research_watch_only", 0) + len(watch_queue)
+    line = (
+        f"{counts.get('operator_owned_actionable_now', 0)} are yours to decide now; "
+        f"{counts.get('waiting_market_price_tape_gate', 0)} waiting on market/price/tape; "
+        f"{counts.get('waiting_source_data_freshness', 0)} waiting on source/data; "
+        f"{counts.get('research_watch_only', 0)} research/watch-only; "
+        f"{counts.get('cap_risk_cash_constrained', 0)} cap/risk/cash constrained; "
+        f"{counts.get('system_blocked_not_checked', 0)} system-blocked/not_checked."
+    )
+    return {
+        "line": line,
+        "counts": counts,
+        "operator_latency_count": counts.get("operator_owned_actionable_now", 0),
+        "rows": rows,
+        "honesty_rule": "Only bucket operator_owned_actionable_now is operator latency; all other buckets are waiting on rails, markets, data, or research state.",
+    }
+
+
+def _primary_capital_decision(cards: list[dict[str, Any]]) -> dict[str, Any] | None:
+    ranked = [
+        card for card in cards
+        if not _is_funding_leg(card) and _is_material(card)
+    ] or [
+        card for card in cards
+        if not _is_funding_leg(card)
+    ] or list(cards)
+    operator_ready = [
+        card for card in ranked
+        if (card.get("ownership") or {}).get("bucket") == "operator_owned_actionable_now"
+    ]
+    return (operator_ready or ranked or [None])[0]
+
+
+def _rail_line_for_card(card: dict[str, Any]) -> str:
+    sizing = card.get("sizing") or {}
+    execn = card.get("execution") or {}
+    parts = []
+    if sizing.get("cap_basis"):
+        parts.append(str(sizing["cap_basis"]))
+    if sizing.get("heat"):
+        parts.append(f"heat {sizing['heat']}")
+    if execn.get("cash"):
+        parts.append(f"cash {execn['cash']}")
+    if execn.get("suggested"):
+        suggested = execn["suggested"]
+        parts.append(
+            "account "
+            + " ".join(str(suggested.get(key) or "").strip() for key in ("owner", "broker", "account")).strip()
+        )
+    if _is_funding_leg(card):
+        parts.append("funding leg must stay paired")
+    return "; ".join(part for part in parts if part) or "Normal source, sizing, concentration, and account rails still apply."
+
+
+def _primary_button_model(card: dict[str, Any] | None) -> dict[str, str]:
+    if not card:
+        return {}
+    display = card.get("conviction_display") or build_conviction_display(card)
+    window_class = str((card.get("window") or {}).get("class") or "WAIT")
+    direction = _card_action_direction(card)
+    posture = _review_posture(
+        card,
+        check_first=bool(card.get("card_blockers")),
+        window_class=window_class,
+        direction=direction,
+    )
+    cid = str(card.get("card_id") or "")
+    copy = (
+        f"ACT {cid}" if posture["copy_verb"] == "ACT"
+        else f'{posture["copy_verb"]} {cid}{posture["copy_suffix"]}'
+    )
+    return {
+        "card_id": cid,
+        "label": posture.get("label") or posture.get("copy_verb") or "RECHECK",
+        "state_verb": posture.get("state_verb") or posture.get("copy_verb") or "RECHECK",
+        "copy": copy,
+        "muted": "0" if posture.get("copy_verb") == "ACT" else "1",
+    }
+
+
+def _first_viewport_model(
+    cards: list[dict[str, Any]],
+    watch_queue: list[dict[str, Any]],
+    passivity: dict[str, Any],
+) -> dict[str, Any]:
+    card = _primary_capital_decision(cards)
+    if not card:
+        return {
+            "status": "empty",
+            "decision": "No capital-changing decision surfaced in TODAY/DECIDE.",
+            "size": "No tranche implied.",
+            "blocker": "No visible decision card.",
+            "changed": "No prior reliable build baseline yet.",
+            "risk_rail": "Normal survival rails still apply.",
+            "safe_wait": f"{len(watch_queue)} research/watch-only item(s) can wait.",
+            "button": {},
+        }
+    display = card.get("conviction_display") or build_conviction_display(card)
+    window_class = str((card.get("window") or {}).get("class") or "WAIT")
+    blocker = _primary_blocker_text(card, display, check_first=bool(card.get("card_blockers")), window_class=window_class)
+    direction = _card_action_direction(card).upper()
+    return {
+        "status": "has_primary",
+        "decision_key": card.get("decision_key") or _decision_key(card),
+        "ticker": str(card.get("ticker") or "").upper(),
+        "lane": _card_lane(card),
+        "decision": f"{direction or 'REVIEW'} {str(card.get('ticker') or '').upper()}",
+        "size": f"{_money_text(card.get('dollars'))} tranche; {_size_label(card)}",
+        "blocker": blocker,
+        "changed": "No prior reliable build baseline yet.",
+        "risk_rail": _rail_line_for_card(card),
+        "safe_wait": (
+            f"{passivity.get('counts', {}).get('research_watch_only', 0)} research/watch-only "
+            f"and {passivity.get('counts', {}).get('cap_risk_cash_constrained', 0)} rail-constrained item(s) can wait."
+        ),
+        "button": _primary_button_model(card),
+    }
+
+
 def build_today_decide_payload(
     *,
     feed: dict[str, Any] | None = None,
@@ -930,6 +1199,10 @@ def build_today_decide_payload(
     attach_conviction_displays(all_cards)
     fed_day_state = _fed_day_freshness(feed, today_iso)
     _attach_fed_day_context(all_cards, fed_day_state)
+    watch_queue = _build_fed_day_watch_queue(fed_day_state, all_cards)
+    _annotate_action_first_fields(all_cards)
+    passivity = _passivity_summary(all_cards, watch_queue)
+    first_viewport = _first_viewport_model(all_cards, watch_queue, passivity)
     honesty = dict(stack["honesty"])
     if fed_day_state.get("honesty"):
         honesty["fed_day_packet"] = fed_day_state["honesty"]
@@ -959,9 +1232,11 @@ def build_today_decide_payload(
         ],
         "data_health": data_health,
         "trust_panel": _build_trust_panel(data_health),
+        "first_viewport": first_viewport,
+        "passivity": passivity,
         "cards": stack["cards"],
         "backlog": stack["backlog"],
-        "watch_queue": _build_fed_day_watch_queue(fed_day_state, all_cards),
+        "watch_queue": watch_queue,
         "watch_queue_meta": {
             "freshness": fed_day_state.get("freshness") or "absent",
             "packet_as_of": fed_day_state.get("packet_as_of"),
@@ -985,6 +1260,22 @@ _CSS = """
 .td .td-anchor{font-size:17px;margin:8px 0 2px 0}
 .td .td-pace{color:#94a3b8;font-style:italic;font-size:11px;margin:0 0 10px 0}
 .td .td-plan{color:#cbd5e1;font-size:13px;margin:0 0 10px 0}
+.td .td-first{border:1px solid #475569;border-left:5px solid #38bdf8;border-radius:12px;
+  background:#07101e;padding:12px;margin:10px 0 12px}
+.td .td-first-kicker{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.08em}
+.td .td-first-decision{font-size:23px;color:#f8fafc;font-weight:900;line-height:1.12;margin:3px 0 8px}
+.td .td-first-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.td .td-first-cell{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:8px;min-width:0}
+.td .td-first-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-first-value{font-size:13px;color:#e2e8f0;line-height:1.35;margin-top:3px}
+.td .td-first-rail{margin-top:9px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.td .td-passivity{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-passivity-title{font-size:12px;color:#f8fafc;font-weight:850;margin-bottom:4px}
+.td .td-passivity-line{font-size:12px;color:#cbd5e1;line-height:1.4}
+.td .td-passivity-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px;margin-top:8px}
+.td .td-passivity-bucket{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:7px}
+.td .td-passivity-count{font-size:16px;color:#f8fafc;font-weight:900}
+.td .td-passivity-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:850;letter-spacing:.04em}
 .td .td-verdict{border:1px solid #334155;border-left:4px solid #38bdf8;border-radius:10px;
   background:#08111f;padding:10px 12px;margin:10px 0 12px}
 .td .td-verdict-title{font-size:15px;color:#f8fafc;font-weight:850;margin-bottom:3px}
@@ -1106,6 +1397,7 @@ _CSS = """
   .td .td-plan{font-size:12px;margin-bottom:6px}
   .td .td-health-full{display:none}
   .td .td-health-compact{display:block}
+  .td .td-first-grid{grid-template-columns:1fr}
   .td .td-face-top{display:block}
   .td .td-face-right{justify-content:flex-start;margin-top:7px}
   .td .td-face-title{font-size:18px}
@@ -1985,6 +2277,72 @@ def _render_top_verdict(payload: dict[str, Any]) -> str:
     )
 
 
+def _render_first_viewport(payload: dict[str, Any]) -> str:
+    model = payload.get("first_viewport") or {}
+    decision = str(model.get("decision") or "No capital-changing decision surfaced.")
+    button = model.get("button") or {}
+    button_html = ""
+    if button and model.get("status") == "has_primary":
+        muted = " td-rail-muted" if button.get("muted") == "1" else ""
+        button_html = (
+            f'<button class="td-rail{muted}" data-card="{_esc(button.get("card_id") or "")}" '
+            f'data-verb="{_esc(button.get("state_verb") or "RECHECK")}" data-copy="{_esc(button.get("copy") or "")}" '
+            f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">{_esc(button.get("label") or "RECHECK")}</button>'
+        )
+    cells = [
+        ("Size/tranche", model.get("size") or "No tranche implied."),
+        ("Blocked by", model.get("blocker") or "No blocker surfaced."),
+        ("Changed", model.get("changed") or "No prior reliable build baseline yet."),
+        ("Risk rail", model.get("risk_rail") or "Normal survival rails still apply."),
+        ("Can wait", model.get("safe_wait") or "Research/watch-only items can wait."),
+    ]
+    return (
+        '<div class="td-first">'
+        '<div class="td-first-kicker">Primary capital/risk decision</div>'
+        f'<div class="td-first-decision">{_esc(decision)}</div>'
+        '<div class="td-first-grid">'
+        + "".join(
+            '<div class="td-first-cell">'
+            f'<div class="td-first-label">{_esc(label)}</div>'
+            f'<div class="td-first-value">{_esc(value)}</div>'
+            '</div>'
+            for label, value in cells
+        )
+        + '</div>'
+        + (f'<div class="td-first-rail">{button_html}<span class="td-row">Rail copy is render-only; no trade executes.</span></div>' if button_html else "")
+        + '</div>'
+    )
+
+
+def _render_passivity_panel(payload: dict[str, Any]) -> str:
+    passivity = payload.get("passivity") or {}
+    counts = passivity.get("counts") or {}
+    buckets = [
+        "operator_owned_actionable_now",
+        "waiting_market_price_tape_gate",
+        "waiting_source_data_freshness",
+        "research_watch_only",
+        "cap_risk_cash_constrained",
+        "system_blocked_not_checked",
+    ]
+    return (
+        '<div class="td-passivity">'
+        '<div class="td-passivity-title">Ownership-aware passivity</div>'
+        f'<div class="td-passivity-line">{_esc(passivity.get("line") or "")}</div>'
+        '<div class="td-passivity-grid">'
+        + "".join(
+            '<div class="td-passivity-bucket">'
+            f'<div class="td-passivity-count">{int(counts.get(bucket) or 0)}</div>'
+            f'<div class="td-passivity-label">{_esc(PASSIVITY_BUCKET_LABELS.get(bucket, bucket))}</div>'
+            '</div>'
+            for bucket in buckets
+        )
+        + '</div>'
+        f'<div class="td-row">{_esc(passivity.get("honesty_rule") or "")}</div>'
+        '</div>'
+    )
+
+
 def _render_trust_panel(payload: dict[str, Any]) -> str:
     panel = payload.get("trust_panel") or {}
     if not panel:
@@ -2303,6 +2661,8 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
              + (f'funding pool ${pool:,.0f}' if isinstance(pool, (int, float)) else 'funding pool n/a')
              + (f' Â· shortfall ${short:,.0f}' if isinstance(short, (int, float)) else '')
              + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
+    h.append(_render_first_viewport(payload))
+    h.append(_render_passivity_panel(payload))
     h.append(_render_trust_panel(payload))
     h.append(_render_top_verdict(payload))
     rank = 1
