@@ -848,5 +848,39 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_6d5afddb6294"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "UBS",
+    "tier": "D",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton flags Financials/banks as risk-on leadership; UBS has broken out from a 19-year base and is one of his favorites, with expected push over $60 over the next month.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-17",
+    "window_end": "2026-08-16",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-17",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_2bfd31d72425"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "XBI",
+    "tier": "A",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "Newton flags Biotech outperformance inside Healthcare; XBI is breaking out to a five-year high while IBB lags, with upside target near $173 around the Feb 2021 peak.",
+    "falsification_condition": "FALSIFIED if ['XBI', 'IBB'] fails to reach stated target within window, OR stop hit before target",
+    "date": "2026-06-17",
+    "window_end": "2026-08-16",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-17",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_ca0154867499"
   }
 ]
