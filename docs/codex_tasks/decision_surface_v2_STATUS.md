@@ -4,7 +4,7 @@ Recovery anchor: `docs/codex_tasks/decision_surface_v2_overnight_plan.md`.
 
 ## Morning Report
 
-Status: in progress. Slice 2 is adding the Fed-packet staleness honesty gate.
+Status: in progress. Slice 3 is correcting docs and naming deferrals.
 
 ## Ground Truth
 
@@ -24,8 +24,8 @@ Status: in progress. Slice 2 is adding the Fed-packet staleness honesty gate.
 
 - Slice 0 - setup, plan anchor, baseline, workboard claim: DONE `d838821`.
 - Slice 1 - `build_without_wire` integration-debt guardrail: DONE `2e4901e`.
-- Slice 2 - Fed-packet staleness honesty gate: IN-PROGRESS.
-- Slice 3 - docs and named deferrals: pending.
+- Slice 2 - Fed-packet staleness honesty gate: DONE `11f88a9`.
+- Slice 3 - docs and named deferrals: IN-PROGRESS.
 - Slice 4 - verification, PR, merge gate, post-merge closeout: pending.
 
 ## Slice 1 Notes
@@ -52,6 +52,14 @@ Status: in progress. Slice 2 is adding the Fed-packet staleness honesty gate.
 - Focused checks: `python -m pytest src\test_decision_surface_v2_delta.py src\test_today_decide.py src\test_jsx_parity.py -q` -> 38 passed.
 - `python src\build_golden.py --check`: drift-free.
 - Fresh temporary render: `tmp\dsv2_delta_dashboard.html`, watch queue shows 14 rows with current 2026-06-17 packet freshness.
+
+## Slice 3 Notes
+
+- Copied `docs/decision_surface_coverage_audit_2026_06_17.md` from the operator worktree because it was not present on `origin/main`.
+- Updated the audit to mark the original fed-packet orphan finding as historical and corrected the coverage matrix: fed packet now partially reaches Today/Decide through rail-free `watch_queue`; 107-name screen remains deferred.
+- Added the action-first Today/Decide lane contract, fed-packet freshness rail, and `build_without_wire` guardrail to `docs/investing_os_system_architecture.md`.
+- Added the same guardrail/freshness rules to `AGENTS.md` V3 protocol.
+- Named deferrals preserved: orphan_wiring live thread, watch_queue disposition rail, Finding 4 unification, 107-name `watchlist_discount_screen`, daily regenerated discount/pullback packet.
 
 ## Known Deferrals To Preserve
 
