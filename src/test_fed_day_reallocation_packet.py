@@ -52,10 +52,12 @@ def test_daily_packet_is_candidate_only_and_has_required_sections():
     assert packet["source_status"]["market_timing"]["status"] == "checked"
     assert packet["source_status"]["social_watch"]["status"] == "not_checked"
     assert packet["source_status"]["notion_research_queue"]["writeback"] == "not_needed_no_new_notion_write"
+    assert packet["current_market_update"]["stance"] == "AMBER_PRE_FOMC_ROTATION"
+    assert packet["gates"]["current_status"] == "AMBER_PRE_FOMC_ROTATION"
     assert [row["ticker"] for row in packet["act_if_green"]] == BASE_ADD_TICKERS
-    assert packet["stage_if_amber"]["total_starter_band_usd"] == {"low": 25000, "high": 60000}
+    assert packet["stage_if_amber"]["total_starter_band_usd"] == {"low": 20000, "high": 45000}
     assert any("Options remain review-only" in row for row in packet["do_not_touch_yet"])
-    assert "AMBER_PRE_FOMC" not in json.dumps(packet, sort_keys=True)
+    assert "AMBER_PRE_FOMC_ROTATION" in json.dumps(packet, sort_keys=True)
 
 
 def test_daily_packet_uses_broker_exposure_not_only_tracked_positions():
@@ -64,6 +66,10 @@ def test_daily_packet_uses_broker_exposure_not_only_tracked_positions():
 
     assert by_ticker["GOOGL"]["existing_exposure_usd"] > 0
     assert by_ticker["MSFT"]["existing_exposure_usd"] > 0
+    assert by_ticker["GOOGL"]["dollar_band"] == {"low": 60000.0, "high": 110000.0}
+    assert by_ticker["GOOGL"]["model_reference_band"] == {"low": 100000.0, "high": 155000.0}
+    assert by_ticker["MSFT"]["dollar_band"] == {"low": 15000.0, "high": 30000.0}
+    assert by_ticker["MSFT"]["model_reference_band"] == {"low": 25000.0, "high": 40000.0}
     assert by_ticker["GOOGL"]["post_band_exposure_pct"]["high"] > by_ticker["GOOGL"]["existing_exposure_pct"]
     assert by_ticker["GOOGL"]["execution_status"] == "not_executed"
     assert by_ticker["GOOGL"]["options_status"] == "review_only"
@@ -86,4 +92,6 @@ def test_daily_packet_accepts_new_as_of_without_event_specific_status():
     assert packet["as_of"] == "2026-06-18"
     assert packet["display_label"] == "Daily pullback packet"
     assert packet["gates"]["current_status"] == "STAGE_UNTIL_LIVE_TAPE_CONFIRMS"
+    assert packet["stage_if_amber"]["total_starter_band_usd"] == {"low": 25000, "high": 60000}
     assert "Fed-day" not in json.dumps(packet, sort_keys=True)
+    assert "AMBER_PRE_FOMC" not in json.dumps(packet, sort_keys=True)

@@ -58,6 +58,16 @@ DEEP_DISCOUNT_FOCUS = ["BMNR", "LEU", "AVAV", "KTOS", "ELF", "SOFI", "UUUU", "MP
 QUALITY_PULLBACK_FOCUS = ["MSFT", "AVGO", "FN", "VRT", "AMZN", "NVDA", "GOOGL"]
 BASE_ADD_TICKERS = ["GOOGL", "MSFT"]
 FUNDING_ORDER = ["IVES", "GRNY", "MAGS", "SMH"]
+MODEL_REFERENCE_BANDS = {
+    "GOOGL": (100_000.0, 155_000.0),
+    "MSFT": (25_000.0, 40_000.0),
+}
+FED_DAY_UPDATED_BANDS = {
+    "GOOGL": (60_000.0, 110_000.0),
+    "MSFT": (15_000.0, 30_000.0),
+}
+DEFAULT_AMBER_STARTER_BAND = {"low": 25_000, "high": 60_000}
+FED_DAY_AMBER_STARTER_BAND = {"low": 20_000, "high": 45_000}
 
 CASH_LIKE = {"CASH", "FCASH", "FDRXX", "SPAXX"}
 NON_EQUITY = {"BTC", "ETH", "SOL", "AAVE", "HYPE", "TRUMP"}
@@ -69,24 +79,38 @@ LIVE_NOTION_RESEARCH = {
         "state": "MONITOR",
         "line": "Live Research Queue keeps BMNR monitor-first until mNAV, ETH-per-share, preferred coverage, and settlement-era price/flow are resolved.",
         "url": "https://app.notion.com/p/37ac50314bb681c09354df955c2e491d",
-        "fetched_at": "2026-06-17T05:09:00Z",
+        "fetched_at": "2026-06-17T17:16:00Z",
     },
     "GOOGL": {
         "status": "Working",
         "priority": "High",
         "state": "WATCH",
-        "line": "Live Research Queue keeps GOOGL staged around the tranche-2 trigger; financing is mixed-positive but still needs price/flow and dilution discipline.",
+        "line": "Live Research Queue keeps GOOGL staged around the tranche-2 trigger; today's synthesis shows a target gap, but pre-FOMC tape keeps adds reduced and gated.",
         "url": "https://app.notion.com/p/37ac50314bb68100b6ecda51e1a8479e",
-        "fetched_at": "2026-06-17T05:09:00Z",
+        "fetched_at": "2026-06-17T17:16:00Z",
     },
     "AVGO": {
         "status": "Working",
         "priority": "Med",
         "state": "STAGE",
-        "line": "Live AVGO diligence supports a high-quality pullback/swap candidate, but says stage while tape and source confirmation remain mixed.",
+        "line": "Live AVGO diligence supports a high-quality pullback/swap candidate; move it up only if post-Fed semi tape and flow beat GOOGL/MSFT.",
         "url": "https://app.notion.com/p/381c50314bb681a7a124cc8abf0fe78f",
-        "fetched_at": "2026-06-17T05:10:00Z",
+        "fetched_at": "2026-06-17T17:16:00Z",
     },
+}
+
+FED_DAY_MARKET_UPDATE = {
+    "observed_at": "2026-06-17 13:16 ET",
+    "stance": "AMBER_PRE_FOMC_ROTATION",
+    "headline": "Mixed pre-FOMC tape and Fundstrat broadening work argue for reduced, staged deployment instead of the full model band before the Fed reaction is known.",
+    "facts": [
+        "Federal Reserve calendar confirms the June 16-17 meeting is SEP-associated, with the June 17 decision still the gating event.",
+        "Same-day market/news scan showed mixed indexes before the Fed: Dow/small caps firmer, Nasdaq/AI softer, and Treasury yields slightly higher.",
+        "Fundstrat latest research keeps near-term equity trends intact and says tech leadership has not cracked, but also highlights growth-to-value broadening and warns against chasing stretched tech.",
+        "Notion Daily Synthesis keeps Middle East oil/rates event risk on top, Social Watch dark, and Research Queue focus on BMNR, GOOGL, and AVGO.",
+        "Oil is below the panic trigger in today's news tape, but the repo trigger still watches WTI near 99-101 and 10Y yields near 4.55-4.59.",
+    ],
+    "implication": "Keep the GOOGL/MSFT rotation alive, but reduce today's actionable bands, stage only if amber, and let AVGO become the top secondary swap review rather than a primary pre-Fed add.",
 }
 
 MARKET_SOURCE_LINKS = {
@@ -359,13 +383,13 @@ def _disconfirmation(ticker: str, source_context: dict[str, Any]) -> str:
         "ELF": "Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence.",
         "SOFI": "Fundstrat bottom-list conflict and small current exposure make this research-only.",
         "HOOD": "Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review.",
-        "AVGO": "Advance only if current tape and fresh flow beat GOOGL/MSFT on capital efficiency.",
+        "AVGO": "Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI.",
         "FN": "Advance only if optical/AI infrastructure evidence and flow beat the base packet.",
         "VRT": "Advance only if power/cooling flow and entry quality beat the base packet.",
         "AMZN": "Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet.",
         "NVDA": "Already large; pullback is not enough unless target/sizing room and flow support it.",
-        "GOOGL": "Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add.",
-        "MSFT": "Do not deploy if the laggard thesis remains only valuation-based without live confirmation.",
+        "GOOGL": "Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction.",
+        "MSFT": "Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation.",
     }
     if ticker in specific:
         return specific[ticker]
@@ -489,6 +513,9 @@ def _action_row(
     ticker: str,
     *,
     band: tuple[float, float],
+    model_reference_band: tuple[float, float],
+    market_stance: str,
+    amber_starter_band: dict[str, int],
     reallocation: dict[str, Any],
     positions_by_ticker: dict[str, dict[str, Any]],
     total_book_value: float,
@@ -500,10 +527,19 @@ def _action_row(
     return {
         "ticker": ticker,
         "status": "candidate_only",
-        "gate_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
+        "gate_status": market_stance,
         "dollar_band": {"low": band[0], "high": band[1]},
+        "model_reference_band": {"low": model_reference_band[0], "high": model_reference_band[1]},
         "green_first_tranche": {"low": round(band[0] * 0.5, 2), "high": round(band[1] * 0.7, 2)},
-        "amber_starter_context": "Use the combined $25k-$60k amber starter cap across GOOGL/MSFT, not this full band.",
+        "amber_starter_context": (
+            f"Use the combined {_fmt_usd(amber_starter_band['low'])}-{_fmt_usd(amber_starter_band['high'])} "
+            "amber starter cap across GOOGL/MSFT, not this full band."
+        ),
+        "current_update_reason": (
+            "Reduced from the model reference band while the June 17 pre-Fed tape is mixed and Fundstrat/Notion context favors staged confirmation."
+            if market_stance == "AMBER_PRE_FOMC_ROTATION"
+            else "Uses the model reference band only after same-day market/source context is refreshed."
+        ),
         "existing_exposure_usd": round(existing, 2),
         "existing_exposure_pct": round(existing / total_book_value * 100.0, 2) if total_book_value else 0.0,
         "post_band_exposure_pct": {
@@ -516,8 +552,8 @@ def _action_row(
         "funding_pool_context": _funding_band(reallocation),
         "account_placement_candidate": _placement_candidate(ticker, mid, accounts),
         "do_nothing_cost": (
-            f"{ticker} stays under the intended AI-core exposure if the thesis is right and live tape confirms; "
-            "cash/funding avoids churn if price, flow, rates, oil, or source review turn hostile."
+            f"{ticker} can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add "
+            "into mixed breadth, slightly higher yields, and unresolved source/flow checks."
         ),
         "disconfirmation": _disconfirmation(ticker, _source_context(ticker, top_prospects={}, source_calls=[], research_queue={})),
         "options_status": "review_only",
@@ -525,21 +561,46 @@ def _action_row(
     }
 
 
-def _market_gates() -> dict[str, Any]:
+def _current_market_update(as_of: str) -> dict[str, Any]:
+    if as_of == "2026-06-17":
+        return FED_DAY_MARKET_UPDATE
     return {
-        "current_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
+        "observed_at": "",
+        "stance": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
+        "headline": "No event-specific same-day overlay is loaded for this date; refresh current market, Fundstrat, and Notion context before action.",
+        "facts": [],
+        "implication": "Use the model reference bands only as staged candidates until live evidence is refreshed.",
+    }
+
+
+def _action_bands(as_of: str) -> dict[str, tuple[float, float]]:
+    if as_of == "2026-06-17":
+        return FED_DAY_UPDATED_BANDS
+    return MODEL_REFERENCE_BANDS
+
+
+def _amber_starter_band(as_of: str) -> dict[str, int]:
+    if as_of == "2026-06-17":
+        return FED_DAY_AMBER_STARTER_BAND
+    return DEFAULT_AMBER_STARTER_BAND
+
+
+def _market_gates(market_update: dict[str, Any]) -> dict[str, Any]:
+    stance = str(market_update.get("stance") or "STAGE_UNTIL_LIVE_TAPE_CONFIRMS")
+    return {
+        "current_status": stance,
         "green": [
-            "QQQ/SPY hold up and AI/semi tape is not rejecting the move.",
-            "Yields and oil are not spiking against duration/growth exposure.",
+            "After the Fed statement and press conference, QQQ/SPY hold up and AI/semi tape is not rejecting the move.",
+            "Yields and oil are not spiking against duration/growth exposure; 10Y is not moving toward the 4.55-4.59 trigger zone.",
             "UW price/flow fetches are present and not manually interpreted as contradictory.",
             "Current source review does not contradict the staged add.",
         ],
         "stage": [
-            "Tape is mixed, breadth/rates/oil conflict, UW rows remain inconclusive, or source review is incomplete.",
-            "Keep rows as research/recheck context or use only a deliberately reviewed starter plan.",
+            "Pre-Fed or post-Fed tape is mixed, growth-to-value broadening is outpacing mega-cap AI, or UW/source rows remain incomplete.",
+            "Use only the deliberately reviewed starter cap; keep the rest staged as tickets, not trades.",
         ],
         "red": [
-            "No net-new AI concentration if QQQ/SPY, rates/oil, source review, or same-session flow breaks down.",
+            "No net-new AI concentration if QQQ/SPY, rates/oil, source review, or same-session flow breaks down after the Fed reaction.",
             "Refresh the packet and review defensive trims/hedges separately.",
         ],
     }
@@ -574,6 +635,9 @@ def build_packet(
         must_keep = list(MANUAL_WATCHLIST | set(positions_by_ticker) | set(BASE_ADD_TICKERS))
         tickers = sorted(set(tickers[:max_tickers]) | {_ticker(t) for t in must_keep if _ticker(t)})
 
+    market_update = _current_market_update(as_of)
+    action_bands = _action_bands(as_of)
+    amber_band = _amber_starter_band(as_of)
     quotes = {ticker: quote_provider(ticker) for ticker in tickers}
     discount_rows = _build_discount_rows(
         tickers,
@@ -590,8 +654,28 @@ def build_packet(
 
     accounts = load_accounts(SRC / "account_positions.json", SRC / "account_rules.json")
     action_rows = [
-        _action_row("GOOGL", band=(100_000.0, 155_000.0), reallocation=reallocation, positions_by_ticker=positions_by_ticker, total_book_value=total_book_value, accounts=accounts),
-        _action_row("MSFT", band=(25_000.0, 40_000.0), reallocation=reallocation, positions_by_ticker=positions_by_ticker, total_book_value=total_book_value, accounts=accounts),
+        _action_row(
+            "GOOGL",
+            band=action_bands["GOOGL"],
+            model_reference_band=MODEL_REFERENCE_BANDS["GOOGL"],
+            market_stance=str(market_update.get("stance") or "STAGE_UNTIL_LIVE_TAPE_CONFIRMS"),
+            amber_starter_band=amber_band,
+            reallocation=reallocation,
+            positions_by_ticker=positions_by_ticker,
+            total_book_value=total_book_value,
+            accounts=accounts,
+        ),
+        _action_row(
+            "MSFT",
+            band=action_bands["MSFT"],
+            model_reference_band=MODEL_REFERENCE_BANDS["MSFT"],
+            market_stance=str(market_update.get("stance") or "STAGE_UNTIL_LIVE_TAPE_CONFIRMS"),
+            amber_starter_band=amber_band,
+            reallocation=reallocation,
+            positions_by_ticker=positions_by_ticker,
+            total_book_value=total_book_value,
+            accounts=accounts,
+        ),
     ]
     funding_check = funding_reality_check(
         reallocation.get("trims") or [],
@@ -609,19 +693,20 @@ def build_packet(
         },
         "fundstrat": {
             "status": "checked_no_new_action_row",
-            "line": "Use current source-call cache/top-prospect context; no new posture is inferred by this packet alone.",
+            "line": "Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.",
         },
         "uw": _uw_status(uw_results),
         "notion_research_queue": {
             "status": "fetched",
             "rows": LIVE_NOTION_RESEARCH,
+            "today_daily_synthesis": "2026-06-17 synthesis keeps Middle East oil/rates event risk on top, Social Watch dark, and BMNR/GOOGL/AVGO in live research focus.",
             "writeback": "not_needed_no_new_notion_write",
         },
         "social_watch": _social_watch_status(feed),
         "market_timing": {
             "status": "checked",
             "links": MARKET_SOURCE_LINKS,
-            "line": "Packet rows require current tape/source confirmation before any capital action.",
+            "line": market_update.get("headline") or "Packet rows require current tape/source confirmation before any capital action.",
         },
     }
 
@@ -635,19 +720,23 @@ def build_packet(
         "honesty_rule": "No trades executed. No option contracts selected. Stale/dark lanes remain visible.",
         "total_book_value_usd": total_book_value,
         "source_status": source_status,
-        "gates": _market_gates(),
+        "current_market_update": market_update,
+        "gates": _market_gates(market_update),
         "base_packet": {
-            "summary": "Gated rotation into GOOGL/MSFT if live tape and source gates pass, funded primarily by GRNY/IVES with small MAGS/SMH cleanup only if useful.",
+            "summary": (
+                "Keep the GOOGL/MSFT rotation live, but today's updated plan reduces the actionable bands and stages deployment "
+                "until the Fed reaction, market breadth, rates, oil, UW flow, and source review confirm."
+            ),
             "actions": action_rows,
             "funding_reality_check": funding_check,
         },
         "act_if_green": action_rows,
         "stage_if_amber": {
-            "total_starter_band_usd": {"low": 25_000, "high": 60_000},
+            "total_starter_band_usd": amber_band,
             "preferred_sequence": [
-                "Stage GOOGL first because it is the larger model gap and has live Research Queue support.",
-                "Add MSFT only as a smaller laggard/capital-efficiency complement.",
-                "Keep AVGO/FN/VRT/AMZN secondary unless current price/flow and source review beat GOOGL/MSFT.",
+                "Before the Fed reaction is known, stage tickets without action or use only the reduced starter cap.",
+                "If amber persists after the Fed, favor a smaller GOOGL starter before MSFT; do not force both names.",
+                "Elevate AVGO to top secondary swap review only if post-Fed semi tape and flow beat GOOGL/MSFT; FN/VRT/AMZN remain secondary.",
             ],
             "execution_status": "not_executed",
         },
@@ -700,6 +789,15 @@ def render_markdown(packet: dict[str, Any]) -> str:
         "",
         "Candidate-only packet. No trades executed. No option contracts selected.",
         "",
+        "## Current Market Update",
+        f"- Stance: {packet['current_market_update']['stance']} ({packet['current_market_update'].get('observed_at') or 'not time stamped'}).",
+        f"- Read: {packet['current_market_update']['headline']}",
+    ]
+    for fact in packet["current_market_update"].get("facts") or []:
+        lines.append(f"- {fact}")
+    lines.extend([
+        f"- Plan impact: {packet['current_market_update']['implication']}",
+        "",
         "## Source Status",
         f"- Positions: {packet['source_status']['positions']['status']} from {packet['source_status']['positions']['snapshot_date']} on {_fmt_usd(packet['total_book_value_usd'])}.",
         f"- UW: {packet['source_status']['uw']['line']}",
@@ -709,17 +807,18 @@ def render_markdown(packet: dict[str, Any]) -> str:
         f"- Market timing: {packet['source_status']['market_timing']['line']}",
         "",
         "## Act If Green",
-        "| Ticker | Band | First tranche | Existing exposure | Post-band exposure | Funding | Placement candidate | Do-nothing cost |",
-        "| --- | ---: | ---: | ---: | ---: | --- | --- | --- |",
-    ]
+        "| Ticker | Updated band | Model ref | First tranche | Existing exposure | Post-band exposure | Funding | Placement candidate | Do-nothing cost |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |",
+    ])
     for row in packet["act_if_green"]:
         funding = ", ".join(f"{item['ticker']} {_fmt_usd(item.get('notional_usd'))}" for item in row.get("funding_source") or [])
         placement = row.get("account_placement_candidate") or {}
         placement_text = " / ".join(_clean_text(part) for part in [placement.get("broker"), placement.get("account"), placement.get("tax_status")] if part)
         lines.append(
-            "| {ticker} | {band} | {tranche} | {existing} ({existing_pct}) | {post_low}-{post_high} | {funding} | {placement} | {cost} |".format(
+            "| {ticker} | {band} | {model_ref} | {tranche} | {existing} ({existing_pct}) | {post_low}-{post_high} | {funding} | {placement} | {cost} |".format(
                 ticker=row["ticker"],
                 band=f"{_fmt_usd(row['dollar_band']['low'])}-{_fmt_usd(row['dollar_band']['high'])}",
+                model_ref=f"{_fmt_usd(row['model_reference_band']['low'])}-{_fmt_usd(row['model_reference_band']['high'])}",
                 tranche=f"{_fmt_usd(row['green_first_tranche']['low'])}-{_fmt_usd(row['green_first_tranche']['high'])}",
                 existing=_fmt_usd(row["existing_exposure_usd"]),
                 existing_pct=_fmt_pct(row["existing_exposure_pct"]),
@@ -732,7 +831,7 @@ def render_markdown(packet: dict[str, Any]) -> str:
         )
     lines.extend([
         "",
-        "Green gate: deploy only if QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.",
+        "Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.",
         "",
         "## Stage If Amber",
         f"- Starter only: {_fmt_usd(packet['stage_if_amber']['total_starter_band_usd']['low'])}-{_fmt_usd(packet['stage_if_amber']['total_starter_band_usd']['high'])} total across GOOGL/MSFT.",
@@ -759,7 +858,7 @@ def render_markdown(packet: dict[str, Any]) -> str:
         f"- Screened rows with chart data: {packet['watchlist_discount_screen']['row_count']}.",
         f"- Not checked: {', '.join(packet['watchlist_discount_screen']['not_checked']) or 'none'}.",
         "",
-        "TLDR: Base plan is a gated GOOGL/MSFT rotation, but current broker exposure and live tape determine whether to deploy, stage, or do nothing.",
+        "TLDR: Current plan is amber pre-Fed: keep the GOOGL/MSFT rotation live, use reduced bands only if gates turn green, and treat AVGO as the top secondary swap review.",
         "YOUR MOVE: Do not execute until execution mode and green/amber/red gates are explicitly reviewed.",
         "NEXT STEP: Re-check current tape/source evidence, then choose green tranche, staged starter, or red no-new-concentration.",
     ])
