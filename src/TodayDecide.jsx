@@ -297,6 +297,23 @@ function PassivityPanel({ payload }) {
   );
 }
 
+function DispositionCoverage({ payload }) {
+  const coverage = payload.disposition_coverage || {};
+  const rows = (coverage.rows || []).slice(0, 5);
+  return (
+    <div style={{ border: "1px solid #334155", borderRadius: 10, background: "#08111f", padding: "10px 12px", margin: "10px 0 12px" }}>
+      <div style={{ fontSize: 12, color: "#f8fafc", fontWeight: 850, marginBottom: 4 }}>Disposition coverage</div>
+      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.4 }}>{coverage.line || ""}</div>
+      {rows.map((row, i) => (
+        <div key={`${row.source || "row"}-${row.ticker || i}`} style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>
+          {row.ticker || row.source}: {row.status} - {row.reason || row.label || ""}
+        </div>
+      ))}
+      <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>{coverage.honesty_rule || ""}</div>
+    </div>
+  );
+}
+
 const shortText = (value, limit = 130) => {
   const text = String(value || "").replace(/\s+/g, " ").trim();
   return text.length <= limit ? text : `${text.slice(0, Math.max(0, limit - 1)).trim()}...`;
@@ -997,6 +1014,7 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
         {sizing.source && <div style={{ fontSize: 13, color: "#cbd5e1" }}>sizing: {sizing.source} suggested ${(sizing.suggested_usd || 0).toLocaleString()} - heat {sizing.heat || "unknown"}</div>}
         {sizing.cap_basis && <div style={{ fontSize: 13, color: "#cbd5e1" }}>cap basis: {sizing.cap_basis}</div>}
         <div style={{ fontSize: 13, color: "#cbd5e1" }}>impact: {impact.band} - material: {impact.material ? "yes" : "no"}</div>
+        {card.after_action?.line && <div style={{ fontSize: 13, color: "#cbd5e1" }}>{card.after_action.line}</div>}
         <details style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, margin: "8px 0", fontSize: 12, color: "#94a3b8" }}>
           <summary style={{ cursor: "pointer", fontWeight: 750 }}>Not checked / optional context</summary>
           <IvHint display={display} />
@@ -1092,6 +1110,7 @@ export default function TodayDecide({ payload }) {
       </div>
       <FirstViewport payload={payload} railState={railState} setRailState={setRailState} />
       <PassivityPanel payload={payload} />
+      <DispositionCoverage payload={payload} />
       <TrustPanel payload={payload} />
       <TopVerdict payload={payload} />
       {sections.map(([label, cards]) => (

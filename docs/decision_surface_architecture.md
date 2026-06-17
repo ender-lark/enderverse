@@ -52,3 +52,16 @@ the survival rails: cap room, funding or cash source, concentration rail,
 account eligibility, and leverage/margin assumption. Goal-gap percentage alone
 is forbidden because it can make an oversized or unfunded trade look more
 actionable than it is.
+
+## 2026-06-17 - Disposition Coverage And After-Action Loop
+
+`disposition_coverage` counts visible non-card candidate rows that do not have
+ACT/PASS/RECHECK rails. Uncovered feed action rows can be marked
+`could_promote_to_today_decide`; watch queues, Social Watch, prospects, and
+research-only rows stay `intentionally_watch_research_only` and are not
+promoted by the renderer.
+
+Each card also gets `after_action`, a display-only read of the latest
+disposition row. It shows the last verb/date, age, next review date when one is
+known, and whether the card is still open. This does not change disposition
+semantics; it only makes prior action state visible to the returning operator.

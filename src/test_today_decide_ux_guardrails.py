@@ -5,6 +5,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import disposition_log as dl
 from test_today_decide import _feed, _gate, _payload
 from today_decide import render_today_decide_html
 
@@ -153,3 +154,46 @@ def test_size_to_goal_never_renders_goal_percent_without_survival_rails():
         assert "% of goal gap" in low
         for token in ("cap room", "funding source", "concentration", "account eligibility", "leverage/margin"):
             assert token in low
+
+
+def test_disposition_coverage_does_not_promote_watch_social_or_research_rows():
+    feed = _feed()
+    feed["actions"].append({"ticker": "AVGO", "kind": "lean_in", "what": "FS lean-in: AVGO"})
+    feed["research_actions"] = [{"ticker": "RDDT", "what": "research only: RDDT"}]
+    feed["prospects"] = [{"ticker": "CRWD", "title": "prospect only: CRWD"}]
+    feed["social_watch"] = {"rows": [{"ticker": "XYZ", "label": "social watch only: XYZ"}]}
+    payload = _payload(feed=feed)
+    coverage = payload["disposition_coverage"]
+    rows = coverage["rows"]
+
+    assert coverage["counts"]["not_covered"] >= 4
+    assert any(row["ticker"] == "AVGO" and row["status"] == "could_promote_to_today_decide" for row in rows)
+    for source in {"research_actions", "prospects", "social_watch"}:
+        assert any(row["source"] == source and row["status"] == "intentionally_watch_research_only" for row in rows)
+    assert "not promoted into trade cards" in coverage["honesty_rule"]
+
+
+def test_after_action_loop_shows_age_next_review_and_open_state(tmp_path):
+    seed = _payload(tmp_path=tmp_path)
+    card = seed["cards"][0]
+    pth = tmp_path / "dispositions.jsonl"
+    dl.append_disposition(
+        "2026-06-10",
+        card["card_id"],
+        card["ticker"],
+        "RECHECK",
+        resurface_date="2026-06-15",
+        path=pth,
+    )
+    payload = _payload(dispositions_path=pth, tmp_path=tmp_path)
+    updated = next(row for row in payload["cards"] + payload["backlog"] if row["card_id"] == card["card_id"])
+    after = updated["after_action"]
+
+    assert after["verb"] == "RECHECK"
+    assert after["age_days"] == 0
+    assert after["next_review_date"] == "2026-06-15"
+    assert after["open"] is True
+    html = render_today_decide_html(payload)
+    assert "last disposition: RECHECK on 2026-06-10" in html
+    assert "next review 2026-06-15" in html
+    assert "open" in html

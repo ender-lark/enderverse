@@ -1332,6 +1332,142 @@ def _annotate_size_to_goal(cards: list[dict[str, Any]], goal_anchor: dict[str, A
             card["size_to_goal"] = model
 
 
+def _parse_iso_day(value: Any) -> date | None:
+    raw = str(value or "").strip()
+    if not raw:
+        return None
+    if "T" in raw:
+        raw = raw.split("T", 1)[0]
+    try:
+        return date.fromisoformat(raw[:10])
+    except ValueError:
+        return None
+
+
+def _after_action_model(card: dict[str, Any], today_iso: str) -> dict[str, Any]:
+    last = card.get("last_disposition") or {}
+    if not last:
+        next_review = str(card.get("recheck_date") or "")
+        return {
+            "status": "open",
+            "open": True,
+            "line": f"after action: no ACT/PASS/RECHECK logged; open; next review {next_review or 'not scheduled'}",
+            "next_review_date": next_review,
+        }
+    verb = str(last.get("verb") or "").upper()
+    et_date = str(last.get("et_date") or "")
+    today_day = _parse_iso_day(today_iso)
+    then = _parse_iso_day(et_date)
+    age = (today_day - then).days if today_day and then else None
+    open_state = verb in {"RECHECK", "UNDO"}
+    next_review = str(last.get("resurface_date") or (card.get("recheck_date") if open_state else "") or "")
+    age_text = f"{age}d ago" if age is not None else "age unknown"
+    state_text = "open" if open_state else "closed"
+    return {
+        "verb": verb,
+        "et_date": et_date,
+        "age_days": age,
+        "open": open_state,
+        "next_review_date": next_review,
+        "status": state_text,
+        "line": (
+            f"last disposition: {verb} on {et_date}; {age_text}; "
+            f"next review {next_review or 'not scheduled'}; {state_text}"
+        ),
+    }
+
+
+def _annotate_after_action(cards: list[dict[str, Any]], today_iso: str) -> None:
+    for card in cards:
+        card["after_action"] = _after_action_model(card, today_iso)
+
+
+def _candidate_rows(value: Any) -> list[dict[str, Any]]:
+    if isinstance(value, list):
+        return [row for row in value if isinstance(row, dict)]
+    if not isinstance(value, dict):
+        return []
+    for key in ("rows", "items", "actions", "research_actions", "prospects", "watch"):
+        rows = value.get(key)
+        if isinstance(rows, list):
+            return [row for row in rows if isinstance(row, dict)]
+    return [row for row in value.values() if isinstance(row, dict)]
+
+
+def _candidate_label(row: dict[str, Any], fallback: str) -> str:
+    return str(
+        row.get("what")
+        or row.get("label")
+        or row.get("title")
+        or row.get("summary")
+        or row.get("name")
+        or row.get("ticker")
+        or fallback
+    ).strip()
+
+
+def _build_disposition_coverage(
+    feed: dict[str, Any],
+    cards: list[dict[str, Any]],
+    watch_queue: list[dict[str, Any]],
+) -> dict[str, Any]:
+    covered_tickers = {str(card.get("ticker") or "").strip().upper() for card in cards if card.get("ticker")}
+    rows: list[dict[str, str]] = []
+
+    def add_row(source: str, row: dict[str, Any], status: str, reason: str) -> None:
+        ticker = str(row.get("ticker") or row.get("symbol") or "").strip().upper()
+        label = _candidate_label(row, source)
+        rows.append({
+            "source": source,
+            "ticker": ticker,
+            "label": label,
+            "status": status,
+            "reason": reason,
+        })
+
+    for row in _candidate_rows(feed.get("actions")):
+        ticker = str(row.get("ticker") or "").strip().upper()
+        if ticker and ticker in covered_tickers:
+            continue
+        kind = str(row.get("kind") or "").strip().lower()
+        promotable = kind in {"lean_in", "buy", "add", "trim", "reduce", "sell", "exit"}
+        add_row(
+            "feed.actions",
+            row,
+            "could_promote_to_today_decide" if promotable else "intentionally_watch_research_only",
+            "uncovered action-lane row" if promotable else "action row is not a capital-decision kind",
+        )
+
+    for source in ("research_actions", "prospects", "research", "social_watch"):
+        for row in _candidate_rows(feed.get(source)):
+            ticker = str(row.get("ticker") or row.get("symbol") or "").strip().upper()
+            if ticker and ticker in covered_tickers:
+                continue
+            add_row(source, row, "intentionally_watch_research_only", f"{source} stays watch/research-only")
+
+    for row in watch_queue:
+        add_row("watch_queue", row, "intentionally_watch_research_only", "pullback/watch queue is not an action card")
+
+    promote = sum(1 for row in rows if row["status"] == "could_promote_to_today_decide")
+    watch_only = sum(1 for row in rows if row["status"] == "intentionally_watch_research_only")
+    line = (
+        f"{len(rows)} visible item{'s' if len(rows) != 1 else ''} not disposition-covered; "
+        f"{promote} could promote to Today/Decide; "
+        f"{watch_only} intentionally watch/research-only."
+    )
+    return {
+        "line": line,
+        "counts": {
+            "not_covered": len(rows),
+            "could_promote_to_today_decide": promote,
+            "intentionally_watch_research_only": watch_only,
+        },
+        "rows": rows[:10],
+        "total_count": len(rows),
+        "honesty_rule": "Coverage is render-only; social/watch/research rows are not promoted into trade cards here.",
+    }
+
+
 def _primary_button_model(card: dict[str, Any] | None) -> dict[str, str]:
     if not card:
         return {}
@@ -1593,6 +1729,7 @@ def build_today_decide_payload(
         card["card_blockers"] = _card_blockers(card, data_health, gates)
         card["gate_notes"] = _card_gate_notes(card, gates, feed)
     all_cards = stack["cards"] + stack["backlog"]
+    _annotate_after_action(all_cards, today_iso)
     attach_conviction_displays(all_cards)
     fed_day_state = _fed_day_freshness(feed, today_iso)
     _attach_fed_day_context(all_cards, fed_day_state)
@@ -1602,6 +1739,7 @@ def build_today_decide_payload(
     goal_anchor = _goal_anchor(feed, goal, today_iso)
     _annotate_size_to_goal(all_cards, goal_anchor)
     passivity = _passivity_summary(all_cards, watch_queue)
+    disposition_coverage = _build_disposition_coverage(feed, all_cards, watch_queue)
     gate_rows = [
         {k: g.get(k) for k in (
             "gate_id", "symbol", "state", "stored_state", "note", "confirm_rule",
@@ -1645,6 +1783,7 @@ def build_today_decide_payload(
         "first_viewport": first_viewport,
         "change_delta": change_delta,
         "passivity": passivity,
+        "disposition_coverage": disposition_coverage,
         "cards": stack["cards"],
         "backlog": stack["backlog"],
         "watch_queue": watch_queue,
@@ -1687,6 +1826,10 @@ _CSS = """
 .td .td-passivity-bucket{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:7px}
 .td .td-passivity-count{font-size:16px;color:#f8fafc;font-weight:900}
 .td .td-passivity-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:850;letter-spacing:.04em}
+.td .td-coverage{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-coverage-title{font-size:12px;color:#f8fafc;font-weight:850;margin-bottom:4px}
+.td .td-coverage-line{font-size:12px;color:#cbd5e1;line-height:1.4}
+.td .td-coverage-row{font-size:12px;color:#94a3b8;line-height:1.35;margin-top:3px}
 .td .td-verdict{border:1px solid #334155;border-left:4px solid #38bdf8;border-radius:10px;
   background:#08111f;padding:10px 12px;margin:10px 0 12px}
 .td .td-verdict-title{font-size:15px;color:#f8fafc;font-weight:850;margin-bottom:3px}
@@ -2795,6 +2938,24 @@ def _render_passivity_panel(payload: dict[str, Any]) -> str:
     )
 
 
+def _render_disposition_coverage(payload: dict[str, Any]) -> str:
+    coverage = payload.get("disposition_coverage") or {}
+    rows = coverage.get("rows") or []
+    sample = rows[:5]
+    return (
+        '<div class="td-coverage">'
+        '<div class="td-coverage-title">Disposition coverage</div>'
+        f'<div class="td-coverage-line">{_esc(coverage.get("line") or "")}</div>'
+        + "".join(
+            f'<div class="td-coverage-row">{_esc(row.get("ticker") or row.get("source") or "")}: '
+            f'{_esc(row.get("status") or "")} - {_esc(row.get("reason") or row.get("label") or "")}</div>'
+            for row in sample
+        )
+        + f'<div class="td-coverage-row">{_esc(coverage.get("honesty_rule") or "")}</div>'
+        + '</div>'
+    )
+
+
 def _render_trust_panel(payload: dict[str, Any]) -> str:
     panel = payload.get("trust_panel") or {}
     if not panel:
@@ -3011,9 +3172,9 @@ def _render_card(
             h.append(f'<div class="td-row">cap basis: {_esc(sizing["cap_basis"])}</div>')
     h.append(f'<div class="td-row">impact: {_esc(impact.get("band"))} Â· material: '
              f'{"yes" if impact.get("material") else "no"}</div>')
-    if card.get("last_disposition"):
-        ld = card["last_disposition"]
-        h.append(f'<div class="td-row">last disposition: {_esc(ld.get("verb"))} on {_esc(ld.get("et_date"))}</div>')
+    after_action = card.get("after_action") or {}
+    if after_action.get("line"):
+        h.append(f'<div class="td-row">{_esc(after_action["line"])}</div>')
     h.append('<details class="td-muted-details"><summary>Not checked / optional context</summary>')
     h.append(_render_iv_hint(display))
     h.append(_render_not_checked(display))
@@ -3117,6 +3278,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
              + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
     h.append(_render_first_viewport(payload))
     h.append(_render_passivity_panel(payload))
+    h.append(_render_disposition_coverage(payload))
     h.append(_render_trust_panel(payload))
     h.append(_render_top_verdict(payload))
     rank = 1
