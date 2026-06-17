@@ -18,3 +18,15 @@ Ownership-aware passivity is explicit:
 
 The copy must not manufacture urgency. Banned latency language includes
 `act now`, `don't miss`, `or lose`, `hurry`, and `last chance`.
+
+## 2026-06-17 - Safe Change Delta
+
+The first viewport's `Changed` cell is fed by `change_delta`, a render-only
+comparison against the committed `src/latest_cockpit_feed.json` at `HEAD`. It
+does not create or track `dashboard_view_state.json`, and it is labeled
+`since last committed build` so the UI does not overclaim a per-user lookback.
+
+The delta compares display identities only: new decision keys `(ticker,lane)`,
+new watch names, gate state flips, and data-health lanes that moved into
+stale/dark statuses. The value is not imported by scoring, ranking, timing
+gates, sizing, or dispositions.

@@ -98,13 +98,24 @@ def _congruence(flagged=True):
         "flagged_ids": ["INSIGHT-950"] if flagged else [],
     }
 
-def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path=None, feed=None, gates=None, today=TODAY):
+def _payload(
+    goal=None,
+    congruence_result=None,
+    tmp_path=None,
+    dispositions_path=None,
+    feed=None,
+    gates=None,
+    today=TODAY,
+    baseline_feed=None,
+):
     return build_today_decide_payload(
         feed=feed or _feed(), weights=W, goal=goal or G, insights_payload=_insights(),
         accounts=_accounts(), gates=(gates if gates is not None else [_gate()]), uw_states={}, entry_zones={},
         congruence_result=congruence_result or _congruence(),
         dispositions_path=(dispositions_path if dispositions_path else
                            (tmp_path / "none.jsonl" if tmp_path else "_no_dispositions_.jsonl")),
+        baseline_feed=baseline_feed,
+        load_committed_baseline=False,
         today=today,
     )
 
@@ -116,6 +127,7 @@ def test_payload_builds_and_goal_anchor_math():
     assert "display-only" in ga["pace_line"]
     assert p["plan_line"]["positions_as_of"] == "2026-06-09"
     assert p["first_viewport"]["status"] == "has_primary"
+    assert p["change_delta"]["status"] == "no_baseline"
     assert p["passivity"]["honesty_rule"].startswith("Only bucket operator_owned_actionable_now")
 
 def test_pace_is_display_only_and_isolated():

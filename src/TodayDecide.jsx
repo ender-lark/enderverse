@@ -237,11 +237,12 @@ const decisionKey = (card) => {
 
 function FirstViewport({ payload, railState, setRailState }) {
   const model = payload.first_viewport || {};
+  const delta = payload.change_delta || {};
   const button = model.button || {};
   const cells = [
     ["Size/tranche", model.size || "No tranche implied."],
     ["Blocked by", model.blocker || "No blocker surfaced."],
-    ["Changed", model.changed || "No prior reliable build baseline yet."],
+    ["Changed", model.changed || delta.line || "No prior reliable committed build baseline yet."],
     ["Risk rail", model.risk_rail || "Normal survival rails still apply."],
     ["Can wait", model.safe_wait || "Research/watch-only items can wait."],
   ];

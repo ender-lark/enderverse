@@ -254,7 +254,7 @@ def test_todaydecide_jsx_consumes_canonical_payload_fields():
     src = _jsx(TODAY_DECIDE_JSX)
     for path in (
         "payload.goal_anchor", "payload.plan_line", "payload.trust_panel",
-        "payload.first_viewport", "payload.passivity",
+        "payload.first_viewport", "payload.change_delta", "payload.passivity",
         "payload.data_health", "payload.cards", "payload.backlog", "payload.congruence",
         "payload.honesty",
     ):

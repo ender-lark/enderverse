@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -898,6 +899,24 @@ def _decision_key(card: dict[str, Any]) -> str:
     return f"{ticker}|{_card_lane(card)}"
 
 
+def _decision_key_from_any(card: dict[str, Any]) -> str:
+    if card.get("decision_key"):
+        return str(card["decision_key"])
+    parts = card.get("decision_key_parts") or {}
+    ticker = str(parts.get("ticker") or card.get("ticker") or "").strip().upper() or "UNKNOWN"
+    move = (card.get("decision_card") or {}).get("move") or {}
+    lane = str(
+        parts.get("lane")
+        or move.get("lane")
+        or card.get("lane")
+        or card.get("kind")
+        or move.get("direction")
+        or card.get("direction")
+        or "decision"
+    ).strip()
+    return f"{ticker}|{lane or 'decision'}"
+
+
 def _card_text_blob(card: dict[str, Any], display: dict[str, Any]) -> str:
     move = (card.get("decision_card") or {}).get("move") or {}
     window = card.get("window") or {}
@@ -1104,10 +1123,150 @@ def _primary_button_model(card: dict[str, Any] | None) -> dict[str, str]:
     }
 
 
+_DARK_LANE_STATUSES = {"not_checked", "behind", "stale", "missing", "empty"}
+
+
+def _load_committed_dashboard_feed() -> dict[str, Any] | None:
+    try:
+        proc = subprocess.run(
+            ["git", "-C", str(SRC.parent), "show", "HEAD:src/latest_cockpit_feed.json"],
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=5,
+        )
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
+        return None
+    try:
+        payload = json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def _baseline_today_decide(feed: dict[str, Any] | None) -> dict[str, Any]:
+    if not isinstance(feed, dict):
+        return {}
+    return feed.get("today_decide") or {}
+
+
+def _gate_key(row: dict[str, Any]) -> str:
+    return str(row.get("gate_id") or row.get("symbol") or "").strip()
+
+
+def _gate_state(row: dict[str, Any]) -> str:
+    return str(row.get("state") or row.get("stored_state") or "unknown").strip()
+
+
+def _health_key(row: dict[str, Any]) -> str:
+    return "|".join(
+        part for part in (
+            str(row.get("source") or "").strip(),
+            str(row.get("ticker") or "").strip().upper(),
+            str(row.get("symbol") or "").strip().upper(),
+            str(row.get("gate_id") or "").strip(),
+            str(row.get("label") or "").strip(),
+        )
+        if part
+    )
+
+
+def _watch_key(row: dict[str, Any]) -> str:
+    return str(row.get("ticker") or row.get("name") or "").strip().upper()
+
+
+def _build_change_delta(
+    *,
+    current_cards: list[dict[str, Any]],
+    current_watch_queue: list[dict[str, Any]],
+    current_gates: list[dict[str, Any]],
+    current_data_health: dict[str, Any],
+    baseline_feed: dict[str, Any] | None,
+) -> dict[str, Any]:
+    baseline = _baseline_today_decide(baseline_feed)
+    if not baseline:
+        return {
+            "label": "since last committed build",
+            "status": "no_baseline",
+            "line": "No prior reliable committed build baseline yet.",
+            "items": [],
+            "honesty_rule": "Display-only delta; it is not read by scoring, ranking, gates, sizing, or dispositions.",
+        }
+
+    items: list[dict[str, str]] = []
+    previous_cards = (baseline.get("cards") or []) + (baseline.get("backlog") or [])
+    previous_decisions = {_decision_key_from_any(card) for card in previous_cards if isinstance(card, dict)}
+    current_decisions = {_decision_key_from_any(card) for card in current_cards if isinstance(card, dict)}
+    by_key = {_decision_key_from_any(card): card for card in current_cards if isinstance(card, dict)}
+    for key in sorted(current_decisions - previous_decisions):
+        card = by_key.get(key) or {}
+        ticker = str(card.get("ticker") or key.split("|", 1)[0]).upper()
+        lane = key.split("|", 1)[1] if "|" in key else _card_lane(card)
+        items.append({"kind": "new_decision", "key": key, "label": f"New decision: {ticker} / {lane}"})
+
+    previous_watch = {_watch_key(row) for row in baseline.get("watch_queue") or [] if isinstance(row, dict)}
+    current_watch = {_watch_key(row) for row in current_watch_queue if isinstance(row, dict)}
+    for key in sorted(k for k in current_watch - previous_watch if k):
+        items.append({"kind": "new_watch", "key": key, "label": f"New watch name: {key}"})
+
+    previous_gates = {
+        _gate_key(row): _gate_state(row)
+        for row in baseline.get("gates") or []
+        if isinstance(row, dict) and _gate_key(row)
+    }
+    for gate in current_gates:
+        if not isinstance(gate, dict):
+            continue
+        key = _gate_key(gate)
+        if not key or key not in previous_gates:
+            continue
+        old = previous_gates[key]
+        new = _gate_state(gate)
+        if old and new and old != new:
+            items.append({"kind": "gate_flip", "key": key, "label": f"Gate flipped: {key} {old} -> {new}"})
+
+    previous_health = {
+        _health_key(row): str(row.get("status") or "").strip()
+        for row in (baseline.get("data_health") or {}).get("items") or []
+        if isinstance(row, dict) and _health_key(row)
+    }
+    for row in (current_data_health.get("items") or []):
+        if not isinstance(row, dict):
+            continue
+        key = _health_key(row)
+        status = str(row.get("status") or "").strip()
+        if not key or status not in _DARK_LANE_STATUSES:
+            continue
+        previous = previous_health.get(key)
+        if previous != status:
+            label = str(row.get("label") or row.get("source") or key)
+            old = previous or "not present"
+            items.append({"kind": "lane_dark", "key": key, "label": f"Lane went stale/dark: {label} {old} -> {status}"})
+
+    capped = items[:8]
+    overflow = len(items) - len(capped)
+    if not capped:
+        line = "No decision, watch, gate, or dark-lane change versus the last committed dashboard build."
+    else:
+        line = "; ".join(item["label"] for item in capped)
+        if overflow > 0:
+            line += f"; +{overflow} more."
+    return {
+        "label": "since last committed build",
+        "status": "changed" if items else "unchanged",
+        "line": line,
+        "items": capped,
+        "total_count": len(items),
+        "honesty_rule": "Display-only delta; it is not read by scoring, ranking, gates, sizing, or dispositions.",
+    }
+
+
 def _first_viewport_model(
     cards: list[dict[str, Any]],
     watch_queue: list[dict[str, Any]],
     passivity: dict[str, Any],
+    change_delta: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     card = _primary_capital_decision(cards)
     if not card:
@@ -1116,7 +1275,7 @@ def _first_viewport_model(
             "decision": "No capital-changing decision surfaced in TODAY/DECIDE.",
             "size": "No tranche implied.",
             "blocker": "No visible decision card.",
-            "changed": "No prior reliable build baseline yet.",
+            "changed": (change_delta or {}).get("line") or "No prior reliable build baseline yet.",
             "risk_rail": "Normal survival rails still apply.",
             "safe_wait": f"{len(watch_queue)} research/watch-only item(s) can wait.",
             "button": {},
@@ -1133,7 +1292,7 @@ def _first_viewport_model(
         "decision": f"{direction or 'REVIEW'} {str(card.get('ticker') or '').upper()}",
         "size": f"{_money_text(card.get('dollars'))} tranche; {_size_label(card)}",
         "blocker": blocker,
-        "changed": "No prior reliable build baseline yet.",
+        "changed": (change_delta or {}).get("line") or "No prior reliable build baseline yet.",
         "risk_rail": _rail_line_for_card(card),
         "safe_wait": (
             f"{passivity.get('counts', {}).get('research_watch_only', 0)} research/watch-only "
@@ -1161,6 +1320,8 @@ def build_today_decide_payload(
     congruence_result: dict[str, Any] | None = None,
     dispositions_path: Path | str = disposition_log.DISPOSITIONS_PATH,
     today: str | None = None,
+    baseline_feed: dict[str, Any] | None = None,
+    load_committed_baseline: bool = True,
 ) -> dict[str, Any]:
     feed = _load_feed(feed)
     today_iso = today or date.today().isoformat()
@@ -1202,7 +1363,23 @@ def build_today_decide_payload(
     watch_queue = _build_fed_day_watch_queue(fed_day_state, all_cards)
     _annotate_action_first_fields(all_cards)
     passivity = _passivity_summary(all_cards, watch_queue)
-    first_viewport = _first_viewport_model(all_cards, watch_queue, passivity)
+    gate_rows = [
+        {k: g.get(k) for k in (
+            "gate_id", "symbol", "state", "stored_state", "note", "confirm_rule",
+            "stated", "live_price", "price_type", "live_evaluation",
+        )}
+        for g in gates
+    ]
+    if baseline_feed is None and load_committed_baseline:
+        baseline_feed = _load_committed_dashboard_feed()
+    change_delta = _build_change_delta(
+        current_cards=all_cards,
+        current_watch_queue=watch_queue,
+        current_gates=gate_rows,
+        current_data_health=data_health,
+        baseline_feed=baseline_feed,
+    )
+    first_viewport = _first_viewport_model(all_cards, watch_queue, passivity, change_delta)
     honesty = dict(stack["honesty"])
     if fed_day_state.get("honesty"):
         honesty["fed_day_packet"] = fed_day_state["honesty"]
@@ -1223,16 +1400,11 @@ def build_today_decide_payload(
             "shortfall_usd": funding.get("shortfall_usd"),
             "positions_as_of": rb.get("positions_snapshot_date"),
         },
-        "gates": [
-            {k: g.get(k) for k in (
-                "gate_id", "symbol", "state", "stored_state", "note", "confirm_rule",
-                "stated", "live_price", "price_type", "live_evaluation",
-            )}
-            for g in gates
-        ],
+        "gates": gate_rows,
         "data_health": data_health,
         "trust_panel": _build_trust_panel(data_health),
         "first_viewport": first_viewport,
+        "change_delta": change_delta,
         "passivity": passivity,
         "cards": stack["cards"],
         "backlog": stack["backlog"],
