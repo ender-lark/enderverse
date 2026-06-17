@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T05:51:24.184443Z",
-      "summary": "drafted AI Labor routing note; 1 Notion write verified; SQL/query fallback used; no second undrained top item found"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-07T15:31:29.186759Z",
-      "summary": "investing-os-uw-opportunity-cache manual run started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
       "run_source": "manual",
@@ -7138,7 +7124,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T13:43:25.504279Z",
       "summary": "4 check sets; 21 tickers; UW proof 0 supportive/0 contradictory/10 inconclusive/3 missing; blocked SECTOR_TIDE unsupported, MARKET_MOVERS 403 advanced_tier_required, TNX flow empty; dashboard refresh skipped"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T13:46:38.002067Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T13:50:50.519743Z",
+      "summary": "checked Macro FlashInsights latest Jun16 3:06PM ET and Crypto FlashInsights latest Jun8; Gmail 4 full-body messages checked; landed 0 rows; suppressed/discovery-only 4 low-value or already-landed items; validation passed; daytime alert sent 3 SPY/BTC/STRC, duplicates 2, suppressed 44; stale/dark no Jun17 FlashInsights; blockers none"
     }
   ],
-  "updated_at": "2026-06-17T13:43:25.504279Z"
+  "updated_at": "2026-06-17T13:50:50.519743Z"
 }
