@@ -2,35 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:32.363867Z",
-      "summary": "investing-os-full-cockpit-build manual run started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:33.633592Z",
-      "summary": "full cockpit build manual run refreshed dashboard artifacts",
-      "details": {
-        "steps": [
-          {
-            "label": "live dashboard refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_dashboard_refresh.py"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-05\",\n    \"open_count\": 2,\n    \"history_count\": 0,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 0,\n  \"drafted\": 0,\n  \"existing\": 3,\n  \"stored\": 3,\n  \"tickers\": [],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-06T02:36:32.823107+00:00\",\n    \"existing\": 3,\n    \"candidates\": 3,\n    \"added\": 0,\n    \"stored\": 3,\n    \"log_call_dates\": [\n      \"2026-06-03\"\n    ]\n  }\n}\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 1,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-05\",\n    \"open_count\": 2,\n    \"history_count\": 0,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_canonical_jsx ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-05 22:36 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | prices as-of build, not live (say `refresh`)\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 4,\n  \"research_actions\": 0,\n  \"dark_lanes\": 0,\n  \"dark_lane_keys\": [],\n  \"dark_lane_details\": [],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_canonical_jsx\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-06T02:36:33.145366+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 05-31 \\u00b7 uw_price 06-05 \\u00b7 uw_macro 06-05 \\u00b7 fundstrat_bible 05-28 \\u00b7 fundstrat_daily 06-03\",\n      \"lanes_with_data\": 13,\n      \"dark_lanes\": 0,\n      \"dark_lane_keys\": []\n    },\n    \"actions\": {\n      \"count\": 4,\n      \"top\": [\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"ACT_NOW\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": \"NVDA\",\n          \"kind\": \"conviction_gap\",\n          \"action_state\": \"ACT_NOW\",\n          \"what\": \"Conviction gap: NVDA is under target\"\n        },\n        {\n          \"ticker\": \"ANET\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        },\n        {\n          \"ticker\": \"GOOGL\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Run the daily full build with --publish.\"\n      ]\n    },\n    \"preview_server\": {\n      \"url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse\\\\tmp\\\\dashboard_preview.html\",\n      \"preview_exists\": true,\n      \"server_running\": true\n    },\n    \"dark_lane_details\": []\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "started",
       "run_source": "manual",
@@ -7224,7 +7195,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T02:17:52.822475Z",
       "summary": "loose-thread sweep nothing new"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T02:37:10.010719Z",
+      "summary": "loose-thread sweep started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T02:39:00.293949Z",
+      "summary": "loose-thread sweep nothing new",
+      "details": {
+        "loose_thread_sweep_version": 2,
+        "candidate_count": 2,
+        "captured_count": 0,
+        "skipped_duplicate_count": 1,
+        "skipped_stale_count": 1,
+        "target_verification": "verified",
+        "target_routes": [
+          "system_update_queue"
+        ],
+        "notion_readback": "system_update_queue_search_fetch_verified; all target schemas fetched; no writes",
+        "dark_or_not_checked_blockers": [],
+        "notes": "WS2 tuning duplicate of existing System Update Queue row 381c5031-4bb6-81cd-9323-c352ddc0ee78; dossier sync follow-up resolved by merged DECISION-DOSSIER-ALERTS-V1"
+      }
     }
   ],
-  "updated_at": "2026-06-17T02:17:52.822475Z"
+  "updated_at": "2026-06-17T02:39:00.293949Z"
 }
