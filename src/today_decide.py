@@ -171,6 +171,18 @@ def _card_blockers(
         label = str(item.get("label") or "").strip()
         if not label:
             continue
+        if item.get("source") == "decision_dossier":
+            item_ticker = str(item.get("ticker") or "").strip().upper()
+            item_card_ids = {
+                str(value or "").strip()
+                for value in item.get("card_ids") or []
+                if str(value or "").strip()
+            }
+            card_ticker = str(card.get("ticker") or "").strip().upper()
+            card_id = str(card.get("card_id") or "").strip()
+            if (item_ticker and item_ticker == card_ticker) or (card_id and card_id in item_card_ids):
+                blockers.append(label)
+            continue
         if item.get("source") != "gates":
             blockers.append(label)
             continue
@@ -347,7 +359,12 @@ def build_today_decide_payload(
             card["lookthrough"] = disclosure
         card["recheck_date"] = recheck
         card["last_disposition"] = last.get(card["card_id"])
-    data_health = _dh.assess(feed, gates=gates, now=_today(today_iso))
+    data_health = _dh.assess(
+        feed,
+        gates=gates,
+        cards=stack["cards"] + stack["backlog"],
+        now=_today(today_iso),
+    )
     for card in stack["cards"] + stack["backlog"]:
         card["card_blockers"] = _card_blockers(card, data_health, gates)
     attach_conviction_displays(stack["cards"] + stack["backlog"])

@@ -65,7 +65,7 @@
       "mirror_policy": "Notion can be the human-editable narrative source, but runtime cards read only the repo mirror. Repo rows must carry sync/review stamps and per-read freshness. If Notion row-query tooling is unavailable, use verified page search/fetch readback or leave the ticker pending_sync.",
       "freshness_contract": "Durable edge/avoid reads must have review stamps; price and timing reads require short freshness windows and render UNKNOWN when stale or not checked.",
       "not_checked_behavior": "Absent ticker means no dossier block. Present but stale/not_checked reads render UNKNOWN and must not be treated as current.",
-      "action_surface": "Adds context to action cards only; does not change conviction scoring, ranking, sizing, gates, alerts, or trade posture. Alert/watch wiring is deferred to a follow-up that consumes merged staleness guard PR#57."
+      "action_surface": "Adds context to action cards only; does not change conviction scoring, ranking, sizing, gates, or trade posture. Stale/not_checked price and timing reads feed the shared data_health staleness guard as ticker/card-scoped blockers for capital-action cards. alert_policy can emit only review-only decision_dossier_freshness_blocker candidates when a matching alert-actionable Today card is blocked."
     },
     {
       "id": "fundstrat_daily_calls",

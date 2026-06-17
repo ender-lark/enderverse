@@ -176,6 +176,13 @@ def test_avgo_dossier_renders_with_stale_dynamic_reads():
     avgo = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "AVGO"][0]
 
     assert avgo["dossier"]["status"] == "stale"
+    assert "AVGO dossier" in p["data_health"]["blockers"]
+    assert "AVGO dossier" in avgo["card_blockers"]
+    assert all(
+        "AVGO dossier" not in card["card_blockers"]
+        for card in p["cards"] + p["backlog"]
+        if card["ticker"] != "AVGO"
+    )
     html = render_today_decide_html(p)
 
     assert "Decision dossier: AVGO" in html

@@ -108,3 +108,55 @@ def test_alert_policy_flags_stale_fundstrat_calibration_chain():
     assert "SOURCE CALIB output is provisional" in row["why"]
     assert "days_behind=3" in row["trigger"]
     assert "Source Call Log" in row["next_step"]
+
+
+def test_alert_policy_uses_today_dossier_blockers_for_open_now_cards_only():
+    block = build_alert_policy({
+        "today_decide": {
+            "data_health": {
+                "items": [
+                    {
+                        "source": "decision_dossier",
+                        "label": "AVGO dossier",
+                        "status": "stale",
+                        "detail": "AVGO dossier cannot support a capital-action card: price not_checked, timing stale.",
+                        "blocks": True,
+                        "ticker": "AVGO",
+                        "card_ids": ["AVGO-ADD-2026-06-16"],
+                    },
+                    {
+                        "source": "decision_dossier",
+                        "label": "MAGS dossier",
+                        "status": "stale",
+                        "detail": "MAGS dossier is stale.",
+                        "blocks": True,
+                        "ticker": "MAGS",
+                        "card_ids": ["MAGS-ADD-2026-06-16"],
+                    },
+                ]
+            },
+            "cards": [
+                {
+                    "card_id": "AVGO-ADD-2026-06-16",
+                    "ticker": "AVGO",
+                    "direction": "BUY",
+                    "window": {"class": "OPEN-NOW"},
+                },
+                {
+                    "card_id": "MAGS-ADD-2026-06-16",
+                    "ticker": "MAGS",
+                    "direction": "BUY",
+                    "window": {"class": "STAGE-ONLY"},
+                },
+            ],
+        }
+    })
+
+    assert block["status"] == "notify"
+    rows = [row for row in block["rows"] if row["kind"] == "decision_dossier_freshness_blocker"]
+    assert len(rows) == 1
+    assert rows[0]["ticker"] == "AVGO"
+    assert rows[0]["source"] == "decision_dossier"
+    assert "stale/not-checked dossier reads must stay UNKNOWN" in rows[0]["next_step"]
+    suppressed = [row for row in block["suppressed"] if row["reason"] == "dossier_dashboard_blocker"]
+    assert suppressed and suppressed[0]["count"] == 1

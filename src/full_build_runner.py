@@ -984,7 +984,6 @@ def build_full_feed_from_files(
         account_positions,
     )
     feed["market_open_packet"] = build_market_open_packet(feed)
-    feed["alert_policy"] = build_alert_policy(feed)
     feed["if_i_were_you"] = build_if_i_were_you(feed)
     feed["today_decide"] = today_decide.build_today_decide_payload(
         feed=feed,
@@ -993,6 +992,7 @@ def build_full_feed_from_files(
         accounts=execution_accounts,
         today=today,
     )
+    feed["alert_policy"] = build_alert_policy(feed)
     feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     feed["source_audits"]["uw_action_runbook"] = feed.get("uw_action_runbook") or {}
     feed["source_audits"]["uw_endpoint_proof"] = feed.get("uw_endpoint_proof") or {}

@@ -13,6 +13,9 @@ from pathlib import Path
 from typing import Any
 
 
+_DOSSIER_ACTION_DIRECTIONS = {"BUY", "ADD", "TRIM", "SELL", "REDUCE", "HEDGE"}
+
+
 def _text(value: Any) -> str:
     return str(value or "").strip()
 
@@ -56,6 +59,39 @@ def _calibration_detail(calibration: dict[str, Any]) -> str:
         return line
     days = int(calibration.get("worst_days_behind") or 0)
     return f"Fundstrat source-call calibration chain is stale ({days}d behind)."
+
+
+def _card_direction(card: dict[str, Any]) -> str:
+    move = (card.get("decision_card") or {}).get("move") or {}
+    direction = _text(move.get("direction") or card.get("direction")).upper()
+    return "TRIM" if direction == "REDUCE" else direction
+
+
+def _card_is_alert_actionable(card: dict[str, Any]) -> bool:
+    if _card_direction(card) not in _DOSSIER_ACTION_DIRECTIONS:
+        return False
+    if _text(card.get("action_state")).upper() == "ACT_NOW":
+        return True
+    if _text(card.get("decision_group")).lower() == "key_now":
+        return True
+    return _text((card.get("window") or {}).get("class")).upper() == "OPEN-NOW"
+
+
+def _dossier_item_applies_to_card(item: dict[str, Any], card: dict[str, Any]) -> bool:
+    item_ticker = _text(item.get("ticker")).upper()
+    card_ticker = _text(card.get("ticker")).upper()
+    card_id = _text(card.get("card_id"))
+    item_card_ids = {_text(value) for value in item.get("card_ids") or [] if _text(value)}
+    return bool((item_ticker and item_ticker == card_ticker) or (card_id and card_id in item_card_ids))
+
+
+def _dossier_health_items(feed: dict[str, Any]) -> list[dict[str, Any]]:
+    today = feed.get("today_decide") or {}
+    health = today.get("data_health") or {}
+    return [
+        item for item in health.get("items") or []
+        if isinstance(item, dict) and item.get("source") == "decision_dossier" and item.get("blocks")
+    ]
 
 
 def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
@@ -155,6 +191,43 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
                 "why": "Re-check item stays visible in the dashboard; no alert unless it becomes invalidated or ACT_NOW-blocked.",
             })
 
+    dossier_items = _dossier_health_items(feed)
+    alerted_dossier_items: set[int] = set()
+    today = feed.get("today_decide") or {}
+    for card in today.get("cards") or []:
+        if not isinstance(card, dict) or not _card_is_alert_actionable(card):
+            continue
+        for item in dossier_items:
+            if not _dossier_item_applies_to_card(item, card):
+                continue
+            ticker = _text(card.get("ticker") or item.get("ticker"))
+            direction = _card_direction(card) or "action"
+            _add(
+                rows,
+                severity="high",
+                kind="decision_dossier_freshness_blocker",
+                ticker=ticker,
+                title=f"{ticker} dossier freshness blocks {direction}",
+                why=_text(item.get("detail") or "Decision dossier freshness blocks this action."),
+                source="decision_dossier",
+                trigger=(
+                    f"today_decide.data_health decision_dossier status={item.get('status')}; "
+                    f"card={card.get('card_id') or ticker}"
+                ),
+                next_step=(
+                    "Re-sync or refresh the Live Theses dossier before acting; "
+                    "stale/not-checked dossier reads must stay UNKNOWN."
+                ),
+            )
+            alerted_dossier_items.add(id(item))
+    quiet_dossier_count = len([item for item in dossier_items if id(item) not in alerted_dossier_items])
+    if quiet_dossier_count:
+        suppressed.append({
+            "reason": "dossier_dashboard_blocker",
+            "count": quiet_dossier_count,
+            "why": "Dossier freshness blockers stay on the matching Today card unless the blocked card is alert-actionable.",
+        })
+
     event_rows = [
         row for row in (feed.get("event_risk") or [])
         if isinstance(row, dict) and row.get("severity") == "critical"
@@ -229,7 +302,7 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
         "rows": clean_rows,
         "suppressed": suppressed[:8],
         "system_health": system_health[:8],
-        "policy": "Push alerts only interrupt for action-changing market, portfolio, Fundstrat, stale-review, or invalidated-decision items. Routine/system-health warnings stay in Ops.",
+        "policy": "Push alerts only interrupt for action-changing market, portfolio, Fundstrat, dossier-freshness, stale-review, or invalidated-decision items. Routine/system-health warnings stay in Ops.",
         "delivery": "review_only_no_send",
     }
 

@@ -44,6 +44,8 @@ _RANK = {
     "missing": 2,
 }
 _BLOCK_RANK = 2
+_DOSSIER_ACTION_DIRECTIONS = {"BUY", "ADD", "TRIM", "SELL", "REDUCE", "HEDGE"}
+_DOSSIER_DYNAMIC_READS = ("price", "timing")
 
 
 def _parse_date(value: str) -> dt.date | None:
@@ -112,6 +114,89 @@ def _rank_item(item: dict[str, Any]) -> int:
     return rank
 
 
+def _card_direction(card: dict[str, Any]) -> str:
+    move = (card.get("decision_card") or {}).get("move") or {}
+    direction = str(move.get("direction") or card.get("direction") or "").upper()
+    return "TRIM" if direction == "REDUCE" else direction
+
+
+def _dossier_read_status(reads: dict[str, Any], key: str) -> str:
+    read = reads.get(key) if isinstance(reads, dict) else None
+    freshness = read.get("freshness") if isinstance(read, dict) else None
+    status = str((freshness or {}).get("status") or "not_checked").strip()
+    return status or "not_checked"
+
+
+def _dossier_issue_statuses(dossier: dict[str, Any]) -> dict[str, str]:
+    reads = dossier.get("reads") or {}
+    statuses = {
+        key: status
+        for key in _DOSSIER_DYNAMIC_READS
+        for status in [_dossier_read_status(reads, key)]
+        if status != "fresh"
+    }
+    dossier_status = str(dossier.get("status") or "").strip()
+    if dossier_status in {"stale", "not_checked", "missing", "pending_sync"}:
+        statuses.setdefault("dossier", dossier_status)
+    return statuses
+
+
+def _dossier_item_status(statuses: dict[str, str]) -> str:
+    values = set(statuses.values())
+    if "stale" in values:
+        return "stale"
+    if "missing" in values:
+        return "missing"
+    return "not_checked"
+
+
+def _dossier_health_items(cards: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
+    by_ticker: dict[str, dict[str, Any]] = {}
+    for card in cards or []:
+        if not isinstance(card, dict) or _card_direction(card) not in _DOSSIER_ACTION_DIRECTIONS:
+            continue
+        dossier = card.get("dossier")
+        if not isinstance(dossier, dict) or not dossier:
+            continue
+        ticker = str(dossier.get("ticker") or card.get("ticker") or "").upper().strip()
+        if not ticker:
+            continue
+        statuses = _dossier_issue_statuses(dossier)
+        if not statuses:
+            continue
+        row = by_ticker.setdefault(ticker, {
+            "ticker": ticker,
+            "card_ids": [],
+            "read_statuses": {},
+            "notion_url": dossier.get("notion_url"),
+        })
+        card_id = str(card.get("card_id") or "").strip()
+        if card_id:
+            row["card_ids"].append(card_id)
+        row["read_statuses"].update(statuses)
+        row["notion_url"] = row.get("notion_url") or dossier.get("notion_url")
+
+    items: list[dict[str, Any]] = []
+    for ticker, row in sorted(by_ticker.items()):
+        statuses = row["read_statuses"]
+        detail_bits = [f"{key} {value}" for key, value in sorted(statuses.items())]
+        items.append(_item(
+            "decision_dossier",
+            f"{ticker} dossier",
+            _dossier_item_status(statuses),
+            (
+                f"{ticker} dossier cannot support a capital-action card: "
+                f"{', '.join(detail_bits)}; re-check Live Theses/repo mirror before action."
+            ),
+            blocks=True,
+            ticker=ticker,
+            card_ids=sorted(set(row["card_ids"])),
+            read_statuses=statuses,
+            notion_url=row.get("notion_url"),
+        ))
+    return items
+
+
 def load_shelf_life(path: Path | str = SHELF_PATH) -> dict[str, Any]:
     p = Path(path)
     if not p.exists():
@@ -148,6 +233,7 @@ def assess(
     feed: dict[str, Any],
     *,
     gates: list[dict[str, Any]] | None = None,
+    cards: list[dict[str, Any]] | None = None,
     now: dt.date | None = None,
     rates_path: Path | str | None = None,
     shelf_path: Path | str | None = None,
@@ -200,6 +286,8 @@ def assess(
                 items.append(_item("gates", f"{symbol} gate", "stale", f"stated {age:.0f}d ago - reconfirm", blocks=True, symbol=symbol, gate_id=gate_id))
             else:
                 items.append(_item("gates", f"{symbol} gate", "context", f"stated {age:.0f}d ago - context only; reconfirm for awareness", blocks=False, symbol=symbol, gate_id=gate_id))
+
+    items.extend(_dossier_health_items(cards))
 
     fs_unread = feed.get("fs_unread")
     if fs_unread is None:

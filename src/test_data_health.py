@@ -87,6 +87,51 @@ def test_stale_source_call_calibration_blocks():
     assert out["worst"] == "blocked"
 
 
+def test_stale_dossier_dynamic_reads_block_matching_capital_card_only():
+    cards = [
+        {
+            "card_id": "AVGO-ADD-2026-06-11",
+            "ticker": "AVGO",
+            "direction": "BUY",
+            "dossier": {
+                "ticker": "AVGO",
+                "status": "stale",
+                "reads": {
+                    "edge": {"freshness": {"status": "fresh"}},
+                    "price": {"freshness": {"status": "not_checked"}},
+                    "timing": {"freshness": {"status": "stale"}},
+                    "avoid": {"freshness": {"status": "fresh"}},
+                },
+                "notion_url": "https://app.notion.com/p/avgo",
+            },
+        },
+        {
+            "card_id": "NVDA-ADD-2026-06-11",
+            "ticker": "NVDA",
+            "direction": "BUY",
+        },
+    ]
+
+    out = dh.assess(
+        _feed(),
+        cards=cards,
+        now=NOW,
+        rates_path="/nonexistent/x.json",
+        shelf_path="/nonexistent/s.json",
+    )
+
+    item = [row for row in out["items"] if row["source"] == "decision_dossier"][0]
+    assert item["label"] == "AVGO dossier"
+    assert item["status"] == "stale"
+    assert item["blocks"] is True
+    assert item["ticker"] == "AVGO"
+    assert item["card_ids"] == ["AVGO-ADD-2026-06-11"]
+    assert item["read_statuses"]["price"] == "not_checked"
+    assert item["read_statuses"]["timing"] == "stale"
+    assert "AVGO dossier" in out["blockers"]
+    assert out["worst"] == "blocked"
+
+
 def test_empty_track_record_announces_but_never_blocks(tmp_path):
     rates = tmp_path / "source_rates.json"
     rates.write_text(json.dumps({"newton": {"A": {"n": 0}}, "lee": {"A": {"n": 0}}}))
