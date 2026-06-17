@@ -2,107 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:05.295777Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:05.306422Z",
-      "summary": "investing-os-fundstrat-daytime-watch manual run started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:05.667881Z",
-      "summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: quiet - no new time-sensitive/action-changing Fundstrat item.\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 6, 'alert_candidates': 0, 'duplicates': 0, 'suppressed': 6}\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
       "run_source": "manual",
@@ -6920,7 +6819,58 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T17:51:36.692172Z",
       "summary": "checked 2 Chrome FlashInsights pages, Gmail 0; landed 2 compact rows UBS/XBI; suppressed duplicate SPCX and stale/older Crypto/Macro cards; validation passed; dashboard refresh ok; alerts sent 2; dark/stale Crypto newest Jun 8, Social Watch dark; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T18:47:25.010391Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T18:49:28.047451Z",
+      "summary": "trigger check fired 3 trigger(s): HELD, HELD, HELD",
+      "details": {
+        "fired": [
+          {
+            "id": "held-review-sunday-rebalance-packet",
+            "ticker": "HELD",
+            "condition_type": "date_event",
+            "source": "Held decision packet: Full-book rebalance (Council synthesis) (https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4)",
+            "status": "fired",
+            "fire_reason": "held decision review due: Full-book rebalance (Council synthesis)"
+          },
+          {
+            "id": "held-review-sunday-geo-risk-register-v0",
+            "ticker": "HELD",
+            "condition_type": "date_event",
+            "source": "Held decision packet: Geo Risk Register v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d)",
+            "status": "fired",
+            "fire_reason": "held decision review due: Geo Risk Register v0 (Power & Policy)"
+          },
+          {
+            "id": "held-review-sunday-policy-money-map-v0",
+            "ticker": "HELD",
+            "condition_type": "date_event",
+            "source": "Held decision packet: Policy Money Map v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959)",
+            "status": "fired",
+            "fire_reason": "held decision review due: Policy Money Map v0 (Power & Policy)"
+          }
+        ],
+        "not_checked_count": 4,
+        "summary_line": "Trigger check: fired=3; not_checked=4; armed=5; expired=0."
+      }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T18:49:47.182390Z",
+      "summary": "checked 2 Chrome FlashInsights pages Macro/Crypto, Gmail 0; landed 0 rows this run; suppressed/discovery-only duplicate UBS/XBI plus stale Jun8 Crypto; validation passed; dashboard refresh skipped no new rows; Fundstrat alert quiet 0 candidates/7 duplicates/45 suppressed; trigger guard fired 3 HELD sent, 4 quote not_checked; dark/stale Crypto Jun8 and Social Watch dark; blockers none"
     }
   ],
-  "updated_at": "2026-06-17T17:51:36.692172Z"
+  "updated_at": "2026-06-17T18:49:47.182390Z"
 }

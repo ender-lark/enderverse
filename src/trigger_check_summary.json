@@ -1,0 +1,81 @@
+{
+  "checked_at": "2026-06-17T18:49:27.721752Z",
+  "status": "fired",
+  "fired_count": 3,
+  "not_checked_count": 4,
+  "expired_count": 0,
+  "checked_count": 4,
+  "armed_count": 5,
+  "fired": [
+    {
+      "id": "held-review-sunday-rebalance-packet",
+      "ticker": "HELD",
+      "condition_type": "date_event",
+      "source": "Held decision packet: Full-book rebalance (Council synthesis) (https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4)",
+      "status": "fired",
+      "fire_reason": "held decision review due: Full-book rebalance (Council synthesis)"
+    },
+    {
+      "id": "held-review-sunday-geo-risk-register-v0",
+      "ticker": "HELD",
+      "condition_type": "date_event",
+      "source": "Held decision packet: Geo Risk Register v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d)",
+      "status": "fired",
+      "fire_reason": "held decision review due: Geo Risk Register v0 (Power & Policy)"
+    },
+    {
+      "id": "held-review-sunday-policy-money-map-v0",
+      "ticker": "HELD",
+      "condition_type": "date_event",
+      "source": "Held decision packet: Policy Money Map v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959)",
+      "status": "fired",
+      "fire_reason": "held decision review due: Policy Money Map v0 (Power & Policy)"
+    }
+  ],
+  "not_checked": [
+    {
+      "id": "ewre-weekly-close-above-38-2026-06",
+      "ticker": "EWRE",
+      "condition_type": "price_cross",
+      "source": "Fundstrat June 2026 Sector Allocation / Newton REIT breakout: EWRE weekly close above 38 confirms the REIT breakout layer.",
+      "status": "armed",
+      "reason": "quote not checked"
+    },
+    {
+      "id": "asts-reentry-zone-65-70",
+      "ticker": "ASTS",
+      "condition_type": "level_touch",
+      "source": "Live Thesis ASTS 360c50314bb681248c7cec9d39a76b84: operator re-entry zone 65-70.",
+      "status": "armed",
+      "reason": "quote not checked"
+    },
+    {
+      "id": "rklb-reentry-zone-85-90",
+      "ticker": "RKLB",
+      "condition_type": "level_touch",
+      "source": "Live Thesis RKLB 360c50314bb6812e810aee762397e9c8: operator re-entry zone 85-90.",
+      "status": "armed",
+      "reason": "quote not checked"
+    },
+    {
+      "id": "parabolic-accel-mu",
+      "ticker": "MU",
+      "condition_type": "acceleration",
+      "source": "parabolic_setup_screener Phase 3 auto-arm: MU is parabolic and IV-pinned (efficacy GAP 1, MU 2026-05-27 miss-class). Fires when a velocity-bearing quote (pct_change_5d / phase) confirms the acceleration; honestly not_checked until the live quote cache surfaces velocity.",
+      "status": "armed",
+      "reason": "quote not checked"
+    }
+  ],
+  "expired": [],
+  "line": "Trigger check: fired=3; not_checked=4; armed=5; expired=0.",
+  "delivery": {
+    "attempted": true,
+    "sent": true,
+    "status_code": 200,
+    "response": {
+      "status": 1,
+      "request": "f965b22e-af70-4d5d-9cbe-c13123c51ff2"
+    },
+    "dry_run": false
+  }
+}
