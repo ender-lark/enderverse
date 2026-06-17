@@ -27,7 +27,7 @@ Latest audit state:
 ## Active Slice
 
 - `DECISION-DOSSIER-ALERTS-V1` is active on branch
-  `codex/decision-dossier-alerts-v1`.
+  `codex/decision-dossier-alerts-v1` in PR#60.
 - Scope: route stale/not-checked decision-dossier reads into the shared
   `data_health` and `alert_policy` staleness guard, then surface only
   review-only alert candidates when an actionable card is blocked.
