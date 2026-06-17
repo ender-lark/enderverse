@@ -76,6 +76,43 @@ function WhyBreakdown({ display }) {
   );
 }
 
+function LayerBreakdown({ display }) {
+  const layers = display.layers || {};
+  const rows = layers.rows || [];
+  if (!rows.length || layers.mode === "off") return null;
+  const pointText = (points) => {
+    const value = Number(points || 0);
+    return `${value >= 0 ? "+" : ""}${value.toFixed(2)}`;
+  };
+  const recheck = layers.sector_only_recheck || {};
+  return (
+    <>
+      <SectionTitle>Name / sector split</SectionTitle>
+      {rows.map((row) => (
+        <div key={row.key} style={{ fontSize: 13, color: "#cbd5e1", margin: "3px 0" }}>
+          <strong style={{ color: "#e2e8f0" }}>{row.label || row.key}</strong>{" "}
+          {pointText(row.points)} {row.read || "LOW"} ({row.status || "not_checked"})
+          {row.detail ? ` - ${row.detail}` : ""}
+        </div>
+      ))}
+      {layers.conflict && (
+        <div style={{ border: "1px solid #fb923c", color: "#fdba74", borderRadius: 8,
+                      padding: "6px 8px", fontSize: 12, margin: "6px 0" }}>
+          LAYER CONFLICT - {layers.conflict}
+        </div>
+      )}
+      {(layers.clamped_reasons || []).map((reason, i) => (
+        <div key={`guard${i}`} style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>layer guard: {reason}</div>
+      ))}
+      {recheck.eligible && (
+        <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>
+          sector-only recheck: {recheck.next_step || "re-check"} ({recheck.alert_enabled ? "alert enabled" : "alert disabled in shadow mode"})
+        </div>
+      )}
+    </>
+  );
+}
+
 function IvHint({ display }) {
   const hint = display.iv_hint || {};
   const text = hint.hint || hint.value || hint.status || "not_checked";
@@ -137,6 +174,7 @@ function Card({ card, rank, checkFirst, railState, setRailState }) {
       <div style={{ padding: "2px 12px 12px", borderTop: "1px solid #1e293b", marginTop: 10, paddingTop: 8 }}>
         <SectionTitle>Why it is this</SectionTitle>
         <WhyBreakdown display={display} />
+        <LayerBreakdown display={display} />
         {(card.conflicts || []).map((c, i) => (
           <div key={i} style={{ border: "1px solid #fb923c", color: "#fdba74", borderRadius: 8,
                                 padding: "6px 8px", fontSize: 12, margin: "6px 0" }}>

@@ -1,12 +1,14 @@
 ﻿import os
 import sys
 import json
+from copy import deepcopy
 
 import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import battery_feed_adapter as bfa
+import conviction_engine as ce
 import decision_card as dc
 from directive_recs import build_directive_cards
 from tunables import load_conviction_weights, load_goal_tunables
@@ -192,6 +194,35 @@ def test_directive_conviction_carries_battery_without_render_or_priority_couplin
         1,
     ) + 5.0
     assert googl["priority"] == expected
+
+
+def test_shadow_sector_layer_does_not_change_ranking_or_priority(monkeypatch):
+    calls = [
+        {"ticker": "SMH", "source": "newton", "tier": "A", "date": TODAY, "direction": "bullish", "id": "smh"}
+    ]
+    monkeypatch.setattr(ce, "load_source_calls", lambda: calls)
+    shadow = build_directive_cards(
+        feed=_feed(), weights=W, goal=G, insights_payload=_insights(),
+        accounts=_accounts(), gates=[_gate()], uw_states={}, entry_zones={},
+        today=TODAY,
+    )
+    off_weights = deepcopy(W)
+    off_weights["conviction_layers"]["mode"] = "off"
+    off = build_directive_cards(
+        feed=_feed(), weights=off_weights, goal=G, insights_payload=_insights(),
+        accounts=_accounts(), gates=[_gate()], uw_states={}, entry_zones={},
+        today=TODAY,
+    )
+
+    shadow_ranked = shadow["cards"] + shadow["backlog"]
+    off_ranked = off["cards"] + off["backlog"]
+    assert [(c["ticker"], c["priority"]) for c in shadow_ranked] == [
+        (c["ticker"], c["priority"]) for c in off_ranked
+    ]
+    nvda = [c for c in shadow_ranked if c["ticker"] == "NVDA"][0]
+    nvda_off = [c for c in off_ranked if c["ticker"] == "NVDA"][0]
+    assert nvda["conviction"]["conviction_layers"]["sector"]["status"] == "active"
+    assert nvda["conviction"]["points"] == nvda_off["conviction"]["points"]
 
 
 def test_avgo_card_attaches_synced_stale_dossier_as_peer_block():

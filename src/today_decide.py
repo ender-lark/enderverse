@@ -253,6 +253,62 @@ def _factor_display_rows(factors: list[dict[str, Any]], action: str) -> list[dic
     return rows
 
 
+def _layer_points_text(points: Any) -> str:
+    try:
+        value = float(points or 0.0)
+    except (TypeError, ValueError):
+        value = 0.0
+    return f"{value:+.2f}"
+
+
+def _conviction_layer_display(layers: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(layers, dict) or layers.get("mode") in {None, "off"}:
+        return {"mode": "off", "rows": []}
+    name = layers.get("name") or {}
+    sector = layers.get("sector") or {}
+    overall = layers.get("overall") or {}
+    rows = [
+        {
+            "key": "name",
+            "label": "Name-specific",
+            "status": name.get("status") or "not_checked",
+            "points": name.get("points") or 0.0,
+            "read": name.get("read") or "LOW",
+            "direction": name.get("direction") or "NEUTRAL",
+            "detail": "direct ticker evidence",
+        },
+        {
+            "key": "sector",
+            "label": "Sector/sleeve",
+            "status": sector.get("status") or "not_checked",
+            "points": sector.get("points") or 0.0,
+            "read": sector.get("read") or "LOW",
+            "direction": sector.get("direction") or "NEUTRAL",
+            "detail": sector.get("category") or sector.get("sleeve") or "",
+        },
+        {
+            "key": "overall",
+            "label": "Shadow overall",
+            "status": "shadow",
+            "points": overall.get("points_decimal", overall.get("points", 0.0)),
+            "read": overall.get("read") or "LOW",
+            "direction": overall.get("direction") or "NEUTRAL",
+            "detail": (
+                f"sector lift {_layer_points_text(overall.get('sector_lift'))} "
+                f"(cap {float(overall.get('sector_lift_cap') or 0.0):.2f})"
+            ),
+        },
+    ]
+    return {
+        "mode": layers.get("mode") or "shadow",
+        "formula_version": (overall.get("formula_version") or "shadow_v1"),
+        "rows": rows,
+        "conflict": overall.get("conflict"),
+        "clamped_reasons": list(overall.get("clamped_reasons") or []),
+        "sector_only_recheck": overall.get("sector_only_recheck"),
+    }
+
+
 def _display_band_color(action: str, band: str, conflict: str | None) -> str:
     if conflict:
         return "#fb923c"
@@ -305,6 +361,7 @@ def build_conviction_display(card: dict[str, Any]) -> dict[str, Any]:
             "groups": _group_display_rows(conviction.get("groups") or {}),
             "decisive_factors": factors,
         },
+        "layers": _conviction_layer_display(conviction.get("conviction_layers") or {}),
         "raises": list(conviction.get("raises") or []),
         "iv_hint": iv_hint,
         "not_checked": list(conviction.get("not_checked") or []),
@@ -500,6 +557,35 @@ def _render_factor_breakdown(display: dict[str, Any]) -> str:
     return "".join(bits)
 
 
+def _render_layer_breakdown(display: dict[str, Any]) -> str:
+    layers = display.get("layers") or {}
+    rows = layers.get("rows") or []
+    if not rows or layers.get("mode") == "off":
+        return ""
+    bits = ['<div class="td-section-title">Name / sector split</div>']
+    for row in rows:
+        status = row.get("status") or "not_checked"
+        points = _layer_points_text(row.get("points"))
+        detail = str(row.get("detail") or "").strip()
+        detail_html = f' - {_esc(detail)}' if detail else ""
+        bits.append(
+            f'<div class="td-why-item"><strong>{_esc(row.get("label") or row.get("key"))}</strong> '
+            f'{points} {_esc(row.get("read") or "LOW")} ({_esc(status)}){detail_html}</div>'
+        )
+    if layers.get("conflict"):
+        bits.append(f'<div class="td-chip">LAYER CONFLICT - {_esc(layers.get("conflict"))}</div>')
+    for reason in layers.get("clamped_reasons") or []:
+        bits.append(f'<div class="td-row">layer guard: {_esc(reason)}</div>')
+    recheck = layers.get("sector_only_recheck") or {}
+    if recheck.get("eligible"):
+        suffix = "alert disabled in shadow mode" if not recheck.get("alert_enabled") else "alert enabled"
+        bits.append(
+            f'<div class="td-row">sector-only recheck: {_esc(recheck.get("next_step") or "re-check")} '
+            f'({_esc(suffix)})</div>'
+        )
+    return "".join(bits)
+
+
 def _render_iv_hint(display: dict[str, Any]) -> str:
     hint = display.get("iv_hint") or {}
     if not isinstance(hint, dict):
@@ -599,6 +685,7 @@ def _render_card(card: dict[str, Any], rank: int, check_first: bool = False) -> 
     h.append('<div class="td-section-title">Why it is this</div>')
     h.append(_render_factor_breakdown(display))
     h.append(_render_group_breakdown(display))
+    h.append(_render_layer_breakdown(display))
     for c in card.get("conflicts") or []:
         h.append(f'<div class="td-chip">SOURCE-CONFLICT â€” {_esc(c["with"])}: â€œ{_esc(c["their_claim"])}â€ '
                  f'vs this card: {_esc(c["card_claim"])} Â· resolve before acting</div>')

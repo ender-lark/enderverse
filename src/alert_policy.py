@@ -228,6 +228,33 @@ def build_alert_policy(feed: dict[str, Any]) -> dict[str, Any]:
             "why": "Dossier freshness blockers stay on the matching Today card unless the blocked card is alert-actionable.",
         })
 
+    for card in today.get("cards") or []:
+        if not isinstance(card, dict):
+            continue
+        layers = (card.get("conviction_display") or {}).get("layers") or {}
+        recheck = layers.get("sector_only_recheck") or {}
+        if not isinstance(recheck, dict) or not recheck.get("eligible"):
+            continue
+        ticker = _text(card.get("ticker"))
+        if recheck.get("alert_enabled"):
+            _add(
+                rows,
+                severity="warn",
+                kind="sector_only_recheck",
+                ticker=ticker,
+                title=f"{ticker} sector support needs name re-check",
+                why=_text(recheck.get("next_step") or "Sector support alone is not a buy signal."),
+                source="conviction_layers",
+                trigger="conviction_layers.sector_only_recheck eligible",
+                next_step="Re-check the name-specific evidence before promoting any capital action.",
+            )
+        else:
+            suppressed.append({
+                "reason": "sector_only_recheck_shadow",
+                "ticker": ticker,
+                "why": "Sector-only recheck hook is computed, but live alert emission is disabled in shadow mode.",
+            })
+
     event_rows = [
         row for row in (feed.get("event_risk") or [])
         if isinstance(row, dict) and row.get("severity") == "critical"

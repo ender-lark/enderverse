@@ -2,7 +2,10 @@
 
 Date: 2026-06-16
 Owner: Codex
-Status: design proposal only. Do not implement until operator and Model Council approval.
+Status: operator approved the safe shadow slice after Claude architecture review.
+Do not flip the live card score/ranking from legacy conviction to combined
+overall conviction until the shadow split has been reviewed on real cards for a
+couple of weeks and the activation gate is explicitly approved.
 
 ## Why This Exists
 
@@ -35,6 +38,42 @@ The goal is not a prettier model. The goal is faster, clearer action triage:
 
 Because `points` feeds ranking and action promotion, any change to the score is
 a doctrine/scoring change. This proposal is the gate before implementation.
+
+## Approved Shadow V1 Dials
+
+These values are judgment defaults, not calibrated truths. They are named
+tunables in `src/conviction_weights.json` and queued for revisit after graded
+outcomes exist.
+
+- `mode`: `shadow`. Compute and render the split in the drawer, but leave live
+  ranking, sizing, and the card-face conviction line on the legacy score.
+- `sector_weight`: `0.33`.
+- `sector_lift_cap`: `0.5`. This matches the existing ceiling for weak or
+  suggestive evidence such as single-day options flow.
+- `sector_only_capital_action_allowed`: `false`. A hot sector with no fresh
+  name evidence can only produce a recheck posture, never a buy/add action.
+- `sector_only_alert_enabled`: `false` for the shadow PR. The alert-policy hook
+  is present and tested, but suppressed until explicitly enabled.
+- Sector lift affects shadow rank/urgency interpretation only. It does not
+  affect dollar sizing.
+- Sleeve proxy tickers such as `SMH`, `SOXX`, `IGV`, `URA`, `URNM`, `REMX`,
+  `XLE`, `XOP`, `XLF`, `GDX`, and `IBIT` get `not_applicable` sector status so
+  the same view is not counted as both name and sector evidence.
+- Broad market gauges such as `SPX`, `SPY`, `QQQ`, `IWM`, `RSP`, `VIX`, `DXY`,
+  `TNX`, and `TLT` feed market context only. They do not auto-lift individual
+  names.
+- Sector shelf lives: daily tactical calls `7` days, monthly stances `35` days,
+  catalyst backstop `35` days unless a future resolver is wired.
+
+Claude review also added three hard guardrails:
+
+- If name-specific evidence is negative, positive sector lift is clamped to
+  zero for the combined number. A hot sector cannot rescue a name whose own tape
+  is bad.
+- A given source-call row scores in one layer only, and same-source same-week
+  sleeve views are deduped to avoid correlated Fundstrat inflation.
+- Sector lift may raise the read band by at most one notch and can never print
+  `HIGH` when name evidence alone is below the moderate threshold.
 
 ## Proposed Contract
 
@@ -111,7 +150,8 @@ factor that should inform the name but should not masquerade as name evidence.
 It can include:
 
 - Fundstrat source-call rows whose subject is a mapped sleeve proxy such as
-  `SMH`, `SOXX`, `IGV`, `XLF`, `URA`, `REMX`, `IBIT`, `VOLT`, or `GDX`.
+  `SMH`, `SOXX`, `IGV`, `XLF`, `URA`, `URNM`, `REMX`, `XLE`, `XOP`, `IBIT`,
+  or `GDX`.
 - Fundstrat Bible category cues when they are fresh enough for their cadence.
 - Existing holdings rotation labels where the feed has a checked group read.
 
@@ -173,6 +213,7 @@ reviewed by the operator:
 Missing map behavior:
 
 - If a ticker has no map, sector layer is `not_checked: ["sector_map"]`.
+- If a ticker is itself a sleeve proxy, sector layer is `not_applicable`.
 - If a mapped sleeve has no checked evidence, sector layer is
   `checked_no_signal`, not `not_checked`.
 - If sector evidence exists but is stale or blocked by the staleness guard, it

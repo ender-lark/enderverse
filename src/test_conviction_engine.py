@@ -319,3 +319,132 @@ def test_membership_and_feed_adapters():
     state = ce.uw_state_from_feed("GOOGL", feed)
     assert state["interpretation"] == "supports" and state["date"] == TODAY
     assert ce.uw_state_from_feed("GOOGL", {}) == {}
+
+
+def _sector_item(subject="SMH", source="newton", tier="A", date=TODAY, direction="bullish", kind="sector_source_call"):
+    return {
+        "source": source,
+        "tier": tier,
+        "date": date,
+        "direction": direction,
+        "note": f"{subject} sector call",
+        "kind": kind,
+        "sector_subject": subject,
+        "sleeve": "SMH",
+        "category": "AI / Semiconductors",
+        "source_call_id": f"{source}-{subject}-{date}",
+    }
+
+
+def test_conviction_layers_shadow_keeps_legacy_score_and_adds_sector_split():
+    legacy = ce.conviction("NVDA", fs_items=[_item(tier="B")], weights=W, goal=G, today=TODAY)
+    layered = ce.conviction(
+        "NVDA",
+        fs_items=[_item(tier="B")],
+        sector_items=[_sector_item()],
+        weights=W,
+        goal=G,
+        today=TODAY,
+    )
+
+    assert layered["points"] == legacy["points"]
+    assert layered["read"] == legacy["read"]
+    assert layered["groups"] == legacy["groups"]
+    layers = layered["conviction_layers"]
+    assert layers["mode"] == "shadow"
+    assert layers["name"]["points"] == legacy["points"]
+    assert layers["sector"]["status"] == "active"
+    assert layers["sector"]["points"] == 1.0
+    assert layers["overall"]["sector_lift"] == pytest.approx(0.33)
+    assert layers["overall"]["points_decimal"] == pytest.approx(legacy["points"] + 0.33)
+
+
+def test_positive_sector_lift_cannot_rescue_negative_name_evidence():
+    out = ce.conviction(
+        "NVDA",
+        fs_items=[_item(direction="bearish")],
+        sector_items=[_sector_item(direction="bullish")],
+        weights=W,
+        goal=G,
+        today=TODAY,
+    )
+
+    overall = out["conviction_layers"]["overall"]
+    assert out["points"] == -1.0
+    assert overall["sector_lift"] == 0.0
+    assert overall["points_decimal"] == -1.0
+    assert "negative" in " ".join(overall["clamped_reasons"])
+    assert overall["conflict"]
+
+
+def test_sector_layer_dedupes_same_author_same_week_sleeve_views():
+    out = ce.conviction(
+        "NVDA",
+        sector_items=[
+            _sector_item(subject="SMH", source="newton", tier="A"),
+            _sector_item(subject="SOXX", source="newton", tier="A"),
+        ],
+        weights=W,
+        goal=G,
+        today=TODAY,
+    )
+
+    sector = out["conviction_layers"]["sector"]
+    assert sector["points"] == 1.0
+    assert sector["deduped_count"] == 1
+
+
+def test_sleeve_proxy_ticker_gets_not_applicable_sector_layer():
+    out = ce.conviction(
+        "SMH",
+        fs_items=[_item()],
+        sector_items=[_sector_item()],
+        weights=W,
+        goal=G,
+        today=TODAY,
+    )
+
+    sector = out["conviction_layers"]["sector"]
+    assert sector["status"] == "not_applicable"
+    assert out["conviction_layers"]["overall"]["points_decimal"] == out["points"]
+
+
+def test_missing_sector_map_is_not_checked_and_empty_mapped_sector_is_no_signal():
+    missing = ce.conviction("ZZZZ", weights=W, goal=G, today=TODAY)
+    assert missing["conviction_layers"]["sector"]["status"] == "not_checked"
+    assert "sector_map" in missing["conviction_layers"]["sector"]["not_checked"]
+
+    empty = ce.conviction("NVDA", weights=W, goal=G, today=TODAY)
+    assert empty["conviction_layers"]["sector"]["status"] == "checked_no_signal"
+    assert empty["conviction_layers"]["sector"]["points"] == 0.0
+
+
+def test_sector_lift_cannot_print_high_when_name_is_below_moderate():
+    goal = _goal(high=0.3, mod=0.2)
+    out = ce.conviction(
+        "NVDA",
+        sector_items=[_sector_item()],
+        weights=W,
+        goal=goal,
+        today=TODAY,
+    )
+
+    overall = out["conviction_layers"]["overall"]
+    assert overall["points_decimal"] == pytest.approx(0.33)
+    assert overall["read"] == "MODERATE"
+    assert overall["band_capped"] is True
+    assert "capped read" in " ".join(overall["clamped_reasons"])
+
+
+def test_sector_source_adapter_excludes_broad_market_and_exact_proxy_double_count():
+    calls = [
+        {"ticker": "SMH", "source": "newton", "tier": "A", "date": TODAY, "direction": "bullish", "id": "smh"},
+        {"ticker": "QQQ", "source": "newton", "tier": "A", "date": TODAY, "direction": "bullish", "id": "qqq"},
+        {"ticker": "NVDA", "source": "newton", "tier": "A", "date": TODAY, "direction": "bullish", "id": "nvda"},
+    ]
+
+    nvda_sector = ce.fs_sector_items_for_ticker("NVDA", calls, weights=W)
+    smh_sector = ce.fs_sector_items_for_ticker("SMH", calls, weights=W)
+
+    assert [row["sector_subject"] for row in nvda_sector] == ["SMH"]
+    assert smh_sector == []
