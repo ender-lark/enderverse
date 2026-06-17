@@ -2,54 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:33.885084Z",
-      "summary": "investing-os-weekly-pilot-run manual run started"
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:34.125152Z",
-      "summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "heartbeat status write",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--src-dir",
-              "src",
-              "--out",
-              "src/heartbeat.json",
-              "--summary",
-              "src/heartbeat_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src/heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          },
-          {
-            "label": "heartbeat validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--validate",
-              "src/heartbeat.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "started",
       "run_source": "scheduled",
@@ -7172,7 +7124,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T05:51:34.126600Z",
       "summary": "live query unavailable; fallback search/fetch processed Med drawdown/concentration rail page written+verified and moved Working; known High queued blocked MU build follow-up + full-book operator review; FN/Thiel already Working; remaining ordered backlog dark/not_checked"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T08:47:34.204534Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T08:51:49.752823Z",
+      "summary": "skipped; verified live queued H2/M0/L0; selected none; remaining H2: MU parabolic wiring is code/framework follow-up, full-book rebalance pending operator review; Notion writes none; ordered query dark/not_checked; stale fallback mirror not source"
     }
   ],
-  "updated_at": "2026-06-17T05:51:34.126600Z"
+  "updated_at": "2026-06-17T08:51:49.752823Z"
 }
