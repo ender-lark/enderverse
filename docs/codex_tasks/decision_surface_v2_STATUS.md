@@ -4,11 +4,11 @@ Recovery anchor: `docs/codex_tasks/decision_surface_v2_overnight_plan.md`.
 
 ## Morning Report
 
-TLDR: DSV2 delta is built and locally verified. The action-first Today/Decide
-surface was already live on `origin/main c6a059c`; this branch adds the missing
-data-artifact guardrail plus the Fed-packet freshness honesty rail. No render
-rail, scoring, ranking, sizing, timing-engine, reallocation, decision-card, or
-orphan-wiring internals were rebuilt.
+TLDR: DSV2 delta is built, verified, merged, and closed on `main`. The
+action-first Today/Decide surface was already live on `origin/main c6a059c`;
+PR #70 added the missing data-artifact guardrail plus the Fed-packet freshness
+honesty rail. No render rail, scoring, ranking, sizing, timing-engine,
+reallocation, decision-card, or orphan-wiring internals were rebuilt.
 
 What the operator sees:
 - Top operator-focus cards remain the already-merged Today/Decide surface
@@ -29,6 +29,15 @@ Verification evidence:
   `disconfirmation_registry.json` as real remaining data-artifact debt.
 - Fresh temporary render `tmp\dsv2_delta_dashboard.html`: watch queue shows 14
   rows and `Fed-day packet current as of 2026-06-17`.
+- GitHub PR #70 workflow `tests` run #927: success; PR mergeability check:
+  `mergeable=true`, `mergeable_state=clean`, expected head SHA
+  `95b6e77d31c31de31c72b2333584a99649493167`.
+- PR #70 merged via squash commit `f5178c2`; WORKBOARD closeout pushed to
+  `main` at `75e1dc8`.
+- Post-merge dashboard refresh completed in the detached verification worktree;
+  generated cache/dashboard files were not staged.
+- Live ledger updated and fetch-back verified; five named deferrals captured in
+  the System Update Queue.
 
 Named deferrals:
 - Orphan_wiring live thread: blocked on absent caches/path cleanup.
@@ -38,8 +47,7 @@ Named deferrals:
 - `watchlist_discount_screen` 107-name consumption: deferred.
 - Daily regenerated discount/pullback packet: deferred routine/product slice.
 
-Status: ready for rebase, PR, and all-green merge gate. If any closeout gate is
-ambiguous, leave the branch pushed but unmerged.
+Status: complete. Current `origin/main` closeout head is `75e1dc8`.
 
 ## Ground Truth
 
@@ -61,7 +69,8 @@ ambiguous, leave the branch pushed but unmerged.
 - Slice 1 - `build_without_wire` integration-debt guardrail: DONE `2e4901e`.
 - Slice 2 - Fed-packet staleness honesty gate: DONE `11f88a9`.
 - Slice 3 - docs and named deferrals: DONE `00c1262`.
-- Slice 4 - verification, PR, merge gate, post-merge closeout: IN-PROGRESS.
+- Slice 4 - verification, PR, merge gate, post-merge closeout: DONE `f5178c2`
+  + WORKBOARD closeout `75e1dc8`.
 
 ## Slice 1 Notes
 
