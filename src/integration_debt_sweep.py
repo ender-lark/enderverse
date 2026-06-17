@@ -26,6 +26,20 @@ DEFAULT_JSON_PATH = SRC / "integration_debt_report.json"
 
 WARN = "warn"
 INFO = "info"
+TICKER_KEY_RE = re.compile(r"^[A-Z]{1,6}(\.[A-Z]{1,3})?$")
+CANDIDATE_LIST_KEYS = {"rows", "results", "items", "signals"}
+TOP_LEVEL_CANDIDATE_KEYS = {"tickers", "candidates"}
+JSON_ARTIFACT_SKIP_EXACT = {
+    "integration_debt_report.json",
+    "non_surfacing_allowlist.json",
+}
+DECISION_PATH_MODULES = (
+    "today_decide.py",
+    "directive_recs.py",
+    "feed_assembler.py",
+    "full_build_runner.py",
+    "cockpit_html_gen.py",
+)
 
 
 def _now_iso() -> str:
@@ -213,6 +227,166 @@ def module_wiring_section(src_dir: Path, root_dir: Path) -> dict[str, Any]:
         "priority_warning_count": warn_count,
         "rows": sample,
         "findings": finding_rows,
+    }
+
+
+def _json_artifact_files(src_dir: Path) -> list[Path]:
+    out: list[Path] = []
+    for path in sorted(src_dir.glob("*.json")):
+        name = path.name
+        lower = name.lower()
+        if name in JSON_ARTIFACT_SKIP_EXACT:
+            continue
+        if lower.startswith("golden_") or "_snapshot" in lower:
+            continue
+        if ".example." in lower or ".local." in lower:
+            continue
+        out.append(path)
+    return out
+
+
+def _candidate_row(value: Any) -> bool:
+    return isinstance(value, dict) and ("ticker" in value or "symbol" in value)
+
+
+def _candidate_rows(value: Any) -> bool:
+    return isinstance(value, list) and any(_candidate_row(row) for row in value)
+
+
+def _candidate_map(value: Any) -> bool:
+    return isinstance(value, dict) and any(_candidate_row(row) for row in value.values())
+
+
+def _candidate_bearing_json(payload: Any) -> bool:
+    if isinstance(payload, list):
+        return _candidate_rows(payload)
+    if not isinstance(payload, dict):
+        return False
+
+    ticker_keys = [
+        key for key in payload
+        if TICKER_KEY_RE.match(str(key))
+    ]
+    if len(ticker_keys) >= 2:
+        return True
+    if any(key in payload for key in TOP_LEVEL_CANDIDATE_KEYS):
+        return True
+
+    for value in payload.values():
+        if _candidate_rows(value):
+            return True
+        if _candidate_map(value):
+            return True
+        if isinstance(value, dict):
+            for key in CANDIDATE_LIST_KEYS:
+                if _candidate_rows(value.get(key)):
+                    return True
+    return False
+
+
+def _decision_path_text(src_dir: Path) -> str:
+    return "\n".join(_read_text(src_dir / name) for name in DECISION_PATH_MODULES)
+
+
+def _has_real_feed_path(value: Any) -> bool:
+    text = str(value or "").strip()
+    if not text:
+        return False
+    low = text.lower()
+    if low in {"n/a", "none", "manual-only", "audit file"}:
+        return False
+    if low.startswith("audit file"):
+        return False
+    return True
+
+
+def _ownership_feed_paths(src_dir: Path) -> dict[str, str]:
+    payload = _read_json(src_dir / "state_ownership_map.json", {})
+    out: dict[str, str] = {}
+    for row in payload.get("objects") or []:
+        if not isinstance(row, dict):
+            continue
+        artifact = row.get("repo_artifact")
+        feed_path = row.get("feed_path")
+        if not artifact or not _has_real_feed_path(feed_path):
+            continue
+        out[Path(str(artifact)).name] = str(feed_path)
+    return out
+
+
+def _non_surfacing_allowlist(src_dir: Path) -> dict[str, dict[str, Any]]:
+    payload = _read_json(src_dir / "non_surfacing_allowlist.json", {})
+    out: dict[str, dict[str, Any]] = {}
+    for row in payload.get("artifacts") or []:
+        if not isinstance(row, dict):
+            continue
+        artifact = row.get("artifact")
+        if artifact:
+            out[Path(str(artifact)).name] = row
+    return out
+
+
+def build_without_wire_section(src_dir: Path, root_dir: Path) -> dict[str, Any]:
+    decision_text = _decision_path_text(src_dir)
+    ownership_paths = _ownership_feed_paths(src_dir)
+    allowlist = _non_surfacing_allowlist(src_dir)
+    rows: list[dict[str, Any]] = []
+    findings: list[dict[str, Any]] = []
+
+    for path in _json_artifact_files(src_dir):
+        payload = _read_json(path, None)
+        if not _candidate_bearing_json(payload):
+            continue
+        artifact = path.name
+        rel_path = _rel(path, root_dir)
+        wiring = ""
+        if artifact in decision_text:
+            wiring = "decision_path_reader"
+        elif artifact in ownership_paths:
+            wiring = "state_ownership_feed_path"
+        elif artifact in allowlist:
+            wiring = "non_surfacing_allowlist"
+
+        row = {
+            "artifact": artifact,
+            "path": rel_path,
+            "wired": bool(wiring),
+            "wiring": wiring or "missing",
+            "line": (
+                f"{artifact} carries ticker/candidate rows and is wired via {wiring}."
+                if wiring else
+                f"{artifact} carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry."
+            ),
+        }
+        if artifact in allowlist:
+            row["classification"] = allowlist[artifact].get("classification")
+            row["non_surfacing_reason"] = allowlist[artifact].get("non_surfacing_reason")
+        rows.append(row)
+
+        if not wiring:
+            findings.append(_finding(
+                finding_id=f"build_without_wire_{path.stem}",
+                area="build_without_wire",
+                title=f"{artifact} carries candidates but is not surfaced",
+                line=row["line"],
+                severity=WARN,
+                next_step=(
+                    "Wire it through the decision path, declare a real state_ownership_map feed_path, "
+                    "or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json."
+                ),
+                evidence=[rel_path],
+            ))
+
+    return {
+        "status": "warn" if findings else "ok",
+        "line": (
+            f"Build-without-wire sweep: {len(rows)} candidate-bearing artifact(s); "
+            f"{len(findings)} unwired warning(s)."
+        ),
+        "candidate_count": len(rows),
+        "unwired_count": len(findings),
+        "rows": rows[:20],
+        "findings": findings,
     }
 
 
@@ -506,6 +680,7 @@ def build_report(
     sections = {
         "options_exit_cadence": options_exit_cadence_section(src, root),
         "module_wiring": module_wiring_section(src, root),
+        "build_without_wire": build_without_wire_section(src, root),
         "routine_schedule": routine_schedule_section(src, root),
         "notion_queue": notion_queue_section(root, src, queue_rows),
     }

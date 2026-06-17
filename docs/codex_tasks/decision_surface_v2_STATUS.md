@@ -4,7 +4,7 @@ Recovery anchor: `docs/codex_tasks/decision_surface_v2_overnight_plan.md`.
 
 ## Morning Report
 
-Status: in progress. Slice 0 is setting the branch, baseline, plan anchor, and workboard claim.
+Status: in progress. Slice 1 is adding the `build_without_wire` integration-debt guardrail.
 
 ## Ground Truth
 
@@ -22,11 +22,26 @@ Status: in progress. Slice 0 is setting the branch, baseline, plan anchor, and w
 
 ## Slice Checklist
 
-- Slice 0 - setup, plan anchor, baseline, workboard claim: IN-PROGRESS.
-- Slice 1 - `build_without_wire` integration-debt guardrail: pending.
+- Slice 0 - setup, plan anchor, baseline, workboard claim: DONE `d838821`.
+- Slice 1 - `build_without_wire` integration-debt guardrail: IN-PROGRESS.
 - Slice 2 - Fed-packet staleness honesty gate: pending.
 - Slice 3 - docs and named deferrals: pending.
 - Slice 4 - verification, PR, merge gate, post-merge closeout: pending.
+
+## Slice 1 Notes
+
+- Pre-coding predicate probe caught `fed_day_reallocation_packet.json` and `top_prospects.json`.
+- The first probe missed `disconfirmation_registry.json`; the predicate was widened to catch ticker-record maps such as `entries.{TICKER}.ticker`.
+- `disconfirmation_registry.json` is intentionally left as real build-without-wire debt, per the overnight plan.
+- Required predicate spot check after implementation:
+  - `fed_day_reallocation_packet.json`: candidate-bearing = true, wired = `decision_path_reader`, not flagged.
+  - `top_prospects.json`: candidate-bearing = true.
+  - `disconfirmation_registry.json`: candidate-bearing = true, intentionally flagged.
+  - `timing_gates.json`: candidate-bearing = true, wired = `state_ownership_feed_path`.
+- `python -m pytest src\test_integration_debt_sweep.py -q`: 7 passed.
+- `python src\integration_debt_sweep.py --no-write --format text`: `Integration debt: 2 warning(s), 15 total finding(s).`
+- `build_without_wire` section: `Build-without-wire sweep: 28 candidate-bearing artifact(s); 1 unwired warning(s).`
+- Remaining build-without-wire debt: `build_without_wire_disconfirmation_registry`.
 
 ## Known Deferrals To Preserve
 

@@ -81,3 +81,50 @@ def test_build_report_writes_markdown_and_json(tmp_path):
     assert out.exists()
     assert "Integration Debt Report" in out.read_text(encoding="utf-8")
     assert json.loads(json_out.read_text(encoding="utf-8"))["warning_count"] >= 1
+
+
+def test_build_without_wire_treats_real_decision_reader_as_wired(tmp_path):
+    root, src = _minimal_repo(tmp_path)
+    _write(src / "fed_day_reallocation_packet.json", json.dumps({
+        "deep_discount_research": {
+            "rows": [{"ticker": "NVDA", "discount_pct": -15.0}]
+        }
+    }))
+    _write(src / "today_decide.py", 'PACKET = "fed_day_reallocation_packet.json"\n')
+
+    section = ids.build_without_wire_section(src, root)
+
+    rows = {row["artifact"]: row for row in section["rows"]}
+    assert rows["fed_day_reallocation_packet.json"]["wired"] is True
+    assert rows["fed_day_reallocation_packet.json"]["wiring"] == "decision_path_reader"
+    assert not any(row["id"] == "build_without_wire_fed_day_reallocation_packet" for row in section["findings"])
+
+
+def test_build_without_wire_flags_unwired_candidate_json_and_allowlist_clears(tmp_path):
+    root, src = _minimal_repo(tmp_path)
+    _write(src / "orphan_candidates.json", json.dumps({
+        "candidates": [{"ticker": "ABC", "why": "fixture"}]
+    }))
+    _write(src / "disconfirmation_registry.json", json.dumps({
+        "entries": {"NVDA": {"ticker": "NVDA", "status": "DRAFT"}}
+    }))
+
+    section = ids.build_without_wire_section(src, root)
+
+    assert section["status"] == "warn"
+    assert any(row["id"] == "build_without_wire_orphan_candidates" for row in section["findings"])
+    assert any(row["id"] == "build_without_wire_disconfirmation_registry" for row in section["findings"])
+
+    _write(src / "non_surfacing_allowlist.json", json.dumps({
+        "artifacts": [{
+            "artifact": "orphan_candidates.json",
+            "classification": "example_fixture",
+            "non_surfacing_reason": "Fixture proves allowlist clearing.",
+            "owner": "test",
+            "added": "2026-06-17"
+        }]
+    }))
+    section = ids.build_without_wire_section(src, root)
+
+    assert not any(row["id"] == "build_without_wire_orphan_candidates" for row in section["findings"])
+    assert any(row["id"] == "build_without_wire_disconfirmation_registry" for row in section["findings"])
