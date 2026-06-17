@@ -13,8 +13,10 @@ Repo-local operating protocol for Codex agents working on the Investing OS.
 - If a task starts from
   `C:\Users\suraj\OneDrive\Old\Documents\Investing OS (2.0)`, first verify
   whether it is only a wrapper. When it is not a git repo, pivot to the
-  canonical checkout before editing:
-  `C:\Users\suraj\Documents\Codex\2026-06-04\confirm-you-can-access-my-github\work\enderverse`.
+  canonical main checkout before editing. Do not schedule cloud routines
+  against a feature checkout. As of 2026-06-17 the clean main checkout used for
+  cloud-routine maintenance is:
+  `C:\Users\suraj\Documents\Codex\2026-06-17\auto-loose-thread-sweep\enderverse`.
 
 ## Primary Objective (Mission — canonical; never changes without operator)
 
@@ -116,6 +118,32 @@ At the end of any substantive task/session, before going idle, capture loose thr
 - When manual auditing recurs, turn the audit into a tool and schedule it. Prove
   features against the real failures they target, and document honest gaps
   instead of faking green.
+
+## Life/Work OS Scheduled Routines
+
+- Life OS and Work OS routines live in this repo as support-monitored cloud
+  routines on the same rail as Investing OS: `src/cloud_routine_runner.py`,
+  `src/cloud_routine_receipts.py`, and `src/cloud_routine_commit.py`.
+- The registered planned routine set is:
+  `life-os-daily-briefing`, `work-os-daily-briefing`,
+  `life-os-weekly-review`, `work-os-weekly-review`,
+  `life-work-os-heartbeat-watch`, and `life-work-os-safe-hygiene`.
+- Routine prompts live under `src/codex_routines/`. Repo status is mirrored in
+  `src/cloud_automation_status.json`; actual app schedules must not be called
+  active until the Codex automation exists and scheduled receipts land.
+- Life/Work Notion reads must be deterministic REST reads using
+  `Notion-Version: 2025-09-03` and `POST /v1/data_sources/{id}/query` with
+  server-side filters and full pagination. Do not use agentic Notion search or
+  MCP search to produce backlog counts.
+- Secrets come from environment only: `NOTION_TOKEN`, `PUSHOVER_TOKEN`, and
+  `PUSHOVER_USER`. Do not read the deprecated Notion Routine Secrets page.
+- Every Notion write must be fetched back before success is claimed. Missing,
+  blocked, stale, schema-mismatched, or credential-missing lanes remain
+  `not_checked` / dark.
+- The safe-hygiene routine can only perform mechanical Tasks/Inbox/After-Hours
+  Queue writes. It must never delete, must cap mutations per run, must log every
+  mutation, and must never auto-mutate Work case-file content, Strategic Brief,
+  Game Plan, Insights, or Evidence Ledger.
 
 ## Dashboard Protocol
 

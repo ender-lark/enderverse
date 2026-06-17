@@ -162,6 +162,10 @@ def test_default_allowlist_includes_redacted_fundstrat_intake_bookkeeping():
     assert "src/orphan_triage.md" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/uw_endpoint_results.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/source_rates.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/life_os_daily_briefing_last_run.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/work_os_daily_briefing_last_run.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/life_work_os_heartbeat.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/life_work_os_hygiene_receipt.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
 
 
 def test_cloud_routine_commit_reports_push_failure_after_commit(tmp_path):

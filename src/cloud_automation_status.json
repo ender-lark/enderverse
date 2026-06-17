@@ -21,7 +21,8 @@
     "On 2026-06-15, readiness proof was scoped to 14 core unattended-readiness routines and 11 support-monitored routines. Support routines stay visible but no longer block core daily operator readiness by themselves.",
     "On 2026-06-15, the Pre-Market Source Intake app automation workspace was corrected from a malformed duplicated path back to the canonical enderverse-held-decisions-strip repo path. The proof activation timestamp was not reset; missed core receipts remain overdue until the scheduler proves them naturally.",
     "Fundstrat Late Evening Web/Transcript Sweep runs at 10:45 PM ET market weekdays to catch late-posted web/video items after the 7:00 PM after-hours pass; transcript text must be written only to the private source vault.",
-    "Loose-Thread Sweep runs daily at 10:15 PM ET as a support routine. It is capture-only, dedupe-first, and writes only genuinely new still-timely loose threads to the correct Notion queue/log after live readback verification."
+    "Loose-Thread Sweep runs daily at 10:15 PM ET as a support routine. It is capture-only, dedupe-first, and writes only genuinely new still-timely loose threads to the correct Notion queue/log after live readback verification.",
+    "Life OS and Work OS routines were reconciled on 2026-06-17 as new support-monitored Codex automations. They are registered as PLANNED until the app scheduler is explicitly updated, then should move to ACTIVE after scheduled receipts land."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
@@ -265,6 +266,84 @@
       "status": "ACTIVE",
       "role": "off_hours_research_queue",
       "schedule": "market weekdays 7:30 PM ET"
+    },
+    {
+      "automation_id": "life-os-daily-briefing",
+      "automation_name": "Life OS Daily Briefing",
+      "status": "PLANNED",
+      "role": "life_os_daily_briefing",
+      "schedule": "daily 7:30 AM ET",
+      "expected_since": "2026-06-17T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/Life_OS_Daily_Briefing_Routine_Prompt_v1.md",
+      "writes_to": "Briefing & Review Log, Pushover",
+      "model": "gpt-5.5",
+      "reasoning_effort": "xhigh"
+    },
+    {
+      "automation_id": "work-os-daily-briefing",
+      "automation_name": "Work OS Daily Briefing",
+      "status": "PLANNED",
+      "role": "work_os_daily_briefing",
+      "schedule": "market weekdays 8:00 AM ET",
+      "expected_since": "2026-06-17T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/Work_OS_Daily_Briefing_Routine_Prompt_v1.md",
+      "writes_to": "Briefing & Review Log, Pushover",
+      "model": "gpt-5.5",
+      "reasoning_effort": "xhigh"
+    },
+    {
+      "automation_id": "life-os-weekly-review",
+      "automation_name": "Life OS Weekly Review",
+      "status": "PLANNED",
+      "role": "life_os_weekly_review",
+      "schedule": "Saturday 1:00 PM ET; first Saturday emits Monthly Deep",
+      "expected_since": "2026-06-17T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/Life_OS_Weekly_Review_Routine_Prompt_v1.md",
+      "writes_to": "Briefing & Review Log, Pushover",
+      "model": "gpt-5.5",
+      "reasoning_effort": "max"
+    },
+    {
+      "automation_id": "work-os-weekly-review",
+      "automation_name": "Work OS Weekly Review",
+      "status": "PLANNED",
+      "role": "work_os_weekly_review",
+      "schedule": "Friday 4:00 PM ET",
+      "expected_since": "2026-06-17T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/Work_OS_Weekly_Review_Routine_Prompt_v1.md",
+      "writes_to": "Briefing & Review Log, Pushover",
+      "model": "gpt-5.5",
+      "reasoning_effort": "xhigh"
+    },
+    {
+      "automation_id": "life-work-os-heartbeat-watch",
+      "automation_name": "Life/Work OS Heartbeat Watch",
+      "status": "PLANNED",
+      "role": "life_work_os_heartbeat_watch",
+      "schedule": "daily 9:15 AM and 9:15 PM ET",
+      "expected_since": "2026-06-17T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/Life_Work_OS_Heartbeat_Watcher_Routine_Prompt_v1.md",
+      "writes_to": "Briefing & Review Log/Pushover status",
+      "model": "gpt-5.5",
+      "reasoning_effort": "medium"
+    },
+    {
+      "automation_id": "life-work-os-safe-hygiene",
+      "automation_name": "Life/Work OS Safe Hygiene",
+      "status": "PLANNED",
+      "role": "life_work_os_safe_hygiene",
+      "schedule": "daily 2:30 AM ET",
+      "expected_since": "2026-06-17T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/Life_Work_OS_Safe_Hygiene_Routine_Prompt_v1.md",
+      "writes_to": "Briefing & Review Log/Pushover status",
+      "model": "gpt-5.5",
+      "reasoning_effort": "high"
     }
   ]
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit installed Investing OS app automations for safe receipt handling."""
+"""Audit installed OS app automations for safe receipt handling."""
 from __future__ import annotations
 
 import argparse
@@ -16,13 +16,25 @@ DEFAULT_CODEX_HOME = Path(os.environ.get("CODEX_HOME") or Path.home() / ".codex"
 DEFAULT_AUTOMATIONS_DIR = DEFAULT_CODEX_HOME / "automations"
 
 
-def _is_investing_os(data: dict[str, Any], raw_text: str) -> bool:
+def _is_monitored_os(data: dict[str, Any], raw_text: str) -> bool:
     text = " ".join(
         str(data.get(key) or "")
         for key in ("id", "name", "prompt")
     )
     text += " " + raw_text
-    return "investing-os" in text.lower() or "investing os" in text.lower()
+    lowered = text.lower()
+    return any(
+        token in lowered
+        for token in (
+            "investing-os",
+            "investing os",
+            "life-os",
+            "life os",
+            "work-os",
+            "work os",
+            "life/work os",
+        )
+    )
 
 
 def _parse_automation(path: Path) -> tuple[dict[str, Any] | None, str | None]:
@@ -75,7 +87,7 @@ def audit_automations(automations_dir: Path = DEFAULT_AUTOMATIONS_DIR) -> dict[s
             problems.append(parse_error)
             continue
         assert data is not None
-        if not _is_investing_os(data, raw_text):
+        if not _is_monitored_os(data, raw_text):
             continue
         if str(data.get("status") or "").upper() != "ACTIVE":
             continue
@@ -116,6 +128,7 @@ def audit_automations(automations_dir: Path = DEFAULT_AUTOMATIONS_DIR) -> dict[s
         "checked": True,
         "automations_dir": str(automations_dir),
         "active_investing_os_automations": len(rows),
+        "active_monitored_os_automations": len(rows),
         "rows": rows,
         "problems": problems,
     }
@@ -126,7 +139,7 @@ def format_text(report: dict[str, Any]) -> str:
         return f"Automation prompt audit not checked: {report.get('reason', '')}"
     lines = [
         "Automation prompt audit: "
-        f"active_investing_os={report.get('active_investing_os_automations', 0)} "
+        f"active_monitored_os={report.get('active_monitored_os_automations', report.get('active_investing_os_automations', 0))} "
         f"| valid={bool(report.get('valid'))}",
     ]
     normalize_count = sum(1 for row in report.get("rows", []) if row.get("has_prompt_receipt_normalize"))
@@ -135,7 +148,7 @@ def format_text(report: dict[str, Any]) -> str:
         lines.append("Problems:")
         lines.extend(f"- {problem}" for problem in report["problems"])
     else:
-        lines.append("All active Investing OS automations use the safe commit helper and hardened worktrees.")
+        lines.append("All active monitored OS automations use the safe commit helper and hardened worktrees.")
     return "\n".join(lines)
 
 

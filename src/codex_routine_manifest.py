@@ -37,9 +37,15 @@ EXPECTED_ROUTINES = {
     "daily_full_build",
     "off_hours_research_queue",
     "loose_thread_sweep",
+    "life_os_daily_briefing",
+    "work_os_daily_briefing",
+    "life_os_weekly_review",
+    "work_os_weekly_review",
+    "life_work_os_heartbeat_watch",
+    "life_work_os_safe_hygiene",
 }
 VALID_STATUSES = {"active", "active_safe_intake", "queued", "paused", "retired"}
-VALID_SEPARATION_GROUPS = {"source_intake", "market_data_refresh", "feed_build_publish", "ops_capture"}
+VALID_SEPARATION_GROUPS = {"source_intake", "market_data_refresh", "feed_build_publish", "ops_capture", "life_work_ops"}
 
 
 def load_manifest(path: str | Path = DEFAULT_MANIFEST_PATH) -> dict[str, Any]:
@@ -275,6 +281,12 @@ def _self_test() -> bool:
             {**routine, "id": "daily_full_build", "doc": "src/codex_routines/daily_full_build.md", "separation_group": "feed_build_publish", "owns": ["src/latest_cockpit_feed.json"], "convention_inputs": convention_inputs},
             {**routine, "id": "off_hours_research_queue", "doc": "src/codex_routines/off_hours_research.md", "owns": ["src/research_queue.json"]},
             {**routine, "id": "loose_thread_sweep", "doc": "src/codex_routines/Loose_Thread_Sweep_Routine_Prompt_v1.md", "separation_group": "ops_capture", "owns": ["src/cloud_routine_receipts.json"]},
+            {**routine, "id": "life_os_daily_briefing", "doc": "src/codex_routines/Life_OS_Daily_Briefing_Routine_Prompt_v1.md", "separation_group": "life_work_ops", "owns": ["src/life_os_daily_briefing_last_run.json"]},
+            {**routine, "id": "work_os_daily_briefing", "doc": "src/codex_routines/Work_OS_Daily_Briefing_Routine_Prompt_v1.md", "separation_group": "life_work_ops", "owns": ["src/work_os_daily_briefing_last_run.json"]},
+            {**routine, "id": "life_os_weekly_review", "doc": "src/codex_routines/Life_OS_Weekly_Review_Routine_Prompt_v1.md", "separation_group": "life_work_ops", "owns": ["src/life_os_weekly_review_last_run.json"]},
+            {**routine, "id": "work_os_weekly_review", "doc": "src/codex_routines/Work_OS_Weekly_Review_Routine_Prompt_v1.md", "separation_group": "life_work_ops", "owns": ["src/work_os_weekly_review_last_run.json"]},
+            {**routine, "id": "life_work_os_heartbeat_watch", "doc": "src/codex_routines/Life_Work_OS_Heartbeat_Watcher_Routine_Prompt_v1.md", "separation_group": "life_work_ops", "owns": ["src/life_work_os_heartbeat.json"]},
+            {**routine, "id": "life_work_os_safe_hygiene", "doc": "src/codex_routines/Life_Work_OS_Safe_Hygiene_Routine_Prompt_v1.md", "separation_group": "life_work_ops", "owns": ["src/life_work_os_hygiene_receipt.json"]},
         ],
     }
     assert validate_manifest(manifest) == []

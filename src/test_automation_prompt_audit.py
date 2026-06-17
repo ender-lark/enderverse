@@ -46,7 +46,46 @@ def test_audit_accepts_safe_helper_and_hardened_worktree(tmp_path):
 
     assert report["valid"] is True
     assert report["active_investing_os_automations"] == 1
+    assert report["active_monitored_os_automations"] == 1
     assert report["problems"] == []
+
+
+def test_audit_includes_life_work_os_automations(tmp_path):
+    repo = tmp_path / "repo"
+    _write_hardened_repo(repo)
+    automations = tmp_path / "automations"
+    _automation(
+        automations / "life-os-daily-briefing",
+        prompt="Run Life OS Daily Briefing. Use python src/cloud_routine_commit.py --message x --format text.",
+        cwd=repo,
+    )
+
+    report = automation_prompt_audit.audit_automations(automations)
+
+    assert report["valid"] is True
+    assert report["active_monitored_os_automations"] == 1
+    assert report["rows"][0]["id"] == "life-os-daily-briefing"
+
+
+def test_audit_includes_life_and_work_os_automations(tmp_path):
+    repo = tmp_path / "repo"
+    _write_hardened_repo(repo)
+    automations = tmp_path / "automations"
+    _automation(
+        automations / "life-os-daily-briefing",
+        prompt="Run Life OS. Use python src/cloud_routine_commit.py --message x --format text.",
+        cwd=repo,
+    )
+    _automation(
+        automations / "work-os-daily-briefing",
+        prompt="Run Work OS. Use python src/cloud_routine_commit.py --message x --format text.",
+        cwd=repo,
+    )
+
+    report = automation_prompt_audit.audit_automations(automations)
+
+    assert report["valid"] is True
+    assert report["active_investing_os_automations"] == 2
 
 
 def test_audit_rejects_active_prompt_without_safe_helper(tmp_path):

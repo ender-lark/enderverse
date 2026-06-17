@@ -629,6 +629,191 @@
       ],
       "verification": "python src/loose_thread_sweep.py --self-test && python -m pytest src/test_loose_thread_sweep.py -q",
       "no_input_behavior": "If no candidates qualify, write no Notion rows, append a success receipt saying nothing new, and leave unavailable target queues not checked rather than checked clear."
+    },
+    {
+      "id": "life_os_daily_briefing",
+      "title": "Life OS Daily Briefing",
+      "status": "active_safe_intake",
+      "cadence": "daily_0730_et",
+      "doc": "src/codex_routines/Life_OS_Daily_Briefing_Routine_Prompt_v1.md",
+      "separation_group": "life_work_ops",
+      "input_boundaries": [
+        "Notion REST data source reads using NOTION_TOKEN only",
+        "Life Tasks, Inbox, Drift Flags, Insights & Growth, and person-domain signals",
+        "Briefing & Review Log row write with live readback verification",
+        "Pushover link push using environment credentials only"
+      ],
+      "owns": [
+        "src/life_os_daily_briefing_last_run.json"
+      ],
+      "commands": [
+        {
+          "id": "run_with_receipts",
+          "command": "python src/cloud_routine_runner.py --run-source scheduled --routine-id life-os-daily-briefing --success-summary \"life daily briefing succeeded\" --failure-summary \"life daily briefing failed\" -- python src/life_work_os_briefing.py --routine life_daily --write-log --push --out src/life_os_daily_briefing_last_run.json --format text"
+        },
+        {
+          "id": "env_check",
+          "command": "python src/life_work_os_briefing.py --env-check --format text"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Life OS daily briefing scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python -m pytest src/test_life_work_os_routines.py -q",
+      "no_input_behavior": "Missing Notion schema, credentials, or connector data stays not checked; do not emit checked-clear counts."
+    },
+    {
+      "id": "work_os_daily_briefing",
+      "title": "Work OS Daily Briefing",
+      "status": "active_safe_intake",
+      "cadence": "weekdays_0800_et",
+      "doc": "src/codex_routines/Work_OS_Daily_Briefing_Routine_Prompt_v1.md",
+      "separation_group": "life_work_ops",
+      "input_boundaries": [
+        "User-owned Notion only; never Solventum tenant data",
+        "Domain=Work Tasks, Work Operations, Evidence & Fact Ledger, Work Insights, and active Drift Flags",
+        "Employee vs claimant hat labels on every surfaced item",
+        "Briefing & Review Log row write with live readback verification"
+      ],
+      "owns": [
+        "src/work_os_daily_briefing_last_run.json"
+      ],
+      "commands": [
+        {
+          "id": "run_with_receipts",
+          "command": "python src/cloud_routine_runner.py --run-source scheduled --routine-id work-os-daily-briefing --success-summary \"work daily briefing succeeded\" --failure-summary \"work daily briefing failed\" -- python src/life_work_os_briefing.py --routine work_daily --write-log --push --out src/work_os_daily_briefing_last_run.json --format text"
+        },
+        {
+          "id": "env_check",
+          "command": "python src/life_work_os_briefing.py --env-check --format text"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Work OS daily briefing scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python -m pytest src/test_life_work_os_routines.py -q",
+      "no_input_behavior": "Missing Notion schema, credentials, or connector data stays not checked; do not emit checked-clear counts."
+    },
+    {
+      "id": "life_os_weekly_review",
+      "title": "Life OS Weekly Review",
+      "status": "active_safe_intake",
+      "cadence": "saturday_1300_et_first_saturday_monthly_deep",
+      "doc": "src/codex_routines/Life_OS_Weekly_Review_Routine_Prompt_v1.md",
+      "separation_group": "life_work_ops",
+      "input_boundaries": [
+        "Notion REST data source reads using NOTION_TOKEN only",
+        "Slipped Life Tasks, recent Insights pattern candidates, hygiene backlog, and missing-daily-briefing checks",
+        "Synthesis candidates only; no automatic ratification",
+        "Briefing & Review Log row write with live readback verification"
+      ],
+      "owns": [
+        "src/life_os_weekly_review_last_run.json"
+      ],
+      "commands": [
+        {
+          "id": "run_with_receipts",
+          "command": "python src/cloud_routine_runner.py --run-source scheduled --routine-id life-os-weekly-review --success-summary \"life weekly review succeeded\" --failure-summary \"life weekly review failed\" -- python src/life_work_os_briefing.py --routine life_weekly --write-log --push --out src/life_os_weekly_review_last_run.json --format text"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Life OS weekly review scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python -m pytest src/test_life_work_os_routines.py -q",
+      "no_input_behavior": "Missing Notion schema, credentials, or connector data stays not checked; do not emit checked-clear counts."
+    },
+    {
+      "id": "work_os_weekly_review",
+      "title": "Work OS Weekly Review",
+      "status": "active_safe_intake",
+      "cadence": "friday_1600_et",
+      "doc": "src/codex_routines/Work_OS_Weekly_Review_Routine_Prompt_v1.md",
+      "separation_group": "life_work_ops",
+      "input_boundaries": [
+        "User-owned Notion only; never Solventum tenant data",
+        "Slipped Work items, evidence gaps, pattern candidates, candidate strategic moves, and emotional-load checks",
+        "Scout-only case content; no automatic case-file mutations",
+        "Briefing & Review Log row write with live readback verification"
+      ],
+      "owns": [
+        "src/work_os_weekly_review_last_run.json"
+      ],
+      "commands": [
+        {
+          "id": "run_with_receipts",
+          "command": "python src/cloud_routine_runner.py --run-source scheduled --routine-id work-os-weekly-review --success-summary \"work weekly review succeeded\" --failure-summary \"work weekly review failed\" -- python src/life_work_os_briefing.py --routine work_weekly --write-log --push --out src/work_os_weekly_review_last_run.json --format text"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Work OS weekly review scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python -m pytest src/test_life_work_os_routines.py -q",
+      "no_input_behavior": "Missing Notion schema, credentials, or connector data stays not checked; do not emit checked-clear counts."
+    },
+    {
+      "id": "life_work_os_heartbeat_watch",
+      "title": "Life/Work OS Heartbeat Watch",
+      "status": "active_safe_intake",
+      "cadence": "twice_daily",
+      "doc": "src/codex_routines/Life_Work_OS_Heartbeat_Watcher_Routine_Prompt_v1.md",
+      "separation_group": "life_work_ops",
+      "input_boundaries": [
+        "Briefing & Review Log rows for Life OS and Work OS Daily Briefings",
+        "Pushover alarm only when stale past the 36-hour threshold",
+        "Independent watcher; weekly reviews are not the outage detector"
+      ],
+      "owns": [
+        "src/life_work_os_heartbeat.json"
+      ],
+      "commands": [
+        {
+          "id": "run_with_receipts",
+          "command": "python src/cloud_routine_runner.py --run-source scheduled --routine-id life-work-os-heartbeat-watch --success-summary \"life/work heartbeat succeeded\" --failure-summary \"life/work heartbeat failed\" -- python src/life_work_os_heartbeat.py --push --out src/life_work_os_heartbeat.json --format text"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Life/Work OS heartbeat scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python -m pytest src/test_life_work_os_routines.py -q",
+      "no_input_behavior": "Missing Briefing & Review Log access stays not checked; do not report a current heartbeat from fallback or search counts."
+    },
+    {
+      "id": "life_work_os_safe_hygiene",
+      "title": "Life/Work OS Safe Hygiene",
+      "status": "active_safe_intake",
+      "cadence": "daily_0230_et",
+      "doc": "src/codex_routines/Life_Work_OS_Safe_Hygiene_Routine_Prompt_v1.md",
+      "separation_group": "life_work_ops",
+      "input_boundaries": [
+        "Mechanical Tasks, Inbox, and After-Hours Queue hygiene only",
+        "Never delete; cancel/archive/status-update only",
+        "Never auto-mutate Work case-file content, Strategic Brief, Game Plan, Insights, or Evidence Ledger",
+        "System Changelog data source must be configured before applying mutations"
+      ],
+      "owns": [
+        "src/life_work_os_hygiene_receipt.json"
+      ],
+      "commands": [
+        {
+          "id": "plan",
+          "command": "python src/life_work_os_hygiene.py --out src/life_work_os_hygiene_receipt.json --format text"
+        },
+        {
+          "id": "apply_with_receipts",
+          "command": "python src/cloud_routine_runner.py --run-source scheduled --routine-id life-work-os-safe-hygiene --success-summary \"life/work safe hygiene succeeded\" --failure-summary \"life/work safe hygiene failed\" -- python src/life_work_os_hygiene.py --apply --max-mutations 10 --out src/life_work_os_hygiene_receipt.json --format text"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Life/Work OS safe hygiene scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python -m pytest src/test_life_work_os_routines.py -q",
+      "no_input_behavior": "Missing Notion schema, credentials, or System Changelog configuration stays not checked and prevents mutation apply."
     }
   ]
 }

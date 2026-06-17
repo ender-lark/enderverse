@@ -394,6 +394,66 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
                 Step("heartbeat validate", _python("src/heartbeat_status.py", "--validate", "src/heartbeat.json")),
             ],
         ),
+        Routine(
+            "life-os-daily-briefing",
+            "Life OS daily briefing manual support checked prompt/helper wiring only; scheduled proof still required",
+            [
+                Step("Life OS daily prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "Life_OS_Daily_Briefing_Routine_Prompt_v1.md").is_file()
+                    and (r / "src" / "life_work_os_briefing.py").is_file(),
+                }),
+            ],
+        ),
+        Routine(
+            "work-os-daily-briefing",
+            "Work OS daily briefing manual support checked prompt/helper wiring only; scheduled proof still required",
+            [
+                Step("Work OS daily prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "Work_OS_Daily_Briefing_Routine_Prompt_v1.md").is_file()
+                    and (r / "src" / "life_work_os_briefing.py").is_file(),
+                }),
+            ],
+        ),
+        Routine(
+            "life-os-weekly-review",
+            "Life OS weekly review manual support checked prompt/helper wiring only; scheduled proof still required",
+            [
+                Step("Life OS weekly prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "Life_OS_Weekly_Review_Routine_Prompt_v1.md").is_file()
+                    and (r / "src" / "life_work_os_briefing.py").is_file(),
+                }),
+            ],
+        ),
+        Routine(
+            "work-os-weekly-review",
+            "Work OS weekly review manual support checked prompt/helper wiring only; scheduled proof still required",
+            [
+                Step("Work OS weekly prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "Work_OS_Weekly_Review_Routine_Prompt_v1.md").is_file()
+                    and (r / "src" / "life_work_os_briefing.py").is_file(),
+                }),
+            ],
+        ),
+        Routine(
+            "life-work-os-heartbeat-watch",
+            "Life/Work OS heartbeat watch manual support checked prompt/helper wiring only; scheduled proof still required",
+            [
+                Step("Life/Work heartbeat prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "Life_Work_OS_Heartbeat_Watcher_Routine_Prompt_v1.md").is_file()
+                    and (r / "src" / "life_work_os_heartbeat.py").is_file(),
+                }),
+            ],
+        ),
+        Routine(
+            "life-work-os-safe-hygiene",
+            "Life/Work OS safe hygiene manual support checked prompt/helper wiring only; scheduled proof still required",
+            [
+                Step("Life/Work safe hygiene prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "Life_Work_OS_Safe_Hygiene_Routine_Prompt_v1.md").is_file()
+                    and (r / "src" / "life_work_os_hygiene.py").is_file(),
+                }),
+            ],
+        ),
     ]
 
 
