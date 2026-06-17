@@ -3,20 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:42:47.610720Z",
-      "summary": "daily synthesis started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:44:46.930464Z",
-      "summary": "uw opportunity cache started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-06T02:45:59.272994Z",
@@ -7138,7 +7124,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T08:51:49.752823Z",
       "summary": "skipped; verified live queued H2/M0/L0; selected none; remaining H2: MU parabolic wiring is code/framework follow-up, full-book rebalance pending operator review; Notion writes none; ordered query dark/not_checked; stale fallback mirror not source"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T11:46:50.226151Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T11:49:29.725103Z",
+      "summary": "checked 10 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 9 stale/already-handled items; validation passed; source merge 0 added; Notion none; dark/stale crypto flash Jun 4, intraday Sep 17 2025, first word Jun 12, fed watch Apr 29; blockers none"
     }
   ],
-  "updated_at": "2026-06-17T08:51:49.752823Z"
+  "updated_at": "2026-06-17T11:49:29.725103Z"
 }
