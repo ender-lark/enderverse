@@ -2,47 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:31.895406Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 1,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
       "run_source": "manual",
@@ -7341,7 +7300,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T00:47:04.877898Z",
       "summary": "BUILDING dry-run 8; HOT dry-run 0; queued none; cache verified 21 unqueued uncorroborated, 0 HOT/ACT_NOW; Notion write/readback n/a; blocker constrained HOT gate empty"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T00:51:36.161625Z",
+      "summary": "FS inbox catch-up evening ingested 2 entries; logged 4 Newton calls; marker advanced to [06/16/2026 20:25 ET]; flags no direct gate/card contradiction"
     }
   ],
-  "updated_at": "2026-06-17T00:47:04.877898Z"
+  "updated_at": "2026-06-17T00:51:36.161625Z"
 }
