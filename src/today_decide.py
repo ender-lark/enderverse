@@ -884,6 +884,17 @@ PASSIVITY_BUCKET_LABELS = {
     "system_blocked_not_checked": "system-blocked/not_checked",
 }
 
+BLOCKER_CATEGORY_LABELS = {
+    "price_tape_gate": "price/tape gate",
+    "source_freshness": "source freshness",
+    "flow_evidence_conflict": "flow/evidence conflict",
+    "cap_room": "cap room",
+    "cash_funding": "cash/funding",
+    "concentration_leverage": "concentration/leverage rail",
+    "account_sleeve_eligibility": "account/sleeve eligibility",
+    "research_disconfirmation": "research/disconfirmation missing",
+}
+
 
 def _card_lane(card: dict[str, Any]) -> str:
     move = (card.get("decision_card") or {}).get("move") or {}
@@ -1059,6 +1070,113 @@ def _passivity_summary(cards: list[dict[str, Any]], watch_queue: list[dict[str, 
         "rows": rows,
         "honesty_rule": "Only bucket operator_owned_actionable_now is operator latency; all other buckets are waiting on rails, markets, data, or research state.",
     }
+
+
+def _add_blocker_category(
+    rows: list[dict[str, str]],
+    seen: set[str],
+    category: str,
+    evidence: str,
+) -> None:
+    if category in seen:
+        return
+    seen.add(category)
+    rows.append({
+        "category": category,
+        "label": BLOCKER_CATEGORY_LABELS[category],
+        "evidence": evidence.strip() or BLOCKER_CATEGORY_LABELS[category],
+    })
+
+
+def _blocker_taxonomy(card: dict[str, Any], display: dict[str, Any]) -> dict[str, Any]:
+    blockers = [str(row or "").strip() for row in card.get("card_blockers") or [] if str(row or "").strip()]
+    window = card.get("window") or {}
+    window_class = str(window.get("class") or "WAIT")
+    sizing = card.get("sizing") or {}
+    execn = card.get("execution") or {}
+    dossier = card.get("dossier") or {}
+    blob = _text_blob(
+        blockers,
+        display.get("conflict"),
+        display.get("not_checked") or [],
+        card.get("conflicts") or [],
+        window.get("reasons") or [],
+        window.get("flips") or [],
+        card.get("gate_notes") or [],
+        sizing,
+        execn,
+        dossier,
+    ).lower()
+    has_hard_context = bool(
+        blockers
+        or display.get("conflict")
+        or card.get("conflicts")
+        or window_class in {"WAIT", "GATED", "STAGE-ONLY"}
+        or sizing.get("heat") in {"ABOVE_CAP", "CAP_CLIPPED"}
+        or _is_funding_leg(card)
+    )
+    rows: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for blocker in blockers:
+        low = blocker.lower()
+        if any(token in low for token in ("gate", "price", "tape", "trigger", "qqq", "market")):
+            _add_blocker_category(rows, seen, "price_tape_gate", blocker)
+        elif any(token in low for token in ("source", "inbox", "fundstrat", "analyst", "track record", "dossier", "positions", "fresh")):
+            _add_blocker_category(rows, seen, "source_freshness", blocker)
+    if window_class in {"WAIT", "GATED", "STAGE-ONLY"} and any(token in blob for token in ("gate", "price", "tape", "trigger", "market")):
+        _add_blocker_category(rows, seen, "price_tape_gate", window_class.replace("-", " ").lower())
+    if display.get("conflict") or card.get("conflicts"):
+        _add_blocker_category(rows, seen, "flow_evidence_conflict", str(display.get("conflict") or "conflicting decision lane"))
+    if sizing.get("heat") in {"ABOVE_CAP", "CAP_CLIPPED"}:
+        _add_blocker_category(rows, seen, "cap_room", str(sizing.get("heat")))
+    if _is_funding_leg(card) or any(token in blob for token in ("cash", "funding", "funds")):
+        _add_blocker_category(rows, seen, "cash_funding", "funding or cash rail")
+    if has_hard_context and any(token in blob for token in ("concentration", "leverage", "margin")):
+        _add_blocker_category(rows, seen, "concentration_leverage", "concentration/leverage rail")
+    if has_hard_context and any(token in blob for token in ("eligibility", "sleeve", "account", "etf-only", "etf only")):
+        _add_blocker_category(rows, seen, "account_sleeve_eligibility", "account/sleeve eligibility")
+    if has_hard_context and (display.get("not_checked") or any(token in blob for token in ("disconfirmation", "research", "dossier"))):
+        _add_blocker_category(rows, seen, "research_disconfirmation", "research or disconfirmation lane")
+
+    uncategorized = [blocker for blocker in blockers if not any(blocker == row["evidence"] for row in rows)]
+    if rows:
+        total = len(rows)
+        blocked_by = rows[0]["label"]
+        waiting = ", ".join(row["label"] for row in rows[1:]) or rows[0]["label"]
+        return {
+            "enumerable": True,
+            "met": 0,
+            "total": total,
+            "line": f"0 of {total} blockers cleared; blocked by {blocked_by}; waiting on {waiting}.",
+            "unmet": rows,
+            "uncategorized": uncategorized,
+            "honesty_rule": "Count uses only currently visible unmet blocker categories; it never means the move is ready.",
+        }
+    if blockers:
+        return {
+            "enumerable": False,
+            "met": None,
+            "total": None,
+            "line": f"Blocked by {blockers[0]}.",
+            "unmet": [],
+            "uncategorized": blockers,
+            "honesty_rule": "Blocker was visible but not cleanly enumerable, so no M-of-N count is shown.",
+        }
+    return {
+        "enumerable": False,
+        "met": None,
+        "total": None,
+        "line": "No blocker count; no current blocker surfaced.",
+        "unmet": [],
+        "uncategorized": [],
+        "honesty_rule": "No M-of-N count is shown without visible unmet blockers.",
+    }
+
+
+def _annotate_blocker_taxonomy(cards: list[dict[str, Any]]) -> None:
+    for card in cards:
+        display = card.get("conviction_display") or build_conviction_display(card)
+        card["blocker_taxonomy"] = _blocker_taxonomy(card, display)
 
 
 def _primary_capital_decision(cards: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -1282,7 +1400,8 @@ def _first_viewport_model(
         }
     display = card.get("conviction_display") or build_conviction_display(card)
     window_class = str((card.get("window") or {}).get("class") or "WAIT")
-    blocker = _primary_blocker_text(card, display, check_first=bool(card.get("card_blockers")), window_class=window_class)
+    taxonomy = card.get("blocker_taxonomy") or {}
+    blocker = taxonomy.get("line") or _primary_blocker_text(card, display, check_first=bool(card.get("card_blockers")), window_class=window_class)
     direction = _card_action_direction(card).upper()
     return {
         "status": "has_primary",
@@ -1362,6 +1481,7 @@ def build_today_decide_payload(
     _attach_fed_day_context(all_cards, fed_day_state)
     watch_queue = _build_fed_day_watch_queue(fed_day_state, all_cards)
     _annotate_action_first_fields(all_cards)
+    _annotate_blocker_taxonomy(all_cards)
     passivity = _passivity_summary(all_cards, watch_queue)
     gate_rows = [
         {k: g.get(k) for k in (
@@ -1496,6 +1616,10 @@ _CSS = """
 .td .td-readout-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
 .td .td-readout-k{font-size:10px;color:#94a3b8;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
 .td .td-readout-v{font-size:14px;color:#f8fafc;font-weight:750;margin-top:2px;line-height:1.3}
+.td .td-blocker-tax{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px;margin:0 0 8px}
+.td .td-blocker-tax-title{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-blocker-tax-line{font-size:13px;color:#f8fafc;font-weight:750;line-height:1.35;margin-top:3px}
+.td .td-blocker-tax-row{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
 .td .td-section-title{font-size:11px;color:#94a3b8;font-weight:850;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px}
 .td .td-why-item{font-size:13px;color:#cbd5e1;margin:4px 0;line-height:1.35}
 .td .td-why-item strong{color:#e2e8f0}
@@ -2180,6 +2304,26 @@ def _render_decision_readout(
     )
 
 
+def _render_blocker_taxonomy(card: dict[str, Any]) -> str:
+    taxonomy = card.get("blocker_taxonomy") or {}
+    line = str(taxonomy.get("line") or "").strip()
+    if not line or not taxonomy.get("unmet"):
+        return ""
+    rows = taxonomy.get("unmet") or []
+    return (
+        '<div class="td-blocker-tax">'
+        '<div class="td-blocker-tax-title">Distance to actionable</div>'
+        f'<div class="td-blocker-tax-line">{_esc(line)}</div>'
+        + "".join(
+            f'<div class="td-blocker-tax-row">{_esc(row.get("label") or row.get("category") or "")}: '
+            f'{_esc(row.get("evidence") or "")}</div>'
+            for row in rows
+        )
+        + f'<div class="td-blocker-tax-row">{_esc(taxonomy.get("honesty_rule") or "")}</div>'
+        + '</div>'
+    )
+
+
 def _render_face(
     card: dict[str, Any],
     rank: int,
@@ -2634,6 +2778,7 @@ def _render_card(
         window_class=cls,
         direction=direction,
     ))
+    h.append(_render_blocker_taxonomy(card))
     h.append(_render_gate_notes(card))
     h.append(_render_funding_pair_block(card))
     h.append(_render_fed_day_context_block(card))

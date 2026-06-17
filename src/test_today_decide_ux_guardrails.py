@@ -105,3 +105,27 @@ def test_change_delta_is_display_only_and_not_in_engine_paths():
 
     for path in engine_paths:
         assert "change_delta" not in path.read_text(encoding="utf-8")
+
+
+def test_blocker_taxonomy_m_of_n_matches_real_unmet_blockers():
+    gate = _gate()
+    gate["state"] = "red"
+    gate["stated"] = "2026-05-30"
+    payload = _payload(gates=[gate])
+    cards = payload["cards"] + payload["backlog"]
+    enumerable = [
+        card for card in cards
+        if (card.get("blocker_taxonomy") or {}).get("enumerable")
+    ]
+
+    assert enumerable
+    for card in enumerable:
+        taxonomy = card["blocker_taxonomy"]
+        assert taxonomy["met"] == 0
+        assert taxonomy["total"] == len(taxonomy["unmet"])
+        assert taxonomy["line"].startswith(f'0 of {taxonomy["total"]} blockers cleared')
+
+    html = render_today_decide_html(payload)
+    assert "Distance to actionable" in html
+    assert any(f'0 of {card["blocker_taxonomy"]["total"]} blockers cleared' in html for card in enumerable)
+    assert "never means the move is ready" in html

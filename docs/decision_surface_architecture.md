@@ -30,3 +30,16 @@ The delta compares display identities only: new decision keys `(ticker,lane)`,
 new watch names, gate state flips, and data-health lanes that moved into
 stale/dark statuses. The value is not imported by scoring, ranking, timing
 gates, sizing, or dispositions.
+
+## 2026-06-17 - Blocker Taxonomy
+
+`blocker_taxonomy` is attached to each card as display metadata. It maps visible
+unmet blockers into the real categories the operator can act on or wait for:
+price/tape gates, source freshness, flow/evidence conflicts, cap room,
+cash/funding, concentration/leverage rails, account/sleeve eligibility, and
+research/disconfirmation gaps.
+
+The UI only renders `0 of N blockers cleared` when `N` is the count of visible
+unmet categories in `blocker_taxonomy.unmet`. If a blocker is visible but not
+cleanly enumerable, the renderer shows the blocker text without an M-of-N
+count. The count is never a readiness score.

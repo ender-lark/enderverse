@@ -709,6 +709,24 @@ function DecisionReadout({ card, display, posture, checkFirst, windowClass, dire
   );
 }
 
+function BlockerTaxonomy({ card }) {
+  const taxonomy = card.blocker_taxonomy || {};
+  const rows = taxonomy.unmet || [];
+  if (!taxonomy.line || !rows.length) return null;
+  return (
+    <div style={{ border: "1px solid #334155", borderRadius: 8, background: "#0b1220", padding: 8, margin: "0 0 8px" }}>
+      <div style={{ fontSize: 10, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>Distance to actionable</div>
+      <div style={{ fontSize: 13, color: "#f8fafc", fontWeight: 750, lineHeight: 1.35, marginTop: 3 }}>{taxonomy.line}</div>
+      {rows.map((row) => (
+        <div key={row.category} style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 3 }}>
+          {row.label || row.category}: {row.evidence || ""}
+        </div>
+      ))}
+      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 3 }}>{taxonomy.honesty_rule || ""}</div>
+    </div>
+  );
+}
+
 function WhyBreakdown({ display, card, builtDate }) {
   const why = display.why || {};
   const factors = why.decisive_factors || [];
@@ -913,6 +931,7 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
       </summary>
       <div style={{ padding: "10px 12px 12px", borderTop: "1px solid #1e293b", marginTop: 8 }}>
         <DecisionReadout card={card} display={display} posture={posture} checkFirst={scopedCheckFirst} windowClass={win.class} direction={move.direction} />
+        <BlockerTaxonomy card={card} />
         <GateNotes card={card} />
         <FundingPairBlock card={card} />
         <FedDayContextBlock card={card} />
