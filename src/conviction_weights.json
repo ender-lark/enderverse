@@ -37,6 +37,58 @@
     "uw_opportunity": {"enabled": true, "weight": 1.0},
     "group_rotation": {"enabled": true, "weight": 1.0}
   },
+  "conviction_layers": {
+    "mode": "shadow",
+    "formula_version": "shadow_v1",
+    "sector_weight": 0.33,
+    "sector_lift_cap": 0.5,
+    "sector_lift_max_band_raise": 1,
+    "sector_lift_high_requires_name_moderate": true,
+    "sector_only_capital_action_allowed": false,
+    "sector_only_alert_enabled": false,
+    "sector_shelf_life_days": {
+      "daily_tactical": 7,
+      "monthly_stance": 35,
+      "catalyst_backstop": 35,
+      "default": 7
+    },
+    "broad_market_subjects": ["SPX", "SPY", "QQQ", "IWM", "RSP", "VIX", "DXY", "TNX", "TLT"],
+    "sleeve_subjects": {
+      "SMH": ["SMH", "SOXX"],
+      "IGV": ["IGV"],
+      "URA": ["URA", "URNM"],
+      "REMX": ["REMX"],
+      "XLE": ["XLE", "XOP"],
+      "XLF": ["XLF"],
+      "GDX": ["GDX"],
+      "IBIT": ["IBIT"]
+    },
+    "sleeve_categories": {
+      "SMH": "AI / Semiconductors",
+      "IGV": "Software",
+      "URA": "Nuclear",
+      "REMX": "Critical minerals",
+      "XLE": "Energy",
+      "XLF": "Financials",
+      "GDX": "Gold / Hedge",
+      "IBIT": "Crypto"
+    },
+    "ticker_to_sleeve": {
+      "SMH": "SMH", "SOXX": "SMH", "MAGS": "SMH", "NVDA": "SMH", "MU": "SMH",
+      "AVGO": "SMH", "ANET": "SMH", "IVES": "SMH", "GOOGL": "SMH", "MSFT": "SMH",
+      "AMZN": "SMH", "ASML": "SMH", "NBIS": "SMH", "FTXL": "SMH", "LITE": "SMH",
+      "POET": "SMH",
+      "IGV": "IGV", "ORCL": "IGV", "RDDT": "IGV", "PLTR": "IGV", "CIBR": "IGV",
+      "URA": "URA", "URNM": "URA", "LEU": "URA", "UUUU": "URA", "CCJ": "URA",
+      "BWXT": "URA", "UURAF": "URA",
+      "REMX": "REMX", "MP": "REMX", "LYSDY": "REMX", "LIT": "REMX",
+      "XLE": "XLE", "XOP": "XLE",
+      "XLF": "XLF", "GS": "XLF", "JPM": "XLF", "SOFI": "XLF",
+      "GDX": "GDX", "SIL": "GDX", "WPM": "GDX", "NUE": "GDX",
+      "IBIT": "IBIT", "BMNR": "IBIT", "ETHA": "IBIT", "MSTR": "IBIT",
+      "COIN": "IBIT", "HYPE": "IBIT"
+    }
+  },
   "insight_match_points": 1.0,
   "insight_triage_boost": 15,
   "insight_max_active": 7,

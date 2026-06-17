@@ -277,6 +277,7 @@ def build_directive_cards(
         extras = extra_fs_items.get(ticker.upper())
         if extras:
             items.extend(extras)
+        sector_items = ce.fs_sector_items_for_ticker(ticker, weights=weights)
         uw = uw_states.get(ticker) or ce.uw_state_from_feed(ticker, feed)
         battery_inputs = bfa.gather_battery_inputs(ticker, feed)
         battery = be.build_battery_evidence(
@@ -287,7 +288,7 @@ def build_directive_cards(
             battery_source_config=weights.get("battery_sources"),
         )
         return ce.conviction(
-            ticker, fs_items=items, uw_state=uw, insight_payload=insights_payload,
+            ticker, fs_items=items, sector_items=sector_items, uw_state=uw, insight_payload=insights_payload,
             inst_state=inst_states.get(ticker.upper()),
             weights=weights, goal=goal, rates=rates, today=today_iso,
             battery=battery,

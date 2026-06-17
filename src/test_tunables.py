@@ -40,6 +40,11 @@ def test_repo_conviction_weights_load():
     assert cfg["uw_points"]["inconclusive"] == 0
     assert cfg["group_caps"]["operator_insight"] == 1.0
     assert cfg["battery_sources"]["uw_opportunity"] == {"enabled": True, "weight": 1.0}
+    assert cfg["conviction_layers"]["mode"] == "shadow"
+    assert cfg["conviction_layers"]["sector_weight"] == 0.33
+    assert cfg["conviction_layers"]["sector_lift_cap"] == 0.5
+    assert cfg["conviction_layers"]["sector_only_capital_action_allowed"] is False
+    assert cfg["conviction_layers"]["sector_only_alert_enabled"] is False
 
 
 def test_battery_sources_optional_for_back_compat(tmp_path):
@@ -64,6 +69,30 @@ def test_battery_sources_typo_guard(tmp_path):
 def test_battery_sources_shape_validation(tmp_path):
     cfg = load_conviction_weights()
     cfg["battery_sources"]["uw_opportunity"] = {"enabled": "yes", "weight": 1.0}
+    path = _write(tmp_path, "conviction_weights.json", cfg)
+    with pytest.raises(TunablesInvalidError):
+        load_conviction_weights(path)
+
+
+def test_conviction_layers_optional_for_back_compat(tmp_path):
+    cfg = load_conviction_weights()
+    cfg.pop("conviction_layers")
+    path = _write(tmp_path, "conviction_weights.json", cfg)
+
+    loaded = load_conviction_weights(path)
+
+    assert "conviction_layers" not in loaded
+
+
+def test_conviction_layers_validation(tmp_path):
+    cfg = load_conviction_weights()
+    cfg["conviction_layers"]["sector_lift_cap"] = 1.5
+    path = _write(tmp_path, "conviction_weights.json", cfg)
+    with pytest.raises(TunablesInvalidError):
+        load_conviction_weights(path)
+
+    cfg = load_conviction_weights()
+    cfg["conviction_layers"]["ticker_to_sleeve"]["NVDA"] = "UNKNOWN"
     path = _write(tmp_path, "conviction_weights.json", cfg)
     with pytest.raises(TunablesInvalidError):
         load_conviction_weights(path)

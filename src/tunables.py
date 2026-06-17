@@ -225,7 +225,7 @@ _WEIGHTS_REQUIRED_TOP_KEYS = {
     "pattern_thresholds",
     "timing",
 }
-_WEIGHTS_OPTIONAL_TOP_KEYS = {"battery_sources"}
+_WEIGHTS_OPTIONAL_TOP_KEYS = {"battery_sources", "conviction_layers"}
 _WEIGHTS_TOP_KEYS = _WEIGHTS_REQUIRED_TOP_KEYS | _WEIGHTS_OPTIONAL_TOP_KEYS
 _BATTERY_SOURCE_KEYS = {
     "deepdive_battery",
@@ -269,6 +269,98 @@ def _validate_battery_sources(section: Any, *, source: str) -> None:
                 f"{source}: battery_sources[{key}].weight must be in [0, 1]."
             )
 
+
+def _validate_string_list(value: Any, *, source: str, name: str) -> None:
+    if not isinstance(value, list) or any(not isinstance(item, str) or not item for item in value):
+        raise TunablesInvalidError(f"{source}: {name} must be a list of non-empty strings.")
+
+
+def _validate_conviction_layers(section: Any, *, source: str) -> None:
+    if not isinstance(section, dict):
+        raise TunablesInvalidError(f"{source}: conviction_layers must be an object.")
+    expected = {
+        "mode",
+        "formula_version",
+        "sector_weight",
+        "sector_lift_cap",
+        "sector_lift_max_band_raise",
+        "sector_lift_high_requires_name_moderate",
+        "sector_only_capital_action_allowed",
+        "sector_only_alert_enabled",
+        "sector_shelf_life_days",
+        "broad_market_subjects",
+        "sleeve_subjects",
+        "sleeve_categories",
+        "ticker_to_sleeve",
+    }
+    if set(section) != expected:
+        raise TunablesInvalidError(
+            f"{source}: conviction_layers must define exactly {sorted(expected)}."
+        )
+    if section["mode"] not in {"off", "shadow", "active"}:
+        raise TunablesInvalidError(f"{source}: conviction_layers.mode must be off/shadow/active.")
+    for key in ("formula_version",):
+        if not isinstance(section[key], str) or not section[key].strip():
+            raise TunablesInvalidError(f"{source}: conviction_layers.{key} must be a non-empty string.")
+    for key in ("sector_weight", "sector_lift_cap"):
+        value = section[key]
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0:
+            raise TunablesInvalidError(f"{source}: conviction_layers.{key} must be a non-negative number.")
+    if section["sector_lift_cap"] > 1:
+        raise TunablesInvalidError(f"{source}: conviction_layers.sector_lift_cap must be <= 1.")
+    if not isinstance(section["sector_lift_max_band_raise"], int) or section["sector_lift_max_band_raise"] < 0:
+        raise TunablesInvalidError(
+            f"{source}: conviction_layers.sector_lift_max_band_raise must be a non-negative integer."
+        )
+    for key in (
+        "sector_lift_high_requires_name_moderate",
+        "sector_only_capital_action_allowed",
+        "sector_only_alert_enabled",
+    ):
+        if not isinstance(section[key], bool):
+            raise TunablesInvalidError(f"{source}: conviction_layers.{key} must be true/false.")
+    shelf = section["sector_shelf_life_days"]
+    expected_shelf = {"daily_tactical", "monthly_stance", "catalyst_backstop", "default"}
+    if not isinstance(shelf, dict) or set(shelf) != expected_shelf:
+        raise TunablesInvalidError(
+            f"{source}: conviction_layers.sector_shelf_life_days must define {sorted(expected_shelf)}."
+        )
+    for key, value in shelf.items():
+        if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+            raise TunablesInvalidError(
+                f"{source}: conviction_layers.sector_shelf_life_days.{key} must be a positive integer."
+            )
+    _validate_string_list(
+        section["broad_market_subjects"],
+        source=source,
+        name="conviction_layers.broad_market_subjects",
+    )
+    for key in ("sleeve_subjects", "sleeve_categories", "ticker_to_sleeve"):
+        if not isinstance(section[key], dict) or not section[key]:
+            raise TunablesInvalidError(f"{source}: conviction_layers.{key} must be a non-empty object.")
+    for sleeve, subjects in section["sleeve_subjects"].items():
+        if not isinstance(sleeve, str) or not sleeve:
+            raise TunablesInvalidError(f"{source}: conviction_layers.sleeve_subjects has an invalid sleeve key.")
+        _validate_string_list(
+            subjects,
+            source=source,
+            name=f"conviction_layers.sleeve_subjects[{sleeve}]",
+        )
+    for ticker, sleeve in section["ticker_to_sleeve"].items():
+        if not isinstance(ticker, str) or not ticker or not isinstance(sleeve, str) or not sleeve:
+            raise TunablesInvalidError(
+                f"{source}: conviction_layers.ticker_to_sleeve must map non-empty strings."
+            )
+        if sleeve not in section["sleeve_subjects"]:
+            raise TunablesInvalidError(
+                f"{source}: conviction_layers.ticker_to_sleeve[{ticker}] points to unknown sleeve {sleeve}."
+            )
+    for sleeve in section["sleeve_subjects"]:
+        if sleeve not in section["sleeve_categories"]:
+            raise TunablesInvalidError(
+                f"{source}: conviction_layers.sleeve_categories missing {sleeve}."
+            )
+
 def load_conviction_weights(path: Path | str = CONVICTION_WEIGHTS_PATH) -> dict[str, Any]:
     """Load + validate conviction_weights.json (doctrine constraints enforced)."""
     path = Path(path)
@@ -286,6 +378,8 @@ def load_conviction_weights(path: Path | str = CONVICTION_WEIGHTS_PATH) -> dict[
         raise TunablesInvalidError(f"{path.name}: missing section(s) {missing}.")
     if "battery_sources" in cfg:
         _validate_battery_sources(cfg["battery_sources"], source=path.name)
+    if "conviction_layers" in cfg:
+        _validate_conviction_layers(cfg["conviction_layers"], source=path.name)
 
     tier_base = cfg["tier_base"]
     if set(tier_base) != {"A", "B", "C", "D"}:

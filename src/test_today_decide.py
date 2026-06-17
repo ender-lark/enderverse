@@ -138,6 +138,7 @@ def test_html_renders_minimal_conviction_face_and_breakdown():
     html = render_today_decide_html(_payload())
     assert "Conviction to Buy GOOGL:" in html
     assert "Why it is this" in html
+    assert "Name / sector split" in html
     assert "What would make it a confident move" in html
     assert "IV options-vs-shares" in html
     assert "not checked:" in html
@@ -204,9 +205,52 @@ def test_conviction_display_payload_contract_for_buy_and_not_checked():
     assert display["why"]["groups"]
     assert "Fundstrat / source calls" in {row["label"] for row in display["why"]["groups"]}
     assert isinstance(display["why"]["decisive_factors"], list)
+    assert display["layers"]["mode"] == "shadow"
+    assert {row["key"] for row in display["layers"]["rows"]} == {"name", "sector", "overall"}
     assert display["raises"]
     assert display["iv_hint"]["status"] == "not_checked"
     assert "institutional" in display["not_checked"]
+
+
+def test_conviction_display_renders_shadow_layer_guards():
+    display = build_conviction_display({
+        "ticker": "NVDA",
+        "direction": "BUY",
+        "decision_card": {"move": {"direction": "BUY"}},
+        "conviction": {
+            "ticker": "NVDA",
+            "direction": "BUY",
+            "strength_5": 2,
+            "read": "LOW",
+            "groups": {"fs": 0.0, "uw": 0.0, "operator_insight": 0.0, "institutional": 0.0},
+            "raises": [],
+            "not_checked": [],
+            "battery": {"battery_summary": {"decisive_factors": [], "iv_hint": {"status": "not_checked"}}},
+            "conviction_layers": {
+                "mode": "shadow",
+                "name": {"status": "checked_no_signal", "points": 0.0, "read": "LOW", "direction": "NEUTRAL"},
+                "sector": {"status": "active", "points": 1.0, "read": "LOW", "direction": "BUY", "category": "AI / Semiconductors"},
+                "overall": {
+                    "points_decimal": 0.33,
+                    "read": "LOW",
+                    "direction": "BUY",
+                    "sector_lift": 0.33,
+                    "sector_lift_cap": 0.5,
+                    "conflict": None,
+                    "clamped_reasons": [],
+                    "sector_only_recheck": {
+                        "eligible": True,
+                        "alert_enabled": False,
+                        "next_step": "re-check the name; sector support alone is not a buy signal",
+                    },
+                    "formula_version": "shadow_v1",
+                },
+            },
+        },
+    })
+
+    assert display["layers"]["sector_only_recheck"]["eligible"] is True
+    assert display["layers"]["rows"][1]["status"] == "active"
 
 
 def test_conviction_display_handles_strong_sell_and_battery_conflict():

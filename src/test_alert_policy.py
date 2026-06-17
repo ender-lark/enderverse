@@ -160,3 +160,51 @@ def test_alert_policy_uses_today_dossier_blockers_for_open_now_cards_only():
     assert "stale/not-checked dossier reads must stay UNKNOWN" in rows[0]["next_step"]
     suppressed = [row for row in block["suppressed"] if row["reason"] == "dossier_dashboard_blocker"]
     assert suppressed and suppressed[0]["count"] == 1
+
+
+def test_sector_only_recheck_alert_path_is_shadow_suppressed_by_default():
+    block = build_alert_policy({
+        "today_decide": {
+            "cards": [{
+                "ticker": "NVDA",
+                "conviction_display": {
+                    "layers": {
+                        "sector_only_recheck": {
+                            "eligible": True,
+                            "alert_enabled": False,
+                            "next_step": "re-check the name; sector support alone is not a buy signal",
+                        }
+                    }
+                },
+            }]
+        }
+    })
+
+    assert block["status"] == "quiet"
+    assert block["rows"] == []
+    suppressed = [row for row in block["suppressed"] if row["reason"] == "sector_only_recheck_shadow"]
+    assert suppressed and suppressed[0]["ticker"] == "NVDA"
+
+
+def test_sector_only_recheck_alert_can_be_enabled_explicitly():
+    block = build_alert_policy({
+        "today_decide": {
+            "cards": [{
+                "ticker": "NVDA",
+                "conviction_display": {
+                    "layers": {
+                        "sector_only_recheck": {
+                            "eligible": True,
+                            "alert_enabled": True,
+                            "next_step": "re-check the name; sector support alone is not a buy signal",
+                        }
+                    }
+                },
+            }]
+        }
+    })
+
+    assert block["status"] == "notify"
+    rows = [row for row in block["rows"] if row["kind"] == "sector_only_recheck"]
+    assert rows and rows[0]["ticker"] == "NVDA"
+    assert "name-specific evidence" in rows[0]["next_step"]

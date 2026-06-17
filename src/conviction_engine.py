@@ -48,6 +48,8 @@ GROUPS = ("fs", "uw", "operator_insight", "institutional")
 TIERS = ("A", "B", "C", "D")
 _FS_SOURCES = {"fundstrat", "newton", "lee", "farrell", "tlee", "mark newton", "tom lee"}
 _EPS = 1e-9
+_BAND_ORDER = {"LOW": 0, "MODERATE": 1, "HIGH": 2}
+_BAND_BY_ORDER = {v: k for k, v in _BAND_ORDER.items()}
 
 def _today(today: str | date | None) -> date:
     if today is None:
@@ -230,6 +232,377 @@ def _direction_from_points(points: float) -> str:
         return "SELL"
     return "NEUTRAL"
 
+def _layer_settings(weights: dict[str, Any]) -> dict[str, Any]:
+    section = weights.get("conviction_layers")
+    if isinstance(section, dict):
+        return section
+    return {"mode": "off"}
+
+def _layer_mode(weights: dict[str, Any]) -> str:
+    mode = str(_layer_settings(weights).get("mode") or "off").lower()
+    return mode if mode in {"off", "shadow", "active"} else "off"
+
+def _sleeve_subjects(settings: dict[str, Any]) -> dict[str, list[str]]:
+    subjects = settings.get("sleeve_subjects")
+    return subjects if isinstance(subjects, dict) else {}
+
+def _ticker_to_sleeve(settings: dict[str, Any]) -> dict[str, str]:
+    mapping = settings.get("ticker_to_sleeve")
+    return mapping if isinstance(mapping, dict) else {}
+
+def _sleeve_category(settings: dict[str, Any], sleeve: str) -> str:
+    categories = settings.get("sleeve_categories")
+    if isinstance(categories, dict):
+        return str(categories.get(sleeve) or sleeve)
+    return sleeve
+
+def _is_sleeve_proxy(ticker: str, settings: dict[str, Any]) -> bool:
+    tick = ticker.upper()
+    return any(tick in {str(v).upper() for v in values} for values in _sleeve_subjects(settings).values())
+
+def _sleeve_for_ticker(ticker: str, settings: dict[str, Any]) -> str | None:
+    sleeve = _ticker_to_sleeve(settings).get(ticker.upper())
+    return str(sleeve).upper() if sleeve else None
+
+def _sector_shelf_life_days(item: dict[str, Any], settings: dict[str, Any]) -> int:
+    shelf = settings.get("sector_shelf_life_days") or {}
+    kind = str(item.get("kind") or "").lower()
+    if "monthly" in kind or "bible" in kind or "stance" in kind:
+        return int(shelf.get("monthly_stance", 35))
+    if item.get("catalyst_until_resolved"):
+        return int(shelf.get("catalyst_backstop", 35))
+    return int(shelf.get("daily_tactical", shelf.get("default", 7)))
+
+def score_sector_item(
+    item: dict[str, Any],
+    *,
+    weights: dict[str, Any],
+    rates: dict[str, Any] | None = None,
+    today: str | date | None = None,
+) -> dict[str, Any]:
+    """Score a sector/sleeve item using sector shelf-life settings.
+
+    This deliberately does not change name-specific scoring. Sector evidence is
+    a shadow layer with shorter shelf lives and a capped lift.
+    """
+    settings = _layer_settings(weights)
+    window_days = int(item.get("sector_window_days") or _sector_shelf_life_days(item, settings))
+    sector_weights = dict(weights)
+    sector_weights["tier_window_days"] = {tier: window_days for tier in TIERS}
+    scored = score_item(item, weights=sector_weights, rates=rates, today=today)
+    scored["sector_window_days"] = window_days
+    scored["sector_subject"] = item.get("sector_subject") or item.get("source_call_ticker")
+    scored["sleeve"] = item.get("sleeve")
+    scored["category"] = item.get("category")
+    scored["source_call_id"] = item.get("source_call_id")
+    return scored
+
+def _item_week(item: dict[str, Any]) -> str:
+    raw = item.get("date")
+    try:
+        iso = datetime.strptime(str(raw), "%Y-%m-%d").date().isocalendar()
+        return f"{iso.year}-W{iso.week:02d}"
+    except (TypeError, ValueError):
+        return str(raw or "undated")
+
+def _dedupe_sector_scored(scored: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Count a same-source, same-week sleeve view once.
+
+    This guards against correlated inflation such as a Bible cue plus a
+    same-week same-author sleeve call, or two proxy rows for the same sleeve.
+    """
+    best: dict[tuple[str, str, str, str], dict[str, Any]] = {}
+    suppressed: list[dict[str, Any]] = []
+    for item in scored:
+        key = (
+            str(item.get("source") or "").lower(),
+            str(item.get("direction") or ""),
+            str(item.get("sleeve") or ""),
+            _item_week(item),
+        )
+        current = best.get(key)
+        if current is None:
+            best[key] = item
+            continue
+        current_weight = abs(float(current.get("weight") or 0.0))
+        item_weight = abs(float(item.get("weight") or 0.0))
+        if item_weight > current_weight:
+            suppressed.append(current)
+            best[key] = item
+        else:
+            suppressed.append(item)
+    return list(best.values()), suppressed
+
+def _layer_read(points: float, *, high_min: float, mod_min: float, weights: dict[str, Any]) -> dict[str, Any]:
+    magnitude = abs(points)
+    read = _read_from_magnitude(magnitude, high_min=high_min, mod_min=mod_min)
+    strength = _strength_5(magnitude, high_min=high_min, mod_min=mod_min, weights=weights)
+    return {
+        "points": round(points, 3),
+        "magnitude": round(magnitude, 3),
+        "direction": _direction_from_points(points),
+        "read": read,
+        "strength_5": strength,
+    }
+
+def _cap_read_lift(
+    *,
+    name_read: str,
+    name_points: float,
+    candidate_read: str,
+    mod_min: float,
+    settings: dict[str, Any],
+) -> tuple[str, bool, str | None]:
+    name_idx = _BAND_ORDER.get(str(name_read or "LOW").upper(), 0)
+    cand_idx = _BAND_ORDER.get(str(candidate_read or "LOW").upper(), 0)
+    if cand_idx <= name_idx:
+        return candidate_read, False, None
+    max_raise = int(settings.get("sector_lift_max_band_raise", 1))
+    max_idx = min(name_idx + max_raise, _BAND_ORDER["HIGH"])
+    if settings.get("sector_lift_high_requires_name_moderate", True) and abs(name_points) < mod_min:
+        max_idx = min(max_idx, _BAND_ORDER["MODERATE"])
+    if cand_idx > max_idx:
+        capped = _BAND_BY_ORDER[max_idx]
+        return capped, True, f"sector lift capped read from {candidate_read} to {capped}"
+    return candidate_read, False, None
+
+def _name_layer(
+    ticker: str,
+    *,
+    total: float,
+    read: str,
+    strength_5: int,
+    direction: str,
+    groups: dict[str, float],
+    not_checked: list[str],
+    high_min: float,
+    mod_min: float,
+) -> dict[str, Any]:
+    moved = any(abs(float(value or 0.0)) > _EPS for value in groups.values())
+    status = "active" if moved else "not_checked" if not_checked else "checked_no_signal"
+    return {
+        "ticker": ticker,
+        "status": status,
+        "points": total,
+        "magnitude": round(abs(total), 3),
+        "direction": direction,
+        "read": read,
+        "strength_5": strength_5,
+        "groups": groups,
+        "thresholds": {"high": high_min, "moderate": mod_min},
+        "not_checked": list(not_checked),
+    }
+
+def _sector_layer(
+    ticker: str,
+    *,
+    sector_items: list[dict[str, Any]],
+    weights: dict[str, Any],
+    rates: dict[str, Any] | None,
+    today: str | date | None,
+    high_min: float,
+    mod_min: float,
+) -> dict[str, Any]:
+    settings = _layer_settings(weights)
+    if _layer_mode(weights) == "off":
+        return {"status": "off", "points": 0.0, "why": []}
+
+    if _is_sleeve_proxy(ticker, settings):
+        sleeve = _sleeve_for_ticker(ticker, settings) or ticker
+        return {
+            "status": "not_applicable",
+            "points": 0.0,
+            "sleeve": sleeve,
+            "category": _sleeve_category(settings, sleeve),
+            "why": ["ticker is itself a sleeve proxy; sector layer would double-count"],
+            "not_checked": [],
+        }
+
+    sleeve = _sleeve_for_ticker(ticker, settings)
+    if not sleeve:
+        return {
+            "status": "not_checked",
+            "points": 0.0,
+            "why": [],
+            "not_checked": ["sector_map"],
+        }
+
+    if not sector_items:
+        return {
+            "status": "checked_no_signal",
+            "points": 0.0,
+            "sleeve": sleeve,
+            "category": _sleeve_category(settings, sleeve),
+            "why": [],
+            "not_checked": [],
+        }
+
+    scored_all = [
+        score_sector_item(item, weights=weights, rates=rates, today=today)
+        for item in sector_items
+    ]
+    scored, suppressed = _dedupe_sector_scored(scored_all)
+    group = _signed_capped_sum(scored, float(weights["group_caps"]["fs"]))
+    live = [
+        item for item in scored
+        if not item.get("track_only") and not item.get("expired") and abs(float(item.get("weight") or 0.0)) > _EPS
+    ]
+    if live:
+        status = "active"
+    elif any(item.get("expired") for item in scored):
+        status = "stale"
+    else:
+        status = "checked_no_signal"
+    read = _layer_read(
+        float(group["points"]),
+        high_min=high_min,
+        mod_min=mod_min,
+        weights=weights,
+    )
+    return {
+        **read,
+        "status": status,
+        "sleeve": sleeve,
+        "category": _sleeve_category(settings, sleeve),
+        "items": scored,
+        "deduped_count": len(suppressed),
+        "why": [
+            f"{item.get('source')} {item.get('tier')} {item.get('sector_subject') or item.get('sleeve')}: {item.get('note')}"
+            for item in live[:3]
+        ],
+        "not_checked": [],
+    }
+
+def _overall_layer(
+    *,
+    name: dict[str, Any],
+    sector: dict[str, Any],
+    weights: dict[str, Any],
+    high_min: float,
+    mod_min: float,
+) -> dict[str, Any]:
+    settings = _layer_settings(weights)
+    sector_points = float(sector.get("points") or 0.0) if sector.get("status") == "active" else 0.0
+    raw_lift = sector_points * float(settings.get("sector_weight", 0.0))
+    cap = float(settings.get("sector_lift_cap", 0.0))
+    lift = max(-cap, min(cap, raw_lift))
+    clamped_reasons: list[str] = []
+    name_points = float(name.get("points") or 0.0)
+    if name_points < -_EPS and lift > 0:
+        lift = 0.0
+        clamped_reasons.append("positive sector lift blocked because name-specific evidence is negative")
+    overall_points = round(name_points + lift, 3)
+    read_data = _layer_read(overall_points, high_min=high_min, mod_min=mod_min, weights=weights)
+    capped_read, band_capped, band_reason = _cap_read_lift(
+        name_read=str(name.get("read") or "LOW"),
+        name_points=name_points,
+        candidate_read=read_data["read"],
+        mod_min=mod_min,
+        settings=settings,
+    )
+    if band_reason:
+        clamped_reasons.append(band_reason)
+    if band_capped:
+        read_data["read"] = capped_read
+        if capped_read == "MODERATE":
+            read_data["strength_5"] = min(int(read_data["strength_5"]), 4)
+        elif capped_read == "LOW":
+            read_data["strength_5"] = min(int(read_data["strength_5"]), 3)
+
+    conflict = None
+    if sector.get("status") == "active":
+        sector_dir = str(sector.get("direction") or "NEUTRAL")
+        name_dir = str(name.get("direction") or "NEUTRAL")
+        if sector_dir != "NEUTRAL" and name_dir != "NEUTRAL" and sector_dir != name_dir:
+            conflict = f"sector {sector_dir.lower()} vs name {name_dir.lower()}"
+        elif clamped_reasons:
+            conflict = clamped_reasons[0]
+
+    sector_only_recheck = None
+    if (
+        abs(name_points) <= _EPS
+        and sector.get("status") == "active"
+        and str(sector.get("direction")) == "BUY"
+        and not bool(settings.get("sector_only_capital_action_allowed", False))
+    ):
+        sector_only_recheck = {
+            "eligible": True,
+            "alert_enabled": bool(settings.get("sector_only_alert_enabled", False)),
+            "next_step": "re-check the name; sector support alone is not a buy signal",
+        }
+
+    return {
+        **read_data,
+        "points_decimal": overall_points,
+        "sector_lift": round(lift, 3),
+        "sector_lift_raw": round(raw_lift, 3),
+        "sector_lift_cap": cap,
+        "sector_weight": float(settings.get("sector_weight", 0.0)),
+        "band_capped": band_capped,
+        "clamped_reasons": clamped_reasons,
+        "conflict": conflict,
+        "capital_action_allowed": not bool(sector_only_recheck),
+        "sector_only_recheck": sector_only_recheck,
+        "formula_version": str(settings.get("formula_version") or "shadow_v1"),
+    }
+
+def conviction_layers(
+    ticker: str,
+    *,
+    total: float,
+    read: str,
+    strength_5: int,
+    direction: str,
+    groups: dict[str, float],
+    not_checked: list[str],
+    sector_items: list[dict[str, Any]] | None,
+    weights: dict[str, Any],
+    goal: dict[str, Any],
+    rates: dict[str, Any] | None = None,
+    today: str | date | None = None,
+) -> dict[str, Any]:
+    high_min = float(goal["signals_high_min"])
+    mod_min = float(goal["signals_mod_min"])
+    name = _name_layer(
+        ticker,
+        total=total,
+        read=read,
+        strength_5=strength_5,
+        direction=direction,
+        groups=groups,
+        not_checked=not_checked,
+        high_min=high_min,
+        mod_min=mod_min,
+    )
+    sector = _sector_layer(
+        ticker,
+        sector_items=sector_items or [],
+        weights=weights,
+        rates=rates,
+        today=today,
+        high_min=high_min,
+        mod_min=mod_min,
+    )
+    overall = _overall_layer(
+        name=name,
+        sector=sector,
+        weights=weights,
+        high_min=high_min,
+        mod_min=mod_min,
+    )
+    return {
+        "mode": _layer_mode(weights),
+        "legacy": {
+            "points": total,
+            "read": read,
+            "strength_5": strength_5,
+            "direction": direction,
+        },
+        "name": name,
+        "sector": sector,
+        "overall": overall,
+    }
+
 def _live_fs_item_directions(fs: dict[str, Any]) -> set[str]:
     directions: set[str] = set()
     for item in fs.get("items", []):
@@ -307,6 +680,7 @@ def conviction(
     ticker: str,
     *,
     fs_items: list[dict[str, Any]] | None = None,
+    sector_items: list[dict[str, Any]] | None = None,
     uw_state: dict[str, Any] | None = None,
     insight_payload: dict[str, Any] | None = None,
     inst_state: dict[str, Any] | None = None,
@@ -400,6 +774,20 @@ def conviction(
             force_recheck=uw["force_recheck"],
         ),
         "battery": battery_payload,
+        "conviction_layers": conviction_layers(
+            tick,
+            total=total,
+            read=read,
+            strength_5=strength_5,
+            direction=direction,
+            groups=groups,
+            not_checked=not_checked,
+            sector_items=sector_items,
+            weights=weights,
+            goal=goal,
+            rates=rates,
+            today=today,
+        ),
         "raises": raises,
         "not_checked": not_checked,
         "computed_at": _today(today).isoformat(),
@@ -438,8 +826,66 @@ def fs_items_from_source_calls(
                 "direction": row.get("direction", "bullish"),
                 "note": row.get("verbatim_quote") or row.get("note") or "",
                 "kind": "source_call",
+                "source_call_id": row.get("id"),
+                "source_call_ticker": str(row.get("ticker") or "").upper(),
+                "window_end": row.get("window_end"),
+                "window_days": row.get("window_days"),
             }
         )
+    return items
+
+def fs_sector_items_for_ticker(
+    ticker: str,
+    calls: list[dict[str, Any]] | None = None,
+    *,
+    weights: dict[str, Any],
+) -> list[dict[str, Any]]:
+    settings = _layer_settings(weights)
+    if _layer_mode(weights) == "off":
+        return []
+    tick = ticker.upper()
+    if _is_sleeve_proxy(tick, settings):
+        return []
+    sleeve = _sleeve_for_ticker(tick, settings)
+    if not sleeve:
+        return []
+    broad = {str(value).upper() for value in settings.get("broad_market_subjects") or []}
+    subjects = {
+        str(value).upper()
+        for value in _sleeve_subjects(settings).get(sleeve, [])
+        if str(value).upper() not in {tick} | broad
+    }
+    if not subjects:
+        return []
+    calls = load_source_calls() if calls is None else calls
+    items: list[dict[str, Any]] = []
+    for row in calls:
+        subject = str(row.get("ticker") or "").upper()
+        if subject not in subjects:
+            continue
+        if str(row.get("source") or "").lower() not in _FS_SOURCES:
+            continue
+        item = {
+            "group": "fs",
+            "source": str(row.get("source")).lower(),
+            "tier": row.get("tier"),
+            "date": row.get("date"),
+            "direction": row.get("direction", "bullish"),
+            "note": row.get("verbatim_quote") or row.get("note") or "",
+            "kind": "sector_source_call",
+            "source_call_id": row.get("id"),
+            "source_call_ticker": subject,
+            "sector_subject": subject,
+            "sleeve": sleeve,
+            "category": _sleeve_category(settings, sleeve),
+            "window_end": row.get("window_end"),
+            "window_days": row.get("window_days"),
+            "sector_window_days": _sector_shelf_life_days(
+                {"kind": "sector_source_call", **row},
+                settings,
+            ),
+        }
+        items.append(item)
     return items
 
 def fs_membership_item(
