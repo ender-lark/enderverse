@@ -1813,12 +1813,13 @@ _CSS = """
 .td .td-first{border:1px solid #475569;border-left:5px solid #38bdf8;border-radius:12px;
   background:#07101e;padding:12px;margin:10px 0 12px}
 .td .td-first-kicker{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.08em}
+.td .td-first-main{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .td .td-first-decision{font-size:23px;color:#f8fafc;font-weight:900;line-height:1.12;margin:3px 0 8px}
 .td .td-first-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .td .td-first-cell{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:8px;min-width:0}
 .td .td-first-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
 .td .td-first-value{font-size:13px;color:#e2e8f0;line-height:1.35;margin-top:3px}
-.td .td-first-rail{margin-top:9px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.td .td-first-rail{margin:8px 0 9px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .td .td-passivity{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
 .td .td-passivity-title{font-size:12px;color:#f8fafc;font-weight:850;margin-bottom:4px}
 .td .td-passivity-line{font-size:12px;color:#cbd5e1;line-height:1.4}
@@ -1959,6 +1960,7 @@ _CSS = """
   .td .td-health-full{display:none}
   .td .td-health-compact{display:block}
   .td .td-first-grid{grid-template-columns:1fr}
+  .td .td-first-rail .td-row{display:none}
   .td .td-face-top{display:block}
   .td .td-face-right{justify-content:flex-start;margin-top:7px}
   .td .td-face-title{font-size:18px}
@@ -2894,8 +2896,11 @@ def _render_first_viewport(payload: dict[str, Any]) -> str:
     return (
         '<div class="td-first">'
         '<div class="td-first-kicker">Primary capital/risk decision</div>'
+        '<div class="td-first-main">'
         f'<div class="td-first-decision">{_esc(decision)}</div>'
-        '<div class="td-first-grid">'
+        + (f'<div class="td-first-rail">{button_html}<span class="td-row">Rail copy is render-only; no trade executes.</span></div>' if button_html else "")
+        + '</div>'
+        + '<div class="td-first-grid">'
         + "".join(
             '<div class="td-first-cell">'
             f'<div class="td-first-label">{_esc(label)}</div>'
@@ -2904,7 +2909,6 @@ def _render_first_viewport(payload: dict[str, Any]) -> str:
             for label, value in cells
         )
         + '</div>'
-        + (f'<div class="td-first-rail">{button_html}<span class="td-row">Rail copy is render-only; no trade executes.</span></div>' if button_html else "")
         + '</div>'
     )
 

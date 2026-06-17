@@ -101,6 +101,7 @@ function CompactResponsiveStyles() {
         .td-react-anchor{font-size:16px!important}
         .td-react-pace{font-size:10px!important;margin-bottom:8px!important}
         .td-react-plan{font-size:12px!important;margin-bottom:6px!important}
+        .td-first-rail-note{display:none!important}
         .td-react-health-full,.td-react-gates-full{display:none!important}
         .td-react-health-compact,.td-react-gates-compact{display:block!important}
       }
@@ -250,7 +251,15 @@ function FirstViewport({ payload, railState, setRailState }) {
   return (
     <div style={{ border: "1px solid #475569", borderLeft: "5px solid #38bdf8", borderRadius: 12, background: "#07101e", padding: 12, margin: "10px 0 12px" }}>
       <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em" }}>Primary capital/risk decision</div>
-      <div style={{ fontSize: 23, color: "#f8fafc", fontWeight: 900, lineHeight: 1.12, margin: "3px 0 8px" }}>{model.decision || "No capital-changing decision surfaced."}</div>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+        <div style={{ fontSize: 23, color: "#f8fafc", fontWeight: 900, lineHeight: 1.12, margin: "3px 0 8px" }}>{model.decision || "No capital-changing decision surfaced."}</div>
+        {button.copy && (
+          <div style={{ margin: "8px 0 9px", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <Rail cardId={cardId} verb={button.state_verb || "RECHECK"} copy={button.copy} muted={button.muted === "1"} state={railState} setState={setRailState} />
+            <span className="td-first-rail-note" style={{ fontSize: 13, color: "#cbd5e1" }}>Rail copy is render-only; no trade executes.</span>
+          </div>
+        )}
+        </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 8 }}>
         {cells.map(([label, value]) => (
           <div key={label} style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, minWidth: 0 }}>
@@ -259,12 +268,6 @@ function FirstViewport({ payload, railState, setRailState }) {
           </div>
         ))}
       </div>
-      {button.copy && (
-        <div style={{ marginTop: 9, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-          <Rail cardId={cardId} verb={button.state_verb || "RECHECK"} copy={button.copy} muted={button.muted === "1"} state={railState} setState={setRailState} />
-          <span style={{ fontSize: 13, color: "#cbd5e1" }}>Rail copy is render-only; no trade executes.</span>
-        </div>
-      )}
     </div>
   );
 }
