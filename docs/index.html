@@ -260,9 +260,11 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 
 
 /*  tabs  */
-.tab-bar{display:flex;gap:2px;margin-bottom:12px;border-bottom:1px solid #21262d;padding-bottom:0}
+.tab-bar{display:flex;gap:2px;margin-bottom:12px;border-bottom:1px solid #21262d;padding-bottom:0;
+  max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
 .tab-btn{padding:7px 14px;font-size:12px;font-weight:600;color:#8b949e;background:none;border:none;
-  border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;letter-spacing:.3px}
+  border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;letter-spacing:.3px;flex:0 0 auto}
 .tab-btn.active{color:#f0f6fc;border-bottom-color:#58a6ff}
 /*  commands panel  */
 .cmd-section{margin-bottom:16px}
@@ -283,6 +285,8 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 @media(max-width:600px){
   .wrap{padding:10px 8px}
   .hdr{flex-direction:column}
+  .tab-bar{flex-wrap:wrap;overflow-x:visible;gap:4px}
+  .tab-btn{padding:7px 10px}
   .hero-num{font-size:24px}
   .lane-command-list{margin-left:0}
 }
@@ -297,7 +301,7 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
   <div class="hdr">
     <div class="hdr-left">
       <h1> Conviction Dashboard</h1>
-      <div class="stamp" title="built 2026-06-17 01:20 ET  sourced: portfolio 06-17  uw_price 06-17  uw_macro 06-17  fundstrat_bible 06-11  fundstrat_daily 06-16">built 06-17 01:20 ET &middot; data 06-17: port&middot;px&middot;macro &#9474; <span style="color:#b08930">FS bible 06-11</span> &#9474; <span style="color:#b08930">FS daily 06-16</span></div>
+      <div class="stamp" title="built 2026-06-17 02:01 ET  sourced: portfolio 06-17  uw_price 06-17  uw_macro 06-17  fundstrat_bible 06-11  fundstrat_daily 06-16">built 06-17 02:01 ET &middot; data 06-17: port&middot;px&middot;macro &#9474; <span style="color:#b08930">FS bible 06-11</span> &#9474; <span style="color:#b08930">FS daily 06-16</span></div>
 
     </div>
     <div style="text-align:right">
@@ -325,32 +329,109 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .td .td-anchor{font-size:17px;margin:8px 0 2px 0}
 .td .td-pace{color:#94a3b8;font-style:italic;font-size:11px;margin:0 0 10px 0}
 .td .td-plan{color:#cbd5e1;font-size:13px;margin:0 0 10px 0}
-.td .td-gate{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;
-  margin:0 6px 8px 0;border:1px solid}
-.td .td-card{border:1px solid #1e293b;border-radius:10px;padding:12px;margin:10px 0;background:#0f172a}
-.td .td-card.td-conflicted{border-color:#fb923c}
+.td .td-verdict{border:1px solid #334155;border-left:4px solid #38bdf8;border-radius:10px;
+  background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-verdict-title{font-size:15px;color:#f8fafc;font-weight:850;margin-bottom:3px}
+.td .td-verdict-line{font-size:12px;color:#cbd5e1;line-height:1.4}
+.td .td-trust{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-trust-alert{border-color:#f87171;background:#1f0d12}
+.td .td-trust-warn{border-color:#fbbf24;background:#1b1607}
+.td .td-trust-ok{border-color:#34d399;background:#071910}
+.td .td-trust-head{font-size:15px;color:#f8fafc;font-weight:900;margin-bottom:8px}
+.td .td-trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.td .td-trust-item{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px}
+.td .td-trust-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-trust-detail{font-size:13px;color:#e2e8f0;line-height:1.35;margin-top:3px}
+.td .td-card{border:1px solid #243044;border-radius:10px;padding:12px;margin:10px 0;background:#0f172a}
+.td .td-card.td-conflicted{border-color:#f59e0b}
 .td details.td-card{padding:0}
 .td details.td-card>summary{list-style:none;cursor:pointer;padding:12px;display:block}
 .td details.td-card>summary::-webkit-details-marker{display:none}
-.td .td-body{padding:2px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:10px;padding-top:8px}
-.td .td-move{font-size:18px;font-weight:750;line-height:1.25}
-.td .td-conv-line{display:block;border-radius:8px;padding:8px 10px;color:#0b1220}
-.td .td-section-title{font-size:11px;color:#94a3b8;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin:8px 0 4px}
-.td .td-why-item{font-size:13px;color:#cbd5e1;margin:3px 0}
+.td .td-card-face{display:grid;gap:8px}
+.td .td-face-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.td .td-rank{font-size:12px;color:#94a3b8;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.td .td-face-status{font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.td .td-face-title{font-size:20px;font-weight:850;line-height:1.18;margin:1px 0;color:#f8fafc}
+.td .td-face-subtitle{font-size:13px;color:#cbd5e1;line-height:1.35}
+.td .td-face-sentence{font-size:14px;color:#e2e8f0;line-height:1.4;margin-top:7px;max-width:760px}
+.td .td-face-gate{font-size:12px;color:#fde68a;line-height:1.35;margin-top:6px;max-width:760px}
+.td .td-face-right{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;min-width:150px}
+.td .td-face-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.td .td-score-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 9px;font-size:12px;
+  font-weight:850;color:#0b1220;white-space:nowrap}
+.td .td-score-full{font-size:11px;color:#94a3b8}
+.td .td-size-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 9px;font-size:12px;
+  font-weight:850;border:1px solid #334155;background:#0b1220;color:#cbd5e1;white-space:nowrap}
+.td .td-size-material{border-color:#38bdf8;color:#bfdbfe;background:#061321}
+.td .td-size-muted{border-color:#475569;color:#94a3b8;background:#0b1220}
+.td .td-layer-line{font-size:12px;color:#a5b4fc;line-height:1.35;margin-top:4px}
+.td .td-main-blocker{font-size:12px;color:#fde68a;line-height:1.35;margin-top:3px}
+.td .td-face-tags{display:flex;flex-wrap:wrap;gap:6px}
+.td .td-tag{display:inline-flex;align-items:center;border-radius:999px;border:1px solid #334155;
+  color:#cbd5e1;background:#0b1220;padding:3px 8px;font-size:12px;font-weight:650}
+.td .td-tag-warn{border-color:#f59e0b;color:#fde68a;background:#1f1606}
+.td .td-tag-danger{border-color:#ef4444;color:#fecaca;background:#220b0b}
+.td .td-tag-muted{border-color:#334155;color:#94a3b8}
+.td .td-body{padding:10px 12px 12px 12px;border-top:1px solid #1e293b;margin-top:8px}
+.td .td-readout{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:10px;margin:0 0 10px}
+.td .td-readout-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.td .td-readout-k{font-size:10px;color:#94a3b8;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.td .td-readout-v{font-size:14px;color:#f8fafc;font-weight:750;margin-top:2px;line-height:1.3}
+.td .td-section-title{font-size:11px;color:#94a3b8;font-weight:850;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px}
+.td .td-why-item{font-size:13px;color:#cbd5e1;margin:4px 0;line-height:1.35}
 .td .td-why-item strong{color:#e2e8f0}
 .td .td-factor-conflict{color:#fdba74}
+.td .td-evidence-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+.td .td-evidence{border:1px solid #334155;border-radius:8px;padding:8px;background:#0b1220}
+.td .td-evidence-warn{border-color:#f59e0b;background:#1f1606}
+.td .td-evidence-stale{border-color:#475569;background:#0b1220;opacity:.74}
+.td .td-evidence-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.05em}
+.td .td-evidence-title{font-size:13px;color:#f8fafc;font-weight:800;margin-top:2px}
+.td .td-evidence-text{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
+.td .td-evidence-note{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px;
+  font-size:13px;color:#cbd5e1;line-height:1.4;margin:0 0 8px}
+.td .td-gate-note{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px;
+  font-size:13px;color:#cbd5e1;line-height:1.4;margin:0 0 8px}
+.td .td-gate-note-ok{border-color:#34d399;color:#bbf7d0;background:#071910}
+.td .td-gate-note-warn{border-color:#fbbf24;color:#fde68a;background:#1b1607}
+.td .td-layer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.td .td-layer-card{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px}
+.td .td-layer-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.05em}
+.td .td-layer-value{font-size:14px;color:#f8fafc;font-weight:800;margin-top:2px}
+.td .td-layer-detail{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
+.td .td-layer-compact{border:1px solid #334155;border-radius:8px;background:#0b1220;
+  padding:8px;font-size:13px;color:#cbd5e1;line-height:1.35}
+.td .td-action-columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.td .td-action-column{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:8px}
+.td .td-action-column-title{font-size:10px;color:#94a3b8;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.td .td-card-section-title{font-size:11px;color:#94a3b8;text-transform:uppercase;font-weight:900;
+  letter-spacing:.08em;margin:14px 0 5px}
+.td .td-subqueue{border-top:1px solid #1e293b;margin-top:14px;padding-top:10px}
+.td .td-queue-card{border:1px solid #334155;border-radius:9px;background:#07101e;padding:10px;margin:8px 0}
+.td .td-queue-top{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.td .td-queue-rank{font-size:14px;font-weight:900;color:#f8fafc}
+.td .td-queue-label{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.06em;margin-bottom:3px}
+.td .td-queue-summary{font-size:13px;color:#cbd5e1;line-height:1.4;margin-top:4px}
+.td .td-queue-meta{font-size:12px;color:#94a3b8;line-height:1.4;margin-top:5px}
+.td .td-queue-score{font-size:12px;color:#f8fafc;border:1px solid #334155;border-radius:999px;padding:3px 7px;background:#0f172a}
 .td .td-pill{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;
   font-weight:600;margin-left:8px;color:#0b1220}
 .td .td-row{font-size:13px;color:#cbd5e1;margin:4px 0}
-.td .td-chip{border:1px solid #fb923c;color:#fdba74;border-radius:8px;padding:6px 8px;
+.td .td-chip{border:1px solid #f59e0b;color:#fdba74;border-radius:8px;padding:6px 8px;
   font-size:12px;margin:6px 0}
 .td .td-dossier{border:1px solid #334155;border-radius:8px;padding:8px;margin:8px 0;background:#0b1220}
 .td .td-dossier-head{font-size:12px;color:#e2e8f0;font-weight:800;margin-bottom:4px}
 .td .td-dossier-meta{font-size:11px;color:#94a3b8;margin:2px 0 6px}
 .td .td-dossier-read{font-size:12px;color:#cbd5e1;margin:3px 0}
 .td .td-dossier-read strong{color:#e2e8f0}
+.td .td-muted-details{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:8px;margin:8px 0}
+.td .td-muted-details>summary{cursor:pointer;color:#94a3b8;font-size:12px;font-weight:750}
 .td details{margin:4px 0;font-size:12px;color:#94a3b8}
 .td .td-health{margin:8px 0 4px 0;line-height:2}
+.td .td-health-compact{display:none}
+.td .td-compact-strip{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:7px 9px;margin:6px 0;color:#cbd5e1}
+.td .td-compact-strip>summary{cursor:pointer;font-size:12px;font-weight:800;color:#e2e8f0}
+.td .td-compact-body{margin-top:7px;line-height:1.8}
 .td .td-hlabel{font-size:11px;color:#64748b;font-weight:700;letter-spacing:.03em}
 .td .td-hchip{display:inline-block;border:1px solid;border-radius:7px;padding:1px 7px;font-size:11px;color:#cbd5e1;margin:0 4px 4px 0;background:#0b1220}
 .td .td-checkfirst{color:#f87171;font-weight:700;font-size:12px;margin-bottom:6px;letter-spacing:.03em}
@@ -362,6 +443,18 @@ table.book{width:100%;border-collapse:collapse;font-size:12px}
 .td .td-cong{font-size:13px;margin:3px 0}
 .td .td-honesty{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#94a3b8;
   border-top:1px solid #1e293b;margin-top:12px;padding-top:8px}
+@media (max-width: 620px){
+  .td{padding:12px}
+  .td .td-anchor{font-size:16px}
+  .td .td-pace{font-size:10px;margin-bottom:8px}
+  .td .td-plan{font-size:12px;margin-bottom:6px}
+  .td .td-health-full{display:none}
+  .td .td-health-compact{display:block}
+  .td .td-face-top{display:block}
+  .td .td-face-right{justify-content:flex-start;margin-top:7px}
+  .td .td-face-title{font-size:18px}
+  .td .td-readout-grid{grid-template-columns:1fr}
+}
 </style>
 
 
@@ -387,60 +480,86 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-anchor">$1,923,513 -> $3,000,000  |  64.1% there</div>
 <div class="td-pace">(display-only) gap $1,076,487  |  18 months to 2027-12-31  |   $59,805/month - pace never feeds ranking or urgency</div>
 <div class="td-plan">plan: funding pool n/a  |  shortfall $477,789  |  positions as of 2026-06-17</div>
-<div class="td-health"><span class="td-hlabel">data freshness:</span> <span class="td-hchip" style="border-color:#34d399">positions: <span style="color:#34d399">2026-06-17</span></span><span class="td-hchip" style="border-color:#34d399">prices: <span style="color:#34d399">2026-06-17</span></span><span class="td-hchip" style="border-color:#34d399">macro: <span style="color:#34d399">2026-06-17</span></span><span class="td-hchip" style="border-color:#34d399">analyst monthly: <span style="color:#34d399">covers through 2026-07-11</span></span><span class="td-hchip" style="border-color:#34d399">analyst daily notes: <span style="color:#34d399">covers through 2026-06-17</span></span><span class="td-hchip" style="border-color:#f87171">QQQ gate: <span style="color:#f87171">stated 6d ago - reconfirm</span></span><span class="td-hchip" style="border-color:#94a3b8">SMH gate: <span style="color:#94a3b8">stated 8d ago - context only; reconfirm for awareness</span></span><span class="td-hchip" style="border-color:#94a3b8">FS inbox: <span style="color:#94a3b8">not checked this render</span></span><span class="td-hchip" style="border-color:#fbbf24">analyst track record: <span style="color:#fbbf24">no graded calls yet - cannot score any source</span></span></div>
-<span class="td-gate" style="border-color:#fbbf24;color:#fbbf24"><b>RED BUT TESTED</b> QQQ  |  full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only (as of 2026-06-11)</span>
-<span class="td-gate" style="border-color:#94a3b8;color:#94a3b8"><b>CONTEXT</b> SMH  |  context only - never blocks (as of 2026-06-09)</span>
-<details class="td-card td-conflicted">
+<div class="td-trust td-trust-alert"><div class="td-trust-head">Can I trust this screen? Source scoring is OFF - no graded track record yet, so analyst calls are not moving any score.</div><div class="td-trust-grid"><div class="td-trust-item"><div class="td-trust-label" style="color:#f87171">Source scoring</div><div class="td-trust-detail">Source scoring is OFF - no graded track record yet, so analyst calls are not moving any score.</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#34d399">Automations</div><div class="td-trust-detail">scheduled proof 14/14</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#fbbf24">FS inbox</div><div class="td-trust-detail">not checked this render</div></div><div class="td-trust-item"><div class="td-trust-label" style="color:#34d399">Core data</div><div class="td-trust-detail">positions, prices, macro, analyst monthly, analyst daily notes fresh</div></div></div></div>
+<div class="td-verdict"><div class="td-verdict-title">Nothing actionable yet: scorer is starved or blocked, not bearish. Next lever: fresh-check material names (GRNY/GOOGL/MSFT) or load the FS inbox / get a graded call or revisit the GOOGL cap if conviction warrants.</div><div class="td-verdict-line">3 material decisions | 3 funding-only legs | 4 evidence-starved cards | 14 watchlist/pullback candidates | 2 stale/not-checked lanes | strongest evidence: GRNY: bullish (UW opportunity oi build)</div></div>
+<div class="td-card-section-title">Material decisions</div>
+<details id="td-card-GRNY" class="td-card td-conflicted">
 <summary class="td-sum">
-<div class="td-move"><span class="td-conv-line" style="background:#fb923c">#1 Conviction to Sell MAGS: 1/5 (LOW)</span></div>
-<div class="td-chip">CONFLICT - no directional evidence; battery opposition: UW opportunity sweep</div>
+<div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#1 GRNY</div><div class="td-face-status">resolve direction</div><div class="td-face-title">Resolve signal before trimming GRNY</div><div class="td-face-sentence">Do not act yet. Resolve the conflicting evidence first: no directional evidence; battery opposition: UW opportunity oi build</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-material">$123,084 / material</span></div></div>
 </summary><div class="td-body">
-<div class="td-section-title">Why it is this</div>
-<div class="td-why-item td-factor-conflict"><strong>conflicting:</strong> UW opportunity sweep - ask-side call sweeps $3.6M, 10:1 c/p; premium $3.6M; c/p 9.57; side ask (as_of 2026-06-12)</div><div class="td-why-item td-factor-conflict"><strong>conflicting:</strong> UW opportunity oi build - call OI +12710% at 65/65/68 strikes; OI +12710%; strikes 65/65/68 (as_of 2026-06-12)</div><div class="td-why-item td-factor-conflict"><strong>conflicting:</strong> UW opportunity dark pool accum - dark-pool blocks $1M net buy, 1 sessions; notional $863,017; 1 session(s) (as_of 2026-06-12)</div><div class="td-why-item td-factor-conflict"><strong>conflicting:</strong> Group rotation / momentum - GROUP-level context: AI / Semiconductors rotation LEADING; ticker momentum up</div>
+<div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Do not act yet</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">no directional evidence; battery opposition: UW opportunity oi build</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps GRNY - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+
+
+
+<div class="td-section-title">Evidence that matters</div>
+<div class="td-evidence-note">Stale context, not current edge: these UW signals are from 2026-06-12, not this session's 9:40 gate. Treat them as already-played or expired until refreshed; they are not moving the score and should not pull action.</div><div class="td-evidence-grid"><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity oi build</div><div class="td-evidence-text">call OI +2014% at 30/27/28 strikes; OI +2014%; strikes 30/27/28 (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity sweep</div><div class="td-evidence-text">ask-side call sweeps $1.6M, 16:1 c/p; premium $1.6M; c/p 15.76; side ask (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity dark pool accum</div><div class="td-evidence-text">dark-pool blocks $2M net buy, 1 sessions; notional $2.3M; 1 session(s) (as_of 2026-06-12)</div></div><div class="td-evidence"><div class="td-evidence-label">context</div><div class="td-evidence-title">Group rotation / momentum</div><div class="td-evidence-text">GROUP-level context: Quality core rotation IN LINE; ticker momentum up</div></div></div>
+<div class="td-section-title">Name / sector split</div><div class="td-layer-compact">Name/sector evidence not fed yet; no positive layer is active.</div>
+<details class="td-muted-details"><summary>Scoring inputs</summary>
 <div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div><div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.00</div>
-<div class="td-section-title">Name / sector split</div><div class="td-why-item"><strong>Name-specific</strong> +0.00 LOW (not_checked) - direct ticker evidence</div><div class="td-why-item"><strong>Sector/sleeve</strong> +0.00 LOW (stale) - AI / Semiconductors</div><div class="td-why-item"><strong>Shadow overall</strong> +0.00 LOW (shadow) - sector lift +0.00 (cap 0.50)</div>
-<div class="td-chip">SOURCE-CONFLICT - lean_in lane: Lean-in  looks good vs this card: SELL $400  |  resolve before acting</div>
-<div class="td-section-title">What would make it a confident move</div>
-<div class="td-row">raise: A dated entry/stop/target call (Tier A) on MAGS</div>
-<div class="td-row">raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
-<div class="td-row">raise: No ACTIVE insight maps MAGS - state the thesis as one if you believe it</div>
-<div class="td-row">raise: 13F/insider lane goes live in the orphan-wiring chunk</div>
-<div class="td-section-title">IV options-vs-shares</div>
+</details>
+<div class="td-section-title">What would make this actionable</div>
+<div class="td-action-columns">
+<div class="td-action-column"><div class="td-action-column-title">Operator can do now</div>
+<div class="td-row">No ACTIVE insight maps GRNY - state the thesis as one if you believe it</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">Waiting on</div>
+<div class="td-row">A dated entry/stop/target call (Tier A) on GRNY</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>
+<div class="td-row">Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">13F/insider lane goes live in the orphan-wiring chunk</div>
+</div></div>
+<details class="td-muted-details"><summary>Decision dossier not checked for GRNY</summary><div class="td-dossier-head">Decision dossier: GRNY</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></details>
+<button class="td-rail" data-card="GRNY-TRIM-2026-06-17" data-verb="ACT" data-copy="ACT GRNY-TRIM-2026-06-17" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">ACT</button><button class="td-rail" data-card="GRNY-TRIM-2026-06-17" data-verb="PASS" data-copy="PASS GRNY-TRIM-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
+<button class="td-rail" data-card="GRNY-TRIM-2026-06-17" data-verb="RECHECK" data-copy="RECHECK GRNY-TRIM-2026-06-17 resurface 2026-06-22" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>
+<div class="td-row">trigger: funding trim - sleeve overexposed vs model band (2026-06-17)  |  deadline 2026-06-17</div>
+<div class="td-row"> sleeve overexposed vs model band - scoped rotation trigger</div>
+<details><summary>what changes this</summary><div>flip: trigger clears if rotation state recovers / exposure returns to band</div></details>
+<div class="td-row">execute: sell $74,007 in Parents Schwab PCRA Trust ...651 PCRA Trust ...65...  |  tax-advantaged retirement plan  |   PCRA proceeds stay in PCRA: ETF-rebuy or cash only; moving them out is an operator transfer</div>
+<div class="td-row">execute: sell $30,404 in Parents Fidelity ROLLOVER IRA - RamBalusu *****6333  |  tax-advantaged traditional</div>
+<div class="td-row">execute: sell $18,673 in Parents Fidelity Joint WROS - TOD *****2063  |  TAXABLE - gains realize</div>
+<div class="td-row">look-through: contains KLAC 2.7%, LLY 2.6%, CDNS 2.6%, ORCL 2.6%, GE 2.5%, HOOD 2.5%</div>
+<div class="td-chip">overlap with held singles: ORCL 2.6%</div>
+<div class="td-row">look-through source: Schwab/Fundstrat GRNY holdings snapshot June 2026</div>
+<div class="td-chip">TRANSFER NEEDED: $74,007 of these proceeds land inside PCRA and CANNOT buy individual stocks - the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding.</div>
+<div class="td-row">impact:  $123,084 (6.4% of book)  |  material: yes</div>
+<details class="td-muted-details"><summary>Not checked / optional context</summary>
 <div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
-<div class="td-dossier"><div class="td-dossier-head">Decision dossier: MAGS</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></div>
-<div class="td-row"><strong>posture:</strong> candidate SELL; blockers or conflicts must clear first</div>
-<button class="td-rail td-rail-muted" data-card="MAGS-TRIM-2026-06-17" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-17 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-17" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
-<div class="td-row"> funding leg - execute paired with the adds it funds (no standalone urgency)</div>
-<details><summary>what changes this</summary><div>flip: sleeve turns down or goes overexposed -> OPEN-NOW</div><div>flip: the funded add's window opens</div></details>
-<div class="td-row">execute: sell $400 in SKB Fidelity Health Savings Account *****7284  |  tax-advantaged HSA</div>
-<div class="td-row">look-through: contains GOOGL 15.8%, NVDA 15.0%, AAPL 14.8%, AMZN 14.5%, META 14.2%, MSFT 14.1%</div>
-<div class="td-chip">overlap with held singles: GOOGL 15.8%, NVDA 15.0%, AMZN 14.5%, MSFT 14.1%</div>
-<div class="td-row">look-through source: Roundhill/MAGS holdings snapshot June 2026</div>
-<div class="td-row">impact:  $400 (0.0% of book)  |  material: no</div>
 <div class="td-row">not checked: institutional, uw_same_session</div>
+</details>
 </div></details>
-<details class="td-card">
+<details id="td-card-GOOGL" class="td-card">
 <summary class="td-sum">
-<div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>
-<div class="td-move"><span class="td-conv-line" style="background:#94a3b8">#2 Conviction to Buy GOOGL: 1/5 (LOW)</span></div>
+<div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#2 GOOGL</div><div class="td-face-status">review</div><div class="td-face-title">Review GOOGL before acting</div><div class="td-face-sentence">Review first. Above cap; no size room until thesis/cap is revisited.</div><div class="td-face-gate">Price condition now MET: QQQ close 729.86 clears 717.50; stored gate was red but tested from 2026-06-11.</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#94a3b8">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-material">$153,881 / material</span></div></div>
 </summary><div class="td-body">
-<div class="td-section-title">Why it is this</div>
-<div class="td-why-item"><strong>factor:</strong> UW opportunity signals - UW opportunity sweep as_of 2026-06-12: no signal for GOOGL</div><div class="td-why-item"><strong>factor:</strong> Group rotation / momentum - not_checked: holdings group rotation unavailable for GOOGL</div>
+<div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Review first</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Above cap; no size room until thesis/cap is revisited.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps GOOGL - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-gate-note td-gate-note-ok"><strong>QQQ gate:</strong> Price condition now MET: QQQ close 729.86 clears 717.50; stored gate was red but tested from 2026-06-11.</div><div class="td-gate-note"><strong>SMH context:</strong> Context only: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (source uw; stated 2026-06-09).</div>
+
+<div class="td-evidence-note"><strong>Fed-day act-if-green packet:</strong> Candidate band $100,000-$155,000; first tranche $50,000-$108,500; AMBER_PRE_FOMC<br/><strong>Why it matters:</strong> GOOGL stays under the intended AI-core exposure if the thesis is right and Fed/tape gates confirm; cash/funding avoids churn if the Fed reaction is red.<br/><strong>Do not act if:</strong> Do not deploy if Fed reaction, QQQ/SPY, yields, oil, or flow contradict the staged add.</div>
+<div class="td-section-title">Evidence that matters</div>
+<div class="td-evidence-grid"><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale context</div><div class="td-evidence-title">UW opportunity signals</div><div class="td-evidence-text">UW opportunity sweep as_of 2026-06-12: no signal for GOOGL</div></div><div class="td-evidence"><div class="td-evidence-label">context</div><div class="td-evidence-title">Group rotation / momentum</div><div class="td-evidence-text">not_checked: holdings group rotation unavailable for GOOGL</div></div></div>
+<div class="td-section-title">Name / sector split</div><div class="td-layer-grid"><div class="td-layer-card"><div class="td-layer-label">Name-specific</div><div class="td-layer-value">LOW +0.33</div><div class="td-layer-detail">active | direct ticker evidence</div></div><div class="td-layer-card"><div class="td-layer-label">Sector/sleeve</div><div class="td-layer-value">LOW +0.00</div><div class="td-layer-detail">stale | AI / Semiconductors</div></div><div class="td-layer-card"><div class="td-layer-label">Shadow overall</div><div class="td-layer-value">LOW +0.33</div><div class="td-layer-detail">shadow | sector lift +0.00 (cap 0.50)</div></div></div>
+<details class="td-muted-details"><summary>Scoring inputs</summary>
 <div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.33</div><div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div>
-<div class="td-section-title">Name / sector split</div><div class="td-why-item"><strong>Name-specific</strong> +0.33 LOW (active) - direct ticker evidence</div><div class="td-why-item"><strong>Sector/sleeve</strong> +0.00 LOW (stale) - AI / Semiconductors</div><div class="td-why-item"><strong>Shadow overall</strong> +0.33 LOW (shadow) - sector lift +0.00 (cap 0.50)</div>
-<div class="td-section-title">What would make it a confident move</div>
-<div class="td-row">raise: A dated entry/stop/target call (Tier A) on GOOGL</div>
-<div class="td-row">raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
-<div class="td-row">raise: No ACTIVE insight maps GOOGL - state the thesis as one if you believe it</div>
-<div class="td-row">raise: 13F/insider lane goes live in the orphan-wiring chunk</div>
-<div class="td-section-title">IV options-vs-shares</div>
-<div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
-<div class="td-dossier"><div class="td-dossier-head">Decision dossier: GOOGL</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></div>
-<div class="td-row"><strong>posture:</strong> candidate BUY; blockers or conflicts must clear first</div>
+</details>
+<div class="td-section-title">What would make this actionable</div>
+<div class="td-action-columns">
+<div class="td-action-column"><div class="td-action-column-title">Operator can do now</div>
+<div class="td-row">No ACTIVE insight maps GOOGL - state the thesis as one if you believe it</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">Waiting on</div>
+<div class="td-row">A dated entry/stop/target call (Tier A) on GOOGL</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>
+<div class="td-row">Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">13F/insider lane goes live in the orphan-wiring chunk</div>
+</div></div>
+<details class="td-muted-details"><summary>Decision dossier not checked for GOOGL</summary><div class="td-dossier-head">Decision dossier: GOOGL</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></details>
+<div class="td-row"><strong>Rail:</strong> candidate BUY; blockers or conflicts must clear first</div>
 <button class="td-rail td-rail-muted" data-card="GOOGL-ADD-2026-06-17" data-verb="RECHECK" data-copy="RECHECK GOOGL-ADD-2026-06-17 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="GOOGL-ADD-2026-06-17" data-verb="PASS" data-copy="PASS GOOGL-ADD-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
-<div class="td-row"> gate red-but-tested: Canonical Notion gate from Newton 2026-06-11 3:06 PM ET: QQQ must close/hold above 717.50 before tech/growth add windows can be treated as confirmed. Prior 695-705 band is historical context only; QQQ closed 2026-06-11 at 717.22, so the gate remained unconfirmed. (2026-06-11)</div>
 <div class="td-row"> context: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (2026-06-09)</div>
-<details><summary>what changes this</summary><div>flip: full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only</div></details>
+<div class="td-row"> event risk: None (2026-06-03)</div>
+<details><summary>what changes this</summary><div>flip: same-session UW proof interpreted 'supports'</div><div>flip: a dated catalyst inside 10td</div></details>
 <div class="td-row">execute: SKB Schwab Individual ...254 Individual ...25...  |  TAXABLE - gains realize  |  largest existing GOOGL position (add-to-position)</div>
 <div class="td-row">excluded: PCRA Trust ...651 PCRA Trust ...65... - PCRA is ETF-ONLY - individual stocks cannot trade here (hard rule)</div>
 <div class="td-row">excluded: Robinhood Crypto 8794 - crypto-only account</div>
@@ -448,31 +567,91 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">sizing: caps suggested $0  |  heat ABOVE_CAP</div>
 <div class="td-row">cap basis: T3 floor 1.5% ($28,853) / ceiling 3.0% ($57,705); current 3.8% ($72,376); cap room $0; floor gap $0; flags no_thesis_row</div>
 <div class="td-row">impact:  $153,881 (8.0% of book)  |  material: yes</div>
-<div class="td-row">not checked: institutional, uw_same_session</div>
-</div></details>
-<details class="td-card td-conflicted">
-<summary class="td-sum">
-<div class="td-checkfirst">&#9888; CHECK DATA FIRST - inputs behind/stale (see freshness strip)</div>
-<div class="td-move"><span class="td-conv-line" style="background:#fb923c">#3 Conviction to Buy MSFT: 1/5 (LOW)</span></div>
-<div class="td-chip">CONFLICT - no directional evidence</div>
-</summary><div class="td-body">
-<div class="td-section-title">Why it is this</div>
-<div class="td-why-item"><strong>factor:</strong> UW opportunity signals - UW opportunity sweep as_of 2026-06-12: no signal for MSFT</div><div class="td-why-item"><strong>factor:</strong> Group rotation / momentum - not_checked: holdings group rotation unavailable for MSFT</div>
-<div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div><div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.00</div>
-<div class="td-section-title">Name / sector split</div><div class="td-why-item"><strong>Name-specific</strong> +0.00 LOW (not_checked) - direct ticker evidence</div><div class="td-why-item"><strong>Sector/sleeve</strong> +0.00 LOW (stale) - AI / Semiconductors</div><div class="td-why-item"><strong>Shadow overall</strong> +0.00 LOW (shadow) - sector lift +0.00 (cap 0.50)</div>
-<div class="td-section-title">What would make it a confident move</div>
-<div class="td-row">raise: A dated entry/stop/target call (Tier A) on MSFT</div>
-<div class="td-row">raise: Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
-<div class="td-row">raise: No ACTIVE insight maps MSFT - state the thesis as one if you believe it</div>
-<div class="td-row">raise: 13F/insider lane goes live in the orphan-wiring chunk</div>
-<div class="td-section-title">IV options-vs-shares</div>
+<details class="td-muted-details"><summary>Not checked / optional context</summary>
 <div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
-<div class="td-dossier"><div class="td-dossier-head">Decision dossier: MSFT</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></div>
-<div class="td-row"><strong>posture:</strong> candidate BUY; blockers or conflicts must clear first</div>
+<div class="td-row">not checked: institutional, uw_same_session</div>
+</details>
+</div></details>
+<div class="td-card-section-title">Funding / paired sells</div>
+<details id="td-card-IVES" class="td-card td-conflicted">
+<summary class="td-sum">
+<div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#3 IVES</div><div class="td-face-status">funding sell only</div><div class="td-face-title">$68,104 funding sell  only if paired with the buy it funds</div><div class="td-face-sentence">Funding sell. Only do this alongside the GOOGL $68,104 add; the stock itself looks bullish on flow, so don't sell it on its own.</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-material">$68,104 / material</span><span class="td-size-chip td-size-muted">funding only</span></div></div>
+</summary><div class="td-body">
+<div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Do not treat as a standalone trade</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Funding sell only; pair it with the add it pays for and do not sell the stock on its own.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps IVES - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+
+<div class="td-evidence-note"><strong>Pair this sell with:</strong> <a href="#td-card-GOOGL" style="color:#93c5fd">GOOGL $68,104 add</a>. Do not do the sell by itself.<br/>Rationale: this funding sell rotates out of MAG7 basket exposure (MU 6.2%, NVDA 4.8%, MSFT 4.8%, GOOGL 4.6%, AMD 4.6%, AVGO 4.5%) to fund the paired single-name add.</div>
+
+<div class="td-section-title">Evidence that matters</div>
+<div class="td-evidence-note">Stale context, not current edge: these UW signals are from 2026-06-12, not this session's 9:40 gate. Treat them as already-played or expired until refreshed; they are not moving the score and should not pull action.</div><div class="td-evidence-grid"><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity oi build</div><div class="td-evidence-text">call OI +167% at 35/36/35 strikes; OI +167%; strikes 35/36/35 (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity sweep</div><div class="td-evidence-text">ask-side call sweeps $0.3M; premium $261,513; side ask (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity dark pool accum</div><div class="td-evidence-text">dark-pool blocks $0M net buy, 1 sessions; notional $442,649; 1 session(s) (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-warn"><div class="td-evidence-label">bullish name signal</div><div class="td-evidence-title">Group rotation / momentum</div><div class="td-evidence-text">GROUP-level context: AI / Semiconductors rotation LEADING; ticker momentum up</div></div></div>
+<div class="td-section-title">Name / sector split</div><div class="td-layer-compact">Name/sector evidence not fed yet; no positive layer is active.</div>
+<details class="td-muted-details"><summary>Scoring inputs</summary>
+<div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div><div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.00</div>
+</details>
+<div class="td-section-title">What would make this actionable</div>
+<div class="td-action-columns">
+<div class="td-action-column"><div class="td-action-column-title">Operator can do now</div>
+<div class="td-row">No ACTIVE insight maps IVES - state the thesis as one if you believe it</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">Waiting on</div>
+<div class="td-row">A dated entry/stop/target call (Tier A) on IVES</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>
+<div class="td-row">Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">13F/insider lane goes live in the orphan-wiring chunk</div>
+</div></div>
+<details class="td-muted-details"><summary>Decision dossier not checked for IVES</summary><div class="td-dossier-head">Decision dossier: IVES</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></details>
+<div class="td-row"><strong>Rail:</strong> funding sell only; do not sell standalone</div>
+<button class="td-rail td-rail-muted" data-card="IVES-TRIM-2026-06-17" data-verb="RECHECK" data-copy="RECHECK IVES-TRIM-2026-06-17 funding sell only; pair with funded add" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PAIR &amp; FUND</button><button class="td-rail" data-card="IVES-TRIM-2026-06-17" data-verb="PASS" data-copy="PASS IVES-TRIM-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
+<div class="td-row"> funding leg - execute paired with the adds it funds (no standalone urgency)</div>
+<details><summary>what changes this</summary><div>flip: sleeve turns down or goes overexposed -> OPEN-NOW</div><div>flip: the funded add's window opens</div></details>
+<div class="td-row">execute: sell $27,003 in Parents Fidelity Joint WROS - TOD *****2063  |  TAXABLE - gains realize</div>
+<div class="td-row">execute: sell $25,953 in Parents Schwab PCRA Trust ...651 PCRA Trust ...65...  |  tax-advantaged retirement plan  |   PCRA proceeds stay in PCRA: ETF-rebuy or cash only; moving them out is an operator transfer</div>
+<div class="td-row">execute: sell $11,316 in SKB Robinhood Robinhood Traditional Ira 1369  |  tax-advantaged traditional</div>
+<div class="td-row">execute: sell $3,831 in Parents Fidelity ROLLOVER IRA - RamBalusu *****6333  |  tax-advantaged traditional</div>
+<div class="td-row">look-through: contains MU 6.2%, NVDA 4.8%, MSFT 4.8%, GOOGL 4.6%, AMD 4.6%, AVGO 4.5%</div>
+<div class="td-chip">overlap with held singles: MU 6.2%, NVDA 4.8%, MSFT 4.8%, GOOGL 4.6%, AMD 4.6%, AVGO 4.5%</div>
+<div class="td-row">look-through source: Wedbush/Morningstar holdings snapshot June 2026</div>
+<div class="td-chip">TRANSFER NEEDED: $25,953 of these proceeds land inside PCRA and CANNOT buy individual stocks - the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding.</div>
+<div class="td-row">impact:  $68,104 (3.5% of book)  |  material: yes</div>
+<details class="td-muted-details"><summary>Not checked / optional context</summary>
+<div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
+<div class="td-row">not checked: institutional, uw_same_session</div>
+</details>
+</div></details>
+<div class="td-subqueue"><div class="td-card-section-title">More impact-ranked decisions (3)</div>
+<div class="td-card-section-title">Material decisions</div>
+<details id="td-card-MSFT" class="td-card td-conflicted">
+<summary class="td-sum">
+<div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#4 MSFT</div><div class="td-face-status">needs feed</div><div class="td-face-title">Feed evidence before buying MSFT</div><div class="td-face-sentence">Not actionable yet. Feed the missing evidence first; Cap clipped; staged size must stay within room.</div><div class="td-face-gate">Price condition now MET: QQQ close 729.86 clears 717.50; stored gate was red but tested from 2026-06-11.</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-material">$38,674 / material</span></div></div>
+</summary><div class="td-body">
+<div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Feed evidence before action</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Cap clipped; staged size must stay within room.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps MSFT - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-gate-note td-gate-note-ok"><strong>QQQ gate:</strong> Price condition now MET: QQQ close 729.86 clears 717.50; stored gate was red but tested from 2026-06-11.</div><div class="td-gate-note"><strong>SMH context:</strong> Context only: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (source uw; stated 2026-06-09).</div>
+
+<div class="td-evidence-note"><strong>Fed-day act-if-green packet:</strong> Candidate band $25,000-$40,000; first tranche $12,500-$28,000; AMBER_PRE_FOMC<br/><strong>Why it matters:</strong> MSFT stays under the intended AI-core exposure if the thesis is right and Fed/tape gates confirm; cash/funding avoids churn if the Fed reaction is red.<br/><strong>Do not act if:</strong> Do not deploy if the laggard thesis remains only valuation-based without live confirmation.</div>
+<div class="td-section-title">Evidence that matters</div>
+<div class="td-evidence-note">Stale context, not current edge: these UW signals are from 2026-06-12, not this session's 9:40 gate. Treat them as already-played or expired until refreshed; they are not moving the score and should not pull action.</div><div class="td-evidence-grid"><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale context</div><div class="td-evidence-title">UW opportunity signals</div><div class="td-evidence-text">UW opportunity sweep as_of 2026-06-12: no signal for MSFT</div></div><div class="td-evidence"><div class="td-evidence-label">context</div><div class="td-evidence-title">Group rotation / momentum</div><div class="td-evidence-text">not_checked: holdings group rotation unavailable for MSFT</div></div></div>
+<div class="td-section-title">Name / sector split</div><div class="td-layer-compact">Name/sector evidence not fed yet; no positive layer is active.</div>
+<details class="td-muted-details"><summary>Scoring inputs</summary>
+<div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div><div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.00</div>
+</details>
+<div class="td-section-title">What would make this actionable</div>
+<div class="td-action-columns">
+<div class="td-action-column"><div class="td-action-column-title">Operator can do now</div>
+<div class="td-row">No ACTIVE insight maps MSFT - state the thesis as one if you believe it</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">Waiting on</div>
+<div class="td-row">A dated entry/stop/target call (Tier A) on MSFT</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>
+<div class="td-row">Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">13F/insider lane goes live in the orphan-wiring chunk</div>
+</div></div>
+<details class="td-muted-details"><summary>Decision dossier not checked for MSFT</summary><div class="td-dossier-head">Decision dossier: MSFT</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></details>
+<div class="td-row"><strong>Rail:</strong> candidate BUY; blockers or conflicts must clear first</div>
 <button class="td-rail td-rail-muted" data-card="MSFT-ADD-2026-06-17" data-verb="RECHECK" data-copy="RECHECK MSFT-ADD-2026-06-17 resolve blockers before action" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button><button class="td-rail" data-card="MSFT-ADD-2026-06-17" data-verb="PASS" data-copy="PASS MSFT-ADD-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
-<div class="td-row"> gate red-but-tested: Canonical Notion gate from Newton 2026-06-11 3:06 PM ET: QQQ must close/hold above 717.50 before tech/growth add windows can be treated as confirmed. Prior 695-705 band is historical context only; QQQ closed 2026-06-11 at 717.22, so the gate remained unconfirmed. (2026-06-11)</div>
 <div class="td-row"> context: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (2026-06-09)</div>
-<details><summary>what changes this</summary><div>flip: full size only after QQQ closes/holds above 717.50; failure to reclaim keeps tech/growth adds at re-check or stage-only</div></details>
+<div class="td-row"> event risk: None (2026-06-03)</div>
+<details><summary>what changes this</summary><div>flip: same-session UW proof interpreted 'supports'</div><div>flip: a dated catalyst inside 10td</div></details>
 <div class="td-row">execute: Parents Fidelity Joint WROS - TOD *****2063  |  TAXABLE - gains realize  |  largest existing MSFT position (add-to-position)</div>
 <div class="td-row">excluded: PCRA Trust ...651 PCRA Trust ...65... - PCRA is ETF-ONLY - individual stocks cannot trade here (hard rule)</div>
 <div class="td-row">excluded: Robinhood Crypto 8794 - crypto-only account</div>
@@ -480,16 +659,101 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 <div class="td-row">sizing: caps suggested $27,869  |  heat CAP_CLIPPED</div>
 <div class="td-row">cap basis: T3 floor 1.5% ($28,853) / ceiling 3.0% ($57,705); current 1.6% ($29,836); cap room $27,869; floor gap $0; flags no_thesis_row</div>
 <div class="td-row">impact:  $38,674 (2.0% of book)  |  material: yes</div>
+<details class="td-muted-details"><summary>Not checked / optional context</summary>
+<div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
 <div class="td-row">not checked: institutional, uw_same_session</div>
-</div></details>
-<details><summary>Backlog (3)</summary>
-<div class="td-row">GRNY  |  TRIM  |  $123,084  |  p65.0</div>
-<div class="td-row">IVES  |  SELL  |  $68,104  |  p58.2</div>
-<div class="td-row">SMH  |  TRIM  |  $968  |  p58.2</div>
 </details>
+</div></details>
+<div class="td-card-section-title">Funding / paired sells</div>
+<details id="td-card-SMH" class="td-card td-conflicted">
+<summary class="td-sum">
+<div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#5 SMH</div><div class="td-face-status">funding sell only</div><div class="td-face-title">$968 funding sell  only if paired with the buy it funds</div><div class="td-face-sentence">Funding sell. Only do this alongside the GOOGL $968 add; don't sell it on its own.</div><div class="td-face-gate">Context only: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (source uw; stated 2026-06-09).</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-muted">$968 / immaterial</span><span class="td-size-chip td-size-muted">funding only</span></div></div>
+</summary><div class="td-body">
+<div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Do not treat as a standalone trade</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Funding sell only; pair it with the add it pays for and do not sell the stock on its own.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps SMH - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+<div class="td-gate-note"><strong>SMH context:</strong> Context only: SMH 6/9: 10% intraday range, IV rank 100, P/C 4.5 - washout characteristics; favors staged entries over chases (source uw; stated 2026-06-09).</div>
+<div class="td-evidence-note"><strong>Pair this sell with:</strong> <a href="#td-card-GOOGL" style="color:#93c5fd">GOOGL $968 add</a>. Do not do the sell by itself.<br/>Rationale: this funding sell rotates out of MAG7 basket exposure (NVDA 14.5%, TSM 9.3%, MU 7.8%, INTC 7.2%, AMD 7.1%, AVGO 6.1%) to fund the paired single-name add.</div>
+
+<div class="td-section-title">Evidence that matters</div>
+<div class="td-evidence-grid"><div class="td-evidence td-evidence-warn"><div class="td-evidence-label">bullish name signal</div><div class="td-evidence-title">Group rotation / momentum</div><div class="td-evidence-text">GROUP-level context: AI / Semiconductors rotation LEADING; ticker momentum down</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bearish context</div><div class="td-evidence-title">UW opportunity sweep</div><div class="td-evidence-text">ask-side put sweeps $4.3M, c/p 0.68; premium $4.3M; c/p 0.68; side ask (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bearish context</div><div class="td-evidence-title">UW opportunity oi build</div><div class="td-evidence-text">put OI +2857% at 420/525/420 strikes; OI +2857%; strikes 420/525/420 (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bearish context</div><div class="td-evidence-title">UW opportunity dark pool accum</div><div class="td-evidence-text">dark-pool blocks $6M net sell, 1 sessions; notional -$5.7M; 1 session(s) (as_of 2026-06-12)</div></div></div>
+<div class="td-section-title">Name / sector split</div><div class="td-layer-grid"><div class="td-layer-card"><div class="td-layer-label">Name-specific</div><div class="td-layer-value">LOW +0.43</div><div class="td-layer-detail">active | direct ticker evidence</div></div><div class="td-layer-card"><div class="td-layer-label">Sector/sleeve</div><div class="td-layer-value">LOW +0.00</div><div class="td-layer-detail">not_applicable | AI / Semiconductors</div></div><div class="td-layer-card"><div class="td-layer-label">Shadow overall</div><div class="td-layer-value">LOW +0.43</div><div class="td-layer-detail">shadow | sector lift +0.00 (cap 0.50)</div></div></div>
+<details class="td-muted-details"><summary>Scoring inputs</summary>
+<div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.43</div><div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div>
+</details>
+<div class="td-section-title">What would make this actionable</div>
+<div class="td-action-columns">
+<div class="td-action-column"><div class="td-action-column-title">Operator can do now</div>
+<div class="td-row">No ACTIVE insight maps SMH - state the thesis as one if you believe it</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>
+<div class="td-row">Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">13F/insider lane goes live in the orphan-wiring chunk</div>
+</div></div>
+<details class="td-muted-details"><summary>Decision dossier not checked for SMH</summary><div class="td-dossier-head">Decision dossier: SMH</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></details>
+<div class="td-row"><strong>Rail:</strong> funding sell only; do not sell standalone</div>
+<button class="td-rail td-rail-muted" data-card="SMH-TRIM-2026-06-17" data-verb="RECHECK" data-copy="RECHECK SMH-TRIM-2026-06-17 funding sell only; pair with funded add" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PAIR &amp; FUND</button><button class="td-rail" data-card="SMH-TRIM-2026-06-17" data-verb="PASS" data-copy="PASS SMH-TRIM-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
+<div class="td-row"> funding leg - execute paired with the adds it funds (no standalone urgency)</div>
+<details><summary>what changes this</summary><div>flip: sleeve turns down or goes overexposed -> OPEN-NOW</div><div>flip: the funded add's window opens</div></details>
+<div class="td-row">execute: sell $968 in Parents Schwab PCRA Trust ...651 PCRA Trust ...65...  |  tax-advantaged retirement plan  |   PCRA proceeds stay in PCRA: ETF-rebuy or cash only; moving them out is an operator transfer</div>
+<div class="td-row">look-through: contains NVDA 14.5%, TSM 9.3%, MU 7.8%, INTC 7.2%, AMD 7.1%, AVGO 6.1%</div>
+<div class="td-chip">overlap with held singles: NVDA 14.5%, TSM 9.3%, MU 7.8%, AMD 7.1%, AVGO 6.1%</div>
+<div class="td-row">look-through source: VanEck daily holdings as of 2026-06-11</div>
+<div class="td-chip">TRANSFER NEEDED: $968 of these proceeds land inside PCRA and CANNOT buy individual stocks - the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding.</div>
+<div class="td-row">impact:  $968 (0.1% of book)  |  material: no</div>
+<details class="td-muted-details"><summary>Not checked / optional context</summary>
+<div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
+<div class="td-row">not checked: institutional, uw_same_session</div>
+</details>
+</div></details>
+<details id="td-card-MAGS" class="td-card td-conflicted">
+<summary class="td-sum">
+<div class="td-card-face"><div class="td-face-top"><div><div class="td-rank">#6 MAGS</div><div class="td-face-status">funding sell only</div><div class="td-face-title">$400 funding sell  only if paired with the buy it funds</div><div class="td-face-sentence">Funding sell. Only do this alongside the GOOGL $400 add; the stock itself looks bullish on flow, so don't sell it on its own.</div></div><div class="td-face-right"><span class="td-score-chip" style="background:#fb923c">Conviction 1/5 LOW</span></div></div><div class="td-face-tags"><span class="td-size-chip td-size-muted">$400 / immaterial</span><span class="td-size-chip td-size-muted">funding only</span></div></div>
+</summary><div class="td-body">
+<div class="td-readout"><div class="td-readout-grid"><div><div class="td-readout-k">Current answer</div><div class="td-readout-v">Do not treat as a standalone trade</div></div><div><div class="td-readout-k">Why</div><div class="td-readout-v">Funding sell only; pair it with the add it pays for and do not sell the stock on its own.</div></div><div><div class="td-readout-k">Next check</div><div class="td-readout-v">No ACTIVE insight maps MAGS - state the thesis as one if you believe it</div></div><div><div class="td-readout-k">Score</div><div class="td-readout-v">Conviction 1/5 LOW</div></div></div></div>
+
+<div class="td-evidence-note"><strong>Pair this sell with:</strong> <a href="#td-card-GOOGL" style="color:#93c5fd">GOOGL $400 add</a>. Do not do the sell by itself.<br/>Rationale: this funding sell rotates out of MAG7 basket exposure (GOOGL 15.8%, NVDA 15.0%, AAPL 14.8%, AMZN 14.5%, META 14.2%, MSFT 14.1%) to fund the paired single-name add.</div>
+
+<div class="td-section-title">Evidence that matters</div>
+<div class="td-evidence-note">Stale context, not current edge: these UW signals are from 2026-06-12, not this session's 9:40 gate. Treat them as already-played or expired until refreshed; they are not moving the score and should not pull action.</div><div class="td-evidence-grid"><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity sweep</div><div class="td-evidence-text">ask-side call sweeps $3.6M, 10:1 c/p; premium $3.6M; c/p 9.57; side ask (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity oi build</div><div class="td-evidence-text">call OI +12710% at 65/65/68 strikes; OI +12710%; strikes 65/65/68 (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-stale"><div class="td-evidence-label">stale bullish context</div><div class="td-evidence-title">UW opportunity dark pool accum</div><div class="td-evidence-text">dark-pool blocks $1M net buy, 1 sessions; notional $863,017; 1 session(s) (as_of 2026-06-12)</div></div><div class="td-evidence td-evidence-warn"><div class="td-evidence-label">bullish name signal</div><div class="td-evidence-title">Group rotation / momentum</div><div class="td-evidence-text">GROUP-level context: AI / Semiconductors rotation LEADING; ticker momentum up</div></div></div>
+<div class="td-section-title">Name / sector split</div><div class="td-layer-compact">Name/sector evidence not fed yet; no positive layer is active.</div>
+<div class="td-chip">Signal/action split: lean_in lane says "Lean-in  looks good"; this card is only a funding sell paired with the buy it funds.</div>
+<details class="td-muted-details"><summary>Scoring inputs</summary>
+<div class="td-why-item"><strong>UW same-session proof</strong> +0.00</div><div class="td-why-item"><strong>Operator insight</strong> +0.00</div><div class="td-why-item"><strong>Institutional lane</strong> +0.00</div><div class="td-why-item"><strong>Fundstrat / source calls</strong> +0.00</div>
+</details>
+<div class="td-section-title">What would make this actionable</div>
+<div class="td-action-columns">
+<div class="td-action-column"><div class="td-action-column-title">Operator can do now</div>
+<div class="td-row">No ACTIVE insight maps MAGS - state the thesis as one if you believe it</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">Waiting on</div>
+<div class="td-row">A dated entry/stop/target call (Tier A) on MAGS</div>
+</div>
+<div class="td-action-column"><div class="td-action-column-title">System still needs wired</div>
+<div class="td-row">Same-session UW proof interpreted 'supports' (9:40 ET gate runs it)</div>
+<div class="td-row">13F/insider lane goes live in the orphan-wiring chunk</div>
+</div></div>
+<details class="td-muted-details"><summary>Decision dossier not checked for MAGS</summary><div class="td-dossier-head">Decision dossier: MAGS</div><div class="td-dossier-meta">status: not_checked | reviewed: not_checked | due: not_checked | synced: not_checked</div><div class="td-dossier-read"><strong>edge (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>price (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>timing (not_checked):</strong> UNKNOWN</div><div class="td-dossier-read"><strong>avoid (not_checked):</strong> UNKNOWN</div></details>
+<div class="td-row"><strong>Rail:</strong> funding sell only; do not sell standalone</div>
+<button class="td-rail td-rail-muted" data-card="MAGS-TRIM-2026-06-17" data-verb="RECHECK" data-copy="RECHECK MAGS-TRIM-2026-06-17 funding sell only; pair with funded add" onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PAIR &amp; FUND</button><button class="td-rail" data-card="MAGS-TRIM-2026-06-17" data-verb="PASS" data-copy="PASS MAGS-TRIM-2026-06-17 - reason: " onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>
+<div class="td-row"> funding leg - execute paired with the adds it funds (no standalone urgency)</div>
+<details><summary>what changes this</summary><div>flip: sleeve turns down or goes overexposed -> OPEN-NOW</div><div>flip: the funded add's window opens</div></details>
+<div class="td-row">execute: sell $400 in SKB Fidelity Health Savings Account *****7284  |  tax-advantaged HSA</div>
+<div class="td-row">look-through: contains GOOGL 15.8%, NVDA 15.0%, AAPL 14.8%, AMZN 14.5%, META 14.2%, MSFT 14.1%</div>
+<div class="td-chip">overlap with held singles: GOOGL 15.8%, NVDA 15.0%, AMZN 14.5%, MSFT 14.1%</div>
+<div class="td-row">look-through source: Roundhill/MAGS holdings snapshot June 2026</div>
+<div class="td-row">impact:  $400 (0.0% of book)  |  material: no</div>
+<details class="td-muted-details"><summary>Not checked / optional context</summary>
+<div class="td-row">IV options-vs-shares (not_checked): IV context not_checked; no options-vs-shares edge inferred.</div>
+<div class="td-row">not checked: institutional, uw_same_session</div>
+</details>
+</div></details>
+</div>
+<div class="td-subqueue"><div class="td-card-section-title">Watchlist / pullback impact queue (14)</div><div class="td-row">These are ranked research/recheck candidates from the fed-day packet. They are visible so discounted or watched names do not disappear, but they do not outrank executable decisions without fresh confirmation.</div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Higher-quality pullback</div><div class="td-queue-rank">#1 FN</div></div><div class="td-queue-score">impact 29.4</div></div><div class="td-queue-summary">-21.5% below 52w high; price $588; Fundstrat top-list</div><div class="td-queue-meta">exposure $8,050 | -21.5% below 52w high | Fundstrat top-list</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Advance only if optical/AI infrastructure evidence and flow beat the base packet.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Higher-quality pullback</div><div class="td-queue-rank">#2 AVGO</div></div><div class="td-queue-score">impact 23.49</div></div><div class="td-queue-summary">-23.9% below 52w high; price $377; Notion Working STAGE, repo research queue Queued</div><div class="td-queue-meta">exposure $40,696 | -23.9% below 52w high | research STAGE | Notion Working STAGE, repo research queue Queued</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Advance only if post-FOMC tape and fresh flow beat GOOGL/MSFT on capital efficiency.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Higher-quality pullback</div><div class="td-queue-rank">#3 VRT</div></div><div class="td-queue-score">impact 21.14</div></div><div class="td-queue-summary">-21.1% below 52w high; price $300; Yahoo Finance chart endpoint</div><div class="td-queue-meta">exposure $0 | -21.1% below 52w high</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Advance only if power/cooling flow and entry quality beat the base packet.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Higher-quality pullback</div><div class="td-queue-rank">#4 AMZN</div></div><div class="td-queue-score">impact 11.47</div></div><div class="td-queue-summary">-11.7% below 52w high; price $246; Yahoo Finance chart endpoint</div><div class="td-queue-meta">exposure $21,900 | -11.7% below 52w high</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Higher-quality pullback</div><div class="td-queue-rank">#5 NVDA</div></div><div class="td-queue-score">impact 10.19</div></div><div class="td-queue-summary">-12.3% below 52w high; price $207; Yahoo Finance chart endpoint</div><div class="td-queue-meta">exposure $212,710 | -12.3% below 52w high</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Already large; pullback is not enough unless target/sizing room and flow support it.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#6 BMNR</div></div><div class="td-queue-score">impact 89.2</div></div><div class="td-queue-summary">-89.9% below 52w high; price $16; Notion Working MONITOR, repo research queue Queued</div><div class="td-queue-meta">exposure $73,020 | -89.9% below 52w high | research MONITOR | Notion Working MONITOR, repo research queue Queued</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#7 LEU</div></div><div class="td-queue-score">impact 63.36</div></div><div class="td-queue-summary">-64.4% below 52w high; price $165; Yahoo Finance chart endpoint</div><div class="td-queue-meta">exposure $99,621 | -64.4% below 52w high</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Needs uranium/HALEU flow and policy confirmation; size is already meaningful.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#8 AVAV</div></div><div class="td-queue-score">impact 60.1</div></div><div class="td-queue-summary">-60.1% below 52w high; price $167; Yahoo Finance chart endpoint</div><div class="td-queue-meta">exposure $0 | -60.1% below 52w high</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#9 KTOS</div></div><div class="td-queue-score">impact 47.96</div></div><div class="td-queue-summary">-58.0% below 52w high; price $56; Fundstrat bottom/avoid-list</div><div class="td-queue-meta">exposure $0 | -58.0% below 52w high | Fundstrat bottom/avoid-list</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#10 ELF</div></div><div class="td-queue-score">impact 45.67</div></div><div class="td-queue-summary">-55.7% below 52w high; price $67; Fundstrat bottom/avoid-list</div><div class="td-queue-meta">exposure $0 | -55.7% below 52w high | Fundstrat bottom/avoid-list</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#11 MP</div></div><div class="td-queue-score">impact 42.92</div></div><div class="td-queue-summary">-43.1% below 52w high; price $57; Yahoo Finance chart endpoint</div><div class="td-queue-meta">exposure $16,829 | -43.1% below 52w high</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#12 SOFI</div></div><div class="td-queue-score">impact 35.88</div></div><div class="td-queue-summary">-45.9% below 52w high; price $18; Fundstrat bottom/avoid-list</div><div class="td-queue-meta">exposure $856 | -45.9% below 52w high | Fundstrat bottom/avoid-list</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Fundstrat bottom-list conflict and small current exposure make this research-only.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#13 UUUU</div></div><div class="td-queue-score">impact 34.67</div></div><div class="td-queue-summary">-45.0% below 52w high; price $15; Fundstrat bottom/avoid-list</div><div class="td-queue-meta">exposure $34,940 | -45.0% below 52w high | Fundstrat bottom/avoid-list</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list.</div></div><div class="td-queue-card"><div class="td-queue-top"><div><div class="td-queue-label">Deep-discount research</div><div class="td-queue-rank">#14 HOOD</div></div><div class="td-queue-score">impact 27.11</div></div><div class="td-queue-summary">-37.1% below 52w high; price $97; Fundstrat bottom/avoid-list</div><div class="td-queue-meta">exposure $2,560 | -37.1% below 52w high | Fundstrat bottom/avoid-list</div><div class="td-queue-meta"><strong>Do not promote if:</strong> Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review.</div></div></div>
+<details class="td-muted-details"><summary>Do-not-touch / research-only guardrails (6)</summary><div class="td-row">GRNJ remains protected unless explicit thesis break or operator override.</div><div class="td-row">BMNR stays monitor-first until financing/mNAV/ETH-per-share work clears.</div><div class="td-row">LEU/UUUU/MP require critical-minerals and flow checks before any add review.</div><div class="td-row">KTOS/ELF/SOFI/HOOD require Fundstrat top/bottom-list reconciliation.</div><div class="td-row">Social Watch remains dark/watch-only.</div><div class="td-row">Options remain review-only with no contract selection.</div></details>
+<details class="td-muted-details"><summary>Portfolio thesis context</summary>
 <div class="td-cong">INSIGHT-001  |  named $109,070 (5.67%) - BE  |  GEV  |  STRL  |  VOLT   |   +adjacent $158,360 (8.23%): LEU  |  PWR  |  UUUU -> 13.90% combined</div>
 <div class="td-cong"> INSIGHT-002  |  named $4,414 (0.23%) - TSM</div>
-<div class="td-honesty">cash: not_checked - no cash rows in positions cache<br/>institutional: not wired (orphan-wiring chunk)<br/>uw_same_session: none provided this session<br/>gates_as_of: 2026-06-11<br/>positions_as_of: 2026-06-17<br/>dispositions: none logged yet (C6 spine pending)</div>
+</details>
+<details class="td-muted-details"><summary>System honesty / data caveats</summary><div class="td-honesty">cash: not_checked - no cash rows in positions cache<br/>institutional: not wired (orphan-wiring chunk)<br/>uw_same_session: none provided this session<br/>gates_as_of: 2026-06-11<br/>positions_as_of: 2026-06-17<br/>dispositions: none logged yet (C6 spine pending)</div></details>
 </section>
 
 <div class="card held-strip" id="held-decisions">
@@ -1243,7 +1507,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
   <span class="audit-k">Integration debt</span>Integration debt: 1 warning(s), 14 total finding(s).
 </div>
 <div class="audit-row">
-  <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=20/22; missing live-capable=0.
+  <span class="audit-k">Connector evidence</span>Connector/supplied evidence: present=21/23; missing live-capable=0.
 </div>
 <div class="audit-row">
   <span class="audit-k">Decision dossiers</span>Decision dossier coverage: 0/26 current action/material ticker(s) covered; missing=25; stale=1; missing tickers AMZN, BMNR, BWXT, CCJ, GDX, GOOGL, GRNJ, GRNY.
@@ -1281,7 +1545,7 @@ else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textConte
 
 <div class="card">
   <div class="card-title"><span class="icon"></span> System layers</div>
-  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-17T05:20:33.262448+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-17T05:20:33.262448+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-17T05:20:33.262448+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-17T05:20:33.262448+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-17T05:20:33.262448+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge ok" title="Cloud Routine Receipts | 2026-06-17T05:20:33.262448+00:00 | routine receipts current; next Investing OS Fundstrat Pre-Market Safety Sweep at 2026-06-17T07:45:00-04:00">Cloud Routine Receipts</span></div>
+  <div class="hb"><span class="hb-badge ok" title="Required Inputs | 2026-06-17T06:01:38.232024+00:00 | positions/theses convention inputs present and fresh">Required Inputs</span><span class="hb-badge ok" title="Minimum Market Data | 2026-06-17T06:01:38.232024+00:00 | UW price and macro caches present">Minimum Market Data</span><span class="hb-badge ok" title="Publish Gate | 2026-06-17T06:01:38.232024+00:00 | publish-gate checks passed">Publish Gate</span><span class="hb-badge ok" title="Optional Source Lanes | 2026-06-17T06:01:38.232024+00:00 | deferred optional lanes: social_watch | visible as not checked; not a no-signal read">Optional Source Lanes</span><span class="hb-badge ok" title="Daily Full Build | 2026-06-17T06:01:38.232024+00:00 | rehearsal build can run">Daily Full Build</span><span class="hb-badge ok" title="Cloud Routine Receipts | 2026-06-17T06:01:38.232024+00:00 | routine receipts current; next Investing OS Fundstrat Pre-Market Safety Sweep at 2026-06-17T07:45:00-04:00">Cloud Routine Receipts</span></div>
 </div>
 
 <div class="hero">
