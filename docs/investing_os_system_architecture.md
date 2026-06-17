@@ -271,6 +271,19 @@ The dashboard shows the feed plus operator state:
     system checks, source links, and the Social Watch queued/dark rule. JSX may
     mirror commands for internal validation, but it must not be the only place
     current commands live.
+  - Today/Decide is action-first, not top-N-first. Its decision queue separates
+    Material decisions, Other rechecks, and Funding / paired sells; funding
+    helper legs never outrank standalone material decisions. Remaining
+    impact-ranked decisions render as full cards rather than raw backlog rows.
+  - The Fed-day reallocation packet feeds Today/Decide only as visible decision
+    context and a rail-free `watch_queue`. The queue keeps deep-discount and
+    pullback candidates visible with disconfirmation text, but it does not add
+    ACT/PASS/RECHECK affordances and does not change conviction, ranking,
+    sizing, gates, or execution posture.
+  - Fed-day packet freshness is explicit. A packet is current only when `as_of`
+    equals the build date. Stale packets remain visible as research context with
+    STALE/not_checked labels and stale price wording; absent packets create no
+    fabricated rows and add an honesty note.
 
 - Today's Actions: `feed.actions`
   - Includes engine actions, catalyst/event-risk review prompts, and
@@ -373,6 +386,11 @@ The dashboard shows the feed plus operator state:
   - `feed.source_audits` shows cloud routine proof, connector evidence,
     Fundstrat intake proof, Notion writeback evidence, and Notion collision
     risk when shared pages may have been written by another agent.
+  - `integration_debt_sweep.py` includes a `build_without_wire` check for
+    committed candidate-bearing `src/*.json` artifacts. A candidate artifact is
+    acceptable only when it is read by a decision-path module, declared with a
+    real feed path in `state_ownership_map.json`, or documented in
+    `src/non_surfacing_allowlist.json` with a concrete non-surfacing reason.
 
 - UW routing and action runbook:
   - `feed.uw_routing` and `feed.uw_action_runbook` translate dashboard state
