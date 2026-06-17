@@ -107,6 +107,7 @@ def _payload(
     gates=None,
     today=TODAY,
     baseline_feed=None,
+    held_decisions_path=None,
 ):
     return build_today_decide_payload(
         feed=feed or _feed(), weights=W, goal=goal or G, insights_payload=_insights(),
@@ -114,6 +115,7 @@ def _payload(
         congruence_result=congruence_result or _congruence(),
         dispositions_path=(dispositions_path if dispositions_path else
                            (tmp_path / "none.jsonl" if tmp_path else "_no_dispositions_.jsonl")),
+        held_decisions_path=held_decisions_path,
         baseline_feed=baseline_feed,
         load_committed_baseline=False,
         today=today,

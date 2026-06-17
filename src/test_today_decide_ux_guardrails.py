@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 import re
@@ -104,6 +105,88 @@ def test_readiness_layers_separate_routine_fire_from_boundary_and_execution():
             "uw_interpreted", "cash_buying_power", "account_eligibility",
             "cap_room", "research_disconfirmation", "event_risk",
         }
+
+
+def test_overdue_held_reviews_surface_as_decide_pressure(tmp_path):
+    held = tmp_path / "held.json"
+    held.write_text(json.dumps([
+        {
+            "id": "overdue-packet",
+            "title": "Overdue packet",
+            "parked_date": "2026-06-13",
+            "review_by": "2026-06-14",
+            "status": "held",
+            "notion_url": "https://example.test/overdue",
+        },
+        {
+            "id": "future-packet",
+            "title": "Future packet",
+            "parked_date": "2026-06-13",
+            "review_by": "2026-06-30",
+            "status": "held",
+        },
+        {
+            "id": "done-packet",
+            "title": "Done packet",
+            "parked_date": "2026-06-13",
+            "review_by": "2026-06-14",
+            "status": "passed",
+        },
+    ]), encoding="utf-8")
+
+    payload = _payload(today="2026-06-17", held_decisions_path=held)
+    pressure = payload["disposition_pressure"]
+    html = render_today_decide_html(payload)
+
+    assert pressure["counts"] == {"review_due": 1, "promoted_watch": 0, "total": 1}
+    assert pressure["rows"][0]["state"] == "DECIDE"
+    assert pressure["rows"][0]["age_days"] == 3
+    assert "Review due: Overdue packet" in html
+    assert "KEEP HELD" in html and "RECHECK overdue-packet new_review_by: " in html
+    assert "Decision pressure" in html
+    assert html.index("Decision pressure") < html.index("Ownership-aware passivity")
+    assert 'data-copy="ACT ' not in html.split("Decision pressure", 1)[1].split("Ownership-aware passivity", 1)[0]
+
+
+def test_high_impact_watch_row_promotes_to_decide_and_leaves_watch_queue():
+    feed = _feed()
+    feed["fed_day_reallocation_packet"] = {
+        "as_of": "2026-06-17",
+        "higher_quality_pullbacks": [
+            {
+                "ticker": "RYF",
+                "rank_score": 92,
+                "pct_below_high": -30,
+                "price": 108,
+                "current_exposure_usd": 0,
+                "source_tags": ["top_prospects:sell_fast"],
+                "disconfirmation": "Only re-open if broker beta confirms.",
+            },
+            {
+                "ticker": "FN",
+                "rank_score": 88,
+                "pct_below_high": -21,
+                "price": 592,
+                "current_exposure_usd": 7741,
+                "source_tags": ["Fundstrat top-list"],
+                "disconfirmation": "Needs fresh flow.",
+            },
+        ],
+    }
+
+    payload = _payload(feed=feed, today="2026-06-17", held_decisions_path=None)
+    pressure = payload["disposition_pressure"]
+    html = render_today_decide_html(payload)
+
+    assert pressure["counts"] == {"review_due": 0, "promoted_watch": 1, "total": 1}
+    assert pressure["rows"][0]["decision_key"] == "RYF|higher_quality_pullbacks"
+    assert pressure["rows"][0]["title"] == "Decide RYF: avoid new exposure?"
+    assert [row["ticker"] for row in payload["watch_queue"]] == ["FN"]
+    assert payload["command_strip"]["counts"]["DECIDE"] == 3
+    assert payload["command_strip"]["counts"]["WATCH"] == 1
+    assert "Decide RYF: avoid new exposure?" in html
+    assert "Watchlist / pullback impact queue (1)" in html
+    assert "AVOID_NEW RYF reason: " in html
 
 
 def test_since_last_build_delta_uses_committed_baseline_without_view_state_file():

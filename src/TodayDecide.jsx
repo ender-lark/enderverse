@@ -1124,6 +1124,46 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
   );
 }
 
+function DispositionPressure({ payload, railState, setRailState }) {
+  const pressure = payload.disposition_pressure || {};
+  const rows = pressure.rows || [];
+  if (!rows.length) return null;
+  return (
+    <div style={{ border: "1px solid #334155", borderLeft: "4px solid #60a5fa", borderRadius: 10, background: "#08111f", padding: "10px 12px", margin: "10px 0 12px" }}>
+      <div style={{ fontSize: 12, color: "#f8fafc", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".06em" }}>Decision pressure</div>
+      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 3 }}>{pressure.line || ""}</div>
+      {rows.map((row) => (
+        <div key={row.decision_key || row.title} style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, marginTop: 8 }}>
+          <div style={{ display: "flex", gap: 8, justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }}>
+            <div>
+              <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>{row.state || "DECIDE"} | {row.kind || ""}</div>
+              <div style={{ fontSize: 14, color: "#f8fafc", fontWeight: 850, lineHeight: 1.25, marginTop: 2 }}>{row.title || ""}</div>
+            </div>
+            <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>{row.ticker || ""}</div>
+          </div>
+          <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>{row.prompt || ""}</div>
+          <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>{row.detail || ""}</div>
+          {row.notion_url && <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}><a href={row.notion_url}>source</a></div>}
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 7 }}>
+            {(row.actions || []).map((action) => (
+              <Rail
+                key={`${row.decision_key}-${action.label}`}
+                cardId={row.decision_key || row.title}
+                verb={action.verb || action.label || "RECHECK"}
+                copy={action.copy || ""}
+                muted
+                state={railState}
+                setState={setRailState}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+      <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>{pressure.honesty_rule || ""}</div>
+    </div>
+  );
+}
+
 function WatchQueue({ payload }) {
   const queue = payload.watch_queue || [];
   const meta = payload.watch_queue_meta || {};
@@ -1209,6 +1249,7 @@ export default function TodayDecide({ payload }) {
       </div>
       <CommandStrip payload={payload} />
       <FirstViewport payload={payload} railState={railState} setRailState={setRailState} />
+      <DispositionPressure payload={payload} railState={railState} setRailState={setRailState} />
       <PassivityPanel payload={payload} />
       <DispositionCoverage payload={payload} />
       <TrustPanel payload={payload} />

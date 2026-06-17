@@ -42,6 +42,7 @@ import disposition_log
 
 SRC = Path(__file__).resolve().parent
 FEED_PATH = SRC / "latest_cockpit_feed.json"
+HELD_DECISIONS_PATH = SRC / "held_decisions.json"
 
 _GATE_COLORS = {"red": "#f87171", "red_but_tested": "#fbbf24", "green": "#34d399", "context": "#94a3b8"}
 _CLASS_COLORS = {"OPEN-NOW": "#34d399", "STAGE-ONLY": "#fbbf24", "GATED": "#f87171", "WAIT": "#94a3b8"}
@@ -877,6 +878,166 @@ def _build_fed_day_watch_queue(state: dict[str, Any], cards: list[dict[str, Any]
             })
     queue.sort(key=lambda row: (int(row["bucket"]), -float(row["impact_score"]), str(row["ticker"])))
     return queue
+
+
+def _watch_row_key(row: dict[str, Any]) -> str:
+    ticker = str(row.get("ticker") or "").strip().upper() or "UNKNOWN"
+    section = str(row.get("section") or row.get("label") or "watch").strip() or "watch"
+    return f"{ticker}|{section}"
+
+
+def _read_held_decisions(path: Path | str | None) -> tuple[list[dict[str, Any]], str]:
+    if path is None:
+        return [], "not_checked"
+    p = Path(path)
+    if not p.exists():
+        return [], "missing"
+    try:
+        payload = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return [], "unreadable"
+    if not isinstance(payload, list):
+        return [], "unreadable"
+    return [row for row in payload if isinstance(row, dict)], "ok"
+
+
+def _held_review_due_rows(today_iso: str, held_decisions_path: Path | str | None) -> tuple[list[dict[str, Any]], str]:
+    rows, status = _read_held_decisions(held_decisions_path)
+    if status != "ok":
+        return [], status
+    today_day = _today(today_iso)
+    due: list[dict[str, Any]] = []
+    for row in rows:
+        state = str(row.get("status") or "").strip().lower()
+        if state not in {"held", "reparked"}:
+            continue
+        review_by = _date_string(row.get("review_by"))
+        if not review_by:
+            continue
+        review_day = _today(review_by)
+        if review_day > today_day:
+            continue
+        decision_id = str(row.get("id") or row.get("title") or "held-decision").strip()
+        title = str(row.get("title") or decision_id).strip()
+        age_days = max(0, (today_day - review_day).days)
+        due.append({
+            "kind": "held_review_due",
+            "state": "DECIDE",
+            "decision_key": f"HELD|{decision_id}",
+            "ticker": "HELD",
+            "title": f"Review due: {title}",
+            "prompt": "Keep held, pass, or recheck with a new review date.",
+            "detail": f"review_by {review_by}; parked {row.get('parked_date') or 'unknown'}; {age_days} day(s) overdue",
+            "review_by": review_by,
+            "age_days": age_days,
+            "notion_url": str(row.get("notion_url") or ""),
+            "actions": [
+                {"label": "KEEP HELD", "verb": "KEEP_HELD", "copy": f"KEEP_HELD {decision_id} reason: "},
+                {"label": "PASS", "verb": "PASS", "copy": f"PASS {decision_id} reason: "},
+                {"label": "RECHECK", "verb": "RECHECK", "copy": f"RECHECK {decision_id} new_review_by: "},
+            ],
+        })
+    due.sort(key=lambda item: (str(item.get("review_by") or ""), str(item.get("title") or "")))
+    return due, "ok"
+
+
+def _watch_promotion_kind(row: dict[str, Any]) -> str:
+    if str(row.get("freshness") or "") != "fresh":
+        return ""
+    score = _coerce_float(row.get("impact_score")) or 0.0
+    blob = _text_blob(
+        row.get("section"),
+        row.get("label"),
+        row.get("status"),
+        row.get("research_status"),
+        row.get("summary"),
+        row.get("disconfirmation"),
+        row.get("source_tags") or [],
+    ).lower()
+    if "monitor" in blob or "research-only" in blob or "research only" in blob:
+        return ""
+    if str(row.get("section") or "") == "act_if_green" and score >= 50:
+        return "size_review"
+    if score < 90:
+        return ""
+    if any(token in blob for token in ("sell_fast", "sell-fast", "avoid", "dropped")):
+        return "avoid_review"
+    if any(token in blob for token in ("lean", "bullish_flow", "bullish flow", "add candidate")):
+        return "size_review"
+    return ""
+
+
+def _watch_decision_pressure_rows(watch_queue: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[str]]:
+    rows: list[dict[str, Any]] = []
+    promoted_keys: list[str] = []
+    for row in watch_queue or []:
+        kind = _watch_promotion_kind(row)
+        if not kind:
+            continue
+        ticker = str(row.get("ticker") or "").strip().upper()
+        key = _watch_row_key(row)
+        promoted_keys.append(key)
+        if kind == "avoid_review":
+            title = f"Decide {ticker}: avoid new exposure?"
+            prompt = "Avoid new exposure, pass, or recheck after the setup changes."
+            primary = {"label": "AVOID NEW", "verb": "AVOID_NEW", "copy": f"AVOID_NEW {ticker} reason: "}
+        else:
+            title = f"Decide {ticker}: size/recheck setup?"
+            prompt = "Size only after the named gate clears, pass, or recheck after confirmation."
+            primary = {"label": "SIZE REVIEW", "verb": "SIZE_REVIEW", "copy": f"SIZE_REVIEW {ticker} after gate: "}
+        rows.append({
+            "kind": "watch_promoted",
+            "state": "DECIDE",
+            "decision_key": key,
+            "ticker": ticker,
+            "title": title,
+            "prompt": prompt,
+            "detail": f"impact {row.get('impact_score')}; {row.get('summary') or ''}",
+            "source_label": str(row.get("label") or "watch queue"),
+            "actions": [
+                primary,
+                {"label": "PASS", "verb": "PASS", "copy": f"PASS {ticker} reason: "},
+                {"label": "RECHECK", "verb": "RECHECK", "copy": f"RECHECK {ticker} after gate/source refresh"},
+            ],
+        })
+    rows.sort(key=lambda item: (str(item.get("kind") or ""), str(item.get("ticker") or "")))
+    return rows, promoted_keys
+
+
+def _build_disposition_pressure(
+    watch_queue: list[dict[str, Any]],
+    today_iso: str,
+    held_decisions_path: Path | str | None,
+) -> dict[str, Any]:
+    held_rows, held_status = _held_review_due_rows(today_iso, held_decisions_path)
+    watch_rows, promoted_keys = _watch_decision_pressure_rows(watch_queue)
+    rows = held_rows + watch_rows
+    counts = {
+        "review_due": len(held_rows),
+        "promoted_watch": len(watch_rows),
+        "total": len(rows),
+    }
+    if rows:
+        line = (
+            f"{counts['total']} DECIDE prompt(s): {counts['review_due']} overdue held review(s), "
+            f"{counts['promoted_watch']} high-impact watch promotion(s)."
+        )
+    elif held_status == "ok":
+        line = "No overdue held reviews or high-impact watch rows promoted."
+    else:
+        line = f"Held decisions {held_status}; high-impact watch promotions checked from render payload."
+    return {
+        "status": "active" if rows else ("not_checked" if held_status != "ok" else "clear"),
+        "line": line,
+        "rows": rows,
+        "counts": counts,
+        "promoted_watch_keys": promoted_keys,
+        "held_status": held_status,
+        "honesty_rule": (
+            "Display-only disposition pressure; rows add yes/pass/recheck prompts but do not change "
+            "scoring, sizing, gates, trades, or source grading."
+        ),
+    }
 
 
 PASSIVITY_BUCKET_LABELS = {
@@ -1718,6 +1879,7 @@ def _build_command_strip(
     cards: list[dict[str, Any]],
     watch_queue: list[dict[str, Any]],
     trust_panel: dict[str, Any],
+    disposition_pressure: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     counts = {state: 0 for state in COMMAND_STATES}
     for card in cards:
@@ -1727,6 +1889,11 @@ def _build_command_strip(
         counts[state] += 1
     decide_prompts = _source_decide_prompts(feed)
     counts["DECIDE"] += len(decide_prompts)
+    for row in (disposition_pressure or {}).get("rows") or []:
+        state = str(row.get("state") or "DECIDE")
+        if state not in counts:
+            state = "DECIDE"
+        counts[state] += 1
     counts["WATCH"] += len(watch_queue or [])
     rows = [
         {"state": state, "count": counts[state], "detail": COMMAND_STATE_COPY[state]}
@@ -2282,6 +2449,7 @@ def build_today_decide_payload(
     orphan_honesty: dict[str, Any] | None = None,
     congruence_result: dict[str, Any] | None = None,
     dispositions_path: Path | str = disposition_log.DISPOSITIONS_PATH,
+    held_decisions_path: Path | str | None = HELD_DECISIONS_PATH,
     today: str | None = None,
     baseline_feed: dict[str, Any] | None = None,
     load_committed_baseline: bool = True,
@@ -2325,6 +2493,10 @@ def build_today_decide_payload(
     fed_day_state = _fed_day_freshness(feed, today_iso)
     _attach_fed_day_context(all_cards, fed_day_state)
     watch_queue = _build_fed_day_watch_queue(fed_day_state, all_cards)
+    disposition_pressure = _build_disposition_pressure(watch_queue, today_iso, held_decisions_path)
+    promoted_watch_keys = set(disposition_pressure.get("promoted_watch_keys") or [])
+    if promoted_watch_keys:
+        watch_queue = [row for row in watch_queue if _watch_row_key(row) not in promoted_watch_keys]
     _annotate_action_first_fields(all_cards)
     _annotate_blocker_taxonomy(all_cards)
     _annotate_command_states(all_cards)
@@ -2334,7 +2506,7 @@ def build_today_decide_payload(
     _annotate_size_to_goal(all_cards, goal_anchor)
     passivity = _passivity_summary(all_cards, watch_queue)
     disposition_coverage = _build_disposition_coverage(feed, all_cards, watch_queue)
-    command_strip = _build_command_strip(feed, all_cards, watch_queue, trust_panel)
+    command_strip = _build_command_strip(feed, all_cards, watch_queue, trust_panel, disposition_pressure)
     gate_rows = [
         {k: g.get(k) for k in (
             "gate_id", "symbol", "state", "stored_state", "note", "confirm_rule",
@@ -2378,6 +2550,7 @@ def build_today_decide_payload(
         "command_strip": command_strip,
         "first_viewport": first_viewport,
         "change_delta": change_delta,
+        "disposition_pressure": disposition_pressure,
         "passivity": passivity,
         "disposition_coverage": disposition_coverage,
         "cards": stack["cards"],
@@ -2438,6 +2611,15 @@ _CSS = """
 .td .td-ready-label{font-size:10px;color:#cbd5e1;text-transform:uppercase;font-weight:900;letter-spacing:.04em}
 .td .td-ready-status{font-size:11px;color:#f8fafc;font-weight:900;margin-top:2px;text-transform:uppercase}
 .td .td-ready-detail{font-size:11px;color:#94a3b8;line-height:1.25;margin-top:2px}
+.td .td-pressure{border:1px solid #334155;border-left:4px solid #60a5fa;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
+.td .td-pressure-title{font-size:12px;color:#f8fafc;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+.td .td-pressure-line{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
+.td .td-pressure-row{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:8px;margin-top:8px}
+.td .td-pressure-head{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.td .td-pressure-state{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-pressure-name{font-size:14px;color:#f8fafc;font-weight:850;line-height:1.25;margin-top:2px}
+.td .td-pressure-detail{font-size:12px;color:#94a3b8;line-height:1.35;margin-top:3px}
+.td .td-pressure-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
 .td .td-passivity{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
 .td .td-passivity-title{font-size:12px;color:#f8fafc;font-weight:850;margin-bottom:4px}
 .td .td-passivity-line{font-size:12px;color:#cbd5e1;line-height:1.4}
@@ -3606,6 +3788,45 @@ def _render_first_viewport(payload: dict[str, Any]) -> str:
     )
 
 
+def _render_disposition_pressure(payload: dict[str, Any]) -> str:
+    pressure = payload.get("disposition_pressure") or {}
+    rows = [row for row in pressure.get("rows") or [] if isinstance(row, dict)]
+    if not rows:
+        return ""
+    bits = [
+        '<div class="td-pressure">',
+        '<div class="td-pressure-title">Decision pressure</div>',
+        f'<div class="td-pressure-line">{_esc(pressure.get("line") or "")}</div>',
+    ]
+    for row in rows:
+        actions = []
+        for action in row.get("actions") or []:
+            if not isinstance(action, dict):
+                continue
+            actions.append(
+                f'<button class="td-rail td-rail-muted" data-card="{_esc(row.get("decision_key") or "")}" '
+                f'data-verb="{_esc(action.get("verb") or action.get("label") or "RECHECK")}" '
+                f'data-copy="{_esc(action.get("copy") or "")}" '
+                f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">{_esc(action.get("label") or "RECHECK")}</button>'
+            )
+        bits.append(
+            '<div class="td-pressure-row">'
+            '<div class="td-pressure-head">'
+            f'<div><div class="td-pressure-state">{_esc(row.get("state") or "DECIDE")} | {_esc(row.get("kind") or "")}</div>'
+            f'<div class="td-pressure-name">{_esc(row.get("title") or "")}</div></div>'
+            f'<div class="td-pressure-state">{_esc(row.get("ticker") or "")}</div>'
+            '</div>'
+            f'<div class="td-pressure-detail">{_esc(row.get("prompt") or "")}</div>'
+            f'<div class="td-pressure-detail">{_esc(row.get("detail") or "")}</div>'
+            + (f'<div class="td-pressure-detail"><a href="{_esc(row.get("notion_url") or "")}">source</a></div>' if row.get("notion_url") else "")
+            + f'<div class="td-pressure-actions">{"".join(actions)}</div>'
+            + '</div>'
+        )
+    bits.append(f'<div class="td-pressure-detail">{_esc(pressure.get("honesty_rule") or "")}</div>')
+    bits.append('</div>')
+    return "".join(bits)
+
+
 def _render_passivity_panel(payload: dict[str, Any]) -> str:
     passivity = payload.get("passivity") or {}
     counts = passivity.get("counts") or {}
@@ -3995,6 +4216,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
              + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
     h.append(_render_command_strip(payload))
     h.append(_render_first_viewport(payload))
+    h.append(_render_disposition_pressure(payload))
     h.append(_render_passivity_panel(payload))
     h.append(_render_disposition_coverage(payload))
     h.append(_render_trust_panel(payload))

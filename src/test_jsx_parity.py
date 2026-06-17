@@ -264,7 +264,7 @@ def test_todaydecide_jsx_consumes_canonical_payload_fields():
     for path in (
         "payload.goal_anchor", "payload.plan_line", "payload.trust_panel",
         "payload.command_strip", "payload.first_viewport", "payload.change_delta", "payload.passivity",
-        "payload.disposition_coverage", "payload.data_health", "payload.cards", "payload.backlog", "payload.congruence",
+        "payload.disposition_pressure", "payload.disposition_coverage", "payload.data_health", "payload.cards", "payload.backlog", "payload.congruence",
         "payload.honesty",
     ):
         assert path in src, f"TodayDecide.jsx must read {path}"
