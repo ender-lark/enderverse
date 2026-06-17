@@ -2341,7 +2341,10 @@ def _after_action_model(card: dict[str, Any], today_iso: str) -> dict[str, Any]:
         return {
             "status": "open",
             "open": True,
+            "outcome_status": "pending_disposition",
+            "source_grading_status": "not_eligible_until_disposition",
             "line": f"after action: no ACT/PASS/RECHECK logged; open; next review {next_review or 'not scheduled'}",
+            "outcome_line": "outcome: pending disposition; source grading unchanged",
             "next_review_date": next_review,
         }
     verb = str(last.get("verb") or "").upper()
@@ -2353,6 +2356,19 @@ def _after_action_model(card: dict[str, Any], today_iso: str) -> dict[str, Any]:
     next_review = str(last.get("resurface_date") or (card.get("recheck_date") if open_state else "") or "")
     age_text = f"{age}d ago" if age is not None else "age unknown"
     state_text = "open" if open_state else "closed"
+    outcome = str(last.get("outcome") or last.get("result") or "").strip()
+    if outcome:
+        outcome_status = "logged"
+        source_grading_status = "eligible_for_review"
+        outcome_line = f"outcome: {outcome}; source grading can review this disposition"
+    elif verb in {"ACT", "PASS"}:
+        outcome_status = "missing"
+        source_grading_status = "not_graded_no_outcome"
+        outcome_line = "outcome: not logged; source grading unchanged"
+    else:
+        outcome_status = "pending_recheck"
+        source_grading_status = "not_eligible_until_outcome"
+        outcome_line = "outcome: pending recheck; source grading unchanged"
     return {
         "verb": verb,
         "et_date": et_date,
@@ -2360,10 +2376,13 @@ def _after_action_model(card: dict[str, Any], today_iso: str) -> dict[str, Any]:
         "open": open_state,
         "next_review_date": next_review,
         "status": state_text,
+        "outcome_status": outcome_status,
+        "source_grading_status": source_grading_status,
         "line": (
             f"last disposition: {verb} on {et_date}; {age_text}; "
             f"next review {next_review or 'not scheduled'}; {state_text}"
         ),
+        "outcome_line": outcome_line,
     }
 
 
@@ -4394,6 +4413,8 @@ def _render_card(
     after_action = card.get("after_action") or {}
     if after_action.get("line"):
         h.append(f'<div class="td-row">{_esc(after_action["line"])}</div>')
+    if after_action.get("outcome_line"):
+        h.append(f'<div class="td-row">{_esc(after_action["outcome_line"])}</div>')
     h.append('<details class="td-muted-details"><summary>Not checked / optional context</summary>')
     h.append(_render_iv_hint(display))
     h.append(_render_not_checked(display))

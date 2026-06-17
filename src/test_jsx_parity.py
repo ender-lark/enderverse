@@ -277,6 +277,7 @@ def test_todaydecide_jsx_uses_canonical_card_fields():
                  "card.conflicts", "card.card_blockers", "card.conviction_display",
                  "card.dossier", "card.blocker_taxonomy", "card.size_to_goal", "card.readiness", "card.after_action"):
         assert path in src, f"TodayDecide.jsx must read {path}"
+    assert "card.after_action?.outcome_line" in src
     for path in ("win.class", "display.text", "display.band_color",
                  "display.why", "display.raises", "display.iv_hint",
                  "display.not_checked"):

@@ -383,12 +383,37 @@ def test_after_action_loop_shows_age_next_review_and_open_state(tmp_path):
     payload = _payload(dispositions_path=pth, tmp_path=tmp_path)
     updated = next(row for row in payload["cards"] + payload["backlog"] if row["card_id"] == card["card_id"])
     after = updated["after_action"]
+    html = render_today_decide_html(payload)
 
     assert after["verb"] == "RECHECK"
     assert after["age_days"] == 0
     assert after["next_review_date"] == "2026-06-15"
     assert after["open"] is True
-    html = render_today_decide_html(payload)
+    assert after["outcome_status"] == "pending_recheck"
+    assert after["source_grading_status"] == "not_eligible_until_outcome"
+    assert after["outcome_line"] == "outcome: pending recheck; source grading unchanged"
     assert "last disposition: RECHECK on 2026-06-10" in html
     assert "next review 2026-06-15" in html
     assert "open" in html
+
+
+def test_closed_disposition_without_outcome_does_not_feed_source_grading(tmp_path):
+    seed = _payload(tmp_path=tmp_path)
+    card = seed["cards"][0]
+    pth = tmp_path / "dispositions.jsonl"
+    dl.append_disposition(
+        "2026-06-10",
+        card["card_id"],
+        card["ticker"],
+        "ACT",
+        path=pth,
+    )
+    payload = _payload(dispositions_path=pth, tmp_path=tmp_path)
+    updated = next(row for row in payload["cards"] + payload["backlog"] if row["card_id"] == card["card_id"])
+    after = updated["after_action"]
+    html = render_today_decide_html(payload)
+
+    assert after["status"] == "closed"
+    assert after["outcome_status"] == "missing"
+    assert after["source_grading_status"] == "not_graded_no_outcome"
+    assert "outcome: not logged; source grading unchanged" in html

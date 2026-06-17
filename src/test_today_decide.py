@@ -665,3 +665,4 @@ def test_last_disposition_renders_from_file(tmp_path):
     p = _payload(dispositions_path=pth, tmp_path=tmp_path)
     html = render_today_decide_html(p)
     assert "last disposition: PASS on 2026-06-10" in html
+    assert "outcome: not logged; source grading unchanged" in html

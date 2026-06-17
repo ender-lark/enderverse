@@ -1114,6 +1114,7 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
         {sizing.cap_basis && <div style={{ fontSize: 13, color: "#cbd5e1" }}>cap basis: {sizing.cap_basis}</div>}
         <div style={{ fontSize: 13, color: "#cbd5e1" }}>impact: {impact.band} - material: {impact.material ? "yes" : "no"}</div>
         {card.after_action?.line && <div style={{ fontSize: 13, color: "#cbd5e1" }}>{card.after_action.line}</div>}
+        {card.after_action?.outcome_line && <div style={{ fontSize: 13, color: "#cbd5e1" }}>{card.after_action.outcome_line}</div>}
         <details style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, margin: "8px 0", fontSize: 12, color: "#94a3b8" }}>
           <summary style={{ cursor: "pointer", fontWeight: 750 }}>Not checked / optional context</summary>
           <IvHint display={display} />
