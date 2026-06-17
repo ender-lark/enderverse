@@ -2,61 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:02.392496Z",
-      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "event risk validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/event_risk_intake.py",
-              "--validate",
-              "src/event_risks.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 3\n}",
-            "stderr": ""
-          },
-          {
-            "label": "catalyst cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 8,
-              "valid_rows": 8,
-              "problem": ""
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:02.403206Z",
-      "summary": "investing-os-morning-scan manual run started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "manual",
@@ -7006,7 +6951,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T15:50:48.133753Z",
       "summary": "checked web pages 2 Macro/Crypto FlashInsights, Gmail 0; landed 0 rows; suppressed/discovery-only 2 duplicate-or-stale feed states; validation passed; dashboard refresh skipped no new rows; alert quiet no push; dark/stale Crypto FlashInsights Jun8; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T16:31:51.313657Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T16:35:06.736173Z",
+      "summary": "FS inbox catch-up midday ingested 1 entry; logged 1 Other row; marker advanced to [06/17/2026 09:10 ET]; no gate/card contradiction; query endpoint dark fallback search"
     }
   ],
-  "updated_at": "2026-06-17T15:50:48.133753Z"
+  "updated_at": "2026-06-17T16:35:06.736173Z"
 }
