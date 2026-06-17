@@ -446,9 +446,13 @@ def _automation_trust_item() -> dict[str, str]:
         return {
             "label": "Automations",
             "status": "alert",
-            "detail": f"scheduled proof {scheduled}/{expected_count}; {missing} core routine(s) not proven",
+            "detail": f"routine fired proof {scheduled}/{expected_count}; {missing} core routine(s) not proven; boundary data not implied",
         }
-    return {"label": "Automations", "status": "ok", "detail": f"scheduled proof {scheduled}/{expected_count}"}
+    return {
+        "label": "Automations",
+        "status": "ok",
+        "detail": f"routine fired proof {scheduled}/{expected_count}; boundary data not implied",
+    }
 
 
 def _build_trust_panel(data_health: dict[str, Any]) -> dict[str, Any]:
@@ -904,6 +908,420 @@ COMMAND_STATE_COPY = {
     "RESOLVE": "named blocker must clear",
     "WATCH": "weak, early, or research-only",
 }
+
+READINESS_LAYERS = (
+    "routine_fired",
+    "boundary_artifact",
+    "signal_interpreted",
+    "decision_eligible",
+    "trade_executable",
+)
+READINESS_LAYER_LABELS = {
+    "routine_fired": "Routine fired",
+    "boundary_artifact": "Boundary artifact",
+    "signal_interpreted": "Signal interpreted",
+    "decision_eligible": "Decision eligible",
+    "trade_executable": "Trade executable",
+}
+READINESS_CHECK_LABELS = {
+    "uw_interpreted": "UW interpreted",
+    "cash_buying_power": "Cash/buying power",
+    "account_eligibility": "Account eligibility",
+    "cap_room": "Cap room",
+    "research_disconfirmation": "Research/disconfirmation",
+    "event_risk": "Event risk",
+}
+READINESS_DARK_STATUSES = {"not_checked", "behind", "stale", "missing", "empty"}
+
+
+def _readiness_entry(key: str, label: str, status: str, detail: str) -> dict[str, str]:
+    if status not in {"ok", "blocked", "unknown"}:
+        status = "unknown"
+    return {
+        "key": key,
+        "label": label,
+        "status": status,
+        "detail": str(detail or "").strip(),
+    }
+
+
+def _trust_item_by_label(trust_panel: dict[str, Any], label: str) -> dict[str, Any] | None:
+    want = label.strip().lower()
+    for item in trust_panel.get("items") or []:
+        if isinstance(item, dict) and str(item.get("label") or "").strip().lower() == want:
+            return item
+    return None
+
+
+def _taxonomy_unmet(card: dict[str, Any]) -> list[dict[str, Any]]:
+    taxonomy = card.get("blocker_taxonomy") or {}
+    return [row for row in taxonomy.get("unmet") or [] if isinstance(row, dict)]
+
+
+def _taxonomy_categories(card: dict[str, Any]) -> set[str]:
+    return {str(row.get("category") or "").strip() for row in _taxonomy_unmet(card)}
+
+
+def _taxonomy_detail(card: dict[str, Any], *categories: str) -> str:
+    wanted = set(categories)
+    for row in _taxonomy_unmet(card):
+        if str(row.get("category") or "") in wanted:
+            return str(row.get("evidence") or row.get("label") or "").strip()
+    return ""
+
+
+def _data_health_dark_items(data_health: dict[str, Any]) -> list[dict[str, Any]]:
+    return [
+        item for item in data_health.get("items") or []
+        if isinstance(item, dict) and str(item.get("status") or "") in READINESS_DARK_STATUSES
+    ]
+
+
+def _dark_item_line(items: list[dict[str, Any]], *, limit: int = 3) -> str:
+    labels = [
+        str(item.get("label") or item.get("source") or "lane").strip()
+        for item in items
+        if str(item.get("label") or item.get("source") or "").strip()
+    ]
+    if not labels:
+        return "no dark boundary lanes visible"
+    line = ", ".join(labels[:limit])
+    if len(labels) > limit:
+        line += f", +{len(labels) - limit} more"
+    return line
+
+
+def _routine_fired_layer(trust_panel: dict[str, Any]) -> dict[str, str]:
+    item = _trust_item_by_label(trust_panel, "Automations")
+    if not item:
+        return _readiness_entry(
+            "routine_fired",
+            READINESS_LAYER_LABELS["routine_fired"],
+            "unknown",
+            "routine receipt layer not checked",
+        )
+    detail = str(item.get("detail") or "").strip() or "routine proof not detailed"
+    status = str(item.get("status") or "info")
+    if status == "ok":
+        return _readiness_entry("routine_fired", READINESS_LAYER_LABELS["routine_fired"], "ok", detail)
+    if status == "alert":
+        return _readiness_entry("routine_fired", READINESS_LAYER_LABELS["routine_fired"], "blocked", detail)
+    return _readiness_entry("routine_fired", READINESS_LAYER_LABELS["routine_fired"], "unknown", detail)
+
+
+def _boundary_artifact_layer(card: dict[str, Any], data_health: dict[str, Any]) -> dict[str, str]:
+    blockers = [str(row or "").strip() for row in card.get("card_blockers") or [] if str(row or "").strip()]
+    if blockers:
+        return _readiness_entry(
+            "boundary_artifact",
+            READINESS_LAYER_LABELS["boundary_artifact"],
+            "blocked",
+            "; ".join(blockers[:2]),
+        )
+    dark_items = _data_health_dark_items(data_health)
+    if dark_items:
+        return _readiness_entry(
+            "boundary_artifact",
+            READINESS_LAYER_LABELS["boundary_artifact"],
+            "unknown",
+            f"dark boundary lane(s): {_dark_item_line(dark_items)}",
+        )
+    return _readiness_entry(
+        "boundary_artifact",
+        READINESS_LAYER_LABELS["boundary_artifact"],
+        "ok",
+        "render-visible boundary artifacts are fresh",
+    )
+
+
+def _signal_interpreted_layer(card: dict[str, Any], display: dict[str, Any]) -> dict[str, str]:
+    categories = _taxonomy_categories(card)
+    if {"source_freshness", "flow_evidence_conflict", "research_disconfirmation"} & categories:
+        return _readiness_entry(
+            "signal_interpreted",
+            READINESS_LAYER_LABELS["signal_interpreted"],
+            "blocked",
+            _taxonomy_detail(card, "source_freshness", "flow_evidence_conflict", "research_disconfirmation")
+            or "source or interpretation blocker visible",
+        )
+    if card.get("conflicts") or display.get("conflict"):
+        return _readiness_entry(
+            "signal_interpreted",
+            READINESS_LAYER_LABELS["signal_interpreted"],
+            "blocked",
+            str(display.get("conflict") or "source conflict visible"),
+        )
+    if _card_is_evidence_starved(card, display):
+        return _readiness_entry(
+            "signal_interpreted",
+            READINESS_LAYER_LABELS["signal_interpreted"],
+            "unknown",
+            "evidence exists only as weak, stale, or not-checked context",
+        )
+    return _readiness_entry(
+        "signal_interpreted",
+        READINESS_LAYER_LABELS["signal_interpreted"],
+        "ok",
+        "directional read is render-visible",
+    )
+
+
+def _decision_eligible_layer(card: dict[str, Any], base_state: str) -> dict[str, str]:
+    taxonomy = card.get("blocker_taxonomy") or {}
+    if taxonomy.get("unmet"):
+        return _readiness_entry(
+            "decision_eligible",
+            READINESS_LAYER_LABELS["decision_eligible"],
+            "blocked",
+            str(taxonomy.get("line") or "named blocker still visible"),
+        )
+    if base_state == "WATCH":
+        return _readiness_entry(
+            "decision_eligible",
+            READINESS_LAYER_LABELS["decision_eligible"],
+            "unknown",
+            "watch/research-only state; no yes/no capital call yet",
+        )
+    return _readiness_entry(
+        "decision_eligible",
+        READINESS_LAYER_LABELS["decision_eligible"],
+        "ok",
+        "yes/no/recheck disposition is allowed in this render",
+    )
+
+
+def _readiness_checklist(card: dict[str, Any], display: dict[str, Any]) -> list[dict[str, str]]:
+    blob = _card_text_blob(card, display)
+    execn = card.get("execution") or {}
+    sizing = card.get("sizing") or {}
+    checks: list[dict[str, str]] = []
+
+    uw_detail = _taxonomy_detail(card, "flow_evidence_conflict")
+    if "uw" in blob and uw_detail:
+        checks.append(_readiness_entry(
+            "uw_interpreted",
+            READINESS_CHECK_LABELS["uw_interpreted"],
+            "blocked",
+            uw_detail or "UW lane is present but not directional",
+        ))
+    elif "uw" in blob:
+        checks.append(_readiness_entry(
+            "uw_interpreted",
+            READINESS_CHECK_LABELS["uw_interpreted"],
+            "ok",
+            "UW-dependent blocker not visible",
+        ))
+    else:
+        checks.append(_readiness_entry(
+            "uw_interpreted",
+            READINESS_CHECK_LABELS["uw_interpreted"],
+            "ok",
+            "no UW-dependent blocker visible",
+        ))
+
+    cash_detail = _taxonomy_detail(card, "cash_funding")
+    cash_text = str(execn.get("cash") or "").lower()
+    if cash_detail or "not_checked" in cash_text or "not checked" in cash_text or _is_funding_leg(card):
+        checks.append(_readiness_entry(
+            "cash_buying_power",
+            READINESS_CHECK_LABELS["cash_buying_power"],
+            "blocked",
+            cash_detail or execn.get("cash") or "funding leg must stay paired",
+        ))
+    elif execn.get("suggested") or execn.get("legs"):
+        checks.append(_readiness_entry(
+            "cash_buying_power",
+            READINESS_CHECK_LABELS["cash_buying_power"],
+            "ok",
+            "cash rail has no render-visible blocker",
+        ))
+    else:
+        checks.append(_readiness_entry(
+            "cash_buying_power",
+            READINESS_CHECK_LABELS["cash_buying_power"],
+            "unknown",
+            "buying power not represented on this card",
+        ))
+
+    account_detail = _taxonomy_detail(card, "account_sleeve_eligibility")
+    if account_detail or execn.get("hard_flags") or execn.get("transfer_dependency"):
+        checks.append(_readiness_entry(
+            "account_eligibility",
+            READINESS_CHECK_LABELS["account_eligibility"],
+            "blocked",
+            account_detail or "account or transfer blocker visible",
+        ))
+    elif execn.get("suggested") or execn.get("eligible") or execn.get("legs"):
+        checks.append(_readiness_entry(
+            "account_eligibility",
+            READINESS_CHECK_LABELS["account_eligibility"],
+            "ok",
+            "eligible account lane is render-visible",
+        ))
+    else:
+        checks.append(_readiness_entry(
+            "account_eligibility",
+            READINESS_CHECK_LABELS["account_eligibility"],
+            "unknown",
+            "account lane not represented on this card",
+        ))
+
+    cap_detail = _taxonomy_detail(card, "cap_room")
+    heat = str(sizing.get("heat") or "").strip()
+    if cap_detail or heat in {"ABOVE_CAP", "CAP_CLIPPED"}:
+        checks.append(_readiness_entry(
+            "cap_room",
+            READINESS_CHECK_LABELS["cap_room"],
+            "blocked",
+            cap_detail or heat or "cap room blocked",
+        ))
+    elif sizing:
+        checks.append(_readiness_entry(
+            "cap_room",
+            READINESS_CHECK_LABELS["cap_room"],
+            "ok",
+            _cap_room_text(sizing),
+        ))
+    else:
+        checks.append(_readiness_entry(
+            "cap_room",
+            READINESS_CHECK_LABELS["cap_room"],
+            "unknown",
+            "no sizing/cap lane on this card",
+        ))
+
+    research_detail = _taxonomy_detail(card, "research_disconfirmation", "source_freshness")
+    if research_detail or display.get("not_checked"):
+        checks.append(_readiness_entry(
+            "research_disconfirmation",
+            READINESS_CHECK_LABELS["research_disconfirmation"],
+            "blocked",
+            research_detail or "not-checked source or research lane visible",
+        ))
+    elif _card_is_evidence_starved(card, display):
+        checks.append(_readiness_entry(
+            "research_disconfirmation",
+            READINESS_CHECK_LABELS["research_disconfirmation"],
+            "unknown",
+            "evidence is still thin",
+        ))
+    else:
+        checks.append(_readiness_entry(
+            "research_disconfirmation",
+            READINESS_CHECK_LABELS["research_disconfirmation"],
+            "ok",
+            "no research/disconfirmation blocker visible",
+        ))
+
+    if "event risk" in blob or "event-risk" in blob:
+        checks.append(_readiness_entry(
+            "event_risk",
+            READINESS_CHECK_LABELS["event_risk"],
+            "blocked",
+            "event-risk blocker visible",
+        ))
+    else:
+        checks.append(_readiness_entry(
+            "event_risk",
+            READINESS_CHECK_LABELS["event_risk"],
+            "ok",
+            "no event-risk blocker visible",
+        ))
+    return checks
+
+
+def _trade_executable_layer(
+    card: dict[str, Any],
+    base_state: str,
+    prior_layers: list[dict[str, str]],
+    checklist: list[dict[str, str]],
+) -> dict[str, str]:
+    blockers = [row for row in prior_layers + checklist if row.get("status") == "blocked"]
+    unknowns = [row for row in prior_layers + checklist if row.get("status") == "unknown"]
+    if base_state == "ACT" and not blockers and not unknowns:
+        return _readiness_entry(
+            "trade_executable",
+            READINESS_LAYER_LABELS["trade_executable"],
+            "ok",
+            "all readiness layers clear",
+        )
+    if base_state == "ACT":
+        first_gap = blockers[0] if blockers else unknowns[0]
+        return _readiness_entry(
+            "trade_executable",
+            READINESS_LAYER_LABELS["trade_executable"],
+            "blocked" if blockers else "unknown",
+            f"ACT held until {first_gap.get('label')} clears",
+        )
+    if base_state == "WATCH":
+        return _readiness_entry(
+            "trade_executable",
+            READINESS_LAYER_LABELS["trade_executable"],
+            "unknown",
+            "watch state has no executable trade rail",
+        )
+    return _readiness_entry(
+        "trade_executable",
+        READINESS_LAYER_LABELS["trade_executable"],
+        "blocked",
+        f"{base_state} state is not executable",
+    )
+
+
+def _card_readiness_model(
+    card: dict[str, Any],
+    trust_panel: dict[str, Any],
+    data_health: dict[str, Any],
+) -> dict[str, Any]:
+    display = card.get("conviction_display") or build_conviction_display(card)
+    base_state = str(card.get("command_state") or _card_command_state(card))
+    checklist = _readiness_checklist(card, display)
+    prior_layers = [
+        _routine_fired_layer(trust_panel),
+        _boundary_artifact_layer(card, data_health),
+        _signal_interpreted_layer(card, display),
+        _decision_eligible_layer(card, base_state),
+    ]
+    trade_layer = _trade_executable_layer(card, base_state, prior_layers, checklist)
+    layers = prior_layers + [trade_layer]
+    counts = {
+        "ok": sum(1 for row in layers if row.get("status") == "ok"),
+        "blocked": sum(1 for row in layers if row.get("status") == "blocked"),
+        "unknown": sum(1 for row in layers if row.get("status") == "unknown"),
+    }
+    first_gap = next((row for row in layers if row.get("status") != "ok"), None)
+    return {
+        "layers": layers,
+        "checklist": checklist,
+        "counts": counts,
+        "summary": (
+            f"Blocked at {first_gap.get('label')}: {first_gap.get('detail')}"
+            if first_gap else "All readiness layers clear"
+        ),
+        "base_command_state": base_state,
+        "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade.",
+    }
+
+
+def _annotate_readiness_models(
+    cards: list[dict[str, Any]],
+    trust_panel: dict[str, Any],
+    data_health: dict[str, Any],
+) -> None:
+    for card in cards:
+        readiness = _card_readiness_model(card, trust_panel, data_health)
+        card["readiness"] = readiness
+        state = str(card.get("command_state") or _card_command_state(card))
+        trade_layer = next(
+            (row for row in readiness.get("layers") or [] if row.get("key") == "trade_executable"),
+            None,
+        )
+        if state == "ACT" and (trade_layer or {}).get("status") != "ok":
+            downgrade = "RESOLVE" if any(row.get("status") == "blocked" for row in readiness.get("layers") or []) else "DECIDE"
+            card["command_state"] = downgrade
+            card["command_state_detail"] = "readiness ladder incomplete"
+        else:
+            card["command_state_detail"] = COMMAND_STATE_COPY.get(state, card.get("command_state_detail") or "")
 
 
 def _card_lane(card: dict[str, Any]) -> str:
@@ -1842,6 +2260,7 @@ def _first_viewport_model(
             f"{passivity.get('counts', {}).get('research_watch_only', 0)} research/watch-only "
             f"and {passivity.get('counts', {}).get('cap_risk_cash_constrained', 0)} rail-constrained item(s) can wait."
         ),
+        "readiness": card.get("readiness") or {},
         "button": _primary_button_model(card),
     }
 
@@ -1909,11 +2328,12 @@ def build_today_decide_payload(
     _annotate_action_first_fields(all_cards)
     _annotate_blocker_taxonomy(all_cards)
     _annotate_command_states(all_cards)
+    trust_panel = _build_trust_panel(data_health)
+    _annotate_readiness_models(all_cards, trust_panel, data_health)
     goal_anchor = _goal_anchor(feed, goal, today_iso)
     _annotate_size_to_goal(all_cards, goal_anchor)
     passivity = _passivity_summary(all_cards, watch_queue)
     disposition_coverage = _build_disposition_coverage(feed, all_cards, watch_queue)
-    trust_panel = _build_trust_panel(data_health)
     command_strip = _build_command_strip(feed, all_cards, watch_queue, trust_panel)
     gate_rows = [
         {k: g.get(k) for k in (
@@ -2008,6 +2428,16 @@ _CSS = """
 .td .td-first-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
 .td .td-first-value{font-size:13px;color:#e2e8f0;line-height:1.35;margin-top:3px}
 .td .td-first-rail{margin:8px 0 9px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.td .td-readiness{border:1px solid #243044;border-radius:8px;background:#08111f;padding:8px;margin:9px 0}
+.td .td-readiness-title{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em;margin-bottom:6px}
+.td .td-readiness-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}
+.td .td-ready-chip{border:1px solid #334155;border-radius:8px;background:#0b1220;padding:6px;min-width:0}
+.td .td-ready-ok{border-color:#166534;background:#071910}
+.td .td-ready-blocked{border-color:#ef4444;background:#220b0b}
+.td .td-ready-unknown{border-color:#f59e0b;background:#1f1606}
+.td .td-ready-label{font-size:10px;color:#cbd5e1;text-transform:uppercase;font-weight:900;letter-spacing:.04em}
+.td .td-ready-status{font-size:11px;color:#f8fafc;font-weight:900;margin-top:2px;text-transform:uppercase}
+.td .td-ready-detail{font-size:11px;color:#94a3b8;line-height:1.25;margin-top:2px}
 .td .td-passivity{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
 .td .td-passivity-title{font-size:12px;color:#f8fafc;font-weight:850;margin-bottom:4px}
 .td .td-passivity-line{font-size:12px;color:#cbd5e1;line-height:1.4}
@@ -3097,6 +3527,43 @@ def _render_command_strip(payload: dict[str, Any]) -> str:
     )
 
 
+def _render_readiness_model(readiness: dict[str, Any] | None) -> str:
+    model = readiness or {}
+    layers = [row for row in model.get("layers") or [] if isinstance(row, dict)]
+    checklist = [row for row in model.get("checklist") or [] if isinstance(row, dict)]
+    if not layers and not checklist:
+        return ""
+
+    def chip(row: dict[str, Any]) -> str:
+        status = str(row.get("status") or "unknown")
+        cls = {
+            "ok": "td-ready-chip td-ready-ok",
+            "blocked": "td-ready-chip td-ready-blocked",
+            "unknown": "td-ready-chip td-ready-unknown",
+        }.get(status, "td-ready-chip td-ready-unknown")
+        return (
+            f'<div class="{cls}">'
+            f'<div class="td-ready-label">{_esc(row.get("label") or row.get("key") or "")}</div>'
+            f'<div class="td-ready-status">{_esc(status)}</div>'
+            f'<div class="td-ready-detail">{_esc(row.get("detail") or "")}</div>'
+            '</div>'
+        )
+
+    return (
+        '<div class="td-readiness">'
+        '<div class="td-readiness-title">Readiness layers</div>'
+        '<div class="td-readiness-grid">'
+        + "".join(chip(row) for row in layers)
+        + '</div>'
+        '<div class="td-readiness-title" style="margin-top:8px">Resolve checklist</div>'
+        '<div class="td-readiness-grid">'
+        + "".join(chip(row) for row in checklist)
+        + '</div>'
+        f'<div class="td-ready-detail">{_esc(model.get("honesty_rule") or "")}</div>'
+        '</div>'
+    )
+
+
 def _render_first_viewport(payload: dict[str, Any]) -> str:
     model = payload.get("first_viewport") or {}
     decision = str(model.get("decision") or "No capital-changing decision surfaced.")
@@ -3134,6 +3601,7 @@ def _render_first_viewport(payload: dict[str, Any]) -> str:
             for label, value in cells
         )
         + '</div>'
+        + _render_readiness_model(model.get("readiness") or {})
         + '</div>'
     )
 
@@ -3315,6 +3783,7 @@ def _render_card(
         window_class=cls,
         direction=direction,
     ))
+    h.append(_render_readiness_model(card.get("readiness") or {}))
     h.append(_render_blocker_taxonomy(card))
     h.append(_render_size_to_goal(card))
     h.append(_render_gate_notes(card))

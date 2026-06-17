@@ -77,6 +77,35 @@ def test_command_strip_is_render_only_and_blocks_act_shape_when_resolving():
             assert f'data-copy="ACT {card["card_id"]}"' not in html
 
 
+def test_readiness_layers_separate_routine_fire_from_boundary_and_execution():
+    payload = _payload()
+    html = render_today_decide_html(payload)
+
+    assert "routine fired proof 14/14; boundary data not implied" in html
+    assert "scheduled proof 14/14" not in html
+    assert "Readiness layers" in html
+    assert "Resolve checklist" in html
+    assert "Routine fired" in html
+    assert "Boundary artifact" in html
+    assert "Signal interpreted" in html
+    assert "Decision eligible" in html
+    assert "Trade executable" in html
+
+    for card in payload["cards"] + payload["backlog"]:
+        readiness = card["readiness"]
+        layers = {row["key"]: row for row in readiness["layers"]}
+        assert layers["routine_fired"]["status"] == "ok"
+        assert layers["routine_fired"]["status"] != layers["trade_executable"]["status"]
+        if card["command_state"] != "ACT":
+            assert layers["trade_executable"]["status"] != "ok"
+
+        checks = {row["key"]: row for row in readiness["checklist"]}
+        assert set(checks) == {
+            "uw_interpreted", "cash_buying_power", "account_eligibility",
+            "cap_room", "research_disconfirmation", "event_risk",
+        }
+
+
 def test_since_last_build_delta_uses_committed_baseline_without_view_state_file():
     baseline = {
         "today_decide": {
@@ -142,6 +171,21 @@ def test_command_state_is_display_only_and_not_in_engine_paths():
         assert "command_state" not in text
         assert "command_strip" not in text
 
+
+def test_readiness_is_display_only_and_not_in_engine_paths():
+    repo = Path(__file__).resolve().parents[1]
+    engine_paths = [
+        repo / "src" / "directive_recs.py",
+        repo / "src" / "conviction_engine.py",
+        repo / "src" / "timing_engine.py",
+        repo / "src" / "data_health.py",
+        repo / "src" / "disposition_log.py",
+    ]
+
+    for path in engine_paths:
+        text = path.read_text(encoding="utf-8")
+        assert "readiness" not in text
+        assert "trade_executable" not in text
 
 def test_blocker_taxonomy_m_of_n_matches_real_unmet_blockers():
     gate = _gate()

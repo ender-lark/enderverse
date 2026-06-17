@@ -133,6 +133,21 @@ def test_payload_builds_and_goal_anchor_math():
     assert p["command_strip"]["counts"]["ACT"] == 0
     assert p["command_strip"]["counts"]["RESOLVE"] == 3
     assert "Render-only command surface" in p["command_strip"]["honesty_rule"]
+    automation = next(row for row in p["trust_panel"]["items"] if row["label"] == "Automations")
+    assert automation["detail"] == "routine fired proof 14/14; boundary data not implied"
+    readiness = p["first_viewport"]["readiness"]
+    assert [row["key"] for row in readiness["layers"]] == [
+        "routine_fired", "boundary_artifact", "signal_interpreted", "decision_eligible", "trade_executable",
+    ]
+    layer_status = {row["key"]: row["status"] for row in readiness["layers"]}
+    assert layer_status["routine_fired"] == "ok"
+    assert layer_status["boundary_artifact"] == "unknown"
+    assert layer_status["trade_executable"] == "blocked"
+    assert "only the first layer" in readiness["honesty_rule"]
+    assert {row["key"] for row in readiness["checklist"]} == {
+        "uw_interpreted", "cash_buying_power", "account_eligibility",
+        "cap_room", "research_disconfirmation", "event_risk",
+    }
     assert p["change_delta"]["status"] == "no_baseline"
     assert p["passivity"]["honesty_rule"].startswith("Only bucket operator_owned_actionable_now")
 
@@ -159,6 +174,14 @@ def test_html_renders_minimal_conviction_face_and_breakdown():
     assert "Primary command" in html
     assert "0 ACT | 2 DECIDE | 3 RESOLVE | 0 WATCH" in html
     assert "Resolve GOOGL add" in html
+    assert "Readiness layers" in html
+    assert "Routine fired" in html
+    assert "Boundary artifact" in html
+    assert "Signal interpreted" in html
+    assert "Trade executable" in html
+    assert "Resolve checklist" in html
+    assert "UW interpreted" in html
+    assert "routine fired proof 14/14; boundary data not implied" in html
     assert 'data-copy="ACT GOOGL-ADD-2026-06-10"' not in html
     assert "Ownership-aware passivity" in html
     assert "Nothing actionable yet: scorer is starved or blocked, not bearish." in html

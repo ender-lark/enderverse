@@ -263,7 +263,7 @@ def test_todaydecide_jsx_consumes_canonical_payload_fields():
     src = _jsx(TODAY_DECIDE_JSX)
     for path in (
         "payload.goal_anchor", "payload.plan_line", "payload.trust_panel",
-        "payload.first_viewport", "payload.change_delta", "payload.passivity",
+        "payload.command_strip", "payload.first_viewport", "payload.change_delta", "payload.passivity",
         "payload.disposition_coverage", "payload.data_health", "payload.cards", "payload.backlog", "payload.congruence",
         "payload.honesty",
     ):
@@ -275,7 +275,7 @@ def test_todaydecide_jsx_uses_canonical_card_fields():
     # Required card-level accesses for the parity contract.
     for path in ("card.card_id", "card.ticker", "card.recheck_date", "card.sizing",
                  "card.conflicts", "card.card_blockers", "card.conviction_display",
-                 "card.dossier", "card.blocker_taxonomy", "card.size_to_goal", "card.after_action"):
+                 "card.dossier", "card.blocker_taxonomy", "card.size_to_goal", "card.readiness", "card.after_action"):
         assert path in src, f"TodayDecide.jsx must read {path}"
     for path in ("win.class", "display.text", "display.band_color",
                  "display.why", "display.raises", "display.iv_hint",

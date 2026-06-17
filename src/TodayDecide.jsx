@@ -270,6 +270,52 @@ function CommandStrip({ payload }) {
   );
 }
 
+function ReadinessStrip({ readiness }) {
+  const model = readiness || {};
+  const layers = model.layers || [];
+  const checklist = model.checklist || [];
+  if (!layers.length && !checklist.length) return null;
+  const chipStyle = (status) => ({
+    border: `1px solid ${status === "ok" ? "#166534" : status === "blocked" ? "#ef4444" : "#f59e0b"}`,
+    borderRadius: 8,
+    background: status === "ok" ? "#071910" : status === "blocked" ? "#220b0b" : "#1f1606",
+    padding: 6,
+    minWidth: 0,
+  });
+  const renderChip = (row) => {
+    const status = String(row.status || "unknown");
+    return (
+      <div key={`${row.key || row.label}-${status}`} style={chipStyle(status)}>
+        <div style={{ fontSize: 10, color: "#cbd5e1", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".04em" }}>{row.label || row.key || ""}</div>
+        <div style={{ fontSize: 11, color: "#f8fafc", fontWeight: 900, marginTop: 2, textTransform: "uppercase" }}>{status}</div>
+        <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.25, marginTop: 2 }}>{row.detail || ""}</div>
+      </div>
+    );
+  };
+  const grid = {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))",
+    gap: 6,
+  };
+  const title = {
+    fontSize: 10,
+    color: "#94a3b8",
+    textTransform: "uppercase",
+    fontWeight: 900,
+    letterSpacing: ".06em",
+    marginBottom: 6,
+  };
+  return (
+    <div style={{ border: "1px solid #243044", borderRadius: 8, background: "#08111f", padding: 8, margin: "9px 0" }}>
+      <div style={title}>Readiness layers</div>
+      <div style={grid}>{layers.map(renderChip)}</div>
+      <div style={{ ...title, marginTop: 8 }}>Resolve checklist</div>
+      <div style={grid}>{checklist.map(renderChip)}</div>
+      <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.25, marginTop: 2 }}>{model.honesty_rule || ""}</div>
+    </div>
+  );
+}
+
 function FirstViewport({ payload, railState, setRailState }) {
   const model = payload.first_viewport || {};
   const delta = payload.change_delta || {};
@@ -305,6 +351,7 @@ function FirstViewport({ payload, railState, setRailState }) {
           </div>
         ))}
       </div>
+      <ReadinessStrip readiness={model.readiness} />
     </div>
   );
 }
@@ -1011,6 +1058,7 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
       </summary>
       <div style={{ padding: "10px 12px 12px", borderTop: "1px solid #1e293b", marginTop: 8 }}>
         <DecisionReadout card={card} display={display} posture={posture} checkFirst={scopedCheckFirst} windowClass={win.class} direction={move.direction} />
+        <ReadinessStrip readiness={card.readiness} />
         <BlockerTaxonomy card={card} />
         <SizeToGoalRail card={card} />
         <GateNotes card={card} />
