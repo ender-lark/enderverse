@@ -26,8 +26,8 @@ Latest audit state:
 
 ## Active Slice
 
-- `DECISION-DOSSIER-SYNC-V1` is active on branch
-  `codex/decision-dossier-sync-v1` in PR#58.
+- No active build slice is claimed after `DECISION-DOSSIER-SYNC-V1` merged in
+  PR#58.
 - Scope: Live Theses-to-`decision_dossiers.json` sync path, verified AVGO
   mirror, and tests/docs for the connector-query fallback.
 - Explicit sequencing: dossier alert/watch work is deferred to a follow-up that
