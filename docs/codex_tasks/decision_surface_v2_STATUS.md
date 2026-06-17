@@ -4,7 +4,42 @@ Recovery anchor: `docs/codex_tasks/decision_surface_v2_overnight_plan.md`.
 
 ## Morning Report
 
-Status: in progress. Slice 3 is correcting docs and naming deferrals.
+TLDR: DSV2 delta is built and locally verified. The action-first Today/Decide
+surface was already live on `origin/main c6a059c`; this branch adds the missing
+data-artifact guardrail plus the Fed-packet freshness honesty rail. No render
+rail, scoring, ranking, sizing, timing-engine, reallocation, decision-card, or
+orphan-wiring internals were rebuilt.
+
+What the operator sees:
+- Top operator-focus cards remain the already-merged Today/Decide surface
+  (GRNY / GOOGL / IVES on the current feed).
+- Funding helper legs stay demoted into Funding / paired sells.
+- The 9 deep-discount + 7 pullback Fed-day names remain visible in the
+  `watch_queue`; the queue now carries `as_of` freshness. Fresh packets show
+  current packet date; stale packets render STALE/not_checked and research
+  context only; absent packets fabricate no rows.
+
+Verification evidence:
+- `python -m pytest src -q`: 1633 passed, 6 skipped.
+- `python src\verify_standard.py`: Verification passed; broad suite 1633
+  passed, 6 skipped.
+- `python src\build_golden.py --check`: drift-free.
+- `python src\integration_debt_sweep.py --no-write --format text`: 2 warnings,
+  15 findings; `build_without_wire` flags only
+  `disconfirmation_registry.json` as real remaining data-artifact debt.
+- Fresh temporary render `tmp\dsv2_delta_dashboard.html`: watch queue shows 14
+  rows and `Fed-day packet current as of 2026-06-17`.
+
+Named deferrals:
+- Orphan_wiring live thread: blocked on absent caches/path cleanup.
+- Watch_queue disposition rail: deferred because it needs a new disposition verb
+  and renderer/parity work.
+- Finding 4 unification: deferred shared candidate-model/scoring-product work.
+- `watchlist_discount_screen` 107-name consumption: deferred.
+- Daily regenerated discount/pullback packet: deferred routine/product slice.
+
+Status: ready for rebase, PR, and all-green merge gate. If any closeout gate is
+ambiguous, leave the branch pushed but unmerged.
 
 ## Ground Truth
 
@@ -25,8 +60,8 @@ Status: in progress. Slice 3 is correcting docs and naming deferrals.
 - Slice 0 - setup, plan anchor, baseline, workboard claim: DONE `d838821`.
 - Slice 1 - `build_without_wire` integration-debt guardrail: DONE `2e4901e`.
 - Slice 2 - Fed-packet staleness honesty gate: DONE `11f88a9`.
-- Slice 3 - docs and named deferrals: IN-PROGRESS.
-- Slice 4 - verification, PR, merge gate, post-merge closeout: pending.
+- Slice 3 - docs and named deferrals: DONE `00c1262`.
+- Slice 4 - verification, PR, merge gate, post-merge closeout: IN-PROGRESS.
 
 ## Slice 1 Notes
 
