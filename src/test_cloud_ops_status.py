@@ -16,7 +16,7 @@ def _write_active_stack_proof(src: Path) -> None:
                 {
                     "automation_id": row["automation_id"],
                     "automation_name": row["automation_name"],
-                    "status": "ACTIVE",
+                    "status": row.get("status") or "ACTIVE",
                     "role": row["role"],
                     "schedule": row["schedule"],
                 }
@@ -157,7 +157,10 @@ def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, t
     assert report["cloud_automation"]["installed"] is True
     assert report["cloud_automation"]["active"] is True
     assert report["cloud_automation"]["expected_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
-    assert report["cloud_automation"]["active_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+    assert report["cloud_automation"]["active_expected_count"] == len(
+        cloud_ops_status._active_expected_automations(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+    )
+    assert report["cloud_automation"]["paused_count"] == 1
     assert report["cloud_automation"]["matches"][0]["evidence_type"] == "repo_proof"
     assert report["source_capability"]["connector_or_api_count"] == 5
     assert "Live source capability: inputs=18/21 | connector_or_api=5 | supplied_or_export=8 | missing_live_capable=1" in text
@@ -553,9 +556,10 @@ def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monke
     assert report["first_scheduled_run_proven"] is False
     assert report["live_run_proven"] is False
     assert report["cloud_operating_state"] == "ready_pending_first_success"
-    assert report["routine_receipts"]["summary"]["success_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+    active_expected = cloud_ops_status._active_expected_automations(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+    assert report["routine_receipts"]["summary"]["success_count"] == len(active_expected)
     assert report["routine_receipts"]["summary"]["scheduled_success_count"] == 0
-    assert report["routine_receipt_due"]["not_due_yet_count"] == len(cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS)
+    assert report["routine_receipt_due"]["not_due_yet_count"] == len(active_expected)
     assert "Cloud run receipts: scheduled_success=0/" in text
     assert "not_due_yet=" in text
     assert "First scheduled proof pending: Investing OS Post-Close Refresh" in text

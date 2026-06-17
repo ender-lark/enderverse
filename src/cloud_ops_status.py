@@ -193,11 +193,13 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "automation_id": "investing-os-social-watch-intake",
         "automation_name": "Investing OS Social Watch Intake",
         "role": "social_watch_intake",
-        "schedule": "daily 7:10 PM ET",
+        "status": "PAUSED",
+        "schedule": "paused; Chrome/manual Reddit snapshots only on operator request",
         "days": [0, 1, 2, 3, 4, 5, 6],
         "hour": 19,
         "minute": 10,
         "expected_since": "2026-06-15T19:10:00-04:00",
+        "pause_reason": "Reddit public .json/API fetches are blocked; use Codex Chrome extension snapshots instead.",
     },
     {
         "automation_id": "investing-os-off-hours-research-queue",
@@ -503,6 +505,8 @@ def _toml_prompt_protocol(path: Path, text: str, routine_id: str) -> dict[str, A
 def _prompt_protocol_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
     checked: list[dict[str, Any]] = []
     for row in rows:
+        if row.get("active_required") is False:
+            continue
         for match in row.get("matches") or []:
             if not isinstance(match, dict):
                 continue
@@ -556,6 +560,8 @@ def _automation_summary(
     for expected_row in expected:
         matches: list[dict[str, Any]] = []
         expected_name = str(expected_row.get("automation_name") or "")
+        expected_status = str(expected_row.get("status") or "ACTIVE").upper()
+        active_required = expected_status != "PAUSED"
         for path, text in local_texts:
             if expected_name and expected_name.lower() in text.lower():
                 matches.append({
@@ -575,6 +581,9 @@ def _automation_summary(
             "automation_name": expected_row.get("automation_name") or "",
             "role": expected_row.get("role") or "",
             "schedule": expected_row.get("schedule") or "",
+            "expected_status": expected_status,
+            "active_required": active_required,
+            "pause_reason": expected_row.get("pause_reason") or "",
             "installed": bool(matches),
             "active": any(row.get("active") for row in matches),
             "matches": matches,
@@ -598,8 +607,9 @@ def _automation_summary(
             matches.append(superseded)
         superseded_matches.extend(matches)
 
-    missing = [row for row in routine_rows if not row["installed"]]
-    inactive = [row for row in routine_rows if row["installed"] and not row["active"]]
+    missing = [row for row in routine_rows if row["active_required"] and not row["installed"]]
+    inactive = [row for row in routine_rows if row["active_required"] and row["installed"] and not row["active"]]
+    paused = [row for row in routine_rows if not row["active_required"]]
     active_superseded = [row for row in superseded_matches if row.get("active")]
     prompt_protocol = _prompt_protocol_summary(routine_rows)
 
@@ -611,10 +621,13 @@ def _automation_summary(
         "expected_count": len(routine_rows),
         "installed_count": len(routine_rows) - len(missing),
         "active_count": len([row for row in routine_rows if row["active"]]),
+        "active_expected_count": len([row for row in routine_rows if row["active_required"]]),
+        "paused_count": len(paused),
         "installed": not missing,
         "active": not missing and not inactive and not active_superseded,
         "missing": missing,
         "inactive": inactive,
+        "paused": paused,
         "superseded": superseded_matches,
         "active_superseded": active_superseded,
         "active_superseded_count": len(active_superseded),
@@ -662,6 +675,13 @@ def _receipt_summary(path: str | Path, expected_automations: list[dict[str, Any]
             },
         }
     return {"valid": not problems, "problems": problems, "summary": summary}
+
+
+def _active_expected_automations(expected_automations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        row for row in expected_automations
+        if str(row.get("status") or "ACTIVE").upper() != "PAUSED"
+    ]
 
 
 def _receipt_due_summary(
@@ -786,11 +806,12 @@ def cloud_ops_status(
         automation_proof=automation_proof,
         expected_automations=DEFAULT_EXPECTED_AUTOMATIONS,
     )
-    receipts = _receipt_summary(receipt_proof, DEFAULT_EXPECTED_AUTOMATIONS)
+    active_expected_automations = _active_expected_automations(DEFAULT_EXPECTED_AUTOMATIONS)
+    receipts = _receipt_summary(receipt_proof, active_expected_automations)
     proof_meta = _proof_metadata(automation_proof)
     receipt_due = _receipt_due_summary(
         receipts,
-        DEFAULT_EXPECTED_AUTOMATIONS,
+        active_expected_automations,
         activated_at=_parse_dt(proof_meta.get("verified_at")),
         now=_parse_dt(now) if now is not None else None,
     )
@@ -893,6 +914,7 @@ def format_text(report: dict[str, Any]) -> str:
             f"active={bool(automation.get('active'))} | "
             f"expected={int(automation.get('expected_count') or 0)} | "
             f"active_count={int(automation.get('active_count') or 0)} | "
+            f"paused={int(automation.get('paused_count') or 0)} | "
             f"active_superseded={int(automation.get('active_superseded_count') or 0)}"
         ),
         (
@@ -935,6 +957,12 @@ def format_text(report: dict[str, Any]) -> str:
             f"current={int(receipt_due.get('current_count') or 0)}"
         ),
     ]
+    paused = automation.get("paused") or []
+    if paused:
+        first = paused[0]
+        label = first.get("automation_name") or first.get("automation_id") or "paused routine"
+        reason = first.get("pause_reason") or first.get("schedule") or "paused by design"
+        lines.append(f"Paused automation: {label} | {reason}")
     lines.extend(live_source_capability.format_missing_live_capable(source_capability))
     lines.extend(live_source_capability.format_missing_live_config(source_capability))
     due_waiting = [

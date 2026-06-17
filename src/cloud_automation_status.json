@@ -186,11 +186,12 @@
     {
       "automation_id": "investing-os-social-watch-intake",
       "automation_name": "Investing OS Social Watch Intake",
-      "status": "ACTIVE",
+      "status": "PAUSED",
       "role": "social_watch_intake",
-      "schedule": "daily 7:10 PM ET",
+      "schedule": "paused; Chrome/manual Reddit snapshots only on operator request",
       "prompt": "src/codex_routines/social_watch_intake.md",
-      "expected_since": "2026-06-15T19:10:00-04:00"
+      "expected_since": "2026-06-15T19:10:00-04:00",
+      "pause_reason": "Reddit public .json/API fetches are blocked; use Codex Chrome extension snapshots instead."
     },
     {
       "automation_id": "investing-os-off-hours-worker",

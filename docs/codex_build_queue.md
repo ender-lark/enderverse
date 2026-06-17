@@ -37,6 +37,10 @@ until the core logic is stable; Notion sync comes later.
     so the daily report compares today against prior compact snapshots and the
     weekly report uses scan dates, not old Reddit post dates, for
     `getting_louder` / `fading`.
+  - The scheduled `investing-os-social-watch-intake` automation is paused as of
+    2026-06-16. Do not use Reddit API/public `.json`/`--fetch-live`; use the
+    Codex Chrome extension/current Chrome session to create compact manual
+    snapshots, then run the collector with `--input` and `--snapshot-history`.
   - Keep output in `tmp/` or supplied cache files until the main build accepts
     it; missing/blocked social data remains `not_checked`.
   - Read `docs/reddit_critical_minerals_prototype_plan.md` before changing,

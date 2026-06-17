@@ -2,9 +2,15 @@
 
 ## Objective
 
-Refresh `src/social_watch.json` from a Chrome-browsed Reddit/social market-signal
-check. This is an early-signal anomaly lane only. It never creates BUY, SELL,
-trade, sizing, leverage, or execution cards.
+Refresh `src/social_watch.json` only from a Chrome-visible Reddit/social
+market-signal check or a supplied compact manual snapshot. This is an
+early-signal anomaly lane only. It never creates BUY, SELL, trade, sizing,
+leverage, or execution cards.
+
+The scheduled automation is intentionally paused until the operator asks for a
+Chrome scan. Do not use Reddit API, public `.json` endpoints, or
+`reddit_collector.py --fetch-live`; those routes are blocked and create noisy
+`403` / `not_checked` receipts.
 
 ## Start Of Run
 
@@ -15,33 +21,45 @@ trade, sizing, leverage, or execution cards.
    - `src/reddit_collector.py`
    - `src/social_watch.py`
    - `src/reddit_signal_core.py`
-3. Treat missing, blocked, rate-limited, malformed, or stale Reddit fetches as
-   `not_checked`. Do not infer no social anomalies from a failed fetch.
+3. Treat missing, unavailable, malformed, or stale Chrome/manual snapshots as
+   `not_checked`. Do not infer no social anomalies from missing input.
 
 ## Source Boundary
 
-- Use Chrome browsing for the configured subreddit set:
+- Use the Codex Chrome extension/current Chrome session for the configured
+  subreddit set:
   `stocks, investing, SecurityAnalysis, wallstreetbets, options, thetagang,
   ValueInvesting, StockMarket`.
-- Store only minimal rows: post/comment id, subreddit, timestamp, ticker/entity
-  matches, derived scores, permalink, and short snippets.
+- Prefer visible Reddit pages, including `old.reddit.com` when modern Reddit
+  pages are hard to scan.
+- Store only compact visible rows: subreddit, title, short snippet/body when
+  useful, permalink/url, visible time or `created_utc`, score/upvotes, comments,
+  flair, source sort, scan window, capture time, visible rank, and member/online
+  counts if visible.
 - Do not store author names, handles, profiles, votes by user, cookies, local
-  storage, credentials, raw page payloads, or raw Reddit bodies.
+  storage, credentials, screenshots, raw page payloads, raw comment archives, or
+  long copied Reddit text.
 - Stored social snippets expire after 48 hours. Fresh runs should replace stale
   snippets rather than accumulating raw user content.
-- If Reddit blocks, rate-limits, or returns unusable pages, write a dated
-  `not_checked` cache with failures and freshness stamp.
+- If no fresh Chrome/manual snapshot is available, write or preserve a dated
+  `not_checked` cache with the blocker and stop. Do not attempt the public live
+  Reddit fallback.
 
 ## Run Command
 
-Preferred after Chrome has exported or saved subreddit JSON payloads:
+Preferred after Chrome has exported or saved compact manual snapshot rows:
 
-`python src/cloud_routine_runner.py --run-source scheduled --routine-id investing-os-social-watch-intake --success-summary "social watch intake succeeded" --failure-summary "social watch intake failed" -- python src/reddit_collector.py --input <reddit-json-file-or-dir> --out src/social_watch.json`
+`python src/reddit_collector.py --input <manual-snapshot.json> --out src/social_watch.json --report-out tmp/reddit_daily_scout.md --weekly-report-out tmp/reddit_weekly_patterns.md --snapshot-history tmp/reddit_history/broad_social.jsonl --format text`
 
-Fallback for a manual/operator-approved public listing refresh when a browser
-export is unavailable:
+For critical-minerals/nuclear scans:
 
-`python src/cloud_routine_runner.py --run-source scheduled --routine-id investing-os-social-watch-intake --success-summary "social watch intake succeeded" --failure-summary "social watch intake failed" -- python src/reddit_collector.py --fetch-live --out src/social_watch.json`
+`python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/reddit_daily_scout.md --weekly-report-out tmp/reddit_weekly_patterns.md --snapshot-history tmp/reddit_history/critical_minerals_nuclear.jsonl --format text`
+
+For WSB-only retail crowding scans:
+
+`python src/reddit_collector.py --source-group retail_risk_wsb --input <manual-snapshot.json> --out tmp/wsb_social_watch.json --report-out tmp/wsb_daily_scout.md --weekly-report-out tmp/wsb_weekly_patterns.md --snapshot-history tmp/reddit_history/retail_risk_wsb.jsonl --format text`
+
+No fallback command exists for public Reddit `.json` refreshes.
 
 ## Confirmation And Routing
 
@@ -71,9 +89,10 @@ For code changes, run:
 
 ## End Of Run
 
-Append a success or failed receipt with `--run-source scheduled` and a compact
-summary of subreddits checked, anomalies found, failures/rate limits, Research
-Queue/Notion writes, cache validation, and dark lanes.
+If a scheduled run is explicitly re-enabled later, append a success or failed
+receipt with `--run-source scheduled` and a compact summary of subreddits
+checked, anomalies found, missing snapshot blockers, Research Queue/Notion
+writes, cache validation, and dark lanes.
 
 If routine-owned files changed, commit and push with the safe helper. If push
 fails, report the failure and leave unrelated dirty files untouched:
