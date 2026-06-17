@@ -867,5 +867,24 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "SPCX",
+    "direction": "watch",
+    "entry": null,
+    "stop": 195.0,
+    "target": 237.0,
+    "window": "micro-term into end of week",
+    "quote": "Newton flags SPCX as bullish micro-term only: flows/options could carry it toward $229-$237 into end of week if $195 holds; re-check before sizing because fundamentals are not the basis.",
+    "date": "2026-06-17",
+    "subject": "FlashInsights: SPCX micro-term bullish structure",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-17-1002-et-spcx",
+    "source": "Fundstrat Chrome FlashInsights feed",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]

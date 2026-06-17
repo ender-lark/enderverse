@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T22:09:16.173250Z",
-      "summary": "pilot dashboard updated; Sunday summary written; v0 1 row unchanged; gamma refreshed with GRNJ gap; 13F outside window and manager file missing"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:39:29.918187Z",
-      "summary": "investing-os-fundstrat-daytime-watch manual run started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "manual",
@@ -7052,7 +7038,21 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T14:47:14.827413Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T14:53:14.390988Z",
+      "summary": "checked web pages 2 Macro/Crypto FlashInsights, Gmail 0; landed 1 SPCX compact row; suppressed/discovery-only 0 new rows, older Macro handled and Crypto stale Jun8; validation passed; dashboard refresh ok; alert quiet no push; dark/stale Crypto FlashInsights Jun8 and Social Watch; blockers none"
     }
   ],
-  "updated_at": "2026-06-17T14:32:23.831399Z"
+  "updated_at": "2026-06-17T14:53:14.390988Z"
 }
