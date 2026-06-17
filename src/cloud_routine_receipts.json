@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:45:59.272994Z",
-      "summary": "repo synthesis refreshed; event-risk watch + 13 target gaps; 1 hanging review; Notion page written; no failures"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:46:55.122144Z",
-      "summary": "scanned 14 tickers; 0 fresh signals; cache unchanged; 14 worker failures (UW_API_KEY missing); live proof refreshed"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -7138,7 +7124,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T11:49:29.725103Z",
       "summary": "checked 10 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 9 stale/already-handled items; validation passed; source merge 0 added; Notion none; dark/stale crypto flash Jun 4, intraday Sep 17 2025, first word Jun 12, fed watch Apr 29; blockers none"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T12:10:50.611919Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T12:14:00.872997Z",
+      "summary": "Gmail 7 full-body candidates checked, Chrome latest research checked; landed 0 rows; positions unchanged snapshot 2026-06-17; catalysts unchanged 12; event risks unchanged 5; dark/stale lanes: Drive broker/catalyst/event drops absent, Catalyst Notion stale Jun 11, UW only Jun16 after-hours proof"
     }
   ],
-  "updated_at": "2026-06-17T11:49:29.725103Z"
+  "updated_at": "2026-06-17T12:14:00.872997Z"
 }
