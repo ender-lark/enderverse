@@ -1040,6 +1040,244 @@ def _build_disposition_pressure(
     }
 
 
+def _source_family(source: str) -> str:
+    low = source.lower()
+    if "fundstrat" in low or low.startswith("fs") or "feed.actions" in low:
+        return "fundstrat"
+    if "uw" in low or "asymmetric" in low:
+        return "uw"
+    if "reallocation" in low or "portfolio" in low or "positions" in low:
+        return "portfolio"
+    if "source_conflict" in low or "market_open" in low or "event" in low:
+        return "risk"
+    if "watch" in low or "pullback" in low:
+        return "watch"
+    return "system"
+
+
+def _candidate_index_add(
+    records: dict[str, dict[str, Any]],
+    *,
+    decision_key: str,
+    ticker: str,
+    lane: str,
+    state: str,
+    title: str,
+    source: str,
+    evidence: str,
+) -> None:
+    key = str(decision_key or "").strip()
+    if not key:
+        return
+    state = state if state in COMMAND_STATE_RANK else "WATCH"
+    rec = records.setdefault(key, {
+        "decision_key": key,
+        "ticker": str(ticker or "").strip().upper() or "SYSTEM",
+        "lane": str(lane or "context").strip() or "context",
+        "state": state,
+        "title": str(title or key).strip() or key,
+        "sources": [],
+        "source_families": [],
+        "evidence": [],
+    })
+    if COMMAND_STATE_RANK.get(state, 99) < COMMAND_STATE_RANK.get(str(rec.get("state") or "WATCH"), 99):
+        rec["state"] = state
+    if title and len(str(title)) > len(str(rec.get("title") or "")):
+        rec["title"] = str(title)
+    source_text = str(source or "source").strip()
+    if source_text and source_text not in rec["sources"]:
+        rec["sources"].append(source_text)
+    family = _source_family(source_text)
+    if family not in rec["source_families"]:
+        rec["source_families"].append(family)
+    evidence_text = str(evidence or "").strip()
+    if evidence_text and evidence_text not in rec["evidence"]:
+        rec["evidence"].append(evidence_text)
+
+
+def _build_candidate_feed_index(
+    feed: dict[str, Any],
+    cards: list[dict[str, Any]],
+    watch_queue: list[dict[str, Any]],
+    disposition_pressure: dict[str, Any],
+) -> dict[str, Any]:
+    records: dict[str, dict[str, Any]] = {}
+
+    for card in cards or []:
+        state = str(card.get("command_state") or _card_command_state(card))
+        ticker = str(card.get("ticker") or "").strip().upper()
+        lane = _card_lane(card)
+        display = card.get("conviction_display") or {}
+        _candidate_index_add(
+            records,
+            decision_key=card.get("decision_key") or _decision_key(card),
+            ticker=ticker,
+            lane=lane,
+            state=state,
+            title=_primary_command_title(card, state),
+            source="today_decide_card",
+            evidence=str(
+                display.get("conflict")
+                or (card.get("blocker_taxonomy") or {}).get("line")
+                or (card.get("readiness") or {}).get("summary")
+                or ""
+            ),
+        )
+
+    for row in (disposition_pressure or {}).get("rows") or []:
+        if not isinstance(row, dict):
+            continue
+        key = str(row.get("decision_key") or "").strip()
+        ticker = str(row.get("ticker") or "SYSTEM").strip().upper() or "SYSTEM"
+        lane = str(row.get("kind") or "disposition_pressure").strip()
+        _candidate_index_add(
+            records,
+            decision_key=key,
+            ticker=ticker,
+            lane=lane,
+            state=str(row.get("state") or "DECIDE"),
+            title=str(row.get("title") or key),
+            source=lane,
+            evidence=str(row.get("detail") or row.get("prompt") or ""),
+        )
+
+    for row in _source_decide_prompts(feed):
+        _candidate_index_add(
+            records,
+            decision_key=row["decision_key"],
+            ticker=row["ticker"],
+            lane=row["lane"],
+            state="DECIDE",
+            title=row["label"],
+            source=row["source"],
+            evidence=row["label"],
+        )
+
+    for row in watch_queue or []:
+        if not isinstance(row, dict):
+            continue
+        _candidate_index_add(
+            records,
+            decision_key=_watch_row_key(row),
+            ticker=str(row.get("ticker") or "").upper(),
+            lane=str(row.get("section") or "watch"),
+            state="WATCH",
+            title=f"Watch {str(row.get('ticker') or '').upper()}",
+            source="watch_queue",
+            evidence=str(row.get("summary") or ""),
+        )
+
+    for row in ((feed.get("source_conflicts") or {}).get("rows") or []):
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").upper()
+        if not ticker:
+            continue
+        _candidate_index_add(
+            records,
+            decision_key=f"{ticker}|source_conflict",
+            ticker=ticker,
+            lane="source_conflict",
+            state="RESOLVE",
+            title=f"Resolve {ticker} source conflict",
+            source="source_conflicts",
+            evidence=str(row.get("action_posture") or row.get("decision_effect") or row.get("summary") or ""),
+        )
+
+    for row in ((feed.get("asymmetric_opportunities") or {}).get("rows") or []):
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").upper()
+        if not ticker:
+            continue
+        _candidate_index_add(
+            records,
+            decision_key=f"{ticker}|asymmetric_opportunity",
+            ticker=ticker,
+            lane="asymmetric_opportunity",
+            state="WATCH",
+            title=f"Watch {ticker} asymmetric setup",
+            source=str(row.get("source") or "asymmetric_opportunities"),
+            evidence=str(row.get("reason") or row.get("evidence") or ""),
+        )
+
+    rb = feed.get("reallocation_brief") or {}
+    for row in rb.get("rows") or []:
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").upper()
+        if not ticker:
+            continue
+        _candidate_index_add(
+            records,
+            decision_key=f"{ticker}|reallocation_add",
+            ticker=ticker,
+            lane="reallocation_add",
+            state="RESOLVE",
+            title=f"Resolve {ticker} add",
+            source="reallocation_brief",
+            evidence=str(row.get("entry_note") or row.get("disconfirmation") or ""),
+        )
+    for row in rb.get("trims") or []:
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").upper()
+        if not ticker:
+            continue
+        _candidate_index_add(
+            records,
+            decision_key=f"{ticker}|funding_trim",
+            ticker=ticker,
+            lane="funding_trim",
+            state="RESOLVE",
+            title=f"Resolve {ticker} trim",
+            source="reallocation_brief",
+            evidence=str(row.get("funds") or row.get("disconfirmation") or ""),
+        )
+
+    for row in ((feed.get("uw_action_runbook") or {}).get("rows") or []):
+        if not isinstance(row, dict):
+            continue
+        for ticker_raw in row.get("ticker_scope") or []:
+            ticker = str(ticker_raw or "").upper()
+            if not ticker:
+                continue
+            _candidate_index_add(
+                records,
+                decision_key=f"{ticker}|uw_runbook",
+                ticker=ticker,
+                lane="uw_runbook",
+                state="RESOLVE",
+                title=f"Resolve {ticker} UW check",
+                source="uw_action_runbook",
+                evidence=str(row.get("blocks_action_if") or row.get("why") or ""),
+            )
+
+    rows = sorted(
+        records.values(),
+        key=lambda rec: (
+            COMMAND_STATE_RANK.get(str(rec.get("state") or "WATCH"), 99),
+            str(rec.get("ticker") or ""),
+            str(rec.get("lane") or ""),
+        ),
+    )
+    for row in rows:
+        row["source_count"] = len(row.get("sources") or [])
+        row["independent_source_count"] = len(row.get("source_families") or [])
+        row["evidence"] = (row.get("evidence") or [])[:4]
+    return {
+        "rows": rows,
+        "counts": {
+            "total": len(rows),
+            **{state: sum(1 for row in rows if row.get("state") == state) for state in COMMAND_STATES},
+        },
+        "honesty_rule": (
+            "Display-only merged feeder index keyed by ticker|lane; source families are shown for context only "
+            "and never counted as conviction or sizing."
+        ),
+    }
+
+
 PASSIVITY_BUCKET_LABELS = {
     "operator_owned_actionable_now": "yours to decide now",
     "waiting_market_price_tape_gate": "waiting on market/price/tape gate",
@@ -2507,6 +2745,7 @@ def build_today_decide_payload(
     passivity = _passivity_summary(all_cards, watch_queue)
     disposition_coverage = _build_disposition_coverage(feed, all_cards, watch_queue)
     command_strip = _build_command_strip(feed, all_cards, watch_queue, trust_panel, disposition_pressure)
+    candidate_feed_index = _build_candidate_feed_index(feed, all_cards, watch_queue, disposition_pressure)
     gate_rows = [
         {k: g.get(k) for k in (
             "gate_id", "symbol", "state", "stored_state", "note", "confirm_rule",
@@ -2551,6 +2790,7 @@ def build_today_decide_payload(
         "first_viewport": first_viewport,
         "change_delta": change_delta,
         "disposition_pressure": disposition_pressure,
+        "candidate_feed_index": candidate_feed_index,
         "passivity": passivity,
         "disposition_coverage": disposition_coverage,
         "cards": stack["cards"],
@@ -2620,6 +2860,13 @@ _CSS = """
 .td .td-pressure-name{font-size:14px;color:#f8fafc;font-weight:850;line-height:1.25;margin-top:2px}
 .td .td-pressure-detail{font-size:12px;color:#94a3b8;line-height:1.35;margin-top:3px}
 .td .td-pressure-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.td .td-feeder{border:1px solid #243044;border-radius:9px;background:#08111f;padding:9px;margin:9px 0}
+.td .td-feeder>summary{cursor:pointer;color:#e2e8f0;font-size:12px;font-weight:850}
+.td .td-feeder-row{border:1px solid #243044;border-radius:8px;background:#0b1220;padding:7px;margin-top:7px}
+.td .td-feeder-top{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.td .td-feeder-key{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.05em}
+.td .td-feeder-title{font-size:13px;color:#f8fafc;font-weight:800;margin-top:2px}
+.td .td-feeder-meta{font-size:11px;color:#94a3b8;line-height:1.35;margin-top:3px}
 .td .td-passivity{border:1px solid #334155;border-radius:10px;background:#08111f;padding:10px 12px;margin:10px 0 12px}
 .td .td-passivity-title{font-size:12px;color:#f8fafc;font-weight:850;margin-bottom:4px}
 .td .td-passivity-line{font-size:12px;color:#cbd5e1;line-height:1.4}
@@ -3827,6 +4074,40 @@ def _render_disposition_pressure(payload: dict[str, Any]) -> str:
     return "".join(bits)
 
 
+def _render_candidate_feed_index(payload: dict[str, Any]) -> str:
+    index = payload.get("candidate_feed_index") or {}
+    rows = [row for row in index.get("rows") or [] if isinstance(row, dict)]
+    if not rows:
+        return ""
+    counts = index.get("counts") or {}
+    summary = (
+        f"Merged candidate feeder index ({int(counts.get('total') or len(rows))}): "
+        + " | ".join(f"{int(counts.get(state) or 0)} {state}" for state in COMMAND_STATES)
+    )
+    bits = [
+        '<details class="td-feeder">',
+        f'<summary>{_esc(summary)}</summary>',
+    ]
+    for row in rows[:12]:
+        evidence = "; ".join(_esc(item) for item in (row.get("evidence") or [])[:2] if item)
+        bits.append(
+            '<div class="td-feeder-row">'
+            '<div class="td-feeder-top">'
+            f'<div><div class="td-feeder-key">{_esc(row.get("state") or "")} | {_esc(row.get("decision_key") or "")}</div>'
+            f'<div class="td-feeder-title">{_esc(row.get("title") or "")}</div></div>'
+            f'<div class="td-feeder-key">{_esc(row.get("independent_source_count") or 0)} independent</div>'
+            '</div>'
+            f'<div class="td-feeder-meta">sources: {_esc(", ".join(row.get("sources") or []))}</div>'
+            + (f'<div class="td-feeder-meta">evidence: {evidence}</div>' if evidence else "")
+            + '</div>'
+        )
+    if len(rows) > 12:
+        bits.append(f'<div class="td-feeder-meta">+{len(rows) - 12} more merged rows in payload.</div>')
+    bits.append(f'<div class="td-feeder-meta">{_esc(index.get("honesty_rule") or "")}</div>')
+    bits.append('</details>')
+    return "".join(bits)
+
+
 def _render_passivity_panel(payload: dict[str, Any]) -> str:
     passivity = payload.get("passivity") or {}
     counts = passivity.get("counts") or {}
@@ -4217,6 +4498,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
     h.append(_render_command_strip(payload))
     h.append(_render_first_viewport(payload))
     h.append(_render_disposition_pressure(payload))
+    h.append(_render_candidate_feed_index(payload))
     h.append(_render_passivity_panel(payload))
     h.append(_render_disposition_coverage(payload))
     h.append(_render_trust_panel(payload))

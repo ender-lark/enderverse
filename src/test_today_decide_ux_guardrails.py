@@ -189,6 +189,39 @@ def test_high_impact_watch_row_promotes_to_decide_and_leaves_watch_queue():
     assert "AVOID_NEW RYF reason: " in html
 
 
+def test_candidate_feed_index_merges_sources_by_ticker_lane():
+    feed = _feed()
+    feed["asymmetric_opportunities"] = {
+        "rows": [{
+            "ticker": "GOOGL",
+            "source": "uw_opportunity",
+            "reason": "same ticker extra context",
+        }]
+    }
+    feed["uw_action_runbook"] = {
+        "rows": [{
+            "ticker_scope": ["GOOGL"],
+            "blocks_action_if": "endpoint proof missing",
+        }]
+    }
+
+    payload = _payload(feed=feed, today="2026-06-17", held_decisions_path=None)
+    index = payload["candidate_feed_index"]
+    keys = [row["decision_key"] for row in index["rows"]]
+    html = render_today_decide_html(payload)
+
+    assert len(keys) == len(set(keys))
+    assert index["counts"]["total"] == len(index["rows"])
+    googl_add = next(row for row in index["rows"] if row["decision_key"] == "GOOGL|reallocation_add")
+    assert googl_add["state"] == "RESOLVE"
+    assert set(googl_add["sources"]) >= {"today_decide_card", "reallocation_brief"}
+    assert googl_add["independent_source_count"] >= 2
+    assert any(row["decision_key"] == "GOOGL|uw_runbook" for row in index["rows"])
+    assert "Merged candidate feeder index" in html
+    assert "source families are shown for context only" in html
+    assert html.index("Merged candidate feeder index") < html.index("Ownership-aware passivity")
+
+
 def test_since_last_build_delta_uses_committed_baseline_without_view_state_file():
     baseline = {
         "today_decide": {

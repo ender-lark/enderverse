@@ -1164,6 +1164,35 @@ function DispositionPressure({ payload, railState, setRailState }) {
   );
 }
 
+function CandidateFeedIndex({ payload }) {
+  const index = payload.candidate_feed_index || {};
+  const rows = index.rows || [];
+  if (!rows.length) return null;
+  const counts = index.counts || {};
+  const states = ["ACT", "DECIDE", "RESOLVE", "WATCH"];
+  const summary = `Merged candidate feeder index (${counts.total || rows.length}): ${states.map((state) => `${counts[state] || 0} ${state}`).join(" | ")}`;
+  return (
+    <details style={{ border: "1px solid #243044", borderRadius: 9, background: "#08111f", padding: 9, margin: "9px 0" }}>
+      <summary style={{ cursor: "pointer", color: "#e2e8f0", fontSize: 12, fontWeight: 850 }}>{summary}</summary>
+      {rows.slice(0, 12).map((row) => (
+        <div key={row.decision_key} style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 7, marginTop: 7 }}>
+          <div style={{ display: "flex", gap: 8, justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }}>
+            <div>
+              <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".05em" }}>{row.state || ""} | {row.decision_key || ""}</div>
+              <div style={{ fontSize: 13, color: "#f8fafc", fontWeight: 800, marginTop: 2 }}>{row.title || ""}</div>
+            </div>
+            <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".05em" }}>{row.independent_source_count || 0} independent</div>
+          </div>
+          <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>sources: {(row.sources || []).join(", ")}</div>
+          {(row.evidence || []).length > 0 && <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>evidence: {(row.evidence || []).slice(0, 2).join("; ")}</div>}
+        </div>
+      ))}
+      {rows.length > 12 && <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>+{rows.length - 12} more merged rows in payload.</div>}
+      <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>{index.honesty_rule || ""}</div>
+    </details>
+  );
+}
+
 function WatchQueue({ payload }) {
   const queue = payload.watch_queue || [];
   const meta = payload.watch_queue_meta || {};
@@ -1250,6 +1279,7 @@ export default function TodayDecide({ payload }) {
       <CommandStrip payload={payload} />
       <FirstViewport payload={payload} railState={railState} setRailState={setRailState} />
       <DispositionPressure payload={payload} railState={railState} setRailState={setRailState} />
+      <CandidateFeedIndex payload={payload} />
       <PassivityPanel payload={payload} />
       <DispositionCoverage payload={payload} />
       <TrustPanel payload={payload} />
