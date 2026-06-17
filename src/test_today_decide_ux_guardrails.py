@@ -129,3 +129,27 @@ def test_blocker_taxonomy_m_of_n_matches_real_unmet_blockers():
     assert "Distance to actionable" in html
     assert any(f'0 of {card["blocker_taxonomy"]["total"]} blockers cleared' in html for card in enumerable)
     assert "never means the move is ready" in html
+
+
+def test_size_to_goal_never_renders_goal_percent_without_survival_rails():
+    payload = _payload()
+    buy_cards = [
+        card for card in payload["cards"] + payload["backlog"]
+        if str(((card.get("decision_card") or {}).get("move") or {}).get("direction") or card.get("direction") or "").upper() in {"BUY", "ADD"}
+    ]
+
+    assert buy_cards
+    for card in buy_cards:
+        model = card.get("size_to_goal") or {}
+        line = str(model.get("line") or "").lower()
+        assert "% of goal gap" in line
+        for token in ("cap room", "funding source", "concentration", "account eligibility", "leverage/margin"):
+            assert token in line
+
+    html = render_today_decide_html(payload)
+    assert "Size to goal with rails" in html
+    for line in re.findall(r'<div class="td-size-goal-line">([^<]+)</div>', html):
+        low = line.lower()
+        assert "% of goal gap" in low
+        for token in ("cap room", "funding source", "concentration", "account eligibility", "leverage/margin"):
+            assert token in low

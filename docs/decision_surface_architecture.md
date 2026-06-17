@@ -43,3 +43,12 @@ The UI only renders `0 of N blockers cleared` when `N` is the count of visible
 unmet categories in `blocker_taxonomy.unmet`. If a blocker is visible but not
 cleanly enumerable, the renderer shows the blocker text without an M-of-N
 count. The count is never a readiness score.
+
+## 2026-06-17 - Size To Goal With Rails
+
+Buy/add cards get `size_to_goal` display metadata. The line may show the
+tranche as a percentage of the FI goal gap, but only in the same sentence as
+the survival rails: cap room, funding or cash source, concentration rail,
+account eligibility, and leverage/margin assumption. Goal-gap percentage alone
+is forbidden because it can make an oversized or unfunded trade look more
+actionable than it is.

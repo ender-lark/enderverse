@@ -1215,6 +1215,123 @@ def _rail_line_for_card(card: dict[str, Any]) -> str:
     return "; ".join(part for part in parts if part) or "Normal source, sizing, concentration, and account rails still apply."
 
 
+def _cap_room_text(sizing: dict[str, Any]) -> str:
+    cap_basis = str(sizing.get("cap_basis") or "")
+    match = re.search(r"cap room\s+\$([0-9,]+)", cap_basis, flags=re.IGNORECASE)
+    room = f"${match.group(1)}" if match else None
+    heat = str(sizing.get("heat") or "not_checked")
+    if room:
+        return f"cap room {room} (heat {heat})"
+    suggested = sizing.get("suggested_usd")
+    if suggested is not None:
+        return f"cap room not parsed; cap-suggested {_money_text(suggested)} (heat {heat})"
+    return f"cap room not_checked (heat {heat})"
+
+
+def _funding_source_text(card: dict[str, Any], cards: list[dict[str, Any]]) -> str:
+    ticker = str(card.get("ticker") or "").strip().upper()
+    sources = []
+    for candidate in cards:
+        if not _is_funding_leg(candidate):
+            continue
+        funds = str(candidate.get("funds") or "")
+        if ticker and ticker in funds.upper():
+            sources.append(f"{str(candidate.get('ticker') or '').upper()} trim -> {funds}")
+    if sources:
+        return "funding source " + "; ".join(sources[:2])
+    cash = str((card.get("execution") or {}).get("cash") or "").strip()
+    if cash:
+        return f"funding source cash/buying power {cash}"
+    return "funding source not_checked; confirm cash/buying power before trade"
+
+
+def _concentration_rail_text(card: dict[str, Any]) -> str:
+    sizing = card.get("sizing") or {}
+    current = sizing.get("current_pct")
+    ceiling = sizing.get("ceiling_pct")
+    floor = sizing.get("floor_pct")
+    if current is not None or ceiling is not None:
+        parts = []
+        if current is not None:
+            parts.append(f"current {float(current):.1f}%")
+        if floor is not None:
+            parts.append(f"floor {float(floor):.1f}%")
+        if ceiling is not None:
+            parts.append(f"ceiling {float(ceiling):.1f}%")
+        return "concentration rail " + " / ".join(parts)
+    lookthrough = card.get("lookthrough") or {}
+    if lookthrough.get("overlap_line"):
+        return f"concentration rail {lookthrough['overlap_line']}"
+    return "concentration rail not_checked"
+
+
+def _account_eligibility_text(card: dict[str, Any]) -> str:
+    execn = card.get("execution") or {}
+    suggested = execn.get("suggested") or {}
+    if suggested:
+        acct = " ".join(
+            str(suggested.get(key) or "").strip()
+            for key in ("owner", "broker", "account")
+            if str(suggested.get(key) or "").strip()
+        )
+        eligible = "eligible" if suggested.get("eligible", True) else "not eligible"
+        flags = ", ".join(str(flag) for flag in suggested.get("account_flags") or suggested.get("leg_flags") or [])
+        suffix = f"; flags {flags}" if flags else ""
+        return f"account eligibility {acct or 'suggested account'} {eligible}{suffix}"
+    hard_flags = execn.get("hard_flags") or []
+    if hard_flags:
+        return f"account eligibility blocked: {hard_flags[0].get('detail') or hard_flags[0].get('code')}"
+    return "account eligibility not_checked"
+
+
+def _leverage_margin_text(card: dict[str, Any]) -> str:
+    cash = str((card.get("execution") or {}).get("cash") or "").strip()
+    if cash:
+        return f"leverage/margin: {cash}; no margin expansion assumed"
+    return "leverage/margin: no margin expansion assumed; confirm buying power"
+
+
+def _size_to_goal_model(
+    card: dict[str, Any],
+    *,
+    goal_anchor: dict[str, Any],
+    cards: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    direction = _card_action_direction(card)
+    if direction not in {"BUY", "ADD"}:
+        return None
+    dollars = _coerce_float(card.get("dollars"))
+    gap = _coerce_float(goal_anchor.get("gap_usd"))
+    if dollars is None:
+        tranche = "tranche not readable"
+        pct = None
+    else:
+        tranche = f"{_money_text(dollars)} tranche"
+        pct = round(100.0 * dollars / gap, 1) if gap and gap > 0 else None
+    contribution = f"{tranche} = {pct:.1f}% of goal gap" if pct is not None else f"{tranche}; goal gap unavailable"
+    line = (
+        f"{contribution}; "
+        f"{_cap_room_text(card.get('sizing') or {})}; "
+        f"{_funding_source_text(card, cards)}; "
+        f"{_concentration_rail_text(card)}; "
+        f"{_account_eligibility_text(card)}; "
+        f"{_leverage_margin_text(card)}."
+    )
+    return {
+        "line": line,
+        "goal_gap_pct": pct,
+        "tranche_usd": dollars,
+        "honesty_rule": "Goal contribution is render-only and always shown with survival rails.",
+    }
+
+
+def _annotate_size_to_goal(cards: list[dict[str, Any]], goal_anchor: dict[str, Any]) -> None:
+    for card in cards:
+        model = _size_to_goal_model(card, goal_anchor=goal_anchor, cards=cards)
+        if model:
+            card["size_to_goal"] = model
+
+
 def _primary_button_model(card: dict[str, Any] | None) -> dict[str, str]:
     if not card:
         return {}
@@ -1409,7 +1526,7 @@ def _first_viewport_model(
         "ticker": str(card.get("ticker") or "").upper(),
         "lane": _card_lane(card),
         "decision": f"{direction or 'REVIEW'} {str(card.get('ticker') or '').upper()}",
-        "size": f"{_money_text(card.get('dollars'))} tranche; {_size_label(card)}",
+        "size": ((card.get("size_to_goal") or {}).get("line") or f"{_money_text(card.get('dollars'))} tranche; {_size_label(card)}"),
         "blocker": blocker,
         "changed": (change_delta or {}).get("line") or "No prior reliable build baseline yet.",
         "risk_rail": _rail_line_for_card(card),
@@ -1482,6 +1599,8 @@ def build_today_decide_payload(
     watch_queue = _build_fed_day_watch_queue(fed_day_state, all_cards)
     _annotate_action_first_fields(all_cards)
     _annotate_blocker_taxonomy(all_cards)
+    goal_anchor = _goal_anchor(feed, goal, today_iso)
+    _annotate_size_to_goal(all_cards, goal_anchor)
     passivity = _passivity_summary(all_cards, watch_queue)
     gate_rows = [
         {k: g.get(k) for k in (
@@ -1514,7 +1633,7 @@ def build_today_decide_payload(
     funding = stack.get("funding") or {}
     return {
         "built": today_iso,
-        "goal_anchor": _goal_anchor(feed, goal, today_iso),
+        "goal_anchor": goal_anchor,
         "plan_line": {
             "pool_usd": funding.get("pool_usd"),
             "shortfall_usd": funding.get("shortfall_usd"),
@@ -1620,6 +1739,9 @@ _CSS = """
 .td .td-blocker-tax-title{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
 .td .td-blocker-tax-line{font-size:13px;color:#f8fafc;font-weight:750;line-height:1.35;margin-top:3px}
 .td .td-blocker-tax-row{font-size:12px;color:#cbd5e1;line-height:1.35;margin-top:3px}
+.td .td-size-goal{border:1px solid #1f3b57;border-radius:8px;background:#071426;padding:8px;margin:0 0 8px}
+.td .td-size-goal-title{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:900;letter-spacing:.06em}
+.td .td-size-goal-line{font-size:13px;color:#e2e8f0;font-weight:750;line-height:1.35;margin-top:3px}
 .td .td-section-title{font-size:11px;color:#94a3b8;font-weight:850;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px}
 .td .td-why-item{font-size:13px;color:#cbd5e1;margin:4px 0;line-height:1.35}
 .td .td-why-item strong{color:#e2e8f0}
@@ -2324,6 +2446,20 @@ def _render_blocker_taxonomy(card: dict[str, Any]) -> str:
     )
 
 
+def _render_size_to_goal(card: dict[str, Any]) -> str:
+    model = card.get("size_to_goal") or {}
+    line = str(model.get("line") or "").strip()
+    if not line:
+        return ""
+    return (
+        '<div class="td-size-goal">'
+        '<div class="td-size-goal-title">Size to goal with rails</div>'
+        f'<div class="td-size-goal-line">{_esc(line)}</div>'
+        f'<div class="td-blocker-tax-row">{_esc(model.get("honesty_rule") or "")}</div>'
+        '</div>'
+    )
+
+
 def _render_face(
     card: dict[str, Any],
     rank: int,
@@ -2779,6 +2915,7 @@ def _render_card(
         direction=direction,
     ))
     h.append(_render_blocker_taxonomy(card))
+    h.append(_render_size_to_goal(card))
     h.append(_render_gate_notes(card))
     h.append(_render_funding_pair_block(card))
     h.append(_render_fed_day_context_block(card))

@@ -727,6 +727,18 @@ function BlockerTaxonomy({ card }) {
   );
 }
 
+function SizeToGoalRail({ card }) {
+  const model = card.size_to_goal || {};
+  if (!model.line) return null;
+  return (
+    <div style={{ border: "1px solid #1f3b57", borderRadius: 8, background: "#071426", padding: 8, margin: "0 0 8px" }}>
+      <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>Size to goal with rails</div>
+      <div style={{ fontSize: 13, color: "#e2e8f0", fontWeight: 750, lineHeight: 1.35, marginTop: 3 }}>{model.line}</div>
+      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 3 }}>{model.honesty_rule || ""}</div>
+    </div>
+  );
+}
+
 function WhyBreakdown({ display, card, builtDate }) {
   const why = display.why || {};
   const factors = why.decisive_factors || [];
@@ -932,6 +944,7 @@ function Card({ card, rank, checkFirst, railState, setRailState, builtDate }) {
       <div style={{ padding: "10px 12px 12px", borderTop: "1px solid #1e293b", marginTop: 8 }}>
         <DecisionReadout card={card} display={display} posture={posture} checkFirst={scopedCheckFirst} windowClass={win.class} direction={move.direction} />
         <BlockerTaxonomy card={card} />
+        <SizeToGoalRail card={card} />
         <GateNotes card={card} />
         <FundingPairBlock card={card} />
         <FedDayContextBlock card={card} />
