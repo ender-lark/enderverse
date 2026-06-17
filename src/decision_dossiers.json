@@ -3,44 +3,53 @@
   "source": {
     "human_edit_source": "Live Theses Notion data source 0f083d6f-be67-4815-a64a-a21959812f0d",
     "runtime_source": "repo mirror",
-    "sync_status": "manual_seed_pending_notion_sync"
+    "sync_status": "synced_from_verified_connector_fetch",
+    "alert_sequence_note": "Dossier alert/watch wiring is deferred to a follow-up that consumes merged staleness guard PR#57."
   },
   "dossiers": {
     "AVGO": {
       "ticker": "AVGO",
-      "status": "pending_sync",
-      "one_liner": "AVGO dossier mirror pending verified Notion sync; do not treat any read as current.",
-      "notion_url": null,
-      "last_reviewed": null,
+      "status": "stale",
+      "one_liner": "AVGO: Buy-and-Hold / Stable; anchor INTACT. Custom AI silicon leader; Meta/Google/MSFT ASIC contracts; networking + storage software platform. review due 2026-05-27, tactical reads not current.",
+      "notion_url": "https://app.notion.com/p/360c50314bb68150b452e2176b79307f",
+      "last_reviewed": "2026-05-13",
+      "next_review_due": "2026-05-27",
       "synced_at": "2026-06-16",
+      "source_data": {
+        "source": "Live Theses Notion data source 0f083d6f-be67-4815-a64a-a21959812f0d",
+        "factor_bucket": "ai_complex",
+        "anchor_source": "Multiple",
+        "thesis_status": "Stable",
+        "anchor_status": "INTACT"
+      },
       "reads": {
         "edge": {
           "label": "Edge/moat",
-          "text": "UNKNOWN - repo has no verified AVGO moat read yet; sync the Live Theses dossier before using this on a decision card.",
-          "as_of": null,
+          "text": "Buy-and-Hold / Stable thesis; anchor INTACT from Multiple; Custom AI silicon leader; Meta/Google/MSFT ASIC contracts; networking + storage software platform.",
+          "as_of": "2026-05-13",
           "max_age_days": 90,
-          "source": "repo_honesty_seed"
+          "source": "Live Theses: Named Anchor"
         },
         "price": {
           "label": "Good buy price?",
-          "text": "UNKNOWN - no fresh price, valuation, or battery read is mirrored yet.",
+          "text": "UNKNOWN - Live Theses row has no re-entry zone or current valuation read.",
           "as_of": null,
           "max_age_days": 1,
-          "source": "repo_honesty_seed"
+          "source": "Live Theses"
         },
         "timing": {
           "label": "Good timing?",
-          "text": "UNKNOWN - prior AVGO timing catalyst passed; require fresh gate/window/catalyst evidence.",
-          "as_of": "2026-06-05",
+          "text": "UNKNOWN - no forward catalyst is mirrored and thesis review was due 2026-05-27.",
+          "as_of": "2026-05-27",
           "max_age_days": 1,
-          "source": "src/research_queue.json"
+          "source": "Live Theses: Forward Catalyst / Next Review Due"
         },
         "avoid": {
           "label": "What-not / avoid",
-          "text": "UNKNOWN - no operator-confirmed AVGO avoid/falsifier read is mirrored yet.",
-          "as_of": null,
+          "text": "Risks: Custom-silicon vs merchant-silicon competitive dynamics. P-AI-MOMENTUM-EXIT shared. Earnings 6/3 postmarket implied move +/-$40.77 (+/-9.8%). Exit/falsifier: Thesis break: hyperscaler in-housing ASIC capacity displaces AVGO custom silicon at scale. P-AI-MOMENTUM-EXIT 2-of-4 fires. Earnings 6/3: implied move +/-$40.77 (+/-9.8%); pre-earnings IV-crush hedge candidate.",
+          "as_of": "2026-05-13",
           "max_age_days": 90,
-          "source": "repo_honesty_seed"
+          "source": "Live Theses: Active Risks Named / Exit Conditions"
         }
       }
     }

@@ -26,10 +26,29 @@ Latest audit state:
 
 ## Active Slice
 
-No repo build slice is active after the Fundstrat transcript closeout and
-architecture-doc refresh. Future work should start from a fresh completion audit
-or a new explicit user request, then claim a focused row in `docs/WORKBOARD.md`
-before editing shared docs or routine code.
+- `DECISION-DOSSIER-SYNC-V1` is active on branch
+  `codex/decision-dossier-sync-v1` in PR#58.
+- Scope: Live Theses-to-`decision_dossiers.json` sync path, verified AVGO
+  mirror, and tests/docs for the connector-query fallback.
+- Explicit sequencing: dossier alert/watch work is deferred to a follow-up that
+  consumes merged staleness guard PR#57, so alert surfaces do not grow a
+  competing freshness policy.
+
+Future unrelated work should start from a fresh completion audit or a new
+explicit user request, then claim a focused row in `docs/WORKBOARD.md` before
+editing shared docs or routine code.
+
+## 2026-06-16 Decision Dossier Sync
+
+- Added `src/decision_dossier_sync.py` to convert Live Theses rows into the
+  compact runtime dossier mirror.
+- The sync can use the repo Notion API client when `NOTION_API_TOKEN` is
+  present, or a verified connector-fetch snapshot when Notion row-query tooling
+  is unavailable.
+- AVGO now mirrors the verified Live Theses page rather than a placeholder:
+  edge and avoid reads are sourced; price remains not checked; timing remains
+  stale because the review due date passed.
+- Alert/watch routing is intentionally not part of this slice.
 
 ## 2026-06-16 Docs Audit
 

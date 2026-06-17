@@ -175,14 +175,15 @@ def test_avgo_dossier_renders_with_stale_dynamic_reads():
     p = _payload(feed=feed)
     avgo = [c for c in p["cards"] + p["backlog"] if c["ticker"] == "AVGO"][0]
 
-    assert avgo["dossier"]["status"] == "pending_sync"
+    assert avgo["dossier"]["status"] == "stale"
     html = render_today_decide_html(p)
 
     assert "Decision dossier: AVGO" in html
-    assert "AVGO dossier mirror pending verified Notion sync" in html
+    assert "Custom AI silicon leader" in html
+    assert "due: 2026-05-27" in html
     assert "Good buy price? (not_checked):" in html
     assert "Good timing? (stale):" in html
-    assert "UNKNOWN - prior AVGO timing catalyst passed" in html
+    assert "UNKNOWN - no forward catalyst is mirrored" in html
 
 
 def test_conviction_display_payload_contract_for_buy_and_not_checked():

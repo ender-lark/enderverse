@@ -272,7 +272,8 @@ def test_todaydecide_jsx_uses_canonical_card_fields():
     for path in ("sizing.source", "sizing.suggested_usd", "sizing.heat", "sizing.cap_basis"):
         assert path in src, f"TodayDecide.jsx must read {path}"
     for path in ("dossier.reads", "dossier.one_liner", "dossier.notion_url",
-                 "dossier.status", "dossier.last_reviewed", "dossier.synced_at"):
+                 "dossier.status", "dossier.last_reviewed", "dossier.next_review_due",
+                 "dossier.synced_at"):
         assert path in src, f"TodayDecide.jsx must read {path}"
 
 
