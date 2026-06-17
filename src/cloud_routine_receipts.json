@@ -2,68 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:31.905883Z",
-      "summary": "investing-os-uw-opportunity-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-06T02:36:32.063325Z",
-      "summary": "UW opportunity cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "uw opportunity self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "uw_opportunity_scan self-test: PASS",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 40
-            }
-          },
-          {
-            "label": "live source config validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_source_config_update.py",
-              "--validate",
-              "src/live_source_config.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity bundle skipped",
-            "returncode": 0,
-            "optional": true,
-            "check": {
-              "valid": true,
-              "skipped": true,
-              "reason": "tmp/uw/opportunity_bundle.json missing or empty"
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "started",
       "run_source": "manual",
@@ -7307,7 +7245,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T00:51:36.161625Z",
       "summary": "FS inbox catch-up evening ingested 2 entries; logged 4 Newton calls; marker advanced to [06/16/2026 20:25 ET]; flags no direct gate/card contradiction"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T01:16:41.371097Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-17T01:26:06.380876Z",
+      "summary": "checked SEC BMNR/GOOGL/AVGO/MSFT, UW proof, Polymarket/Guardian, Kalshi search; found 3 packets; Notion Signal Log 3 written+verified; repo Signal Log +3 and Event Risk +1; suppressed AVGO/MSFT no-action; dark Social Watch, Kalshi no relevant markets, UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX/RYF flow empty"
     }
   ],
-  "updated_at": "2026-06-17T00:51:36.161625Z"
+  "updated_at": "2026-06-17T01:26:06.380876Z"
 }

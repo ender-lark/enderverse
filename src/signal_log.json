@@ -262,5 +262,29 @@
     "priority": "high",
     "source": "https://app.notion.com/p/381c50314bb681f3996be4d79977b583",
     "note": "Watch-only held-name monitoring. Bitmine announced that its 9.50% Series A preferred began trading on the NYSE on Tuesday, June 16, 2026 under ticker BMNP, and June 16 is also the record date for the second weekly preferred dividend. This changes the live capital-structure surface around the held BMNR common and options."
+  },
+  {
+    "signal": "BMNR June 15 8-K updates ETH treasury and preferred coverage check",
+    "ticker": "BMNR, BMNP, ETH",
+    "date": "2026-06-17",
+    "priority": "high",
+    "source": "https://www.sec.gov/Archives/edgar/data/1829311/000149315226028622/ex99-1.htm",
+    "note": "SEC 8-K exhibit checked 2026-06-17T01:25Z: BMNR reported 5.62M ETH, 4.72M staked ETH, $502M cash/marketable securities, preferred net proceeds about $273.8M, weekly preferred dividends, and projected staking rewards. Mixed watch-only read for BMNR undecided_recheck: supports treasury/staking scale but requires updated mNAV, ETH/share accretion, preferred coverage, and preferred trading yield before any defend/reduce posture changes."
+  },
+  {
+    "signal": "GOOGL stock-plan reserve adds dilution and governance check to dossier",
+    "ticker": "GOOGL, GOOG",
+    "date": "2026-06-17",
+    "priority": "medium",
+    "source": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526267578/d57679d8k.htm",
+    "note": "Alphabet SEC 8-K checked 2026-06-17T01:25Z: annual meeting approved an amended 2021 Stock Plan increasing the Class C reserve by 200M shares; a water-usage-and-AI-development proposal was not approved. Mixed/inconclusive research context for the GOOGL dossier: adds dilution/governance and AI-infrastructure externality checks but does not create an action."
+  },
+  {
+    "signal": "Hormuz markets split: peace odds high but June traffic normalization still unlikely",
+    "ticker": "XOP, XLE, TNX, XLF, SMH, MAGS",
+    "date": "2026-06-17",
+    "priority": "high",
+    "source": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+    "note": "Polymarket/public Gamma checked 2026-06-17T01:25Z: US-Iran peace-by-June market was near 99.85% Yes, while Strait of Hormuz traffic normal-by-June was only about 17.5-18% Yes / 82.5% No. Guardian live report on 2026-06-16 said oil/fuel sales may resume if deal terms hold, including free navigation. Mixed event-risk read: lower immediate war/oil shock but do not clear the oil/rates lane until IMF PortWatch transit calls, WTI/TNX, and shipping/insurance friction confirm."
   }
 ]
