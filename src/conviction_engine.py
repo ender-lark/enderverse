@@ -51,6 +51,10 @@ _EPS = 1e-9
 _BAND_ORDER = {"LOW": 0, "MODERATE": 1, "HIGH": 2}
 _BAND_BY_ORDER = {v: k for k, v in _BAND_ORDER.items()}
 
+CONFLICTED = "CONFLICTED"        # NEW read sentinel (distinct from LOW/NEUTRAL)
+RECHECK = "RE-CHECK"             # NEW direction sentinel (already in decision_card.DIRECTIONS)
+CONFLICT_STRENGTH_5 = 3          # fixed "loud question" rung — module constant, NOT a tunable
+
 def _today(today: str | date | None) -> date:
     if today is None:
         return date.today()
@@ -231,6 +235,36 @@ def _direction_from_points(points: float) -> str:
     if points < -_EPS:
         return "SELL"
     return "NEUTRAL"
+
+def _conflict_sides(
+    groups: dict[str, float],
+    *,
+    force_recheck: bool,
+) -> dict[str, Any]:
+    """Split evidence into non-negative bull/bear MAGNITUDES and decide if the
+    name is in genuine two-sided opposition (a loud QUESTION), distinct from
+    quiet absence. A signed sum hides this; opposed groups never cancel here.
+    """
+    bull_points = round(sum(v for v in groups.values() if v > _EPS), 3)
+    bear_points = round(sum(-v for v in groups.values() if v < -_EPS), 3)
+    bull_groups = sorted(k for k, v in groups.items() if v > _EPS)
+    bear_groups = sorted(k for k, v in groups.items() if v < -_EPS)
+    material_two_sided = bool(bull_groups and bear_groups)
+    # A forced re-check (UW contradicts) is categorical: conflict even if the
+    # contradicting group's points are capped small, or one-sided.
+    conflicted = material_two_sided or force_recheck
+    opposition = round(min(bull_points, bear_points), 3) if material_two_sided else 0.0
+    return {
+        "conflicted": conflicted,
+        "material_two_sided": material_two_sided,
+        "bull_points": bull_points,
+        "bear_points": bear_points,
+        "bull_groups": bull_groups,
+        "bear_groups": bear_groups,
+        "deciding_groups": bull_groups + bear_groups,
+        "opposition_magnitude": opposition,
+        "force_recheck": force_recheck,
+    }
 
 def _layer_settings(weights: dict[str, Any]) -> dict[str, Any]:
     section = weights.get("conviction_layers")
@@ -560,15 +594,24 @@ def conviction_layers(
     goal: dict[str, Any],
     rates: dict[str, Any] | None = None,
     today: str | date | None = None,
+    conflicted: bool = False,
+    signed_total: float | None = None,
 ) -> dict[str, Any]:
     high_min = float(goal["signals_high_min"])
     mod_min = float(goal["signals_mod_min"])
+    name_total = total
+    name_read = read
+    name_direction = direction
+    if conflicted:
+        name_total = signed_total if signed_total is not None else total
+        name_read = CONFLICTED
+        name_direction = RECHECK
     name = _name_layer(
         ticker,
-        total=total,
-        read=read,
+        total=name_total,            # signed under conflict → sign guards work
+        read=name_read,              # CONFLICTED
         strength_5=strength_5,
-        direction=direction,
+        direction=name_direction,    # RE-CHECK
         groups=groups,
         not_checked=not_checked,
         high_min=high_min,
@@ -590,6 +633,13 @@ def conviction_layers(
         high_min=high_min,
         mod_min=mod_min,
     )
+    if conflicted:
+        overall = {
+            **overall,
+            "read": CONFLICTED,
+            "direction": RECHECK,
+            "conflict": overall.get("conflict") or "name-level bull/bear opposition; resolve before sizing",
+        }
     return {
         "mode": _layer_mode(weights),
         "legacy": {
@@ -644,6 +694,25 @@ def conviction_label(action_direction: str, conviction: dict[str, Any]) -> dict[
     strength = int(conviction.get("strength_5") or 1)
     band = str(conviction.get("read") or "LOW").upper()
     ticker = str(conviction.get("ticker") or "").upper()
+
+    if band == "CONFLICTED" or conviction.get("conflicted"):
+        cd = conviction.get("conflict_detail") or {}
+        bull = float(cd.get("bull_points") or 0.0)
+        bear = float(cd.get("bear_points") or 0.0)
+        settle = ", ".join(cd.get("deciding_groups") or []) or "the opposed lanes"
+        if bull > 0 and bear > 0:
+            note = (f"conflicted: bull and bear evidence both live "
+                    f"(+{bull} vs -{bear}); resolve {settle} before sizing")
+        else:
+            note = (f"conflicted: a contradicting signal forces a re-check "
+                    f"(resolve {settle} before sizing)")
+        return {
+            "text": f"Conviction on {ticker}: CONFLICTED — resolve before acting",
+            "x5": int(conviction.get("strength_5") or CONFLICT_STRENGTH_5),
+            "band": "CONFLICTED",
+            "aligned": False,
+            "conflict_note": note,
+        }
 
     aligned = (
         (action == "BUY" and evidence_direction == "BUY")
@@ -712,17 +781,36 @@ def conviction(
         "operator_insight": round(op["points"], 3),
         "institutional": inst["points"],
     }
-    total = round(sum(groups.values()), 3)
+    signed_total = round(sum(groups.values()), 3)
     n_groups = sum(1 for v in groups.values() if v > 0)
 
     high_min = float(goal["signals_high_min"])
     mod_min = float(goal["signals_mod_min"])
-    magnitude = abs(total)
-    read = _read_from_magnitude(magnitude, high_min=high_min, mod_min=mod_min)
-    direction = _direction_from_points(total)
-    strength_5 = _strength_5(
-        magnitude, high_min=high_min, mod_min=mod_min, weights=weights
-    )
+
+    sides = _conflict_sides(groups, force_recheck=uw["force_recheck"])
+    conflicted = sides["conflicted"]
+
+    if conflicted:
+        # First-class CONFLICTED: opposed evidence does NOT cancel into a calm
+        # middling number. `total` becomes the OPPOSITION magnitude (the larger
+        # of the two sides), so priority/sizing see a LOUD number, never zero.
+        # Read is its own band; direction asks plainly (RE-CHECK).
+        total = round(
+            max(sides["opposition_magnitude"], sides["bull_points"], sides["bear_points"]),
+            3,
+        )
+        magnitude = total
+        read = CONFLICTED
+        direction = RECHECK
+        strength_5 = CONFLICT_STRENGTH_5
+    else:
+        total = signed_total
+        magnitude = abs(total)
+        read = _read_from_magnitude(magnitude, high_min=high_min, mod_min=mod_min)
+        direction = _direction_from_points(total)
+        strength_5 = _strength_5(
+            magnitude, high_min=high_min, mod_min=mod_min, weights=weights
+        )
 
     contradictions: list[str] = []
     for s in fs["items"]:
@@ -757,6 +845,7 @@ def conviction(
     return {
         "ticker": tick,
         "points": total,
+        "signed_points": signed_total,
         "magnitude": magnitude,
         "direction": direction,
         "strength_5": strength_5,
@@ -767,12 +856,16 @@ def conviction(
         "group_detail": {"fs": fs, "uw": uw, "operator_insight": op, "institutional": inst},
         "contradictions": contradictions,
         "force_recheck": uw["force_recheck"],
-        "conflicted": _conflicted(
-            direction=direction,
-            fs=fs,
-            groups=groups,
-            force_recheck=uw["force_recheck"],
-        ),
+        "conflicted": conflicted,
+        "conflict_detail": {
+            "bull_points": sides["bull_points"],
+            "bear_points": sides["bear_points"],
+            "bull_groups": sides["bull_groups"],
+            "bear_groups": sides["bear_groups"],
+            "deciding_groups": sides["deciding_groups"],
+            "opposition_magnitude": sides["opposition_magnitude"],
+            "material_two_sided": sides["material_two_sided"],
+        } if conflicted else None,
         "battery": battery_payload,
         "conviction_layers": conviction_layers(
             tick,
@@ -787,6 +880,8 @@ def conviction(
             goal=goal,
             rates=rates,
             today=today,
+            conflicted=conflicted,           # NEW
+            signed_total=signed_total,       # NEW: signed net for the layer math
         ),
         "raises": raises,
         "not_checked": not_checked,
