@@ -31,12 +31,52 @@ import decision_card as dc
 import decision_dossiers as dd
 import execution_plan as ep
 import insight_register as ir
+import sell_gate
 import timing_engine as te
 
 SRC = Path(__file__).resolve().parent
 FEED_PATH = SRC / "latest_cockpit_feed.json"
 THESES_PATH = SRC / "theses.json"
 SOURCE_RATES_PATH = SRC / "source_rates.json"
+SIZING_TUNABLES_PATH = SRC / "sizing_tunables.json"
+
+# Documented default for the operator-tunable sizing dials. Used when
+# src/sizing_tunables.json is absent or unreadable. Conviction LIFT is ON by
+# default (slope 1.0) so the LIVE suggested size follows conviction; every former
+# hard cap is a dial defaulted OFF/generous (soft maxes null, tier ceiling is a
+# soft reference only, sell-gate does not block, no date gate blocks sizing).
+# See the "_doc" block in sizing_tunables.json for the plain-language formula.
+SIZING_TUNABLES_DEFAULT: dict[str, Any] = {
+    "base_size_usd": 25000,
+    "conviction_size_slope": 1.0,
+    "conviction_read_weights": {"HIGH": 1.0, "MODERATE": 0.5, "LOW": 0.0, "CONFLICTED": 0.0},
+    "min_converging_groups": 2,
+    "require_converging_for_lift": True,
+    "max_conviction_strength": 1.0,
+    "per_name_soft_max_usd": None,
+    "concentration_soft_max_pct": None,
+    "tier_ceiling_is_soft_reference": True,
+    "sell_gate_blocks": False,
+    "date_gate_blocks_sizing": False,
+}
+
+
+def load_sizing_tunables(path: Path = SIZING_TUNABLES_PATH) -> dict[str, Any]:
+    """Load the operator-editable sizing dials, falling back to the documented
+    default when the file is absent or unreadable. Unknown keys are passed
+    through (the operator may add notes); the formula reads only the known keys.
+    """
+    cfg = dict(SIZING_TUNABLES_DEFAULT)
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError):
+        return cfg
+    if isinstance(payload, dict):
+        for key, value in payload.items():
+            if key == "_doc":
+                continue
+            cfg[key] = value
+    return cfg
 
 _WINDOW_FACTOR = {"OPEN-NOW": 1.0, "STAGE-ONLY": 0.66, "GATED": 0.33, "WAIT": 0.0}
 
@@ -154,6 +194,89 @@ def _gap_for_ticker(report: csc.ConvictionReport, ticker: str) -> csc.Conviction
                 return gap
     return None
 
+def _range_position_for(feed: dict[str, Any] | None, ticker: str) -> dict[str, Any]:
+    """Return {"near_52wk_low": True|False|"not_checked"} for the sell-gate.
+
+    Today's portfolio rows carry no 52-week range field, so this returns
+    not_checked -> the gate stays NOT_EVALUABLE (honest, never a silent pass or
+    block). When a range source is wired onto feed["range_positions"], it is read.
+    """
+    rp = ((feed or {}).get("range_positions") or {}).get(ticker.upper()) if feed else None
+    if isinstance(rp, dict) and "near_52wk_low" in rp:
+        return {"near_52wk_low": bool(rp["near_52wk_low"])}
+    return {"near_52wk_low": "not_checked"}
+
+def _available_cash(feed: dict[str, Any] | None) -> float | None:
+    """Return a real available-cash / buying-power NUMBER when the account data
+    carries one, else None. Today's positions caches carry no structured cash
+    row (only ``cash: not_checked`` honesty strings), so this returns None and
+    the card honestly shows available_cash=not_checked. When a real number is
+    wired (a top-level ``available_cash``/``buying_power``/``dry_powder_usd`` on
+    the feed or its portfolio_views.combined view), it is surfaced and used for
+    the only non-tunable reality check -- never a hidden block.
+    """
+    if not isinstance(feed, dict):
+        return None
+    candidates: list[Any] = []
+    for key in ("available_cash", "buying_power", "dry_powder_usd", "cash_available_usd"):
+        candidates.append(feed.get(key))
+    combined = (((feed.get("portfolio_views") or {}).get("views") or {}).get("combined") or {})
+    for key in ("available_cash", "buying_power", "dry_powder_usd", "cash_available_usd"):
+        candidates.append(combined.get(key))
+    for value in candidates:
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return max(0.0, float(value))
+    return None
+
+def _conviction_size_strength(conv: dict[str, Any] | None, tunables: dict[str, Any]) -> tuple[float, str]:
+    """Map an HONEST conviction read to a 0..1 LIFT strength + a plain-language
+    reason. Keys off the independence-collapsed, freshness-decayed read the
+    engine already produced (read band, 1..5 strength rung, n_groups convergence,
+    direction) -- never off raw echo or stale counts.
+
+    Returns (strength_0_1, reason). strength is 0.0 (no lift) unless the read is a
+    genuinely converging, non-conflicted, BUY-aligned high/moderate read. A
+    CONFLICTED or non-BUY or single-group read returns 0.0 -- size never lifts on
+    contradicted or faked conviction (F1 honesty preserved here, not as a cap).
+    """
+    if not conv:
+        return 0.0, "no conviction read -- no lift"
+    read = str(conv.get("read") or "LOW").upper()
+    direction = str(conv.get("direction") or "NEUTRAL").upper()
+    conflicted = bool(conv.get("conflicted"))
+    try:
+        strength_5 = int(conv.get("strength_5") or 1)
+    except (TypeError, ValueError):
+        strength_5 = 1
+    try:
+        n_groups = int(conv.get("n_groups") or 0)
+    except (TypeError, ValueError):
+        n_groups = 0
+
+    if conflicted or read == "CONFLICTED":
+        return 0.0, "CONFLICTED read -- routed to RESOLVE, never sized up"
+    if direction != "BUY":
+        return 0.0, f"evidence direction {direction} (not BUY) -- no buy-side lift"
+
+    require_converging = bool(tunables.get("require_converging_for_lift", True))
+    min_groups = int(tunables.get("min_converging_groups", 2) or 0)
+    if require_converging and n_groups < min_groups:
+        return 0.0, f"single-group read ({n_groups} group(s) < {min_groups}) -- not converging, no lift"
+
+    read_weights = tunables.get("conviction_read_weights") or {}
+    read_w = float(read_weights.get(read, 0.0) or 0.0)
+    if read_w <= 0.0:
+        return 0.0, f"{read} read carries no lift weight"
+
+    # strength_5 (1..5) -> 0..1; combine with the read-band weight.
+    rung = max(0.0, min(1.0, (strength_5 - 1) / 4.0))
+    max_strength = float(tunables.get("max_conviction_strength", 1.0) or 1.0)
+    strength = max(0.0, min(max_strength, read_w * (0.5 + 0.5 * rung)))
+    return strength, (
+        f"{read} converging BUY ({strength_5}/5, {n_groups} groups) -> "
+        f"lift strength {strength:.2f}"
+    )
+
 def _caps_sizing(
     *,
     ticker: str,
@@ -163,21 +286,62 @@ def _caps_sizing(
     theses: list[dict[str, Any]],
     macro_pulse: dict[str, Any] | None = None,
     source_rates: dict[str, Any] | None = None,
+    conviction: dict[str, Any] | None = None,
+    tunables: dict[str, Any] | None = None,
+    available_cash: float | None = None,
 ) -> dict[str, Any]:
-    """Return the caps-derived size anchor for a BUY card.
+    """Return the LIVE conviction-driven suggested size for a BUY card.
 
-    The card can still propose a smaller/larger staged trade. This object makes
-    the tier-band cap visible before the operator accepts the notional anchor.
+    SIZING FORMULA (operator-tunable; dials in src/sizing_tunables.json):
+      1. base = proposed dollars from the reallocation brief (the existing anchor);
+         when that is zero, fall back to ``base_size_usd``.
+      2. LIFT: an HONEST high-conviction, converging, non-conflicted, BUY-aligned
+         read multiplies the size by ``1 + conviction_size_slope * strength`` where
+         strength in 0..1 comes from the read band, the 1..5 rung, and convergence
+         (_conviction_size_strength). A conflicted / non-BUY / single-group read
+         yields strength 0 -> multiplier 1.0 -> NO lift. Size never rises on
+         contradicted or faked conviction (F1 honesty, enforced here -- not a cap).
+      3. NO HARD CAP. The former hard limits (static TIER_BANDS ceiling, the
+         concentration cap, and the cap_room clamp) are REMOVED as limits. The tier
+         ceiling is carried as a SOFT REFERENCE for context only. Optional dials
+         ``per_name_soft_max_usd`` / ``concentration_soft_max_pct`` (default null
+         = off) hold the size at a visible soft max and STATE the original lifted
+         number; they never silently clamp.
+      4. CASH REALITY (only non-tunable): when a real available-cash number exists,
+         show it and flag ``exceeds_cash`` if the size is larger -- a NUMBER, never
+         a hidden block. Absent that data, show available_cash=not_checked.
     """
+    cfg = tunables if isinstance(tunables, dict) else load_sizing_tunables()
     tick = ticker.upper()
     proposed = max(0.0, float(proposed_usd or 0.0))
+    base_size = float(cfg.get("base_size_usd", 0.0) or 0.0)
+    base = proposed if proposed > 0 else base_size
+    slope = float(cfg.get("conviction_size_slope", 0.0) or 0.0)
+    strength, lift_reason = _conviction_size_strength(conviction, cfg)
+    lift_mult = 1.0 + slope * strength
+    lifted = base * lift_mult
+
     if book <= 0:
+        # No book value: still apply the conviction lift to the dollar anchor; the
+        # tier-band reference needs book, so it is simply not_checked here.
+        suggested, soft_seg = _apply_soft_maxes(lifted, current=0.0, book=0.0, cfg=cfg)
+        cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
+        heat = "CONVICTION_LIFTED" if lift_mult > 1.0 else "not_checked"
         return {
-            "suggested_usd": round(proposed, 2),
+            "suggested_usd": round(suggested, 2),
             "source": "caps",
-            "heat": "not_checked",
-            "cap_basis": "caps not checked - portfolio book value unavailable",
+            "heat": heat,
+            "cap_basis": (
+                f"conviction-driven size: base ${base:,.0f} x {lift_mult:.2f} "
+                f"({lift_reason}) = ${lifted:,.0f}; tier band not_checked "
+                f"(portfolio book value unavailable){soft_seg}{cash_seg}"
+            ),
+            "size_lift_mult": round(lift_mult, 4),
+            "size_lift_strength": round(strength, 4),
+            "available_cash": cash_value,
+            "exceeds_cash": exceeds_cash,
         }
+
     current = _current_value(positions, tick)
     sizing_positions = list(positions)
     if not any(str(row.get("ticker") or "").upper() == tick for row in sizing_positions):
@@ -191,40 +355,125 @@ def _caps_sizing(
     )
     gap = _gap_for_ticker(report, tick)
     if not gap:
+        suggested, soft_seg = _apply_soft_maxes(lifted, current=current, book=book, cfg=cfg)
+        cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
+        heat = "CONVICTION_LIFTED" if lift_mult > 1.0 else "not_checked"
         return {
-            "suggested_usd": round(proposed, 2),
+            "suggested_usd": round(suggested, 2),
             "source": "caps",
-            "heat": "not_checked",
-            "cap_basis": f"caps not checked - calibrator emitted no row for {tick}",
+            "heat": heat,
+            "cap_basis": (
+                f"conviction-driven size: base ${base:,.0f} x {lift_mult:.2f} "
+                f"({lift_reason}) = ${lifted:,.0f}; tier band not_checked "
+                f"(calibrator emitted no row for {tick}){soft_seg}{cash_seg}"
+            ),
+            "size_lift_mult": round(lift_mult, 4),
+            "size_lift_strength": round(strength, 4),
+            "available_cash": cash_value,
+            "exceeds_cash": exceeds_cash,
         }
-    ceiling_value = gap.ceiling_pct * book
+
+    ceiling_value = gap.ceiling_pct * book  # SOFT reference only -- no longer clamps
     floor_value = gap.floor_pct * book
-    cap_room = max(0.0, ceiling_value - current)
-    suggested = min(proposed, cap_room)
+    cap_room = max(0.0, ceiling_value - current)  # context number, not a limit
+
+    suggested, soft_seg = _apply_soft_maxes(lifted, current=current, book=book, cfg=cfg)
+    cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
+
+    # Heat now signals the conviction lift + soft-reference context, never a hard
+    # cap. A conflicted card is sized at base (no lift) and routed to RESOLVE
+    # upstream; we surface CONFLICTED_FLOOR so it never reads as a calm full buy.
     heat = gap.classification
     if "monitor_suppressed" in gap.flags:
         heat = "MONITOR_SUPPRESSED"
-    elif cap_room <= 0:
-        heat = "ABOVE_CAP"
-    elif suggested < proposed:
-        heat = "CAP_CLIPPED"
+    elif (conviction or {}).get("conflicted"):
+        heat = "CONFLICTED_FLOOR"
+    elif lift_mult > 1.0:
+        heat = "CONVICTION_LIFTED"
+    elif soft_seg:
+        heat = "SOFT_MAX_HELD"
+
     flags = f"; flags {', '.join(gap.flags)}" if gap.flags else ""
     macro = f"; urgency {gap.macro_urgency}" if gap.macro_urgency != "NORMAL" else ""
+    soft_ref = "soft" if cfg.get("tier_ceiling_is_soft_reference", True) else "hard"
     return {
         "suggested_usd": round(suggested, 2),
         "source": "caps",
         "heat": heat,
         "cap_basis": (
+            f"conviction-driven size: base ${base:,.0f} x {lift_mult:.2f} "
+            f"({lift_reason}) = ${lifted:,.0f}; "
             f"{gap.tier} floor {gap.floor_pct * 100:.1f}% (${floor_value:,.0f}) / "
-            f"ceiling {gap.ceiling_pct * 100:.1f}% (${ceiling_value:,.0f}); "
+            f"ceiling {gap.ceiling_pct * 100:.1f}% (${ceiling_value:,.0f}, {soft_ref} reference); "
             f"current {gap.current_pct * 100:.1f}% (${current:,.0f}); "
-            f"cap room ${cap_room:,.0f}; floor gap ${gap.gap_to_floor_value:,.0f}"
-            f"{macro}{flags}"
+            f"cap room ${cap_room:,.0f} (context, not a limit); "
+            f"floor gap ${gap.gap_to_floor_value:,.0f}"
+            f"{macro}{flags}{soft_seg}{cash_seg}"
         ),
         "current_pct": round(gap.current_pct * 100.0, 3),
         "floor_pct": round(gap.floor_pct * 100.0, 3),
         "ceiling_pct": round(gap.ceiling_pct * 100.0, 3),
+        "size_lift_mult": round(lift_mult, 4),
+        "size_lift_strength": round(strength, 4),
+        "cap_room": round(cap_room, 2),
+        "available_cash": cash_value,
+        "exceeds_cash": exceeds_cash,
     }
+
+
+def _apply_soft_maxes(
+    lifted: float, *, current: float, book: float, cfg: dict[str, Any]
+) -> tuple[float, str]:
+    """Apply OPTIONAL soft-max dials. Returns (held_size, note_segment). When a
+    dial is null/absent it does nothing. When a dial bites, the size is held at
+    the soft max and the note states the original lifted number -- visible, never
+    a silent clamp.
+    """
+    held = lifted
+    notes: list[str] = []
+    per_name = cfg.get("per_name_soft_max_usd")
+    if isinstance(per_name, (int, float)) and not isinstance(per_name, bool) and per_name >= 0:
+        if held > float(per_name):
+            notes.append(
+                f"per-name soft max ${float(per_name):,.0f} held the ${lifted:,.0f} lift"
+            )
+            held = float(per_name)
+    conc = cfg.get("concentration_soft_max_pct")
+    if (
+        isinstance(conc, (int, float))
+        and not isinstance(conc, bool)
+        and conc >= 0
+        and book > 0
+    ):
+        conc_cap_value = max(0.0, (float(conc) / 100.0) * book - current)
+        if held > conc_cap_value:
+            notes.append(
+                f"concentration soft max {float(conc):.1f}% (${conc_cap_value:,.0f} room) "
+                f"held the ${lifted:,.0f} lift"
+            )
+            held = conc_cap_value
+    seg = f"; {'; '.join(notes)}" if notes else ""
+    return max(0.0, held), seg
+
+
+def _cash_reality(
+    suggested: float, available_cash: float | None
+) -> tuple[str, bool, Any]:
+    """The only non-tunable reality: never SUGGEST more than real available cash
+    when that number exists -- but surface it as a NUMBER, never a hidden block.
+    Returns (note_segment, exceeds_cash_bool, cash_value_for_payload).
+    """
+    if available_cash is None:
+        return "; available cash not_checked", False, "not_checked"
+    exceeds = suggested > available_cash
+    if exceeds:
+        return (
+            f"; available cash ${available_cash:,.0f} -- suggested EXCEEDS available "
+            f"cash by ${suggested - available_cash:,.0f} (size by hand to cash)",
+            True,
+            round(float(available_cash), 2),
+        )
+    return f"; available cash ${available_cash:,.0f}", False, round(float(available_cash), 2)
 
 def build_directive_cards(
     *,
@@ -260,6 +509,9 @@ def build_directive_cards(
     theses_for_sizing = _load_theses()
     source_rates_for_sizing = rates if isinstance(rates, dict) else _load_source_rates()
     macro_for_sizing = _macro_for_sizing(feed)
+    sizing_tunables = load_sizing_tunables()
+    available_cash = _available_cash(feed)
+    sell_gate_blocks = bool(sizing_tunables.get("sell_gate_blocks", False))
     blend = weights.get("priority_blend", {})
     cap_w = float(blend.get("capital_priority_weight", 1.0))
     conv_w = float(blend.get("conviction_weight", 25.0))
@@ -342,6 +594,9 @@ def build_directive_cards(
             theses=theses_for_sizing,
             macro_pulse=macro_for_sizing,
             source_rates=source_rates_for_sizing,
+            conviction=conv,
+            tunables=sizing_tunables,
+            available_cash=available_cash,
         )
         move = {
             "ticker": ticker,
@@ -452,6 +707,20 @@ def build_directive_cards(
                 "impact": impact,
             },
         )
+        # ---- Rail B sell-gate: a VISIBLE FLAG, not a hard block (dial-driven) ----
+        thesis = csc._lookup_thesis(ticker, theses_for_sizing)
+        gate = sell_gate.evaluate_sell_gate(
+            ticker=ticker,
+            direction=move["direction"],
+            thesis=thesis,
+            range_position=_range_position_for(feed, ticker),
+            next_catalyst=(thesis or {}).get("next_catalyst"),
+            funding_tier=row.get("funding_tier"),
+            thesis_break=row.get("thesis_break"),
+            blocks=sell_gate_blocks,
+        )
+        card["sell_gate"] = gate  # additive field -- render reads it; NOT priority_note
+
         base = goal_scores.get(ticker, 45.0)
         if conv.get("conflicted"):
             # conv["points"] is now a POSITIVE opposition magnitude; the old
@@ -466,9 +735,19 @@ def build_directive_cards(
         raw_priority = round(
             cap_w * base + conv_lift + win_w * _WINDOW_FACTOR[window["class"]], 1
         )
+        # priority_note precedence: the funding-salience note wins (preserves
+        # existing behavior); a sell-gate note only attaches when there is no
+        # salience note. The gate FLAGs by default (never blocks) unless the
+        # operator turns the sell_gate_blocks dial on.
         if _funding_only_low_salience(card):
             card["priority"] = min(raw_priority, 9.0)
             card["priority_note"] = "funding-only immaterial leg; pair with funded add, never hero-ranked"
+        elif gate["verdict"] == sell_gate.BLOCK:
+            card["priority"] = min(raw_priority, 9.0)
+            card["priority_note"] = (
+                "sell-gate BLOCK: live thesis at/near low -- needs explicit "
+                "thesis-break (sell_gate_blocks dial ON)"
+            )
         else:
             card["priority"] = raw_priority
         if conv.get("conflicted"):
@@ -485,6 +764,7 @@ def build_directive_cards(
         if direction in {"BUY", "ADD"} and not card.get("sizing"):
             ticker = str(card.get("ticker") or "").upper()
             dollars = float(card.get("dollars") or card.get("notional_usd") or 0.0)
+            conv_extra = card.get("conviction") or _conviction(ticker)
             card["sizing"] = _caps_sizing(
                 ticker=ticker,
                 proposed_usd=dollars,
@@ -493,6 +773,9 @@ def build_directive_cards(
                 theses=theses_for_sizing,
                 macro_pulse=macro_for_sizing,
                 source_rates=source_rates_for_sizing,
+                conviction=conv_extra,
+                tunables=sizing_tunables,
+                available_cash=available_cash,
             )
         if "priority" not in card:
             ticker = str(card.get("ticker") or "").upper()

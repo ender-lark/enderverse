@@ -727,6 +727,18 @@ def test_build_conviction_display_marks_conflicted():
     assert "resolve" in str(display["conflict"]).lower()
 
 
+def test_f2_conflicted_card_is_not_sized_up_and_still_resolves():
+    # F2 lane-boundary contract: a genuinely conflicted card carries a sizing
+    # heat that never reads as a calm full buy, and it still routes to RESOLVE
+    # (the conflict, not the sizing heat, drives the state). It is NOT sized up.
+    p = _conflicted_payload()
+    googl = _conflicted_googl(p)
+    sizing = googl.get("sizing") or {}
+    assert sizing.get("heat") == "CONFLICTED_FLOOR"
+    assert sizing.get("size_lift_mult") == 1.0  # never lifted on conflict
+    assert googl["command_state"] == "RESOLVE"
+
+
 def test_conflicted_card_excluded_from_lean_in():
     # lean-in-ready requires no display.conflict; a conflicted card always sets it.
     p = _conflicted_payload()
