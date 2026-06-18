@@ -2691,6 +2691,181 @@ def _first_viewport_model(
     }
 
 
+def _account_placement_text(ap: Any) -> str:
+    if not isinstance(ap, dict):
+        return ""
+    owner = str(ap.get("owner") or "").strip()
+    broker = str(ap.get("broker") or "").strip()
+    account = str(ap.get("account") or "").strip()
+    # the engine account string occasionally repeats the account token; collapse it
+    if account:
+        half = len(account) // 2
+        if account[:half].strip() and account[:half].strip() == account[half:].strip():
+            account = account[:half].strip()
+        else:
+            seen: list[str] = []
+            for tok in account.split():
+                if not seen or seen[-1] != tok:
+                    seen.append(tok)
+            account = " ".join(seen)
+    head = " ".join(p for p in (owner, broker) if p)
+    if head and account:
+        return f"{head} — {account}"
+    return head or account or str(ap.get("label") or "").strip()
+
+
+def _build_trade_plan(feed: dict[str, Any]) -> dict[str, Any]:
+    """Display-only trade-plan content lifted from ``reallocation_brief`` so the hero
+    and next-move faces can render in the operator's trade-plan format. No ranking or
+    sizing computed here — the values are the engine's own brief rows."""
+    rb = feed.get("reallocation_brief") or {}
+    moves: dict[str, dict[str, Any]] = {}
+    for r in rb.get("rows") or []:
+        if not isinstance(r, dict):
+            continue
+        tk = str(r.get("ticker") or "").upper()
+        if not tk:
+            continue
+        moves[tk] = {
+            "action": str(r.get("action") or ""),
+            "notional_usd": _coerce_money(r.get("notional_usd")),
+            "current_pct": _coerce_float(r.get("current_pct")),
+            "target_pct": _coerce_float(r.get("target_pct")),
+            "funded_by": [
+                {"ticker": str(f.get("ticker") or "").upper(), "notional_usd": _coerce_money(f.get("notional_usd"))}
+                for f in (r.get("funded_by") or []) if isinstance(f, dict)
+            ],
+            "rationale": str(r.get("rationale") or ""),
+            "entry_note": str(r.get("entry_note") or ""),
+            "gate": str(r.get("gate") or ""),
+            "gate_reason": str(r.get("gate_reason") or ""),
+            "caveats": [str(c) for c in (r.get("caveats") or []) if c],
+            "blockers": [str(b) for b in (r.get("blockers") or []) if b],
+            "disconfirmation": str(r.get("disconfirmation") or ""),
+            "account": _account_placement_text(r.get("account_placement")),
+            "rank": r.get("rank"),
+            "sequence": str(r.get("sequence") or ""),
+        }
+    trims: dict[str, dict[str, Any]] = {}
+    for t in rb.get("trims") or []:
+        if not isinstance(t, dict):
+            continue
+        tk = str(t.get("ticker") or "").upper()
+        if not tk:
+            continue
+        trims[tk] = {
+            "notional_usd": _coerce_money(t.get("notional_usd")),
+            "current_pct": _coerce_float(t.get("current_pct")),
+            "target_pct": _coerce_float(t.get("target_pct")),
+            "funds": [
+                {"ticker": str(f.get("ticker") or "").upper(), "notional_usd": _coerce_money(f.get("notional_usd"))}
+                for f in (t.get("funds") or []) if isinstance(f, dict)
+            ],
+        }
+    return {
+        "moves": moves,
+        "trims": trims,
+        "status": str(rb.get("status") or ""),
+        "positions_as_of": rb.get("positions_snapshot_date"),
+    }
+
+
+def _load_sizing_tunables(path: Path | str | None = None) -> dict[str, Any]:
+    """Operator-tunable sizing dials (F2). RENDER-IF-PRESENT: returns ``{}`` until
+    the engine (F2) lands ``src/sizing_tunables.json``. The render NEVER authors this
+    schema or computes a size — it only DISPLAYS the dials and persists operator edits."""
+    p = Path(path) if path is not None else (SRC / "sizing_tunables.json")
+    if not p.exists():
+        return {}
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _good_price_trusted(source_tags: Any, summary: Any) -> bool:
+    blob = " ".join(str(t) for t in (source_tags or [])).lower() + " " + str(summary or "").lower()
+    return any(k in blob for k in ("fundstrat", "top-list", "top list", "trusted", "analyst"))
+
+
+def _build_good_price_tier(
+    watch_queue: list[dict[str, Any]],
+    fed_day_state: dict[str, Any],
+    exclude_tickers: set[str] | None,
+) -> dict[str, Any]:
+    """Shape the good-price / lower-conviction tier (display-only) from the fed-day
+    pullback queue, enriched with 52-week-high context from the packet. Excludes any
+    ticker already leading as a funded move so the tier never duplicates a hero/face.
+    No scoring/ranking here — impact is the packet's already-computed discount-priority
+    score, surfaced honestly as "worth a look," never a buy signal."""
+    packet = (fed_day_state or {}).get("packet") or {}
+    freshness = str((fed_day_state or {}).get("freshness") or "absent")
+    pidx: dict[str, dict[str, Any]] = {}
+    for sect in ("higher_quality_pullbacks", "deep_discount_research", "act_if_green"):
+        for r in packet.get(sect) or []:
+            if isinstance(r, dict):
+                tk = str(r.get("ticker") or "").upper()
+                if tk and tk not in pidx:
+                    pidx[tk] = r
+    screen = packet.get("watchlist_discount_screen") or {}
+    screen_count = int(screen.get("row_count") or len(screen.get("rows") or []))
+    exclude = {str(t).upper() for t in (exclude_tickers or set())}
+    higher: list[dict[str, Any]] = []
+    deep: list[dict[str, Any]] = []
+    for row in watch_queue or []:
+        tk = str(row.get("ticker") or "").upper()
+        if not tk or tk in exclude:
+            continue
+        praw = pidx.get(tk, {})
+        research = str(row.get("research_status") or praw.get("research_status") or "").strip()
+        section = str(row.get("section") or "")
+        is_deep = (row.get("bucket") == 2) or section == "deep_discount_research" or research.upper() == "MONITOR"
+        exposure_usd = _coerce_money(row.get("current_exposure_usd"))
+        if exposure_usd is None:
+            exposure_usd = _coerce_money(praw.get("current_exposure_usd"))
+        exposure_pct = _coerce_float(praw.get("current_exposure_pct"))
+        shaped = {
+            "ticker": tk,
+            "tier": "deep" if is_deep else "higher",
+            "label": str(row.get("label") or "Pullback"),
+            "impact": row.get("impact_score"),
+            "pct_below_high": _coerce_float(row.get("pct_below_high")),
+            "price": _coerce_float(row.get("price")),
+            "fifty_two_week_high": _coerce_float(praw.get("fifty_two_week_high")),
+            "high_date": str(praw.get("high_date") or ""),
+            "exposure_usd": exposure_usd,
+            "exposure_pct": exposure_pct,
+            "disconfirmation": str(row.get("disconfirmation") or ""),
+            "research_status": research,
+            "source_tags": [str(t) for t in (row.get("source_tags") or []) if t],
+            "summary": str(row.get("summary") or ""),
+            "trusted": _good_price_trusted(row.get("source_tags"), row.get("summary")),
+            "monitor": research.upper() == "MONITOR",
+            "freshness": str(row.get("freshness") or freshness),
+        }
+        meaningful = (exposure_pct is not None and exposure_pct >= 3.0) or (
+            exposure_usd is not None and exposure_usd >= 60000)
+        if meaningful:
+            shaped["sellgate_note"] = (
+                "already a meaningful position — hold/monitor; do not sell a live "
+                "thesis into weakness, and a discount alone is not a fresh add (sell-gate doctrine)")
+        (deep if is_deep else higher).append(shaped)
+    deep_visible = deep[:2]
+    deep_more = deep[2:]
+    return {
+        "freshness": freshness,
+        "packet_as_of": (fed_day_state or {}).get("packet_as_of"),
+        "caption": str((fed_day_state or {}).get("caption") or ""),
+        "honesty": str((fed_day_state or {}).get("honesty") or ""),
+        "higher": higher,
+        "deep_visible": deep_visible,
+        "deep_more": deep_more,
+        "deep_more_tickers": [r["ticker"] for r in deep_more],
+        "screen_count": screen_count,
+    }
+
+
 def build_today_decide_payload(
     *,
     feed: dict[str, Any] | None = None,
@@ -2796,6 +2971,15 @@ def build_today_decide_payload(
             honesty.setdefault(f"orphan_wiring_{key}", value)
     rb = feed.get("reallocation_brief") or {}
     funding = stack.get("funding") or {}
+    # Good-price / lower-conviction tier (display-only) sourced from the fed-day
+    # pullback packet. Exclude tickers that already lead as funded moves so the
+    # tier never duplicates a hero/next-move card.
+    move_tickers = {str(c.get("ticker") or "").upper() for c in all_cards
+                    if _is_material(c) and not _is_funding_leg(c)}
+    move_tickers |= {str(r.get("ticker") or "").upper() for r in (rb.get("rows") or [])}
+    good_price_tier = _build_good_price_tier(watch_queue, fed_day_state, move_tickers)
+    trade_plan = _build_trade_plan(feed)
+    sizing_tunables = _load_sizing_tunables()
     return {
         "built": today_iso,
         "goal_anchor": goal_anchor,
@@ -2825,6 +3009,9 @@ def build_today_decide_payload(
         "fed_day_do_not_touch": [
             str(row) for row in ((fed_day_state.get("packet") or {}).get("do_not_touch_yet") or []) if row
         ],
+        "good_price_tier": good_price_tier,
+        "trade_plan": trade_plan,
+        "sizing_tunables": sizing_tunables,
         "congruence": congruence_result,
         "honesty": honesty,
     }
@@ -3020,6 +3207,113 @@ _CSS = """
 .td .td-cong{font-size:13px;margin:3px 0}
 .td .td-honesty{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#94a3b8;
   border-top:1px solid #1e293b;margin-top:12px;padding-top:8px}
+
+/* ===== RENDER-REDESIGN: decision-led surface (2026-06-18) ===== */
+/* freshness chip + section leads */
+.td .td-fresh{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:#94a3b8;
+  border:1px solid #243044;background:#0b1220;border-radius:10px;padding:9px 12px;margin:4px 0 8px}
+.td .td-fresh b{color:#e2e8f0}
+.td .td-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.td .td-dot-g{background:#34d399} .td .td-dot-a{background:#f5b955}
+.td .td-fresh .td-warn{color:#f5b955}
+.td .td-sectlead{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8;
+  font-weight:850;margin:22px 2px 9px}
+.td .td-sectlead .td-q{color:#64748b;text-transform:none;letter-spacing:0;font-weight:400;font-size:12px}
+/* HERO move card */
+.td .td-hero{border:1px solid #2b4a86;background:linear-gradient(180deg,#10203c,#0f1828);
+  border-radius:14px;padding:16px 16px 14px;box-shadow:0 0 0 1px #18305c inset;margin:0 0 12px}
+.td .td-hero-kicker{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5b9cff;font-weight:800;margin-bottom:6px}
+.td .td-hl{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.td .td-verb{font-weight:850;font-size:15px;letter-spacing:.04em;color:#34d399}
+.td .td-verb-sell{color:#f87171}
+.td .td-tk{font-weight:850;font-size:28px;letter-spacing:.5px;color:#f8fafc}
+.td .td-amt{font-weight:850;font-size:28px;color:#f8fafc}
+.td .td-hero-sub{color:#9fb0c7;font-size:13px;margin-top:3px}
+.td .td-kv{display:grid;grid-template-columns:104px 1fr;gap:6px 12px;margin-top:13px;font-size:14px}
+.td .td-kv .td-k{color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.td .td-kv .td-v{color:#e8eef7;line-height:1.4} .td .td-kv .td-v .td-tag{color:#9fb0c7}
+.td .td-gate-chip{display:inline-flex;align-items:center;gap:6px;border-radius:7px;padding:3px 8px;font-size:12px;font-weight:650}
+.td .td-gate-amber{background:rgba(245,185,85,.13);color:#f5b955;border:1px solid rgba(245,185,85,.32)}
+.td .td-gate-green{background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.3)}
+.td .td-gate-red{background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.32)}
+.td .td-caveat{margin-top:11px;font-size:13px;color:#f5b955;background:rgba(245,185,85,.07);
+  border:1px solid rgba(245,185,85,.18);border-radius:9px;padding:8px 11px}
+.td .td-caveat b{color:#ffd479}
+/* DO IT / STAGE / PASS rail (these buttons KEEP class td-rail for the disposition wiring + parity) */
+.td .td-actionrail{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center}
+.td .td-rail.td-do{background:#10391f;border-color:#1e6b3a;color:#d7ffe6;font-weight:750}
+.td .td-rail.td-do.td-on{background:#16a34a;color:#04140a}
+.td .td-rail.td-stage{background:#2c2410;border-color:#6b551e;color:#ffeccb;font-weight:700}
+.td .td-rail.td-stage.td-on{background:#d6a93a;color:#1b1404}
+.td .td-rail.td-pass{background:#1a1320;border-color:#4a3a5a;color:#e9d7ff;font-weight:700}
+.td .td-rail.td-pass.td-on{background:#7c5bd0;color:#0c0717}
+/* good-but-gated primary: reads as a confident "do it", with the final check flagged */
+.td .td-rail.td-docheck{background:#11341f;border:1px solid #2f7d4a;color:#d7ffe6;font-weight:750}
+.td .td-rail.td-docheck:hover{background:#155029}
+.td .td-rail.td-docheck.td-on{background:#16a34a;color:#04140a}
+.td .td-finalcheck{margin-top:13px;font-size:13px;color:#cfe8d6;background:rgba(52,211,153,.06);
+  border:1px solid rgba(52,211,153,.26);border-radius:10px;padding:9px 12px;line-height:1.45}
+.td .td-finalcheck b{color:#86efac}
+.td .td-finalcheck ul{margin:6px 0 6px;padding-left:20px} .td .td-finalcheck li{margin:2px 0;color:#e8eef7}
+.td .td-finalcheck.td-cleared{color:#bbf7d0;background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.4)}
+.td .td-fb{margin-top:9px;font-size:12.5px;color:#34d399;min-height:17px}
+.td .td-fb.td-fb-muted{color:#64748b}
+/* ask / comment + notes */
+.td details.td-ask,.td details.td-evi{margin-top:12px;border-top:1px solid #243044;padding-top:9px}
+.td details.td-ask>summary,.td details.td-evi>summary{cursor:pointer;color:#9fb0c7;font-size:12.5px;list-style:none}
+.td details.td-ask>summary::-webkit-details-marker,.td details.td-evi>summary::-webkit-details-marker{display:none}
+.td details.td-ask>summary:before{content:"\1f4ac  ask / comment on this card";color:#5b9cff}
+.td details.td-evi>summary:before{content:"\25b8  evidence / what could make this wrong";color:#64748b}
+.td details.td-evi[open]>summary:before{content:"\25be  evidence / what could make this wrong";color:#64748b}
+.td .td-ask textarea{width:100%;margin-top:8px;background:#0a1322;border:1px solid #243044;border-radius:8px;
+  color:#e8eef7;font:inherit;font-size:13px;padding:8px 10px;resize:vertical;min-height:50px;box-sizing:border-box}
+.td .td-askrow{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.td .td-mini{appearance:none;border:1px solid #334155;background:#131f33;color:#e8eef7;font-weight:650;
+  font-size:12px;border-radius:8px;padding:6px 11px;cursor:pointer}
+.td .td-mini:hover{border-color:#33507f}
+.td .td-askfb{font-size:12px;color:#64748b} .td .td-askfb.td-ok{color:#34d399} .td .td-askfb.td-warn{color:#f5b955}
+.td .td-notes{margin-top:8px}
+.td .td-note{font-size:12px;color:#9fb0c7;background:#0a1322;border:1px solid #243044;border-radius:8px;
+  padding:6px 9px;margin-top:6px}
+/* sizing transparency panel */
+.td .td-sizing{border:1px solid #1f3b57;border-radius:9px;background:#071426;padding:10px 11px;margin:12px 0 0}
+.td .td-sizing-title{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:850;letter-spacing:.06em}
+.td .td-sizing-live{font-size:18px;color:#f8fafc;font-weight:850;margin:4px 0 2px}
+.td .td-sizing-note{font-size:12px;color:#9fb0c7;line-height:1.4;margin-top:3px}
+.td .td-sizing-formula{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#cbd5e1;
+  background:#0a1322;border:1px solid #243044;border-radius:7px;padding:7px 9px;margin-top:7px;line-height:1.5}
+.td .td-dialrow{display:grid;grid-template-columns:160px 1fr 86px;gap:8px 10px;align-items:center;margin-top:8px}
+.td .td-dial-label{font-size:12px;color:#cbd5e1} .td .td-dial-label i{font-style:normal;color:#64748b;font-size:11px}
+.td .td-dial input[type=range]{width:100%}
+.td .td-dial-val{font-size:12.5px;color:#f8fafc;font-weight:700;text-align:right}
+/* good price / lower conviction tier */
+.td .td-tiernote{font-size:12.5px;color:#9fb0c7;margin:0 2px 6px;line-height:1.5}
+.td .td-tiernote b{color:#f5b955}
+.td details.td-opp{border:1px solid #243044;border-left:3px solid #3a5560;background:rgba(255,255,255,.012);border-radius:10px;margin-top:7px}
+.td details.td-opp.td-opp-deep{border-left-color:#5a3a3a}
+.td summary.td-oppsum{cursor:pointer;list-style:none;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:9px 12px;font-size:13px}
+.td summary.td-oppsum::-webkit-details-marker{display:none}
+.td .td-otk{font-weight:850;font-size:15px;min-width:48px;color:#f8fafc}
+.td .td-m{display:flex;flex-direction:column;line-height:1.15;cursor:help}
+.td .td-m .td-val{color:#e8eef7}
+.td .td-m.td-disc .td-val{color:#f5b955;font-weight:650}
+.td .td-m.td-imp .td-val{color:#9fb0c7}
+.td .td-m i{font-style:normal;font-size:9.5px;letter-spacing:.03em;color:#64748b;text-transform:uppercase;margin-top:1px}
+.td .td-caret{margin-left:auto;color:#64748b;font-size:11.5px}
+.td details.td-opp[open] .td-caret:after{content:" \25be"} .td details.td-opp:not([open]) .td-caret:after{content:" \25b8"}
+.td .td-stat{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#0b1220;background:#9fb0c7;border-radius:4px;padding:1px 5px;font-weight:750;align-self:center}
+.td .td-oppbody{padding:2px 13px 12px;font-size:12.5px;color:#9fb0c7;border-top:1px solid #243044}
+.td .td-oppbody>div{margin:8px 0} .td .td-oppbody b{color:#e8eef7;font-weight:600}
+.td .td-askmini textarea{width:100%;margin-top:4px;background:#0a1322;border:1px solid #243044;border-radius:8px;color:#e8eef7;font:inherit;font-size:12.5px;padding:7px 9px;min-height:40px;resize:vertical;box-sizing:border-box}
+.td .td-screenline{font-size:12.5px;color:#64748b;margin:12px 2px 0;line-height:1.5}
+.td .td-screenline b{color:#9fb0c7}
+/* collapsed machinery */
+.td details.td-machine{margin-top:22px;border:1px dashed #243044;border-radius:12px;background:rgba(255,255,255,.012)}
+.td details.td-machine>summary{cursor:pointer;color:#64748b;font-size:12.5px;padding:12px 14px;list-style:none}
+.td details.td-machine>summary::-webkit-details-marker{display:none}
+.td details.td-machine>summary:before{content:"\25b8  "} .td details.td-machine[open]>summary:before{content:"\25be  "}
+.td .td-machinebody{padding:0 14px 14px}
+.td .td-dechist{font-size:12px;color:#94a3b8;line-height:1.4;margin-top:9px}
 @media (max-width: 620px){
   .td{padding:12px}
   .td .td-anchor{font-size:16px}
@@ -3033,12 +3327,18 @@ _CSS = """
   .td .td-face-right{justify-content:flex-start;margin-top:7px}
   .td .td-face-title{font-size:18px}
   .td .td-readout-grid{grid-template-columns:1fr}
+  .td .td-tk,.td .td-amt{font-size:23px}
+  .td .td-kv{grid-template-columns:1fr}
+  .td .td-kv .td-k{padding-top:6px}
+  .td .td-dialrow{grid-template-columns:1fr 1fr}
 }
 </style>
 """
 
 _JS = """
 <script>
+/* Clipboard (chat-sync command) \u2014 kept as a secondary effect; persistence below
+   does NOT depend on it, so a tap is recorded even when copy is blocked. */
 function tdCopyFallback(t){var a=document.createElement('textarea');a.value=t;
 a.setAttribute('readonly','');a.style.position='fixed';a.style.left='-9999px';a.style.top='0';
 document.body.appendChild(a);a.focus();a.select();var ok=false;
@@ -3046,13 +3346,113 @@ try{ok=document.execCommand('copy');}catch(e){ok=false;}document.body.removeChil
 async function tdCopy(t){if(navigator.clipboard&&navigator.clipboard.writeText){
 try{await navigator.clipboard.writeText(t);return true;}catch(e){}}
 return tdCopyFallback(t);}
-async function tdRail(btn){var on=btn.getAttribute('data-on')==='1';var id=btn.getAttribute('data-card');
-var verb=btn.getAttribute('data-verb');var text=on?'UNDO '+id:btn.getAttribute('data-copy');
-btn.disabled=true;var ok=await tdCopy(text);btn.disabled=false;
-if(!ok){btn.classList.add('td-copy-fail');btn.textContent='COPY FAILED (tap retry)';btn.title=text;return;}
-btn.classList.remove('td-copy-fail');btn.title='';
-if(!on){btn.setAttribute('data-on','1');btn.classList.add('td-on');btn.textContent=verb+' \u2713 (tap to undo)';}
-else{btn.setAttribute('data-on','0');btn.classList.remove('td-on');btn.textContent=verb;}}
+/* ---- disposition spine (client) ----
+   Every tap persists durably in localStorage (survives refresh, shown on reload)
+   AND best-effort POSTs to the disposition_log spine when served live; the copied
+   command lets the operator sync the tap into dispositions.jsonl from chat. */
+function tdTicker(id){return String(id||'').split('-')[0];}
+function tdBuilt(){var s=document.getElementById('today-decide');return (s&&s.getAttribute('data-built'))||new Date().toISOString().slice(0,10);}
+function tdDispKey(id){return 'td:disp:'+id;}
+function tdGetDisp(id){try{return JSON.parse(localStorage.getItem(tdDispKey(id))||'null');}catch(e){return null;}}
+function tdRenderDisp(id){
+  var cur=tdGetDisp(id);
+  var btns=document.querySelectorAll('button.td-rail[data-card="'+id+'"]');
+  [].forEach.call(btns,function(b){b.classList.toggle('td-on',!!cur&&b.getAttribute('data-verb')===cur.verb);});
+  var fb=document.getElementById('tdfb-'+id);
+  if(fb){
+    if(cur){fb.className='td-fb';fb.textContent='\u2713 '+(cur.label||cur.verb)+' logged '+cur.t+'  \u00b7  tap again to undo';}
+    else{fb.className='td-fb td-fb-muted';fb.textContent='no decision logged yet';}
+  }
+}
+async function tdRail(btn){
+  var id=btn.getAttribute('data-card');var verb=btn.getAttribute('data-verb');
+  var label=(btn.getAttribute('data-label')||btn.textContent||verb).trim();
+  var cur=tdGetDisp(id);var undo=!!cur&&cur.verb===verb;
+  /* persist on-device first \u2014 a tap never evaporates even with no server */
+  if(undo){localStorage.removeItem(tdDispKey(id));}
+  else{localStorage.setItem(tdDispKey(id),JSON.stringify({verb:verb,label:label,t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}));}
+  tdRenderDisp(id);
+  /* secondary: copy the chat-ready command so it can also be synced via chat */
+  tdCopy(undo?('UNDO '+id):(btn.getAttribute('data-copy')||(verb+' '+id)));
+  /* fully automatic: write straight to the permanent disposition log when served live */
+  var fb=document.getElementById('tdfb-'+id);
+  try{
+    var r=await fetch('/td/disposition',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({card_id:id,ticker:tdTicker(id),verb:(undo?'UNDO':verb),et_date:tdBuilt(),source:'dashboard'})});
+    if(fb&&!undo){fb.textContent+=(r&&r.ok)?'  \u00b7  \u2713 saved to your log':'  \u00b7  saved on this device (paste the copied line into chat to make it permanent)';}
+  }catch(e){
+    if(fb&&!undo){fb.textContent+='  \u00b7  saved on this device (paste the copied line into chat to make it permanent)';}
+  }
+}
+/* ---- per-card notes / ask ---- */
+function tdNotesKey(id){return 'td:notes:'+id;}
+function tdGetNotes(id){try{return JSON.parse(localStorage.getItem(tdNotesKey(id))||'[]');}catch(e){return [];}}
+function tdRenderNotes(id){
+  var box=document.getElementById('tdnotes-'+id);if(!box)return;
+  var ns=tdGetNotes(id);box.innerHTML='';
+  ns.forEach(function(n,i){var d=document.createElement('div');d.className='td-note';
+    d.textContent=n.t+' \u00b7 '+n.q;box.appendChild(d);});
+}
+function tdAskSave(btn){
+  var id=btn.getAttribute('data-card');
+  var ta=document.getElementById('tdq-'+id);var t=((ta&&ta.value)||'').trim();
+  var fb=document.getElementById('tdqfb-'+id);
+  if(!t){if(fb){fb.className='td-askfb td-warn';fb.textContent='type a question first';}return;}
+  var a=tdGetNotes(id);a.push({q:t,t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  localStorage.setItem(tdNotesKey(id),JSON.stringify(a));
+  ta.value='';if(fb){fb.className='td-askfb td-ok';fb.textContent='saved on card';}tdRenderNotes(id);
+  /* fully automatic: write the note to the permanent per-card notes log when served live */
+  try{fetch('/td/note',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({card_id:id,ticker:tdTicker(id),note:t,source:'dashboard'})}).then(function(r){
+      if(fb&&r&&r.ok)fb.textContent='saved on card · ✓ logged';}).catch(function(){});}catch(e){}
+}
+function tdAskCopy(btn){
+  var id=btn.getAttribute('data-card');var headline=btn.getAttribute('data-headline')||'';
+  var ta=document.getElementById('tdq-'+id);var t=((ta&&ta.value)||'').trim();
+  var fb=document.getElementById('tdqfb-'+id);
+  if(!t){if(fb){fb.className='td-askfb td-warn';fb.textContent='type a question first';}return;}
+  tdCopy('[CARD '+id+'] '+headline+'\\nQ: '+t).then(function(ok){
+    if(fb){fb.className='td-askfb td-ok';fb.textContent=ok?'\u2713 copied \u2014 paste into chat':'select + copy manually';}
+  });
+}
+/* ---- sizing tunables (dials): persist + live client-side recompute ----
+   Defaults come from the engine (sizing_tunables.json). The render mirrors the
+   documented formula; the operator can drag a dial and the shown size updates
+   immediately, with the override persisted + a chat-ready sync command emitted. */
+function tdTunKey(){return 'td:tunables';}
+function tdGetTun(){try{return JSON.parse(localStorage.getItem(tdTunKey())||'{}');}catch(e){return {};}}
+function tdDial(inp){
+  var key=inp.getAttribute('data-key');var cid=inp.getAttribute('data-card');
+  var val=parseFloat(inp.value);
+  var lab=document.getElementById('tddialval-'+cid+'-'+key);if(lab)lab.textContent=inp.value;
+  var ov=tdGetTun();ov[key]=val;localStorage.setItem(tdTunKey(),JSON.stringify(ov));
+  tdRecompute(cid);
+  tdCopy('SET-TUNABLE '+key+' '+val+'  (sync to src/sizing_tunables.json)');
+}
+function tdRecompute(cid){
+  var el=document.getElementById('tdsize-'+cid);if(!el||el.getAttribute('data-formula')!=='f2')return;
+  var anchor=parseFloat(el.getAttribute('data-anchor')||'0');
+  var strength=parseFloat(el.getAttribute('data-strength')||'0');
+  var ov=tdGetTun();
+  /* mirror the F2 engine formula: size = anchor*(1 + slope*strength), then optional
+     soft-max clamp. anchor falls back to base_size_usd only when there is no anchor. */
+  var slope=(ov.conviction_size_slope!=null)?ov.conviction_size_slope:parseFloat(el.getAttribute('data-slope')||'1');
+  var base=(ov.base_size_usd!=null)?ov.base_size_usd:parseFloat(el.getAttribute('data-base')||'0');
+  var softmax=(ov.per_name_soft_max_usd!=null)?ov.per_name_soft_max_usd:parseFloat(el.getAttribute('data-softmax')||'0');
+  var a=anchor>0?anchor:base;
+  var size=a*(1+slope*strength);
+  if(softmax>0&&size>softmax)size=softmax;
+  el.textContent='live size $'+Math.round(size).toLocaleString();
+}
+function tdInit(){
+  document.querySelectorAll('button.td-rail[data-card]').forEach(function(b){
+    var id=b.getAttribute('data-card');tdRenderDisp(id);});
+  document.querySelectorAll('[id^="tdnotes-"]').forEach(function(box){
+    tdRenderNotes(box.id.slice('tdnotes-'.length));});
+  document.querySelectorAll('[id^="tdsize-"]').forEach(function(el){
+    tdRecompute(el.id.slice('tdsize-'.length));});
+}
+if(document.readyState!=='loading')tdInit();else document.addEventListener('DOMContentLoaded',tdInit);
 </script>
 """
 
@@ -4014,12 +4414,12 @@ def _render_readiness_model(readiness: dict[str, Any] | None) -> str:
     )
 
 
-def _render_first_viewport(payload: dict[str, Any]) -> str:
+def _render_first_viewport(payload: dict[str, Any], *, rails: bool = True) -> str:
     model = payload.get("first_viewport") or {}
     decision = str(model.get("decision") or "No capital-changing decision surfaced.")
     button = model.get("button") or {}
     button_html = ""
-    if button and model.get("status") == "has_primary":
+    if rails and button and model.get("status") == "has_primary":
         muted = " td-rail-muted" if button.get("muted") == "1" else ""
         button_html = (
             f'<button class="td-rail{muted}" data-card="{_esc(button.get("card_id") or "")}" '
@@ -4056,7 +4456,7 @@ def _render_first_viewport(payload: dict[str, Any]) -> str:
     )
 
 
-def _render_disposition_pressure(payload: dict[str, Any]) -> str:
+def _render_disposition_pressure(payload: dict[str, Any], *, rails: bool = True) -> str:
     pressure = payload.get("disposition_pressure") or {}
     rows = [row for row in pressure.get("rows") or [] if isinstance(row, dict)]
     if not rows:
@@ -4068,7 +4468,7 @@ def _render_disposition_pressure(payload: dict[str, Any]) -> str:
     ]
     for row in rows:
         actions = []
-        for action in row.get("actions") or []:
+        for action in (row.get("actions") or []) if rails else []:
             if not isinstance(action, dict):
                 continue
             actions.append(
@@ -4270,6 +4670,8 @@ def _render_card(
     check_first: bool = False,
     *,
     built_date: str | None = None,
+    plan: dict[str, Any] | None = None,
+    tunables: dict[str, Any] | None = None,
 ) -> list[str]:
     dcard = card.get("decision_card") or {}
     move = dcard.get("move") or {}
@@ -4280,6 +4682,13 @@ def _render_card(
     sizing = card.get("sizing") or {}
     raw_cid = str(card.get("card_id") or "")
     cid = _esc(raw_cid)
+    # A non-conflicted material buy/add with a trade-plan row leads as a loud MOVE:
+    # the trade-plan header + sizing transparency + rail surface above the engine card.
+    is_conflicted_card = bool(display.get("conflicted") or display.get("conflict")
+                              or card.get("conflicts") or display.get("band") == "CONFLICTED")
+    show_trade_plan = (bool(plan) and _is_material(card) and not _is_funding_leg(card)
+                       and not is_conflicted_card
+                       and _card_action_direction(card).upper() not in {"SELL", "TRIM", "REDUCE", "BEAR"})
     conflicted = " td-conflicted" if card.get("conflicts") or display.get("conflict") else ""
     anchor = f'td-card-{_esc(str(card.get("ticker") or "").upper())}'
     h = [f'<details id="{anchor}" class="td-card{conflicted}">', '<summary class="td-sum">']
@@ -4367,18 +4776,31 @@ def _render_card(
             else f'{primary_verb} {cid}{_esc(posture["copy_suffix"])}'
         )
         primary_class = "td-rail" if primary_verb == "ACT" else "td-rail td-rail-muted"
-    h.append(
-        f'<button class="{primary_class}" data-card="{cid}" data-verb="{primary_state_verb}" data-copy="{_esc(primary_copy)}" '
-        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">{_esc(primary_label)}</button>'
-        f'<button class="td-rail" data-card="{cid}" data-verb="PASS" data-copy="PASS {cid} â€” reason: " '
-        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>'
-    )
+    # Build the canonical rail buttons ONCE (data-verb/data-copy unchanged → parity +
+    # mojibake stable). For a move, the rail surfaces in the loud header; otherwise it
+    # stays inline in the card body. Visible labels get plain wording for moves only.
+    primary_hero_cls = (" td-do" if primary_state_verb == "ACT" else " td-docheck") if show_trade_plan else ""
+    rail_parts = [
+        f'<button class="{primary_class}{primary_hero_cls}" data-card="{cid}" data-verb="{primary_state_verb}" '
+        f'data-label="{_esc(_friendly_label(primary_state_verb, primary_label, show_trade_plan))}" '
+        f'data-copy="{_esc(primary_copy)}" '
+        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">'
+        f'{_esc(_friendly_label(primary_state_verb, primary_label, show_trade_plan))}</button>',
+        f'<button class="td-rail{" td-pass" if show_trade_plan else ""}" data-card="{cid}" data-verb="PASS" '
+        f'data-label="PASS" data-copy="PASS {cid} â€” reason: " '
+        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">PASS</button>',
+    ]
     if primary_state_verb != "RECHECK":
-        h.append(
-        f'<button class="td-rail" data-card="{cid}" data-verb="RECHECK" '
-        f'data-copy="RECHECK {cid} resurface {_esc(card.get("recheck_date"))}" '
-        f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>'
+        rail_parts.append(
+            f'<button class="td-rail" data-card="{cid}" data-verb="RECHECK" data-label="RECHECK" '
+            f'data-copy="RECHECK {cid} resurface {_esc(card.get("recheck_date"))}" '
+            f'onclick="event.preventDefault();event.stopPropagation();tdRail(this)">RECHECK</button>'
         )
+    rail_html = ('<div class="td-actionrail">' + "".join(rail_parts) + '</div>') if show_trade_plan else "".join(rail_parts)
+    feedback_html = f'<div class="td-fb td-fb-muted" id="tdfb-{cid}">no decision logged yet</div>'
+    if not show_trade_plan:
+        h.append(rail_html)
+        h.append(feedback_html)
     if win.get("named_trigger"):
         h.append(f'<div class="td-row">trigger: {_esc(win["named_trigger"])}'
                  + (f' Â· deadline {_esc(win.get("deadline"))}' if win.get("deadline") else "") + "</div>")
@@ -4430,6 +4852,23 @@ def _render_card(
     h.append(_render_not_checked(display))
     h.append('</details>')
     h.append("</div></details>")
+    if show_trade_plan:
+        ticker = str(card.get("ticker") or "").upper()
+        amount = plan.get("notional_usd")
+        if amount is None:
+            amount = card.get("dollars")
+        headline = _hero_headline_text(_move_verb(card, plan), ticker, amount, plan)
+        header = (
+            '<div class="td-hero">'
+            + _render_trade_plan_header(card, plan, rank)
+            + _render_sizing_transparency(card, tunables or {})
+            + _render_final_check(card, plan, gated=(primary_state_verb != "ACT"))
+            + rail_html + feedback_html
+            + _render_ask_block(raw_cid, headline)
+            + '<div class="td-row" style="margin-top:10px;color:#64748b;font-size:12px">▾ full engine card — face, conviction read &amp; evidence — below</div>'
+            + '</div>'
+        )
+        h.insert(0, header)
     return h
 
 
@@ -4509,11 +4948,469 @@ def _render_do_not_touch(payload: dict[str, Any]) -> str:
     )
 
 
+# ---------------------------------------------------------------------------
+# RENDER-REDESIGN: decision-led surface (hero move, faces, good-price tier)
+# ---------------------------------------------------------------------------
+def _gate_color_class(gate: Any) -> str:
+    g = str(gate or "").upper()
+    if "GREEN" in g:
+        return "td-gate-green"
+    if "RED" in g:
+        return "td-gate-red"
+    return "td-gate-amber"
+
+
+def _pct_text(value: Any) -> str:
+    v = _coerce_float(value)
+    return f"{v:.1f}%" if v is not None else "n/a"
+
+
+def _move_verb(card: dict[str, Any], plan: dict[str, Any]) -> str:
+    action = str((plan or {}).get("action") or "").lower()
+    direction = _card_action_direction(card).upper()
+    if "add" in action:
+        return "ADD"
+    if "buy" in action:
+        return "BUY"
+    if direction in {"SELL", "TRIM", "REDUCE"}:
+        return direction
+    return direction or "ADD"
+
+
+def _friendly_label(state_verb: str, default: str, hero: bool) -> str:
+    """Plain-language rail labels for the loud move surface (no shorthand). The
+    visible text changes; data-verb / data-copy stay canonical so the parity +
+    persistence contracts are untouched. A cleared move reads 'DO IT'; a move the
+    engine still gates reads 'DO IT — final check first' (a good move, with one
+    recommended check spelled out beside the rail), never the cryptic 'STAGE'."""
+    if not hero:
+        return default
+    return {
+        "ACT": "DO IT",
+        "CANDIDATE": "DO IT — final check first",
+        "RECHECK": "DO IT — final check first",
+        "WATCH": "WATCH",
+    }.get(state_verb, default)
+
+
+_BLOCKER_PLAIN = {
+    "same-session uw price/flow": "a fresh live options/flow check (Unusual Whales) this session",
+    "funding source confirmation": "the sells that fund it (above) actually clear",
+    "pre-trade gate": "the pre-trade price gate holds (see the gate line above)",
+}
+
+
+def _final_check_items(card: dict[str, Any], plan: dict[str, Any]) -> list[str]:
+    """Plain-language 'final check' list for a good-but-gated move. Faithful to the
+    engine's own blocker labels (humanized where known, verbatim otherwise) — never
+    fabricated."""
+    raw = list((plan or {}).get("blockers") or []) or list(card.get("card_blockers") or [])
+    out: list[str] = []
+    for item in raw:
+        text = str(item or "").strip()
+        if not text:
+            continue
+        out.append(_BLOCKER_PLAIN.get(text.lower(), text))
+    return out
+
+
+def _render_final_check(card: dict[str, Any], plan: dict[str, Any], gated: bool) -> str:
+    """A positive, plain-language note by the move rail. Gated → 'looks like a good
+    move; one final check recommended before you place the order'. Cleared → 'good to
+    go'. Replaces the old cryptic STAGE affordance with a clear recommended-check."""
+    if not gated:
+        return ('<div class="td-finalcheck td-cleared"><b>✓ Cleared — good to go.</b> '
+                'The pre-trade checks are met; place the order when you are ready.</div>')
+    items = _final_check_items(card, plan)
+    body = (
+        '<ul>' + "".join(f'<li>{_esc(it)}</li>' for it in items) + '</ul>'
+        if items else
+        '<div>Confirm the pre-trade gate above before you place the order.</div>'
+    )
+    return (
+        '<div class="td-finalcheck">'
+        '<b>✓ This looks like a good move.</b> One final check is <b>recommended</b> before you place the order:'
+        f'{body}'
+        'Tap <b>DO IT — final check first</b> to record that you are committing; it becomes a plain '
+        '<b>DO IT</b> once these clear.</div>'
+    )
+
+
+def _render_trade_plan_header(card: dict[str, Any], plan: dict[str, Any], rank: int) -> str:
+    """The loud trade-plan lead for a funded move: headline -> funded-by (sums) ->
+    why -> timing -> gate (color) -> one caveat. Display-only; the engine card with
+    its canonical rail, conviction read, and evidence renders just below."""
+    plan = plan or {}
+    ticker = str(card.get("ticker") or "").upper()
+    verb = _move_verb(card, plan)
+    amount = plan.get("notional_usd")
+    if amount is None:
+        amount = card.get("dollars")
+    verb_cls = "td-verb td-verb-sell" if verb in {"SELL", "TRIM", "REDUCE"} else "td-verb"
+    h = [f'<div class="td-hero-kicker">#{rank} funded move · trade plan · highest impact leads</div>']
+    h.append(
+        f'<div class="td-hl"><span class="{verb_cls}">{_esc(verb)}</span>'
+        f'<span class="td-tk">{_esc(ticker)}</span><span class="td-amt">{_money_text(amount)}</span></div>'
+    )
+    cur, tgt = plan.get("current_pct"), plan.get("target_pct")
+    if cur is not None or tgt is not None:
+        h.append(f'<div class="td-hero-sub">{_pct_text(cur)} → {_pct_text(tgt)} of book · funded position-builder (candidate)</div>')
+    h.append('<div class="td-kv">')
+    h.append('<div class="td-k">Funded by</div>' + _render_funded_by(plan))
+    if plan.get("rationale"):
+        h.append(f'<div class="td-k">Why</div><div class="td-v">{_esc(plan["rationale"])}</div>')
+    if plan.get("entry_note"):
+        h.append(f'<div class="td-k">Timing</div><div class="td-v">{_esc(plan["entry_note"])}</div>')
+    gate = plan.get("gate")
+    if gate:
+        reason = f' {_esc(plan.get("gate_reason"))}' if plan.get("gate_reason") else ''
+        h.append(
+            f'<div class="td-k">Gate</div><div class="td-v">'
+            f'<span class="td-gate-chip {_gate_color_class(gate)}">● {_esc(str(gate).upper())}</span>{reason}</div>'
+        )
+    if plan.get("account"):
+        h.append(f'<div class="td-k">Account</div><div class="td-v">{_esc(plan["account"])} <span class="td-tag">check available cash first</span></div>')
+    h.append('</div>')
+    caveats = plan.get("caveats") or []
+    if caveats:
+        h.append(f'<div class="td-caveat"><b>Caveat:</b> {_esc(caveats[0])}</div>')
+    return "".join(h)
+
+
+def _render_ask_block(raw_cid: str, headline: str) -> str:
+    cid = _esc(raw_cid)
+    return (
+        '<details class="td-ask"><summary></summary>'
+        f'<textarea id="tdq-{cid}" placeholder="ask or comment on this card — saved against the card, and one tap copies a chat-ready [CARD] tag"></textarea>'
+        '<div class="td-askrow">'
+        f'<button class="td-mini" data-card="{cid}" data-headline="{_esc(headline)}" onclick="tdAskCopy(this)">Copy for chat</button>'
+        f'<button class="td-mini" data-card="{cid}" onclick="tdAskSave(this)">Save note on card</button>'
+        f'<span class="td-askfb" id="tdqfb-{cid}"></span>'
+        '</div>'
+        f'<div class="td-notes" id="tdnotes-{cid}"></div>'
+        '</details>'
+    )
+
+
+def _humanize_tunable(key: str) -> str:
+    return str(key).replace("_usd", " ($)").replace("_pct", " (%)").replace("_", " ").strip()
+
+
+def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) -> str:
+    """Show the LIVE size and every input that produced it — no shorthand, no hidden
+    caps. RENDER-IF-PRESENT: when F2's ``sizing_tunables.json`` exists, render the dials
+    (editable + live client recompute) + the formula; until then, show the engine's real
+    current sizing inputs honestly and say the dials arrive with F2 — never fabricate them."""
+    sizing = card.get("sizing") or {}
+    if not sizing and not tunables:
+        return ""
+    raw_cid = str(card.get("card_id") or "")
+    cid = _esc(raw_cid)
+    source = sizing.get("source")
+    suggested = sizing.get("suggested_usd")
+    heat = sizing.get("heat")
+    cap = sizing.get("cap_basis")
+    conv = (card.get("conviction_display") or {}).get("x5") or 1
+    out = ['<div class="td-sizing"><div class="td-sizing-title">How this size is set — every input, no hidden caps</div>']
+    if tunables:
+        # F2 (conviction->size) is live. DISPLAY the engine's real breakdown — the live
+        # size, the conviction lift it applied (or didn't), the soft-reference tier band,
+        # the cash reality — then expose every dial from sizing_tunables.json (editable +
+        # persisted) and recompute the shown size client-side with the ENGINE'S formula.
+        try:
+            mult = float(sizing.get("size_lift_mult")) if sizing.get("size_lift_mult") is not None else 1.0
+        except (TypeError, ValueError):
+            mult = 1.0
+        try:
+            strength = float(sizing.get("size_lift_strength") or 0.0)
+        except (TypeError, ValueError):
+            strength = 0.0
+        try:
+            anchor = (float(suggested) / mult) if (isinstance(suggested, (int, float)) and mult) else float(suggested or 0.0)
+        except (TypeError, ValueError):
+            anchor = 0.0
+        base_def = float(tunables.get("base_size_usd") or 0.0)
+        slope_def = float(tunables.get("conviction_size_slope") or 0.0)
+        softmax_def = tunables.get("per_name_soft_max_usd")
+        softmax_def = float(softmax_def) if isinstance(softmax_def, (int, float)) else 0.0
+        out.append(
+            f'<div class="td-sizing-live" id="tdsize-{cid}" data-formula="f2" '
+            f'data-anchor="{anchor:.2f}" data-strength="{strength:.6g}" data-base="{base_def:.2f}" '
+            f'data-slope="{slope_def:.6g}" data-softmax="{softmax_def:.2f}">live size {_money_text(suggested)}</div>'
+        )
+        lift_phrase = ("converging, independent evidence — conviction lift applied"
+                       if strength > 0 else
+                       "single-group / not converging — NO lift (the F1 honesty rail; size never keys off echo)")
+        out.append(
+            '<div class="td-sizing-formula">live size = anchor × (1 + conviction_size_slope × conviction strength). '
+            f'This card: anchor {_money_text(anchor)} × {mult:.2f} (conviction strength {strength:.2f} — {lift_phrase}) '
+            f'= {_money_text(suggested)}. Soft caps apply only if set below (default off); the tier ceiling is a soft '
+            'reference, not a clip — no hidden caps.</div>'
+        )
+        if cap:
+            out.append(f'<div class="td-sizing-formula">engine breakdown: {_esc(cap)}</div>')
+        ctx = []
+        if heat:
+            ctx.append(f'heat {_esc(heat)}')
+        if sizing.get("floor_pct") is not None and sizing.get("ceiling_pct") is not None:
+            ctx.append(f'tier floor {_pct_text(sizing.get("floor_pct"))} / ceiling {_pct_text(sizing.get("ceiling_pct"))} (soft reference)')
+        if sizing.get("current_pct") is not None:
+            ctx.append(f'you currently hold {_pct_text(sizing.get("current_pct"))} of book')
+        if sizing.get("available_cash") is not None:
+            cash = f'available cash {_esc(sizing.get("available_cash"))}'
+            if sizing.get("exceeds_cash"):
+                cash += ' — ⚠ suggested size EXCEEDS available cash'
+            ctx.append(cash)
+        if ctx:
+            out.append(f'<div class="td-sizing-note">{" · ".join(ctx)}</div>')
+        for key in ("base_size_usd", "conviction_size_slope", "per_name_soft_max_usd",
+                    "concentration_soft_max_pct", "min_converging_groups", "max_conviction_strength"):
+            if key not in tunables:
+                continue
+            val = tunables.get(key)
+            is_off = val is None
+            num = 0.0 if is_off else float(val)
+            if "usd" in key:
+                top = max(num * 3.0, 200000.0)
+            elif "slope" in key:
+                top = max(num * 3.0, 3.0)
+            elif "pct" in key:
+                top = max(num * 3.0, 25.0)
+            elif "groups" in key:
+                top = 6.0
+            else:
+                top = max(num * 3.0, 2.0)
+            default_txt = "off" if is_off else f"{val}"
+            out.append(
+                '<div class="td-dialrow"><div class="td-dial-label">'
+                f'{_esc(_humanize_tunable(key))} <i>engine default {_esc(default_txt)}</i></div>'
+                f'<div class="td-dial"><input type="range" min="0" max="{top:.6g}" step="any" value="{num:.6g}" '
+                f'data-key="{_esc(key)}" data-card="{cid}" oninput="tdDial(this)"></div>'
+                f'<div class="td-dial-val" id="tddialval-{cid}-{_esc(key)}">{_esc(default_txt)}</div></div>'
+            )
+        bools = {k: v for k, v in tunables.items() if isinstance(v, bool)}
+        if bools:
+            out.append('<div class="td-sizing-note">Engine switches (shown so nothing is hidden): '
+                       + ' · '.join(f'{_esc(_humanize_tunable(k))} = {"ON" if v else "OFF"}' for k, v in bools.items())
+                       + '</div>')
+        crw = tunables.get("conviction_read_weights")
+        if isinstance(crw, dict):
+            out.append('<div class="td-sizing-note">conviction read → strength weights: '
+                       + ' · '.join(f'{_esc(k)} = {_esc(v)}' for k, v in crw.items()) + '</div>')
+        out.append(
+            '<div class="td-sizing-note">Drag a dial: the live size recomputes immediately (mirroring the engine '
+            'formula) and your override is saved with a chat-ready sync command for <code>src/sizing_tunables.json</code>. '
+            f'Engine default size for this card: {_money_text(suggested)}. (base_size_usd only applies when a card has '
+            'no reallocation anchor; the slope only lifts a converging, non-conflicted read.)</div>'
+        )
+    else:
+        # F2 absent fallback (kept for robustness) — honest degrade, never fabricate dials.
+        out.append(
+            '<div class="td-sizing-note">Live conviction→size dials (F2) are not present in this build, '
+            'so there are no tunable knobs to show — and none are invented. What the engine reports for this card '
+            'right now:</div>'
+        )
+        cap_txt = f' · cap basis: {_esc(cap)}' if cap else ''
+        out.append(
+            f'<div class="td-sizing-formula">conviction read: Conviction {_esc(conv)}/5 · '
+            f'engine suggested size: {_money_text(suggested)} · basis: {_esc(source or "unknown")} · '
+            f'heat: {_esc(heat or "unknown")}{cap_txt}</div>'
+        )
+        out.append(
+            '<div class="td-sizing-note">With <code>src/sizing_tunables.json</code> present, this panel shows the '
+            'live conviction-driven size, every dial (base size, conviction slope, soft caps — no hidden ceilings), '
+            'and the formula — each editable here, persisted, and recomputing the number as you drag.</div>'
+        )
+    out.append('</div>')
+    return "".join(out)
+
+
+def _render_funded_by(plan: dict[str, Any]) -> str:
+    legs = [leg for leg in (plan.get("funded_by") or []) if leg.get("ticker")]
+    if not legs:
+        return '<div class="td-v">Funding: not yet assigned</div>'
+    parts = " · ".join(f'{_esc(leg["ticker"])} {_money_text(leg.get("notional_usd"))}' for leg in legs)
+    total = sum(float(leg.get("notional_usd") or 0.0) for leg in legs)
+    return f'<div class="td-v">{parts} <span class="td-tag">( = {_money_text(total)}, dollar-for-dollar )</span></div>'
+
+
+def _hero_headline_text(verb: str, ticker: str, amount: Any, plan: dict[str, Any]) -> str:
+    funders = ", ".join(str(leg.get("ticker")) for leg in (plan.get("funded_by") or []) if leg.get("ticker"))
+    base = f"{verb} {ticker} {_money_text(amount)}"
+    return f"{base} (funded by {funders})" if funders else base
+
+
+def _render_good_price_row(row: dict[str, Any]) -> str:
+    tk = str(row.get("ticker") or "").upper()
+    deep = row.get("tier") == "deep"
+    monitor = bool(row.get("monitor"))
+    disc = _coerce_float(row.get("pct_below_high"))
+    price = _coerce_float(row.get("price"))
+    impact = row.get("impact")
+    exposure = _coerce_money(row.get("exposure_usd"))
+    exposure_pct = _coerce_float(row.get("exposure_pct"))
+    high = _coerce_float(row.get("fifty_two_week_high"))
+    high_date = str(row.get("high_date") or "")
+    disc_txt = f"{disc:.1f}%" if disc is not None else "n/a"
+    high_tip = (f"{abs(disc):.1f}% below its 52-week high of {_money_text(high)}"
+                + (f" (set {high_date})" if high_date else "")) if disc is not None and high is not None else "off its 52-week high"
+    own_txt = _money_text(exposure) if exposure is not None else "$0"
+    own_tip = (f"You currently hold {own_txt} of {tk}"
+               + (f" ({exposure_pct:.2f}% of book)" if exposure_pct is not None else "")) if exposure is not None and exposure > 0 else f"You hold none of {tk} — a new position"
+    own_lab = "you own" if (exposure is not None and exposure > 0) else "you own (new)"
+    impact_tip = ("Impact = a discount-priority score: how far off its 52-week high, plus a boost if a trusted "
+                  "list flags it, minus a little for crowding or source disagreement. It is NOT conviction and "
+                  "NOT a buy signal — high means 'worth a look,' not 'buy now.'")
+    stat = ''
+    if monitor:
+        stat = '<span class="td-stat">monitor</span>'
+    deep_cls = ' td-opp-deep' if deep else ''
+    h = [f'<details class="td-opp{deep_cls}"><summary class="td-oppsum">']
+    h.append(f'<span class="td-otk">{_esc(tk)}</span>')
+    h.append(f'<span class="td-m td-disc" title="{_esc(high_tip)}"><span class="td-val">{_esc(disc_txt)}</span><i>off 52w high</i></span>')
+    h.append(f'<span class="td-m" title="Latest share price"><span class="td-val">{_money_text(price)}</span><i>per share</i></span>')
+    h.append(f'<span class="td-m td-imp" title="{_esc(impact_tip)}"><span class="td-val">impact {_esc(round(float(impact)) if isinstance(impact,(int,float)) else impact)}</span><i>what\'s this?</i></span>')
+    h.append(f'<span class="td-m" title="{_esc(own_tip)}"><span class="td-val">{_esc(own_txt)}</span><i>{_esc(own_lab)}</i></span>')
+    h.append(f'{stat}<span class="td-caret">details</span></summary>')
+    h.append('<div class="td-oppbody">')
+    why = []
+    tags = row.get("source_tags") or []
+    if tags:
+        why.append("flagged by " + ", ".join(_esc(str(t)) for t in tags))
+    elif row.get("trusted"):
+        why.append("on a trusted research list")
+    else:
+        why.append("flagged on the discount alone (no analyst/Notion tag)")
+    if high is not None and disc is not None:
+        why.append(f"52-week high {_money_text(high)}{(' ('+_esc(high_date)+')') if high_date else ''} → {_money_text(price)} now, {disc_txt} from that high")
+    h.append(f'<div><b>Why it\'s flagged:</b> {"; ".join(why)}.</div>')
+    h.append(
+        '<div><b>What "impact" means:</b> a discount-priority / "worth a look" score — '
+        '<b>not conviction, not a buy signal.</b> It rises with the depth of the discount and a trusted-list '
+        'boost, and falls for crowding (a big position you already hold) or source disagreement. '
+        'A high number on a distressed name reads "look," not "buy."</div>'
+    )
+    if row.get("disconfirmation"):
+        h.append(f'<div><b>Promote to a real buy only if:</b> {_esc(row["disconfirmation"])}</div>')
+    pos_line = own_tip + "."
+    if row.get("sellgate_note"):
+        pos_line += f' <b>{_esc(row["sellgate_note"])}.</b>'
+    h.append(f'<div><b>Your position:</b> {pos_line}</div>')
+    h.append('<div><b>Options &amp; flow:</b> not in this packet — pull a live Unusual Whales options/flow check on demand (never shown faked when absent).</div>')
+    cid = f'WATCH-{_esc(tk)}'
+    headline = (f"{tk} — {disc_txt} off 52w high, {_money_text(price)}/share, impact "
+                f"{round(float(impact)) if isinstance(impact,(int,float)) else impact}, {own_lab} {own_txt}")
+    h.append(
+        '<div class="td-askmini">'
+        f'<textarea id="tdq-{cid}" placeholder="ask about {_esc(tk)} — e.g. is the discount enough to start a small starter, or wait for flow?"></textarea>'
+        '<div class="td-askrow">'
+        f'<button class="td-mini" data-card="{cid}" data-headline="{_esc(headline)}" onclick="tdAskCopy(this)">Copy for chat</button>'
+        f'<span class="td-askfb" id="tdqfb-{cid}"></span></div></div>'
+    )
+    h.append('</div></details>')
+    return "".join(h)
+
+
+def _render_good_price_tier(payload: dict[str, Any]) -> str:
+    tier = payload.get("good_price_tier") or {}
+    higher = tier.get("higher") or []
+    deep_visible = tier.get("deep_visible") or []
+    deep_more = tier.get("deep_more") or []
+    if not higher and not deep_visible and not deep_more:
+        return ""
+    h = ['<div class="td-sectlead">Good price, lower conviction <span class="td-q">— don\'t let these rot in the queue</span></div>']
+    note = ('At good prices and worth watching, but <b>not funded / high-conviction</b> like the moves above. '
+            'Shown so you don\'t miss them — <b>not</b> dressed up to look urgent. Hover any number for what it '
+            'means; <b>click a name</b> for its thesis, where it came from, and what would have to be true to buy it.')
+    if str(tier.get("freshness")) == "stale":
+        note += f' <b>Packet STALE as of {_esc(tier.get("packet_as_of"))} — research context only, prices not current.</b>'
+    h.append(f'<div class="td-tiernote">{note}</div>')
+    for row in higher:
+        h.append(_render_good_price_row(row))
+    if deep_visible:
+        h.append('<div class="td-screenline">Deeper discounts — <b>research-only</b> until the thesis clears (these are not buys):</div>')
+        for row in deep_visible:
+            h.append(_render_good_price_row(row))
+    more_tickers = tier.get("deep_more_tickers") or []
+    screen_count = tier.get("screen_count") or 0
+    tail_bits = []
+    if more_tickers:
+        tail_bits.append(f"+ {len(more_tickers)} more deep-discount name(s) ({', '.join(_esc(t) for t in more_tickers)})")
+    if screen_count:
+        tail_bits.append(f"a <b>{screen_count}-name discount screen</b> behind the daily pullback packet")
+    if tail_bits:
+        h.append(f'<div class="td-screenline">{" and ".join(tail_bits)} — surfaced here as the top of the queue; the rest stays one tap deep in the machinery so nothing rots unseen.</div>')
+    return "".join(h)
+
+
+def _render_freshness_chip(payload: dict[str, Any]) -> str:
+    built = payload.get("built")
+    honesty = payload.get("honesty") or {}
+    pl = payload.get("plan_line") or {}
+    positions = honesty.get("positions_as_of") or pl.get("positions_as_of")
+    gates = honesty.get("gates_as_of")
+    disp_state = "none logged yet" if honesty.get("dispositions") else "logged — see cards"
+    fresh = []
+    if positions:
+        fresh.append(f"positions {_esc(positions)}")
+    if gates:
+        fresh.append(f"gates {_esc(gates)}")
+    warn = []
+    if honesty.get("cash"):
+        warn.append("cash not checked")
+    warn.append(f"dispositions: {disp_state}")
+    h = ['<div class="td-fresh">', f'<b>Conviction Dashboard</b><span>· built {_esc(built)}</span>']
+    if fresh:
+        h.append(f'<span><span class="td-dot td-dot-g"></span> {" · ".join(fresh)}</span>')
+    h.append(f'<span class="td-warn"><span class="td-dot td-dot-a"></span> {" · ".join(warn)} · full trust panel ▾ in machinery below</span>')
+    h.append('</div>')
+    return "".join(h)
+
+
+def _render_machinery(payload: dict[str, Any]) -> str:
+    # first_viewport's primary-command rail duplicates the hero card's rail for the same
+    # card_id with a non-canonical copy; suppress it so the card's canonical, persisting
+    # rail above is the single source. disposition_pressure rails act on WATCH-promotion
+    # rows (non-card decision keys), so they keep their own actions.
+    body = [
+        _render_command_strip(payload),
+        _render_first_viewport(payload, rails=False),
+        _render_disposition_pressure(payload),
+        _render_candidate_feed_index(payload),
+        _render_passivity_panel(payload),
+        _render_disposition_coverage(payload),
+        _render_trust_panel(payload),
+        _render_top_verdict(payload),
+        _render_watch_queue(payload),
+        _render_do_not_touch(payload),
+    ]
+    body_html = "".join(b for b in body if b)
+    if not body_html:
+        return ""
+    return (
+        '<details class="td-machine"><summary>System state, queues &amp; coverage — the machinery '
+        '(collapsed on purpose; none of it shouts over a real move)</summary>'
+        f'<div class="td-machinebody">{body_html}</div></details>'
+    )
+
+
 def render_today_decide_html(payload: dict[str, Any]) -> str:
     ga = payload["goal_anchor"]
     pl = payload["plan_line"]
-    h: list[str] = [_CSS, _JS, '<section id="today-decide" class="td">']
-    h.append(f'<h2>TODAY â€” DECIDE <span style="color:#94a3b8;font-size:12px">built {_esc(payload["built"])}</span></h2>')
+    built = _esc(payload["built"])
+    built_date = str(payload.get("built") or "")
+    moves_plans = (payload.get("trade_plan") or {}).get("moves") or {}
+    tunables = payload.get("sizing_tunables") or {}
+
+    def _plan_for(card: dict[str, Any]) -> dict[str, Any] | None:
+        return moves_plans.get(str(card.get("ticker") or "").upper())
+
+    h: list[str] = [_CSS, _JS, f'<section id="today-decide" class="td" data-built="{built}">']
+    h.append(f'<h2>TODAY â€” DECIDE <span style="color:#94a3b8;font-size:12px">built {built}</span></h2>')
+    # 1. freshness chip — title + build stamp + fresh/stale; trust panel collapses below
+    h.append(_render_freshness_chip(payload))
+    # goal context — display-only, never feeds ranking or urgency (pace line carries the
+    # single "display-only" marker; do not add another)
     if ga.get("book_value") is not None:
         h.append(f'<div class="td-anchor">${ga["book_value"]:,.0f} â†’ ${ga["fi_target"]:,.0f} '
                  f'Â· {ga["pct_to_target"]}% there</div>')
@@ -4526,31 +5423,76 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
              + (f'funding pool ${pool:,.0f}' if isinstance(pool, (int, float)) else 'funding pool n/a')
              + (f' Â· shortfall ${short:,.0f}' if isinstance(short, (int, float)) else '')
              + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
-    h.append(_render_command_strip(payload))
-    h.append(_render_first_viewport(payload))
-    h.append(_render_disposition_pressure(payload))
-    h.append(_render_candidate_feed_index(payload))
-    h.append(_render_passivity_panel(payload))
-    h.append(_render_disposition_coverage(payload))
-    h.append(_render_trust_panel(payload))
-    h.append(_render_top_verdict(payload))
+
+    # 2. THE MOVE leads -> next moves -> funding trims -> other decisions. Render-side
+    #    grouping only: actual buys/adds lead as MOVES (the first is the hero), funding
+    #    and rebalancing trims group together, everything else (resolve/recheck, incl.
+    #    F1 CONFLICTED non-buys) follows. Engine priority, scoring, sizing, and ranking
+    #    are untouched — this just stops a high-priority funding trim from masquerading
+    #    as "the move." Each material buy renders the loud trade-plan header (inside
+    #    _render_card) above its canonical engine card.
+    def _decision_group(card: dict[str, Any]) -> str:
+        d = card.get("conviction_display") or {}
+        f1 = bool(d.get("conflicted") or d.get("band") == "CONFLICTED")
+        if _card_action_direction(card).upper() in {"SELL", "TRIM", "REDUCE"}:
+            return "trim"
+        if _is_material(card) and not f1 and _plan_for(card):
+            return "move"
+        return "other"
+
+    groups: dict[str, list[dict[str, Any]]] = {"move": [], "trim": [], "other": []}
+    for card in payload["cards"]:
+        groups[_decision_group(card)].append(card)
     rank = 1
-    for label, cards in _visible_card_sections(payload["cards"]):
-        h.append(f'<div class="td-card-section-title">{_esc(label)}</div>')
-        for card in cards:
-            h.extend(_render_card(card, rank, check_first=bool(card.get("card_blockers")), built_date=str(payload.get("built") or "")))
-            rank += 1
+
+    def _emit(card: dict[str, Any]) -> None:
+        nonlocal rank
+        h.extend(_render_card(card, rank, check_first=bool(card.get("card_blockers")),
+                              built_date=built_date, plan=_plan_for(card), tunables=tunables))
+        rank += 1
+
+    h.append('<div class="td-sectlead">The move — do this first</div>')
+    if groups["move"]:
+        for i, card in enumerate(groups["move"]):
+            if i == 1:
+                h.append('<div class="td-sectlead">Next moves</div>')
+            _emit(card)
+    else:
+        # honest starvation — never a confident grid of zeros
+        h.append(
+            '<div class="td-hero"><div class="td-hero-kicker">no funded high-conviction move is live</div>'
+            '<div class="td-hero-sub">No high-conviction, funded move is live right now. The strongest things on '
+            'the board are the trims, rechecks, and good-price watches below — shown plainly, not dressed up as '
+            'urgent. Nothing here is one tap from a buy without fresh confirmation.</div></div>'
+        )
+    if groups["trim"]:
+        h.append('<div class="td-sectlead">Funding &amp; rebalancing trims '
+                 '<span class="td-q">— execute paired with the moves they fund; no standalone urgency</span></div>')
+        for card in groups["trim"]:
+            _emit(card)
+    if groups["other"]:
+        h.append('<div class="td-sectlead">Other decisions '
+                 '<span class="td-q">— resolve / recheck before acting</span></div>')
+        for card in groups["other"]:
+            _emit(card)
     backlog = payload["backlog"]
     if backlog:
         h.append(f'<div class="td-subqueue"><div class="td-card-section-title">More impact-ranked decisions ({len(backlog)})</div>')
         for label, cards in _visible_card_sections(backlog):
             h.append(f'<div class="td-card-section-title">{_esc(label)}</div>')
             for card in cards:
-                h.extend(_render_card(card, rank, check_first=bool(card.get("card_blockers")), built_date=str(payload.get("built") or "")))
+                h.extend(_render_card(card, rank, check_first=bool(card.get("card_blockers")),
+                                      built_date=built_date, plan=_plan_for(card), tunables=tunables))
                 rank += 1
         h.append("</div>")
-    h.append(_render_watch_queue(payload))
-    h.append(_render_do_not_touch(payload))
+
+    # 3. good price, lower conviction tier (visible-but-quiet; never one tap from a buy)
+    h.append(_render_good_price_tier(payload))
+
+    # 4. machinery (collapsed) — system health, queues, coverage moved below the decisions
+    h.append(_render_machinery(payload))
+
+    # 5. honesty / caveats / conflicts (collapsed, bottom)
     cong = payload["congruence"]
     h.append('<details class="td-muted-details"><summary>Portfolio thesis context</summary>')
     if cong.get("status") == "ok":

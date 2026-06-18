@@ -115,3 +115,40 @@ def test_main_check_fails_when_preview_missing(tmp_path, capsys):
 
     assert rc == 2
     assert '"preview_exists": false' in capsys.readouterr().out
+
+
+# ---------------------------------------------------------------------------
+# RENDER-REDESIGN: fully-automatic write-back endpoints (rail taps + notes)
+# ---------------------------------------------------------------------------
+import pytest  # noqa: E402
+
+
+def test_append_disposition_from_payload_writes_spine(tmp_path):
+    p = tmp_path / "dispositions.jsonl"
+    row = server.append_disposition_from_payload(
+        {"card_id": "GOOGL-ADD-2026-06-18", "ticker": "googl", "verb": "ACT", "et_date": "2026-06-18"},
+        path=p,
+    )
+    assert row["verb"] == "ACT" and row["card_id"] == "GOOGL-ADD-2026-06-18" and row["ticker"] == "GOOGL"
+    assert row["source"] == "dashboard"
+    assert p.exists() and "GOOGL-ADD-2026-06-18" in p.read_text(encoding="utf-8")
+    # PASS with no operator reason gets a non-empty placeholder (append never silently fails)
+    row2 = server.append_disposition_from_payload({"card_id": "X-1", "ticker": "X", "verb": "PASS"}, path=p)
+    assert row2["verb"] == "PASS" and row2.get("reason")
+    # an invalid verb is rejected, not written
+    with pytest.raises(ValueError):
+        server.append_disposition_from_payload({"card_id": "X-1", "verb": "BOGUS"}, path=p)
+    with pytest.raises(ValueError):
+        server.append_disposition_from_payload({"card_id": "", "verb": "ACT"}, path=p)
+
+
+def test_append_note_from_payload_writes_log(tmp_path):
+    p = tmp_path / "card_notes.jsonl"
+    row = server.append_note_from_payload(
+        {"card_id": "GOOGL-ADD-2026-06-18", "ticker": "googl", "note": "fund from a different ETF than GRNY?"},
+        path=p,
+    )
+    assert row["card_id"] == "GOOGL-ADD-2026-06-18" and row["ticker"] == "GOOGL"
+    assert p.exists() and "different ETF" in p.read_text(encoding="utf-8")
+    with pytest.raises(ValueError):
+        server.append_note_from_payload({"card_id": "", "note": ""}, path=p)
