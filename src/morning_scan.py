@@ -61,10 +61,16 @@ def load_parabolic_tickers(path: Path | str = PARABOLIC_PATH) -> list[str]:
         if not isinstance(row, dict):
             continue
         phase = str(row.get("phase") or "").lower()
-        surface = str(row.get("surface_tier") or "").upper()
-        # "Phase 3 (parabola)" is the operator-canonical flag; SKIP also
-        # warns we should not chase here.
-        if "parabola" in phase or surface == "SKIP":
+        # Only the operator-canonical "Phase 3 (parabola)" phase means
+        # "extended -- don't chase." A SKIP surface_tier is NOT a chase signal:
+        # it merely means the name did not qualify as a momentum setup, which
+        # INCLUDES beaten-down discount names (e.g. VRT, a -21% pullback, scored
+        # SKIP; so did LEU and MP). Dampening on SKIP wrongly capped vetted
+        # discount BUYs to STAGE-ONLY -- the buy-side surfacing miss
+        # (docs/codex_tasks/vrt_miss_rootcause_2026_06_18.md, Rail E). Key the
+        # chase-dampener on the parabola phase only, matching
+        # full_build_runner.active_parabolic_tickers (which already excludes SKIP).
+        if "parabola" in phase:
             ticker = str(row.get("ticker") or "").upper()
             if ticker:
                 out.append(ticker)

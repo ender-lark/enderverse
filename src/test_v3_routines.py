@@ -281,7 +281,13 @@ def test_morning_scan_honest_empty_when_no_inputs():
     assert out["warnings"][0]["key"] == "fs_ingest_inventory_missing"
 
 
-def test_morning_scan_load_parabolic_tickers_extracts_phase_3_and_skip(tmp_path):
+def test_morning_scan_load_parabolic_tickers_flags_phase_3_parabola_only_not_skip(tmp_path):
+    # Only the canonical "Phase 3 (parabola)" phase flags a name as
+    # extended/don't-chase. A SKIP surface_tier on a non-parabola phase must NOT
+    # be dampened -- it includes beaten-down discount names (the VRT buy-surfacing
+    # miss; see docs/codex_tasks/vrt_miss_rootcause_2026_06_18.md). This keeps the
+    # chase-dampener consistent with full_build_runner.active_parabolic_tickers,
+    # which already excludes SKIP.
     payload = {
         "as_of": "2026-06-09",
         "results": [
@@ -293,7 +299,9 @@ def test_morning_scan_load_parabolic_tickers_extracts_phase_3_and_skip(tmp_path)
     p = tmp_path / "parabolic_setups.json"
     p.write_text(json.dumps(payload), encoding="utf-8")
     flagged = ms.load_parabolic_tickers(p)
-    assert sorted(flagged) == ["AEHR", "Y"]
+    # AEHR (Phase 3 parabola) is flagged; Y (Phase 2 + SKIP) is NOT flagged
+    # anymore -- a SKIP on a non-parabola phase no longer dampens.
+    assert sorted(flagged) == ["AEHR"]
 
 
 def test_morning_scan_load_parabolic_tickers_honest_empty_when_absent(tmp_path):
