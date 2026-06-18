@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:47:43.533906Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-08T14:48:45.092467Z",
@@ -6428,7 +6421,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T12:25:02.903394Z",
       "summary": "FS inbox catch-up preopen nothing new; marker checked through [06/17/2026 19:40 ET]; Notion marker fetch-verified"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:27:37.462150Z",
+      "summary": "snapshot 2026-06-18; 11 accounts; 275 raw positions; diff EXIT 1 ADD 2 TRIM 3 VALUE_CHANGE 145; 4 stated-balance warnings; dashboard refresh ok"
     }
   ],
-  "updated_at": "2026-06-18T12:25:02.903394Z"
+  "updated_at": "2026-06-18T12:27:37.462150Z"
 }
