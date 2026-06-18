@@ -63,6 +63,16 @@ SIZING_TUNABLES_DEFAULT: dict[str, Any] = {
     # "can I afford this?" reality counts cash on hand PLUS the sell-gate-ordered
     # reallocation-brief funding pool. Informational only -- never blocks/clamps.
     "treat_funding_pool_as_available": True,
+    # DISPLAY-PRECISION final step. Every dollar amount the card shows is rounded
+    # to the NEAREST ``size_rounding_usd`` and stored as a WHOLE NUMBER so no
+    # decimal tail ever renders (static card AND the live client-side recompute
+    # when the adjustable sizing bar moves, because the render mirrors this exact
+    # formula). Operator may set 1 (whole dollars), 100 (nearest hundred, default),
+    # or 1000 (nearest thousand). 0/None/negative => no step rounding, but the
+    # value is still rounded to a whole dollar so no decimal ever shows. This is
+    # display precision ONLY -- it does NOT touch the conviction lift, eligibility,
+    # or the funding logic; only the final dollar amounts are rounded.
+    "size_rounding_usd": 100,
 }
 
 
@@ -300,6 +310,44 @@ def _conviction_size_strength(conv: dict[str, Any] | None, tunables: dict[str, A
         f"lift strength {strength:.2f}"
     )
 
+
+_DEFAULT_SIZE_ROUNDING_USD = 100
+
+
+def _size_rounding_step(cfg: dict[str, Any]) -> int:
+    """Resolve the operator-tunable dollar rounding step (``size_rounding_usd``).
+
+    Default 100 (nearest hundred) when the dial is absent. The operator may set 1
+    (whole dollars), 100 (nearest hundred), or 1000 (nearest thousand). A value of
+    0 / None / negative (or any non-number) means "no step rounding" -- which we
+    honor as a whole-dollar step (1) so a decimal tail can NEVER render, keeping
+    the no-decimals invariant intact even when the operator disables stepping.
+    """
+    if "size_rounding_usd" not in cfg:
+        return _DEFAULT_SIZE_ROUNDING_USD
+    raw = cfg.get("size_rounding_usd")
+    if not isinstance(raw, (int, float)) or isinstance(raw, bool):
+        return 1
+    step = int(raw)
+    if step <= 0:
+        return 1
+    return step
+
+
+def _round_usd(value: float | None, step: int) -> int | None:
+    """FINAL display-precision step of the sizing formula: round a dollar amount
+    to the NEAREST ``step`` and return a WHOLE NUMBER (int) so no decimal ever
+    renders (e.g. 151890.48 -> step 100 -> 151900). Round-to-nearest. ``None``
+    passes through unchanged (a "not_checked" sentinel is handled by the caller).
+    The render mirror rounds identically, so the static card and the live
+    bar-drag recompute stay decimal-free and agree with the covered/short verdict.
+    """
+    if value is None:
+        return None
+    step = step if step > 0 else 1
+    return int(round(float(value) / step)) * step
+
+
 def _caps_sizing(
     *,
     ticker: str,
@@ -343,6 +391,19 @@ def _caps_sizing(
          plain-language ``funding_note``. This NEVER blocks/clamps and NEVER changes
          suggested_usd -- it only adds the affordability number. The sell-gate is
          REUSED via the brief pool, not re-implemented here.
+      6. ROUND (display precision, FINAL step). Every dollar amount the card shows
+         -- ``suggested_usd`` and the cash/funding fields ``available_cash``,
+         ``funding_pool_usd``, ``funding_available_usd``, ``funding_shortfall_usd``,
+         plus the ``cap_room`` context dollar -- is rounded to the NEAREST
+         ``size_rounding_usd`` (default $100) and stored as a WHOLE NUMBER, so no
+         decimal tail ever renders (static card AND the live client-side recompute
+         when the adjustable sizing bar moves; the render mirrors this formula).
+         The covered/short booleans (``exceeds_cash`` / ``exceeds_funding``) are
+         recomputed from the ROUNDED numbers so the displayed dollars and the
+         verdict agree. Multipliers/percentages (``size_lift_mult``,
+         ``size_lift_strength``, ``ceiling_pct``, ...) are NOT dollars and are
+         left alone. Rounding is display precision ONLY: it does not change the
+         conviction lift, eligibility, funding logic, or which names size up.
     """
     cfg = tunables if isinstance(tunables, dict) else load_sizing_tunables()
     tick = ticker.upper()
@@ -353,16 +414,20 @@ def _caps_sizing(
     strength, lift_reason = _conviction_size_strength(conviction, cfg)
     lift_mult = 1.0 + slope * strength
     lifted = base * lift_mult
+    # FINAL formula step: round every dollar amount to the nearest size_rounding_usd
+    # (default $100) and store as a WHOLE NUMBER so no decimal tail ever renders.
+    step = _size_rounding_step(cfg)
 
     if book <= 0:
         # No book value: still apply the conviction lift to the dollar anchor; the
         # tier-band reference needs book, so it is simply not_checked here.
         suggested, soft_seg = _apply_soft_maxes(lifted, current=0.0, book=0.0, cfg=cfg)
-        cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
-        fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg)
+        suggested = _round_usd(suggested, step)
+        cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash, step)
+        fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg, step)
         heat = "CONVICTION_LIFTED" if lift_mult > 1.0 else "not_checked"
         return {
-            "suggested_usd": round(suggested, 2),
+            "suggested_usd": suggested,
             "source": "caps",
             "heat": heat,
             "cap_basis": (
@@ -391,11 +456,12 @@ def _caps_sizing(
     gap = _gap_for_ticker(report, tick)
     if not gap:
         suggested, soft_seg = _apply_soft_maxes(lifted, current=current, book=book, cfg=cfg)
-        cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
-        fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg)
+        suggested = _round_usd(suggested, step)
+        cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash, step)
+        fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg, step)
         heat = "CONVICTION_LIFTED" if lift_mult > 1.0 else "not_checked"
         return {
-            "suggested_usd": round(suggested, 2),
+            "suggested_usd": suggested,
             "source": "caps",
             "heat": heat,
             "cap_basis": (
@@ -415,8 +481,11 @@ def _caps_sizing(
     cap_room = max(0.0, ceiling_value - current)  # context number, not a limit
 
     suggested, soft_seg = _apply_soft_maxes(lifted, current=current, book=book, cfg=cfg)
-    cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
-    fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg)
+    suggested = _round_usd(suggested, step)
+    # cap_room is a dollar shown on the card -> round it the same way (whole number).
+    cap_room = _round_usd(cap_room, step)
+    cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash, step)
+    fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg, step)
 
     # Heat now signals the conviction lift + soft-reference context, never a hard
     # cap. A conflicted card is sized at base (no lift) and routed to RESOLVE
@@ -435,7 +504,7 @@ def _caps_sizing(
     macro = f"; urgency {gap.macro_urgency}" if gap.macro_urgency != "NORMAL" else ""
     soft_ref = "soft" if cfg.get("tier_ceiling_is_soft_reference", True) else "hard"
     return {
-        "suggested_usd": round(suggested, 2),
+        "suggested_usd": suggested,
         "source": "caps",
         "heat": heat,
         "cap_basis": (
@@ -453,7 +522,7 @@ def _caps_sizing(
         "ceiling_pct": round(gap.ceiling_pct * 100.0, 3),
         "size_lift_mult": round(lift_mult, 4),
         "size_lift_strength": round(strength, 4),
-        "cap_room": round(cap_room, 2),
+        "cap_room": cap_room,
         "available_cash": cash_value,
         "exceeds_cash": exceeds_cash,
         **fund_fields,
@@ -496,23 +565,29 @@ def _apply_soft_maxes(
 
 
 def _cash_reality(
-    suggested: float, available_cash: float | None
+    suggested: float, available_cash: float | None, step: int = 1
 ) -> tuple[str, bool, Any]:
     """The only non-tunable reality: never SUGGEST more than real available cash
     when that number exists -- but surface it as a NUMBER, never a hidden block.
     Returns (note_segment, exceeds_cash_bool, cash_value_for_payload).
+
+    ``suggested`` is already rounded by the caller. The cash dollar is rounded to
+    the same ``step`` (whole number, no decimals) and the ``exceeds_cash`` verdict
+    is computed from the ROUNDED numbers so the displayed dollars and the flag
+    agree.
     """
     if available_cash is None:
         return "; available cash not_checked", False, "not_checked"
-    exceeds = suggested > available_cash
+    cash_value = _round_usd(available_cash, step)
+    exceeds = suggested > cash_value
     if exceeds:
         return (
-            f"; available cash ${available_cash:,.0f} -- suggested EXCEEDS available "
-            f"cash by ${suggested - available_cash:,.0f} (size by hand to cash)",
+            f"; available cash ${cash_value:,.0f} -- suggested EXCEEDS available "
+            f"cash by ${suggested - cash_value:,.0f} (size by hand to cash)",
             True,
-            round(float(available_cash), 2),
+            cash_value,
         )
-    return f"; available cash ${available_cash:,.0f}", False, round(float(available_cash), 2)
+    return f"; available cash ${cash_value:,.0f}", False, cash_value
 
 
 def _funding_reality(
@@ -520,6 +595,7 @@ def _funding_reality(
     available_cash: float | None,
     funding_pool: float | None,
     cfg: dict[str, Any],
+    step: int = 1,
 ) -> tuple[str, dict[str, Any]]:
     """FUNDING-AWARE affordability reality. The operator rarely holds cash; a buy
     is almost always funded by SELLING something else, so the honest answer to
@@ -528,29 +604,36 @@ def _funding_reality(
     payload_fields). Informational ONLY -- it never blocks, never clamps, and
     never changes suggested_usd. The pool is REUSED from the already-gated brief;
     the sell-gate is not re-implemented here.
+
+    ``suggested`` is already rounded by the caller. Every dollar field here
+    (``funding_pool_usd``, ``funding_available_usd``, ``funding_shortfall_usd``)
+    is rounded to the same ``step`` (whole number, no decimals), and the
+    ``exceeds_funding`` verdict is recomputed from the ROUNDED affordability total
+    so the displayed dollars and the covered/short flag agree.
     """
     treat_pool = bool(cfg.get("treat_funding_pool_as_available", True))
-    cash_for_math = available_cash if isinstance(available_cash, (int, float)) else 0.0
-    pool_for_math = funding_pool if (treat_pool and isinstance(funding_pool, (int, float))) else 0.0
+    cash_for_math = _round_usd(available_cash, step) if isinstance(available_cash, (int, float)) else 0.0
+    pool_rounded = _round_usd(funding_pool, step) if isinstance(funding_pool, (int, float)) else None
+    pool_for_math = pool_rounded if (treat_pool and pool_rounded is not None) else 0.0
 
     # When neither a real cash number nor a funding pool exists, there is nothing
     # to total -> funding stays not_checked (honest absence, never a block).
     if available_cash is None and (funding_pool is None or not treat_pool):
         fields = {
             "funding_pool_usd": (
-                round(float(funding_pool), 2) if isinstance(funding_pool, (int, float)) else "not_checked"
+                pool_rounded if pool_rounded is not None else "not_checked"
             ),
             "funding_available_usd": "not_checked",
             "exceeds_funding": False,
-            "funding_shortfall_usd": 0.0,
+            "funding_shortfall_usd": 0,
             "funding_note": "funding reality not_checked (no cash row and no sellable funding pool)",
             "treat_funding_pool_as_available": treat_pool,
         }
         return "; funding reality not_checked", fields
 
-    funding_available = round(cash_for_math + pool_for_math, 2)
+    funding_available = _round_usd(cash_for_math + pool_for_math, step)
     exceeds = suggested > funding_available
-    shortfall = round(max(0.0, suggested - funding_available), 2)
+    shortfall = _round_usd(max(0.0, suggested - funding_available), step)
 
     cash_txt = f"${cash_for_math:,.0f} cash" if available_cash is not None else "$0 cash (not_checked)"
     if pool_for_math > 0:
@@ -579,7 +662,7 @@ def _funding_reality(
 
     fields = {
         "funding_pool_usd": (
-            round(float(funding_pool), 2) if isinstance(funding_pool, (int, float)) else "not_checked"
+            pool_rounded if pool_rounded is not None else "not_checked"
         ),
         "funding_available_usd": funding_available,
         "exceeds_funding": bool(exceeds),
