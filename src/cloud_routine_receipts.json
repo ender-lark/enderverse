@@ -2,50 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.941360Z",
-      "summary": "morning scan manual run completed; Signal Log remains watch-only",
-      "details": {
-        "steps": [
-          {
-            "label": "signal log validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/signal_log_intake.py",
-              "--validate",
-              "src/signal_log.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 14\n}",
-            "stderr": ""
-          },
-          {
-            "label": "macro cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/macro_pulse_scan.py",
-              "--validate",
-              "src/macro_state.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.953766Z",
-      "summary": "investing-os-early-cockpit-build manual run started"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "manual",
@@ -6402,7 +6358,21 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T14:47:34.619107Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T14:50:14.441983Z",
+      "summary": "checked web 2 FlashInsights pages Macro latest Jun17 and Crypto stale Jun8; Gmail search 9 messages full-body 0 no fresh post-prior-success candidates; rows landed 0; suppressed/discovery-only web stale cards and Gmail promo/webinar/search snippets; validation passed; dashboard refresh skipped no rows; alert quiet; trigger guard fired 0 with quote lanes not_checked EWRE/ASTS/RKLB/MU; blockers none"
     }
   ],
-  "updated_at": "2026-06-18T14:35:07.828037Z"
+  "updated_at": "2026-06-18T14:50:14.441983Z"
 }
