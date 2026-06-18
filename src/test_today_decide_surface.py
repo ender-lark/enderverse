@@ -57,13 +57,25 @@ def test_hero_leads_with_a_real_move_or_honest_starvation():
 # ---------------------------------------------------------------------------
 # Every control persists (no build-without-wire)
 # ---------------------------------------------------------------------------
+def test_gated_move_reads_as_good_with_a_final_check_not_cryptic_stage():
+    # the operator's fix: a good-but-gated move must read as a good thing to do with
+    # one clearly-recommended final check — never the cryptic "STAGE".
+    html = _html(P._build_payload())
+    assert ">DO IT" in html                       # plain, positive primary label
+    assert ">STAGE<" not in html                  # cryptic STAGE button retired
+    low = html.lower()
+    assert "final check" in low                   # the recommended check is spelled out
+    assert ("looks like a good move" in low) or ("good to go" in low)
+
+
 def test_no_disposition_or_ask_or_tunable_control_without_persistence():
     html = _html(P._build_payload())
     js = td._JS
-    # disposition rail taps persist (localStorage) + best-effort spine sync + are wired
+    # disposition rail taps persist (localStorage) + automatic spine write + are wired
     assert "tdRail(this)" in html
     assert "localStorage.setItem(tdDispKey" in js
     assert "fetch('/td/disposition'" in js
+    assert "fetch('/td/note'" in js               # notes write automatically too
     # per-card ask/notes persist + emit a chat-ready [CARD <id>] tag
     assert "localStorage.setItem(tdNotesKey" in js
     assert "[CARD " in js

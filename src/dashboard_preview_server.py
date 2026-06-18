@@ -257,7 +257,104 @@ def preview_status(
     }
 
 
+DISPOSITION_ENDPOINT = "/td/disposition"
+NOTE_ENDPOINT = "/td/note"
+NOTES_PATH = ROOT / "src" / "card_notes.jsonl"
+_MAX_POST_BYTES = 16_384
+
+
+def append_disposition_from_payload(data: dict, *, path=None) -> dict:
+    """Persist a TODAY—DECIDE rail tap into the append-only disposition spine.
+
+    This is the 'fully automatic' write-back: a tap on the served dashboard lands
+    here (same-origin POST) and is appended to ``dispositions.jsonl`` directly — no
+    copy-paste. Verbs are validated against the spine; a PASS with no operator reason
+    gets a non-empty placeholder so the append never silently fails."""
+    import disposition_log
+
+    card_id = str((data or {}).get("card_id") or "").strip()
+    ticker = str((data or {}).get("ticker") or "").strip()
+    verb = str((data or {}).get("verb") or "").strip().upper()
+    et_date = str((data or {}).get("et_date") or "").strip()
+    reason = (data or {}).get("reason")
+    source = str((data or {}).get("source") or "dashboard").strip() or "dashboard"
+    if not card_id:
+        raise ValueError("card_id is required")
+    if verb not in disposition_log.VALID_VERBS:
+        raise ValueError(f"unsupported verb: {verb!r}")
+    if verb in disposition_log.REASON_REQUIRED_VERBS and not (reason and str(reason).strip()):
+        reason = "dashboard one-tap (no reason given)"
+    target = path if path is not None else disposition_log.DISPOSITIONS_PATH
+    return disposition_log.append_disposition(
+        et_date, card_id, ticker, verb, reason, source=source, path=target
+    )
+
+
+def append_note_from_payload(data: dict, *, path=None) -> dict:
+    """Persist a per-card ask/comment into an append-only notes log (same spine
+    family as dispositions). card_id-scoped so chat can resolve the exact card."""
+    import datetime as _dt
+
+    card_id = str((data or {}).get("card_id") or "").strip()
+    note = str((data or {}).get("note") or "").strip()
+    if not card_id or not note:
+        raise ValueError("card_id and note are required")
+    row = {
+        "ts": _dt.datetime.now(_dt.timezone.utc).isoformat(),
+        "card_id": card_id,
+        "ticker": str((data or {}).get("ticker") or "").strip().upper(),
+        "note": note[:2000],
+        "source": "dashboard",
+    }
+    out = Path(path) if path is not None else NOTES_PATH
+    parent = out.parent
+    if parent and not parent.exists():
+        parent.mkdir(parents=True, exist_ok=True)
+    with open(out, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps(row, separators=(",", ":"), ensure_ascii=False) + "\n")
+    return row
+
+
 class DashboardPreviewHandler(SimpleHTTPRequestHandler):
+    def _send_json(self, code: int, payload: dict) -> None:
+        body = json.dumps(payload).encode("utf-8")
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_POST(self) -> None:
+        path = self.path.split("?", 1)[0]
+        if path not in (DISPOSITION_ENDPOINT, NOTE_ENDPOINT):
+            self._send_json(404, {"ok": False, "error": "not found"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length") or 0)
+        except (TypeError, ValueError):
+            length = 0
+        if length <= 0 or length > _MAX_POST_BYTES:
+            self._send_json(400, {"ok": False, "error": "missing or oversized body"})
+            return
+        raw = self.rfile.read(length)
+        try:
+            data = json.loads(raw.decode("utf-8"))
+            if not isinstance(data, dict):
+                raise ValueError("body must be a JSON object")
+        except Exception:
+            self._send_json(400, {"ok": False, "error": "invalid JSON body"})
+            return
+        try:
+            if path == DISPOSITION_ENDPOINT:
+                row = append_disposition_from_payload(data)
+            else:
+                row = append_note_from_payload(data)
+            self._send_json(200, {"ok": True, "row": row})
+        except ValueError as exc:
+            self._send_json(400, {"ok": False, "error": str(exc)})
+        except Exception:
+            self._send_json(500, {"ok": False, "error": "server error"})
+
     def do_GET(self) -> None:
         if self.path.split("?", 1)[0] == ORIGIN_STATUS_PATH:
             host, port = self.server.server_address[:2]

@@ -3247,6 +3247,15 @@ _CSS = """
 .td .td-rail.td-stage.td-on{background:#d6a93a;color:#1b1404}
 .td .td-rail.td-pass{background:#1a1320;border-color:#4a3a5a;color:#e9d7ff;font-weight:700}
 .td .td-rail.td-pass.td-on{background:#7c5bd0;color:#0c0717}
+/* good-but-gated primary: reads as a confident "do it", with the final check flagged */
+.td .td-rail.td-docheck{background:#11341f;border:1px solid #2f7d4a;color:#d7ffe6;font-weight:750}
+.td .td-rail.td-docheck:hover{background:#155029}
+.td .td-rail.td-docheck.td-on{background:#16a34a;color:#04140a}
+.td .td-finalcheck{margin-top:13px;font-size:13px;color:#cfe8d6;background:rgba(52,211,153,.06);
+  border:1px solid rgba(52,211,153,.26);border-radius:10px;padding:9px 12px;line-height:1.45}
+.td .td-finalcheck b{color:#86efac}
+.td .td-finalcheck ul{margin:6px 0 6px;padding-left:20px} .td .td-finalcheck li{margin:2px 0;color:#e8eef7}
+.td .td-finalcheck.td-cleared{color:#bbf7d0;background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.4)}
 .td .td-fb{margin-top:9px;font-size:12.5px;color:#34d399;min-height:17px}
 .td .td-fb.td-fb-muted{color:#64748b}
 /* ask / comment + notes */
@@ -3359,15 +3368,21 @@ async function tdRail(btn){
   var id=btn.getAttribute('data-card');var verb=btn.getAttribute('data-verb');
   var label=(btn.getAttribute('data-label')||btn.textContent||verb).trim();
   var cur=tdGetDisp(id);var undo=!!cur&&cur.verb===verb;
-  /* persist first \u2014 this is the durable record */
+  /* persist on-device first \u2014 a tap never evaporates even with no server */
   if(undo){localStorage.removeItem(tdDispKey(id));}
   else{localStorage.setItem(tdDispKey(id),JSON.stringify({verb:verb,label:label,t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}));}
   tdRenderDisp(id);
-  /* best-effort sync to the disposition_log spine when a live server implements it */
-  try{fetch('/td/disposition',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({card_id:id,ticker:tdTicker(id),verb:(undo?'UNDO':verb),et_date:tdBuilt(),source:'dashboard'})}).catch(function(){});}catch(e){}
-  /* secondary: copy the chat-ready command so the operator can sync via chat */
+  /* secondary: copy the chat-ready command so it can also be synced via chat */
   tdCopy(undo?('UNDO '+id):(btn.getAttribute('data-copy')||(verb+' '+id)));
+  /* fully automatic: write straight to the permanent disposition log when served live */
+  var fb=document.getElementById('tdfb-'+id);
+  try{
+    var r=await fetch('/td/disposition',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({card_id:id,ticker:tdTicker(id),verb:(undo?'UNDO':verb),et_date:tdBuilt(),source:'dashboard'})});
+    if(fb&&!undo){fb.textContent+=(r&&r.ok)?'  \u00b7  \u2713 saved to your log':'  \u00b7  saved on this device (paste the copied line into chat to make it permanent)';}
+  }catch(e){
+    if(fb&&!undo){fb.textContent+='  \u00b7  saved on this device (paste the copied line into chat to make it permanent)';}
+  }
 }
 /* ---- per-card notes / ask ---- */
 function tdNotesKey(id){return 'td:notes:'+id;}
@@ -3386,6 +3401,10 @@ function tdAskSave(btn){
   var a=tdGetNotes(id);a.push({q:t,t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
   localStorage.setItem(tdNotesKey(id),JSON.stringify(a));
   ta.value='';if(fb){fb.className='td-askfb td-ok';fb.textContent='saved on card';}tdRenderNotes(id);
+  /* fully automatic: write the note to the permanent per-card notes log when served live */
+  try{fetch('/td/note',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({card_id:id,ticker:tdTicker(id),note:t,source:'dashboard'})}).then(function(r){
+      if(fb&&r&&r.ok)fb.textContent='saved on card · ✓ logged';}).catch(function(){});}catch(e){}
 }
 function tdAskCopy(btn){
   var id=btn.getAttribute('data-card');var headline=btn.getAttribute('data-headline')||'';
@@ -4760,7 +4779,7 @@ def _render_card(
     # Build the canonical rail buttons ONCE (data-verb/data-copy unchanged → parity +
     # mojibake stable). For a move, the rail surfaces in the loud header; otherwise it
     # stays inline in the card body. Visible labels get plain wording for moves only.
-    primary_hero_cls = (" td-do" if primary_state_verb == "ACT" else " td-stage") if show_trade_plan else ""
+    primary_hero_cls = (" td-do" if primary_state_verb == "ACT" else " td-docheck") if show_trade_plan else ""
     rail_parts = [
         f'<button class="{primary_class}{primary_hero_cls}" data-card="{cid}" data-verb="{primary_state_verb}" '
         f'data-label="{_esc(_friendly_label(primary_state_verb, primary_label, show_trade_plan))}" '
@@ -4843,6 +4862,7 @@ def _render_card(
             '<div class="td-hero">'
             + _render_trade_plan_header(card, plan, rank)
             + _render_sizing_transparency(card, tunables or {})
+            + _render_final_check(card, plan, gated=(primary_state_verb != "ACT"))
             + rail_html + feedback_html
             + _render_ask_block(raw_cid, headline)
             + '<div class="td-row" style="margin-top:10px;color:#64748b;font-size:12px">▾ full engine card — face, conviction read &amp; evidence — below</div>'
@@ -4960,10 +4980,60 @@ def _move_verb(card: dict[str, Any], plan: dict[str, Any]) -> str:
 def _friendly_label(state_verb: str, default: str, hero: bool) -> str:
     """Plain-language rail labels for the loud move surface (no shorthand). The
     visible text changes; data-verb / data-copy stay canonical so the parity +
-    persistence contracts are untouched."""
+    persistence contracts are untouched. A cleared move reads 'DO IT'; a move the
+    engine still gates reads 'DO IT — final check first' (a good move, with one
+    recommended check spelled out beside the rail), never the cryptic 'STAGE'."""
     if not hero:
         return default
-    return {"ACT": "DO IT", "CANDIDATE": "STAGE", "RECHECK": "STAGE", "WATCH": "WATCH"}.get(state_verb, default)
+    return {
+        "ACT": "DO IT",
+        "CANDIDATE": "DO IT — final check first",
+        "RECHECK": "DO IT — final check first",
+        "WATCH": "WATCH",
+    }.get(state_verb, default)
+
+
+_BLOCKER_PLAIN = {
+    "same-session uw price/flow": "a fresh live options/flow check (Unusual Whales) this session",
+    "funding source confirmation": "the sells that fund it (above) actually clear",
+    "pre-trade gate": "the pre-trade price gate holds (see the gate line above)",
+}
+
+
+def _final_check_items(card: dict[str, Any], plan: dict[str, Any]) -> list[str]:
+    """Plain-language 'final check' list for a good-but-gated move. Faithful to the
+    engine's own blocker labels (humanized where known, verbatim otherwise) — never
+    fabricated."""
+    raw = list((plan or {}).get("blockers") or []) or list(card.get("card_blockers") or [])
+    out: list[str] = []
+    for item in raw:
+        text = str(item or "").strip()
+        if not text:
+            continue
+        out.append(_BLOCKER_PLAIN.get(text.lower(), text))
+    return out
+
+
+def _render_final_check(card: dict[str, Any], plan: dict[str, Any], gated: bool) -> str:
+    """A positive, plain-language note by the move rail. Gated → 'looks like a good
+    move; one final check recommended before you place the order'. Cleared → 'good to
+    go'. Replaces the old cryptic STAGE affordance with a clear recommended-check."""
+    if not gated:
+        return ('<div class="td-finalcheck td-cleared"><b>✓ Cleared — good to go.</b> '
+                'The pre-trade checks are met; place the order when you are ready.</div>')
+    items = _final_check_items(card, plan)
+    body = (
+        '<ul>' + "".join(f'<li>{_esc(it)}</li>' for it in items) + '</ul>'
+        if items else
+        '<div>Confirm the pre-trade gate above before you place the order.</div>'
+    )
+    return (
+        '<div class="td-finalcheck">'
+        '<b>✓ This looks like a good move.</b> One final check is <b>recommended</b> before you place the order:'
+        f'{body}'
+        'Tap <b>DO IT — final check first</b> to record that you are committing; it becomes a plain '
+        '<b>DO IT</b> once these clear.</div>'
+    )
 
 
 def _render_trade_plan_header(card: dict[str, Any], plan: dict[str, Any], rank: int) -> str:
