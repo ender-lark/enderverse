@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "source": "federal_funding_intake",
+  "generated_at": "2026-06-18T17:35:00Z",
+  "as_of": "2026-06-18",
+  "scan_status": "has_data",
+  "rows": [
+    {
+      "date": "2026-06-18",
+      "priority": "high",
+      "agency": "Department of War Office of Strategic Capital",
+      "program": "critical minerals and rare-earth processing",
+      "recipient": "Energy Fuels",
+      "title": "Energy Fuels",
+      "award_text": "$725M conditional loan commitment for U.S. rare-earth separation and metallization capacity",
+      "award_value_usd": 725000000,
+      "tickers": [
+        "UUUU",
+        "TSX:EFR"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Most direct public-company funding catalyst in the attached scans; material policy-backed financing for UUUU's rare-earth pivot, but still not closed.",
+      "risks": [
+        "conditional commitment",
+        "final close diligence",
+        "capex execution",
+        "possible equity dilution",
+        "offtake visibility"
+      ],
+      "next_trigger": "Final loan close terms, project capex budget, customer/offtake evidence, and same-session price/flow confirmation.",
+      "source_urls": [
+        "https://www.war.gov/News/Releases/Release/Article/4520819/the-department-of-wars-office-of-strategic-capital-signs-725-million-conditiona/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-15",
+      "priority": "medium",
+      "agency": "U.S. Space Force",
+      "program": "GPS IIIF Space Vehicles 23 and 24",
+      "recipient": "Lockheed Martin",
+      "title": "Lockheed Martin",
+      "award_text": "$514M contract for two GPS IIIF satellites",
+      "award_value_usd": 514000000,
+      "tickers": [
+        "LMT"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "National-security space backlog support and resilient PNT exposure, but slower-moving than a near-term trade trigger.",
+      "risks": [
+        "long-cycle program",
+        "backlog support rather than immediate earnings catalyst"
+      ],
+      "next_trigger": "Space Force follow-on awards, margin detail, or national-security space budget acceleration.",
+      "source_urls": [
+        "https://news.lockheedmartin.com/Lockheed-Martin-Secures-514M-US-Space-Force-Contract-for-GPS-IIIF-SV23-24-Boosting-Future-Constellation-Resiliency"
+      ],
+      "source_quality": "company_primary"
+    },
+    {
+      "date": "2026-06-16",
+      "priority": "medium",
+      "agency": "Commerce CHIPS Program Office / NIST",
+      "program": "CHIPS indium phosphide production expansion",
+      "recipient": "Coherent",
+      "title": "Coherent",
+      "award_text": "Up to $50M letter of intent to expand Coherent's Sherman, Texas indium phosphide wafer facility",
+      "award_value_usd": 50000000,
+      "tickers": [
+        "COHR"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Clean public CHIPS-linked photonics beneficiary tied to AI datacenter optical interconnect supply chain.",
+      "risks": [
+        "letter of intent",
+        "not final award",
+        "facility execution",
+        "AI photonics demand timing"
+      ],
+      "next_trigger": "Final CHIPS award terms, capex/production milestones, datacenter-photonics customer demand evidence.",
+      "source_urls": [
+        "https://www.nist.gov/news-events/news/2026/06/department-commerces-chips-program-announces-letter-intent-coherent-50"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-17",
+      "priority": "medium",
+      "agency": "Department of the Air Force",
+      "program": "Collaborative Combat Aircraft mission autonomy production options",
+      "recipient": "RTX Collins Aerospace / Anduril / Shield AI; pool includes Lockheed Martin and Northrop Grumman",
+      "title": "RTX Collins Aerospace / Anduril / Shield AI; pool includes Lockheed Martin and Northrop Grumman",
+      "award_text": "CCA mission-autonomy production options awarded; dollar values not disclosed",
+      "award_value_usd": null,
+      "tickers": [
+        "RTX",
+        "LMT",
+        "NOC"
+      ],
+      "directness": "public_read_through",
+      "actionability": "watch",
+      "investing_angle": "Strategic autonomy-software tailwind; RTX has the cleanest public production-option read-through but dollars are undisclosed.",
+      "risks": [
+        "undisclosed dollars",
+        "competitive phase",
+        "long-cycle autonomy procurement"
+      ],
+      "next_trigger": "Dollarized task orders, primary autonomy-provider selection, software license economics, or summer 2027 CCA follow-on detail.",
+      "source_urls": [
+        "https://www.af.mil/News/Article-Display/Article/4520575/air-force-advances-future-of-air-superiority-with-cca-contracts/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-17",
+      "priority": "medium",
+      "agency": "Commerce CHIPS R&D Office / NIST",
+      "program": "CHIPS R&D AI-driven semiconductor materials",
+      "recipient": "SandboxAQ",
+      "title": "SandboxAQ",
+      "award_text": "$500M CHIPS R&D award plus Commerce minority non-voting equity stake",
+      "award_value_usd": 500000000,
+      "tickers": [
+        "NVDA",
+        "AMAT",
+        "LRCX",
+        "INTC",
+        "TSM",
+        "GOOGL"
+      ],
+      "directness": "private_read_through",
+      "actionability": "watch",
+      "investing_angle": "Useful semis/materials supply-chain signal, but direct recipient is private; public tickers are read-throughs only.",
+      "risks": [
+        "private direct recipient",
+        "read-through only",
+        "commercialization timing uncertain"
+      ],
+      "next_trigger": "Public partner/customer detail, tool-vendor demand evidence, or company-specific revenue linkage.",
+      "source_urls": [
+        "https://www.nist.gov/news-events/news/2026/06/department-commerce-announces-definitive-agreement-sandboxaq-500-million"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-18",
+      "priority": "medium",
+      "agency": "Department of Homeland Security / Customs and Border Protection",
+      "program": "Medium Energy Mobile Systems IDIQ",
+      "recipient": "Leidos",
+      "title": "Leidos",
+      "award_text": "Potential $270M IDIQ to deliver up to 100 mobile non-intrusive inspection systems over five years",
+      "award_value_usd": 270000000,
+      "tickers": [
+        "LDOS"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Direct backlog support for border-security inspection systems, but IDIQ/task-order timing keeps it watch context.",
+      "risks": [
+        "IDIQ ceiling",
+        "not guaranteed revenue",
+        "task-order timing",
+        "secondary source until official award detail is fetched"
+      ],
+      "next_trigger": "Official CBP award notice, task orders, margin detail, or follow-on deployment evidence.",
+      "source_urls": [
+        "https://www.govconwire.com/articles/leidos-cbp-medium-energy-mobile-systems"
+      ],
+      "source_quality": "secondary_verified"
+    },
+    {
+      "date": "2026-06-17",
+      "priority": "low",
+      "agency": "Department of War / Air Force",
+      "program": "Integrated conventional stores management system repair services",
+      "recipient": "Boeing",
+      "title": "Boeing",
+      "award_text": "$17.93M sole-source requirements contract for line-replaceable-unit repair services",
+      "award_value_usd": 17930000,
+      "tickers": [
+        "BA"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "ignore",
+      "investing_angle": "Useful sustainment work but immaterial for Boeing.",
+      "risks": [
+        "immaterial size"
+      ],
+      "next_trigger": "Ignore unless tied to a broader sustainment or margin trend.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4520478/contracts-for-june-17-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-17",
+      "priority": "low",
+      "agency": "Department of War / Navy",
+      "program": "MK 54 lightweight torpedo sonar assembly kits",
+      "recipient": "General Dynamics Mission Systems",
+      "title": "General Dynamics Mission Systems",
+      "award_text": "$116.6M modification for MK 54 MOD 1 lightweight torpedo sonar assembly kits, test equipment, spares, and support",
+      "award_value_usd": 116600000,
+      "tickers": [
+        "GD"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Real undersea-warfare backlog increment, but small relative to GD scale.",
+      "risks": [
+        "small relative to company scale",
+        "modification/options rather than new thesis"
+      ],
+      "next_trigger": "Larger follow-on undersea awards or margin/backlog detail.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4520478/contracts-for-june-17-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-17",
+      "priority": "low",
+      "agency": "Defense Health Agency",
+      "program": "Global Nurse Advice Line bridge support",
+      "recipient": "OptumHealth Care Solutions",
+      "title": "OptumHealth Care Solutions",
+      "award_text": "$25.3M bridge modification for Military Health System nurse-advice-line support",
+      "award_value_usd": 25300000,
+      "tickers": [
+        "UNH"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "ignore",
+      "investing_angle": "Real revenue but immaterial for UnitedHealth; maintenance only.",
+      "risks": [
+        "immaterial size"
+      ],
+      "next_trigger": "Only relevant if larger Military Health System outsourcing awards follow.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4520478/contracts-for-june-17-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-18",
+      "priority": "low",
+      "agency": "Department of War / OECIF",
+      "program": "on-orbit refueling and fuel-depot demonstration",
+      "recipient": "Quantum Space",
+      "title": "Quantum Space",
+      "award_text": "Contract to advance on-orbit refueling/fuel-depot capabilities; value not disclosed",
+      "award_value_usd": null,
+      "tickers": [
+        "IPFX"
+      ],
+      "directness": "private_read_through",
+      "actionability": "watch",
+      "investing_angle": "Space-logistics watch item only; public exposure depends on proposed SPAC transaction closing.",
+      "risks": [
+        "private company",
+        "SPAC deal not closed",
+        "undisclosed award value",
+        "high execution risk"
+      ],
+      "next_trigger": "Official contract details, SPAC closing, value disclosure, or DoW follow-on funding.",
+      "source_urls": [
+        "https://www.prnewswire.com/news-releases/quantum-space-awarded-a-department-of-war-contract-to-advance-on-orbit-refueling-capabilities-302803727.html"
+      ],
+      "source_quality": "company_primary"
+    }
+  ],
+  "summary": {
+    "stored": 10,
+    "high": 1,
+    "direct_public": 2,
+    "research_candidates": 2,
+    "top_signal": "Energy Fuels: $725M conditional loan commitment for U.S. rare-earth separation and metallization capacity",
+    "merged": true
+  }
+}

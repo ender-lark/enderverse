@@ -339,6 +339,43 @@
       "no_input_behavior": "Do not overwrite event_risks.json; report Event Risk as not checked."
     },
     {
+      "id": "federal_funding_moves",
+      "title": "Federal Funding Moves",
+      "status": "active_safe_intake",
+      "cadence": "market_weekday_midday_and_post_close",
+      "doc": "src/codex_routines/Federal_Funding_Moves_Routine_Prompt_v1.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Official federal award, loan, grant, contract, and program-funding pages",
+        "Secondary market/news sources only for ticker mapping, price reaction, and read-through context",
+        "Compact structured rows only; no raw article bodies or invented award data"
+      ],
+      "owns": [
+        "src/federal_funding_moves.json",
+        "src/federal_funding_intake_summary.json"
+      ],
+      "commands": [
+        {
+          "id": "stdin_compact_funding_rows",
+          "command": "python src/federal_funding_intake.py --stdin-json --out src/federal_funding_moves.json --summary src/federal_funding_intake_summary.json --signal-log-out src/signal_log.json --research-out src/research_queue.json --theses src/theses.json --merge-existing"
+        },
+        {
+          "id": "validate_federal_funding_cache",
+          "command": "python src/federal_funding_intake.py --validate src/federal_funding_moves.json"
+        },
+        {
+          "id": "validate_derived_signal_log",
+          "command": "python src/signal_log_intake.py --validate src/signal_log.json"
+        },
+        {
+          "id": "validate_derived_research_queue",
+          "command": "python src/research_queue_intake.py --validate src/research_queue.json"
+        }
+      ],
+      "verification": "python -m pytest src/test_federal_funding_intake.py src/test_signal_log_intake.py src/test_research_queue_intake.py -q",
+      "no_input_behavior": "If no official federal sources can be checked, do not overwrite federal_funding_moves.json and report Federal Funding Moves as not checked. If sources are checked and no useful rows exist, write an empty checked scan without touching derived Signal Log or Research Queue rows."
+    },
+    {
       "id": "daily_full_build",
       "title": "Daily Full Build",
       "status": "active",

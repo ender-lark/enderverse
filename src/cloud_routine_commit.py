@@ -76,6 +76,8 @@ DEFAULT_ALLOWED_PATHS = [
     "src/catalyst_intake_summary.json",
     "src/event_risks.json",
     "src/event_risk_intake_summary.json",
+    "src/federal_funding_moves.json",
+    "src/federal_funding_intake_summary.json",
     "src/uw_opportunity_signals.json",
     "src/uw_endpoint_results.json",
     "src/uw_endpoint_interpretations.json",

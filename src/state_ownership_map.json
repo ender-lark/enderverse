@@ -176,6 +176,18 @@
       "action_surface": "High/medium ticker dossiers surface; explicit ACT_NOW non-MONITOR dossiers promote."
     },
     {
+      "id": "federal_funding_moves",
+      "source_of_truth": "official_federal_award_contract_and_program_funding_scan",
+      "repo_artifact": "src/federal_funding_moves.json",
+      "producer": "federal_funding_moves -> federal_funding_intake.py",
+      "feed_path": "federal_funding_intake.py derives rows into full_build_runner.DEFAULT_FILES.signal_log and full_build_runner.DEFAULT_FILES.research; the dedicated cache remains audit/source evidence.",
+      "dashboard_surface": "Signal Log watch rows and Research Queue review rows",
+      "mirror_policy": "GitHub stores compact verified award rows, source URLs, ticker mapping, directness, risks, and next triggers only; raw articles, raw contract pages, and long copyrighted bodies are not committed.",
+      "freshness_contract": "Update on scheduled federal funding scans only after official sources or explicitly verified secondary rows are checked. A completed empty scan may write checked_clear cache status; failed or unavailable source pulls stay not_checked.",
+      "not_checked_behavior": "If official federal sources cannot be checked, do not overwrite the cache and keep Federal Funding Moves not checked; absence is not no funding moves.",
+      "action_surface": "Direct material public-company awards become Research Queue review rows; private/read-through awards stay Signal Log watch context. MONITOR names stay review-only and never create an alternate add path."
+    },
+    {
       "id": "catalysts",
       "source_of_truth": "catalyst_calendar_export_or_notion",
       "repo_artifact": "src/catalysts.json",

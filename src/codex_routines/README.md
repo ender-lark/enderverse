@@ -81,12 +81,20 @@ not-checked instead of being treated as clear.
    - Preserve watch-only context; this routine never promotes actions directly.
    - Missing supplied signal log remains not checked.
 
-7. Daily full build
+7. Federal Funding Moves
+   - Scan official federal award, contract, loan, grant, and program-funding
+     pages for public-company market relevance.
+   - Write compact rows to `federal_funding_moves.json`.
+   - Derive watch-only Signal Log rows and Research Queue review rows through
+     the existing normalizers. MONITOR tickers remain review-only.
+   - Missing official-source access remains not checked.
+
+8. Daily full build
    - Run `full_build_runner.py`.
    - Publish only through the publish gate.
    - Update action memory only after the feed is publish-safe.
 
-8. Off-hours research queue
+9. Off-hours research queue
    - Normalize supplied/exported Research Queue rows with
      `research_queue_intake.py`.
    - Write `research_queue.json` only when queue rows were actually supplied.

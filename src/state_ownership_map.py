@@ -28,6 +28,7 @@ EXPECTED_ARTIFACT_IDS = {
     "catalysts",
     "daily_synthesis",
     "event_risk",
+    "federal_funding_moves",
     "fed_day_reallocation_packet",
     "fundstrat_bible",
     "positions",

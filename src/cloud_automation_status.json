@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-17T15:27:23-04:00",
-  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, registered FS Inbox Catch-up as four paired weekday schedules, added the Positions Sync post-close expected schedule, and created the six Life/Work OS Codex app automations on 2026-06-17 at the canonical main checkout.",
+  "verified_at": "2026-06-18T13:31:26-04:00",
+  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, registered FS Inbox Catch-up as four paired weekday schedules, added the Positions Sync post-close expected schedule, created the six Life/Work OS Codex app automations on 2026-06-17, and created the two Federal Funding Moves Codex app automations on 2026-06-18 at the canonical main checkout.",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
     "On 2026-06-12, the temporary usage-conservation pauses were lifted for the current Fundstrat web routines and heavy off-hours routines; only the superseded legacy jobs remain paused.",
@@ -22,7 +22,8 @@
     "On 2026-06-15, the Pre-Market Source Intake app automation workspace was corrected from a malformed duplicated path back to the canonical enderverse-held-decisions-strip repo path. The proof activation timestamp was not reset; missed core receipts remain overdue until the scheduler proves them naturally.",
     "Fundstrat Late Evening Web/Transcript Sweep runs at 10:45 PM ET market weekdays to catch late-posted web/video items after the 7:00 PM after-hours pass; transcript text must be written only to the private source vault.",
     "Loose-Thread Sweep runs daily at 10:15 PM ET as a support routine. It is capture-only, dedupe-first, and writes only genuinely new still-timely loose threads to the correct Notion queue/log after live readback verification.",
-    "Life OS and Work OS routines were reconciled on 2026-06-17 as new support-monitored Codex automations, then created in the Codex app at 2026-06-17T15:27:23-04:00 against the canonical main checkout. They remain support-scope until real scheduled receipts land on main."
+    "Life OS and Work OS routines were reconciled on 2026-06-17 as new support-monitored Codex automations, then created in the Codex app at 2026-06-17T15:27:23-04:00 against the canonical main checkout. They remain support-scope until real scheduled receipts land on main.",
+    "Federal Funding Moves runs as two new Codex automations created on 2026-06-18 at the canonical main checkout: a market-weekday 11:20 AM ET midday watch and a market-weekday 5:35 PM ET post-close/contract sweep. Both use gpt-5.5, source official federal pages first, write compact rows through src/federal_funding_intake.py, and keep MONITOR tickers review-only."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
@@ -150,6 +151,18 @@
       "schedule": "market weekdays 10:30 AM ET"
     },
     {
+      "automation_id": "investing-os-federal-funding-midday-watch",
+      "automation_name": "Investing OS Federal Funding Midday Watch",
+      "status": "ACTIVE",
+      "role": "federal_funding_midday_watch",
+      "schedule": "market weekdays 11:20 AM ET",
+      "expected_since": "2026-06-18T13:31:26-04:00",
+      "prompt": "src/codex_routines/Federal_Funding_Moves_Routine_Prompt_v1.md",
+      "writes_to": "src/federal_funding_moves.json, src/signal_log.json, src/research_queue.json",
+      "model": "gpt-5.5",
+      "reasoning_effort": "xhigh"
+    },
+    {
       "automation_id": "investing-os-fs-inbox-catch-up-midday",
       "automation_name": "Investing OS FS Inbox Catch-up Midday",
       "status": "ACTIVE",
@@ -179,6 +192,18 @@
       "role": "positions_sync",
       "schedule": "market weekdays 4:45 PM ET",
       "expected_since": "2026-06-15T16:45:00-04:00"
+    },
+    {
+      "automation_id": "investing-os-federal-funding-post-close-sweep",
+      "automation_name": "Investing OS Federal Funding Post-Close Sweep",
+      "status": "ACTIVE",
+      "role": "federal_funding_post_close_sweep",
+      "schedule": "market weekdays 5:35 PM ET",
+      "expected_since": "2026-06-18T13:31:26-04:00",
+      "prompt": "src/codex_routines/Federal_Funding_Moves_Routine_Prompt_v1.md",
+      "writes_to": "src/federal_funding_moves.json, src/signal_log.json, src/research_queue.json",
+      "model": "gpt-5.5",
+      "reasoning_effort": "max"
     },
     {
       "automation_id": "investing-os-fundstrat-after-hours-catch-up",

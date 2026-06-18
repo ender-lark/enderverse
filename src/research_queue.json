@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-09T13:04:59Z",
+  "generated_at": "2026-06-18T17:35:00Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -24,6 +24,22 @@
       "ticker": "GOOGL",
       "notes": "GOOGL SEC 424B5 references mandatory convertible preferred/depositary shares, up-to-$40B ATM program, $10B Berkshire-affiliate private placement, and proceeds for AI infrastructure/global compute. Review dilution/cost-of-capital/capex ROI before simple add framing.",
       "source": "SEC 424B5 via manual off-hours alt-data scout 2026-06-09"
+    },
+    {
+      "r": "UUUU - federal funding catalyst review: Energy Fuels ($725M conditional loan commitment for U.S. rare-earth separation and metallization capacity)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "UUUU",
+      "notes": "Energy Fuels: $725M conditional loan commitment for U.S. rare-earth separation and metallization capacity. Agency/program: Department of War Office of Strategic Capital / critical minerals and rare-earth processing. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Final loan close terms, project capex budget, customer/offtake evidence, and same-session price/flow confirmation.. Risks: conditional commitment; final close diligence; capex execution; possible equity dilution; offtake visibility. MONITOR sleeve guardrail: no add path unless a defined-risk re-entry trigger is separately confirmed.",
+      "source": "federal_funding_monitor"
+    },
+    {
+      "r": "COHR - federal funding catalyst review: Coherent (Up to $50M letter of intent to expand Coherent's Sherman, Texas indium phosphide wafer facility)",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "COHR",
+      "notes": "Coherent: Up to $50M letter of intent to expand Coherent's Sherman, Texas indium phosphide wafer facility. Agency/program: Commerce CHIPS Program Office / NIST / CHIPS indium phosphide production expansion. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Final CHIPS award terms, capex/production milestones, datacenter-photonics customer demand evidence.. Risks: letter of intent; not final award; facility execution; AI photonics demand timing.",
+      "source": "federal_funding_monitor"
     }
   ],
   "done": [],
@@ -33,7 +49,7 @@
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 3,
+    "stored_pending": 5,
     "stored_done": 0
   }
 }
