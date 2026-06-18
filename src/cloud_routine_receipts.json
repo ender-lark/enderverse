@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:53.084128Z",
-      "summary": "investing-os-off-hours-worker manual run started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
       "status": "success",
       "run_source": "manual",
       "recorded_at": "2026-06-08T05:41:53.161367Z",
@@ -6446,7 +6439,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T00:49:03.183448Z",
       "summary": "dry-run 8; queued GOOGL,UUUU,TPL,SOFI,SATS,PKG,KTOS,HOOD; Notion readback verified 8/8; remaining unqueued uncorroborated 13; dark/stale lanes unchanged; blocker NOTION_API_TOKEN missing but NOTION_TOKEN alias worked"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T00:54:30.149819Z",
+      "summary": "FS inbox catch-up evening ingested 3 entries; logged 6 calls; marker advanced to [06/17/2026 19:40 ET]; flags post-FOMC/rates source review, XBI breakout, crypto framework; no gate/card contradiction; query endpoint dark fallback search"
     }
   ],
-  "updated_at": "2026-06-18T00:49:03.183448Z"
+  "updated_at": "2026-06-18T00:54:30.149819Z"
 }
