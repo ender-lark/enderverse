@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-08T17:48:43.331153Z",
-      "summary": "checked 2 msgs, read 2 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T18:46:41.540899Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-08T18:47:33.335584Z",
       "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
     },
@@ -6442,7 +6428,33 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T13:16:34.256034Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T13:16:35.905483Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-18T12:59:35.924588Z"
+  "updated_at": "2026-06-18T13:16:35.905483Z"
 }
