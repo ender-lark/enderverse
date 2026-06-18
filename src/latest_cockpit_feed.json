@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T20:49:40.940223+00:00",
+  "generated_at": "2026-06-18T23:14:03.338563+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-18 \u00b7 uw_price 06-18 \u00b7 uw_macro 06-18 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-18",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-18T16:49:40.940223-04:00",
+        "date": "2026-06-18T19:14:03.338563-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-18T16:49:40.940223-04:00",
+        "date": "2026-06-18T19:14:03.338563-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -2471,38 +2471,38 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-18T20:49:40.793108+00:00",
+      "last_run": "2026-06-18T23:14:03.191058+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-18T20:49:40.793108+00:00",
+      "last_run": "2026-06-18T23:14:03.191058+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-18T20:49:40.793108+00:00",
+      "last_run": "2026-06-18T23:14:03.191058+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-18T20:49:40.793108+00:00",
+      "last_run": "2026-06-18T23:14:03.191058+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-18T20:49:40.793108+00:00",
+      "last_run": "2026-06-18T23:14:03.191058+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "stale",
-      "last_run": "2026-06-18T20:49:40.793108+00:00",
-      "note": "due waiting: Investing OS Positions Sync, last scheduled success 2026-06-17T20:51:45.588859Z; latest manual support 2026-06-16T14:38:48.818422Z; grace until 2026-06-18T17:15:00-04:00"
+      "last_run": "2026-06-18T23:14:03.191058+00:00",
+      "note": "due waiting: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-17T23:11:06.907234Z; latest manual support 2026-06-16T14:38:49.463256Z; grace until 2026-06-18T19:30:00-04:00"
     }
   ],
   "synthesis": {
@@ -2816,6 +2816,17 @@
       "window": "seasonally bullish Healthcare period",
       "date": "2026-06-17",
       "quote": "Newton flags Biotech outperformance inside Healthcare; XBI is breaking out to a five-year high while IBB lags, with upside target near $173 around the Feb 2021 peak."
+    },
+    {
+      "ticker": "UUP",
+      "author": "Mark L. Newton, CMT",
+      "direction": "watch",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "window": null,
+      "date": "2026-06-18",
+      "quote": "Dollar risk should be re-checked: Newton flags USDJPY reversal risk and expects Yen strength / weaker USD if Strait reopening outweighs Warsh hawkishness."
     }
   ],
   "lean_in": [
@@ -3586,7 +3597,7 @@
     "source_calls": {
       "status": "has_data",
       "line": "SCORING LAG: clean \u2014 no calls past window-end awaiting a score.",
-      "pending_count": 62,
+      "pending_count": 64,
       "overdue_count": 0,
       "oldest_overdue_days": 0,
       "rates": [
@@ -13409,7 +13420,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-18T10:01:51-04:00",
-        "connector_proof_age_hours": 6.8
+        "connector_proof_age_hours": 9.2
       }
     ],
     "missing": [],
@@ -13419,73 +13430,73 @@
   "source_audits": {
     "fundstrat": {
       "status": "has_data",
-      "line": "Fundstrat latest intake: 1 full-body, 0 snippet-only, 1 daily calls; stored cache: 71 inbox entries (60 full-body, 11 snippet-only), 62 daily calls, 62 stored source-call candidates.",
-      "entries": 1,
-      "full_body_entries": 1,
+      "line": "Fundstrat latest intake: 2 full-body, 0 snippet-only, 2 daily calls; stored cache: 73 inbox entries (62 full-body, 11 snippet-only), 64 daily calls, 64 stored source-call candidates.",
+      "entries": 2,
+      "full_body_entries": 2,
       "snippet_only_entries": 0,
-      "daily_calls": 1,
-      "source_call_candidates": 1,
-      "stored_entries": 1,
-      "stored_cache_entries": 71,
-      "stored_full_body_entries": 60,
+      "daily_calls": 2,
+      "source_call_candidates": 2,
+      "stored_entries": 2,
+      "stored_cache_entries": 73,
+      "stored_full_body_entries": 62,
       "stored_snippet_only_entries": 11,
-      "stored_daily_calls": 62,
-      "stored_daily_call_rows": 62,
-      "stored_source_call_candidates": 62,
+      "stored_daily_calls": 64,
+      "stored_daily_call_rows": 64,
+      "stored_source_call_candidates": 64,
       "bodies_redacted": true,
       "snippet_rule": "Snippet-only Gmail results are discovery only; they do not make a lane checked clear."
     },
     "cloud_routines": {
       "status": "not_proven",
-      "line": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=1; support monitored=21, support overdue=0.",
+      "line": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=1; support monitored=21, support overdue=1.",
       "scheduled_success_count": 14,
       "expected_count": 14,
       "core_expected_count": 14,
       "support_expected_count": 21,
       "support_scheduled_success_count": 15,
       "support_manual_support_only_count": 4,
-      "support_overdue_count": 0,
+      "support_overdue_count": 1,
       "manual_support_only_count": 0,
       "failed_latest_count": 1,
       "overdue_count": 0,
       "due_waiting_count": 1,
       "routine_receipt_due": {
         "activated_at": "2026-06-18T13:31:26-04:00",
-        "now": "2026-06-18T16:49:40.940223-04:00",
+        "now": "2026-06-18T19:14:03.338563-04:00",
         "grace_minutes": 30,
         "overdue_count": 0,
         "due_waiting_count": 1,
-        "current_count": 1,
-        "not_due_yet_count": 12,
+        "current_count": 2,
+        "not_due_yet_count": 11,
         "next_due": {
-          "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-          "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
-          "role": "fundstrat_after_hours_catchup",
-          "schedule": "market weekdays 7:00 PM ET",
+          "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+          "routine_name": "Investing OS Fundstrat Pre-Market Safety Sweep",
+          "role": "fundstrat_pre_market_safety_sweep",
+          "schedule": "market weekdays 7:45 AM ET",
           "due_state": "not_due_yet",
           "expected_since": "2026-06-18T13:31:26-04:00",
           "last_due_at": "",
-          "next_due_at": "2026-06-18T19:00:00-04:00",
+          "next_due_at": "2026-06-19T07:45:00-04:00",
           "overdue_after": "",
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-17T23:11:06.907234Z",
-          "last_success_at": "2026-06-17T23:11:06.907234Z",
+          "last_recorded_at": "2026-06-18T11:51:55.084626Z",
+          "last_success_at": "2026-06-18T11:51:55.084626Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-17T23:11:06.907234Z",
-          "last_scheduled_success_at": "2026-06-17T23:11:06.907234Z",
-          "last_scheduled_summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none",
-          "last_manual_recorded_at": "2026-06-16T14:38:49.463256Z",
-          "last_manual_success_at": "2026-06-16T14:38:49.463256Z",
-          "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
+          "last_scheduled_recorded_at": "2026-06-18T11:51:55.084626Z",
+          "last_scheduled_success_at": "2026-06-18T11:51:55.084626Z",
+          "last_scheduled_summary": "checked web 10 pages Macro/Crypto FlashInsights plus research listings/detail; Gmail 0; landed 1 compact crypto Warsh-policy row; suppressed/discovery stale/duplicate Macro FlashInsights, Crypto FlashInsights Jun8, First Word, Intraday, US Policy, DTS/Fed duplicates; validation passed; dashboard refreshed; Notion not used; dark/stale lanes crypto FlashInsights stale, no fresh premarket First Word/Intraday",
+          "last_manual_recorded_at": "2026-06-16T15:48:07.437147Z",
+          "last_manual_success_at": "2026-06-16T15:48:07.437147Z",
+          "last_manual_summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
           "manual_support_only": false,
-          "last_summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none",
-          "last_ran_at": "2026-06-17T23:11:06.907234Z",
-          "last_ran_label": "2026-06-17T23:11:06.907234Z",
-          "last_scheduled_success_label": "2026-06-17T23:11:06.907234Z",
-          "latest_manual_support_label": "2026-06-16T14:38:49.463256Z",
-          "overdue_line": "overdue: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-17T23:11:06.907234Z; latest manual support 2026-06-16T14:38:49.463256Z"
+          "last_summary": "checked web 10 pages Macro/Crypto FlashInsights plus research listings/detail; Gmail 0; landed 1 compact crypto Warsh-policy row; suppressed/discovery stale/duplicate Macro FlashInsights, Crypto FlashInsights Jun8, First Word, Intraday, US Policy, DTS/Fed duplicates; validation passed; dashboard refreshed; Notion not used; dark/stale lanes crypto FlashInsights stale, no fresh premarket First Word/Intraday",
+          "last_ran_at": "2026-06-18T11:51:55.084626Z",
+          "last_ran_label": "2026-06-18T11:51:55.084626Z",
+          "last_scheduled_success_label": "2026-06-18T11:51:55.084626Z",
+          "latest_manual_support_label": "2026-06-16T15:48:07.437147Z",
+          "overdue_line": "overdue: Investing OS Fundstrat Pre-Market Safety Sweep, last scheduled success 2026-06-18T11:51:55.084626Z; latest manual support 2026-06-16T15:48:07.437147Z"
         },
         "rows": [
           {
@@ -13853,55 +13864,55 @@
             "routine_name": "Investing OS Positions Sync",
             "role": "positions_sync",
             "schedule": "market weekdays 4:45 PM ET",
-            "due_state": "due_waiting",
+            "due_state": "current",
             "expected_since": "2026-06-18T13:31:26-04:00",
             "last_due_at": "2026-06-18T16:45:00-04:00",
             "next_due_at": "2026-06-19T16:45:00-04:00",
             "overdue_after": "2026-06-18T17:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-18T20:46:12.135956Z",
-            "last_success_at": "2026-06-17T20:51:45.588859Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-18T20:46:12.135956Z",
-            "last_scheduled_success_at": "2026-06-17T20:51:45.588859Z",
-            "last_scheduled_summary": "positions sync started",
+            "last_recorded_at": "2026-06-18T20:52:40.032226Z",
+            "last_success_at": "2026-06-18T20:52:40.032226Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-18T20:52:40.032226Z",
+            "last_scheduled_success_at": "2026-06-18T20:52:40.032226Z",
+            "last_scheduled_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
             "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
             "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
             "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
             "manual_support_only": false,
-            "last_summary": "positions sync started",
-            "last_ran_at": "2026-06-17T20:51:45.588859Z",
-            "last_ran_label": "2026-06-17T20:51:45.588859Z",
-            "last_scheduled_success_label": "2026-06-17T20:51:45.588859Z",
+            "last_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
+            "last_ran_at": "2026-06-18T20:52:40.032226Z",
+            "last_ran_label": "2026-06-18T20:52:40.032226Z",
+            "last_scheduled_success_label": "2026-06-18T20:52:40.032226Z",
             "latest_manual_support_label": "2026-06-16T14:38:48.818422Z",
-            "overdue_line": "overdue: Investing OS Positions Sync, last scheduled success 2026-06-17T20:51:45.588859Z; latest manual support 2026-06-16T14:38:48.818422Z"
+            "overdue_line": "overdue: Investing OS Positions Sync, last scheduled success 2026-06-18T20:52:40.032226Z; latest manual support 2026-06-16T14:38:48.818422Z"
           },
           {
             "routine_id": "investing-os-fundstrat-after-hours-catch-up",
             "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
             "role": "fundstrat_after_hours_catchup",
             "schedule": "market weekdays 7:00 PM ET",
-            "due_state": "not_due_yet",
+            "due_state": "due_waiting",
             "expected_since": "2026-06-18T13:31:26-04:00",
-            "last_due_at": "",
-            "next_due_at": "2026-06-18T19:00:00-04:00",
-            "overdue_after": "",
+            "last_due_at": "2026-06-18T19:00:00-04:00",
+            "next_due_at": "2026-06-19T19:00:00-04:00",
+            "overdue_after": "2026-06-18T19:30:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "success",
+            "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-17T23:11:06.907234Z",
+            "last_recorded_at": "2026-06-18T23:02:50.258403Z",
             "last_success_at": "2026-06-17T23:11:06.907234Z",
-            "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-17T23:11:06.907234Z",
+            "last_scheduled_status": "started",
+            "last_scheduled_recorded_at": "2026-06-18T23:02:50.258403Z",
             "last_scheduled_success_at": "2026-06-17T23:11:06.907234Z",
-            "last_scheduled_summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none",
+            "last_scheduled_summary": "fundstrat after-hours catch-up started",
             "last_manual_recorded_at": "2026-06-16T14:38:49.463256Z",
             "last_manual_success_at": "2026-06-16T14:38:49.463256Z",
             "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
             "manual_support_only": false,
-            "last_summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none",
+            "last_summary": "fundstrat after-hours catch-up started",
             "last_ran_at": "2026-06-17T23:11:06.907234Z",
             "last_ran_label": "2026-06-17T23:11:06.907234Z",
             "last_scheduled_success_label": "2026-06-17T23:11:06.907234Z",
@@ -13912,34 +13923,34 @@
         "overdue": [],
         "due_waiting": [
           {
-            "routine_id": "investing-os-positions-sync",
-            "routine_name": "Investing OS Positions Sync",
-            "role": "positions_sync",
-            "schedule": "market weekdays 4:45 PM ET",
+            "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+            "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
+            "role": "fundstrat_after_hours_catchup",
+            "schedule": "market weekdays 7:00 PM ET",
             "due_state": "due_waiting",
             "expected_since": "2026-06-18T13:31:26-04:00",
-            "last_due_at": "2026-06-18T16:45:00-04:00",
-            "next_due_at": "2026-06-19T16:45:00-04:00",
-            "overdue_after": "2026-06-18T17:15:00-04:00",
+            "last_due_at": "2026-06-18T19:00:00-04:00",
+            "next_due_at": "2026-06-19T19:00:00-04:00",
+            "overdue_after": "2026-06-18T19:30:00-04:00",
             "max_age_minutes": 30,
             "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-18T20:46:12.135956Z",
-            "last_success_at": "2026-06-17T20:51:45.588859Z",
+            "last_recorded_at": "2026-06-18T23:02:50.258403Z",
+            "last_success_at": "2026-06-17T23:11:06.907234Z",
             "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-18T20:46:12.135956Z",
-            "last_scheduled_success_at": "2026-06-17T20:51:45.588859Z",
-            "last_scheduled_summary": "positions sync started",
-            "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
-            "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
-            "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
+            "last_scheduled_recorded_at": "2026-06-18T23:02:50.258403Z",
+            "last_scheduled_success_at": "2026-06-17T23:11:06.907234Z",
+            "last_scheduled_summary": "fundstrat after-hours catch-up started",
+            "last_manual_recorded_at": "2026-06-16T14:38:49.463256Z",
+            "last_manual_success_at": "2026-06-16T14:38:49.463256Z",
+            "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
             "manual_support_only": false,
-            "last_summary": "positions sync started",
-            "last_ran_at": "2026-06-17T20:51:45.588859Z",
-            "last_ran_label": "2026-06-17T20:51:45.588859Z",
-            "last_scheduled_success_label": "2026-06-17T20:51:45.588859Z",
-            "latest_manual_support_label": "2026-06-16T14:38:48.818422Z",
-            "overdue_line": "overdue: Investing OS Positions Sync, last scheduled success 2026-06-17T20:51:45.588859Z; latest manual support 2026-06-16T14:38:48.818422Z"
+            "last_summary": "fundstrat after-hours catch-up started",
+            "last_ran_at": "2026-06-17T23:11:06.907234Z",
+            "last_ran_label": "2026-06-17T23:11:06.907234Z",
+            "last_scheduled_success_label": "2026-06-17T23:11:06.907234Z",
+            "latest_manual_support_label": "2026-06-16T14:38:49.463256Z",
+            "overdue_line": "overdue: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-17T23:11:06.907234Z; latest manual support 2026-06-16T14:38:49.463256Z"
           }
         ],
         "not_due_yet": [
@@ -14272,76 +14283,46 @@
             "last_scheduled_success_label": "2026-06-18T14:35:07.828037Z",
             "latest_manual_support_label": "2026-06-16T14:37:41.716580Z",
             "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-18T14:35:07.828037Z; latest manual support 2026-06-16T14:37:41.716580Z"
-          },
-          {
-            "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-            "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
-            "role": "fundstrat_after_hours_catchup",
-            "schedule": "market weekdays 7:00 PM ET",
-            "due_state": "not_due_yet",
-            "expected_since": "2026-06-18T13:31:26-04:00",
-            "last_due_at": "",
-            "next_due_at": "2026-06-18T19:00:00-04:00",
-            "overdue_after": "",
-            "max_age_minutes": 30,
-            "last_status": "success",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-17T23:11:06.907234Z",
-            "last_success_at": "2026-06-17T23:11:06.907234Z",
-            "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-17T23:11:06.907234Z",
-            "last_scheduled_success_at": "2026-06-17T23:11:06.907234Z",
-            "last_scheduled_summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none",
-            "last_manual_recorded_at": "2026-06-16T14:38:49.463256Z",
-            "last_manual_success_at": "2026-06-16T14:38:49.463256Z",
-            "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
-            "manual_support_only": false,
-            "last_summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none",
-            "last_ran_at": "2026-06-17T23:11:06.907234Z",
-            "last_ran_label": "2026-06-17T23:11:06.907234Z",
-            "last_scheduled_success_label": "2026-06-17T23:11:06.907234Z",
-            "latest_manual_support_label": "2026-06-16T14:38:49.463256Z",
-            "overdue_line": "overdue: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-17T23:11:06.907234Z; latest manual support 2026-06-16T14:38:49.463256Z"
           }
         ]
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-18T13:31:26-04:00",
-        "now": "2026-06-18T16:49:40.940223-04:00",
+        "now": "2026-06-18T19:14:03.338563-04:00",
         "grace_minutes": 30,
-        "overdue_count": 0,
+        "overdue_count": 1,
         "due_waiting_count": 0,
         "current_count": 1,
-        "not_due_yet_count": 20,
+        "not_due_yet_count": 19,
         "next_due": {
-          "routine_id": "investing-os-federal-funding-post-close-sweep",
-          "routine_name": "Investing OS Federal Funding Post-Close Sweep",
-          "role": "federal_funding_post_close_sweep",
-          "schedule": "market weekdays 5:35 PM ET",
+          "routine_id": "investing-os-off-hours-research-queue",
+          "routine_name": "Investing OS Off-Hours Research Queue",
+          "role": "off_hours_research_queue",
+          "schedule": "market weekdays 7:30 PM ET",
           "due_state": "not_due_yet",
           "expected_since": "2026-06-18T13:31:26-04:00",
           "last_due_at": "",
-          "next_due_at": "2026-06-18T17:35:00-04:00",
+          "next_due_at": "2026-06-18T19:30:00-04:00",
           "overdue_after": "",
           "max_age_minutes": 30,
-          "last_status": "no_receipt",
-          "last_run_source": "manual",
-          "last_recorded_at": "",
-          "last_success_at": "",
-          "last_scheduled_status": "",
-          "last_scheduled_recorded_at": "",
-          "last_scheduled_success_at": "",
-          "last_scheduled_summary": "",
-          "last_manual_recorded_at": "",
-          "last_manual_success_at": "",
-          "last_manual_summary": "",
+          "last_status": "success",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-17T23:31:20.320951Z",
+          "last_success_at": "2026-06-17T23:31:20.320951Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-17T23:31:20.320951Z",
+          "last_scheduled_success_at": "2026-06-17T23:31:20.320951Z",
+          "last_scheduled_summary": "Research Queue not_checked; drop folder missing; cache not refreshed; stale cache pending 3 done 0 ACT_NOW none skipped 0",
+          "last_manual_recorded_at": "2026-06-16T14:38:50.314223Z",
+          "last_manual_success_at": "2026-06-16T14:38:50.314223Z",
+          "last_manual_summary": "off-hours research queue manual support checked routine wiring and research queue cache",
           "manual_support_only": false,
-          "last_summary": "",
-          "last_ran_at": "",
-          "last_ran_label": "never",
-          "last_scheduled_success_label": "never",
-          "latest_manual_support_label": "",
-          "overdue_line": "overdue: Investing OS Federal Funding Post-Close Sweep, last scheduled success never"
+          "last_summary": "Research Queue not_checked; drop folder missing; cache not refreshed; stale cache pending 3 done 0 ACT_NOW none skipped 0",
+          "last_ran_at": "2026-06-17T23:31:20.320951Z",
+          "last_ran_label": "2026-06-17T23:31:20.320951Z",
+          "last_scheduled_success_label": "2026-06-17T23:31:20.320951Z",
+          "latest_manual_support_label": "2026-06-16T14:38:50.314223Z",
+          "overdue_line": "overdue: Investing OS Off-Hours Research Queue, last scheduled success 2026-06-17T23:31:20.320951Z; latest manual support 2026-06-16T14:38:50.314223Z"
         },
         "rows": [
           {
@@ -14469,11 +14450,11 @@
             "routine_name": "Investing OS Federal Funding Post-Close Sweep",
             "role": "federal_funding_post_close_sweep",
             "schedule": "market weekdays 5:35 PM ET",
-            "due_state": "not_due_yet",
+            "due_state": "overdue",
             "expected_since": "2026-06-18T13:31:26-04:00",
-            "last_due_at": "",
-            "next_due_at": "2026-06-18T17:35:00-04:00",
-            "overdue_after": "",
+            "last_due_at": "2026-06-18T17:35:00-04:00",
+            "next_due_at": "2026-06-19T17:35:00-04:00",
+            "overdue_after": "2026-06-18T18:05:00-04:00",
             "max_age_minutes": 30,
             "last_status": "no_receipt",
             "last_run_source": "manual",
@@ -14975,7 +14956,38 @@
             "overdue_line": "overdue: Life/Work OS Safe Hygiene, last scheduled success 2026-06-18T06:32:10.600964Z; latest manual support 2026-06-17T19:33:51.770817Z"
           }
         ],
-        "overdue": [],
+        "overdue": [
+          {
+            "routine_id": "investing-os-federal-funding-post-close-sweep",
+            "routine_name": "Investing OS Federal Funding Post-Close Sweep",
+            "role": "federal_funding_post_close_sweep",
+            "schedule": "market weekdays 5:35 PM ET",
+            "due_state": "overdue",
+            "expected_since": "2026-06-18T13:31:26-04:00",
+            "last_due_at": "2026-06-18T17:35:00-04:00",
+            "next_due_at": "2026-06-19T17:35:00-04:00",
+            "overdue_after": "2026-06-18T18:05:00-04:00",
+            "max_age_minutes": 30,
+            "last_status": "no_receipt",
+            "last_run_source": "manual",
+            "last_recorded_at": "",
+            "last_success_at": "",
+            "last_scheduled_status": "",
+            "last_scheduled_recorded_at": "",
+            "last_scheduled_success_at": "",
+            "last_scheduled_summary": "",
+            "last_manual_recorded_at": "",
+            "last_manual_success_at": "",
+            "last_manual_summary": "",
+            "manual_support_only": false,
+            "last_summary": "",
+            "last_ran_at": "",
+            "last_ran_label": "never",
+            "last_scheduled_success_label": "never",
+            "latest_manual_support_label": "",
+            "overdue_line": "overdue: Investing OS Federal Funding Post-Close Sweep, last scheduled success never"
+          }
+        ],
         "due_waiting": [],
         "not_due_yet": [
           {
@@ -15067,36 +15079,6 @@
             "last_scheduled_success_label": "2026-06-18T16:36:35.399165Z",
             "latest_manual_support_label": "2026-06-16T14:37:41.741263Z",
             "overdue_line": "overdue: Investing OS FS Inbox Catch-up Midday, last scheduled success 2026-06-18T16:36:35.399165Z; latest manual support 2026-06-16T14:37:41.741263Z"
-          },
-          {
-            "routine_id": "investing-os-federal-funding-post-close-sweep",
-            "routine_name": "Investing OS Federal Funding Post-Close Sweep",
-            "role": "federal_funding_post_close_sweep",
-            "schedule": "market weekdays 5:35 PM ET",
-            "due_state": "not_due_yet",
-            "expected_since": "2026-06-18T13:31:26-04:00",
-            "last_due_at": "",
-            "next_due_at": "2026-06-18T17:35:00-04:00",
-            "overdue_after": "",
-            "max_age_minutes": 30,
-            "last_status": "no_receipt",
-            "last_run_source": "manual",
-            "last_recorded_at": "",
-            "last_success_at": "",
-            "last_scheduled_status": "",
-            "last_scheduled_recorded_at": "",
-            "last_scheduled_success_at": "",
-            "last_scheduled_summary": "",
-            "last_manual_recorded_at": "",
-            "last_manual_success_at": "",
-            "last_manual_summary": "",
-            "manual_support_only": false,
-            "last_summary": "",
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "last_scheduled_success_label": "never",
-            "latest_manual_support_label": "",
-            "overdue_line": "overdue: Investing OS Federal Funding Post-Close Sweep, last scheduled success never"
           },
           {
             "routine_id": "investing-os-off-hours-worker",
@@ -15581,37 +15563,68 @@
         ]
       },
       "overdue": [],
-      "support_overdue": [],
+      "support_overdue": [
+        {
+          "routine_id": "investing-os-federal-funding-post-close-sweep",
+          "routine_name": "Investing OS Federal Funding Post-Close Sweep",
+          "role": "federal_funding_post_close_sweep",
+          "schedule": "market weekdays 5:35 PM ET",
+          "due_state": "overdue",
+          "expected_since": "2026-06-18T13:31:26-04:00",
+          "last_due_at": "2026-06-18T17:35:00-04:00",
+          "next_due_at": "2026-06-19T17:35:00-04:00",
+          "overdue_after": "2026-06-18T18:05:00-04:00",
+          "max_age_minutes": 30,
+          "last_status": "no_receipt",
+          "last_run_source": "manual",
+          "last_recorded_at": "",
+          "last_success_at": "",
+          "last_scheduled_status": "",
+          "last_scheduled_recorded_at": "",
+          "last_scheduled_success_at": "",
+          "last_scheduled_summary": "",
+          "last_manual_recorded_at": "",
+          "last_manual_success_at": "",
+          "last_manual_summary": "",
+          "manual_support_only": false,
+          "last_summary": "",
+          "last_ran_at": "",
+          "last_ran_label": "never",
+          "last_scheduled_success_label": "never",
+          "latest_manual_support_label": "",
+          "overdue_line": "overdue: Investing OS Federal Funding Post-Close Sweep, last scheduled success never"
+        }
+      ],
       "due_waiting": [
         {
-          "routine_id": "investing-os-positions-sync",
-          "routine_name": "Investing OS Positions Sync",
-          "role": "positions_sync",
-          "schedule": "market weekdays 4:45 PM ET",
+          "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+          "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
+          "role": "fundstrat_after_hours_catchup",
+          "schedule": "market weekdays 7:00 PM ET",
           "due_state": "due_waiting",
           "expected_since": "2026-06-18T13:31:26-04:00",
-          "last_due_at": "2026-06-18T16:45:00-04:00",
-          "next_due_at": "2026-06-19T16:45:00-04:00",
-          "overdue_after": "2026-06-18T17:15:00-04:00",
+          "last_due_at": "2026-06-18T19:00:00-04:00",
+          "next_due_at": "2026-06-19T19:00:00-04:00",
+          "overdue_after": "2026-06-18T19:30:00-04:00",
           "max_age_minutes": 30,
           "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-18T20:46:12.135956Z",
-          "last_success_at": "2026-06-17T20:51:45.588859Z",
+          "last_recorded_at": "2026-06-18T23:02:50.258403Z",
+          "last_success_at": "2026-06-17T23:11:06.907234Z",
           "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-18T20:46:12.135956Z",
-          "last_scheduled_success_at": "2026-06-17T20:51:45.588859Z",
-          "last_scheduled_summary": "positions sync started",
-          "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
-          "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
-          "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
+          "last_scheduled_recorded_at": "2026-06-18T23:02:50.258403Z",
+          "last_scheduled_success_at": "2026-06-17T23:11:06.907234Z",
+          "last_scheduled_summary": "fundstrat after-hours catch-up started",
+          "last_manual_recorded_at": "2026-06-16T14:38:49.463256Z",
+          "last_manual_success_at": "2026-06-16T14:38:49.463256Z",
+          "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
           "manual_support_only": false,
-          "last_summary": "positions sync started",
-          "last_ran_at": "2026-06-17T20:51:45.588859Z",
-          "last_ran_label": "2026-06-17T20:51:45.588859Z",
-          "last_scheduled_success_label": "2026-06-17T20:51:45.588859Z",
-          "latest_manual_support_label": "2026-06-16T14:38:48.818422Z",
-          "overdue_line": "overdue: Investing OS Positions Sync, last scheduled success 2026-06-17T20:51:45.588859Z; latest manual support 2026-06-16T14:38:48.818422Z"
+          "last_summary": "fundstrat after-hours catch-up started",
+          "last_ran_at": "2026-06-17T23:11:06.907234Z",
+          "last_ran_label": "2026-06-17T23:11:06.907234Z",
+          "last_scheduled_success_label": "2026-06-17T23:11:06.907234Z",
+          "latest_manual_support_label": "2026-06-16T14:38:49.463256Z",
+          "overdue_line": "overdue: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-17T23:11:06.907234Z; latest manual support 2026-06-16T14:38:49.463256Z"
         }
       ],
       "missing_scheduled_success_count": 0,
@@ -15624,7 +15637,7 @@
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
           "proof_scope": "support",
-          "receipt_count": 6,
+          "receipt_count": 4,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-16T14:38:50.807314Z",
@@ -15962,20 +15975,20 @@
           "role": "positions_sync",
           "schedule": "market weekdays 4:45 PM ET",
           "proof_scope": "core",
-          "receipt_count": 13,
-          "last_status": "started",
+          "receipt_count": 14,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-18T20:46:12.135956Z",
-          "last_success_at": "2026-06-17T20:51:45.588859Z",
-          "last_scheduled_success_at": "2026-06-17T20:51:45.588859Z",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-18T20:46:12.135956Z",
-          "last_scheduled_summary": "positions sync started",
+          "last_recorded_at": "2026-06-18T20:52:40.032226Z",
+          "last_success_at": "2026-06-18T20:52:40.032226Z",
+          "last_scheduled_success_at": "2026-06-18T20:52:40.032226Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-18T20:52:40.032226Z",
+          "last_scheduled_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
           "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
           "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
           "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
           "manual_support_only": false,
-          "last_summary": "positions sync started"
+          "last_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified"
         },
         {
           "routine_id": "investing-os-fundstrat-after-hours-catch-up",
@@ -15983,20 +15996,20 @@
           "role": "fundstrat_after_hours_catchup",
           "schedule": "market weekdays 7:00 PM ET",
           "proof_scope": "core",
-          "receipt_count": 10,
-          "last_status": "success",
+          "receipt_count": 11,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-17T23:11:06.907234Z",
+          "last_recorded_at": "2026-06-18T23:02:50.258403Z",
           "last_success_at": "2026-06-17T23:11:06.907234Z",
           "last_scheduled_success_at": "2026-06-17T23:11:06.907234Z",
-          "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-17T23:11:06.907234Z",
-          "last_scheduled_summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none",
+          "last_scheduled_status": "started",
+          "last_scheduled_recorded_at": "2026-06-18T23:02:50.258403Z",
+          "last_scheduled_summary": "fundstrat after-hours catch-up started",
           "last_manual_recorded_at": "2026-06-16T14:38:49.463256Z",
           "last_manual_success_at": "2026-06-16T14:38:49.463256Z",
           "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
           "manual_support_only": false,
-          "last_summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none"
+          "last_summary": "fundstrat after-hours catch-up started"
         }
       ],
       "support_rows": [
@@ -16195,7 +16208,7 @@
           "role": "deep_synthesis",
           "schedule": "Sunday 1:00 PM ET",
           "proof_scope": "support",
-          "receipt_count": 6,
+          "receipt_count": 4,
           "last_status": "success",
           "last_run_source": "manual",
           "last_recorded_at": "2026-06-16T14:38:50.807314Z",
@@ -18144,8 +18157,8 @@
           "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
           "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
           "ticker_scope": [
+            "UUP",
             "TLT",
-            "UBS",
             "RYF",
             "XOP",
             "HOOD",
@@ -18239,7 +18252,7 @@
         "SPY",
         "TLT",
         "TNX",
-        "UBS",
+        "UUP",
         "XLE",
         "XLF",
         "XOP"
@@ -18521,26 +18534,26 @@
         },
         {
           "source": "fundstrat_daily",
-          "ticker": "TLT",
-          "date": "2026-06-17",
-          "title": "TLT watch",
-          "check": "Fed Watch says Warsh removed forward guidance and preserved optionality; do not read the higher dot median as a firm hike path until the new framework/task-force outputs clarify.",
+          "ticker": "UUP",
+          "date": "2026-06-18",
+          "title": "UUP watch",
+          "check": "Dollar risk should be re-checked: Newton flags USDJPY reversal risk and expects Yen strength / weaker USD if Strait reopening outweighs Warsh hawkishness.",
           "why": "Use as a pre-market condition check, not as an automatic trade."
         },
         {
           "source": "fundstrat_daily",
-          "ticker": "UBS",
+          "ticker": "TLT",
           "date": "2026-06-17",
-          "title": "UBS watch",
-          "check": "Newton flags Financials/banks as risk-on leadership; UBS has broken out from a 19-year base and is one of his favorites, with expected push over $60 over the next month.",
+          "title": "TLT watch",
+          "check": "Fed Watch says Warsh removed forward guidance and preserved optionality; do not read the higher dot median as a firm hike path until the new framework/task-force outputs clarify.",
           "why": "Use as a pre-market condition check, not as an automatic trade."
         }
       ]
     },
     "watch_only_why": {
       "status": "has_data",
-      "count": 79,
-      "line": "Why-not-acting lane: 79 watch-only signal(s) kept out of trade prompts.",
+      "count": 80,
+      "line": "Why-not-acting lane: 80 watch-only signal(s) kept out of trade prompts.",
       "rows": [
         {
           "ticker": "XLF, GS, ITA",
@@ -19050,8 +19063,8 @@
         "operator_question": "Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?",
         "freshness_requirement": "Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.",
         "ticker_scope": [
+          "UUP",
           "TLT",
-          "UBS",
           "RYF",
           "XOP",
           "HOOD",
@@ -19145,7 +19158,7 @@
       "SPY",
       "TLT",
       "TNX",
-      "UBS",
+      "UUP",
       "XLE",
       "XLF",
       "XOP"
@@ -19380,7 +19393,7 @@
   },
   "fundstrat_news": {
     "status": "has_data",
-    "line": "Fundstrat News: monthly 2026-06-11; Top 5 large cap 5, Top 5 SMID 5, tactical 3x3 3/3, daily calls 62 latest 2026-06-18.",
+    "line": "Fundstrat News: monthly 2026-06-11; Top 5 large cap 5, Top 5 SMID 5, tactical 3x3 3/3, daily calls 64 latest 2026-06-18.",
     "as_of": "2026-06-18",
     "monthly": {
       "deck_date": "2026-06-11",
@@ -19890,6 +19903,44 @@
     "daily": {
       "latest_date": "2026-06-18",
       "rows": [
+        {
+          "date": "2026-06-18",
+          "ticker": "XLF",
+          "author": "Mark L. Newton, CMT",
+          "direction": "watch",
+          "subject": "FlashInsights: Banks breakout supports Financials re-check",
+          "quote": "Banks/Financials warrant re-check: Newton says banks still look good technically and KBW Banks broke to new highs after long underperformance.",
+          "fundstrat_lane": "technical",
+          "source_domain": "technical_timing",
+          "author_role": "Mark Newton technical/timing view",
+          "source_weight_note": "Technical/timing context only; lower weight until it gives specific levels, timing, or a clear setup.",
+          "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+          "publication_type": "daily_technical",
+          "capture_policy": "daily_call",
+          "use_case": "technical_timing",
+          "decision_usefulness": "medium",
+          "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+          "action_implication": "re-check timing"
+        },
+        {
+          "date": "2026-06-18",
+          "ticker": "UUP",
+          "author": "Mark L. Newton, CMT",
+          "direction": "watch",
+          "subject": "FlashInsights: USDJPY/DXY reversal watch",
+          "quote": "Dollar risk should be re-checked: Newton flags USDJPY reversal risk and expects Yen strength / weaker USD if Strait reopening outweighs Warsh hawkishness.",
+          "fundstrat_lane": "technical",
+          "source_domain": "technical_timing",
+          "author_role": "Mark Newton technical/timing view",
+          "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+          "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+          "publication_type": "daily_technical",
+          "capture_policy": "daily_call",
+          "use_case": "technical_timing",
+          "decision_usefulness": "high",
+          "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language.",
+          "action_implication": "re-check timing"
+        },
         {
           "date": "2026-06-18",
           "ticker": "SPCX",
@@ -21069,10 +21120,10 @@
           "action_implication": "avoid/re-check"
         }
       ],
-      "count": 62,
-      "full_body_entries": 1,
+      "count": 64,
+      "full_body_entries": 2,
       "snippet_only_entries": 0,
-      "stored_daily_calls": 62,
+      "stored_daily_calls": 64,
       "freshness_judgment": "Daily calls are faster-decay tactical input; re-check price/tape before using them for capital timing."
     },
     "gaps": [],
@@ -22321,7 +22372,7 @@
     },
     "deep_discount_research": [
       {
-        "checked_at": "2026-06-18T20:48:22.799863+00:00",
+        "checked_at": "2026-06-18T23:12:48.518578+00:00",
         "currency": "USD",
         "current_exposure_pct": 3.57,
         "current_exposure_usd": 69091.0,
@@ -22343,7 +22394,7 @@
         "ticker": "BMNR"
       },
       {
-        "checked_at": "2026-06-18T20:48:49.909564+00:00",
+        "checked_at": "2026-06-18T23:13:14.361167+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -22366,7 +22417,7 @@
         "ticker": "KTOS"
       },
       {
-        "checked_at": "2026-06-18T20:48:20.702437+00:00",
+        "checked_at": "2026-06-18T23:12:46.466509+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -22385,7 +22436,7 @@
         "ticker": "AVAV"
       },
       {
-        "checked_at": "2026-06-18T20:48:50.616868+00:00",
+        "checked_at": "2026-06-18T23:13:15.070279+00:00",
         "currency": "USD",
         "current_exposure_pct": 5.4,
         "current_exposure_usd": 104480.0,
@@ -22404,7 +22455,7 @@
         "ticker": "LEU"
       },
       {
-        "checked_at": "2026-06-18T20:48:33.586053+00:00",
+        "checked_at": "2026-06-18T23:12:58.815359+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -22427,7 +22478,7 @@
         "ticker": "ELF"
       },
       {
-        "checked_at": "2026-06-18T20:49:16.315338+00:00",
+        "checked_at": "2026-06-18T23:13:39.964560+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.05,
         "current_exposure_usd": 871.0,
@@ -22450,7 +22501,7 @@
         "ticker": "SOFI"
       },
       {
-        "checked_at": "2026-06-18T20:49:29.421206+00:00",
+        "checked_at": "2026-06-18T23:13:52.638309+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.8,
         "current_exposure_usd": 34803.0,
@@ -22474,7 +22525,7 @@
         "ticker": "UUUU"
       },
       {
-        "checked_at": "2026-06-18T20:48:54.877552+00:00",
+        "checked_at": "2026-06-18T23:13:19.319808+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.91,
         "current_exposure_usd": 17645.0,
@@ -22493,7 +22544,7 @@
         "ticker": "MP"
       },
       {
-        "checked_at": "2026-06-18T20:48:43.630773+00:00",
+        "checked_at": "2026-06-18T23:13:08.464481+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.18,
         "current_exposure_usd": 3480.0,
@@ -22542,10 +22593,10 @@
         "Use only the deliberately reviewed starter cap; keep the rest staged as tickets, not trades."
       ]
     },
-    "generated_at": "2026-06-18T20:49:39.447070+00:00",
+    "generated_at": "2026-06-18T23:14:01.851106+00:00",
     "higher_quality_pullbacks": [
       {
-        "checked_at": "2026-06-18T20:48:55.607695+00:00",
+        "checked_at": "2026-06-18T23:13:20.044258+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.47,
         "current_exposure_usd": 28453.0,
@@ -22564,7 +22615,7 @@
         "ticker": "MSFT"
       },
       {
-        "checked_at": "2026-06-18T20:48:40.773170+00:00",
+        "checked_at": "2026-06-18T23:13:05.712946+00:00",
         "currency": "USD",
         "current_exposure_pct": 4.72,
         "current_exposure_usd": 91386.0,
@@ -22588,7 +22639,7 @@
         "ticker": "GOOGL"
       },
       {
-        "checked_at": "2026-06-18T20:48:37.800874+00:00",
+        "checked_at": "2026-06-18T23:13:02.959530+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.39,
         "current_exposure_usd": 7562.0,
@@ -22609,7 +22660,7 @@
         "ticker": "FN"
       },
       {
-        "checked_at": "2026-06-18T20:48:21.380934+00:00",
+        "checked_at": "2026-06-18T23:12:47.102225+00:00",
         "currency": "USD",
         "current_exposure_pct": 2.17,
         "current_exposure_usd": 41953.0,
@@ -22631,7 +22682,7 @@
         "ticker": "AVGO"
       },
       {
-        "checked_at": "2026-06-18T20:49:31.068091+00:00",
+        "checked_at": "2026-06-18T23:13:54.063578+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.26,
         "current_exposure_usd": 5006.0,
@@ -22650,7 +22701,7 @@
         "ticker": "VRT"
       },
       {
-        "checked_at": "2026-06-18T20:48:17.108204+00:00",
+        "checked_at": "2026-06-18T23:12:42.688588+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.11,
         "current_exposure_usd": 21481.0,
@@ -22669,7 +22720,7 @@
         "ticker": "AMZN"
       },
       {
-        "checked_at": "2026-06-18T20:49:00.028071+00:00",
+        "checked_at": "2026-06-18T23:13:24.345872+00:00",
         "currency": "USD",
         "current_exposure_pct": 10.72,
         "current_exposure_usd": 207433.0,
@@ -22785,10 +22836,10 @@
         "SPX",
         "TNX"
       ],
-      "row_count": 110,
+      "row_count": 111,
       "rows": [
         {
-          "checked_at": "2026-06-18T20:49:01.474333+00:00",
+          "checked_at": "2026-06-18T23:13:25.788961+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.01,
           "current_exposure_usd": 143.0,
@@ -22807,7 +22858,7 @@
           "ticker": "ORBS"
         },
         {
-          "checked_at": "2026-06-18T20:48:22.799863+00:00",
+          "checked_at": "2026-06-18T23:12:48.518578+00:00",
           "currency": "USD",
           "current_exposure_pct": 3.57,
           "current_exposure_usd": 69091.0,
@@ -22829,7 +22880,7 @@
           "ticker": "BMNR"
         },
         {
-          "checked_at": "2026-06-18T20:48:57.059191+00:00",
+          "checked_at": "2026-06-18T23:13:21.474959+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.09,
           "current_exposure_usd": 1801.0,
@@ -22850,7 +22901,7 @@
           "ticker": "MSTR"
         },
         {
-          "checked_at": "2026-06-18T20:48:15.615448+00:00",
+          "checked_at": "2026-06-18T23:12:41.220984+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 5.0,
@@ -22869,7 +22920,7 @@
           "ticker": "ACON"
         },
         {
-          "checked_at": "2026-06-18T20:48:34.271546+00:00",
+          "checked_at": "2026-06-18T23:12:59.542562+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.14,
           "current_exposure_usd": 2614.0,
@@ -22888,7 +22939,7 @@
           "ticker": "ETHA"
         },
         {
-          "checked_at": "2026-06-18T20:48:29.132644+00:00",
+          "checked_at": "2026-06-18T23:12:54.325152+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.09,
           "current_exposure_usd": 1649.0,
@@ -22907,7 +22958,7 @@
           "ticker": "COIN"
         },
         {
-          "checked_at": "2026-06-18T20:49:28.774325+00:00",
+          "checked_at": "2026-06-18T23:13:52.000350+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.08,
           "current_exposure_usd": 1606.0,
@@ -22915,9 +22966,9 @@
           "fifty_two_week_high": 10.69,
           "high_date": "2025-10-13",
           "latest_price_date": "2026-06-18",
-          "pct_below_high": -62.58,
-          "price": 4.0,
-          "rank_score": 62.56,
+          "pct_below_high": -62.49,
+          "price": 4.01,
+          "rank_score": 62.47,
           "research_status": "",
           "source": "Yahoo Finance chart endpoint",
           "source_flags": [],
@@ -22926,7 +22977,7 @@
           "ticker": "UURAF"
         },
         {
-          "checked_at": "2026-06-18T20:48:49.909564+00:00",
+          "checked_at": "2026-06-18T23:13:14.361167+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -22949,7 +23000,7 @@
           "ticker": "KTOS"
         },
         {
-          "checked_at": "2026-06-18T20:48:20.702437+00:00",
+          "checked_at": "2026-06-18T23:12:46.466509+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -22968,7 +23019,7 @@
           "ticker": "AVAV"
         },
         {
-          "checked_at": "2026-06-18T20:48:25.714381+00:00",
+          "checked_at": "2026-06-18T23:12:51.456001+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 5.0,
@@ -22987,7 +23038,7 @@
           "ticker": "CGC"
         },
         {
-          "checked_at": "2026-06-18T20:48:50.616868+00:00",
+          "checked_at": "2026-06-18T23:13:15.070279+00:00",
           "currency": "USD",
           "current_exposure_pct": 5.4,
           "current_exposure_usd": 104480.0,
@@ -23006,7 +23057,7 @@
           "ticker": "LEU"
         },
         {
-          "checked_at": "2026-06-18T20:48:33.586053+00:00",
+          "checked_at": "2026-06-18T23:12:58.815359+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23029,7 +23080,7 @@
           "ticker": "ELF"
         },
         {
-          "checked_at": "2026-06-18T20:49:21.576212+00:00",
+          "checked_at": "2026-06-18T23:13:45.084641+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.01,
           "current_exposure_usd": 244.0,
@@ -23048,7 +23099,7 @@
           "ticker": "TEM"
         },
         {
-          "checked_at": "2026-06-18T20:48:52.760765+00:00",
+          "checked_at": "2026-06-18T23:13:17.157542+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.12,
           "current_exposure_usd": 2272.0,
@@ -23067,7 +23118,7 @@
           "ticker": "LUNR"
         },
         {
-          "checked_at": "2026-06-18T20:48:44.283982+00:00",
+          "checked_at": "2026-06-18T23:13:09.168813+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.26,
           "current_exposure_usd": 5090.0,
@@ -23086,7 +23137,7 @@
           "ticker": "IBIT"
         },
         {
-          "checked_at": "2026-06-18T20:49:02.131923+00:00",
+          "checked_at": "2026-06-18T23:13:26.510473+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.8,
           "current_exposure_usd": 15417.0,
@@ -23105,7 +23156,7 @@
           "ticker": "ORCL"
         },
         {
-          "checked_at": "2026-06-18T20:49:16.315338+00:00",
+          "checked_at": "2026-06-18T23:13:39.964560+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.05,
           "current_exposure_usd": 871.0,
@@ -23128,7 +23179,7 @@
           "ticker": "SOFI"
         },
         {
-          "checked_at": "2026-06-18T20:49:05.769907+00:00",
+          "checked_at": "2026-06-18T23:13:30.031740+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.22,
           "current_exposure_usd": 4207.0,
@@ -23147,7 +23198,7 @@
           "ticker": "POET"
         },
         {
-          "checked_at": "2026-06-18T20:49:29.421206+00:00",
+          "checked_at": "2026-06-18T23:13:52.638309+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.8,
           "current_exposure_usd": 34803.0,
@@ -23171,7 +23222,7 @@
           "ticker": "UUUU"
         },
         {
-          "checked_at": "2026-06-18T20:48:20.019127+00:00",
+          "checked_at": "2026-06-18T23:12:45.826624+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.29,
           "current_exposure_usd": 5629.0,
@@ -23190,7 +23241,7 @@
           "ticker": "ASTS"
         },
         {
-          "checked_at": "2026-06-18T20:48:54.877552+00:00",
+          "checked_at": "2026-06-18T23:13:19.319808+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.91,
           "current_exposure_usd": 17645.0,
@@ -23209,7 +23260,7 @@
           "ticker": "MP"
         },
         {
-          "checked_at": "2026-06-18T20:48:18.504612+00:00",
+          "checked_at": "2026-06-18T23:12:44.440330+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.09,
           "current_exposure_usd": 1696.0,
@@ -23228,7 +23279,7 @@
           "ticker": "ARRRF"
         },
         {
-          "checked_at": "2026-06-18T20:49:07.919315+00:00",
+          "checked_at": "2026-06-18T23:13:32.110285+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.94,
           "current_exposure_usd": 18254.0,
@@ -23247,7 +23298,7 @@
           "ticker": "RDDT"
         },
         {
-          "checked_at": "2026-06-18T20:49:05.038798+00:00",
+          "checked_at": "2026-06-18T23:13:29.367366+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.17,
           "current_exposure_usd": 3266.0,
@@ -23266,26 +23317,7 @@
           "ticker": "PLTR"
         },
         {
-          "checked_at": "2026-06-18T20:49:22.358012+00:00",
-          "currency": "USD",
-          "current_exposure_pct": 0.05,
-          "current_exposure_usd": 874.0,
-          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
-          "fifty_two_week_high": 6.82,
-          "high_date": "2026-03-11",
-          "latest_price_date": "2026-06-18",
-          "pct_below_high": -37.24,
-          "price": 4.28,
-          "rank_score": 37.23,
-          "research_status": "",
-          "source": "Yahoo Finance chart endpoint",
-          "source_flags": [],
-          "source_tags": [],
-          "status": "has_data",
-          "ticker": "TLOFF"
-        },
-        {
-          "checked_at": "2026-06-18T20:48:49.146411+00:00",
+          "checked_at": "2026-06-18T23:13:13.526301+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23304,7 +23336,7 @@
           "ticker": "KKR"
         },
         {
-          "checked_at": "2026-06-18T20:48:40.054008+00:00",
+          "checked_at": "2026-06-18T23:13:05.051090+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23325,7 +23357,26 @@
           "ticker": "GOLD"
         },
         {
-          "checked_at": "2026-06-18T20:49:25.079555+00:00",
+          "checked_at": "2026-06-18T23:13:45.755792+00:00",
+          "currency": "USD",
+          "current_exposure_pct": 0.05,
+          "current_exposure_usd": 874.0,
+          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
+          "fifty_two_week_high": 6.82,
+          "high_date": "2026-03-11",
+          "latest_price_date": "2026-06-18",
+          "pct_below_high": -36.22,
+          "price": 4.35,
+          "rank_score": 36.21,
+          "research_status": "",
+          "source": "Yahoo Finance chart endpoint",
+          "source_flags": [],
+          "source_tags": [],
+          "status": "has_data",
+          "ticker": "TLOFF"
+        },
+        {
+          "checked_at": "2026-06-18T23:13:47.747994+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23348,7 +23399,7 @@
           "ticker": "TPL"
         },
         {
-          "checked_at": "2026-06-18T20:48:24.224146+00:00",
+          "checked_at": "2026-06-18T23:12:49.965766+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23367,7 +23418,7 @@
           "ticker": "BX"
         },
         {
-          "checked_at": "2026-06-18T20:48:55.607695+00:00",
+          "checked_at": "2026-06-18T23:13:20.044258+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.47,
           "current_exposure_usd": 28453.0,
@@ -23386,7 +23437,7 @@
           "ticker": "MSFT"
         },
         {
-          "checked_at": "2026-06-18T20:48:56.304651+00:00",
+          "checked_at": "2026-06-18T23:13:20.758082+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 52.0,
@@ -23405,7 +23456,7 @@
           "ticker": "MSOS"
         },
         {
-          "checked_at": "2026-06-18T20:49:13.943699+00:00",
+          "checked_at": "2026-06-18T23:13:37.849830+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.56,
           "current_exposure_usd": 10833.0,
@@ -23424,7 +23475,7 @@
           "ticker": "SIL"
         },
         {
-          "checked_at": "2026-06-18T20:48:43.630773+00:00",
+          "checked_at": "2026-06-18T23:13:08.464481+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.18,
           "current_exposure_usd": 3480.0,
@@ -23447,7 +23498,7 @@
           "ticker": "HOOD"
         },
         {
-          "checked_at": "2026-06-18T20:48:38.534084+00:00",
+          "checked_at": "2026-06-18T23:13:03.665781+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.68,
           "current_exposure_usd": 32434.0,
@@ -23466,7 +23517,7 @@
           "ticker": "GDX"
         },
         {
-          "checked_at": "2026-06-18T20:49:31.816211+00:00",
+          "checked_at": "2026-06-18T23:13:54.729947+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 10.0,
@@ -23485,7 +23536,7 @@
           "ticker": "WOLF"
         },
         {
-          "checked_at": "2026-06-18T20:49:28.089579+00:00",
+          "checked_at": "2026-06-18T23:13:50.610080+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.13,
           "current_exposure_usd": 2445.0,
@@ -23504,7 +23555,7 @@
           "ticker": "UMAC"
         },
         {
-          "checked_at": "2026-06-18T20:49:32.487807+00:00",
+          "checked_at": "2026-06-18T23:13:55.431494+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.1,
           "current_exposure_usd": 1895.0,
@@ -23523,7 +23574,7 @@
           "ticker": "WPM"
         },
         {
-          "checked_at": "2026-06-18T20:49:13.221632+00:00",
+          "checked_at": "2026-06-18T23:13:37.208024+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23546,7 +23597,7 @@
           "ticker": "SATS"
         },
         {
-          "checked_at": "2026-06-18T20:48:37.800874+00:00",
+          "checked_at": "2026-06-18T23:13:02.959530+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.39,
           "current_exposure_usd": 7562.0,
@@ -23567,26 +23618,7 @@
           "ticker": "FN"
         },
         {
-          "checked_at": "2026-06-18T20:48:53.441934+00:00",
-          "currency": "USD",
-          "current_exposure_pct": 0.1,
-          "current_exposure_usd": 1905.0,
-          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
-          "fifty_two_week_high": 16.18,
-          "high_date": "2025-10-13",
-          "latest_price_date": "2026-06-18",
-          "pct_below_high": -22.99,
-          "price": 12.46,
-          "rank_score": 22.97,
-          "research_status": "",
-          "source": "Yahoo Finance chart endpoint",
-          "source_flags": [],
-          "source_tags": [],
-          "status": "has_data",
-          "ticker": "LYSDY"
-        },
-        {
-          "checked_at": "2026-06-18T20:49:00.800672+00:00",
+          "checked_at": "2026-06-18T23:13:25.119463+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.13,
           "current_exposure_usd": 2466.0,
@@ -23605,7 +23637,7 @@
           "ticker": "NXT"
         },
         {
-          "checked_at": "2026-06-18T20:48:52.043279+00:00",
+          "checked_at": "2026-06-18T23:13:16.473121+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.22,
           "current_exposure_usd": 4350.0,
@@ -23624,7 +23656,7 @@
           "ticker": "LITE"
         },
         {
-          "checked_at": "2026-06-18T20:48:25.037276+00:00",
+          "checked_at": "2026-06-18T23:12:50.680278+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.06,
           "current_exposure_usd": 20566.0,
@@ -23643,7 +23675,26 @@
           "ticker": "CCJ"
         },
         {
-          "checked_at": "2026-06-18T20:49:25.862174+00:00",
+          "checked_at": "2026-06-18T23:13:17.834699+00:00",
+          "currency": "USD",
+          "current_exposure_pct": 0.1,
+          "current_exposure_usd": 1905.0,
+          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
+          "fifty_two_week_high": 16.18,
+          "high_date": "2025-10-13",
+          "latest_price_date": "2026-06-18",
+          "pct_below_high": -20.89,
+          "price": 12.8,
+          "rank_score": 20.87,
+          "research_status": "",
+          "source": "Yahoo Finance chart endpoint",
+          "source_flags": [],
+          "source_tags": [],
+          "status": "has_data",
+          "ticker": "LYSDY"
+        },
+        {
+          "checked_at": "2026-06-18T23:13:48.516809+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.04,
           "current_exposure_usd": 868.0,
@@ -23662,7 +23713,7 @@
           "ticker": "TSLA"
         },
         {
-          "checked_at": "2026-06-18T20:49:38.689621+00:00",
+          "checked_at": "2026-06-18T23:14:01.125793+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23686,7 +23737,7 @@
           "ticker": "XOP"
         },
         {
-          "checked_at": "2026-06-18T20:48:34.962615+00:00",
+          "checked_at": "2026-06-18T23:13:00.212101+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23707,7 +23758,7 @@
           "ticker": "EWRE"
         },
         {
-          "checked_at": "2026-06-18T20:49:12.496322+00:00",
+          "checked_at": "2026-06-18T23:13:36.467502+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23732,7 +23783,7 @@
           "ticker": "RYF"
         },
         {
-          "checked_at": "2026-06-18T20:49:18.277690+00:00",
+          "checked_at": "2026-06-18T23:13:41.897314+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23755,7 +23806,7 @@
           "ticker": "SPCX"
         },
         {
-          "checked_at": "2026-06-18T20:48:21.380934+00:00",
+          "checked_at": "2026-06-18T23:12:47.102225+00:00",
           "currency": "USD",
           "current_exposure_pct": 2.17,
           "current_exposure_usd": 41953.0,
@@ -23777,7 +23828,7 @@
           "ticker": "AVGO"
         },
         {
-          "checked_at": "2026-06-18T20:49:11.717451+00:00",
+          "checked_at": "2026-06-18T23:13:35.780998+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23798,7 +23849,7 @@
           "ticker": "RYE"
         },
         {
-          "checked_at": "2026-06-18T20:49:34.713373+00:00",
+          "checked_at": "2026-06-18T23:13:57.587503+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23817,7 +23868,7 @@
           "ticker": "XLE"
         },
         {
-          "checked_at": "2026-06-18T20:48:23.463081+00:00",
+          "checked_at": "2026-06-18T23:12:49.261958+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.12,
           "current_exposure_usd": 21588.0,
@@ -23836,7 +23887,7 @@
           "ticker": "BWXT"
         },
         {
-          "checked_at": "2026-06-18T20:49:20.905571+00:00",
+          "checked_at": "2026-06-18T23:13:44.407628+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.48,
           "current_exposure_usd": 9365.0,
@@ -23857,7 +23908,7 @@
           "ticker": "STRL"
         },
         {
-          "checked_at": "2026-06-18T20:48:29.819112+00:00",
+          "checked_at": "2026-06-18T23:12:55.061755+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.3,
           "current_exposure_usd": 5810.0,
@@ -23876,7 +23927,7 @@
           "ticker": "COST"
         },
         {
-          "checked_at": "2026-06-18T20:48:31.283265+00:00",
+          "checked_at": "2026-06-18T23:12:56.578200+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.25,
           "current_exposure_usd": 4781.0,
@@ -23895,7 +23946,7 @@
           "ticker": "CRWD"
         },
         {
-          "checked_at": "2026-06-18T20:48:31.953451+00:00",
+          "checked_at": "2026-06-18T23:12:57.255686+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23918,7 +23969,7 @@
           "ticker": "DE"
         },
         {
-          "checked_at": "2026-06-18T20:49:31.068091+00:00",
+          "checked_at": "2026-06-18T23:13:54.063578+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.26,
           "current_exposure_usd": 5006.0,
@@ -23937,7 +23988,7 @@
           "ticker": "VRT"
         },
         {
-          "checked_at": "2026-06-18T20:48:17.108204+00:00",
+          "checked_at": "2026-06-18T23:12:42.688588+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.11,
           "current_exposure_usd": 21481.0,
@@ -23956,7 +24007,7 @@
           "ticker": "AMZN"
         },
         {
-          "checked_at": "2026-06-18T20:49:03.607770+00:00",
+          "checked_at": "2026-06-18T23:13:27.917657+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.7,
           "current_exposure_usd": 13465.0,
@@ -23975,7 +24026,7 @@
           "ticker": "PBW"
         },
         {
-          "checked_at": "2026-06-18T20:49:20.239350+00:00",
+          "checked_at": "2026-06-18T23:13:43.691596+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -23996,7 +24047,7 @@
           "ticker": "STRC"
         },
         {
-          "checked_at": "2026-06-18T20:48:28.010893+00:00",
+          "checked_at": "2026-06-18T23:12:53.624586+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24017,7 +24068,7 @@
           "ticker": "COHR"
         },
         {
-          "checked_at": "2026-06-18T20:49:06.420084+00:00",
+          "checked_at": "2026-06-18T23:13:30.728484+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.21,
           "current_exposure_usd": 23330.0,
@@ -24038,7 +24089,7 @@
           "ticker": "PWR"
         },
         {
-          "checked_at": "2026-06-18T20:49:00.028071+00:00",
+          "checked_at": "2026-06-18T23:13:24.345872+00:00",
           "currency": "USD",
           "current_exposure_pct": 10.72,
           "current_exposure_usd": 207433.0,
@@ -24057,7 +24108,7 @@
           "ticker": "NVDA"
         },
         {
-          "checked_at": "2026-06-18T20:48:51.366377+00:00",
+          "checked_at": "2026-06-18T23:13:15.747321+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.08,
           "current_exposure_usd": 1643.0,
@@ -24076,7 +24127,7 @@
           "ticker": "LIT"
         },
         {
-          "checked_at": "2026-06-18T20:48:26.466159+00:00",
+          "checked_at": "2026-06-18T23:12:52.158652+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.22,
           "current_exposure_usd": 4212.0,
@@ -24095,7 +24146,7 @@
           "ticker": "CIBR"
         },
         {
-          "checked_at": "2026-06-18T20:48:59.187386+00:00",
+          "checked_at": "2026-06-18T23:13:23.657956+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.04,
           "current_exposure_usd": 731.0,
@@ -24114,7 +24165,7 @@
           "ticker": "NUE"
         },
         {
-          "checked_at": "2026-06-18T20:48:40.773170+00:00",
+          "checked_at": "2026-06-18T23:13:05.712946+00:00",
           "currency": "USD",
           "current_exposure_pct": 4.72,
           "current_exposure_usd": 91386.0,
@@ -24138,7 +24189,7 @@
           "ticker": "GOOGL"
         },
         {
-          "checked_at": "2026-06-18T20:48:27.213000+00:00",
+          "checked_at": "2026-06-18T23:12:52.878112+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24161,7 +24212,7 @@
           "ticker": "CL"
         },
         {
-          "checked_at": "2026-06-18T20:48:47.521625+00:00",
+          "checked_at": "2026-06-18T23:13:12.038517+00:00",
           "currency": "USD",
           "current_exposure_pct": 3.52,
           "current_exposure_usd": 68145.0,
@@ -24180,7 +24231,7 @@
           "ticker": "IVES"
         },
         {
-          "checked_at": "2026-06-18T20:48:45.070372+00:00",
+          "checked_at": "2026-06-18T23:13:09.852400+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.39,
           "current_exposure_usd": 7537.0,
@@ -24201,7 +24252,7 @@
           "ticker": "IESC"
         },
         {
-          "checked_at": "2026-06-18T20:49:04.345024+00:00",
+          "checked_at": "2026-06-18T23:13:28.682638+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24224,7 +24275,7 @@
           "ticker": "PKG"
         },
         {
-          "checked_at": "2026-06-18T20:48:54.172308+00:00",
+          "checked_at": "2026-06-18T23:13:18.615953+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.02,
           "current_exposure_usd": 387.0,
@@ -24243,7 +24294,7 @@
           "ticker": "MAGS"
         },
         {
-          "checked_at": "2026-06-18T20:49:37.942487+00:00",
+          "checked_at": "2026-06-18T23:14:00.445890+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.14,
           "current_exposure_usd": 22056.0,
@@ -24264,7 +24315,7 @@
           "ticker": "XLU"
         },
         {
-          "checked_at": "2026-06-18T20:48:32.709668+00:00",
+          "checked_at": "2026-06-18T23:12:58.109405+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.62,
           "current_exposure_usd": 12031.0,
@@ -24283,7 +24334,7 @@
           "ticker": "DRIV"
         },
         {
-          "checked_at": "2026-06-18T20:48:39.344843+00:00",
+          "checked_at": "2026-06-18T23:13:04.400865+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.11,
           "current_exposure_usd": 2219.0,
@@ -24302,7 +24353,7 @@
           "ticker": "GEV"
         },
         {
-          "checked_at": "2026-06-18T20:49:23.027506+00:00",
+          "checked_at": "2026-06-18T23:13:46.401134+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24325,7 +24376,7 @@
           "ticker": "TLT"
         },
         {
-          "checked_at": "2026-06-18T20:48:17.806208+00:00",
+          "checked_at": "2026-06-18T23:12:43.791870+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.4,
           "current_exposure_usd": 7752.0,
@@ -24346,7 +24397,7 @@
           "ticker": "ANET"
         },
         {
-          "checked_at": "2026-06-18T20:49:08.588528+00:00",
+          "checked_at": "2026-06-18T23:13:32.919903+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24367,7 +24418,7 @@
           "ticker": "RGI"
         },
         {
-          "checked_at": "2026-06-18T20:49:10.888318+00:00",
+          "checked_at": "2026-06-18T23:13:35.041147+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24388,7 +24439,7 @@
           "ticker": "RSPT"
         },
         {
-          "checked_at": "2026-06-18T20:49:35.535568+00:00",
+          "checked_at": "2026-06-18T23:13:58.319930+00:00",
           "currency": "USD",
           "current_exposure_pct": 4.82,
           "current_exposure_usd": 93235.0,
@@ -24402,12 +24453,14 @@
           "research_status": "",
           "source": "Yahoo Finance chart endpoint",
           "source_flags": [],
-          "source_tags": [],
+          "source_tags": [
+            "mark l. newton, cmt D"
+          ],
           "status": "has_data",
           "ticker": "XLF"
         },
         {
-          "checked_at": "2026-06-18T20:48:37.058550+00:00",
+          "checked_at": "2026-06-18T23:13:02.281196+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.4,
           "current_exposure_usd": 7729.0,
@@ -24428,7 +24481,7 @@
           "ticker": "FIX"
         },
         {
-          "checked_at": "2026-06-18T20:49:02.855015+00:00",
+          "checked_at": "2026-06-18T23:13:27.195762+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.29,
           "current_exposure_usd": 5643.0,
@@ -24447,7 +24500,7 @@
           "ticker": "PANW"
         },
         {
-          "checked_at": "2026-06-18T20:49:15.470631+00:00",
+          "checked_at": "2026-06-18T23:13:39.308443+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.26,
           "current_exposure_usd": 4944.0,
@@ -24466,7 +24519,7 @@
           "ticker": "SNSR"
         },
         {
-          "checked_at": "2026-06-18T20:48:46.762935+00:00",
+          "checked_at": "2026-06-18T23:13:11.363951+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.26,
           "current_exposure_usd": 24337.0,
@@ -24485,7 +24538,7 @@
           "ticker": "ITA"
         },
         {
-          "checked_at": "2026-06-18T20:48:58.435776+00:00",
+          "checked_at": "2026-06-18T23:13:22.943703+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.32,
           "current_exposure_usd": 25563.0,
@@ -24504,7 +24557,7 @@
           "ticker": "NBIS"
         },
         {
-          "checked_at": "2026-06-18T20:49:37.201473+00:00",
+          "checked_at": "2026-06-18T23:13:59.791213+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.67,
           "current_exposure_usd": 12986.0,
@@ -24523,7 +24576,7 @@
           "ticker": "XLRE"
         },
         {
-          "checked_at": "2026-06-18T20:48:48.273163+00:00",
+          "checked_at": "2026-06-18T23:13:12.712347+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.3,
           "current_exposure_usd": 5868.0,
@@ -24542,7 +24595,7 @@
           "ticker": "JPM"
         },
         {
-          "checked_at": "2026-06-18T20:48:16.418977+00:00",
+          "checked_at": "2026-06-18T23:12:41.997874+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.43,
           "current_exposure_usd": 8343.0,
@@ -24563,7 +24616,7 @@
           "ticker": "AMD"
         },
         {
-          "checked_at": "2026-06-18T20:48:46.057247+00:00",
+          "checked_at": "2026-06-18T23:13:10.536177+00:00",
           "currency": "USD",
           "current_exposure_pct": 1.26,
           "current_exposure_usd": 24457.0,
@@ -24582,7 +24635,7 @@
           "ticker": "IHF"
         },
         {
-          "checked_at": "2026-06-18T20:48:41.457251+00:00",
+          "checked_at": "2026-06-18T23:13:06.398899+00:00",
           "currency": "USD",
           "current_exposure_pct": 8.33,
           "current_exposure_usd": 161241.0,
@@ -24601,7 +24654,7 @@
           "ticker": "GRNJ"
         },
         {
-          "checked_at": "2026-06-18T20:48:42.887537+00:00",
+          "checked_at": "2026-06-18T23:13:07.796199+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.68,
           "current_exposure_usd": 13190.0,
@@ -24622,26 +24675,7 @@
           "ticker": "GS"
         },
         {
-          "checked_at": "2026-06-18T20:48:36.337403+00:00",
-          "currency": "USD",
-          "current_exposure_pct": 0.05,
-          "current_exposure_usd": 1044.0,
-          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
-          "fifty_two_week_high": 321.17,
-          "high_date": "2026-06-15",
-          "latest_price_date": "2026-06-18",
-          "pct_below_high": -2.33,
-          "price": 313.68,
-          "rank_score": 2.32,
-          "research_status": "",
-          "source": "Yahoo Finance chart endpoint",
-          "source_flags": [],
-          "source_tags": [],
-          "status": "has_data",
-          "ticker": "FBGKX"
-        },
-        {
-          "checked_at": "2026-06-18T20:49:10.167193+00:00",
+          "checked_at": "2026-06-18T23:13:34.285639+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24663,7 +24697,7 @@
           "ticker": "RSP"
         },
         {
-          "checked_at": "2026-06-18T20:49:33.239780+00:00",
+          "checked_at": "2026-06-18T23:13:56.110681+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24684,7 +24718,7 @@
           "ticker": "XBI"
         },
         {
-          "checked_at": "2026-06-18T20:49:19.407239+00:00",
+          "checked_at": "2026-06-18T23:13:42.985199+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24708,7 +24742,7 @@
           "ticker": "SPY"
         },
         {
-          "checked_at": "2026-06-18T20:49:30.147993+00:00",
+          "checked_at": "2026-06-18T23:13:53.333694+00:00",
           "currency": "USD",
           "current_exposure_pct": 4.15,
           "current_exposure_usd": 80240.0,
@@ -24727,7 +24761,7 @@
           "ticker": "VOLT"
         },
         {
-          "checked_at": "2026-06-18T20:48:57.720248+00:00",
+          "checked_at": "2026-06-18T23:13:22.223211+00:00",
           "currency": "USD",
           "current_exposure_pct": 3.52,
           "current_exposure_usd": 68074.0,
@@ -24746,7 +24780,7 @@
           "ticker": "MU"
         },
         {
-          "checked_at": "2026-06-18T20:49:33.993821+00:00",
+          "checked_at": "2026-06-18T23:13:56.884965+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24767,7 +24801,7 @@
           "ticker": "XHS"
         },
         {
-          "checked_at": "2026-06-18T20:48:42.158571+00:00",
+          "checked_at": "2026-06-18T23:13:07.105437+00:00",
           "currency": "USD",
           "current_exposure_pct": 9.45,
           "current_exposure_usd": 182740.0,
@@ -24786,7 +24820,7 @@
           "ticker": "GRNY"
         },
         {
-          "checked_at": "2026-06-18T20:48:30.517714+00:00",
+          "checked_at": "2026-06-18T23:12:55.820080+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.18,
           "current_exposure_usd": 3453.0,
@@ -24807,7 +24841,7 @@
           "ticker": "CRS"
         },
         {
-          "checked_at": "2026-06-18T20:49:36.282592+00:00",
+          "checked_at": "2026-06-18T23:13:58.989415+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.65,
           "current_exposure_usd": 12572.0,
@@ -24828,7 +24862,7 @@
           "ticker": "XLI"
         },
         {
-          "checked_at": "2026-06-18T20:49:07.172773+00:00",
+          "checked_at": "2026-06-18T23:13:31.417119+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24852,7 +24886,7 @@
           "ticker": "QQQ"
         },
         {
-          "checked_at": "2026-06-18T20:49:17.557921+00:00",
+          "checked_at": "2026-06-18T23:13:41.182964+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.3,
           "current_exposure_usd": 5750.0,
@@ -24871,7 +24905,7 @@
           "ticker": "SOXX"
         },
         {
-          "checked_at": "2026-06-18T20:48:35.620206+00:00",
+          "checked_at": "2026-06-18T23:13:00.868327+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24892,7 +24926,7 @@
           "ticker": "EWY"
         },
         {
-          "checked_at": "2026-06-18T20:49:09.319698+00:00",
+          "checked_at": "2026-06-18T23:13:33.576813+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.63,
           "current_exposure_usd": 12260.0,
@@ -24911,7 +24945,7 @@
           "ticker": "RPG"
         },
         {
-          "checked_at": "2026-06-18T20:48:19.297174+00:00",
+          "checked_at": "2026-06-18T23:12:45.097337+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.46,
           "current_exposure_usd": 8957.0,
@@ -24930,7 +24964,7 @@
           "ticker": "ASML"
         },
         {
-          "checked_at": "2026-06-18T20:49:26.524963+00:00",
+          "checked_at": "2026-06-18T23:13:49.238621+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.22,
           "current_exposure_usd": 4322.0,
@@ -24949,7 +24983,7 @@
           "ticker": "TSM"
         },
         {
-          "checked_at": "2026-06-18T20:49:27.399476+00:00",
+          "checked_at": "2026-06-18T23:13:49.895224+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
@@ -24970,7 +25004,7 @@
           "ticker": "UBS"
         },
         {
-          "checked_at": "2026-06-18T20:49:14.658396+00:00",
+          "checked_at": "2026-06-18T23:13:38.605878+00:00",
           "currency": "USD",
           "current_exposure_pct": 5.21,
           "current_exposure_usd": 100891.0,
@@ -24992,7 +25026,47 @@
           "ticker": "SMH"
         },
         {
-          "checked_at": "2026-06-18T20:48:22.076636+00:00",
+          "checked_at": "2026-06-18T23:13:51.326940+00:00",
+          "currency": "USD",
+          "current_exposure_pct": 0.0,
+          "current_exposure_usd": 0.0,
+          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
+          "fifty_two_week_high": 28.45,
+          "high_date": "2025-11-21",
+          "latest_price_date": "2026-06-18",
+          "pct_below_high": -0.53,
+          "price": 28.3,
+          "rank_score": 0.53,
+          "research_status": "",
+          "source": "Yahoo Finance chart endpoint",
+          "source_flags": [],
+          "source_tags": [
+            "mark l. newton, cmt D"
+          ],
+          "status": "has_data",
+          "ticker": "UUP"
+        },
+        {
+          "checked_at": "2026-06-18T23:13:01.569677+00:00",
+          "currency": "USD",
+          "current_exposure_pct": 0.05,
+          "current_exposure_usd": 1044.0,
+          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
+          "fifty_two_week_high": 321.17,
+          "high_date": "2026-06-15",
+          "latest_price_date": "2026-06-18",
+          "pct_below_high": -0.35,
+          "price": 320.06,
+          "rank_score": 0.34,
+          "research_status": "",
+          "source": "Yahoo Finance chart endpoint",
+          "source_flags": [],
+          "source_tags": [],
+          "status": "has_data",
+          "ticker": "FBGKX"
+        },
+        {
+          "checked_at": "2026-06-18T23:12:47.851046+00:00",
           "currency": "USD",
           "current_exposure_pct": 0.99,
           "current_exposure_usd": 19094.0,
@@ -26601,11 +26675,11 @@
           "independent_source_count": 1
         },
         {
-          "decision_key": "UBS|uw_runbook",
-          "ticker": "UBS",
+          "decision_key": "UUP|uw_runbook",
+          "ticker": "UUP",
           "lane": "uw_runbook",
           "state": "RESOLVE",
-          "title": "Resolve UBS UW check",
+          "title": "Resolve UUP UW check",
           "sources": [
             "uw_action_runbook"
           ],
@@ -31323,7 +31397,7 @@
           "section": "higher_quality_pullbacks",
           "label": "Higher-quality pullback",
           "row": {
-            "checked_at": "2026-06-18T20:48:17.108204+00:00",
+            "checked_at": "2026-06-18T23:12:42.688588+00:00",
             "currency": "USD",
             "current_exposure_pct": 1.11,
             "current_exposure_usd": 21481.0,
@@ -32214,7 +32288,7 @@
           "section": "higher_quality_pullbacks",
           "label": "Higher-quality pullback",
           "row": {
-            "checked_at": "2026-06-18T20:48:21.380934+00:00",
+            "checked_at": "2026-06-18T23:12:47.102225+00:00",
             "currency": "USD",
             "current_exposure_pct": 2.17,
             "current_exposure_usd": 41953.0,
@@ -34987,7 +35061,7 @@
         "UUUU",
         "HOOD"
       ],
-      "screen_count": 110
+      "screen_count": 111
     },
     "trade_plan": {
       "moves": {
@@ -35331,7 +35405,7 @@
         "severity": "warn",
         "kind": "cloud_routine_failed",
         "title": "1 cloud routine(s) failed latest receipt",
-        "why": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=1; support monitored=21, support overdue=0.",
+        "why": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=1; support monitored=21, support overdue=1.",
         "source": "cloud_routines",
         "trigger": "failed_latest_count > 0",
         "next_step": "Check Ops/System Health when debugging routines; this is not a portfolio alert."
