@@ -367,7 +367,12 @@ def build_directive_cards(
             card,
             {
                 "move": move,
-                "conviction": {"read": conv["read"], "points": conv["points"], "groups": conv["groups"], "raises": conv["raises"]},
+                "conviction": {
+                    "read": conv["read"], "points": conv["points"],
+                    "groups": conv["groups"], "raises": conv["raises"],
+                    "conflicted": conv.get("conflicted"),
+                    "conflict_detail": conv.get("conflict_detail"),
+                },
                 "window": {"class": window["class"], "deadline": window["deadline"], "reasons": window["reasons"], "flips": window["flips"]},
                 "evidence": {"links": [
                     {"label": "reallocation_brief (live positions)", "ref": "feed.reallocation_brief"},
@@ -382,6 +387,16 @@ def build_directive_cards(
         )
         if row.get("sequence") == "now":
             card["priority"] += 5.0
+        if conv.get("conflicted"):
+            # Real disagreement is NO-ADD / RE-CHECK, never a confident buy.
+            # Keep the LOUD priority (points already carry opposition magnitude)
+            # so the card surfaces; actionability is gated downstream via the
+            # conflict flag (the display layer routes it to a non-ACT rail). Do
+            # NOT cap priority — a ceiling would cancel the loud points and
+            # bury the card.
+            card["conflict_recheck"] = True
+            move["direction"] = "RE-CHECK"
+            card["conviction_conflict"] = True   # mirror onto card for render/posture lookups
         cards.append(card)
 
     # ---- FUNDING TRIMS ------------------------------------------------------
@@ -423,7 +438,12 @@ def build_directive_cards(
             card,
             {
                 "move": move,
-                "conviction": {"read": conv["read"], "points": conv["points"], "groups": conv["groups"], "raises": conv["raises"]},
+                "conviction": {
+                    "read": conv["read"], "points": conv["points"],
+                    "groups": conv["groups"], "raises": conv["raises"],
+                    "conflicted": conv.get("conflicted"),
+                    "conflict_detail": conv.get("conflict_detail"),
+                },
                 "window": {"class": window["class"], "deadline": window["deadline"], "reasons": window["reasons"], "flips": window["flips"]},
                 "evidence": {"links": [
                     {"label": f"funds â†’ {funds}" if funds else "funding trim", "ref": "feed.reallocation_brief.trims"},
@@ -433,14 +453,28 @@ def build_directive_cards(
             },
         )
         base = goal_scores.get(ticker, 45.0)
+        if conv.get("conflicted"):
+            # conv["points"] is now a POSITIVE opposition magnitude; the old
+            # max(0.0, -points) would zero it and re-bury the conflict in the
+            # exact lane where "never sell a live thesis into weakness" lives.
+            conv_lift = conv_w * float(
+                (conv.get("conflict_detail") or {}).get("opposition_magnitude")
+                or conv["points"]
+            )
+        else:
+            conv_lift = conv_w * max(0.0, -conv["points"])
         raw_priority = round(
-            cap_w * base + conv_w * max(0.0, -conv["points"]) + win_w * _WINDOW_FACTOR[window["class"]], 1
+            cap_w * base + conv_lift + win_w * _WINDOW_FACTOR[window["class"]], 1
         )
         if _funding_only_low_salience(card):
             card["priority"] = min(raw_priority, 9.0)
             card["priority_note"] = "funding-only immaterial leg; pair with funded add, never hero-ranked"
         else:
             card["priority"] = raw_priority
+        if conv.get("conflicted"):
+            card["conflict_recheck"] = True
+            move["direction"] = "RE-CHECK"
+            card["conviction_conflict"] = True
         cards.append(card)
 
     # Merge in orphan-wired extra cards (e.g. MONITOR-RE-ENTRY). Each extra
@@ -473,6 +507,12 @@ def build_directive_cards(
                 + win_w * _WINDOW_FACTOR.get(window.get("class", "WAIT"), 0.0),
                 1,
             )
+        if (card.get("conviction") or {}).get("conflicted"):
+            card["conflict_recheck"] = True
+            card["conviction_conflict"] = True
+            mv = (card.get("decision_card") or {}).get("move") or card.get("move") or {}
+            if mv:
+                mv["direction"] = "RE-CHECK"
         cards.append(card)
 
     for card in cards:

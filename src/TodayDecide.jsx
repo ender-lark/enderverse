@@ -713,9 +713,10 @@ function GateNotes({ card }) {
 
 const conflictTags = (display, card) => {
   const tags = [];
+  if (display.conflicted) tags.push("evidence conflict");                              // NEW, first
   const conflict = String(display.conflict || "").toLowerCase();
   if (conflict.includes("battery") || conflict.includes("opposes") || conflict.includes("opposition")) tags.push(isFundingLeg(card) ? "positive signal conflicts" : "flow opposes move");
-  if (conflict.includes("no directional evidence")) tags.push("no direct score support");
+  if (conflict.includes("no directional evidence") && !display.conflicted) tags.push("no direct score support");  // real conflict is NOT "no support"
   if (display.conflict && !tags.length) tags.push("evidence conflict");
   if ((card.conflicts || []).length) tags.push("another lane disagrees");
   return tags;
@@ -736,7 +737,7 @@ function faceModel(card, display, posture, checkFirst, windowClass, direction) {
   if (fundingLeg) {
     status = "funding sell only";
     title = fundingSellLabel(card);
-  } else if (hasDirectionalConflict) {
+  } else if (hasDirectionalConflict || display.conflicted) {
     status = "resolve direction";
     title = `Resolve signal before ${actionGerund(direction)} ${ticker}`;
   } else if (stageMaterial && (!blockers.length || blockersAreGates)) {

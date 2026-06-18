@@ -118,6 +118,25 @@ def _build_payload():
     )
 
 
+def _build_conflicted_payload():
+    """`_build_payload()` but with a contradicting UW on GOOGL so the payload
+    is guaranteed to contain a CONFLICTED card. The ambient `_feed()` has none.
+    """
+    payload = td.build_today_decide_payload(
+        feed=_feed(), weights=W, goal=G,
+        insights_payload=_insights(),
+        accounts=_accounts(), gates=[_gate()],
+        uw_states={"GOOGL": {"interpretation": "contradicts"}},
+        congruence_result={"status": "ok", "rows": []},
+        today=TODAY,
+    )
+    cards = payload["cards"] + payload["backlog"]
+    assert any(
+        (c.get("conviction_display") or {}).get("band") == "CONFLICTED" for c in cards
+    ), "conflicted fixture stopped producing a CONFLICTED card"
+    return payload
+
+
 # ---------------------------------------------------------------------------
 # Parity-contract extractors
 # ---------------------------------------------------------------------------
@@ -335,3 +354,41 @@ def test_rail_copy_contract_present_in_both_html_and_jsx():
         assert "candidate only; confirm gates before action" in jsx_src
         assert "`PASS ${card.card_id} — reason: `" in jsx_src
         assert "`RECHECK ${card.card_id} resurface ${card.recheck_date}`" in jsx_src
+
+
+# ---------------------------------------------------------------------------
+# F1 — CONFLICTED card render + parity (the un-golden'd surface's only guard)
+# ---------------------------------------------------------------------------
+def _conflicted_card_id(payload):
+    cards = payload["cards"] + payload["backlog"]
+    for c in cards:
+        if (c.get("conviction_display") or {}).get("band") == "CONFLICTED":
+            return c["card_id"]
+    raise AssertionError("no CONFLICTED card in payload")
+
+
+def test_conflicted_card_renders_loud_in_html():
+    payload = _build_conflicted_payload()
+    html = td.render_today_decide_html(payload)
+    assert "Conviction 3/5 CONFLICTED" in html
+    assert "Resolve signal before" in html
+    assert "#fb923c" in html
+
+
+def test_conflicted_card_rail_data_verb_not_act():
+    payload = _build_conflicted_payload()
+    html = td.render_today_decide_html(payload)
+    cid = _conflicted_card_id(payload)
+    verbs = {m["verb"] for m in _DATA_CARD_RE.finditer(html) if m["cid"] == cid}
+    assert "ACT" not in verbs
+    assert verbs & {"RECHECK", "CANDIDATE"}
+
+
+def test_todaydecide_jsx_consumes_conflicted_fields():
+    src = _jsx(TODAY_DECIDE_JSX)
+    assert "display.conflicted" in src
+    # conflictTags and faceModel both reference the flag.
+    conflict_tags = src[src.index("const conflictTags"):src.index("function faceModel")]
+    assert "display.conflicted" in conflict_tags
+    face_model = src[src.index("function faceModel"):]
+    assert "display.conflicted" in face_model
