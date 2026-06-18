@@ -2,34 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:07:25.013674Z",
-      "summary": "scored 16 tickers; watchlist VIAV,KEYS,FORM,LITE; skipped 12; cache landed src/parabolic_setups.json; blockers none"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:32:26.320543Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:32:28.841249Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6435,7 +6407,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T12:17:05.928024Z",
       "summary": "pre-market source intake landed 1 Fed Watch TLT macro/rates row; position cache unchanged no broker upload; Chrome/Gmail checked; UW HOOD/MAGS narrow premarket dark-pool empty; dark/stale Social Watch missing and Crypto FlashInsights stale Jun8"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:21:31.003853Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:24:18.331005Z",
+      "summary": "broker position intake started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:25:02.903394Z",
+      "summary": "FS inbox catch-up preopen nothing new; marker checked through [06/17/2026 19:40 ET]; Notion marker fetch-verified"
     }
   ],
-  "updated_at": "2026-06-18T12:17:05.928024Z"
+  "updated_at": "2026-06-18T12:25:02.903394Z"
 }
