@@ -1,101 +1,6 @@
 {
+  "schema_version": 1,
   "receipts": [
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:53.319116Z",
-      "summary": "deep synthesis manual support run completed from repo evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "source call candidates merge",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/source_call_candidate_draft.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/source_call_candidates.json",
-              "--merge-existing",
-              "--merge-cache"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"out\": \"src/source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 6,\n  \"drafted\": 6,\n  \"existing\": 6,\n  \"stored\": 6,\n  \"tickers\": [\n    \"QQQ\",\n    \"RSP\",\n    \"RYF\",\n    \"SOX\",\n    \"TNX\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-08T05:41:53.301131+00:00\",\n    \"existing\": 6,\n    \"candidates\": 6,\n    \"added\": 0,\n    \"stored\": 6,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\"\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:53.331281Z",
-      "summary": "investing-os-weekly-pilot-run manual run started"
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:53.618259Z",
-      "summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "heartbeat status write",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--src-dir",
-              "src",
-              "--out",
-              "src/heartbeat.json",
-              "--summary",
-              "src/heartbeat_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src/heartbeat.json\",\n  \"written\": true,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          },
-          {
-            "label": "heartbeat validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--validate",
-              "src/heartbeat.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"rows\": 5,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T05:46:25.996347Z",
-      "summary": "off-hours worker started"
-    },
     {
       "routine_id": "investing-os-off-hours-worker",
       "status": "success",
@@ -6454,7 +6359,46 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T01:24:41.457800Z",
       "summary": "checked SEC GOOGL/BMNR/AVGO/MSFT/AMZN/NVDA/LEU/UUUU/MP/MU, UW proof, Polymarket/Kalshi/Guardian; found 2 packets; Notion Signal Log 2 written+verified; repo Signal Log +2 and Event Risk +1; suppressed AVGO mechanics/no new GOOGL-BMNR; dark Social Watch; blocked UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX/RYF flow empty"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T02:17:24.077891Z",
+      "summary": "loose-thread sweep started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T02:21:33.226495Z",
+      "summary": "loose-thread sweep captured 3: TODAY/DECIDE evidence-starvation audit; watch_queue disposition rail design; candidate model/scoring rails",
+      "details": {
+        "loose_thread_sweep_version": 2,
+        "candidate_count": 18,
+        "captured_count": 3,
+        "skipped_duplicate_count": 6,
+        "skipped_stale_count": 9,
+        "target_routes": [
+          "System Update Queue"
+        ],
+        "target_verification": "verified",
+        "captured_page_ids": [
+          "383c5031-4bb6-8118-a409-cea6141dd19b",
+          "383c5031-4bb6-81a1-9533-cc414454a074",
+          "383c5031-4bb6-81fe-9eeb-fa5a02c9e252"
+        ],
+        "captured_urls": [
+          "https://app.notion.com/p/383c50314bb68118a409cea6141dd19b",
+          "https://app.notion.com/p/383c50314bb681a19533cc414454a074",
+          "https://app.notion.com/p/383c50314bb681fe9eebfa5a02c9e252"
+        ],
+        "notion_query_endpoint": "not_checked: notion-query-data-sources unavailable; used fetch plus targeted search fallback",
+        "dark_not_checked_blockers": [
+          "Notion SQL row query endpoint unavailable; broad queue row export not checked"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-18T01:25:56.160215Z"
+  "updated_at": "2026-06-18T02:21:33.226495Z"
 }
