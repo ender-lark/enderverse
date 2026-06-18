@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T19:47:13.985410Z",
-      "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T20:32:36.555814Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
       "routine_id": "investing-os-post-close-refresh",
       "status": "success",
       "run_source": "scheduled",
@@ -6454,7 +6440,56 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T13:34:17.256007Z",
       "summary": "repo synthesis refreshed and Notion page 383c5031-4bb6-811a-8b73-d9b4f56e973c write/readback verified; hanging HOOD review and Social Watch dark; verify_standard failed date-rot daily packet fixture expected 2026-06-17 vs 2026-06-18"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T13:42:23.468768Z",
+      "summary": "post-open evidence gate started"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T13:44:07.296385Z",
+      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=success",
+      "details": {
+        "boundary_artifact": "src\\uw_endpoint_results.json",
+        "boundary_artifact_committed": true,
+        "no_fresh_boundary_data": false,
+        "feed_built_from_committed_proof": true,
+        "dashboard_refresh_status": "success",
+        "redaction_valid": true,
+        "redaction_problems": [],
+        "proof_generated_at": "2026-06-18T13:42:23.486320+00:00",
+        "proof_count": 13,
+        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-18 09:42 ET.",
+        "proof_newest_checked_at": "2026-06-18T13:42:23.486320+00:00",
+        "proof_interpretation_counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 10,
+          "missing": 3
+        },
+        "proof_blockers": [
+          "inconclusive endpoint result(s) cannot promote related actions",
+          "missing/failed endpoint result(s) keep related actions blocked"
+        ],
+        "boundary_commit": {
+          "valid": true,
+          "committed": true,
+          "commit": "016b4d4",
+          "reason": "committed",
+          "selected_paths": [
+            "src/uw_endpoint_results.json"
+          ]
+        },
+        "dashboard_refresh_returncode": 0,
+        "feed_uw_proof_newest_checked_at": "2026-06-18T13:42:23.486320+00:00",
+        "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-18 09:42 ET."
+      }
     }
   ],
-  "updated_at": "2026-06-18T13:34:17.256007Z"
+  "updated_at": "2026-06-18T13:44:07.296385Z"
 }
