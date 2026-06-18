@@ -144,5 +144,36 @@
     "summary": "US-Iran peace-by-June odds were near-certain while the Strait of Hormuz normal-by-June market was only about 17.5-18% Yes; de-escalation lowers immediate war/oil shock but shipping normalization remains unconfirmed.",
     "trigger": "Keep event-risk lane active until IMF PortWatch transit calls recover, WTI/TNX stay lower, and shipping/insurance friction fades; invalidate relief if deal terms break or Hormuz restrictions return.",
     "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "Hormuz shifts from June miss to July normalization watch",
+    "severity": "medium",
+    "horizon": "1-6 weeks",
+    "channels": [
+      "oil",
+      "rates",
+      "shipping",
+      "financials",
+      "growth"
+    ],
+    "tickers": [
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "SMH",
+      "MAGS"
+    ],
+    "affected": [
+      "Energy",
+      "Financials",
+      "High-duration growth",
+      "New-buy timing"
+    ],
+    "source": "Polymarket/Kalshi public Hormuz markets checked 2026-06-18T01:22Z; Guardian 2026-06-17 MOU report",
+    "summary": "Prediction markets and public reporting now point to lower acute war/oil shock but unresolved traffic normalization: Polymarket Jun30 Yes ~24%, Jul31 Yes ~55%, Kalshi Jul15 ~33% and Aug1 ~52%; Guardian reports 30-day restoration target with 60-day final-deal negotiation and walk-away risk.",
+    "trigger": "Do not clear the event-risk lane until IMF PortWatch 7-day transit calls recover above the market threshold, WTI/TNX stay lower, and shipping/insurance friction fades; re-escalate if deal terms break, toll/access conditions return, or Hormuz restrictions resume.",
+    "direction": "risk_watch"
   }
 ]

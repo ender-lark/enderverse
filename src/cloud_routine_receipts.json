@@ -1,5 +1,4 @@
 {
-  "schema_version": 1,
   "receipts": [
     {
       "routine_id": "investing-os-deep-synthesis",
@@ -6417,6 +6416,13 @@
       "summary": "FS inbox catch-up evening ingested 3 entries; logged 6 calls; marker advanced to [06/17/2026 19:40 ET]; flags post-FOMC/rates source review, XBI breakout, crypto framework; no gate/card contradiction; query endpoint dark fallback search"
     },
     {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T01:16:22.434514Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
       "routine_id": "life-work-os-heartbeat-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6441,7 +6447,14 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T01:24:41.457800Z",
+      "summary": "checked SEC GOOGL/BMNR/AVGO/MSFT/AMZN/NVDA/LEU/UUUU/MP/MU, UW proof, Polymarket/Kalshi/Guardian; found 2 packets; Notion Signal Log 2 written+verified; repo Signal Log +2 and Event Risk +1; suppressed AVGO mechanics/no new GOOGL-BMNR; dark Social Watch; blocked UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX/RYF flow empty"
     }
   ],
-  "updated_at": "2026-06-18T01:16:32.513522Z"
+  "updated_at": "2026-06-18T01:25:56.160215Z"
 }
