@@ -1076,5 +1076,24 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "SMH",
+    "direction": "watch",
+    "entry": null,
+    "stop": 642.77,
+    "target": 710.0,
+    "window": "short run; monitor over the week(s) ahead",
+    "quote": "SMH/semi breakout has short-run technical confirmation while above the 642.77 pivot; 710-714 resistance is the next failure-watch zone as RSI nears extreme overbought.",
+    "date": "2026-06-18",
+    "subject": "FlashInsights: SMH semiconductor breakout with overbought failure watch",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-18-1437-et-smh",
+    "source": "Fundstrat Chrome member Macro FlashInsights page",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]
