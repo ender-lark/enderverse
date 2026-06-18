@@ -2,73 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:09.853599Z",
-      "summary": "UW opportunity cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "uw opportunity self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "uw_opportunity_scan self-test: PASS",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 40
-            }
-          },
-          {
-            "label": "live source config validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_source_config_update.py",
-              "--validate",
-              "src/live_source_config.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity existing bundle score",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--from-bundle",
-              "tmp/uw/opportunity_bundle.json",
-              "--emit",
-              "src/uw_opportunity_signals.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "",
-            "stderr": "Emitted 40 signal(s) -> src/uw_opportunity_signals.json"
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:09.868363Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "success",
       "run_source": "manual",
@@ -6277,7 +6210,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T16:51:18.905536Z",
       "summary": "web checked 4 pages Macro/Crypto FlashInsights latest-research listing and US Policy detail; Gmail 0; rows landed 0; suppressed stale FlashInsights duplicate First-to-Market and confirmatory US Policy; validation passed; alert quiet 0 candidates 5 duplicates 55 suppressed; trigger guard fired 0 quote lanes not_checked; dark/stale Crypto FlashInsights Jun8 and Social Watch; blockers no same-day FlashInsights, EWRE/ASTS/RKLB/MU quote lanes not_checked"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T17:46:57.126106Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T17:49:46.157358Z",
+      "summary": "web checked 3 pages Macro/Crypto FlashInsights plus Latest Research listing; Gmail 0; rows landed 0; suppressed/discovery unchanged Macro Jun17, stale Crypto Jun8, US Policy 12:10 duplicate/listing-discovery; validation passed; dashboard skipped no rows; alert quiet 0 candidates 5 duplicates 55 suppressed; trigger guard fired 0, EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers no fresh full-content Fundstrat item"
     }
   ],
-  "updated_at": "2026-06-18T16:51:18.905536Z"
+  "updated_at": "2026-06-18T17:49:46.157358Z"
 }
