@@ -678,7 +678,7 @@
             ],
             "returncode": 0,
             "optional": false,
-            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER \u2014 2026-06-08 21:27 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 1 (inflection)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1/2 (transition)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1/2 (transition)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 1/2 (transition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
+            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER — 2026-06-08 21:27 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 1 (inflection)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1/2 (transition)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1/2 (transition)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 1/2 (transition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
             "stderr": "Emitted 16 results -> src/parabolic_setups.json (AUTOFIRE 0, WATCHLIST 4, SKIP 12)"
           }
         ]
@@ -4422,7 +4422,7 @@
             ],
             "returncode": 0,
             "optional": false,
-            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER \u2014 2026-06-16 14:37 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 2 (recognition)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1 (early)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1 (early)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 2 (recognition)\nCAMT    score  4.00/13.0  Phase 1 (early)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1/2 (transition)\nPWR     score  1.75/13.0  Phase 1 (early)",
+            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER — 2026-06-16 14:37 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 2 (recognition)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1 (early)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1 (early)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 2 (recognition)\nCAMT    score  4.00/13.0  Phase 1 (early)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1/2 (transition)\nPWR     score  1.75/13.0  Phase 1 (early)",
             "stderr": "Emitted 16 results -> src/parabolic_setups.json (AUTOFIRE 0, WATCHLIST 4, SKIP 12)"
           }
         ]
@@ -6398,7 +6398,21 @@
           "Notion SQL row query endpoint unavailable; broad queue row export not checked"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T02:47:23.784379Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T02:52:50.349705Z",
+      "summary": "checked web 12 surfaces plus 3 detail pages; videos checked 1 detail/2 listing-discovery, transcript vault 0 new writes; Gmail 0; landed 3 compact rows; suppressed/discovery-only Macro Minute 6:56 already captured/pre-window and video-only surfaces without transcripts; validation passed; dashboard refresh ok; dark/stale lanes: Social Watch dark, no visible new transcript/caption controls; blockers none"
     }
   ],
-  "updated_at": "2026-06-18T02:21:33.226495Z"
+  "updated_at": "2026-06-18T02:52:50.349705Z"
 }
