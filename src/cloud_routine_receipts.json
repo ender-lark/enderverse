@@ -2,37 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:16.703764Z",
-      "summary": "off-hours worker manual run checked research queue cache only",
-      "details": {
-        "steps": [
-          {
-            "label": "research queue validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/research_queue_intake.py",
-              "--validate",
-              "src/research_queue.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:16.719771Z",
-      "summary": "investing-os-deep-synthesis manual run started"
-    },
-    {
       "routine_id": "investing-os-deep-synthesis",
       "status": "success",
       "run_source": "manual",
@@ -3614,7 +3583,7 @@
             ],
             "returncode": 0,
             "optional": false,
-            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER — 2026-06-16 14:37 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 2 (recognition)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1 (early)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1 (early)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 2 (recognition)\nCAMT    score  4.00/13.0  Phase 1 (early)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1/2 (transition)\nPWR     score  1.75/13.0  Phase 1 (early)",
+            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER \u2014 2026-06-16 14:37 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 2 (recognition)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (12) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1 (early)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1 (early)\nLEU     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 2 (recognition)\nCAMT    score  4.00/13.0  Phase 1 (early)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1/2 (transition)\nPWR     score  1.75/13.0  Phase 1 (early)",
             "stderr": "Emitted 16 results -> src/parabolic_setups.json (AUTOFIRE 0, WATCHLIST 4, SKIP 12)"
           }
         ]
@@ -6115,7 +6084,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T20:38:10.016521Z",
       "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/18/2026 12:25 ET]; Notion marker fetch-verified"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T20:46:12.135956Z",
+      "summary": "positions sync started"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T20:52:40.032226Z",
+      "summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified"
     }
   ],
-  "updated_at": "2026-06-18T20:38:10.016521Z"
+  "updated_at": "2026-06-18T20:52:40.032226Z"
 }
