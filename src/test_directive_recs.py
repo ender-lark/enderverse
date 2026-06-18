@@ -358,6 +358,141 @@ def test_funding_not_checked_when_no_cash_and_no_pool():
     assert "not_checked" in s["funding_note"]
 
 
+# --- DISPLAY-PRECISION rounding (F2-SIZE-ROUNDING) ---------------------------
+# The operator does not want long decimal tails on the sizing numbers (when he
+# drags the adjustable size bar, the recomputed size shows a decimal tail). The
+# FINAL step of the sizing formula rounds every dollar amount to the nearest
+# size_rounding_usd (default $100) and stores it as a WHOLE NUMBER (int) so no
+# decimal ever renders -- without touching the conviction lift or eligibility.
+
+# A non-round anchor whose lift produces a decimal tail (e.g. *2.0 of 75945.24).
+_ROUND_BUY = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+
+_DOLLAR_FIELDS = (
+    "suggested_usd",
+    "available_cash",
+    "funding_pool_usd",
+    "funding_available_usd",
+    "funding_shortfall_usd",
+    "cap_room",
+)
+
+
+def _assert_whole_hundreds(value):
+    # whole number, no fractional part, and an exact multiple of $100.
+    assert isinstance(value, int)
+    assert value % 100 == 0
+
+
+def test_new_tunable_size_rounding_default_is_100():
+    cfg = dr.load_sizing_tunables()
+    assert cfg["size_rounding_usd"] == 100
+    assert dr._size_rounding_step(cfg) == 100
+
+
+def test_suggested_usd_is_whole_hundred_no_decimal_tail():
+    # 75945.24 * 2.0 lift = 151890.48 -> rounds to nearest $100 -> 151900 (int).
+    s = _size(_ROUND_BUY, proposed=75945.24, available_cash=20137.77, funding_pool=40251.49)
+    assert s["suggested_usd"] == 151900
+    _assert_whole_hundreds(s["suggested_usd"])
+    # NO decimal tail anywhere on the rendered dollar fields.
+    for key in _DOLLAR_FIELDS:
+        if key in s and isinstance(s[key], (int, float)) and not isinstance(s[key], bool):
+            _assert_whole_hundreds(s[key])
+
+
+def test_all_cash_and_funding_dollar_fields_are_whole_hundreds():
+    s = _size(_ROUND_BUY, proposed=75945.24, available_cash=20137.77, funding_pool=40251.49)
+    assert s["available_cash"] == 20100        # 20137.77 -> 20100
+    assert s["funding_pool_usd"] == 40300      # 40251.49 -> 40300
+    assert s["funding_available_usd"] == 60400  # 20100 + 40300 (rounded, then totalled)
+    # shortfall is computed from the ROUNDED numbers: 151900 - 60400 = 91500.
+    assert s["funding_shortfall_usd"] == 91500
+    for key in ("available_cash", "funding_pool_usd", "funding_available_usd", "funding_shortfall_usd"):
+        _assert_whole_hundreds(s[key])
+
+
+def test_exceeds_booleans_recomputed_from_rounded_values_and_agree():
+    # cash 49.50 -> rounds to 100; suggested 75945.24*1 (no lift here, NEUTRAL) ...
+    # use a covered case where rounding flips a hairline comparison cleanly.
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    # suggested 50000 (proposed 25000 * 2.0); cash 49950.40 -> rounds to 50000 -> covered.
+    s = _size(conv, proposed=25000, available_cash=49950.40)
+    assert s["suggested_usd"] == 50000
+    assert s["available_cash"] == 50000
+    # displayed dollars are equal -> the verdict must read covered (not exceeds).
+    assert s["exceeds_cash"] is False
+
+
+def test_size_rounding_1_gives_whole_dollars():
+    cfg = dr.load_sizing_tunables()
+    cfg["size_rounding_usd"] = 1
+    s = _size(_ROUND_BUY, tunables=cfg, proposed=75945.24, available_cash=20137.77, funding_pool=40251.49)
+    # whole dollars, no decimal: 151890.48 -> 151890.
+    assert s["suggested_usd"] == 151890
+    assert isinstance(s["suggested_usd"], int)
+    assert s["available_cash"] == 20138
+    assert s["funding_pool_usd"] == 40251
+
+
+def test_size_rounding_1000_gives_nearest_thousand():
+    cfg = dr.load_sizing_tunables()
+    cfg["size_rounding_usd"] = 1000
+    s = _size(_ROUND_BUY, tunables=cfg, proposed=75945.24, available_cash=20137.77, funding_pool=40251.49)
+    assert s["suggested_usd"] == 152000      # 151890.48 -> nearest 1000
+    assert s["available_cash"] == 20000      # 20137.77 -> nearest 1000
+    assert s["funding_pool_usd"] == 40000
+    for key in ("suggested_usd", "available_cash", "funding_pool_usd"):
+        assert s[key] % 1000 == 0
+
+
+def test_size_rounding_zero_or_none_falls_back_to_whole_dollars():
+    for disabled in (0, None):
+        cfg = dr.load_sizing_tunables()
+        cfg["size_rounding_usd"] = disabled
+        assert dr._size_rounding_step(cfg) == 1
+        s = _size(_ROUND_BUY, tunables=cfg, proposed=75945.24, available_cash=20137.77)
+        # no step rounding, but still a whole dollar -- no decimal ever renders.
+        assert s["suggested_usd"] == 151890
+        assert isinstance(s["suggested_usd"], int)
+        assert float(s["suggested_usd"]).is_integer()
+
+
+def test_rounding_does_not_change_lift_or_eligibility():
+    # Rounding is display precision ONLY: the conviction lift multiplier, the lift
+    # strength, and WHICH names size up are identical across rounding steps.
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    mults = set()
+    strengths = set()
+    for step in (1, 100, 1000):
+        cfg = dr.load_sizing_tunables()
+        cfg["size_rounding_usd"] = step
+        s = _size(conv, tunables=cfg, proposed=75945.24)
+        mults.add(s["size_lift_mult"])
+        strengths.add(s["size_lift_strength"])
+    assert mults == {2.0}        # lift unchanged by the display rounding
+    assert strengths == {1.0}
+    # a conflicted card still FLOORS (no lift) regardless of rounding step.
+    conflicted = {"read": "CONFLICTED", "direction": "RE-CHECK", "strength_5": 3, "n_groups": 2, "conflicted": True}
+    cfg = dr.load_sizing_tunables()
+    cfg["size_rounding_usd"] = 100
+    sc = _size(conflicted, tunables=cfg, proposed=25000)
+    assert sc["size_lift_mult"] == 1.0
+    assert sc["heat"] == "CONFLICTED_FLOOR"
+
+
+def test_multipliers_and_percentages_are_not_rounded_to_dollars():
+    # size_lift_mult / size_lift_strength / ceiling_pct are NOT dollars -> they
+    # keep their fractional precision and are not coerced to whole numbers.
+    conv = {"read": "MODERATE", "direction": "BUY", "strength_5": 4, "n_groups": 3, "conflicted": False}
+    s = _size(conv, proposed=75945.24)
+    assert isinstance(s["size_lift_mult"], float)
+    assert s["size_lift_mult"] != round(s["size_lift_mult"])  # genuinely fractional
+    assert isinstance(s["size_lift_strength"], float)
+    if "ceiling_pct" in s:
+        assert isinstance(s["ceiling_pct"], float)
+
+
 def test_real_available_cash_from_cash_and_money_market_rows():
     import execution_plan as ep
     cache = {

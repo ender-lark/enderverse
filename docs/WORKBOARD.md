@@ -8,6 +8,7 @@ Allowed statuses: `CLAIMED`, `IN-PROGRESS`, `PR#<n>`, `MERGED`, `SUPERSEDED`, `D
 
 | id | agent | scope | files-or-state-owned | status | stamp |
 | --- | --- | --- | --- | --- | --- |
+| F2-SIZE-ROUNDING | Claude Code | Display-precision final step: round every F2 dollar amount (suggested_usd, available_cash, funding_pool_usd, funding_available_usd, funding_shortfall_usd, cap_room) to nearest size_rounding_usd (default $100) and store as whole int so no decimal renders on the static card or the live bar-drag recompute; recompute exceeds_cash/exceeds_funding from rounded values; new operator tunable size_rounding_usd; lift/eligibility/funding logic unchanged; engine-only, no render-file edits | `src/directive_recs.py`; `src/sizing_tunables.json`; `src/test_directive_recs.py`; `docs/WORKBOARD.md` | IN-PROGRESS on `cc/f2-size-rounding` | 2026-06-18 |
 | A1 | Codex | Holdings tab: render all account positions with tracked/untracked flag and stale banner | `src/cockpit_html_gen.py`; `src/test_cockpit_html_gen.py`; `docs/index.html` | MERGED PR#9 | 2026-06-12 19:25 ET |
 | A2 | Codex | Orphan triage: classify untracked holdings and emit JSON/MD summary | `src/orphan_triage.py`; `src/test_orphan_triage.py`; `src/orphan_triage.json`; `src/orphan_triage.md` | MERGED PR#10 | 2026-06-12 19:25 ET |
 | B1 | Codex | FundStrat tab: Bible layers plus latest dailies; retire News UI label | `src/cockpit_html_gen.py`; `src/test_cockpit_html_gen.py`; `docs/index.html` | MERGED PR#11 | 2026-06-12 19:25 ET |
