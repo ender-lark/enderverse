@@ -43,12 +43,16 @@ def _fake_quote(ticker):
 
 def test_daily_packet_is_candidate_only_and_has_required_sections():
     packet = build_packet(quote_provider=_fake_quote, as_of="2026-06-17", max_tickers=8)
+    positions = packet["source_status"]["positions"]
 
     assert packet["packet_kind"] == "daily_pullback_reallocation"
     assert packet["display_label"] == "Daily pullback packet"
     assert packet["candidate_only"] is True
     assert "No trades executed" in packet["honesty_rule"]
-    assert packet["source_status"]["positions"]["snapshot_date"] == "2026-06-17"
+    assert positions["snapshot_date"]
+    assert positions["status"] == (
+        "has_data" if positions["snapshot_date"] == packet["as_of"] else "stale_or_dark"
+    )
     assert packet["source_status"]["market_timing"]["status"] == "checked"
     assert packet["source_status"]["social_watch"]["status"] == "not_checked"
     assert packet["source_status"]["notion_research_queue"]["writeback"] == "not_needed_no_new_notion_write"

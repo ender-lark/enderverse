@@ -7,6 +7,7 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import disposition_log as dl
+import today_decide as td
 from today_decide import (
     build_conviction_display,
     build_today_decide_payload,
@@ -18,6 +19,11 @@ from tunables import load_conviction_weights, load_goal_tunables
 TODAY = "2026-06-10"
 W = load_conviction_weights()
 G = load_goal_tunables()
+GREEN_AUTOMATION_ITEM = {
+    "label": "Automations",
+    "status": "ok",
+    "detail": "routine fired proof 14/14; boundary data not implied",
+}
 
 def _gate():
     return {
@@ -108,18 +114,24 @@ def _payload(
     today=TODAY,
     baseline_feed=None,
     held_decisions_path=None,
+    automation_item=None,
 ):
-    return build_today_decide_payload(
-        feed=feed or _feed(), weights=W, goal=goal or G, insights_payload=_insights(),
-        accounts=_accounts(), gates=(gates if gates is not None else [_gate()]), uw_states={}, entry_zones={},
-        congruence_result=congruence_result or _congruence(),
-        dispositions_path=(dispositions_path if dispositions_path else
-                           (tmp_path / "none.jsonl" if tmp_path else "_no_dispositions_.jsonl")),
-        held_decisions_path=held_decisions_path,
-        baseline_feed=baseline_feed,
-        load_committed_baseline=False,
-        today=today,
-    )
+    original_automation_item = td._automation_trust_item
+    td._automation_trust_item = lambda: automation_item or GREEN_AUTOMATION_ITEM
+    try:
+        return build_today_decide_payload(
+            feed=feed or _feed(), weights=W, goal=goal or G, insights_payload=_insights(),
+            accounts=_accounts(), gates=(gates if gates is not None else [_gate()]), uw_states={}, entry_zones={},
+            congruence_result=congruence_result or _congruence(),
+            dispositions_path=(dispositions_path if dispositions_path else
+                               (tmp_path / "none.jsonl" if tmp_path else "_no_dispositions_.jsonl")),
+            held_decisions_path=held_decisions_path,
+            baseline_feed=baseline_feed,
+            load_committed_baseline=False,
+            today=today,
+        )
+    finally:
+        td._automation_trust_item = original_automation_item
 
 def test_payload_builds_and_goal_anchor_math():
     p = _payload()
@@ -152,6 +164,21 @@ def test_payload_builds_and_goal_anchor_math():
     }
     assert p["change_delta"]["status"] == "no_baseline"
     assert p["passivity"]["honesty_rule"].startswith("Only bucket operator_owned_actionable_now")
+
+
+def test_payload_blocks_readiness_when_automation_receipt_failed():
+    p = _payload(automation_item={
+        "label": "Automations",
+        "status": "alert",
+        "detail": "1 latest scheduled routine receipt failed",
+    })
+
+    automation = next(row for row in p["trust_panel"]["items"] if row["label"] == "Automations")
+    assert automation["detail"] == "1 latest scheduled routine receipt failed"
+    routine_layer = p["cards"][0]["readiness"]["layers"][0]
+    assert routine_layer["key"] == "routine_fired"
+    assert routine_layer["status"] == "blocked"
+    assert routine_layer["detail"] == "1 latest scheduled routine receipt failed"
 
 def test_pace_is_display_only_and_isolated():
     p1 = _payload()
