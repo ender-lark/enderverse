@@ -2,61 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.323437Z",
-      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "event risk validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/event_risk_intake.py",
-              "--validate",
-              "src/event_risks.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 3\n}",
-            "stderr": ""
-          },
-          {
-            "label": "catalyst cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 8,
-              "valid_rows": 8,
-              "problem": ""
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.334973Z",
-      "summary": "investing-os-fundstrat-pre-market-safety-sweep manual run started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "success",
       "run_source": "manual",
@@ -6482,7 +6427,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T14:02:15.010922Z",
       "summary": "UW opportunity cache scanned 14 tickers; emitted 40 live UW signals to src/uw_opportunity_signals.json; worker failures 0; empty source rows GRNJ flow/oi; cache landed"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T14:07:08.605035Z",
+      "summary": "parabolic cache started"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T14:09:57.027618Z",
+      "summary": "scored 16 tickers; autofire 0; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none; transient BWXT retry recovered"
     }
   ],
-  "updated_at": "2026-06-18T14:02:15.010922Z"
+  "updated_at": "2026-06-18T14:09:57.027618Z"
 }
