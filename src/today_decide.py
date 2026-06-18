@@ -823,10 +823,18 @@ def _fed_day_card_summary(context: dict[str, Any]) -> str:
     else:
         price_text = ""
     sources = ", ".join(str(tag) for tag in row.get("source_tags") or [] if tag) or str(row.get("source") or "chart/source screen")
+    thesis = str(row.get("thesis") or "").strip()
+    size = str(row.get("size") or "").strip()
+    trigger = str(row.get("trigger_date") or row.get("trigger") or "").strip()
+    move_since = str(row.get("move_since_flagged") or "").strip()
     bits = [
         f"{discount:.1f}% below 52w high" if discount is not None else "",
         price_text,
         sources,
+        f"thesis: {thesis}" if thesis else "",
+        f"starter {size}" if size else "",
+        f"trigger {trigger}" if trigger else "",
+        move_since,
     ]
     return "; ".join(bit for bit in bits if bit)
 
@@ -875,6 +883,15 @@ def _build_fed_day_watch_queue(state: dict[str, Any], cards: list[dict[str, Any]
                 "pct_below_high": row.get("pct_below_high"),
                 "current_exposure_usd": row.get("current_exposure_usd"),
                 "source_tags": list(row.get("source_tags") or []),
+                "conviction": row.get("conviction") or {},
+                "thesis": str(row.get("thesis") or ""),
+                "size": str(row.get("size") or ""),
+                "size_band_usd": row.get("size_band_usd"),
+                "trigger_date": str(row.get("trigger_date") or ""),
+                "trigger": str(row.get("trigger") or ""),
+                "first_flagged": str(row.get("first_flagged") or ""),
+                "flag_price": row.get("flag_price"),
+                "move_since_flagged": str(row.get("move_since_flagged") or ""),
                 "freshness": state.get("freshness") or "absent",
                 "packet_as_of": state.get("packet_as_of"),
             })
@@ -886,6 +903,67 @@ def _watch_row_key(row: dict[str, Any]) -> str:
     ticker = str(row.get("ticker") or "").strip().upper() or "UNKNOWN"
     section = str(row.get("section") or row.get("label") or "watch").strip() or "watch"
     return f"{ticker}|{section}"
+
+
+def _conviction_payload(row_or_card: dict[str, Any]) -> dict[str, Any]:
+    raw = row_or_card.get("conviction")
+    if isinstance(raw, dict):
+        return raw
+    if isinstance(raw, str):
+        return {"read": raw}
+    return {}
+
+
+def _conviction_group_count(conviction: dict[str, Any]) -> int:
+    for key in ("n_groups", "independent_group_count"):
+        try:
+            value = int(conviction.get(key) or 0)
+        except (TypeError, ValueError):
+            value = 0
+        if value:
+            return value
+    groups = conviction.get("source_groups")
+    if isinstance(groups, list):
+        return len([group for group in groups if group])
+    grouped_points = conviction.get("groups")
+    if isinstance(grouped_points, dict):
+        count = 0
+        for value in grouped_points.values():
+            try:
+                if abs(float(value or 0.0)) > 0.0:
+                    count += 1
+            except (TypeError, ValueError):
+                pass
+        return count
+    return 0
+
+
+def _buy_conviction_passes(conviction: dict[str, Any], *, stance: str = "") -> bool:
+    read = str(conviction.get("read") or "").strip().upper()
+    direction = str(conviction.get("direction") or stance or conviction.get("stance") or "").strip().upper()
+    if direction == "ADD":
+        direction = "BUY"
+    if direction not in {"BUY", "STARTER_BUY"}:
+        return False
+    if read not in {"HIGH", "MODERATE"}:
+        return False
+    if bool(conviction.get("conflicted")):
+        return False
+    return _conviction_group_count(conviction) >= 2
+
+
+def _wired_buy_conviction(row: dict[str, Any]) -> bool:
+    conviction = _conviction_payload(row)
+    if not conviction:
+        return False
+    stance = str(row.get("research_status") or row.get("stance") or conviction.get("stance") or "").strip().upper()
+    has_wiring = bool(
+        row.get("thesis")
+        or row.get("source_tags")
+        or row.get("source")
+        or row.get("research_status")
+    )
+    return has_wiring and _buy_conviction_passes(conviction, stance=stance)
 
 
 def _read_held_decisions(path: Path | str | None) -> tuple[list[dict[str, Any]], str]:
@@ -958,8 +1036,12 @@ def _watch_promotion_kind(row: dict[str, Any]) -> str:
     ).lower()
     if "monitor" in blob or "research-only" in blob or "research only" in blob:
         return ""
+    if _wired_buy_conviction(row):
+        return "size_review"
     if str(row.get("section") or "") == "act_if_green" and score >= 50:
         return "size_review"
+    if str(row.get("section") or "") == "higher_quality_pullbacks":
+        return ""
     if score < 90:
         return ""
     if any(token in blob for token in ("sell_fast", "sell-fast", "avoid", "dropped")):
@@ -967,6 +1049,47 @@ def _watch_promotion_kind(row: dict[str, Any]) -> str:
     if any(token in blob for token in ("lean", "bullish_flow", "bullish flow", "add candidate")):
         return "size_review"
     return ""
+
+
+def _funding_exhaustion_decision_rows(cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for card in cards or []:
+        if _is_funding_leg(card):
+            continue
+        direction = str(card.get("direction") or ((card.get("decision_card") or {}).get("move") or {}).get("direction") or "").upper()
+        if direction not in {"BUY", "ADD"}:
+            continue
+        sizing = card.get("sizing") or {}
+        if not isinstance(sizing, dict) or not sizing.get("exceeds_funding"):
+            continue
+        shortfall = _coerce_money(sizing.get("funding_shortfall_usd"))
+        if shortfall is None or shortfall <= 0:
+            continue
+        conviction = _conviction_payload(card)
+        if not _buy_conviction_passes(conviction, stance=direction):
+            continue
+        ticker = str(card.get("ticker") or "").strip().upper()
+        if not ticker:
+            continue
+        decision_key = f"{ticker}|funding_exhaustion"
+        note = str(sizing.get("funding_note") or "").strip()
+        rows.append({
+            "kind": "funding_exhaustion",
+            "state": "DECIDE",
+            "decision_key": decision_key,
+            "ticker": ticker,
+            "title": f"Decide {ticker}: fund the shortfall or pass?",
+            "prompt": "Raise cash, reprioritize the sell list, or pass/recheck this BUY.",
+            "detail": f"funding shortfall ${shortfall:,.0f}; {note}",
+            "source_label": "conviction-sized BUY funding reality",
+            "actions": [
+                {"label": "RAISE CASH", "verb": "RAISE_CASH", "copy": f"RAISE_CASH {ticker} amount ${shortfall:,.0f} source: "},
+                {"label": "REPRIORITIZE", "verb": "REPRIORITIZE", "copy": f"REPRIORITIZE {ticker} funding source: "},
+                {"label": "PASS", "verb": "PASS", "copy": f"PASS {ticker} funding shortfall reason: "},
+            ],
+        })
+    rows.sort(key=lambda item: str(item.get("ticker") or ""))
+    return rows
 
 
 def _watch_decision_pressure_rows(watch_queue: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[str]]:
@@ -1010,19 +1133,24 @@ def _build_disposition_pressure(
     watch_queue: list[dict[str, Any]],
     today_iso: str,
     held_decisions_path: Path | str | None,
+    cards: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     held_rows, held_status = _held_review_due_rows(today_iso, held_decisions_path)
     watch_rows, promoted_keys = _watch_decision_pressure_rows(watch_queue)
-    rows = held_rows + watch_rows
+    funding_rows = _funding_exhaustion_decision_rows(cards or [])
+    rows = held_rows + watch_rows + funding_rows
     counts = {
         "review_due": len(held_rows),
         "promoted_watch": len(watch_rows),
         "total": len(rows),
     }
+    if funding_rows:
+        counts["funding_exhaustion"] = len(funding_rows)
     if rows:
         line = (
             f"{counts['total']} DECIDE prompt(s): {counts['review_due']} overdue held review(s), "
-            f"{counts['promoted_watch']} high-impact watch promotion(s)."
+            f"{counts['promoted_watch']} high-impact watch promotion(s), "
+            f"{len(funding_rows)} funding shortfall decision(s)."
         )
     elif held_status == "ok":
         line = "No overdue held reviews or high-impact watch rows promoted."
@@ -2789,10 +2917,36 @@ def _good_price_trusted(source_tags: Any, summary: Any) -> bool:
     return any(k in blob for k in ("fundstrat", "top-list", "top list", "trusted", "analyst"))
 
 
+def _move_since_flagged(flag_price: Any, current_price: Any) -> str:
+    fp = _coerce_float(flag_price)
+    cp = _coerce_float(current_price)
+    if fp is None or cp is None or fp <= 0:
+        return ""
+    pct = (cp - fp) / fp * 100.0
+    sign = "+" if pct >= 0 else ""
+    return f"{sign}{pct:.0f}% since flag"
+
+
+def _open_opportunity_memory_index(open_opportunities: dict[str, Any] | None) -> dict[str, dict[str, Any]]:
+    if not isinstance(open_opportunities, dict):
+        return {}
+    out: dict[str, dict[str, Any]] = {}
+    for row in open_opportunities.get("opportunities") or []:
+        if not isinstance(row, dict):
+            continue
+        if str(row.get("status") or "open").lower() != "open":
+            continue
+        ticker = str(row.get("ticker") or "").strip().upper()
+        if ticker and ticker not in out:
+            out[ticker] = row
+    return out
+
+
 def _build_good_price_tier(
     watch_queue: list[dict[str, Any]],
     fed_day_state: dict[str, Any],
     exclude_tickers: set[str] | None,
+    open_opportunities: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Shape the good-price / lower-conviction tier (display-only) from the fed-day
     pullback queue, enriched with 52-week-high context from the packet. Excludes any
@@ -2811,6 +2965,7 @@ def _build_good_price_tier(
     screen = packet.get("watchlist_discount_screen") or {}
     screen_count = int(screen.get("row_count") or len(screen.get("rows") or []))
     exclude = {str(t).upper() for t in (exclude_tickers or set())}
+    memory_index = _open_opportunity_memory_index(open_opportunities)
     higher: list[dict[str, Any]] = []
     deep: list[dict[str, Any]] = []
     for row in watch_queue or []:
@@ -2825,6 +2980,16 @@ def _build_good_price_tier(
         if exposure_usd is None:
             exposure_usd = _coerce_money(praw.get("current_exposure_usd"))
         exposure_pct = _coerce_float(praw.get("current_exposure_pct"))
+        memory = memory_index.get(tk, {})
+        first_flagged = str(row.get("first_flagged") or praw.get("first_flagged") or memory.get("first_flagged") or "")
+        flag_price = row.get("flag_price")
+        if flag_price in (None, ""):
+            flag_price = praw.get("flag_price")
+        if flag_price in (None, ""):
+            flag_price = memory.get("flag_price")
+        move_since = str(row.get("move_since_flagged") or praw.get("move_since_flagged") or "")
+        if first_flagged and not move_since:
+            move_since = _move_since_flagged(flag_price, row.get("price") if row.get("price") is not None else praw.get("price"))
         shaped = {
             "ticker": tk,
             "tier": "deep" if is_deep else "higher",
@@ -2840,7 +3005,16 @@ def _build_good_price_tier(
             "research_status": research,
             "source_tags": [str(t) for t in (row.get("source_tags") or []) if t],
             "summary": str(row.get("summary") or ""),
-            "trusted": _good_price_trusted(row.get("source_tags"), row.get("summary")),
+            "conviction": row.get("conviction") or {},
+            "thesis": str(row.get("thesis") or ""),
+            "size": str(row.get("size") or ""),
+            "size_band_usd": row.get("size_band_usd"),
+            "trigger_date": str(row.get("trigger_date") or ""),
+            "trigger": str(row.get("trigger") or ""),
+            "first_flagged": first_flagged,
+            "flag_price": flag_price,
+            "move_since_flagged": move_since,
+            "trusted": _good_price_trusted(row.get("source_tags"), row.get("summary")) or _wired_buy_conviction(row),
             "monitor": research.upper() == "MONITOR",
             "freshness": str(row.get("freshness") or freshness),
         }
@@ -2927,7 +3101,8 @@ def build_today_decide_payload(
     fed_day_state = _fed_day_freshness(feed, today_iso)
     _attach_fed_day_context(all_cards, fed_day_state)
     watch_queue = _build_fed_day_watch_queue(fed_day_state, all_cards)
-    disposition_pressure = _build_disposition_pressure(watch_queue, today_iso, held_decisions_path)
+    good_price_source_queue = list(watch_queue)
+    disposition_pressure = _build_disposition_pressure(watch_queue, today_iso, held_decisions_path, all_cards)
     promoted_watch_keys = set(disposition_pressure.get("promoted_watch_keys") or [])
     if promoted_watch_keys:
         watch_queue = [row for row in watch_queue if _watch_row_key(row) not in promoted_watch_keys]
@@ -2977,7 +3152,12 @@ def build_today_decide_payload(
     move_tickers = {str(c.get("ticker") or "").upper() for c in all_cards
                     if _is_material(c) and not _is_funding_leg(c)}
     move_tickers |= {str(r.get("ticker") or "").upper() for r in (rb.get("rows") or [])}
-    good_price_tier = _build_good_price_tier(watch_queue, fed_day_state, move_tickers)
+    good_price_tier = _build_good_price_tier(
+        good_price_source_queue,
+        fed_day_state,
+        move_tickers,
+        feed.get("open_opportunities"),
+    )
     trade_plan = _build_trade_plan(feed)
     sizing_tunables = _load_sizing_tunables()
     return {

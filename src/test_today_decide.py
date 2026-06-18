@@ -659,9 +659,133 @@ def test_fed_day_packet_builds_watch_queue_and_card_context():
     assert "Watchlist / pullback impact queue (3)" in html
     assert "3 watchlist/pullback candidates" in html
     assert "AVGO" in html and "BMNR" in html
+    quiet_vrt = next(row for row in p["good_price_tier"]["higher"] if row["ticker"] == "VRT")
+    assert quiet_vrt["trusted"] is False
+    assert not any(row.get("ticker") == "VRT" for row in p["disposition_pressure"]["rows"])
     assert "Do-not-touch / research-only guardrails (1)" in html
     assert "Show top" not in html
     assert "Backlog (" not in html
+
+
+def test_wired_buy_pullback_is_trusted_and_promoted_to_decide():
+    feed = copy.deepcopy(_feed())
+    feed["fed_day_reallocation_packet"] = {
+        "display_label": "Daily pullback packet",
+        "as_of": TODAY,
+        "act_if_green": [],
+        "higher_quality_pullbacks": [{
+            "ticker": "VRT",
+            "rank_score": 12.3,
+            "pct_below_high": -12.3,
+            "price": 333,
+            "fifty_two_week_high": 380,
+            "high_date": "2026-05-14",
+            "current_exposure_usd": 5006,
+            "research_status": "BUY",
+            "source_tags": ["off-hours screen", "vetted BUY"],
+            "conviction": {
+                "stance": "BUY",
+                "direction": "BUY",
+                "read": "HIGH",
+                "score": 4.6,
+                "n_groups": 2,
+                "source_groups": ["research_queue", "earnings_backlog"],
+                "conflicted": False,
+            },
+            "thesis": "$15B backlog; AI power/cooling demand supports a starter.",
+            "size": "$8-10k starter",
+            "trigger_date": "2026-07-29",
+            "first_flagged": "2026-06-18",
+            "flag_price": 190,
+            "move_since_flagged": "+75% since flag",
+            "disconfirmation": "Do not size if power/cooling flow or Jul 29 setup breaks.",
+        }],
+        "deep_discount_research": [],
+        "do_not_touch_yet": [],
+    }
+
+    p = _payload(feed=feed)
+    row = next(row for row in p["good_price_tier"]["higher"] if row["ticker"] == "VRT")
+    prompts = [row for row in p["disposition_pressure"]["rows"] if row.get("ticker") == "VRT"]
+
+    assert row["trusted"] is True
+    assert row["research_status"] == "BUY"
+    assert row["conviction"]["read"] == "HIGH"
+    assert row["thesis"].startswith("$15B backlog")
+    assert row["size"] == "$8-10k starter"
+    assert row["trigger_date"] == "2026-07-29"
+    assert row["first_flagged"] == "2026-06-18"
+    assert row["move_since_flagged"] == "+75% since flag"
+    assert "thesis: $15B backlog" in row["summary"]
+    assert len(prompts) == 1
+    assert prompts[0]["state"] == "DECIDE"
+    assert prompts[0]["actions"][0]["verb"] == "SIZE_REVIEW"
+    assert "VRT" not in {row["ticker"] for row in p["watch_queue"]}
+
+
+def test_good_price_tier_uses_open_opportunity_first_flag_memory():
+    feed = copy.deepcopy(_feed())
+    feed["fed_day_reallocation_packet"] = {
+        "display_label": "Daily pullback packet",
+        "as_of": TODAY,
+        "act_if_green": [],
+        "higher_quality_pullbacks": [{
+            "ticker": "VRT",
+            "rank_score": 12.3,
+            "pct_below_high": -12.3,
+            "price": 220,
+            "fifty_two_week_high": 380,
+            "current_exposure_usd": 5006,
+            "source_tags": [],
+            "disconfirmation": "Needs power/cooling confirmation.",
+        }],
+        "deep_discount_research": [],
+        "do_not_touch_yet": [],
+    }
+    feed["open_opportunities"] = {
+        "opportunities": [{
+            "ticker": "VRT",
+            "first_flagged": "2026-06-01",
+            "flag_price": 200,
+            "status": "open",
+        }]
+    }
+
+    p = _payload(feed=feed)
+    row = next(row for row in p["good_price_tier"]["higher"] if row["ticker"] == "VRT")
+
+    assert row["trusted"] is False
+    assert row["first_flagged"] == "2026-06-01"
+    assert row["flag_price"] == 200
+    assert row["move_since_flagged"] == "+10% since flag"
+
+
+def test_funding_shortfall_on_wired_buy_emits_explicit_decision():
+    card = {
+        "ticker": "VRT",
+        "direction": "BUY",
+        "conviction": {
+            "direction": "BUY",
+            "read": "HIGH",
+            "n_groups": 2,
+            "conflicted": False,
+        },
+        "sizing": {
+            "exceeds_funding": True,
+            "funding_shortfall_usd": 9000,
+            "funding_note": "Funds $0: no sellable funding pool; suggested SHORT by $9,000",
+        },
+    }
+
+    rows = td._funding_exhaustion_decision_rows([card])
+
+    assert len(rows) == 1
+    assert rows[0]["kind"] == "funding_exhaustion"
+    assert rows[0]["state"] == "DECIDE"
+    assert rows[0]["decision_key"] == "VRT|funding_exhaustion"
+    assert "funding shortfall $9,000" in rows[0]["detail"]
+    assert [action["verb"] for action in rows[0]["actions"]] == ["RAISE_CASH", "REPRIORITIZE", "PASS"]
+
 
 def test_congruence_strip_flag_and_not_checked():
     flagged_html = render_today_decide_html(_payload())

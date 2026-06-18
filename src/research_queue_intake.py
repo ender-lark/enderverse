@@ -35,6 +35,9 @@ PRIORITY_MAP = {
     "p3": "low",
     "monitor": "low",
 }
+MONEY_RE = re.compile(r"\$?\s*([0-9]+(?:\.[0-9]+)?)\s*([kKmM]?)")
+STANCE_VALUES = {"BUY", "ADD", "HOLD", "WATCH", "MONITOR", "SELL", "TRIM", "PASS", "SKIP"}
+CONVICTION_READS = {"HIGH", "MODERATE", "LOW", "CONFLICTED"}
 
 
 def _utc_now_iso() -> str:
@@ -90,6 +93,102 @@ def _priority(value: Any) -> str:
     return PRIORITY_MAP.get(text, text if text in {"high", "med", "low"} else "med")
 
 
+def _float_or_none(value: Any) -> float | None:
+    if value in (None, "") or isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    text = str(value).strip().replace(",", "")
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def _money_or_none(value: Any) -> float | None:
+    if value in (None, "") or isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    match = MONEY_RE.search(str(value).replace(",", ""))
+    if not match:
+        return None
+    amount = float(match.group(1))
+    suffix = match.group(2).lower()
+    if suffix == "k":
+        amount *= 1_000
+    elif suffix == "m":
+        amount *= 1_000_000
+    return amount
+
+
+def _money_band(value: Any) -> dict[str, float] | None:
+    if value in (None, "") or isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        amount = float(value)
+        return {"low": amount, "high": amount}
+    text = str(value).replace(",", "")
+    values: list[float] = []
+    suffixes: list[str] = []
+    for match in MONEY_RE.finditer(text):
+        amount = float(match.group(1))
+        suffix = match.group(2).lower()
+        suffixes.append(suffix)
+        if suffix == "k":
+            amount *= 1_000
+        elif suffix == "m":
+            amount *= 1_000_000
+        values.append(amount)
+    if not values:
+        return None
+    if len(values) == 1:
+        return {"low": values[0], "high": values[0]}
+    if suffixes[0] == "" and suffixes[1] in {"k", "m"} and values[0] < 1_000:
+        values[0] *= 1_000 if suffixes[1] == "k" else 1_000_000
+    low = min(values[0], values[1])
+    high = max(values[0], values[1])
+    return {"low": low, "high": high}
+
+
+def _list_from(value: Any) -> list[str]:
+    if value in (None, ""):
+        return []
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item).strip()]
+    text = str(value).strip()
+    if not text:
+        return []
+    return [part.strip() for part in re.split(r"[,;|]", text) if part.strip()]
+
+
+def _normalize_stance(value: Any) -> str:
+    text = str(value or "").strip().upper().replace("-", "_")
+    if text in STANCE_VALUES:
+        return text
+    if text in {"ACT_NOW", "STARTER_BUY", "BUY_STARTER"}:
+        return "BUY"
+    return ""
+
+
+def _normalize_conviction_read(value: Any) -> str:
+    if value in (None, ""):
+        return ""
+    score = _float_or_none(value)
+    if score is not None:
+        return "HIGH" if score >= 4.0 else "MODERATE" if score >= 3.0 else "LOW"
+    text = str(value).strip().upper().replace("-", "_")
+    for read in CONVICTION_READS:
+        if read in text:
+            return read
+    return ""
+
+
+def _int_or_none(value: Any) -> int | None:
+    parsed = _float_or_none(value)
+    return int(parsed) if parsed is not None else None
+
+
 def _bucket(value: Any) -> str:
     status = str(value or "").strip().lower()
     if status in DONE_STATUSES:
@@ -139,6 +238,45 @@ def normalize_row(row: dict[str, Any], *, as_of: str | None = None) -> dict[str,
     source = _first(row, "source", "provenance")
     if source:
         out["source"] = str(source).strip()
+    stance = _normalize_stance(_first(row, "stance", "verdict", "recommendation"))
+    conviction = _normalize_conviction_read(_first(row, "conviction_read", "conviction", "conviction band"))
+    conviction_score = _float_or_none(_first(row, "conviction_score", "conviction score", "conviction_points", "conviction points"))
+    size_raw = _first(row, "size", "starter_size", "starter size", "size_usd", "starter_usd", "suggested_size", "suggested size")
+    size_band = _money_band(size_raw)
+    trigger = _first(row, "trigger", "trigger_date", "trigger date", "catalyst_date", "catalyst date", "date")
+    thesis = str(_first(row, "thesis", "buy_thesis", "buy thesis", "why_buy", "why buy") or "").strip()
+    tags = _list_from(_first(row, "source_tags", "source tags", "tags"))
+    groups = _list_from(_first(row, "source_groups", "source groups", "independent_groups", "independent groups", "evidence_groups", "evidence groups"))
+    n_groups = _int_or_none(_first(row, "n_groups", "groups", "independent_group_count", "independent group count"))
+    first_flagged = _parse_date(_first(row, "first_flagged", "first flagged", "flagged_at", "flagged at"))
+    flag_price = _money_or_none(_first(row, "flag_price", "flag price"))
+    if stance:
+        out["stance"] = stance
+    if conviction:
+        out["conviction"] = conviction
+    if conviction_score is not None:
+        out["conviction_score"] = conviction_score
+    if size_raw not in (None, ""):
+        out["size"] = str(size_raw).strip()
+    if size_band:
+        out["size_band_usd"] = size_band
+    if trigger not in (None, ""):
+        parsed_trigger = _parse_date(trigger)
+        out["trigger_date" if parsed_trigger else "trigger"] = (
+            parsed_trigger.isoformat() if parsed_trigger else str(trigger).strip()
+        )
+    if thesis:
+        out["thesis"] = thesis
+    if tags:
+        out["source_tags"] = tags
+    if groups:
+        out["source_groups"] = groups
+    if n_groups is not None:
+        out["n_groups"] = n_groups
+    if first_flagged:
+        out["first_flagged"] = first_flagged.isoformat()
+    if flag_price is not None:
+        out["flag_price"] = flag_price
     return out
 
 
@@ -257,6 +395,23 @@ def validate_research_queue(queue: dict[str, Any]) -> list[str]:
                 problems.append(f"{key}[{idx}].pr must be high/med/low")
             if "days_out" in row and not isinstance(row.get("days_out"), int):
                 problems.append(f"{key}[{idx}].days_out must be int when present")
+            if "stance" in row and row.get("stance") not in STANCE_VALUES:
+                problems.append(f"{key}[{idx}].stance must be a known uppercase stance")
+            if "conviction" in row and row.get("conviction") not in CONVICTION_READS:
+                problems.append(f"{key}[{idx}].conviction must be HIGH/MODERATE/LOW/CONFLICTED")
+            if "source_tags" in row and not isinstance(row.get("source_tags"), list):
+                problems.append(f"{key}[{idx}].source_tags must be a list when present")
+            if "source_groups" in row and not isinstance(row.get("source_groups"), list):
+                problems.append(f"{key}[{idx}].source_groups must be a list when present")
+            if "n_groups" in row and not isinstance(row.get("n_groups"), int):
+                problems.append(f"{key}[{idx}].n_groups must be int when present")
+            band = row.get("size_band_usd")
+            if "size_band_usd" in row and (
+                not isinstance(band, dict)
+                or not isinstance(band.get("low"), (int, float))
+                or not isinstance(band.get("high"), (int, float))
+            ):
+                problems.append(f"{key}[{idx}].size_band_usd must include numeric low/high")
     return problems
 
 

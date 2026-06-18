@@ -1,9 +1,11 @@
 import json
 import os
 import sys
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import fed_day_reallocation_packet as fdp
 from fed_day_reallocation_packet import BASE_ADD_TICKERS, build_packet
 
 
@@ -88,6 +90,57 @@ def test_deep_discounts_are_research_not_automatic_buys():
     assert "mNAV" in deep["BMNR"]["disconfirmation"]
     assert "source_disagreement" in deep["KTOS"]["source_flags"]
     assert "Fundstrat" in deep["KTOS"]["disconfirmation"]
+
+
+def test_structured_research_queue_buy_verdict_wires_pullback_conviction(monkeypatch):
+    real_load_json = fdp._load_json
+
+    def fake_load_json(path, default):
+        name = Path(path).name
+        if name == "research_queue.json":
+            return {
+                "pending": [{
+                    "r": "VRT - starter after off-hours screen",
+                    "pr": "high",
+                    "status": "Working",
+                    "ticker": "VRT",
+                    "stance": "BUY",
+                    "conviction": "HIGH",
+                    "conviction_score": 4.6,
+                    "size": "$8-10k starter",
+                    "size_band_usd": {"low": 8000.0, "high": 10000.0},
+                    "trigger_date": "2026-07-29",
+                    "thesis": "$15B backlog; power/cooling demand supports a starter.",
+                    "source": "off-hours screen #3",
+                    "source_tags": ["off-hours screen", "vetted BUY"],
+                    "source_groups": ["research_queue", "earnings_backlog"],
+                    "n_groups": 2,
+                    "first_flagged": "2026-06-18",
+                    "flag_price": 180,
+                }]
+            }
+        if name == "open_opportunities.json":
+            return {"opportunities": []}
+        return real_load_json(path, default)
+
+    monkeypatch.setattr(fdp, "_load_json", fake_load_json)
+
+    packet = build_packet(quote_provider=_fake_quote, as_of="2026-06-18", max_tickers=8)
+    vrt = next(row for row in packet["higher_quality_pullbacks"] if row["ticker"] == "VRT")
+
+    assert vrt["research_status"] == "BUY"
+    assert "trusted BUY verdict" in vrt["source_tags"]
+    assert "off-hours screen #3" in vrt["source_tags"]
+    assert vrt["conviction"]["read"] == "HIGH"
+    assert vrt["conviction"]["n_groups"] == 2
+    assert vrt["conviction"]["source_groups"] == ["research_queue", "earnings_backlog"]
+    assert vrt["thesis"].startswith("$15B backlog")
+    assert vrt["size"] == "$8-10k starter"
+    assert vrt["size_band_usd"] == {"low": 8000.0, "high": 10000.0}
+    assert vrt["trigger_date"] == "2026-07-29"
+    assert vrt["first_flagged"] == "2026-06-18"
+    assert vrt["flag_price"] == 180
+    assert vrt["move_since_flagged"] == "+6% since flag"
 
 
 def test_daily_packet_accepts_new_as_of_without_event_specific_status():

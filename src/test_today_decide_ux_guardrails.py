@@ -148,7 +148,7 @@ def test_overdue_held_reviews_surface_as_decide_pressure(tmp_path):
     assert 'data-copy="ACT ' not in html.split("Decision pressure", 1)[1].split("Ownership-aware passivity", 1)[0]
 
 
-def test_high_impact_watch_row_promotes_to_decide_and_leaves_watch_queue():
+def test_high_score_unwired_pullback_stays_watch_queue():
     feed = _feed()
     feed["fed_day_reallocation_packet"] = {
         "as_of": "2026-06-17",
@@ -178,15 +178,14 @@ def test_high_impact_watch_row_promotes_to_decide_and_leaves_watch_queue():
     pressure = payload["disposition_pressure"]
     html = render_today_decide_html(payload)
 
-    assert pressure["counts"] == {"review_due": 0, "promoted_watch": 1, "total": 1}
-    assert pressure["rows"][0]["decision_key"] == "RYF|higher_quality_pullbacks"
-    assert pressure["rows"][0]["title"] == "Decide RYF: avoid new exposure?"
-    assert [row["ticker"] for row in payload["watch_queue"]] == ["FN"]
-    assert payload["command_strip"]["counts"]["DECIDE"] == 3
-    assert payload["command_strip"]["counts"]["WATCH"] == 1
-    assert "Decide RYF: avoid new exposure?" in html
-    assert "Watchlist / pullback impact queue (1)" in html
-    assert "AVOID_NEW RYF reason: " in html
+    assert pressure["counts"] == {"review_due": 0, "promoted_watch": 0, "total": 0}
+    assert pressure["rows"] == []
+    assert [row["ticker"] for row in payload["watch_queue"]] == ["RYF", "FN"]
+    assert payload["command_strip"]["counts"]["DECIDE"] == 2
+    assert payload["command_strip"]["counts"]["WATCH"] == 2
+    assert "Decide RYF: avoid new exposure?" not in html
+    assert "Watchlist / pullback impact queue (2)" in html
+    assert "AVOID_NEW RYF reason: " not in html
 
 
 def test_candidate_feed_index_merges_sources_by_ticker_lane():
