@@ -2,55 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T12:53:08.913596Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T13:31:59.705807Z",
-      "summary": "daily synthesis started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T13:37:34.812147Z",
-      "summary": "repo synthesis refreshed; signal log 14 rows; RYF/XOP sell-fast reviews plus event-risk watch remain; Notion page written+verified; blocker row-query endpoint unavailable for decisions/trade outcomes/pilots"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T13:46:32.288440Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T13:47:44.538503Z",
-      "summary": "checked 1 msg, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alert quiet, fundstrat lane unchanged, blockers none"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:02:13.142880Z",
-      "summary": "uw opportunity cache started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "failed",
       "run_source": "scheduled",
@@ -6455,6 +6406,36 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T11:51:55.084626Z",
       "summary": "checked web 10 pages Macro/Crypto FlashInsights plus research listings/detail; Gmail 0; landed 1 compact crypto Warsh-policy row; suppressed/discovery stale/duplicate Macro FlashInsights, Crypto FlashInsights Jun8, First Word, Intraday, US Policy, DTS/Fed duplicates; validation passed; dashboard refreshed; Notion not used; dark/stale lanes crypto FlashInsights stale, no fresh premarket First Word/Intraday"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:03:04.706360Z",
+      "summary": "work-os-daily-briefing started"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:03:13.862999Z",
+      "summary": "Work OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "work_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/work_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ]
+      }
     }
-  ]
+  ],
+  "updated_at": "2026-06-18T12:03:13.862999Z"
 }
