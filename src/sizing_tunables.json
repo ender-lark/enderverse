@@ -1,0 +1,24 @@
+{
+  "_doc": {
+    "what_this_is": "Operator-tunable sizing dials. These are the knobs that decide the LIVE suggested position size on a BUY/ADD card. Conviction drives the size UP; every former hard cap is a dial here, defaulted OFF or generous. Nothing here auto-executes a trade -- the dashboard only SUGGESTS a size; the operator places every order by hand.",
+    "how_the_size_is_computed_plain_language": [
+      "1. Start from the proposed dollars the reallocation brief already put on the card (the existing anchor). If that is zero, fall back to base_size_usd.",
+      "2. Conviction LIFT. Only an HONEST, high-conviction, non-conflicted, BUY-aligned read lifts the size. The lift multiplier is: 1 + conviction_size_slope * conviction_strength, where conviction_strength is a 0..1 number built from the read band (HIGH=1.0, MODERATE=0.5, LOW/none=0.0), the 1..5 strength rung (scaled to 0..1), and whether the evidence converges across at least min_converging_groups independent groups. A name with no read, a conflicted read, a SELL/NEUTRAL read, or a single-group read gets NO lift (multiplier 1.0). This is the F1 honesty rail: size keys off the independence-collapsed, freshness-decayed conviction, never off raw echo or stale counts.",
+      "3. SOFT MAX dials (optional, default OFF). per_name_soft_max_usd and concentration_soft_max_pct are NOT hard clamps. When set and the lifted size exceeds them, the size is held at the soft max AND a visible note states the original lifted number and which dial bit. When null, they do nothing -- the conviction-driven size flows through unclamped.",
+      "4. CASH REALITY (the only non-tunable). If a real available-cash / buying-power number exists in the account data, the card shows it and flags exceeds_cash when the suggested size is larger -- as a NUMBER, never a hidden block. When cash data is absent it shows not_checked. Nothing is silently reduced.",
+      "Former HARD caps now removed as limits and represented here as dials: the static TIER_BANDS ceiling, the concentration cap, the cap_room clamp, and the sell-gate-as-blocker are no longer hard stops. tier_ceiling_is_soft_reference=true means the tier ceiling is shown for context only and does NOT clip the size."
+    ],
+    "evidence_rail_note": "This file tunes SIZING only. It contains no rail key that tunables.py forbids (those rails are non-tunable and live in tunables.py). A genuinely CONFLICTED card is still routed to RESOLVE/RECHECK and is never auto-sized-up -- that is enforced in the engine, not a dial you can turn off here."
+  },
+  "base_size_usd": 25000,
+  "conviction_size_slope": 1.0,
+  "conviction_read_weights": {"HIGH": 1.0, "MODERATE": 0.5, "LOW": 0.0, "CONFLICTED": 0.0},
+  "min_converging_groups": 2,
+  "require_converging_for_lift": true,
+  "max_conviction_strength": 1.0,
+  "per_name_soft_max_usd": null,
+  "concentration_soft_max_pct": null,
+  "tier_ceiling_is_soft_reference": true,
+  "sell_gate_blocks": false,
+  "date_gate_blocks_sizing": false
+}

@@ -122,6 +122,10 @@ def test_oversized_trim_opens_now_with_named_trigger():
     assert mags["window"]["class"] == "OPEN-NOW"
     assert "overexposed" in mags["window"]["named_trigger"]
     assert "NVDA" in mags["funds"]
+    # F2: sell-gate present and NOT_EVALUABLE on the schema-less MAGS SELL; the
+    # card stays actionable (the gate FLAGs by default, never blocks on missing data).
+    assert mags["sell_gate"]["verdict"] == "NOT_EVALUABLE"
+    assert mags["sell_gate"]["evaluable"] is False
 
 def test_priority_blend_orders_the_stack():
     out = _build()
@@ -157,6 +161,9 @@ def test_immaterial_funding_leg_cannot_hero_rank_above_material_adds():
     assert mags["priority_note"].startswith("funding-only immaterial leg")
     assert mags["window"]["class"] == "STAGE-ONLY"
     assert mags["impact"]["material"] is False
+    # F2: the sell-gate rides an ADDITIVE field; on real schema-less trims it is
+    # NOT_EVALUABLE, so it never overwrites the salience priority_note (precedence).
+    assert mags["sell_gate"]["verdict"] == "NOT_EVALUABLE"
 
 def test_execution_blocks_surface_pcra_and_cash_honesty():
     out = _build()
@@ -178,6 +185,135 @@ def test_buy_cards_carry_caps_sizing_payload():
         assert isinstance(sizing["suggested_usd"], (int, float))
         assert sizing["heat"]
         assert sizing["cap_basis"]
+
+
+# ---------------------------------------------------------------------------
+# F2 -- conviction drives the LIVE size; no hard caps; sell-gate is a FLAG
+# ---------------------------------------------------------------------------
+import directive_recs as dr
+
+_F2_POS = [{"ticker": "BMNR", "market_value": 71500}]
+_F2_THESES = [{"ticker": "BMNR", "tier": "T1"}]
+_F2_BOOK = 1875000
+
+
+def _size(conv, *, tunables=None, proposed=25000, available_cash=None):
+    return dr._caps_sizing(
+        ticker="BMNR", proposed_usd=proposed, book=_F2_BOOK,
+        positions=_F2_POS, theses=_F2_THESES,
+        conviction=conv, tunables=tunables or dr.load_sizing_tunables(),
+        available_cash=available_cash,
+    )
+
+
+def test_high_converging_buy_sizes_up_no_hard_cap():
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    s = _size(conv)
+    # conviction LIFTS the live suggested size ABOVE the proposed anchor; the
+    # former hard ceiling/cap_room would have clipped this -- it no longer does.
+    assert s["size_lift_mult"] > 1.0
+    assert s["suggested_usd"] > 25000
+    assert s["heat"] == "CONVICTION_LIFTED"
+    assert "soft reference" in s["cap_basis"]
+    assert "context, not a limit" in s["cap_basis"]
+
+
+def test_conflicted_read_is_never_sized_up():
+    conv = {"read": "CONFLICTED", "direction": "RE-CHECK", "strength_5": 3, "n_groups": 2, "conflicted": True}
+    s = _size(conv)
+    assert s["size_lift_mult"] == 1.0
+    assert s["suggested_usd"] == 25000
+    assert s["heat"] == "CONFLICTED_FLOOR"
+
+
+def test_high_but_single_group_is_not_echo_upsized():
+    # HIGH read that does NOT converge across independent groups = faked/echo
+    # conviction. It must NOT lift -- size keys off the honest, independence-
+    # collapsed read, never off raw echo or a single repeated source.
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 1, "conflicted": False}
+    s = _size(conv)
+    assert s["size_lift_mult"] == 1.0
+    assert s["suggested_usd"] == 25000
+
+
+def test_non_buy_direction_does_not_lift():
+    conv = {"read": "HIGH", "direction": "NEUTRAL", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    assert _size(conv)["size_lift_mult"] == 1.0
+    conv2 = {"read": "HIGH", "direction": "SELL", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    assert _size(conv2)["size_lift_mult"] == 1.0
+
+
+def test_no_conviction_is_base_size_no_lift():
+    s = _size(None)
+    assert s["size_lift_mult"] == 1.0
+    assert s["suggested_usd"] == 25000
+
+
+def test_per_name_soft_max_holds_visibly_not_silently():
+    cfg = dr.load_sizing_tunables()
+    cfg["per_name_soft_max_usd"] = 30000
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    s = _size(conv, tunables=cfg)
+    assert s["suggested_usd"] == 30000
+    assert "per-name soft max" in s["cap_basis"]
+    # the original lifted number is still stated -- never a silent clamp.
+    assert "$50,000" in s["cap_basis"]
+
+
+def test_soft_max_off_by_default_lets_conviction_flow():
+    cfg = dr.load_sizing_tunables()
+    assert cfg["per_name_soft_max_usd"] is None
+    assert cfg["concentration_soft_max_pct"] is None
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    s = _size(conv, tunables=cfg)
+    assert s["suggested_usd"] == 50000  # full conviction-driven size, unclamped
+
+
+def test_cash_reality_is_a_number_never_a_hidden_block():
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    # with a real cash number smaller than the suggested size -> exceeds flag + number
+    s = _size(conv, available_cash=20000)
+    assert s["exceeds_cash"] is True
+    assert s["available_cash"] == 20000.0
+    assert "EXCEEDS available cash" in s["cap_basis"]
+    # the size is NOT silently reduced -- the operator sizes by hand to cash.
+    assert s["suggested_usd"] == 50000
+
+
+def test_cash_not_checked_when_absent():
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    s = _size(conv, available_cash=None)
+    assert s["available_cash"] == "not_checked"
+    assert s["exceeds_cash"] is False
+    assert "available cash not_checked" in s["cap_basis"]
+
+
+def test_lift_does_not_change_validate_decision_card():
+    out = _build()
+    for card in out["cards"] + out["backlog"]:
+        assert dc.validate_decision_card(card["decision_card"]) == []
+        assert set(dc.CARD_FIELDS) <= set(card["decision_card"])
+
+
+def test_jsx_consumed_sizing_keys_still_present():
+    # JSX parity contract reads source/suggested_usd/heat/cap_basis -- all kept.
+    conv = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+    s = _size(conv)
+    for key in ("source", "suggested_usd", "heat", "cap_basis"):
+        assert key in s
+
+
+def test_real_trim_sell_gate_not_evaluable_keeps_card_actionable():
+    out = _build()
+    trims = [c for c in out["cards"] + out["backlog"] if c.get("sell_gate")]
+    assert trims
+    for card in trims:
+        gate = card["sell_gate"]
+        assert gate["verdict"] == "NOT_EVALUABLE"
+        assert gate["evaluable"] is False
+        # the gate did not overwrite a salience priority_note nor block the card.
+        if card.get("priority_note"):
+            assert not card["priority_note"].startswith("sell-gate BLOCK")
 
 def test_directive_conviction_carries_battery_without_render_or_priority_coupling(monkeypatch, tmp_path):
     cache = tmp_path / "uw_opportunity_signals.json"
