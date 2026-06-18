@@ -87,8 +87,8 @@ def _goal_anchor(feed: dict[str, Any], goal: dict[str, Any], today_iso: str) -> 
                              datetime.strptime(goal["window_horizon"], "%Y-%m-%d").date())
     per_month = gap / months if months else gap
     pace_line = (
-        f"(display-only) gap ${gap:,.0f} Â· {months} months to {goal['window_horizon']}"
-        f" Â· â‰ˆ ${per_month:,.0f}/month â€” pace never feeds ranking or urgency"
+        f"(display-only) gap ${gap:,.0f} Â| {months} months to {goal['window_horizon']}"
+        f" Â| â‰ˆ ${per_month:,.0f}/month â€” pace never feeds ranking or urgency"
     )
     return {
         "book_value": round(book, 2), "fi_target": target,
@@ -2710,14 +2710,14 @@ def _account_placement_text(ap: Any) -> str:
             account = " ".join(seen)
     head = " ".join(p for p in (owner, broker) if p)
     if head and account:
-        return f"{head} — {account}"
+        return f"{head} - {account}"
     return head or account or str(ap.get("label") or "").strip()
 
 
 def _build_trade_plan(feed: dict[str, Any]) -> dict[str, Any]:
     """Display-only trade-plan content lifted from ``reallocation_brief`` so the hero
     and next-move faces can render in the operator's trade-plan format. No ranking or
-    sizing computed here — the values are the engine's own brief rows."""
+    sizing computed here - the values are the engine's own brief rows."""
     rb = feed.get("reallocation_brief") or {}
     moves: dict[str, dict[str, Any]] = {}
     for r in rb.get("rows") or []:
@@ -2773,7 +2773,7 @@ def _build_trade_plan(feed: dict[str, Any]) -> dict[str, Any]:
 def _load_sizing_tunables(path: Path | str | None = None) -> dict[str, Any]:
     """Operator-tunable sizing dials (F2). RENDER-IF-PRESENT: returns ``{}`` until
     the engine (F2) lands ``src/sizing_tunables.json``. The render NEVER authors this
-    schema or computes a size — it only DISPLAYS the dials and persists operator edits."""
+    schema or computes a size - it only DISPLAYS the dials and persists operator edits."""
     p = Path(path) if path is not None else (SRC / "sizing_tunables.json")
     if not p.exists():
         return {}
@@ -2797,7 +2797,7 @@ def _build_good_price_tier(
     """Shape the good-price / lower-conviction tier (display-only) from the fed-day
     pullback queue, enriched with 52-week-high context from the packet. Excludes any
     ticker already leading as a funded move so the tier never duplicates a hero/face.
-    No scoring/ranking here — impact is the packet's already-computed discount-priority
+    No scoring/ranking here - impact is the packet's already-computed discount-priority
     score, surfaced honestly as "worth a look," never a buy signal."""
     packet = (fed_day_state or {}).get("packet") or {}
     freshness = str((fed_day_state or {}).get("freshness") or "absent")
@@ -2848,7 +2848,7 @@ def _build_good_price_tier(
             exposure_usd is not None and exposure_usd >= 60000)
         if meaningful:
             shaped["sellgate_note"] = (
-                "already a meaningful position — hold/monitor; do not sell a live "
+                "already a meaningful position - hold/monitor; do not sell a live "
                 "thesis into weakness, and a discount alone is not a fresh add (sell-gate doctrine)")
         (deep if is_deep else higher).append(shaped)
     deep_visible = deep[:2]
@@ -3222,6 +3222,15 @@ _CSS = """
 /* HERO move card */
 .td .td-hero{border:1px solid #2b4a86;background:linear-gradient(180deg,#10203c,#0f1828);
   border-radius:14px;padding:16px 16px 14px;box-shadow:0 0 0 1px #18305c inset;margin:0 0 12px}
+/* collapsible hero: the loud headline lives in the summary (always visible); one tap
+   folds the move so it never owns the whole screen */
+.td details.td-hero[open]{padding-bottom:14px}
+.td details.td-hero>summary.td-herosum{cursor:pointer;list-style:none;display:block}
+.td details.td-hero>summary.td-herosum::-webkit-details-marker{display:none}
+.td details.td-hero>summary.td-herosum::marker{content:""}
+.td .td-herobody{margin-top:12px}
+.td .td-hero-toggle{font-size:10px;color:#5b9cff;text-transform:none;letter-spacing:0;font-weight:600;margin-left:6px;opacity:.85}
+.td details.td-hero:not([open])>summary .td-hero-sub{display:none}
 .td .td-hero-kicker{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5b9cff;font-weight:800;margin-bottom:6px}
 .td .td-hl{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .td .td-verb{font-weight:850;font-size:15px;letter-spacing:.04em;color:#34d399}
@@ -3277,6 +3286,11 @@ _CSS = """
   padding:6px 9px;margin-top:6px}
 /* sizing transparency panel */
 .td .td-sizing{border:1px solid #1f3b57;border-radius:9px;background:#071426;padding:10px 11px;margin:12px 0 0}
+.td details.td-sizing>summary.td-sizing-title{cursor:pointer;list-style:none}
+.td details.td-sizing>summary.td-sizing-title::-webkit-details-marker{display:none}
+.td details.td-sizing>summary.td-sizing-title::marker{content:""}
+.td details.td-sizing>summary.td-sizing-title:before{content:"▸ ";color:#5b9cff}
+.td details.td-sizing[open]>summary.td-sizing-title:before{content:"▾ "}
 .td .td-sizing-title{font-size:10px;color:#93c5fd;text-transform:uppercase;font-weight:850;letter-spacing:.06em}
 .td .td-sizing-live{font-size:18px;color:#f8fafc;font-weight:850;margin:4px 0 2px}
 .td .td-sizing-note{font-size:12px;color:#9fb0c7;line-height:1.4;margin-top:3px}
@@ -3404,7 +3418,7 @@ function tdAskSave(btn){
   /* fully automatic: write the note to the permanent per-card notes log when served live */
   try{fetch('/td/note',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({card_id:id,ticker:tdTicker(id),note:t,source:'dashboard'})}).then(function(r){
-      if(fb&&r&&r.ok)fb.textContent='saved on card · ✓ logged';}).catch(function(){});}catch(e){}
+      if(fb&&r&&r.ok)fb.textContent='saved on card | ✓ logged';}).catch(function(){});}catch(e){}
 }
 function tdAskCopy(btn){
   var id=btn.getAttribute('data-card');var headline=btn.getAttribute('data-headline')||'';
@@ -3685,7 +3699,7 @@ def _size_label(card: dict[str, Any]) -> str:
 
 
 def _funding_sell_label(card: dict[str, Any]) -> str:
-    return f"{_money_text(card.get('dollars'))} funding sell — only if paired with the buy it funds"
+    return f"{_money_text(card.get('dollars'))} funding sell - only if paired with the buy it funds"
 
 
 def _funded_adds(card: dict[str, Any]) -> list[dict[str, str]]:
@@ -4776,7 +4790,7 @@ def _render_card(
             else f'{primary_verb} {cid}{_esc(posture["copy_suffix"])}'
         )
         primary_class = "td-rail" if primary_verb == "ACT" else "td-rail td-rail-muted"
-    # Build the canonical rail buttons ONCE (data-verb/data-copy unchanged → parity +
+    # Build the canonical rail buttons ONCE (data-verb/data-copy unchanged -> parity +
     # mojibake stable). For a move, the rail surfaces in the loud header; otherwise it
     # stays inline in the card body. Visible labels get plain wording for moves only.
     primary_hero_cls = (" td-do" if primary_state_verb == "ACT" else " td-docheck") if show_trade_plan else ""
@@ -4803,7 +4817,7 @@ def _render_card(
         h.append(feedback_html)
     if win.get("named_trigger"):
         h.append(f'<div class="td-row">trigger: {_esc(win["named_trigger"])}'
-                 + (f' Â· deadline {_esc(win.get("deadline"))}' if win.get("deadline") else "") + "</div>")
+                 + (f' Â| deadline {_esc(win.get("deadline"))}' if win.get("deadline") else "") + "</div>")
     for reason in (win.get("reasons") or [])[:2]:
         h.append(f'<div class="td-row">â€¢ {_esc(reason)}</div>')
     flips = win.get("flips") or []
@@ -4814,12 +4828,12 @@ def _render_card(
     suggested = execn.get("suggested")
     if suggested:
         h.append(f'<div class="td-row">execute: {_esc(suggested.get("owner"))} {_esc(suggested.get("broker"))} '
-                 f'{_esc(suggested.get("account"))} Â· {_esc(suggested.get("tax_flag"))} Â· {_esc(suggested.get("why"))}</div>')
+                 f'{_esc(suggested.get("account"))} Â| {_esc(suggested.get("tax_flag"))} Â| {_esc(suggested.get("why"))}</div>')
     for leg in (execn.get("legs") or []):
         line = (f'sell ${leg.get("sell_usd", 0):,.0f} in {_esc(leg.get("owner"))} {_esc(leg.get("broker"))} '
-                f'{_esc(leg.get("account"))} Â· {_esc(leg.get("tax_flag"))}')
+                f'{_esc(leg.get("account"))} Â| {_esc(leg.get("tax_flag"))}')
         if leg.get("proceeds_constraint"):
-            line += f' Â· âš  {_esc(leg["proceeds_constraint"])}'
+            line += f' Â| âš  {_esc(leg["proceeds_constraint"])}'
         h.append(f'<div class="td-row">execute: {line}</div>')
     for ex in (execn.get("excluded") or []):
         h.append(f'<div class="td-row">excluded: {_esc(ex.get("account"))} â€” {_esc(ex.get("why_not"))}</div>')
@@ -4837,10 +4851,10 @@ def _render_card(
         suggested = sizing.get("suggested_usd")
         suggested_txt = f'${float(suggested):,.0f}' if isinstance(suggested, (int, float)) else "n/a"
         h.append(f'<div class="td-row">sizing: {_esc(sizing.get("source", "unknown"))} suggested {suggested_txt} '
-                 f'Â· heat {_esc(sizing.get("heat", "unknown"))}</div>')
+                 f'Â| heat {_esc(sizing.get("heat", "unknown"))}</div>')
         if sizing.get("cap_basis"):
             h.append(f'<div class="td-row">cap basis: {_esc(sizing["cap_basis"])}</div>')
-    h.append(f'<div class="td-row">impact: {_esc(impact.get("band"))} Â· material: '
+    h.append(f'<div class="td-row">impact: {_esc(impact.get("band"))} Â| material: '
              f'{"yes" if impact.get("material") else "no"}</div>')
     after_action = card.get("after_action") or {}
     if after_action.get("line"):
@@ -4858,15 +4872,20 @@ def _render_card(
         if amount is None:
             amount = card.get("dollars")
         headline = _hero_headline_text(_move_verb(card, plan), ticker, amount, plan)
+        # The hero is a <details open>: the loud headline stays in the summary (always
+        # visible, even collapsed), and one tap folds the whole move away so it never
+        # owns the whole screen. The tall sizing panel is its own collapsed sub-details.
         header = (
-            '<div class="td-hero">'
+            '<details class="td-hero" open>'
+            '<summary class="td-herosum">' + _render_hero_summary(card, plan, rank) + '</summary>'
+            '<div class="td-herobody">'
             + _render_trade_plan_header(card, plan, rank)
             + _render_sizing_transparency(card, tunables or {})
             + _render_final_check(card, plan, gated=(primary_state_verb != "ACT"))
             + rail_html + feedback_html
             + _render_ask_block(raw_cid, headline)
-            + '<div class="td-row" style="margin-top:10px;color:#64748b;font-size:12px">▾ full engine card — face, conviction read &amp; evidence — below</div>'
-            + '</div>'
+            + '<div class="td-row" style="margin-top:10px;color:#64748b;font-size:12px">▾ full engine card - face, conviction read &amp; evidence - below</div>'
+            + '</div></details>'
         )
         h.insert(0, header)
     return h
@@ -4981,14 +5000,14 @@ def _friendly_label(state_verb: str, default: str, hero: bool) -> str:
     """Plain-language rail labels for the loud move surface (no shorthand). The
     visible text changes; data-verb / data-copy stay canonical so the parity +
     persistence contracts are untouched. A cleared move reads 'DO IT'; a move the
-    engine still gates reads 'DO IT — final check first' (a good move, with one
+    engine still gates reads 'DO IT - final check first' (a good move, with one
     recommended check spelled out beside the rail), never the cryptic 'STAGE'."""
     if not hero:
         return default
     return {
         "ACT": "DO IT",
-        "CANDIDATE": "DO IT — final check first",
-        "RECHECK": "DO IT — final check first",
+        "CANDIDATE": "DO IT - final check first",
+        "RECHECK": "DO IT - final check first",
         "WATCH": "WATCH",
     }.get(state_verb, default)
 
@@ -5002,7 +5021,7 @@ _BLOCKER_PLAIN = {
 
 def _final_check_items(card: dict[str, Any], plan: dict[str, Any]) -> list[str]:
     """Plain-language 'final check' list for a good-but-gated move. Faithful to the
-    engine's own blocker labels (humanized where known, verbatim otherwise) — never
+    engine's own blocker labels (humanized where known, verbatim otherwise) - never
     fabricated."""
     raw = list((plan or {}).get("blockers") or []) or list(card.get("card_blockers") or [])
     out: list[str] = []
@@ -5015,11 +5034,11 @@ def _final_check_items(card: dict[str, Any], plan: dict[str, Any]) -> list[str]:
 
 
 def _render_final_check(card: dict[str, Any], plan: dict[str, Any], gated: bool) -> str:
-    """A positive, plain-language note by the move rail. Gated → 'looks like a good
-    move; one final check recommended before you place the order'. Cleared → 'good to
+    """A positive, plain-language note by the move rail. Gated -> 'looks like a good
+    move; one final check recommended before you place the order'. Cleared -> 'good to
     go'. Replaces the old cryptic STAGE affordance with a clear recommended-check."""
     if not gated:
-        return ('<div class="td-finalcheck td-cleared"><b>✓ Cleared — good to go.</b> '
+        return ('<div class="td-finalcheck td-cleared"><b>✓ Cleared - good to go.</b> '
                 'The pre-trade checks are met; place the order when you are ready.</div>')
     items = _final_check_items(card, plan)
     body = (
@@ -5031,15 +5050,15 @@ def _render_final_check(card: dict[str, Any], plan: dict[str, Any], gated: bool)
         '<div class="td-finalcheck">'
         '<b>✓ This looks like a good move.</b> One final check is <b>recommended</b> before you place the order:'
         f'{body}'
-        'Tap <b>DO IT — final check first</b> to record that you are committing; it becomes a plain '
+        'Tap <b>DO IT - final check first</b> to record that you are committing; it becomes a plain '
         '<b>DO IT</b> once these clear.</div>'
     )
 
 
-def _render_trade_plan_header(card: dict[str, Any], plan: dict[str, Any], rank: int) -> str:
-    """The loud trade-plan lead for a funded move: headline -> funded-by (sums) ->
-    why -> timing -> gate (color) -> one caveat. Display-only; the engine card with
-    its canonical rail, conviction read, and evidence renders just below."""
+def _render_hero_summary(card: dict[str, Any], plan: dict[str, Any], rank: int) -> str:
+    """The always-visible loud headline that stays on the collapsed hero: kicker +
+    verb/ticker/$amount + the percent-of-book line. So even collapsed, you still see
+    exactly what the move is."""
     plan = plan or {}
     ticker = str(card.get("ticker") or "").upper()
     verb = _move_verb(card, plan)
@@ -5047,14 +5066,24 @@ def _render_trade_plan_header(card: dict[str, Any], plan: dict[str, Any], rank: 
     if amount is None:
         amount = card.get("dollars")
     verb_cls = "td-verb td-verb-sell" if verb in {"SELL", "TRIM", "REDUCE"} else "td-verb"
-    h = [f'<div class="td-hero-kicker">#{rank} funded move · trade plan · highest impact leads</div>']
+    h = [f'<div class="td-hero-kicker">#{rank} funded move | trade plan | highest impact leads '
+         '<span class="td-hero-toggle">tap to collapse / expand</span></div>']
     h.append(
         f'<div class="td-hl"><span class="{verb_cls}">{_esc(verb)}</span>'
         f'<span class="td-tk">{_esc(ticker)}</span><span class="td-amt">{_money_text(amount)}</span></div>'
     )
     cur, tgt = plan.get("current_pct"), plan.get("target_pct")
     if cur is not None or tgt is not None:
-        h.append(f'<div class="td-hero-sub">{_pct_text(cur)} → {_pct_text(tgt)} of book · funded position-builder (candidate)</div>')
+        h.append(f'<div class="td-hero-sub">{_pct_text(cur)} -> {_pct_text(tgt)} of book | funded position-builder (candidate)</div>')
+    return "".join(h)
+
+
+def _render_trade_plan_header(card: dict[str, Any], plan: dict[str, Any], rank: int) -> str:
+    """The trade-plan body for a funded move: funded-by (sums) -> why -> timing ->
+    gate (color) -> one caveat. Display-only; the engine card with its canonical rail,
+    conviction read, and evidence renders just below."""
+    plan = plan or {}
+    h: list[str] = []
     h.append('<div class="td-kv">')
     h.append('<div class="td-k">Funded by</div>' + _render_funded_by(plan))
     if plan.get("rationale"):
@@ -5081,7 +5110,7 @@ def _render_ask_block(raw_cid: str, headline: str) -> str:
     cid = _esc(raw_cid)
     return (
         '<details class="td-ask"><summary></summary>'
-        f'<textarea id="tdq-{cid}" placeholder="ask or comment on this card — saved against the card, and one tap copies a chat-ready [CARD] tag"></textarea>'
+        f'<textarea id="tdq-{cid}" placeholder="ask or comment on this card - saved against the card, and one tap copies a chat-ready [CARD] tag"></textarea>'
         '<div class="td-askrow">'
         f'<button class="td-mini" data-card="{cid}" data-headline="{_esc(headline)}" onclick="tdAskCopy(this)">Copy for chat</button>'
         f'<button class="td-mini" data-card="{cid}" onclick="tdAskSave(this)">Save note on card</button>'
@@ -5097,10 +5126,10 @@ def _humanize_tunable(key: str) -> str:
 
 
 def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) -> str:
-    """Show the LIVE size and every input that produced it — no shorthand, no hidden
+    """Show the LIVE size and every input that produced it - no shorthand, no hidden
     caps. RENDER-IF-PRESENT: when F2's ``sizing_tunables.json`` exists, render the dials
     (editable + live client recompute) + the formula; until then, show the engine's real
-    current sizing inputs honestly and say the dials arrive with F2 — never fabricate them."""
+    current sizing inputs honestly and say the dials arrive with F2 - never fabricate them."""
     sizing = card.get("sizing") or {}
     if not sizing and not tunables:
         return ""
@@ -5111,11 +5140,11 @@ def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) 
     heat = sizing.get("heat")
     cap = sizing.get("cap_basis")
     conv = (card.get("conviction_display") or {}).get("x5") or 1
-    out = ['<div class="td-sizing"><div class="td-sizing-title">How this size is set — every input, no hidden caps</div>']
+    out = ['<details class="td-sizing"><summary class="td-sizing-title">How this size is set - every input, no hidden caps (tap)</summary>']
     if tunables:
-        # F2 (conviction->size) is live. DISPLAY the engine's real breakdown — the live
+        # F2 (conviction->size) is live. DISPLAY the engine's real breakdown - the live
         # size, the conviction lift it applied (or didn't), the soft-reference tier band,
-        # the cash reality — then expose every dial from sizing_tunables.json (editable +
+        # the cash reality - then expose every dial from sizing_tunables.json (editable +
         # persisted) and recompute the shown size client-side with the ENGINE'S formula.
         try:
             mult = float(sizing.get("size_lift_mult")) if sizing.get("size_lift_mult") is not None else 1.0
@@ -5138,14 +5167,14 @@ def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) 
             f'data-anchor="{anchor:.2f}" data-strength="{strength:.6g}" data-base="{base_def:.2f}" '
             f'data-slope="{slope_def:.6g}" data-softmax="{softmax_def:.2f}">live size {_money_text(suggested)}</div>'
         )
-        lift_phrase = ("converging, independent evidence — conviction lift applied"
+        lift_phrase = ("converging, independent evidence - conviction lift applied"
                        if strength > 0 else
-                       "single-group / not converging — NO lift (the F1 honesty rail; size never keys off echo)")
+                       "single-group / not converging - NO lift (the F1 honesty rail; size never keys off echo)")
         out.append(
             '<div class="td-sizing-formula">live size = anchor × (1 + conviction_size_slope × conviction strength). '
-            f'This card: anchor {_money_text(anchor)} × {mult:.2f} (conviction strength {strength:.2f} — {lift_phrase}) '
+            f'This card: anchor {_money_text(anchor)} × {mult:.2f} (conviction strength {strength:.2f} - {lift_phrase}) '
             f'= {_money_text(suggested)}. Soft caps apply only if set below (default off); the tier ceiling is a soft '
-            'reference, not a clip — no hidden caps.</div>'
+            'reference, not a clip - no hidden caps.</div>'
         )
         if cap:
             out.append(f'<div class="td-sizing-formula">engine breakdown: {_esc(cap)}</div>')
@@ -5159,10 +5188,10 @@ def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) 
         if sizing.get("available_cash") is not None:
             cash = f'available cash {_esc(sizing.get("available_cash"))}'
             if sizing.get("exceeds_cash"):
-                cash += ' — ⚠ suggested size EXCEEDS available cash'
+                cash += ' - ⚠ suggested size EXCEEDS available cash'
             ctx.append(cash)
         if ctx:
-            out.append(f'<div class="td-sizing-note">{" · ".join(ctx)}</div>')
+            out.append(f'<div class="td-sizing-note">{" | ".join(ctx)}</div>')
         for key in ("base_size_usd", "conviction_size_slope", "per_name_soft_max_usd",
                     "concentration_soft_max_pct", "min_converging_groups", "max_conviction_strength"):
             if key not in tunables:
@@ -5191,12 +5220,12 @@ def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) 
         bools = {k: v for k, v in tunables.items() if isinstance(v, bool)}
         if bools:
             out.append('<div class="td-sizing-note">Engine switches (shown so nothing is hidden): '
-                       + ' · '.join(f'{_esc(_humanize_tunable(k))} = {"ON" if v else "OFF"}' for k, v in bools.items())
+                       + ' | '.join(f'{_esc(_humanize_tunable(k))} = {"ON" if v else "OFF"}' for k, v in bools.items())
                        + '</div>')
         crw = tunables.get("conviction_read_weights")
         if isinstance(crw, dict):
-            out.append('<div class="td-sizing-note">conviction read → strength weights: '
-                       + ' · '.join(f'{_esc(k)} = {_esc(v)}' for k, v in crw.items()) + '</div>')
+            out.append('<div class="td-sizing-note">conviction read -> strength weights: '
+                       + ' | '.join(f'{_esc(k)} = {_esc(v)}' for k, v in crw.items()) + '</div>')
         out.append(
             '<div class="td-sizing-note">Drag a dial: the live size recomputes immediately (mirroring the engine '
             'formula) and your override is saved with a chat-ready sync command for <code>src/sizing_tunables.json</code>. '
@@ -5204,24 +5233,24 @@ def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) 
             'no reallocation anchor; the slope only lifts a converging, non-conflicted read.)</div>'
         )
     else:
-        # F2 absent fallback (kept for robustness) — honest degrade, never fabricate dials.
+        # F2 absent fallback (kept for robustness) - honest degrade, never fabricate dials.
         out.append(
-            '<div class="td-sizing-note">Live conviction→size dials (F2) are not present in this build, '
-            'so there are no tunable knobs to show — and none are invented. What the engine reports for this card '
+            '<div class="td-sizing-note">Live conviction->size dials (F2) are not present in this build, '
+            'so there are no tunable knobs to show - and none are invented. What the engine reports for this card '
             'right now:</div>'
         )
-        cap_txt = f' · cap basis: {_esc(cap)}' if cap else ''
+        cap_txt = f' | cap basis: {_esc(cap)}' if cap else ''
         out.append(
-            f'<div class="td-sizing-formula">conviction read: Conviction {_esc(conv)}/5 · '
-            f'engine suggested size: {_money_text(suggested)} · basis: {_esc(source or "unknown")} · '
+            f'<div class="td-sizing-formula">conviction read: Conviction {_esc(conv)}/5 | '
+            f'engine suggested size: {_money_text(suggested)} | basis: {_esc(source or "unknown")} | '
             f'heat: {_esc(heat or "unknown")}{cap_txt}</div>'
         )
         out.append(
             '<div class="td-sizing-note">With <code>src/sizing_tunables.json</code> present, this panel shows the '
-            'live conviction-driven size, every dial (base size, conviction slope, soft caps — no hidden ceilings), '
-            'and the formula — each editable here, persisted, and recomputing the number as you drag.</div>'
+            'live conviction-driven size, every dial (base size, conviction slope, soft caps - no hidden ceilings), '
+            'and the formula - each editable here, persisted, and recomputing the number as you drag.</div>'
         )
-    out.append('</div>')
+    out.append('</details>')
     return "".join(out)
 
 
@@ -5229,7 +5258,7 @@ def _render_funded_by(plan: dict[str, Any]) -> str:
     legs = [leg for leg in (plan.get("funded_by") or []) if leg.get("ticker")]
     if not legs:
         return '<div class="td-v">Funding: not yet assigned</div>'
-    parts = " · ".join(f'{_esc(leg["ticker"])} {_money_text(leg.get("notional_usd"))}' for leg in legs)
+    parts = " | ".join(f'{_esc(leg["ticker"])} {_money_text(leg.get("notional_usd"))}' for leg in legs)
     total = sum(float(leg.get("notional_usd") or 0.0) for leg in legs)
     return f'<div class="td-v">{parts} <span class="td-tag">( = {_money_text(total)}, dollar-for-dollar )</span></div>'
 
@@ -5256,11 +5285,11 @@ def _render_good_price_row(row: dict[str, Any]) -> str:
                 + (f" (set {high_date})" if high_date else "")) if disc is not None and high is not None else "off its 52-week high"
     own_txt = _money_text(exposure) if exposure is not None else "$0"
     own_tip = (f"You currently hold {own_txt} of {tk}"
-               + (f" ({exposure_pct:.2f}% of book)" if exposure_pct is not None else "")) if exposure is not None and exposure > 0 else f"You hold none of {tk} — a new position"
+               + (f" ({exposure_pct:.2f}% of book)" if exposure_pct is not None else "")) if exposure is not None and exposure > 0 else f"You hold none of {tk} - a new position"
     own_lab = "you own" if (exposure is not None and exposure > 0) else "you own (new)"
     impact_tip = ("Impact = a discount-priority score: how far off its 52-week high, plus a boost if a trusted "
                   "list flags it, minus a little for crowding or source disagreement. It is NOT conviction and "
-                  "NOT a buy signal — high means 'worth a look,' not 'buy now.'")
+                  "NOT a buy signal - high means 'worth a look,' not 'buy now.'")
     stat = ''
     if monitor:
         stat = '<span class="td-stat">monitor</span>'
@@ -5282,10 +5311,10 @@ def _render_good_price_row(row: dict[str, Any]) -> str:
     else:
         why.append("flagged on the discount alone (no analyst/Notion tag)")
     if high is not None and disc is not None:
-        why.append(f"52-week high {_money_text(high)}{(' ('+_esc(high_date)+')') if high_date else ''} → {_money_text(price)} now, {disc_txt} from that high")
+        why.append(f"52-week high {_money_text(high)}{(' ('+_esc(high_date)+')') if high_date else ''} -> {_money_text(price)} now, {disc_txt} from that high")
     h.append(f'<div><b>Why it\'s flagged:</b> {"; ".join(why)}.</div>')
     h.append(
-        '<div><b>What "impact" means:</b> a discount-priority / "worth a look" score — '
+        '<div><b>What "impact" means:</b> a discount-priority / "worth a look" score - '
         '<b>not conviction, not a buy signal.</b> It rises with the depth of the discount and a trusted-list '
         'boost, and falls for crowding (a big position you already hold) or source disagreement. '
         'A high number on a distressed name reads "look," not "buy."</div>'
@@ -5296,13 +5325,13 @@ def _render_good_price_row(row: dict[str, Any]) -> str:
     if row.get("sellgate_note"):
         pos_line += f' <b>{_esc(row["sellgate_note"])}.</b>'
     h.append(f'<div><b>Your position:</b> {pos_line}</div>')
-    h.append('<div><b>Options &amp; flow:</b> not in this packet — pull a live Unusual Whales options/flow check on demand (never shown faked when absent).</div>')
+    h.append('<div><b>Options &amp; flow:</b> not in this packet - pull a live Unusual Whales options/flow check on demand (never shown faked when absent).</div>')
     cid = f'WATCH-{_esc(tk)}'
-    headline = (f"{tk} — {disc_txt} off 52w high, {_money_text(price)}/share, impact "
+    headline = (f"{tk} - {disc_txt} off 52w high, {_money_text(price)}/share, impact "
                 f"{round(float(impact)) if isinstance(impact,(int,float)) else impact}, {own_lab} {own_txt}")
     h.append(
         '<div class="td-askmini">'
-        f'<textarea id="tdq-{cid}" placeholder="ask about {_esc(tk)} — e.g. is the discount enough to start a small starter, or wait for flow?"></textarea>'
+        f'<textarea id="tdq-{cid}" placeholder="ask about {_esc(tk)} - e.g. is the discount enough to start a small starter, or wait for flow?"></textarea>'
         '<div class="td-askrow">'
         f'<button class="td-mini" data-card="{cid}" data-headline="{_esc(headline)}" onclick="tdAskCopy(this)">Copy for chat</button>'
         f'<span class="td-askfb" id="tdqfb-{cid}"></span></div></div>'
@@ -5318,17 +5347,17 @@ def _render_good_price_tier(payload: dict[str, Any]) -> str:
     deep_more = tier.get("deep_more") or []
     if not higher and not deep_visible and not deep_more:
         return ""
-    h = ['<div class="td-sectlead">Good price, lower conviction <span class="td-q">— don\'t let these rot in the queue</span></div>']
+    h = ['<div class="td-sectlead">Good price, lower conviction <span class="td-q">- don\'t let these rot in the queue</span></div>']
     note = ('At good prices and worth watching, but <b>not funded / high-conviction</b> like the moves above. '
-            'Shown so you don\'t miss them — <b>not</b> dressed up to look urgent. Hover any number for what it '
+            'Shown so you don\'t miss them - <b>not</b> dressed up to look urgent. Hover any number for what it '
             'means; <b>click a name</b> for its thesis, where it came from, and what would have to be true to buy it.')
     if str(tier.get("freshness")) == "stale":
-        note += f' <b>Packet STALE as of {_esc(tier.get("packet_as_of"))} — research context only, prices not current.</b>'
+        note += f' <b>Packet STALE as of {_esc(tier.get("packet_as_of"))} - research context only, prices not current.</b>'
     h.append(f'<div class="td-tiernote">{note}</div>')
     for row in higher:
         h.append(_render_good_price_row(row))
     if deep_visible:
-        h.append('<div class="td-screenline">Deeper discounts — <b>research-only</b> until the thesis clears (these are not buys):</div>')
+        h.append('<div class="td-screenline">Deeper discounts - <b>research-only</b> until the thesis clears (these are not buys):</div>')
         for row in deep_visible:
             h.append(_render_good_price_row(row))
     more_tickers = tier.get("deep_more_tickers") or []
@@ -5339,7 +5368,7 @@ def _render_good_price_tier(payload: dict[str, Any]) -> str:
     if screen_count:
         tail_bits.append(f"a <b>{screen_count}-name discount screen</b> behind the daily pullback packet")
     if tail_bits:
-        h.append(f'<div class="td-screenline">{" and ".join(tail_bits)} — surfaced here as the top of the queue; the rest stays one tap deep in the machinery so nothing rots unseen.</div>')
+        h.append(f'<div class="td-screenline">{" and ".join(tail_bits)} - surfaced here as the top of the queue; the rest stays one tap deep in the machinery so nothing rots unseen.</div>')
     return "".join(h)
 
 
@@ -5349,7 +5378,7 @@ def _render_freshness_chip(payload: dict[str, Any]) -> str:
     pl = payload.get("plan_line") or {}
     positions = honesty.get("positions_as_of") or pl.get("positions_as_of")
     gates = honesty.get("gates_as_of")
-    disp_state = "none logged yet" if honesty.get("dispositions") else "logged — see cards"
+    disp_state = "none logged yet" if honesty.get("dispositions") else "logged - see cards"
     fresh = []
     if positions:
         fresh.append(f"positions {_esc(positions)}")
@@ -5359,10 +5388,10 @@ def _render_freshness_chip(payload: dict[str, Any]) -> str:
     if honesty.get("cash"):
         warn.append("cash not checked")
     warn.append(f"dispositions: {disp_state}")
-    h = ['<div class="td-fresh">', f'<b>Conviction Dashboard</b><span>· built {_esc(built)}</span>']
+    h = ['<div class="td-fresh">', f'<b>Conviction Dashboard</b><span>| built {_esc(built)}</span>']
     if fresh:
-        h.append(f'<span><span class="td-dot td-dot-g"></span> {" · ".join(fresh)}</span>')
-    h.append(f'<span class="td-warn"><span class="td-dot td-dot-a"></span> {" · ".join(warn)} · full trust panel ▾ in machinery below</span>')
+        h.append(f'<span><span class="td-dot td-dot-g"></span> {" | ".join(fresh)}</span>')
+    h.append(f'<span class="td-warn"><span class="td-dot td-dot-a"></span> {" | ".join(warn)} | full trust panel ▾ in machinery below</span>')
     h.append('</div>')
     return "".join(h)
 
@@ -5388,7 +5417,7 @@ def _render_machinery(payload: dict[str, Any]) -> str:
     if not body_html:
         return ""
     return (
-        '<details class="td-machine"><summary>System state, queues &amp; coverage — the machinery '
+        '<details class="td-machine"><summary>System state, queues &amp; coverage - the machinery '
         '(collapsed on purpose; none of it shouts over a real move)</summary>'
         f'<div class="td-machinebody">{body_html}</div></details>'
     )
@@ -5407,13 +5436,13 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
 
     h: list[str] = [_CSS, _JS, f'<section id="today-decide" class="td" data-built="{built}">']
     h.append(f'<h2>TODAY â€” DECIDE <span style="color:#94a3b8;font-size:12px">built {built}</span></h2>')
-    # 1. freshness chip — title + build stamp + fresh/stale; trust panel collapses below
+    # 1. freshness chip - title + build stamp + fresh/stale; trust panel collapses below
     h.append(_render_freshness_chip(payload))
-    # goal context — display-only, never feeds ranking or urgency (pace line carries the
+    # goal context - display-only, never feeds ranking or urgency (pace line carries the
     # single "display-only" marker; do not add another)
     if ga.get("book_value") is not None:
         h.append(f'<div class="td-anchor">${ga["book_value"]:,.0f} â†’ ${ga["fi_target"]:,.0f} '
-                 f'Â· {ga["pct_to_target"]}% there</div>')
+                 f'Â| {ga["pct_to_target"]}% there</div>')
     else:
         h.append('<div class="td-anchor">book value: not readable â€” honest absence</div>')
     h.append(f'<div class="td-pace">{_esc(ga["pace_line"])}</div>')
@@ -5421,14 +5450,14 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
     short = pl.get("shortfall_usd")
     h.append('<div class="td-plan">plan: '
              + (f'funding pool ${pool:,.0f}' if isinstance(pool, (int, float)) else 'funding pool n/a')
-             + (f' Â· shortfall ${short:,.0f}' if isinstance(short, (int, float)) else '')
-             + f' Â· positions as of {_esc(pl.get("positions_as_of"))}</div>')
+             + (f' Â| shortfall ${short:,.0f}' if isinstance(short, (int, float)) else '')
+             + f' Â| positions as of {_esc(pl.get("positions_as_of"))}</div>')
 
     # 2. THE MOVE leads -> next moves -> funding trims -> other decisions. Render-side
     #    grouping only: actual buys/adds lead as MOVES (the first is the hero), funding
     #    and rebalancing trims group together, everything else (resolve/recheck, incl.
     #    F1 CONFLICTED non-buys) follows. Engine priority, scoring, sizing, and ranking
-    #    are untouched — this just stops a high-priority funding trim from masquerading
+    #    are untouched - this just stops a high-priority funding trim from masquerading
     #    as "the move." Each material buy renders the loud trade-plan header (inside
     #    _render_card) above its canonical engine card.
     def _decision_group(card: dict[str, Any]) -> str:
@@ -5451,28 +5480,28 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
                               built_date=built_date, plan=_plan_for(card), tunables=tunables))
         rank += 1
 
-    h.append('<div class="td-sectlead">The move — do this first</div>')
+    h.append('<div class="td-sectlead">The move - do this first</div>')
     if groups["move"]:
         for i, card in enumerate(groups["move"]):
             if i == 1:
                 h.append('<div class="td-sectlead">Next moves</div>')
             _emit(card)
     else:
-        # honest starvation — never a confident grid of zeros
+        # honest starvation - never a confident grid of zeros
         h.append(
             '<div class="td-hero"><div class="td-hero-kicker">no funded high-conviction move is live</div>'
             '<div class="td-hero-sub">No high-conviction, funded move is live right now. The strongest things on '
-            'the board are the trims, rechecks, and good-price watches below — shown plainly, not dressed up as '
+            'the board are the trims, rechecks, and good-price watches below - shown plainly, not dressed up as '
             'urgent. Nothing here is one tap from a buy without fresh confirmation.</div></div>'
         )
     if groups["trim"]:
         h.append('<div class="td-sectlead">Funding &amp; rebalancing trims '
-                 '<span class="td-q">— execute paired with the moves they fund; no standalone urgency</span></div>')
+                 '<span class="td-q">- execute paired with the moves they fund; no standalone urgency</span></div>')
         for card in groups["trim"]:
             _emit(card)
     if groups["other"]:
         h.append('<div class="td-sectlead">Other decisions '
-                 '<span class="td-q">— resolve / recheck before acting</span></div>')
+                 '<span class="td-q">- resolve / recheck before acting</span></div>')
         for card in groups["other"]:
             _emit(card)
     backlog = payload["backlog"]
@@ -5489,7 +5518,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
     # 3. good price, lower conviction tier (visible-but-quiet; never one tap from a buy)
     h.append(_render_good_price_tier(payload))
 
-    # 4. machinery (collapsed) — system health, queues, coverage moved below the decisions
+    # 4. machinery (collapsed) - system health, queues, coverage moved below the decisions
     h.append(_render_machinery(payload))
 
     # 5. honesty / caveats / conflicts (collapsed, bottom)
@@ -5498,7 +5527,7 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
     if cong.get("status") == "ok":
         for row in cong.get("rows") or []:
             flag = "\U0001f6a9 " if row.get("flagged") else ""
-            h.append(f'<div class="td-cong">{flag}{_esc(row["insight_id"])} Â· {_esc(row["line"])}</div>')
+            h.append(f'<div class="td-cong">{flag}{_esc(row["insight_id"])} Â| {_esc(row["line"])}</div>')
     else:
         h.append(f'<div class="td-cong">congruence: not checked â€” {_esc(cong.get("reason", ""))}</div>')
     h.append("</details>")
