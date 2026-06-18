@@ -2,27 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T20:32:39.526020Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:07:02.589606Z",
-      "summary": "uw opportunity cache manual repair started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
       "run_source": "manual",
@@ -6489,7 +6468,21 @@
         "feed_uw_proof_newest_checked_at": "2026-06-18T13:42:23.486320+00:00",
         "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-18 09:42 ET."
       }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T13:48:00.271381Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T13:54:17.143458Z",
+      "summary": "checked web 2 pages Macro/Crypto FlashInsights; Gmail searched 9/read 5 full bodies; landed 1 compact CL oil-risk row; suppressed promo duplicate/stale/incomplete/discovery-only items; validation passed; dashboard refreshed; Fundstrat alerts sent 3; dark Social Watch, stale Crypto FlashInsights Jun8; blockers none"
     }
   ],
-  "updated_at": "2026-06-18T13:44:07.296385Z"
+  "updated_at": "2026-06-18T13:54:17.143458Z"
 }

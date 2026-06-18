@@ -1340,5 +1340,28 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "source": "kent fung",
+    "ticker": "CL",
+    "tier": "D",
+    "confidence_in_tier": "LOW",
+    "verbatim_quote": "Re-check crude/inflation risk before assuming Iran-deal oil relief is clean; China reserve replenishment or block buys could slow or reverse crude downside.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-18",
+    "window_end": "2026-08-17",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-18",
+    "fundstrat_lane": "general",
+    "source_domain": "fundstrat_general",
+    "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant.",
+    "confidence_policy": "Treat as context until lane, catalyst, and current validation are clear.",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]
