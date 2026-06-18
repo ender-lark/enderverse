@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T12:40:48.336994Z",
-      "summary": "3 Notion rows verified; repo Signal Log 14 rows; UW proof refreshed; macro unchanged; failures none"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T12:53:06.367880Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
@@ -6412,7 +6398,21 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T08:47:16.361114Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T08:52:23.390157Z",
+      "summary": "processed Findings updates for 3 rows; queued H2/M3/L4 remain; selected full-book held review, MU parabolic blocker, staging doctrine; Notion connector writes+fetchback verified 3/3, statuses kept Queued; remaining backlog 9: H2 require operator/code, M2 need fresh evidence, L4 lower/stale/system; dark/not_checked: MCP query unavailable, MU quote velocity, buying-power/leverage/source pulls"
     }
   ],
-  "updated_at": "2026-06-18T06:32:10.600964Z"
+  "updated_at": "2026-06-18T08:52:23.390157Z"
 }
