@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-08T16:49:21.509766Z",
-      "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T17:47:40.513301Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-08T17:48:43.331153Z",
       "summary": "checked 2 msgs, read 2 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
     },
@@ -6435,7 +6421,28 @@
           "src/live_dashboard_refresh.py"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:57:54.013839Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:59:35.924588Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-18T12:54:35.813870Z"
+  "updated_at": "2026-06-18T12:59:35.924588Z"
 }
