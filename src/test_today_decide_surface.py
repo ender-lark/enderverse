@@ -178,7 +178,7 @@ def _sizing_card():
 
 def test_sizing_transparency_degrades_honestly_without_f2():
     s = td._render_sizing_transparency(_sizing_card(), {})
-    assert "not wired into this build yet" in s     # honest, F2 pending
+    assert "are not present in this build" in s     # honest, F2 absent fallback
     assert 'oninput="tdDial' not in s               # NO fabricated dials
     assert "engine suggested size" in s             # the real current sizing is shown
     assert "no hidden caps" in s

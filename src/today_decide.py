@@ -3411,15 +3411,18 @@ function tdDial(inp){
   tdCopy('SET-TUNABLE '+key+' '+val+'  (sync to src/sizing_tunables.json)');
 }
 function tdRecompute(cid){
-  var el=document.getElementById('tdsize-'+cid);if(!el)return;
-  var spec=el.getAttribute('data-formula');if(!spec)return;
-  var conv=parseFloat(el.getAttribute('data-conv')||'0');
+  var el=document.getElementById('tdsize-'+cid);if(!el||el.getAttribute('data-formula')!=='f2')return;
+  var anchor=parseFloat(el.getAttribute('data-anchor')||'0');
+  var strength=parseFloat(el.getAttribute('data-strength')||'0');
   var ov=tdGetTun();
-  var base=ov.base_size_usd!=null?ov.base_size_usd:parseFloat(el.getAttribute('data-base')||'0');
-  var slope=ov.conviction_size_slope!=null?ov.conviction_size_slope:parseFloat(el.getAttribute('data-slope')||'0');
-  /* documented v1 form: base + slope * conviction_read (caps are tunable, default off) */
-  var size=base+slope*conv;
-  if(ov.per_name_soft_max_usd!=null&&ov.per_name_soft_max_usd>0&&size>ov.per_name_soft_max_usd)size=ov.per_name_soft_max_usd;
+  /* mirror the F2 engine formula: size = anchor*(1 + slope*strength), then optional
+     soft-max clamp. anchor falls back to base_size_usd only when there is no anchor. */
+  var slope=(ov.conviction_size_slope!=null)?ov.conviction_size_slope:parseFloat(el.getAttribute('data-slope')||'1');
+  var base=(ov.base_size_usd!=null)?ov.base_size_usd:parseFloat(el.getAttribute('data-base')||'0');
+  var softmax=(ov.per_name_soft_max_usd!=null)?ov.per_name_soft_max_usd:parseFloat(el.getAttribute('data-softmax')||'0');
+  var a=anchor>0?anchor:base;
+  var size=a*(1+slope*strength);
+  if(softmax>0&&size>softmax)size=softmax;
   el.textContent='live size $'+Math.round(size).toLocaleString();
 }
 function tdInit(){
@@ -5039,36 +5042,101 @@ def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) 
     cap = sizing.get("cap_basis")
     conv = (card.get("conviction_display") or {}).get("x5") or 1
     out = ['<div class="td-sizing"><div class="td-sizing-title">How this size is set — every input, no hidden caps</div>']
-    dials = {k: v for k, v in (tunables or {}).items()
-             if not str(k).startswith("_") and isinstance(v, (int, float)) and not isinstance(v, bool)}
-    if dials:
-        base = tunables.get("base_size_usd") or 0
-        slope = tunables.get("conviction_size_slope") or 0
+    if tunables:
+        # F2 (conviction->size) is live. DISPLAY the engine's real breakdown — the live
+        # size, the conviction lift it applied (or didn't), the soft-reference tier band,
+        # the cash reality — then expose every dial from sizing_tunables.json (editable +
+        # persisted) and recompute the shown size client-side with the ENGINE'S formula.
+        try:
+            mult = float(sizing.get("size_lift_mult")) if sizing.get("size_lift_mult") is not None else 1.0
+        except (TypeError, ValueError):
+            mult = 1.0
+        try:
+            strength = float(sizing.get("size_lift_strength") or 0.0)
+        except (TypeError, ValueError):
+            strength = 0.0
+        try:
+            anchor = (float(suggested) / mult) if (isinstance(suggested, (int, float)) and mult) else float(suggested or 0.0)
+        except (TypeError, ValueError):
+            anchor = 0.0
+        base_def = float(tunables.get("base_size_usd") or 0.0)
+        slope_def = float(tunables.get("conviction_size_slope") or 0.0)
+        softmax_def = tunables.get("per_name_soft_max_usd")
+        softmax_def = float(softmax_def) if isinstance(softmax_def, (int, float)) else 0.0
         out.append(
-            f'<div class="td-sizing-live" id="tdsize-{cid}" data-formula="v1" data-conv="{_esc(conv)}" '
-            f'data-base="{_esc(base)}" data-slope="{_esc(slope)}">live size {_money_text(suggested)}</div>'
+            f'<div class="td-sizing-live" id="tdsize-{cid}" data-formula="f2" '
+            f'data-anchor="{anchor:.2f}" data-strength="{strength:.6g}" data-base="{base_def:.2f}" '
+            f'data-slope="{slope_def:.6g}" data-softmax="{softmax_def:.2f}">live size {_money_text(suggested)}</div>'
         )
+        lift_phrase = ("converging, independent evidence — conviction lift applied"
+                       if strength > 0 else
+                       "single-group / not converging — NO lift (the F1 honesty rail; size never keys off echo)")
         out.append(
-            '<div class="td-sizing-formula">size = base_size_usd + conviction_size_slope × conviction read'
-            f' (conviction read = {_esc(conv)}/5); soft caps apply only if set below (default off).</div>'
+            '<div class="td-sizing-formula">live size = anchor × (1 + conviction_size_slope × conviction strength). '
+            f'This card: anchor {_money_text(anchor)} × {mult:.2f} (conviction strength {strength:.2f} — {lift_phrase}) '
+            f'= {_money_text(suggested)}. Soft caps apply only if set below (default off); the tier ceiling is a soft '
+            'reference, not a clip — no hidden caps.</div>'
         )
-        for key, val in dials.items():
-            top = max(float(val) * 3.0, 1.0)
+        if cap:
+            out.append(f'<div class="td-sizing-formula">engine breakdown: {_esc(cap)}</div>')
+        ctx = []
+        if heat:
+            ctx.append(f'heat {_esc(heat)}')
+        if sizing.get("floor_pct") is not None and sizing.get("ceiling_pct") is not None:
+            ctx.append(f'tier floor {_pct_text(sizing.get("floor_pct"))} / ceiling {_pct_text(sizing.get("ceiling_pct"))} (soft reference)')
+        if sizing.get("current_pct") is not None:
+            ctx.append(f'you currently hold {_pct_text(sizing.get("current_pct"))} of book')
+        if sizing.get("available_cash") is not None:
+            cash = f'available cash {_esc(sizing.get("available_cash"))}'
+            if sizing.get("exceeds_cash"):
+                cash += ' — ⚠ suggested size EXCEEDS available cash'
+            ctx.append(cash)
+        if ctx:
+            out.append(f'<div class="td-sizing-note">{" · ".join(ctx)}</div>')
+        for key in ("base_size_usd", "conviction_size_slope", "per_name_soft_max_usd",
+                    "concentration_soft_max_pct", "min_converging_groups", "max_conviction_strength"):
+            if key not in tunables:
+                continue
+            val = tunables.get(key)
+            is_off = val is None
+            num = 0.0 if is_off else float(val)
+            if "usd" in key:
+                top = max(num * 3.0, 200000.0)
+            elif "slope" in key:
+                top = max(num * 3.0, 3.0)
+            elif "pct" in key:
+                top = max(num * 3.0, 25.0)
+            elif "groups" in key:
+                top = 6.0
+            else:
+                top = max(num * 3.0, 2.0)
+            default_txt = "off" if is_off else f"{val}"
             out.append(
                 '<div class="td-dialrow"><div class="td-dial-label">'
-                f'{_esc(_humanize_tunable(key))} <i>engine default {_esc(val)}</i></div>'
-                f'<div class="td-dial"><input type="range" min="0" max="{top:.0f}" step="any" value="{_esc(val)}" '
+                f'{_esc(_humanize_tunable(key))} <i>engine default {_esc(default_txt)}</i></div>'
+                f'<div class="td-dial"><input type="range" min="0" max="{top:.6g}" step="any" value="{num:.6g}" '
                 f'data-key="{_esc(key)}" data-card="{cid}" oninput="tdDial(this)"></div>'
-                f'<div class="td-dial-val" id="tddialval-{cid}-{_esc(key)}">{_esc(val)}</div></div>'
+                f'<div class="td-dial-val" id="tddialval-{cid}-{_esc(key)}">{_esc(default_txt)}</div></div>'
             )
+        bools = {k: v for k, v in tunables.items() if isinstance(v, bool)}
+        if bools:
+            out.append('<div class="td-sizing-note">Engine switches (shown so nothing is hidden): '
+                       + ' · '.join(f'{_esc(_humanize_tunable(k))} = {"ON" if v else "OFF"}' for k, v in bools.items())
+                       + '</div>')
+        crw = tunables.get("conviction_read_weights")
+        if isinstance(crw, dict):
+            out.append('<div class="td-sizing-note">conviction read → strength weights: '
+                       + ' · '.join(f'{_esc(k)} = {_esc(v)}' for k, v in crw.items()) + '</div>')
         out.append(
-            '<div class="td-sizing-note">Drag a dial: the size above recomputes immediately and your '
-            'override is saved (with a chat-ready sync command). Engine default size for this card: '
-            f'{_money_text(suggested)}.</div>'
+            '<div class="td-sizing-note">Drag a dial: the live size recomputes immediately (mirroring the engine '
+            'formula) and your override is saved with a chat-ready sync command for <code>src/sizing_tunables.json</code>. '
+            f'Engine default size for this card: {_money_text(suggested)}. (base_size_usd only applies when a card has '
+            'no reallocation anchor; the slope only lifts a converging, non-conflicted read.)</div>'
         )
     else:
+        # F2 absent fallback (kept for robustness) — honest degrade, never fabricate dials.
         out.append(
-            '<div class="td-sizing-note">Live conviction→size dials (F2) are not wired into this build yet, '
+            '<div class="td-sizing-note">Live conviction→size dials (F2) are not present in this build, '
             'so there are no tunable knobs to show — and none are invented. What the engine reports for this card '
             'right now:</div>'
         )
@@ -5079,7 +5147,7 @@ def _render_sizing_transparency(card: dict[str, Any], tunables: dict[str, Any]) 
             f'heat: {_esc(heat or "unknown")}{cap_txt}</div>'
         )
         out.append(
-            '<div class="td-sizing-note">When F2 lands <code>src/sizing_tunables.json</code>, this panel shows the '
+            '<div class="td-sizing-note">With <code>src/sizing_tunables.json</code> present, this panel shows the '
             'live conviction-driven size, every dial (base size, conviction slope, soft caps — no hidden ceilings), '
             'and the formula — each editable here, persisted, and recomputing the number as you drag.</div>'
         )
