@@ -12,8 +12,11 @@ that matter surfaced, never silently absorbed:
   ``transfer_dependency`` flag.
 * Tax flags per leg: taxable vs traditional/roth/HSA (v1 informs, never
   optimizes â€” taxes are flagged, not modeled).
-* Cash honesty: this cache carries **no cash rows**, so plans state
-  ``cash: not_checked`` rather than inventing buying power.
+* Cash honesty: per-leg plans still state ``cash: not_checked`` rather than
+  inventing per-account buying power. The portfolio-level cash that DOES exist
+  (SPAXX/FCASH/FDRXX sweep rows) is summed conservatively by
+  :func:`available_cash_usd` for the sizing "can I afford this?" reality, with
+  Fidelity settlement artifacts (Margin Debit / Unsettled) excluded.
 
 Sell legs drain largest holders first (fewer tickets); buy legs prefer the
 account already holding the name (add-to-position), then capacity.
@@ -29,6 +32,30 @@ from typing import Any
 SRC = Path(__file__).resolve().parent
 ACCOUNT_POSITIONS_PATH = SRC / "account_positions.json"
 ACCOUNT_RULES_PATH = SRC / "account_rules.json"
+
+# Genuine cash + sweep money-market symbols held in the SnapTrade cache. Counted
+# at face value as available cash. NOTE: matched by SYMBOL, never by asset_type
+# alone -- the cache files SPAXX/FDRXX as "Open Ended Fund" right next to real
+# equity funds like FBGKX (Blue Chip Growth), so an asset_type sweep would over-
+# count an equity fund as cash. The operator can extend this set via the
+# ``cash_money_market_symbols`` sizing tunable; this is the conservative default.
+CASH_MONEY_MARKET_SYMBOLS = frozenset(
+    {
+        "SPAXX",  # Fidelity Government Money Market
+        "FDRXX",  # Fidelity Government Cash Reserves
+        "FCASH",  # Fidelity core cash
+        "FZFXX",  # Fidelity Treasury Money Market
+        "FDLXX",  # Fidelity Treasury Only Money Market
+        "SGOV",   # 0-3mo T-bill ETF (cash-equivalent sweep)
+        "QACDS",  # Schwab/Fidelity cash sweep code seen in caches
+        "CASH",   # generic core-cash row
+    }
+)
+# Fidelity settlement artifacts that are SPAXX-backed bookkeeping, NOT real cash
+# (Session State doctrine 2026-06-17). A row whose description contains any of
+# these is excluded even if its symbol/type otherwise looks cash-like -- when
+# uncertain we UNDER-count cash (shows a larger, honest funding need).
+CASH_EXCLUDE_DESC_MARKERS = ("MARGIN", "DEBIT", "UNSETTLED")
 
 ETF_LIKE_TYPES = {"ETF", "Open Ended Fund"}
 ACCOUNT_ID_RE = re.compile(
@@ -177,6 +204,53 @@ def load_accounts(
     for a in out:
         a["total_value"] = round(a["total_value"], 2)
     return out
+
+
+def available_cash_usd(
+    account_positions: dict[str, Any] | list[dict[str, Any]] | None,
+    *,
+    cash_symbols: set[str] | frozenset[str] | None = None,
+) -> float | None:
+    """Sum genuine cash + sweep money-market rows into a REAL available-cash
+    number, or None when no account data / no cash rows are present.
+
+    Conservative by construction (Session State 2026-06-17): matched by SYMBOL
+    (``CASH_MONEY_MARKET_SYMBOLS``), never by asset_type alone, and any row whose
+    description names a Fidelity settlement artifact (Margin Debit Balance / Cash
+    Debit from Unsettled Activity) is EXCLUDED -- those are SPAXX-backed
+    bookkeeping, not real cash. When uncertain we UNDER-count, which shows a
+    larger funding need (the honest direction). Returns a NUMBER for the sizing
+    reality check only; nothing here ever blocks or auto-executes.
+    """
+    if isinstance(account_positions, dict):
+        rows = account_positions.get("account_positions") or []
+    elif isinstance(account_positions, list):
+        rows = account_positions
+    else:
+        return None
+    symbols = {s.upper() for s in (cash_symbols or CASH_MONEY_MARKET_SYMBOLS)}
+    total = 0.0
+    found = False
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").upper().strip()
+        if ticker not in symbols:
+            continue
+        desc = str(row.get("description") or "").upper()
+        if any(marker in desc for marker in CASH_EXCLUDE_DESC_MARKERS):
+            continue  # settlement artifact -- not real cash
+        value = row.get("market_value")
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            continue
+        if value <= 0:
+            continue  # never let a debit-style negative reduce the honest cash floor
+        total += float(value)
+        found = True
+    if not found:
+        return None
+    return round(total, 2)
+
 
 def _short(name: str) -> str:
     return name[:34] + ("â€¦" if len(name) > 34 else "")

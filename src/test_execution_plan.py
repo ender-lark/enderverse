@@ -6,7 +6,9 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from execution_plan import (
+    ACCOUNT_POSITIONS_PATH,
     AccountsMissingError,
+    available_cash_usd,
     classify_account,
     funding_reality_check,
     load_accounts,
@@ -181,3 +183,42 @@ def test_cash_honesty_and_missing_cache(tmp_path):
     assert plan["cash"].startswith("not_checked")
     with pytest.raises(AccountsMissingError):
         load_accounts(positions_path=tmp_path / "absent.json")
+
+
+def test_available_cash_usd_sums_real_cash_and_money_market_rows():
+    cache = {"account_positions": [
+        {"ticker": "SPAXX", "description": "Fidelity Government Money Market",
+         "market_value": 24659.01, "asset_type": "Open Ended Fund"},
+        {"ticker": "FDRXX", "description": "Fidelity Government Cash Reserves",
+         "market_value": 502.97, "asset_type": "Open Ended Fund"},
+        {"ticker": "FCASH", "description": "CASH", "market_value": 86.26},
+        {"ticker": "AMD", "description": "Advanced Micro Devices",
+         "market_value": 5072.9, "asset_type": "Common Stock"},
+    ]}
+    # cash rows only: 24659.01 + 502.97 + 86.26; the equity row is excluded.
+    assert available_cash_usd(cache) == 25248.24
+    # a bare list of rows is accepted too.
+    assert available_cash_usd(cache["account_positions"]) == 25248.24
+
+
+def test_available_cash_usd_excludes_settlement_artifacts_and_equity_funds():
+    cache = {"account_positions": [
+        {"ticker": "SPAXX", "description": "Margin Debit Balance",
+         "market_value": 80000.0, "asset_type": "Open Ended Fund"},
+        {"ticker": "FBGKX", "description": "Fidelity Blue Chip Growth Fund",
+         "market_value": 1058.10, "asset_type": "Open Ended Fund"},
+        {"ticker": "SPAXX", "description": "Fidelity Government Money Market",
+         "market_value": 100.0, "asset_type": "Open Ended Fund"},
+    ]}
+    # only the genuine money-market row counts (artifact + equity fund excluded).
+    assert available_cash_usd(cache) == 100.0
+    # honest absence when there is no cash data at all.
+    assert available_cash_usd(None) is None
+    assert available_cash_usd({"account_positions": []}) is None
+
+
+def test_available_cash_usd_on_live_cache_is_positive_number():
+    import json
+    cache = json.loads(ACCOUNT_POSITIONS_PATH.read_text(encoding="utf-8"))
+    cash = available_cash_usd(cache)
+    assert isinstance(cash, float) and cash > 0

@@ -197,12 +197,12 @@ _F2_THESES = [{"ticker": "BMNR", "tier": "T1"}]
 _F2_BOOK = 1875000
 
 
-def _size(conv, *, tunables=None, proposed=25000, available_cash=None):
+def _size(conv, *, tunables=None, proposed=25000, available_cash=None, funding_pool=None):
     return dr._caps_sizing(
         ticker="BMNR", proposed_usd=proposed, book=_F2_BOOK,
         positions=_F2_POS, theses=_F2_THESES,
         conviction=conv, tunables=tunables or dr.load_sizing_tunables(),
-        available_cash=available_cash,
+        available_cash=available_cash, funding_pool=funding_pool,
     )
 
 
@@ -286,6 +286,128 @@ def test_cash_not_checked_when_absent():
     assert s["available_cash"] == "not_checked"
     assert s["exceeds_cash"] is False
     assert "available cash not_checked" in s["cap_basis"]
+
+
+# --- FUNDING-AWARE affordability reality (F2-FUNDING-REALITY) -----------------
+
+_FUND_BUY = {"read": "HIGH", "direction": "BUY", "strength_5": 5, "n_groups": 3, "conflicted": False}
+
+
+def test_new_tunable_treat_funding_pool_default_is_true():
+    cfg = dr.load_sizing_tunables()
+    # The operator usually funds a buy by CONVERSION, not idle cash -> default TRUE.
+    assert cfg["treat_funding_pool_as_available"] is True
+
+
+def test_funding_reality_counts_cash_plus_pool():
+    # suggested 50000; cash 20000 alone is short, but cash + 40000 pool covers it.
+    s = _size(_FUND_BUY, available_cash=20000, funding_pool=40000)
+    assert s["suggested_usd"] == 50000
+    # cash-only fields stay for transparency and still flag exceeds_cash.
+    assert s["available_cash"] == 20000.0
+    assert s["exceeds_cash"] is True
+    # funding-aware: cash + pool = 60000 covers the 50000 suggested.
+    assert s["funding_pool_usd"] == 40000.0
+    assert s["funding_available_usd"] == 60000.0
+    assert s["exceeds_funding"] is False
+    assert s["funding_shortfall_usd"] == 0.0
+    assert "from sells (sell-gate-ordered)" in s["funding_note"]
+    assert "covers suggested" in s["funding_note"]
+
+
+def test_funding_shortfall_is_a_number_never_blocks_or_clamps():
+    # suggested 50000; cash 5000 + pool 10000 = 15000 -> short 35000.
+    s = _size(_FUND_BUY, available_cash=5000, funding_pool=10000)
+    # The size is NEVER clamped to the funded number -- it stays the lifted size.
+    assert s["suggested_usd"] == 50000
+    assert s["funding_available_usd"] == 15000.0
+    assert s["exceeds_funding"] is True
+    # the shortfall is shown as a NUMBER, not a block.
+    assert s["funding_shortfall_usd"] == 35000.0
+    assert "SHORT" in s["funding_note"]
+    assert "$35,000" in s["funding_note"]
+
+
+def test_funding_pool_byte_stable_does_not_change_suggested_or_lift():
+    # Same conviction, three pool scenarios -> suggested_usd and the lift are
+    # IDENTICAL; only the additive funding fields differ (F2 byte-stability).
+    base = _size(_FUND_BUY, available_cash=None, funding_pool=None)
+    with_cash = _size(_FUND_BUY, available_cash=20000, funding_pool=None)
+    with_pool = _size(_FUND_BUY, available_cash=20000, funding_pool=500000)
+    for s in (base, with_cash, with_pool):
+        assert s["suggested_usd"] == base["suggested_usd"]
+        assert s["size_lift_mult"] == base["size_lift_mult"]
+        assert s["size_lift_strength"] == base["size_lift_strength"]
+
+
+def test_funding_pool_off_when_tunable_false():
+    cfg = dr.load_sizing_tunables()
+    cfg["treat_funding_pool_as_available"] = False
+    # pool exists but is NOT counted -> only cash funds the affordability number.
+    s = _size(_FUND_BUY, tunables=cfg, available_cash=20000, funding_pool=500000)
+    assert s["funding_available_usd"] == 20000.0
+    assert s["exceeds_funding"] is True  # 50000 > 20000 cash-only
+    assert s["treat_funding_pool_as_available"] is False
+
+
+def test_funding_not_checked_when_no_cash_and_no_pool():
+    s = _size(_FUND_BUY, available_cash=None, funding_pool=None)
+    assert s["funding_available_usd"] == "not_checked"
+    assert s["exceeds_funding"] is False
+    assert s["funding_shortfall_usd"] == 0.0
+    assert "not_checked" in s["funding_note"]
+
+
+def test_real_available_cash_from_cash_and_money_market_rows():
+    import execution_plan as ep
+    cache = {
+        "account_positions": [
+            {"ticker": "SPAXX", "description": "Fidelity Government Money Market",
+             "market_value": 24659.01, "asset_type": "Open Ended Fund"},
+            {"ticker": "FCASH", "description": "CASH", "market_value": 86.26,
+             "asset_type": "Security type is not defined"},
+            {"ticker": "NVDA", "description": "NVIDIA", "market_value": 99999.0,
+             "asset_type": "Common Stock"},
+        ]
+    }
+    # cash = 24659.01 + 86.26; the equity row is NOT counted.
+    assert ep.available_cash_usd(cache) == 24745.27
+
+
+def test_settlement_artifact_rows_are_not_counted_as_cash():
+    import execution_plan as ep
+    cache = {
+        "account_positions": [
+            {"ticker": "SPAXX", "description": "Margin Debit Balance",
+             "market_value": 50000.0, "asset_type": "Open Ended Fund"},
+            {"ticker": "SPAXX", "description": "Cash Debit from Unsettled Activity",
+             "market_value": 12000.0, "asset_type": "Open Ended Fund"},
+            {"ticker": "SPAXX", "description": "Fidelity Government Money Market",
+             "market_value": 1000.0, "asset_type": "Open Ended Fund"},
+        ]
+    }
+    # Only the genuine money-market row counts; the SPAXX-backed settlement
+    # artifacts are excluded (conservative under-count -> honest funding need).
+    assert ep.available_cash_usd(cache) == 1000.0
+
+
+def test_equity_open_ended_fund_not_miscounted_as_cash():
+    import execution_plan as ep
+    # FBGKX (Blue Chip Growth) is an "Open Ended Fund" but NOT cash -- matching by
+    # asset_type alone would over-count it. Symbol allowlist prevents that.
+    cache = {"account_positions": [
+        {"ticker": "FBGKX", "description": "Fidelity Blue Chip Growth Fund",
+         "market_value": 1058.10, "asset_type": "Open Ended Fund"},
+    ]}
+    assert ep.available_cash_usd(cache) is None
+
+
+def test_funding_pool_read_from_reallocation_brief():
+    feed = {"reallocation_brief": {"funding": {"pool_total_usd": 194171.97,
+                                               "remaining_usd": 0, "shortfall_usd": 100}}}
+    assert dr._funding_pool(feed) == 194171.97
+    assert dr._funding_pool({}) is None
+    assert dr._funding_pool({"reallocation_brief": {"funding": {}}}) is None
 
 
 def test_lift_does_not_change_validate_decision_card():

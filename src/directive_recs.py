@@ -58,6 +58,11 @@ SIZING_TUNABLES_DEFAULT: dict[str, Any] = {
     "tier_ceiling_is_soft_reference": True,
     "sell_gate_blocks": False,
     "date_gate_blocks_sizing": False,
+    # FUNDING-AWARE affordability default. The operator rarely holds cash; a buy
+    # is almost always funded by SELLING something else, so by default the
+    # "can I afford this?" reality counts cash on hand PLUS the sell-gate-ordered
+    # reallocation-brief funding pool. Informational only -- never blocks/clamps.
+    "treat_funding_pool_as_available": True,
 }
 
 
@@ -228,6 +233,24 @@ def _available_cash(feed: dict[str, Any] | None) -> float | None:
             return max(0.0, float(value))
     return None
 
+def _funding_pool(feed: dict[str, Any] | None) -> float | None:
+    """Return the sellable FUNDING POOL number from the reallocation brief, or
+    None when the brief is absent / carries no funding.
+
+    The operator rarely holds cash; a buy is almost always funded by SELLING
+    something else. The reallocation brief already computes that sellable
+    capacity at feed.reallocation_brief.funding.pool_total_usd -- ALREADY
+    sell-gate-ordered (AI-factor wrappers first, broad reservoirs last,
+    funding-protected wrappers excluded). We REUSE pool_total_usd (the full
+    sell-gate-ordered capacity available to fund a new buy) and do NOT
+    re-implement the sell-gate here. Never blocks.
+    """
+    funding = (((feed or {}).get("reallocation_brief") or {}).get("funding") or {})
+    value = funding.get("pool_total_usd")
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return max(0.0, float(value))
+    return None
+
 def _conviction_size_strength(conv: dict[str, Any] | None, tunables: dict[str, Any]) -> tuple[float, str]:
     """Map an HONEST conviction read to a 0..1 LIFT strength + a plain-language
     reason. Keys off the independence-collapsed, freshness-decayed read the
@@ -289,6 +312,7 @@ def _caps_sizing(
     conviction: dict[str, Any] | None = None,
     tunables: dict[str, Any] | None = None,
     available_cash: float | None = None,
+    funding_pool: float | None = None,
 ) -> dict[str, Any]:
     """Return the LIVE conviction-driven suggested size for a BUY card.
 
@@ -307,9 +331,18 @@ def _caps_sizing(
          ``per_name_soft_max_usd`` / ``concentration_soft_max_pct`` (default null
          = off) hold the size at a visible soft max and STATE the original lifted
          number; they never silently clamp.
-      4. CASH REALITY (only non-tunable): when a real available-cash number exists,
+      4. CASH REALITY (informational): when a real available-cash number exists,
          show it and flag ``exceeds_cash`` if the size is larger -- a NUMBER, never
          a hidden block. Absent that data, show available_cash=not_checked.
+      5. FUNDING REALITY (informational): the operator rarely holds cash, so a buy
+         is almost always funded by SELLING something else. ``funding_pool`` is the
+         sell-gate-ordered sellable capacity from the reallocation brief. When
+         ``treat_funding_pool_as_available`` (default true), affordability =
+         cash + pool; the card emits ``funding_pool_usd``, ``funding_available_usd``,
+         ``exceeds_funding``, ``funding_shortfall_usd`` (a NUMBER), and a
+         plain-language ``funding_note``. This NEVER blocks/clamps and NEVER changes
+         suggested_usd -- it only adds the affordability number. The sell-gate is
+         REUSED via the brief pool, not re-implemented here.
     """
     cfg = tunables if isinstance(tunables, dict) else load_sizing_tunables()
     tick = ticker.upper()
@@ -326,6 +359,7 @@ def _caps_sizing(
         # tier-band reference needs book, so it is simply not_checked here.
         suggested, soft_seg = _apply_soft_maxes(lifted, current=0.0, book=0.0, cfg=cfg)
         cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
+        fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg)
         heat = "CONVICTION_LIFTED" if lift_mult > 1.0 else "not_checked"
         return {
             "suggested_usd": round(suggested, 2),
@@ -334,12 +368,13 @@ def _caps_sizing(
             "cap_basis": (
                 f"conviction-driven size: base ${base:,.0f} x {lift_mult:.2f} "
                 f"({lift_reason}) = ${lifted:,.0f}; tier band not_checked "
-                f"(portfolio book value unavailable){soft_seg}{cash_seg}"
+                f"(portfolio book value unavailable){soft_seg}{cash_seg}{fund_seg}"
             ),
             "size_lift_mult": round(lift_mult, 4),
             "size_lift_strength": round(strength, 4),
             "available_cash": cash_value,
             "exceeds_cash": exceeds_cash,
+            **fund_fields,
         }
 
     current = _current_value(positions, tick)
@@ -357,6 +392,7 @@ def _caps_sizing(
     if not gap:
         suggested, soft_seg = _apply_soft_maxes(lifted, current=current, book=book, cfg=cfg)
         cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
+        fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg)
         heat = "CONVICTION_LIFTED" if lift_mult > 1.0 else "not_checked"
         return {
             "suggested_usd": round(suggested, 2),
@@ -365,12 +401,13 @@ def _caps_sizing(
             "cap_basis": (
                 f"conviction-driven size: base ${base:,.0f} x {lift_mult:.2f} "
                 f"({lift_reason}) = ${lifted:,.0f}; tier band not_checked "
-                f"(calibrator emitted no row for {tick}){soft_seg}{cash_seg}"
+                f"(calibrator emitted no row for {tick}){soft_seg}{cash_seg}{fund_seg}"
             ),
             "size_lift_mult": round(lift_mult, 4),
             "size_lift_strength": round(strength, 4),
             "available_cash": cash_value,
             "exceeds_cash": exceeds_cash,
+            **fund_fields,
         }
 
     ceiling_value = gap.ceiling_pct * book  # SOFT reference only -- no longer clamps
@@ -379,6 +416,7 @@ def _caps_sizing(
 
     suggested, soft_seg = _apply_soft_maxes(lifted, current=current, book=book, cfg=cfg)
     cash_seg, exceeds_cash, cash_value = _cash_reality(suggested, available_cash)
+    fund_seg, fund_fields = _funding_reality(suggested, available_cash, funding_pool, cfg)
 
     # Heat now signals the conviction lift + soft-reference context, never a hard
     # cap. A conflicted card is sized at base (no lift) and routed to RESOLVE
@@ -408,7 +446,7 @@ def _caps_sizing(
             f"current {gap.current_pct * 100:.1f}% (${current:,.0f}); "
             f"cap room ${cap_room:,.0f} (context, not a limit); "
             f"floor gap ${gap.gap_to_floor_value:,.0f}"
-            f"{macro}{flags}{soft_seg}{cash_seg}"
+            f"{macro}{flags}{soft_seg}{cash_seg}{fund_seg}"
         ),
         "current_pct": round(gap.current_pct * 100.0, 3),
         "floor_pct": round(gap.floor_pct * 100.0, 3),
@@ -418,6 +456,7 @@ def _caps_sizing(
         "cap_room": round(cap_room, 2),
         "available_cash": cash_value,
         "exceeds_cash": exceeds_cash,
+        **fund_fields,
     }
 
 
@@ -475,6 +514,81 @@ def _cash_reality(
         )
     return f"; available cash ${available_cash:,.0f}", False, round(float(available_cash), 2)
 
+
+def _funding_reality(
+    suggested: float,
+    available_cash: float | None,
+    funding_pool: float | None,
+    cfg: dict[str, Any],
+) -> tuple[str, dict[str, Any]]:
+    """FUNDING-AWARE affordability reality. The operator rarely holds cash; a buy
+    is almost always funded by SELLING something else, so the honest answer to
+    "can I afford this?" is cash on hand PLUS the sellable funding pool (the
+    sell-gate-ordered reallocation-brief pool). Returns (note_segment,
+    payload_fields). Informational ONLY -- it never blocks, never clamps, and
+    never changes suggested_usd. The pool is REUSED from the already-gated brief;
+    the sell-gate is not re-implemented here.
+    """
+    treat_pool = bool(cfg.get("treat_funding_pool_as_available", True))
+    cash_for_math = available_cash if isinstance(available_cash, (int, float)) else 0.0
+    pool_for_math = funding_pool if (treat_pool and isinstance(funding_pool, (int, float))) else 0.0
+
+    # When neither a real cash number nor a funding pool exists, there is nothing
+    # to total -> funding stays not_checked (honest absence, never a block).
+    if available_cash is None and (funding_pool is None or not treat_pool):
+        fields = {
+            "funding_pool_usd": (
+                round(float(funding_pool), 2) if isinstance(funding_pool, (int, float)) else "not_checked"
+            ),
+            "funding_available_usd": "not_checked",
+            "exceeds_funding": False,
+            "funding_shortfall_usd": 0.0,
+            "funding_note": "funding reality not_checked (no cash row and no sellable funding pool)",
+            "treat_funding_pool_as_available": treat_pool,
+        }
+        return "; funding reality not_checked", fields
+
+    funding_available = round(cash_for_math + pool_for_math, 2)
+    exceeds = suggested > funding_available
+    shortfall = round(max(0.0, suggested - funding_available), 2)
+
+    cash_txt = f"${cash_for_math:,.0f} cash" if available_cash is not None else "$0 cash (not_checked)"
+    if pool_for_math > 0:
+        pool_txt = f" + ~${pool_for_math:,.0f} from sells (sell-gate-ordered)"
+    elif funding_pool and not treat_pool:
+        pool_txt = " (funding pool present but not counted: treat_funding_pool_as_available=false)"
+    else:
+        pool_txt = " (no sellable funding pool)"
+
+    if exceeds:
+        note = (
+            f"Funds ${funding_available:,.0f}: {cash_txt}{pool_txt} -- "
+            f"suggested ${suggested:,.0f} is SHORT ${shortfall:,.0f}; "
+            f"needs another ${shortfall:,.0f} from sells"
+        )
+        seg = (
+            f"; funding available ${funding_available:,.0f} ({cash_txt}{pool_txt}) -- "
+            f"suggested SHORT by ${shortfall:,.0f} (size by hand / fund more from sells)"
+        )
+    else:
+        note = (
+            f"Funds ${funding_available:,.0f}: {cash_txt}{pool_txt}; "
+            f"covers suggested ${suggested:,.0f}"
+        )
+        seg = f"; funding available ${funding_available:,.0f} ({cash_txt}{pool_txt}) -- covered"
+
+    fields = {
+        "funding_pool_usd": (
+            round(float(funding_pool), 2) if isinstance(funding_pool, (int, float)) else "not_checked"
+        ),
+        "funding_available_usd": funding_available,
+        "exceeds_funding": bool(exceeds),
+        "funding_shortfall_usd": shortfall,
+        "funding_note": note,
+        "treat_funding_pool_as_available": treat_pool,
+    }
+    return seg, fields
+
 def build_directive_cards(
     *,
     feed: dict[str, Any] | None = None,
@@ -511,6 +625,9 @@ def build_directive_cards(
     macro_for_sizing = _macro_for_sizing(feed)
     sizing_tunables = load_sizing_tunables()
     available_cash = _available_cash(feed)
+    # Sellable funding pool (sell-gate-ordered) from the reallocation brief, reused
+    # for the funding-aware affordability reality. None when the brief is absent.
+    funding_pool = _funding_pool(feed)
     sell_gate_blocks = bool(sizing_tunables.get("sell_gate_blocks", False))
     blend = weights.get("priority_blend", {})
     cap_w = float(blend.get("capital_priority_weight", 1.0))
@@ -597,6 +714,7 @@ def build_directive_cards(
             conviction=conv,
             tunables=sizing_tunables,
             available_cash=available_cash,
+            funding_pool=funding_pool,
         )
         move = {
             "ticker": ticker,
@@ -776,6 +894,7 @@ def build_directive_cards(
                 conviction=conv_extra,
                 tunables=sizing_tunables,
                 available_cash=available_cash,
+                funding_pool=funding_pool,
             )
         if "priority" not in card:
             ticker = str(card.get("ticker") or "").upper()

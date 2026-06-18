@@ -1055,6 +1055,16 @@ def build_full_feed_from_files(
         build_reallocation_brief(feed, positions_cache, as_of=today),
         account_positions,
     )
+    # Real available-cash for the sizing "can I afford this?" reality. Summed
+    # conservatively from the account-positions cash / sweep money-market rows
+    # (SPAXX/FCASH/FDRXX...), with Fidelity settlement artifacts excluded. None
+    # when no cash rows are present -> the card honestly shows not_checked.
+    # Attached at the feed top-level so _available_cash() returns a number and
+    # the funding-aware reality (cash + reallocation_brief.funding pool) can be
+    # computed downstream. Informational only -- never a block.
+    cash_usd = ep.available_cash_usd(account_positions)
+    if cash_usd is not None:
+        feed["available_cash"] = cash_usd
     if isinstance(fed_day_packet, dict) and fed_day_packet:
         feed["fed_day_reallocation_packet"] = fed_day_packet
     feed["current_closes"] = latest_prices_from_closes(closes)
