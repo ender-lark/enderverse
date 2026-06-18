@@ -1,7 +1,7 @@
 {
   "valid": true,
-  "generated_at": "2026-06-17T15:45:47.821672-04:00",
-  "apply_requested": false,
+  "generated_at": "2026-06-18T02:31:55.168758-04:00",
+  "apply_requested": true,
   "max_mutations": 10,
   "planned_count": 10,
   "operations": [
@@ -99,13 +99,67 @@
     }
   ],
   "changelog": {
-    "skipped": true
+    "mode": "page_append",
+    "page_id": "351c5031-4bb6-813a-876b-f2a4835f65fb",
+    "url": "https://app.notion.com/p/System-Changelog-351c50314bb6813a876bf2a4835f65fb",
+    "verified": true
   },
   "apply_result": {
-    "applied": false,
-    "dry_run": true,
-    "count": 0,
-    "results": []
+    "applied": true,
+    "dry_run": false,
+    "count": 10,
+    "results": [
+      {
+        "op": "backfill_investing_source_project",
+        "page_id": "348c5031-4bb6-810e-b1d6-d35e060c725c",
+        "updated": true
+      },
+      {
+        "op": "backfill_investing_source_project",
+        "page_id": "345c5031-4bb6-8190-94f0-d02876216b97",
+        "updated": true
+      },
+      {
+        "op": "backfill_investing_source_project",
+        "page_id": "345c5031-4bb6-816a-be7f-d3d4d8d33352",
+        "updated": true
+      },
+      {
+        "op": "backfill_investing_source_project",
+        "page_id": "345c5031-4bb6-816b-926a-d4822ccf6150",
+        "updated": true
+      },
+      {
+        "op": "backfill_investing_source_project",
+        "page_id": "345c5031-4bb6-81a9-92ad-e2f76e9581ed",
+        "updated": true
+      },
+      {
+        "op": "backfill_investing_source_project",
+        "page_id": "345c5031-4bb6-8170-86fc-dd949d48506c",
+        "updated": true
+      },
+      {
+        "op": "cancel_past_event_task",
+        "page_id": "354c5031-4bb6-81e8-88a1-ea517447ded8",
+        "updated": true
+      },
+      {
+        "op": "cancel_past_event_task",
+        "page_id": "354c5031-4bb6-81ff-949b-e67a0c7d28de",
+        "updated": true
+      },
+      {
+        "op": "cancel_past_event_task",
+        "page_id": "354c5031-4bb6-8158-9790-e6448af6127e",
+        "updated": true
+      },
+      {
+        "op": "cancel_past_event_task",
+        "page_id": "354c5031-4bb6-81d2-a8d0-d4d5963c28b2",
+        "updated": true
+      }
+    ]
   },
   "guardrails": [
     "idempotent",

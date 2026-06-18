@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T12:14:35.272208Z",
-      "summary": "fundstrat reviewed; 0 new rows landed here, catalysts 8 unchanged, positions unchanged no broker input, event risk 3 unchanged, blockers no drive drops"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T12:37:04.637340Z",
-      "summary": "morning scan started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "scheduled",
@@ -6398,7 +6384,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T05:51:13.931804Z",
       "summary": "Off-hours worker: query endpoint dark; processed 8 live Research Queue rows (Med GOOGL; Low HOOD, UUUU, KTOS, SOFI, PKG, TPL, SATS), all Notion writes/readbacks verified; known High MU code follow-up and full-book operator review blocked; remaining ordered backlog dark/not_checked."
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T06:31:55.035304Z",
+      "summary": "life-work-os-safe-hygiene started"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T06:32:10.600964Z",
+      "summary": "Life/Work OS safe hygiene succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_hygiene.py",
+          "--apply",
+          "--max-mutations",
+          "10",
+          "--out",
+          "src/life_work_os_hygiene_receipt.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-18T05:51:13.931804Z"
+  "updated_at": "2026-06-18T06:32:10.600964Z"
 }
