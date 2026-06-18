@@ -666,3 +666,83 @@ def test_last_disposition_renders_from_file(tmp_path):
     html = render_today_decide_html(p)
     assert "last disposition: PASS on 2026-06-10" in html
     assert "outcome: not logged; source grading unchanged" in html
+
+
+# ---------------------------------------------------------------------------
+# F1 — CONFLICTED conviction posture (surface)
+# ---------------------------------------------------------------------------
+import today_decide as _td  # noqa: E402
+
+
+def _conflicted_payload():
+    """`_payload()` but with a contradicting UW on GOOGL → conflicted card."""
+    return build_today_decide_payload(
+        feed=_feed(), weights=W, goal=G, insights_payload=_insights(),
+        accounts=_accounts(), gates=[_gate()],
+        uw_states={"GOOGL": {"interpretation": "contradicts"}}, entry_zones={},
+        congruence_result=_congruence(),
+        dispositions_path="_no_dispositions_.jsonl",
+        load_committed_baseline=False,
+        today=TODAY,
+    )
+
+
+def _conflicted_googl(payload):
+    cards = payload["cards"] + payload["backlog"]
+    matches = [c for c in cards if c["ticker"] == "GOOGL"]
+    assert matches, "fixture stopped producing a GOOGL card"
+    return matches[0]
+
+
+def test_conflicted_card_rail_is_not_act():
+    p = _conflicted_payload()
+    googl = _conflicted_googl(p)
+    # (a) command state is RESOLVE
+    assert googl["command_state"] == "RESOLVE"
+    # (b) the conflicted card is on-surface, not buried in backlog
+    assert googl in p["cards"]
+    # (c) rendered HTML data-verb is never ACT for this card
+    html = render_today_decide_html(p)
+    import re
+    rail_re = re.compile(
+        r'data-card="(?P<cid>[^"]+)"[^>]*data-verb="(?P<verb>ACT|CANDIDATE|PASS|RECHECK)"'
+    )
+    verbs = {m["verb"] for m in rail_re.finditer(html) if m["cid"] == googl["card_id"]}
+    assert "ACT" not in verbs
+    assert verbs & {"RECHECK", "CANDIDATE"}
+    # (d) primary button model is never ACT
+    assert _td._primary_button_model(googl)["state_verb"] != "ACT"
+    # (e) decision_card still validates
+    import decision_card as dc
+    assert dc.validate_decision_card(googl["decision_card"]) == []
+
+
+def test_build_conviction_display_marks_conflicted():
+    p = _conflicted_payload()
+    googl = _conflicted_googl(p)
+    display = googl["conviction_display"]
+    assert display["band"] == "CONFLICTED"
+    assert display["conflicted"] is True
+    assert display["band_color"] == "#fb923c"
+    assert "resolve" in str(display["conflict"]).lower()
+
+
+def test_conflicted_card_excluded_from_lean_in():
+    # lean-in-ready requires no display.conflict; a conflicted card always sets it.
+    p = _conflicted_payload()
+    googl = _conflicted_googl(p)
+    display = googl["conviction_display"]
+    lean_ready = (
+        _is_material_safe(googl)
+        and not (googl.get("card_blockers") or [])
+        and not display.get("conflict")
+        and (googl.get("window") or {}).get("class") == "OPEN-NOW"
+    )
+    assert lean_ready is False
+
+
+def _is_material_safe(card):
+    try:
+        return _td._is_material(card)
+    except Exception:
+        return bool((card.get("impact") or {}).get("material"))

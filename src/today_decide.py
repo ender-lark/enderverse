@@ -671,6 +671,8 @@ def build_conviction_display(card: dict[str, Any]) -> dict[str, Any]:
         "text": label.get("text") or "",
         "x5": int(label.get("x5") or 1),
         "band": band,
+        "conflicted": bool(conviction.get("conflicted")),
+        "conflict_detail": conviction.get("conflict_detail"),
         "band_color": _display_band_color(action, band, conflict),
         "conflict": conflict,
         "why": {
@@ -4235,6 +4237,14 @@ def _review_posture(card: dict[str, Any], *, check_first: bool, window_class: st
             "copy_verb": "RECHECK",
             "copy_suffix": " funding sell only; pair with funded add",
             "reason": "funding sell only; do not sell standalone",
+        }
+    if card.get("conflict_recheck") or (card.get("conviction_display") or {}).get("conflicted") or card.get("conviction_conflict"):
+        return {
+            "label": "RECHECK",
+            "state_verb": "RECHECK",
+            "copy_verb": "RECHECK",
+            "copy_suffix": " bull/bear evidence both live; resolve before sizing",
+            "reason": f"conflicted {direction}; opposing evidence must be resolved first",
         }
     if check_first or card.get("conflicts") or window_class in {"GATED", "WAIT"}:
         return {

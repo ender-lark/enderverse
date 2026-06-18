@@ -277,3 +277,61 @@ def test_honesty_footer_and_funding_passthrough():
     assert h["gates_as_of"] == "2026-06-08"
     assert h["positions_as_of"] == "2026-06-09"
     assert out["funding"]["pool_usd"] == 503646
+
+
+def test_directive_recs_conflicted_material_card_stays_on_surface():
+    # GOOGL ADD has bullish FS+insight; injecting a contradicting UW makes it a
+    # genuine two-sided conflict. The card must NOT fall into backlog.
+    out = build_directive_cards(
+        feed=_feed(), weights=W, goal=G, insights_payload=_insights(),
+        accounts=_accounts(), gates=[_gate()],
+        uw_states={"GOOGL": {"interpretation": "contradicts"}}, entry_zones={},
+        today=TODAY,
+    )
+    payload_tickers = {c["ticker"] for c in out["cards"]}
+    backlog_tickers = {c["ticker"] for c in out["backlog"]}
+    assert "GOOGL" in payload_tickers
+    assert "GOOGL" not in backlog_tickers
+    googl = [c for c in out["cards"] if c["ticker"] == "GOOGL"][0]
+    assert googl["conviction"]["read"] == "CONFLICTED"
+    assert googl["conviction"]["conflicted"] is True
+    assert googl["conflict_recheck"] is True
+    assert googl["decision_card"]["move"]["direction"] == "RE-CHECK"
+    assert googl["decision_card"]["conviction"]["read"] == "CONFLICTED"
+    assert dc.validate_decision_card(googl["decision_card"]) == []
+
+
+def test_directive_recs_conflicted_trim_outranks_no_evidence_trim():
+    # A conflicted material trim (the "never sell a live thesis into weakness"
+    # case) must read LOUD and rank above a no-evidence trim, not get zeroed by
+    # the old max(0.0, -points) funding-trim math.
+    feed = _feed()
+    feed["target_drift"] = {"rows": [
+        {"ticker": "MAGS", "direction": "OVERSIZED"},
+        {"ticker": "NVDA", "direction": "OVERSIZED"},
+    ]}
+    feed["reallocation_brief"]["trims"] = [
+        {"ticker": "MAGS", "notional_usd": 70216, "current_pct": 3.7, "target_pct": 1.0,
+         "funds": [{"ticker": "GOOGL", "notional_usd": 51500}]},
+        {"ticker": "NVDA", "notional_usd": 70216, "current_pct": 5.0, "target_pct": 1.0,
+         "funds": [{"ticker": "GOOGL", "notional_usd": 51500}]},
+    ]
+    feed["reallocation_brief"]["rows"] = [
+        {"ticker": "GOOGL", "notional_usd": 151266, "current_pct": 0.0,
+         "target_pct": 8.0, "sequence": "now", "entry_note": "x", "gate": "QQQ"},
+    ]
+    out = build_directive_cards(
+        feed=feed, weights=W, goal=G, insights_payload=_insights(),
+        accounts=_accounts(), gates=[_gate()],
+        # MAGS gets a contradicting UW → conflicted trim; NVDA stays no-evidence.
+        uw_states={"MAGS": {"interpretation": "contradicts"}}, entry_zones={},
+        today=TODAY,
+    )
+    ranked = out["cards"] + out["backlog"]
+    mags = [c for c in ranked if c["ticker"] == "MAGS"][0]
+    nvda = [c for c in ranked if c["ticker"] == "NVDA"][0]
+    assert mags["conviction"]["conflicted"] is True
+    assert mags["conflict_recheck"] is True
+    assert mags["decision_card"]["move"]["direction"] == "RE-CHECK"
+    assert nvda["conviction"]["conflicted"] is False
+    assert mags["priority"] > nvda["priority"]

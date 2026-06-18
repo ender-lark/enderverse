@@ -29,7 +29,7 @@ from typing import Any
 UNKNOWN = "UNKNOWN"
 CARD_FIELDS = ("move", "conviction", "window", "evidence", "impact")
 DIRECTIONS = {"BUY", "SELL", "TRIM", "HEDGE", "REVIEW", "RE-CHECK", UNKNOWN}
-CONVICTION_READS = {"HIGH", "MODERATE", "LOW", UNKNOWN}
+CONVICTION_READS = {"HIGH", "MODERATE", "LOW", "CONFLICTED", UNKNOWN}
 WINDOW_CLASSES = {"OPEN-NOW", "STAGE-ONLY", "GATED", "WAIT", UNKNOWN}
 IMPACT_BASES = {"book", "sleeve", UNKNOWN}
 

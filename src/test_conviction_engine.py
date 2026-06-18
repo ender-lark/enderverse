@@ -156,24 +156,123 @@ def test_bearish_moderate_read_uses_magnitude():
     assert out["direction"] == "SELL"
     assert out["strength_5"] == 4
 
-def test_bullish_fs_uw_contradicts_marks_conflicted_and_label_note():
-    out = ce.conviction(
-        "GOOGL",
-        fs_items=[_item()],
-        uw_state={"interpretation": "contradicts"},
-        weights=W,
-        goal=G,
-        today=TODAY,
-    )
-
-    assert out["points"] == 0.0
-    assert out["direction"] == "NEUTRAL"
+def test_bullish_fs_uw_contradicts_is_conflicted_not_neutral():
+    out = ce.conviction("GOOGL", fs_items=[_item()],
+                         uw_state={"interpretation": "contradicts"},
+                         weights=W, goal=G, today=TODAY)
+    assert out["read"] == "CONFLICTED"
+    assert out["direction"] == "RE-CHECK"
     assert out["conflicted"] is True
     assert out["force_recheck"] is True
+    assert out["strength_5"] == ce.CONFLICT_STRENGTH_5      # 3, NOT 1
+    assert out["points"] == pytest.approx(1.0)              # loud (max side), NOT 0.0
+    assert out["signed_points"] == pytest.approx(0.0)       # the old mush, preserved for audit
+    cd = out["conflict_detail"]
+    assert cd["bull_points"] == pytest.approx(1.0) and cd["bear_points"] == pytest.approx(1.0)
+    assert "fs" in cd["bull_groups"] and "uw" in cd["bear_groups"]
     label = ce.conviction_label("BUY", out)
-    assert label["aligned"] is False
-    assert label["x5"] == 1
-    assert label["conflict_note"] == "no directional evidence"
+    assert label["band"] == "CONFLICTED" and label["aligned"] is False
+    assert label["x5"] == 3
+    assert "resolve" in label["conflict_note"].lower()
+    assert "+1.0" in label["conflict_note"] and "-1.0" in label["conflict_note"]  # both sides live here
+
+
+def test_conflict_points_outrank_no_evidence():
+    conflicted = ce.conviction("GOOGL", fs_items=[_item()],
+                               uw_state={"interpretation": "contradicts"},
+                               weights=W, goal=G, today=TODAY)
+    bull_only = ce.conviction("GOOGL", fs_items=[_item()], weights=W, goal=G, today=TODAY)
+    no_evidence = ce.conviction("X", weights=W, goal=G, today=TODAY)
+    assert conflicted["points"] > 0.0
+    assert conflicted["points"] >= bull_only["points"]
+    assert no_evidence["read"] == "LOW"
+    assert no_evidence["direction"] == "NEUTRAL"
+    assert no_evidence["points"] == pytest.approx(0.0)
+    assert no_evidence["conflicted"] is False
+
+
+def test_two_sided_groups_do_not_cancel():
+    # fs=+1.0, institutional=-1.0, NO force_recheck → genuine two-sided split.
+    out = ce.conviction("GOOGL", fs_items=[_item()],
+                        inst_state={"points": -1.0, "why": "distribution"},
+                        weights=W, goal=G, today=TODAY)
+    assert out["conflicted"] is True
+    assert out["read"] == "CONFLICTED"
+    assert out["force_recheck"] is False
+    assert out["points"] == pytest.approx(1.0)
+    assert out["signed_points"] == pytest.approx(0.0)
+
+
+def test_one_sided_force_recheck_label_is_conditional():
+    # Only the contradicting (bear) side is live: contradicts forces recheck,
+    # but there is NO bull group → label must NOT claim live bull evidence.
+    out = ce.conviction("GOOGL", uw_state={"interpretation": "contradicts"},
+                        weights=W, goal=G, today=TODAY)
+    assert out["conflicted"] is True
+    assert out["force_recheck"] is True
+    cd = out["conflict_detail"]
+    assert cd["bull_points"] == pytest.approx(0.0)
+    label = ce.conviction_label("BUY", out)
+    assert "+0" not in label["conflict_note"]
+    assert "a contradicting signal forces a re-check" in label["conflict_note"]
+
+
+def _walk_keys(obj):
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            yield str(k)
+            yield from _walk_keys(v)
+    elif isinstance(obj, (list, tuple)):
+        for v in obj:
+            yield from _walk_keys(v)
+
+
+def test_conflict_strength_is_module_constant_not_tunable():
+    assert ce.CONFLICT_STRENGTH_5 == 3
+    weights = load_conviction_weights()
+    for key in _walk_keys(weights):
+        lowered = key.lower()
+        assert "conflict" not in lowered
+        assert "recheck" not in lowered
+        assert "opposition" not in lowered
+
+
+def test_conflicted_read_validates_in_decision_card():
+    import decision_card as dc
+    card = {}
+    out = ce.conviction("GOOGL", fs_items=[_item()],
+                        uw_state={"interpretation": "contradicts"},
+                        weights=W, goal=G, today=TODAY)
+    dc.attach(
+        card,
+        {
+            "move": {"ticker": "GOOGL", "direction": "RE-CHECK", "lane": "x", "band": "x"},
+            "conviction": {
+                "read": out["read"], "points": out["points"],
+                "groups": out["groups"], "raises": out["raises"],
+                "conflicted": out.get("conflicted"),
+                "conflict_detail": out.get("conflict_detail"),
+            },
+            "window": {"class": "OPEN-NOW", "deadline": None, "reasons": ["open now"], "flips": []},
+            "evidence": {"links": [{"label": "x", "ref": "y"}]},
+            "impact": {"band": "x", "base": "book", "material": True, "basis": "x"},
+        },
+    )
+    assert out["read"] == "CONFLICTED"
+    assert dc.validate_decision_card(card["decision_card"]) == []
+
+
+def test_conviction_layers_conflicted_shadow_not_calm():
+    out = ce.conviction("GOOGL", fs_items=[_item()],
+                        uw_state={"interpretation": "contradicts"},
+                        weights=W, goal=G, today=TODAY)
+    layers = out["conviction_layers"]
+    overall = layers["overall"]
+    assert overall["read"] == "CONFLICTED"
+    assert overall["direction"] == "RE-CHECK"
+    assert not (overall["read"] in {"MODERATE", "HIGH"} and overall["direction"] == "NEUTRAL")
+    # name layer carries the conflicted read too (signed-math path, no spurious lift)
+    assert layers["name"]["read"] == "CONFLICTED"
 
 def test_action_opposed_to_evidence_gets_low_label_and_conflict_note():
     out = ce.conviction("GOOGL", fs_items=[_item()], weights=W, goal=G, today=TODAY)
