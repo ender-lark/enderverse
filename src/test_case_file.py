@@ -167,3 +167,65 @@ def test_cli_emits_valid_json_with_all_lanes(capsys):
     out = json.loads(capsys.readouterr().out)
     for lane in ("identity", "verdict", "earliest_record", "fundstrat_calls", "news", "decisions"):
         assert lane in out
+
+
+# --- buy-side disposition vocabulary (non-held names) -------------------------
+
+def test_buy_candidate_verdict_parses_with_size_and_trigger(tmp_path):
+    (tmp_path / "AAA.md").write_text(
+        "# AAA — Thesis of Record (watchlist — not held)\n\n"
+        "**CURRENT VERDICT (2026-06-18):** BUY-CANDIDATE — re-rate on the print · starter ~$6k on 2026-07-29 earnings · conviction **medium**\n",
+        encoding="utf-8",
+    )
+    v = cf.build_case_file("AAA", "2026-06-18", dossier_dir=tmp_path, source_calls=[], signal_log=[], top_prospects={})["verdict"]
+    assert v["status"] == "fresh"
+    assert v["disposition_kind"] == "buy_side"
+    assert "BUY-CANDIDATE" in v["verdict_line"] and "$6k" in v["verdict_line"]
+    # the size must never leak into the best-effort action_hint
+    assert "$" not in (v["action_hint"] or "") and not any(c.isdigit() for c in (v["action_hint"] or ""))
+    assert "buy-side DISPOSITION" in v["honesty_rule"]
+
+
+def test_watch_and_pass_parse_and_are_not_buys(tmp_path):
+    (tmp_path / "WCH.md").write_text(
+        "# WCH (watchlist — not held)\n\n**CURRENT VERDICT (2026-06-18):** WATCH — actionable on a pullback to support · conviction **none — thin**\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "PSS.md").write_text(
+        "# PSS (watchlist — not held)\n\n**CURRENT VERDICT (2026-06-18):** PASS — diluting into an avoid-list sector · conviction **none — thin**\n",
+        encoding="utf-8",
+    )
+    w = cf.load_verdict("WCH", "2026-06-18", dossier_dir=tmp_path)
+    p = cf.load_verdict("PSS", "2026-06-18", dossier_dir=tmp_path)
+    assert w["status"] == "fresh" and w["disposition_kind"] == "buy_side" and w["action_hint"] == "WATCH"
+    assert p["status"] == "fresh" and p["action_hint"] == "PASS"
+
+
+def test_verdict_with_no_conviction_token_yields_none(tmp_path):
+    (tmp_path / "AAA.md").write_text(
+        "# AAA (watchlist — not held)\n\n**CURRENT VERDICT (2026-06-18):** WATCH — thin, one technical mention only\n",
+        encoding="utf-8",
+    )
+    v = cf.load_verdict("AAA", "2026-06-18", dossier_dir=tmp_path)
+    assert v["status"] == "fresh"
+    assert v["conviction"] is None  # absence is deliberate, distinct from a parse failure
+
+
+def test_stale_buy_candidate_self_degrades_like_held(tmp_path):
+    (tmp_path / "AAA.md").write_text(
+        "# AAA (watchlist — not held)\n\n**CURRENT VERDICT (2026-01-01):** BUY-CANDIDATE — starter ~$5k on 2026-01-15 · conviction **medium**\n",
+        encoding="utf-8",
+    )
+    v = cf.load_verdict("AAA", "2026-06-18", dossier_dir=tmp_path)
+    assert v["status"] == "stale"
+    assert v["line"].startswith("UNKNOWN")  # a stale buy trigger cannot read as live
+    assert v["blocks"] is False
+
+
+def test_held_verb_classifies_as_held(tmp_path):
+    (tmp_path / "AAA.md").write_text(
+        "# AAA — Thesis of Record\n\n**CURRENT VERDICT (2026-06-18):** HOLD the position · conviction **high**\n",
+        encoding="utf-8",
+    )
+    v = cf.load_verdict("AAA", "2026-06-18", dossier_dir=tmp_path)
+    assert v["disposition_kind"] == "held"

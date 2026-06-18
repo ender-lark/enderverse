@@ -69,6 +69,24 @@ _HONESTY = {"blocks": False, "alert_eligible": False}
 
 _VERDICT_RE = re.compile(r"\*\*CURRENT VERDICT \((\d{4}-\d{2}-\d{2})\):\*\*\s*(.+)")
 
+# Verdict verb vocabulary. HELD names carry a position posture; NON-HELD names of
+# interest carry a buy-side DISPOSITION (decide-and-direct — a "HOLD" on a name we
+# don't own is a category error and reads as a posture that doesn't exist). The
+# parser stays verb-agnostic (nothing downstream gates on the word, only on
+# status), so these sets are for honesty/classification only.
+HELD_VERBS = {"HOLD", "ADD", "TRIM", "EXIT", "SELL", "REDUCE", "SIZE", "SIZE UP", "RECONSIDER"}
+BUY_SIDE_VERBS = {"BUY-CANDIDATE", "WATCH", "PASS"}
+
+
+def _disposition_kind(action_hint: str | None) -> str:
+    """Classify the verdict verb as a held posture vs a non-held buy-side disposition."""
+    hint = (action_hint or "").strip().upper()
+    if hint in BUY_SIDE_VERBS:
+        return "buy_side"
+    if hint in HELD_VERBS or hint.split(" ", 1)[0] in HELD_VERBS:
+        return "held"
+    return "other"
+
 
 def _ticker(value: Any) -> str:
     return str(value or "").strip().upper()
@@ -106,6 +124,11 @@ def parse_verdict_header(text: str) -> dict[str, Any]:
         else:
             head = rest.split()
             action_hint = head[0].strip("-.,: ").upper() if head else None
+        # Defense-in-depth: a size / number must NEVER land in the (best-effort)
+        # action_hint, so a "$8k" can't later be mistaken for a wired buy signal.
+        if action_hint and ("$" in action_hint or any(c.isdigit() for c in action_hint)):
+            clean = [t for t in re.split(r"[\s/]+", action_hint) if t and "$" not in t and not any(c.isdigit() for c in t)]
+            action_hint = clean[0] if clean else None
         conviction = None
         conv = re.search(r"conviction\s+\*\*(.+?)\*\*", rest)
         if conv:
@@ -158,6 +181,7 @@ def load_verdict(ticker: str, today: str | date | None, *, dossier_dir: Path | s
         "verdict_line": parsed["verdict_line"],
         "action_hint": parsed["action_hint"],
         "conviction": parsed["conviction"],
+        "disposition_kind": _disposition_kind(parsed["action_hint"]),
         "age_days": freshness.get("age_days"),
         "path": str(path),
         "freshness": freshness,
@@ -166,7 +190,14 @@ def load_verdict(ticker: str, today: str | date | None, *, dossier_dir: Path | s
     if freshness["fresh"]:
         out["status"] = "fresh"
         out["line"] = parsed["verdict_line"]
-        out["honesty_rule"] = "Operator thesis-of-record; current within the verdict freshness window."
+        if out["disposition_kind"] == "buy_side":
+            out["honesty_rule"] = (
+                "Non-held watchlist name — this is a buy-side DISPOSITION "
+                "(BUY-CANDIDATE/WATCH/PASS), not a position posture; any size/trigger is "
+                "judgment within survival rails, never a screen score."
+            )
+        else:
+            out["honesty_rule"] = "Operator thesis-of-record; current within the verdict freshness window."
     else:
         out["status"] = "stale"
         out["line"] = (

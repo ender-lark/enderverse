@@ -17,12 +17,77 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any
 
 import decision_dossiers as dd
 import case_file as cf
 from decision_dossier_coverage import current_action_material_tickers
+
+
+_SIZE_RE = re.compile(r"\$\s?\d")
+_DATE_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
+
+
+def _discipline_flags(text: str, parsed: dict[str, Any]) -> list[str]:
+    """Buy-side discipline violations for one dossier (decide-and-direct rail)."""
+    flags: list[str] = []
+    first = (parsed.get("action_hint") or "").upper()
+    first_word = first.split(" ", 1)[0]
+    line = parsed.get("verdict_line") or ""
+    declares_not_held = "not held" in text[:400].lower()
+
+    # A held-shaped posture verb on a file that declares it is NOT held is a
+    # category error (you can't HOLD what you don't own) — the VRT display-not-direct trap.
+    if declares_not_held and (first in cf.HELD_VERBS or first_word in cf.HELD_VERBS):
+        flags.append("held_verb_on_non_held")
+    # Only a BUY-CANDIDATE carries a buy SIZE; it must come with a dated trigger so a
+    # stale buy can't read as live. (A WATCH/PASS that cites a current $price as context,
+    # or a held verdict that cites a $ position value, is NOT a buy size — not flagged.)
+    if first == "BUY-CANDIDATE":
+        if _SIZE_RE.search(line) and not _DATE_RE.search(line):
+            flags.append("size_without_dated_trigger")
+        if not _DATE_RE.search(line):
+            flags.append("buy_candidate_without_dated_trigger")
+    # WATCH with "conviction low" should instead omit conviction ("none — thin").
+    if first == "WATCH" and (parsed.get("conviction") or "").strip().lower() == "low":
+        flags.append("low_conviction_on_watch_use_none")
+    return flags
+
+
+def audit_dossier_discipline(*, dossier_dir: Path | str | None = None) -> dict[str, Any]:
+    """Non-blocking lint over every dossier for buy-side discipline violations."""
+    base = Path(dossier_dir) if dossier_dir else cf.DOSSIER_DIR
+    rows: list[dict[str, Any]] = []
+    for path in sorted(base.glob("*.md")):
+        if path.stem.upper() == "README":
+            continue
+        text = path.read_text(encoding="utf-8")
+        parsed = cf.parse_verdict_header(text)
+        if not parsed.get("date"):
+            continue
+        flags = _discipline_flags(text, parsed)
+        if flags:
+            rows.append({"ticker": path.stem.upper(), "flags": flags, "verdict": (parsed.get("verdict_line") or "")[:120]})
+    status = "needs_review" if rows else "clean"
+    line = (
+        f"Dossier discipline: {len(rows)} file(s) violate the buy-side discipline rail."
+        if rows
+        else "Dossier discipline: all dossiers pass the buy-side discipline rail."
+    )
+    return {
+        "status": status,
+        "line": line,
+        "flagged_count": len(rows),
+        "rows": rows,
+        "blocks": False,
+        "alert_eligible": False,
+        "honesty_rule": (
+            "Discipline debt only; flags manufactured or category-error verdicts "
+            "(held-verb-on-non-held, size-without-dated-trigger). Never blocks a card or implies a trade."
+        ),
+    }
 
 
 DEFAULT_MAX_VERDICT_AGE_DAYS = cf.VERDICT_MAX_AGE_DAYS
@@ -107,12 +172,25 @@ def build_case_file_coverage(
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Audit thesis-of-record (.md) coverage for a cockpit feed.")
-    parser.add_argument("--feed", required=True)
+    parser = argparse.ArgumentParser(description="Audit thesis-of-record (.md) coverage / discipline.")
+    parser.add_argument("--feed", help="cockpit feed JSON (required unless --discipline)")
     parser.add_argument("--today")
+    parser.add_argument("--discipline", action="store_true", help="run the buy-side discipline lint instead of coverage")
     parser.add_argument("--format", choices=("json", "text"), default="text")
     args = parser.parse_args(argv)
 
+    if args.discipline:
+        audit = audit_dossier_discipline()
+        if args.format == "json":
+            print(json.dumps(audit, indent=2))
+        else:
+            print(audit["line"])
+            for row in audit.get("rows") or []:
+                print(f"- {row['ticker']}: {', '.join(row['flags'])}")
+        return 0
+
+    if not args.feed:
+        parser.error("--feed is required unless --discipline is set")
     feed = json.loads(Path(args.feed).read_text(encoding="utf-8-sig"))
     audit = build_case_file_coverage(feed, today=args.today)
     if args.format == "json":
