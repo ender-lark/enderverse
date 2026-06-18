@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:07:11.765978Z",
-      "summary": "manual repair verified: scanned 14 tickers; cache landed 40 signals; GRNJ flow/oi empty rows reported, dark_pool normalized; scheduled proof still pending"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.032826Z",
-      "summary": "investing-os-pre-market-source-intake manual run started"
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "success",
       "run_source": "manual",
@@ -6482,7 +6468,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T13:54:17.143458Z",
       "summary": "checked web 2 pages Macro/Crypto FlashInsights; Gmail searched 9/read 5 full bodies; landed 1 compact CL oil-risk row; suppressed promo duplicate/stale/incomplete/discovery-only items; validation passed; dashboard refreshed; Fundstrat alerts sent 3; dark Social Watch, stale Crypto FlashInsights Jun8; blockers none"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T14:01:13.334896Z",
+      "summary": "uw opportunity cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T14:02:15.010922Z",
+      "summary": "UW opportunity cache scanned 14 tickers; emitted 40 live UW signals to src/uw_opportunity_signals.json; worker failures 0; empty source rows GRNJ flow/oi; cache landed"
     }
   ],
-  "updated_at": "2026-06-18T13:54:17.143458Z"
+  "updated_at": "2026-06-18T14:02:15.010922Z"
 }
