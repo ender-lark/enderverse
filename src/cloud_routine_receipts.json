@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:48:45.092467Z",
-      "summary": "checked 1 msg, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alert quiet, no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T15:45:59.974534Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-08T15:47:40.071094Z",
       "summary": "checked 1 msg, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alert quiet, fundstrat lane unchanged, blockers none"
     },
@@ -6428,7 +6414,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T12:27:37.462150Z",
       "summary": "snapshot 2026-06-18; 11 accounts; 275 raw positions; diff EXIT 1 ADD 2 TRIM 3 VALUE_CHANGE 145; 4 stated-balance warnings; dashboard refresh ok"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:36:52.538340Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:40:34.049971Z",
+      "summary": "3 Signal Log rows written+verified; repo cache 44 rows; UW proof refreshed through 2026-06-17 16:10 ET, Jun18 tide not open; macro unchanged; blockers Notion SQL query unavailable, Social Watch dark"
     }
   ],
-  "updated_at": "2026-06-18T12:27:37.462150Z"
+  "updated_at": "2026-06-18T12:40:34.049971Z"
 }
