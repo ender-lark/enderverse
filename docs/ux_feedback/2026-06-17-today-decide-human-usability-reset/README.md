@@ -77,6 +77,14 @@ semantics. Preserve the honesty rail: do not promote neutral UW to support, do
 not fake source scoring, do not manufacture urgency, and do not loosen survival
 rails. Weak stays quiet, blocked stays blocked, risk stays visible.
 
+Coordination constraint: Claude Code may be running in autopilot against
+`main`. Codex must work in a separate sandbox branch/worktree and treat its
+output as an alternative prototype until the operator chooses a winner. Do not
+commit directly to `main`, do not overwrite Claude Code's files, do not commit
+generated dashboard artifacts, and do not refresh or republish over the
+operator's served dashboard unless explicitly asked. Keep the Codex alternative
+easy to compare, test, and either adopt or discard.
+
 Acceptance criteria:
 
 - First viewport makes the next operator decision obvious in under 10 seconds.
@@ -87,6 +95,8 @@ Acceptance criteria:
   surface by default.
 - The primary card states the recommended answer, the reason, the consequence,
   and the next unblock in short human language.
+- Codex work is isolated on its own branch/worktree so Claude Code's `main`
+  lane and the Codex alternative can be compared without collision.
 - Desktop and mobile screenshots are visually checked for readability.
 - Tests prove the change is presentational only and does not alter ranking,
   scoring, sizing, gates, trades, source grading, or disposition semantics.
