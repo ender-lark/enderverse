@@ -41,6 +41,41 @@ def test_normalizes_ticker_priority_status_and_days_out():
     assert row["urgency"] == "ACT_NOW"
 
 
+def test_preserves_structured_buy_verdict_fields():
+    row = normalize_row(
+        {
+            "Ticker": "VRT",
+            "Name": "starter after off-hours screen",
+            "Priority": "High",
+            "Status": "Working",
+            "Stance": "BUY",
+            "Conviction": "HIGH",
+            "Conviction Score": "4.6",
+            "Size": "$8-10k starter",
+            "Trigger Date": "2026-07-29",
+            "Thesis": "$15B backlog; power/cooling demand supports a starter.",
+            "Source": "off-hours screen #3",
+            "Source Tags": "off-hours screen; vetted BUY",
+            "Source Groups": "research_queue; earnings_backlog",
+            "First Flagged": "2026-06-18",
+            "Flag Price": "$190",
+        },
+        as_of="2026-06-18",
+    )
+
+    assert row["ticker"] == "VRT"
+    assert row["stance"] == "BUY"
+    assert row["conviction"] == "HIGH"
+    assert row["conviction_score"] == 4.6
+    assert row["size_band_usd"] == {"low": 8000.0, "high": 10000.0}
+    assert row["trigger_date"] == "2026-07-29"
+    assert row["thesis"].startswith("$15B backlog")
+    assert row["source_tags"] == ["off-hours screen", "vetted BUY"]
+    assert row["source_groups"] == ["research_queue", "earnings_backlog"]
+    assert row["first_flagged"] == "2026-06-18"
+    assert row["flag_price"] == 190.0
+
+
 def test_existing_pending_done_shape_preserves_done_bucket(tmp_path):
     p = tmp_path / "research.json"
     p.write_text(json.dumps({

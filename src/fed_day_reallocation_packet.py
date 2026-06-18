@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from execution_plan import funding_reality_check, load_accounts, plan_buy
+from open_opportunities import compute_move_since
 from reallocation_brief import build_reallocation_brief
 
 SRC = Path(__file__).resolve().parent
@@ -343,6 +344,16 @@ def _source_context(
 ) -> dict[str, Any]:
     tags: list[str] = []
     flags: list[str] = []
+    conviction: dict[str, Any] = {}
+    research_status = ""
+    thesis = ""
+    size = ""
+    size_band_usd = None
+    trigger_date = ""
+    trigger = ""
+    source = ""
+    first_flagged = ""
+    flag_price = None
     prospect = top_prospects.get(ticker) or {}
     direction = str(prospect.get("direction") or "").lower()
     if prospect:
@@ -361,15 +372,80 @@ def _source_context(
     for row in research_queue.get("pending") or []:
         if isinstance(row, dict) and _ticker(row.get("ticker")) == ticker:
             tags.append(f"repo research queue {row.get('status') or 'pending'}")
+            row_tags = [str(tag).strip() for tag in (row.get("source_tags") or []) if str(tag).strip()]
+            tags.extend(row_tags)
+            row_source = str(row.get("source") or "").strip()
+            if row_source:
+                tags.append(row_source)
+            stance = str(row.get("stance") or "").strip().upper()
+            read = str(row.get("conviction") or row.get("conviction_read") or "").strip().upper()
+            groups = [str(group).strip() for group in (row.get("source_groups") or []) if str(group).strip()]
+            try:
+                n_groups = int(row.get("n_groups") or len(groups) or 0)
+            except (TypeError, ValueError):
+                n_groups = len(groups)
+            if stance:
+                research_status = stance
+            if stance in {"BUY", "ADD"} and read:
+                tags.append(f"Research Queue {stance} {read}")
+                if read in {"HIGH", "MODERATE"} and n_groups >= 2:
+                    tags.append("trusted BUY verdict")
+                conviction = {
+                    "stance": stance,
+                    "direction": "BUY",
+                    "read": read,
+                    "score": row.get("conviction_score"),
+                    "n_groups": n_groups,
+                    "source_groups": groups,
+                    "conflicted": False,
+                }
+            if row.get("thesis") and not thesis:
+                thesis = str(row.get("thesis") or "").strip()
+            if row.get("size") and not size:
+                size = str(row.get("size") or "").strip()
+            if row.get("size_band_usd") and size_band_usd is None:
+                size_band_usd = row.get("size_band_usd")
+            if row.get("trigger_date") and not trigger_date:
+                trigger_date = str(row.get("trigger_date") or "").strip()
+            if row.get("trigger") and not trigger:
+                trigger = str(row.get("trigger") or "").strip()
+            if row_source and not source:
+                source = row_source
+            if row.get("first_flagged") and not first_flagged:
+                first_flagged = str(row.get("first_flagged") or "").strip()
+            if row.get("flag_price") is not None and flag_price is None:
+                flag_price = row.get("flag_price")
     live = LIVE_NOTION_RESEARCH.get(ticker)
     if live:
         tags.append(f"Notion {live['status']} {live['state']}")
+        research_status = research_status or str(live.get("state") or "")
     return {
         "tags": sorted(set(tags)),
         "flags": sorted(set(flags)),
         "top_prospect_direction": direction or "",
         "notion": live or {},
+        "research_status": research_status,
+        "conviction": conviction,
+        "thesis": thesis,
+        "size": size,
+        "size_band_usd": size_band_usd,
+        "trigger_date": trigger_date,
+        "trigger": trigger,
+        "source": source,
+        "first_flagged": first_flagged,
+        "flag_price": flag_price,
     }
+
+
+def _open_opportunity_memory(ticker: str, open_opportunities: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(open_opportunities, dict):
+        return {}
+    for row in open_opportunities.get("opportunities") or []:
+        if not isinstance(row, dict):
+            continue
+        if _ticker(row.get("ticker")) == ticker and str(row.get("status") or "open").lower() == "open":
+            return row
+    return {}
 
 
 def _disconfirmation(ticker: str, source_context: dict[str, Any]) -> str:
@@ -416,6 +492,7 @@ def _build_discount_rows(
     top_prospects: dict[str, Any],
     source_calls: list[dict[str, Any]],
     research_queue: dict[str, Any],
+    open_opportunities: dict[str, Any],
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for ticker in tickers:
@@ -424,6 +501,12 @@ def _build_discount_rows(
             continue
         exposure = float((positions_by_ticker.get(ticker) or {}).get("market_value") or 0.0)
         context = _source_context(ticker, top_prospects=top_prospects, source_calls=source_calls, research_queue=research_queue)
+        memory = _open_opportunity_memory(ticker, open_opportunities)
+        first_flagged = context.get("first_flagged") or memory.get("first_flagged") or ""
+        flag_price = context.get("flag_price")
+        if flag_price is None:
+            flag_price = memory.get("flag_price")
+        move_since = compute_move_since(flag_price, quote.get("price")) if first_flagged else ""
         row = {
             **quote,
             "current_exposure_usd": round(exposure, 2),
@@ -431,8 +514,17 @@ def _build_discount_rows(
             "source_tags": context["tags"],
             "source_flags": context["flags"],
             "disconfirmation": _disconfirmation(ticker, context),
-            "research_status": (context.get("notion") or {}).get("state") or "",
+            "research_status": context.get("research_status") or "",
             "rank_score": _score_discount({**quote, "current_exposure_usd": exposure}, context),
+            "conviction": context.get("conviction") or {},
+            "thesis": context.get("thesis") or "",
+            "size": context.get("size") or "",
+            "size_band_usd": context.get("size_band_usd"),
+            "trigger_date": context.get("trigger_date") or "",
+            "trigger": context.get("trigger") or "",
+            "first_flagged": first_flagged,
+            "flag_price": flag_price,
+            "move_since_flagged": move_since,
         }
         rows.append(row)
     return sorted(rows, key=lambda row: (float(row.get("pct_below_high") or 0.0), row.get("ticker") or ""))
@@ -620,6 +712,7 @@ def build_packet(
     research_queue = _load_json(SRC / "research_queue.json", {})
     source_calls = _load_json(SRC / "source_call_candidates.json", [])
     uw_results = _load_json(SRC / "uw_endpoint_results.json", {})
+    open_opportunities = _load_json(SRC / "open_opportunities.json", {})
 
     reallocation = build_reallocation_brief(feed, positions, as_of=as_of)
     positions_by_ticker = _combined_positions(account_positions)
@@ -647,6 +740,7 @@ def build_packet(
         top_prospects=top_prospects,
         source_calls=source_calls,
         research_queue=research_queue,
+        open_opportunities=open_opportunities,
     )
     deep = [row for row in discount_rows if row["ticker"] in DEEP_DISCOUNT_FOCUS]
     pullbacks = [row for row in discount_rows if row["ticker"] in QUALITY_PULLBACK_FOCUS]

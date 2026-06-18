@@ -1072,6 +1072,8 @@ def build_full_feed_from_files(
         feed["available_cash"] = cash_usd
     if isinstance(fed_day_packet, dict) and fed_day_packet:
         feed["fed_day_reallocation_packet"] = fed_day_packet
+    if isinstance(open_opportunities, dict) and open_opportunities:
+        feed["open_opportunities"] = open_opportunities
     feed["current_closes"] = latest_prices_from_closes(closes)
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["if_i_were_you"] = build_if_i_were_you(feed)
