@@ -2,66 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.752299Z",
-      "summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: quiet - no new time-sensitive/action-changing Fundstrat item.\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 7, 'alert_candidates': 0, 'duplicates': 0, 'suppressed': 7}\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:05.764188Z",
-      "summary": "investing-os-morning-scan manual run started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "manual",
@@ -6441,7 +6381,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T14:09:57.027618Z",
       "summary": "scored 16 tickers; autofire 0; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none; transient BWXT retry recovered"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T14:33:23.136172Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T14:35:07.828037Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-18T14:09:57.027618Z"
+  "updated_at": "2026-06-18T14:35:07.828037Z"
 }
