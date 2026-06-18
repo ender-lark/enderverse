@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-08T15:47:40.071094Z",
-      "summary": "checked 1 msg, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alert quiet, fundstrat lane unchanged, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T16:48:18.320791Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-08T16:49:21.509766Z",
       "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alert quiet, fundstrat lane stale/no new full-body evidence, blockers none"
     },
@@ -6428,7 +6414,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T12:40:34.049971Z",
       "summary": "3 Signal Log rows written+verified; repo cache 44 rows; UW proof refreshed through 2026-06-17 16:10 ET, Jun18 tide not open; macro unchanged; blockers Notion SQL query unavailable, Social Watch dark"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:53:04.505230Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:54:35.813870Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-18T12:40:34.049971Z"
+  "updated_at": "2026-06-18T12:54:35.813870Z"
 }
