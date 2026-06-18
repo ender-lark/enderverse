@@ -130,7 +130,9 @@ def test_payload_builds_and_goal_anchor_math():
     assert p["plan_line"]["positions_as_of"] == "2026-06-09"
     assert p["first_viewport"]["status"] == "has_primary"
     assert p["first_viewport"]["command_state"] == "RESOLVE"
-    assert p["first_viewport"]["button"]["label"] == "RESOLVE"
+    assert p["first_viewport"]["button"]["label"] == "Copy blocker recheck"
+    assert p["first_viewport"]["button"]["state_verb"] == "RECHECK"
+    assert p["first_viewport"]["human_summary"]["plain_state"] == "Blocked"
     assert not p["first_viewport"]["button"]["copy"].startswith("ACT ")
     assert p["command_strip"]["counts"]["ACT"] == 0
     assert p["command_strip"]["counts"]["RESOLVE"] == 3
@@ -173,9 +175,12 @@ def test_html_renders_header_and_built_date():
 
 def test_html_renders_minimal_conviction_face_and_breakdown():
     html = render_today_decide_html(_payload())
-    assert "Primary command" in html
+    assert "Today's call" in html
     assert "0 ACT | 2 DECIDE | 3 RESOLVE | 0 WATCH" in html
-    assert "Resolve GOOGL add" in html
+    assert "Can you add to GOOGL yet?" in html
+    assert "Not yet." in html
+    assert "One next unblock" in html
+    assert "Button effect" in html
     assert "Readiness layers" in html
     assert "Routine fired" in html
     assert "Boundary artifact" in html
@@ -185,7 +190,8 @@ def test_html_renders_minimal_conviction_face_and_breakdown():
     assert "UW interpreted" in html
     assert "routine fired proof 14/14; boundary data not implied" in html
     assert 'data-copy="ACT GOOGL-ADD-2026-06-10"' not in html
-    assert "Ownership-aware passivity" in html
+    assert "Why the rest is waiting" in html
+    assert "Ownership-aware passivity" not in html
     assert "Nothing actionable yet: scorer is starved or blocked, not bearish." in html
     assert "Next lever: fresh-check material names" in html
     assert "Stage $151,266 GOOGL buy" in html

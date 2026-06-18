@@ -246,8 +246,11 @@ function CommandStrip({ payload }) {
     : "goal anchor not readable";
   const state = String(strip.system_state || "starved");
   const stateColor = state === "confident" ? "#34d399" : "#fbbf24";
+  const counts = strip.counts || {};
+  const summary = `System audit: ${counts.ACT || 0} ready now; ${strip.line || ""}`;
   return (
-    <div style={{ border: "1px solid #334155", borderRadius: 10, background: "#08111f", padding: "10px 12px", margin: "10px 0 12px" }}>
+    <details style={{ border: "1px solid #243044", borderRadius: 9, background: "#08111f", padding: 9, margin: "9px 0" }}>
+      <summary style={{ cursor: "pointer", color: "#cbd5e1", fontSize: 12, fontWeight: 850 }}>{summary}</summary>
       <div style={{ display: "flex", gap: 10, alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap" }}>
         <div>
           <div style={{ fontSize: 16, color: "#f8fafc", fontWeight: 900, letterSpacing: ".02em" }}>{strip.line || ""}</div>
@@ -266,7 +269,7 @@ function CommandStrip({ payload }) {
       </div>
       <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 8 }}>{strip.system_line || ""}</div>
       <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 8 }}>{strip.honesty_rule || ""}</div>
-    </div>
+    </details>
   );
 }
 
@@ -305,14 +308,18 @@ function ReadinessStrip({ readiness }) {
     letterSpacing: ".06em",
     marginBottom: 6,
   };
+  const blocked = [...layers, ...checklist].filter((row) => String(row.status || "") === "blocked").length;
+  const unknown = [...layers, ...checklist].filter((row) => String(row.status || "") === "unknown").length;
+  const summary = `Audit: proof, blockers, and rails (${blocked} blocked${unknown ? `, ${unknown} unknown` : ""})`;
   return (
-    <div style={{ border: "1px solid #243044", borderRadius: 8, background: "#08111f", padding: 8, margin: "9px 0" }}>
+    <details style={{ border: "1px solid #243044", borderRadius: 8, background: "#08111f", padding: 8, margin: "9px 0" }}>
+      <summary style={{ cursor: "pointer", color: "#cbd5e1", fontSize: 12, fontWeight: 850 }}>{summary}</summary>
       <div style={title}>Readiness layers</div>
       <div style={grid}>{layers.map(renderChip)}</div>
       <div style={{ ...title, marginTop: 8 }}>Resolve checklist</div>
       <div style={grid}>{checklist.map(renderChip)}</div>
       <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.25, marginTop: 2 }}>{model.honesty_rule || ""}</div>
-    </div>
+    </details>
   );
 }
 
@@ -320,22 +327,29 @@ function FirstViewport({ payload, railState, setRailState }) {
   const model = payload.first_viewport || {};
   const delta = payload.change_delta || {};
   const button = model.button || {};
+  const human = model.human_summary || {};
+  const question = human.question || model.decision || "No capital-changing decision surfaced.";
+  const recommendation = human.recommendation || "No recommendation surfaced.";
+  const plainState = human.plain_state || model.command_state || "Needs review";
   const cells = [
-    ["Size/tranche", model.size || "No tranche implied."],
-    ["Blocked by", model.blocker || "No blocker surfaced."],
-    ["Changed", model.changed || delta.line || "No prior reliable committed build baseline yet."],
-    ["Risk rail", model.risk_rail || "Normal survival rails still apply."],
-    ["Can wait", model.safe_wait || "Research/watch-only items can wait."],
+    ["Why", human.why || model.blocker || "No reason surfaced."],
+    ["One next unblock", human.next_unblock || model.blocker || "No blocker surfaced."],
+    ["Potential size", human.size_brief || model.size || "No tranche implied."],
+    ["Button effect", human.button_effect || "Copies a note; it does not trade."],
   ];
   const cardId = button.card_id || "";
   const railLabel = button.label || button.state_verb || "RECHECK";
   return (
     <div style={{ border: "1px solid #475569", borderLeft: "5px solid #38bdf8", borderRadius: 12, background: "#07101e", padding: 12, margin: "10px 0 12px" }}>
-      <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em" }}>
-        Primary command{model.command_state ? ` - ${model.command_state}` : ""}
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+        <div>
+          <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em" }}>Today's call</div>
+          <div style={{ fontSize: 25, color: "#f8fafc", fontWeight: 900, lineHeight: 1.12, margin: "3px 0 6px" }}>{question}</div>
+          <div style={{ fontSize: 15, color: "#e2e8f0", lineHeight: 1.35, margin: "0 0 8px", maxWidth: 780 }}>{recommendation}</div>
+        </div>
+        <div style={{ fontSize: 11, color: "#fbbf24", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em" }}>{plainState}</div>
       </div>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
-        <div style={{ fontSize: 23, color: "#f8fafc", fontWeight: 900, lineHeight: 1.12, margin: "3px 0 8px" }}>{model.decision || "No capital-changing decision surfaced."}</div>
         {button.copy && (
           <div style={{ margin: "8px 0 9px", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
             <Rail cardId={cardId} verb={railLabel} copy={button.copy} muted={button.muted === "1"} state={railState} setState={setRailState} />
@@ -343,7 +357,7 @@ function FirstViewport({ payload, railState, setRailState }) {
           </div>
         )}
         </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 8 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 8 }}>
         {cells.map(([label, value]) => (
           <div key={label} style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, minWidth: 0 }}>
             <div style={{ fontSize: 10, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>{label}</div>
@@ -368,8 +382,9 @@ function PassivityPanel({ payload }) {
     "system_blocked_not_checked",
   ];
   return (
-    <div style={{ border: "1px solid #334155", borderRadius: 10, background: "#08111f", padding: "10px 12px", margin: "10px 0 12px" }}>
-      <div style={{ fontSize: 12, color: "#f8fafc", fontWeight: 850, marginBottom: 4 }}>Ownership-aware passivity</div>
+    <details style={{ border: "1px solid #334155", borderRadius: 10, background: "#08111f", padding: 9, margin: "9px 0" }}>
+      <summary style={{ cursor: "pointer", color: "#cbd5e1", fontSize: 12, fontWeight: 850 }}>Why the rest is waiting</summary>
+      <div style={{ fontSize: 12, color: "#f8fafc", fontWeight: 850, marginBottom: 4 }}>Decision buckets</div>
       <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.4 }}>{passivity.line || ""}</div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 6, marginTop: 8 }}>
         {buckets.map((bucket) => (
@@ -380,7 +395,7 @@ function PassivityPanel({ payload }) {
         ))}
       </div>
       <div style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0" }}>{passivity.honesty_rule || ""}</div>
-    </div>
+    </details>
   );
 }
 
@@ -1131,13 +1146,13 @@ function DispositionPressure({ payload, railState, setRailState }) {
   if (!rows.length) return null;
   return (
     <div style={{ border: "1px solid #334155", borderLeft: "4px solid #60a5fa", borderRadius: 10, background: "#08111f", padding: "10px 12px", margin: "10px 0 12px" }}>
-      <div style={{ fontSize: 12, color: "#f8fafc", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".06em" }}>Decision pressure</div>
-      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 3 }}>{pressure.line || ""}</div>
+      <div style={{ fontSize: 12, color: "#f8fafc", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".06em" }}>Reviews due</div>
+      <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.35, marginTop: 3 }}>{String(pressure.line || "").replace("DECIDE prompts", "review prompts")}</div>
       {rows.map((row) => (
         <div key={row.decision_key || row.title} style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, marginTop: 8 }}>
           <div style={{ display: "flex", gap: 8, justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }}>
             <div>
-              <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>{row.state || "DECIDE"} | {row.kind || ""}</div>
+              <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>Review needed | {row.kind || ""}</div>
               <div style={{ fontSize: 14, color: "#f8fafc", fontWeight: 850, lineHeight: 1.25, marginTop: 2 }}>{row.title || ""}</div>
             </div>
             <div style={{ fontSize: 10, color: "#93c5fd", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".06em" }}>{row.ticker || ""}</div>
@@ -1160,7 +1175,7 @@ function DispositionPressure({ payload, railState, setRailState }) {
           </div>
         </div>
       ))}
-      <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>{pressure.honesty_rule || ""}</div>
+      <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.35, marginTop: 3 }}>These buttons copy notes only; they do not trade or change scoring. {pressure.honesty_rule || ""}</div>
     </div>
   );
 }
@@ -1277,14 +1292,7 @@ export default function TodayDecide({ payload }) {
         plan: {pl.pool_usd != null ? `funding pool $${pl.pool_usd.toLocaleString()}` : "funding pool n/a"}
         {pl.shortfall_usd != null ? ` - shortfall $${pl.shortfall_usd.toLocaleString()}` : ""} - positions as of {pl.positions_as_of}
       </div>
-      <CommandStrip payload={payload} />
       <FirstViewport payload={payload} railState={railState} setRailState={setRailState} />
-      <DispositionPressure payload={payload} railState={railState} setRailState={setRailState} />
-      <CandidateFeedIndex payload={payload} />
-      <PassivityPanel payload={payload} />
-      <DispositionCoverage payload={payload} />
-      <TrustPanel payload={payload} />
-      <TopVerdict payload={payload} />
       {sections.map(([label, cards]) => (
         <div key={label}>
           <div style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", fontWeight: 900, letterSpacing: ".08em", margin: "14px 0 5px" }}>{label}</div>
@@ -1312,6 +1320,13 @@ export default function TodayDecide({ payload }) {
           ))}
         </div>
       )}
+      <DispositionPressure payload={payload} railState={railState} setRailState={setRailState} />
+      <TopVerdict payload={payload} />
+      <CommandStrip payload={payload} />
+      <CandidateFeedIndex payload={payload} />
+      <TrustPanel payload={payload} />
+      <PassivityPanel payload={payload} />
+      <DispositionCoverage payload={payload} />
       <WatchQueue payload={payload} />
       <DoNotTouch payload={payload} />
       <details style={{ border: "1px solid #243044", borderRadius: 8, background: "#0b1220", padding: 8, margin: "8px 0", fontSize: 12, color: "#94a3b8" }}>

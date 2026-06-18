@@ -48,14 +48,17 @@ def test_only_operator_bucket_counts_as_latency_and_gets_open_days():
 def test_first_viewport_answers_required_questions_without_hidden_queue():
     payload = _payload()
     html = render_today_decide_html(payload)
+    human = payload["first_viewport"]["human_summary"]
 
-    assert "Primary command" in html
-    assert "Size/tranche" in html
-    assert "Blocked by" in html
-    assert "Changed" in html
-    assert "Risk rail" in html
-    assert "Can wait" in html
-    assert "No prior reliable committed build baseline yet" in html
+    assert "Today's call" in html
+    assert human["question"] in html
+    assert human["recommendation"] in html
+    assert "One next unblock" in html
+    assert "Button effect" in html
+    assert "Potential size" in html
+    assert "Primary command" not in html
+    assert "Size/tranche" not in html
+    assert "Can wait" not in html
     assert "hidden queue" not in html.lower()
 
 
@@ -142,10 +145,13 @@ def test_overdue_held_reviews_surface_as_decide_pressure(tmp_path):
     assert pressure["rows"][0]["state"] == "DECIDE"
     assert pressure["rows"][0]["age_days"] == 3
     assert "Review due: Overdue packet" in html
-    assert "KEEP HELD" in html and "RECHECK overdue-packet new_review_by: " in html
-    assert "Decision pressure" in html
-    assert html.index("Decision pressure") < html.index("Ownership-aware passivity")
-    assert 'data-copy="ACT ' not in html.split("Decision pressure", 1)[1].split("Ownership-aware passivity", 1)[0]
+    assert "Keep waiting" in html and "data-copy=\"RECHECK overdue-packet new_review_by: \"" in html
+    assert "Set recheck date" in html
+    assert "Reviews due" in html
+    assert "Decision pressure" not in html
+    assert "Ownership-aware passivity" not in html
+    assert html.index("Material decisions") < html.index("Reviews due")
+    assert 'data-copy="ACT ' not in html.split("Reviews due", 1)[1].split("Why the rest is waiting", 1)[0]
 
 
 def test_high_impact_watch_row_promotes_to_decide_and_leaves_watch_queue():
@@ -219,7 +225,7 @@ def test_candidate_feed_index_merges_sources_by_ticker_lane():
     assert any(row["decision_key"] == "GOOGL|uw_runbook" for row in index["rows"])
     assert "Merged candidate feeder index" in html
     assert "source families are shown for context only" in html
-    assert html.index("Merged candidate feeder index") < html.index("Ownership-aware passivity")
+    assert html.index("Merged candidate feeder index") < html.index("Why the rest is waiting")
 
 
 def test_since_last_build_delta_uses_committed_baseline_without_view_state_file():
