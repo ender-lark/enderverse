@@ -888,6 +888,25 @@
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   },
   {
+    "author": "Alexa Sinsheimer and Maximilian Motz",
+    "ticker": "TLT",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "pre-market 2026-06-18; re-check into next Fed communication and rates reaction",
+    "quote": "Fed Watch frames Warsh's higher dots and stripped statement as optionality rather than a firm hawkish path; re-check TLT/rates before treating the post-FOMC yield spike as a lasting de-risk signal.",
+    "date": "2026-06-17",
+    "subject": "Fed Watch: Warsh optionality vs hawkish dots",
+    "source_message_id": "fundstrat-web-article-detail-2026-06-17-1909-et-tlt-warsh-optionality-fed-watch",
+    "source": "Fundstrat Chrome article detail page",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
     "author": "Mark L. Newton, CMT",
     "ticker": "SPCX",
     "direction": "watch",

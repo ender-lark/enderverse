@@ -1317,5 +1317,28 @@
     "use_case": "crypto_sleeve",
     "decision_usefulness": "medium",
     "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
+  },
+  {
+    "source": "alexa sinsheimer and maximilian motz",
+    "ticker": "TLT",
+    "tier": "D",
+    "confidence_in_tier": "LOW",
+    "verbatim_quote": "Fed Watch frames Warsh's higher dots and stripped statement as optionality rather than a firm hawkish path; re-check TLT/rates before treating the post-FOMC yield spike as a lasting de-risk signal.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-17",
+    "window_end": "2026-08-16",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-18",
+    "fundstrat_lane": "general",
+    "source_domain": "fundstrat_general",
+    "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant.",
+    "confidence_policy": "Treat as context until lane, catalyst, and current validation are clear.",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]

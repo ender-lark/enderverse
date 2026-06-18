@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:04:04.373632Z",
-      "summary": "scanned 14 tickers; 13 live observations; cache unchanged; GRNJ missing flow/oi/dark_pool normalization; live proof refreshed"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-08T14:06:27.620955Z",
-      "summary": "parabolic cache started"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6435,7 +6421,21 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:11:24.210386Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T12:17:05.928024Z",
+      "summary": "pre-market source intake landed 1 Fed Watch TLT macro/rates row; position cache unchanged no broker upload; Chrome/Gmail checked; UW HOOD/MAGS narrow premarket dark-pool empty; dark/stale Social Watch missing and Crypto FlashInsights stale Jun8"
     }
   ],
-  "updated_at": "2026-06-18T12:03:13.862999Z"
+  "updated_at": "2026-06-18T12:17:05.928024Z"
 }
