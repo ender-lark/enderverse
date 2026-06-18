@@ -13,9 +13,22 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from portfolio_views import _account_rows, _combined_rows
 from reallocate import ADD, TRIM, reallocate
 
 CRYPTO_COMPLEX = {"BMNR", "IBIT", "ETHA", "MSTR", "COIN", "HYPE", "BTC", "ETH", "SOL"}
+
+# Asset types that count as a held EQUITY/ETF weight for current-weight reads.
+# Options and crypto-coin lots are deliberately excluded: an option contract is
+# not a share holding, and a raw crypto coin is not part of the equity target
+# model. ETF look-through is handled separately by reallocate's effective-pct.
+_EQUITY_ASSET_TYPES = {
+    "Common Stock",
+    "ETF",
+    "American Depositary Receipt",
+    "Open Ended Fund",
+    "Security type is not defined",
+}
 
 
 def _parse_date(value: Any):
@@ -40,6 +53,44 @@ def _positions_payload(positions_cache: dict[str, Any]) -> tuple[list[dict[str, 
     if not total:
         total = sum(float(row.get("market_value") or 0.0) for row in rows if isinstance(row, dict))
     return rows, float(total or 0.0)
+
+
+def _combined_weight_positions(
+    account_positions: dict[str, Any] | None,
+) -> list[dict[str, Any]] | None:
+    """Current-weight basis from the ALL-ACCOUNT combined positions.
+
+    Returns ``[{ticker, market_value}]`` netted to one row per ticker across every
+    account, so a held name reads its TRUE weight whether or not it is on the
+    tracked sleeve list. This is the SAME source ``build_portfolio_views`` uses
+    (``account_positions`` -> ``_account_rows`` -> ``_combined_rows``); reusing it
+    keeps the reallocation current-weight read consistent with the Book tab.
+
+    Only equity/ETF SHARE holdings are counted (``_EQUITY_ASSET_TYPES``). Option
+    contracts and crypto-coin lots are excluded -- they are not equity-target
+    weight. Non-positive values are dropped. Returns ``None`` when no account
+    cache (so the caller falls back to the tracked positions cache).
+    """
+    if not isinstance(account_positions, dict):
+        return None
+    rows = _account_rows(account_positions)
+    if not rows:
+        return None
+    combined = _combined_rows(rows)
+    by_ticker: dict[str, float] = {}
+    for row in combined:
+        if row.get("asset_type") == "option" or row.get("option"):
+            continue
+        if row.get("asset_type") not in _EQUITY_ASSET_TYPES:
+            continue
+        ticker = str(row.get("ticker") or "").strip().upper()
+        market_value = float(row.get("market_value") or 0.0)
+        if not ticker or market_value <= 0:
+            continue
+        by_ticker[ticker] = by_ticker.get(ticker, 0.0) + market_value
+    if not by_ticker:
+        return None
+    return [{"ticker": ticker, "market_value": mv} for ticker, mv in by_ticker.items()]
 
 
 def _uw_reallocation_checks(feed: dict[str, Any]) -> dict[str, Any]:
@@ -183,6 +234,7 @@ def build_reallocation_brief(
     positions_cache: dict[str, Any] | None,
     *,
     as_of: str | None = None,
+    account_positions: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if not positions_cache:
         return {
@@ -209,8 +261,16 @@ def build_reallocation_brief(
     stale_positions = snapshot_date is None or age_days is None or age_days > 0
     status = "test_data_only" if stale_positions else "candidate_only"
 
+    # Current-weight basis: prefer the ALL-ACCOUNT combined positions so every
+    # held name -- tracked OR untracked (e.g. GOOGL) -- reads its TRUE weight and
+    # build-to-target ADDs are sized to the GAP, not the full target. Falls back
+    # to the tracked positions cache when no account cache is supplied. The book
+    # TOTAL stays the positions-cache sleeve_value (the full book), which both
+    # sources share, so weights are consistent and trims/funding are unchanged.
+    weight_positions = _combined_weight_positions(account_positions) or positions
+
     result, _markdown = reallocate(
-        positions=positions,
+        positions=weight_positions,
         total_book_value=total,
         as_of=str(operating_day),
     )

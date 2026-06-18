@@ -1052,7 +1052,12 @@ def build_full_feed_from_files(
         as_of=today,
     )
     feed["reallocation_brief"] = annotate_reallocation_brief(
-        build_reallocation_brief(feed, positions_cache, as_of=today),
+        build_reallocation_brief(
+            feed,
+            positions_cache,
+            as_of=today,
+            account_positions=account_positions,
+        ),
         account_positions,
     )
     # Real available-cash for the sizing "can I afford this?" reality. Summed
