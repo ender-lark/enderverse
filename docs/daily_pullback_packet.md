@@ -1,35 +1,30 @@
-# Daily pullback packet - 2026-06-17
+# Daily pullback packet - 2026-06-18
 
 Candidate-only packet. No trades executed. No option contracts selected.
 
 ## Current Market Update
-- Stance: AMBER_PRE_FOMC_ROTATION (2026-06-17 13:16 ET).
-- Read: Mixed pre-FOMC tape and Fundstrat broadening work argue for reduced, staged deployment instead of the full model band before the Fed reaction is known.
-- Federal Reserve calendar confirms the June 16-17 meeting is SEP-associated, with the June 17 decision still the gating event.
-- Same-day market/news scan showed mixed indexes before the Fed: Dow/small caps firmer, Nasdaq/AI softer, and Treasury yields slightly higher.
-- Fundstrat latest research keeps near-term equity trends intact and says tech leadership has not cracked, but also highlights growth-to-value broadening and warns against chasing stretched tech.
-- Notion Daily Synthesis keeps Middle East oil/rates event risk on top, Social Watch dark, and Research Queue focus on BMNR, GOOGL, and AVGO.
-- Oil is below the panic trigger in today's news tape, but the repo trigger still watches WTI near 99-101 and 10Y yields near 4.55-4.59.
-- Plan impact: Keep the GOOGL/MSFT rotation alive, but reduce today's actionable bands, stage only if amber, and let AVGO become the top secondary swap review rather than a primary pre-Fed add.
+- Stance: STAGE_UNTIL_LIVE_TAPE_CONFIRMS (not time stamped).
+- Read: No event-specific same-day overlay is loaded for this date; refresh current market, Fundstrat, and Notion context before action.
+- Plan impact: Use the model reference bands only as staged candidates until live evidence is refreshed.
 
 ## Source Status
-- Positions: has_data from 2026-06-17 on $1,898,621.
+- Positions: stale_or_dark from 2026-06-17 on $1,898,621.
 - UW: UW endpoint proof: 13 captured row(s); neutral/inconclusive rows do not promote trades.
 - Fundstrat: Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.
 - Notion Research Queue: fetched; no writeback needed.
 - Social Watch: not_checked - Social watch not checked: no Reddit/social cache supplied.
-- Market timing: Mixed pre-FOMC tape and Fundstrat broadening work argue for reduced, staged deployment instead of the full model band before the Fed reaction is known.
+- Market timing: No event-specific same-day overlay is loaded for this date; refresh current market, Fundstrat, and Notion context before action.
 
 ## Act If Green
 | Ticker | Updated band | Model ref | First tranche | Existing exposure | Post-band exposure | Funding | Placement candidate | Do-nothing cost |
 | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| GOOGL | $60,000-$110,000 | $100,000-$155,000 | $30,000-$77,000 | $71,794 (3.8%) | 6.9%-9.6% | IVES $67,912, SMH $2,016, MAGS $399, GRNY $81,563 | Schwab / Individual ...254 Individual ...25... / taxable | GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
-| MSFT | $15,000-$30,000 | $25,000-$40,000 | $7,500-$21,000 | $29,120 (1.5%) | 2.3%-3.1% | GRNY $42,282 | Fidelity / Joint WROS - TOD *****2063 / taxable | MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
+| GOOGL | $100,000-$155,000 | $100,000-$155,000 | $50,000-$108,500 | $71,794 (3.8%) | 9.1%-11.9% | IVES $67,912, SMH $2,016, MAGS $399, GRNY $81,563 | Schwab / Individual ...254 Individual ...25... / taxable | GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
+| MSFT | $25,000-$40,000 | $25,000-$40,000 | $12,500-$28,000 | $29,120 (1.5%) | 2.9%-3.6% | GRNY $42,282 | Fidelity / Joint WROS - TOD *****2063 / taxable | MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
 
 Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.
 
 ## Stage If Amber
-- Starter only: $20,000-$45,000 total across GOOGL/MSFT.
+- Starter only: $25,000-$60,000 total across GOOGL/MSFT.
 - Before the Fed reaction is known, stage tickets without action or use only the reduced starter cap.
 - If amber persists after the Fed, favor a smaller GOOGL starter before MSFT; do not force both names.
 - Elevate AVGO to top secondary swap review only if post-Fed semi tape and flow beat GOOGL/MSFT; FN/VRT/AMZN remain secondary.

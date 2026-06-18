@@ -2,6 +2,27 @@
   "schema_version": 1,
   "receipts": [
     {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T12:53:08.913596Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ]
+      }
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-08T13:31:59.705807Z",
+      "summary": "daily synthesis started"
+    },
+    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "success",
       "run_source": "scheduled",
@@ -6420,7 +6441,20 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T11:47:19.390390Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T11:51:55.084626Z",
+      "summary": "checked web 10 pages Macro/Crypto FlashInsights plus research listings/detail; Gmail 0; landed 1 compact crypto Warsh-policy row; suppressed/discovery stale/duplicate Macro FlashInsights, Crypto FlashInsights Jun8, First Word, Intraday, US Policy, DTS/Fed duplicates; validation passed; dashboard refreshed; Notion not used; dark/stale lanes crypto FlashInsights stale, no fresh premarket First Word/Intraday"
     }
-  ],
-  "updated_at": "2026-06-18T11:33:22.911678Z"
+  ]
 }

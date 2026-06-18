@@ -17,13 +17,13 @@
         "tax_flag": "TAXABLE - gains realize",
         "tax_status": "taxable"
       },
-      "amber_starter_context": "Use the combined $20,000-$45,000 amber starter cap across GOOGL/MSFT, not this full band.",
-      "current_update_reason": "Reduced from the model reference band while the June 17 pre-Fed tape is mixed and Fundstrat/Notion context favors staged confirmation.",
+      "amber_starter_context": "Use the combined $25,000-$60,000 amber starter cap across GOOGL/MSFT, not this full band.",
+      "current_update_reason": "Uses the model reference band only after same-day market/source context is refreshed.",
       "disconfirmation": "Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction.",
       "do_nothing_cost": "GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks.",
       "dollar_band": {
-        "high": 110000.0,
-        "low": 60000.0
+        "high": 155000.0,
+        "low": 100000.0
       },
       "execution_status": "not_executed",
       "existing_exposure_pct": 3.78,
@@ -90,10 +90,10 @@
           "ticker": "GRNY"
         }
       ],
-      "gate_status": "AMBER_PRE_FOMC_ROTATION",
+      "gate_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
       "green_first_tranche": {
-        "high": 77000.0,
-        "low": 30000.0
+        "high": 108500.0,
+        "low": 50000.0
       },
       "model_notional_usd": 151889.68,
       "model_reference_band": {
@@ -102,8 +102,8 @@
       },
       "options_status": "review_only",
       "post_band_exposure_pct": {
-        "high": 9.58,
-        "low": 6.94
+        "high": 11.95,
+        "low": 9.05
       },
       "status": "candidate_only",
       "ticker": "GOOGL"
@@ -125,13 +125,13 @@
         "tax_flag": "TAXABLE - gains realize",
         "tax_status": "taxable"
       },
-      "amber_starter_context": "Use the combined $20,000-$45,000 amber starter cap across GOOGL/MSFT, not this full band.",
-      "current_update_reason": "Reduced from the model reference band while the June 17 pre-Fed tape is mixed and Fundstrat/Notion context favors staged confirmation.",
+      "amber_starter_context": "Use the combined $25,000-$60,000 amber starter cap across GOOGL/MSFT, not this full band.",
+      "current_update_reason": "Uses the model reference band only after same-day market/source context is refreshed.",
       "disconfirmation": "Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation.",
       "do_nothing_cost": "MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks.",
       "dollar_band": {
-        "high": 30000.0,
-        "low": 15000.0
+        "high": 40000.0,
+        "low": 25000.0
       },
       "execution_status": "not_executed",
       "existing_exposure_pct": 1.53,
@@ -174,10 +174,10 @@
           "ticker": "GRNY"
         }
       ],
-      "gate_status": "AMBER_PRE_FOMC_ROTATION",
+      "gate_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
       "green_first_tranche": {
-        "high": 21000.0,
-        "low": 7500.0
+        "high": 28000.0,
+        "low": 12500.0
       },
       "model_notional_usd": 42282.29,
       "model_reference_band": {
@@ -186,14 +186,14 @@
       },
       "options_status": "review_only",
       "post_band_exposure_pct": {
-        "high": 3.11,
-        "low": 2.32
+        "high": 3.64,
+        "low": 2.85
       },
       "status": "candidate_only",
       "ticker": "MSFT"
     }
   ],
-  "as_of": "2026-06-17",
+  "as_of": "2026-06-18",
   "base_packet": {
     "actions": [
       {
@@ -213,13 +213,13 @@
           "tax_flag": "TAXABLE - gains realize",
           "tax_status": "taxable"
         },
-        "amber_starter_context": "Use the combined $20,000-$45,000 amber starter cap across GOOGL/MSFT, not this full band.",
-        "current_update_reason": "Reduced from the model reference band while the June 17 pre-Fed tape is mixed and Fundstrat/Notion context favors staged confirmation.",
+        "amber_starter_context": "Use the combined $25,000-$60,000 amber starter cap across GOOGL/MSFT, not this full band.",
+        "current_update_reason": "Uses the model reference band only after same-day market/source context is refreshed.",
         "disconfirmation": "Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction.",
         "do_nothing_cost": "GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks.",
         "dollar_band": {
-          "high": 110000.0,
-          "low": 60000.0
+          "high": 155000.0,
+          "low": 100000.0
         },
         "execution_status": "not_executed",
         "existing_exposure_pct": 3.78,
@@ -286,10 +286,10 @@
             "ticker": "GRNY"
           }
         ],
-        "gate_status": "AMBER_PRE_FOMC_ROTATION",
+        "gate_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
         "green_first_tranche": {
-          "high": 77000.0,
-          "low": 30000.0
+          "high": 108500.0,
+          "low": 50000.0
         },
         "model_notional_usd": 151889.68,
         "model_reference_band": {
@@ -298,8 +298,8 @@
         },
         "options_status": "review_only",
         "post_band_exposure_pct": {
-          "high": 9.58,
-          "low": 6.94
+          "high": 11.95,
+          "low": 9.05
         },
         "status": "candidate_only",
         "ticker": "GOOGL"
@@ -321,13 +321,13 @@
           "tax_flag": "TAXABLE - gains realize",
           "tax_status": "taxable"
         },
-        "amber_starter_context": "Use the combined $20,000-$45,000 amber starter cap across GOOGL/MSFT, not this full band.",
-        "current_update_reason": "Reduced from the model reference band while the June 17 pre-Fed tape is mixed and Fundstrat/Notion context favors staged confirmation.",
+        "amber_starter_context": "Use the combined $25,000-$60,000 amber starter cap across GOOGL/MSFT, not this full band.",
+        "current_update_reason": "Uses the model reference band only after same-day market/source context is refreshed.",
         "disconfirmation": "Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation.",
         "do_nothing_cost": "MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks.",
         "dollar_band": {
-          "high": 30000.0,
-          "low": 15000.0
+          "high": 40000.0,
+          "low": 25000.0
         },
         "execution_status": "not_executed",
         "existing_exposure_pct": 1.53,
@@ -370,10 +370,10 @@
             "ticker": "GRNY"
           }
         ],
-        "gate_status": "AMBER_PRE_FOMC_ROTATION",
+        "gate_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
         "green_first_tranche": {
-          "high": 21000.0,
-          "low": 7500.0
+          "high": 28000.0,
+          "low": 12500.0
         },
         "model_notional_usd": 42282.29,
         "model_reference_band": {
@@ -382,8 +382,8 @@
         },
         "options_status": "review_only",
         "post_band_exposure_pct": {
-          "high": 3.11,
-          "low": 2.32
+          "high": 3.64,
+          "low": 2.85
         },
         "status": "candidate_only",
         "ticker": "MSFT"
@@ -417,21 +417,15 @@
   },
   "candidate_only": true,
   "current_market_update": {
-    "facts": [
-      "Federal Reserve calendar confirms the June 16-17 meeting is SEP-associated, with the June 17 decision still the gating event.",
-      "Same-day market/news scan showed mixed indexes before the Fed: Dow/small caps firmer, Nasdaq/AI softer, and Treasury yields slightly higher.",
-      "Fundstrat latest research keeps near-term equity trends intact and says tech leadership has not cracked, but also highlights growth-to-value broadening and warns against chasing stretched tech.",
-      "Notion Daily Synthesis keeps Middle East oil/rates event risk on top, Social Watch dark, and Research Queue focus on BMNR, GOOGL, and AVGO.",
-      "Oil is below the panic trigger in today's news tape, but the repo trigger still watches WTI near 99-101 and 10Y yields near 4.55-4.59."
-    ],
-    "headline": "Mixed pre-FOMC tape and Fundstrat broadening work argue for reduced, staged deployment instead of the full model band before the Fed reaction is known.",
-    "implication": "Keep the GOOGL/MSFT rotation alive, but reduce today's actionable bands, stage only if amber, and let AVGO become the top secondary swap review rather than a primary pre-Fed add.",
-    "observed_at": "2026-06-17 13:16 ET",
-    "stance": "AMBER_PRE_FOMC_ROTATION"
+    "facts": [],
+    "headline": "No event-specific same-day overlay is loaded for this date; refresh current market, Fundstrat, and Notion context before action.",
+    "implication": "Use the model reference bands only as staged candidates until live evidence is refreshed.",
+    "observed_at": "",
+    "stance": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS"
   },
   "deep_discount_research": [
     {
-      "checked_at": "2026-06-18T02:52:15.406157+00:00",
+      "checked_at": "2026-06-18T11:49:56.088430+00:00",
       "currency": "USD",
       "current_exposure_pct": 3.64,
       "current_exposure_usd": 69099.0,
@@ -453,7 +447,7 @@
       "ticker": "BMNR"
     },
     {
-      "checked_at": "2026-06-18T02:52:23.024213+00:00",
+      "checked_at": "2026-06-18T11:50:28.172349+00:00",
       "currency": "USD",
       "current_exposure_pct": 5.14,
       "current_exposure_usd": 97636.0,
@@ -472,7 +466,7 @@
       "ticker": "LEU"
     },
     {
-      "checked_at": "2026-06-18T02:52:14.862475+00:00",
+      "checked_at": "2026-06-18T11:49:53.430341+00:00",
       "currency": "USD",
       "current_exposure_pct": 0.0,
       "current_exposure_usd": 0.0,
@@ -491,7 +485,7 @@
       "ticker": "AVAV"
     },
     {
-      "checked_at": "2026-06-18T02:52:18.270015+00:00",
+      "checked_at": "2026-06-18T11:50:06.818148+00:00",
       "currency": "USD",
       "current_exposure_pct": 0.0,
       "current_exposure_usd": 0.0,
@@ -514,7 +508,7 @@
       "ticker": "ELF"
     },
     {
-      "checked_at": "2026-06-18T02:52:22.846252+00:00",
+      "checked_at": "2026-06-18T11:50:27.173102+00:00",
       "currency": "USD",
       "current_exposure_pct": 0.0,
       "current_exposure_usd": 0.0,
@@ -537,7 +531,7 @@
       "ticker": "KTOS"
     },
     {
-      "checked_at": "2026-06-18T02:52:30.267159+00:00",
+      "checked_at": "2026-06-18T11:50:57.094280+00:00",
       "currency": "USD",
       "current_exposure_pct": 0.05,
       "current_exposure_usd": 886.0,
@@ -560,7 +554,7 @@
       "ticker": "SOFI"
     },
     {
-      "checked_at": "2026-06-18T02:52:33.562669+00:00",
+      "checked_at": "2026-06-18T11:51:11.210040+00:00",
       "currency": "USD",
       "current_exposure_pct": 1.81,
       "current_exposure_usd": 34357.0,
@@ -583,7 +577,7 @@
       "ticker": "UUUU"
     },
     {
-      "checked_at": "2026-06-18T02:52:24.157564+00:00",
+      "checked_at": "2026-06-18T11:50:33.449959+00:00",
       "currency": "USD",
       "current_exposure_pct": 0.88,
       "current_exposure_usd": 16753.0,
@@ -602,7 +596,7 @@
       "ticker": "MP"
     },
     {
-      "checked_at": "2026-06-18T02:52:21.255256+00:00",
+      "checked_at": "2026-06-18T11:50:20.640574+00:00",
       "currency": "USD",
       "current_exposure_pct": 0.13,
       "current_exposure_usd": 2430.0,
@@ -635,7 +629,7 @@
     "Options remain review-only with no contract selection."
   ],
   "gates": {
-    "current_status": "AMBER_PRE_FOMC_ROTATION",
+    "current_status": "STAGE_UNTIL_LIVE_TAPE_CONFIRMS",
     "green": [
       "After the Fed statement and press conference, QQQ/SPY hold up and AI/semi tape is not rejecting the move.",
       "Yields and oil are not spiking against duration/growth exposure; 10Y is not moving toward the 4.55-4.59 trigger zone.",
@@ -651,10 +645,10 @@
       "Use only the deliberately reviewed starter cap; keep the rest staged as tickets, not trades."
     ]
   },
-  "generated_at": "2026-06-18T02:52:36.415084+00:00",
+  "generated_at": "2026-06-18T11:51:21.605594+00:00",
   "higher_quality_pullbacks": [
     {
-      "checked_at": "2026-06-18T02:52:24.335212+00:00",
+      "checked_at": "2026-06-18T11:50:34.079240+00:00",
       "currency": "USD",
       "current_exposure_pct": 1.53,
       "current_exposure_usd": 29120.0,
@@ -673,7 +667,7 @@
       "ticker": "MSFT"
     },
     {
-      "checked_at": "2026-06-18T02:52:20.482559+00:00",
+      "checked_at": "2026-06-18T11:50:17.049687+00:00",
       "currency": "USD",
       "current_exposure_pct": 3.78,
       "current_exposure_usd": 71794.0,
@@ -697,7 +691,7 @@
       "ticker": "GOOGL"
     },
     {
-      "checked_at": "2026-06-18T02:52:19.490968+00:00",
+      "checked_at": "2026-06-18T11:50:13.874518+00:00",
       "currency": "USD",
       "current_exposure_pct": 0.4,
       "current_exposure_usd": 7642.0,
@@ -718,7 +712,7 @@
       "ticker": "FN"
     },
     {
-      "checked_at": "2026-06-18T02:52:15.027522+00:00",
+      "checked_at": "2026-06-18T11:49:54.042382+00:00",
       "currency": "USD",
       "current_exposure_pct": 2.12,
       "current_exposure_usd": 40199.0,
@@ -740,7 +734,7 @@
       "ticker": "AVGO"
     },
     {
-      "checked_at": "2026-06-18T02:52:34.151975+00:00",
+      "checked_at": "2026-06-18T11:51:12.888456+00:00",
       "currency": "USD",
       "current_exposure_pct": 0.0,
       "current_exposure_usd": 0.0,
@@ -759,7 +753,7 @@
       "ticker": "VRT"
     },
     {
-      "checked_at": "2026-06-18T02:52:13.828466+00:00",
+      "checked_at": "2026-06-18T11:49:49.520101+00:00",
       "currency": "USD",
       "current_exposure_pct": 1.13,
       "current_exposure_usd": 21466.0,
@@ -778,7 +772,7 @@
       "ticker": "AMZN"
     },
     {
-      "checked_at": "2026-06-18T02:52:25.718225+00:00",
+      "checked_at": "2026-06-18T11:50:39.089806+00:00",
       "currency": "USD",
       "current_exposure_pct": 10.97,
       "current_exposure_usd": 208200.0,
@@ -806,7 +800,7 @@
       "status": "checked_no_new_action_row"
     },
     "market_timing": {
-      "line": "Mixed pre-FOMC tape and Fundstrat broadening work argue for reduced, staged deployment instead of the full model band before the Fed reaction is known.",
+      "line": "No event-specific same-day overlay is loaded for this date; refresh current market, Fundstrat, and Notion context before action.",
       "links": {
         "crude_oil": "https://finance.yahoo.com/quote/CL%3DF",
         "qqq": "https://finance.yahoo.com/quote/QQQ",
@@ -849,7 +843,7 @@
     "positions": {
       "book_value_usd": 1898621.0,
       "snapshot_date": "2026-06-17",
-      "status": "has_data",
+      "status": "stale_or_dark",
       "warnings": []
     },
     "social_watch": {
@@ -883,8 +877,8 @@
       "Elevate AVGO to top secondary swap review only if post-Fed semi tape and flow beat GOOGL/MSFT; FN/VRT/AMZN remain secondary."
     ],
     "total_starter_band_usd": {
-      "high": 45000,
-      "low": 20000
+      "high": 60000,
+      "low": 25000
     }
   },
   "total_book_value_usd": 1898621.0,
@@ -897,7 +891,7 @@
     "row_count": 110,
     "rows": [
       {
-        "checked_at": "2026-06-18T02:52:26.204869+00:00",
+        "checked_at": "2026-06-18T11:50:40.417904+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.01,
         "current_exposure_usd": 145.0,
@@ -916,7 +910,7 @@
         "ticker": "ORBS"
       },
       {
-        "checked_at": "2026-06-18T02:52:15.406157+00:00",
+        "checked_at": "2026-06-18T11:49:56.088430+00:00",
         "currency": "USD",
         "current_exposure_pct": 3.64,
         "current_exposure_usd": 69099.0,
@@ -938,7 +932,7 @@
         "ticker": "BMNR"
       },
       {
-        "checked_at": "2026-06-18T02:52:24.816173+00:00",
+        "checked_at": "2026-06-18T11:50:35.695376+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.1,
         "current_exposure_usd": 1864.0,
@@ -959,7 +953,7 @@
         "ticker": "MSTR"
       },
       {
-        "checked_at": "2026-06-18T02:52:13.422254+00:00",
+        "checked_at": "2026-06-18T11:49:47.843225+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 5.0,
@@ -978,7 +972,7 @@
         "ticker": "ACON"
       },
       {
-        "checked_at": "2026-06-18T02:52:18.431434+00:00",
+        "checked_at": "2026-06-18T11:50:08.607117+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.14,
         "current_exposure_usd": 2708.0,
@@ -997,7 +991,7 @@
         "ticker": "ETHA"
       },
       {
-        "checked_at": "2026-06-18T02:52:23.024213+00:00",
+        "checked_at": "2026-06-18T11:50:28.172349+00:00",
         "currency": "USD",
         "current_exposure_pct": 5.14,
         "current_exposure_usd": 97636.0,
@@ -1016,7 +1010,7 @@
         "ticker": "LEU"
       },
       {
-        "checked_at": "2026-06-18T02:52:17.067089+00:00",
+        "checked_at": "2026-06-18T11:50:01.415826+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.09,
         "current_exposure_usd": 1693.0,
@@ -1035,7 +1029,7 @@
         "ticker": "COIN"
       },
       {
-        "checked_at": "2026-06-18T02:52:33.387532+00:00",
+        "checked_at": "2026-06-18T11:51:10.165678+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.09,
         "current_exposure_usd": 1679.0,
@@ -1043,9 +1037,9 @@
         "fifty_two_week_high": 10.69,
         "high_date": "2025-10-13",
         "latest_price_date": "2026-06-17",
-        "pct_below_high": -62.58,
-        "price": 4.0,
-        "rank_score": 62.56,
+        "pct_below_high": -62.49,
+        "price": 4.01,
+        "rank_score": 62.47,
         "research_status": "",
         "source": "Yahoo Finance chart endpoint",
         "source_flags": [],
@@ -1054,7 +1048,7 @@
         "ticker": "UURAF"
       },
       {
-        "checked_at": "2026-06-18T02:52:16.412363+00:00",
+        "checked_at": "2026-06-18T11:49:59.101216+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 10.0,
@@ -1073,7 +1067,7 @@
         "ticker": "CGC"
       },
       {
-        "checked_at": "2026-06-18T02:52:14.862475+00:00",
+        "checked_at": "2026-06-18T11:49:53.430341+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1092,7 +1086,7 @@
         "ticker": "AVAV"
       },
       {
-        "checked_at": "2026-06-18T02:52:18.270015+00:00",
+        "checked_at": "2026-06-18T11:50:06.818148+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1115,7 +1109,7 @@
         "ticker": "ELF"
       },
       {
-        "checked_at": "2026-06-18T02:52:22.846252+00:00",
+        "checked_at": "2026-06-18T11:50:27.173102+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1138,7 +1132,7 @@
         "ticker": "KTOS"
       },
       {
-        "checked_at": "2026-06-18T02:52:31.732865+00:00",
+        "checked_at": "2026-06-18T11:51:02.979551+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.01,
         "current_exposure_usd": 253.0,
@@ -1157,7 +1151,7 @@
         "ticker": "TEM"
       },
       {
-        "checked_at": "2026-06-18T02:52:23.571496+00:00",
+        "checked_at": "2026-06-18T11:50:30.456996+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.12,
         "current_exposure_usd": 2336.0,
@@ -1176,7 +1170,7 @@
         "ticker": "LUNR"
       },
       {
-        "checked_at": "2026-06-18T02:52:21.448894+00:00",
+        "checked_at": "2026-06-18T11:50:21.872196+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.27,
         "current_exposure_usd": 5204.0,
@@ -1195,7 +1189,7 @@
         "ticker": "IBIT"
       },
       {
-        "checked_at": "2026-06-18T02:52:26.412053+00:00",
+        "checked_at": "2026-06-18T11:50:41.427676+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.83,
         "current_exposure_usd": 15820.0,
@@ -1214,7 +1208,7 @@
         "ticker": "ORCL"
       },
       {
-        "checked_at": "2026-06-18T02:52:30.267159+00:00",
+        "checked_at": "2026-06-18T11:50:57.094280+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.05,
         "current_exposure_usd": 886.0,
@@ -1237,7 +1231,7 @@
         "ticker": "SOFI"
       },
       {
-        "checked_at": "2026-06-18T02:52:33.562669+00:00",
+        "checked_at": "2026-06-18T11:51:11.210040+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.81,
         "current_exposure_usd": 34357.0,
@@ -1260,7 +1254,7 @@
         "ticker": "UUUU"
       },
       {
-        "checked_at": "2026-06-18T02:52:27.390774+00:00",
+        "checked_at": "2026-06-18T11:50:45.425121+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.23,
         "current_exposure_usd": 4356.0,
@@ -1279,7 +1273,7 @@
         "ticker": "POET"
       },
       {
-        "checked_at": "2026-06-18T02:52:27.965989+00:00",
+        "checked_at": "2026-06-18T11:50:47.750588+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.02,
         "current_exposure_usd": 19293.0,
@@ -1298,7 +1292,7 @@
         "ticker": "RDDT"
       },
       {
-        "checked_at": "2026-06-18T02:52:34.354123+00:00",
+        "checked_at": "2026-06-18T11:51:13.940847+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 10.0,
@@ -1317,7 +1311,7 @@
         "ticker": "WOLF"
       },
       {
-        "checked_at": "2026-06-18T02:52:24.157564+00:00",
+        "checked_at": "2026-06-18T11:50:33.449959+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.88,
         "current_exposure_usd": 16753.0,
@@ -1336,7 +1330,7 @@
         "ticker": "MP"
       },
       {
-        "checked_at": "2026-06-18T02:52:14.198431+00:00",
+        "checked_at": "2026-06-18T11:49:51.156800+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.09,
         "current_exposure_usd": 1646.0,
@@ -1355,7 +1349,7 @@
         "ticker": "ARRRF"
       },
       {
-        "checked_at": "2026-06-18T02:52:27.205497+00:00",
+        "checked_at": "2026-06-18T11:50:44.372562+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.18,
         "current_exposure_usd": 3331.0,
@@ -1374,7 +1368,7 @@
         "ticker": "PLTR"
       },
       {
-        "checked_at": "2026-06-18T02:52:22.643897+00:00",
+        "checked_at": "2026-06-18T11:50:26.545858+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1393,7 +1387,7 @@
         "ticker": "KKR"
       },
       {
-        "checked_at": "2026-06-18T02:52:31.913036+00:00",
+        "checked_at": "2026-06-18T11:51:03.998120+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.05,
         "current_exposure_usd": 928.0,
@@ -1412,7 +1406,7 @@
         "ticker": "TLOFF"
       },
       {
-        "checked_at": "2026-06-18T02:52:14.678595+00:00",
+        "checked_at": "2026-06-18T11:49:52.812518+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.3,
         "current_exposure_usd": 5721.0,
@@ -1431,7 +1425,7 @@
         "ticker": "ASTS"
       },
       {
-        "checked_at": "2026-06-18T02:52:20.282055+00:00",
+        "checked_at": "2026-06-18T11:50:16.349741+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1452,7 +1446,7 @@
         "ticker": "GOLD"
       },
       {
-        "checked_at": "2026-06-18T02:52:32.437004+00:00",
+        "checked_at": "2026-06-18T11:51:06.159861+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1475,7 +1469,7 @@
         "ticker": "TPL"
       },
       {
-        "checked_at": "2026-06-18T02:52:15.981908+00:00",
+        "checked_at": "2026-06-18T11:49:57.339030+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1494,7 +1488,7 @@
         "ticker": "BX"
       },
       {
-        "checked_at": "2026-06-18T02:52:24.542368+00:00",
+        "checked_at": "2026-06-18T11:50:35.087270+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 39.0,
@@ -1513,7 +1507,7 @@
         "ticker": "MSOS"
       },
       {
-        "checked_at": "2026-06-18T02:52:24.335212+00:00",
+        "checked_at": "2026-06-18T11:50:34.079240+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.53,
         "current_exposure_usd": 29120.0,
@@ -1532,7 +1526,7 @@
         "ticker": "MSFT"
       },
       {
-        "checked_at": "2026-06-18T02:52:21.255256+00:00",
+        "checked_at": "2026-06-18T11:50:20.640574+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.13,
         "current_exposure_usd": 2430.0,
@@ -1555,7 +1549,7 @@
         "ticker": "HOOD"
       },
       {
-        "checked_at": "2026-06-18T02:52:33.192355+00:00",
+        "checked_at": "2026-06-18T11:51:09.163554+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.13,
         "current_exposure_usd": 2520.0,
@@ -1574,7 +1568,7 @@
         "ticker": "UMAC"
       },
       {
-        "checked_at": "2026-06-18T02:52:19.914259+00:00",
+        "checked_at": "2026-06-18T11:50:15.112882+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.76,
         "current_exposure_usd": 33470.0,
@@ -1593,7 +1587,7 @@
         "ticker": "GDX"
       },
       {
-        "checked_at": "2026-06-18T02:52:29.619136+00:00",
+        "checked_at": "2026-06-18T11:50:54.394404+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.59,
         "current_exposure_usd": 11230.0,
@@ -1612,7 +1606,7 @@
         "ticker": "SIL"
       },
       {
-        "checked_at": "2026-06-18T02:52:26.003085+00:00",
+        "checked_at": "2026-06-18T11:50:39.727597+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.13,
         "current_exposure_usd": 2512.0,
@@ -1631,7 +1625,7 @@
         "ticker": "NXT"
       },
       {
-        "checked_at": "2026-06-18T02:52:29.433129+00:00",
+        "checked_at": "2026-06-18T11:50:53.785380+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1654,7 +1648,7 @@
         "ticker": "SATS"
       },
       {
-        "checked_at": "2026-06-18T02:52:34.542538+00:00",
+        "checked_at": "2026-06-18T11:51:14.586488+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.1,
         "current_exposure_usd": 1931.0,
@@ -1673,7 +1667,7 @@
         "ticker": "WPM"
       },
       {
-        "checked_at": "2026-06-18T02:52:19.490968+00:00",
+        "checked_at": "2026-06-18T11:50:13.874518+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.4,
         "current_exposure_usd": 7642.0,
@@ -1694,7 +1688,7 @@
         "ticker": "FN"
       },
       {
-        "checked_at": "2026-06-18T02:52:16.208418+00:00",
+        "checked_at": "2026-06-18T11:49:58.352195+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.1,
         "current_exposure_usd": 20799.0,
@@ -1713,7 +1707,7 @@
         "ticker": "CCJ"
       },
       {
-        "checked_at": "2026-06-18T02:52:23.771481+00:00",
+        "checked_at": "2026-06-18T11:50:31.452067+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.1,
         "current_exposure_usd": 1902.0,
@@ -1721,9 +1715,9 @@
         "fifty_two_week_high": 16.18,
         "high_date": "2025-10-13",
         "latest_price_date": "2026-06-17",
-        "pct_below_high": -20.77,
-        "price": 12.82,
-        "rank_score": 20.75,
+        "pct_below_high": -20.89,
+        "price": 12.8,
+        "rank_score": 20.87,
         "research_status": "",
         "source": "Yahoo Finance chart endpoint",
         "source_flags": [],
@@ -1732,7 +1726,7 @@
         "ticker": "LYSDY"
       },
       {
-        "checked_at": "2026-06-18T02:52:15.027522+00:00",
+        "checked_at": "2026-06-18T11:49:54.042382+00:00",
         "currency": "USD",
         "current_exposure_pct": 2.12,
         "current_exposure_usd": 40199.0,
@@ -1754,7 +1748,7 @@
         "ticker": "AVGO"
       },
       {
-        "checked_at": "2026-06-18T02:52:32.646697+00:00",
+        "checked_at": "2026-06-18T11:51:06.837121+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.05,
         "current_exposure_usd": 905.0,
@@ -1773,7 +1767,7 @@
         "ticker": "TSLA"
       },
       {
-        "checked_at": "2026-06-18T02:52:23.402053+00:00",
+        "checked_at": "2026-06-18T11:50:29.843194+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.23,
         "current_exposure_usd": 4377.0,
@@ -1792,7 +1786,7 @@
         "ticker": "LITE"
       },
       {
-        "checked_at": "2026-06-18T02:52:18.696086+00:00",
+        "checked_at": "2026-06-18T11:50:09.255277+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1813,7 +1807,7 @@
         "ticker": "EWRE"
       },
       {
-        "checked_at": "2026-06-18T02:52:29.234165+00:00",
+        "checked_at": "2026-06-18T11:50:52.751305+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1838,7 +1832,7 @@
         "ticker": "RYF"
       },
       {
-        "checked_at": "2026-06-18T02:52:36.214440+00:00",
+        "checked_at": "2026-06-18T11:51:20.859204+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1862,7 +1856,7 @@
         "ticker": "XOP"
       },
       {
-        "checked_at": "2026-06-18T02:52:28.983843+00:00",
+        "checked_at": "2026-06-18T11:50:52.127058+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1883,7 +1877,7 @@
         "ticker": "RYE"
       },
       {
-        "checked_at": "2026-06-18T02:52:31.534016+00:00",
+        "checked_at": "2026-06-18T11:51:02.279074+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.49,
         "current_exposure_usd": 9320.0,
@@ -1904,7 +1898,7 @@
         "ticker": "STRL"
       },
       {
-        "checked_at": "2026-06-18T02:52:34.151975+00:00",
+        "checked_at": "2026-06-18T11:51:12.888456+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1923,7 +1917,7 @@
         "ticker": "VRT"
       },
       {
-        "checked_at": "2026-06-18T02:52:15.692337+00:00",
+        "checked_at": "2026-06-18T11:49:56.695962+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.11,
         "current_exposure_usd": 21023.0,
@@ -1942,7 +1936,7 @@
         "ticker": "BWXT"
       },
       {
-        "checked_at": "2026-06-18T02:52:26.785220+00:00",
+        "checked_at": "2026-06-18T11:50:42.657259+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.7,
         "current_exposure_usd": 13242.0,
@@ -1961,7 +1955,7 @@
         "ticker": "PBW"
       },
       {
-        "checked_at": "2026-06-18T02:52:30.807277+00:00",
+        "checked_at": "2026-06-18T11:50:59.652624+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -1984,7 +1978,7 @@
         "ticker": "SPCX"
       },
       {
-        "checked_at": "2026-06-18T02:52:13.828466+00:00",
+        "checked_at": "2026-06-18T11:49:49.520101+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.13,
         "current_exposure_usd": 21466.0,
@@ -2003,7 +1997,7 @@
         "ticker": "AMZN"
       },
       {
-        "checked_at": "2026-06-18T02:52:35.156053+00:00",
+        "checked_at": "2026-06-18T11:51:16.824528+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2022,7 +2016,7 @@
         "ticker": "XLE"
       },
       {
-        "checked_at": "2026-06-18T02:52:25.718225+00:00",
+        "checked_at": "2026-06-18T11:50:39.089806+00:00",
         "currency": "USD",
         "current_exposure_pct": 10.97,
         "current_exposure_usd": 208200.0,
@@ -2041,7 +2035,7 @@
         "ticker": "NVDA"
       },
       {
-        "checked_at": "2026-06-18T02:52:17.665131+00:00",
+        "checked_at": "2026-06-18T11:50:04.089866+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.25,
         "current_exposure_usd": 4756.0,
@@ -2060,7 +2054,7 @@
         "ticker": "CRWD"
       },
       {
-        "checked_at": "2026-06-18T02:52:17.836783+00:00",
+        "checked_at": "2026-06-18T11:50:05.076779+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2083,7 +2077,7 @@
         "ticker": "DE"
       },
       {
-        "checked_at": "2026-06-18T02:52:21.648804+00:00",
+        "checked_at": "2026-06-18T11:50:22.908391+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.4,
         "current_exposure_usd": 7654.0,
@@ -2104,7 +2098,7 @@
         "ticker": "IESC"
       },
       {
-        "checked_at": "2026-06-18T02:52:17.250287+00:00",
+        "checked_at": "2026-06-18T11:50:02.396280+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.31,
         "current_exposure_usd": 5937.0,
@@ -2123,7 +2117,7 @@
         "ticker": "COST"
       },
       {
-        "checked_at": "2026-06-18T02:52:15.223109+00:00",
+        "checked_at": "2026-06-18T11:49:55.047639+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.99,
         "current_exposure_usd": 18819.0,
@@ -2142,7 +2136,7 @@
         "ticker": "BE"
       },
       {
-        "checked_at": "2026-06-18T02:52:31.327339+00:00",
+        "checked_at": "2026-06-18T11:51:01.300558+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2163,7 +2157,7 @@
         "ticker": "STRC"
       },
       {
-        "checked_at": "2026-06-18T02:52:20.101288+00:00",
+        "checked_at": "2026-06-18T11:50:15.742318+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.11,
         "current_exposure_usd": 2098.0,
@@ -2182,7 +2176,7 @@
         "ticker": "GEV"
       },
       {
-        "checked_at": "2026-06-18T02:52:20.482559+00:00",
+        "checked_at": "2026-06-18T11:50:17.049687+00:00",
         "currency": "USD",
         "current_exposure_pct": 3.78,
         "current_exposure_usd": 71794.0,
@@ -2206,7 +2200,7 @@
         "ticker": "GOOGL"
       },
       {
-        "checked_at": "2026-06-18T02:52:22.244227+00:00",
+        "checked_at": "2026-06-18T11:50:25.287682+00:00",
         "currency": "USD",
         "current_exposure_pct": 3.58,
         "current_exposure_usd": 67911.0,
@@ -2225,7 +2219,7 @@
         "ticker": "IVES"
       },
       {
-        "checked_at": "2026-06-18T02:52:16.615322+00:00",
+        "checked_at": "2026-06-18T11:50:00.090700+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.22,
         "current_exposure_usd": 4254.0,
@@ -2244,7 +2238,7 @@
         "ticker": "CIBR"
       },
       {
-        "checked_at": "2026-06-18T02:52:23.226681+00:00",
+        "checked_at": "2026-06-18T11:50:28.819869+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.18,
         "current_exposure_usd": 3349.0,
@@ -2263,7 +2257,7 @@
         "ticker": "LIT"
       },
       {
-        "checked_at": "2026-06-18T02:52:27.584419+00:00",
+        "checked_at": "2026-06-18T11:50:46.409820+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.25,
         "current_exposure_usd": 23639.0,
@@ -2284,7 +2278,7 @@
         "ticker": "PWR"
       },
       {
-        "checked_at": "2026-06-18T02:52:23.957972+00:00",
+        "checked_at": "2026-06-18T11:50:32.445463+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.02,
         "current_exposure_usd": 399.0,
@@ -2303,7 +2297,7 @@
         "ticker": "MAGS"
       },
       {
-        "checked_at": "2026-06-18T02:52:16.837867+00:00",
+        "checked_at": "2026-06-18T11:50:00.732087+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2325,7 +2319,7 @@
         "ticker": "CL"
       },
       {
-        "checked_at": "2026-06-18T02:52:18.078558+00:00",
+        "checked_at": "2026-06-18T11:50:05.786165+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.64,
         "current_exposure_usd": 12101.0,
@@ -2344,7 +2338,7 @@
         "ticker": "DRIV"
       },
       {
-        "checked_at": "2026-06-18T02:52:14.029203+00:00",
+        "checked_at": "2026-06-18T11:49:50.163243+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.42,
         "current_exposure_usd": 7896.0,
@@ -2365,7 +2359,7 @@
         "ticker": "ANET"
       },
       {
-        "checked_at": "2026-06-18T02:52:13.657573+00:00",
+        "checked_at": "2026-06-18T11:49:48.906005+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.43,
         "current_exposure_usd": 8146.0,
@@ -2386,7 +2380,7 @@
         "ticker": "AMD"
       },
       {
-        "checked_at": "2026-06-18T02:52:26.986716+00:00",
+        "checked_at": "2026-06-18T11:50:43.302668+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2409,7 +2403,7 @@
         "ticker": "PKG"
       },
       {
-        "checked_at": "2026-06-18T02:52:30.085642+00:00",
+        "checked_at": "2026-06-18T11:50:56.085485+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.26,
         "current_exposure_usd": 5017.0,
@@ -2428,7 +2422,7 @@
         "ticker": "SNSR"
       },
       {
-        "checked_at": "2026-06-18T02:52:28.788445+00:00",
+        "checked_at": "2026-06-18T11:50:51.129174+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2449,7 +2443,7 @@
         "ticker": "RSPT"
       },
       {
-        "checked_at": "2026-06-18T02:52:35.993859+00:00",
+        "checked_at": "2026-06-18T11:51:20.161143+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.79,
         "current_exposure_usd": 14988.0,
@@ -2470,7 +2464,7 @@
         "ticker": "XLU"
       },
       {
-        "checked_at": "2026-06-18T02:52:26.610353+00:00",
+        "checked_at": "2026-06-18T11:50:42.046379+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.29,
         "current_exposure_usd": 5598.0,
@@ -2489,7 +2483,7 @@
         "ticker": "PANW"
       },
       {
-        "checked_at": "2026-06-18T02:52:19.301061+00:00",
+        "checked_at": "2026-06-18T11:50:12.866169+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.4,
         "current_exposure_usd": 7658.0,
@@ -2510,7 +2504,7 @@
         "ticker": "FIX"
       },
       {
-        "checked_at": "2026-06-18T02:52:25.496526+00:00",
+        "checked_at": "2026-06-18T11:50:37.989124+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.04,
         "current_exposure_usd": 758.0,
@@ -2529,7 +2523,7 @@
         "ticker": "NUE"
       },
       {
-        "checked_at": "2026-06-18T02:52:32.072982+00:00",
+        "checked_at": "2026-06-18T11:51:04.616360+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2551,7 +2545,7 @@
         "ticker": "TLT"
       },
       {
-        "checked_at": "2026-06-18T02:52:24.994347+00:00",
+        "checked_at": "2026-06-18T11:50:36.319002+00:00",
         "currency": "USD",
         "current_exposure_pct": 3.5,
         "current_exposure_usd": 66411.0,
@@ -2570,7 +2564,7 @@
         "ticker": "MU"
       },
       {
-        "checked_at": "2026-06-18T02:52:18.925409+00:00",
+        "checked_at": "2026-06-18T11:50:10.256094+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2591,7 +2585,7 @@
         "ticker": "EWY"
       },
       {
-        "checked_at": "2026-06-18T02:52:25.218984+00:00",
+        "checked_at": "2026-06-18T11:50:36.990349+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.27,
         "current_exposure_usd": 24124.0,
@@ -2610,7 +2604,7 @@
         "ticker": "NBIS"
       },
       {
-        "checked_at": "2026-06-18T02:52:19.666662+00:00",
+        "checked_at": "2026-06-18T11:50:14.493436+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.26,
         "current_exposure_usd": 4945.0,
@@ -2629,7 +2623,7 @@
         "ticker": "FTXL"
       },
       {
-        "checked_at": "2026-06-18T02:52:28.171034+00:00",
+        "checked_at": "2026-06-18T11:50:48.736426+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2650,7 +2644,7 @@
         "ticker": "RGI"
       },
       {
-        "checked_at": "2026-06-18T02:52:30.582314+00:00",
+        "checked_at": "2026-06-18T11:50:58.644005+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.63,
         "current_exposure_usd": 30878.0,
@@ -2669,7 +2663,7 @@
         "ticker": "SOXX"
       },
       {
-        "checked_at": "2026-06-18T02:52:35.352147+00:00",
+        "checked_at": "2026-06-18T11:51:17.605248+00:00",
         "currency": "USD",
         "current_exposure_pct": 4.95,
         "current_exposure_usd": 93938.0,
@@ -2688,7 +2682,7 @@
         "ticker": "XLF"
       },
       {
-        "checked_at": "2026-06-18T02:52:20.665237+00:00",
+        "checked_at": "2026-06-18T11:50:18.048695+00:00",
         "currency": "USD",
         "current_exposure_pct": 8.43,
         "current_exposure_usd": 159989.0,
@@ -2707,7 +2701,7 @@
         "ticker": "GRNJ"
       },
       {
-        "checked_at": "2026-06-18T02:52:32.812016+00:00",
+        "checked_at": "2026-06-18T11:51:07.452446+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.22,
         "current_exposure_usd": 4258.0,
@@ -2726,7 +2720,7 @@
         "ticker": "TSM"
       },
       {
-        "checked_at": "2026-06-18T02:52:29.889320+00:00",
+        "checked_at": "2026-06-18T11:50:55.461556+00:00",
         "currency": "USD",
         "current_exposure_pct": 5.11,
         "current_exposure_usd": 96948.0,
@@ -2748,7 +2742,7 @@
         "ticker": "SMH"
       },
       {
-        "checked_at": "2026-06-18T02:52:35.797471+00:00",
+        "checked_at": "2026-06-18T11:51:19.158917+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.02,
         "current_exposure_usd": 19439.0,
@@ -2767,7 +2761,7 @@
         "ticker": "XLRE"
       },
       {
-        "checked_at": "2026-06-18T02:52:14.473681+00:00",
+        "checked_at": "2026-06-18T11:49:51.779091+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.46,
         "current_exposure_usd": 8665.0,
@@ -2786,7 +2780,7 @@
         "ticker": "ASML"
       },
       {
-        "checked_at": "2026-06-18T02:52:27.759927+00:00",
+        "checked_at": "2026-06-18T11:50:47.091892+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2810,7 +2804,7 @@
         "ticker": "QQQ"
       },
       {
-        "checked_at": "2026-06-18T02:52:33.735577+00:00",
+        "checked_at": "2026-06-18T11:51:12.216674+00:00",
         "currency": "USD",
         "current_exposure_pct": 4.18,
         "current_exposure_usd": 79282.0,
@@ -2829,7 +2823,7 @@
         "ticker": "VOLT"
       },
       {
-        "checked_at": "2026-06-18T02:52:28.375548+00:00",
+        "checked_at": "2026-06-18T11:50:49.846683+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.64,
         "current_exposure_usd": 12152.0,
@@ -2848,7 +2842,7 @@
         "ticker": "RPG"
       },
       {
-        "checked_at": "2026-06-18T02:52:22.050452+00:00",
+        "checked_at": "2026-06-18T11:50:24.646920+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.63,
         "current_exposure_usd": 11976.0,
@@ -2867,7 +2861,7 @@
         "ticker": "ITA"
       },
       {
-        "checked_at": "2026-06-18T02:52:31.092845+00:00",
+        "checked_at": "2026-06-18T11:51:00.659299+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2891,7 +2885,7 @@
         "ticker": "SPY"
       },
       {
-        "checked_at": "2026-06-18T02:52:28.596383+00:00",
+        "checked_at": "2026-06-18T11:50:50.481286+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2913,7 +2907,7 @@
         "ticker": "RSP"
       },
       {
-        "checked_at": "2026-06-18T02:52:21.834821+00:00",
+        "checked_at": "2026-06-18T11:50:23.638952+00:00",
         "currency": "USD",
         "current_exposure_pct": 1.29,
         "current_exposure_usd": 24523.0,
@@ -2932,7 +2926,7 @@
         "ticker": "IHF"
       },
       {
-        "checked_at": "2026-06-18T02:52:32.995386+00:00",
+        "checked_at": "2026-06-18T11:51:08.085597+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2953,7 +2947,7 @@
         "ticker": "UBS"
       },
       {
-        "checked_at": "2026-06-18T02:52:19.115915+00:00",
+        "checked_at": "2026-06-18T11:50:11.840274+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.06,
         "current_exposure_usd": 1058.0,
@@ -2972,7 +2966,7 @@
         "ticker": "FBGKX"
       },
       {
-        "checked_at": "2026-06-18T02:52:34.955564+00:00",
+        "checked_at": "2026-06-18T11:51:16.037015+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -2993,7 +2987,7 @@
         "ticker": "XHS"
       },
       {
-        "checked_at": "2026-06-18T02:52:21.041180+00:00",
+        "checked_at": "2026-06-18T11:50:19.621269+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.69,
         "current_exposure_usd": 13088.0,
@@ -3014,7 +3008,7 @@
         "ticker": "GS"
       },
       {
-        "checked_at": "2026-06-18T02:52:20.851010+00:00",
+        "checked_at": "2026-06-18T11:50:19.015987+00:00",
         "currency": "USD",
         "current_exposure_pct": 9.6,
         "current_exposure_usd": 182240.0,
@@ -3033,7 +3027,7 @@
         "ticker": "GRNY"
       },
       {
-        "checked_at": "2026-06-18T02:52:17.455856+00:00",
+        "checked_at": "2026-06-18T11:50:03.035460+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.18,
         "current_exposure_usd": 3370.0,
@@ -3054,7 +3048,7 @@
         "ticker": "CRS"
       },
       {
-        "checked_at": "2026-06-18T02:52:34.742015+00:00",
+        "checked_at": "2026-06-18T11:51:15.336414+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.0,
         "current_exposure_usd": 0.0,
@@ -3075,7 +3069,7 @@
         "ticker": "XBI"
       },
       {
-        "checked_at": "2026-06-18T02:52:35.592540+00:00",
+        "checked_at": "2026-06-18T11:51:18.346600+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.66,
         "current_exposure_usd": 12590.0,
@@ -3096,7 +3090,7 @@
         "ticker": "XLI"
       },
       {
-        "checked_at": "2026-06-18T02:52:22.431793+00:00",
+        "checked_at": "2026-06-18T11:50:25.902057+00:00",
         "currency": "USD",
         "current_exposure_pct": 0.32,
         "current_exposure_usd": 6005.0,
