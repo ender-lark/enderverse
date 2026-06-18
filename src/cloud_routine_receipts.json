@@ -2,54 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:09.090769Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T21:27:09.105288Z",
-      "summary": "investing-os-fundstrat-daytime-watch manual run started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "manual",
@@ -6357,7 +6309,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T15:49:54.165783Z",
       "summary": "web pages checked 2 Macro latest Jun17 15:38 ET Crypto latest Jun8 09:32 ET; Gmail messages checked 2; rows landed 0; suppressed promo 1 duplicate First-to-Market 1 plus stale FlashInsights; validation passed; alert quiet 0 candidates 5 duplicates 55 suppressed; trigger guard fired 0 not_checked EWRE/ASTS/RKLB/MU quote lanes; blockers no same-day FlashInsights and quotes not checked"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T16:30:58.786223Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-18T16:36:35.399165Z",
+      "summary": "oil/rates event-risk refreshed; ingested 2 FS inbox entries through [06/18/2026 12:25 ET]; logged 2 Source Call rows; no timing-gate contradiction; query endpoint dark/not_checked"
     }
   ],
-  "updated_at": "2026-06-18T15:49:54.165783Z"
+  "updated_at": "2026-06-18T16:36:35.399165Z"
 }
