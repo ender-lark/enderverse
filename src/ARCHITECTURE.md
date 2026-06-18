@@ -262,6 +262,20 @@ Both the Python HTML renderer (`today_decide.render_today_decide_html`) and the 
 
 The parity is enforced by `src/test_jsx_parity.py`.
 
+**Canonical render stack (declared 2026-06-18, RENDER-REDESIGN).** The **deployed**
+TODAY—DECIDE surface in `docs/index.html` is built **100% by the Python stack**:
+`cockpit_html_gen.py` (page shell) calls `today_decide.render_today_decide_html(payload)`.
+No non-test, non-preview code imports `TodayDecide.jsx` — its only importer is the
+parallel artifact `conviction_cockpit_v6.jsx`, which is **not** wired into `docs/index.html`.
+So **`today_decide.py` + `cockpit_html_gen.py` are canonical for the served page.**
+`src/TodayDecide.jsx` is a **parity-tested mirror** (read as text by `test_jsx_parity.py`,
+and carrying the landed F1 CONFLICTED anchors) — it is intentionally left untouched by the
+render redesign. **FLAG for the operator:** two parallel render stacks (Python deployed, JSX
+mirror) is a standing duplication/foot-gun; a follow-up should decide whether to formally
+retire the JSX artifact or keep it as a parity contract. Until then, edit render behavior in
+the **Python** stack only; a card-field/rail-string change there forces a matching JSX edit
+(owned by the F1/parity track), so coordinate rather than editing `TodayDecide.jsx` ad hoc.
+
 ### 12.3 · Honesty rails carried into V3
 
 * Pace line is computed once, labeled display-only, never feeds ranking or urgency (tested).
