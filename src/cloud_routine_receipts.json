@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T14:07:50.840710Z",
-      "summary": "parabolic cache started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T14:08:48.113269Z",
-      "summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -6407,7 +6393,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T14:47:44.173684Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T14:51:01.506617Z",
+      "summary": "checked Chrome Macro FlashInsights stale Jun18, Crypto FlashInsights stale Jun8, Latest Research discovery no Jun19; Gmail search Jun19 0 messages read 0; rows landed 0; discovery/stale suppressed; validation passed; alert sent 5 existing duplicate-unsent action-changing rows, quiet 62 suppressed 7 duplicates; Notion not used; no blockers"
     }
   ],
-  "updated_at": "2026-06-19T14:33:44.297412Z"
+  "updated_at": "2026-06-19T14:51:01.506617Z"
 }
