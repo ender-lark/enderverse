@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:06:01.919733Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:06:05.177195Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "success",
       "run_source": "scheduled",
@@ -6393,7 +6372,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T16:35:36.889291Z",
       "summary": "FS inbox catch-up midday nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T16:47:45.508204Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T16:53:40.139790Z",
+      "summary": "checked Chrome Macro FI Jun18 15:02 stale, Crypto FI Jun8 09:32 stale, research listings no Jun19; Gmail Jun19 domain 0 messages full-body 0; rows landed 0; suppressed stale/duplicate/discovery-only; validation passed; alert quiet 0 candidates 12 duplicates 62 suppressed; dashboard skipped; blockers none"
     }
   ],
-  "updated_at": "2026-06-19T16:35:36.889291Z"
+  "updated_at": "2026-06-19T16:53:40.139790Z"
 }
