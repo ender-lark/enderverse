@@ -3,27 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T15:47:57.863338Z",
-      "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T16:47:42.967935Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T16:48:30.048458Z",
-      "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T17:46:55.123587Z",
@@ -6103,7 +6082,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T12:14:22.000619Z",
       "summary": "landed 5 Fundstrat full-body Newton rows; positions untouched no broker upload; web checked no Jun19; drop folders empty; UW/Notion no writes"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:21:17.302591Z",
+      "summary": "investing-os-broker-position-intake started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:21:29.052730Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:23:21.400104Z",
+      "summary": "FS inbox catch-up preopen nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified"
     }
   ],
-  "updated_at": "2026-06-19T12:14:22.000619Z"
+  "updated_at": "2026-06-19T12:23:21.400104Z"
 }
