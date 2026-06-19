@@ -1,5 +1,4 @@
 {
-  "schema_version": 2,
   "receipts": [
     {
       "routine_id": "investing-os-morning-scan",
@@ -6044,7 +6043,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T01:16:40.826061Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T01:24:12.516672Z",
+      "summary": "checked cockpit/research/event-risk/holdings; SEC active universe, UW proof, Polymarket/Kalshi public search, Social Watch; found 2 routed packets LEU-Oklo HALEU and SATS DBS cure; Notion Signal Log 2 written+readback verified, repo Signal Log +2 validated; suppressed duplicate NVDA/BMNR/AVGO and governance-only COIN/GOOGL; dark/blockers Social Watch missing, UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, prediction search unrelated/no relevant markets"
     }
   ],
-  "updated_at": "2026-06-19T01:16:19.555450Z"
+  "updated_at": "2026-06-19T01:25:01.629884+00:00"
 }
