@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T14:02:26.353726Z",
-      "summary": "uw opportunity cache started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T14:04:00.097904Z",
-      "summary": "scanned 14 tickers; 13 live observations landed; 39 signals cached; empty-source GRNJ; worker failures 0"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -6383,7 +6369,45 @@
         ]
       },
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T14:32:04.776410Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T14:33:44.297412Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "84bba344ce87c855eebab0f185b9ea68caadbd706c454a558e240df492bd3dd6",
+            "as_of": "2026-06-19T14:33:38.134448+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "cdb610342923d9960890985954e9decacad371504e5265845b96b789003e321a",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-19T14:31:52.512069Z"
+  "updated_at": "2026-06-19T14:33:44.297412Z"
 }
