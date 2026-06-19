@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-09T13:09:41.912948Z",
-      "summary": "manual scout found 5 useful packets; Notion Research Queue 2 verified, Signal Log 3 verified; repo caches validated; routine tuned around SEC-first sourcing and noise filters"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T13:31:33.773370Z",
-      "summary": "daily synthesis started"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "success",
       "run_source": "scheduled",
@@ -6060,7 +6046,21 @@
         "captured_page_ids": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T02:47:39.366842Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T02:55:34.997396Z",
+      "summary": "checked Chrome web 12 surfaces/pages incl Macro/Crypto FlashInsights, article/video listings, Jun18 DTS detail+Vimeo transcript; videos checked 1; vault entries written 1; Gmail checked 0; landed 5 compact rows JETS DAL XHB QQQ SMH; suppressed old/stale/discovery-only listings incl Crypto Flash stale Jun8, crypto research Jun17, Macro Minute Jun17, webinars/replays; validations public-index+email-intake passed; dashboard refreshed; dark lanes Social Watch; blockers none"
     }
   ],
-  "updated_at": "2026-06-19T02:19:29.266591Z"
+  "updated_at": "2026-06-19T02:55:34.997396Z"
 }
