@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T13:42:18.752003Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T13:43:41.895625Z",
-      "summary": "4 check sets/25 tickers; UW proof 1 support 10 inconclusive 1 missing (MARKET_MOVERS 403); dashboard refreshed; NVDA review-only support, Today/Reallocation still gated by inconclusive price-flow and missing market-movers proof"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -6359,7 +6345,45 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T14:31:49.463983Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T14:31:52.512069Z",
+      "summary": "full cockpit build failed",
+      "details": {
+        "returncode": 1,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "cdb610342923d9960890985954e9decacad371504e5265845b96b789003e321a",
+            "as_of": "2026-06-19T13:44:07.271051+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "cdb610342923d9960890985954e9decacad371504e5265845b96b789003e321a",
+            "changed": false
+          }
+        ]
+      },
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-19T14:06:36.511499Z"
+  "updated_at": "2026-06-19T14:31:52.512069Z"
 }
