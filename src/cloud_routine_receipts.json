@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T12:14:13.934472Z",
-      "summary": "0 Fundstrat rows landed; positions unchanged; catalysts/event risk unchanged; broker,catalyst,event-risk lanes not_checked or stale due no supplied input; Notion structured catalyst rows unavailable"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T12:36:44.492350Z",
-      "summary": "morning scan started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "scheduled",
@@ -6030,7 +6016,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T00:54:46.691077Z",
       "summary": "FS inbox catch-up evening ingested 2 entries; logged 9 Newton calls; marker advanced to [06/18/2026 20:10 ET]; flags QQQ gate refresh 722, oil/rates tailwind, banks/semis/consumer research; no gate/card mutation; query endpoint dark fallback search"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T01:16:17.962690Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T01:16:19.555450Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-19T00:54:46.691077Z"
+  "updated_at": "2026-06-19T01:16:19.555450Z"
 }
