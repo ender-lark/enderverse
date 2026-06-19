@@ -437,5 +437,37 @@
     "priority": "medium",
     "source": "https://www.sec.gov/Archives/edgar/data/1415404/000141540426000027/sats-20260617x8k.htm",
     "note": "EchoStar 8-K filed 2026-06-18: DISH DBS would make June 1 interest payments on June 18 within 30-day grace periods before nonpayment became an Event of Default; AT&T transaction proceeds remain pending and closing may be delayed. Mixed recheck for SATS avoid/deep-discount review: immediate default risk falls, liquidity/closing risk remains. Notion Signal Log verified https://app.notion.com/p/384c50314bb681fc8bcef0456c64e23a."
+  },
+  {
+    "signal": "Juneteenth cash-market closure makes today a no-live-tape scan",
+    "ticker": "SPY, QQQ, SMH, NVDA, MU",
+    "date": "2026-06-19",
+    "priority": "high",
+    "source": "https://app.notion.com/p/Juneteenth-cash-market-closure-makes-today-a-no-live-tape-scan-384c50314bb68102866bcc4dbed6bd93",
+    "note": "NYSE/Nasdaq are closed Friday 2026-06-19 for Juneteenth; normal U.S. equity cash trading resumes Monday 2026-06-22. Decision impact: same-session price/flow gates should remain unavailable/dark today; do not treat lack of cash-session movement as confirmation. Sources: https://www.nyse.com/trade/hours-calendars ; https://www.nasdaqtrader.com/trader.aspx?id=Calendar"
+  },
+  {
+    "signal": "UW prior-session flow was call-premium positive into holiday gap",
+    "ticker": "MU, SMH, NVDA, QQQ",
+    "date": "2026-06-19",
+    "priority": "high",
+    "source": "https://app.notion.com/p/UW-prior-session-flow-was-call-premium-positive-into-holiday-gap-384c50314bb681ddb799cb892634d27d",
+    "note": "UW market tide returned rows through 2026-06-18 16:10 ET with net call premium about $808M vs net put premium about $96M; total-options-volume latest date is 2026-06-18; top net impact included MU and SMH. Decision impact: supportive prior-session context for held semis/AI, but June 19 cash tape is closed so it cannot confirm an action today. Blocker: MARKET_MOVERS endpoint returned 403 advanced_tier_required."
+  },
+  {
+    "signal": "Hormuz/oil relief is still unresolved despite de-escalation signs",
+    "ticker": "USO, XLE, XOP, TNX, XLF, SMH, LEU, UUUU",
+    "date": "2026-06-19",
+    "priority": "high",
+    "source": "https://app.notion.com/p/Hormuz-oil-relief-is-still-unresolved-despite-de-escalation-signs-384c50314bb681248a48c2c1bb65504e",
+    "note": "June 19 public reports say oil is lower on resumed Hormuz shipping/de-escalation, but shipping normalization remains disputed and crude was still volatile around the $76-$80 WTI area in reports. Decision impact: keep oil/rates event-risk active for new-buy timing, semis/high-duration growth, financials, energy and nuclear sleeves; not cleared until shipping, WTI, and rates confirm. Sources: https://www.theguardian.com/world/2026/jun/19/normal-shipping-will-not-resume-in-strait-of-hormuz-until-mines-cleared ; https://www.wsj.com/finance/commodities-futures/oil-falls-on-signs-of-strait-of-hormuzs-reopening-e18fac1e"
+  },
+  {
+    "signal": "Google TPU push is becoming a clearer Nvidia/AI-infra competitive variable",
+    "ticker": "GOOGL, NVDA, AVGO, SMH, MSFT, AMZN",
+    "date": "2026-06-19",
+    "priority": "high",
+    "source": "https://app.notion.com/p/Google-TPU-push-is-becoming-a-clearer-Nvidia-AI-infra-competitive-variable-384c50314bb6817580f6c29586e8c7b0",
+    "note": "WSJ/The Times coverage today says Google is pushing TPUs externally with infrastructure financing and customer partnerships, including Anthropic/Lake Mariner references and Citadel Securities use cases. Decision impact: this does not weaken Nvidia automatically, but it raises the need to distinguish GOOGL/AVGO AI infrastructure upside from NVDA moat risk in research and sizing discussions. Source: https://www.wsj.com/tech/ai/google-is-using-nvidias-playbook-to-build-a-rival-ai-chip-business-1eac86f9"
   }
 ]

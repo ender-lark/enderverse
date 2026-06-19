@@ -3,27 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T17:47:42.929166Z",
-      "summary": "checked 2 Gmail messages, read 0 full bodies, landed 0 compact rows, suppressed 0 new low-value notes, validation passed, alerts quiet, Fundstrat lane stale/no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T18:47:01.986720Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T18:48:04.307407Z",
-      "summary": "checked 2 Gmail messages, read 2 bodies, landed 0 compact rows, suppressed 0 new low-value notes, validation passed, alerts quiet, Fundstrat lane stale/no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T19:46:09.827636Z",
@@ -5864,6 +5843,27 @@
       "boundary_outcome": "fired_unknown"
     },
     {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T01:16:19.555450Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "produced_fresh"
+    },
+    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "started",
       "run_source": "scheduled",
@@ -6156,7 +6156,100 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:36:53.271026Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:40:56.308964Z",
+      "summary": "4 Signal Log rows written+verified; repo cache 59 rows; UW proof refreshed through 2026-06-18 16:10 ET; Jun19 cash market closed; macro unchanged stale; blockers UW movers 403, Social Watch dark",
+      "details": {
+        "boundary_outcome": "produced_fresh",
+        "boundary_artifacts": [
+          "src/signal_log.json",
+          "src/live_source_config.json"
+        ],
+        "changed_boundary_artifacts": [
+          "src/signal_log.json",
+          "src/live_source_config.json"
+        ],
+        "stale_boundary_artifacts": [
+          "src/macro_state.json"
+        ],
+        "missing_boundary_artifacts": [],
+        "notion_signal_log": {
+          "created": 4,
+          "verified": 4,
+          "page_ids": [
+            "384c5031-4bb6-8102-866b-cc4dbed6bd93",
+            "384c5031-4bb6-81dd-b799-cb892634d27d",
+            "384c5031-4bb6-8124-8a48-c2c1bb65504e",
+            "384c5031-4bb6-8175-80f6-c29586e8c7b0"
+          ]
+        },
+        "repo_signal_log": {
+          "rows": 59,
+          "rows_added": 4,
+          "validated": true
+        },
+        "uw": {
+          "summary": [
+            {
+              "name": "market_tide",
+              "status": "ok",
+              "row_count": 81
+            },
+            {
+              "name": "total_options_volume",
+              "status": "ok",
+              "row_count": 25
+            },
+            {
+              "name": "top_net_impact",
+              "status": "ok",
+              "row_count": 25
+            },
+            {
+              "name": "market_movers",
+              "status": "failed",
+              "error": "UW HTTP 403 for /api/market/movers: {\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/dashboard/api?utm_source=api&utm_campaign=json_msg to upgrade, or contac"
+            }
+          ],
+          "market_tide_latest_timestamp": "2026-06-18T16:10:00-04:00",
+          "holiday_gap": "US cash market closed 2026-06-19"
+        },
+        "macro": {
+          "status": "unchanged_stale",
+          "snapshot_date": "2026-06-04",
+          "reason": "no real supplied current yield/cross-asset payload available"
+        },
+        "morning_scan": {
+          "summary": {
+            "endorsed_dip": 0,
+            "explicit_add": 5,
+            "drumbeat": 6,
+            "stale_leaps": 0,
+            "overexposure_rotation": 0,
+            "tier_b_side_play": 19
+          },
+          "warnings": 0
+        },
+        "dark_or_blocked": [
+          "US cash-session price/flow: closed for Juneteenth 2026-06-19",
+          "UW MARKET_MOVERS: 403 advanced_tier_required",
+          "Social Watch: not supplied",
+          "Macro refresh: no current supplied yield/cross-asset payload"
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-19T12:23:55.032092Z"
+  "updated_at": "2026-06-19T12:40:56.308964Z"
 }
