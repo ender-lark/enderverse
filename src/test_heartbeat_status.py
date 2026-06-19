@@ -119,6 +119,52 @@ def test_heartbeat_rows_show_overdue_cloud_routine_receipts():
     assert validate_heartbeat(rows) == []
 
 
+def test_heartbeat_rows_show_stale_boundary_data():
+    rows = heartbeat_rows(
+        _base_report(
+            routine_receipt_due={
+                "rows": [{
+                    "routine_id": "investing-os-morning-scan",
+                    "routine_name": "Investing OS Morning Scan",
+                    "last_boundary_outcome": "stale_boundary",
+                    "stale_boundary_artifacts": ["src/macro_state.json"],
+                }],
+                "overdue_count": 0,
+                "due_waiting_count": 0,
+            },
+        ),
+        generated_at="2026-06-05T21:10:00+00:00",
+    )
+    by_layer = {row["layer"]: row for row in rows}
+
+    assert by_layer["Cloud Routine Receipts"]["status"] == "stale"
+    assert "boundary stale: Investing OS Morning Scan: src/macro_state.json" in by_layer["Cloud Routine Receipts"]["note"]
+    assert validate_heartbeat(rows) == []
+
+
+def test_heartbeat_rows_show_missing_boundary_artifact_as_down():
+    rows = heartbeat_rows(
+        _base_report(
+            routine_receipt_due={
+                "rows": [{
+                    "routine_id": "investing-os-post-open-evidence-gate",
+                    "routine_name": "Investing OS Post-Open Evidence Gate",
+                    "last_boundary_outcome": "missing",
+                    "missing_boundary_artifacts": ["src/uw_endpoint_results.json"],
+                }],
+                "overdue_count": 0,
+                "due_waiting_count": 0,
+            },
+        ),
+        generated_at="2026-06-05T21:10:00+00:00",
+    )
+    by_layer = {row["layer"]: row for row in rows}
+
+    assert by_layer["Cloud Routine Receipts"]["status"] == "down"
+    assert "boundary missing: Investing OS Post-Open Evidence Gate: src/uw_endpoint_results.json" in by_layer["Cloud Routine Receipts"]["note"]
+    assert validate_heartbeat(rows) == []
+
+
 def test_heartbeat_rows_show_stale_required_inputs():
     rows = heartbeat_rows(
         _base_report(stale_required_inputs=[{"key": "positions"}]),

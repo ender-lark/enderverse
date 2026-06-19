@@ -98,6 +98,128 @@ def test_summarize_receipts_reports_missing_and_failed(tmp_path):
     assert "Investing OS Full Cockpit Build: Connector failed." in text
 
 
+def test_summarize_receipts_adds_boundary_outcomes_without_changing_success_counts(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "old.json").write_text(
+        json.dumps({"generated_at": "2026-06-05T12:01:00Z"}),
+        encoding="utf-8",
+    )
+    (src / "cockpit_artifact_boundaries.json").write_text(
+        json.dumps({
+            "schema_version": 1,
+            "artifacts": {
+                "src/old.json": {
+                    "owner_routine_ids": ["old-v1"],
+                    "as_of_field": "generated_at",
+                    "freshness": "same_et_session_day",
+                }
+            },
+        }),
+        encoding="utf-8",
+    )
+    expected = [
+        {"automation_id": "produced", "automation_name": "Produced", "role": "", "schedule": ""},
+        {"automation_id": "noop", "automation_name": "Noop", "role": "", "schedule": ""},
+        {"automation_id": "stale", "automation_name": "Stale", "role": "", "schedule": ""},
+        {"automation_id": "missing", "automation_name": "Missing", "role": "", "schedule": ""},
+        {"automation_id": "old-v1", "automation_name": "Old V1", "role": "", "schedule": ""},
+    ]
+    payload = {
+        "schema_version": 1,
+        "receipts": [
+            {
+                "routine_id": "produced",
+                "status": "success",
+                "run_source": "scheduled",
+                "recorded_at": "2026-06-05T12:00:00Z",
+                "details": {
+                    "artifact_boundaries": [{
+                        "path": "src/produced.json",
+                        "present": True,
+                        "missing": False,
+                        "fresh": True,
+                        "changed": True,
+                        "content_hash": "new",
+                        "previous_content_hash": "old",
+                    }]
+                },
+            },
+            {
+                "routine_id": "noop",
+                "status": "success",
+                "run_source": "scheduled",
+                "recorded_at": "2026-06-05T12:00:00Z",
+                "details": {
+                    "artifact_boundaries": [{
+                        "path": "src/noop.json",
+                        "present": True,
+                        "missing": False,
+                        "fresh": True,
+                        "changed": False,
+                        "content_hash": "same",
+                        "previous_content_hash": "same",
+                    }]
+                },
+            },
+            {
+                "routine_id": "stale",
+                "status": "success",
+                "run_source": "scheduled",
+                "recorded_at": "2026-06-05T12:00:00Z",
+                "details": {
+                    "artifact_boundaries": [{
+                        "path": "src/stale.json",
+                        "present": True,
+                        "missing": False,
+                        "fresh": False,
+                        "changed": True,
+                    }]
+                },
+            },
+            {
+                "routine_id": "missing",
+                "status": "success",
+                "run_source": "scheduled",
+                "recorded_at": "2026-06-05T12:00:00Z",
+                "details": {
+                    "artifact_boundaries": [{
+                        "path": "src/missing.json",
+                        "present": False,
+                        "missing": True,
+                        "fresh": False,
+                        "changed": False,
+                    }]
+                },
+            },
+            {
+                "routine_id": "old-v1",
+                "status": "success",
+                "run_source": "scheduled",
+                "recorded_at": "2026-06-05T12:00:00Z",
+                "summary": "legacy success with no artifact metadata",
+            },
+        ],
+    }
+
+    summary = cloud_routine_receipts.summarize_receipts(
+        payload,
+        expected_automations=expected,
+        repo_root=tmp_path,
+    )
+
+    assert summary["success_count"] == 5
+    assert summary["scheduled_success_count"] == 5
+    assert summary["produced_fresh_count"] == 1
+    assert summary["no_op_count"] == 1
+    assert summary["stale_boundary_count"] == 1
+    assert summary["missing_count"] == 1
+    assert summary["fired_unknown_count"] == 1
+    by_id = {row["routine_id"]: row for row in summary["rows"]}
+    assert by_id["old-v1"]["last_boundary_outcome"] == "fired_unknown"
+    assert "Boundary outcomes: produced_fresh=1/5" in cloud_routine_receipts.format_text(summary)
+
+
 def test_validate_rejects_bad_status():
     problems = cloud_routine_receipts.validate_receipts({
         "schema_version": 1,

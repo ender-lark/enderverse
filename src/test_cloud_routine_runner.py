@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 
 import cloud_routine_receipts
@@ -55,3 +56,51 @@ def test_runner_dry_run_records_only_started(tmp_path):
     payload = cloud_routine_receipts.load_receipts(receipt_path)
     assert result["dry_run"] is True
     assert payload["receipts"] == []
+
+
+def test_runner_records_boundary_artifact_metadata(tmp_path):
+    repo = tmp_path / "repo"
+    src = repo / "src"
+    src.mkdir(parents=True)
+    receipt_path = src / "cloud_routine_receipts.json"
+    (src / "cockpit_artifact_boundaries.json").write_text(
+        json.dumps({
+            "schema_version": 1,
+            "artifacts": {
+                "src/boundary.json": {
+                    "owner_routine_ids": ["boundary-routine"],
+                    "as_of_field": "generated_at",
+                    "freshness": "same_et_session_day",
+                }
+            },
+        }),
+        encoding="utf-8",
+    )
+
+    result = cloud_routine_runner.run_cloud_routine(
+        routine_id="boundary-routine",
+        command=[
+            sys.executable,
+            "-c",
+            (
+                "import datetime, json, pathlib; "
+                "pathlib.Path('src/boundary.json').write_text("
+                "json.dumps({'generated_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}), "
+                "encoding='utf-8')"
+            ),
+        ],
+        cwd=repo,
+        receipt_path=receipt_path,
+        success_summary="boundary succeeded",
+        run_source="scheduled",
+    )
+
+    payload = cloud_routine_receipts.load_receipts(receipt_path)
+    final = payload["receipts"][1]
+    artifact = final["details"]["artifact_boundaries"][0]
+    assert result["boundary_outcome"] == "produced_fresh"
+    assert final["boundary_outcome"] == "produced_fresh"
+    assert artifact["path"] == "src/boundary.json"
+    assert artifact["changed"] is True
+    assert artifact["fresh"] is True
+    assert artifact["content_hash"]

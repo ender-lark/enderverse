@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "owner": "Codex Investing OS",
+  "rule": "Cockpit-critical artifacts require explicit boundary proof: a fired routine is not the same as fresh committed decision data.",
+  "default_freshness": "same_et_session_day",
+  "artifacts": {
+    "src/latest_cockpit_feed.json": {
+      "owner_routine_ids": [
+        "investing-os-early-cockpit-build",
+        "investing-os-full-cockpit-build",
+        "investing-os-post-close-refresh"
+      ],
+      "as_of_field": "generated_at",
+      "freshness": "same_et_session_day",
+      "decision_role": "primary cockpit feed"
+    },
+    "src/source_calls.json": {
+      "owner_routine_ids": [
+        "investing-os-fundstrat-pre-market-safety-sweep",
+        "investing-os-fundstrat-daytime-watch",
+        "investing-os-fundstrat-after-hours-catch-up",
+        "investing-os-fs-inbox-catch-up-preopen",
+        "investing-os-fs-inbox-catch-up-midday",
+        "investing-os-fs-inbox-catch-up-postclose",
+        "investing-os-fs-inbox-catch-up-evening"
+      ],
+      "as_of_field": "date",
+      "freshness": "same_et_session_day",
+      "decision_role": "source-call calibration"
+    },
+    "src/fundstrat_daily_calls.json": {
+      "owner_routine_ids": [
+        "investing-os-fundstrat-pre-market-safety-sweep",
+        "investing-os-fundstrat-daytime-watch",
+        "investing-os-fundstrat-after-hours-catch-up",
+        "investing-os-fs-inbox-catch-up-preopen",
+        "investing-os-fs-inbox-catch-up-midday",
+        "investing-os-fs-inbox-catch-up-postclose",
+        "investing-os-fs-inbox-catch-up-evening"
+      ],
+      "as_of_field": "date",
+      "freshness": "same_et_session_day",
+      "decision_role": "Fundstrat daily calls"
+    },
+    "src/fundstrat_intake_summary.json": {
+      "owner_routine_ids": [
+        "investing-os-fundstrat-pre-market-safety-sweep",
+        "investing-os-fundstrat-daytime-watch",
+        "investing-os-fundstrat-after-hours-catch-up",
+        "investing-os-fs-inbox-catch-up-preopen",
+        "investing-os-fs-inbox-catch-up-midday",
+        "investing-os-fs-inbox-catch-up-postclose",
+        "investing-os-fs-inbox-catch-up-evening"
+      ],
+      "as_of_field": "generated_at",
+      "freshness": "same_et_session_day",
+      "decision_role": "Fundstrat intake proof summary"
+    },
+    "src/uw_opportunity_signals.json": {
+      "owner_routine_ids": ["investing-os-uw-opportunity-cache"],
+      "as_of_field": "generated_at",
+      "freshness": "same_et_session_day",
+      "decision_role": "UW opportunity cache"
+    },
+    "src/parabolic_setups.json": {
+      "owner_routine_ids": ["investing-os-parabolic-cache"],
+      "as_of_field": "generated_at",
+      "freshness": "same_et_session_day",
+      "decision_role": "parabolic setup cache"
+    },
+    "src/daily_synthesis.json": {
+      "owner_routine_ids": ["investing-os-daily-synthesis"],
+      "as_of_field": "date",
+      "freshness": "same_et_session_day",
+      "decision_role": "daily synthesis"
+    },
+    "src/macro_state.json": {
+      "owner_routine_ids": ["investing-os-morning-scan"],
+      "as_of_field": "snapshot_date",
+      "freshness": "same_et_session_day",
+      "decision_role": "macro state"
+    },
+    "src/signal_log.json": {
+      "owner_routine_ids": [
+        "investing-os-morning-scan",
+        "investing-os-federal-funding-midday-watch",
+        "investing-os-federal-funding-post-close-sweep"
+      ],
+      "as_of_field": "date",
+      "freshness": "same_et_session_day",
+      "decision_role": "watch-only signal log"
+    },
+    "src/catalysts.json": {
+      "owner_routine_ids": ["investing-os-pre-market-source-intake"],
+      "as_of_field": "date",
+      "freshness": "same_et_session_day",
+      "decision_role": "catalyst calendar"
+    },
+    "src/event_risks.json": {
+      "owner_routine_ids": ["investing-os-pre-market-source-intake"],
+      "as_of_field": "date",
+      "freshness": "same_et_session_day",
+      "decision_role": "event risk scan"
+    },
+    "src/federal_funding_moves.json": {
+      "owner_routine_ids": [
+        "investing-os-pre-market-source-intake",
+        "investing-os-federal-funding-midday-watch",
+        "investing-os-federal-funding-post-close-sweep"
+      ],
+      "as_of_field": "generated_at",
+      "freshness": "same_et_session_day",
+      "decision_role": "federal funding moves"
+    },
+    "src/positions.json": {
+      "owner_routine_ids": [
+        "investing-os-broker-position-intake",
+        "investing-os-positions-sync"
+      ],
+      "as_of_field": "snapshot_date",
+      "freshness": "same_et_session_day",
+      "decision_role": "portfolio positions"
+    },
+    "src/account_positions.json": {
+      "owner_routine_ids": [
+        "investing-os-broker-position-intake",
+        "investing-os-positions-sync"
+      ],
+      "as_of_field": "snapshot_date",
+      "freshness": "same_et_session_day",
+      "decision_role": "account-level positions"
+    },
+    "src/position_reconciliation.json": {
+      "owner_routine_ids": [
+        "investing-os-broker-position-intake",
+        "investing-os-positions-sync"
+      ],
+      "as_of_field": "current_snapshot_date",
+      "freshness": "same_et_session_day",
+      "decision_role": "position reconciliation"
+    },
+    "src/uw_endpoint_results.json": {
+      "owner_routine_ids": ["investing-os-post-open-evidence-gate"],
+      "as_of_field": "generated_at",
+      "freshness": "same_et_session_day",
+      "decision_role": "post-open UW endpoint proof"
+    },
+    "src/timing_gates.json": {
+      "owner_routine_ids": ["investing-os-post-open-evidence-gate"],
+      "as_of_field": "updated",
+      "freshness": "same_et_session_day",
+      "decision_role": "timing gate state"
+    }
+  }
+}

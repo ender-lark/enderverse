@@ -71,6 +71,47 @@ def test_cloud_routine_commit_commits_only_allowed_paths(tmp_path):
     assert "src/cloud_routine_receipts.json" not in status
 
 
+def test_cloud_routine_commit_reports_boundary_artifact_commit(tmp_path):
+    repo = _repo(tmp_path)
+    (repo / "src" / "latest_cockpit_feed.json").write_text('{"generated_at":"2026-06-05T13:00:00Z"}\n', encoding="utf-8")
+    cloud_routine_receipts.append_receipt(
+        path=repo / "src" / "cloud_routine_receipts.json",
+        routine_id="investing-os-full-cockpit-build",
+        status="success",
+        run_source="scheduled",
+        summary="full cockpit build succeeded",
+        recorded_at="2026-06-05T13:05:00Z",
+        details={
+            "artifact_boundaries": [{
+                "path": "src/latest_cockpit_feed.json",
+                "present": True,
+                "missing": False,
+                "fresh": True,
+                "changed": True,
+                "content_hash": "new",
+                "previous_content_hash": "old",
+            }]
+        },
+    )
+
+    report = cloud_routine_commit.cloud_routine_commit(
+        message="cloud receipt",
+        allowed_paths=["src/cloud_routine_receipts.json", "src/latest_cockpit_feed.json"],
+        cwd=repo,
+    )
+
+    assert report["committed"] is True
+    assert report["boundary_artifacts"] == [{
+        "path": "src/latest_cockpit_feed.json",
+        "selected_for_commit": True,
+        "committed": True,
+        "committed_sha": report["commit"],
+    }]
+    text = cloud_routine_commit.format_text(report)
+    assert "Boundary artifacts:" in text
+    assert "src/latest_cockpit_feed.json: committed" in text
+
+
 def test_cloud_routine_commit_normalizes_legacy_receipts_before_commit(tmp_path):
     repo = _repo(tmp_path)
     payload = {
