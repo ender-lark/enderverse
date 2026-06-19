@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:42:15.168597Z",
-      "summary": "5 check sets, 22 tickers; UW proof 0 supports 0 contradicts 10 inconclusive 3 missing/failed; blocked by SECTOR_TIDE unsupported sector param, MARKET_MOVERS 403 advanced tier, TICKER_FLOW_RECENT TNX empty; dashboard refresh skipped"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T14:01:44.209301Z",
-      "summary": "uw opportunity cache started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6401,7 +6387,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T18:49:09.500472Z",
       "summary": "web Macro/Crypto FlashInsights checked; Gmail 0 not needed; rows landed 0; new low-value/discovery-only suppressed 0; validation passed; alert quiet 0 candidates 62 stale/dupe suppressed; trigger guard fired 0 with 4 quote lanes not_checked; stale Macro Jun18 15:02 ET Crypto Jun8 09:32 ET; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T19:46:35.894346Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T19:48:58.753286Z",
+      "summary": "checked Chrome Macro FlashInsights latest Jun18 3:02PM ET and Crypto FlashInsights latest Jun8 9:32AM ET; Gmail 0 not needed; rows landed 0; suppressed 0 low-value/discovery-only rows; validation passed; daytime alert quiet 0 candidates 12 duplicates 62 stale; trigger guard fired 0 not_checked 4; dark/stale no Jun19 full-content evidence"
     }
   ],
-  "updated_at": "2026-06-19T18:49:09.500472Z"
+  "updated_at": "2026-06-19T19:48:58.753286Z"
 }
