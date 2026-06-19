@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T14:32:11.228995Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T14:32:14.350387Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-post-close-refresh",
       "status": "started",
       "run_source": "scheduled",
@@ -6407,7 +6386,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T14:51:01.506617Z",
       "summary": "checked Chrome Macro FlashInsights stale Jun18, Crypto FlashInsights stale Jun8, Latest Research discovery no Jun19; Gmail search Jun19 0 messages read 0; rows landed 0; discovery/stale suppressed; validation passed; alert sent 5 existing duplicate-unsent action-changing rows, quiet 62 suppressed 7 duplicates; Notion not used; no blockers"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T15:22:03.667542Z",
+      "summary": "federal funding midday watch started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T15:29:04.550785Z",
+      "summary": "checked War.gov/DOW contracts+releases, NASA CSDA, Commerce/CHIPS/NIST, DOE/LPO/OCED/EERE/NNSA, DHS/CBP/SAM, DARPA/DIU/AF/SF/Navy/Army, DOT/EXIM/DFC/Treasury/IRS/NSF via official pages/search; verified rows 16 cache, direct public 2, new watch Signal Log 4, research rows 2 existing, Notion Signal Log write/readback 4/4; new direct public backlog BA/HII/J plus NASA PL/EADSY watch; UUUU MONITOR remains research-only; Notion SQL query dark; no blockers"
     }
   ],
-  "updated_at": "2026-06-19T14:51:01.506617Z"
+  "updated_at": "2026-06-19T15:29:04.550785Z"
 }

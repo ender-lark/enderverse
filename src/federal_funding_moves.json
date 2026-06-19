@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-06-18T21:25:00Z",
-  "as_of": "2026-06-18",
+  "generated_at": "2026-06-19T15:25:50Z",
+  "as_of": "2026-06-19",
   "scan_status": "has_data",
   "rows": [
     {
@@ -173,6 +173,87 @@
     {
       "date": "2026-06-18",
       "priority": "medium",
+      "agency": "Department of War / Navy",
+      "program": "P-8A training systems support IDIQ",
+      "recipient": "Boeing",
+      "title": "Boeing",
+      "award_text": "$880M ceiling IDIQ for P-8A training systems support, training materials, technical publications, and installation services through June 2033; no funds obligated at award",
+      "award_value_usd": 880000000,
+      "tickers": [
+        "BA"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Large defense-services backlog support for Boeing, but the IDIQ ceiling and zero initial obligation make it watch context rather than a same-day capital decision.",
+      "risks": [
+        "IDIQ ceiling",
+        "no funds obligated at award",
+        "task-order timing",
+        "long-cycle defense services"
+      ],
+      "next_trigger": "Funded task orders, margin commentary, or broader P-8 sustainment budget acceleration.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4521873/contracts-for-june-18-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-18",
+      "priority": "medium",
+      "agency": "Department of War / Navy",
+      "program": "Naval ship maintenance and modernization IDIQ",
+      "recipient": "HII Fleet Support Group",
+      "title": "HII Fleet Support Group",
+      "award_text": "$417.7M ceiling IDIQ for maintenance, modernization, and repair for non-nuclear Navy surface ships; no funds obligated at award",
+      "award_value_usd": 417700000,
+      "tickers": [
+        "HII"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Direct public defense backlog support for HII's fleet-services lane, but task-order conversion is the key evidence before it affects posture.",
+      "risks": [
+        "IDIQ ceiling",
+        "no funds obligated at award",
+        "task-order conversion",
+        "ship-maintenance margin execution"
+      ],
+      "next_trigger": "Funded task orders, Navy surface-ship maintenance tempo, or company backlog/margin commentary.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4521873/contracts-for-june-18-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-18",
+      "priority": "medium",
+      "agency": "Department of War / Navy",
+      "program": "NAVFAC electrical engineering and design IDIQ",
+      "recipient": "Jacobs Government Services",
+      "title": "Jacobs Government Services",
+      "award_text": "$249M maximum-value IDIQ for electrical engineering, design, studies, and related services in Hawaii and other NAVFAC Pacific locations; $5K minimum guarantee obligated",
+      "award_value_usd": 249000000,
+      "tickers": [
+        "J"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Jacobs gets a sizable federal engineering ceiling tied to Pacific infrastructure, but the minimum guarantee is tiny and revenue depends on future task orders.",
+      "risks": [
+        "IDIQ ceiling",
+        "minimal initial obligation",
+        "task-order timing",
+        "project execution"
+      ],
+      "next_trigger": "Material task orders, Pacific defense infrastructure funding pull-through, or company commentary on federal services growth.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4521873/contracts-for-june-18-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-18",
+      "priority": "medium",
       "agency": "Department of Homeland Security / Customs and Border Protection",
       "program": "Medium Energy Mobile Systems IDIQ",
       "recipient": "Leidos",
@@ -196,6 +277,34 @@
         "https://www.govconwire.com/articles/leidos-cbp-medium-energy-mobile-systems"
       ],
       "source_quality": "secondary_verified"
+    },
+    {
+      "date": "2026-06-19",
+      "priority": "medium",
+      "agency": "NASA",
+      "program": "Commercial Satellite Data Acquisition Program On-Ramp 2",
+      "recipient": "NASA CSDA On-Ramp 2 public awardees",
+      "title": "NASA CSDA On-Ramp 2 public awardees",
+      "award_text": "NASA CSDA On-Ramp 2 added public/private contract holders under a $476M shared IDIQ; no individual task-order dollars disclosed",
+      "award_value_usd": 476000000,
+      "tickers": [
+        "PL",
+        "EADSY"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Same-day official space-data procurement signal supports commercial Earth-observation demand, with Planet Labs and Airbus as public read-throughs, but no individual task-order dollars were disclosed.",
+      "risks": [
+        "shared IDIQ ceiling",
+        "no company-specific task-order dollars",
+        "mixed private and public awardees",
+        "data-product adoption timing"
+      ],
+      "next_trigger": "Company-specific NASA task orders, CSDA usage growth, revenue/margin disclosure, or follow-on federal remote-sensing demand.",
+      "source_urls": [
+        "https://www.nasa.gov/news-release/nasa-awards-contract-for-commercial-satellite-data-acquisition/"
+      ],
+      "source_quality": "primary"
     },
     {
       "date": "2026-06-17",
@@ -273,6 +382,31 @@
     {
       "date": "2026-06-18",
       "priority": "low",
+      "agency": "Department of War / Army",
+      "program": "M1A2 System Enhancement Package tank production support",
+      "recipient": "General Dynamics Land Systems",
+      "title": "General Dynamics Land Systems",
+      "award_text": "$43.5M cost-plus-fixed-fee modification for support of M1A2 System Enhancement Package tank production",
+      "award_value_usd": 43500000,
+      "tickers": [
+        "GD"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "ignore",
+      "investing_angle": "Real direct defense work but too small relative to General Dynamics to affect Investing OS posture unless part of a broader armor-production acceleration.",
+      "risks": [
+        "small modification",
+        "program support rather than thesis-changing award"
+      ],
+      "next_trigger": "Ignore unless linked to larger tank-production funding, margin guidance, or multi-year armor demand acceleration.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4521873/contracts-for-june-18-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-18",
+      "priority": "low",
       "agency": "Department of War / OECIF",
       "program": "on-orbit refueling and fuel-depot demonstration",
       "recipient": "Quantum Space",
@@ -299,7 +433,7 @@
     }
   ],
   "summary": {
-    "stored": 11,
+    "stored": 16,
     "high": 1,
     "direct_public": 2,
     "research_candidates": 2,
