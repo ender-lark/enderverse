@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T12:24:10.307020Z",
-      "summary": "SnapTrade refresh failed: missing local profile"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T12:36:37.083966Z",
-      "summary": "morning scan started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "scheduled",
@@ -6452,7 +6438,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T23:12:03.431004Z",
       "summary": "checked 16 Chrome web/detail surfaces incl Macro/Crypto Flash, DTS, policy, crypto, videos; videos 1 detail/1 listing; transcript vault updated 1 fuller DTS caption pack pushed ec5f303; Gmail 0 not needed; landed 0 new rows; suppressed 12 duplicate/stale/context/discovery-only surfaces; validation public-index+Fundstrat passed; Notion not used; dark/stale no Jun19 full-content evidence, Crypto Flash Jun8, First Word Jun12, Live Tech Jun4; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T23:32:15.158958Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T23:32:42.588847Z",
+      "summary": "Research Queue not_checked; drop folder missing; cache preserved; pending 5 done 0 ACT_NOW 0 skipped 0"
     }
   ],
-  "updated_at": "2026-06-19T23:12:03.431004Z"
+  "updated_at": "2026-06-19T23:32:42.588847Z"
 }
