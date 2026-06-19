@@ -2,41 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T14:06:45.234276Z",
-      "summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T14:32:49.866694Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T14:32:52.725571Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T14:47:03.103935Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6107,7 +6072,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T11:50:46.062253Z",
       "summary": "checked Chrome web Macro FlashInsights, Crypto FlashInsights, Latest Research, DTS, US Policy, Fed Watch, First Word, Intraday, crypto research; Gmail 0 not needed; rows landed 0; suppressed 6 duplicate/stale/context/discovery-only items; validation passed; Notion not used; Crypto FlashInsights stale Jun8; no Jun19 web items"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:02:52.318633Z",
+      "summary": "work-os-daily-briefing started"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:03:02.248206Z",
+      "summary": "Work OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "work_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/work_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-19T11:50:46.062253Z"
+  "updated_at": "2026-06-19T12:03:02.248206Z"
 }
