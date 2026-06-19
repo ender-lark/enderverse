@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:37:31.276595Z",
-      "summary": "repo synthesis refreshed; signal log 27 rows; research queue 3 pending; Notion page written+verified; row-level notion query unavailable for decisions/trade outcomes/source-calls/pilots"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:41:42.676857Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "success",
       "run_source": "scheduled",
@@ -6401,7 +6387,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T17:49:09.046202Z",
       "summary": "checked Chrome Macro FlashInsights latest Jun18 15:02 ET, Crypto FlashInsights latest Jun8 09:32 ET; Gmail 0 not needed; rows landed 0; suppressed stale/duplicate/discovery-only web rows and alert stale 62 duplicates 12; validation passed; Fundstrat alert quiet 0 candidates; trigger guard sent GOOGL date trigger, 4 quote triggers not_checked; dashboard skipped; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T18:46:52.251667Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T18:49:09.500472Z",
+      "summary": "web Macro/Crypto FlashInsights checked; Gmail 0 not needed; rows landed 0; new low-value/discovery-only suppressed 0; validation passed; alert quiet 0 candidates 62 stale/dupe suppressed; trigger guard fired 0 with 4 quote lanes not_checked; stale Macro Jun18 15:02 ET Crypto Jun8 09:32 ET; blockers none"
     }
   ],
-  "updated_at": "2026-06-19T17:49:09.046202Z"
+  "updated_at": "2026-06-19T18:49:09.500472Z"
 }
