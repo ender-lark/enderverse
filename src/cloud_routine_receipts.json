@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T12:12:09.776511Z",
-      "summary": "pre-market source intake started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T12:14:28.510016Z",
-      "summary": "0 Fundstrat rows landed; positions unchanged validated; catalysts/event-risk dark or unchanged; blocker no supplied broker/catalyst/event-risk inputs"
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -6280,7 +6266,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T13:31:14.555499Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T13:34:38.168291Z",
+      "summary": "repo synthesis refreshed and validated; Notion page 384c5031-4bb6-8146-a858-cbe8bbf976d0 written/readback verified; Social Watch and row-level Notion lanes not_checked"
     }
   ],
-  "updated_at": "2026-06-19T13:16:11.386691Z"
+  "updated_at": "2026-06-19T13:34:38.168291Z"
 }
