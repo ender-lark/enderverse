@@ -1,98 +1,30 @@
 {
   "valid": true,
-  "generated_at": "2026-06-18T02:31:55.168758-04:00",
+  "generated_at": "2026-06-19T02:32:18.322407-04:00",
   "apply_requested": true,
   "max_mutations": 10,
-  "planned_count": 10,
+  "planned_count": 3,
   "operations": [
     {
-      "op": "backfill_investing_source_project",
-      "page_id": "348c5031-4bb6-810e-b1d6-d35e060c725c",
-      "title": "Build canonical \ud83d\udcd2 Positions page from Apr 14 PDFs (one-time setup)",
-      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
-      "target_status": "",
-      "properties": {
-        "Source Project": "Investing 2026"
-      }
-    },
-    {
-      "op": "backfill_investing_source_project",
-      "page_id": "345c5031-4bb6-8190-94f0-d02876216b97",
-      "title": "Reconcile April Fundstrat ETF basket execution into Trade Journal (Parents Schwab PCRA)",
-      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
-      "target_status": "",
-      "properties": {
-        "Source Project": "Investing 2026"
-      }
-    },
-    {
-      "op": "backfill_investing_source_project",
-      "page_id": "345c5031-4bb6-816a-be7f-d3d4d8d33352",
-      "title": "Formalize source-independence check (distinct from source-discipline) to address epistemic laundering risk",
-      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
-      "target_status": "",
-      "properties": {
-        "Source Project": "Investing 2026"
-      }
-    },
-    {
-      "op": "backfill_investing_source_project",
-      "page_id": "345c5031-4bb6-816b-926a-d4822ccf6150",
-      "title": "Build minimal risk/attribution/tax-location module (v0 spec: factor %, benchmark vs SPY, tax-location audit, drift alerts)",
-      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
-      "target_status": "",
-      "properties": {
-        "Source Project": "Investing 2026"
-      }
-    },
-    {
-      "op": "backfill_investing_source_project",
-      "page_id": "345c5031-4bb6-81a9-92ad-e2f76e9581ed",
-      "title": "Document why each framework element exists (failure mode it closes) \u2014 REFRAMED from cut audit to keep-audit after disconfirmation",
-      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
-      "target_status": "",
-      "properties": {
-        "Source Project": "Investing 2026"
-      }
-    },
-    {
-      "op": "backfill_investing_source_project",
-      "page_id": "345c5031-4bb6-8170-86fc-dd949d48506c",
-      "title": "Paste FMP data-routing patch into Project Instructions (Investing 2026)",
-      "reason": "Finance/Investing task has null Source Project; backfill to \"Investing 2026\".",
-      "target_status": "",
-      "properties": {
-        "Source Project": "Investing 2026"
-      }
-    },
-    {
       "op": "cancel_past_event_task",
-      "page_id": "354c5031-4bb6-81e8-88a1-ea517447ded8",
-      "title": "Confirm May 5 surgery time + arrival window",
+      "page_id": "354c5031-4bb6-8196-aa03-e877d785f84c",
+      "title": "Mom \u2014 Surgery: Interstim X implantation (Dr. Briskin)",
       "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
       "target_status": "Cancelled",
       "properties": null
     },
     {
       "op": "cancel_past_event_task",
-      "page_id": "354c5031-4bb6-81ff-949b-e67a0c7d28de",
-      "title": "Confirm pre-op fasting / NPO instructions for May 5",
+      "page_id": "348c5031-4bb6-813e-ac1a-f410eb9e01ac",
+      "title": "Saturday May 9: receive new sofa + old corner sofa hauled out",
       "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
       "target_status": "Cancelled",
       "properties": null
     },
     {
       "op": "cancel_past_event_task",
-      "page_id": "354c5031-4bb6-8158-9790-e6448af6127e",
-      "title": "Coordinate ride to/from May 5 surgery + overnight coverage",
-      "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
-      "target_status": "Cancelled",
-      "properties": null
-    },
-    {
-      "op": "cancel_past_event_task",
-      "page_id": "354c5031-4bb6-81d2-a8d0-d4d5963c28b2",
-      "title": "Fill / stage post-op meds for May 5 surgery",
+      "page_id": "35ac5031-4bb6-815e-8577-d077bc2ca147",
+      "title": "Sunday May 10 morning: clear bedroom (old bed + filing cabinet) + receive new beds",
       "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
       "target_status": "Cancelled",
       "properties": null
@@ -107,56 +39,21 @@
   "apply_result": {
     "applied": true,
     "dry_run": false,
-    "count": 10,
+    "count": 3,
     "results": [
       {
-        "op": "backfill_investing_source_project",
-        "page_id": "348c5031-4bb6-810e-b1d6-d35e060c725c",
-        "updated": true
-      },
-      {
-        "op": "backfill_investing_source_project",
-        "page_id": "345c5031-4bb6-8190-94f0-d02876216b97",
-        "updated": true
-      },
-      {
-        "op": "backfill_investing_source_project",
-        "page_id": "345c5031-4bb6-816a-be7f-d3d4d8d33352",
-        "updated": true
-      },
-      {
-        "op": "backfill_investing_source_project",
-        "page_id": "345c5031-4bb6-816b-926a-d4822ccf6150",
-        "updated": true
-      },
-      {
-        "op": "backfill_investing_source_project",
-        "page_id": "345c5031-4bb6-81a9-92ad-e2f76e9581ed",
-        "updated": true
-      },
-      {
-        "op": "backfill_investing_source_project",
-        "page_id": "345c5031-4bb6-8170-86fc-dd949d48506c",
+        "op": "cancel_past_event_task",
+        "page_id": "354c5031-4bb6-8196-aa03-e877d785f84c",
         "updated": true
       },
       {
         "op": "cancel_past_event_task",
-        "page_id": "354c5031-4bb6-81e8-88a1-ea517447ded8",
+        "page_id": "348c5031-4bb6-813e-ac1a-f410eb9e01ac",
         "updated": true
       },
       {
         "op": "cancel_past_event_task",
-        "page_id": "354c5031-4bb6-81ff-949b-e67a0c7d28de",
-        "updated": true
-      },
-      {
-        "op": "cancel_past_event_task",
-        "page_id": "354c5031-4bb6-8158-9790-e6448af6127e",
-        "updated": true
-      },
-      {
-        "op": "cancel_past_event_task",
-        "page_id": "354c5031-4bb6-81d2-a8d0-d4d5963c28b2",
+        "page_id": "35ac5031-4bb6-815e-8577-d077bc2ca147",
         "updated": true
       }
     ]
