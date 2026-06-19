@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-19T20:38:40.328072+00:00",
+  "generated_at": "2026-06-19T20:40:11.746105+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-19 \u00b7 uw_price 06-19 \u00b7 uw_macro 06-19 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-18",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-19T16:38:40.328072-04:00",
+        "date": "2026-06-19T16:40:11.746105-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-19T16:38:40.328072-04:00",
+        "date": "2026-06-19T16:40:11.746105-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -2622,37 +2622,37 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-19T20:38:39.934099+00:00",
+      "last_run": "2026-06-19T20:40:11.563691+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-19T20:38:39.934099+00:00",
+      "last_run": "2026-06-19T20:40:11.563691+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-19T20:38:39.934099+00:00",
+      "last_run": "2026-06-19T20:40:11.563691+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-19T20:38:39.934099+00:00",
+      "last_run": "2026-06-19T20:40:11.563691+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-19T20:38:39.934099+00:00",
+      "last_run": "2026-06-19T20:40:11.563691+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "stale",
-      "last_run": "2026-06-19T20:38:39.934099+00:00",
+      "last_run": "2026-06-19T20:40:11.563691+00:00",
       "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json, src/event_risks.json; +4 more"
     }
   ],
@@ -13606,7 +13606,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-19T10:02:54-04:00",
-        "connector_proof_age_hours": 6.6
+        "connector_proof_age_hours": 6.62
       }
     ],
     "missing": [],
@@ -13648,7 +13648,7 @@
       "due_waiting_count": 0,
       "routine_receipt_due": {
         "activated_at": "2026-06-19T00:00:00-04:00",
-        "now": "2026-06-19T16:38:40.328072-04:00",
+        "now": "2026-06-19T16:40:11.746105-04:00",
         "grace_minutes": 30,
         "overdue_count": 0,
         "due_waiting_count": 0,
@@ -14364,11 +14364,11 @@
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-19T00:00:00-04:00",
-        "now": "2026-06-19T16:38:40.328072-04:00",
+        "now": "2026-06-19T16:40:11.746105-04:00",
         "grace_minutes": 30,
         "overdue_count": 0,
-        "due_waiting_count": 1,
-        "current_count": 10,
+        "due_waiting_count": 0,
+        "current_count": 11,
         "not_due_yet_count": 11,
         "next_due": {
           "routine_id": "investing-os-federal-funding-post-close-sweep",
@@ -14545,25 +14545,25 @@
             "routine_name": "Investing OS FS Inbox Catch-up Postclose",
             "role": "fs_inbox_catchup_postclose",
             "schedule": "market weekdays 4:35 PM ET",
-            "due_state": "due_waiting",
+            "due_state": "current",
             "expected_since": "2026-06-19T00:00:00-04:00",
             "last_due_at": "2026-06-19T16:35:00-04:00",
             "next_due_at": "2026-06-22T16:35:00-04:00",
             "overdue_after": "2026-06-19T17:05:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-19T20:36:47.455151Z",
-            "last_success_at": "2026-06-18T20:38:10.016521Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-19T20:36:47.455151Z",
-            "last_scheduled_success_at": "2026-06-18T20:38:10.016521Z",
-            "last_scheduled_summary": "FS inbox catch-up postclose started",
+            "last_recorded_at": "2026-06-19T20:39:00.837848Z",
+            "last_success_at": "2026-06-19T20:39:00.837848Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-19T20:39:00.837848Z",
+            "last_scheduled_success_at": "2026-06-19T20:39:00.837848Z",
+            "last_scheduled_summary": "FS inbox catch-up postclose nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified",
             "last_manual_recorded_at": "2026-06-16T14:37:49.192673Z",
             "last_manual_success_at": "2026-06-16T14:37:49.192673Z",
             "last_manual_summary": "FS inbox catch-up postclose manual support checked prompt wiring only",
             "manual_support_only": false,
-            "last_summary": "FS inbox catch-up postclose started",
+            "last_summary": "FS inbox catch-up postclose nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified",
             "last_boundary_outcome": "stale_boundary",
             "last_boundary_artifact_count": 3,
             "last_boundary_artifacts": [
@@ -14573,14 +14573,16 @@
             ],
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [
+              "src/source_calls.json",
+              "src/fundstrat_daily_calls.json",
               "src/fundstrat_intake_summary.json"
             ],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-18T20:38:10.016521Z",
-            "last_ran_label": "2026-06-18T20:38:10.016521Z",
-            "last_scheduled_success_label": "2026-06-18T20:38:10.016521Z",
+            "last_ran_at": "2026-06-19T20:39:00.837848Z",
+            "last_ran_label": "2026-06-19T20:39:00.837848Z",
+            "last_scheduled_success_label": "2026-06-19T20:39:00.837848Z",
             "latest_manual_support_label": "2026-06-16T14:37:49.192673Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Postclose, last scheduled success 2026-06-18T20:38:10.016521Z; latest manual support 2026-06-16T14:37:49.192673Z"
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Postclose, last scheduled success 2026-06-19T20:39:00.837848Z; latest manual support 2026-06-16T14:37:49.192673Z"
           },
           {
             "routine_id": "investing-os-federal-funding-post-close-sweep",
@@ -15244,50 +15246,7 @@
           }
         ],
         "overdue": [],
-        "due_waiting": [
-          {
-            "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-            "routine_name": "Investing OS FS Inbox Catch-up Postclose",
-            "role": "fs_inbox_catchup_postclose",
-            "schedule": "market weekdays 4:35 PM ET",
-            "due_state": "due_waiting",
-            "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "2026-06-19T16:35:00-04:00",
-            "next_due_at": "2026-06-22T16:35:00-04:00",
-            "overdue_after": "2026-06-19T17:05:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "started",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-19T20:36:47.455151Z",
-            "last_success_at": "2026-06-18T20:38:10.016521Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-19T20:36:47.455151Z",
-            "last_scheduled_success_at": "2026-06-18T20:38:10.016521Z",
-            "last_scheduled_summary": "FS inbox catch-up postclose started",
-            "last_manual_recorded_at": "2026-06-16T14:37:49.192673Z",
-            "last_manual_success_at": "2026-06-16T14:37:49.192673Z",
-            "last_manual_summary": "FS inbox catch-up postclose manual support checked prompt wiring only",
-            "manual_support_only": false,
-            "last_summary": "FS inbox catch-up postclose started",
-            "last_boundary_outcome": "stale_boundary",
-            "last_boundary_artifact_count": 3,
-            "last_boundary_artifacts": [
-              "src/source_calls.json",
-              "src/fundstrat_daily_calls.json",
-              "src/fundstrat_intake_summary.json"
-            ],
-            "missing_boundary_artifacts": [],
-            "stale_boundary_artifacts": [
-              "src/fundstrat_intake_summary.json"
-            ],
-            "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-18T20:38:10.016521Z",
-            "last_ran_label": "2026-06-18T20:38:10.016521Z",
-            "last_scheduled_success_label": "2026-06-18T20:38:10.016521Z",
-            "latest_manual_support_label": "2026-06-16T14:37:49.192673Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Postclose, last scheduled success 2026-06-18T20:38:10.016521Z; latest manual support 2026-06-16T14:37:49.192673Z"
-          }
-        ],
+        "due_waiting": [],
         "not_due_yet": [
           {
             "routine_id": "investing-os-federal-funding-post-close-sweep",
@@ -16141,7 +16100,7 @@
           "role": "post_close_refresh",
           "schedule": "market weekdays 4:30 PM ET",
           "proof_scope": "core",
-          "receipt_count": 14,
+          "receipt_count": 13,
           "last_status": "started",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-19T20:38:38.127238Z",
@@ -16342,20 +16301,20 @@
           "role": "fs_inbox_catchup_postclose",
           "schedule": "market weekdays 4:35 PM ET",
           "proof_scope": "support",
-          "receipt_count": 13,
-          "last_status": "started",
+          "receipt_count": 14,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-19T20:36:47.455151Z",
-          "last_success_at": "2026-06-18T20:38:10.016521Z",
-          "last_scheduled_success_at": "2026-06-18T20:38:10.016521Z",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-19T20:36:47.455151Z",
-          "last_scheduled_summary": "FS inbox catch-up postclose started",
+          "last_recorded_at": "2026-06-19T20:39:00.837848Z",
+          "last_success_at": "2026-06-19T20:39:00.837848Z",
+          "last_scheduled_success_at": "2026-06-19T20:39:00.837848Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-19T20:39:00.837848Z",
+          "last_scheduled_summary": "FS inbox catch-up postclose nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified",
           "last_manual_recorded_at": "2026-06-16T14:37:49.192673Z",
           "last_manual_success_at": "2026-06-16T14:37:49.192673Z",
           "last_manual_summary": "FS inbox catch-up postclose manual support checked prompt wiring only",
           "manual_support_only": false,
-          "last_summary": "FS inbox catch-up postclose started",
+          "last_summary": "FS inbox catch-up postclose nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified",
           "last_boundary_outcome": "stale_boundary",
           "last_boundary_artifact_count": 3,
           "last_boundary_artifacts": [
@@ -16365,6 +16324,8 @@
           ],
           "missing_boundary_artifacts": [],
           "stale_boundary_artifacts": [
+            "src/source_calls.json",
+            "src/fundstrat_daily_calls.json",
             "src/fundstrat_intake_summary.json"
           ],
           "changed_boundary_artifacts": []
@@ -22459,7 +22420,7 @@
     },
     "deep_discount_research": [
       {
-        "checked_at": "2026-06-19T20:35:16.382545+00:00",
+        "checked_at": "2026-06-19T20:38:49.041236+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 3.64,
@@ -22491,7 +22452,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:48.029322+00:00",
+        "checked_at": "2026-06-19T20:39:16.029685+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -22523,7 +22484,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:14.025392+00:00",
+        "checked_at": "2026-06-19T20:38:46.906074+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -22551,7 +22512,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:48.904951+00:00",
+        "checked_at": "2026-06-19T20:39:16.706216+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 5.26,
@@ -22579,7 +22540,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:28.442275+00:00",
+        "checked_at": "2026-06-19T20:38:59.794471+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -22611,7 +22572,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:36:14.113358+00:00",
+        "checked_at": "2026-06-19T20:39:43.172196+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.05,
@@ -22643,7 +22604,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:36:28.095583+00:00",
+        "checked_at": "2026-06-19T20:39:57.625092+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.92,
@@ -22677,7 +22638,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:53.236603+00:00",
+        "checked_at": "2026-06-19T20:39:20.912452+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.91,
@@ -22705,7 +22666,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:38.218339+00:00",
+        "checked_at": "2026-06-19T20:39:09.728109+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.2,
@@ -22763,10 +22724,10 @@
         "Use only the deliberately reviewed starter cap; keep the rest staged as tickets, not trades."
       ]
     },
-    "generated_at": "2026-06-19T20:36:38.398385+00:00",
+    "generated_at": "2026-06-19T20:40:09.944954+00:00",
     "higher_quality_pullbacks": [
       {
-        "checked_at": "2026-06-19T20:35:54.644267+00:00",
+        "checked_at": "2026-06-19T20:39:22.264187+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.83,
@@ -22794,7 +22755,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:35.474976+00:00",
+        "checked_at": "2026-06-19T20:39:06.774614+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 5.09,
@@ -22828,7 +22789,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:32.667509+00:00",
+        "checked_at": "2026-06-19T20:39:04.033705+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.39,
@@ -22858,7 +22819,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:15.031132+00:00",
+        "checked_at": "2026-06-19T20:38:47.642682+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 2.3,
@@ -22890,7 +22851,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:36:29.732269+00:00",
+        "checked_at": "2026-06-19T20:39:59.727877+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.35,
@@ -22918,7 +22879,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:09.730271+00:00",
+        "checked_at": "2026-06-19T20:38:43.449884+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.13,
@@ -22946,7 +22907,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:35:58.844172+00:00",
+        "checked_at": "2026-06-19T20:39:26.454525+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 13.49,
@@ -23074,7 +23035,7 @@
       "row_count": 114,
       "rows": [
         {
-          "checked_at": "2026-06-19T20:36:00.183498+00:00",
+          "checked_at": "2026-06-19T20:39:27.916864+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.01,
@@ -23102,7 +23063,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:16.382545+00:00",
+          "checked_at": "2026-06-19T20:38:49.041236+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 3.64,
@@ -23134,7 +23095,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:56.021337+00:00",
+          "checked_at": "2026-06-19T20:39:23.682619+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.09,
@@ -23164,7 +23125,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:08.350416+00:00",
+          "checked_at": "2026-06-19T20:38:41.951571+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23192,7 +23153,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:29.117767+00:00",
+          "checked_at": "2026-06-19T20:39:00.441798+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.13,
@@ -23220,7 +23181,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:23.350099+00:00",
+          "checked_at": "2026-06-19T20:38:54.679960+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
@@ -23248,7 +23209,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:27.097111+00:00",
+          "checked_at": "2026-06-19T20:39:57.009544+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
@@ -23276,7 +23237,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:48.029322+00:00",
+          "checked_at": "2026-06-19T20:39:16.029685+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23308,7 +23269,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:14.025392+00:00",
+          "checked_at": "2026-06-19T20:38:46.906074+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23336,7 +23297,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:20.056302+00:00",
+          "checked_at": "2026-06-19T20:38:51.789263+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23364,7 +23325,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:48.904951+00:00",
+          "checked_at": "2026-06-19T20:39:16.706216+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.26,
@@ -23392,7 +23353,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:28.442275+00:00",
+          "checked_at": "2026-06-19T20:38:59.794471+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23424,7 +23385,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:19.339237+00:00",
+          "checked_at": "2026-06-19T20:39:49.258350+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.01,
@@ -23452,7 +23413,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:51.134790+00:00",
+          "checked_at": "2026-06-19T20:39:18.818005+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.12,
@@ -23480,7 +23441,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:38.931347+00:00",
+          "checked_at": "2026-06-19T20:39:10.414798+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.26,
@@ -23508,7 +23469,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:00.832991+00:00",
+          "checked_at": "2026-06-19T20:39:28.611682+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.8,
@@ -23536,7 +23497,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:14.113358+00:00",
+          "checked_at": "2026-06-19T20:39:43.172196+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.05,
@@ -23568,7 +23529,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:04.257031+00:00",
+          "checked_at": "2026-06-19T20:39:32.389728+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.22,
@@ -23596,7 +23557,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:28.095583+00:00",
+          "checked_at": "2026-06-19T20:39:57.625092+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.92,
@@ -23630,7 +23591,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:13.396689+00:00",
+          "checked_at": "2026-06-19T20:38:46.264288+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.28,
@@ -23658,7 +23619,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:53.236603+00:00",
+          "checked_at": "2026-06-19T20:39:20.912452+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.91,
@@ -23686,7 +23647,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:11.392595+00:00",
+          "checked_at": "2026-06-19T20:38:44.817418+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
@@ -23714,7 +23675,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:06.347254+00:00",
+          "checked_at": "2026-06-19T20:39:34.256785+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.0,
@@ -23742,7 +23703,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:03.526498+00:00",
+          "checked_at": "2026-06-19T20:39:31.760124+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.17,
@@ -23770,7 +23731,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:20.136188+00:00",
+          "checked_at": "2026-06-19T20:39:49.868728+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
@@ -23798,7 +23759,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:44.330755+00:00",
+          "checked_at": "2026-06-19T20:39:15.345445+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23826,7 +23787,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:34.819189+00:00",
+          "checked_at": "2026-06-19T20:39:06.063470+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23856,7 +23817,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:22.508451+00:00",
+          "checked_at": "2026-06-19T20:39:52.000878+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23888,7 +23849,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:18.005726+00:00",
+          "checked_at": "2026-06-19T20:38:50.404081+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23916,7 +23877,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:54.644267+00:00",
+          "checked_at": "2026-06-19T20:39:22.264187+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.83,
@@ -23944,7 +23905,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:55.374153+00:00",
+          "checked_at": "2026-06-19T20:39:22.997602+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -23972,7 +23933,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:12.037395+00:00",
+          "checked_at": "2026-06-19T20:39:40.873502+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.56,
@@ -24000,7 +23961,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:38.218339+00:00",
+          "checked_at": "2026-06-19T20:39:09.728109+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.2,
@@ -24032,7 +23993,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:33.469105+00:00",
+          "checked_at": "2026-06-19T20:39:04.701929+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.67,
@@ -24060,7 +24021,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:25.840150+00:00",
+          "checked_at": "2026-06-19T20:39:55.334779+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.13,
@@ -24088,7 +24049,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:30.374490+00:00",
+          "checked_at": "2026-06-19T20:40:00.747281+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.1,
@@ -24116,7 +24077,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:11.303098+00:00",
+          "checked_at": "2026-06-19T20:39:39.896521+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24148,7 +24109,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:32.667509+00:00",
+          "checked_at": "2026-06-19T20:39:04.033705+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.39,
@@ -24178,7 +24139,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:59.512319+00:00",
+          "checked_at": "2026-06-19T20:39:27.224030+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.13,
@@ -24206,7 +24167,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:51.804481+00:00",
+          "checked_at": "2026-06-19T20:39:19.495038+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.1,
@@ -24234,7 +24195,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:50.474565+00:00",
+          "checked_at": "2026-06-19T20:39:18.059910+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.22,
@@ -24262,7 +24223,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:19.009716+00:00",
+          "checked_at": "2026-06-19T20:38:51.080373+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.07,
@@ -24290,7 +24251,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:23.546158+00:00",
+          "checked_at": "2026-06-19T20:39:53.047888+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
@@ -24318,7 +24279,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:37.741212+00:00",
+          "checked_at": "2026-06-19T20:40:09.273398+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24351,7 +24312,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:29.830004+00:00",
+          "checked_at": "2026-06-19T20:39:01.160413+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24381,7 +24342,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:10.645731+00:00",
+          "checked_at": "2026-06-19T20:39:39.266176+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24415,7 +24376,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:16.043077+00:00",
+          "checked_at": "2026-06-19T20:39:45.674838+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24447,7 +24408,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:15.031132+00:00",
+          "checked_at": "2026-06-19T20:38:47.642682+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 2.3,
@@ -24479,7 +24440,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:09.845858+00:00",
+          "checked_at": "2026-06-19T20:39:38.591858+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24509,7 +24470,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:33.378563+00:00",
+          "checked_at": "2026-06-19T20:40:04.519525+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24537,7 +24498,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:17.373967+00:00",
+          "checked_at": "2026-06-19T20:38:49.741812+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.13,
@@ -24565,7 +24526,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:18.691685+00:00",
+          "checked_at": "2026-06-19T20:39:48.607408+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.49,
@@ -24595,7 +24556,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:23.979005+00:00",
+          "checked_at": "2026-06-19T20:38:55.460287+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.3,
@@ -24623,7 +24584,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:25.380607+00:00",
+          "checked_at": "2026-06-19T20:38:56.913542+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.25,
@@ -24651,7 +24612,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:26.761741+00:00",
+          "checked_at": "2026-06-19T20:38:58.295870+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24683,7 +24644,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:29.732269+00:00",
+          "checked_at": "2026-06-19T20:39:59.727877+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.35,
@@ -24711,7 +24672,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:09.730271+00:00",
+          "checked_at": "2026-06-19T20:38:43.449884+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.13,
@@ -24739,7 +24700,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:02.144028+00:00",
+          "checked_at": "2026-06-19T20:39:30.379502+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.71,
@@ -24767,7 +24728,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:17.956492+00:00",
+          "checked_at": "2026-06-19T20:39:47.997720+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24797,7 +24758,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:22.357205+00:00",
+          "checked_at": "2026-06-19T20:38:54.037588+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -24828,7 +24789,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:04.917909+00:00",
+          "checked_at": "2026-06-19T20:39:32.992069+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.44,
@@ -24858,7 +24819,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:58.844172+00:00",
+          "checked_at": "2026-06-19T20:39:26.454525+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 13.49,
@@ -24886,7 +24847,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:49.645209+00:00",
+          "checked_at": "2026-06-19T20:39:17.379406+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.09,
@@ -24914,7 +24875,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:20.684727+00:00",
+          "checked_at": "2026-06-19T20:38:52.431926+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.22,
@@ -24942,7 +24903,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:58.149117+00:00",
+          "checked_at": "2026-06-19T20:39:25.740150+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
@@ -24970,7 +24931,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:35.474976+00:00",
+          "checked_at": "2026-06-19T20:39:06.774614+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.09,
@@ -25004,7 +24965,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:21.685119+00:00",
+          "checked_at": "2026-06-19T20:38:53.294784+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25036,7 +24997,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:32.110671+00:00",
+          "checked_at": "2026-06-19T20:40:02.416807+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25066,7 +25027,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:41.780437+00:00",
+          "checked_at": "2026-06-19T20:39:13.218484+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 3.54,
@@ -25094,7 +25055,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:39.640600+00:00",
+          "checked_at": "2026-06-19T20:39:11.073901+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.41,
@@ -25124,7 +25085,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:02.852066+00:00",
+          "checked_at": "2026-06-19T20:39:31.053114+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25156,7 +25117,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:52.577253+00:00",
+          "checked_at": "2026-06-19T20:39:20.176873+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.02,
@@ -25184,7 +25145,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:36.702326+00:00",
+          "checked_at": "2026-06-19T20:40:08.198144+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.14,
@@ -25214,7 +25175,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:27.505272+00:00",
+          "checked_at": "2026-06-19T20:38:59.063662+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.63,
@@ -25242,7 +25203,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:34.147337+00:00",
+          "checked_at": "2026-06-19T20:39:05.384331+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.11,
@@ -25270,7 +25231,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:20.883260+00:00",
+          "checked_at": "2026-06-19T20:39:50.860559+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25302,7 +25263,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:53.954841+00:00",
+          "checked_at": "2026-06-19T20:39:21.599221+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.1,
@@ -25330,7 +25291,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:10.375087+00:00",
+          "checked_at": "2026-06-19T20:38:44.142222+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.41,
@@ -25360,7 +25321,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:07.033224+00:00",
+          "checked_at": "2026-06-19T20:39:35.250111+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25390,7 +25351,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:09.169039+00:00",
+          "checked_at": "2026-06-19T20:39:37.940326+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25420,7 +25381,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:34.023386+00:00",
+          "checked_at": "2026-06-19T20:40:05.189316+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 4.81,
@@ -25450,7 +25411,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:31.989298+00:00",
+          "checked_at": "2026-06-19T20:39:03.308266+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.41,
@@ -25480,7 +25441,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:01.495420+00:00",
+          "checked_at": "2026-06-19T20:39:29.762834+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.3,
@@ -25508,7 +25469,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:13.409726+00:00",
+          "checked_at": "2026-06-19T20:39:42.550080+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.27,
@@ -25536,7 +25497,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:41.076538+00:00",
+          "checked_at": "2026-06-19T20:39:12.547687+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.25,
@@ -25564,7 +25525,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:57.448002+00:00",
+          "checked_at": "2026-06-19T20:39:25.068356+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.35,
@@ -25592,7 +25553,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:35.697618+00:00",
+          "checked_at": "2026-06-19T20:40:07.197042+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.67,
@@ -25620,7 +25581,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:43.419671+00:00",
+          "checked_at": "2026-06-19T20:39:14.634080+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.3,
@@ -25648,7 +25609,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:09.034134+00:00",
+          "checked_at": "2026-06-19T20:38:42.746767+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.5,
@@ -25678,7 +25639,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:26.084125+00:00",
+          "checked_at": "2026-06-19T20:38:57.599427+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25709,7 +25670,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:40.393354+00:00",
+          "checked_at": "2026-06-19T20:39:11.803921+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.27,
@@ -25737,7 +25698,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:36.126703+00:00",
+          "checked_at": "2026-06-19T20:39:07.510875+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 8.4,
@@ -25765,7 +25726,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:37.420924+00:00",
+          "checked_at": "2026-06-19T20:39:08.890625+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.68,
@@ -25795,7 +25756,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:08.432983+00:00",
+          "checked_at": "2026-06-19T20:39:36.916827+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25826,7 +25787,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:31.066875+00:00",
+          "checked_at": "2026-06-19T20:40:01.768303+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25856,7 +25817,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:17.259581+00:00",
+          "checked_at": "2026-06-19T20:39:46.964060+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25889,7 +25850,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:29.082993+00:00",
+          "checked_at": "2026-06-19T20:39:58.638703+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 4.2,
@@ -25917,7 +25878,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:56.701285+00:00",
+          "checked_at": "2026-06-19T20:39:24.341743+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 3.82,
@@ -25945,7 +25906,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:32.744271+00:00",
+          "checked_at": "2026-06-19T20:40:03.454912+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25975,7 +25936,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:36.777512+00:00",
+          "checked_at": "2026-06-19T20:39:08.191725+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 6.77,
@@ -26003,7 +25964,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:24.620281+00:00",
+          "checked_at": "2026-06-19T20:38:56.167031+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.18,
@@ -26033,7 +25994,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:35.055065+00:00",
+          "checked_at": "2026-06-19T20:40:05.946573+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.66,
@@ -26063,7 +26024,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:05.602878+00:00",
+          "checked_at": "2026-06-19T20:39:33.608335+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26096,7 +26057,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:42.484866+00:00",
+          "checked_at": "2026-06-19T20:39:13.905985+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26126,7 +26087,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:30.499766+00:00",
+          "checked_at": "2026-06-19T20:39:01.921756+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26156,7 +26117,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:15.354107+00:00",
+          "checked_at": "2026-06-19T20:39:44.652155+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.3,
@@ -26184,7 +26145,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:07.731558+00:00",
+          "checked_at": "2026-06-19T20:39:36.274991+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.64,
@@ -26212,7 +26173,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:12.375665+00:00",
+          "checked_at": "2026-06-19T20:38:45.492482+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.47,
@@ -26240,7 +26201,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:24.166270+00:00",
+          "checked_at": "2026-06-19T20:39:53.682003+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.38,
@@ -26268,7 +26229,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:25.192756+00:00",
+          "checked_at": "2026-06-19T20:39:54.687138+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26298,7 +26259,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:12.745741+00:00",
+          "checked_at": "2026-06-19T20:39:41.529108+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.3,
@@ -26329,7 +26290,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:36:26.468247+00:00",
+          "checked_at": "2026-06-19T20:39:55.935413+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26359,7 +26320,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:31.287803+00:00",
+          "checked_at": "2026-06-19T20:39:02.640900+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.06,
@@ -26387,7 +26348,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-19T20:35:15.751500+00:00",
+          "checked_at": "2026-06-19T20:38:48.332256+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.14,
@@ -26422,7 +26383,7 @@
   "open_opportunities": {
     "schema_version": "1.0",
     "as_of": "2026-06-19",
-    "generated_at": "2026-06-19T20:36:41.797214+00:00",
+    "generated_at": "2026-06-19T20:38:41.682608+00:00",
     "opportunities": [],
     "history": [
       {
@@ -32504,7 +32465,7 @@
           "section": "higher_quality_pullbacks",
           "label": "Higher-quality pullback",
           "row": {
-            "checked_at": "2026-06-19T20:35:09.730271+00:00",
+            "checked_at": "2026-06-19T20:38:43.449884+00:00",
             "conviction": {},
             "currency": "USD",
             "current_exposure_pct": 1.13,
