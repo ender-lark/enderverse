@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T12:37:28.417220Z",
-      "summary": "morning scan started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-10T12:41:49.495434Z",
-      "summary": "3 Notion rows verified; repo Signal Log 24 rows; UW proof refreshed to 2026-06-09 16:14 ET; macro unchanged; failures none"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -6316,7 +6302,21 @@
         "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-19 09:42 ET."
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T13:47:12.043752Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T13:51:47.644391Z",
+      "summary": "web checked Macro FlashInsights, Crypto FlashInsights, latest/DTS/First Word/crypto listings plus Roadmap detail; Gmail 0 not needed; rows landed 0; suppressed duplicate/stale/context/discovery-only; validation passed; alert sent 10 existing unsent action-changing candidates; Crypto FlashInsights stale Jun8; no Jun19 web items; Notion not used"
     }
   ],
-  "updated_at": "2026-06-19T13:44:12.661144Z"
+  "updated_at": "2026-06-19T13:51:47.644391Z"
 }
