@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T14:03:06.444932Z",
-      "summary": "scanned 14 tickers; 13 live observations landed; 39 signals cached; empty-source GRNJ; worker failures 0"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T14:05:56.423021Z",
-      "summary": "parabolic cache started"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6076,7 +6062,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T08:54:45.602726Z",
       "summary": "H2/M3/L8 queued live; processed Med v0 + Low FN/FIX/STRL/IESC; Notion writes/readbacks verified 5/5, statuses kept Queued; remaining 13 queued: high operator/code blocked, 8 not updated; dark MCP query/source-flow/v0 proof lanes"
+    },
+    {
+      "routine_id": "life-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T11:33:00.161316Z",
+      "summary": "life-os-daily-briefing started"
+    },
+    {
+      "routine_id": "life-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T11:33:11.341641Z",
+      "summary": "Life OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "life_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/life_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-19T08:54:45.602726Z"
+  "updated_at": "2026-06-19T11:33:11.341641Z"
 }
