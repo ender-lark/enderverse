@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:05:24.403122Z",
-      "summary": "morning scan started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:05:55.090928Z",
-      "summary": "pre-market source intake started"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -6393,7 +6379,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T15:49:35.742296Z",
       "summary": "checked Chrome Macro FlashInsights, Crypto FlashInsights, Latest Research, Intraday, DTS, First Word, US Policy, Fed Watch, Crypto Research, Latest Videos; Gmail search 0 messages read 0; rows landed 0; suppressed stale/discovery-only web surfaces 10 plus alert stale 62 duplicates 12; validation passed; alert quiet; dark lanes none beyond stale Crypto FlashInsights Jun8 and no Jun19 web/mail; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T16:32:39.723446Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T16:35:36.889291Z",
+      "summary": "FS inbox catch-up midday nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified"
     }
   ],
-  "updated_at": "2026-06-19T15:49:35.742296Z"
+  "updated_at": "2026-06-19T16:35:36.889291Z"
 }
