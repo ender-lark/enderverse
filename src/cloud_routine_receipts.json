@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-09T14:47:43.811823Z",
-      "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T15:46:54.048984Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-09T15:47:57.863338Z",
       "summary": "checked 2 msgs, read 0 bodies, landed 0 rows, suppressed 0 new low-value notes, validate ok, alerts quiet dupes 3, fundstrat lane stale/no new full-body evidence, blockers none"
     },
@@ -6103,7 +6089,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:11:43.361861Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T12:14:22.000619Z",
+      "summary": "landed 5 Fundstrat full-body Newton rows; positions untouched no broker upload; web checked no Jun19; drop folders empty; UW/Notion no writes"
     }
   ],
-  "updated_at": "2026-06-19T12:03:02.248206Z"
+  "updated_at": "2026-06-19T12:14:22.000619Z"
 }
