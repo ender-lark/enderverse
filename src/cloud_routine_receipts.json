@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T12:11:31.835744Z",
-      "summary": "pre-market source intake started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-09T12:14:13.934472Z",
@@ -6030,7 +6023,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T00:49:05.731315Z",
       "summary": "dry-run selected 8 BUILDING/QUIET; queued ELF,DE,STRL,PWR,IESC,GS,FN,FIX; Notion write/readback verified 8/8 and cache page ids set; remaining unqueued BUILDING/QUIET 3 CRS,ANET,AMD; no HOT/ACT_NOW; source pulls not refreshed by bridge remain not_checked"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T00:54:46.691077Z",
+      "summary": "FS inbox catch-up evening ingested 2 entries; logged 9 Newton calls; marker advanced to [06/18/2026 20:10 ET]; flags QQQ gate refresh 722, oil/rates tailwind, banks/semis/consumer research; no gate/card mutation; query endpoint dark fallback search"
     }
   ],
-  "updated_at": "2026-06-19T00:49:05.731315Z"
+  "updated_at": "2026-06-19T00:54:46.691077Z"
 }
