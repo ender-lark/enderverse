@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T20:31:39.602571Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T20:31:42.684513Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -6273,7 +6252,35 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T13:16:09.775388Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T13:16:11.386691Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-19T12:54:06.817802Z"
+  "updated_at": "2026-06-19T13:16:11.386691Z"
 }
