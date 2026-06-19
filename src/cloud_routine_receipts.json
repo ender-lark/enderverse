@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:09:41.101448Z",
-      "summary": "landed 3 Fundstrat rows; positions unchanged; catalyst/broker/event-risk dark from missing live rows/uploads; blocker notion-query-data-sources unavailable"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:11:37.962248Z",
-      "summary": "3 signals landed+verified; signal log 27 rows; UW proof refreshed thru 2026-06-10 16:10 ET; macro unchanged validated"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-11T13:31:47.361202Z",
-      "summary": "daily synthesis started"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "success",
       "run_source": "scheduled",
@@ -6386,7 +6365,43 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T16:53:40.139790Z",
       "summary": "checked Chrome Macro FI Jun18 15:02 stale, Crypto FI Jun8 09:32 stale, research listings no Jun19; Gmail Jun19 domain 0 messages full-body 0; rows landed 0; suppressed stale/duplicate/discovery-only; validation passed; alert quiet 0 candidates 12 duplicates 62 suppressed; dashboard skipped; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T17:46:33.062841Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T17:48:40.835001Z",
+      "summary": "trigger check fired 1 trigger(s): GOOGL",
+      "details": {
+        "fired": [
+          {
+            "id": "googl-tranche-2-review-2026-06-19",
+            "ticker": "GOOGL",
+            "condition_type": "date_event",
+            "source": "Live Thesis 37dc50314bb681738ff3e12f39893b7e: GOOGL tranche-2 trigger for staged 6/12 entry.",
+            "status": "fired",
+            "fire_reason": "date_event due 2026-06-19"
+          }
+        ],
+        "not_checked_count": 4,
+        "summary_line": "Trigger check: fired=1; not_checked=4; armed=4; expired=0."
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T17:49:09.046202Z",
+      "summary": "checked Chrome Macro FlashInsights latest Jun18 15:02 ET, Crypto FlashInsights latest Jun8 09:32 ET; Gmail 0 not needed; rows landed 0; suppressed stale/duplicate/discovery-only web rows and alert stale 62 duplicates 12; validation passed; Fundstrat alert quiet 0 candidates; trigger guard sent GOOGL date trigger, 4 quote triggers not_checked; dashboard skipped; blockers none"
     }
   ],
-  "updated_at": "2026-06-19T16:53:40.139790Z"
+  "updated_at": "2026-06-19T17:49:09.046202Z"
 }
