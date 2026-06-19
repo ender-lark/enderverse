@@ -252,6 +252,17 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "proof_scope": "support",
     },
     {
+        "automation_id": "investing-os-dossier-keeper",
+        "automation_name": "Investing OS Dossier Keeper",
+        "role": "dossier_keeper",
+        "schedule": "daily 10:15 PM ET",
+        "days": [0, 1, 2, 3, 4, 5, 6],
+        "hour": 22,
+        "minute": 15,
+        "expected_since": "2026-06-19T00:00:00-04:00",
+        "proof_scope": "support",
+    },
+    {
         "automation_id": "investing-os-off-hours-worker",
         "automation_name": "Investing OS Off-Hours Worker",
         "role": "off_hours_worker",

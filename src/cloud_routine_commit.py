@@ -83,6 +83,7 @@ DEFAULT_ALLOWED_PATHS = [
     "src/uw_endpoint_interpretations.json",
     "src/parabolic_setups.json",
     "src/research_queue.json",
+    "docs/research_dossiers/",
     # V3 decision-layer state files (Task 8):
     "src/dispositions.jsonl",        # append-only ACT/PASS/RECHECK/UNDO spine
     "src/timing_gates.json",         # post-open evidence-gate state transitions
@@ -124,6 +125,16 @@ def _normalize(path: str | Path) -> str:
     return str(path).replace("\\", "/").strip().lstrip("./")
 
 
+def _is_allowed_path(path: str, allowed: set[str]) -> bool:
+    normalized = _normalize(path)
+    if normalized in allowed:
+        return True
+    return any(
+        allow.endswith("/") and normalized.startswith(allow)
+        for allow in allowed
+    )
+
+
 def _status_rows(cwd: Path) -> list[dict[str, str]]:
     proc = _run_git(["status", "--porcelain=v1", "-uall"], cwd=cwd)
     rows: list[dict[str, str]] = []
@@ -139,7 +150,7 @@ def _status_rows(cwd: Path) -> list[dict[str, str]]:
 
 
 def _selected_paths(rows: list[dict[str, str]], allowed: set[str]) -> list[str]:
-    return sorted({row["path"] for row in rows if row["path"] in allowed})
+    return sorted({row["path"] for row in rows if _is_allowed_path(row["path"], allowed)})
 
 
 def _unrelated_paths(rows: list[dict[str, str]], selected: set[str]) -> list[str]:

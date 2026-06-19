@@ -71,6 +71,25 @@ def test_cloud_routine_commit_commits_only_allowed_paths(tmp_path):
     assert "src/cloud_routine_receipts.json" not in status
 
 
+def test_cloud_routine_commit_supports_allowed_directory_prefixes(tmp_path):
+    repo = _repo(tmp_path)
+    dossier_dir = repo / "docs" / "research_dossiers"
+    dossier_dir.mkdir()
+    (dossier_dir / "ABC.md").write_text("PENDING OPERATOR CONFIRMATION\n", encoding="utf-8")
+    (repo / "docs" / "other.md").write_text("unrelated\n", encoding="utf-8")
+
+    report = cloud_routine_commit.cloud_routine_commit(
+        message="dossier keeper scheduled run",
+        allowed_paths=["docs/research_dossiers/"],
+        cwd=repo,
+        dry_run=True,
+    )
+
+    assert report["committed"] is False
+    assert report["selected_paths"] == ["docs/research_dossiers/ABC.md"]
+    assert report["unrelated_dirty_paths"] == ["docs/other.md"]
+
+
 def test_cloud_routine_commit_reports_boundary_artifact_commit(tmp_path):
     repo = _repo(tmp_path)
     (repo / "src" / "latest_cockpit_feed.json").write_text('{"generated_at":"2026-06-05T13:00:00Z"}\n', encoding="utf-8")
@@ -207,6 +226,7 @@ def test_default_allowlist_includes_redacted_fundstrat_intake_bookkeeping():
     assert "src/work_os_daily_briefing_last_run.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/life_work_os_heartbeat.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/life_work_os_hygiene_receipt.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "docs/research_dossiers/" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
 
 
 def test_cloud_routine_commit_reports_push_failure_after_commit(tmp_path):

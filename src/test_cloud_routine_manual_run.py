@@ -147,6 +147,15 @@ def test_trigger_check_is_wired_into_trigger_sensitive_manual_routines():
         assert any("trigger_check.py" in command and "--dry-run" in command for command in commands)
 
 
+def test_dossier_keeper_manual_routine_is_read_only_support():
+    routines = {routine.routine_id: routine for routine in cloud_routine_manual_run.default_routines()}
+    commands = [" ".join(step.command or []) for step in routines["investing-os-dossier-keeper"].steps]
+
+    assert any("dossier_universe.py" in command and "--format json" in command for command in commands)
+    assert any("case_file_coverage.py" in command and "--discipline" in command for command in commands)
+    assert not any("cloud_routine_commit.py" in command for command in commands)
+
+
 def test_fundstrat_transcript_routines_build_synthesis_notes():
     routines = {routine.routine_id: routine for routine in cloud_routine_manual_run.default_routines()}
     for routine_id in (

@@ -493,6 +493,7 @@ support.
 | `investing-os-top-prospects-auto-research` | Top prospects auto-research support | Daily 8:45 PM ET |
 | `investing-os-fs-inbox-catch-up-evening` | Fundstrat inbox catch-up slot | Market weekdays 8:45 PM ET |
 | `investing-os-off-hours-alt-data-scout` | Off-hours alternative-data scout | Daily 9:15 PM ET |
+| `investing-os-dossier-keeper` | Capped thesis-of-record dossier maintenance; direct-commits only PENDING OPERATOR CONFIRMATION dossiers after discipline lint is clean | Daily 10:15 PM ET |
 | `investing-os-off-hours-worker` | Overnight status/research support checks | Daily 1:45 AM ET |
 | `investing-os-off-hours-queue-buffer` | Off-hours queue buffer | Daily 4:45 AM ET |
 | `investing-os-deep-synthesis` | Weekly deeper synthesis support | Sunday 1:00 PM ET |

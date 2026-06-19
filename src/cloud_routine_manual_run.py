@@ -332,6 +332,18 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-dossier-keeper",
+            "dossier keeper manual support inspected worklist and validated coverage/discipline without drafting or committing",
+            [
+                Step("dossier keeper prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "dossier_keeper.md").is_file(),
+                }),
+                Step("dossier keeper worklist", _python("src/dossier_universe.py", "--feed", "src/latest_cockpit_feed.json", "--format", "json")),
+                Step("dossier coverage check", _python("src/case_file_coverage.py", "--feed", "src/latest_cockpit_feed.json")),
+                Step("dossier discipline lint", _python("src/case_file_coverage.py", "--discipline")),
+            ],
+        ),
+        Routine(
             "investing-os-off-hours-research-queue",
             "off-hours research queue manual support checked routine wiring and research queue cache",
             [

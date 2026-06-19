@@ -107,6 +107,20 @@ def test_automation_summary_defaults_to_codex_home_when_env_missing(monkeypatch,
     assert report["active"] is True
 
 
+def test_dossier_keeper_is_support_monitored_at_loose_thread_slot():
+    row = next(
+        row
+        for row in cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS
+        if row["automation_id"] == "investing-os-dossier-keeper"
+    )
+
+    assert row["role"] == "dossier_keeper"
+    assert row["schedule"] == "daily 10:15 PM ET"
+    assert row["hour"] == 22
+    assert row["minute"] == 15
+    assert cloud_routine_receipts.proof_scope(row) == "support"
+
+
 def test_cloud_ops_status_accepts_app_created_routine_stack_proof(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()

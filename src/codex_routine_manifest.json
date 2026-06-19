@@ -668,6 +668,43 @@
       "no_input_behavior": "If no candidates qualify, write no Notion rows, append a success receipt saying nothing new, and leave unavailable target queues not checked rather than checked clear."
     },
     {
+      "id": "dossier_keeper",
+      "title": "Dossier Keeper",
+      "status": "active_safe_intake",
+      "cadence": "off_hours_daily_after_daily_full_build",
+      "doc": "src/codex_routines/dossier_keeper.md",
+      "separation_group": "dossier_maintenance",
+      "input_boundaries": [
+        "Read-only repo stores (account_positions.json, source_calls.json, fundstrat_bible.json, top_prospects.json, open_opportunities.json, parabolic_setups.json, latest_cockpit_feed.json)",
+        "Live fundamentals via the data MCP (company info, analyst ratings, earnings, performances) for names on the worklist only",
+        "Web search for recent catalysts",
+        "No autonomous trades; no feed/dashboard regeneration; every drafted verdict is PENDING OPERATOR CONFIRMATION"
+      ],
+      "owns": [
+        "docs/research_dossiers/"
+      ],
+      "commands": [
+        {
+          "id": "worklist",
+          "command": "cd src && python -m dossier_universe --feed latest_cockpit_feed.json --format json"
+        },
+        {
+          "id": "coverage_check",
+          "command": "cd src && python -m case_file_coverage --feed latest_cockpit_feed.json"
+        },
+        {
+          "id": "discipline_lint",
+          "command": "cd src && python -m case_file_coverage --discipline"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Dossier keeper scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python -m pytest src/test_dossier_universe.py src/test_case_file.py src/test_case_file_coverage.py -q",
+      "no_input_behavior": "If the worklist is empty, write nothing. If a name can't be grounded, draft an honest WATCH/PASS — never a fabricated BUY-CANDIDATE, size, or trigger. Every drafted/refreshed verdict is PENDING OPERATOR CONFIRMATION and is not a trade signal. Missing or unavailable evidence remains not checked/dark, never checked clear."
+    },
+    {
       "id": "life_os_daily_briefing",
       "title": "Life OS Daily Briefing",
       "status": "active_safe_intake",

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-06-18T13:31:26-04:00",
-  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, registered FS Inbox Catch-up as four paired weekday schedules, added the Positions Sync post-close expected schedule, created the six Life/Work OS Codex app automations on 2026-06-17, and created the two Federal Funding Moves Codex app automations on 2026-06-18 at the canonical main checkout.",
+  "verified_at": "2026-06-19T00:00:00-04:00",
+  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, registered FS Inbox Catch-up as four paired weekday schedules, added the Positions Sync post-close expected schedule, created the six Life/Work OS Codex app automations on 2026-06-17, created the two Federal Funding Moves Codex app automations on 2026-06-18, and registered Dossier Keeper as a direct-commit support routine on 2026-06-19 at the canonical main checkout.",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
     "On 2026-06-12, the temporary usage-conservation pauses were lifted for the current Fundstrat web routines and heavy off-hours routines; only the superseded legacy jobs remain paused.",
@@ -23,7 +23,8 @@
     "Fundstrat Late Evening Web/Transcript Sweep runs at 10:45 PM ET market weekdays to catch late-posted web/video items after the 7:00 PM after-hours pass; transcript text must be written only to the private source vault.",
     "Loose-Thread Sweep runs daily at 10:15 PM ET as a support routine. It is capture-only, dedupe-first, and writes only genuinely new still-timely loose threads to the correct Notion queue/log after live readback verification.",
     "Life OS and Work OS routines were reconciled on 2026-06-17 as new support-monitored Codex automations, then created in the Codex app at 2026-06-17T15:27:23-04:00 against the canonical main checkout. They remain support-scope until real scheduled receipts land on main.",
-    "Federal Funding Moves runs as two new Codex automations created on 2026-06-18 at the canonical main checkout: a market-weekday 11:20 AM ET midday watch and a market-weekday 5:35 PM ET post-close/contract sweep. Both use gpt-5.5, source official federal pages first, write compact rows through src/federal_funding_intake.py, and keep MONITOR tickers review-only."
+    "Federal Funding Moves runs as two new Codex automations created on 2026-06-18 at the canonical main checkout: a market-weekday 11:20 AM ET midday watch and a market-weekday 5:35 PM ET post-close/contract sweep. Both use gpt-5.5, source official federal pages first, write compact rows through src/federal_funding_intake.py, and keep MONITOR tickers review-only.",
+    "Dossier Keeper runs daily at 10:15 PM ET as a support routine after the Daily Full Build feed exists. It reads latest_cockpit_feed.json but never regenerates the feed/dashboard, caps each run to the closest-expiry refreshes plus only a few highest-signal drafts, requires PENDING OPERATOR CONFIRMATION in every drafted dossier, requires case_file_coverage --discipline to pass, and direct-commits only permitted dossier/receipt changes through cloud_routine_commit.py."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
@@ -237,6 +238,19 @@
       "expected_since": "2026-06-17T00:00:00-04:00",
       "proof_scope": "support",
       "prompt": "src/codex_routines/Loose_Thread_Sweep_Routine_Prompt_v1.md"
+    },
+    {
+      "automation_id": "investing-os-dossier-keeper",
+      "automation_name": "Investing OS Dossier Keeper",
+      "status": "ACTIVE",
+      "role": "dossier_keeper",
+      "schedule": "daily 10:15 PM ET",
+      "expected_since": "2026-06-19T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/dossier_keeper.md",
+      "writes_to": "docs/research_dossiers/, src/cloud_routine_receipts.json",
+      "model": "gpt-5.5",
+      "reasoning_effort": "max"
     },
     {
       "automation_id": "investing-os-off-hours-queue-buffer",
