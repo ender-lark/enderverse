@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T13:49:26.338735Z",
-      "summary": "checked 2 msgs, read 1 body, landed 0 rows, suppressed 1 low-value note, validate ok, alerts sent 3 from existing fresh calls, fundstrat lane unchanged, blockers none"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T14:01:28.782020Z",
-      "summary": "uw opportunity cache started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6076,7 +6062,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T08:47:33.447015Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T08:54:45.602726Z",
+      "summary": "H2/M3/L8 queued live; processed Med v0 + Low FN/FIX/STRL/IESC; Notion writes/readbacks verified 5/5, statuses kept Queued; remaining 13 queued: high operator/code blocked, 8 not updated; dark MCP query/source-flow/v0 proof lanes"
     }
   ],
-  "updated_at": "2026-06-19T06:32:32.449068Z"
+  "updated_at": "2026-06-19T08:54:45.602726Z"
 }
