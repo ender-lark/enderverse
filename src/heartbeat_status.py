@@ -116,6 +116,45 @@ def _routine_due_note(routine_due: dict[str, Any]) -> tuple[str, str]:
     return "ok", "routine receipt due state checked; no expected schedule rows"
 
 
+def _routine_boundary_note(routine_due: dict[str, Any]) -> tuple[str, str] | None:
+    rows = [row for row in routine_due.get("rows") or [] if isinstance(row, dict)]
+    missing = [row for row in rows if row.get("last_boundary_outcome") == "missing"]
+    if missing:
+        first = missing[0]
+        artifacts = first.get("missing_boundary_artifacts") or first.get("last_boundary_artifacts") or []
+        suffix = f": {', '.join(str(path) for path in artifacts)}" if artifacts else ""
+        extra = len(missing) - 1
+        note = f"boundary missing: {_routine_label(first)}{suffix}"
+        if extra:
+            note += f"; +{extra} more"
+        return "down", note
+    stale = [row for row in rows if row.get("last_boundary_outcome") == "stale_boundary"]
+    if stale:
+        first = stale[0]
+        artifacts = first.get("stale_boundary_artifacts") or first.get("last_boundary_artifacts") or []
+        suffix = f": {', '.join(str(path) for path in artifacts)}" if artifacts else ""
+        extra = len(stale) - 1
+        note = f"boundary stale: {_routine_label(first)}{suffix}"
+        if extra:
+            note += f"; +{extra} more"
+        return "stale", note
+    visible = [
+        row
+        for row in rows
+        if row.get("last_boundary_outcome") in {"no_op", "fired_unknown"}
+    ]
+    if visible:
+        first = visible[0]
+        outcome = first.get("last_boundary_outcome")
+        label = "no fresh boundary change" if outcome == "no_op" else "fresh boundary not_checked"
+        extra = len(visible) - 1
+        note = f"{label}: {_routine_label(first)}"
+        if extra:
+            note += f"; +{extra} more"
+        return "stale", note
+    return None
+
+
 def _routine_due_report(src_dir: str | Path) -> dict[str, Any]:
     src = Path(src_dir)
     proof = _read_json_default(src / "cloud_automation_status.json", {})
@@ -217,7 +256,8 @@ def heartbeat_rows(report: dict[str, Any], *, generated_at: str | None = None) -
     ]
     routine_due = report.get("routine_receipt_due") or {}
     if routine_due.get("rows"):
-        routine_status, routine_note = _routine_due_note(routine_due)
+        boundary_note = _routine_boundary_note(routine_due)
+        routine_status, routine_note = boundary_note or _routine_due_note(routine_due)
         rows.append(_row(
             "Cloud Routine Receipts",
             routine_status,

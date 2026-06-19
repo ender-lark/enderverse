@@ -146,6 +146,24 @@ def _unrelated_paths(rows: list[dict[str, str]], selected: set[str]) -> list[str
     return sorted({row["path"] for row in rows if row["path"] not in selected})
 
 
+def _latest_boundary_artifacts(repo: Path) -> list[dict[str, Any]]:
+    receipt_file = repo / RECEIPT_PATH
+    if not receipt_file.is_file():
+        return []
+    try:
+        payload = cloud_routine_receipts.load_receipts(receipt_file)
+    except Exception:
+        return []
+    receipts = [row for row in payload.get("receipts") or [] if isinstance(row, dict)]
+    receipts.sort(key=lambda row: str(row.get("recorded_at") or ""), reverse=True)
+    for receipt in receipts:
+        details = receipt.get("details") if isinstance(receipt.get("details"), dict) else {}
+        rows = details.get("artifact_boundaries") if isinstance(details.get("artifact_boundaries"), list) else []
+        if rows:
+            return [row for row in rows if isinstance(row, dict)]
+    return []
+
+
 def _normalize_receipts_if_allowed(repo: Path, allowed: set[str]) -> dict[str, Any]:
     report = {
         "receipt_normalized": False,
@@ -254,6 +272,16 @@ def cloud_routine_commit(
         return report
     selected = _selected_paths(rows, allowed)
     unrelated = _unrelated_paths(rows, set(selected))
+    boundary_artifacts = [
+        {
+            "path": _normalize(row.get("path") or ""),
+            "selected_for_commit": _normalize(row.get("path") or "") in set(selected),
+            "committed": False,
+            "committed_sha": "",
+        }
+        for row in _latest_boundary_artifacts(repo)
+        if row.get("path")
+    ]
     report: dict[str, Any] = {
         "valid": True,
         "dry_run": dry_run,
@@ -261,6 +289,7 @@ def cloud_routine_commit(
         "allowed_count": len(allowed),
         "selected_paths": selected,
         "unrelated_dirty_paths": unrelated,
+        "boundary_artifacts": boundary_artifacts,
         **upstream_merge_report,
         **normalize_report,
         "committed": False,
@@ -305,6 +334,10 @@ def cloud_routine_commit(
         report["commit"] = _run_git(["rev-parse", "--short", "HEAD"], cwd=repo).stdout.strip()
     except subprocess.CalledProcessError:
         report["commit"] = ""
+    for row in report.get("boundary_artifacts") or []:
+        if row.get("selected_for_commit"):
+            row["committed"] = True
+            row["committed_sha"] = report.get("commit") or ""
     if push:
         try:
             _run_git(["push"], cwd=repo)
@@ -346,6 +379,12 @@ def format_text(report: dict[str, Any]) -> str:
     if report.get("selected_paths"):
         lines.append("Allowed changed paths:")
         lines.extend(f"- {path}" for path in report.get("selected_paths") or [])
+    if report.get("boundary_artifacts"):
+        lines.append("Boundary artifacts:")
+        for row in report.get("boundary_artifacts") or []:
+            status = "committed" if row.get("committed") else "not committed"
+            sha = f" {row.get('committed_sha')}" if row.get("committed_sha") else ""
+            lines.append(f"- {row.get('path')}: {status}{sha}")
     if report.get("unrelated_dirty_paths"):
         lines.append("Unrelated dirty paths left untouched:")
         lines.extend(f"- {path}" for path in report.get("unrelated_dirty_paths") or [])

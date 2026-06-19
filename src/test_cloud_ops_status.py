@@ -480,6 +480,66 @@ def test_cloud_ops_status_reports_live_run_proven_after_all_success_receipts(mon
     assert "Cloud live-run proven: True" in text
 
 
+def test_cloud_ops_status_reports_fresh_boundary_proof(monkeypatch, tmp_path):
+    expected = [{
+        "automation_id": "investing-os-morning-scan",
+        "automation_name": "Investing OS Morning Scan",
+        "role": "morning_scan",
+        "schedule": "market weekdays 8:35 AM ET",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 8,
+        "minute": 35,
+    }]
+    monkeypatch.setattr(cloud_ops_status, "DEFAULT_EXPECTED_AUTOMATIONS", expected)
+    src = tmp_path / "src"
+    src.mkdir()
+    _write_active_stack_proof(src)
+    cloud_routine_receipts.append_receipt(
+        path=src / "cloud_routine_receipts.json",
+        routine_id="investing-os-morning-scan",
+        status="success",
+        run_source="scheduled",
+        summary="morning scan produced fresh data",
+        recorded_at="2026-06-05T13:00:00Z",
+        details={
+            "artifact_boundaries": [{
+                "path": "src/signal_log.json",
+                "present": True,
+                "missing": False,
+                "fresh": True,
+                "changed": True,
+                "content_hash": "new",
+                "previous_content_hash": "old",
+            }]
+        },
+    )
+
+    monkeypatch.setattr(cloud_ops_status, "_manifest_summary", lambda _src: {
+        "valid": True,
+        "problems": [],
+        "summary": {"routines": 1, "active": 1},
+    })
+    monkeypatch.setattr(cloud_ops_status.live_status_mod, "live_status", lambda src_dir: {
+        "go_live_ready": True,
+        "dark_lanes": {"count": 0, "details": []},
+        "open_actions": {"count": 0, "tickers": []},
+    })
+
+    report = cloud_ops_status.cloud_ops_status(
+        src_dir=src,
+        automations_dir=tmp_path / "missing_automations",
+        now="2026-06-05T09:20:00-04:00",
+    )
+    text = cloud_ops_status.format_text(report)
+
+    assert report["live_run_proven"] is True
+    assert report["fresh_boundary_proven"] is True
+    assert report["routine_receipts"]["summary"]["produced_fresh_count"] == 1
+    assert "Cloud fresh boundary proven: True" in text
+    assert "Core fresh boundary data: fresh_boundary_data=1/1" in text
+    assert report["gaps"] == []
+
+
 def test_cloud_ops_status_reports_partial_live_run_after_first_scheduled_success(monkeypatch, tmp_path):
     src = tmp_path / "src"
     src.mkdir()
@@ -567,6 +627,26 @@ def test_cloud_ops_status_cli_can_require_full_live_run(monkeypatch):
 
     assert cloud_ops_status.main(["--require-live-run"]) == 3
     assert cloud_ops_status.main(["--require-first-proof"]) == 0
+
+
+def test_cloud_ops_status_cli_can_require_fresh_boundary(monkeypatch):
+    monkeypatch.setattr(cloud_ops_status, "cloud_ops_status", lambda **kwargs: {
+        "ready_for_unattended_daily_run": True,
+        "first_scheduled_run_proven": True,
+        "live_run_proven": True,
+        "fresh_boundary_proven": False,
+    })
+
+    assert cloud_ops_status.main(["--require-fresh-boundary"]) == 4
+
+    monkeypatch.setattr(cloud_ops_status, "cloud_ops_status", lambda **kwargs: {
+        "ready_for_unattended_daily_run": True,
+        "first_scheduled_run_proven": True,
+        "live_run_proven": True,
+        "fresh_boundary_proven": True,
+    })
+
+    assert cloud_ops_status.main(["--require-fresh-boundary"]) == 0
 
 
 def test_cloud_ops_status_does_not_treat_manual_receipts_as_live_run_proof(monkeypatch, tmp_path):

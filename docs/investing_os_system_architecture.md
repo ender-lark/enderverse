@@ -520,8 +520,14 @@ Cloud readiness has three separate states:
   success receipt.
 - Full live-run proof: every core proof routine has at least one scheduled
   success receipt and no core routine is overdue.
+- Fresh boundary proof: the routine receipt records that at least one owned
+  cockpit-critical artifact was produced fresh for the session. This is
+  separate from the command exit status, so a routine can fire successfully but
+  still report `no_op`, `stale_boundary`, `missing`, or `fired_unknown`.
 
 The proof store is `src/cloud_routine_receipts.json`.
+The cockpit-critical boundary map is
+`src/cockpit_artifact_boundaries.json`.
 
 Receipt rules:
 
@@ -531,10 +537,18 @@ Receipt rules:
   Manual support can prove the local routine path still works, but it cannot
   make an overdue scheduled routine look current.
 - A routine normally writes `started`, then `success` or `failed`.
+- New schema-version 2 receipts may include `boundary_outcome` plus
+  per-artifact `content_hash`, `as_of`, freshness, and commit-inclusion
+  metadata. Historical v1 receipts and routines with no artifact metadata are
+  never counted as produced fresh; they remain `fired_unknown` unless the live
+  artifact check can prove a missing or stale boundary.
 - `cloud_ops_status.py --require-first-proof` fails until first scheduled proof.
 - `cloud_ops_status.py --require-live-run` fails until all core proof routines
   have scheduled success receipts. Support-monitored routines are displayed
   separately.
+- `cloud_ops_status.py --require-fresh-boundary` fails until all core proof
+  routines have produced fresh boundary-data proof. It is additive and does not
+  replace `--require-live-run`.
 
 The wrapper for scheduled commands is:
 

@@ -684,6 +684,13 @@ def _manifest_summary(src_dir: Path) -> dict[str, Any]:
     return {"valid": not problems, "problems": problems, "summary": summary}
 
 
+def _repo_root_for_receipt_path(path: str | Path) -> Path:
+    receipt_path = Path(path)
+    if receipt_path.parent.name == "src":
+        return receipt_path.parent.parent
+    return receipt_path.parent
+
+
 def _receipt_summary(path: str | Path, expected_automations: list[dict[str, Any]]) -> dict[str, Any]:
     try:
         payload = cloud_routine_receipts.load_receipts(path)
@@ -691,6 +698,7 @@ def _receipt_summary(path: str | Path, expected_automations: list[dict[str, Any]
         summary = cloud_routine_receipts.summarize_receipts(
             payload,
             expected_automations=expected_automations,
+            repo_root=_repo_root_for_receipt_path(path),
         )
     except Exception as exc:
         return {
@@ -701,11 +709,21 @@ def _receipt_summary(path: str | Path, expected_automations: list[dict[str, Any]
                 "expected_count": len(expected_automations),
                 "success_count": 0,
                 "scheduled_success_count": 0,
+                "produced_fresh_count": 0,
+                "stale_boundary_count": 0,
+                "no_op_count": 0,
+                "missing_count": 0,
+                "fired_unknown_count": 0,
                 "manual_support_only_count": 0,
                 "failed_latest_count": 0,
                 "missing_success_count": len(expected_automations),
                 "missing_scheduled_success_count": len(expected_automations),
                 "rows": [],
+                "produced_fresh": [],
+                "stale_boundary": [],
+                "no_op": [],
+                "missing": [],
+                "fired_unknown": [],
                 "missing_success": expected_automations,
                 "missing_scheduled_success": expected_automations,
                 "manual_support_only": [],
@@ -730,6 +748,28 @@ def _receipt_due_summary(
         now=now,
         grace_minutes=grace_minutes,
     )
+
+
+def _boundary_gap_lines(receipts: dict[str, Any]) -> list[str]:
+    summary = receipts.get("summary") or {}
+    lines: list[str] = []
+    labels = {
+        "missing": "boundary artifact is missing",
+        "stale_boundary": "boundary data is stale",
+        "no_op": "fired but produced no changed cockpit boundary artifact",
+        "fired_unknown": "fired; fresh boundary data is not_checked",
+    }
+    for key in ("missing", "stale_boundary", "no_op", "fired_unknown"):
+        for row in summary.get(key) or []:
+            if not isinstance(row, dict):
+                continue
+            label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
+            artifacts = row.get("missing_boundary_artifacts") if key == "missing" else row.get("stale_boundary_artifacts")
+            if key in {"no_op", "fired_unknown"}:
+                artifacts = row.get("last_boundary_artifacts")
+            suffix = f": {', '.join(str(path) for path in artifacts)}" if artifacts else "."
+            lines.append(f"{label} {labels[key]}{suffix}")
+    return lines
 
 
 def _operating_gaps(
@@ -779,6 +819,7 @@ def _operating_gaps(
         label = row.get("routine_name") or row.get("routine_id") or "Cloud routine"
         summary = row.get("last_summary") or row.get("last_recorded_at") or "latest run failed"
         gaps.append(f"{label} latest run receipt failed: {summary}")
+    gaps.extend(_boundary_gap_lines(receipts))
     for row in receipt_due.get("overdue") or []:
         if not isinstance(row, dict):
             continue
@@ -882,6 +923,7 @@ def cloud_ops_status(
     scheduled_success_count = int(receipt_summary.get("scheduled_success_count") or 0)
     expected_receipt_count = int(receipt_summary.get("expected_count") or 0)
     failed_latest_count = int(receipt_summary.get("failed_latest_count") or 0)
+    produced_fresh_count = int(receipt_summary.get("produced_fresh_count") or 0)
     first_scheduled_run_proven = (
         schedule_ready
         and scheduled_success_count > 0
@@ -890,6 +932,12 @@ def cloud_ops_status(
     live_run_proven = (
         schedule_ready
         and scheduled_success_count >= expected_receipt_count
+        and expected_receipt_count > 0
+        and failed_latest_count == 0
+    )
+    fresh_boundary_proven = (
+        schedule_ready
+        and produced_fresh_count >= expected_receipt_count
         and expected_receipt_count > 0
         and failed_latest_count == 0
     )
@@ -908,6 +956,7 @@ def cloud_ops_status(
         "schedule_ready_for_unattended_run": schedule_ready,
         "first_scheduled_run_proven": first_scheduled_run_proven,
         "live_run_proven": live_run_proven,
+        "fresh_boundary_proven": fresh_boundary_proven,
         "cloud_operating_state": operating_state,
         "local_go_live_ready": bool(status.get("go_live_ready")),
         "routine_manifest": manifest,
@@ -957,6 +1006,7 @@ def format_text(report: dict[str, Any]) -> str:
         f"Cloud schedule ready: {bool(report.get('schedule_ready_for_unattended_run'))}",
         f"Cloud first scheduled run proven: {bool(report.get('first_scheduled_run_proven'))}",
         f"Cloud live-run proven: {bool(report.get('live_run_proven'))}",
+        f"Cloud fresh boundary proven: {bool(report.get('fresh_boundary_proven'))}",
         f"Cloud operating state: {report.get('cloud_operating_state') or 'unknown'}",
         f"Local go-live ready: {bool(report.get('local_go_live_ready'))}",
         (
@@ -1011,6 +1061,15 @@ def format_text(report: dict[str, Any]) -> str:
             f"manual_support_only={int(receipts.get('manual_support_only_count') or 0)} | "
             f"failed_latest={int(receipts.get('failed_latest_count') or 0)} | "
             f"missing_scheduled_success={int(receipts.get('missing_scheduled_success_count') or 0)}"
+        ),
+        (
+            "Core fresh boundary data: "
+            f"fresh_boundary_data={int(receipts.get('produced_fresh_count') or 0)}/"
+            f"{int(receipts.get('expected_count') or 0)} | "
+            f"stale_boundary={int(receipts.get('stale_boundary_count') or 0)} | "
+            f"no_op={int(receipts.get('no_op_count') or 0)} | "
+            f"missing={int(receipts.get('missing_count') or 0)} | "
+            f"fired_unknown={int(receipts.get('fired_unknown_count') or 0)}"
         ),
         (
             "Support routine receipts: "
@@ -1105,6 +1164,11 @@ def main(argv=None) -> int:
         action="store_true",
         help="Exit non-zero unless every expected routine has a scheduled success receipt",
     )
+    parser.add_argument(
+        "--require-fresh-boundary",
+        action="store_true",
+        help="Exit non-zero unless every expected routine has produced fresh boundary data proof",
+    )
     args = parser.parse_args(argv)
 
     report = cloud_ops_status(
@@ -1122,6 +1186,8 @@ def main(argv=None) -> int:
         print(json.dumps(report, indent=2))
     if args.require_live_run and not report.get("live_run_proven"):
         return 3
+    if args.require_fresh_boundary and not report.get("fresh_boundary_proven"):
+        return 4
     if args.require_first_proof and not report.get("first_scheduled_run_proven"):
         return 2
     if args.strict and not report.get("ready_for_unattended_daily_run"):

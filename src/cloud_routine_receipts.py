@@ -8,6 +8,7 @@ proof that the schedule is installed.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -20,8 +21,18 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "src" / "cloud_routine_receipts.json"
+DEFAULT_BOUNDARY_CONFIG = ROOT / "src" / "cockpit_artifact_boundaries.json"
+RECEIPT_SCHEMA_VERSION = 2
 VALID_STATUSES = {"started", "success", "failed"}
 VALID_RUN_SOURCES = {"manual", "scheduled"}
+VALID_BOUNDARY_OUTCOMES = {
+    "failed",
+    "produced_fresh",
+    "no_op",
+    "stale_boundary",
+    "missing",
+    "fired_unknown",
+}
 JSON_READ_ENCODINGS = ("utf-8", "utf-8-sig", "cp1252", "utf-16")
 CORE_PROOF_AUTOMATION_IDS = {
     "investing-os-pre-market-source-intake",
@@ -101,6 +112,310 @@ def parse_dt(value: Any) -> datetime | None:
     except ValueError:
         return None
     return parsed if parsed.tzinfo else parsed.replace(tzinfo=ET)
+
+
+def _normalize_artifact_path(path: str | Path) -> str:
+    return str(path).replace("\\", "/").strip().lstrip("./")
+
+
+def _repo_root_for_receipts(path: str | Path | None) -> Path:
+    if path is None:
+        return ROOT
+    receipt_path = Path(path)
+    parent = receipt_path.parent
+    if parent.name == "src":
+        return parent.parent
+    return parent
+
+
+def _config_path(repo_root: str | Path | None = None, boundary_config_path: str | Path | None = None) -> Path:
+    if boundary_config_path is not None:
+        return Path(boundary_config_path)
+    root = Path(repo_root) if repo_root is not None else ROOT
+    return root / "src" / "cockpit_artifact_boundaries.json"
+
+
+def load_boundary_config(path: str | Path | None = None) -> dict[str, Any]:
+    config_path = Path(path) if path is not None else DEFAULT_BOUNDARY_CONFIG
+    if not config_path.is_file():
+        return {"schema_version": 1, "artifacts": {}}
+    try:
+        payload = json.loads(config_path.read_text(encoding="utf-8"))
+    except Exception:
+        return {"schema_version": 1, "artifacts": {}}
+    return payload if isinstance(payload, dict) else {"schema_version": 1, "artifacts": {}}
+
+
+def _artifact_specs_for_routine(
+    routine_id: str,
+    *,
+    config: dict[str, Any] | None = None,
+    owned_artifacts: list[str] | None = None,
+) -> list[dict[str, Any]]:
+    payload = config if isinstance(config, dict) else load_boundary_config()
+    raw_artifacts = payload.get("artifacts") if isinstance(payload.get("artifacts"), dict) else {}
+    explicit = {_normalize_artifact_path(path) for path in (owned_artifacts or []) if str(path or "").strip()}
+    specs: list[dict[str, Any]] = []
+    for key, raw in raw_artifacts.items():
+        if not isinstance(raw, dict):
+            continue
+        rel_path = _normalize_artifact_path(str(raw.get("path") or key))
+        owners = [str(owner) for owner in raw.get("owner_routine_ids") or []]
+        if explicit:
+            names = {rel_path, Path(rel_path).name}
+            if not names.intersection(explicit):
+                continue
+        elif routine_id not in owners:
+            continue
+        spec = dict(raw)
+        spec["path"] = rel_path
+        specs.append(spec)
+    if explicit:
+        configured = {_normalize_artifact_path(spec.get("path") or "") for spec in specs}
+        for rel_path in sorted(explicit - configured):
+            specs.append({
+                "path": rel_path,
+                "owner_routine_ids": [routine_id],
+                "as_of_field": "",
+                "freshness": "same_et_session_day",
+            })
+    return specs
+
+
+def _hash_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _extract_field_values(obj: Any, field_path: str) -> list[Any]:
+    parts = [part for part in str(field_path or "").split(".") if part]
+    if not parts:
+        return []
+
+    def walk(value: Any, remaining: list[str]) -> list[Any]:
+        if not remaining:
+            return [value]
+        part = remaining[0]
+        rest = remaining[1:]
+        if isinstance(value, list):
+            values: list[Any] = []
+            if part in {"[]", "*"}:
+                for item in value:
+                    values.extend(walk(item, rest))
+            else:
+                for item in value:
+                    values.extend(walk(item, remaining))
+            return values
+        if not isinstance(value, dict):
+            return []
+        if part.endswith("[]"):
+            child = value.get(part[:-2])
+            if not isinstance(child, list):
+                return []
+            values = []
+            for item in child:
+                values.extend(walk(item, rest))
+            return values
+        return walk(value.get(part), rest)
+
+    return [value for value in walk(obj, parts) if value not in (None, "")]
+
+
+def _best_as_of_value(obj: Any, field_path: str) -> str:
+    values = _extract_field_values(obj, field_path)
+    if not values:
+        return ""
+    parsed_values: list[tuple[datetime, Any]] = []
+    for value in values:
+        parsed = parse_dt(value)
+        if parsed:
+            parsed_values.append((parsed, value))
+    if parsed_values:
+        return str(max(parsed_values, key=lambda item: item[0])[1])
+    for value in values:
+        if isinstance(value, (str, int, float)):
+            return str(value)
+    return ""
+
+
+def _freshness_window_minutes(freshness: str) -> int | None:
+    text = str(freshness or "").strip().lower()
+    match = re.fullmatch(r"(?:minutes?|mins?):\s*(\d+)", text)
+    if match:
+        return int(match.group(1))
+    match = re.fullmatch(r"(?:hours?|hrs?):\s*(\d+)", text)
+    if match:
+        return int(match.group(1)) * 60
+    return None
+
+
+def _is_fresh_as_of(as_of: Any, freshness: str, reference_time: Any) -> bool:
+    parsed_as_of = parse_dt(as_of)
+    parsed_reference = parse_dt(reference_time) or datetime.now(timezone.utc)
+    if not parsed_as_of:
+        return False
+    mode = str(freshness or "same_et_session_day").strip().lower()
+    if mode in {"same_et_session_day", "same_session_day", "same_day"}:
+        return parsed_as_of.astimezone(ET).date() == parsed_reference.astimezone(ET).date()
+    minutes = _freshness_window_minutes(mode)
+    if minutes is not None:
+        delta = parsed_reference.astimezone(timezone.utc) - parsed_as_of.astimezone(timezone.utc)
+        return timedelta(minutes=-5) <= delta <= timedelta(minutes=minutes)
+    return False
+
+
+def snapshot_owned_artifacts(
+    routine_id: str,
+    *,
+    repo_root: str | Path = ROOT,
+    owned_artifacts: list[str] | None = None,
+    boundary_config_path: str | Path | None = None,
+    reference_time: str | datetime | None = None,
+) -> list[dict[str, Any]]:
+    root = Path(repo_root)
+    config = load_boundary_config(_config_path(root, boundary_config_path))
+    rows: list[dict[str, Any]] = []
+    for spec in _artifact_specs_for_routine(routine_id, config=config, owned_artifacts=owned_artifacts):
+        rel_path = _normalize_artifact_path(spec.get("path") or "")
+        abs_path = root / rel_path
+        as_of_field = str(spec.get("as_of_field") or "").strip()
+        freshness = str(spec.get("freshness") or "same_et_session_day").strip()
+        row: dict[str, Any] = {
+            "path": rel_path,
+            "as_of_field": as_of_field,
+            "freshness": freshness,
+            "present": abs_path.is_file(),
+            "missing": not abs_path.is_file(),
+            "content_hash": "",
+            "as_of": "",
+            "fresh": False,
+            "committed": False,
+            "committed_sha": "",
+        }
+        if abs_path.is_file():
+            row["content_hash"] = _hash_file(abs_path)
+            try:
+                payload = json.loads(abs_path.read_text(encoding="utf-8"))
+            except Exception:
+                payload = None
+            if payload is not None and as_of_field:
+                row["as_of"] = _best_as_of_value(payload, as_of_field)
+            row["fresh"] = _is_fresh_as_of(
+                row.get("as_of"),
+                freshness,
+                reference_time or datetime.now(timezone.utc),
+            )
+        rows.append(row)
+    return rows
+
+
+def annotate_artifact_changes(
+    before: list[dict[str, Any]],
+    after: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    before_by_path = {
+        _normalize_artifact_path(row.get("path") or ""): row
+        for row in before
+        if isinstance(row, dict)
+    }
+    rows: list[dict[str, Any]] = []
+    for raw in after:
+        if not isinstance(raw, dict):
+            continue
+        row = dict(raw)
+        previous = before_by_path.get(_normalize_artifact_path(row.get("path") or ""), {})
+        previous_hash = str(previous.get("content_hash") or "")
+        current_hash = str(row.get("content_hash") or "")
+        row["previous_content_hash"] = previous_hash
+        row["changed"] = bool(current_hash and current_hash != previous_hash)
+        rows.append(row)
+    return rows
+
+
+def classify_boundary_outcome(status: str, artifact_rows: list[dict[str, Any]] | None = None) -> str:
+    normalized_status = str(status or "").strip().lower()
+    if normalized_status == "failed":
+        return "failed"
+    if normalized_status != "success":
+        return "fired_unknown"
+    rows = [row for row in artifact_rows or [] if isinstance(row, dict)]
+    if not rows:
+        return "fired_unknown"
+    if any(bool(row.get("missing")) or not bool(row.get("present", True)) for row in rows):
+        return "missing"
+    if any(not bool(row.get("fresh")) for row in rows):
+        return "stale_boundary"
+    if any(bool(row.get("changed")) for row in rows):
+        return "produced_fresh"
+    return "no_op"
+
+
+def _artifact_rows_from_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
+    details = receipt.get("details") if isinstance(receipt.get("details"), dict) else {}
+    rows = details.get("artifact_boundaries") or details.get("artifacts") or []
+    return [row for row in rows if isinstance(row, dict)] if isinstance(rows, list) else []
+
+
+def _boundary_details(
+    receipt: dict[str, Any],
+    routine_id: str,
+    *,
+    repo_root: str | Path,
+    boundary_config_path: str | Path | None = None,
+) -> dict[str, Any]:
+    status = str(receipt.get("status") or "").strip().lower()
+    explicit = str(receipt.get("boundary_outcome") or "").strip().lower()
+    rows = _artifact_rows_from_receipt(receipt)
+    if explicit in VALID_BOUNDARY_OUTCOMES:
+        outcome = explicit
+    elif rows:
+        outcome = classify_boundary_outcome(status, rows)
+    elif status == "failed":
+        outcome = "failed"
+    elif status == "success":
+        current_rows = snapshot_owned_artifacts(
+            routine_id,
+            repo_root=repo_root,
+            boundary_config_path=boundary_config_path,
+            reference_time=receipt.get("recorded_at"),
+        )
+        if current_rows and any(bool(row.get("missing")) for row in current_rows):
+            outcome = "missing"
+            rows = current_rows
+        elif current_rows and any(not bool(row.get("fresh")) for row in current_rows):
+            outcome = "stale_boundary"
+            rows = current_rows
+        else:
+            outcome = "fired_unknown"
+            rows = current_rows
+    else:
+        outcome = ""
+    missing_paths = [
+        str(row.get("path") or "")
+        for row in rows
+        if bool(row.get("missing")) or not bool(row.get("present", True))
+    ]
+    stale_paths = [
+        str(row.get("path") or "")
+        for row in rows
+        if row.get("present", True) and not bool(row.get("fresh"))
+    ]
+    changed_paths = [
+        str(row.get("path") or "")
+        for row in rows
+        if bool(row.get("changed"))
+    ]
+    return {
+        "outcome": outcome,
+        "artifact_count": len(rows),
+        "artifact_paths": [str(row.get("path") or "") for row in rows],
+        "missing_artifacts": missing_paths,
+        "stale_artifacts": stale_paths,
+        "changed_artifacts": changed_paths,
+    }
 
 
 def _parse_schedule(schedule: Any) -> dict[str, Any]:
@@ -286,6 +601,12 @@ def summarize_due_receipts(
             "last_manual_summary": receipt.get("last_manual_summary") or "",
             "manual_support_only": bool(receipt.get("manual_support_only")),
             "last_summary": receipt.get("last_summary") or "",
+            "last_boundary_outcome": receipt.get("last_boundary_outcome") or "",
+            "last_boundary_artifact_count": int(receipt.get("last_boundary_artifact_count") or 0),
+            "last_boundary_artifacts": receipt.get("last_boundary_artifacts") or [],
+            "missing_boundary_artifacts": receipt.get("missing_boundary_artifacts") or [],
+            "stale_boundary_artifacts": receipt.get("stale_boundary_artifacts") or [],
+            "changed_boundary_artifacts": receipt.get("changed_boundary_artifacts") or [],
             "last_ran_at": last_ran_at,
             "last_ran_label": last_ran_label,
             "last_scheduled_success_label": last_ran_label,
@@ -468,6 +789,7 @@ def append_receipt(
     summary: str = "",
     run_source: str = "manual",
     details: dict[str, Any] | None = None,
+    boundary_outcome: str | None = None,
     recorded_at: str | None = None,
     keep: int = 500,
 ) -> dict[str, Any]:
@@ -489,10 +811,22 @@ def append_receipt(
         receipt["summary"] = summary.strip()
     if details:
         receipt["details"] = details
+    normalized_boundary = str(boundary_outcome or "").strip().lower()
+    if normalized_boundary:
+        if normalized_boundary not in VALID_BOUNDARY_OUTCOMES:
+            raise ValueError(f"boundary_outcome must be one of {sorted(VALID_BOUNDARY_OUTCOMES)}")
+        receipt["boundary_outcome"] = normalized_boundary
+    elif normalized_status == "failed":
+        receipt["boundary_outcome"] = "failed"
+    elif normalized_status == "success" and details:
+        receipt["boundary_outcome"] = classify_boundary_outcome(
+            normalized_status,
+            _artifact_rows_from_receipt({"details": details}),
+        )
     receipts.append(receipt)
     payload = merge_receipt_payloads(
         {
-            "schema_version": int(payload.get("schema_version") or 1),
+            "schema_version": max(RECEIPT_SCHEMA_VERSION, int(payload.get("schema_version") or 1)),
             "receipts": receipts,
         },
         keep=keep,
@@ -508,9 +842,12 @@ def summarize_receipts(
     payload: dict[str, Any],
     *,
     expected_automations: list[dict[str, Any]] | None = None,
+    repo_root: str | Path | None = None,
+    boundary_config_path: str | Path | None = None,
 ) -> dict[str, Any]:
     receipts = [row for row in payload.get("receipts") or [] if isinstance(row, dict)]
     expected = expected_automations or []
+    boundary_repo_root = Path(repo_root) if repo_root is not None else ROOT
     routine_ids = [str(row.get("automation_id") or "") for row in expected if row.get("automation_id")]
     if not routine_ids:
         routine_ids = sorted({str(row.get("routine_id") or "") for row in receipts if row.get("routine_id")})
@@ -547,6 +884,21 @@ def summarize_receipts(
         scheduled_success = scheduled_successes[0] if scheduled_successes else {}
         manual_success = manual_successes[0] if manual_successes else {}
         expected_row = next((row for row in expected if row.get("automation_id") == routine_id), {})
+        boundary_receipt = (
+            latest_scheduled
+            if str(latest_scheduled.get("status") or "").lower() in {"success", "failed"}
+            else scheduled_success
+        )
+        boundary = (
+            _boundary_details(
+                boundary_receipt,
+                routine_id,
+                repo_root=boundary_repo_root,
+                boundary_config_path=boundary_config_path,
+            )
+            if boundary_receipt
+            else {"outcome": "", "artifact_count": 0, "artifact_paths": [], "missing_artifacts": [], "stale_artifacts": [], "changed_artifacts": []}
+        )
         rows.append({
             "routine_id": routine_id,
             "routine_name": expected_row.get("automation_name") or "",
@@ -567,22 +919,43 @@ def summarize_receipts(
             "last_manual_summary": manual_success.get("summary") or "",
             "manual_support_only": bool(manual_success and not scheduled_success),
             "last_summary": last.get("summary") or "",
+            "last_boundary_outcome": boundary.get("outcome") or "",
+            "last_boundary_artifact_count": int(boundary.get("artifact_count") or 0),
+            "last_boundary_artifacts": boundary.get("artifact_paths") or [],
+            "missing_boundary_artifacts": boundary.get("missing_artifacts") or [],
+            "stale_boundary_artifacts": boundary.get("stale_artifacts") or [],
+            "changed_boundary_artifacts": boundary.get("changed_artifacts") or [],
         })
 
     missing_success = [row for row in rows if not row.get("last_success_at")]
     missing_scheduled_success = [row for row in rows if not row.get("last_scheduled_success_at")]
     manual_support_only = [row for row in rows if row.get("manual_support_only")]
     failed_latest = [row for row in rows if row.get("last_status") == "failed"]
+    produced_fresh = [row for row in rows if row.get("last_boundary_outcome") == "produced_fresh"]
+    stale_boundary = [row for row in rows if row.get("last_boundary_outcome") == "stale_boundary"]
+    no_op = [row for row in rows if row.get("last_boundary_outcome") == "no_op"]
+    missing_boundary = [row for row in rows if row.get("last_boundary_outcome") == "missing"]
+    fired_unknown = [row for row in rows if row.get("last_boundary_outcome") == "fired_unknown"]
     return {
         "receipt_file_present": bool(receipts),
         "expected_count": len(rows),
         "success_count": len(rows) - len(missing_success),
         "scheduled_success_count": len(rows) - len(missing_scheduled_success),
+        "produced_fresh_count": len(produced_fresh),
+        "stale_boundary_count": len(stale_boundary),
+        "no_op_count": len(no_op),
+        "missing_count": len(missing_boundary),
+        "fired_unknown_count": len(fired_unknown),
         "manual_support_only_count": len(manual_support_only),
         "failed_latest_count": len(failed_latest),
         "missing_success_count": len(missing_success),
         "missing_scheduled_success_count": len(missing_scheduled_success),
         "rows": rows,
+        "produced_fresh": produced_fresh,
+        "stale_boundary": stale_boundary,
+        "no_op": no_op,
+        "missing": missing_boundary,
+        "fired_unknown": fired_unknown,
         "missing_success": missing_success,
         "missing_scheduled_success": missing_scheduled_success,
         "manual_support_only": manual_support_only,
@@ -601,6 +974,15 @@ def format_text(summary: dict[str, Any]) -> str:
             f"manual_support_only={int(summary.get('manual_support_only_count') or 0)} | "
             f"failed_latest={int(summary.get('failed_latest_count') or 0)} | "
             f"missing_scheduled_success={int(summary.get('missing_scheduled_success_count') or 0)}"
+        ),
+        (
+            "Boundary outcomes: "
+            f"produced_fresh={int(summary.get('produced_fresh_count') or 0)}/"
+            f"{int(summary.get('expected_count') or 0)} | "
+            f"stale_boundary={int(summary.get('stale_boundary_count') or 0)} | "
+            f"no_op={int(summary.get('no_op_count') or 0)} | "
+            f"missing={int(summary.get('missing_count') or 0)} | "
+            f"fired_unknown={int(summary.get('fired_unknown_count') or 0)}"
         )
     ]
     failed = summary.get("failed_latest") or []

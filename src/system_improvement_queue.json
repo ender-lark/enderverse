@@ -210,10 +210,11 @@
       "id": "scheduled-boundary-outcome-reporting",
       "title": "Separate scheduled fired proof from fresh boundary-data proof",
       "priority": "P1",
-      "status": "queued",
+      "status": "done",
       "area": "routines",
       "why": "Scheduled proof can be green even when a routine fires but writes no fresh artifact. Operators need fired, committed, no-op, and stale-boundary outcomes split apart.",
-      "done_when": "Routine receipts and ops views distinguish fired from produced fresh committed boundary data for each cockpit-critical artifact."
+      "done_when": "Routine receipts and ops views distinguish fired from produced fresh committed boundary data for each cockpit-critical artifact.",
+      "outcome": "Added cockpit artifact boundary config, schema-version 2 boundary_outcome receipt metadata, runner artifact hash/as-of capture, ops fresh_boundary_proven reporting and --require-fresh-boundary, heartbeat stale/missing boundary surfacing, and focused regression coverage. Historical receipts remain fired_unknown or stale/missing; none are backfilled as produced_fresh."
     },
     {
       "id": "uw-operator-interpretation-workflow",
