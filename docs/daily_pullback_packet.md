@@ -8,7 +8,7 @@ Candidate-only packet. No trades executed. No option contracts selected.
 - Plan impact: Use the model reference bands only as staged candidates until live evidence is refreshed.
 
 ## Source Status
-- Positions: has_data from 2026-06-19 on $1,929,608.
+- Positions: has_data from 2026-06-19 on $1,929,670.
 - UW: UW endpoint proof: 13 captured row(s); neutral/inconclusive rows do not promote trades.
 - Fundstrat: Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.
 - Notion Research Queue: fetched; no writeback needed.
@@ -18,7 +18,7 @@ Candidate-only packet. No trades executed. No option contracts selected.
 ## Act If Green
 | Ticker | Updated band | Model ref | First tranche | Existing exposure | Post-band exposure | Funding | Placement candidate | Do-nothing cost |
 | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| GOOGL | $100,000-$155,000 | $100,000-$155,000 | $50,000-$108,500 | $98,267 (5.1%) | 10.3%-13.1% | IVES $68,387, SMH $5,816, MAGS $394, GRNY $70,161 | Fidelity / Joint WROS - TOD *****2063 / taxable | GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
+| GOOGL | $100,000-$155,000 | $100,000-$155,000 | $50,000-$108,500 | $98,267 (5.1%) | 10.3%-13.1% | IVES $68,388, SMH $5,814, MAGS $394, GRNY $70,157 | Fidelity / Joint WROS - TOD *****2063 / taxable | GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
 | MSFT | $25,000-$40,000 | $25,000-$40,000 | $12,500-$28,000 | $35,303 (1.8%) | 3.1%-3.9% | GRNY/IVES first | Fidelity / ROLLOVER IRA - RamBalusu *****6333 / traditional | MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
 
 Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.

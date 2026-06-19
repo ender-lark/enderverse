@@ -15,11 +15,11 @@
       "precious-metals": 3,
       "semis": 6
     },
-    "material": 23,
+    "material": 21,
     "orphans": 76
   },
   "fundstrat_bible_deck_date": "2026-06-11",
-  "generated_at": "2026-06-18T20:49:52.861276+00:00",
+  "generated_at": "2026-06-19T20:51:05.559040+00:00",
   "orphans": [
     {
       "account_count": 7,
@@ -35,13 +35,13 @@
           "mag7"
         ]
       },
-      "market_value": 91386.0,
+      "market_value": 98267.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 4.72,
-      "shares": 250.015,
+      "pct_of_sleeve": 5.09,
+      "shares": 267.015,
       "size_bucket": ">$10K material",
       "suggested_disposition": "NEEDS-THESIS",
       "themes": [
@@ -56,13 +56,13 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 41953.0,
+      "market_value": 44402.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 2.17,
-      "shares": 105.0,
+      "pct_of_sleeve": 2.3,
+      "shares": 108.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "NEEDS-THESIS",
       "themes": [
@@ -70,6 +70,30 @@
         "semis"
       ],
       "ticker": "AVGO"
+    },
+    {
+      "account_count": 5,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
+        "what_to_own": [
+          "mag7",
+          "software"
+        ]
+      },
+      "market_value": 35303.0,
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "pct_of_sleeve": 1.83,
+      "shares": 93.076,
+      "size_bucket": ">$10K material",
+      "suggested_disposition": "NEEDS-THESIS",
+      "themes": [
+        "AI-infra"
+      ],
+      "ticker": "MSFT"
     },
     {
       "account_count": 4,
@@ -80,12 +104,12 @@
           "energy/basic materials"
         ]
       },
-      "market_value": 32434.0,
+      "market_value": 32179.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 1.68,
+      "pct_of_sleeve": 1.67,
       "shares": 390.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "MERGE-INTO-SLEEVE",
@@ -95,41 +119,17 @@
       "ticker": "GDX"
     },
     {
-      "account_count": 4,
-      "fs_pick_status": {
-        "direct_lists": [],
-        "june_basket": [],
-        "what_to_own": [
-          "mag7",
-          "software"
-        ]
-      },
-      "market_value": 28453.0,
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "pct_of_sleeve": 1.47,
-      "shares": 75.076,
-      "size_bucket": ">$10K material",
-      "suggested_disposition": "NEEDS-THESIS",
-      "themes": [
-        "AI-infra"
-      ],
-      "ticker": "MSFT"
-    },
-    {
       "account_count": 2,
       "fs_pick_status": {
         "direct_lists": [],
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 25563.0,
+      "market_value": 26089.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 1.32,
+      "pct_of_sleeve": 1.35,
       "shares": 91.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "NEEDS-THESIS",
@@ -137,26 +137,6 @@
         "AI-infra"
       ],
       "ticker": "NBIS"
-    },
-    {
-      "account_count": 2,
-      "fs_pick_status": {
-        "direct_lists": [],
-        "june_basket": [],
-        "what_to_own": []
-      },
-      "market_value": 24786.0,
-      "owners": [
-        "Parents"
-      ],
-      "pct_of_sleeve": 1.28,
-      "shares": 24785.81,
-      "size_bucket": ">$10K material",
-      "suggested_disposition": "WATCH",
-      "themes": [
-        "cash-equiv"
-      ],
-      "ticker": "SPAXX"
     },
     {
       "account_count": 1,
@@ -174,7 +154,7 @@
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 1.26,
+      "pct_of_sleeve": 1.27,
       "shares": 467.7277,
       "size_bucket": ">$10K material",
       "suggested_disposition": "MERGE-INTO-SLEEVE",
@@ -190,44 +170,16 @@
           "industrials"
         ]
       },
-      "market_value": 24337.0,
+      "market_value": 24138.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 1.26,
+      "pct_of_sleeve": 1.25,
       "shares": 101.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "MERGE-INTO-SLEEVE",
       "themes": [],
       "ticker": "ITA"
-    },
-    {
-      "account_count": 4,
-      "fs_pick_status": {
-        "direct_lists": [
-          {
-            "list": "top5",
-            "rank": 4
-          }
-        ],
-        "june_basket": [],
-        "what_to_own": [
-          "industrials"
-        ]
-      },
-      "market_value": 23330.0,
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "pct_of_sleeve": 1.21,
-      "shares": 33.002,
-      "size_bucket": ">$10K material",
-      "suggested_disposition": "NEEDS-THESIS",
-      "themes": [
-        "AI-infra"
-      ],
-      "ticker": "PWR"
     },
     {
       "account_count": 1,
@@ -236,7 +188,27 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 22056.0,
+      "market_value": 22037.0,
+      "owners": [
+        "Parents"
+      ],
+      "pct_of_sleeve": 1.14,
+      "shares": 67.0,
+      "size_bucket": ">$10K material",
+      "suggested_disposition": "NEEDS-THESIS",
+      "themes": [
+        "AI-infra"
+      ],
+      "ticker": "BE"
+    },
+    {
+      "account_count": 1,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
+        "what_to_own": []
+      },
+      "market_value": 22017.0,
       "owners": [
         "Parents"
       ],
@@ -256,12 +228,12 @@
           "industrials"
         ]
       },
-      "market_value": 21588.0,
+      "market_value": 21783.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 1.12,
+      "pct_of_sleeve": 1.13,
       "shares": 106.071,
       "size_bucket": ">$10K material",
       "suggested_disposition": "NEEDS-THESIS",
@@ -279,12 +251,12 @@
           "mag7"
         ]
       },
-      "market_value": 21481.0,
+      "market_value": 21750.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 1.11,
+      "pct_of_sleeve": 1.13,
       "shares": 89.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "NEEDS-THESIS",
@@ -302,12 +274,12 @@
           "energy/basic materials"
         ]
       },
-      "market_value": 20566.0,
+      "market_value": 20665.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 1.06,
+      "pct_of_sleeve": 1.07,
       "shares": 194.052,
       "size_bucket": ">$10K material",
       "suggested_disposition": "NEEDS-THESIS",
@@ -317,37 +289,17 @@
       "ticker": "CCJ"
     },
     {
-      "account_count": 1,
-      "fs_pick_status": {
-        "direct_lists": [],
-        "june_basket": [],
-        "what_to_own": []
-      },
-      "market_value": 19094.0,
-      "owners": [
-        "Parents"
-      ],
-      "pct_of_sleeve": 0.99,
-      "shares": 67.0,
-      "size_bucket": ">$10K material",
-      "suggested_disposition": "NEEDS-THESIS",
-      "themes": [
-        "AI-infra"
-      ],
-      "ticker": "BE"
-    },
-    {
       "account_count": 2,
       "fs_pick_status": {
         "direct_lists": [],
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 18254.0,
+      "market_value": 19246.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.94,
+      "pct_of_sleeve": 1.0,
       "shares": 110.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "NEEDS-THESIS",
@@ -363,7 +315,7 @@
           "software"
         ]
       },
-      "market_value": 15417.0,
+      "market_value": 15480.0,
       "owners": [
         "Parents",
         "SKB"
@@ -386,12 +338,12 @@
           "energy/basic materials"
         ]
       },
-      "market_value": 13465.0,
+      "market_value": 13667.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 0.7,
+      "pct_of_sleeve": 0.71,
       "shares": 329.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "MERGE-INTO-SLEEVE",
@@ -412,7 +364,7 @@
           "financials"
         ]
       },
-      "market_value": 13190.0,
+      "market_value": 13159.0,
       "owners": [
         "Parents",
         "SKB"
@@ -431,7 +383,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 12986.0,
+      "market_value": 12869.0,
       "owners": [
         "Parents"
       ],
@@ -451,11 +403,11 @@
           "industrials"
         ]
       },
-      "market_value": 12572.0,
+      "market_value": 12664.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.65,
+      "pct_of_sleeve": 0.66,
       "shares": 70.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "MERGE-INTO-SLEEVE",
@@ -469,11 +421,11 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 12260.0,
+      "market_value": 12299.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.63,
+      "pct_of_sleeve": 0.64,
       "shares": 196.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "MERGE-INTO-SLEEVE",
@@ -492,11 +444,11 @@
         ],
         "what_to_own": []
       },
-      "market_value": 12031.0,
+      "market_value": 12228.0,
       "owners": [
         "SKB"
       ],
-      "pct_of_sleeve": 0.62,
+      "pct_of_sleeve": 0.63,
       "shares": 305.0,
       "size_bucket": ">$10K material",
       "suggested_disposition": "MERGE-INTO-SLEEVE",
@@ -514,7 +466,7 @@
           "energy/basic materials"
         ]
       },
-      "market_value": 10833.0,
+      "market_value": 10717.0,
       "owners": [
         "Parents"
       ],
@@ -526,6 +478,33 @@
         "precious-metals"
       ],
       "ticker": "SIL"
+    },
+    {
+      "account_count": 3,
+      "fs_pick_status": {
+        "direct_lists": [
+          {
+            "list": "top5",
+            "rank": 1
+          }
+        ],
+        "june_basket": [],
+        "what_to_own": []
+      },
+      "market_value": 9665.0,
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "pct_of_sleeve": 0.5,
+      "shares": 18.0,
+      "size_bucket": "$2-10K small",
+      "suggested_disposition": "NEEDS-THESIS",
+      "themes": [
+        "AI-infra",
+        "semis"
+      ],
+      "ticker": "AMD"
     },
     {
       "account_count": 2,
@@ -542,12 +521,12 @@
           "small-caps"
         ]
       },
-      "market_value": 9365.0,
+      "market_value": 9483.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 0.48,
+      "pct_of_sleeve": 0.49,
       "shares": 11.0,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "NEEDS-THESIS",
@@ -561,11 +540,11 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 8957.0,
+      "market_value": 9062.0,
       "owners": [
         "SKB"
       ],
-      "pct_of_sleeve": 0.46,
+      "pct_of_sleeve": 0.47,
       "shares": 4.7,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "WATCH",
@@ -576,31 +555,31 @@
       "ticker": "ASML"
     },
     {
-      "account_count": 3,
+      "account_count": 1,
       "fs_pick_status": {
         "direct_lists": [
           {
             "list": "top5",
-            "rank": 1
+            "rank": 4
           }
         ],
         "june_basket": [],
-        "what_to_own": []
+        "what_to_own": [
+          "industrials"
+        ]
       },
-      "market_value": 8343.0,
+      "market_value": 8428.0,
       "owners": [
-        "Parents",
-        "SKB"
+        "Parents"
       ],
-      "pct_of_sleeve": 0.43,
-      "shares": 16.0,
+      "pct_of_sleeve": 0.44,
+      "shares": 12.002,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "NEEDS-THESIS",
       "themes": [
-        "AI-infra",
-        "semis"
+        "AI-infra"
       ],
-      "ticker": "AMD"
+      "ticker": "PWR"
     },
     {
       "account_count": 2,
@@ -614,12 +593,12 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 7752.0,
+      "market_value": 7974.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 0.4,
+      "pct_of_sleeve": 0.41,
       "shares": 47.0,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "NEEDS-THESIS",
@@ -643,44 +622,16 @@
           "small-caps"
         ]
       },
-      "market_value": 7729.0,
+      "market_value": 7872.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.4,
+      "pct_of_sleeve": 0.41,
       "shares": 4.001,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "NEEDS-THESIS",
       "themes": [],
       "ticker": "FIX"
-    },
-    {
-      "account_count": 2,
-      "fs_pick_status": {
-        "direct_lists": [
-          {
-            "list": "top5_smid",
-            "rank": 5
-          }
-        ],
-        "june_basket": [],
-        "what_to_own": [
-          "small-caps"
-        ]
-      },
-      "market_value": 7562.0,
-      "owners": [
-        "Parents",
-        "SKB"
-      ],
-      "pct_of_sleeve": 0.39,
-      "shares": 13.0,
-      "size_bucket": "$2-10K small",
-      "suggested_disposition": "NEEDS-THESIS",
-      "themes": [
-        "AI-infra"
-      ],
-      "ticker": "FN"
     },
     {
       "account_count": 1,
@@ -697,16 +648,104 @@
           "small-caps"
         ]
       },
-      "market_value": 7537.0,
+      "market_value": 7836.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.39,
+      "pct_of_sleeve": 0.41,
       "shares": 11.0,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "NEEDS-THESIS",
       "themes": [],
       "ticker": "IESC"
+    },
+    {
+      "account_count": 2,
+      "fs_pick_status": {
+        "direct_lists": [
+          {
+            "list": "top5_smid",
+            "rank": 5
+          }
+        ],
+        "june_basket": [],
+        "what_to_own": [
+          "small-caps"
+        ]
+      },
+      "market_value": 7459.0,
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "pct_of_sleeve": 0.39,
+      "shares": 13.0,
+      "size_bucket": "$2-10K small",
+      "suggested_disposition": "NEEDS-THESIS",
+      "themes": [
+        "AI-infra"
+      ],
+      "ticker": "FN"
+    },
+    {
+      "account_count": 3,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
+        "what_to_own": []
+      },
+      "market_value": 7395.0,
+      "owners": [
+        "Parents",
+        "SKB"
+      ],
+      "pct_of_sleeve": 0.38,
+      "shares": 16.0,
+      "size_bucket": "$2-10K small",
+      "suggested_disposition": "WATCH",
+      "themes": [
+        "AI-infra",
+        "semis"
+      ],
+      "ticker": "TSM"
+    },
+    {
+      "account_count": 2,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
+        "what_to_own": []
+      },
+      "market_value": 6662.0,
+      "owners": [
+        "SKB"
+      ],
+      "pct_of_sleeve": 0.35,
+      "shares": 20.0,
+      "size_bucket": "$2-10K small",
+      "suggested_disposition": "WATCH",
+      "themes": [],
+      "ticker": "VRT"
+    },
+    {
+      "account_count": 2,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
+        "what_to_own": []
+      },
+      "market_value": 6345.0,
+      "owners": [
+        "Parents"
+      ],
+      "pct_of_sleeve": 0.33,
+      "shares": 6344.71,
+      "size_bucket": "$2-10K small",
+      "suggested_disposition": "WATCH",
+      "themes": [
+        "cash-equiv"
+      ],
+      "ticker": "SPAXX"
     },
     {
       "account_count": 1,
@@ -717,7 +756,7 @@
           "financials"
         ]
       },
-      "market_value": 5868.0,
+      "market_value": 5854.0,
       "owners": [
         "SKB"
       ],
@@ -733,18 +772,22 @@
       "fs_pick_status": {
         "direct_lists": [],
         "june_basket": [],
-        "what_to_own": []
+        "what_to_own": [
+          "software"
+        ]
       },
-      "market_value": 5810.0,
+      "market_value": 5756.0,
       "owners": [
         "Parents"
       ],
       "pct_of_sleeve": 0.3,
-      "shares": 6.017,
+      "shares": 20.0,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "WATCH",
-      "themes": [],
-      "ticker": "COST"
+      "themes": [
+        "AI-infra"
+      ],
+      "ticker": "PANW"
     },
     {
       "account_count": 1,
@@ -753,7 +796,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 5750.0,
+      "market_value": 5755.0,
       "owners": [
         "Parents"
       ],
@@ -772,22 +815,18 @@
       "fs_pick_status": {
         "direct_lists": [],
         "june_basket": [],
-        "what_to_own": [
-          "software"
-        ]
+        "what_to_own": []
       },
-      "market_value": 5643.0,
+      "market_value": 5725.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.29,
-      "shares": 20.0,
+      "pct_of_sleeve": 0.3,
+      "shares": 6.017,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "WATCH",
-      "themes": [
-        "AI-infra"
-      ],
-      "ticker": "PANW"
+      "themes": [],
+      "ticker": "COST"
     },
     {
       "account_count": 2,
@@ -798,17 +837,35 @@
           "small-caps"
         ]
       },
-      "market_value": 5629.0,
+      "market_value": 5486.0,
       "owners": [
         "Parents",
         "SKB"
       ],
-      "pct_of_sleeve": 0.29,
+      "pct_of_sleeve": 0.28,
       "shares": 68.0,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "WATCH",
       "themes": [],
       "ticker": "ASTS"
+    },
+    {
+      "account_count": 1,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
+        "what_to_own": []
+      },
+      "market_value": 5128.0,
+      "owners": [
+        "SKB"
+      ],
+      "pct_of_sleeve": 0.27,
+      "shares": 100.0,
+      "size_bucket": "$2-10K small",
+      "suggested_disposition": "MERGE-INTO-SLEEVE",
+      "themes": [],
+      "ticker": "SNSR"
     },
     {
       "account_count": 2,
@@ -817,7 +874,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 5090.0,
+      "market_value": 4987.0,
       "owners": [
         "Parents"
       ],
@@ -835,47 +892,11 @@
       "fs_pick_status": {
         "direct_lists": [],
         "june_basket": [],
-        "what_to_own": []
-      },
-      "market_value": 5006.0,
-      "owners": [
-        "SKB"
-      ],
-      "pct_of_sleeve": 0.26,
-      "shares": 15.0,
-      "size_bucket": "$2-10K small",
-      "suggested_disposition": "WATCH",
-      "themes": [],
-      "ticker": "VRT"
-    },
-    {
-      "account_count": 1,
-      "fs_pick_status": {
-        "direct_lists": [],
-        "june_basket": [],
-        "what_to_own": []
-      },
-      "market_value": 4944.0,
-      "owners": [
-        "SKB"
-      ],
-      "pct_of_sleeve": 0.26,
-      "shares": 100.0,
-      "size_bucket": "$2-10K small",
-      "suggested_disposition": "MERGE-INTO-SLEEVE",
-      "themes": [],
-      "ticker": "SNSR"
-    },
-    {
-      "account_count": 1,
-      "fs_pick_status": {
-        "direct_lists": [],
-        "june_basket": [],
         "what_to_own": [
           "software"
         ]
       },
-      "market_value": 4781.0,
+      "market_value": 4794.0,
       "owners": [
         "Parents"
       ],
@@ -895,7 +916,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 4350.0,
+      "market_value": 4250.0,
       "owners": [
         "Parents"
       ],
@@ -912,27 +933,6 @@
       "account_count": 1,
       "fs_pick_status": {
         "direct_lists": [],
-        "june_basket": [],
-        "what_to_own": []
-      },
-      "market_value": 4322.0,
-      "owners": [
-        "Parents"
-      ],
-      "pct_of_sleeve": 0.22,
-      "shares": 10.0,
-      "size_bucket": "$2-10K small",
-      "suggested_disposition": "WATCH",
-      "themes": [
-        "AI-infra",
-        "semis"
-      ],
-      "ticker": "TSM"
-    },
-    {
-      "account_count": 1,
-      "fs_pick_status": {
-        "direct_lists": [],
         "june_basket": [
           {
             "status": "new",
@@ -943,7 +943,7 @@
           "software"
         ]
       },
-      "market_value": 4212.0,
+      "market_value": 4227.0,
       "owners": [
         "Parents"
       ],
@@ -965,7 +965,7 @@
           "small-caps"
         ]
       },
-      "market_value": 4207.0,
+      "market_value": 4227.0,
       "owners": [
         "Parents",
         "SKB"
@@ -994,11 +994,11 @@
           "financials"
         ]
       },
-      "market_value": 3480.0,
+      "market_value": 3830.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.18,
+      "pct_of_sleeve": 0.2,
       "shares": 2.0,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "NEEDS-THESIS",
@@ -1019,7 +1019,7 @@
           "small-caps"
         ]
       },
-      "market_value": 3453.0,
+      "market_value": 3519.0,
       "owners": [
         "Parents"
       ],
@@ -1037,7 +1037,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 3266.0,
+      "market_value": 3212.0,
       "owners": [
         "Parents"
       ],
@@ -1057,11 +1057,11 @@
           "ethereum"
         ]
       },
-      "market_value": 2614.0,
+      "market_value": 2576.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.14,
+      "pct_of_sleeve": 0.13,
       "shares": 200.0,
       "size_bucket": "$2-10K small",
       "suggested_disposition": "MERGE-INTO-SLEEVE",
@@ -1079,7 +1079,7 @@
           "industrials"
         ]
       },
-      "market_value": 2466.0,
+      "market_value": 2518.0,
       "owners": [
         "Parents"
       ],
@@ -1101,7 +1101,7 @@
           "small-caps"
         ]
       },
-      "market_value": 2445.0,
+      "market_value": 2498.0,
       "owners": [
         "Parents"
       ],
@@ -1121,7 +1121,7 @@
           "small-caps"
         ]
       },
-      "market_value": 2272.0,
+      "market_value": 2285.0,
       "owners": [
         "Parents"
       ],
@@ -1163,7 +1163,7 @@
           "energy/basic materials"
         ]
       },
-      "market_value": 1905.0,
+      "market_value": 1875.0,
       "owners": [
         "Parents",
         "SKB"
@@ -1176,6 +1176,24 @@
       "ticker": "LYSDY"
     },
     {
+      "account_count": 2,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
+        "what_to_own": []
+      },
+      "market_value": 1865.0,
+      "owners": [
+        "SKB"
+      ],
+      "pct_of_sleeve": 0.1,
+      "shares": 6.0,
+      "size_bucket": "<$2K dust",
+      "suggested_disposition": "DUST",
+      "themes": [],
+      "ticker": "MRVL"
+    },
+    {
       "account_count": 1,
       "fs_pick_status": {
         "direct_lists": [],
@@ -1184,7 +1202,7 @@
           "energy/basic materials"
         ]
       },
-      "market_value": 1895.0,
+      "market_value": 1846.0,
       "owners": [
         "Parents"
       ],
@@ -1226,16 +1244,16 @@
           "energy/basic materials"
         ]
       },
-      "market_value": 1696.0,
+      "market_value": 1643.0,
       "owners": [
         "Parents"
       ],
       "pct_of_sleeve": 0.09,
-      "shares": 5000.0,
+      "shares": 20.0,
       "size_bucket": "<$2K dust",
       "suggested_disposition": "DUST",
       "themes": [],
-      "ticker": "ARRRF"
+      "ticker": "LIT"
     },
     {
       "account_count": 1,
@@ -1244,11 +1262,11 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 1649.0,
+      "market_value": 1633.0,
       "owners": [
         "Parents"
       ],
-      "pct_of_sleeve": 0.09,
+      "pct_of_sleeve": 0.08,
       "shares": 10.0,
       "size_bucket": "<$2K dust",
       "suggested_disposition": "DUST",
@@ -1256,26 +1274,6 @@
         "crypto"
       ],
       "ticker": "COIN"
-    },
-    {
-      "account_count": 1,
-      "fs_pick_status": {
-        "direct_lists": [],
-        "june_basket": [],
-        "what_to_own": [
-          "energy/basic materials"
-        ]
-      },
-      "market_value": 1643.0,
-      "owners": [
-        "Parents"
-      ],
-      "pct_of_sleeve": 0.08,
-      "shares": 20.0,
-      "size_bucket": "<$2K dust",
-      "suggested_disposition": "DUST",
-      "themes": [],
-      "ticker": "LIT"
     },
     {
       "account_count": 2,
@@ -1286,7 +1284,7 @@
           "energy/basic materials"
         ]
       },
-      "market_value": 1606.0,
+      "market_value": 1615.0,
       "owners": [
         "Parents"
       ],
@@ -1304,13 +1302,33 @@
       "fs_pick_status": {
         "direct_lists": [],
         "june_basket": [],
+        "what_to_own": [
+          "energy/basic materials"
+        ]
+      },
+      "market_value": 1512.0,
+      "owners": [
+        "Parents"
+      ],
+      "pct_of_sleeve": 0.08,
+      "shares": 5000.0,
+      "size_bucket": "<$2K dust",
+      "suggested_disposition": "DUST",
+      "themes": [],
+      "ticker": "ARRRF"
+    },
+    {
+      "account_count": 1,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 1234.0,
+      "market_value": 1266.0,
       "owners": [
         "SKB"
       ],
-      "pct_of_sleeve": 0.06,
+      "pct_of_sleeve": 0.07,
       "shares": 18.0197,
       "size_bucket": "<$2K dust",
       "suggested_disposition": "DUST",
@@ -1324,11 +1342,11 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 1044.0,
+      "market_value": 1065.0,
       "owners": [
         "SKB"
       ],
-      "pct_of_sleeve": 0.05,
+      "pct_of_sleeve": 0.06,
       "shares": 3.328,
       "size_bucket": "<$2K dust",
       "suggested_disposition": "WATCH",
@@ -1336,28 +1354,6 @@
         "cash-equiv"
       ],
       "ticker": "FBGKX"
-    },
-    {
-      "account_count": 1,
-      "fs_pick_status": {
-        "direct_lists": [],
-        "june_basket": [],
-        "what_to_own": [
-          "energy/basic materials"
-        ]
-      },
-      "market_value": 874.0,
-      "owners": [
-        "Parents"
-      ],
-      "pct_of_sleeve": 0.05,
-      "shares": 200.0,
-      "size_bucket": "<$2K dust",
-      "suggested_disposition": "DUST",
-      "themes": [
-        "nuclear"
-      ],
-      "ticker": "TLOFF"
     },
     {
       "account_count": 1,
@@ -1371,7 +1367,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 871.0,
+      "market_value": 896.0,
       "owners": [
         "Parents"
       ],
@@ -1411,6 +1407,28 @@
           "energy/basic materials"
         ]
       },
+      "market_value": 853.0,
+      "owners": [
+        "Parents"
+      ],
+      "pct_of_sleeve": 0.04,
+      "shares": 200.0,
+      "size_bucket": "<$2K dust",
+      "suggested_disposition": "DUST",
+      "themes": [
+        "nuclear"
+      ],
+      "ticker": "TLOFF"
+    },
+    {
+      "account_count": 1,
+      "fs_pick_status": {
+        "direct_lists": [],
+        "june_basket": [],
+        "what_to_own": [
+          "energy/basic materials"
+        ]
+      },
       "market_value": 731.0,
       "owners": [
         "SKB"
@@ -1429,13 +1447,13 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 503.0,
+      "market_value": 511.0,
       "owners": [
         "Parents",
         "SKB"
       ],
       "pct_of_sleeve": 0.03,
-      "shares": 502.97,
+      "shares": 511.15,
       "size_bucket": "<$2K dust",
       "suggested_disposition": "WATCH",
       "themes": [
@@ -1450,7 +1468,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 244.0,
+      "market_value": 254.0,
       "owners": [
         "Parents"
       ],
@@ -1488,7 +1506,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 94.0,
+      "market_value": 91.0,
       "owners": [
         "SKB"
       ],
@@ -1545,7 +1563,7 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 25.0,
+      "market_value": 24.0,
       "owners": [
         "SKB"
       ],
@@ -1565,16 +1583,16 @@
         "june_basket": [],
         "what_to_own": []
       },
-      "market_value": 10.0,
+      "market_value": 15.0,
       "owners": [
-        "SKB"
+        "Parents"
       ],
       "pct_of_sleeve": 0.0,
-      "shares": 10.0,
+      "shares": 5.0,
       "size_bucket": "<$2K dust",
       "suggested_disposition": "DUST",
       "themes": [],
-      "ticker": "WOLF"
+      "ticker": "CGC"
     },
     {
       "account_count": 1,
@@ -1593,24 +1611,6 @@
       "suggested_disposition": "DUST",
       "themes": [],
       "ticker": "ACON"
-    },
-    {
-      "account_count": 1,
-      "fs_pick_status": {
-        "direct_lists": [],
-        "june_basket": [],
-        "what_to_own": []
-      },
-      "market_value": 5.0,
-      "owners": [
-        "Parents"
-      ],
-      "pct_of_sleeve": 0.0,
-      "shares": 5.0,
-      "size_bucket": "<$2K dust",
-      "suggested_disposition": "DUST",
-      "themes": [],
-      "ticker": "CGC"
     },
     {
       "account_count": 1,
@@ -1656,6 +1656,6 @@
     }
   ],
   "sector_allocation_as_of": "2026-06-11",
-  "sleeve_value": 1934669.0,
-  "snapshot_date": "2026-06-18"
+  "sleeve_value": 1929670.0,
+  "snapshot_date": "2026-06-19"
 }

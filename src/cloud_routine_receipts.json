@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T11:51:29.852709Z",
-      "summary": "checked 12 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 10; validation passed; Notion none; dark/stale no fresh June 12 macro/crypto flash, intraday empty, fed-watch stale; dashboard refresh passed"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T12:10:56.671965Z",
-      "summary": "pre-market source intake started"
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "success",
       "run_source": "scheduled",
@@ -6452,7 +6438,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T20:47:09.911554Z",
+      "summary": "positions sync started"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T20:53:59.052501Z",
+      "summary": "positions sync succeeded: 2026-06-19; 11 accounts; 276 rows; diffs VALUE_CHANGE 1; share changes 0; orphan 76; warnings 6; dashboard artifacts refreshed"
     }
   ],
-  "updated_at": "2026-06-19T20:40:18.317305Z"
+  "updated_at": "2026-06-19T20:53:59.052501Z"
 }

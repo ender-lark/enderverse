@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-19T20:40:11.746105+00:00",
+  "generated_at": "2026-06-19T20:48:38.813076+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-19 \u00b7 uw_price 06-19 \u00b7 uw_macro 06-19 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-18",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-19T16:40:11.746105-04:00",
+        "date": "2026-06-19T16:48:38.813076-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-19T16:40:11.746105-04:00",
+        "date": "2026-06-19T16:48:38.813076-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -1944,7 +1944,7 @@
         {
           "t": "NVDA",
           "n": "NVDA",
-          "pct": 13.487143502721796,
+          "pct": 13.486710162877591,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1964,7 +1964,7 @@
         {
           "t": "SMH",
           "n": "SMH",
-          "pct": 5.301439463352143,
+          "pct": 5.301269128918416,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -1984,7 +1984,7 @@
         {
           "t": "MU",
           "n": "MU",
-          "pct": 3.8195840813263624,
+          "pct": 3.8194613586779087,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -2004,7 +2004,7 @@
         {
           "t": "IVES",
           "n": "IVES",
-          "pct": 3.544139535076554,
+          "pct": 3.5440256624189628,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -2024,7 +2024,7 @@
         {
           "t": "MAGS",
           "n": "MAGS",
-          "pct": 0.020366830983287797,
+          "pct": 0.020366176600144066,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -2052,7 +2052,7 @@
         {
           "t": "GRNJ",
           "n": "GRNJ",
-          "pct": 8.399426204700644,
+          "pct": 8.399156332429897,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -2072,7 +2072,7 @@
         {
           "t": "GRNY",
           "n": "GRNY",
-          "pct": 6.635959220732916,
+          "pct": 6.635746008384853,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -2100,7 +2100,7 @@
         {
           "t": "LEU",
           "n": "LEU",
-          "pct": 4.971942487800631,
+          "pct": 4.971782740053999,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -2120,7 +2120,7 @@
         {
           "t": "UUUU",
           "n": "UUUU",
-          "pct": 1.9234476639814928,
+          "pct": 1.923385863904191,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -2148,7 +2148,7 @@
         {
           "t": "XLF",
           "n": "XLF",
-          "pct": 4.808385951965373,
+          "pct": 4.8082314592650555,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -2176,7 +2176,7 @@
         {
           "t": "VOLT",
           "n": "VOLT",
-          "pct": 4.204480910112314,
+          "pct": 4.20434582078801,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -2204,7 +2204,7 @@
         {
           "t": "BMNR",
           "n": "BMNR",
-          "pct": 2.9179501743359273,
+          "pct": 2.9178564210460856,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Core",
@@ -2232,7 +2232,7 @@
         {
           "t": "MP",
           "n": "MP",
-          "pct": 0.9149008503281495,
+          "pct": 0.9148714547046904,
           "st": "Owned",
           "cv": "Promising",
           "ty": "Tactical",
@@ -2622,37 +2622,37 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-19T20:40:11.563691+00:00",
+      "last_run": "2026-06-19T20:48:38.397296+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-19T20:40:11.563691+00:00",
+      "last_run": "2026-06-19T20:48:38.397296+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-19T20:40:11.563691+00:00",
+      "last_run": "2026-06-19T20:48:38.397296+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-19T20:40:11.563691+00:00",
+      "last_run": "2026-06-19T20:48:38.397296+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-19T20:40:11.563691+00:00",
+      "last_run": "2026-06-19T20:48:38.397296+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "stale",
-      "last_run": "2026-06-19T20:40:11.563691+00:00",
+      "last_run": "2026-06-19T20:48:38.397296+00:00",
       "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json, src/event_risks.json; +4 more"
     }
   ],
@@ -4018,10 +4018,10 @@
       {
         "ticker": "GRNY",
         "direction": "OVERSIZED",
-        "actual_pct": 6.636,
+        "actual_pct": 6.6357,
         "target_pct": 3.0,
-        "drift_relative": 1.211986,
-        "drift_absolute_pct": 3.636,
+        "drift_relative": 1.211915,
+        "drift_absolute_pct": 3.6357,
         "flags": [
           "CONCENTRATION_CHECK",
           "ALARM_DRIFT"
@@ -4031,10 +4031,10 @@
       {
         "ticker": "MU",
         "direction": "OVERSIZED",
-        "actual_pct": 3.8196,
+        "actual_pct": 3.8195,
         "target_pct": 3.0,
-        "drift_relative": 0.273195,
-        "drift_absolute_pct": 0.8196,
+        "drift_relative": 0.273154,
+        "drift_absolute_pct": 0.8195,
         "flags": [
           "CONCENTRATION_CHECK",
           "ALARM_DRIFT"
@@ -4044,10 +4044,10 @@
       {
         "ticker": "NVDA",
         "direction": "OVERSIZED",
-        "actual_pct": 13.4871,
+        "actual_pct": 13.4867,
         "target_pct": 12.0,
-        "drift_relative": 0.123929,
-        "drift_absolute_pct": 1.4871,
+        "drift_relative": 0.123893,
+        "drift_absolute_pct": 1.4867,
         "flags": [
           "CONCENTRATION_CHECK"
         ],
@@ -4185,7 +4185,7 @@
     "views": {
       "combined": {
         "key": "combined",
-        "total_value": 1929608.0,
+        "total_value": 1929670.0,
         "rows": [
           {
             "ticker": "NVDA",
@@ -5286,6 +5286,20 @@
             "pct": 0.08
           },
           {
+            "ticker": "HYPE",
+            "description": "Hyperliquid",
+            "shares": 18.0197,
+            "market_value": 1266.14,
+            "tracked": false,
+            "asset_type": "Cryptocurrency",
+            "option": null,
+            "sleeve": "IBIT",
+            "category": "Crypto",
+            "account": "Robinhood Crypto 8794",
+            "owner": "SKB",
+            "pct": 0.07
+          },
+          {
             "ticker": "POET",
             "description": "POET Technologies Inc.",
             "shares": 100.0,
@@ -5319,20 +5333,6 @@
             "category": "Crypto",
             "account": "Multiple",
             "owner": "Multiple",
-            "pct": 0.06
-          },
-          {
-            "ticker": "HYPE",
-            "description": "Hyperliquid",
-            "shares": 18.0197,
-            "market_value": 1204.14,
-            "tracked": false,
-            "asset_type": "Cryptocurrency",
-            "option": null,
-            "sleeve": "IBIT",
-            "category": "Crypto",
-            "account": "Robinhood Crypto 8794",
-            "owner": "SKB",
             "pct": 0.06
           },
           {
@@ -5869,7 +5869,7 @@
             "ticker": "AAVE",
             "description": "Aave",
             "shares": 1.2613,
-            "market_value": 91.13,
+            "market_value": 91.38,
             "tracked": false,
             "asset_type": "Cryptocurrency",
             "option": null,
@@ -6073,7 +6073,7 @@
             "ticker": "TRUMP",
             "description": "OFFICIAL TRUMP",
             "shares": 13.0548,
-            "market_value": 23.96,
+            "market_value": 24.07,
             "tracked": false,
             "asset_type": "Cryptocurrency",
             "option": null,
@@ -6263,7 +6263,7 @@
             "category": "AI / Semiconductors",
             "sleeve": "SMH",
             "market_value": 762107.53,
-            "pct": 39.5,
+            "pct": 39.49,
             "tickers": [
               "AMZN",
               "ANET",
@@ -6282,7 +6282,7 @@
               "SOXX"
             ],
             "working_model_target_pct": 48.0,
-            "working_model_gap_pct": 8.5,
+            "working_model_gap_pct": 8.51,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-06-11",
             "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
@@ -6328,7 +6328,7 @@
           {
             "category": "Other holdings",
             "sleeve": "_other",
-            "market_value": 174310.75,
+            "market_value": 174311.11,
             "pct": 9.03,
             "tickers": [
               "AAVE",
@@ -6428,8 +6428,8 @@
           {
             "category": "Crypto",
             "sleeve": "IBIT",
-            "market_value": 82445.3,
-            "pct": 4.27,
+            "market_value": 82507.3,
+            "pct": 4.28,
             "tickers": [
               "BMNR",
               "COIN",
@@ -6748,7 +6748,7 @@
               "direct_market_value": 762107.53,
               "lookthrough_market_value": 49574.03,
               "effective_market_value": 811681.56,
-              "direct_pct": 39.5,
+              "direct_pct": 39.49,
               "lookthrough_pct": 2.57,
               "effective_pct": 42.06,
               "working_model_target_pct": 48.0,
@@ -6807,9 +6807,9 @@
             {
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 174310.75,
+              "direct_market_value": 174311.11,
               "lookthrough_market_value": 17332.82,
-              "effective_market_value": 191643.57,
+              "effective_market_value": 191643.93,
               "direct_pct": 9.03,
               "lookthrough_pct": 0.9,
               "effective_pct": 9.93,
@@ -6952,12 +6952,12 @@
             {
               "category": "Crypto",
               "sleeve": "IBIT",
-              "direct_market_value": 82445.3,
+              "direct_market_value": 82507.3,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 82445.3,
-              "direct_pct": 4.27,
+              "effective_market_value": 82507.3,
+              "direct_pct": 4.28,
               "lookthrough_pct": 0.0,
-              "effective_pct": 4.27,
+              "effective_pct": 4.28,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -7047,7 +7047,7 @@
       },
       "skb": {
         "key": "skb",
-        "total_value": 608442.65,
+        "total_value": 608505.01,
         "rows": [
           {
             "ticker": "NVDA",
@@ -7223,7 +7223,7 @@
             "option": null,
             "sleeve": "GRNY",
             "category": "Quality core",
-            "pct": 2.1
+            "pct": 2.09
           },
           {
             "ticker": "GOOGL",
@@ -8015,7 +8015,7 @@
             },
             "sleeve": "SMH",
             "category": "AI / Semiconductors",
-            "pct": 0.5
+            "pct": 0.49
           },
           {
             "ticker": "DRIV",
@@ -8386,6 +8386,22 @@
             "pct": 0.22
           },
           {
+            "ticker": "HYPE",
+            "description": "Hyperliquid",
+            "shares": 18.0197,
+            "market_value": 1266.14,
+            "account": "Robinhood Crypto 8794",
+            "owner": "SKB",
+            "owner_key": "skb",
+            "broker": "Robinhood",
+            "tracked": false,
+            "asset_type": "Cryptocurrency",
+            "option": null,
+            "sleeve": "IBIT",
+            "category": "Crypto",
+            "pct": 0.21
+          },
+          {
             "ticker": "MRVL",
             "description": "Marvell Technology, Inc.",
             "shares": 4.0,
@@ -8399,22 +8415,6 @@
             "option": null,
             "sleeve": "_other",
             "category": "Other holdings",
-            "pct": 0.2
-          },
-          {
-            "ticker": "HYPE",
-            "description": "Hyperliquid",
-            "shares": 18.0197,
-            "market_value": 1204.14,
-            "account": "Robinhood Crypto 8794",
-            "owner": "SKB",
-            "owner_key": "skb",
-            "broker": "Robinhood",
-            "tracked": false,
-            "asset_type": "Cryptocurrency",
-            "option": null,
-            "sleeve": "IBIT",
-            "category": "Crypto",
             "pct": 0.2
           },
           {
@@ -8463,7 +8463,7 @@
             "option": null,
             "sleeve": "IBIT",
             "category": "Crypto",
-            "pct": 0.19
+            "pct": 0.18
           },
           {
             "ticker": "AMD",
@@ -9381,7 +9381,7 @@
             "ticker": "AAVE",
             "description": "Aave",
             "shares": 1.2613,
-            "market_value": 91.13,
+            "market_value": 91.38,
             "account": "Robinhood Crypto 8794",
             "owner": "SKB",
             "owner_key": "skb",
@@ -9391,7 +9391,7 @@
             "option": null,
             "sleeve": "_other",
             "category": "Other holdings",
-            "pct": 0.01
+            "pct": 0.02
           },
           {
             "ticker": "FCASH",
@@ -9653,7 +9653,7 @@
             "ticker": "TRUMP",
             "description": "OFFICIAL TRUMP",
             "shares": 13.0548,
-            "market_value": 23.96,
+            "market_value": 24.07,
             "account": "Robinhood Crypto 8794",
             "owner": "SKB",
             "owner_key": "skb",
@@ -9825,13 +9825,13 @@
             "category": "Quality core",
             "sleeve": "GRNY",
             "market_value": 91304.54,
-            "pct": 15.01,
+            "pct": 15.0,
             "tickers": [
               "GRNJ",
               "GRNY"
             ],
             "working_model_target_pct": 3.0,
-            "working_model_gap_pct": -12.01,
+            "working_model_gap_pct": -12.0,
             "fundstrat_cue": "favored",
             "fundstrat_source_date": "2026-06-11",
             "fundstrat_reason": "Fundstrat what-to-own theme: small-caps",
@@ -9877,8 +9877,8 @@
           {
             "category": "Crypto",
             "sleeve": "IBIT",
-            "market_value": 32311.9,
-            "pct": 5.31,
+            "market_value": 32373.9,
+            "pct": 5.32,
             "tickers": [
               "BMNR",
               "HYPE",
@@ -9894,8 +9894,8 @@
           {
             "category": "Other holdings",
             "sleeve": "_other",
-            "market_value": 29175.89,
-            "pct": 4.8,
+            "market_value": 29176.25,
+            "pct": 4.79,
             "tickers": [
               "AAVE",
               "ACON",
@@ -9916,7 +9916,7 @@
               "VRT"
             ],
             "working_model_target_pct": 8.0,
-            "working_model_gap_pct": 3.2,
+            "working_model_gap_pct": 3.21,
             "fundstrat_cue": "mixed",
             "fundstrat_source_date": "2026-06-11",
             "fundstrat_reason": "Fundstrat what-to-own/top-bottom cue",
@@ -10339,9 +10339,9 @@
               "effective_market_value": 312657.42,
               "direct_pct": 49.05,
               "lookthrough_pct": 2.33,
-              "effective_pct": 51.39,
+              "effective_pct": 51.38,
               "working_model_target_pct": 48.0,
-              "working_model_gap_pct": -3.39,
+              "working_model_gap_pct": -3.38,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-06-11",
               "fundstrat_reason": "Fundstrat what-to-own theme: mag7",
@@ -10372,11 +10372,11 @@
               "direct_market_value": 91304.54,
               "lookthrough_market_value": 0.0,
               "effective_market_value": 91304.54,
-              "direct_pct": 15.01,
+              "direct_pct": 15.0,
               "lookthrough_pct": 0.0,
-              "effective_pct": 15.01,
+              "effective_pct": 15.0,
               "working_model_target_pct": 3.0,
-              "working_model_gap_pct": -12.01,
+              "working_model_gap_pct": -12.0,
               "fundstrat_cue": "favored",
               "fundstrat_source_date": "2026-06-11",
               "fundstrat_reason": "Fundstrat what-to-own theme: small-caps",
@@ -10437,10 +10437,10 @@
             {
               "category": "Other holdings",
               "sleeve": "_other",
-              "direct_market_value": 29175.89,
+              "direct_market_value": 29176.25,
               "lookthrough_market_value": 5484.31,
-              "effective_market_value": 34660.2,
-              "direct_pct": 4.8,
+              "effective_market_value": 34660.56,
+              "direct_pct": 4.79,
               "lookthrough_pct": 0.9,
               "effective_pct": 5.7,
               "working_model_target_pct": 8.0,
@@ -10489,12 +10489,12 @@
             {
               "category": "Crypto",
               "sleeve": "IBIT",
-              "direct_market_value": 32311.9,
+              "direct_market_value": 32373.9,
               "lookthrough_market_value": 0.0,
-              "effective_market_value": 32311.9,
-              "direct_pct": 5.31,
+              "effective_market_value": 32373.9,
+              "direct_pct": 5.32,
               "lookthrough_pct": 0.0,
-              "effective_pct": 5.31,
+              "effective_pct": 5.32,
               "working_model_target_pct": null,
               "working_model_gap_pct": null,
               "fundstrat_cue": "favored",
@@ -13606,7 +13606,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-19T10:02:54-04:00",
-        "connector_proof_age_hours": 6.62
+        "connector_proof_age_hours": 6.76
       }
     ],
     "missing": [],
@@ -13645,58 +13645,56 @@
       "manual_support_only_count": 0,
       "failed_latest_count": 0,
       "overdue_count": 0,
-      "due_waiting_count": 0,
+      "due_waiting_count": 1,
       "routine_receipt_due": {
         "activated_at": "2026-06-19T00:00:00-04:00",
-        "now": "2026-06-19T16:40:11.746105-04:00",
+        "now": "2026-06-19T16:48:38.813076-04:00",
         "grace_minutes": 30,
         "overdue_count": 0,
-        "due_waiting_count": 0,
+        "due_waiting_count": 1,
         "current_count": 12,
-        "not_due_yet_count": 2,
+        "not_due_yet_count": 1,
         "next_due": {
-          "routine_id": "investing-os-positions-sync",
-          "routine_name": "Investing OS Positions Sync",
-          "role": "positions_sync",
-          "schedule": "market weekdays 4:45 PM ET",
+          "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+          "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
+          "role": "fundstrat_after_hours_catchup",
+          "schedule": "market weekdays 7:00 PM ET",
           "due_state": "not_due_yet",
           "expected_since": "2026-06-19T00:00:00-04:00",
           "last_due_at": "",
-          "next_due_at": "2026-06-19T16:45:00-04:00",
+          "next_due_at": "2026-06-19T19:00:00-04:00",
           "overdue_after": "",
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-18T20:52:40.032226Z",
-          "last_success_at": "2026-06-18T20:52:40.032226Z",
+          "last_recorded_at": "2026-06-18T23:14:49.732744Z",
+          "last_success_at": "2026-06-18T23:14:49.732744Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-18T20:52:40.032226Z",
-          "last_scheduled_success_at": "2026-06-18T20:52:40.032226Z",
-          "last_scheduled_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
-          "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
-          "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
-          "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
+          "last_scheduled_recorded_at": "2026-06-18T23:14:49.732744Z",
+          "last_scheduled_success_at": "2026-06-18T23:14:49.732744Z",
+          "last_scheduled_summary": "checked 19 web surfaces/details; videos 4 details, 3 caption packs vaulted+pushed, 1 duplicate already indexed; Gmail 0; landed 2 compact FlashInsights rows XLF/UUP; suppressed stale/duplicate/discovery content incl crypto flash Jun8, old Intraday/FirstWord/LiveTech, duplicate Roadmap/USPolicy/FTM/video companion rows; validation public-index/email/pytest passed; dashboard refreshed; Notion none; dark Social Watch; blockers none pre-push",
+          "last_manual_recorded_at": "2026-06-16T14:38:49.463256Z",
+          "last_manual_success_at": "2026-06-16T14:38:49.463256Z",
+          "last_manual_summary": "fundstrat after-hours catch-up manual support run validated intake and alert plumbing without sending",
           "manual_support_only": false,
-          "last_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
+          "last_summary": "checked 19 web surfaces/details; videos 4 details, 3 caption packs vaulted+pushed, 1 duplicate already indexed; Gmail 0; landed 2 compact FlashInsights rows XLF/UUP; suppressed stale/duplicate/discovery content incl crypto flash Jun8, old Intraday/FirstWord/LiveTech, duplicate Roadmap/USPolicy/FTM/video companion rows; validation public-index/email/pytest passed; dashboard refreshed; Notion none; dark Social Watch; blockers none pre-push",
           "last_boundary_outcome": "stale_boundary",
           "last_boundary_artifact_count": 3,
           "last_boundary_artifacts": [
-            "src/positions.json",
-            "src/account_positions.json",
-            "src/position_reconciliation.json"
+            "src/source_calls.json",
+            "src/fundstrat_daily_calls.json",
+            "src/fundstrat_intake_summary.json"
           ],
           "missing_boundary_artifacts": [],
           "stale_boundary_artifacts": [
-            "src/positions.json",
-            "src/account_positions.json",
-            "src/position_reconciliation.json"
+            "src/fundstrat_intake_summary.json"
           ],
           "changed_boundary_artifacts": [],
-          "last_ran_at": "2026-06-18T20:52:40.032226Z",
-          "last_ran_label": "2026-06-18T20:52:40.032226Z",
-          "last_scheduled_success_label": "2026-06-18T20:52:40.032226Z",
-          "latest_manual_support_label": "2026-06-16T14:38:48.818422Z",
-          "overdue_line": "overdue: Investing OS Positions Sync, last scheduled success 2026-06-18T20:52:40.032226Z; latest manual support 2026-06-16T14:38:48.818422Z"
+          "last_ran_at": "2026-06-18T23:14:49.732744Z",
+          "last_ran_label": "2026-06-18T23:14:49.732744Z",
+          "last_scheduled_success_label": "2026-06-18T23:14:49.732744Z",
+          "latest_manual_support_label": "2026-06-16T14:38:49.463256Z",
+          "overdue_line": "overdue: Investing OS Fundstrat After-Hours Catch-Up, last scheduled success 2026-06-18T23:14:49.732744Z; latest manual support 2026-06-16T14:38:49.463256Z"
         },
         "rows": [
           {
@@ -14155,19 +14153,19 @@
             "next_due_at": "2026-06-22T16:30:00-04:00",
             "overdue_after": "2026-06-19T17:00:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-19T20:38:38.127238Z",
-            "last_success_at": "2026-06-19T20:36:47.842869Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-19T20:38:38.127238Z",
-            "last_scheduled_success_at": "2026-06-19T20:36:47.842869Z",
-            "last_scheduled_summary": "investing-os-post-close-refresh started",
+            "last_recorded_at": "2026-06-19T20:40:18.317305Z",
+            "last_success_at": "2026-06-19T20:40:18.317305Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-19T20:40:18.317305Z",
+            "last_scheduled_success_at": "2026-06-19T20:40:18.317305Z",
+            "last_scheduled_summary": "post-close refresh succeeded",
             "last_manual_recorded_at": "2026-06-16T14:37:49.168608Z",
             "last_manual_success_at": "2026-06-16T14:37:49.168608Z",
             "last_manual_summary": "post-close manual run refreshed dashboard artifacts",
             "manual_support_only": false,
-            "last_summary": "investing-os-post-close-refresh started",
+            "last_summary": "post-close refresh succeeded",
             "last_boundary_outcome": "produced_fresh",
             "last_boundary_artifact_count": 1,
             "last_boundary_artifacts": [
@@ -14178,36 +14176,36 @@
             "changed_boundary_artifacts": [
               "src/latest_cockpit_feed.json"
             ],
-            "last_ran_at": "2026-06-19T20:36:47.842869Z",
-            "last_ran_label": "2026-06-19T20:36:47.842869Z",
-            "last_scheduled_success_label": "2026-06-19T20:36:47.842869Z",
+            "last_ran_at": "2026-06-19T20:40:18.317305Z",
+            "last_ran_label": "2026-06-19T20:40:18.317305Z",
+            "last_scheduled_success_label": "2026-06-19T20:40:18.317305Z",
             "latest_manual_support_label": "2026-06-16T14:37:49.168608Z",
-            "overdue_line": "overdue: Investing OS Post-Close Refresh, last scheduled success 2026-06-19T20:36:47.842869Z; latest manual support 2026-06-16T14:37:49.168608Z"
+            "overdue_line": "overdue: Investing OS Post-Close Refresh, last scheduled success 2026-06-19T20:40:18.317305Z; latest manual support 2026-06-16T14:37:49.168608Z"
           },
           {
             "routine_id": "investing-os-positions-sync",
             "routine_name": "Investing OS Positions Sync",
             "role": "positions_sync",
             "schedule": "market weekdays 4:45 PM ET",
-            "due_state": "not_due_yet",
+            "due_state": "due_waiting",
             "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "",
-            "next_due_at": "2026-06-19T16:45:00-04:00",
-            "overdue_after": "",
+            "last_due_at": "2026-06-19T16:45:00-04:00",
+            "next_due_at": "2026-06-22T16:45:00-04:00",
+            "overdue_after": "2026-06-19T17:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "success",
+            "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-18T20:52:40.032226Z",
+            "last_recorded_at": "2026-06-19T20:47:09.911554Z",
             "last_success_at": "2026-06-18T20:52:40.032226Z",
-            "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-18T20:52:40.032226Z",
+            "last_scheduled_status": "started",
+            "last_scheduled_recorded_at": "2026-06-19T20:47:09.911554Z",
             "last_scheduled_success_at": "2026-06-18T20:52:40.032226Z",
-            "last_scheduled_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
+            "last_scheduled_summary": "positions sync started",
             "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
             "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
             "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
             "manual_support_only": false,
-            "last_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
+            "last_summary": "positions sync started",
             "last_boundary_outcome": "stale_boundary",
             "last_boundary_artifact_count": 3,
             "last_boundary_artifacts": [
@@ -14272,32 +14270,31 @@
           }
         ],
         "overdue": [],
-        "due_waiting": [],
-        "not_due_yet": [
+        "due_waiting": [
           {
             "routine_id": "investing-os-positions-sync",
             "routine_name": "Investing OS Positions Sync",
             "role": "positions_sync",
             "schedule": "market weekdays 4:45 PM ET",
-            "due_state": "not_due_yet",
+            "due_state": "due_waiting",
             "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "",
-            "next_due_at": "2026-06-19T16:45:00-04:00",
-            "overdue_after": "",
+            "last_due_at": "2026-06-19T16:45:00-04:00",
+            "next_due_at": "2026-06-22T16:45:00-04:00",
+            "overdue_after": "2026-06-19T17:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "success",
+            "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-18T20:52:40.032226Z",
+            "last_recorded_at": "2026-06-19T20:47:09.911554Z",
             "last_success_at": "2026-06-18T20:52:40.032226Z",
-            "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-18T20:52:40.032226Z",
+            "last_scheduled_status": "started",
+            "last_scheduled_recorded_at": "2026-06-19T20:47:09.911554Z",
             "last_scheduled_success_at": "2026-06-18T20:52:40.032226Z",
-            "last_scheduled_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
+            "last_scheduled_summary": "positions sync started",
             "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
             "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
             "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
             "manual_support_only": false,
-            "last_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
+            "last_summary": "positions sync started",
             "last_boundary_outcome": "stale_boundary",
             "last_boundary_artifact_count": 3,
             "last_boundary_artifacts": [
@@ -14317,7 +14314,9 @@
             "last_scheduled_success_label": "2026-06-18T20:52:40.032226Z",
             "latest_manual_support_label": "2026-06-16T14:38:48.818422Z",
             "overdue_line": "overdue: Investing OS Positions Sync, last scheduled success 2026-06-18T20:52:40.032226Z; latest manual support 2026-06-16T14:38:48.818422Z"
-          },
+          }
+        ],
+        "not_due_yet": [
           {
             "routine_id": "investing-os-fundstrat-after-hours-catch-up",
             "routine_name": "Investing OS Fundstrat After-Hours Catch-Up",
@@ -14364,7 +14363,7 @@
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-19T00:00:00-04:00",
-        "now": "2026-06-19T16:40:11.746105-04:00",
+        "now": "2026-06-19T16:48:38.813076-04:00",
         "grace_minutes": 30,
         "overdue_count": 0,
         "due_waiting_count": 0,
@@ -15660,7 +15659,52 @@
       },
       "overdue": [],
       "support_overdue": [],
-      "due_waiting": [],
+      "due_waiting": [
+        {
+          "routine_id": "investing-os-positions-sync",
+          "routine_name": "Investing OS Positions Sync",
+          "role": "positions_sync",
+          "schedule": "market weekdays 4:45 PM ET",
+          "due_state": "due_waiting",
+          "expected_since": "2026-06-19T00:00:00-04:00",
+          "last_due_at": "2026-06-19T16:45:00-04:00",
+          "next_due_at": "2026-06-22T16:45:00-04:00",
+          "overdue_after": "2026-06-19T17:15:00-04:00",
+          "max_age_minutes": 30,
+          "last_status": "started",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-19T20:47:09.911554Z",
+          "last_success_at": "2026-06-18T20:52:40.032226Z",
+          "last_scheduled_status": "started",
+          "last_scheduled_recorded_at": "2026-06-19T20:47:09.911554Z",
+          "last_scheduled_success_at": "2026-06-18T20:52:40.032226Z",
+          "last_scheduled_summary": "positions sync started",
+          "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
+          "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
+          "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
+          "manual_support_only": false,
+          "last_summary": "positions sync started",
+          "last_boundary_outcome": "stale_boundary",
+          "last_boundary_artifact_count": 3,
+          "last_boundary_artifacts": [
+            "src/positions.json",
+            "src/account_positions.json",
+            "src/position_reconciliation.json"
+          ],
+          "missing_boundary_artifacts": [],
+          "stale_boundary_artifacts": [
+            "src/positions.json",
+            "src/account_positions.json",
+            "src/position_reconciliation.json"
+          ],
+          "changed_boundary_artifacts": [],
+          "last_ran_at": "2026-06-18T20:52:40.032226Z",
+          "last_ran_label": "2026-06-18T20:52:40.032226Z",
+          "last_scheduled_success_label": "2026-06-18T20:52:40.032226Z",
+          "latest_manual_support_label": "2026-06-16T14:38:48.818422Z",
+          "overdue_line": "overdue: Investing OS Positions Sync, last scheduled success 2026-06-18T20:52:40.032226Z; latest manual support 2026-06-16T14:38:48.818422Z"
+        }
+      ],
       "missing_scheduled_success_count": 0,
       "missing_scheduled_success": [],
       "manual_support_only": [],
@@ -15788,7 +15832,7 @@
           "role": "fundstrat_pre_market_safety_sweep",
           "schedule": "market weekdays 7:45 AM ET",
           "proof_scope": "core",
-          "receipt_count": 18,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-19T11:50:46.062253Z",
@@ -16100,20 +16144,20 @@
           "role": "post_close_refresh",
           "schedule": "market weekdays 4:30 PM ET",
           "proof_scope": "core",
-          "receipt_count": 13,
-          "last_status": "started",
+          "receipt_count": 14,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-19T20:38:38.127238Z",
-          "last_success_at": "2026-06-19T20:36:47.842869Z",
-          "last_scheduled_success_at": "2026-06-19T20:36:47.842869Z",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-19T20:38:38.127238Z",
-          "last_scheduled_summary": "investing-os-post-close-refresh started",
+          "last_recorded_at": "2026-06-19T20:40:18.317305Z",
+          "last_success_at": "2026-06-19T20:40:18.317305Z",
+          "last_scheduled_success_at": "2026-06-19T20:40:18.317305Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-19T20:40:18.317305Z",
+          "last_scheduled_summary": "post-close refresh succeeded",
           "last_manual_recorded_at": "2026-06-16T14:37:49.168608Z",
           "last_manual_success_at": "2026-06-16T14:37:49.168608Z",
           "last_manual_summary": "post-close manual run refreshed dashboard artifacts",
           "manual_support_only": false,
-          "last_summary": "investing-os-post-close-refresh started",
+          "last_summary": "post-close refresh succeeded",
           "last_boundary_outcome": "produced_fresh",
           "last_boundary_artifact_count": 1,
           "last_boundary_artifacts": [
@@ -16131,20 +16175,20 @@
           "role": "positions_sync",
           "schedule": "market weekdays 4:45 PM ET",
           "proof_scope": "core",
-          "receipt_count": 14,
-          "last_status": "success",
+          "receipt_count": 15,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-18T20:52:40.032226Z",
+          "last_recorded_at": "2026-06-19T20:47:09.911554Z",
           "last_success_at": "2026-06-18T20:52:40.032226Z",
           "last_scheduled_success_at": "2026-06-18T20:52:40.032226Z",
-          "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-18T20:52:40.032226Z",
-          "last_scheduled_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
+          "last_scheduled_status": "started",
+          "last_scheduled_recorded_at": "2026-06-19T20:47:09.911554Z",
+          "last_scheduled_summary": "positions sync started",
           "last_manual_recorded_at": "2026-06-16T14:38:48.818422Z",
           "last_manual_success_at": "2026-06-16T14:38:48.818422Z",
           "last_manual_summary": "positions sync manual run refreshed SnapTrade book and reran orphan triage; after-hours legs may lag in SnapTrade, so position_reconciliation diffs are provisional fill verification until Monday's 8:20 broker intake reconciles record state",
           "manual_support_only": false,
-          "last_summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified",
+          "last_summary": "positions sync started",
           "last_boundary_outcome": "stale_boundary",
           "last_boundary_artifact_count": 3,
           "last_boundary_artifacts": [
@@ -17480,7 +17524,7 @@
           "details": [
             "AMZN-ADD-2026-06-19"
           ],
-          "market_value": 33229.79,
+          "market_value": 33219.27,
           "pct": 4.0,
           "status": "missing_dossier",
           "summary": "no repo Decision Dossier row",
@@ -17708,7 +17752,7 @@
             "IVES-TRIM-2026-06-19"
           ],
           "market_value": 68387.73,
-          "pct": 3.5441,
+          "pct": 3.544,
           "status": "missing_dossier",
           "summary": "no repo Decision Dossier row",
           "read_statuses": {},
@@ -17745,7 +17789,7 @@
           "details": [
             "MAGS-TRIM-2026-06-19"
           ],
-          "market_value": 391.71,
+          "market_value": 391.72,
           "pct": 0.0203,
           "status": "missing_dossier",
           "summary": "no repo Decision Dossier row",
@@ -17768,7 +17812,7 @@
           "details": [
             "MSFT-ADD-2026-06-19"
           ],
-          "market_value": 61178.22,
+          "market_value": 61180.19,
           "pct": 5.0,
           "status": "missing_dossier",
           "summary": "no repo Decision Dossier row",
@@ -17860,7 +17904,7 @@
             "SMH-TRIM-2026-06-19"
           ],
           "market_value": 102296.79,
-          "pct": 5.3014,
+          "pct": 5.3013,
           "status": "missing_dossier",
           "summary": "no repo Decision Dossier row",
           "read_statuses": {},
@@ -17880,7 +17924,7 @@
           "details": [
             "SOXX-TRIM-2026-06-19"
           ],
-          "market_value": 5754.09,
+          "market_value": 5754.28,
           "pct": 0.2982,
           "status": "missing_dossier",
           "summary": "no repo Decision Dossier row",
@@ -21347,10 +21391,10 @@
   },
   "reallocation_brief": {
     "status": "candidate_only",
-    "line": "Reallocation brief: candidate only from 2026-06-19 positions; 3 add candidate(s), 5 funding trim(s); allocated $150,509; shortfall $283,687.",
+    "line": "Reallocation brief: candidate only from 2026-06-19 positions; 3 add candidate(s), 5 funding trim(s); allocated $150,507; shortfall $283,712.",
     "positions_snapshot_date": "2026-06-19",
     "positions_age_days": 0,
-    "total_book_value": 1929608.0,
+    "total_book_value": 1929670.0,
     "candidate_only": true,
     "counts": {
       "adds": 3,
@@ -21359,21 +21403,21 @@
       "sequence_later": 0
     },
     "funding": {
-      "pool_total_usd": 150509.43,
-      "allocated_usd": 150509.43,
+      "pool_total_usd": 150506.54,
+      "allocated_usd": 150506.54,
       "remaining_usd": 0.0,
-      "shortfall_usd": 283687.1
+      "shortfall_usd": 283711.66
     },
     "rows": [
       {
         "ticker": "GOOGL",
         "rank": 1,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 56101.42,
-        "current_pct": 5.0926,
+        "notional_usd": 56107.08,
+        "current_pct": 5.0924,
         "target_pct": 8.0,
-        "effective_current_pct": 5.0926,
-        "delta_pct": 2.9074,
+        "effective_current_pct": 5.0924,
+        "delta_pct": 2.9076,
         "sequence": "now",
         "sequence_state": "current_or_unspecified",
         "entry_note": "size now (constructive/ok entry)",
@@ -21382,7 +21426,7 @@
         "funded_by": [
           {
             "ticker": "IVES",
-            "notional_usd": 56101.42
+            "notional_usd": 56107.08
           }
         ],
         "rationale": "full-stack incl TPUs; capex-confirmed; constructive entry",
@@ -21461,7 +21505,7 @@
         "ticker": "MSFT",
         "rank": 2,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 61178.22,
+        "notional_usd": 61180.19,
         "current_pct": 1.8295,
         "target_pct": 5.0,
         "effective_current_pct": 1.8295,
@@ -21474,23 +21518,23 @@
         "funded_by": [
           {
             "ticker": "IVES",
-            "notional_usd": 12285.82
+            "notional_usd": 12280.42
           },
           {
             "ticker": "SMH",
-            "notional_usd": 5815.84
+            "notional_usd": 5814.1
           },
           {
             "ticker": "SOXX",
-            "notional_usd": 5754.09
+            "notional_usd": 5754.28
           },
           {
             "ticker": "MAGS",
-            "notional_usd": 391.71
+            "notional_usd": 391.72
           },
           {
             "ticker": "GRNY",
-            "notional_usd": 36930.76
+            "notional_usd": 36939.67
           }
         ],
         "rationale": "hyperscaler; cheap laggard",
@@ -21569,11 +21613,11 @@
         "ticker": "AMZN",
         "rank": 3,
         "action": "ADD_CANDIDATE",
-        "notional_usd": 33229.79,
-        "current_pct": 1.1272,
+        "notional_usd": 33219.27,
+        "current_pct": 1.1271,
         "target_pct": 4.0,
-        "effective_current_pct": 1.1272,
-        "delta_pct": 1.7221,
+        "effective_current_pct": 1.1271,
+        "delta_pct": 1.7215,
         "sequence": "now",
         "sequence_state": "current_or_unspecified",
         "entry_note": "size now (constructive/ok entry)",
@@ -21582,12 +21626,12 @@
         "funded_by": [
           {
             "ticker": "GRNY",
-            "notional_usd": 33229.79
+            "notional_usd": 33219.27
           }
         ],
         "rationale": "AWS; mild pullback",
         "caveats": [
-          "partially funded: $33,230 of $55,434 gap",
+          "partially funded: $33,219 of $55,437 gap",
           "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
         ],
         "blockers": [
@@ -21663,20 +21707,20 @@
       {
         "ticker": "GRNY",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 70160.55,
-        "current_pct": 6.636,
+        "notional_usd": 70158.94,
+        "current_pct": 6.6358,
         "target_pct": 3.0,
-        "delta_pct": -3.636,
+        "delta_pct": -3.6358,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "MSFT",
-            "notional_usd": 36930.76
+            "notional_usd": 36939.67
           },
           {
             "ticker": "AMZN",
-            "notional_usd": 33229.79
+            "notional_usd": 33219.27
           }
         ],
         "rationale": "reservoir drawn to fund the names above",
@@ -21727,20 +21771,20 @@
       {
         "ticker": "IVES",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 68387.24,
-        "current_pct": 3.5441,
+        "notional_usd": 68387.5,
+        "current_pct": 3.544,
         "target_pct": 0.0,
-        "delta_pct": -3.5441,
+        "delta_pct": -3.544,
         "gate": "GREEN",
         "gate_reason": "trim reduces concentration",
         "funds": [
           {
             "ticker": "GOOGL",
-            "notional_usd": 56101.42
+            "notional_usd": 56107.08
           },
           {
             "ticker": "MSFT",
-            "notional_usd": 12285.82
+            "notional_usd": 12280.42
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -21789,16 +21833,16 @@
       {
         "ticker": "SMH",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 5815.84,
-        "current_pct": 5.3014,
+        "notional_usd": 5814.1,
+        "current_pct": 5.3013,
         "target_pct": 5.0,
-        "delta_pct": -0.3014,
+        "delta_pct": -0.3013,
         "gate": "",
         "gate_reason": "",
         "funds": [
           {
             "ticker": "MSFT",
-            "notional_usd": 5815.84
+            "notional_usd": 5814.1
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -21847,7 +21891,7 @@
       {
         "ticker": "SOXX",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 5754.09,
+        "notional_usd": 5754.28,
         "current_pct": 0.2982,
         "target_pct": 0.0,
         "delta_pct": -0.2982,
@@ -21856,7 +21900,7 @@
         "funds": [
           {
             "ticker": "MSFT",
-            "notional_usd": 5754.09
+            "notional_usd": 5754.28
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -21883,7 +21927,7 @@
       {
         "ticker": "MAGS",
         "action": "TRIM_FUNDING_CANDIDATE",
-        "notional_usd": 391.71,
+        "notional_usd": 391.72,
         "current_pct": 0.0203,
         "target_pct": 0.0,
         "delta_pct": -0.0203,
@@ -21892,7 +21936,7 @@
         "funds": [
           {
             "ticker": "MSFT",
-            "notional_usd": 391.71
+            "notional_usd": 391.72
           }
         ],
         "rationale": "wrapper trimmed to fund same-factor singles",
@@ -21989,7 +22033,7 @@
     ],
     "warnings": [
       "no run-up data supplied -> chase-gate inactive; verify entries live before acting",
-      "funding shortfall $283,687: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
+      "funding shortfall $283,712: not every target gap could be funded from the convertible pool (rotation stays AI-flat by design)"
     ],
     "notes": [
       "GRNJ: diversified Granny Shots wrapper protected from automatic funding trims; trim only after an explicit thesis break, sizing cap, or operator override.",
@@ -26383,7 +26427,7 @@
   "open_opportunities": {
     "schema_version": "1.0",
     "as_of": "2026-06-19",
-    "generated_at": "2026-06-19T20:38:41.682608+00:00",
+    "generated_at": "2026-06-19T20:40:13.150156+00:00",
     "opportunities": [],
     "history": [
       {
@@ -26539,7 +26583,7 @@
         "priority": 3,
         "kind": "reallocation_review",
         "label": "Review current-position reallocation candidates",
-        "why": "Reallocation brief: candidate only from 2026-06-19 positions; 3 add candidate(s), 5 funding trim(s); allocated $150,509; shortfall $283,687.",
+        "why": "Reallocation brief: candidate only from 2026-06-19 positions; 3 add candidate(s), 5 funding trim(s); allocated $150,507; shortfall $283,712.",
         "next_step": "Review funded add/trim legs, then run same-session UW/price and tax/account gates before acting.",
         "blocks": "same-session UW price/flow confirmation required before any capital action",
         "source": "reallocation_brief",
@@ -26700,7 +26744,7 @@
         "rank": 3,
         "posture": "size/compare",
         "label": "Compare the funded add candidates before parking capital: GOOGL leads the current reallocation brief.",
-        "why": "Reallocation brief: candidate only from 2026-06-19 positions; 3 add candidate(s), 5 funding trim(s); allocated $150,509; shortfall $283,687.",
+        "why": "Reallocation brief: candidate only from 2026-06-19 positions; 3 add candidate(s), 5 funding trim(s); allocated $150,507; shortfall $283,712.",
         "what_i_would_do": "Use the brief as a capital-efficiency screen: choose the best current use of capital, stage if confirmed, and do not add a merely good idea ahead of a better one.",
         "source": "reallocation_brief"
       },
@@ -26718,16 +26762,16 @@
   "today_decide": {
     "built": "2026-06-19",
     "goal_anchor": {
-      "book_value": 1929608.0,
+      "book_value": 1929670.0,
       "fi_target": 3000000.0,
       "pct_to_target": 64.3,
-      "gap_usd": 1070392.0,
-      "pace_line": "(display-only) gap $1,070,392 \u00c2| 18 months to 2027-12-31 \u00c2| \u00e2\u2030\u02c6 $59,466/month \u00e2\u20ac\u201d pace never feeds ranking or urgency",
+      "gap_usd": 1070330.0,
+      "pace_line": "(display-only) gap $1,070,330 \u00c2| 18 months to 2027-12-31 \u00c2| \u00e2\u2030\u02c6 $59,463/month \u00e2\u20ac\u201d pace never feeds ranking or urgency",
       "horizon": "2027-12-31"
     },
     "plan_line": {
       "pool_usd": null,
-      "shortfall_usd": 283687.1,
+      "shortfall_usd": 283711.66,
       "positions_as_of": "2026-06-19"
     },
     "gates": [
@@ -26967,7 +27011,7 @@
       "ticker": "GRNY",
       "lane": "funding_trim",
       "decision": "Resolve GRNY trim",
-      "size": "$70,161 tranche; $70,161 / material",
+      "size": "$70,159 tranche; $70,159 / material",
       "blocker": "0 of 5 blockers cleared; blocked by source freshness; waiting on flow/evidence conflict, cash/funding, account/sleeve eligibility, research/disconfirmation missing.",
       "changed": "No decision, watch, gate, or dark-lane change versus the last committed dashboard build.",
       "risk_rail": "Normal source, sizing, concentration, and account rails still apply.",
@@ -27558,7 +27602,7 @@
           ],
           "evidence": [
             "no directional evidence; battery opposition: UW opportunity sweep",
-            "[{'ticker': 'MSFT', 'notional_usd': 36930.76}, {'ticker': 'AMZN', 'notional_usd': 33229.79}]"
+            "[{'ticker': 'MSFT', 'notional_usd': 36939.67}, {'ticker': 'AMZN', 'notional_usd': 33219.27}]"
           ],
           "source_count": 2,
           "independent_source_count": 2
@@ -27600,7 +27644,7 @@
           ],
           "evidence": [
             "no directional evidence",
-            "[{'ticker': 'GOOGL', 'notional_usd': 56101.42}, {'ticker': 'MSFT', 'notional_usd': 12285.82}]"
+            "[{'ticker': 'GOOGL', 'notional_usd': 56107.08}, {'ticker': 'MSFT', 'notional_usd': 12280.42}]"
           ],
           "source_count": 2,
           "independent_source_count": 2
@@ -27677,7 +27721,7 @@
           ],
           "evidence": [
             "no directional evidence; battery opposition: UW opportunity sweep",
-            "[{'ticker': 'MSFT', 'notional_usd': 391.71}]"
+            "[{'ticker': 'MSFT', 'notional_usd': 391.72}]"
           ],
           "source_count": 2,
           "independent_source_count": 2
@@ -27817,7 +27861,7 @@
           ],
           "evidence": [
             "evidence favors HOLD/BUY at 1/5; battery opposition: UW opportunity sweep",
-            "[{'ticker': 'MSFT', 'notional_usd': 5815.84}]"
+            "[{'ticker': 'MSFT', 'notional_usd': 5814.1}]"
           ],
           "source_count": 2,
           "independent_source_count": 2
@@ -27857,7 +27901,7 @@
           ],
           "evidence": [
             "no directional evidence",
-            "[{'ticker': 'MSFT', 'notional_usd': 5754.09}]"
+            "[{'ticker': 'MSFT', 'notional_usd': 5754.28}]"
           ],
           "source_count": 2,
           "independent_source_count": 2
@@ -28513,8 +28557,8 @@
         "card_id": "GRNY-TRIM-2026-06-19",
         "ticker": "GRNY",
         "direction": "TRIM",
-        "dollars": 70160.55,
-        "funds": "MSFT $36,931, AMZN $33,230",
+        "dollars": 70158.94,
+        "funds": "MSFT $36,940, AMZN $33,219",
         "conviction": {
           "ticker": "GRNY",
           "points": 0.0,
@@ -28745,14 +28789,14 @@
         "execution": {
           "direction": "SELL",
           "ticker": "GRNY",
-          "dollars": 70160.55,
+          "dollars": 70158.94,
           "legs": [
             {
               "owner": "Parents",
               "broker": "Schwab",
               "account": "PCRA Trust ...651 PCRA Trust ...65\u00e2\u20ac\u00a6",
               "held_value": 74223.0,
-              "sell_usd": 70160.55,
+              "sell_usd": 70158.94,
               "tax_flag": "tax-advantaged retirement plan",
               "tax_status": "retirement_plan",
               "tax_type": "retirement_plan",
@@ -28769,12 +28813,12 @@
             }
           ],
           "unfilled_usd": 0.0,
-          "pcra_proceeds_usd": 70160.55,
+          "pcra_proceeds_usd": 70158.94,
           "transfer_dependency": true,
-          "transfer_note": "$70,161 of these proceeds land inside PCRA and CANNOT buy individual stocks \u00e2\u20ac\u201d the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding."
+          "transfer_note": "$70,159 of these proceeds land inside PCRA and CANNOT buy individual stocks \u00e2\u20ac\u201d the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding."
         },
         "impact": {
-          "band": "\u00e2\u2030\u02c6 $70,161 (3.6% of book)",
+          "band": "\u00e2\u2030\u02c6 $70,159 (3.6% of book)",
           "base": "book",
           "material": true,
           "basis": "materiality floor 0.5% of book = $9,648"
@@ -28784,7 +28828,7 @@
             "ticker": "GRNY",
             "direction": "TRIM",
             "lane": "funding_trim",
-            "band": "$70,161 (6.6% \u00e2\u2020\u2019 3.0%)"
+            "band": "$70,159 (6.6% \u00e2\u2020\u2019 3.0%)"
           },
           "conviction": {
             "read": "LOW",
@@ -28817,7 +28861,7 @@
           "evidence": {
             "links": [
               {
-                "label": "funds \u00e2\u2020\u2019 MSFT $36,931, AMZN $33,230",
+                "label": "funds \u00e2\u2020\u2019 MSFT $36,940, AMZN $33,219",
                 "ref": "feed.reallocation_brief.trims"
               },
               {
@@ -28827,7 +28871,7 @@
             ]
           },
           "impact": {
-            "band": "\u00e2\u2030\u02c6 $70,161 (3.6% of book)",
+            "band": "\u00e2\u2030\u02c6 $70,159 (3.6% of book)",
             "base": "book",
             "material": true,
             "basis": "materiality floor 0.5% of book = $9,648"
@@ -29188,7 +29232,7 @@
         "card_id": "GOOGL-ADD-2026-06-19",
         "ticker": "GOOGL",
         "direction": "BUY",
-        "dollars": 56101.42,
+        "dollars": 56107.08,
         "sequence": "now",
         "entry_note": "size now (constructive/ok entry)",
         "rb_gate": "AMBER",
@@ -29453,7 +29497,7 @@
         "execution": {
           "direction": "BUY",
           "ticker": "GOOGL",
-          "dollars": 56101.42,
+          "dollars": 56107.08,
           "suggested": {
             "owner": "Parents",
             "broker": "Fidelity",
@@ -29470,7 +29514,7 @@
               "tax_bucket:taxable",
               "tax_status:taxable"
             ],
-            "suggested_usd": 56101.42,
+            "suggested_usd": 56107.08,
             "why": "largest existing GOOGL position (add-to-position)"
           },
           "eligible": [
@@ -29651,7 +29695,7 @@
           "cash": "not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing"
         },
         "impact": {
-          "band": "\u00e2\u2030\u02c6 $56,101 (2.9% of book)",
+          "band": "\u00e2\u2030\u02c6 $56,107 (2.9% of book)",
           "base": "book",
           "material": true,
           "basis": "materiality floor 0.5% of book = $9,648"
@@ -29660,8 +29704,8 @@
           "suggested_usd": 56100,
           "source": "caps",
           "heat": "ABOVE_CEILING",
-          "cap_basis": "conviction-driven size: base $56,101 x 1.00 (single-group read (1 group(s) < 2) -- not converging, no lift) = $56,101; T3 floor 1.5% ($28,944) / ceiling 3.0% ($57,888, soft reference); current 5.1% ($98,267); cap room $0 (context, not a limit); floor gap $0; flags no_thesis_row; available cash $6,900 -- suggested EXCEEDS available cash by $49,200 (size by hand to cash); funding available $157,400 ($6,900 cash + ~$150,500 from sells (sell-gate-ordered)) -- covered",
-          "current_pct": 5.093,
+          "cap_basis": "conviction-driven size: base $56,107 x 1.00 (single-group read (1 group(s) < 2) -- not converging, no lift) = $56,107; T3 floor 1.5% ($28,945) / ceiling 3.0% ($57,890, soft reference); current 5.1% ($98,267); cap room $0 (context, not a limit); floor gap $0; flags no_thesis_row; available cash $6,900 -- suggested EXCEEDS available cash by $49,200 (size by hand to cash); funding available $157,400 ($6,900 cash + ~$150,500 from sells (sell-gate-ordered)) -- covered",
+          "current_pct": 5.092,
           "floor_pct": 1.5,
           "ceiling_pct": 3.0,
           "size_lift_mult": 1.0,
@@ -29681,7 +29725,7 @@
             "ticker": "GOOGL",
             "direction": "BUY",
             "lane": "reallocation_add",
-            "band": "$56,101 (5.1% \u00e2\u2020\u2019 8.0%)"
+            "band": "$56,107 (5.1% \u00e2\u2020\u2019 8.0%)"
           },
           "conviction": {
             "read": "LOW",
@@ -29731,7 +29775,7 @@
             ]
           },
           "impact": {
-            "band": "\u00e2\u2030\u02c6 $56,101 (2.9% of book)",
+            "band": "\u00e2\u2030\u02c6 $56,107 (2.9% of book)",
             "base": "book",
             "material": true,
             "basis": "materiality floor 0.5% of book = $9,648"
@@ -30120,9 +30164,9 @@
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         },
         "size_to_goal": {
-          "line": "$56,101 tranche = 5.2% of goal gap; cap room $0 (heat ABOVE_CEILING); funding source IVES trim -> GOOGL $56,101, MSFT $12,286; concentration rail current 5.1% / floor 1.5% / ceiling 3.0%; account eligibility Parents Fidelity Joint WROS - TOD *****2063 eligible; flags tax_bucket:taxable, tax_status:taxable; leverage/margin: not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.",
+          "line": "$56,107 tranche = 5.2% of goal gap; cap room $0 (heat ABOVE_CEILING); funding source IVES trim -> GOOGL $56,107, MSFT $12,280; concentration rail current 5.1% / floor 1.5% / ceiling 3.0%; account eligibility Parents Fidelity Joint WROS - TOD *****2063 eligible; flags tax_bucket:taxable, tax_status:taxable; leverage/margin: not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.",
           "goal_gap_pct": 5.2,
-          "tranche_usd": 56101.42,
+          "tranche_usd": 56107.08,
           "honesty_rule": "Goal contribution is render-only and always shown with survival rails."
         }
       },
@@ -30130,8 +30174,8 @@
         "card_id": "IVES-TRIM-2026-06-19",
         "ticker": "IVES",
         "direction": "SELL",
-        "dollars": 68387.24,
-        "funds": "GOOGL $56,101, MSFT $12,286",
+        "dollars": 68387.5,
+        "funds": "GOOGL $56,107, MSFT $12,280",
         "conviction": {
           "ticker": "IVES",
           "points": 0.0,
@@ -30392,7 +30436,7 @@
         "execution": {
           "direction": "SELL",
           "ticker": "IVES",
-          "dollars": 68387.24,
+          "dollars": 68387.5,
           "legs": [
             {
               "owner": "Parents",
@@ -30451,7 +30495,7 @@
               "broker": "Fidelity",
               "account": "ROLLOVER IRA - RamBalusu *****6333",
               "held_value": 3803.0,
-              "sell_usd": 3802.51,
+              "sell_usd": 3802.77,
               "tax_flag": "tax-advantaged traditional",
               "tax_status": "traditional",
               "tax_type": "traditional_ira",
@@ -30469,7 +30513,7 @@
           "transfer_note": "$26,355 of these proceeds land inside PCRA and CANNOT buy individual stocks \u00e2\u20ac\u201d the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding."
         },
         "impact": {
-          "band": "\u00e2\u2030\u02c6 $68,387 (3.5% of book)",
+          "band": "\u00e2\u2030\u02c6 $68,388 (3.5% of book)",
           "base": "book",
           "material": true,
           "basis": "materiality floor 0.5% of book = $9,648"
@@ -30479,7 +30523,7 @@
             "ticker": "IVES",
             "direction": "SELL",
             "lane": "funding_trim",
-            "band": "$68,387 (3.5% \u00e2\u2020\u2019 0.0%)"
+            "band": "$68,388 (3.5% \u00e2\u2020\u2019 0.0%)"
           },
           "conviction": {
             "read": "LOW",
@@ -30513,7 +30557,7 @@
           "evidence": {
             "links": [
               {
-                "label": "funds \u00e2\u2020\u2019 GOOGL $56,101, MSFT $12,286",
+                "label": "funds \u00e2\u2020\u2019 GOOGL $56,107, MSFT $12,280",
                 "ref": "feed.reallocation_brief.trims"
               },
               {
@@ -30523,7 +30567,7 @@
             ]
           },
           "impact": {
-            "band": "\u00e2\u2030\u02c6 $68,387 (3.5% of book)",
+            "band": "\u00e2\u2030\u02c6 $68,388 (3.5% of book)",
             "base": "book",
             "material": true,
             "basis": "materiality floor 0.5% of book = $9,648"
@@ -30921,7 +30965,7 @@
         "card_id": "MSFT-ADD-2026-06-19",
         "ticker": "MSFT",
         "direction": "BUY",
-        "dollars": 61178.22,
+        "dollars": 61180.19,
         "sequence": "now",
         "entry_note": "size now (constructive/ok entry)",
         "rb_gate": "AMBER",
@@ -31155,7 +31199,7 @@
         "execution": {
           "direction": "BUY",
           "ticker": "MSFT",
-          "dollars": 61178.22,
+          "dollars": 61180.19,
           "suggested": {
             "owner": "Parents",
             "broker": "Fidelity",
@@ -31172,7 +31216,7 @@
               "tax_bucket:tax_advantaged",
               "tax_status:traditional"
             ],
-            "suggested_usd": 61178.22,
+            "suggested_usd": 61180.19,
             "why": "largest existing MSFT position (add-to-position)"
           },
           "eligible": [
@@ -31353,7 +31397,7 @@
           "cash": "not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing"
         },
         "impact": {
-          "band": "\u00e2\u2030\u02c6 $61,178 (3.2% of book)",
+          "band": "\u00e2\u2030\u02c6 $61,180 (3.2% of book)",
           "base": "book",
           "material": true,
           "basis": "materiality floor 0.5% of book = $9,648"
@@ -31362,8 +31406,8 @@
           "suggested_usd": 61200,
           "source": "caps",
           "heat": "IN_BAND",
-          "cap_basis": "conviction-driven size: base $61,178 x 1.00 (evidence direction NEUTRAL (not BUY) -- no buy-side lift) = $61,178; T3 floor 1.5% ($28,944) / ceiling 3.0% ($57,888, soft reference); current 1.8% ($35,303); cap room $22,600 (context, not a limit); floor gap $0; flags no_thesis_row; available cash $6,900 -- suggested EXCEEDS available cash by $54,300 (size by hand to cash); funding available $157,400 ($6,900 cash + ~$150,500 from sells (sell-gate-ordered)) -- covered",
-          "current_pct": 1.83,
+          "cap_basis": "conviction-driven size: base $61,180 x 1.00 (evidence direction NEUTRAL (not BUY) -- no buy-side lift) = $61,180; T3 floor 1.5% ($28,945) / ceiling 3.0% ($57,890, soft reference); current 1.8% ($35,303); cap room $22,600 (context, not a limit); floor gap $0; flags no_thesis_row; available cash $6,900 -- suggested EXCEEDS available cash by $54,300 (size by hand to cash); funding available $157,400 ($6,900 cash + ~$150,500 from sells (sell-gate-ordered)) -- covered",
+          "current_pct": 1.829,
           "floor_pct": 1.5,
           "ceiling_pct": 3.0,
           "size_lift_mult": 1.0,
@@ -31383,7 +31427,7 @@
             "ticker": "MSFT",
             "direction": "BUY",
             "lane": "reallocation_add",
-            "band": "$61,178 (1.8% \u00e2\u2020\u2019 5.0%)"
+            "band": "$61,180 (1.8% \u00e2\u2020\u2019 5.0%)"
           },
           "conviction": {
             "read": "LOW",
@@ -31433,7 +31477,7 @@
             ]
           },
           "impact": {
-            "band": "\u00e2\u2030\u02c6 $61,178 (3.2% of book)",
+            "band": "\u00e2\u2030\u02c6 $61,180 (3.2% of book)",
             "base": "book",
             "material": true,
             "basis": "materiality floor 0.5% of book = $9,648"
@@ -31793,9 +31837,9 @@
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         },
         "size_to_goal": {
-          "line": "$61,178 tranche = 5.7% of goal gap; cap room $22,600 (heat IN_BAND); funding source IVES trim -> GOOGL $56,101, MSFT $12,286; SMH trim -> MSFT $5,816; concentration rail current 1.8% / floor 1.5% / ceiling 3.0%; account eligibility Parents Fidelity ROLLOVER IRA - RamBalusu *****6333 eligible; flags tax_bucket:tax_advantaged, tax_status:traditional; leverage/margin: not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.",
+          "line": "$61,180 tranche = 5.7% of goal gap; cap room $22,600 (heat IN_BAND); funding source IVES trim -> GOOGL $56,107, MSFT $12,280; SMH trim -> MSFT $5,814; concentration rail current 1.8% / floor 1.5% / ceiling 3.0%; account eligibility Parents Fidelity ROLLOVER IRA - RamBalusu *****6333 eligible; flags tax_bucket:tax_advantaged, tax_status:traditional; leverage/margin: not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.",
           "goal_gap_pct": 5.7,
-          "tranche_usd": 61178.22,
+          "tranche_usd": 61180.19,
           "honesty_rule": "Goal contribution is render-only and always shown with survival rails."
         }
       },
@@ -31803,7 +31847,7 @@
         "card_id": "AMZN-ADD-2026-06-19",
         "ticker": "AMZN",
         "direction": "BUY",
-        "dollars": 33229.79,
+        "dollars": 33219.27,
         "sequence": "now",
         "entry_note": "size now (constructive/ok entry)",
         "rb_gate": "AMBER",
@@ -32037,7 +32081,7 @@
         "execution": {
           "direction": "BUY",
           "ticker": "AMZN",
-          "dollars": 33229.79,
+          "dollars": 33219.27,
           "suggested": {
             "owner": "SKB",
             "broker": "Robinhood",
@@ -32054,7 +32098,7 @@
               "tax_bucket:tax_advantaged",
               "tax_status:traditional"
             ],
-            "suggested_usd": 33229.79,
+            "suggested_usd": 33219.27,
             "why": "largest existing AMZN position (add-to-position)"
           },
           "eligible": [
@@ -32235,7 +32279,7 @@
           "cash": "not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing"
         },
         "impact": {
-          "band": "\u00e2\u2030\u02c6 $33,230 (1.7% of book)",
+          "band": "\u00e2\u2030\u02c6 $33,219 (1.7% of book)",
           "base": "book",
           "material": true,
           "basis": "materiality floor 0.5% of book = $9,648"
@@ -32244,7 +32288,7 @@
           "suggested_usd": 33200,
           "source": "caps",
           "heat": "BELOW_FLOOR",
-          "cap_basis": "conviction-driven size: base $33,230 x 1.00 (evidence direction NEUTRAL (not BUY) -- no buy-side lift) = $33,230; T3 floor 1.5% ($28,944) / ceiling 3.0% ($57,888, soft reference); current 1.1% ($21,750); cap room $36,100 (context, not a limit); floor gap $7,194; flags no_thesis_row; available cash $6,900 -- suggested EXCEEDS available cash by $26,300 (size by hand to cash); funding available $157,400 ($6,900 cash + ~$150,500 from sells (sell-gate-ordered)) -- covered",
+          "cap_basis": "conviction-driven size: base $33,219 x 1.00 (evidence direction NEUTRAL (not BUY) -- no buy-side lift) = $33,219; T3 floor 1.5% ($28,945) / ceiling 3.0% ($57,890, soft reference); current 1.1% ($21,750); cap room $36,100 (context, not a limit); floor gap $7,195; flags no_thesis_row; available cash $6,900 -- suggested EXCEEDS available cash by $26,300 (size by hand to cash); funding available $157,400 ($6,900 cash + ~$150,500 from sells (sell-gate-ordered)) -- covered",
           "current_pct": 1.127,
           "floor_pct": 1.5,
           "ceiling_pct": 3.0,
@@ -32265,7 +32309,7 @@
             "ticker": "AMZN",
             "direction": "BUY",
             "lane": "reallocation_add",
-            "band": "$33,230 (1.1% \u00e2\u2020\u2019 4.0%)"
+            "band": "$33,219 (1.1% \u00e2\u2020\u2019 4.0%)"
           },
           "conviction": {
             "read": "LOW",
@@ -32315,7 +32359,7 @@
             ]
           },
           "impact": {
-            "band": "\u00e2\u2030\u02c6 $33,230 (1.7% of book)",
+            "band": "\u00e2\u2030\u02c6 $33,219 (1.7% of book)",
             "base": "book",
             "material": true,
             "basis": "materiality floor 0.5% of book = $9,648"
@@ -32629,9 +32673,9 @@
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         },
         "size_to_goal": {
-          "line": "$33,230 tranche = 3.1% of goal gap; cap room $36,100 (heat BELOW_FLOOR); funding source cash/buying power not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing; concentration rail current 1.1% / floor 1.5% / ceiling 3.0%; account eligibility SKB Robinhood Robinhood Traditional Ira 1369 eligible; flags tax_bucket:tax_advantaged, tax_status:traditional; leverage/margin: not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.",
+          "line": "$33,219 tranche = 3.1% of goal gap; cap room $36,100 (heat BELOW_FLOOR); funding source cash/buying power not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing; concentration rail current 1.1% / floor 1.5% / ceiling 3.0%; account eligibility SKB Robinhood Robinhood Traditional Ira 1369 eligible; flags tax_bucket:tax_advantaged, tax_status:traditional; leverage/margin: not_checked \u00e2\u20ac\u201d cash balances are not in the positions cache; confirm buying power before placing; no margin expansion assumed.",
           "goal_gap_pct": 3.1,
-          "tranche_usd": 33229.79,
+          "tranche_usd": 33219.27,
           "honesty_rule": "Goal contribution is render-only and always shown with survival rails."
         }
       },
@@ -32639,8 +32683,8 @@
         "card_id": "SMH-TRIM-2026-06-19",
         "ticker": "SMH",
         "direction": "TRIM",
-        "dollars": 5815.84,
-        "funds": "MSFT $5,816",
+        "dollars": 5814.1,
+        "funds": "MSFT $5,814",
         "conviction": {
           "ticker": "SMH",
           "points": 0.286,
@@ -32891,14 +32935,14 @@
         "execution": {
           "direction": "SELL",
           "ticker": "SMH",
-          "dollars": 5815.84,
+          "dollars": 5814.1,
           "legs": [
             {
               "owner": "Parents",
               "broker": "Schwab",
               "account": "PCRA Trust ...651 PCRA Trust ...65\u00e2\u20ac\u00a6",
               "held_value": 49491.0,
-              "sell_usd": 5815.84,
+              "sell_usd": 5814.1,
               "tax_flag": "tax-advantaged retirement plan",
               "tax_status": "retirement_plan",
               "tax_type": "retirement_plan",
@@ -32915,12 +32959,12 @@
             }
           ],
           "unfilled_usd": 0.0,
-          "pcra_proceeds_usd": 5815.84,
+          "pcra_proceeds_usd": 5814.1,
           "transfer_dependency": true,
-          "transfer_note": "$5,816 of these proceeds land inside PCRA and CANNOT buy individual stocks \u00e2\u20ac\u201d the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding."
+          "transfer_note": "$5,814 of these proceeds land inside PCRA and CANNOT buy individual stocks \u00e2\u20ac\u201d the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding."
         },
         "impact": {
-          "band": "\u00e2\u2030\u02c6 $5,816 (0.3% of book)",
+          "band": "\u00e2\u2030\u02c6 $5,814 (0.3% of book)",
           "base": "book",
           "material": false,
           "basis": "materiality floor 0.5% of book = $9,648"
@@ -32930,7 +32974,7 @@
             "ticker": "SMH",
             "direction": "TRIM",
             "lane": "funding_trim",
-            "band": "$5,816 (5.3% \u00e2\u2020\u2019 5.0%)"
+            "band": "$5,814 (5.3% \u00e2\u2020\u2019 5.0%)"
           },
           "conviction": {
             "read": "LOW",
@@ -32963,7 +33007,7 @@
           "evidence": {
             "links": [
               {
-                "label": "funds \u00e2\u2020\u2019 MSFT $5,816",
+                "label": "funds \u00e2\u2020\u2019 MSFT $5,814",
                 "ref": "feed.reallocation_brief.trims"
               },
               {
@@ -32973,7 +33017,7 @@
             ]
           },
           "impact": {
-            "band": "\u00e2\u2030\u02c6 $5,816 (0.3% of book)",
+            "band": "\u00e2\u2030\u02c6 $5,814 (0.3% of book)",
             "base": "book",
             "material": false,
             "basis": "materiality floor 0.5% of book = $9,648"
@@ -33368,7 +33412,7 @@
         "card_id": "SOXX-TRIM-2026-06-19",
         "ticker": "SOXX",
         "direction": "SELL",
-        "dollars": 5754.09,
+        "dollars": 5754.28,
         "funds": "MSFT $5,754",
         "conviction": {
           "ticker": "SOXX",
@@ -33567,14 +33611,14 @@
         "execution": {
           "direction": "SELL",
           "ticker": "SOXX",
-          "dollars": 5754.09,
+          "dollars": 5754.28,
           "legs": [
             {
               "owner": "Parents",
               "broker": "Schwab",
               "account": "PCRA Trust ...651 PCRA Trust ...65\u00e2\u20ac\u00a6",
               "held_value": 5755.05,
-              "sell_usd": 5754.09,
+              "sell_usd": 5754.28,
               "tax_flag": "tax-advantaged retirement plan",
               "tax_status": "retirement_plan",
               "tax_type": "retirement_plan",
@@ -33591,7 +33635,7 @@
             }
           ],
           "unfilled_usd": 0.0,
-          "pcra_proceeds_usd": 5754.09,
+          "pcra_proceeds_usd": 5754.28,
           "transfer_dependency": true,
           "transfer_note": "$5,754 of these proceeds land inside PCRA and CANNOT buy individual stocks \u00e2\u20ac\u201d the funded buys need either an operator transfer out of PCRA (flag: operator action) or different funding."
         },
@@ -34020,7 +34064,7 @@
         "card_id": "MAGS-TRIM-2026-06-19",
         "ticker": "MAGS",
         "direction": "SELL",
-        "dollars": 391.71,
+        "dollars": 391.72,
         "funds": "MSFT $392",
         "conviction": {
           "ticker": "MAGS",
@@ -34282,14 +34326,14 @@
         "execution": {
           "direction": "SELL",
           "ticker": "MAGS",
-          "dollars": 391.71,
+          "dollars": 391.72,
           "legs": [
             {
               "owner": "SKB",
               "broker": "Fidelity",
               "account": "Health Savings Account *****7284",
               "held_value": 392.64,
-              "sell_usd": 391.71,
+              "sell_usd": 391.72,
               "tax_flag": "tax-advantaged HSA",
               "tax_status": "hsa",
               "tax_type": "hsa",
@@ -35536,13 +35580,13 @@
       "moves": {
         "GOOGL": {
           "action": "ADD_CANDIDATE",
-          "notional_usd": 56101.42,
-          "current_pct": 5.0926,
+          "notional_usd": 56107.08,
+          "current_pct": 5.0924,
           "target_pct": 8.0,
           "funded_by": [
             {
               "ticker": "IVES",
-              "notional_usd": 56101.42
+              "notional_usd": 56107.08
             }
           ],
           "rationale": "full-stack incl TPUs; capex-confirmed; constructive entry",
@@ -35564,29 +35608,29 @@
         },
         "MSFT": {
           "action": "ADD_CANDIDATE",
-          "notional_usd": 61178.22,
+          "notional_usd": 61180.19,
           "current_pct": 1.8295,
           "target_pct": 5.0,
           "funded_by": [
             {
               "ticker": "IVES",
-              "notional_usd": 12285.82
+              "notional_usd": 12280.42
             },
             {
               "ticker": "SMH",
-              "notional_usd": 5815.84
+              "notional_usd": 5814.1
             },
             {
               "ticker": "SOXX",
-              "notional_usd": 5754.09
+              "notional_usd": 5754.28
             },
             {
               "ticker": "MAGS",
-              "notional_usd": 391.71
+              "notional_usd": 391.72
             },
             {
               "ticker": "GRNY",
-              "notional_usd": 36930.76
+              "notional_usd": 36939.67
             }
           ],
           "rationale": "hyperscaler; cheap laggard",
@@ -35608,13 +35652,13 @@
         },
         "AMZN": {
           "action": "ADD_CANDIDATE",
-          "notional_usd": 33229.79,
-          "current_pct": 1.1272,
+          "notional_usd": 33219.27,
+          "current_pct": 1.1271,
           "target_pct": 4.0,
           "funded_by": [
             {
               "ticker": "GRNY",
-              "notional_usd": 33229.79
+              "notional_usd": 33219.27
             }
           ],
           "rationale": "AWS; mild pullback",
@@ -35622,7 +35666,7 @@
           "gate": "AMBER",
           "gate_reason": "funded rotation, but partly from broad reservoir(s) GRNY -> increases net AI factor; deliberate overweight, log it",
           "caveats": [
-            "partially funded: $33,230 of $55,434 gap",
+            "partially funded: $33,219 of $55,437 gap",
             "risk transformation, not a cut \u2014 same AI dollars, concentrated into the name"
           ],
           "blockers": [
@@ -35638,65 +35682,65 @@
       },
       "trims": {
         "GRNY": {
-          "notional_usd": 70160.55,
-          "current_pct": 6.636,
+          "notional_usd": 70158.94,
+          "current_pct": 6.6358,
           "target_pct": 3.0,
           "funds": [
             {
               "ticker": "MSFT",
-              "notional_usd": 36930.76
+              "notional_usd": 36939.67
             },
             {
               "ticker": "AMZN",
-              "notional_usd": 33229.79
+              "notional_usd": 33219.27
             }
           ]
         },
         "IVES": {
-          "notional_usd": 68387.24,
-          "current_pct": 3.5441,
+          "notional_usd": 68387.5,
+          "current_pct": 3.544,
           "target_pct": 0.0,
           "funds": [
             {
               "ticker": "GOOGL",
-              "notional_usd": 56101.42
+              "notional_usd": 56107.08
             },
             {
               "ticker": "MSFT",
-              "notional_usd": 12285.82
+              "notional_usd": 12280.42
             }
           ]
         },
         "SMH": {
-          "notional_usd": 5815.84,
-          "current_pct": 5.3014,
+          "notional_usd": 5814.1,
+          "current_pct": 5.3013,
           "target_pct": 5.0,
           "funds": [
             {
               "ticker": "MSFT",
-              "notional_usd": 5815.84
+              "notional_usd": 5814.1
             }
           ]
         },
         "SOXX": {
-          "notional_usd": 5754.09,
+          "notional_usd": 5754.28,
           "current_pct": 0.2982,
           "target_pct": 0.0,
           "funds": [
             {
               "ticker": "MSFT",
-              "notional_usd": 5754.09
+              "notional_usd": 5754.28
             }
           ]
         },
         "MAGS": {
-          "notional_usd": 391.71,
+          "notional_usd": 391.72,
           "current_pct": 0.0203,
           "target_pct": 0.0,
           "funds": [
             {
               "ticker": "MSFT",
-              "notional_usd": 391.71
+              "notional_usd": 391.72
             }
           ]
         }

@@ -30,43 +30,43 @@
       "existing_exposure_usd": 98267.0,
       "funded_by_model": [
         {
-          "notional_usd": 68387.24,
+          "notional_usd": 68387.5,
           "ticker": "IVES"
         },
         {
-          "notional_usd": 5815.84,
+          "notional_usd": 5814.1,
           "ticker": "SMH"
         },
         {
-          "notional_usd": 393.64,
+          "notional_usd": 393.65,
           "ticker": "MAGS"
         },
         {
-          "notional_usd": 70160.55,
+          "notional_usd": 70157.01,
           "ticker": "GRNY"
         }
       ],
       "funding_pool_context": [
         {
-          "candidate_trim_usd": 68387.24,
+          "candidate_trim_usd": 68387.5,
           "gate": "GREEN",
           "reason": "wrapper trimmed to fund same-factor singles",
           "ticker": "IVES"
         },
         {
-          "candidate_trim_usd": 70160.55,
+          "candidate_trim_usd": 70157.01,
           "gate": "GREEN",
           "reason": "reservoir drawn to fund the names above",
           "ticker": "GRNY"
         },
         {
-          "candidate_trim_usd": 393.64,
+          "candidate_trim_usd": 393.65,
           "gate": "",
           "reason": "wrapper trimmed to fund same-factor singles",
           "ticker": "MAGS"
         },
         {
-          "candidate_trim_usd": 5815.84,
+          "candidate_trim_usd": 5814.1,
           "gate": "",
           "reason": "wrapper trimmed to fund same-factor singles",
           "ticker": "SMH"
@@ -74,19 +74,19 @@
       ],
       "funding_source": [
         {
-          "notional_usd": 68387.24,
+          "notional_usd": 68387.5,
           "ticker": "IVES"
         },
         {
-          "notional_usd": 5815.84,
+          "notional_usd": 5814.1,
           "ticker": "SMH"
         },
         {
-          "notional_usd": 393.64,
+          "notional_usd": 393.65,
           "ticker": "MAGS"
         },
         {
-          "notional_usd": 70160.55,
+          "notional_usd": 70157.01,
           "ticker": "GRNY"
         }
       ],
@@ -95,14 +95,14 @@
         "high": 108500.0,
         "low": 50000.0
       },
-      "model_notional_usd": 144757.27,
+      "model_notional_usd": 144752.26,
       "model_reference_band": {
         "high": 155000.0,
         "low": 100000.0
       },
       "options_status": "review_only",
       "post_band_exposure_pct": {
-        "high": 13.13,
+        "high": 13.12,
         "low": 10.27
       },
       "status": "candidate_only",
@@ -139,25 +139,25 @@
       "funded_by_model": [],
       "funding_pool_context": [
         {
-          "candidate_trim_usd": 68387.24,
+          "candidate_trim_usd": 68387.5,
           "gate": "GREEN",
           "reason": "wrapper trimmed to fund same-factor singles",
           "ticker": "IVES"
         },
         {
-          "candidate_trim_usd": 70160.55,
+          "candidate_trim_usd": 70157.01,
           "gate": "GREEN",
           "reason": "reservoir drawn to fund the names above",
           "ticker": "GRNY"
         },
         {
-          "candidate_trim_usd": 393.64,
+          "candidate_trim_usd": 393.65,
           "gate": "",
           "reason": "wrapper trimmed to fund same-factor singles",
           "ticker": "MAGS"
         },
         {
-          "candidate_trim_usd": 5815.84,
+          "candidate_trim_usd": 5814.1,
           "gate": "",
           "reason": "wrapper trimmed to fund same-factor singles",
           "ticker": "SMH"
@@ -216,43 +216,43 @@
         "existing_exposure_usd": 98267.0,
         "funded_by_model": [
           {
-            "notional_usd": 68387.24,
+            "notional_usd": 68387.5,
             "ticker": "IVES"
           },
           {
-            "notional_usd": 5815.84,
+            "notional_usd": 5814.1,
             "ticker": "SMH"
           },
           {
-            "notional_usd": 393.64,
+            "notional_usd": 393.65,
             "ticker": "MAGS"
           },
           {
-            "notional_usd": 70160.55,
+            "notional_usd": 70157.01,
             "ticker": "GRNY"
           }
         ],
         "funding_pool_context": [
           {
-            "candidate_trim_usd": 68387.24,
+            "candidate_trim_usd": 68387.5,
             "gate": "GREEN",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "IVES"
           },
           {
-            "candidate_trim_usd": 70160.55,
+            "candidate_trim_usd": 70157.01,
             "gate": "GREEN",
             "reason": "reservoir drawn to fund the names above",
             "ticker": "GRNY"
           },
           {
-            "candidate_trim_usd": 393.64,
+            "candidate_trim_usd": 393.65,
             "gate": "",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "MAGS"
           },
           {
-            "candidate_trim_usd": 5815.84,
+            "candidate_trim_usd": 5814.1,
             "gate": "",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "SMH"
@@ -260,19 +260,19 @@
         ],
         "funding_source": [
           {
-            "notional_usd": 68387.24,
+            "notional_usd": 68387.5,
             "ticker": "IVES"
           },
           {
-            "notional_usd": 5815.84,
+            "notional_usd": 5814.1,
             "ticker": "SMH"
           },
           {
-            "notional_usd": 393.64,
+            "notional_usd": 393.65,
             "ticker": "MAGS"
           },
           {
-            "notional_usd": 70160.55,
+            "notional_usd": 70157.01,
             "ticker": "GRNY"
           }
         ],
@@ -281,14 +281,14 @@
           "high": 108500.0,
           "low": 50000.0
         },
-        "model_notional_usd": 144757.27,
+        "model_notional_usd": 144752.26,
         "model_reference_band": {
           "high": 155000.0,
           "low": 100000.0
         },
         "options_status": "review_only",
         "post_band_exposure_pct": {
-          "high": 13.13,
+          "high": 13.12,
           "low": 10.27
         },
         "status": "candidate_only",
@@ -325,25 +325,25 @@
         "funded_by_model": [],
         "funding_pool_context": [
           {
-            "candidate_trim_usd": 68387.24,
+            "candidate_trim_usd": 68387.5,
             "gate": "GREEN",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "IVES"
           },
           {
-            "candidate_trim_usd": 70160.55,
+            "candidate_trim_usd": 70157.01,
             "gate": "GREEN",
             "reason": "reservoir drawn to fund the names above",
             "ticker": "GRNY"
           },
           {
-            "candidate_trim_usd": 393.64,
+            "candidate_trim_usd": 393.65,
             "gate": "",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "MAGS"
           },
           {
-            "candidate_trim_usd": 5815.84,
+            "candidate_trim_usd": 5814.1,
             "gate": "",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "SMH"
@@ -372,7 +372,7 @@
     "funding_reality_check": {
       "by_trim": [
         {
-          "pcra_proceeds_usd": 70160.55,
+          "pcra_proceeds_usd": 70157.01,
           "ticker": "GRNY"
         },
         {
@@ -380,7 +380,7 @@
           "ticker": "IVES"
         },
         {
-          "pcra_proceeds_usd": 5815.84,
+          "pcra_proceeds_usd": 5814.1,
           "ticker": "SMH"
         },
         {
@@ -389,7 +389,7 @@
         }
       ],
       "note": "PCRA proceeds can fund ETF buys in-place; funding individual-stock adds with them requires an operator transfer (explicit operator action).",
-      "pcra_trapped_usd": 102331.18,
+      "pcra_trapped_usd": 102325.9,
       "stock_adds_present": true,
       "transfer_required_for_full_plan": true
     },
@@ -405,7 +405,7 @@
   },
   "deep_discount_research": [
     {
-      "checked_at": "2026-06-19T20:38:49.041236+00:00",
+      "checked_at": "2026-06-19T20:48:47.629057+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 3.64,
@@ -437,7 +437,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:16.029685+00:00",
+      "checked_at": "2026-06-19T20:49:14.618247+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 0.0,
@@ -469,7 +469,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:38:46.906074+00:00",
+      "checked_at": "2026-06-19T20:48:45.575819+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 0.0,
@@ -497,7 +497,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:16.706216+00:00",
+      "checked_at": "2026-06-19T20:49:15.367903+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 5.26,
@@ -525,7 +525,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:38:59.794471+00:00",
+      "checked_at": "2026-06-19T20:48:58.516098+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 0.0,
@@ -557,7 +557,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:43.172196+00:00",
+      "checked_at": "2026-06-19T20:49:42.075484+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 0.05,
@@ -589,7 +589,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:57.625092+00:00",
+      "checked_at": "2026-06-19T20:49:58.373358+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 1.92,
@@ -623,7 +623,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:20.912452+00:00",
+      "checked_at": "2026-06-19T20:49:19.729578+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 0.91,
@@ -651,7 +651,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:09.728109+00:00",
+      "checked_at": "2026-06-19T20:49:08.249204+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 0.2,
@@ -709,10 +709,10 @@
       "Use only the deliberately reviewed starter cap; keep the rest staged as tickets, not trades."
     ]
   },
-  "generated_at": "2026-06-19T20:40:09.944954+00:00",
+  "generated_at": "2026-06-19T20:50:10.528945+00:00",
   "higher_quality_pullbacks": [
     {
-      "checked_at": "2026-06-19T20:39:22.264187+00:00",
+      "checked_at": "2026-06-19T20:49:21.059850+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 1.83,
@@ -740,7 +740,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:06.774614+00:00",
+      "checked_at": "2026-06-19T20:49:05.538364+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 5.09,
@@ -774,7 +774,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:04.033705+00:00",
+      "checked_at": "2026-06-19T20:49:02.782368+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 0.39,
@@ -804,7 +804,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:38:47.642682+00:00",
+      "checked_at": "2026-06-19T20:48:46.261687+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 2.3,
@@ -836,7 +836,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:59.727877+00:00",
+      "checked_at": "2026-06-19T20:50:00.349603+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 0.35,
@@ -864,7 +864,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:38:43.449884+00:00",
+      "checked_at": "2026-06-19T20:48:41.955287+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 1.13,
@@ -892,7 +892,7 @@
       "trigger_date": ""
     },
     {
-      "checked_at": "2026-06-19T20:39:26.454525+00:00",
+      "checked_at": "2026-06-19T20:49:25.687964+00:00",
       "conviction": {},
       "currency": "USD",
       "current_exposure_pct": 13.49,
@@ -970,7 +970,7 @@
       "writeback": "not_needed_no_new_notion_write"
     },
     "positions": {
-      "book_value_usd": 1929608.0,
+      "book_value_usd": 1929670.0,
       "snapshot_date": "2026-06-19",
       "status": "has_data",
       "warnings": []
@@ -1010,7 +1010,7 @@
       "low": 25000
     }
   },
-  "total_book_value_usd": 1929608.0,
+  "total_book_value_usd": 1929670.0,
   "watchlist_discount_screen": {
     "not_checked": [
       "SOX",
@@ -1020,7 +1020,7 @@
     "row_count": 114,
     "rows": [
       {
-        "checked_at": "2026-06-19T20:39:27.916864+00:00",
+        "checked_at": "2026-06-19T20:49:27.059979+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.01,
@@ -1048,7 +1048,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:49.041236+00:00",
+        "checked_at": "2026-06-19T20:48:47.629057+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 3.64,
@@ -1080,7 +1080,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:23.682619+00:00",
+        "checked_at": "2026-06-19T20:49:22.398594+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.09,
@@ -1110,7 +1110,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:41.951571+00:00",
+        "checked_at": "2026-06-19T20:48:40.467184+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1138,7 +1138,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:00.441798+00:00",
+        "checked_at": "2026-06-19T20:48:59.198101+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.13,
@@ -1166,7 +1166,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:54.679960+00:00",
+        "checked_at": "2026-06-19T20:48:53.610750+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.08,
@@ -1194,7 +1194,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:57.009544+00:00",
+        "checked_at": "2026-06-19T20:49:57.335309+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.08,
@@ -1222,7 +1222,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:16.029685+00:00",
+        "checked_at": "2026-06-19T20:49:14.618247+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1254,7 +1254,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:46.906074+00:00",
+        "checked_at": "2026-06-19T20:48:45.575819+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1282,7 +1282,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:51.789263+00:00",
+        "checked_at": "2026-06-19T20:48:50.873122+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1310,7 +1310,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:16.706216+00:00",
+        "checked_at": "2026-06-19T20:49:15.367903+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 5.26,
@@ -1338,7 +1338,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:59.794471+00:00",
+        "checked_at": "2026-06-19T20:48:58.516098+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1370,7 +1370,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:49.258350+00:00",
+        "checked_at": "2026-06-19T20:49:48.938027+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.01,
@@ -1398,7 +1398,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:18.818005+00:00",
+        "checked_at": "2026-06-19T20:49:17.594191+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.12,
@@ -1426,7 +1426,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:10.414798+00:00",
+        "checked_at": "2026-06-19T20:49:08.939080+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.26,
@@ -1454,7 +1454,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:28.611682+00:00",
+        "checked_at": "2026-06-19T20:49:27.791192+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.8,
@@ -1482,7 +1482,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:43.172196+00:00",
+        "checked_at": "2026-06-19T20:49:42.075484+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.05,
@@ -1514,7 +1514,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:32.389728+00:00",
+        "checked_at": "2026-06-19T20:49:31.366056+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.22,
@@ -1542,7 +1542,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:57.625092+00:00",
+        "checked_at": "2026-06-19T20:49:58.373358+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.92,
@@ -1576,7 +1576,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:46.264288+00:00",
+        "checked_at": "2026-06-19T20:48:44.893973+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.28,
@@ -1604,7 +1604,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:20.912452+00:00",
+        "checked_at": "2026-06-19T20:49:19.729578+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.91,
@@ -1632,7 +1632,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:44.817418+00:00",
+        "checked_at": "2026-06-19T20:48:43.364364+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.08,
@@ -1660,7 +1660,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:34.256785+00:00",
+        "checked_at": "2026-06-19T20:49:33.452694+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.0,
@@ -1688,7 +1688,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:31.760124+00:00",
+        "checked_at": "2026-06-19T20:49:30.711255+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.17,
@@ -1716,7 +1716,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:49.868728+00:00",
+        "checked_at": "2026-06-19T20:49:49.560838+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.04,
@@ -1744,7 +1744,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:15.345445+00:00",
+        "checked_at": "2026-06-19T20:49:13.954948+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1772,7 +1772,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:06.063470+00:00",
+        "checked_at": "2026-06-19T20:49:04.818405+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1802,7 +1802,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:52.000878+00:00",
+        "checked_at": "2026-06-19T20:49:52.409794+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1834,7 +1834,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:50.404081+00:00",
+        "checked_at": "2026-06-19T20:48:49.465731+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1862,7 +1862,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:22.264187+00:00",
+        "checked_at": "2026-06-19T20:49:21.059850+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.83,
@@ -1890,7 +1890,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:22.997602+00:00",
+        "checked_at": "2026-06-19T20:49:21.737790+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -1918,7 +1918,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:40.873502+00:00",
+        "checked_at": "2026-06-19T20:49:39.581793+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.56,
@@ -1946,7 +1946,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:09.728109+00:00",
+        "checked_at": "2026-06-19T20:49:08.249204+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.2,
@@ -1978,7 +1978,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:04.701929+00:00",
+        "checked_at": "2026-06-19T20:49:03.430648+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.67,
@@ -2006,7 +2006,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:55.334779+00:00",
+        "checked_at": "2026-06-19T20:49:55.339331+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.13,
@@ -2034,7 +2034,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:00.747281+00:00",
+        "checked_at": "2026-06-19T20:50:01.364441+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.1,
@@ -2062,7 +2062,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:39.896521+00:00",
+        "checked_at": "2026-06-19T20:49:38.917622+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2094,7 +2094,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:04.033705+00:00",
+        "checked_at": "2026-06-19T20:49:02.782368+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.39,
@@ -2124,7 +2124,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:27.224030+00:00",
+        "checked_at": "2026-06-19T20:49:26.413415+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.13,
@@ -2152,7 +2152,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:19.495038+00:00",
+        "checked_at": "2026-06-19T20:49:18.349030+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.1,
@@ -2180,7 +2180,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:18.059910+00:00",
+        "checked_at": "2026-06-19T20:49:16.926531+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.22,
@@ -2208,7 +2208,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:51.080373+00:00",
+        "checked_at": "2026-06-19T20:48:50.154952+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.07,
@@ -2236,7 +2236,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:53.047888+00:00",
+        "checked_at": "2026-06-19T20:49:53.056143+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.04,
@@ -2264,7 +2264,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:09.273398+00:00",
+        "checked_at": "2026-06-19T20:50:09.880845+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2297,7 +2297,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:01.160413+00:00",
+        "checked_at": "2026-06-19T20:48:59.867076+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2327,7 +2327,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:39.266176+00:00",
+        "checked_at": "2026-06-19T20:49:38.207030+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2361,7 +2361,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:45.674838+00:00",
+        "checked_at": "2026-06-19T20:49:44.271363+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2393,7 +2393,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:47.642682+00:00",
+        "checked_at": "2026-06-19T20:48:46.261687+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 2.3,
@@ -2425,7 +2425,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:38.591858+00:00",
+        "checked_at": "2026-06-19T20:49:37.044600+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2455,7 +2455,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:04.519525+00:00",
+        "checked_at": "2026-06-19T20:50:05.068355+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2483,7 +2483,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:49.741812+00:00",
+        "checked_at": "2026-06-19T20:48:48.764890+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.13,
@@ -2511,7 +2511,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:48.607408+00:00",
+        "checked_at": "2026-06-19T20:49:47.937443+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.49,
@@ -2541,7 +2541,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:55.460287+00:00",
+        "checked_at": "2026-06-19T20:48:54.295436+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.3,
@@ -2569,7 +2569,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:56.913542+00:00",
+        "checked_at": "2026-06-19T20:48:55.697752+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.25,
@@ -2597,7 +2597,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:58.295870+00:00",
+        "checked_at": "2026-06-19T20:48:57.081928+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2629,7 +2629,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:59.727877+00:00",
+        "checked_at": "2026-06-19T20:50:00.349603+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.35,
@@ -2657,7 +2657,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:43.449884+00:00",
+        "checked_at": "2026-06-19T20:48:41.955287+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.13,
@@ -2685,7 +2685,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:30.379502+00:00",
+        "checked_at": "2026-06-19T20:49:29.221612+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.71,
@@ -2713,7 +2713,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:47.997720+00:00",
+        "checked_at": "2026-06-19T20:49:46.943588+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2743,7 +2743,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:54.037588+00:00",
+        "checked_at": "2026-06-19T20:48:52.964122+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2774,7 +2774,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:32.992069+00:00",
+        "checked_at": "2026-06-19T20:49:32.005220+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.44,
@@ -2804,7 +2804,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:26.454525+00:00",
+        "checked_at": "2026-06-19T20:49:25.687964+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 13.49,
@@ -2832,7 +2832,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:17.379406+00:00",
+        "checked_at": "2026-06-19T20:49:16.176981+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.09,
@@ -2860,7 +2860,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:52.431926+00:00",
+        "checked_at": "2026-06-19T20:48:51.547000+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.22,
@@ -2888,7 +2888,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:25.740150+00:00",
+        "checked_at": "2026-06-19T20:49:24.916968+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.04,
@@ -2916,7 +2916,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:06.774614+00:00",
+        "checked_at": "2026-06-19T20:49:05.538364+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 5.09,
@@ -2950,7 +2950,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:53.294784+00:00",
+        "checked_at": "2026-06-19T20:48:52.210867+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -2982,7 +2982,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:02.416807+00:00",
+        "checked_at": "2026-06-19T20:50:03.009748+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3012,7 +3012,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:13.218484+00:00",
+        "checked_at": "2026-06-19T20:49:11.828109+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 3.54,
@@ -3040,7 +3040,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:11.073901+00:00",
+        "checked_at": "2026-06-19T20:49:09.729400+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.41,
@@ -3070,7 +3070,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:31.053114+00:00",
+        "checked_at": "2026-06-19T20:49:30.027796+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3102,7 +3102,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:20.176873+00:00",
+        "checked_at": "2026-06-19T20:49:18.994315+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.02,
@@ -3130,7 +3130,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:08.198144+00:00",
+        "checked_at": "2026-06-19T20:50:08.851100+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.14,
@@ -3160,7 +3160,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:59.063662+00:00",
+        "checked_at": "2026-06-19T20:48:57.801489+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.63,
@@ -3188,7 +3188,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:05.384331+00:00",
+        "checked_at": "2026-06-19T20:49:04.122610+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.11,
@@ -3216,7 +3216,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:50.860559+00:00",
+        "checked_at": "2026-06-19T20:49:50.587129+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3248,7 +3248,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:21.599221+00:00",
+        "checked_at": "2026-06-19T20:49:20.398363+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.1,
@@ -3276,7 +3276,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:44.142222+00:00",
+        "checked_at": "2026-06-19T20:48:42.676086+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.41,
@@ -3306,7 +3306,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:35.250111+00:00",
+        "checked_at": "2026-06-19T20:49:34.126517+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3336,7 +3336,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:37.940326+00:00",
+        "checked_at": "2026-06-19T20:49:36.220639+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3366,7 +3366,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:05.189316+00:00",
+        "checked_at": "2026-06-19T20:50:05.722425+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 4.81,
@@ -3396,7 +3396,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:03.308266+00:00",
+        "checked_at": "2026-06-19T20:49:02.034653+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.41,
@@ -3426,7 +3426,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:29.762834+00:00",
+        "checked_at": "2026-06-19T20:49:28.503570+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.3,
@@ -3454,7 +3454,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:42.550080+00:00",
+        "checked_at": "2026-06-19T20:49:41.457513+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.27,
@@ -3482,7 +3482,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:12.547687+00:00",
+        "checked_at": "2026-06-19T20:49:11.089866+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.25,
@@ -3510,7 +3510,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:25.068356+00:00",
+        "checked_at": "2026-06-19T20:49:24.264777+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.35,
@@ -3538,7 +3538,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:07.197042+00:00",
+        "checked_at": "2026-06-19T20:50:07.843014+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.67,
@@ -3566,7 +3566,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:14.634080+00:00",
+        "checked_at": "2026-06-19T20:49:13.218517+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.3,
@@ -3594,7 +3594,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:42.746767+00:00",
+        "checked_at": "2026-06-19T20:48:41.249516+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.5,
@@ -3624,7 +3624,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:57.599427+00:00",
+        "checked_at": "2026-06-19T20:48:56.384081+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3655,7 +3655,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:11.803921+00:00",
+        "checked_at": "2026-06-19T20:49:10.398971+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.27,
@@ -3683,7 +3683,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:07.510875+00:00",
+        "checked_at": "2026-06-19T20:49:06.257851+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 8.4,
@@ -3711,7 +3711,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:08.890625+00:00",
+        "checked_at": "2026-06-19T20:49:07.572630+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.68,
@@ -3741,7 +3741,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:36.916827+00:00",
+        "checked_at": "2026-06-19T20:49:35.505750+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3772,7 +3772,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:01.768303+00:00",
+        "checked_at": "2026-06-19T20:50:01.999447+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3802,7 +3802,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:46.964060+00:00",
+        "checked_at": "2026-06-19T20:49:45.853835+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3835,7 +3835,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:58.638703+00:00",
+        "checked_at": "2026-06-19T20:49:59.364931+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 4.2,
@@ -3863,7 +3863,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:24.341743+00:00",
+        "checked_at": "2026-06-19T20:49:23.051156+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 3.82,
@@ -3891,7 +3891,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:03.454912+00:00",
+        "checked_at": "2026-06-19T20:50:04.025262+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -3921,7 +3921,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:08.191725+00:00",
+        "checked_at": "2026-06-19T20:49:06.906885+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 6.77,
@@ -3949,7 +3949,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:56.167031+00:00",
+        "checked_at": "2026-06-19T20:48:55.003461+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.18,
@@ -3979,7 +3979,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:40:05.946573+00:00",
+        "checked_at": "2026-06-19T20:50:06.750552+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.66,
@@ -4009,7 +4009,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:33.608335+00:00",
+        "checked_at": "2026-06-19T20:49:32.711603+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -4042,7 +4042,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:13.905985+00:00",
+        "checked_at": "2026-06-19T20:49:12.521894+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -4072,7 +4072,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:01.921756+00:00",
+        "checked_at": "2026-06-19T20:49:00.609007+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -4102,7 +4102,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:44.652155+00:00",
+        "checked_at": "2026-06-19T20:49:43.555494+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.3,
@@ -4130,7 +4130,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:36.274991+00:00",
+        "checked_at": "2026-06-19T20:49:34.819710+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.64,
@@ -4158,7 +4158,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:45.492482+00:00",
+        "checked_at": "2026-06-19T20:48:44.060343+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.47,
@@ -4186,7 +4186,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:53.682003+00:00",
+        "checked_at": "2026-06-19T20:49:53.682053+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.38,
@@ -4214,7 +4214,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:54.687138+00:00",
+        "checked_at": "2026-06-19T20:49:54.692604+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -4244,7 +4244,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:41.529108+00:00",
+        "checked_at": "2026-06-19T20:49:40.339252+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 5.3,
@@ -4275,7 +4275,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:55.935413+00:00",
+        "checked_at": "2026-06-19T20:49:56.326226+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -4305,7 +4305,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:39:02.640900+00:00",
+        "checked_at": "2026-06-19T20:49:01.335060+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.06,
@@ -4333,7 +4333,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-19T20:38:48.332256+00:00",
+        "checked_at": "2026-06-19T20:48:46.979421+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.14,
