@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T13:35:07.728724Z",
-      "summary": "repo synthesis refreshed; signal log 21 rows; source call pending 0; research queue 3 pending; Notion page written+verified; decisions/trade outcomes/pilots row-level unverified"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-09T13:40:52.934262Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "success",
       "run_source": "scheduled",
@@ -6060,7 +6046,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T02:55:34.997396Z",
       "summary": "checked Chrome web 12 surfaces/pages incl Macro/Crypto FlashInsights, article/video listings, Jun18 DTS detail+Vimeo transcript; videos checked 1; vault entries written 1; Gmail checked 0; landed 5 compact rows JETS DAL XHB QQQ SMH; suppressed old/stale/discovery-only listings incl Crypto Flash stale Jun8, crypto research Jun17, Macro Minute Jun17, webinars/replays; validations public-index+email-intake passed; dashboard refreshed; dark lanes Social Watch; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T05:46:48.598860Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-19T05:53:37.907506Z",
+      "summary": "off-hours worker advanced 6 live Research Queue pages: High Working BMNR/GOOGL updated; Low Done PWR/GS/ELF/DE vetted; Notion writes/readbacks verified 6/6; query counts dark due notion-query-data-sources unavailable; dark lanes mNAV/ETH-share/ATM dilution/current valuation/flow remain not_checked"
     }
   ],
-  "updated_at": "2026-06-19T02:55:34.997396Z"
+  "updated_at": "2026-06-19T05:53:37.907506Z"
 }
