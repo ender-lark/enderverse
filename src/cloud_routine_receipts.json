@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T13:48:55.780174Z",
-      "summary": "checked 2 web pages, Gmail 2; landed 0 rows; suppressed 2 low-value/context notes; validation passed; alerts sent 2 from existing fresh rows; macro/crypto flash stale (latest June 11/June 8); blockers none"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T14:01:21.360099Z",
-      "summary": "uw opportunity cache started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6512,7 +6498,92 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-20T05:50:18.987895Z",
       "summary": "query blocked by Notion AI plan; live search/fetch used; processed Low AMD/ANET/CRS with Notion writes/readbacks verified 3/3; High BMNR/GOOGL/PowerPolicy already Working, MU/system and operator-review remain blocked; fallback mirror stale; backlog counts dark/not_checked"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T08:46:37.300465Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T08:55:19.131176Z",
+      "summary": "processed 3 Findings updates; live counts H2q/H7w M3q/M24w L8q/L12w; verified writes 3/3; remaining queued 13; blockers operator/code/system/doctrine",
+      "details": {
+        "queue_read": {
+          "live_source": "notion_rest_data_sources_query",
+          "data_source": "collection://cab89576-0933-40b0-ad2e-6f9a6188e804",
+          "mcp_query_data_sources": "blocked: Notion AI Enterprise plan required",
+          "fallback_mirror": "src/research_queue.json generated_at 2026-06-19T15:25:50Z; not used for counts"
+        },
+        "counts_after_0145_worker": {
+          "active_total": 56,
+          "queued_total": 13,
+          "working_total": 43,
+          "high": {
+            "queued": 2,
+            "working": 7
+          },
+          "med": {
+            "queued": 3,
+            "working": 24
+          },
+          "low": {
+            "queued": 8,
+            "working": 12
+          }
+        },
+        "processed": [
+          {
+            "topic": "AI Labor Disruption / End of the Exponential",
+            "priority": "Med",
+            "page_id": "374c50314bb681488b61d33e92c5732a",
+            "write_status": "Findings updated; fetchback verified; Status left Queued",
+            "decision_effect": "mixed; keep research/watch until beneficiary deep dive vs trigger-watch choice"
+          },
+          {
+            "topic": "CRCL (Circle) stablecoin asymmetric",
+            "priority": "Low",
+            "page_id": "36ec50314bb68184b7afed105c0221e3",
+            "write_status": "Findings updated; fetchback verified; Status left Queued",
+            "decision_effect": "contradicts promotion; prior close-below-90 bear trigger hit on latest available quote"
+          },
+          {
+            "topic": "SILVER / PAAS / SIL",
+            "priority": "Low",
+            "page_id": "36ec50314bb68179b654dc08583f0aca",
+            "write_status": "Findings updated; fetchback verified; Status left Queued",
+            "decision_effect": "mixed/supportive candidate-review only; PAAS near old zone but metals exposure and deficit estimate risk remain"
+          }
+        ],
+        "remaining_backlog": {
+          "queued_remaining": 13,
+          "note": "processed rows remain queued by design because none reached Done/Killed proof",
+          "high_blockers": [
+            "Full-book rebalance requires operator review",
+            "MU parabolic trigger is code/system follow-up; no framework changes allowed by routine"
+          ],
+          "med_blockers": [
+            "v0 threshold row already updated 2026-06-19 and blocked on scheduled pilot proof/operator threshold decision",
+            "staging doctrine row already updated 2026-06-18 and needs doctrine/outcome review"
+          ]
+        },
+        "write_verification": "Notion connector writes and fetchback verified 3/3; no status changes",
+        "dark_stale_lanes": [
+          "MCP notion_query_data_sources blocked by Notion AI plan; REST read succeeded",
+          "fallback src/research_queue.json stale mirror only",
+          "current options chains not checked",
+          "current account exposure/funding/buying-power/leverage not_checked",
+          "MU quote velocity/parabolic live wiring not_checked",
+          "Weekly Pilot scheduled success/pilot calibration artifacts not_checked"
+        ],
+        "temporary_cap": "none; processed top safe Med plus two oldest/highest-impact reachable Low items before closeout"
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-20T05:50:18.987895Z"
+  "updated_at": "2026-06-20T08:55:19.131176Z"
 }
