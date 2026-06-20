@@ -406,6 +406,37 @@ def test_wsb_high_engagement_becomes_crowding_prompt_not_buy_prompt():
     assert cache["research_queue_candidates"] == []
 
 
+def test_trump_trade_watch_reddit_group_tracks_unusual_whales_as_secondary_scout():
+    config = source_group_config("trump_trade_watch")
+    payload = [
+        {
+            "subreddit": "unusual_whales",
+            "title": "Trump disclosed buying $DELL before the contract headline",
+            "snippet": "Discussion points back to a filing and needs verification.",
+            "visible_time": "1 hr. ago",
+            "score": 420,
+            "comments": 88,
+        }
+    ]
+
+    cache = build_cache(
+        [payload],
+        subreddits=config["subreddits"],
+        source_group="trump_trade_watch",
+        generated_at=datetime(2026, 6, 20, 9, 30, tzinfo=ZoneInfo("America/New_York")),
+    )
+    row = cache["rows"][0]
+
+    assert "unusual_whales" in config["subreddits"]
+    assert source_group_role("trump_trade_watch") == "specialized_research"
+    assert row["tickers"] == ["DELL"]
+    assert row["source_group"] == "trump_trade_watch"
+    assert row["escalation"] == "Quiet Watch"
+    assert "UW/OGE disclosure verification" in row["portfolio_implication"]
+    assert "political_trade_watch.py --fetch-live" in row["suggested_next_check"]
+    assert cache["research_queue_candidates"] == []
+
+
 def test_weekly_pattern_report_surfaces_louder_fading_cross_subreddit_and_noise():
     early = build_cache(
         [[

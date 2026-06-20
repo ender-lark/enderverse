@@ -47,6 +47,7 @@ from uw_endpoint_result_proof import build_uw_endpoint_result_proof, load_uw_end
 from reallocation_brief import build_reallocation_brief
 from account_trade_placement import annotate_actions, annotate_reallocation_brief
 from social_watch import build_social_watch
+from political_trade_watch import build_political_trade_watch_block
 from market_open_packet import build_market_open_packet
 from alert_policy import build_alert_policy
 import cloud_routine_receipts
@@ -70,6 +71,7 @@ DEFAULT_FILES = {
     "heartbeat": ("heartbeat.json",),
     "signal_log": ("signal_log.json", "morning_signal_log.json"),
     "social_watch": ("social_watch.json", "reddit_watch.json", "reddit_signals.json"),
+    "political_trade_watch": ("political_trade_watch.json", "trump_trade_watch.json"),
     "event_risk": ("event_risks.json", "event_risk.json"),
     "synthesis": ("daily_synthesis.json", "synthesis.json"),
     "research": ("research_queue.json", "research.json"),
@@ -815,6 +817,7 @@ def build_full_feed_from_files(
     heartbeat = _load_optional(src, "heartbeat")
     signal_log = _load_optional(src, "signal_log")
     social_watch_cache = _load_optional(src, "social_watch")
+    political_trade_watch_cache = _load_optional(src, "political_trade_watch")
     event_risk = _load_optional(src, "event_risk")
     synthesis = _load_optional(src, "synthesis")
     research = _load_optional(src, "research")
@@ -831,6 +834,7 @@ def build_full_feed_from_files(
         social_watch_cache,
         material_tickers=material_tickers_from_state(positions_cache, theses),
     )
+    political_trade_watch = build_political_trade_watch_block(political_trade_watch_cache)
 
     catalysts = None
     if catalyst_rows is not None:
@@ -866,6 +870,9 @@ def build_full_feed_from_files(
         heartbeat=heartbeat,
         signal_log=signal_log,
         social_watch=(social_watch.get("rows") or []) if social_watch_cache is not None else None,
+        political_trade_watch=(
+            political_trade_watch if political_trade_watch_cache is not None else None
+        ),
         event_risk=event_risk,
         synthesis=synthesis,
         research=research,
@@ -891,6 +898,7 @@ def build_full_feed_from_files(
     feed["research_actions"] = annotate_actions(feed.get("research_actions") or [], account_positions)
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
     feed["social_watch"] = social_watch
+    feed["political_trade_watch"] = political_trade_watch
     feed["operator_hardening"] = build_operator_hardening(feed)
     portfolio_views = build_portfolio_views(account_positions, fundstrat_bible=fs_bible)
     if portfolio_views:

@@ -320,6 +320,18 @@
       "action_surface": "Watch-only early-signal context; can route to Research Queue or Re-check only after independent non-social confirmation."
     },
     {
+      "id": "political_trade_watch",
+      "source_of_truth": "unusual_whales_political_disclosures_or_supplied_oge_rows",
+      "repo_artifact": "src/political_trade_watch.json",
+      "producer": "trump_trade_watch routine -> political_trade_watch.py normalizer",
+      "feed_path": "full_build_runner.DEFAULT_FILES.political_trade_watch -> feed.political_trade_watch watch-only lane",
+      "dashboard_surface": "Trump Trade Watch lane under Action view and summary export",
+      "mirror_policy": "GitHub stores normalized political disclosure rows, filing links, value ranges, lag days, and research-queue candidates; raw connector/API payloads stay in temporary routine inputs.",
+      "freshness_contract": "Use the Unusual Whales congress trader endpoint or supplied OGE/UW rows; every row must retain filing/date evidence and the disclosure-lag caveat.",
+      "not_checked_behavior": "Missing or failed disclosure fetch is not checked, not no Trump trades.",
+      "action_surface": "Watch-only research prompt; never directly promotes buy, sell, sizing, or execution without independent current market evidence and pre-trade gate review."
+    },
+    {
       "id": "event_risk",
       "source_of_truth": "supplied_daily_or_weekly_event_scan",
       "repo_artifact": "src/event_risks.json",

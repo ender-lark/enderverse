@@ -85,6 +85,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-08T00:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-trump-trade-watch",
+        "automation_name": "Investing OS Trump Trade Watch",
+        "role": "trump_trade_watch",
+        "schedule": "market weekdays 8:12 AM-6:12 PM ET, every two hours",
+        "days": [0, 1, 2, 3, 4],
+        "hour": 8,
+        "minute": 12,
+        "expected_since": "2026-06-22T08:12:00-04:00",
+    },
+    {
         "automation_id": "investing-os-daily-synthesis",
         "automation_name": "Investing OS Daily Synthesis",
         "role": "daily_synthesis",

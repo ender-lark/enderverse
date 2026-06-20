@@ -220,6 +220,44 @@
       "no_input_behavior": "Do not mark UW lanes checked clear; report missing UW input as not checked and skipped or failed tickers explicitly."
     },
     {
+      "id": "trump_trade_watch",
+      "title": "Trump Trade Watch",
+      "status": "active_safe_intake",
+      "cadence": "twice_daily_or_on_new_UW_disclosure",
+      "doc": "src/codex_routines/trump_trade_watch.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Unusual Whales political-disclosure connector rows for Donald J Trump",
+        "UW REST political-disclosure rows when UW_API_KEY is available",
+        "Saved UW congress-trade JSON exports",
+        "Optional secondary Reddit scout snapshots from trump_trade_watch source group; never primary evidence"
+      ],
+      "owns": [
+        "src/political_trade_watch.json"
+      ],
+      "commands": [
+        {
+          "id": "stdin_connector_rows",
+          "command": "python src/political_trade_watch.py --stdin-json --out src/political_trade_watch.json --format text"
+        },
+        {
+          "id": "live_uw_rest_refresh",
+          "command": "python src/political_trade_watch.py --fetch-live --out src/political_trade_watch.json --format text"
+        },
+        {
+          "id": "validate_political_trade_watch",
+          "command": "python src/political_trade_watch.py --cache src/political_trade_watch.json --format text"
+        },
+        {
+          "id": "secondary_reddit_scout_snapshot",
+          "command": "python src/reddit_collector.py --source-group trump_trade_watch --input <manual-snapshot.json> --out tmp/trump_trade_social_watch.json --report-out tmp/trump_trade_reddit_scout.md --format text",
+          "fallback_for": "operator-supplied Chrome-visible Reddit snapshots only; primary trade capture is UW political disclosures"
+        }
+      ],
+      "verification": "python -m pytest src/test_political_trade_watch.py src/test_reddit_collector.py src/test_full_build_runner.py -q",
+      "no_input_behavior": "Write or preserve political_trade_watch as not_checked; missing Trump disclosure pulls are not checked and must not be treated as no Trump trades."
+    },
+    {
       "id": "daily_synthesis_intake",
       "title": "Daily Synthesis Intake",
       "status": "active_safe_intake",
@@ -454,6 +492,13 @@
           "required": false,
           "source": "social_watch_intake Reddit collector or supplied normalized social cache",
           "missing_behavior": "Social Watch is not checked; missing Reddit/social fetch is not no social anomalies."
+        },
+        {
+          "key": "political_trade_watch",
+          "paths": ["src/political_trade_watch.json", "src/trump_trade_watch.json"],
+          "required": false,
+          "source": "trump_trade_watch UW political-disclosure intake",
+          "missing_behavior": "Trump Trade Watch is not checked; missing political-disclosure pulls are not no Trump trades."
         },
         {
           "key": "event_risk",

@@ -731,6 +731,7 @@ def _quick_nav(feed: dict) -> str:
   <a class="quick-link" href="#lane-status"><strong>{_e(lane_label)}</strong> source lanes</a>
   <a class="quick-link" href="#feedback-loops"><strong>{_e(source_label)}</strong> source calls</a>
   <a class="quick-link" href="#source-audits"><strong>audit</strong> proof</a>
+  <a class="quick-link" href="#political-trade-watch"><strong>{_e(((feed.get("political_trade_watch") or {}).get("counts") or {}).get("rows") or 0)}</strong> Trump watch</a>
   <a class="quick-link" href="#social-watch"><strong>{_e((feed.get("social_watch") or {}).get("count") or 0)}</strong> social dark</a>
 </div>"""
 
@@ -746,6 +747,12 @@ def _lane_intake_commands(key: str) -> list[tuple[str, str]]:
         return [
             ("cache", "write normalized cache to src/social_watch.json"),
             ("preview", "python src/social_watch.py --cache src/social_watch.json --format text"),
+            ("refresh", "python src/live_dashboard_refresh.py"),
+        ]
+    if key == "political_trade_watch":
+        return [
+            ("cache", "write normalized cache to src/political_trade_watch.json"),
+            ("preview", "python src/political_trade_watch.py --cache src/political_trade_watch.json --format text"),
             ("refresh", "python src/live_dashboard_refresh.py"),
         ]
     return [
@@ -1858,6 +1865,45 @@ def _social_watch(block: dict) -> str:
 </div>"""
 
 
+def _political_trade_watch(block: dict) -> str:
+    if not block:
+        return ""
+    rows = block.get("rows") or []
+    status = block.get("status") or "not_checked"
+    status_cls = "t-conf" if status == "has_data" else "t-warn" if status == "not_checked" else "t-cat"
+    body = ""
+    if rows:
+        for row in rows[:8]:
+            label = row.get("ticker") or row.get("issuer") or "DISCLOSURE"
+            evidence = "; ".join(row.get("evidence") or [])
+            amount = row.get("amounts") or ""
+            lag = row.get("lag_days")
+            lag_text = f"{lag}d lag" if lag is not None else "lag unknown"
+            body += f"""
+<div class="small-item">
+  <span class="context-ticker">{_e(label)}</span>
+  <span class="tag {status_cls}">{_e(row.get("transaction_type") or "disclosed")}</span>
+  <span class="tag t-cat">{_e(row.get("escalation") or "Quiet Watch")}</span>
+  <span class="small-muted">{_e(amount)} txn {_e(row.get("transaction_date") or "unknown")} filed {_e(row.get("filed_at_date") or "unknown")} ({_e(lag_text)})</span>
+  <span class="small-muted">{_e(row.get("summary") or "")}</span>
+  {f'<span class="small-muted">Evidence: {_e(evidence)}</span>' if evidence else ""}
+  <span class="small-muted">Blocker: {_e(row.get("blocker_before_action") or "")}</span>
+</div>"""
+    else:
+        body = f'<div class="feedback-line">{_e(block.get("line") or "Trump trade watch not checked.")}</div>'
+    return f"""
+<div class="card" id="political-trade-watch">
+  <div class="card-title"><span class="icon">T</span> Trump Trade Watch
+    <span class="tag {status_cls}" style="margin-left:auto">{_e(status.replace("_", " "))}</span>
+  </div>
+  {f'<div class="feedback-line">{_e(block.get("line") or "")}</div>' if rows and block.get("line") else ""}
+  <div class="small-list">{body}</div>
+  {f'<div class="feedback-line">{_e(block.get("honesty_rule") or "")}</div>' if block.get("honesty_rule") else ""}
+  {f'<div class="feedback-line">{_e(block.get("promotion_rule") or "")}</div>' if block.get("promotion_rule") else ""}
+  {f'<div class="cmd-row"><span class="cmd-name">print Trump watch</span><span class="cmd-desc"><code>{_e(block.get("command") or "")}</code></span></div>' if block.get("command") else ""}
+</div>"""
+
+
 def _usd(value) -> str:
     try:
         return f"${float(value):,.0f}"
@@ -2962,6 +3008,7 @@ def generate_html(feed: dict) -> str:
     market_open_packet_html = _market_open_packet(feed.get("market_open_packet") or {})
     alert_policy_html = _alert_policy(feed.get("alert_policy") or {})
     asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
+    political_trade_watch_html = _political_trade_watch(feed.get("political_trade_watch") or {})
     social_watch_html = _social_watch(feed.get("social_watch") or {})
     uw_action_runbook_html = _uw_action_runbook(feed.get("uw_action_runbook") or {})
     reallocation_brief_html = _reallocation_brief(feed.get("reallocation_brief") or {})
@@ -3060,6 +3107,7 @@ def generate_html(feed: dict) -> str:
     {res_html}
     {lean_html}
     {portfolio_views_html}
+    {political_trade_watch_html}
     {social_watch_html}
   </div>
 

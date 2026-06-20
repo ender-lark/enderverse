@@ -154,6 +154,18 @@ RETAIL_RISK_WSB_TICKERS = {
     "SPY",
     "TSLA",
 }
+TRUMP_TRADE_TICKERS = {
+    "AROC",
+    "AVGO",
+    "DELL",
+    "ETN",
+    "KFY",
+    "LUNR",
+    "MLKN",
+    "NFLX",
+    "RUN",
+    "SM",
+}
 NAME_TO_TICKER = {
     "alphabet": "GOOGL",
     "amazon": "AMZN",
@@ -198,6 +210,15 @@ REDDIT_SOURCE_GROUPS = {
         "role": SOURCE_ROLE_RETAIL_CROWDING,
         "subreddits": ["wallstreetbets"],
         "tickers": sorted(RETAIL_RISK_WSB_TICKERS),
+    },
+    "trump_trade_watch": {
+        "description": (
+            "Secondary Reddit scout for Trump/political-trade discussion. Primary trade capture "
+            "must come from UW political disclosures, not Reddit."
+        ),
+        "role": SOURCE_ROLE_SPECIALIZED_RESEARCH,
+        "subreddits": ["unusual_whales", "stocks", "StockMarket", "investing"],
+        "tickers": sorted(DEFAULT_TICKERS | TRUMP_TRADE_TICKERS),
     },
 }
 
@@ -723,6 +744,19 @@ def _review_prompt_fields(
         next_check = (
             "Check price-volume, UW options flow, reliable news, and whether the setup is already late "
             "before using it for risk posture or research priority."
+        )
+    elif source_group == "trump_trade_watch":
+        why = (
+            "Trump/political-trade Reddit scout item that may point to a disclosure, policy-linked ticker, "
+            "or headline echo that needs primary-source verification."
+        )
+        implication = (
+            "Quiet Watch or Research Queue only after UW/OGE disclosure verification. Useful for catching "
+            "ticker discussion around executive trades, not for copy-trading."
+        )
+        next_check = (
+            "Verify with python src/political_trade_watch.py --fetch-live, read the linked filing, then "
+            "check price/news/UW flow and portfolio exposure before changing research priority."
         )
     else:
         why = "Reddit scout item that may point to an unusual ticker/topic cluster or external headline echo."

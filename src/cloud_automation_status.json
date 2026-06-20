@@ -101,6 +101,14 @@
       "expected_since": "2026-06-08T00:00:00-04:00"
     },
     {
+      "automation_id": "investing-os-trump-trade-watch",
+      "automation_name": "Investing OS Trump Trade Watch",
+      "status": "ACTIVE",
+      "role": "trump_trade_watch",
+      "schedule": "market weekdays 8:12 AM-6:12 PM ET, every two hours",
+      "expected_since": "2026-06-22T08:12:00-04:00"
+    },
+    {
       "automation_id": "investing-os-daily-synthesis",
       "automation_name": "Investing OS Daily Synthesis",
       "status": "ACTIVE",

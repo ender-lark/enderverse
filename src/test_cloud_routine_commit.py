@@ -159,6 +159,7 @@ def test_default_allowlist_includes_redacted_fundstrat_intake_bookkeeping():
     assert "src/fundstrat_daily_calls.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/orphan_triage.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/orphan_triage.md" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/political_trade_watch.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
 
 
 def test_cloud_routine_commit_reports_push_failure_after_commit(tmp_path):

@@ -165,6 +165,16 @@
         "missing_impact": "Reddit/social early-signal anomalies are not checked; absence is not no social signal."
       },
       {
+        "key": "political_trade_watch",
+        "label": "Trump Trade Watch",
+        "status": "not_checked",
+        "detail": "not supplied",
+        "count": 0,
+        "checked_at": "",
+        "next_step": "Supply political_trade_watch.json from the UW political-disclosure intake before treating Trump disclosures as checked.",
+        "missing_impact": "Trump/executive trade disclosures are not checked; absence is not no disclosure flow."
+      },
+      {
         "key": "event_risk",
         "label": "Event Risk",
         "status": "not_checked",
@@ -197,10 +207,10 @@
     ],
     "counts": {
       "has_data": 6,
-      "stale": 0,
-      "not_checked": 9,
       "failed": 0,
-      "checked_clear": 0
+      "stale": 0,
+      "checked_clear": 0,
+      "not_checked": 10
     },
     "has_dark_lanes": true,
     "has_stale_or_failed": false
@@ -313,6 +323,7 @@
   ],
   "signal_log": [],
   "social_watch": {},
+  "political_trade_watch": {},
   "event_risk": [],
   "holdings": [
     {

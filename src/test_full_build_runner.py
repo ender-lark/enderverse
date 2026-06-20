@@ -140,6 +140,32 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
             }
         ],
     })
+    _write(src / "political_trade_watch.json", {
+        "schema_version": 1,
+        "generated_at": "2026-06-05T13:45:00Z",
+        "checked_at": "2026-06-05T13:45:00Z",
+        "source": "unusual_whales_political_disclosures",
+        "source_group": "trump_trade_watch",
+        "status": "has_data",
+        "line": "Trump trade watch: 1 disclosed trade row(s); watch-only until verified.",
+        "counts": {"rows": 1, "tickers": 1, "buys": 1, "sells": 0, "research_queue_candidates": 1},
+        "rows": [
+            {
+                "ticker": "KFY",
+                "issuer": "KORN FERRY",
+                "summary": "Donald J Trump Buy KFY; transaction 2026-01-26, filed 2026-05-14.",
+                "transaction_type": "Buy",
+                "transaction_date": "2026-01-26",
+                "filed_at_date": "2026-05-14",
+                "amounts": "$15,001 - $50,000",
+                "evidence": ["Unusual Whales political-disclosure row"],
+                "independent_confirmation": ["UW political-disclosure row"],
+                "escalation": "Research Queue candidate",
+                "blocker_before_action": "Political disclosure is not a trade trigger.",
+            }
+        ],
+        "honesty_rule": "Political disclosures are watch-only research prompts; never standalone trade, sizing, or execution signals.",
+    })
     _write(src / "event_risks.json", [
         {
             "date": "2026-06-05",
@@ -165,12 +191,15 @@ def test_full_build_runner_loads_convention_files_and_marks_lanes(tmp_path):
     assert rows["catalysts"]["status"] == "has_data"
     assert rows["signal_log"]["status"] == "has_data"
     assert rows["social_watch"]["status"] == "has_data"
+    assert rows["political_trade_watch"]["status"] == "has_data"
     assert rows["event_risk"]["status"] == "has_data"
     assert rows["research"]["status"] == "not_checked"
     assert rows["target_drift"]["status"] == "has_data"
     assert feed["signal_log"][0]["signal"] == "Morning scan flag"
     assert feed["social_watch"]["rows"][0]["ticker"] == "NVDA"
     assert feed["social_watch"]["honesty_rule"].startswith("Watch-only")
+    assert feed["political_trade_watch"]["rows"][0]["ticker"] == "KFY"
+    assert "watch-only" in feed["political_trade_watch"]["honesty_rule"].lower()
     assert feed["event_risk"][0]["title"] == "Oil shock risk from geopolitical escalation"
     assert feed["bullish_flow"]["rows"]
     assert feed["prospects"]["counts"]["act_now"] == 1
@@ -251,6 +280,7 @@ def test_full_build_runner_missing_optional_files_are_dark_not_clear(tmp_path):
     assert rows["catalysts"]["status"] == "not_checked"
     assert rows["signal_log"]["status"] == "not_checked"
     assert rows["social_watch"]["status"] == "not_checked"
+    assert rows["political_trade_watch"]["status"] == "not_checked"
     assert rows["event_risk"]["status"] == "not_checked"
     assert rows["synthesis"]["status"] == "not_checked"
     assert rows["account_positions"]["status"] == "not_checked"
@@ -273,6 +303,7 @@ def test_missing_source_gap_rows_do_not_duplicate_existing_lanes(tmp_path):
     keys = [row.get("key") for row in feed["lane_status"]["rows"]]
     assert keys.count("signal_log") == 1
     assert keys.count("catalysts") == 1
+    assert keys.count("political_trade_watch") == 1
     assert keys.count("account_positions") == 1
     assert keys.count("meridian") == 0
 

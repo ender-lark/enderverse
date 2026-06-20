@@ -21,6 +21,15 @@ until the core logic is stable; Notion sync comes later.
   - Do not promote Fundstrat Core List table ingestion; it is out of scope for
     the current system build and may never be needed.
 - Reddit/social side-lane is staged only.
+  - `trump_trade_watch` is now a separate UW-backed political-disclosure lane:
+    `src/political_trade_watch.py` captures Donald J Trump executive trade
+    disclosure rows into `src/political_trade_watch.json`, and the daily build
+    surfaces it as `political_trade_watch`. It is watch-only and can create
+    Research Queue candidates, not trade cards.
+  - Reddit is secondary for this topic. The `trump_trade_watch` Reddit source
+    group starts with `r/unusual_whales`, `r/stocks`, `r/StockMarket`, and
+    `r/investing`; use it only with Chrome/manual snapshots and keep UW/OGE
+    filing rows as the primary trade-capture evidence.
   - `critical_minerals_nuclear` is a detachable Reddit source group for
     `r/criticalmineralstocks` + `r/UraniumSqueeze`.
   - `retail_risk_wsb` is a separate detachable WSB-only group for retail

@@ -102,6 +102,10 @@ Current staged implementation note:
 - `src/reddit_collector.py --source-group retail_risk_wsb` selects a detachable
   WSB-only retail-risk scout group; keep it separate from the critical-minerals
   lane because it is high-noise crowding/risk evidence.
+- `src/reddit_collector.py --source-group trump_trade_watch` selects a
+  detachable `r/unusual_whales`-led scout for Trump/political-trade discussion.
+  It is secondary to `src/political_trade_watch.py`, which captures UW
+  political-disclosure rows into `src/political_trade_watch.json`.
 - Keep outputs in `tmp/` until explicitly accepted:
   `python src/reddit_collector.py --source-group critical_minerals_nuclear --input <manual-snapshot.json> --out tmp/critical_minerals_social_watch.json --report-out tmp/reddit_daily_scout.md --weekly-report-out tmp/reddit_weekly_patterns.md --format text`.
 - Manual/Chrome-visible snapshots can use simple rows with `subreddit`, `title`,

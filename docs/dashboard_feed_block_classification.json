@@ -91,6 +91,11 @@
       "canonical_surface": "Social Watch watch-only lane in Action view, including not-checked state when no cache is supplied",
       "summary_surface": "Social Watch card with watch-only rule, confirmation requirements, and top anomaly rows"
     },
+    "political_trade_watch": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Trump Trade Watch watch-only lane in Action view, including not-checked state when no cache is supplied",
+      "summary_surface": "Trump Trade Watch card with watch-only rule, filing verification requirement, and top disclosure rows"
+    },
     "event_risk": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Event Risk lane status plus promoted Today's Actions review prompts",

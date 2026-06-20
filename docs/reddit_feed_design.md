@@ -67,6 +67,10 @@ Current source groups:
 - `retail_risk_wsb`: `r/wallstreetbets` only, designed as a detachable
   high-noise scout for retail crowding, reflexive risk, and topic discovery.
   Source role: `retail_crowding_risk`.
+- `trump_trade_watch`: `r/unusual_whales`, `r/stocks`, `r/StockMarket`, and
+  `r/investing`, designed as a secondary scout for discussion around Trump or
+  political-trade disclosures. Primary trade capture must come from UW
+  political-disclosure rows and linked filings, not Reddit.
 
 The source group is a collector/cache concern. If its cache is absent, Social
 Watch remains dark / `not_checked`; the dashboard should not infer checked-clear
@@ -196,6 +200,10 @@ Current repo state:
   dashboard contract.
 - `src/reddit_collector.py --source-group retail_risk_wsb` selects the
   detachable WSB-only retail-risk scout without changing the dashboard contract.
+- `src/reddit_collector.py --source-group trump_trade_watch` selects the
+  detachable `r/unusual_whales`-led scout for Trump/political-trade discussion.
+  Keep it secondary to `src/political_trade_watch.py`, which captures UW
+  political-disclosure rows into `src/political_trade_watch.json`.
 - `src/reddit_collector.py --report-out tmp/<name>.md` writes a human-readable
   ranked daily scout report with subreddit health, ticker/topic, source/time,
   why it matters, portfolio implication, confidence, decay speed, confirmation
@@ -209,6 +217,9 @@ Current repo state:
 - If no cache exists, the lane is visible as `not_checked`; this is not a
   no-social-signal read.
 - Social rows fail validation if they attempt direct buy/sell/trade escalation.
+- Political disclosure rows fail validation if they attempt direct buy/sell/trade
+  escalation; they may create Research Queue candidates only after filing
+  verification and current independent evidence.
 
 ## Failure Modes
 

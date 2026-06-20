@@ -295,6 +295,19 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             ],
         ),
         Routine(
+            "investing-os-trump-trade-watch",
+            "trump trade watch manual support checked prompt and normalizer wiring without forcing a live pull",
+            [
+                Step("trump trade watch prompt present", check=lambda r: {
+                    "valid": (r / "src" / "codex_routines" / "trump_trade_watch.md").is_file()
+                }),
+                Step("trump trade watch normalizer present", check=lambda r: {
+                    "valid": (r / "src" / "political_trade_watch.py").is_file(),
+                    "cache_present": (r / "src" / "political_trade_watch.json").is_file(),
+                }),
+            ],
+        ),
+        Routine(
             "investing-os-fs-inbox-catch-up-evening",
             "FS inbox catch-up evening manual support checked prompt wiring only",
             [
