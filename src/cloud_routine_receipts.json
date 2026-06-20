@@ -2,34 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T12:42:40.160556Z",
-      "summary": "3 Notion rows verified; repo Signal Log 30 rows; UW proof refreshed to 2026-06-11 16:10 ET; macro unchanged; failures none"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T12:51:31.534845Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T12:51:34.365421Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -6452,7 +6424,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T23:32:42.588847Z",
       "summary": "Research Queue not_checked; drop folder missing; cache preserved; pending 5 done 0 ACT_NOW 0 skipped 0"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T00:46:16.008997Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T00:47:12.518081Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T00:47:30.139534Z",
+      "summary": "dry-run selected 3; queued CRS/ANET/AMD; cache + Notion readback verified 3/3; remaining unqueued 2 RYF/XOP below BUILDING threshold; no source pulls promoted; blockers none"
     }
   ],
-  "updated_at": "2026-06-19T23:32:42.588847Z"
+  "updated_at": "2026-06-20T00:47:30.139534Z"
 }
