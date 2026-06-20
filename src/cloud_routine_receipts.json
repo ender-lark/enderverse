@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T13:33:35.481717Z",
-      "summary": "repo synthesis refreshed; signal log 30 rows; research queue 3 pending; Notion page written+verified; decisions/trade outcomes/source-calls/pilots row-level unverified"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T13:41:43.056622Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "success",
       "run_source": "scheduled",
@@ -6512,7 +6498,21 @@
         ]
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T02:47:07.459966Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T02:50:39.449425Z",
+      "summary": "Chrome web checked Macro FlashInsights latest Jun18 3:02PM ET, Crypto FlashInsights latest Jun8, latest research/video categories through Jun18 7:43PM ET duplicate; detail checked duplicate Newton DTS; videos checked duplicate/no new transcript capture; Gmail 0 not needed; rows landed 0; suppressed duplicate/stale/discovery-only surfaces; validations passed; dark/stale no Jun19 post-7PM full-content evidence"
     }
   ],
-  "updated_at": "2026-06-20T01:28:38.027111Z"
+  "updated_at": "2026-06-20T02:50:39.449425Z"
 }
