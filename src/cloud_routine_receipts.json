@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T13:42:28.554772Z",
-      "summary": "5 check sets; 23 tickers; UW proof 0 support 0 contradict 10 inconclusive 3 missing; promotions 0 downgrades 0; blocked SECTOR_TIDE unsupported, MARKET_MOVERS advanced_tier_required, TICKER_FLOW_RECENT TNX empty; dashboard refresh skipped"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T13:45:59.104882Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6512,7 +6498,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-20T02:50:39.449425Z",
       "summary": "Chrome web checked Macro FlashInsights latest Jun18 3:02PM ET, Crypto FlashInsights latest Jun8, latest research/video categories through Jun18 7:43PM ET duplicate; detail checked duplicate Newton DTS; videos checked duplicate/no new transcript capture; Gmail 0 not needed; rows landed 0; suppressed duplicate/stale/discovery-only surfaces; validations passed; dark/stale no Jun19 post-7PM full-content evidence"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T05:46:37.979928Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T05:50:18.987895Z",
+      "summary": "query blocked by Notion AI plan; live search/fetch used; processed Low AMD/ANET/CRS with Notion writes/readbacks verified 3/3; High BMNR/GOOGL/PowerPolicy already Working, MU/system and operator-review remain blocked; fallback mirror stale; backlog counts dark/not_checked"
     }
   ],
-  "updated_at": "2026-06-20T02:50:39.449425Z"
+  "updated_at": "2026-06-20T05:50:18.987895Z"
 }
