@@ -82,3 +82,123 @@ def test_shadow_log_records_only_near_misses(tmp_path):
     p = tmp_path / "shadow.jsonl"
     n = osf.persist_shadow_log(res, path=p)
     assert n == 1                                        # NVDA ACT excluded; ZZZ logged
+
+
+# ─────────────────────────── SURFACE (render) layer ──────────────────────────
+def _act_surface():
+    return osf.surface_options(_bundle(), conviction_lookup={"NVDA": {"thesis_horizon_days": 60}},
+                               account={"portfolio_value": 100000},
+                               as_of="2026-06-18", generated_at="2026-06-18T21:50:00Z")
+
+
+def _illiquid_bundle():
+    """A real-shaped NVDA whose chain parses but is too thin to trade -> engine SKIPs it,
+    so the whole surface is honest-empty (no ACT / no WAIT-with-flip)."""
+    b = _bundle()
+    for c in b["NVDA"]["chain"]["states"]:
+        c["open_interest"] = 5
+    return b
+
+
+def test_loud_text_leads_with_move_and_shows_risk_and_terms():
+    txt = osf.render_surface_text(_act_surface())
+    first = txt.splitlines()[0]
+    assert first.startswith("\U0001f3af OPTIONS EXPRESSION")     # labeled lane
+    assert "▶ Buy" in txt                                        # LEAD WITH THE MOVE
+    assert "Most you can lose" in txt                            # risk loud ($ and %)
+    assert "% of book" in txt
+    assert "plain terms:" in txt and "premium =" in txt          # glossary inline
+    assert "as of 2026-06-18" in txt                             # freshness stamp
+
+
+def test_loud_ideas_selects_act_and_wait_with_flip_only():
+    surf = _act_surface()
+    loud = osf.loud_ideas(surf)
+    assert loud and loud[0]["ticker"] == "NVDA" and loud[0]["disposition"] == "ACT"
+    # the data-gap ZZZ (WATCH, no flip) must NOT be loud
+    assert all(i["ticker"] != "ZZZ" for i in loud)
+
+
+def test_html_block_leads_with_move_one_tap_deep_and_loud_risk():
+    h = osf.render_options_block_html(_act_surface())
+    assert "OPTIONS EXPRESSION" in h
+    assert "▶" in h and "Buy" in h                               # move on the face
+    assert "Most you can lose" in h                              # risk loud
+    assert "<details" in h and "plain-English terms" in h        # checklist/glossary one tap deep
+    assert "never an order" in h                                 # honesty rail on the face
+
+
+def test_cockpit_feed_block_shape_and_score_is_promotion_only():
+    block = osf.cockpit_feed_block(_act_surface())
+    assert block["status"] == "has_data" and block["count"] == 1
+    row = block["rows"][0]
+    assert row["action"] == _act_surface()["ideas"][0]["move"]   # action == the sized move
+    assert row["disposition"] == "ACT" and row["score"] == 88
+    assert row["risk_amount_usd"] is not None and row["risk_pct_book"] is not None
+    assert "promotion-ordering metadata only" in block["_score_note"]
+
+
+def test_honest_empty_never_silent_text_and_html():
+    surf = osf.surface_options(_illiquid_bundle(),
+                               conviction_lookup={"NVDA": {"thesis_horizon_days": 60}},
+                               account={"portfolio_value": 100000},
+                               as_of="2026-06-18", generated_at="x")
+    assert not osf.loud_ideas(surf)                              # nothing actionable
+    txt = osf.render_surface_text(surf)
+    assert "Nothing hidden" in txt or "clean" in txt.lower() or "none" in txt.lower()
+    h = osf.render_options_block_html(surf)
+    assert "OPTIONS EXPRESSION" in h                             # lane still labeled, never silent
+    block = osf.cockpit_feed_block(surf)
+    assert block["status"] == "checked" and block["count"] == 0 and block["honest_empty"]
+
+
+def test_render_none_surface_is_labeled_not_silent():
+    h = osf.render_options_block_html(None)
+    assert "OPTIONS EXPRESSION" in h and "not checked this build" in h
+
+
+# ────────────────────────────── RECALL layer ─────────────────────────────────
+def test_recall_for_ticker_surfaces_the_move():
+    b = _bundle()["NVDA"]
+    rec = osf.recall_for_ticker("nvda", screener=b["screener"], chain=b["chain"],
+                                conviction={"thesis_horizon_days": 60},
+                                account={"portfolio_value": 100000}, as_of="2026-06-18")
+    assert rec["idea"]["disposition"] == "ACT"
+    assert "▶ Buy" in rec["text"]
+
+
+def test_recall_no_chain_is_honest_data_gap():
+    rec = osf.recall_for_ticker("NVDA", screener=None, chain=None, as_of="2026-06-18")
+    assert rec["idea"]["disposition"] == "WATCH"
+    assert "re-pull" in (rec["idea"]["filter_reason"] or "")
+
+
+def test_build_options_lane_honesty_rails():
+    b = _bundle()["NVDA"]
+    lane = osf.build_options_lane("NVDA", is_equity=True, screener=b["screener"], chain=b["chain"],
+                                  conviction={"thesis_horizon_days": 60},
+                                  account={"portfolio_value": 100000}, as_of="2026-06-18")
+    assert lane["status"] == "ok"
+    assert lane["blocks"] is False and lane["alert_eligible"] is False   # options never drive a decision
+    assert lane["idea"]["move"].startswith("Buy ")
+
+
+def test_build_options_lane_skips_macro_and_flags_data_gap():
+    macro = osf.build_options_lane("DXY", is_equity=False)
+    assert macro["status"] == "skipped" and macro["blocks"] is False
+    gap = osf.build_options_lane("NVDA", is_equity=True, screener=None, chain=None)
+    assert gap["status"] == "data_gap" and gap["idea"] is None
+
+
+def test_no_add_rail_demotes_act_and_keeps_it_quiet():
+    b = _bundle()["NVDA"]
+    # recall path: a MONITOR sleeve must never yell ACT
+    rec = osf.recall_for_ticker("NVDA", screener=b["screener"], chain=b["chain"],
+                                conviction={"thesis_horizon_days": 60, "stance": "MONITOR"},
+                                account={"portfolio_value": 100000}, as_of="2026-06-18")
+    assert rec["idea"]["disposition"] == "WATCH"
+    assert "MONITOR" in (rec["idea"]["filter_reason"] or "")
+    assert not osf.loud_ideas(rec["surface"])
+    # producer-fed path: apply_no_add_rails re-applies the dropped conviction context
+    surf = osf.apply_no_add_rails(_act_surface(), {"NVDA": {"stance": "MONITOR"}})
+    assert all(i["disposition"] != "ACT" for i in surf["ideas"])

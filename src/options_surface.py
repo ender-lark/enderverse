@@ -29,6 +29,7 @@ DESIGN NOTES
 """
 from __future__ import annotations
 
+import html
 from datetime import datetime, timezone
 from typing import Any, Optional
 
@@ -133,6 +134,371 @@ def persist_shadow_log(result: Optional[dict], *, path: Any = osl.DEFAULT_PATH,
     Returns the count written. The routine calls this so we can later tune dials from real misses."""
     result = result or {}
     return osl.append_rejections(result.get("ideas"), path=path, as_of=as_of or result.get("as_of"))
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# SURFACE  — turn a surface_options() result into LOUD, plain-language renders.
+# Doctrine: LEAD WITH THE MOVE (line 1 = idea["move"]); a score never masquerades as a
+# recommendation; every term defined inline via idea["glossary"]; risk loud (max-loss in
+# $ AND %); honest-empty NEVER silent; freshness stamped; a sized idea is never an order.
+# ════════════════════════════════════════════════════════════════════════════
+
+# Disposition -> cockpit promotion score. ORDERING METADATA ONLY — this decides where a row
+# sorts; it is NEVER shown as the recommendation (the recommendation is always idea["move"]).
+# ACT / WAIT-with-flip clear the cockpit's score>=80 promotion bar; WATCH / SKIP do not.
+_PROMO_SCORE = {"ACT": 88, "WAIT": 80, "WATCH": 60, "SKIP": 40}
+
+# Stances meaning "hold for awareness, do NOT add" — an ACT is demoted so we never yell a
+# buy on a sleeve we're not adding to (honors 'Respect MONITOR no-add').
+_NO_ADD_STANCES = {"MONITOR", "BURNED", "TRIM", "EXIT"}
+
+# Conservative fallback only (the case_file caller passes is_equity); obvious non-single-name
+# macros with no optionable single-name chain.
+_MACRO_FALLBACK = {"DXY", "US10Y", "US02Y", "US30Y", "WTI", "BRENT", "USDJPY", "EURUSD"}
+
+
+def _num(x) -> Optional[float]:
+    try:
+        if x is None or x == "":
+            return None
+        return float(x)
+    except (TypeError, ValueError):
+        return None
+
+
+def _money(x) -> str:
+    x = _num(x)
+    if x is None:
+        return "?"
+    return f"${x:,.0f}" if abs(x) >= 100 else f"${x:,.2f}"
+
+
+def _esc(x) -> str:
+    return html.escape("" if x is None else str(x))
+
+
+def _summary(surface: Optional[dict]) -> dict:
+    return (surface or {}).get("summary") or {}
+
+
+def _headline(surface: Optional[dict]) -> Optional[str]:
+    return _summary(surface).get("headline")
+
+
+def loud_ideas(surface: Optional[dict]) -> list[dict]:
+    """The names that earn a LOUD top-line row: an ACT, or a WAIT that carries a named
+    flip-condition (a 'wait' that knows exactly what turns it into an act). Order preserved
+    from the producer's ranking (ACT already sorts first)."""
+    ideas = (surface or {}).get("ideas") or []
+    acts = [i for i in ideas if i.get("disposition") == "ACT"]
+    waits = [i for i in ideas if i.get("disposition") == "WAIT"
+             and (i.get("timing") or {}).get("flip_condition")]
+    return acts + waits
+
+
+def _closest_call(surface: Optional[dict]) -> Optional[dict]:
+    near = _summary(surface).get("near_misses") or []
+    if not near:
+        return None
+    n = near[0]
+    return {"ticker": n.get("ticker"),
+            "reason": n.get("filter_reason") or n.get("the_catch"),
+            "structure": n.get("structure"), "when": n.get("when")}
+
+
+def _risk_line(idea: dict) -> Optional[str]:
+    """Max-loss in $ AND % — risk loud. Falls back to the engine's plain size note."""
+    ml, pct = idea.get("max_loss_dollars"), idea.get("max_loss_pct_book")
+    if ml is not None and pct is not None:
+        return f"Most you can lose: {_money(ml)} ({_num(pct):.1f}% of book)"
+    if ml is not None:
+        return f"Most you can lose (one contract): {_money(ml)}"
+    if idea.get("size_note"):
+        return f"Size: {idea['size_note']}"
+    return None
+
+
+def _detail_bits(idea: dict) -> list[str]:
+    bits = []
+    iv = idea.get("iv_environment")
+    if iv and iv != "unknown":
+        bits.append(f"IV {iv}")
+    if idea.get("expected_move_pct") is not None:
+        bits.append(f"expected move {idea['expected_move_pct']}%")
+    if idea.get("break_even_pct") is not None:
+        bits.append(f"break-even {idea['break_even_pct']}%")
+    return bits
+
+
+def _idea_text_block(idea: dict) -> list[str]:
+    """One idea, plain text, LEADING WITH THE MOVE; checklist + glossary one tap deep."""
+    out: list[str] = [f"▶ {idea.get('move') or '(no sized move — see the catch below)'}"]  # LINE 1
+    flip = (idea.get("timing") or {}).get("flip_condition")
+    if idea.get("when"):
+        out.append(f"  When: {idea['when']}" + (f" (flips when {flip})" if flip else ""))
+    if idea.get("why"):
+        out.append(f"  Why: {idea['why']}")
+    if idea.get("the_catch"):
+        out.append(f"  ⚠ The catch: {idea['the_catch']}")
+    rl = _risk_line(idea)
+    if rl:
+        out.append(f"  {rl}")
+    if idea.get("tripwire_note"):
+        out.append(f"  ⚠ {idea['tripwire_note']}")
+    # ── one tap deep ──
+    bits = _detail_bits(idea)
+    if bits:
+        out.append("  — checklist: " + " · ".join(bits))
+    gl = idea.get("glossary") or {}
+    if gl:
+        out.append("  — plain terms: " + "; ".join(f"{t} = {d}" for t, d in gl.items()))
+    if idea.get("honesty"):
+        out.append(f"  — {idea['honesty']}")
+    return out
+
+
+def render_surface_text(surface: Optional[dict]) -> str:
+    """The whole block as plain text — for in-conversation recall and any text channel.
+    Leads with the decisions; falls to an honest-empty line that names the closest call;
+    never silent; always stamped with freshness (honesty rail)."""
+    surface = surface or {}
+    lines = ["\U0001f3af OPTIONS EXPRESSION"]
+    loud = loud_ideas(surface)
+    if loud:
+        for idea in loud:
+            lines += _idea_text_block(idea)
+            lines.append("")
+    else:
+        lines.append(_headline(surface)
+                     or "No conviction name had a clean options setup. Nothing hidden.")
+        cc = _closest_call(surface)
+        if cc and cc.get("ticker"):
+            lines.append(f"Closest call — {cc['ticker']}: {cc.get('reason') or 'waiting on a trigger'}")
+    lines.append(f"(as of {surface.get('as_of')}; pulled {surface.get('generated_at')})")
+    return "\n".join(lines).rstrip()
+
+
+def render_options_block_html(surface: Optional[dict]) -> str:
+    """A LOUD 'OPTIONS EXPRESSION' HTML block for the Today-Decide surface. Always renders a
+    labeled container (never silent); the move leads each row; checklist + glossary sit in a
+    <details> one tap deep; max-loss shows in $ AND %. Self-contained inline styles so it needs
+    none of today_decide's shared CSS — a caller appends it as-is."""
+    title = ('<div class="td-section-title" style="font-size:14px;letter-spacing:.04em;'
+             'margin:14px 0 6px 0;color:#e2e8f0">\U0001f3af OPTIONS EXPRESSION</div>')
+    if not surface:
+        body = ('<div class="td-opt" style="color:#94a3b8;font-size:13px">'
+                'options expression: not checked this build — no conviction names were screened.</div>')
+        return f'<div class="td-options">{title}{body}</div>'
+
+    parts = [f'<div class="td-options">{title}']
+    loud = loud_ideas(surface)
+    if loud:
+        for idea in loud:
+            parts.append(_idea_html_block(idea))
+    else:
+        headline = _esc(_headline(surface)
+                        or "No conviction name has a clean, liquid options setup today. Nothing hidden.")
+        parts.append(f'<div class="td-opt" style="color:#cbd5e1;font-size:13px;margin:4px 0">{headline}</div>')
+        cc = _closest_call(surface)
+        if cc and cc.get("ticker"):
+            parts.append('<div class="td-opt" style="color:#94a3b8;font-size:12px">'
+                         f'closest call — <b>{_esc(cc["ticker"])}</b>: {_esc(cc.get("reason"))}</div>')
+    parts.append('<div class="td-opt-stamp" style="color:#64748b;font-size:11px;margin-top:6px">'
+                 f'as of {_esc(surface.get("as_of"))} · pulled {_esc(surface.get("generated_at"))} · '
+                 'a sized idea, never an order — you place the trade.</div>')
+    parts.append("</div>")
+    return "".join(parts)
+
+
+def _idea_html_block(idea: dict) -> str:
+    move = _esc(idea.get("move") or "(no sized move — see the catch)")
+    rows = [f'<div class="td-opt-move" style="font-size:15px;font-weight:700;color:#e2e8f0;'
+            f'margin:8px 0 2px 0">▶ {move}</div>']  # LEAD WITH THE MOVE
+    flip = (idea.get("timing") or {}).get("flip_condition")
+    if idea.get("when"):
+        when = _esc(idea["when"]) + (f' <span style="color:#94a3b8">(flips when {_esc(flip)})</span>' if flip else "")
+        rows.append(f'<div style="font-size:12px;color:#cbd5e1">When: {when}</div>')
+    if idea.get("why"):
+        rows.append(f'<div style="font-size:12px;color:#cbd5e1">Why: {_esc(idea["why"])}</div>')
+    if idea.get("the_catch"):
+        rows.append(f'<div style="font-size:12px;color:#fbbf24">⚠ The catch: {_esc(idea["the_catch"])}</div>')
+    rl = _risk_line(idea)
+    if rl:
+        rows.append(f'<div style="font-size:12px;color:#f87171;font-weight:600">{_esc(rl)}</div>')
+    if idea.get("tripwire_note"):
+        rows.append(f'<div style="font-size:12px;color:#f87171">⚠ {_esc(idea["tripwire_note"])}</div>')
+    det = []
+    bits = _detail_bits(idea)
+    if bits:
+        det.append('<div style="font-size:12px;color:#cbd5e1;margin-top:4px">' + _esc(" · ".join(bits)) + "</div>")
+    for term, defn in (idea.get("glossary") or {}).items():
+        det.append(f'<div style="font-size:11px;color:#94a3b8"><b>{_esc(term)}</b>: {_esc(defn)}</div>')
+    if idea.get("honesty"):
+        det.append(f'<div style="font-size:11px;color:#94a3b8;margin-top:3px">{_esc(idea["honesty"])}</div>')
+    if det:
+        rows.append('<details style="margin:4px 0 2px 0"><summary style="font-size:11px;color:#94a3b8;'
+                    'cursor:pointer">checklist &amp; plain-English terms</summary>' + "".join(det) + "</details>")
+    return ('<div class="td-opt-card" style="border-left:3px solid #475569;padding:2px 0 2px 10px;'
+            'margin:8px 0">' + "".join(rows) + "</div>")
+
+
+def cockpit_feed_block(surface: Optional[dict]) -> dict:
+    """A feed-ready 'options_expression' block mirroring asymmetric_opportunities' row shape
+    (extended for derivatives) so the existing cockpit promotion can read it. `action` carries
+    the sized MOVE so the row leads with the decision; `score` is promotion-ordering metadata
+    ONLY. We RETURN the dict; we never write the shared feed file (a build output)."""
+    surface = surface or {}
+    rows = [_feed_row(i) for i in loud_ideas(surface)]
+    status = "has_data" if rows else ("checked" if surface.get("ideas") else "pending")
+    return {
+        "status": status,
+        "count": len(rows),
+        "as_of": surface.get("as_of"),
+        "generated_at": surface.get("generated_at"),
+        "line": _headline(surface),
+        "rows": rows,
+        "honest_empty": _summary(surface).get("honest_empty", True),
+        "closest_call": _closest_call(surface),
+        "_score_note": ("`score` is promotion-ordering metadata only — never a recommendation; "
+                        "the call is the `action`/move."),
+    }
+
+
+def _feed_row(idea: dict) -> dict:
+    return {
+        "ticker": idea.get("ticker"),
+        "source": SOURCE,
+        "score": _PROMO_SCORE.get(idea.get("disposition"), 40),  # promotion ordering ONLY
+        "disposition": idea.get("disposition"),
+        "action": idea.get("move"),            # LEAD WITH THE MOVE
+        "reason": idea.get("why"),
+        "evidence": idea.get("the_catch"),
+        "decay_window": idea.get("when"),
+        "timing": idea.get("timing"),
+        "implied_structure": idea.get("structure"),
+        "legs": idea.get("legs"),
+        "risk_amount_usd": idea.get("max_loss_dollars"),
+        "risk_pct_book": idea.get("max_loss_pct_book"),
+        "the_catch": idea.get("the_catch"),
+        "tripwire_note": idea.get("tripwire_note"),
+        "iv_environment": idea.get("iv_environment"),
+        "expected_move_pct": idea.get("expected_move_pct"),
+        "break_even_pct": idea.get("break_even_pct"),
+        "glossary": idea.get("glossary"),
+        "honesty": idea.get("honesty"),
+    }
+
+
+# ── no-add rail (surface-level): never yell ACT on a MONITOR/trim/exit sleeve ──
+def _apply_no_add_rail(idea: dict, conviction: Optional[dict]) -> dict:
+    if not isinstance(idea, dict):
+        return idea
+    stance = str((conviction or {}).get("stance") or "").upper()
+    if stance in _NO_ADD_STANCES and idea.get("disposition") == "ACT":
+        idea = dict(idea)
+        note = (f"This name is on {stance} — we don't add to this sleeve. "
+                "Shown for awareness, not as a buy.")
+        idea["disposition"] = "WATCH"
+        idea["filter_reason"] = note
+        idea["timing"] = {"verdict": "WATCH", "label": "Awareness only (no-add sleeve)",
+                          "flip_condition": "the name comes off the no-add list (thesis re-promoted)"}
+        idea["when"] = idea["timing"]["label"]
+    return idea
+
+
+def apply_no_add_rails(surface: Optional[dict], conviction_lookup: Optional[dict]) -> dict:
+    """Return a copy of the surface with the no-add rail applied per name, then re-ranked.
+    Optional helper for the producer-fed cockpit/today_decide path (the conviction context the
+    producer drops is re-applied here). Recall applies the rail inline."""
+    surface = dict(surface or {})
+    lookup = conviction_lookup if isinstance(conviction_lookup, dict) else {}
+    new_ideas = []
+    for idea in surface.get("ideas") or []:
+        tk = idea.get("ticker")
+        conv = lookup.get(tk) or lookup.get(str(tk).upper() if tk else None)
+        new_ideas.append(_apply_no_add_rail(idea, conv if isinstance(conv, dict) else None))
+    new_ideas.sort(key=_rank_key)
+    surface["ideas"] = new_ideas
+    surface["summary"] = oe.summarize_run(new_ideas)
+    return surface
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# RECALL  — in-conversation, single ticker
+# ════════════════════════════════════════════════════════════════════════════
+def recall_for_ticker(ticker: str, *, screener=None, chain=None,
+                      conviction: Optional[dict] = None, account: Optional[dict] = None,
+                      as_of: Optional[str] = None, cfg: Optional[dict] = None) -> dict:
+    """When a ticker is mentioned/assembled in conversation, surface its live options idea.
+    Read-only: this never writes the shadow log (a casual lookup must not log a dial-tuning
+    miss — the routine path calls persist_shadow_log explicitly). Applies the no-add rail.
+    Returns {idea, surface, text} — `text` is the ready-to-speak plain-language block."""
+    tk = str(ticker).upper()
+    surface = surface_options({tk: {"screener": screener, "chain": chain}},
+                              conviction_lookup=({tk: conviction} if conviction else None),
+                              account=account, as_of=as_of, cfg=cfg)
+    ideas = list(surface.get("ideas") or [])   # copy: never mutate the producer's returned list
+    if ideas:
+        ideas[0] = _apply_no_add_rail(ideas[0], conviction)
+        surface["ideas"] = ideas
+        surface["summary"] = oe.summarize_run(ideas)
+    idea = ideas[0] if ideas else None
+    return {"idea": idea, "surface": surface, "text": render_surface_text(surface)}
+
+
+def build_options_lane(ticker: str, *, is_equity: bool = True, screener=None, chain=None,
+                       conviction: Optional[dict] = None, account: Optional[dict] = None,
+                       as_of: Optional[str] = None, cfg: Optional[dict] = None) -> dict:
+    """A case_file-shaped 'options' lane for the Ticker-dossier session to attach.
+
+    TODO(coordinate: case_file.py owner / Ticker-dossier session) — G6 options recall hook.
+    case_file.py is owned by another session and must NOT be edited from here. To wire this,
+    the owning session adds ONE line in build_case_file() (≈ src/case_file.py:482-488, after the
+    verdict/earliest_record/decisions lanes, before `return base`):
+
+        base["options"] = options_surface.build_options_lane(
+            ticker, is_equity=base["is_equity"],
+            screener=<live get_stock_screener row>, chain=<live get_options_chain>,
+            conviction=<from verdict/thesis>, account=<book>, as_of=today)
+
+    The lane follows case_file's honesty contract: blocks=False, alert_eligible=False ALWAYS (an
+    options idea expresses an existing conviction; it never originates or blocks a decision).
+    Macro/index tickers (is_equity=False) skip with an honest 'n/a' rule, matching case_file's
+    macro short-circuit. v1 keeps options a separate labeled query — no silent merge of
+    underlier/wrapper/options.
+    """
+    tk = str(ticker).upper()
+    rail = {"blocks": False, "alert_eligible": False}
+    if not is_equity or _looks_macro(tk):
+        return {"status": "skipped",
+                "line": "Options expression n/a for a macro / index / crypto proxy.",
+                "idea": None,
+                "honesty_rule": "options lane is skipped for non-single-name tickers (no chain to express).",
+                **rail}
+    if screener is None and chain is None:
+        return {"status": "data_gap",
+                "line": f"No options chain pulled for {tk} — ask me to pull the live chain.",
+                "idea": None,
+                "honesty_rule": "options lane needs a live screener + chain bundle; nothing was pulled.",
+                **rail}
+    rec = recall_for_ticker(tk, screener=screener, chain=chain, conviction=conviction,
+                            account=account, as_of=as_of, cfg=cfg)
+    idea = rec["idea"] or {}
+    has_move = bool(idea.get("move"))
+    return {
+        "status": "ok" if has_move else "empty",
+        "line": idea.get("move") or _headline(rec["surface"]),
+        "idea": rec["idea"],
+        "summary": _summary(rec["surface"]),
+        "text": rec["text"],
+        "honesty_rule": ("an options idea expresses an existing conviction — it never originates, "
+                         "blocks, or alerts a decision on its own."),
+        **rail,
+    }
+
+
+def _looks_macro(tk: str) -> bool:
+    return str(tk).upper() in _MACRO_FALLBACK
 
 
 # ─────────────────────────────────── self-test ───────────────────────────────
