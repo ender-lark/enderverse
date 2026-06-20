@@ -115,6 +115,7 @@ def _payload(
     baseline_feed=None,
     held_decisions_path=None,
     automation_item=None,
+    options=None,
 ):
     original_automation_item = td._automation_trust_item
     td._automation_trust_item = lambda: automation_item or GREEN_AUTOMATION_ITEM
@@ -129,9 +130,37 @@ def _payload(
             baseline_feed=baseline_feed,
             load_committed_baseline=False,
             today=today,
+            options=options,
         )
     finally:
         td._automation_trust_item = original_automation_item
+
+
+def _options_surface_one_act():
+    """A minimal real surface_options() result with one ACT idea (NVDA) for the options block."""
+    import options_surface as osf
+    screener = {"result": [{"ticker": "NVDA", "iv_rank": "23.6", "iv30d": "0.358",
+                            "implied_move_perc": "0.07", "next_earnings_date": "2026-08-26",
+                            "close": "210.69", "prev_close": "204.65", "date": "2026-06-09"}]}
+    chain = {"states": [{"option_symbol": "NVDA260821C00205000", "strike": "205",
+                         "option_type": "call", "expires": "2026-08-21", "iv": 0.415, "delta": 0.598,
+                         "theo": 17.5, "open_interest": 10123, "volume": 1326}]}
+    return osf.surface_options({"NVDA": {"screener": screener, "chain": chain}},
+                               conviction_lookup={"NVDA": {"thesis_horizon_days": 60}},
+                               account={"portfolio_value": 100000}, as_of="2026-06-09", generated_at="x")
+
+
+def test_options_block_absent_by_default():
+    # opt-in: no options= passed -> the block must not render (existing render path unaffected)
+    assert "OPTIONS EXPRESSION" not in td.render_today_decide_html(_payload())
+
+
+def test_options_block_renders_loud_when_passed():
+    html = td.render_today_decide_html(_payload(options=_options_surface_one_act()))
+    assert "OPTIONS EXPRESSION" in html          # the labeled block appears
+    assert "td-opt-move" in html                 # leads with the sized move
+    assert "NVDA" in html
+
 
 def test_payload_builds_and_goal_anchor_math():
     p = _payload()

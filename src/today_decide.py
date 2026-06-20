@@ -33,6 +33,7 @@ from typing import Any
 import data_health as _dh
 import cloud_routine_receipts as crr
 import congruence as cg
+import options_surface as opt_surface
 import conviction_engine as ce
 import directive_recs as dr
 import insight_register as ir
@@ -3059,6 +3060,7 @@ def build_today_decide_payload(
     dispositions_path: Path | str = disposition_log.DISPOSITIONS_PATH,
     held_decisions_path: Path | str | None = HELD_DECISIONS_PATH,
     today: str | None = None,
+    options: dict[str, Any] | None = None,
     baseline_feed: dict[str, Any] | None = None,
     load_committed_baseline: bool = True,
 ) -> dict[str, Any]:
@@ -3193,6 +3195,7 @@ def build_today_decide_payload(
         "trade_plan": trade_plan,
         "sizing_tunables": sizing_tunables,
         "congruence": congruence_result,
+        "options": options,
         "honesty": honesty,
     }
 
@@ -5694,6 +5697,12 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
                                       built_date=built_date, plan=_plan_for(card), tunables=tunables))
                 rank += 1
         h.append("</div>")
+
+    # 2b. options-expression block (opt-in): LOUD sized move above the quiet tier; honest-empty
+    #     when checked but nothing actionable; renders nothing unless a caller passes options=.
+    options_payload = payload.get("options")
+    if options_payload is not None:
+        h.append(opt_surface.render_options_block_html(options_payload))
 
     # 3. good price, lower conviction tier (visible-but-quiet; never one tap from a buy)
     h.append(_render_good_price_tier(payload))
