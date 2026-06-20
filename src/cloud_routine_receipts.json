@@ -2,28 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T13:16:26.135451Z",
-      "summary": "broker position intake recovery run succeeded after restoring local SnapTrade profile; 11 accounts refreshed; dashboard refreshed",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/snaptrade_book_refresh.py",
-          "--refresh-dashboard"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T13:30:43.928231Z",
-      "summary": "daily synthesis started"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "success",
       "run_source": "scheduled",
@@ -6445,7 +6423,96 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-20T00:50:19.943485Z",
       "summary": "FS inbox catch-up evening nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T01:17:20.338472Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T01:28:38.027111Z",
+      "summary": "checked cockpit/research/event-risk/holdings; SEC/UW/Kalshi/primary/public feeds; routed COHR Signal Log Notion+repo and Hormuz Event Risk repo; Social Watch dark; UW blockers explicit",
+      "details": {
+        "checked_at": "2026-06-20T01:28Z",
+        "source_state": {
+          "anchored_on": [
+            "live_status",
+            "uw_action_runbook",
+            "latest_cockpit_feed",
+            "research_queue",
+            "event_risks",
+            "positions",
+            "fed_day_reallocation_packet",
+            "theses"
+          ],
+          "sources_checked": [
+            "SEC EDGAR submissions for active universe",
+            "UW endpoint capture via runbook",
+            "Kalshi public Hormuz API",
+            "Polymarket Gamma search attempted but irrelevant results",
+            "Guardian/Business Insider Hormuz reporting",
+            "NIST/Coherent CHIPS pages",
+            "Reuters-mirrored indium export checks",
+            "local Social Watch cache"
+          ],
+          "dark_or_blocked": [
+            "Social Watch cache missing/not_checked",
+            "UW MARKET_MOVERS advanced_tier_required 403",
+            "UW SECTOR_TIDE unsupported path parameter",
+            "UW TNX/RYF ticker flow/alerts missing",
+            "Polymarket Gamma search returned unrelated markets for Hormuz queries",
+            "IMF PortWatch direct current data not pulled; Kalshi rules still reference PortWatch 7DMA"
+          ]
+        },
+        "packets": [
+          {
+            "ticker_entity": "COHR / indium phosphide AI optics",
+            "source_timestamp": "Reuters-mirrored report 2026-06-19; NIST/Coherent CHIPS LOI 2026-06-16; checked 2026-06-20T01:25Z",
+            "why_it_matters": "China indium export scrutiny raises supply-chain bottleneck risk while the Sherman InP CHIPS LOI supports domestic AI-optical capacity.",
+            "current_decision_affected": "COHR Working Research Queue item and AI infrastructure read-throughs for NVDA/GOOGL/AVGO.",
+            "conviction_effect": "mixed/supports research priority; not action-grade",
+            "time_window": "next session to 1-4 weeks",
+            "disconfirmation_trigger": "China confirms no further export tightening, shipment approvals normalize, final CHIPS terms fail, or customer demand/price/flow does not confirm.",
+            "missing_evidence": "final CHIPS award terms, capex/milestones, customer commitments, current price/flow",
+            "proposed_route": "Signal Log; Research Queue already Working so no duplicate queue row",
+            "routed": "Notion Signal Log verified https://app.notion.com/p/385c50314bb681afb1daf951e605e9e4; repo signal_log.json +1"
+          },
+          {
+            "ticker_entity": "Hormuz/oil/rates event risk",
+            "source_timestamp": "Guardian 2026-06-19; Business Insider/Kpler 2026-06-19; Kalshi public API fetched 2026-06-20T01:24Z",
+            "why_it_matters": "Traffic recovery is real but normal shipping remains unproven; prevents clearing oil/rates risk before AI/growth adds.",
+            "current_decision_affected": "Event Risk lane, new-buy timing for GOOGL/MSFT/MAGS/SMH and energy/financial/nuclear sleeves.",
+            "conviction_effect": "mixed; contradicts all-clear, supports recheck",
+            "time_window": "next session to 1-6 weeks",
+            "disconfirmation_trigger": "IMF PortWatch 7DMA above 60, WTI/TNX stay below trigger bands, and mine/toll/insurance friction fades.",
+            "missing_evidence": "direct current PortWatch pull and same-session WTI/TNX confirmation",
+            "proposed_route": "Event Risk",
+            "routed": "repo event_risks.json +1; Notion Signal Log duplicate suppressed because June 19 Hormuz row already exists"
+          }
+        ],
+        "suppressed": [
+          "BMNR preferred dividend increment duplicate/no posture change",
+          "AVGO debt tender mechanics duplicate",
+          "NVDA completed notes offering duplicate",
+          "LEU Oklo LOI duplicate already routed",
+          "SATS DBS interest cure duplicate already routed",
+          "GOOGL/COIN/BX insider/governance forms no action",
+          "UUUU/COHR federal funding base facts already in Research Queue"
+        ],
+        "validations": [
+          "signal_log_intake validate passed",
+          "event_risk_intake validate passed",
+          "research_queue_intake validate passed",
+          "cloud_routine_receipts validate passed before success receipt"
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-20T00:50:19.943485Z"
+  "updated_at": "2026-06-20T01:28:38.027111Z"
 }

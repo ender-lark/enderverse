@@ -175,5 +175,42 @@
     "summary": "Prediction markets and public reporting now point to lower acute war/oil shock but unresolved traffic normalization: Polymarket Jun30 Yes ~24%, Jul31 Yes ~55%, Kalshi Jul15 ~33% and Aug1 ~52%; Guardian reports 30-day restoration target with 60-day final-deal negotiation and walk-away risk.",
     "trigger": "Do not clear the event-risk lane until IMF PortWatch 7-day transit calls recover above the market threshold, WTI/TNX stay lower, and shipping/insurance friction fades; re-escalate if deal terms break, toll/access conditions return, or Hormuz restrictions resume.",
     "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-19",
+    "title": "Hormuz recovery evidence keeps oil/rates normalization unproven",
+    "severity": "medium",
+    "horizon": "next session to 1-6 weeks",
+    "channels": [
+      "oil",
+      "rates",
+      "shipping",
+      "financials",
+      "growth",
+      "AI"
+    ],
+    "tickers": [
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "SMH",
+      "MAGS",
+      "GOOGL",
+      "MSFT",
+      "LEU",
+      "UUUU"
+    ],
+    "affected": [
+      "Energy",
+      "Financials",
+      "High-duration growth",
+      "AI add timing",
+      "Nuclear/critical minerals"
+    ],
+    "source": "Guardian 2026-06-19; Business Insider/Kpler 2026-06-19; Kalshi KXHORMUZNORM public API fetched 2026-06-20T01:24Z",
+    "summary": "Guardian reports the center route remains blocked by roughly 80 mines and normal shipping may take time despite the US-Iran MoU; Kpler/BI report 25 verified crossings on June 18, so recovery is real but incomplete; Kalshi still prices PortWatch normalization above 60 transit-call 7DMA at about 8% by Jul 1, 20% by Jul 15, 40% by Aug 1, 56% by Sep 1, and 64% by Oct 1. This keeps oil/rates event risk active for new-buy timing instead of clearing the shock.",
+    "trigger": "Clear only if IMF PortWatch 7DMA rises above 60, WTI/TNX stay below trigger bands, and mine/toll/insurance/shipping friction fades; re-escalate if the MoU breaks, crossings roll over, or toll/access restrictions return.",
+    "direction": "risk_watch"
   }
 ]
