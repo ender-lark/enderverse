@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T13:15:33.151364Z",
-      "summary": "investing-os-broker-position-intake started"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-12T13:16:26.135451Z",
@@ -6445,7 +6438,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-20T00:47:30.139534Z",
       "summary": "dry-run selected 3; queued CRS/ANET/AMD; cache + Notion readback verified 3/3; remaining unqueued 2 RYF/XOP below BUILDING threshold; no source pulls promoted; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-20T00:50:19.943485Z",
+      "summary": "FS inbox catch-up evening nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified"
     }
   ],
-  "updated_at": "2026-06-20T00:47:30.139534Z"
+  "updated_at": "2026-06-20T00:50:19.943485Z"
 }
