@@ -928,6 +928,42 @@ def options_bundle_from_cache(cache: Any) -> dict:
     }
 
 
+def _options_held_tickers(positions_cache: Any) -> set[str]:
+    """Held tickers from the positions cache (rows/positions/holdings lists), tolerant -> set."""
+    if not isinstance(positions_cache, dict):
+        return set()
+    rows = (positions_cache.get("rows") or positions_cache.get("positions")
+            or positions_cache.get("holdings") or positions_cache.get("combined"))
+    out: set[str] = set()
+    for r in (rows or []):
+        if isinstance(r, dict):
+            tk = str(r.get("ticker") or r.get("symbol") or "").upper()
+            if tk:
+                out.add(tk)
+    return out
+
+
+def _options_coverage(theses: list[dict] | None, positions_cache: Any, bundle: dict) -> dict:
+    """Honest 'screened N of M' coverage: the conviction universe we SHOULD pull options for
+    (ACTIVE theses + held names) vs what the cache actually screened, naming the misses so a narrow
+    pull never reads as the whole book (the non-tunable transparency rail)."""
+    screened = {str(k).upper() for k in (bundle or {})}
+    universe: set[str] = set()
+    for t in (theses or []):
+        if isinstance(t, dict) and str(t.get("stance", "") or "").upper() not in _OPTIONS_NO_ADD_STANCES:
+            tk = str(t.get("ticker") or "").upper()
+            if tk:
+                universe.add(tk)
+    universe |= _options_held_tickers(positions_cache)
+    not_pulled = sorted(universe - screened)
+    if not_pulled:
+        shown = ", ".join(not_pulled[:12]) + ("…" if len(not_pulled) > 12 else "")
+        line = f"Screened {len(screened)} of {len(universe)} conviction names for options — not pulled: {shown}."
+    else:
+        line = f"Screened {len(screened)} of {len(universe)} conviction names for options — full coverage."
+    return {"screened": len(screened), "universe": len(universe), "not_pulled": not_pulled, "line": line}
+
+
 def _build_options_surface(
     cache: Any,
     *,
@@ -961,6 +997,7 @@ def _build_options_surface(
         opt_surface.persist_shadow_log(surface, path=shadow_log_path)
     except Exception:  # noqa: BLE001 — logging a near-miss must never abort the build
         pass
+    surface["coverage"] = _options_coverage(theses, positions_cache, bundle)
     return surface
 
 
