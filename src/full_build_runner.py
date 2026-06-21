@@ -873,6 +873,13 @@ def _boundary_artifact_git_problems(
 _OPTIONS_NO_ADD_STANCES = {"MONITOR", "BURNED", "EXIT", "TRIM"}
 
 
+# Conviction-strength proxy from the operator's tier band (theses carry no numeric strength); None -> engine
+# default (full cap) so unknown names are never timid, and the tier only sizes DOWN from the cap.
+_OPTIONS_TIER_STRENGTH = {"T1": 1.0, "T2": 0.75, "T3": 0.5}
+# Horizon proxy from the thesis lane (theses carry no horizon_days); drives DTE / LEAPS selection.
+_OPTIONS_LANE_HORIZON = {"Generational": 300, "BuyAndHold": 120, "Speed": 45}
+
+
 def build_options_conviction_lookup(theses: list[dict] | None) -> dict[str, dict]:
     """Map each thesis ticker to the conviction context ``surface_options`` consumes.
 
@@ -887,10 +894,16 @@ def build_options_conviction_lookup(theses: list[dict] | None) -> dict[str, dict
         if not tk:
             continue
         stance = str(t.get("stance", "") or "").upper()
+        tier = str(t.get("tier", "") or "").upper()
+        lane = str(t.get("lane", "") or "")
+        horizon = t.get("horizon_days")
+        if horizon is None:
+            horizon = _OPTIONS_LANE_HORIZON.get(lane, 90)
         lookup[str(tk).upper()] = {
             "direction": "bearish" if stance.startswith("BEAR") else "bullish",
             "conviction_intact": stance not in _OPTIONS_NO_ADD_STANCES,
-            "thesis_horizon_days": t.get("horizon_days", 90),
+            "thesis_horizon_days": horizon,
+            "conviction_strength": _OPTIONS_TIER_STRENGTH.get(tier),  # None -> engine default (full cap); tier sizes DOWN
             "stance": t.get("stance") or "ACTIVE",
         }
     return lookup
