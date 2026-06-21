@@ -162,6 +162,13 @@ def test_options_block_renders_loud_when_passed():
     assert "NVDA" in html
 
 
+def test_options_cross_links_onto_matching_decision_card():
+    # the loud NVDA options idea rides as a compact "Leveraged options expression" line on its card
+    html = td.render_today_decide_html(_payload(options=_options_surface_one_act()))
+    assert "Leveraged options expression" in html
+    assert "td-opt-xlink" in html
+
+
 def test_payload_builds_and_goal_anchor_math():
     p = _payload()
     ga = p["goal_anchor"]
