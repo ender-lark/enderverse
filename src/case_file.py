@@ -472,6 +472,46 @@ def identity_lane(ticker: str) -> dict[str, Any]:
     }
 
 
+def _options_lane(
+    ticker: str,
+    is_equity: bool,
+    as_of: str | date | None,
+    *,
+    screener: Any = None,
+    chain: Any = None,
+    conviction: dict | None = None,
+    account: dict | None = None,
+) -> dict[str, Any]:
+    """Options expression of the conviction (built + OWNED by options_surface; G6 recall hook).
+
+    case_file does no live I/O, so screener/chain default to None and the lane honestly reports a
+    data_gap ("ask me to pull the live chain") until a caller that CAN pull live data passes them.
+    Always blocks=False / alert_eligible=False - an options idea expresses an existing conviction;
+    it never originates, blocks, or alerts a decision. Degrades to a data_gap if options_surface is
+    unavailable, so the case file never breaks on this lane.
+    """
+    try:
+        import options_surface
+
+        lane = options_surface.build_options_lane(
+            ticker, is_equity=bool(is_equity), screener=screener, chain=chain,
+            conviction=conviction, account=account, as_of=as_of,
+        )
+        if not isinstance(lane, dict):
+            raise TypeError("options_surface.build_options_lane did not return a dict")
+    except Exception:
+        lane = {
+            "status": "data_gap",
+            "line": "Options lane unavailable (options_surface not loaded).",
+            "idea": None,
+            "honesty_rule": "options lane could not be built; treat as not-checked, not 'no idea'.",
+        }
+    # Enforce the case-file honesty contract regardless of the producer.
+    lane["blocks"] = False
+    lane["alert_eligible"] = False
+    return lane
+
+
 def build_case_file(
     ticker: str,
     today: str | date | None = None,
@@ -482,6 +522,10 @@ def build_case_file(
     dispositions_path: Path | str | None = None,
     top_prospects: dict | None = None,
     open_opportunities: dict | None = None,
+    options_screener: Any = None,
+    options_chain: Any = None,
+    options_conviction: dict | None = None,
+    account: dict | None = None,
 ) -> dict[str, Any]:
     """Assemble the per-ticker case file. Pure: reads only, writes nothing."""
     tick = _ticker(ticker)
@@ -501,6 +545,12 @@ def build_case_file(
     # Always-factual lanes (apply to macro proxies too).
     base["fundstrat_calls"] = fundstrat_calls_lane(tick, source_calls=source_calls)
     base["news"] = case_file_news_lane(tick, signal_log=signal_log)
+    # Options expression of the conviction (owned by options_surface; rail-safe, skips on macro).
+    base["options"] = _options_lane(
+        tick, identity["is_equity"], today_iso,
+        screener=options_screener, chain=options_chain,
+        conviction=options_conviction, account=account,
+    )
 
     if not identity["is_equity"]:
         skip = {**_HONESTY, "honesty_rule": "n/a for a macro/index/crypto proxy."}
@@ -525,7 +575,7 @@ def render_text(case_file: dict[str, Any]) -> str:
     lines = [f"=== {case_file.get('ticker')} - case file (as of {case_file.get('today')}) ==="]
     lines.append(case_file.get("identity", {}).get("line", ""))
     if not case_file.get("is_equity", True):
-        for key in ("fundstrat_calls", "news"):
+        for key in ("fundstrat_calls", "news", "options"):
             lines.append(f"[{key}] {case_file.get(key, {}).get('line', '')}")
         return "\n".join(lines)
 
@@ -548,6 +598,9 @@ def render_text(case_file: dict[str, Any]) -> str:
     lines.append(f"DECISIONS - {dec.get('line', '')}")
     for e in dec.get("events", [])[:8]:
         lines.append(f"  {e.get('date')}  {e.get('verb') or e.get('status_label')}  {e.get('reason') or ''}")
+
+    opt = case_file.get("options", {})
+    lines.append(f"OPTIONS - {opt.get('line') or opt.get('status', '')}")
     return "\n".join(lines)
 
 
