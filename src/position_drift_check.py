@@ -34,7 +34,7 @@ import argparse
 import json
 import re
 from dataclasses import dataclass, field, asdict
-from typing import Optional
+from typing import Any, Optional
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -247,22 +247,48 @@ def load_actuals_from_positions_cache(
     positions_json,
     total_wealth: Optional[float] = None,
 ) -> list[ActualPosition]:
-    """Aggregate positions.json-style data into per-ticker actual sizing.
+    """Aggregate current-book data into per-ticker actual sizing.
 
-    Accepts either the canonical cache wrapper
-    {sleeve_value, positions:[{ticker, market_value}]} or a bare positions list.
-    This is the shape the session preflight already has, so target-weight drift
-    can run at boot without scraping operator memory text.
+    Accepts the thesis-filtered positions.json shape, a bare positions list, or
+    the full SnapTrade account_positions.json shape. For target drift, callers
+    should prefer the full-book account cache so held-but-untracked names are
+    measured by their real weight instead of falling into the zero-held bucket.
     """
+    def _num(value: Any) -> float | None:
+        if value in (None, "") or isinstance(value, bool):
+            return None
+        if isinstance(value, (int, float)):
+            return float(value)
+        try:
+            return float(str(value).replace("$", "").replace(",", "").strip())
+        except ValueError:
+            return None
+
+    def _first_num(row: dict[str, Any], *keys: str) -> float | None:
+        for key in keys:
+            value = _num(row.get(key))
+            if value is not None:
+                return value
+        return None
+
     if isinstance(positions_json, dict):
-        rows = positions_json.get("positions") or []
+        rows = (
+            positions_json.get("combined_positions")
+            or positions_json.get("account_positions")
+            or positions_json.get("positions")
+            or []
+        )
         if total_wealth is None:
-            total_wealth = positions_json.get("sleeve_value")
+            total_wealth = _first_num(
+                positions_json, "sleeve_value", "total_book_value"
+            )
     else:
         rows = positions_json or []
     if total_wealth is None:
-        total_wealth = sum((p.get("market_value") or p.get("current_value") or 0)
-                           for p in rows if isinstance(p, dict))
+        total_wealth = sum(
+            (_first_num(p, "market_value", "current_value", "value") or 0)
+            for p in rows if isinstance(p, dict)
+        )
     if not total_wealth or total_wealth <= 0:
         return []
 
@@ -270,10 +296,10 @@ def load_actuals_from_positions_cache(
     for p in rows:
         if not isinstance(p, dict):
             continue
-        ticker = (p.get("ticker") or p.get("symbol") or "").strip().upper()
+        ticker = str(p.get("ticker") or p.get("symbol") or "").strip().upper()
         if not ticker:
             continue
-        mv = p.get("market_value") or p.get("current_value") or 0
+        mv = _first_num(p, "market_value", "current_value", "value") or 0
         if mv <= 0:
             continue
         by_ticker[ticker] = by_ticker.get(ticker, 0) + mv
@@ -411,7 +437,10 @@ def target_weight_drift_summary(
     top = []
     for r in rows[:limit]:
         if r["direction"] == "MISSING":
-            top.append(f"{r['ticker']} missing vs {r['target_pct']:.1f}% target")
+            top.append(
+                f"{r['ticker']} {r['actual_pct']:.1f}% held "
+                f"vs {r['target_pct']:.1f}% target"
+            )
         else:
             top.append(
                 f"{r['ticker']} {r['direction'].lower()} "

@@ -555,14 +555,13 @@ def _run_target_drift(positions: List[Dict], sleeve_total: float) -> SubsystemRe
             priority="INFO",
         )
 
-    wrapper = {"positions": positions, "sleeve_value": sleeve_total}
-    drift, unmatched, _untracked = pdc.target_weight_drift(wrapper, sleeve_total)
-    flagged = [d for d in drift if d.is_flagged]
-    alarm = [d for d in flagged if "ALARM_DRIFT" in d.flags]
-    undersized = [d for d in flagged if d.direction == "UNDERSIZED"]
-    oversized = [d for d in flagged if d.direction == "OVERSIZED"]
-    missing = list(unmatched)
-    actionable = len(flagged) + len(missing)
+    wrapper = (
+        positions
+        if isinstance(positions, dict)
+        else {"positions": positions, "sleeve_value": sleeve_total}
+    )
+    summary = pdc.target_weight_drift_summary(wrapper, sleeve_total, limit=4)
+    actionable = int(summary.get("actionable_count") or 0)
 
     if actionable == 0:
         return SubsystemResult(
@@ -574,26 +573,14 @@ def _run_target_drift(positions: List[Dict], sleeve_total: float) -> SubsystemRe
             payload={"flagged": 0, "missing_targets": 0},
         )
 
-    priority = "HIGH" if (alarm or missing) else "MED"
-    top_bits = []
-    for d in sorted(flagged, key=lambda x: -abs(x.drift_relative))[:4]:
-        top_bits.append(
-            f"{d.ticker} {d.direction.lower()} "
-            f"{d.actual_pct*100:.1f}% vs {d.memory_baseline_pct*100:.1f}%"
-        )
-    remaining_slots = max(0, 4 - len(top_bits))
-    for b in missing[:remaining_slots]:
-        top_bits.append(f"{b.ticker} missing vs {b.baseline_pct*100:.1f}% target")
-    more = actionable - len(top_bits)
-    suffix = ("; " + "; ".join(top_bits)) if top_bits else ""
-    if more > 0:
-        suffix += f"; +{more} more"
-    surface = (
-        "TARGET DRIFT: "
-        f"{actionable} sizing gap(s) vs AI working model "
-        f"({len(undersized)} under, {len(oversized)} over, {len(missing)} missing)"
-        f"{suffix}"
+    priority = (
+        "HIGH"
+        if (summary.get("alarm_count") or summary.get("missing_count"))
+        else "MED"
     )
+    surface = str(summary.get("line") or "Target drift checked.")
+    if surface.startswith("Target drift:"):
+        surface = "TARGET DRIFT:" + surface.split(":", 1)[1]
     return SubsystemResult(
         name="TARGET DRIFT",
         available=True,
@@ -601,12 +588,15 @@ def _run_target_drift(positions: List[Dict], sleeve_total: float) -> SubsystemRe
         priority=priority,
         actionable_count=actionable,
         payload={
-            "flagged": len(flagged),
-            "alarm": len(alarm),
-            "undersized": len(undersized),
-            "oversized": len(oversized),
-            "missing_targets": len(missing),
-            "top": top_bits,
+            "flagged": (
+                int(summary.get("undersized_count") or 0)
+                + int(summary.get("oversized_count") or 0)
+            ),
+            "alarm": int(summary.get("alarm_count") or 0),
+            "undersized": int(summary.get("undersized_count") or 0),
+            "oversized": int(summary.get("oversized_count") or 0),
+            "missing_targets": int(summary.get("missing_count") or 0),
+            "rows": summary.get("rows") or [],
         },
     )
 

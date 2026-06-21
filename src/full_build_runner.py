@@ -873,7 +873,10 @@ def build_full_feed_from_files(
     inbox_call_dates = _load_optional(src, "inbox_call_dates")
     log_call_dates = _load_optional(src, "log_call_dates")
     parabolic_cache = _load_optional(src, "parabolic")
-    target_drift = target_weight_drift_summary(positions_cache)
+    target_drift_input = (
+        account_positions if isinstance(account_positions, dict) else positions_cache
+    )
+    target_drift = target_weight_drift_summary(target_drift_input, limit=20)
     social_watch = build_social_watch(
         social_watch_cache,
         material_tickers=material_tickers_from_state(positions_cache, theses),
