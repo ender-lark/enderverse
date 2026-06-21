@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T14:07:56.153873Z",
-      "summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-12T14:17:44.094638Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "success",
       "run_source": "manual",
@@ -6583,7 +6569,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-21T00:46:28.516666Z",
       "summary": "dry-run selected 0; queued none; write verification n/a; remaining unqueued 2 QUIET below BUILDING conviction (RYF,XOP); dark/stale lanes not checked clear; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T01:17:34.786574Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T01:26:46.923414Z",
+      "summary": "checked cockpit/queue/holdings, SEC active universe, UW bounded proof, Guardian/Fortune Hormuz, Kalshi/Polymarket public markets, HOOD SEC+UW; candidates 2; routed Event Risk 1 + Signal Log 2; Notion Signal Log verified 2/2; SEC no post-Jun20 filings; Social Watch dark; UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX/RYF flow empty, PortWatch direct export not_checked"
     }
   ],
-  "updated_at": "2026-06-21T00:46:28.516666Z"
+  "updated_at": "2026-06-21T01:26:46.923414Z"
 }

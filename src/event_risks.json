@@ -28,6 +28,42 @@
     "direction": "risk_watch"
   },
   {
+    "date": "2026-06-20",
+    "title": "Iran closure threat re-escalates Hormuz oil/rates watch",
+    "severity": "high",
+    "horizon": "daily",
+    "channels": [
+      "oil",
+      "rates",
+      "volatility",
+      "energy",
+      "growth",
+      "shipping"
+    ],
+    "tickers": [
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "SMH",
+      "MAGS",
+      "LEU",
+      "UUUU"
+    ],
+    "affected": [
+      "Energy",
+      "Semiconductors",
+      "High-duration growth",
+      "Financials",
+      "Nuclear fuel",
+      "Portfolio new-buy timing"
+    ],
+    "source": "Guardian 2026-06-20; Kalshi/Polymarket public Hormuz markets checked 2026-06-21 UTC; UW endpoint capture 2026-06-21 UTC",
+    "summary": "Iran said it was closing the Strait of Hormuz after renewed Lebanon strikes, while CENTCOM disputed actual closure and public prediction markets still show partial-but-not-normal traffic recovery. Decision impact: keep the oil/rates event-risk lane high and keep Monday new-buy timing gated on WTI/TNX/shipping confirmation rather than clearing the shock.",
+    "trigger": "Disconfirm if IMF PortWatch finalized calls, shipping/insurance reports, WTI, and TNX show sustained normalization; re-escalate if traffic drops again, toll/insurance rules bite, or US-Iran talks fail.",
+    "direction": "risk_watch"
+  },
+  {
     "date": "2026-06-03",
     "title": "Financials breakdown and crypto-linked weakness weigh on tape breadth",
     "severity": "medium",
