@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T14:03:02.827851Z",
-      "summary": "scanned 14 tickers; 13 live observations landed; 38 signals cached; empty-source GRNJ; partial-dark VOLT; worker failures 0"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T14:07:07.077338Z",
-      "summary": "parabolic cache started"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6583,7 +6569,21 @@
         "temporary_cap": "none; processed top safe Med plus two oldest/highest-impact reachable Low items before closeout"
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T00:45:56.374630Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T00:46:28.516666Z",
+      "summary": "dry-run selected 0; queued none; write verification n/a; remaining unqueued 2 QUIET below BUILDING conviction (RYF,XOP); dark/stale lanes not checked clear; blockers none"
     }
   ],
-  "updated_at": "2026-06-20T08:55:19.131176Z"
+  "updated_at": "2026-06-21T00:46:28.516666Z"
 }
