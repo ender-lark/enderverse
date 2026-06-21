@@ -226,6 +226,35 @@
       "no_input_behavior": "Do not mark UW lanes checked clear; report missing UW input as not checked and skipped or failed tickers explicitly."
     },
     {
+      "id": "options_chain_refresh",
+      "title": "Options Chain Refresh",
+      "status": "active",
+      "cadence": "market_day_pre_build",
+      "doc": "src/codex_routines/options_chain_refresh.md",
+      "separation_group": "market_data_refresh",
+      "input_boundaries": [
+        "Unusual Whales get_stock_screener + get_options_chain responses, one per bounded conviction-universe name, at the standard monthly opex",
+        "theses.json for the conviction-universe selection (ACTIVE names; no-add sleeves excluded)"
+      ],
+      "owns": ["src/options_chain_cache.json"],
+      "commands": [
+        {
+          "id": "select_universe_and_expiry",
+          "command": "cd src && python -c \"import json,options_chain_refresh as o; t=json.load(open('theses.json')); print(' '.join(o.select_universe(t, cap=16))); print(o.target_expiry('<as_of>', dte=45))\""
+        },
+        {
+          "id": "options_chain_cache_from_responses",
+          "command": "python src/options_chain_refresh.py --from-responses <tmp/options_responses.json> --out src/options_chain_cache.json --as-of <as_of> --expiry <monthly opex>"
+        },
+        {
+          "id": "self_test",
+          "command": "python src/options_chain_refresh.py --self-test"
+        }
+      ],
+      "verification": "python src/options_chain_refresh.py --self-test && python -m pytest src/test_options_chain_refresh.py src/test_full_build_runner.py src/test_options_surface.py -q",
+      "no_input_behavior": "Do not mark the options lane checked clear; a missing or partial chain bundle leaves feed.options_expression omitted (additive) and is reported as not checked, never as 'no options expression'."
+    },
+    {
       "id": "daily_synthesis_intake",
       "title": "Daily Synthesis Intake",
       "status": "active_safe_intake",
