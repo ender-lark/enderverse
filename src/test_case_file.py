@@ -165,8 +165,36 @@ def test_cli_emits_valid_json_with_all_lanes(capsys):
     rc = cf.main(["LEU", "--today", "2026-06-18", "--format", "json"])
     assert rc == 0
     out = json.loads(capsys.readouterr().out)
-    for lane in ("identity", "verdict", "earliest_record", "fundstrat_calls", "news", "decisions"):
+    for lane in ("identity", "verdict", "earliest_record", "fundstrat_calls", "news", "decisions", "options"):
         assert lane in out
+
+
+# --- options lane (owned by options_surface; attached rail-safe) --------------
+
+def test_options_lane_attached_and_rail_safe(tmp_path):
+    # Equity, no live chain pulled (pure assembler) -> honest data_gap, rail-safe.
+    cfile = cf.build_case_file("AAA", "2026-06-18", dossier_dir=tmp_path, source_calls=[], signal_log=[], top_prospects={})
+    opt = cfile["options"]
+    assert opt["blocks"] is False and opt["alert_eligible"] is False
+    assert opt["status"] in ("data_gap", "skipped", "ok", "empty")
+    assert "honesty_rule" in opt
+
+
+def test_options_lane_skips_for_macro(tmp_path):
+    cfile = cf.build_case_file("SPX", "2026-06-18", dossier_dir=tmp_path, source_calls=[], signal_log=[], top_prospects={})
+    opt = cfile["options"]
+    assert opt["status"] == "skipped"
+    assert opt["blocks"] is False and opt["alert_eligible"] is False
+
+
+def test_options_lane_degrades_if_producer_raises(tmp_path, monkeypatch):
+    # If options_surface raises, the case file must not break — lane degrades, rail intact.
+    import options_surface
+    monkeypatch.setattr(options_surface, "build_options_lane", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
+    cfile = cf.build_case_file("AAA", "2026-06-18", dossier_dir=tmp_path, source_calls=[], signal_log=[], top_prospects={})
+    opt = cfile["options"]
+    assert opt["status"] == "data_gap"
+    assert opt["blocks"] is False and opt["alert_eligible"] is False
 
 
 # --- buy-side disposition vocabulary (non-held names) -------------------------
