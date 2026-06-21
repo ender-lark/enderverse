@@ -40,6 +40,121 @@
     ]
   },
   {
+    "ticker": "GOOGL",
+    "id": "thesis_googl",
+    "tier": "T1",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "hyperscaler",
+      "long_duration_growth"
+    ]
+  },
+  {
+    "ticker": "AVGO",
+    "id": "thesis_avgo",
+    "tier": "T2",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "semiconductors",
+      "networking"
+    ]
+  },
+  {
+    "ticker": "MSFT",
+    "id": "thesis_msft",
+    "tier": "T2",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "hyperscaler",
+      "software"
+    ]
+  },
+  {
+    "ticker": "AMZN",
+    "id": "thesis_amzn",
+    "tier": "T2",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "hyperscaler"
+    ]
+  },
+  {
+    "ticker": "TSM",
+    "id": "thesis_tsm",
+    "tier": "T2",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "semiconductors",
+      "foundry",
+      "global_exporter"
+    ]
+  },
+  {
+    "ticker": "ANET",
+    "id": "thesis_anet",
+    "tier": "T3",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "networking"
+    ]
+  },
+  {
+    "ticker": "ASML",
+    "id": "thesis_asml",
+    "tier": "T3",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "semiconductors",
+      "equipment",
+      "global_exporter"
+    ]
+  },
+  {
+    "ticker": "FN",
+    "id": "thesis_fn",
+    "tier": "T3",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "optics"
+    ]
+  },
+  {
+    "ticker": "VRT",
+    "id": "thesis_vrt",
+    "tier": "T3",
+    "lane": "Speed",
+    "stance": "ACTIVE",
+    "source": "operator",
+    "factor_tags": [
+      "ai_complex",
+      "power_thermal"
+    ]
+  },
+  {
     "ticker": "SMH",
     "id": "thesis_smh",
     "tier": "T2",
