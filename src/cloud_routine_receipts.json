@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T14:48:39.500520Z",
-      "summary": "checked 2 web pages, Gmail 0 full bodies; landed 0 rows; suppressed/discovery-only 2 Gmail snippets older than prior success; validation passed; alert quiet with 0 candidates and 2 duplicates; dark/stale macro June 11, crypto June 8, no new full-content evidence; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T15:46:26.943586Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T15:47:35.159762Z",
-      "summary": "checked 2 web pages, Gmail 0 full-body/2 discovery; landed 0 rows; suppressed/discovery-only 2; validation passed; alert quiet (0 candidates, 2 duplicates); dark/stale no fresh June 12 flash or newer Gmail; blockers none"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-midday",
       "status": "started",
       "run_source": "scheduled",
@@ -6634,7 +6613,28 @@
         ]
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T17:01:29.465589Z",
+      "summary": "deep synthesis started"
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T17:04:44.042379Z",
+      "summary": "weekly deep read 2026-06-21; patterns: recheck-first, HOOD disposition mismatch, oil/rates event risk, GOOGL/COHR/BMNR/UUUU/MP research hanging; pilot/calibration/trade outcomes not_checked; Notion write pending readback"
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T17:05:03.942336Z",
+      "summary": "weekly deep 2026-06-21 read trailing 30d; patterns recheck-first, HOOD PASS vs sell-fast surfacing, oil/rates event risk, GOOGL/COHR/BMNR/UUUU/MP hanging; pilot/calibration/trade outcomes not_checked; Notion page 386c5031-4bb6-819f-bc7c-e60da973fe87 written/readback verified"
     }
   ],
-  "updated_at": "2026-06-21T08:53:46.129124Z"
+  "updated_at": "2026-06-21T17:05:03.942336Z"
 }
