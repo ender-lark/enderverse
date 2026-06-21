@@ -5657,10 +5657,26 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
         groups[_decision_group(card)].append(card)
     rank = 1
 
+    # cross-link: the LOUD options idea for a name rides as ONE compact line on its decision card
+    # (the leveraged expression of a decision already on the card) -- gated to loud_ideas, inherits the
+    # card's prominence (never makes a WATCH option loud on an ACT card); full detail stays in the block.
+    _opt_by_ticker = {str(i.get("ticker") or "").upper(): i
+                      for i in opt_surface.loud_ideas(payload.get("options"))}
+
+    def _emit_options_xlink(card: dict[str, Any]) -> None:
+        idea = _opt_by_ticker.get(str(card.get("ticker") or "").upper())
+        if not idea or not idea.get("move"):
+            return
+        move = __import__("html").escape(str(idea["move"]))
+        h.append('<div class="td-opt-xlink" style="font-size:12px;color:#6ee7b7;margin:2px 0 8px 14px;'
+                 'border-left:3px solid #34d399;padding-left:8px">▸ Leveraged options expression: '
+                 + move + '</div>')
+
     def _emit(card: dict[str, Any]) -> None:
         nonlocal rank
         h.extend(_render_card(card, rank, check_first=bool(card.get("card_blockers")),
                               built_date=built_date, plan=_plan_for(card), tunables=tunables))
+        _emit_options_xlink(card)
         rank += 1
 
     h.append('<div class="td-sectlead">The move - do this first</div>')
