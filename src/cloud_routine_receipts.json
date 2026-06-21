@@ -4,27 +4,6 @@
     {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-12T14:17:47.356126Z",
-      "summary": "manual full cockpit refresh succeeded for fresh dashboard after current 10:00/10:05 cache runs",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T14:32:48.541821Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-12T14:32:51.486675Z",
       "summary": "full cockpit build succeeded",
@@ -6583,7 +6562,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-21T01:26:46.923414Z",
       "summary": "checked cockpit/queue/holdings, SEC active universe, UW bounded proof, Guardian/Fortune Hormuz, Kalshi/Polymarket public markets, HOOD SEC+UW; candidates 2; routed Event Risk 1 + Signal Log 2; Notion Signal Log verified 2/2; SEC no post-Jun20 filings; Social Watch dark; UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX/RYF flow empty, PortWatch direct export not_checked"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T05:45:54.964027Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-21T05:49:46.190057Z",
+      "summary": "processed BMNR GOOGL COHR; live RQ counts H2q/H7w/H6d M3q/M25w/M22d L8q/L12w/L4d; verified writes 3/3; remaining active q+w 57; dark lanes same-session flow/dilution/mNAV/final awards"
     }
   ],
-  "updated_at": "2026-06-21T01:26:46.923414Z"
+  "updated_at": "2026-06-21T05:49:46.190057Z"
 }
