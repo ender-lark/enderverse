@@ -45,6 +45,10 @@ ENUM_TARGETS = {
     "AMZN": ("—", "flat"), "COST": ("—", "flat"), "MSFT": ("—", "flat"),
 }
 FRESH_TARGET = sorted([("ITA", "act"), ("FN", "watch")])
+GOLDEN_THESIS_TICKERS = {
+    "BMNR", "LEU", "NVDA", "SMH", "GRNY", "MAGS", "GRNJ", "IGV",
+    "VOLT", "IVES", "MU", "UUUU", "XLF", "MP",
+}
 
 
 # --------------------------------------------------------------------------- #
@@ -123,8 +127,13 @@ def build_snapshot_bundle() -> dict:
         card("portfolio", "position", tk, f"{tk} {pct:.2f}% Owned", "2026-05-27", 0.95,
              "own", ticker=tk, pct=pct, owner=own)
 
-    # ── theses (theses.json 14 + IBIT) with stance overlay ──
-    theses = json.load(open(os.path.join(HERE, "theses.json")))
+    # ── theses (historical theses.json 14 + IBIT) with stance overlay ──
+    # This is a 2026-05-29 oracle. Keep the historical thesis universe frozen so
+    # later thesis-of-record additions do not rewrite old golden behavior.
+    theses = [
+        row for row in json.load(open(os.path.join(HERE, "theses.json")))
+        if row.get("ticker") in GOLDEN_THESIS_TICKERS
+    ]
     theses.append({"ticker": "IBIT", "tier": "T2", "lane": "Generational",
                    "source": "operator", "factor_tags": ["crypto"]})
     monitor = {"BMNR", "LEU", "UUUU", "MP", "IBIT"}   # the burned sleeves
