@@ -1,8 +1,8 @@
 # Integration Debt Report
 
-Generated: 2026-06-16T05:16:52Z
+Generated: 2026-06-21T22:02:41Z
 
-Status: warn | warnings: 1 | findings: 14
+Status: warn | warnings: 2 | findings: 17
 
 ## Findings
 
@@ -16,61 +16,76 @@ Status: warn | warnings: 1 | findings: 14
    - Line: 13f_quarterly_pull.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/13f_quarterly_pull.py
-3. [INFO] benchmark_overlay.py has no visible wiring
+3. [INFO] automation_prompt_audit.py has no visible wiring
+   - Area: module_wiring
+   - Line: automation_prompt_audit.py has no non-test import and no routine/prompt command reference.
+   - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
+   - Evidence: src/automation_prompt_audit.py
+4. [INFO] benchmark_overlay.py has no visible wiring
    - Area: module_wiring
    - Line: benchmark_overlay.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/benchmark_overlay.py
-4. [INFO] build_golden.py has no visible wiring
+5. [INFO] build_golden.py has no visible wiring
    - Area: module_wiring
    - Line: build_golden.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/build_golden.py
-5. [INFO] cloud_routine_drill.py has no visible wiring
+6. [INFO] cloud_routine_drill.py has no visible wiring
    - Area: module_wiring
    - Line: cloud_routine_drill.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/cloud_routine_drill.py
-6. [INFO] cloud_routine_manual_run.py has no visible wiring
+7. [INFO] cloud_routine_manual_run.py has no visible wiring
    - Area: module_wiring
    - Line: cloud_routine_manual_run.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/cloud_routine_manual_run.py
-7. [INFO] cockpit_html_gen.py has no visible wiring
+8. [INFO] cockpit_html_gen.py has no visible wiring
    - Area: module_wiring
    - Line: cockpit_html_gen.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/cockpit_html_gen.py
-8. [INFO] cockpit_jsx_preview.py has no visible wiring
+9. [INFO] cockpit_jsx_preview.py has no visible wiring
    - Area: module_wiring
    - Line: cockpit_jsx_preview.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/cockpit_jsx_preview.py
-9. [INFO] completion_audit.py has no visible wiring
+10. [INFO] completion_audit.py has no visible wiring
    - Area: module_wiring
    - Line: completion_audit.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/completion_audit.py
-10. [INFO] correlation_matrix.py has no visible wiring
+11. [INFO] correlation_matrix.py has no visible wiring
    - Area: module_wiring
    - Line: correlation_matrix.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
    - Evidence: src/correlation_matrix.py
-11. [INFO] deepdive_runner.py has no visible wiring
+12. [INFO] decision_dossier_sync.py has no visible wiring
    - Area: module_wiring
-   - Line: deepdive_runner.py has no non-test import and no routine/prompt command reference.
+   - Line: decision_dossier_sync.py has no non-test import and no routine/prompt command reference.
    - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
-   - Evidence: src/deepdive_runner.py
-12. [INFO] disconfirmation_registry.py has no visible wiring
-   - Area: module_wiring
-   - Line: disconfirmation_registry.py has no non-test import and no routine/prompt command reference.
-   - Next: Either wire it through a routine/surface, document it as standalone/manual, or retire it.
-   - Evidence: src/disconfirmation_registry.py
-13. [INFO] research_action_promotion prompt is not visibly scheduled
+   - Evidence: src/decision_dossier_sync.py
+13. [WARN] disconfirmation_registry.json carries candidates but is not surfaced
+   - Area: build_without_wire
+   - Line: disconfirmation_registry.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry.
+   - Next: Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.
+   - Evidence: src/disconfirmation_registry.json
+14. [INFO] research_action_promotion prompt is not visibly scheduled
    - Area: routine_schedule
    - Line: src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.
    - Next: Register it, mark it retired, or document why it is manual-only.
-14. [WARN] Notion System Update Queue not checked
+15. [INFO] federal_funding_midday_watch lacks repo prompt coverage
+   - Area: routine_schedule
+   - Line: federal_funding_midday_watch is scheduled but has no repo prompt/manifest doc match.
+   - Next: Add a repo prompt/doc or map the schedule to an existing manifest entry.
+   - Evidence: investing-os-federal-funding-midday-watch; market weekdays 11:20 AM ET
+16. [INFO] federal_funding_post_close_sweep lacks repo prompt coverage
+   - Area: routine_schedule
+   - Line: federal_funding_post_close_sweep is scheduled but has no repo prompt/manifest doc match.
+   - Next: Add a repo prompt/doc or map the schedule to an existing manifest entry.
+   - Evidence: investing-os-federal-funding-post-close-sweep; market weekdays 5:35 PM ET
+17. [WARN] Notion System Update Queue not checked
    - Area: notion_queue
    - Line: Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status.
    - Next: Run with a Notion queue export/connector snapshot when doing the weekly debt review.
@@ -83,13 +98,17 @@ Options-exit cadence: v11.10 7-rule cadence has visible routine or STALE-LEAPS w
 
 ### module_wiring
 
-Module wiring sweep: 34 candidate orphan module(s); 0 priority warning(s).
+Module wiring sweep: 36 candidate orphan module(s); 0 priority warning(s).
+
+### build_without_wire
+
+Build-without-wire sweep: 29 candidate-bearing artifact(s); 1 unwired warning(s).
 
 ### routine_schedule
 
-Routine schedule sweep: 1 prompt-only file(s), 0 scheduled routine(s) without repo prompt/doc coverage.
+Routine schedule sweep: 1 prompt-only file(s), 2 scheduled routine(s) without repo prompt/doc coverage.
 
 ### notion_queue
 
-Notion queue sweep: not_checked; repo-local system queue has 0 active/queued item(s).
+Notion queue sweep: not_checked; repo-local system queue has 4 active/queued item(s).
 

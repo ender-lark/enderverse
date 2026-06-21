@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-16T05:16:52Z",
+  "generated_at": "2026-06-21T22:02:41Z",
   "status": "warn",
-  "warning_count": 1,
-  "finding_count": 14,
-  "line": "Integration debt: 1 warning(s), 14 total finding(s).",
+  "warning_count": 2,
+  "finding_count": 17,
+  "line": "Integration debt: 2 warning(s), 17 total finding(s).",
   "sections": {
     "options_exit_cadence": {
       "status": "ok",
@@ -17,8 +17,8 @@
     },
     "module_wiring": {
       "status": "info",
-      "line": "Module wiring sweep: 34 candidate orphan module(s); 0 priority warning(s).",
-      "candidate_count": 34,
+      "line": "Module wiring sweep: 36 candidate orphan module(s); 0 priority warning(s).",
+      "candidate_count": 36,
       "priority_warning_count": 0,
       "rows": [
         {
@@ -32,6 +32,12 @@
           "path": "src/13f_quarterly_pull.py",
           "has_cli": true,
           "line": "13f_quarterly_pull.py has no non-test import and no routine/prompt command reference."
+        },
+        {
+          "module": "automation_prompt_audit",
+          "path": "src/automation_prompt_audit.py",
+          "has_cli": true,
+          "line": "automation_prompt_audit.py has no non-test import and no routine/prompt command reference."
         },
         {
           "module": "benchmark_overlay",
@@ -82,16 +88,10 @@
           "line": "correlation_matrix.py has no non-test import and no routine/prompt command reference."
         },
         {
-          "module": "deepdive_runner",
-          "path": "src/deepdive_runner.py",
+          "module": "decision_dossier_sync",
+          "path": "src/decision_dossier_sync.py",
           "has_cli": true,
-          "line": "deepdive_runner.py has no non-test import and no routine/prompt command reference."
-        },
-        {
-          "module": "disconfirmation_registry",
-          "path": "src/disconfirmation_registry.py",
-          "has_cli": true,
-          "line": "disconfirmation_registry.py has no non-test import and no routine/prompt command reference."
+          "line": "decision_dossier_sync.py has no non-test import and no routine/prompt command reference."
         }
       ],
       "findings": [
@@ -115,6 +115,17 @@
           "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
           "evidence": [
             "src/13f_quarterly_pull.py"
+          ]
+        },
+        {
+          "id": "module_unwired_automation_prompt_audit",
+          "area": "module_wiring",
+          "severity": "info",
+          "title": "automation_prompt_audit.py has no visible wiring",
+          "line": "automation_prompt_audit.py has no non-test import and no routine/prompt command reference.",
+          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "evidence": [
+            "src/automation_prompt_audit.py"
           ]
         },
         {
@@ -206,37 +217,223 @@
           ]
         },
         {
-          "id": "module_unwired_deepdive_runner",
+          "id": "module_unwired_decision_dossier_sync",
           "area": "module_wiring",
           "severity": "info",
-          "title": "deepdive_runner.py has no visible wiring",
-          "line": "deepdive_runner.py has no non-test import and no routine/prompt command reference.",
+          "title": "decision_dossier_sync.py has no visible wiring",
+          "line": "decision_dossier_sync.py has no non-test import and no routine/prompt command reference.",
           "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
           "evidence": [
-            "src/deepdive_runner.py"
+            "src/decision_dossier_sync.py"
           ]
+        }
+      ]
+    },
+    "build_without_wire": {
+      "status": "warn",
+      "line": "Build-without-wire sweep: 29 candidate-bearing artifact(s); 1 unwired warning(s).",
+      "candidate_count": 29,
+      "unwired_count": 1,
+      "rows": [
+        {
+          "artifact": "account_positions.json",
+          "path": "src/account_positions.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "account_positions.json carries ticker/candidate rows and is wired via decision_path_reader."
         },
         {
-          "id": "module_unwired_disconfirmation_registry",
-          "area": "module_wiring",
-          "severity": "info",
-          "title": "disconfirmation_registry.py has no visible wiring",
-          "line": "disconfirmation_registry.py has no non-test import and no routine/prompt command reference.",
-          "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+          "artifact": "catalysts.json",
+          "path": "src/catalysts.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "catalysts.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "decision_dossiers.json",
+          "path": "src/decision_dossiers.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "decision_dossiers.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "disconfirmation_registry.json",
+          "path": "src/disconfirmation_registry.json",
+          "wired": false,
+          "wiring": "missing",
+          "line": "disconfirmation_registry.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry."
+        },
+        {
+          "artifact": "efficacy_scenarios.json",
+          "path": "src/efficacy_scenarios.json",
+          "wired": true,
+          "wiring": "non_surfacing_allowlist",
+          "line": "efficacy_scenarios.json carries ticker/candidate rows and is wired via non_surfacing_allowlist.",
+          "classification": "example_fixture",
+          "non_surfacing_reason": "Regression harness scenarios for trigger/sizing efficacy; they are test inputs, not live decision candidates."
+        },
+        {
+          "artifact": "fed_day_reallocation_packet.json",
+          "path": "src/fed_day_reallocation_packet.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "fed_day_reallocation_packet.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "fundstrat_bible.json",
+          "path": "src/fundstrat_bible.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "fundstrat_bible.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "fundstrat_daily_calls.json",
+          "path": "src/fundstrat_daily_calls.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "fundstrat_daily_calls.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "latest_cockpit_feed.json",
+          "path": "src/latest_cockpit_feed.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "latest_cockpit_feed.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "open_opportunities.json",
+          "path": "src/open_opportunities.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "open_opportunities.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "orphan_triage.json",
+          "path": "src/orphan_triage.json",
+          "wired": true,
+          "wiring": "non_surfacing_allowlist",
+          "line": "orphan_triage.json carries ticker/candidate rows and is wired via non_surfacing_allowlist.",
+          "classification": "audit_artifact",
+          "non_surfacing_reason": "Orphan-holding audit output; it informs follow-up review work but is not a direct Today/Decide candidate source."
+        },
+        {
+          "artifact": "parabolic_setups.json",
+          "path": "src/parabolic_setups.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "parabolic_setups.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "position_reconciliation.json",
+          "path": "src/position_reconciliation.json",
+          "wired": true,
+          "wiring": "state_ownership_feed_path",
+          "line": "position_reconciliation.json carries ticker/candidate rows and is wired via state_ownership_feed_path."
+        },
+        {
+          "artifact": "positions.json",
+          "path": "src/positions.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "positions.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "research_queue.json",
+          "path": "src/research_queue.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "research_queue.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "sample_opportunity_signals.json",
+          "path": "src/sample_opportunity_signals.json",
+          "wired": true,
+          "wiring": "non_surfacing_allowlist",
+          "line": "sample_opportunity_signals.json carries ticker/candidate rows and is wired via non_surfacing_allowlist.",
+          "classification": "sample_data",
+          "non_surfacing_reason": "Sample opportunity-signal payload for development/tests; live flow uses uw_opportunity_signals.json."
+        },
+        {
+          "artifact": "signal_log.json",
+          "path": "src/signal_log.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "signal_log.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "source_call_cache_summary.json",
+          "path": "src/source_call_cache_summary.json",
+          "wired": true,
+          "wiring": "non_surfacing_allowlist",
+          "line": "source_call_cache_summary.json carries ticker/candidate rows and is wired via non_surfacing_allowlist.",
+          "classification": "proof_cache",
+          "non_surfacing_reason": "Summary/proof of source-call cache merge state; source_calls.json is the decision-path input."
+        },
+        {
+          "artifact": "source_call_candidates.json",
+          "path": "src/source_call_candidates.json",
+          "wired": true,
+          "wiring": "non_surfacing_allowlist",
+          "line": "source_call_candidates.json carries ticker/candidate rows and is wired via non_surfacing_allowlist.",
+          "classification": "intermediate_cache",
+          "non_surfacing_reason": "Pre-merge/classification candidate cache; source_calls.json is the scored and surfaced decision-path artifact."
+        },
+        {
+          "artifact": "source_calls.json",
+          "path": "src/source_calls.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "source_calls.json carries ticker/candidate rows and is wired via decision_path_reader."
+        }
+      ],
+      "findings": [
+        {
+          "id": "build_without_wire_disconfirmation_registry",
+          "area": "build_without_wire",
+          "severity": "warn",
+          "title": "disconfirmation_registry.json carries candidates but is not surfaced",
+          "line": "disconfirmation_registry.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry.",
+          "next_step": "Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.",
           "evidence": [
-            "src/disconfirmation_registry.py"
+            "src/disconfirmation_registry.json"
           ]
         }
       ]
     },
     "routine_schedule": {
       "status": "info",
-      "line": "Routine schedule sweep: 1 prompt-only file(s), 0 scheduled routine(s) without repo prompt/doc coverage.",
+      "line": "Routine schedule sweep: 1 prompt-only file(s), 2 scheduled routine(s) without repo prompt/doc coverage.",
       "prompt_only": [
         "research_action_promotion"
       ],
-      "scheduled_without_doc": [],
-      "rows": [],
+      "scheduled_without_doc": [
+        {
+          "routine_id": "investing-os-federal-funding-midday-watch",
+          "role": "federal_funding_midday_watch",
+          "schedule": "market weekdays 11:20 AM ET",
+          "line": "federal_funding_midday_watch is scheduled but has no repo prompt/manifest doc match."
+        },
+        {
+          "routine_id": "investing-os-federal-funding-post-close-sweep",
+          "role": "federal_funding_post_close_sweep",
+          "schedule": "market weekdays 5:35 PM ET",
+          "line": "federal_funding_post_close_sweep is scheduled but has no repo prompt/manifest doc match."
+        }
+      ],
+      "rows": [
+        {
+          "routine_id": "investing-os-federal-funding-midday-watch",
+          "role": "federal_funding_midday_watch",
+          "schedule": "market weekdays 11:20 AM ET",
+          "line": "federal_funding_midday_watch is scheduled but has no repo prompt/manifest doc match."
+        },
+        {
+          "routine_id": "investing-os-federal-funding-post-close-sweep",
+          "role": "federal_funding_post_close_sweep",
+          "schedule": "market weekdays 5:35 PM ET",
+          "line": "federal_funding_post_close_sweep is scheduled but has no repo prompt/manifest doc match."
+        }
+      ],
       "findings": [
         {
           "id": "prompt_without_schedule_research_action_promotion",
@@ -245,14 +442,75 @@
           "title": "research_action_promotion prompt is not visibly scheduled",
           "line": "src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.",
           "next_step": "Register it, mark it retired, or document why it is manual-only."
+        },
+        {
+          "id": "scheduled_without_repo_prompt_federal_funding_midday_watch",
+          "area": "routine_schedule",
+          "severity": "info",
+          "title": "federal_funding_midday_watch lacks repo prompt coverage",
+          "line": "federal_funding_midday_watch is scheduled but has no repo prompt/manifest doc match.",
+          "next_step": "Add a repo prompt/doc or map the schedule to an existing manifest entry.",
+          "evidence": [
+            "investing-os-federal-funding-midday-watch",
+            "market weekdays 11:20 AM ET"
+          ]
+        },
+        {
+          "id": "scheduled_without_repo_prompt_federal_funding_post_close_sweep",
+          "area": "routine_schedule",
+          "severity": "info",
+          "title": "federal_funding_post_close_sweep lacks repo prompt coverage",
+          "line": "federal_funding_post_close_sweep is scheduled but has no repo prompt/manifest doc match.",
+          "next_step": "Add a repo prompt/doc or map the schedule to an existing manifest entry.",
+          "evidence": [
+            "investing-os-federal-funding-post-close-sweep",
+            "market weekdays 5:35 PM ET"
+          ]
         }
       ]
     },
     "notion_queue": {
       "status": "not_checked",
-      "line": "Notion queue sweep: not_checked; repo-local system queue has 0 active/queued item(s).",
-      "local_queue_active_or_queued": 0,
-      "rows": [],
+      "line": "Notion queue sweep: not_checked; repo-local system queue has 4 active/queued item(s).",
+      "local_queue_active_or_queued": 4,
+      "rows": [
+        {
+          "id": "local-dashboard-origin-tracking",
+          "title": "Keep the local dashboard visibly tied to the freshest scheduled build",
+          "priority": "P1",
+          "status": "queued",
+          "area": "dashboard",
+          "why": "A stale local tab can contradict origin/main scheduled proof and make operators distrust the cockpit.",
+          "done_when": "The local server either tracks the latest scheduled origin/main artifact or clearly reports checkout, branch, commit, feed timestamp, and hash in the UI and health endpoint."
+        },
+        {
+          "id": "source-scoring-maturation",
+          "title": "Keep source scoring honest until graded outcomes reach threshold",
+          "priority": "P2",
+          "status": "queued",
+          "area": "source_scoring",
+          "why": "Source scoring should refresh daily but remain off until enough closed graded calls exist. Lowering thresholds or fake backfills would create false confidence.",
+          "done_when": "source_rates regenerates from real source_calls, reports n=0 or insufficient data honestly, and flips on only when n>=15 per scored source/tier."
+        },
+        {
+          "id": "fundstrat-inbox-reliability-contract",
+          "title": "Make Fundstrat inbox checked/not-checked state explainable",
+          "priority": "P1",
+          "status": "queued",
+          "area": "fundstrat",
+          "why": "The cockpit must say whether the Fundstrat inbox was actually checked this render, not hide Gmail/Chrome gaps behind cached daily calls.",
+          "done_when": "Fundstrat intake surfaces last checked time, access path, snippet-only/full-body counts, and explicit not_checked reasons in the feed."
+        },
+        {
+          "id": "decision-surface-quality-pass",
+          "title": "Make the cockpit show why nothing is actionable",
+          "priority": "P1",
+          "status": "queued",
+          "area": "cockpit",
+          "why": "When there are no ACT_NOW rows, the operator needs the blocking reason, next proof needed, sizing implication, and time sensitivity rather than a quiet dashboard.",
+          "done_when": "The primary cockpit surfaces blocked-but-important candidates with proof gaps, timing sensitivity, sizing impact, and next operator step."
+        }
+      ],
       "findings": [
         {
           "id": "notion_queue_not_checked",
@@ -286,6 +544,17 @@
       "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
       "evidence": [
         "src/13f_quarterly_pull.py"
+      ]
+    },
+    {
+      "id": "module_unwired_automation_prompt_audit",
+      "area": "module_wiring",
+      "severity": "info",
+      "title": "automation_prompt_audit.py has no visible wiring",
+      "line": "automation_prompt_audit.py has no non-test import and no routine/prompt command reference.",
+      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "evidence": [
+        "src/automation_prompt_audit.py"
       ]
     },
     {
@@ -377,25 +646,25 @@
       ]
     },
     {
-      "id": "module_unwired_deepdive_runner",
+      "id": "module_unwired_decision_dossier_sync",
       "area": "module_wiring",
       "severity": "info",
-      "title": "deepdive_runner.py has no visible wiring",
-      "line": "deepdive_runner.py has no non-test import and no routine/prompt command reference.",
+      "title": "decision_dossier_sync.py has no visible wiring",
+      "line": "decision_dossier_sync.py has no non-test import and no routine/prompt command reference.",
       "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
       "evidence": [
-        "src/deepdive_runner.py"
+        "src/decision_dossier_sync.py"
       ]
     },
     {
-      "id": "module_unwired_disconfirmation_registry",
-      "area": "module_wiring",
-      "severity": "info",
-      "title": "disconfirmation_registry.py has no visible wiring",
-      "line": "disconfirmation_registry.py has no non-test import and no routine/prompt command reference.",
-      "next_step": "Either wire it through a routine/surface, document it as standalone/manual, or retire it.",
+      "id": "build_without_wire_disconfirmation_registry",
+      "area": "build_without_wire",
+      "severity": "warn",
+      "title": "disconfirmation_registry.json carries candidates but is not surfaced",
+      "line": "disconfirmation_registry.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry.",
+      "next_step": "Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.",
       "evidence": [
-        "src/disconfirmation_registry.py"
+        "src/disconfirmation_registry.json"
       ]
     },
     {
@@ -405,6 +674,30 @@
       "title": "research_action_promotion prompt is not visibly scheduled",
       "line": "src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.",
       "next_step": "Register it, mark it retired, or document why it is manual-only."
+    },
+    {
+      "id": "scheduled_without_repo_prompt_federal_funding_midday_watch",
+      "area": "routine_schedule",
+      "severity": "info",
+      "title": "federal_funding_midday_watch lacks repo prompt coverage",
+      "line": "federal_funding_midday_watch is scheduled but has no repo prompt/manifest doc match.",
+      "next_step": "Add a repo prompt/doc or map the schedule to an existing manifest entry.",
+      "evidence": [
+        "investing-os-federal-funding-midday-watch",
+        "market weekdays 11:20 AM ET"
+      ]
+    },
+    {
+      "id": "scheduled_without_repo_prompt_federal_funding_post_close_sweep",
+      "area": "routine_schedule",
+      "severity": "info",
+      "title": "federal_funding_post_close_sweep lacks repo prompt coverage",
+      "line": "federal_funding_post_close_sweep is scheduled but has no repo prompt/manifest doc match.",
+      "next_step": "Add a repo prompt/doc or map the schedule to an existing manifest entry.",
+      "evidence": [
+        "investing-os-federal-funding-post-close-sweep",
+        "market weekdays 5:35 PM ET"
+      ]
     },
     {
       "id": "notion_queue_not_checked",
