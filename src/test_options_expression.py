@@ -82,3 +82,26 @@ def test_shadow_log_excludes_acted(tmp_path):
     n = osl.append_rejections([acted, waited], path=p, as_of="2026-06-18")
     assert n == 1                                   # only the WAIT is logged
     assert osl.open_misses(p)[0]["ticker"] == waited["ticker"]
+
+
+def test_conviction_scaled_sizing_with_shown_ceiling():
+    # cheap premium ($100/contract) so many contracts fit -> conviction scaling is visible
+    strong = oe.size_position(100.0, portfolio_value=100000, open_premium_at_risk=0,
+                              conviction_strength=1.0, cfg=None)
+    weak = oe.size_position(100.0, portfolio_value=100000, open_premium_at_risk=0,
+                            conviction_strength=0.5, cfg=None)
+    assert strong["ceiling_contracts"] == 20 and weak["ceiling_contracts"] == 20   # the cap rail is the same
+    assert strong["contracts"] == 20                            # strong conviction sits AT the cap (never timid)
+    assert weak["contracts"] < weak["ceiling_contracts"]        # weak sizes DOWN from the cap
+    assert weak["contracts"] >= int(20 * oe.DEFAULTS["size_floor_frac"])   # but never below the floor
+    assert weak["suggested_pct_of_cap"] is not None and weak["suggested_pct_of_cap"] < 100
+
+
+def test_unknown_conviction_is_never_timid_defaults_to_full_cap():
+    out = oe.size_position(100.0, portfolio_value=100000, open_premium_at_risk=0, cfg=None)  # no strength passed
+    assert out["contracts"] == out["ceiling_contracts"] == 20   # default -> full cap, not a haircut
+
+
+def test_summarize_run_shows_aggregate_budget():
+    summ = oe.summarize_run([oe.build_expression(_cheap_act_subject())])
+    assert summ["budget_line"] and "options budget" in summ["headline"]

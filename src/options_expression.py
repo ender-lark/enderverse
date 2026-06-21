@@ -73,6 +73,9 @@ DEFAULTS: dict[str, Any] = {
     # --- sizing (operator-locked 2026-06-18: ~2% / ~10%) ---
     "per_trade_cap_pct": 0.02,         # max premium-at-risk per trade, % of total portfolio
     "aggregate_cap_pct": 0.10,         # max total open long-premium, % of total portfolio
+    "size_floor_frac": 0.40,           # a gate-clearing idea suggests >= this fraction of the per-trade cap (never timid)
+    "conviction_full_at": 0.85,        # conviction strength >= this -> SUGGESTED size = the full per-trade cap
+    "default_conviction_strength": 1.0,  # unknown conviction -> full cap (under-sizing is THE failure; operator scales down)
     # --- earnings / IV-crush ---
     "earnings_block": True,            # block long premium into a known earnings event by default
 }
@@ -228,11 +231,15 @@ def iv_tax_engaged(one_day_return: Optional[float], iv_env: str, cfg) -> bool:
 
 
 # ─────────────────────────── sizing (pure) ───────────────────────────────────
-def size_position(premium_per_unit, *, portfolio_value, open_premium_at_risk, cfg) -> dict:
-    """Size by PREMIUM-AT-RISK (max loss = premium). Honors per-trade and aggregate caps.
-    premium_per_unit is the per-contract debit in DOLLARS (mid * 100, or net debit * 100)."""
+def size_position(premium_per_unit, *, portfolio_value, open_premium_at_risk,
+                  conviction_strength=None, cfg) -> dict:
+    """Size by PREMIUM-AT-RISK (max loss = premium). The per-trade & aggregate caps are operator-locked
+    RAILS; within the per-trade cap the SUGGESTED size scales UP with conviction strength (weak sizes
+    down from the cap, strong sits AT the cap — never timid, never below a floor), and the full-cap
+    CEILING is always returned so the operator can scale up. premium_per_unit = per-contract debit ($)."""
     out: dict[str, Any] = {"contracts": None, "max_loss_dollars": None, "max_loss_pct_book": None,
-                           "size_note": None}
+                           "size_note": None, "ceiling_contracts": None, "ceiling_max_loss_dollars": None,
+                           "ceiling_max_loss_pct_book": None, "suggested_pct_of_cap": None}
     if not premium_per_unit or premium_per_unit <= 0:
         out["size_note"] = "No tradeable price — size unknown."
         return out
@@ -242,10 +249,11 @@ def size_position(premium_per_unit, *, portfolio_value, open_premium_at_risk, cf
         return out
     per_trade_budget = portfolio_value * _cfg(cfg, "per_trade_cap_pct")
     remaining_aggregate = portfolio_value * _cfg(cfg, "aggregate_cap_pct") - (open_premium_at_risk or 0.0)
-    budget = max(0.0, min(per_trade_budget, remaining_aggregate))
-    contracts = int(budget // premium_per_unit)
-    if contracts < 1:
+    ceiling_budget = max(0.0, min(per_trade_budget, remaining_aggregate))   # the full-cap rail
+    ceiling_contracts = int(ceiling_budget // premium_per_unit)
+    if ceiling_contracts < 1:
         out["contracts"] = 0
+        out["ceiling_contracts"] = 0
         if remaining_aggregate < per_trade_budget:
             out["size_note"] = ("Your options budget is nearly used up — at the ~"
                                 f"{_cfg(cfg, 'aggregate_cap_pct') * 100:.0f}% total cap there isn't room "
@@ -255,10 +263,27 @@ def size_position(premium_per_unit, *, portfolio_value, open_premium_at_risk, cf
                                 f"{_cfg(cfg, 'per_trade_cap_pct') * 100:.0f}% per-trade cap allows — "
                                 "consider a cheaper (further-out-of-the-money or spread) structure.")
         return out
+    # conviction-scaled SUGGESTED fraction of the per-trade cap (floor..1.0); strong conviction -> full cap
+    floor_frac = _cfg(cfg, "size_floor_frac")
+    full_at = _cfg(cfg, "conviction_full_at") or 1.0
+    strength = conviction_strength if conviction_strength is not None else _cfg(cfg, "default_conviction_strength")
+    try:
+        strength = float(strength)
+    except (TypeError, ValueError):
+        strength = _cfg(cfg, "default_conviction_strength")
+    frac = floor_frac + (1.0 - floor_frac) * min(1.0, max(0.0, strength) / full_at)
+    frac = min(1.0, max(floor_frac, frac))
+    suggested_budget = min(ceiling_budget, per_trade_budget * frac)
+    contracts = max(1, int(suggested_budget // premium_per_unit))   # a gate-clearing idea is never sized to 0
     max_loss = contracts * premium_per_unit
+    ceil_loss = ceiling_contracts * premium_per_unit
     out["contracts"] = contracts
     out["max_loss_dollars"] = _round_money(max_loss)
     out["max_loss_pct_book"] = round(100.0 * max_loss / portfolio_value, 2)
+    out["ceiling_contracts"] = ceiling_contracts
+    out["ceiling_max_loss_dollars"] = _round_money(ceil_loss)
+    out["ceiling_max_loss_pct_book"] = round(100.0 * ceil_loss / portfolio_value, 2)
+    out["suggested_pct_of_cap"] = round(100.0 * contracts / ceiling_contracts) if ceiling_contracts else None
     return out
 
 
@@ -322,6 +347,8 @@ def build_expression(subject: dict, *, cfg: Optional[dict] = None) -> dict:
         "disposition": "SKIP", "move": None, "when": None, "timing": None, "tripwire_note": None,
         "structure": None, "legs": None,
         "iv_environment": "unknown", "iv_tax_brake": False, "brake_reason": None,
+        "conviction_strength": None, "ceiling_contracts": None,
+        "ceiling_max_loss_dollars": None, "ceiling_max_loss_pct_book": None, "suggested_pct_of_cap": None,
         "why": None, "the_catch": None, "filter_reason": None, "glossary": {},
         "honesty": "A 100% loss of the premium is a realistic outcome — this is sized for that.",
     }
@@ -351,6 +378,10 @@ def build_expression(subject: dict, *, cfg: Optional[dict] = None) -> dict:
     horizon = int(horizon) if horizon is not None else None
     iv_env = classify_iv(iv_rank, cfg)
     base["iv_environment"] = iv_env
+    strength = _f(subject.get("conviction_strength"))
+    if strength is None:
+        strength = _cfg(cfg, "default_conviction_strength")
+    base["conviction_strength"] = strength
 
     # --- earnings / IV-crush awareness: earnings_dte STEERS expiry selection (try to land past
     #     the event); the crush flag itself is only set later, once we know the chosen expiry
@@ -414,8 +445,11 @@ def build_expression(subject: dict, *, cfg: Optional[dict] = None) -> dict:
     # --- sizing ---
     sizing = size_position(built["premium_per_unit"],
                            portfolio_value=_f(subject.get("portfolio_value")),
-                           open_premium_at_risk=_f(subject.get("open_premium_at_risk")), cfg=cfg)
-    base.update({k: sizing[k] for k in ("contracts", "max_loss_dollars", "max_loss_pct_book", "size_note")})
+                           open_premium_at_risk=_f(subject.get("open_premium_at_risk")),
+                           conviction_strength=strength, cfg=cfg)
+    base.update({k: sizing[k] for k in ("contracts", "max_loss_dollars", "max_loss_pct_book", "size_note",
+                                        "ceiling_contracts", "ceiling_max_loss_dollars",
+                                        "ceiling_max_loss_pct_book", "suggested_pct_of_cap")})
 
     # --- disposition (graded; ACT / WAIT / WATCH — never a silent drop) ---
     disposition, timing, filter_reason = _grade(
@@ -505,6 +539,9 @@ def _move_sentence(tk, side, built, sizing, structure_kind, disposition):
     tail = ""
     if sizing.get("max_loss_dollars") is not None and sizing.get("max_loss_pct_book") is not None:
         tail = f" — most you can lose: {_money(sizing['max_loss_dollars'])} ({sizing['max_loss_pct_book']:.1f}% of book)"
+        cc, nc = sizing.get("ceiling_contracts"), sizing.get("contracts")
+        if cc and nc and cc > nc:
+            tail += f" — scalable to {cc} at your full options cap"
     elif sizing.get("size_note"):
         tail = f" — {sizing['size_note']}"
     return f"{verb} {body}{tail}."
@@ -576,8 +613,14 @@ def summarize_run(results, *, cfg: Optional[dict] = None) -> dict:
     else:
         headline = (f"{checked} conviction name(s) checked — none have a clean, liquid options setup today. "
                     "Nothing hidden.")
+    agg_cap_pct = _cfg(cfg, "aggregate_cap_pct") * 100.0
+    used_pct = round(sum((r.get("max_loss_pct_book") or 0.0) for r in acted), 2)
+    budget_line = (f"these ideas use ~{used_pct:.1f}% of your ~{agg_cap_pct:.0f}% options budget"
+                   if acted else None)
+    if budget_line:
+        headline = f"{headline} {budget_line}."
     return {"checked": checked, "act": acted, "waiting": waiting, "near_misses": near,
-            "honest_empty": not acted, "headline": headline}
+            "honest_empty": not acted, "headline": headline, "budget_line": budget_line}
 
 
 # ─────────────────────────────────── self-test ───────────────────────────────

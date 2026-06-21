@@ -202,6 +202,7 @@ def assemble_subject(*, ticker: str, market: dict, chain_contracts: list[dict],
         "conviction_intact": conviction.get("conviction_intact", True),
         "thesis_break": conviction.get("thesis_break", False),
         "thesis_horizon_days": conviction.get("thesis_horizon_days", 90),
+        "conviction_strength": conviction.get("conviction_strength"),
         "recent_options_loss": conviction.get("recent_options_loss", False),
         # --- account-side ---
         "portfolio_value": account.get("portfolio_value"),

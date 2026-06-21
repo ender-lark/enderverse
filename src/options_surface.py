@@ -41,6 +41,19 @@ SOURCE = "options_surface"
 
 # disposition sort order (loudest first) — a transparent ranking key, not a score
 _DISP_ORDER = {"ACT": 0, "WAIT": 1, "WATCH": 2, "SKIP": 3}
+# within a disposition tier: prefer the cleaner/cheaper expression of the STRONGER conviction.
+_IV_QUALITY_RANK = {"cheap": 0, "normal": 1, "unknown": 2, "rich": 3}   # cheap long premium beats rich
+_STRUCTURE_RANK = {"long_call": 0, "long_put": 0, "debit_call_spread": 1, "debit_put_spread": 1}  # clean long beats spread
+# broad ETFs are a TIEBREAKER (single-name conviction sorts first), never a gate — a strong ETF sleeve still ACTs.
+BROAD_ETFS = frozenset({
+    "SPY", "QQQ", "IWM", "DIA", "SMH", "SOXX", "IGV", "XLF", "XLK", "XLE", "XLV", "XLY", "XLP", "XLI",
+    "XLU", "XLB", "XLRE", "XLC", "GDX", "GDXJ", "MAGS", "GRNY", "GRNJ", "VOLT", "IVES", "IBIT", "ETHA",
+    "ARKK", "VOO", "VTI", "EEM", "EFA", "TLT", "HYG",
+})
+
+
+def _is_broad_etf(ticker) -> bool:
+    return bool(ticker) and str(ticker).upper() in BROAD_ETFS
 
 
 def _edge(idea: dict) -> float:
@@ -52,9 +65,20 @@ def _edge(idea: dict) -> float:
 
 
 def _rank_key(idea: dict):
-    # disposition is the LEADING key: a real ACT can never be demoted by the edge tiebreaker below
-    # (a score must never masquerade as a recommendation). Edge only orders WITHIN a disposition tier.
-    return (_DISP_ORDER.get(idea.get("disposition"), 9), -_edge(idea), idea.get("ticker") or "")
+    """Transparent multi-key, conviction-first, disposition ALWAYS leading (a real ACT is never demoted
+    below a WAIT). Within a tier: strongest conviction → cheapest-IV expression (cheap long > rich spread)
+    → clean long > spread → single-name > broad ETF → wider edge → ticker (deterministic). No hidden score."""
+    cs = idea.get("conviction_strength")
+    cs = cs if isinstance(cs, (int, float)) else 0.0
+    return (
+        _DISP_ORDER.get(idea.get("disposition"), 9),
+        -cs,
+        _IV_QUALITY_RANK.get(idea.get("iv_environment"), 2),
+        _STRUCTURE_RANK.get(idea.get("structure"), 0),
+        1 if _is_broad_etf(idea.get("ticker")) else 0,
+        -_edge(idea),
+        idea.get("ticker") or "",
+    )
 
 
 def _data_gap(ticker: str, as_of, reason: str) -> dict:

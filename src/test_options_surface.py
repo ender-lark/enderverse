@@ -202,3 +202,20 @@ def test_no_add_rail_demotes_act_and_keeps_it_quiet():
     # producer-fed path: apply_no_add_rails re-applies the dropped conviction context
     surf = osf.apply_no_add_rails(_act_surface(), {"NVDA": {"stance": "MONITOR"}})
     assert all(i["disposition"] != "ACT" for i in surf["ideas"])
+
+
+def test_rank_prefers_cheap_single_name_over_rich_etf_spread():
+    cheap_single = {"disposition": "ACT", "conviction_strength": 0.75, "iv_environment": "cheap",
+                    "structure": "long_call", "ticker": "NVDA", "expected_move_pct": 12, "break_even_pct": 5}
+    rich_etf = {"disposition": "ACT", "conviction_strength": 0.5, "iv_environment": "rich",
+                "structure": "debit_call_spread", "ticker": "XLF", "expected_move_pct": 20, "break_even_pct": 2}
+    ranked = sorted([rich_etf, cheap_single], key=osf._rank_key)
+    assert [i["ticker"] for i in ranked] == ["NVDA", "XLF"]   # cheap single-name conviction leads, not the rich ETF spread
+
+
+def test_rank_disposition_always_leads():
+    strong_wait = {"disposition": "WAIT", "conviction_strength": 1.0, "iv_environment": "cheap",
+                   "structure": "long_call", "ticker": "AAA"}
+    weak_act = {"disposition": "ACT", "conviction_strength": 0.1, "iv_environment": "rich",
+                "structure": "debit_call_spread", "ticker": "BBB"}
+    assert sorted([strong_wait, weak_act], key=osf._rank_key)[0]["ticker"] == "BBB"  # an ACT is never demoted below a WAIT
