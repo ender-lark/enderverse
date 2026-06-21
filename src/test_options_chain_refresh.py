@@ -91,3 +91,19 @@ def test_cli_from_responses_roundtrip(tmp_path):
     assert rc == 0
     cache = json.loads(out.read_text(encoding="utf-8"))
     assert "NVDA" in cache and cache["_meta"]["expiry_target"] == "2026-08-02"
+
+
+def test_doctrine_extra_priority_coverage_and_multi_expiry():
+    # doctrine_extra widens beyond ACTIVE theses to held + Fundstrat/watchlist (so FN/AVGO get pulled)
+    extra = ocr.doctrine_extra(positions={"rows": [{"ticker": "FN"}, {"ticker": "AVGO"}]},
+                               top_prospects=[{"ticker": "ANET"}, "VRT"])
+    assert extra == ["FN", "AVGO", "ANET", "VRT"]
+    theses = [{"ticker": t, "stance": "ACTIVE"} for t in ("NVDA", "MU", "SMH")]
+    # priority bubbles a down conviction name to the front before the cap (buy-the-dip prioritizer)
+    assert ocr.select_universe(theses, cap=2, priority=["SMH"])[0] == "SMH"
+    # coverage is honest about what got truncated (the 'screened N of M' rail)
+    cov = ocr.universe_coverage(theses, cap=2, priority=["SMH"])
+    assert cov["considered"] == 3 and cov["pulled"] == 2 and cov["truncated"] == 1 and cov["not_pulled"]
+    # multi-expiry returns a near + a LEAPS monthly so long-horizon names get a DTE-matched expiry
+    exps = ocr.target_expiries("2026-06-18", dtes=(45, 300))
+    assert len(exps) == 2 and "2026-08-21" in exps

@@ -62,13 +62,17 @@ def select_universe(
     extra: Iterable[Any] = (),
     include_no_add: bool = False,
     cap: int = DEFAULT_CAP,
+    priority: Iterable[Any] = (),
 ) -> list[str]:
     """The conviction universe to pull options for: ACTIVE thesis names + any ``extra`` tickers
-    (watchlist / lean-in / Fundstrat), de-duplicated in priority order and capped.
+    (held positions / watchlist / lean-in / Fundstrat), de-duplicated in priority order and capped.
 
     No-add sleeves (MONITOR/BURNED/EXIT/TRIM) are excluded unless ``include_no_add`` -- we don't
     spend a live pull on a sleeve we won't add to. ``extra`` is appended after theses so explicit
-    conviction names win the cap.
+    conviction names win the cap. ``priority`` tickers already in the universe (e.g. conviction names
+    that are DOWN today -- the buy-the-dip prioritizer) bubble to the FRONT before the cap, so a
+    weakness window is never the one truncated. priority is a SURF/prioritize signal only -- NEVER a
+    buy gate, and the caller must already drop thesis-broken names from it.
     """
     out: list[str] = []
     seen: set[str] = set()
@@ -88,8 +92,49 @@ def select_universe(
         if tk and tk not in seen:
             seen.add(tk)
             out.append(tk)
+    pri = [tk for tk in (_norm_ticker(x) for x in (priority or ())) if tk in seen]
+    if pri:
+        pri_set = set(pri)
+        out = pri + [tk for tk in out if tk not in pri_set]
     if cap is not None and cap >= 0:
         out = out[:cap]
+    return out
+
+
+def universe_coverage(
+    theses: Optional[Iterable[dict]], *, extra: Iterable[Any] = (),
+    include_no_add: bool = False, cap: int = DEFAULT_CAP, priority: Iterable[Any] = (),
+) -> dict:
+    """Honest coverage of the options pull: how many conviction names we COULD screen vs the capped
+    set we actually pull, and which names got truncated -- so a narrow cache never reads as the whole
+    book (the non-tunable 'screened N of M' transparency rail)."""
+    full = select_universe(theses, extra=extra, include_no_add=include_no_add, cap=None, priority=priority)
+    pulled = full[:cap] if (cap is not None and cap >= 0) else full
+    not_pulled = full[len(pulled):]
+    return {"considered": len(full), "pulled": len(pulled), "truncated": len(not_pulled),
+            "not_pulled": not_pulled, "tickers": pulled}
+
+
+def doctrine_extra(positions: Any = None, top_prospects: Any = None, lean_in: Any = None) -> list[str]:
+    """Assemble the EXTRA conviction universe (beyond ACTIVE theses) the options pull should cover:
+    held positions + Fundstrat/watchlist (top_prospects) + lean-in names -- so a held, down name like
+    FN/AVGO is never structurally invisible. Tolerant of shapes; returns a deduped ticker list."""
+    out: list[str] = []
+    seen: set[str] = set()
+
+    def _add(tk: Any) -> None:
+        tk = _norm_ticker(tk)
+        if tk and tk not in seen:
+            seen.add(tk)
+            out.append(tk)
+
+    for src in (positions, top_prospects, lean_in):
+        rows: Any = src
+        if isinstance(src, dict):
+            rows = (src.get("rows") or src.get("positions") or src.get("prospects")
+                    or src.get("items") or list(src.keys()))
+        for r in (rows or []):
+            _add(r.get("ticker") or r.get("symbol") if isinstance(r, dict) else r)
     return out
 
 
@@ -112,6 +157,21 @@ def target_expiry(as_of: str, *, dte: int = DEFAULT_DTE) -> str:
     """
     base = datetime.strptime(str(as_of)[:10], "%Y-%m-%d") + timedelta(days=int(dte))
     return _third_friday(base.year, base.month).strftime("%Y-%m-%d")
+
+
+def target_expiries(as_of: str, *, dtes: Iterable[int] = (DEFAULT_DTE,)) -> list[str]:
+    """One real monthly opex per DTE bucket (dedup, sorted). Pass e.g. (45, 300) to pull a near monthly
+    AND a LEAPS monthly for long-horizon (lane=Generational) names, so the engine can pick a DTE-matched
+    expiry for both short- and long-horizon convictions (LEAPS never fires off a single near expiry)."""
+    out: list[str] = []
+    for dte in (dtes or (DEFAULT_DTE,)):
+        try:
+            exp = target_expiry(as_of, dte=int(dte))
+        except (ValueError, TypeError):
+            continue
+        if exp not in out:
+            out.append(exp)
+    return sorted(out)
 
 
 def assemble_bundle(responses: Any) -> dict[str, dict]:
@@ -216,6 +276,18 @@ def _self_test() -> int:
     assert cache["_meta"]["count"] == 1 and cache["_meta"]["tickers"] == ["NVDA"]
     assert "NVDA" in cache and "_meta" in cache
     assert assemble_bundle([1, 2, 3]) == {} and assemble_bundle(None) == {}
+    # priority bubbles a down conviction name to the front before the cap (the buy-the-dip prioritizer)
+    pri = select_universe([{"ticker": t, "stance": "ACTIVE"} for t in ("A", "B", "C")], cap=2, priority=["C"])
+    assert pri == ["C", "A"], pri
+    # coverage is honest about truncation (the 'screened N of M' transparency rail)
+    cov = universe_coverage([{"ticker": t, "stance": "ACTIVE"} for t in ("A", "B", "C")], cap=2)
+    assert cov["considered"] == 3 and cov["pulled"] == 2 and cov["not_pulled"] == ["C"], cov
+    # multi-expiry: a near + a LEAPS monthly opex (so LEAPS can fire for long-horizon names)
+    exps = target_expiries("2026-06-18", dtes=(45, 300))
+    assert len(exps) == 2 and "2026-08-21" in exps, exps
+    # doctrine_extra widens the universe to held + watchlist/Fundstrat names
+    ex = doctrine_extra(positions={"rows": [{"ticker": "FN"}]}, top_prospects=[{"ticker": "AVGO"}, "ANET"])
+    assert ex == ["FN", "AVGO", "ANET"], ex
     return 0
 
 
