@@ -28,9 +28,16 @@ def test_select_universe_excludes_no_add_dedups_and_caps():
     assert "MU" in ocr.select_universe(theses, include_no_add=True)
 
 
-def test_target_expiry_is_dte_days_out():
-    assert ocr.target_expiry("2026-06-18", dte=45) == "2026-08-02"
-    assert ocr.target_expiry("2026-06-18", dte=30) == "2026-07-18"
+def test_target_expiry_snaps_to_monthly_opex():
+    # get_options_chain returns empty for a non-expiration date, so target_expiry must land on a
+    # real standard monthly expiration (3rd Friday) of the month ~dte days out.
+    assert ocr.target_expiry("2026-06-18", dte=45) == "2026-08-21"   # Aug 3rd Friday
+    assert ocr.target_expiry("2026-06-18", dte=30) == "2026-07-17"   # Jul 3rd Friday
+    # all results are Fridays
+    import datetime as _dt
+    for dte in (20, 45, 75, 120):
+        d = _dt.datetime.strptime(ocr.target_expiry("2026-06-18", dte=dte), "%Y-%m-%d")
+        assert d.weekday() == 4 and 15 <= d.day <= 21
 
 
 def test_assemble_bundle_keeps_usable_drops_empty_and_never_raises():

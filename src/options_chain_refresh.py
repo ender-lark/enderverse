@@ -93,11 +93,25 @@ def select_universe(
     return out
 
 
+def _third_friday(year: int, month: int) -> datetime:
+    """Standard US monthly options expiration: the 3rd Friday of the month."""
+    first = datetime(year, month, 1)
+    first_friday = 1 + (4 - first.weekday()) % 7   # weekday(): Mon=0..Sun=6, Fri=4
+    return datetime(year, month, first_friday + 14)
+
+
 def target_expiry(as_of: str, *, dte: int = DEFAULT_DTE) -> str:
-    """The target expiry date (YYYY-MM-DD) to pass to ``get_options_chain`` -- ``as_of`` + ``dte``
-    days. The chain endpoint returns the nearest listed expiry at/after this date."""
-    base = datetime.strptime(str(as_of)[:10], "%Y-%m-%d")
-    return (base + timedelta(days=int(dte))).strftime("%Y-%m-%d")
+    """A real, liquid expiry (YYYY-MM-DD) to pass to ``get_options_chain``: the standard monthly
+    expiration (3rd Friday) of the month ``dte`` days past ``as_of``.
+
+    NOTE: ``get_options_chain`` returns an EMPTY chain for a date that is not an actual listed
+    expiration, so a raw ``as_of + dte`` calendar date does not work -- snap to the monthly opex
+    (the most liquid expiry, and the one that carries full greeks; ~30-60 DTE for the default).
+    Fallback for the caller: pass ``expiry="init"`` to let the endpoint return the nearest listed
+    chain when the monthly is unavailable.
+    """
+    base = datetime.strptime(str(as_of)[:10], "%Y-%m-%d") + timedelta(days=int(dte))
+    return _third_friday(base.year, base.month).strftime("%Y-%m-%d")
 
 
 def assemble_bundle(responses: Any) -> dict[str, dict]:
@@ -191,8 +205,9 @@ def _self_test() -> int:
         extra=["AVGO", "nvda"], cap=10)
     assert uni == ["NVDA", "AVGO"], uni
     assert "MU" in select_universe([{"ticker": "MU", "stance": "MONITOR"}], include_no_add=True)
-    # expiry math is ~DTE out.
-    assert target_expiry("2026-06-18", dte=45) == "2026-08-02", target_expiry("2026-06-18", dte=45)
+    # expiry snaps to the standard monthly opex (3rd Friday) ~DTE out, not a raw calendar date.
+    assert target_expiry("2026-06-18", dte=45) == "2026-08-21", target_expiry("2026-06-18", dte=45)
+    assert target_expiry("2026-06-18", dte=30) == "2026-07-17", target_expiry("2026-06-18", dte=30)
     # assembly: drops the no-data name, keeps the real one, never raises on junk.
     b = assemble_bundle({"NVDA": {"screener": {"result": [{}]}, "chain": {"states": []}},
                          "ZZZ": {"screener": 5, "chain": None}, "_meta": {"x": 1}, "bad": [1, 2]})
