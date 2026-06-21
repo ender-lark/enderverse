@@ -905,3 +905,73 @@ def test_full_build_runner_threads_uw_endpoint_proof_into_action_enrichment(tmp_
     assert captured
     assert captured[0]["status"] == "has_data"
     assert captured[0]["interpretation_counts"]["supports"] == 1
+
+
+# --- options-expression surface wiring (Phase-1 surfacing) -------------------------------
+def _options_cache_payload():
+    """A real-shaped NVDA (parses to an ACT) + a no-data ZZZ (logged as a near-miss only)."""
+    screener = {"result": [{
+        "ticker": "NVDA", "iv_rank": "23.6105", "iv30d": "0.358", "implied_move_perc": "0.070000",
+        "next_earnings_date": "2026-08-26", "close": "210.69", "prev_close": "204.65",
+        "week_52_high": "236.54", "week_52_low": "142.03", "date": "2026-06-18"}]}
+    chain = {"states": [
+        {"option_symbol": "NVDA260821C00205000", "strike": "205", "option_type": "call",
+         "expires": "2026-08-21", "iv": 0.4152, "delta": 0.5979, "theo": 17.4998,
+         "open_interest": 10123, "volume": 1326},
+        {"option_symbol": "NVDA260821C00210000", "strike": "210", "option_type": "call",
+         "expires": "2026-08-21", "iv": 0.4091, "delta": 0.5432, "theo": 14.7750,
+         "open_interest": 18035, "volume": 3825}],
+        "price_data": {"price": "210.69"}}
+    return {
+        "_meta": {"source": "unusual_whales", "count": 1},
+        "NVDA": {"screener": screener, "chain": chain},
+        "ZZZ": {"screener": {"result": [{"ticker": "ZZZ", "close": "50", "prev_close": "49", "date": "2026-06-18"}]}},
+    }
+
+
+def test_full_build_runner_wires_options_expression_when_cache_present(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    # NVDA thesis horizon ~60d so the producer's expiry pick lands on the fixture's 2026-08-21 chain.
+    _write(src / "theses.json", [
+        {"ticker": "NVDA", "tier": "T2", "stance": "ACTIVE", "horizon_days": 60, "factor_tags": ["ai_complex"]},
+        {"ticker": "SMH", "tier": "T2", "stance": "ACTIVE", "factor_tags": ["semiconductors"]},
+    ])
+    _write(src / "options_chain_cache.json", _options_cache_payload())
+
+    feed = build_full_feed_from_files(
+        src_dir=src, as_of="2026-06-18", run_timestamp="2026-06-18T14:00:00+00:00")
+
+    assert validate_cockpit_feed(feed) == []
+    # cockpit block: classified, has_data, leads with the sized MOVE; score is ordering-only.
+    blk = feed["options_expression"]
+    assert blk["status"] == "has_data" and blk["count"] == 1
+    row = blk["rows"][0]
+    assert row["ticker"] == "NVDA" and row["disposition"] == "ACT"
+    assert str(row["action"]).startswith("Buy ")            # the MOVE, not the score
+    assert row["score"] == 88                               # promotion ordering only
+    assert "promotion-ordering metadata only" in blk["_score_note"]
+    # the surface flows into today_decide (the loud opt-in block) and renders.
+    surface = feed["today_decide"]["options"]
+    assert surface and surface["ideas"][0]["ticker"] == "NVDA"
+    import today_decide
+    html = today_decide.render_today_decide_html(feed["today_decide"])
+    assert "OPTIONS EXPRESSION" in html
+    # shadow log routed under the build's src dir (never the repo), and captured the near-miss.
+    shadow = src / "options_shadow_log.jsonl"
+    assert shadow.is_file() and "ZZZ" in shadow.read_text(encoding="utf-8")
+
+
+def test_full_build_runner_omits_options_when_cache_absent(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+
+    feed = build_full_feed_from_files(
+        src_dir=src, as_of="2026-06-18", run_timestamp="2026-06-18T14:00:00+00:00")
+
+    # honest + additive: no cache -> no cockpit block and no surface passed to today_decide.
+    assert "options_expression" not in feed
+    assert feed["today_decide"].get("options") is None
+    assert not (src / "options_shadow_log.jsonl").exists()

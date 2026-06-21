@@ -332,6 +332,18 @@
       "action_surface": "Adds candidate context and research/recheck queue rows; it does not change conviction scores, ranking doctrine, sizing, gates, or execution posture by itself."
     },
     {
+      "id": "options_chain",
+      "source_of_truth": "unusual_whales_options_endpoints",
+      "repo_artifact": "src/options_chain_cache.json",
+      "producer": "options_chain_refresh (uw_cache_refresh-style acquisition: get_stock_screener + get_options_chain per conviction name)",
+      "feed_path": "full_build_runner.DEFAULT_FILES.options_chain -> options_surface.surface_options -> feed.options_expression + today_decide.options (loud options-expression block)",
+      "dashboard_surface": "Options-expression rows in the Today priority list and the loud opt-in options block inside TODAY-DECIDE; leads with the sized move, score is promotion-ordering only.",
+      "mirror_policy": "GitHub stores only the compact raw screener+chain bundle needed to size a defined-risk expression; no order is ever placed and no trade is auto-executed.",
+      "freshness_contract": "Refresh the chain bundle during acquisition before the daily full build; a stale or partial bundle surfaces as data-gap/honest-empty, never as a fabricated idea.",
+      "not_checked_behavior": "Missing bundle is not checked: the options block and cockpit rows are simply omitted (additive) and must not imply there is no options expression of a conviction.",
+      "action_surface": "Expresses an EXISTING conviction as a defined-risk options idea for awareness/sizing; it never originates, blocks, or auto-executes a decision (blocks=False, never an order)."
+    },
+    {
       "id": "heartbeat",
       "source_of_truth": "routine_status",
       "repo_artifact": "src/heartbeat.json",

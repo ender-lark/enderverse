@@ -548,6 +548,13 @@
           "required": false,
           "source": "uw_cache_refresh parabolic mode",
           "missing_behavior": "Parabolic risk cache is not checked; missing file is not no chase risk."
+        },
+        {
+          "key": "options_chain",
+          "paths": ["src/options_chain_cache.json", "src/options_chain_bundle.json"],
+          "required": false,
+          "source": "options_chain_refresh (uw_cache_refresh-style: get_stock_screener + get_options_chain)",
+          "missing_behavior": "Options-expression chain cache is not checked; a missing bundle is not no options expression of convictions."
         }
       ],
       "owns": [

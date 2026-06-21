@@ -58,6 +58,7 @@ from alert_policy import build_alert_policy
 import cloud_routine_receipts
 import execution_plan as ep
 import today_decide
+import options_surface as opt_surface
 from tunables import load_conviction_weights, load_goal_tunables
 
 
@@ -91,6 +92,7 @@ DEFAULT_FILES = {
     "log_call_dates": ("log_call_dates.json",),
     "parabolic": ("parabolic_setups.json",),
     "fed_day_reallocation_packet": ("fed_day_reallocation_packet.json",),
+    "options_chain": ("options_chain_cache.json", "options_chain_bundle.json"),
 }
 
 SOURCE_GAP_LABELS = {
@@ -866,6 +868,89 @@ def _boundary_artifact_git_problems(
     ]
 
 
+# Stances that mean "hold for awareness, do NOT add" — a thesis on one of these has
+# conviction_intact=False so the options no-add rail demotes any ACT to awareness-only.
+_OPTIONS_NO_ADD_STANCES = {"MONITOR", "BURNED", "EXIT", "TRIM"}
+
+
+def build_options_conviction_lookup(theses: list[dict] | None) -> dict[str, dict]:
+    """Map each thesis ticker to the conviction context ``surface_options`` consumes.
+
+    ACTIVE names keep ``conviction_intact`` True; a no-add sleeve (MONITOR/BURNED/EXIT/TRIM)
+    flips it False so the surface's no-add rail never yells ACT on a sleeve we're not adding to.
+    """
+    lookup: dict[str, dict] = {}
+    for t in theses or []:
+        if not isinstance(t, dict):
+            continue
+        tk = t.get("ticker")
+        if not tk:
+            continue
+        stance = str(t.get("stance", "") or "").upper()
+        lookup[str(tk).upper()] = {
+            "direction": "bearish" if stance.startswith("BEAR") else "bullish",
+            "conviction_intact": stance not in _OPTIONS_NO_ADD_STANCES,
+            "thesis_horizon_days": t.get("horizon_days", 90),
+            "stance": t.get("stance") or "ACTIVE",
+        }
+    return lookup
+
+
+def options_bundle_from_cache(cache: Any) -> dict:
+    """Coerce the options-chain cache to a clean ``{TICKER: {screener, chain}}`` bundle.
+
+    Accepts either the raw per-ticker map written by the acquisition step or a wrapped
+    ``{"bundle": {...}, "_meta": {...}}`` envelope; drops ``_meta``/``_``-prefixed bookkeeping
+    keys and any non-dict entry so a malformed cache degrades to empty (never raises).
+    """
+    if not isinstance(cache, dict):
+        return {}
+    inner = cache.get("bundle") if isinstance(cache.get("bundle"), dict) else cache
+    if not isinstance(inner, dict):
+        return {}
+    return {
+        str(k): v
+        for k, v in inner.items()
+        if isinstance(k, str) and k and not k.startswith("_") and isinstance(v, dict)
+    }
+
+
+def _build_options_surface(
+    cache: Any,
+    *,
+    theses: list[dict] | None,
+    positions_cache: Any,
+    as_of: str | None,
+    generated_at: str | None,
+    shadow_log_path: str | Path,
+) -> dict | None:
+    """Build the opt-in options-expression surface from the cached bundle, or None when absent.
+
+    Pure except for the shadow-log append (near-miss capture for later dial-tuning), which is
+    routed to ``shadow_log_path`` (so a build under a tmp src_dir never dirties the repo) and is
+    best-effort: a logging failure must never abort the full build.
+    """
+    bundle = options_bundle_from_cache(cache)
+    if not bundle:
+        return None
+    conviction_lookup = build_options_conviction_lookup(theses)
+    sleeve = _num(positions_cache.get("sleeve_value")) if isinstance(positions_cache, dict) else None
+    account = {"portfolio_value": sleeve} if sleeve is not None else None
+    surface = opt_surface.surface_options(
+        bundle,
+        conviction_lookup=conviction_lookup,
+        account=account,
+        as_of=as_of,
+        generated_at=generated_at,
+    )
+    surface = opt_surface.apply_no_add_rails(surface, conviction_lookup)
+    try:
+        opt_surface.persist_shadow_log(surface, path=shadow_log_path)
+    except Exception:  # noqa: BLE001 — logging a near-miss must never abort the build
+        pass
+    return surface
+
+
 def build_full_feed_from_files(
     *,
     src_dir: str | Path | None = None,
@@ -1077,12 +1162,29 @@ def build_full_feed_from_files(
     feed["current_closes"] = latest_prices_from_closes(closes)
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["if_i_were_you"] = build_if_i_were_you(feed)
+    # --- options expression surface (Phase-1 surfacing): opt-in, additive ---------------
+    # Live MCP pulls happen UPSTREAM (the options_chain_refresh acquisition / a chat with the
+    # UW MCP) and land in the `options_chain_cache.json` convention file as a raw bundle
+    # {ticker: {screener, chain}}; the build here stays pure and token-safe. When the cache is
+    # absent the surface stays None, the cockpit block is omitted, and Today-Decide renders
+    # nothing new (honest, byte-additive). `score` is promotion-ordering only, never the call.
+    options_surface = _build_options_surface(
+        _load_optional(src, "options_chain"),
+        theses=theses,
+        positions_cache=positions_cache,
+        as_of=positions_as_of or today,
+        generated_at=generated_at or now,
+        shadow_log_path=src / "options_shadow_log.jsonl",
+    )
+    if options_surface is not None:
+        feed["options_expression"] = opt_surface.cockpit_feed_block(options_surface)
     feed["today_decide"] = today_decide.build_today_decide_payload(
         feed=feed,
         weights=load_conviction_weights(),
         goal=load_goal_tunables(),
         accounts=execution_accounts,
         today=today,
+        options=options_surface,
     )
     feed["source_audits"]["decision_dossier_coverage"] = build_decision_dossier_coverage(
         feed,
