@@ -176,6 +176,11 @@
       "canonical_surface": "Asymmetric Opportunities lane in the Action view",
       "summary_surface": "Asymmetric Opportunities card, one deduped row per ticker"
     },
+    "options_expression": {
+      "primary_status": "canonical-rendered",
+      "canonical_surface": "Options-expression rows in the Today priority list (optionsExpressionRows, leading with the sized move) plus the loud options block inside Today-Decide",
+      "summary_surface": "Options-expression rows promoted into the Today priority list; opt-in (present only when the options_chain_cache bundle is fed); score orders promotion only, never the recommendation"
+    },
     "operator_hardening": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Operator Hardening panels for freshness downgrades, stale-action cleanup, pre-action condition checks, and watch-only rationale",

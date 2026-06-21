@@ -1112,6 +1112,36 @@ function opportunityPriorityRows(feed, usedTickers){
       tooltip:"Promoted from Ideas only when the evidence-backed setup may affect near-term capital allocation.",
     }));
 }
+function optionsExpressionRows(feed, usedTickers){
+  // Reads feed.options_expression (options_surface.cockpit_feed_block). The row LEADS WITH THE
+  // sized MOVE (r.action) -- never the score, which is promotion-ordering metadata only. Opt-in:
+  // empty/absent block -> no rows (Today-Decide carries the honest-empty options line on its own).
+  const blk = feed.options_expression;
+  if(!blk || !Array.isArray(blk.rows)) return [];
+  return blk.rows
+    .filter(r=>{
+      const ticker = String(r.ticker||"").toUpperCase();
+      return !(ticker && usedTickers.has(ticker));
+    })
+    .map((r,i)=>({
+      key:`opt:${r.ticker||i}`,
+      score:800 + Number(r.score||0),          // promotion ordering ONLY; the call is `action`
+      ticker:r.ticker||"",
+      title:r.action || "Options expression of a live conviction",  // LEAD WITH THE MOVE
+      home:"Ideas / Options expression",
+      source:r.source||"options expression",
+      posture:r.disposition==="ACT" ? "act" : "wait",
+      color:r.disposition==="ACT" ? C.green : C.amber,
+      timing:r.decay_window || (r.timing&&r.timing.label) || "source dependent",
+      whyHere:"A defined-risk options way to express a conviction you already hold -- shown for sizing, never an order.",
+      changes:"size / wait",
+      nextStep:r.action || "Pull a fresh options/flow check before deciding.",
+      invalidates:r.the_catch || "A changed price, richer IV, or a broken thesis pushes this back to Ideas.",
+      details:compactJoin([r.the_catch, r.tripwire_note]),
+      backup:compactJoin([r.risk_amount_usd!=null?`most you can lose ${r.risk_amount_usd}`:"", r.iv_environment&&`IV ${r.iv_environment}`, r.decay_window]),
+      tooltip:"Options expression of an existing conviction. The recommendation is the sized move; score only orders promotion.",
+    }));
+}
 function prospectPriorityRows(feed, usedTickers){
   return prospectRows(feed.prospects||{})
     .filter(r=>{
@@ -1179,6 +1209,10 @@ function todayPriorityRows(feed, actions, researchActions){
     rows.push(r);
   });
   prospectPriorityRows(feed, usedTickers).forEach(r=>{
+    if(r.ticker) usedTickers.add(String(r.ticker).toUpperCase());
+    rows.push(r);
+  });
+  optionsExpressionRows(feed, usedTickers).forEach(r=>{
     if(r.ticker) usedTickers.add(String(r.ticker).toUpperCase());
     rows.push(r);
   });
