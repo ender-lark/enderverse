@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T14:09:10.396094Z",
-      "summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T14:15:27.041743Z",
-      "summary": "manual repair: zero-change VOLT OI treated as non-actionable; opportunity cache landed after scheduled failure root cause fixed"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -6714,7 +6700,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T20:51:07.427110Z",
       "summary": "positions sync succeeded: 2026-06-22; 11 accounts; 276 rows; diffs VALUE_CHANGE 88; share changes 0; orphan 76; warnings 2; dashboard ok; Notion verified"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T23:01:38.980734Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T23:13:09.964925Z",
+      "summary": "Chrome checked Macro/Crypto FlashInsights, 11 research/video listings, 1 DTS detail plus Vimeo transcript; Gmail 0; rows landed 2 QQQ/MAGS; transcript vault 1 pack/122 cues pushed; suppressed discovery/prior/stale surfaces 13; validation passed 90 tests; Notion not used; dark social_watch, heartbeat stale; blockers none"
     }
   ],
-  "updated_at": "2026-06-22T20:51:07.427110Z"
+  "updated_at": "2026-06-22T23:13:09.964925Z"
 }
