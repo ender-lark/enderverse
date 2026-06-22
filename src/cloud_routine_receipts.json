@@ -2,25 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.152183Z",
-      "summary": "FS inbox catch-up evening manual support checked prompt wiring only",
-      "details": {
-        "steps": [
-          {
-            "label": "FS inbox catch-up prompt present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "started",
       "run_source": "manual",
@@ -6751,7 +6732,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T16:12:25.660335Z",
       "summary": "ingested 2 FS inbox entries through 2026-06-22 10:55 ET; logged 1 Source Call Log row; marker advanced; no timing-gate mutation"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:13:02.223713Z",
+      "summary": "investing-os-broker-position-intake started"
     }
   ],
-  "updated_at": "2026-06-22T16:12:25.660335Z"
+  "updated_at": "2026-06-22T16:13:02.223713Z"
 }
