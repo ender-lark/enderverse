@@ -2,37 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:12:01.853429Z",
-      "summary": "investing-os-off-hours-worker manual run started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-05T20:12:01.932838Z",
-      "summary": "off-hours worker manual run checked research queue cache only",
-      "details": {
-        "steps": [
-          {
-            "label": "research queue validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/research_queue_intake.py",
-              "--validate",
-              "src/research_queue.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-deep-synthesis",
       "status": "started",
       "run_source": "manual",
@@ -7450,7 +7419,34 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:14:43.647201Z",
+      "summary": "investing-os-trump-trade-watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:14:43.813520Z",
+      "summary": "trump trade watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/political_trade_watch.py",
+          "--input",
+          "tmp/trump_trade_watch_uw.json",
+          "--out",
+          "src/political_trade_watch.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-22T16:08:46.581554Z"
+  "updated_at": "2026-06-22T16:14:43.813520Z"
 }
