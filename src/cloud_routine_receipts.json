@@ -2,68 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:09.953385Z",
-      "summary": "UW opportunity cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "uw opportunity self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "uw_opportunity_scan self-test: PASS",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 38
-            }
-          },
-          {
-            "label": "live source config validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_source_config_update.py",
-              "--validate",
-              "src/live_source_config.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity bundle skipped",
-            "returncode": 0,
-            "optional": true,
-            "check": {
-              "valid": true,
-              "skipped": true,
-              "reason": "tmp/uw/opportunity_bundle.json missing or empty"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:09.966798Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "success",
       "run_source": "manual",
@@ -6796,7 +6734,22 @@
         ]
       },
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:10:26.803308Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:10:33.810216Z",
+      "summary": "Chrome checked Macro FlashInsights Jun22 11:11 ET, Crypto FlashInsights Jun22 11:14 ET, latest research list plus US Policy/First to Market details; Gmail 0 not needed; rows landed 2, suppressed 2 article details broad/context; validation passed; Notion not used; dashboard refresh blocked by dirty src/uw_endpoint_results.json",
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-22T16:10:08.613912Z"
+  "updated_at": "2026-06-22T16:10:33.810216Z"
 }

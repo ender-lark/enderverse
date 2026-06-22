@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "verified_at": "2026-06-22T12:08:57-04:00",
+  "verified_at": "2026-06-22T12:12:00-04:00",
   "connectors": {
     "unusual_whales": {
       "available": true,
-      "verified_at": "2026-06-22T12:08:57-04:00",
+      "verified_at": "2026-06-22T12:12:00-04:00",
       "verified_by": "Codex app Unusual Whales connector",
-      "verification": "get_market_state returned market-wide daily options snapshot for 2026-06-22; get_market_tide returned market-wide rows through 2026-06-22T12:05:00-04:00",
+      "verification": "get_market_state returned market-wide daily options snapshot for 2026-06-22; get_market_tide returned market-wide rows through 2026-06-22T12:05:00-04:00; Morning Scan also checked get_market_sector_etfs, technology/semi Greek flow through 2026-06-22T16:08:00Z, and same-day dark-pool trades above $50M with 0 rows",
       "notes": [
         "No API key or secret is stored in this file.",
         "This proves connector availability, not that a specific cache was freshly rebuilt."
