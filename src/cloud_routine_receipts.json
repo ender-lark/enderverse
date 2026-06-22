@@ -2,76 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.275799Z",
-      "summary": "investing-os-off-hours-worker manual run started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.373713Z",
-      "summary": "off-hours worker manual run checked research queue cache only",
-      "details": {
-        "steps": [
-          {
-            "label": "research queue validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/research_queue_intake.py",
-              "--validate",
-              "src/research_queue.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.388312Z",
-      "summary": "investing-os-off-hours-queue-buffer manual run started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.479869Z",
-      "summary": "off-hours queue buffer manual support checked queue-buffer wiring and research queue cache",
-      "details": {
-        "steps": [
-          {
-            "label": "off-hours queue buffer docs present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          },
-          {
-            "label": "research queue validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/research_queue_intake.py",
-              "--validate",
-              "src/research_queue.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-deep-synthesis",
       "status": "started",
       "run_source": "manual",
@@ -6765,7 +6695,126 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:14:49.047073Z",
+      "summary": "broker position intake succeeded after recovery",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/snaptrade_book_refresh.py",
+          "--refresh-dashboard"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "f915ac4edf2f78c5a22598a19370cc9a1c02fde9184ffcb29136f1df021c1158",
+            "as_of": "2026-06-22",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "b77fb7d0515247b82ac17b3a00f62eb0e25fef7b956f30a2e053e256899ef031",
+            "changed": true
+          },
+          {
+            "path": "src/account_positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "1a918a2a45c5abaadef7e823e15b6692895675c673ba38190a9fa07128ecd9f5",
+            "as_of": "2026-06-22",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "5b0ee160093636a6b2d072cad2774364a633b913f17c37b99b1a6386b330e82c",
+            "changed": true
+          },
+          {
+            "path": "src/position_reconciliation.json",
+            "as_of_field": "current_snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "8836494d5ca0dc06a6ae3cc3011aaff50b17e1d0b2c0f324dc0f00e09806c9a5",
+            "as_of": "2026-06-22",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "a17815504b36559b5f4764f8e9f967b4486b0e96e36b95fa2a52e4432c909766",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:14:54.527103Z",
+      "summary": "investing-os-post-open-evidence-gate started"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:15:42.667015Z",
+      "summary": "post-open evidence gate succeeded after recovery",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/uw_endpoint_results.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "8ac2a7ac34b6476a1b760ffcda64a6be1ae5e88ac70ea6da80fe388f28aeee14",
+            "as_of": "2026-06-22T16:09:54.504345+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "8ac2a7ac34b6476a1b760ffcda64a6be1ae5e88ac70ea6da80fe388f28aeee14",
+            "changed": false
+          },
+          {
+            "path": "src/timing_gates.json",
+            "as_of_field": "updated",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "6c7b0fa3eb49f200e1f72272fe1a2e4af52dc4019fb73d90da3c34a8e0a69f69",
+            "as_of": "2026-06-12",
+            "fresh": false,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "6c7b0fa3eb49f200e1f72272fe1a2e4af52dc4019fb73d90da3c34a8e0a69f69",
+            "changed": false
+          }
+        ]
+      },
+      "boundary_outcome": "stale_boundary"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:15:44.040902Z",
+      "summary": "Chrome web checked Macro FlashInsights Jun22 11:11 ET, Crypto FlashInsights Jun22 11:14/11:13 ET, and US Policy detail text; Gmail 0 not needed; compact rows checked 4, ETH/BTC source-call candidate added/current on main; low-value/discovery-only suppressed 0, duplicates deduped; validation passed; dashboard refreshed; Pushover alert sent 3 (SMH, ETH, SPY); trigger guard fired 0, EWRE/ASTS/RKLB/MU quote not_checked; Social Watch dark"
     }
   ],
-  "updated_at": "2026-06-22T16:13:25.121251Z"
+  "updated_at": "2026-06-22T16:15:44.040902Z"
 }
