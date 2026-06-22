@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.140008Z",
-      "summary": "investing-os-fs-inbox-catch-up-evening manual run started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "success",
       "run_source": "manual",
       "recorded_at": "2026-06-15T13:10:18.152183Z",
@@ -6751,7 +6744,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T16:12:19.174979Z",
       "summary": "Chrome checked Macro FlashInsights Jun22 11:11 ET and Crypto FlashInsights Jun22 11:14 ET; latest research list plus US Policy/First to Market detail pages checked; Gmail 0 not needed; rows landed 2, suppressed 2 broad/context article details; validation passed 85 focused tests; Notion not used; dashboard refreshed after UW boundary blocker cleared; dark lanes heartbeat stale/options shadow unrelated"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:12:25.660335Z",
+      "summary": "ingested 2 FS inbox entries through 2026-06-22 10:55 ET; logged 1 Source Call Log row; marker advanced; no timing-gate mutation"
     }
   ],
-  "updated_at": "2026-06-22T16:12:19.174979Z"
+  "updated_at": "2026-06-22T16:12:25.660335Z"
 }
