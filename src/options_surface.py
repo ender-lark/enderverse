@@ -81,6 +81,40 @@ def _rank_key(idea: dict):
     )
 
 
+def _apply_aggregate_budget(ideas, *, cfg=None):
+    """Fund the strongest-conviction ACT ideas FIRST up to the aggregate options budget AND the loud
+    cap; demote the rest to a quiet WATCH ('beyond today's options budget') so the RUN never recommends
+    more total premium than the operator's aggregate cap. Ideas are already rank-sorted (strongest
+    first); nothing is dropped — the over-budget names stay visible as quiet holds."""
+    cap_pct = oe._cfg(cfg, "aggregate_cap_pct") * 100.0
+    max_loud = oe._cfg(cfg, "max_loud_ideas")
+    spent = 0.0
+    funded = 0
+    out: list[dict] = []
+    for idea in (ideas or []):
+        if isinstance(idea, dict) and idea.get("disposition") == "ACT":
+            cost = idea.get("max_loss_pct_book") or 0.0
+            over_budget = (spent + cost) > cap_pct + 1e-9
+            over_cap = funded >= max_loud
+            if not over_budget and not over_cap:
+                spent += cost
+                funded += 1
+                out.append(idea)
+            else:
+                d = dict(idea)
+                d["disposition"] = "WATCH"
+                d["when"] = "When budget/room frees up"
+                d["held_back"] = "budget" if over_budget else "loud_cap"
+                d["filter_reason"] = (
+                    f"Beyond today's ~{cap_pct:.0f}% options budget — fund the higher-conviction ideas above first."
+                    if over_budget else
+                    f"Strong, but past the top-{max_loud} loud cap — shown quiet so the best few lead.")
+                out.append(d)
+        else:
+            out.append(idea)
+    return out
+
+
 def _data_gap(ticker: str, as_of, reason: str) -> dict:
     """A non-actionable hold for a name we couldn't read — honest, never a fake 'illiquid'."""
     return {
@@ -139,6 +173,7 @@ def surface_options(bundle: Optional[dict], *, conviction_lookup: Optional[dict]
         except Exception as exc:  # noqa: BLE001 — a single bad name must NEVER abort the whole batch
             ideas.append(_data_gap(tk, a, f"Couldn't read this name's options data ({type(exc).__name__}) — re-pull."))
     ideas.sort(key=_rank_key)
+    ideas = _apply_aggregate_budget(ideas, cfg=cfg)
     # envelope as_of: fall back to the ideas' own date when the caller omits it (the realistic routine
     # path, where as_of lives only inside each screener row) so the run is never mislabelled None.
     env_as_of = as_of or next((i.get("as_of") for i in ideas if i.get("as_of")), None)
@@ -327,6 +362,15 @@ def render_options_block_html(surface: Optional[dict]) -> str:
         if cc and cc.get("ticker"):
             parts.append('<div class="td-opt" style="color:#94a3b8;font-size:12px">'
                          f'closest call — <b>{_esc(cc["ticker"])}</b>: {_esc(cc.get("reason"))}</div>')
+    budget_line = (surface.get("summary") or {}).get("budget_line")
+    if loud and budget_line:
+        parts.append('<div class="td-opt-budget" style="color:#cbd5e1;font-size:12px;margin:4px 0">'
+                     f'\U0001f4b0 {_esc(budget_line)}.</div>')
+    held = [i for i in (surface.get("ideas") or []) if isinstance(i, dict) and i.get("held_back")]
+    if held:
+        names = ", ".join(_esc(i.get("ticker")) for i in held[:8]) + ("…" if len(held) > 8 else "")
+        parts.append('<div class="td-opt-held" style="color:#94a3b8;font-size:12px;margin:2px 0">'
+                     f'+ {len(held)} more sized idea(s) held back by today’s budget/cap (shown quiet): {names}.</div>')
     parts.append('<div class="td-opt-stamp" style="color:#64748b;font-size:11px;margin-top:6px">'
                  f'as of {_esc(surface.get("as_of"))} · pulled {_esc(surface.get("generated_at"))} · '
                  'a sized idea, never an order — you place the trade.</div>')
@@ -442,6 +486,7 @@ def apply_no_add_rails(surface: Optional[dict], conviction_lookup: Optional[dict
         conv = lookup.get(tk) or lookup.get(str(tk).upper() if tk else None)
         new_ideas.append(_apply_no_add_rail(idea, conv if isinstance(conv, dict) else None))
     new_ideas.sort(key=_rank_key)
+    new_ideas = _apply_aggregate_budget(new_ideas)
     surface["ideas"] = new_ideas
     surface["summary"] = oe.summarize_run(new_ideas)
     return surface
