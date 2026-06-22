@@ -219,3 +219,25 @@ def test_rank_disposition_always_leads():
     weak_act = {"disposition": "ACT", "conviction_strength": 0.1, "iv_environment": "rich",
                 "structure": "debit_call_spread", "ticker": "BBB"}
     assert sorted([strong_wait, weak_act], key=osf._rank_key)[0]["ticker"] == "BBB"  # an ACT is never demoted below a WAIT
+
+
+def test_aggregate_budget_funds_strongest_first_and_demotes_rest():
+    # three ACTs at 4% each = 12% > the ~10% aggregate cap -> fund the first two, demote the third (quiet, not dropped)
+    ideas = [{"disposition": "ACT", "ticker": t, "max_loss_pct_book": 4.0, "structure": "long_call"}
+             for t in ("A", "B", "C")]
+    out = osf._apply_aggregate_budget(ideas)
+    acts = [i for i in out if i["disposition"] == "ACT"]
+    assert [i["ticker"] for i in acts] == ["A", "B"]                # strongest (rank-order) funded first
+    assert sum(i["max_loss_pct_book"] for i in acts) <= 10.0        # run total within the aggregate cap
+    held = [i for i in out if i.get("held_back")]
+    assert held and held[0]["ticker"] == "C" and held[0]["disposition"] == "WATCH" and held[0]["held_back"] == "budget"
+
+
+def test_aggregate_budget_caps_loud_count():
+    # five cheap ACTs (2.5% total, within budget) but more than max_loud_ideas -> only the top few stay loud
+    ideas = [{"disposition": "ACT", "ticker": t, "max_loss_pct_book": 0.5, "structure": "long_call"}
+             for t in ("A", "B", "C", "D", "E")]
+    out = osf._apply_aggregate_budget(ideas)
+    acts = [i for i in out if i["disposition"] == "ACT"]
+    assert len(acts) == osf.oe.DEFAULTS["max_loud_ideas"]          # only the top-N shout
+    assert all(i["held_back"] == "loud_cap" for i in out if i.get("held_back"))

@@ -97,9 +97,10 @@ def test_conviction_scaled_sizing_with_shown_ceiling():
     assert weak["suggested_pct_of_cap"] is not None and weak["suggested_pct_of_cap"] < 100
 
 
-def test_unknown_conviction_is_never_timid_defaults_to_full_cap():
+def test_unknown_conviction_defaults_to_a_moderate_size_not_full_not_timid():
     out = oe.size_position(100.0, portfolio_value=100000, open_premium_at_risk=0, cfg=None)  # no strength passed
-    assert out["contracts"] == out["ceiling_contracts"] == 20   # default -> full cap, not a haircut
+    floor = int(20 * oe.DEFAULTS["size_floor_frac"])
+    assert floor <= out["contracts"] < out["ceiling_contracts"]   # moderate default: not the full cap, never timid
 
 
 def test_summarize_run_shows_aggregate_budget():

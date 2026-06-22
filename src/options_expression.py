@@ -73,9 +73,10 @@ DEFAULTS: dict[str, Any] = {
     # --- sizing (operator-locked 2026-06-18: ~2% / ~10%) ---
     "per_trade_cap_pct": 0.02,         # max premium-at-risk per trade, % of total portfolio
     "aggregate_cap_pct": 0.10,         # max total open long-premium, % of total portfolio
-    "size_floor_frac": 0.40,           # a gate-clearing idea suggests >= this fraction of the per-trade cap (never timid)
-    "conviction_full_at": 0.85,        # conviction strength >= this -> SUGGESTED size = the full per-trade cap
-    "default_conviction_strength": 1.0,  # unknown conviction -> full cap (under-sizing is THE failure; operator scales down)
+    "size_floor_frac": 0.25,           # a gate-clearing idea suggests >= this fraction of the per-trade cap (never timid)
+    "size_curve_power": 2.0,           # >1 = steeper: only TOP-conviction approaches the cap; weaker tiers size well down
+    "default_conviction_strength": 0.6,  # unknown conviction -> a MODERATE size (~mid cap), never the full cap, never timid
+    "max_loud_ideas": 3,               # at most N options ideas shout as loud cards; the rest stay quiet (overflow)
     # --- earnings / IV-crush ---
     "earnings_block": True,            # block long premium into a known earnings event by default
 }
@@ -265,13 +266,14 @@ def size_position(premium_per_unit, *, portfolio_value, open_premium_at_risk,
         return out
     # conviction-scaled SUGGESTED fraction of the per-trade cap (floor..1.0); strong conviction -> full cap
     floor_frac = _cfg(cfg, "size_floor_frac")
-    full_at = _cfg(cfg, "conviction_full_at") or 1.0
+    power = _cfg(cfg, "size_curve_power") or 1.0
     strength = conviction_strength if conviction_strength is not None else _cfg(cfg, "default_conviction_strength")
     try:
         strength = float(strength)
     except (TypeError, ValueError):
         strength = _cfg(cfg, "default_conviction_strength")
-    frac = floor_frac + (1.0 - floor_frac) * min(1.0, max(0.0, strength) / full_at)
+    # steeper-than-linear curve (power>1): only top conviction approaches the full cap; weaker tiers size well down.
+    frac = floor_frac + (1.0 - floor_frac) * (min(1.0, max(0.0, strength)) ** power)
     frac = min(1.0, max(floor_frac, frac))
     suggested_budget = min(ceiling_budget, per_trade_budget * frac)
     contracts = max(1, int(suggested_budget // premium_per_unit))   # a gate-clearing idea is never sized to 0
