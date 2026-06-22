@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22T16:11:07.339872+00:00",
+  "generated_at": "2026-06-22T16:11:18.639320+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-22 \u00b7 uw_price 06-22 \u00b7 uw_macro 06-22 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-22",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-22T12:11:07.339872-04:00",
+        "date": "2026-06-22T12:11:18.639320-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-22T12:11:07.339872-04:00",
+        "date": "2026-06-22T12:11:18.639320-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -2997,37 +2997,37 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-22T16:11:07.074850+00:00",
+      "last_run": "2026-06-22T16:11:18.070908+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-22T16:11:07.074850+00:00",
+      "last_run": "2026-06-22T16:11:18.070908+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-22T16:11:07.074850+00:00",
+      "last_run": "2026-06-22T16:11:18.070908+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-22T16:11:07.074850+00:00",
+      "last_run": "2026-06-22T16:11:18.070908+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-22T16:11:07.074850+00:00",
+      "last_run": "2026-06-22T16:11:18.070908+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "stale",
-      "last_run": "2026-06-22T16:11:07.074850+00:00",
+      "last_run": "2026-06-22T16:11:18.070908+00:00",
       "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json, src/federal_funding_moves.json; +5 more"
     }
   ],
@@ -13975,7 +13975,7 @@
     },
     "cloud_routines": {
       "status": "overdue",
-      "line": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=3; overdue=5; support monitored=22, support overdue=10.",
+      "line": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=3; overdue=4; support monitored=22, support overdue=10.",
       "scheduled_success_count": 14,
       "expected_count": 14,
       "core_expected_count": 14,
@@ -13985,15 +13985,15 @@
       "support_overdue_count": 10,
       "manual_support_only_count": 0,
       "failed_latest_count": 3,
-      "overdue_count": 5,
+      "overdue_count": 4,
       "due_waiting_count": 0,
       "routine_receipt_due": {
         "activated_at": "2026-06-19T00:00:00-04:00",
-        "now": "2026-06-22T12:11:07.339872-04:00",
+        "now": "2026-06-22T12:11:18.639320-04:00",
         "grace_minutes": 30,
-        "overdue_count": 5,
+        "overdue_count": 4,
         "due_waiting_count": 0,
-        "current_count": 9,
+        "current_count": 10,
         "not_due_yet_count": 0,
         "next_due": {
           "routine_id": "investing-os-post-close-refresh",
@@ -14445,7 +14445,7 @@
             "routine_name": "Investing OS Full Cockpit Build",
             "role": "full_cockpit_build",
             "schedule": "market weekdays 10:30 AM ET",
-            "due_state": "overdue",
+            "due_state": "current",
             "expected_since": "2026-06-19T00:00:00-04:00",
             "last_due_at": "2026-06-22T10:30:00-04:00",
             "next_due_at": "2026-06-23T10:30:00-04:00",
@@ -14453,11 +14453,11 @@
             "max_age_minutes": 30,
             "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-22T16:10:26.803308Z",
-            "last_success_at": "2026-06-19T14:33:44.297412Z",
+            "last_recorded_at": "2026-06-22T16:11:15.706632Z",
+            "last_success_at": "2026-06-22T16:11:15.475300Z",
             "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-22T16:10:26.803308Z",
-            "last_scheduled_success_at": "2026-06-19T14:33:44.297412Z",
+            "last_scheduled_recorded_at": "2026-06-22T16:11:15.706632Z",
+            "last_scheduled_success_at": "2026-06-22T16:11:15.475300Z",
             "last_scheduled_summary": "investing-os-full-cockpit-build started",
             "last_manual_recorded_at": "2026-06-22T16:10:08.613912Z",
             "last_manual_success_at": "2026-06-16T14:37:41.716580Z",
@@ -14474,11 +14474,11 @@
             "changed_boundary_artifacts": [
               "src/latest_cockpit_feed.json"
             ],
-            "last_ran_at": "2026-06-19T14:33:44.297412Z",
-            "last_ran_label": "2026-06-19T14:33:44.297412Z",
-            "last_scheduled_success_label": "2026-06-19T14:33:44.297412Z",
+            "last_ran_at": "2026-06-22T16:11:15.475300Z",
+            "last_ran_label": "2026-06-22T16:11:15.475300Z",
+            "last_scheduled_success_label": "2026-06-22T16:11:15.475300Z",
             "latest_manual_support_label": "2026-06-16T14:37:41.716580Z",
-            "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-19T14:33:44.297412Z; latest manual support 2026-06-16T14:37:41.716580Z"
+            "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-22T16:11:15.475300Z; latest manual support 2026-06-16T14:37:41.716580Z"
           },
           {
             "routine_id": "investing-os-post-close-refresh",
@@ -14769,46 +14769,6 @@
             "last_scheduled_success_label": "2026-06-19T14:03:07.721300Z",
             "latest_manual_support_label": "2026-06-22T16:10:04.035926Z",
             "overdue_line": "overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-19T14:03:07.721300Z; latest manual support 2026-06-22T16:10:04.035926Z"
-          },
-          {
-            "routine_id": "investing-os-full-cockpit-build",
-            "routine_name": "Investing OS Full Cockpit Build",
-            "role": "full_cockpit_build",
-            "schedule": "market weekdays 10:30 AM ET",
-            "due_state": "overdue",
-            "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "2026-06-22T10:30:00-04:00",
-            "next_due_at": "2026-06-23T10:30:00-04:00",
-            "overdue_after": "2026-06-22T11:00:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "started",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-22T16:10:26.803308Z",
-            "last_success_at": "2026-06-19T14:33:44.297412Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-22T16:10:26.803308Z",
-            "last_scheduled_success_at": "2026-06-19T14:33:44.297412Z",
-            "last_scheduled_summary": "investing-os-full-cockpit-build started",
-            "last_manual_recorded_at": "2026-06-22T16:10:08.613912Z",
-            "last_manual_success_at": "2026-06-16T14:37:41.716580Z",
-            "last_manual_summary": "full cockpit build manual run refreshed dashboard artifacts",
-            "manual_support_only": false,
-            "last_summary": "investing-os-full-cockpit-build started",
-            "last_boundary_outcome": "produced_fresh",
-            "last_boundary_artifact_count": 1,
-            "last_boundary_artifacts": [
-              "src/latest_cockpit_feed.json"
-            ],
-            "missing_boundary_artifacts": [],
-            "stale_boundary_artifacts": [],
-            "changed_boundary_artifacts": [
-              "src/latest_cockpit_feed.json"
-            ],
-            "last_ran_at": "2026-06-19T14:33:44.297412Z",
-            "last_ran_label": "2026-06-19T14:33:44.297412Z",
-            "last_scheduled_success_label": "2026-06-19T14:33:44.297412Z",
-            "latest_manual_support_label": "2026-06-16T14:37:41.716580Z",
-            "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-19T14:33:44.297412Z; latest manual support 2026-06-16T14:37:41.716580Z"
           }
         ],
         "due_waiting": [],
@@ -14816,7 +14776,7 @@
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-19T00:00:00-04:00",
-        "now": "2026-06-22T12:11:07.339872-04:00",
+        "now": "2026-06-22T12:11:18.639320-04:00",
         "grace_minutes": 30,
         "overdue_count": 10,
         "due_waiting_count": 0,
@@ -16255,46 +16215,6 @@
           "last_scheduled_success_label": "2026-06-19T14:03:07.721300Z",
           "latest_manual_support_label": "2026-06-22T16:10:04.035926Z",
           "overdue_line": "overdue: Investing OS UW Opportunity Cache, last scheduled success 2026-06-19T14:03:07.721300Z; latest manual support 2026-06-22T16:10:04.035926Z"
-        },
-        {
-          "routine_id": "investing-os-full-cockpit-build",
-          "routine_name": "Investing OS Full Cockpit Build",
-          "role": "full_cockpit_build",
-          "schedule": "market weekdays 10:30 AM ET",
-          "due_state": "overdue",
-          "expected_since": "2026-06-19T00:00:00-04:00",
-          "last_due_at": "2026-06-22T10:30:00-04:00",
-          "next_due_at": "2026-06-23T10:30:00-04:00",
-          "overdue_after": "2026-06-22T11:00:00-04:00",
-          "max_age_minutes": 30,
-          "last_status": "started",
-          "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-22T16:10:26.803308Z",
-          "last_success_at": "2026-06-19T14:33:44.297412Z",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-22T16:10:26.803308Z",
-          "last_scheduled_success_at": "2026-06-19T14:33:44.297412Z",
-          "last_scheduled_summary": "investing-os-full-cockpit-build started",
-          "last_manual_recorded_at": "2026-06-22T16:10:08.613912Z",
-          "last_manual_success_at": "2026-06-16T14:37:41.716580Z",
-          "last_manual_summary": "full cockpit build manual run refreshed dashboard artifacts",
-          "manual_support_only": false,
-          "last_summary": "investing-os-full-cockpit-build started",
-          "last_boundary_outcome": "produced_fresh",
-          "last_boundary_artifact_count": 1,
-          "last_boundary_artifacts": [
-            "src/latest_cockpit_feed.json"
-          ],
-          "missing_boundary_artifacts": [],
-          "stale_boundary_artifacts": [],
-          "changed_boundary_artifacts": [
-            "src/latest_cockpit_feed.json"
-          ],
-          "last_ran_at": "2026-06-19T14:33:44.297412Z",
-          "last_ran_label": "2026-06-19T14:33:44.297412Z",
-          "last_scheduled_success_label": "2026-06-19T14:33:44.297412Z",
-          "latest_manual_support_label": "2026-06-16T14:37:41.716580Z",
-          "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-19T14:33:44.297412Z; latest manual support 2026-06-16T14:37:41.716580Z"
         }
       ],
       "support_overdue": [
@@ -17032,14 +16952,14 @@
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
           "proof_scope": "core",
-          "receipt_count": 21,
+          "receipt_count": 23,
           "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-22T16:10:26.803308Z",
-          "last_success_at": "2026-06-19T14:33:44.297412Z",
-          "last_scheduled_success_at": "2026-06-19T14:33:44.297412Z",
+          "last_recorded_at": "2026-06-22T16:11:15.706632Z",
+          "last_success_at": "2026-06-22T16:11:15.475300Z",
+          "last_scheduled_success_at": "2026-06-22T16:11:15.475300Z",
           "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-22T16:10:26.803308Z",
+          "last_scheduled_recorded_at": "2026-06-22T16:11:15.706632Z",
           "last_scheduled_summary": "investing-os-full-cockpit-build started",
           "last_manual_recorded_at": "2026-06-22T16:10:08.613912Z",
           "last_manual_success_at": "2026-06-16T14:37:41.716580Z",
@@ -17622,7 +17542,7 @@
           "role": "off_hours_research_queue",
           "schedule": "market weekdays 7:30 PM ET",
           "proof_scope": "support",
-          "receipt_count": 14,
+          "receipt_count": 12,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-19T23:32:42.588847Z",
@@ -27623,7 +27543,7 @@
   "open_opportunities": {
     "schema_version": "1.0",
     "as_of": "2026-06-22",
-    "generated_at": "2026-06-22T16:10:30.934064+00:00",
+    "generated_at": "2026-06-22T16:11:09.255866+00:00",
     "opportunities": [],
     "history": [
       {
@@ -28005,7 +27925,7 @@
     "status": "has_data",
     "count": 5,
     "as_of": "2026-06-22",
-    "generated_at": "2026-06-22T16:11:07.339872+00:00",
+    "generated_at": "2026-06-22T16:11:18.639320+00:00",
     "line": "5 options idea(s) ready to act now; 9 names checked. these ideas use ~8.0% of your ~10% options budget.",
     "rows": [
       {
@@ -37378,7 +37298,7 @@
     "options": {
       "source": "options_surface",
       "as_of": "2026-06-22",
-      "generated_at": "2026-06-22T16:11:07.339872+00:00",
+      "generated_at": "2026-06-22T16:11:18.639320+00:00",
       "ideas": [
         {
           "schema_version": "1.0",
@@ -38139,7 +38059,7 @@
         "severity": "warn",
         "kind": "cloud_routine_failed",
         "title": "3 cloud routine(s) failed latest receipt",
-        "why": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=3; overdue=5; support monitored=22, support overdue=10.",
+        "why": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=3; overdue=4; support monitored=22, support overdue=10.",
         "source": "cloud_routines",
         "trigger": "failed_latest_count > 0",
         "next_step": "Check Ops/System Health when debugging routines; this is not a portfolio alert."
