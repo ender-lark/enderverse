@@ -65,6 +65,32 @@
   },
   {
     "date": "2026-06-22",
+    "title": "Fundstrat flags mixed Iran/Hormuz peace-flow risk",
+    "severity": "high",
+    "horizon": "daily",
+    "channels": [
+      "oil",
+      "rates",
+      "volatility"
+    ],
+    "tickers": [
+      "XOP",
+      "TNX",
+      "SMH",
+      "SOXX"
+    ],
+    "affected": [
+      "Energy hedge",
+      "AI semis",
+      "new-buy timing"
+    ],
+    "source": "Fundstrat Gmail full-body read 2026-06-22/2026-06-21",
+    "summary": "Progress toward a U.S.-Iran peace path is market-positive through lower oil/yields, but contradictory Strait of Hormuz reports keep oil/rates shock risk active.",
+    "trigger": "Recheck Hormuz flow, oil, yields, and semis before promoting adds or reducing hedges.",
+    "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-22",
     "title": "Oil/rates event risk re-escalates before Monday cash open",
     "severity": "high",
     "horizon": "next cash session to Jun30/Jul31 Hormuz windows",
