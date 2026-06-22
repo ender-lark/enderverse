@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T13:42:10.635920Z",
-      "summary": "runbook 4 check sets/23 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing-failed; gates still blocked by SECTOR_TIDE unsupported path, MARKET_MOVERS 403 advanced_tier_required, TNX flow no rows; dashboard refresh skipped"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T13:47:36.737649Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6690,7 +6676,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T19:49:38.264258Z",
       "summary": "Chrome checked Macro FlashInsights newest Jun22 12:28/12:27 ET GOOGL, Crypto newest Jun22 11:14 MSTR and 11:13 ETH, Latest Research listing through Jun22 10:33 US Policy and 8:59 First to Market; Gmail 0 not needed; rows landed 0; discovery-only listing cards 0 new, duplicate/prior FlashInsights cached; validation passed; alert quiet 0 candidates, 4 duplicates, 76 suppressed; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote triggers not_checked; dashboard refresh skipped no new rows; no Notion writes; blockers none"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T20:32:48.956384Z",
+      "summary": "investing-os-post-close-refresh started"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T20:33:37.852252Z",
+      "summary": "post-close refresh succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "65cb6780c0ceb48aa38a434b8cd1e7952e05c56ce8306fb3a2fa4132862194fd",
+            "as_of": "2026-06-22T20:33:29.533622+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "34c1faec6a5be4de12146cf2829f0ff4190113c15b801c94eec7df93e6c622d2",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-22T19:49:38.264258Z"
+  "updated_at": "2026-06-22T20:33:37.852252Z"
 }
