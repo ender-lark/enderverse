@@ -2,54 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.493302Z",
-      "summary": "investing-os-deep-synthesis manual run started"
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.667704Z",
-      "summary": "deep synthesis manual support run completed from repo evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "source call candidates merge",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/source_call_candidate_draft.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/source_call_candidates.json",
-              "--merge-existing",
-              "--merge-cache"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"out\": \"src/source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 18,\n  \"drafted\": 18,\n  \"existing\": 28,\n  \"stored\": 28,\n  \"tickers\": [\n    \"BTC\",\n    \"CL\",\n    \"EWRE\",\n    \"EWY\",\n    \"GOLD\",\n    \"GOOGL\",\n    \"MSTR\",\n    \"QQQ\",\n    \"RSP\",\n    \"RSPT\",\n    \"RYF\",\n    \"SOX\",\n    \"SPCX\",\n    \"SPX\",\n    \"SPY\",\n    \"TNX\",\n    \"XHS\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-15T13:10:18.650139+00:00\",\n    \"existing\": 28,\n    \"candidates\": 28,\n    \"added\": 0,\n    \"stored\": 28,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\",\n      \"2026-06-08\",\n      \"2026-06-09\",\n      \"2026-06-10\",\n      \"2026-06-11\",\n      \"2026-06-12\",\n      \"2026-06-14\"\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "started",
       "run_source": "manual",
@@ -6814,7 +6766,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T16:15:44.040902Z",
       "summary": "Chrome web checked Macro FlashInsights Jun22 11:11 ET, Crypto FlashInsights Jun22 11:14/11:13 ET, and US Policy detail text; Gmail 0 not needed; compact rows checked 4, ETH/BTC source-call candidate added/current on main; low-value/discovery-only suppressed 0, duplicates deduped; validation passed; dashboard refreshed; Pushover alert sent 3 (SMH, ETH, SPY); trigger guard fired 0, EWRE/ASTS/RKLB/MU quote not_checked; Social Watch dark"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:31:12.337916Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:33:57.106770Z",
+      "summary": "FS inbox catch-up midday nothing new; marker checked through [06/22/2026 10:55 ET]; Notion marker fetch-verified"
     }
   ],
-  "updated_at": "2026-06-22T16:15:44.040902Z"
+  "updated_at": "2026-06-22T16:33:57.106770Z"
 }
