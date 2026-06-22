@@ -1380,5 +1380,43 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "SPY",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "Newton treats early equity weakness as a support test: SPX 7465-7450 is the key same-session zone, with TNX/oil context worth rechecking before adding beta.",
+    "date": "2026-06-22",
+    "subject": "Macro FlashInsights: minor weakness, SPX support, TNX/oil context",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-22-1111-et-spy-tnx",
+    "source": "Fundstrat Chrome member Macro FlashInsights feed",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Sean Farrell",
+    "ticker": "MSTR",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "Farrell flags a positive MSTR/BTC reserve development; keep MSTR and BTC-linked exposure on active watch instead of treating crypto-equity risk as stale.",
+    "date": "2026-06-22",
+    "subject": "Crypto FlashInsights: MSTR/BTC reserve watch",
+    "source_message_id": "fundstrat-web-crypto-flashinsights-2026-06-22-1114-et-mstr-btc",
+    "source": "Fundstrat Chrome member Crypto FlashInsights feed",
+    "publication_type": "crypto_strategy",
+    "capture_policy": "daily_call",
+    "use_case": "crypto_sleeve",
+    "decision_usefulness": "medium",
+    "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
   }
 ]

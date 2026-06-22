@@ -9,13 +9,19 @@
   "bodies_redacted": true,
   "compact_full_body_derived": true,
   "stored_entries": 2,
-  "stored_daily_calls": 76,
-  "stored_source_call_candidates": 76,
+  "stored_daily_calls": 78,
+  "stored_source_call_candidates": 78,
   "source_calls": {
     "updated": true,
-    "candidates": 76,
+    "candidates": 78,
     "added": 2,
-    "stored": 76,
+    "stored": 78,
     "log_call_dates": 14
+  },
+  "web_compact_intake": {
+    "source": "authenticated_fundstrat_chrome",
+    "checked_rows": 2,
+    "suppressed_rows": 0,
+    "raw_bodies_stored": false
   }
 }

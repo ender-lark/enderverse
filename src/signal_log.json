@@ -533,5 +533,37 @@
     "priority": "high",
     "source": "https://www.theguardian.com/world/2026/jun/21/us-iran-talks-jd-vance-switzerland-strait-of-hormuz-lebanon ; https://www.wsj.com/finance/commodities-futures/oil-prices-rise-as-doubts-over-u-s-iran-peace-deal-grow-bb9cd432 ; https://polymarket.com/event/will-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30",
     "note": "Packet checked 2026-06-22T01:30Z. Fresh Guardian/WSJ-public search evidence says US-Iran talks remain strained, Iran has remounted the Hormuz blockade, and WTI rose about 2.1% to $78.18. Polymarket Jun30 Hormuz transit markets show 20+ 94%, 40+ 42%, 60+ 17%, 80+ 8%, so traffic recovery is still not an all-clear. Decision affected: Event Risk/new-buy timing for AI/growth, energy, financials, and nuclear/critical-minerals sleeves. Conviction effect: supports recheck, contradicts clearing shock. Missing: direct PortWatch export and Monday same-session cash-market reaction. Watch-only Signal Log; no trade/sizing inference. Notion Signal Log verified https://app.notion.com/p/387c50314bb6818e827eda4072e7b554."
+  },
+  {
+    "signal": "Morning scan: held AI book stress is concentrated in GOOGL/AVGO while MU diverges higher",
+    "ticker": "GOOGL, AVGO, MU, NVDA, QQQ",
+    "date": "2026-06-22",
+    "priority": "high",
+    "source": "https://app.notion.com/p/387c50314bb681deb871e0140e211330",
+    "note": "Scheduled Morning Scan 2026-06-22 12:12 ET. Finance snapshots around 15:53 UTC: GOOGL -5.96%, AVGO -3.70%, NVDA -0.38%, QQQ -0.60%, while MU +3.85%. Watch-only: material held AI exposure; no trade call or sizing inferred."
+  },
+  {
+    "signal": "Morning scan: LEU drawdown flags uranium/energy-beta review lane",
+    "ticker": "LEU, UUUU, CCJ, BMNR, MP",
+    "date": "2026-06-22",
+    "priority": "high",
+    "source": "https://app.notion.com/p/387c50314bb681368b84ecffdc42c2e6",
+    "note": "Scheduled Morning Scan 2026-06-22 12:12 ET. Finance snapshot around 15:53 UTC: LEU -5.95% intraday with repo account_positions showing LEU about $99k and related uranium/energy-beta exposure. Watch-only; needs source confirmation before posture change."
+  },
+  {
+    "signal": "Morning scan: technology and semi options flow is mixed, not clean confirmation",
+    "ticker": "SMH, NVDA, AVGO, MU, MSFT, QQQ",
+    "date": "2026-06-22",
+    "priority": "medium",
+    "source": "https://app.notion.com/p/387c50314bb681339f14cec857b797eb",
+    "note": "UW same-day 2026-06-22 flow: XLK call premium $11.7M vs put premium $2.5M; technology/semi Greek flow through about 16:08 UTC had alternating call/put bursts; same-day dark-pool scan above $50M returned 0 rows. Mixed watch evidence only."
+  },
+  {
+    "signal": "Morning scan: Hormuz/oil macro lane remains active with conflicting live headlines",
+    "ticker": "XLE, XLF, SPY, QQQ, ITA",
+    "date": "2026-06-22",
+    "priority": "high",
+    "source": "Guardian/Economic Times live web search 2026-06-22",
+    "note": "Live headlines conflict: Guardian reported markets steadier/oil below $80 on U.S.-Iran talks; Economic Times reported crude above $80 on renewed Hormuz closure. Keep macro/oil/rates lane active and evidence-dependent; no checked-clear status."
   }
 ]
