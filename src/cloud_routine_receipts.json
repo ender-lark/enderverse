@@ -2,76 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T13:11:32.643028Z",
-      "summary": "broker position intake final main cache receipt; fresh 2026-06-15; T7 strict 8/11 with 3 warnings; June 12 diff restored",
-      "details": {
-        "profiles": 1,
-        "accounts": 11,
-        "raw_positions": 275,
-        "snapshot_date": "2026-06-15",
-        "positions_snapshot_date": "2026-06-15",
-        "prior_snapshot_date": "2026-06-12",
-        "tracked_positions": 13,
-        "sleeve_value": 1887067,
-        "position_diff_counts": {
-          "EXIT": 3,
-          "ADD": 4,
-          "TRIM": 2,
-          "VALUE_CHANGE": 142
-        },
-        "change_count": 151,
-        "share_change_count": 9,
-        "dashboard_refresh_returncode": 0,
-        "stated_balance_passed_count": 8,
-        "stated_balance_failed_count": 3,
-        "stated_balance_failed_accounts": [
-          "PCRA Trust ...651 PCRA Trust ...651",
-          "Individual ...254 Individual ...254",
-          "Robinhood Crypto 8794"
-        ],
-        "strict_t7_passed": false,
-        "independent_balance_spot_checks": {
-          "Joint WROS - TOD *****2063": 589110.73,
-          "ROLLOVER IRA - RamBalusu *****6333": 231724.56,
-          "ROTH IRA *****2650": 50950.4
-        },
-        "row_sum_spot_checks": {
-          "Joint WROS - TOD *****2063": 589865.66
-        },
-        "rotation_spot_checks": {
-          "NVDA": {
-            "shares": 1007.0,
-            "market_value": 206666.18
-          },
-          "SMH": {
-            "shares": 155.046,
-            "market_value": 98193.78
-          },
-          "MAGS": {
-            "shares": 6.0,
-            "market_value": 389.46
-          }
-        },
-        "warnings": [
-          "PCRA Trust ...651 PCRA Trust ...651: stated-balance mismatch positions only $386,303.32 vs broker stated $376,968.60 (delta +9,334.72, tolerance $1,884.84)",
-          "Individual ...254 Individual ...254: stated-balance mismatch positions only $139,750.87 vs broker stated $135,850.49 (delta +3,900.38, tolerance $679.25)",
-          "Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,346.26 vs broker stated $1,204.47 (delta +141.79, tolerance $6.02)"
-        ],
-        "corrects_later_manual_success_receipt": true,
-        "corrected_manual_success_at": "2026-06-15T13:09:46.030742Z"
-      }
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T13:32:56.928383Z",
-      "summary": "daily synthesis started"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "started",
       "run_source": "scheduled",
@@ -6746,7 +6676,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T16:51:16.094036Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights plus latest-research listing; Gmail 0 not needed; rows landed 1 GOOGL from 2 complete Macro feed cards; suppressed Crypto duplicate/current cards and listing discovery-only; validation passed; dashboard refreshed; Pushover sent 1 GOOGL alert; dark Social Watch; no Notion writes"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T17:46:33.112890Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T17:49:12.797321Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail 0 not needed; rows landed 0; suppressed duplicate/prior FlashInsights and older listing discovery; validation passed; alert quiet 0 new, 4 duplicates, 76 suppressed; trigger quotes EWRE/ASTS/RKLB/MU not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-22T16:51:16.094036Z"
+  "updated_at": "2026-06-22T17:49:12.797321Z"
 }
