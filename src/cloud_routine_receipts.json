@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T14:32:52.120913Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T14:32:59.313578Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-postclose",
       "status": "started",
       "run_source": "manual",
@@ -6714,7 +6693,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T23:13:09.964925Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights, 11 research/video listings, 1 DTS detail plus Vimeo transcript; Gmail 0; rows landed 2 QQQ/MAGS; transcript vault 1 pack/122 cues pushed; suppressed discovery/prior/stale surfaces 13; validation passed 90 tests; Notion not used; dark social_watch, heartbeat stale; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T23:32:18.107739Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T23:33:04.766395Z",
+      "summary": "Research Queue not_checked: drop folder missing; pending 5 done 0 ACT_NOW none skipped 0; cache not refreshed; existing cache 2026-06-19T15:25:50Z"
     }
   ],
-  "updated_at": "2026-06-22T23:13:09.964925Z"
+  "updated_at": "2026-06-22T23:33:04.766395Z"
 }
