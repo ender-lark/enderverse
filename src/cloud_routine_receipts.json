@@ -2,54 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:18.678451Z",
-      "summary": "investing-os-weekly-pilot-run manual run started"
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T13:10:19.692775Z",
-      "summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "heartbeat status write",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--src-dir",
-              "src",
-              "--out",
-              "src/heartbeat.json",
-              "--summary",
-              "src/heartbeat_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src/heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          },
-          {
-            "label": "heartbeat validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--validate",
-              "src/heartbeat.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "success",
       "run_source": "scheduled",
@@ -6780,7 +6732,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T16:33:57.106770Z",
       "summary": "FS inbox catch-up midday nothing new; marker checked through [06/22/2026 10:55 ET]; Notion marker fetch-verified"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:46:03.453553Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:51:16.094036Z",
+      "summary": "Chrome checked Macro/Crypto FlashInsights plus latest-research listing; Gmail 0 not needed; rows landed 1 GOOGL from 2 complete Macro feed cards; suppressed Crypto duplicate/current cards and listing discovery-only; validation passed; dashboard refreshed; Pushover sent 1 GOOGL alert; dark Social Watch; no Notion writes"
     }
   ],
-  "updated_at": "2026-06-22T16:33:57.106770Z"
+  "updated_at": "2026-06-22T16:51:16.094036Z"
 }
