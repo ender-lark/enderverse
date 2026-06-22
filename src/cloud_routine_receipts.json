@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-12T17:45:56.958398Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-12T17:47:11.969001Z",
-      "summary": "checked 2 web pages, Gmail 0; landed 1 row; suppressed/discovery-only 0; validation passed; alert sent 1, duplicates 3, quiet 19; dark/stale crypto flash stale from 2026-06-08; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-12T18:46:37.634876Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6729,7 +6715,84 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T00:46:58.668056Z",
       "summary": "dry-run selected 0; queued none; write verification not needed; remaining unqueued 2 RYF/XOP below threshold QUIET; dark/stale lanes none touched; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T01:17:30.013411Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T01:26:54.396617Z",
+      "summary": "checked cockpit/queue/holdings, SEC active universe, UW bounded proof, Guardian/WSJ/Polymarket Hormuz; routed Event Risk 1 + Signal Log 1; Notion Signal Log verified 1/1; dark Social Watch, PortWatch direct export not_checked; UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX flow empty",
+      "details": {
+        "checked_at": "2026-06-22T01:30Z",
+        "source_state": {
+          "anchored_on": [
+            "live_status",
+            "uw_action_runbook",
+            "latest_cockpit_feed",
+            "research_queue",
+            "event_risks",
+            "signal_log",
+            "account_positions",
+            "fed_day_reallocation_packet",
+            "decision_dossiers"
+          ],
+          "sources_checked": [
+            "SEC EDGAR submissions for active ticker universe",
+            "UW bounded endpoint capture via approved runbook",
+            "Guardian US-Iran/Hormuz reporting checked 2026-06-22 UTC",
+            "WSJ public search snippet for WTI/Hormuz checked 2026-06-22 UTC",
+            "Polymarket public Hormuz transit market checked 2026-06-22 UTC",
+            "Notion Signal Log schema/create/readback",
+            "local Signal Log/Event Risk/Research Queue caches"
+          ],
+          "dark_or_blocked": [
+            "Social Watch optional lane dark/not_checked; no compliant cache supplied",
+            "IMF PortWatch direct export not_checked; Polymarket still references PortWatch as resolution source",
+            "UW MARKET_MOVERS blocked by advanced_tier_required 403",
+            "UW SECTOR_TIDE unsupported path parameter",
+            "UW TNX flow/alerts empty/missing",
+            "UW capture rows are neutral row-count proof only, not thesis confirmation",
+            "positions remain aging/test-data from 2026-06-19",
+            "Fundstrat daily notes stale through 2026-06-17"
+          ]
+        },
+        "packets": [
+          {
+            "ticker_entity": "Hormuz/oil/rates event risk",
+            "source_timestamp": "Guardian 2026-06-21/22; WSJ public search 2026-06-22; Polymarket checked 2026-06-22T01:30Z; UW capture 2026-06-22T01:19Z",
+            "why_it_matters": "Talks remain strained, Iran reportedly remounted the Hormuz blockade, WTI rebounded around 2.1% to $78.18, and Polymarket still does not show normal traffic by Jun30 as likely. This can change Monday new-buy timing and risk posture for AI/growth, energy, financials, and nuclear/critical-minerals sleeves.",
+            "current_decision_affected": "Event Risk lane and new-buy timing for GOOGL/MSFT/MAGS/SMH plus energy/rates-sensitive exposure.",
+            "conviction_effect": "supports recheck; contradicts clearing oil/rates shock",
+            "time_window": "Monday cash open through Jun30/Jul31 Hormuz traffic windows",
+            "disconfirmation_trigger": "IMF PortWatch finalized calls, WTI/TNX, shipping/insurance reports, and Monday cash-market reaction show sustained normalization.",
+            "missing_evidence": "Direct current PortWatch export and Monday same-session cash-market reaction remain not_checked.",
+            "proposed_route": "Event Risk plus Signal Log",
+            "routed": "Notion Signal Log verified https://app.notion.com/p/387c50314bb6818e827eda4072e7b554; repo signal_log.json +1; repo event_risks.json +1"
+          }
+        ],
+        "suppressed": [
+          "BMNR preferred dividend increment already suppressed in prior scout as duplicate/no posture change",
+          "COHR indium/CHIPS packet already routed 2026-06-20",
+          "HOOD restructuring/flow packet already routed 2026-06-21",
+          "UUUU/COHR federal funding base facts already in Research Queue",
+          "SEC active universe had no post-Jun21 material filings requiring a new packet"
+        ],
+        "validations": [
+          "signal_log_intake validate passed rows=67 before success receipt",
+          "event_risk_intake validate passed rows=9 before success receipt",
+          "research_queue_intake validate passed",
+          "cloud_routine_receipts validate passed before success receipt"
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-22T00:46:58.668056Z"
+  "updated_at": "2026-06-22T01:26:54.396617Z"
 }

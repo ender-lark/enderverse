@@ -525,5 +525,13 @@
     "priority": "medium",
     "source": "SEC HOOD 8-K 2026-06-16; UW HOOD flow/volume/dark-pool checks captured 2026-06-21 UTC",
     "note": "Packet: Robinhood 8-K says the 10% workforce reduction was taken from a position of business strength with June month-to-date record ADVs across equities, options, and prediction markets; UW June 18 rows show HOOD near 108 with large call volume, repeated call alerts, and mixed premium balance, not a clean sell-fast confirmation. Current decision affected: dashboard HOOD sell-fast review and small 2026-09-18 100C exposure. Conviction effect: mixed/contradicts automatic sell-fast; supports rechecking exposure and same-session flow before trim/exit. Time window: next cash session, with earnings date shown by UW as 2026-07-29. Disconfirmation trigger: Monday price/flow breaks down, bearish premium accelerates, or restructuring proves demand/cost weakness. Missing evidence: Monday same-session cash-market flow and current analyst upgrade details are not fully checked. Proposed route: Signal Log watch-only; no direct buy/sell/sizing inference."
+  },
+  {
+    "signal": "Oil/rates event risk re-escalates before Monday cash open",
+    "ticker": "USO, XOP, XLE, TNX, XLF, SMH, MAGS, LEU, UUUU",
+    "date": "2026-06-22",
+    "priority": "high",
+    "source": "https://www.theguardian.com/world/2026/jun/21/us-iran-talks-jd-vance-switzerland-strait-of-hormuz-lebanon ; https://www.wsj.com/finance/commodities-futures/oil-prices-rise-as-doubts-over-u-s-iran-peace-deal-grow-bb9cd432 ; https://polymarket.com/event/will-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30",
+    "note": "Packet checked 2026-06-22T01:30Z. Fresh Guardian/WSJ-public search evidence says US-Iran talks remain strained, Iran has remounted the Hormuz blockade, and WTI rose about 2.1% to $78.18. Polymarket Jun30 Hormuz transit markets show 20+ 94%, 40+ 42%, 60+ 17%, 80+ 8%, so traffic recovery is still not an all-clear. Decision affected: Event Risk/new-buy timing for AI/growth, energy, financials, and nuclear/critical-minerals sleeves. Conviction effect: supports recheck, contradicts clearing shock. Missing: direct PortWatch export and Monday same-session cash-market reaction. Watch-only Signal Log; no trade/sizing inference. Notion Signal Log verified https://app.notion.com/p/387c50314bb6818e827eda4072e7b554."
   }
 ]

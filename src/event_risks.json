@@ -64,6 +64,46 @@
     "direction": "risk_watch"
   },
   {
+    "date": "2026-06-22",
+    "title": "Oil/rates event risk re-escalates before Monday cash open",
+    "severity": "high",
+    "horizon": "next cash session to Jun30/Jul31 Hormuz windows",
+    "channels": [
+      "oil",
+      "rates",
+      "shipping",
+      "volatility",
+      "energy",
+      "growth",
+      "AI"
+    ],
+    "tickers": [
+      "USO",
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "SMH",
+      "MAGS",
+      "GOOGL",
+      "MSFT",
+      "LEU",
+      "UUUU"
+    ],
+    "affected": [
+      "Energy",
+      "Financials",
+      "High-duration growth",
+      "AI add timing",
+      "Nuclear/critical minerals",
+      "Portfolio new-buy timing"
+    ],
+    "source": "Guardian 2026-06-21/22; WSJ public search 2026-06-22; Polymarket Jun30 Hormuz market checked 2026-06-22T01:30Z; UW bounded capture 2026-06-22T01:19Z",
+    "summary": "Talks remain strained and Iran reportedly remounted the Hormuz blockade while WTI rebounded around 2.1% to $78.18. Polymarket still prices 60+ Jun30 transit calls at about 17% and 80+ at about 8%, so traffic recovery is not an all-clear. Decision impact: keep Monday new-buy timing gated on WTI/TNX/shipping and same-session cash-market confirmation rather than clearing the oil/rates shock.",
+    "trigger": "Disconfirm only if IMF PortWatch finalized calls, WTI/TNX, shipping/insurance reports, and Monday cash-market reaction show sustained normalization; re-escalate if talks fail, the blockade tightens, WTI/TNX spike, or transit odds roll over.",
+    "direction": "risk_watch"
+  },
+  {
     "date": "2026-06-03",
     "title": "Financials breakdown and crypto-linked weakness weigh on tape breadth",
     "severity": "medium",
