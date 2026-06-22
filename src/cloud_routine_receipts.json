@@ -2,165 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T12:56:02.905297Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T12:56:02.919704Z",
-      "summary": "investing-os-uw-opportunity-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T12:56:03.115438Z",
-      "summary": "UW opportunity cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "uw opportunity self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "uw_opportunity_scan self-test: PASS",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 38
-            }
-          },
-          {
-            "label": "live source config validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_source_config_update.py",
-              "--validate",
-              "src/live_source_config.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity bundle skipped",
-            "returncode": 0,
-            "optional": true,
-            "check": {
-              "valid": true,
-              "skipped": true,
-              "reason": "tmp/uw/opportunity_bundle.json missing or empty"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T12:56:03.130082Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T12:56:04.100878Z",
-      "summary": "parabolic cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "parabolic self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/parabolic_setup_screener.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "parabolic_setup_screener self-test\n- golden-master: known fixtures -> known tiers\n  [PASS] AUTOFIRE fixture score == 10.5 (got 10.5)\n  [PASS] AUTOFIRE fixture tier (got AUTOFIRE)\n  [PASS] WATCHLIST fixture score == 7.0 (got 7.0)\n  [PASS] WATCHLIST fixture tier (got WATCHLIST)\n  [PASS] SKIP fixture score == 0.0 (got 0.0)\n  [PASS] SKIP fixture tier (got SKIP)\n- contract: ScreenResult.to_dict() shape\n  [PASS] to_dict has 'ticker'\n  [PASS] to_dict has 'score'\n  [PASS] to_dict has 'surface_tier'\n  [PASS] to_dict has 'phase'\n  [PASS] to_dict has 'features'\n  [PASS] to_dict has 'weighted_total'\n  [PASS] to_dict has 'notes'\n  [PASS] to_dict features expanded with revenue_accel\n- producer: bundle -> results -> emit payload\n  [PASS] screen_from_bundle returns 3 (got 3)\n  [PASS] emit as_of preserved\n  [PASS] emit payload has required keys\n  [PASS] emit counts (got {'AUTOFIRE': 1, 'WATCHLIST': 1, 'SKIP': 1})\n  [PASS] emit has 3 results\n- producer: CANDIDATE_PROFILES fallback when bundle omits profile\n  [PASS] VIAV uses CANDIDATE_PROFILES (industry_conc == 1.0)\n- UW adapter: raw UW field names -> canonical (live-confirmed shapes)\n  [PASS] income total_revenue -> revenue\n  [PASS] earnings drops null reported_eps (unreported quarter)\n  [PASS] info pulls top-level price\n  [PASS] bundle_entry_from_uw produces a canonical entry\n  [PASS] prices 'c' -> 'close' (+ unwraps {data:[...]})\n\nALL PASS",
-            "stderr": ""
-          },
-          {
-            "label": "parabolic cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 16
-            }
-          },
-          {
-            "label": "parabolic bundle skipped",
-            "returncode": 0,
-            "optional": true,
-            "check": {
-              "valid": true,
-              "skipped": true,
-              "reason": "tmp/uw/parabolic_bundle.json missing or empty"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T12:56:04.111409Z",
-      "summary": "investing-os-full-cockpit-build manual run started"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "success",
       "run_source": "manual",
@@ -6780,7 +6621,121 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:08:55.709402Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T16:08:59.868342Z",
+      "summary": "full cockpit build failed",
+      "details": {
+        "returncode": 1,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "69933930f42f2d0adf43b9f60539e708ad321da085f28cb3db068f09f895aef3",
+            "as_of": "2026-06-22T16:08:35.198554+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "69933930f42f2d0adf43b9f60539e708ad321da085f28cb3db068f09f895aef3",
+            "changed": false
+          }
+        ]
+      },
+      "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "failed",
+      "run_source": "manual",
+      "recorded_at": "2026-06-22T16:09:01.679694Z",
+      "summary": "investing-os-broker-position-intake manual run failed",
+      "details": {
+        "steps": [
+          {
+            "label": "snaptrade book refresh",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/snaptrade_book_refresh.py",
+              "--refresh-dashboard"
+            ],
+            "returncode": 1,
+            "optional": false,
+            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 4,\n    \"stale\": 1\n  }\n}\n\n== refresh_decision_dossier_dynamic_reads ==\n+ C:\\Python314\\python.exe src/decision_dossier_refresh.py --in src\\decision_dossiers.json --out src\\decision_dossiers.json --uw-prices src\\uw_closes.json --uw-opportunity src\\uw_opportunity_signals.json --feed src\\latest_cockpit_feed.json --live-source-config src\\live_source_config.json\n{\n  \"valid\": true,\n  \"generated_at\": \"2026-06-22\",\n  \"as_of\": \"2026-06-22\",\n  \"updated_dossiers\": 0,\n  \"rows\": [\n    {\n      \"ticker\": \"AVGO\",\n      \"updated_reads\": [],\n      \"price_evidence\": false,\n      \"timing_evidence\": false\n    }\n  ],\n  \"written\": true,\n  \"out\": \"src\\\\decision_dossiers.json\"\n}\n\n== refresh_source_rates ==\n+ C:\\Python314\\python.exe src/source_call_tracker.py --hit-rates --calls src\\source_calls.json --out src\\source_rates.json\nsource_rates written to src\\source_rates.json (76 calls processed)\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"valid\": false,\n  \"promoted\": true,\n  \"profiles\": 1,\n  \"accounts\": 11,\n  \"raw_positions\": 276,\n  \"snapshot_date\": \"2026-06-22\",\n  \"prior_snapshot_date\": \"2026-06-22\",\n  \"sleeve_value\": 1922054,\n  \"thesis_positions\": 13,\n  \"account_rows\": 276,\n  \"position_diff_counts\": {\n    \"VALUE_CHANGE\": 46\n  },\n  \"share_change_count\": 0,\n  \"warnings\": [\n    \"Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,321.82 vs broker stated $1,343.89 (delta -22.07, tolerance $6.72)\"\n  ],\n  \"stated_balance_findings\": [\n    {\n      \"account\": \"Robinhood Crypto 8794\",\n      \"source_file\": \"snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e\",\n      \"computed_total\": 1321.82,\n      \"reported_total\": 1343.89,\n      \"delta\": -22.07,\n      \"tolerance\": 6.72,\n      \"computed_total_basis\": \"non-cash positions + cash\",\n      \"line\": \"Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,321.82 vs broker stated $1,343.89 (delta -22.07, tolerance $6.72)\",\n      \"missing_tickers\": [],\n      \"new_tickers\": []\n    }\n  ],\n  \"written\": {\n    \"raw\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_raw.json\",\n    \"combined\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_combined.json\",\n    \"staged_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_positions.staged.json\",\n    \"staged_account_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_account_positions.staged.json\",\n    \"staged_position_reconciliation\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_position_reconciliation.staged.json\",\n    \"positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\positions.json\",\n    \"account_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\account_positions.json\",\n    \"position_reconciliation\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\position_reconciliation.json\"\n  },\n  \"dashboard_refresh_returncode\": 1\n}",
+            "stderr": "Traceback (most recent call last):\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1337, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1272, in main\n    feed = build_full_feed_from_files(\n        src_dir=args.src_dir,\n    ...<5 lines>...\n        generated_at=args.generated_at,\n    )\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1151, in build_full_feed_from_files\n    raise FullBuildError(\"; \".join(boundary_artifact_problems))\nFullBuildError: UW endpoint proof boundary artifact is dirty/uncommitted: M src/uw_endpoint_results.json; commit src/uw_endpoint_results.json before building the cockpit feed from it."
+          }
+        ]
+      },
+      "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-22T16:09:01.719724Z",
+      "summary": "investing-os-morning-scan manual run started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-22T16:09:01.980422Z",
+      "summary": "morning scan manual run completed; Signal Log remains watch-only",
+      "details": {
+        "steps": [
+          {
+            "label": "signal log validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/signal_log_intake.py",
+              "--validate",
+              "src/signal_log.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 67\n}",
+            "stderr": ""
+          },
+          {
+            "label": "macro cache validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/macro_pulse_scan.py",
+              "--validate",
+              "src/macro_state.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
+            "stderr": ""
+          }
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-22T16:09:02.024438Z",
+      "summary": "investing-os-early-cockpit-build manual run started"
     }
   ],
-  "updated_at": "2026-06-22T16:08:43.961974Z"
+  "updated_at": "2026-06-22T16:09:02.024438Z"
 }
