@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T13:36:38.732296Z",
-      "summary": "repo synthesis refreshed; Notion page written and verified; Social Watch still not_checked; Decisions/Trade Outcomes/Pilot live row deltas not enumerated"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T13:41:44.759543Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "success",
       "run_source": "scheduled",
@@ -6690,7 +6676,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T18:49:06.518547Z",
       "summary": "Chrome checked Macro FlashInsights newest Jun22 12:28/12:27 ET GOOGL, Crypto newest Jun22 11:14 MSTR and 11:13 ETH, Latest Research listing through Jun22 10:33 US Policy and 8:59 First to Market; Gmail 0 not needed; rows landed 0; discovery-only listing cards 2; alert quiet 0 candidates, 4 duplicates, 76 stale/context suppressed; validation passed; trigger guard fired 0 with 4 quote triggers not_checked; dashboard refresh skipped no new rows; no Notion writes"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T19:46:38.013536Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-22T19:49:38.264258Z",
+      "summary": "Chrome checked Macro FlashInsights newest Jun22 12:28/12:27 ET GOOGL, Crypto newest Jun22 11:14 MSTR and 11:13 ETH, Latest Research listing through Jun22 10:33 US Policy and 8:59 First to Market; Gmail 0 not needed; rows landed 0; discovery-only listing cards 0 new, duplicate/prior FlashInsights cached; validation passed; alert quiet 0 candidates, 4 duplicates, 76 suppressed; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote triggers not_checked; dashboard refresh skipped no new rows; no Notion writes; blockers none"
     }
   ],
-  "updated_at": "2026-06-22T18:49:06.518547Z"
+  "updated_at": "2026-06-22T19:49:38.264258Z"
 }
