@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-positions-sync",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T20:47:14.175196Z",
-      "summary": "positions sync started"
-    },
-    {
-      "routine_id": "investing-os-positions-sync",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T20:49:51.906750Z",
-      "summary": "positions sync succeeded: snapshot 2026-06-15; 11 accounts; 89 VALUE_CHANGE diffs; dashboard refresh passed"
-    },
-    {
       "routine_id": "investing-os-fundstrat-after-hours-catch-up",
       "status": "started",
       "run_source": "scheduled",
@@ -6777,7 +6763,22 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T12:25:58.887703Z",
       "summary": "FS inbox catch-up preopen ingested 1 entry through [06/22/2026 23:10 ET]; Source Call Log rows 2 fetch-verified; marker advanced; query endpoint dark/not_checked"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T12:37:31.620459Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T12:41:20.816299Z",
+      "summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-23T12:25:58.887703Z"
+  "updated_at": "2026-06-23T12:41:20.816299Z"
 }
