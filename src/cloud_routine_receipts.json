@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:51:25.775606Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:51:33.172129Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "started",
       "run_source": "scheduled",
@@ -6937,7 +6916,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T16:50:45.008008Z",
       "summary": "Chrome checked Macro FlashInsights Jun23 10:52 tech/memory dip, 10:51 semis/MU rebound, 10:38 SPY support: all duplicate/prior cached; Crypto FlashInsights latest Jun22 MSTR/ETH duplicate/prior; Gmail 0 fallback not used because Chrome full-content feed available; rows landed 0; suppressed duplicate/prior 5 plus listing/nav discovery-only; validation passed; dashboard skipped no new rows; alert quiet candidates=0 duplicates=14 suppressed=82; Notion not used; article_detail/video lanes not_checked absent discovery; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T17:46:16.396447Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T17:52:12.081354Z",
+      "summary": "Chrome checked Macro FlashInsights new Jun23 1:15 ET SPY rebalance/dip card, Crypto FlashInsights Jun22 prior/stale, Latest Research top cards prior/discovery-only; Gmail checked 0; rows landed 1; low-value/stale/discovery suppressed incl alert gate 82 suppressed + 14 duplicates; validation passed; dashboard refreshed; Pushover alert sent 1 SPY macro/tape candidate; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-23T16:50:45.008008Z"
+  "updated_at": "2026-06-23T17:52:12.081354Z"
 }

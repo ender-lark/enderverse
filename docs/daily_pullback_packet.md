@@ -40,25 +40,25 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 ## Deep Discount Research
 | Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| BMNR | $15 | $161 | -90.6% | $67,627 | Notion Working MONITOR, SEC filings via manual off-hours alt-data scout 2026-06-09, repo research queue Queued | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
-| AVAV | $149 | $418 | -64.3% | $0 | chart only | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
-| KTOS | $52 | $134 | -61.3% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
-| LEU | $182 | $464 | -60.8% | $97,659 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
-| ELF | $62 | $151 | -58.8% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
-| SOFI | $18 | $33 | -46.4% | $855 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
-| UUUU | $16 | $28 | -43.3% | $36,133 | Fundstrat bottom/avoid-list, federal_funding_monitor, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
-| MP | $59 | $100 | -41.3% | $17,485 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
-| HOOD | $105 | $154 | -31.9% | $3,490 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review. |
+| BMNR | $15 | $161 | -90.5% | $67,627 | Notion Working MONITOR, SEC filings via manual off-hours alt-data scout 2026-06-09, repo research queue Queued | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
+| AVAV | $151 | $418 | -63.9% | $0 | chart only | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
+| KTOS | $52 | $134 | -61.1% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
+| LEU | $184 | $464 | -60.3% | $97,659 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
+| ELF | $63 | $151 | -58.2% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
+| SOFI | $17 | $33 | -46.8% | $855 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
+| UUUU | $16 | $28 | -43.4% | $36,133 | Fundstrat bottom/avoid-list, federal_funding_monitor, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
+| MP | $60 | $100 | -40.0% | $17,485 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
+| HOOD | $105 | $154 | -32.0% | $3,490 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review. |
 
 ## Higher Quality Pullbacks
 | Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| MSFT | $373 | $555 | -32.8% | $34,198 | mark l. newton, cmt B | Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation. |
-| GOOGL | $346 | $409 | -15.2% | $92,983 | Fundstrat top-list, Notion Working WATCH, SEC 424B5 via manual off-hours alt-data scout 2026-06-09, fundstrat D, mark l. newton, cmt B, mark l. newton, cmt D, repo research queue Queued | Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction. |
-| FN | $575 | $749 | -23.3% | $7,857 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
-| AVGO | $381 | $495 | -23.0% | $46,395 | Notion Working STAGE, repo research queue Queued, user update 2026-06-05: important AVGO date passed | Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI. |
-| AMZN | $234 | $279 | -15.9% | $20,718 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
-| VRT | $323 | $380 | -15.1% | $6,864 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
+| MSFT | $374 | $555 | -32.7% | $34,198 | mark l. newton, cmt B | Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation. |
+| GOOGL | $348 | $409 | -14.9% | $92,983 | Fundstrat top-list, Notion Working WATCH, SEC 424B5 via manual off-hours alt-data scout 2026-06-09, fundstrat D, mark l. newton, cmt B, mark l. newton, cmt D, repo research queue Queued | Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction. |
+| AVGO | $383 | $495 | -22.7% | $46,395 | Notion Working STAGE, repo research queue Queued, user update 2026-06-05: important AVGO date passed | Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI. |
+| FN | $583 | $749 | -22.2% | $7,857 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
+| AMZN | $235 | $279 | -15.7% | $20,718 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
+| VRT | $321 | $380 | -15.4% | $6,864 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
 | NVDA | $202 | $237 | -14.6% | $257,765 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
 
 ## Full Watchlist Screen
