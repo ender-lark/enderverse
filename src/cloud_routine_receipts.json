@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T14:48:12.736300Z",
-      "summary": "checked 2 Fundstrat FlashInsights pages; Gmail 0; rows landed 0; suppressed 0 discovery/low-value rows; validation passed; alert quiet with 0 candidates; macro and crypto FlashInsights stale/no new full-content evidence; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
       "recorded_at": "2026-06-15T15:46:01.411621Z",
@@ -6695,7 +6688,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T00:48:01.426008Z",
       "summary": "dry-run selected 0; queued none; cache verified 19/21 already queued, remaining unqueued RYF/XOP QUIET; Notion write/readback not_checked no live writes; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T00:55:36.630449Z",
+      "summary": "Decision-relevant flags logged only: GOOGL 340 support/recheck, QQQ/MAGS/MSFT support levels, SPX 7465-7450, TNX 4.50-4.52 to 4.40; ingested 3 FS inbox entries through 2026-06-22 18:10 ET; Source Call Log rows 8 verified; marker advanced; Notion SQL query blocked"
     }
   ],
-  "updated_at": "2026-06-23T00:48:01.426008Z"
+  "updated_at": "2026-06-23T00:55:36.630449Z"
 }
