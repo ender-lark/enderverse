@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23T02:55:25.209964+00:00",
+  "generated_at": "2026-06-23T23:14:38.320494+00:00",
   "policy": "Full Fundstrat transcripts are stored only in the private source vault.",
   "items": [
     {
@@ -160,18 +160,37 @@
       "analyst": "Tom Lee, CFA",
       "source_url": "https://fundstratdirect.com/macro-strategy/macro-minute/2026/06/22/video-macro-minute-markets-still-digesting-fed-warshs-presser-as-yields-up/",
       "source_date": "2026-06-22",
-      "published_at": "2026-06-22T22:50:00-04:00",
-      "captured_at": "2026-06-23T02:55:19.170179+00:00",
-      "capture_method": "chrome_visible_transcript_plus_vimeo_caption_track",
+      "published_at": "Mon, June 22, 2026 | 10:50PM ET",
+      "captured_at": "2026-06-23T23:14:31.970337+00:00",
+      "capture_method": "chrome_visible_transcript",
       "capture_status": "captured_and_analyzed",
-      "completeness_notes": "Logged-in Fundstrat detail page exposed Vimeo Transcript control in Chrome. Visible pane was virtualized; captured complete English auto-generated VTT caption track from the same Vimeo player config: 92 cues through final 05:32 cue.",
-      "transcript_chars": 6080,
-      "transcript_sha256": "42f84b0b8d621339c59c31a2b3dded6f33d4a05b355935cc94ebdb55e18be770",
+      "completeness_notes": "Logged-in Fundstrat Macro Minute detail page showed full companion article text plus Vimeo Transcript and CC/subtitles controls; complete player-exposed auto-generated VTT caption track was captured from the embedded Vimeo config.",
+      "transcript_chars": 6092,
+      "transcript_sha256": "33e2ab69493c017c6a97c5360bd5855765cc8c8ce94457c45dc3f3b86ac214e3",
       "voice_lane": "tom_lee_macro",
       "vault_ref": "vault://fundstrat/transcripts/2026/06/fundstrat-2026-06-22-tom-lee-video-macro-minute-markets-still-digesting-fed-warsh-s-presser-a",
-      "short_synthesis": "Tom Lee says stocks are digesting Warsh and yield pressure, but oil war premium is shrinking, inflation data could challenge the bond-market hawkish read, and the equity dip remains buyable.",
+      "short_synthesis": "Tom Lee framed the stalled S&P near 7500 as digestion of Warsh and higher yields, not a broken tape, and kept a buy-the-dip stance because oil is lower and Warsh is viewed as dynamic rather than hawkish.",
+      "extract_count": 3,
+      "compact_row_count": 0
+    },
+    {
+      "transcript_id": "fundstrat-2026-06-23-newton-a-korean-shakeout-and-silver-copper-washouts-don-t-warrant-fadin",
+      "title": "A Korean Shakeout and Silver, Copper Washouts Don't Warrant Fading the US Stock Rally",
+      "analyst": "Mark L. Newton, CMT",
+      "source_url": "https://fundstratdirect.com/technical-strategy/2026/06/23/a-korean-shakeout-and-silver-copper-washouts-dont-warrant-fading-the-us-sto/",
+      "source_date": "2026-06-23",
+      "published_at": "Tue, June 23, 2026 | 6:17PM ET",
+      "captured_at": "2026-06-23T23:10:39.640423+00:00",
+      "capture_method": "chrome_visible_transcript",
+      "capture_status": "captured_and_analyzed",
+      "completeness_notes": "Logged-in Fundstrat detail page showed full article text plus Vimeo Transcript and CC/subtitles controls; complete player-exposed auto-generated VTT caption track was captured from the same embed metadata after the visible transcript panel proved virtualized.",
+      "transcript_chars": 11447,
+      "transcript_sha256": "02c2b6df4a2309cc3d98679f88df82cbb23f2a9397a809f435f809e3e9aba6c5",
+      "voice_lane": "mark_newton_technical",
+      "vault_ref": "vault://fundstrat/transcripts/2026/06/fundstrat-2026-06-23-newton-a-korean-shakeout-and-silver-copper-washouts-don-t-warrant-fadin",
+      "short_synthesis": "Newton kept the US equity trend bullish after the Korea/China/metals washout, treating SPX/QQQ weakness as corrective at support while flagging MU/PCE, EWY/SOX, KIE, silver, and copper as the next rechecks.",
       "extract_count": 4,
-      "compact_row_count": 2
+      "compact_row_count": 3
     }
   ]
 }

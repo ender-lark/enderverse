@@ -62,7 +62,7 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 | NVDA | $200 | $237 | -15.4% | $254,868 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
 
 ## Full Watchlist Screen
-- Screened rows with chart data: 117.
+- Screened rows with chart data: 118.
 - Not checked: SOX, SPX, TNX.
 
 TLDR: Current plan is amber pre-Fed: keep the GOOGL/MSFT rotation live, use reduced bands only if gates turn green, and treat AVGO as the top secondary swap review.
