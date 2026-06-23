@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-05T22:55:59.786677Z",
-      "summary": "morning scan started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-05T23:00:09.235927Z",
-      "summary": "5 Signal Log rows written to Notion; repo Signal Log merged to 11 rows; UW proof refreshed to 2026-06-05 16:14 ET; macro cache left unchanged"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "started",
       "run_source": "manual",
@@ -7410,7 +7396,34 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T12:17:10.788325Z",
+      "summary": "investing-os-trump-trade-watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T12:17:10.926240Z",
+      "summary": "trump trade watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/political_trade_watch.py",
+          "--input",
+          "tmp/trump_trade_watch_uw.json",
+          "--out",
+          "src/political_trade_watch.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-22T22:14:35.869400Z"
+  "updated_at": "2026-06-23T12:17:10.926240Z"
 }
