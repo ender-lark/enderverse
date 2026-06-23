@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:23:26.004717Z",
-      "summary": "SnapTrade promoted 11 accounts, 275 raw positions, snapshot 2026-06-16; 4 balance warnings; dashboard refresh ok"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:27:06.493453Z",
-      "summary": "FS inbox catch-up preopen ingested 1 entry; logged 3 Farrell calls; no new gate/card contradiction"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "started",
       "run_source": "scheduled",
@@ -6937,7 +6923,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T15:54:37.242857Z",
       "summary": "Chrome checked Macro FlashInsights new Jun23 10:52 SMH and 10:51 MU, Crypto FlashInsights latest Jun22 prior, Latest Research category metadata; Gmail messages checked 0; rows landed 2; low/discovery/prior suppressed incl crypto prior/listing-only plus alert quiet 82 and duplicates 13; validation passed; dashboard refreshed; Pushover alert sent 1 SMH, MU quiet; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote triggers not_checked; Social Watch dark; no Notion writes; blockers none except quote inputs not_checked"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T16:30:47.355405Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T16:35:37.518552Z",
+      "summary": "FS inbox catch-up midday ingested 1 entry through [06/23/2026 09:25 ET]; Source Call Log rows 1 fetch-verified; marker advanced; duplicate catch-up snippets not re-logged; no gate/card mutation"
     }
   ],
-  "updated_at": "2026-06-23T15:54:37.242857Z"
+  "updated_at": "2026-06-23T16:35:37.518552Z"
 }
