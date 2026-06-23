@@ -3,20 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T00:47:08.919196Z",
-      "summary": "top prospects auto-research started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T00:47:53.452370Z",
-      "summary": "FS inbox catch-up evening started"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T00:48:16.518731Z",
@@ -6803,7 +6789,57 @@
       "recorded_at": "2026-06-23T13:35:11.593513Z",
       "summary": "repo synthesis refreshed/validated; Notion page 388c5031-4bb6-815c-8142-c357d8d752f1 written/readback verified; HOOD review/event-risk recheck lead; Social Watch and row-level Notion lanes not_checked; verify_standard failed googl-tranche date-event efficacy test",
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T13:41:40.316230Z",
+      "summary": "post-open evidence gate started"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T13:43:24.582230Z",
+      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=success",
+      "details": {
+        "boundary_artifact": "src\\uw_endpoint_results.json",
+        "boundary_artifact_committed": true,
+        "no_fresh_boundary_data": false,
+        "feed_built_from_committed_proof": true,
+        "dashboard_refresh_status": "success",
+        "redaction_valid": true,
+        "redaction_problems": [],
+        "proof_generated_at": "2026-06-23T13:41:40.337634+00:00",
+        "proof_count": 13,
+        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-23 09:41 ET.",
+        "proof_newest_checked_at": "2026-06-23T13:41:40.337634+00:00",
+        "proof_interpretation_counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 10,
+          "missing": 3
+        },
+        "proof_blockers": [
+          "inconclusive endpoint result(s) cannot promote related actions",
+          "missing/failed endpoint result(s) keep related actions blocked"
+        ],
+        "boundary_commit": {
+          "valid": true,
+          "committed": true,
+          "commit": "ce43c0b",
+          "reason": "committed",
+          "selected_paths": [
+            "src/uw_endpoint_results.json"
+          ]
+        },
+        "dashboard_refresh_returncode": 0,
+        "feed_uw_proof_newest_checked_at": "2026-06-23T13:41:40.337634+00:00",
+        "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-23 09:41 ET."
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-23T13:35:11.593513Z"
+  "updated_at": "2026-06-23T13:43:24.582230Z"
 }
