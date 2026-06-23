@@ -2099,5 +2099,28 @@
     "use_case": "crypto_sleeve",
     "decision_usefulness": "medium",
     "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
+  },
+  {
+    "source": "kent fung",
+    "ticker": "AMD",
+    "tier": "B",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "Detail page frames AMD's $10B Taiwan investment as supply-chain bottleneck preparation; watch whether this strengthens AMD AI execution/research priority vs the existing top-prospect thesis.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-23",
+    "window_end": "2026-08-22",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-23",
+    "fundstrat_lane": "crypto",
+    "source_domain": "crypto_strategy",
+    "source_weight_note": "Crypto-specific context; useful for crypto sleeve and crypto-exposed equities, not broad macro confirmation by itself.",
+    "confidence_policy": "Keep crypto analysis scoped to crypto/crypto-exposed positions and validate against live risk.",
+    "publication_type": "crypto_strategy",
+    "capture_policy": "daily_call",
+    "use_case": "crypto_sleeve",
+    "decision_usefulness": "medium",
+    "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
   }
 ]

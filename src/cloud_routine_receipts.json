@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T00:48:16.518731Z",
-      "summary": "dry-run BUILDING 8; HOT 0 so queued none; write verification n/a no live writes; remaining unqueued 21; dark/stale missing pulls remain not_checked; blocker usage-constrained HOT gate selected zero"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T00:51:48.166781Z",
-      "summary": "FS inbox catch-up evening ingested 2 entries; logged 4 Newton calls; no new gate/card contradiction"
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "started",
       "run_source": "scheduled",
@@ -6839,7 +6825,21 @@
         "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-23 09:41 ET."
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T13:47:42.538098Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T13:55:13.436524Z",
+      "summary": "Chrome checked Macro FlashInsights Jun22 latest prior cards, Crypto FlashInsights Jun22 latest prior cards, Latest Research listing, and Jun23 09:01 ET First to Market AMD detail page with visible article text; Gmail checked 0 because authenticated web lane had checked content; rows landed 1 AMD watch/research row via article_detail; helper-suppressed 0, manual stale/discovery-only quiet 7 prior/listing/video items; validation fundstrat_email_intake valid and dashboard refresh success; alert delivery sent 2 Pushover batches to clear 9 qualifying duplicate-unsent rows, final alert check quiet; dark/stale lanes Social Watch not_checked, stale prior FlashInsights/listing items not treated clear; blockers none for source access, repo push still pending"
     }
   ],
-  "updated_at": "2026-06-23T13:43:24.582230Z"
+  "updated_at": "2026-06-23T13:55:13.436524Z"
 }

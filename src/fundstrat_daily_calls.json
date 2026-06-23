@@ -1684,5 +1684,24 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Kent Fung",
+    "ticker": "AMD",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "Detail page frames AMD's $10B Taiwan investment as supply-chain bottleneck preparation; watch whether this strengthens AMD AI execution/research priority vs the existing top-prospect thesis.",
+    "date": "2026-06-23",
+    "subject": "First to Market: AMD Taiwan supply-chain bet",
+    "source_message_id": "fundstrat-web-first-to-market-2026-06-23-0901-et-amd-taiwan-supply-chain",
+    "source": "Fundstrat Chrome article detail page",
+    "publication_type": "crypto_strategy",
+    "capture_policy": "daily_call",
+    "use_case": "crypto_sleeve",
+    "decision_usefulness": "medium",
+    "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
   }
 ]
