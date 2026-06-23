@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T13:46:17.446439Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T13:48:08.826881Z",
-      "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 stale visible flash cards; validation passed; alerts sent 5 prior-candidate prompts; dark/stale macro latest June 15 and crypto latest June 8; blockers none"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -6930,7 +6916,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T19:52:35.741336Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail checked 0 (Chrome full-content available); landed 1 compact CPER copper-watch row from visible FlashInsights feed; suppressed prior/discovery-only or low-value items incl Jun22 Crypto, AMD listing, CNBC promo; validation passed; dashboard refreshed; alert quiet 0 candidates/15 duplicates/84 suppressed; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; Social Watch dark; blockers none"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T20:31:21.930036Z",
+      "summary": "investing-os-post-close-refresh started"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T20:33:03.063598Z",
+      "summary": "post-close refresh succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "93cb26a14c6c7a06750de1f321d7a511dee2cc805dd63207b90e5e138e45848b",
+            "as_of": "2026-06-23T20:32:55.630004+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "0df0712934832ea6a8dec1b2225ed2336010be726c897fe51d08ec53720eb6c6",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-23T19:52:35.741336Z"
+  "updated_at": "2026-06-23T20:33:03.063598Z"
 }
