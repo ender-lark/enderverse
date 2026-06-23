@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:21:58.060674Z",
-      "summary": "FS inbox catch-up preopen started"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:22:05.580737Z",
-      "summary": "broker position intake started"
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "success",
       "run_source": "scheduled",
@@ -6937,7 +6923,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T14:52:00.144908Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research; Gmail 0; landed 1 compact SPY support/reclaim row from 10:38 ET Macro FlashInsights; suppressed/quiet prior Crypto Jun22 and listing/prior articles incl AMD; validation passed; dashboard refreshed; Pushover sent 1 alert; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; Social Watch dark"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T15:47:57.348126Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T15:54:37.242857Z",
+      "summary": "Chrome checked Macro FlashInsights new Jun23 10:52 SMH and 10:51 MU, Crypto FlashInsights latest Jun22 prior, Latest Research category metadata; Gmail messages checked 0; rows landed 2; low/discovery/prior suppressed incl crypto prior/listing-only plus alert quiet 82 and duplicates 13; validation passed; dashboard refreshed; Pushover alert sent 1 SMH, MU quiet; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote triggers not_checked; Social Watch dark; no Notion writes; blockers none except quote inputs not_checked"
     }
   ],
-  "updated_at": "2026-06-23T14:52:00.144908Z"
+  "updated_at": "2026-06-23T15:54:37.242857Z"
 }

@@ -1706,6 +1706,25 @@
   },
   {
     "author": "Mark L. Newton, CMT",
+    "ticker": "MU",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "today into tomorrow",
+    "quote": "Newton flags the Korea/semis selloff as flow-driven but says EWY and US semis need a close up from lows before MU earnings/PCE to confirm rebound quality.",
+    "date": "2026-06-23",
+    "subject": "FlashInsights 10:51 ET: semis rebound confirmation into MU earnings",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-23-1051-et-mu-semis-rebound-check",
+    "source": "Fundstrat Chrome member FlashInsights page",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
     "ticker": "SPY",
     "direction": "buy",
     "entry": null,
@@ -1722,5 +1741,24 @@
     "use_case": "technical_timing",
     "decision_usefulness": "high",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Tom Lee, CFA",
+    "ticker": "SMH",
+    "direction": "buy",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "same-session dip review",
+    "quote": "Lee says the tech/memory selloff is overdone; AI infrastructure spend keeps semis central and he is buying the dip, with Fed risk less hawkish than feared.",
+    "date": "2026-06-23",
+    "subject": "FlashInsights 10:52 ET: tech/memory dip overdone",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-23-1052-et-smh-tech-memory-dip",
+    "source": "Fundstrat Chrome member FlashInsights page",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]
