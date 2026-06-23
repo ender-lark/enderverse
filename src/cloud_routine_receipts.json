@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T23:31:59.195509Z",
-      "summary": "off-hours research queue started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T23:33:01.887688Z",
-      "summary": "queue drop missing; Research Queue not_checked; cache unchanged"
-    },
-    {
       "routine_id": "investing-os-top-prospects-auto-research",
       "status": "started",
       "run_source": "scheduled",
@@ -6802,7 +6788,22 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T13:31:32.555662Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T13:35:11.593513Z",
+      "summary": "repo synthesis refreshed/validated; Notion page 388c5031-4bb6-815c-8142-c357d8d752f1 written/readback verified; HOOD review/event-risk recheck lead; Social Watch and row-level Notion lanes not_checked; verify_standard failed googl-tranche date-event efficacy test",
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-23T12:54:02.257770Z"
+  "updated_at": "2026-06-23T13:35:11.593513Z"
 }
