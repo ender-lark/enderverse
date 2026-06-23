@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-15T18:47:04.290883Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T18:48:58.807492Z",
-      "summary": "checked 2 Fundstrat web pages and 2 Gmail snippets; read 0 full bodies; landed 0 rows; suppressed 2 discovery-only Gmail rows; validation passed; alert quiet; no fresh full-content evidence so lane remains stale/not_checked; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-15T19:46:01.066161Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6731,7 +6717,21 @@
         "temporary_cap": "not applied; skipped for safety/blockers after worker drain, not for usage cap"
       },
       "boundary_outcome": "no_op"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T11:47:36.360959Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T11:53:13.633234Z",
+      "summary": "Chrome checked Macro FlashInsights Jun22 12:28/12:27 GOOGL and 11:11 SPY/TNX plus Crypto FlashInsights Jun22 11:14 MSTR and 11:13 ETH; listings checked First Word, Intraday, Daily Technical, US Policy, Fed Watch, Crypto Research with no Jun23 premarket detail article opened; Gmail checked 7 search results and read 4 full bodies; rows landed 0, duplicate/prior rows already cached incl DTS/Macro Minute; low-value/discovery-only suppressed 7; validation email-intake/source-merge/transcript-index/tests passed; dashboard skipped no new rows; Notion not used; dark lanes article-detail for listing-only cards and video detail not rechecked"
     }
   ],
-  "updated_at": "2026-06-23T08:51:24.432364Z"
+  "updated_at": "2026-06-23T11:53:13.633234Z"
 }
