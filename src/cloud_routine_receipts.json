@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-15T16:47:32.231176Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T16:50:28.991889Z",
-      "summary": "checked 2 web pages, 0 Gmail messages, landed 2 rows, suppressed 0 low-value/discovery rows, validation passed, alerts sent 2, dark lane social_watch, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-15T17:46:12.474331Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6695,7 +6681,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T02:56:44.425730Z",
       "summary": "Chrome checked 15 Fundstrat surfaces plus Macro Minute detail; latest post-7 item Tom Lee Macro Minute Jun22 10:50 ET transcript captured to private vault; transcript vault entries 1; Gmail 0 not needed; rows landed 2 SPY/TLT; stale/pre-window/discovery-only surfaces suppressed; validations public-index/email-intake/dashboard passed; dark Social Watch; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T05:47:26.728401Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T05:50:31.391347Z",
+      "summary": "processed VRT BMNR GOOGL COHR UUUU; live RQ H2q/H7w M3q/M25w L7q/L13w; verified Notion writes 5/5; remaining active 57; blocked high rows include operator review/code plumbing; dark lanes Social Watch, same-session flow, dilution/mNAV/final awards/loan terms"
     }
   ],
-  "updated_at": "2026-06-23T02:56:44.425730Z"
+  "updated_at": "2026-06-23T05:50:31.391347Z"
 }
