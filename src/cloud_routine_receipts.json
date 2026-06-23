@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-15T17:46:12.474331Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T17:47:55.151606Z",
-      "summary": "checked 2 Fundstrat Chrome pages, 0 Gmail messages, landed 1 compact web row, suppressed 0 low-value/discovery-only rows, validation passed, daytime alert sent 1 CL alert, lanes dark social_watch only, blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-15T18:47:04.290883Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6695,7 +6681,57 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T05:50:31.391347Z",
       "summary": "processed VRT BMNR GOOGL COHR UUUU; live RQ H2q/H7w M3q/M25w L7q/L13w; verified Notion writes 5/5; remaining active 57; blocked high rows include operator review/code plumbing; dark lanes Social Watch, same-session flow, dilution/mNAV/final awards/loan terms"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T08:46:38.982148Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T08:51:24.432364Z",
+      "summary": "skipped after live RQ H2/M3/L7; no safe advance; high operator/code blocked; med decision/pilot/doctrine blocked; low already reviewed; no Notion writes",
+      "details": {
+        "queue_source": "notion_rest_data_sources_query",
+        "data_source": "collection://cab89576-0933-40b0-ad2e-6f9a6188e804",
+        "mcp_query_data_sources": "blocked: Notion AI Business/Enterprise entitlement required; deterministic REST query succeeded",
+        "queued_counts": {
+          "High": 2,
+          "Med": 3,
+          "Low": 7,
+          "Total": 12
+        },
+        "after_worker_context": "1:45 AM worker processed VRT BMNR GOOGL COHR UUUU with verified Notion writes 5/5; remaining live queue is H2/M3/L7.",
+        "status": "skipped_no_safe_advance",
+        "processed_items": [],
+        "selected_items": [],
+        "remaining_backlog": 12,
+        "remaining_reason": "All remaining queued rows already have conservative Findings; High rows require operator review or code/data plumbing, Med rows require operator/pilot/doctrine decisions, and Low rows are watch/defer items already reviewed without fresh safe status completion.",
+        "high_blockers": [
+          "Full-book rebalance remains held pending explicit operator review; no execution/status completion by research buffer.",
+          "MU parabolic trigger requires live velocity/phase quote-cache wiring; framework/code change forbidden in this routine."
+        ],
+        "med_blockers": [
+          "AI labor-disruption thesis needs operator choice of beneficiary deep dive vs trigger-watch, not another queue mutation.",
+          "v0 qualifying-cluster threshold needs pilot calibration/operator threshold decision; no local pilot status/log artifact present, scheduled pilot rows not fully checked.",
+          "Staging doctrine needs measured tranche completion/outcome review; buying-power/leverage and completion history remain not_checked."
+        ],
+        "low_note": "Remaining Low rows have prior verified buffer Findings and stay Queued/Watch/Defer until fresh source, thesis, or operator decision changes posture.",
+        "write_verification": "No Notion writes attempted; no statuses changed; live REST query verified counts only.",
+        "dark_stale_lanes": [
+          "Social Watch and same-session flow stay not_checked where not pulled in this buffer.",
+          "MU velocity/phase quote wiring not_checked.",
+          "v0 calibration rows via Notion MCP query not_checked; REST/read evidence only.",
+          "current account buying-power/leverage and tranche completion history not_checked."
+        ],
+        "temporary_cap": "not applied; skipped for safety/blockers after worker drain, not for usage cap"
+      },
+      "boundary_outcome": "no_op"
     }
   ],
-  "updated_at": "2026-06-23T05:50:31.391347Z"
+  "updated_at": "2026-06-23T08:51:24.432364Z"
 }
