@@ -2,39 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T14:34:54.573199Z",
-      "summary": "investing-os-fs-inbox-catch-up-postclose manual run started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-15T14:34:54.587338Z",
-      "summary": "FS inbox catch-up postclose manual support checked prompt wiring only",
-      "details": {
-        "steps": [
-          {
-            "label": "FS inbox catch-up prompt present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T14:47:06.600575Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6707,7 +6674,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T23:33:04.766395Z",
       "summary": "Research Queue not_checked: drop folder missing; pending 5 done 0 ACT_NOW none skipped 0; cache not refreshed; existing cache 2026-06-19T15:25:50Z"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T00:45:54.774857Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T00:47:19.898872Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T00:48:01.426008Z",
+      "summary": "dry-run selected 0; queued none; cache verified 19/21 already queued, remaining unqueued RYF/XOP QUIET; Notion write/readback not_checked no live writes; blockers none"
     }
   ],
-  "updated_at": "2026-06-22T23:33:04.766395Z"
+  "updated_at": "2026-06-23T00:48:01.426008Z"
 }
