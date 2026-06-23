@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T01:16:45.419097Z",
-      "summary": "off-hours alt-data scout started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T01:21:57.785575Z",
-      "summary": "sources SEC BMNR/GOOGL + UW tide/lit/insider/prediction + Polymarket/headlines; candidates 4; routed 1 Event Risk repo row, no-action 3; Notion writes none; Social Watch dark; blockers MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX flow empty"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "started",
       "run_source": "scheduled",
@@ -6839,7 +6825,46 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T13:55:13.436524Z",
       "summary": "Chrome checked Macro FlashInsights Jun22 latest prior cards, Crypto FlashInsights Jun22 latest prior cards, Latest Research listing, and Jun23 09:01 ET First to Market AMD detail page with visible article text; Gmail checked 0 because authenticated web lane had checked content; rows landed 1 AMD watch/research row via article_detail; helper-suppressed 0, manual stale/discovery-only quiet 7 prior/listing/video items; validation fundstrat_email_intake valid and dashboard refresh success; alert delivery sent 2 Pushover batches to clear 9 qualifying duplicate-unsent rows, final alert check quiet; dark/stale lanes Social Watch not_checked, stale prior FlashInsights/listing items not treated clear; blockers none for source access, repo push still pending"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T14:02:57.052567Z",
+      "summary": "investing-os-uw-opportunity-cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T14:03:01.143974Z",
+      "summary": "uw opportunity cache succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "cmd",
+          "/c",
+          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/uw_opportunity_signals.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "cba48aaf6e84ef6e3098bf60dfed29294ff48a9388eb494e019781b5595029da",
+            "as_of": "2026-06-23T14:03:01.027170+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "2188aa5c9e3c217f98cd0d0fbf2117d98a5c0393885216af11ade77dabed7d2a",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-23T13:55:13.436524Z"
+  "updated_at": "2026-06-23T14:03:01.143974Z"
 }
