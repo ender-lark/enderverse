@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22T23:11:18.449840+00:00",
+  "generated_at": "2026-06-23T02:55:25.209964+00:00",
   "policy": "Full Fundstrat transcripts are stored only in the private source vault.",
   "items": [
     {
@@ -152,6 +152,25 @@
       "vault_ref": "vault://fundstrat/transcripts/2026/06/fundstrat-2026-06-22-newton-it-s-time-to-look-for-opportunities-in-the-mag-7-following-the-w",
       "short_synthesis": "Newton frames the Mag 7/QQQ pullback as an opportunity rather than a breakdown: breadth stayed muted, MAGS/QQQ shows weekly exhaustion, and June lows are the risk line for add exposure.",
       "extract_count": 5,
+      "compact_row_count": 2
+    },
+    {
+      "transcript_id": "fundstrat-2026-06-22-tom-lee-video-macro-minute-markets-still-digesting-fed-warsh-s-presser-a",
+      "title": "Video: Macro Minute: Markets still digesting Fed Warsh's presser, as yields up but oil down. We still see this as a 'buy the dip' market",
+      "analyst": "Tom Lee, CFA",
+      "source_url": "https://fundstratdirect.com/macro-strategy/macro-minute/2026/06/22/video-macro-minute-markets-still-digesting-fed-warshs-presser-as-yields-up/",
+      "source_date": "2026-06-22",
+      "published_at": "2026-06-22T22:50:00-04:00",
+      "captured_at": "2026-06-23T02:55:19.170179+00:00",
+      "capture_method": "chrome_visible_transcript_plus_vimeo_caption_track",
+      "capture_status": "captured_and_analyzed",
+      "completeness_notes": "Logged-in Fundstrat detail page exposed Vimeo Transcript control in Chrome. Visible pane was virtualized; captured complete English auto-generated VTT caption track from the same Vimeo player config: 92 cues through final 05:32 cue.",
+      "transcript_chars": 6080,
+      "transcript_sha256": "42f84b0b8d621339c59c31a2b3dded6f33d4a05b355935cc94ebdb55e18be770",
+      "voice_lane": "tom_lee_macro",
+      "vault_ref": "vault://fundstrat/transcripts/2026/06/fundstrat-2026-06-22-tom-lee-video-macro-minute-markets-still-digesting-fed-warsh-s-presser-a",
+      "short_synthesis": "Tom Lee says stocks are digesting Warsh and yield pressure, but oil war premium is shrinking, inflation data could challenge the bond-market hawkish read, and the equity dip remains buyable.",
+      "extract_count": 4,
       "compact_row_count": 2
     }
   ]

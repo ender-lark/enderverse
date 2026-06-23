@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T16:32:02.007615Z",
-      "summary": "FS inbox catch-up midday started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T16:34:21.803870Z",
-      "summary": "FS inbox catch-up midday ingested 2 entries; no new named calls"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6695,7 +6681,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T01:25:44.483117Z",
       "summary": "checked cockpit/RQ/holdings; SEC active universe, UW proof, Polymarket/Kalshi, Guardian/MarketWatch/NYPost, Social Watch; candidates BMNR AVAV Hormuz; Notion Signal Log 2 written+verified, repo Signal Log +2 Event Risk +1; suppressed LEU/NVDA/SOFI routine forms and duplicate Hormuz Notion; dark Social Watch/PortWatch odds, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow empty"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T02:47:03.909047Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T02:56:44.425730Z",
+      "summary": "Chrome checked 15 Fundstrat surfaces plus Macro Minute detail; latest post-7 item Tom Lee Macro Minute Jun22 10:50 ET transcript captured to private vault; transcript vault entries 1; Gmail 0 not needed; rows landed 2 SPY/TLT; stale/pre-window/discovery-only surfaces suppressed; validations public-index/email-intake/dashboard passed; dark Social Watch; blockers none"
     }
   ],
-  "updated_at": "2026-06-23T01:25:44.483117Z"
+  "updated_at": "2026-06-23T02:56:44.425730Z"
 }

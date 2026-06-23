@@ -1494,5 +1494,43 @@
     "use_case": "crypto_sleeve",
     "decision_usefulness": "medium",
     "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
+  },
+  {
+    "author": "Tom Lee, CFA",
+    "ticker": "SPY",
+    "direction": "buy",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "next-session / short-term dip response",
+    "quote": "Tom Lee says the market is still digesting Warsh/yields, but weakness is unwarranted and he would buy the dip in the still-hated V-shaped rally.",
+    "date": "2026-06-22",
+    "subject": "Macro Minute: Warsh/yields digestion, buy the dip",
+    "source_message_id": "fundstrat-web-video-captions-2026-06-22-2250-et-spy-macro-minute-warsh-yields-buy-dip",
+    "source": "Fundstrat Chrome Macro Minute video captions",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Tom Lee, CFA",
+    "ticker": "TLT",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "this week inflation/yield recheck",
+    "quote": "Tom Lee flags yields as the current headwind: futures/2Y imply roughly two hikes, so Thursday/Friday data and inflation expectations are the recheck before extrapolating equity weakness.",
+    "date": "2026-06-22",
+    "subject": "Macro Minute: yields are the risk recheck",
+    "source_message_id": "fundstrat-web-video-captions-2026-06-22-2250-et-tlt-macro-minute-yields-recheck",
+    "source": "Fundstrat Chrome Macro Minute video captions",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]
