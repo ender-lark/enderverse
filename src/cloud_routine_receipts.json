@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T14:07:05.415047Z",
-      "summary": "parabolic cache started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T14:07:40.308289Z",
-      "summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -6954,7 +6940,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T20:38:25.129376Z",
       "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/23/2026 09:25 ET]; Notion marker fetch-verified"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T20:47:33.196386Z",
+      "summary": "positions sync started"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T20:53:39.242634Z",
+      "summary": "positions sync succeeded: 2026-06-23; 11 accounts; 276 rows; diffs VALUE_CHANGE 92; share changes 0; orphan 76; warnings 8; dashboard ok; Notion verified"
     }
   ],
-  "updated_at": "2026-06-23T20:38:25.129376Z"
+  "updated_at": "2026-06-23T20:53:39.242634Z"
 }
