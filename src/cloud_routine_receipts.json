@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T13:41:22.850262Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T13:41:54.186579Z",
-      "summary": "4 check sets/22 tickers; UW proof 0 supportive 0 contradictory 10 inconclusive 3 missing; blocked SECTOR_TIDE unsupported MARKET_MOVERS 403 advanced_tier_required TNX flow empty; dashboard refresh skipped"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6930,7 +6916,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T18:52:14.967135Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research; Gmail checked 0; landed 1 SLV silver watch row from complete Macro FlashInsights feed card; suppressed 1 CNBC promo plus prior/duplicate/discovery-only web items; validation passed; dashboard refreshed; alert quiet no Pushover; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote inputs not_checked; Social Watch dark; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T19:47:24.066879Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T19:52:35.741336Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail checked 0 (Chrome full-content available); landed 1 compact CPER copper-watch row from visible FlashInsights feed; suppressed prior/discovery-only or low-value items incl Jun22 Crypto, AMD listing, CNBC promo; validation passed; dashboard refreshed; alert quiet 0 candidates/15 duplicates/84 suppressed; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; Social Watch dark; blockers none"
     }
   ],
-  "updated_at": "2026-06-23T18:52:14.967135Z"
+  "updated_at": "2026-06-23T19:52:35.741336Z"
 }

@@ -2237,5 +2237,28 @@
     "use_case": "technical_timing",
     "decision_usefulness": "high",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "CPER",
+    "tier": "D",
+    "confidence_in_tier": "LOW",
+    "verbatim_quote": "Newton flags copper/metals breakdown as a short-term negative after June lows broke; he sees some more downside, but weakness over the next week could become a buying-opportunity recheck if short-lived.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-23",
+    "window_end": "2026-07-07",
+    "window_days": 14,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-23",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]
