@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T23:01:40.036873Z",
-      "summary": "fundstrat after-hours catch-up started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T23:07:24.984509Z",
-      "summary": "checked 11 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 3; validation passed; Notion none; dark/stale crypto flash no fresh June 15, intraday/fed-watch/live-technical stale or empty, social_watch dark; blockers none"
-    },
-    {
       "routine_id": "investing-os-off-hours-research-queue",
       "status": "started",
       "run_source": "scheduled",
@@ -6778,7 +6764,45 @@
       "recorded_at": "2026-06-23T12:41:20.816299Z",
       "summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T12:52:28.726968Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T12:54:02.257770Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "c6d10c424ee4cc2a9e80449b502de6713b537c2cb3df741f61405496d10a175c",
+            "as_of": "2026-06-23T12:53:55.329122+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "4b4ee2750ef39a914c2abc0cebd34ee15419ea793b7e022fbefa34273270c852",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-23T12:41:20.816299Z"
+  "updated_at": "2026-06-23T12:54:02.257770Z"
 }
