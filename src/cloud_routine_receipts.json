@@ -2,61 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:36:04.259480Z",
-      "summary": "investing-os-pre-market-source-intake manual run started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:36:04.517663Z",
-      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "event risk validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/event_risk_intake.py",
-              "--validate",
-              "src/event_risks.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 4\n}",
-            "stderr": ""
-          },
-          {
-            "label": "catalyst cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 12,
-              "valid_rows": 12,
-              "problem": ""
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "started",
       "run_source": "manual",
@@ -6947,7 +6892,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T23:15:16.807832Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights, 10 listing categories, DTS detail, Macro Minute detail; videos checked 2 with transcripts captured; transcript vault entries 2; Gmail messages checked 0; rows landed 3 DTS compact rows (SPY/EWY/KIE); suppressed/discovery-only duplicates/listings/promos 16; validation transcript-index/email-intake/focused pytest/dashboard passed; Notion not used; dark Social Watch; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T23:31:21.740922Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T23:31:44.335374Z",
+      "summary": "Research Queue export drop missing; queue not_checked; cache not refreshed; fallback cache pending 5 done 0 ACT_NOW none skipped 0"
     }
   ],
-  "updated_at": "2026-06-23T23:15:16.807832Z"
+  "updated_at": "2026-06-23T23:31:44.335374Z"
 }
