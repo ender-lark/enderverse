@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:11:59.264538Z",
-      "summary": "pre-market source intake started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:15:37.470981Z",
-      "summary": "landed 0 rows; positions unchanged 2026-06-15; catalysts/event-risk unchanged; dark no broker drop or live catalyst rows; blocker no fresh June 16 Fundstrat detail pages"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-preopen",
       "status": "started",
       "run_source": "scheduled",
@@ -6937,7 +6923,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T14:46:49.912958Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T14:52:00.144908Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research; Gmail 0; landed 1 compact SPY support/reclaim row from 10:38 ET Macro FlashInsights; suppressed/quiet prior Crypto Jun22 and listing/prior articles incl AMD; validation passed; dashboard refreshed; Pushover sent 1 alert; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; Social Watch dark"
     }
   ],
-  "updated_at": "2026-06-23T14:33:31.569189Z"
+  "updated_at": "2026-06-23T14:52:00.144908Z"
 }

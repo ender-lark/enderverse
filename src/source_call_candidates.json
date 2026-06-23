@@ -2122,5 +2122,28 @@
     "use_case": "crypto_sleeve",
     "decision_usefulness": "medium",
     "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "SPY",
+    "tier": "B",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton says the early S&P futures decline is at/near support and expects a push to new highs; reclaim 7513 confirms while a slip below 7415 would undermine the rebound.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-23",
+    "window_end": "2026-07-23",
+    "window_days": 30,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-23",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]

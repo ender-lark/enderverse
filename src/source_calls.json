@@ -1579,5 +1579,22 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_60be897f3cca"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "SPY",
+    "tier": "B",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton says the early S&P futures decline is at/near support and expects a push to new highs; reclaim 7513 confirms while a slip below 7415 would undermine the rebound.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-23",
+    "window_end": "2026-07-23",
+    "window_days": 30,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-23",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_d0848f58e604"
   }
 ]
