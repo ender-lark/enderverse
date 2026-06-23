@@ -2214,5 +2214,28 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "SLV",
+    "tier": "D",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton flags silver's 5% drop as a likely final-leg decline; watch for a brief undercut of June lows/front-month silver below 60, then a rally attempt over the next couple weeks.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-23",
+    "window_end": "2026-08-22",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-23",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing evidence with specific levels or timing; use for entry timing, not thesis by itself.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]
