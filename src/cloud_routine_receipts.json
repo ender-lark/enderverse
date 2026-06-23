@@ -2,34 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T08:47:19.421849Z",
-      "summary": "off-hours queue buffer started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T08:49:16.971419Z",
-      "summary": "live Notion search/fetch fallback known queued High 2 Med 0 Low 0; no-op processed none; worker already verified BMNR/GOOGL/FN/INTC/cyber pages as Working; remaining backlog high 2: MU trigger wiring is framework/code follow-up, full-book rebalance is pending operator review; write verification n/a no writes; dark/not_checked ordered backlog remains unresolved without query tool"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T11:46:17.344125Z",
-      "summary": "fundstrat pre-market safety sweep started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T11:49:17.444281Z",
-      "summary": "checked 11 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 6 duplicate-stale-or-low-value items; validation passed; Notion none; dark/stale crypto flash June 8, intraday empty, fed watch April 29 stale; blockers none"
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -6889,7 +6861,83 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T14:31:25.432110Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T14:31:28.615326Z",
+      "summary": "full cockpit build failed",
+      "details": {
+        "returncode": 1,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "668717fc7e74a944fa56c04219c409da11bbaae85bf11ca6f11abd3f84794fec",
+            "as_of": "2026-06-23T13:53:45.620447+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "668717fc7e74a944fa56c04219c409da11bbaae85bf11ca6f11abd3f84794fec",
+            "changed": false
+          }
+        ]
+      },
+      "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T14:31:49.215362Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T14:33:31.569189Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "e82231086f4132977a67df5ff04a5075cb87a8da45e8c38c70a54e4e86bafead",
+            "as_of": "2026-06-23T14:33:24.428548+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "668717fc7e74a944fa56c04219c409da11bbaae85bf11ca6f11abd3f84794fec",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-23T14:07:35.876888Z"
+  "updated_at": "2026-06-23T14:33:31.569189Z"
 }
