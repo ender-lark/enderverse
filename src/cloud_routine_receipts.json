@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T15:46:01.411621Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-15T15:47:22.884653Z",
-      "summary": "checked 2 Fundstrat web pages (macro newest 2026-06-12 1:55 PM ET, crypto newest 2026-06-08 9:32 AM ET), checked 0 Gmail messages, landed 0 rows, suppressed 0 rows, validation passed, alerts skipped no new rows, lanes stale/no new full-content evidence, blockers none"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-midday",
       "status": "started",
       "run_source": "scheduled",
@@ -6695,7 +6681,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T00:55:36.630449Z",
       "summary": "Decision-relevant flags logged only: GOOGL 340 support/recheck, QQQ/MAGS/MSFT support levels, SPX 7465-7450, TNX 4.50-4.52 to 4.40; ingested 3 FS inbox entries through 2026-06-22 18:10 ET; Source Call Log rows 8 verified; marker advanced; Notion SQL query blocked"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T01:17:02.992659Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T01:25:44.483117Z",
+      "summary": "checked cockpit/RQ/holdings; SEC active universe, UW proof, Polymarket/Kalshi, Guardian/MarketWatch/NYPost, Social Watch; candidates BMNR AVAV Hormuz; Notion Signal Log 2 written+verified, repo Signal Log +2 Event Risk +1; suppressed LEU/NVDA/SOFI routine forms and duplicate Hormuz Notion; dark Social Watch/PortWatch odds, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow empty"
     }
   ],
-  "updated_at": "2026-06-23T00:55:36.630449Z"
+  "updated_at": "2026-06-23T01:25:44.483117Z"
 }

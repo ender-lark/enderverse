@@ -314,5 +314,37 @@
     "summary": "Guardian reports the center route remains blocked by roughly 80 mines and normal shipping may take time despite the US-Iran MoU; Kpler/BI report 25 verified crossings on June 18, so recovery is real but incomplete; Kalshi still prices PortWatch normalization above 60 transit-call 7DMA at about 8% by Jul 1, 20% by Jul 15, 40% by Aug 1, 56% by Sep 1, and 64% by Oct 1. This keeps oil/rates event risk active for new-buy timing instead of clearing the shock.",
     "trigger": "Clear only if IMF PortWatch 7DMA rises above 60, WTI/TNX stay below trigger bands, and mine/toll/insurance/shipping friction fades; re-escalate if the MoU breaks, crossings roll over, or toll/access restrictions return.",
     "direction": "risk_watch"
+  },
+  {
+    "date": "2026-06-22",
+    "title": "Oil relief lowers immediate spike but Hormuz normalization not cleared",
+    "severity": "medium",
+    "horizon": "daily",
+    "channels": [
+      "oil",
+      "rates",
+      "volatility",
+      "energy",
+      "growth"
+    ],
+    "tickers": [
+      "XOP",
+      "XLE",
+      "TNX",
+      "USO",
+      "MAGS",
+      "SMH",
+      "GOOGL",
+      "MSFT"
+    ],
+    "affected": [
+      "new-buy timing",
+      "energy exposure",
+      "growth discount-rate sensitivity"
+    ],
+    "source": "MarketWatch / Guardian / NYPost / Kalshi public checks 2026-06-22",
+    "summary": "MarketWatch reported Aug WTI settled at $73.86 (-2.6%) after a 60-day Iranian oil sanctions pause, and Guardian reported an inspections/oil-sanctions/Hormuz reopening framework with early tanker movement. Counterweight: shipping/insurance risk and direct PortWatch normalization remain unverified; Kalshi Hormuz contracts were active but public orderbooks returned no price depth. Decision impact: lower the immediate oil-spike assumption but keep the oil/rates lane active before new buys.",
+    "trigger": "Clear only after verified PortWatch/shipping traffic normalizes or market/insurance reports confirm durable reopening. Re-escalate on Israeli/Lebanon deal breakdown, renewed closure/mines/insurance sanctions-trap headlines, or WTI/TNX jumps back toward cockpit triggers.",
+    "direction": "risk_watch"
   }
 ]
