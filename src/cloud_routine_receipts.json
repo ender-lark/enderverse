@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:36:47.115542Z",
-      "summary": "morning scan started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T12:41:02.875821Z",
-      "summary": "3 Notion rows verified; repo Signal Log 33 rows; UW proof unchanged 2026-06-15; macro unchanged 2026-06-04; blockers none"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -6937,7 +6923,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T16:35:37.518552Z",
       "summary": "FS inbox catch-up midday ingested 1 entry through [06/23/2026 09:25 ET]; Source Call Log rows 1 fetch-verified; marker advanced; duplicate catch-up snippets not re-logged; no gate/card mutation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T16:47:53.422205Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-23T16:50:45.008008Z",
+      "summary": "Chrome checked Macro FlashInsights Jun23 10:52 tech/memory dip, 10:51 semis/MU rebound, 10:38 SPY support: all duplicate/prior cached; Crypto FlashInsights latest Jun22 MSTR/ETH duplicate/prior; Gmail 0 fallback not used because Chrome full-content feed available; rows landed 0; suppressed duplicate/prior 5 plus listing/nav discovery-only; validation passed; dashboard skipped no new rows; alert quiet candidates=0 duplicates=14 suppressed=82; Notion not used; article_detail/video lanes not_checked absent discovery; blockers none"
     }
   ],
-  "updated_at": "2026-06-23T16:35:37.518552Z"
+  "updated_at": "2026-06-23T16:50:45.008008Z"
 }
