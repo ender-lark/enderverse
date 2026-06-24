@@ -2,50 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:49:13.219520Z",
-      "summary": "morning scan manual run completed; Signal Log remains watch-only",
-      "details": {
-        "steps": [
-          {
-            "label": "signal log validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/signal_log_intake.py",
-              "--validate",
-              "src/signal_log.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 33\n}",
-            "stderr": ""
-          },
-          {
-            "label": "macro cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/macro_pulse_scan.py",
-              "--validate",
-              "src/macro_state.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:49:13.234854Z",
-      "summary": "investing-os-early-cockpit-build manual run started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-midday",
       "status": "started",
       "run_source": "scheduled",
@@ -4252,7 +4208,7 @@
             ],
             "returncode": 0,
             "optional": false,
-            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER — 2026-06-22 16:10 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 1 (inflection)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (11) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1 (early)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 2 (recognition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
+            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER \u2014 2026-06-22 16:10 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 1 (inflection)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (11) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1 (early)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 2 (recognition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
             "stderr": "Emitted 15 results -> src/parabolic_setups.json (AUTOFIRE 0, WATCHLIST 4, SKIP 11)"
           }
         ]
@@ -6210,7 +6166,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T23:21:15.919381Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights, 11 research/video listings, 5 detail pages; videos 4 detail/2 listing surfaces; transcript vault 1 Crypto Comments pack pushed 01d2c96; Gmail checked 0; rows landed 1 MU 16:18 ET; suppressed stale/duplicate/discovery/low-value incl Virtuals paid research, stale Crypto Flash, duplicate First Word/DTS/Macro Minute, webinars; validation public-index/Fundstrat/26 pytest/dashboard passed; Notion not used; dark Social Watch; blockers none after Yahoo retry recovered"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T23:32:03.362492Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T23:32:55.083875Z",
+      "summary": "Research Queue not_checked: drop path missing; cache preserved 11 pending 0 done 0 ACT_NOW skipped 0"
     }
   ],
-  "updated_at": "2026-06-24T23:21:15.919381Z"
+  "updated_at": "2026-06-24T23:32:55.083875Z"
 }
