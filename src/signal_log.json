@@ -621,5 +621,29 @@
     "priority": "high",
     "source": "Polymarket Gamma API/pages; off-hours alt-data scout 2026-06-24T01:23Z",
     "note": "Packet: Polymarket prices July 15 normal Yes 25.5%, July 31 Yes 45.5%, Dec 31 Yes 86.5%; June 30 daily transit thresholds: 20 ships 99.5%, 40 ships 49.0%, 60 ships 18.5%, 80 ships 3.75%. Decision affected: active oil/rates event-risk gate for new-buy timing across energy, rates, growth/AI, nuclear/critical minerals. Conviction effect mixed/inconclusive but keeps near-term risk active. Disconfirm: verified IMF PortWatch 7DMA >=60 plus WTI/TNX and shipping/insurance normalization. Missing: direct PortWatch download and same-session oil/rates confirmation. Route Event Risk + Signal Log. Notion Signal Log verified page 389c5031-4bb6-812b-af1a-c7111f820cf8."
+  },
+  {
+    "signal": "Morning scan: UW Jun24 live lane not open; Jun23 tide closed risk-off",
+    "ticker": "SPY",
+    "date": "2026-06-24",
+    "priority": "high",
+    "source": "Notion Signal Log verified row + UW connector",
+    "note": "Notion readback https://app.notion.com/p/389c50314bb681ef93ccc0ceee2e9806. UW rejected 2026-06-24 as future/last open 2026-06-23; 2026-06-23 16:10 ET tide net_call_premium -$866.3M, net_put_premium +$184.4M, net_volume -1.325M. Jun24 UW lane remains not_checked until open data lands."
+  },
+  {
+    "signal": "Morning scan: semis/AI options stress is concentrated, not confirmation",
+    "ticker": "SMH",
+    "date": "2026-06-24",
+    "priority": "high",
+    "source": "Notion Signal Log verified row + UW stock screener",
+    "note": "Notion readback https://app.notion.com/p/389c50314bb6812d916bc2456407b4b4. UW 2026-06-23 prior-session context: SMH put/call volume 4.37, SOXX 4.34, NVDA net_call_premium -$76.3M, AMD -$26.2M, AVGO -$24.1M; MU 2026-06-24 earnings with IV30 107.7% and 30d implied move 20.9%. Watch-only; no trade instruction."
+  },
+  {
+    "signal": "Morning scan: macro preflight still stale despite current web/rates context",
+    "ticker": "XLF",
+    "date": "2026-06-24",
+    "priority": "medium",
+    "source": "Notion Signal Log verified row + repo macro cache check",
+    "note": "Notion readback https://app.notion.com/p/389c50314bb6819ebc00d50fbd5919df. Repo macro_state snapshot_date is 2026-06-04; not refreshed because validated yield-curve/cross-asset JSON was not supplied. Macro cache remains stale/not_checked."
   }
 ]
