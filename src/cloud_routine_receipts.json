@@ -2,32 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:48:07.453479Z",
-      "summary": "investing-os-fs-inbox-catch-up-preopen manual run started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:48:07.469745Z",
-      "summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
-      "details": {
-        "steps": [
-          {
-            "label": "FS inbox catch-up prompt present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "started",
       "run_source": "manual",
@@ -6237,7 +6211,22 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T20:39:07.772885Z",
       "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/24/2026 09:25 ET]; Notion marker fetch-verified; no Source Call Log rows written"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T20:47:35.727536Z",
+      "summary": "positions sync started"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T20:50:06.720461Z",
+      "summary": "positions sync failed: SnapTrade local profile missing; Account Positions stale/not_checked; previous promoted book preserved 2026-06-24",
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-24T20:39:07.772885Z"
+  "updated_at": "2026-06-24T20:50:06.720461Z"
 }
