@@ -2,61 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:48:06.588050Z",
-      "summary": "investing-os-pre-market-source-intake manual run started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:48:06.899751Z",
-      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "event risk validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/event_risk_intake.py",
-              "--validate",
-              "src/event_risks.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 4\n}",
-            "stderr": ""
-          },
-          {
-            "label": "catalyst cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 12,
-              "valid_rows": 12,
-              "problem": ""
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "started",
       "run_source": "manual",
@@ -6300,7 +6245,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T19:48:46.661216Z",
       "summary": "Chrome checked Macro FlashInsights latest Jun24 14:26 duplicate and Crypto FlashInsights latest Jun22 stale; Gmail checked 0 because Chrome full-content feeds available; rows landed 0; no new discovery-only/article detail rows captured; validation passed; dashboard refresh skipped no new rows; alert quiet candidates=0 duplicates=12 suppressed=103; Crypto stale; Social Watch dark; Notion not used; blockers none"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T20:31:19.459463Z",
+      "summary": "investing-os-post-close-refresh started"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T20:33:18.593298Z",
+      "summary": "post-close refresh succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "bcbb4be92caf69858bf51ef9df259135ae50dc474da27d68200219891e6349c4",
+            "as_of": "2026-06-24T20:33:10.034428+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "058288e597f539f13aabeae22677a517d3bb099a029557a36b291e9ded45d782",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-24T19:48:46.661216Z"
+  "updated_at": "2026-06-24T20:33:18.593298Z"
 }
