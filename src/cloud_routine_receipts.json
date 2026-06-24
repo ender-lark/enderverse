@@ -2,25 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:36:04.927774Z",
-      "summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
-      "details": {
-        "steps": [
-          {
-            "label": "FS inbox catch-up prompt present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "started",
       "run_source": "manual",
@@ -6860,7 +6841,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T00:48:02.333586Z",
       "summary": "dry-run selected 0; queued none; write verification not_checked no live writes; remaining unqueued 2 RYF/XOP QUIET; dark lanes Research Queue readback not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T00:52:41.866930Z",
+      "summary": "Decision-relevant flags logged only: SPX/QQQ support and June-low hold, Lee buy-dip/rebalance, tech/memory dip, KOSPI/SOX/MU scrutiny, FXI breakdown, silver/copper washouts, KIE breakout; ingested 2 FS inbox entries through [06/23/2026 18:40 ET]; Source Call Log rows 8 fetch-verified; marker advanced; Notion query endpoint dark/not_checked; no trade, broker, repo gate, or card mutation"
     }
   ],
-  "updated_at": "2026-06-24T00:48:02.333586Z"
+  "updated_at": "2026-06-24T00:52:41.866930Z"
 }
