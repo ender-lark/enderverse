@@ -14,9 +14,13 @@ Repo-local operating protocol for Codex agents working on the Investing OS.
   `C:\Users\suraj\OneDrive\Old\Documents\Investing OS (2.0)`, first verify
   whether it is only a wrapper. When it is not a git repo, pivot to the
   canonical main checkout before editing. Do not schedule cloud routines
-  against a feature checkout. As of 2026-06-17 the clean main checkout used for
+  against a feature checkout. As of 2026-06-24 the clean main checkout used for
   cloud-routine maintenance is:
-  `C:\Users\suraj\Documents\Codex\2026-06-17\auto-loose-thread-sweep\enderverse`.
+  `C:\Users\suraj\Documents\Codex\2026-06-24\automation-main`.
+  The older
+  `C:\Users\suraj\Documents\Codex\2026-06-17\auto-loose-thread-sweep\enderverse`
+  checkout is preserved only as drift evidence because local failed-receipt
+  commits made it diverge from `origin/main`.
 
 ## Primary Objective (Mission - canonical; never changes without operator)
 

@@ -68,7 +68,14 @@ def _build_trigger(scenario: dict) -> dict:
     if scenario["provenance"] == "real_registry":
         match = [r for r in _live_registry() if r.get("id") == scenario["registry_id"]]
         assert match, f"registry id {scenario['registry_id']!r} not found in live registry"
-        return copy.deepcopy(match[0])
+        replay = copy.deepcopy(match[0])
+        # The live registry is allowed to move on. Historical efficacy scenarios
+        # replay the trigger condition from an armed state, even after the real
+        # production trigger has legitimately fired.
+        replay["status"] = "armed"
+        replay.pop("fired_at", None)
+        replay.pop("fire_reason", None)
+        return replay
     build = scenario["build"]
     return trigger_check.make_trigger(
         trigger_id=scenario["id"],
