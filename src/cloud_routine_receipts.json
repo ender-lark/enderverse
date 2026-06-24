@@ -2,54 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.807314Z",
-      "summary": "deep synthesis manual support run completed from repo evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "source call candidates merge",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/source_call_candidate_draft.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/source_call_candidates.json",
-              "--merge-existing",
-              "--merge-cache"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"out\": \"src/source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 23,\n  \"drafted\": 23,\n  \"existing\": 40,\n  \"stored\": 40,\n  \"tickers\": [\n    \"BTC\",\n    \"CL\",\n    \"EWRE\",\n    \"EWY\",\n    \"GOLD\",\n    \"GOOGL\",\n    \"HYPE\",\n    \"MSTR\",\n    \"QQQ\",\n    \"RGI\",\n    \"RSP\",\n    \"RSPT\",\n    \"RYE\",\n    \"RYF\",\n    \"SOX\",\n    \"SPCX\",\n    \"SPX\",\n    \"SPY\",\n    \"STRC\",\n    \"TNX\",\n    \"XHS\",\n    \"XLI\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-16T14:38:50.783932+00:00\",\n    \"existing\": 40,\n    \"candidates\": 40,\n    \"added\": 0,\n    \"stored\": 40,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\",\n      \"2026-06-08\",\n      \"2026-06-09\",\n      \"2026-06-10\",\n      \"2026-06-11\",\n      \"2026-06-12\",\n      \"2026-06-14\",\n      \"2026-06-15\"\n    ]\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.822697Z",
-      "summary": "investing-os-weekly-pilot-run manual run started"
-    },
-    {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "success",
       "run_source": "manual",
@@ -6368,7 +6320,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T16:52:16.002638Z",
       "summary": "Chrome checked Macro FlashInsights Jun24 12:05 MU plus duplicate 10:50 QQQ/RSP and 10:46 TLT cards, and Crypto FlashInsights latest Jun22 stale; Gmail checked 0 because Chrome full-content available; rows landed 1 MU earnings/uptrend-risk compact row; suppressed duplicate/stale/low-value visible feed cards incl crypto Jun22 and listing/promo noise; validation passed; dashboard refreshed; alert quiet candidates=0 duplicates=11 suppressed=103; trigger guard fired 0 with 4 quote lanes not_checked; Social Watch dark/not_checked; no Notion writes; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T17:47:42.279198Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T17:49:46.001980Z",
+      "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content feed was available; rows landed 0; visible feed cards were stale/duplicate or non-action discovery only; validation passed; dashboard refresh skipped no new rows; alert quiet candidates=0 duplicates=11 suppressed=103; Crypto latest Jun22 stale; blockers none"
     }
   ],
-  "updated_at": "2026-06-24T16:52:16.002638Z"
+  "updated_at": "2026-06-24T17:49:46.001980Z"
 }
