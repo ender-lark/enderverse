@@ -2,54 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:21.335557Z",
-      "summary": "investing-os-daily-synthesis manual run started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:21.503781Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "started",
       "run_source": "manual",
@@ -6787,7 +6739,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T05:49:26.864296Z",
       "summary": "off-hours worker processed UUUU VAC/OSC and AVGO thesis line; verified Notion writes 2/2; live query blocked by Notion plan so backlog counts dark; fallback mirror 2026-06-24T01:27Z showed pending H3/M1/L1 plus UUUU federal related; remaining BMNR/GOOGL/COHR recently handled or related, price/flow/account-weight lanes not_checked"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T08:47:31.657178Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T08:52:10.975391Z",
+      "summary": "processed Med v0+staging; live RQ queued H2/M3/L7 working H9/M25/L13; Notion writes/readbacks verified 2/2 statuses kept Queued; high operator/code blocked; remaining queued 12 incl 10 unprocessed; dark MCP/Social/v0-calibration/buying-power lanes"
     }
   ],
-  "updated_at": "2026-06-24T05:49:26.864296Z"
+  "updated_at": "2026-06-24T08:52:10.975391Z"
 }
