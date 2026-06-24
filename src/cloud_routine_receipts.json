@@ -2,45 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.502379Z",
-      "summary": "off-hours queue buffer manual support checked queue-buffer wiring and research queue cache",
-      "details": {
-        "steps": [
-          {
-            "label": "off-hours queue buffer docs present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          },
-          {
-            "label": "research queue validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/research_queue_intake.py",
-              "--validate",
-              "src/research_queue.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.513751Z",
-      "summary": "investing-os-off-hours-alt-data-scout manual run started"
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "success",
       "run_source": "manual",
@@ -6420,7 +6381,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T15:52:55.146633Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights; Gmail checked 0; landed 1 QQQ 10:50 ET breadth/Tech compact row; web suppressed 0 discovery-only, skipped duplicate/stale 10:46 TLT and crypto Jun22; validation passed; dashboard refreshed; Pushover sent 1 alert, duplicates 10, alert-suppressed 102; Social Watch dark, crypto stale; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T16:32:43.960857Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T16:37:00.115458Z",
+      "summary": "FS inbox catch-up midday ingested 1 entry through [06/24/2026 09:25 ET]; Source Call Log rows 1 fetch-verified; marker advanced; defense-prime stance research-only; no gate/card mutation"
     }
   ],
-  "updated_at": "2026-06-24T15:52:55.146633Z"
+  "updated_at": "2026-06-24T16:37:00.115458Z"
 }
