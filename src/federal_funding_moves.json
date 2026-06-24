@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-06-19T15:25:50Z",
-  "as_of": "2026-06-19",
+  "generated_at": "2026-06-24T15:29:33Z",
+  "as_of": "2026-06-24",
   "scan_status": "has_data",
   "rows": [
     {
@@ -31,6 +31,62 @@
       "next_trigger": "Final loan close terms, project capex budget, customer/offtake evidence, and same-session price/flow confirmation.",
       "source_urls": [
         "https://www.war.gov/News/Releases/Release/Article/4520819/the-department-of-wars-office-of-strategic-capital-signs-725-million-conditiona/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-23",
+      "priority": "high",
+      "agency": "Department of War / Air Force / Space Systems Command",
+      "program": "Mobile User Objective System service life extension Phase II",
+      "recipient": "Boeing",
+      "title": "Boeing",
+      "award_text": "$2.003B fixed-price-incentive contract to design, build, launch-support, and test two MUOS satellites; $204.1M obligated at award",
+      "award_value_usd": 2003000000,
+      "tickers": [
+        "BA"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Large direct Boeing defense-space win; review whether satellite backlog offsets commercial-aircraft noise enough to affect BA watch/research posture.",
+      "risks": [
+        "long-cycle satellite execution",
+        "only partial funds obligated now",
+        "fixed-price incentive margin risk",
+        "space systems schedule risk",
+        "broader BA balance-sheet/commercial-aircraft noise"
+      ],
+      "next_trigger": "Task milestones, obligation ramp, program-margin commentary, follow-on satellite demand, and same-session price/flow confirmation.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4524437/contracts-for-june-23-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-23",
+      "priority": "high",
+      "agency": "Department of War / Army",
+      "program": "Precision Strike Missiles Increment One production capacity and EOC procurement",
+      "recipient": "Lockheed Martin",
+      "title": "Lockheed Martin",
+      "award_text": "$8.402B modification to increase the ceiling and extend ordering for PrSM Increment One production capacity, EOC assets, follow-on production, development, and obsolescence management; total contract face value now $13.34B",
+      "award_value_usd": 8401999999,
+      "tickers": [
+        "LMT"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Major direct missile-production backlog signal; review whether PrSM demand/replenishment changes LMT defense growth priority versus already-priced defense strength.",
+      "risks": [
+        "ceiling increase not immediate revenue",
+        "order-level funding not yet specified",
+        "long-dated through fiscal 2032",
+        "production-ramp execution",
+        "margin and supply-chain risk"
+      ],
+      "next_trigger": "Follow-on funded orders, production-rate disclosure, margin/backlog commentary, stock reaction, and whether PrSM replenishment demand persists.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4524437/contracts-for-june-23-2026/"
       ],
       "source_quality": "primary"
     },
@@ -307,6 +363,34 @@
       "source_quality": "primary"
     },
     {
+      "date": "2026-06-23",
+      "priority": "medium",
+      "agency": "Department of War / Army",
+      "program": "Family of Maintenance Trainers IDIQ",
+      "recipient": "TRU Simulation + Training",
+      "title": "TRU Simulation + Training",
+      "award_text": "$396M firm-fixed-price IDIQ for Army family of maintenance trainers, including analysis, design, development, production, installation, integration, cybersecurity, and instruction",
+      "award_value_usd": 396000000,
+      "tickers": [
+        "TXT"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Meaningful Textron training-systems backlog support; review whether defense training/simulation demand changes TXT research priority, but keep below LMT/BA due IDIQ/task-order uncertainty.",
+      "risks": [
+        "IDIQ ceiling not guaranteed revenue",
+        "task-order timing uncertainty",
+        "training-system execution",
+        "smaller relative to Textron consolidated revenue"
+      ],
+      "next_trigger": "Task-order dollars, revenue timing, margin commentary, and whether trainer demand appears in broader Textron defense backlog.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4524437/contracts-for-june-23-2026/",
+        "https://trusimulation.com/en/about/investor-relations"
+      ],
+      "source_quality": "primary plus company ticker mapping"
+    },
+    {
       "date": "2026-06-17",
       "priority": "low",
       "agency": "Department of War / Air Force",
@@ -433,10 +517,10 @@
     }
   ],
   "summary": {
-    "stored": 16,
-    "high": 1,
-    "direct_public": 2,
-    "research_candidates": 2,
+    "stored": 19,
+    "high": 3,
+    "direct_public": 5,
+    "research_candidates": 5,
     "top_signal": "Energy Fuels: $725M conditional loan commitment for U.S. rare-earth separation and metallization capacity",
     "merged": true
   }

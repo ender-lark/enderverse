@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-24T01:27:00Z",
+  "generated_at": "2026-06-24T15:29:33Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -48,16 +48,40 @@
       "ticker": "UUUU",
       "notes": "Packet: ticker/entity UUUU / Energy Fuels; source SEC 8-K filed 2026-06-23 plus Energy Fuels release; timestamp checked 2026-06-24T01:23Z; why it matters proposed $1.9B cash-and-stock VAC acquisition could transform mine-to-magnet strategy but adds dilution, integration, financing, approval and execution risk; current decision affected existing UUUU MONITOR/federal-funding research row; conviction effect mixed; time window deal diligence now through expected early-2027 close; disconfirmation trigger unfavorable equity issuance, financing shortfall, approval delay, or evidence VAC economics do not fund White Mesa/Donald growth; missing evidence full pro forma debt/share count, closing conditions, customer/offtake quality, post-announcement price/flow; route Research Queue.",
       "source": "SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24"
+    },
+    {
+      "r": "BA - federal funding catalyst review: Boeing ($2.003B fixed-price-incentive contract to design, build, launch-support, and test two MUOS satellites; $204.1M obligated at award)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "BA",
+      "notes": "Boeing: $2.003B fixed-price-incentive contract to design, build, launch-support, and test two MUOS satellites; $204.1M obligated at award. Agency/program: Department of War / Air Force / Space Systems Command / Mobile User Objective System service life extension Phase II. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Task milestones, obligation ramp, program-margin commentary, follow-on satellite demand, and same-session price/flow confirmation.. Risks: long-cycle satellite execution; only partial funds obligated now; fixed-price incentive margin risk; space systems schedule risk; broader BA balance-sheet/commercial-aircraft noise.",
+      "source": "federal_funding_monitor"
+    },
+    {
+      "r": "LMT - federal funding catalyst review: Lockheed Martin ($8.402B modification to increase the ceiling and extend ordering for PrSM Increment One production capacity, EOC assets, follow-on production, development, and obsolescence management; total contract face value now $13.34B)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "LMT",
+      "notes": "Lockheed Martin: $8.402B modification to increase the ceiling and extend ordering for PrSM Increment One production capacity, EOC assets, follow-on production, development, and obsolescence management; total contract face value now $13.34B. Agency/program: Department of War / Army / Precision Strike Missiles Increment One production capacity and EOC procurement. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Follow-on funded orders, production-rate disclosure, margin/backlog commentary, stock reaction, and whether PrSM replenishment demand persists.. Risks: ceiling increase not immediate revenue; order-level funding not yet specified; long-dated through fiscal 2032; production-ramp execution; margin and supply-chain risk.",
+      "source": "federal_funding_monitor"
+    },
+    {
+      "r": "TXT - federal funding catalyst review: TRU Simulation + Training ($396M firm-fixed-price IDIQ for Army family of maintenance trainers, including analysis, design, development, production, installation, integration, cybersecurity, and instruction)",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "TXT",
+      "notes": "TRU Simulation + Training: $396M firm-fixed-price IDIQ for Army family of maintenance trainers, including analysis, design, development, production, installation, integration, cybersecurity, and instruction. Agency/program: Department of War / Army / Family of Maintenance Trainers IDIQ. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Task-order dollars, revenue timing, margin commentary, and whether trainer demand appears in broader Textron defense backlog.. Risks: IDIQ ceiling not guaranteed revenue; task-order timing uncertainty; training-system execution; smaller relative to Textron consolidated revenue.",
+      "source": "federal_funding_monitor"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 1,
-    "pending": 1,
+    "input_rows": 5,
+    "pending": 5,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 6,
+    "stored_pending": 9,
     "stored_done": 0
   }
 }

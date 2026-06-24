@@ -645,5 +645,29 @@
     "priority": "medium",
     "source": "Notion Signal Log verified row + repo macro cache check",
     "note": "Notion readback https://app.notion.com/p/389c50314bb6819ebc00d50fbd5919df. Repo macro_state snapshot_date is 2026-06-04; not refreshed because validated yield-curve/cross-asset JSON was not supplied. Macro cache remains stale/not_checked."
+  },
+  {
+    "signal": "Federal funding: Boeing - $2.003B fixed-price-incentive contract to design, build, launch-support, and test two MUOS satellites; $204.1M obligated at award",
+    "ticker": "BA",
+    "date": "2026-06-23",
+    "priority": "high",
+    "source": "https://www.war.gov/News/Contracts/Contract/Article/4524437/contracts-for-june-23-2026/",
+    "note": "direct_public / research_review | Large direct Boeing defense-space win; review whether satellite backlog offsets commercial-aircraft noise enough to affect BA watch/research posture. | Risks: long-cycle satellite execution; only partial funds obligated now; fixed-price incentive margin risk; space systems schedule risk; broader BA balance-sheet/commercial-aircraft noise | Next: Task milestones, obligation ramp, program-margin commentary, follow-on satellite demand, and same-session price/flow confirmation."
+  },
+  {
+    "signal": "Federal funding: Lockheed Martin - $8.402B modification to increase the ceiling and extend ordering for PrSM Increment One production capacity, EOC assets, follow-on production, development, and obsolescence management;",
+    "ticker": "LMT",
+    "date": "2026-06-23",
+    "priority": "high",
+    "source": "https://www.war.gov/News/Contracts/Contract/Article/4524437/contracts-for-june-23-2026/",
+    "note": "direct_public / research_review | Major direct missile-production backlog signal; review whether PrSM demand/replenishment changes LMT defense growth priority versus already-priced defense strength. | Risks: ceiling increase not immediate revenue; order-level funding not yet specified; long-dated through fiscal 2032; production-ramp execution; margin and supply-chain risk | Next: Follow-on funded orders, production-rate disclosure, margin/backlog commentary, stock reaction, and whether PrSM replenishment demand persists."
+  },
+  {
+    "signal": "Federal funding: TRU Simulation + Training - $396M firm-fixed-price IDIQ for Army family of maintenance trainers, including analysis, design, development, production, installation, integration, cybersecurity, and instruc",
+    "ticker": "TXT",
+    "date": "2026-06-23",
+    "priority": "medium",
+    "source": "https://www.war.gov/News/Contracts/Contract/Article/4524437/contracts-for-june-23-2026/; https://trusimulation.com/en/about/investor-relations",
+    "note": "direct_public / research_review | Meaningful Textron training-systems backlog support; review whether defense training/simulation demand changes TXT research priority, but keep below LMT/BA due IDIQ/task-order uncertainty. | Risks: IDIQ ceiling not guaranteed revenue; task-order timing uncertainty; training-system execution; smaller relative to Textron consolidated revenue | Next: Task-order dollars, revenue timing, margin commentary, and whether trainer demand appears in broader Textron defense backlog."
   }
 ]
