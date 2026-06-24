@@ -2,47 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.603279Z",
-      "summary": "off-hours alt-data scout manual support checked policy/runbook wiring",
-      "details": {
-        "steps": [
-          {
-            "label": "off-hours alt-data docs present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          },
-          {
-            "label": "uw action runbook",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_action_runbook.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "UW action runbook: 4 check set(s), 22 scoped ticker(s); endpoint results not claimed.\nhonesty: Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.\n\n1. Pre-market crash triage (pre_market_crash_triage)\n   why: High-volatility or re-check posture needs broad tape triage before single-name action.\n   question: Do we need to cut exposure, hedge, wait, or prepare add-on entries after forced selling?\n   freshness: Market/flow lanes should be same-session; Friday evidence is stale by Monday pre-market.\n   tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, NVDA\n   market checks: MARKET_TIDE, TOP_NET_IMPACT, TOTAL_OPTIONS_VOLUME, MARKET_MOVERS, MARKET_CORRELATIONS, ETF_TIDE, SECTOR_TIDE\n   ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, TICKER_OPTIONS_VOLUME, DARKPOOL_TICKER, TICKER_OI_CHANGE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, TICKER_VOL_TERM_STRUCTURE, TICKER_REALIZED_VOL, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_TECHNICAL_INDICATOR\n   blocks action if: broad tape, sector pressure, position flow, or vol/gamma state is missing before the open\n   promote when: broad tape and owned-name flow classify the morning as risk-off continuation, relief bounce, or mixed enough to stage\n   downgrade when: the shock stabilizes, pre-market pressure fades, or current flow contradicts crash-triage urgency\n\n2. Event-risk and political macro (event_risk_political_macro)\n   why: Active event-risk lane can overpower normal thesis and flow signals.\n   question: Is the external shock changing new-buy timing, hedges, or position sizing?\n   freshness: Intraday to one trading day; stale event evidence must force re-check before acting.\n   tickers: XOP, XLE, TNX, RYF, XLF, COIN, HOOD, BX, KKR, MAGS, SMH, SPY, NVDA\n   market checks: MARKET_TIDE, TOP_NET_IMPACT, MARKET_MOVERS, ECONOMIC_CALENDAR, NEWS_HEADLINES, SECTOR_TIDE, ETF_TIDE, MARKET_CORRELATIONS\n   ticker checks: CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES\n   blocks action if: same-session headlines, rates/oil levels, or sector tape are missing or contradictory\n   promote when: macro tape and affected factor checks confirm the risk is changing sizing or new-buy timing\n   downgrade when: the shock is stale, headlines reverse, or affected sectors stabilize against the warning\n\n4. Fundstrat signal confirmation (fundstrat_signal_confirmation)\n   why: Fundstrat-derived calls should be checked against live market structure before action.\n   question: Is this Fundstrat call actionable now, stale, contradicted, or better queued for review?\n   freshness: Fundstrat evidence can be dated; UW confirmation should be same-day when action is promoted.\n   tickers: RGI, RYE, XLI, HYPE, MAGS, RYF, XOP\n   ticker checks: TICKER_FLOW_RECENT, TICKER_FLOW_ALERTS, DARKPOOL_TICKER, TICKER_OPTIONS_VOLUME, TICKER_OI_CHANGE, TICKER_OHLC, TICKER_STOCK_STATE, TICKER_GREEK_EXPOSURE_STRIKE, TICKER_SPOT_EXPOSURES_STRIKE, TICKER_IV_RANK, ANALYST_RATINGS, NEWS_HEADLINES, COMPANY_PROFILE, TICKER_INFO\n   blocks action if: Fundstrat evidence is dated and same-day UW/price confirmation is missing\n   promote when: Fundstrat call and live market structure point in the same direction\n   downgrade when: price/flow contradicts the call or the call was already absorbed by the tape\n\n5. Asymmetric discovery (asymmetric_discovery)\n   why: Asymmetric-opportunity rows need a discovery/follow-up endpoint set, not only generic ticker flow.\n   question: What deserves scarce review time because the upside/downside skew may be unusually large?\n   freshness: Discovery can tolerate 1-3 trading days, but promoted action still needs fresh confirmation.\n   tickers: RYF, XOP, GOOGL, AVGO, MAGS, MSFT, AMZN, BMNR\n   market checks: FLOW_ALERTS, TOP_NET_IMPACT, DARKPOOL_RECENT, LIT_FLOW_RECENT, MARKET_MOVERS, OPTION_CONTRACT_SCREENER, STOCK_SCREENER\n   ticker checks: ANALYST_RATINGS, INSIDER_TRANSACTIONS, CONGRESS_RECENT_TRADES, CONGRESS_UNUSUAL_BY_TICKERS, NEWS_HEADLINES, TICKER_FLOW_PER_EXPIRY, TICKER_FLOW_PER_STRIKE, TICKER_GREEK_FLOW, TICKER_VOL_TERM_STRUCTURE, TICKER_INFO\n   blocks action if: the setup is only flow/social/context without independent confirmation\n   promote when: fresh flow plus thesis, sponsor, price, or news evidence creates review-worthy skew\n   downgrade when: the anomaly is late, promotional, or unsupported by follow-up endpoints",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.615805Z",
-      "summary": "investing-os-deep-synthesis manual run started"
-    },
-    {
       "routine_id": "investing-os-deep-synthesis",
       "status": "success",
       "run_source": "manual",
@@ -6395,7 +6354,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T16:37:00.115458Z",
       "summary": "FS inbox catch-up midday ingested 1 entry through [06/24/2026 09:25 ET]; Source Call Log rows 1 fetch-verified; marker advanced; defense-prime stance research-only; no gate/card mutation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T16:47:27.841746Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T16:52:16.002638Z",
+      "summary": "Chrome checked Macro FlashInsights Jun24 12:05 MU plus duplicate 10:50 QQQ/RSP and 10:46 TLT cards, and Crypto FlashInsights latest Jun22 stale; Gmail checked 0 because Chrome full-content available; rows landed 1 MU earnings/uptrend-risk compact row; suppressed duplicate/stale/low-value visible feed cards incl crypto Jun22 and listing/promo noise; validation passed; dashboard refreshed; alert quiet candidates=0 duplicates=11 suppressed=103; trigger guard fired 0 with 4 quote lanes not_checked; Social Watch dark/not_checked; no Notion writes; blockers none"
     }
   ],
-  "updated_at": "2026-06-24T16:37:00.115458Z"
+  "updated_at": "2026-06-24T16:52:16.002638Z"
 }
