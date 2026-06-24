@@ -2,52 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.189251Z",
-      "summary": "top prospects auto-research manual support run validated the bridge without queue writes",
-      "details": {
-        "steps": [
-          {
-            "label": "top prospects auto-research self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/prospect_autoresearch.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "19/19 assertions passed.",
-            "stderr": ""
-          },
-          {
-            "label": "top prospects auto-research dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/prospect_autoresearch.py",
-              "--dry-run",
-              "--min-conviction",
-              "BUILDING",
-              "--max-items",
-              "8"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"dry_run\": true,\n  \"selected\": 8,\n  \"rows\": [\n    {\n      \"ticker\": \"GOOGL\",\n      \"direction\": \"long\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"BUILDING\",\n      \"conviction_score\": 13.5,\n      \"urgency_score\": 8.1,\n      \"priority\": \"Med\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"UUUU\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"TPL\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"SOFI\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"SATS\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"PKG\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"KTOS\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    },\n    {\n      \"ticker\": \"HOOD\",\n      \"direction\": \"avoid\",\n      \"conviction\": \"BUILDING\",\n      \"urgency\": \"QUIET\",\n      \"conviction_score\": 10.0,\n      \"urgency_score\": 6.0,\n      \"priority\": \"Low\",\n      \"corroboration\": \"Uncorroborated\",\n      \"research_queue_page_id\": null\n    }\n  ]\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.210701Z",
-      "summary": "investing-os-off-hours-research-queue manual run started"
-    },
-    {
       "routine_id": "investing-os-off-hours-research-queue",
       "status": "success",
       "run_source": "manual",
@@ -6494,7 +6448,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T14:47:47.840657Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T14:53:41.395436Z",
+      "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content available; rows landed 1 TLT rates/Treasuries compact row; suppressed 15 duplicate/stale/low-value visible feed cards plus alert quiet/stale rows; validation passed; dashboard refreshed; Pushover sent 7 candidates across capped alert passes then quiet; Social Watch dark/not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-24T14:35:32.663067Z"
+  "updated_at": "2026-06-24T14:53:41.395436Z"
 }
