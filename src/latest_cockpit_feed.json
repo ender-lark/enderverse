@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-24T12:24:01.979067+00:00",
+  "generated_at": "2026-06-24T12:53:56.605716+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-24 \u00b7 uw_price 06-24 \u00b7 uw_macro 06-24 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-24",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-24T08:24:01.979067-04:00",
+        "date": "2026-06-24T08:53:56.605716-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-24T08:24:01.979067-04:00",
+        "date": "2026-06-24T08:53:56.605716-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -125,7 +125,7 @@
         "label": "Signal Log",
         "status": "has_data",
         "detail": "checked",
-        "count": 78,
+        "count": 81,
         "checked_at": ""
       },
       {
@@ -2169,6 +2169,30 @@
       "priority": "high",
       "source": "Polymarket Gamma API/pages; off-hours alt-data scout 2026-06-24T01:23Z",
       "note": "Packet: Polymarket prices July 15 normal Yes 25.5%, July 31 Yes 45.5%, Dec 31 Yes 86.5%; June 30 daily transit thresholds: 20 ships 99.5%, 40 ships 49.0%, 60 ships 18.5%, 80 ships 3.75%. Decision affected: active oil/rates event-risk gate for new-buy timing across energy, rates, growth/AI, nuclear/critical minerals. Conviction effect mixed/inconclusive but keeps near-term risk active. Disconfirm: verified IMF PortWatch 7DMA >=60 plus WTI/TNX and shipping/insurance normalization. Missing: direct PortWatch download and same-session oil/rates confirmation. Route Event Risk + Signal Log. Notion Signal Log verified page 389c5031-4bb6-812b-af1a-c7111f820cf8."
+    },
+    {
+      "signal": "Morning scan: UW Jun24 live lane not open; Jun23 tide closed risk-off",
+      "ticker": "SPY",
+      "date": "2026-06-24",
+      "priority": "high",
+      "source": "Notion Signal Log verified row + UW connector",
+      "note": "Notion readback https://app.notion.com/p/389c50314bb681ef93ccc0ceee2e9806. UW rejected 2026-06-24 as future/last open 2026-06-23; 2026-06-23 16:10 ET tide net_call_premium -$866.3M, net_put_premium +$184.4M, net_volume -1.325M. Jun24 UW lane remains not_checked until open data lands."
+    },
+    {
+      "signal": "Morning scan: semis/AI options stress is concentrated, not confirmation",
+      "ticker": "SMH",
+      "date": "2026-06-24",
+      "priority": "high",
+      "source": "Notion Signal Log verified row + UW stock screener",
+      "note": "Notion readback https://app.notion.com/p/389c50314bb6812d916bc2456407b4b4. UW 2026-06-23 prior-session context: SMH put/call volume 4.37, SOXX 4.34, NVDA net_call_premium -$76.3M, AMD -$26.2M, AVGO -$24.1M; MU 2026-06-24 earnings with IV30 107.7% and 30d implied move 20.9%. Watch-only; no trade instruction."
+    },
+    {
+      "signal": "Morning scan: macro preflight still stale despite current web/rates context",
+      "ticker": "XLF",
+      "date": "2026-06-24",
+      "priority": "medium",
+      "source": "Notion Signal Log verified row + repo macro cache check",
+      "note": "Notion readback https://app.notion.com/p/389c50314bb6819ebc00d50fbd5919df. Repo macro_state snapshot_date is 2026-06-04; not refreshed because validated yield-curve/cross-asset JSON was not supplied. Macro cache remains stale/not_checked."
     }
   ],
   "social_watch": {
@@ -3268,38 +3292,38 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-24T12:24:01.816231+00:00",
+      "last_run": "2026-06-24T12:53:56.429830+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-24T12:24:01.816231+00:00",
+      "last_run": "2026-06-24T12:53:56.429830+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-24T12:24:01.816231+00:00",
+      "last_run": "2026-06-24T12:53:56.429830+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-24T12:24:01.816231+00:00",
+      "last_run": "2026-06-24T12:53:56.429830+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-24T12:24:01.816231+00:00",
+      "last_run": "2026-06-24T12:53:56.429830+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "stale",
-      "last_run": "2026-06-24T12:24:01.816231+00:00",
-      "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json, src/federal_funding_moves.json; +4 more"
+      "last_run": "2026-06-24T12:53:56.429830+00:00",
+      "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json, src/federal_funding_moves.json; +5 more"
     }
   ],
   "synthesis": {
@@ -14317,8 +14341,8 @@
         "connector_configured": true,
         "connector_available": true,
         "connector_proof_fresh": true,
-        "connector_verified_at": "2026-06-23T10:02:47-04:00",
-        "connector_proof_age_hours": 22.35
+        "connector_verified_at": "2026-06-24T08:39:00-04:00",
+        "connector_proof_age_hours": 0.25
       }
     ],
     "missing": [],
@@ -14346,61 +14370,61 @@
     },
     "cloud_routines": {
       "status": "overdue",
-      "line": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=2; overdue=2; support monitored=22, support overdue=8.",
+      "line": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=1; overdue=1; support monitored=22, support overdue=9.",
       "scheduled_success_count": 14,
       "expected_count": 14,
       "core_expected_count": 14,
       "support_expected_count": 22,
       "support_scheduled_success_count": 20,
       "support_manual_support_only_count": 1,
-      "support_overdue_count": 8,
+      "support_overdue_count": 9,
       "manual_support_only_count": 0,
-      "failed_latest_count": 2,
-      "overdue_count": 2,
+      "failed_latest_count": 1,
+      "overdue_count": 1,
       "due_waiting_count": 1,
       "routine_receipt_due": {
         "activated_at": "2026-06-19T00:00:00-04:00",
-        "now": "2026-06-24T08:24:01.979067-04:00",
+        "now": "2026-06-24T08:53:56.605716-04:00",
         "grace_minutes": 30,
-        "overdue_count": 2,
+        "overdue_count": 1,
         "due_waiting_count": 1,
-        "current_count": 11,
+        "current_count": 12,
         "not_due_yet_count": 0,
         "next_due": {
-          "routine_id": "investing-os-morning-scan",
-          "routine_name": "Investing OS Morning Scan",
-          "role": "morning_scan",
-          "schedule": "market weekdays 8:35 AM ET",
+          "routine_id": "investing-os-daily-synthesis",
+          "routine_name": "Investing OS Daily Synthesis",
+          "role": "daily_synthesis",
+          "schedule": "market weekdays 9:30 AM ET",
           "due_state": "overdue",
           "expected_since": "2026-06-19T00:00:00-04:00",
-          "last_due_at": "2026-06-23T08:35:00-04:00",
-          "next_due_at": "2026-06-24T08:35:00-04:00",
-          "overdue_after": "2026-06-23T09:05:00-04:00",
+          "last_due_at": "2026-06-23T09:30:00-04:00",
+          "next_due_at": "2026-06-24T09:30:00-04:00",
+          "overdue_after": "2026-06-23T10:00:00-04:00",
           "max_age_minutes": 30,
           "last_status": "failed",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-23T12:41:20.816299Z",
-          "last_success_at": "2026-06-22T16:10:49.472491Z",
+          "last_recorded_at": "2026-06-23T13:35:11.593513Z",
+          "last_success_at": "2026-06-22T16:09:54.263757Z",
           "last_scheduled_status": "failed",
-          "last_scheduled_recorded_at": "2026-06-23T12:41:20.816299Z",
-          "last_scheduled_success_at": "2026-06-22T16:10:49.472491Z",
-          "last_scheduled_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
-          "last_manual_recorded_at": "2026-06-22T16:09:01.980422Z",
-          "last_manual_success_at": "2026-06-22T16:09:01.980422Z",
-          "last_manual_summary": "morning scan manual run completed; Signal Log remains watch-only",
+          "last_scheduled_recorded_at": "2026-06-23T13:35:11.593513Z",
+          "last_scheduled_success_at": "2026-06-19T13:34:38.168291Z",
+          "last_scheduled_summary": "repo synthesis refreshed/validated; Notion page 388c5031-4bb6-815c-8142-c357d8d752f1 written/readback verified; HOOD review/event-risk recheck lead; Social Watch and row-level Notion lanes not_checked; verify_standard failed googl-tranche date-event efficacy test",
+          "last_manual_recorded_at": "2026-06-22T16:09:54.263757Z",
+          "last_manual_success_at": "2026-06-22T16:09:54.263757Z",
+          "last_manual_summary": "daily synthesis manual run completed from current cockpit feed evidence",
           "manual_support_only": false,
-          "last_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
+          "last_summary": "repo synthesis refreshed/validated; Notion page 388c5031-4bb6-815c-8142-c357d8d752f1 written/readback verified; HOOD review/event-risk recheck lead; Social Watch and row-level Notion lanes not_checked; verify_standard failed googl-tranche date-event efficacy test",
           "last_boundary_outcome": "failed",
           "last_boundary_artifact_count": 0,
           "last_boundary_artifacts": [],
           "missing_boundary_artifacts": [],
           "stale_boundary_artifacts": [],
           "changed_boundary_artifacts": [],
-          "last_ran_at": "2026-06-22T16:10:49.472491Z",
-          "last_ran_label": "2026-06-22T16:10:49.472491Z",
-          "last_scheduled_success_label": "2026-06-22T16:10:49.472491Z",
-          "latest_manual_support_label": "2026-06-22T16:09:01.980422Z",
-          "overdue_line": "overdue: Investing OS Morning Scan, last scheduled success 2026-06-22T16:10:49.472491Z; latest manual support 2026-06-22T16:09:01.980422Z"
+          "last_ran_at": "2026-06-19T13:34:38.168291Z",
+          "last_ran_label": "2026-06-19T13:34:38.168291Z",
+          "last_scheduled_success_label": "2026-06-19T13:34:38.168291Z",
+          "latest_manual_support_label": "2026-06-22T16:09:54.263757Z",
+          "overdue_line": "overdue: Investing OS Daily Synthesis, last scheduled success 2026-06-19T13:34:38.168291Z; latest manual support 2026-06-22T16:09:54.263757Z"
         },
         "rows": [
           {
@@ -14493,25 +14517,25 @@
             "routine_name": "Investing OS Broker Position Intake",
             "role": "broker_position_intake",
             "schedule": "market weekdays 8:20 AM ET",
-            "due_state": "due_waiting",
+            "due_state": "current",
             "expected_since": "2026-06-19T00:00:00-04:00",
             "last_due_at": "2026-06-24T08:20:00-04:00",
             "next_due_at": "2026-06-25T08:20:00-04:00",
             "overdue_after": "2026-06-24T08:50:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-24T12:22:29.373799Z",
-            "last_success_at": "2026-06-23T12:24:22.100853Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-24T12:22:29.373799Z",
-            "last_scheduled_success_at": "2026-06-23T12:24:22.100853Z",
-            "last_scheduled_summary": "investing-os-broker-position-intake started",
+            "last_recorded_at": "2026-06-24T12:24:10.165564Z",
+            "last_success_at": "2026-06-24T12:24:10.165564Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-24T12:24:10.165564Z",
+            "last_scheduled_success_at": "2026-06-24T12:24:10.165564Z",
+            "last_scheduled_summary": "broker position intake succeeded",
             "last_manual_recorded_at": "2026-06-22T16:09:01.679694Z",
             "last_manual_success_at": "2026-06-16T15:49:12.978565Z",
             "last_manual_summary": "broker position intake manual run refreshed SnapTrade book only after strict validation",
             "manual_support_only": false,
-            "last_summary": "investing-os-broker-position-intake started",
+            "last_summary": "broker position intake succeeded",
             "last_boundary_outcome": "produced_fresh",
             "last_boundary_artifact_count": 3,
             "last_boundary_artifacts": [
@@ -14526,72 +14550,77 @@
               "src/account_positions.json",
               "src/position_reconciliation.json"
             ],
-            "last_ran_at": "2026-06-23T12:24:22.100853Z",
-            "last_ran_label": "2026-06-23T12:24:22.100853Z",
-            "last_scheduled_success_label": "2026-06-23T12:24:22.100853Z",
+            "last_ran_at": "2026-06-24T12:24:10.165564Z",
+            "last_ran_label": "2026-06-24T12:24:10.165564Z",
+            "last_scheduled_success_label": "2026-06-24T12:24:10.165564Z",
             "latest_manual_support_label": "2026-06-16T15:49:12.978565Z",
-            "overdue_line": "overdue: Investing OS Broker Position Intake, last scheduled success 2026-06-23T12:24:22.100853Z; latest manual support 2026-06-16T15:49:12.978565Z"
+            "overdue_line": "overdue: Investing OS Broker Position Intake, last scheduled success 2026-06-24T12:24:10.165564Z; latest manual support 2026-06-16T15:49:12.978565Z"
           },
           {
             "routine_id": "investing-os-morning-scan",
             "routine_name": "Investing OS Morning Scan",
             "role": "morning_scan",
             "schedule": "market weekdays 8:35 AM ET",
-            "due_state": "overdue",
+            "due_state": "current",
             "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "2026-06-23T08:35:00-04:00",
-            "next_due_at": "2026-06-24T08:35:00-04:00",
-            "overdue_after": "2026-06-23T09:05:00-04:00",
+            "last_due_at": "2026-06-24T08:35:00-04:00",
+            "next_due_at": "2026-06-25T08:35:00-04:00",
+            "overdue_after": "2026-06-24T09:05:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "failed",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-23T12:41:20.816299Z",
-            "last_success_at": "2026-06-22T16:10:49.472491Z",
-            "last_scheduled_status": "failed",
-            "last_scheduled_recorded_at": "2026-06-23T12:41:20.816299Z",
-            "last_scheduled_success_at": "2026-06-22T16:10:49.472491Z",
-            "last_scheduled_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
+            "last_recorded_at": "2026-06-24T12:39:39.032976Z",
+            "last_success_at": "2026-06-24T12:39:39.032976Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-24T12:39:39.032976Z",
+            "last_scheduled_success_at": "2026-06-24T12:39:39.032976Z",
+            "last_scheduled_summary": "morning scan wrote/readback-verified 3 Notion Signal Log rows; repo Signal Log cache 81 rows; UW proof refreshed to Jun23 16:10 ET; Jun24 UW/macro/query lanes dark",
             "last_manual_recorded_at": "2026-06-22T16:09:01.980422Z",
             "last_manual_success_at": "2026-06-22T16:09:01.980422Z",
             "last_manual_summary": "morning scan manual run completed; Signal Log remains watch-only",
             "manual_support_only": false,
-            "last_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
-            "last_boundary_outcome": "failed",
-            "last_boundary_artifact_count": 0,
-            "last_boundary_artifacts": [],
+            "last_summary": "morning scan wrote/readback-verified 3 Notion Signal Log rows; repo Signal Log cache 81 rows; UW proof refreshed to Jun23 16:10 ET; Jun24 UW/macro/query lanes dark",
+            "last_boundary_outcome": "stale_boundary",
+            "last_boundary_artifact_count": 2,
+            "last_boundary_artifacts": [
+              "src/macro_state.json",
+              "src/signal_log.json"
+            ],
             "missing_boundary_artifacts": [],
-            "stale_boundary_artifacts": [],
+            "stale_boundary_artifacts": [
+              "src/macro_state.json"
+            ],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-22T16:10:49.472491Z",
-            "last_ran_label": "2026-06-22T16:10:49.472491Z",
-            "last_scheduled_success_label": "2026-06-22T16:10:49.472491Z",
+            "last_ran_at": "2026-06-24T12:39:39.032976Z",
+            "last_ran_label": "2026-06-24T12:39:39.032976Z",
+            "last_scheduled_success_label": "2026-06-24T12:39:39.032976Z",
             "latest_manual_support_label": "2026-06-22T16:09:01.980422Z",
-            "overdue_line": "overdue: Investing OS Morning Scan, last scheduled success 2026-06-22T16:10:49.472491Z; latest manual support 2026-06-22T16:09:01.980422Z"
+            "overdue_line": "overdue: Investing OS Morning Scan, last scheduled success 2026-06-24T12:39:39.032976Z; latest manual support 2026-06-22T16:09:01.980422Z"
           },
           {
             "routine_id": "investing-os-early-cockpit-build",
             "routine_name": "Investing OS Early Cockpit Build",
             "role": "early_cockpit_build",
             "schedule": "market weekdays 8:50 AM ET",
-            "due_state": "current",
+            "due_state": "due_waiting",
             "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "2026-06-23T08:50:00-04:00",
-            "next_due_at": "2026-06-24T08:50:00-04:00",
-            "overdue_after": "2026-06-23T09:20:00-04:00",
+            "last_due_at": "2026-06-24T08:50:00-04:00",
+            "next_due_at": "2026-06-25T08:50:00-04:00",
+            "overdue_after": "2026-06-24T09:20:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "success",
+            "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-23T12:54:02.257770Z",
+            "last_recorded_at": "2026-06-24T12:53:17.846525Z",
             "last_success_at": "2026-06-23T12:54:02.257770Z",
-            "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-23T12:54:02.257770Z",
+            "last_scheduled_status": "started",
+            "last_scheduled_recorded_at": "2026-06-24T12:53:17.846525Z",
             "last_scheduled_success_at": "2026-06-23T12:54:02.257770Z",
-            "last_scheduled_summary": "early cockpit build succeeded",
+            "last_scheduled_summary": "investing-os-early-cockpit-build started",
             "last_manual_recorded_at": "2026-06-22T16:09:54.019077Z",
             "last_manual_success_at": "2026-06-22T16:09:54.019077Z",
             "last_manual_summary": "early cockpit build manual run refreshed dashboard artifacts",
             "manual_support_only": false,
-            "last_summary": "early cockpit build succeeded",
+            "last_summary": "investing-os-early-cockpit-build started",
             "last_boundary_outcome": "produced_fresh",
             "last_boundary_artifact_count": 1,
             "last_boundary_artifacts": [
@@ -14824,8 +14853,8 @@
             "last_scheduled_success_at": "2026-06-23T14:33:31.569189Z",
             "last_scheduled_summary": "full cockpit build succeeded",
             "last_manual_recorded_at": "2026-06-22T16:10:08.613912Z",
-            "last_manual_success_at": "2026-06-16T14:37:41.716580Z",
-            "last_manual_summary": "full cockpit build manual run refreshed dashboard artifacts",
+            "last_manual_success_at": "",
+            "last_manual_summary": "",
             "manual_support_only": false,
             "last_summary": "full cockpit build succeeded",
             "last_boundary_outcome": "produced_fresh",
@@ -14841,8 +14870,8 @@
             "last_ran_at": "2026-06-23T14:33:31.569189Z",
             "last_ran_label": "2026-06-23T14:33:31.569189Z",
             "last_scheduled_success_label": "2026-06-23T14:33:31.569189Z",
-            "latest_manual_support_label": "2026-06-16T14:37:41.716580Z",
-            "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-23T14:33:31.569189Z; latest manual support 2026-06-16T14:37:41.716580Z"
+            "latest_manual_support_label": "2026-06-22T16:10:08.613912Z",
+            "overdue_line": "overdue: Investing OS Full Cockpit Build, last scheduled success 2026-06-23T14:33:31.569189Z; latest manual support 2026-06-22T16:10:08.613912Z"
           },
           {
             "routine_id": "investing-os-post-close-refresh",
@@ -14975,42 +15004,6 @@
         ],
         "overdue": [
           {
-            "routine_id": "investing-os-morning-scan",
-            "routine_name": "Investing OS Morning Scan",
-            "role": "morning_scan",
-            "schedule": "market weekdays 8:35 AM ET",
-            "due_state": "overdue",
-            "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "2026-06-23T08:35:00-04:00",
-            "next_due_at": "2026-06-24T08:35:00-04:00",
-            "overdue_after": "2026-06-23T09:05:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "failed",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-23T12:41:20.816299Z",
-            "last_success_at": "2026-06-22T16:10:49.472491Z",
-            "last_scheduled_status": "failed",
-            "last_scheduled_recorded_at": "2026-06-23T12:41:20.816299Z",
-            "last_scheduled_success_at": "2026-06-22T16:10:49.472491Z",
-            "last_scheduled_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
-            "last_manual_recorded_at": "2026-06-22T16:09:01.980422Z",
-            "last_manual_success_at": "2026-06-22T16:09:01.980422Z",
-            "last_manual_summary": "morning scan manual run completed; Signal Log remains watch-only",
-            "manual_support_only": false,
-            "last_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
-            "last_boundary_outcome": "failed",
-            "last_boundary_artifact_count": 0,
-            "last_boundary_artifacts": [],
-            "missing_boundary_artifacts": [],
-            "stale_boundary_artifacts": [],
-            "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-22T16:10:49.472491Z",
-            "last_ran_label": "2026-06-22T16:10:49.472491Z",
-            "last_scheduled_success_label": "2026-06-22T16:10:49.472491Z",
-            "latest_manual_support_label": "2026-06-22T16:09:01.980422Z",
-            "overdue_line": "overdue: Investing OS Morning Scan, last scheduled success 2026-06-22T16:10:49.472491Z; latest manual support 2026-06-22T16:09:01.980422Z"
-          },
-          {
             "routine_id": "investing-os-daily-synthesis",
             "routine_name": "Investing OS Daily Synthesis",
             "role": "daily_synthesis",
@@ -15049,59 +15042,55 @@
         ],
         "due_waiting": [
           {
-            "routine_id": "investing-os-broker-position-intake",
-            "routine_name": "Investing OS Broker Position Intake",
-            "role": "broker_position_intake",
-            "schedule": "market weekdays 8:20 AM ET",
+            "routine_id": "investing-os-early-cockpit-build",
+            "routine_name": "Investing OS Early Cockpit Build",
+            "role": "early_cockpit_build",
+            "schedule": "market weekdays 8:50 AM ET",
             "due_state": "due_waiting",
             "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "2026-06-24T08:20:00-04:00",
-            "next_due_at": "2026-06-25T08:20:00-04:00",
-            "overdue_after": "2026-06-24T08:50:00-04:00",
+            "last_due_at": "2026-06-24T08:50:00-04:00",
+            "next_due_at": "2026-06-25T08:50:00-04:00",
+            "overdue_after": "2026-06-24T09:20:00-04:00",
             "max_age_minutes": 30,
             "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-24T12:22:29.373799Z",
-            "last_success_at": "2026-06-23T12:24:22.100853Z",
+            "last_recorded_at": "2026-06-24T12:53:17.846525Z",
+            "last_success_at": "2026-06-23T12:54:02.257770Z",
             "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-24T12:22:29.373799Z",
-            "last_scheduled_success_at": "2026-06-23T12:24:22.100853Z",
-            "last_scheduled_summary": "investing-os-broker-position-intake started",
-            "last_manual_recorded_at": "2026-06-22T16:09:01.679694Z",
-            "last_manual_success_at": "2026-06-16T15:49:12.978565Z",
-            "last_manual_summary": "broker position intake manual run refreshed SnapTrade book only after strict validation",
+            "last_scheduled_recorded_at": "2026-06-24T12:53:17.846525Z",
+            "last_scheduled_success_at": "2026-06-23T12:54:02.257770Z",
+            "last_scheduled_summary": "investing-os-early-cockpit-build started",
+            "last_manual_recorded_at": "2026-06-22T16:09:54.019077Z",
+            "last_manual_success_at": "2026-06-22T16:09:54.019077Z",
+            "last_manual_summary": "early cockpit build manual run refreshed dashboard artifacts",
             "manual_support_only": false,
-            "last_summary": "investing-os-broker-position-intake started",
+            "last_summary": "investing-os-early-cockpit-build started",
             "last_boundary_outcome": "produced_fresh",
-            "last_boundary_artifact_count": 3,
+            "last_boundary_artifact_count": 1,
             "last_boundary_artifacts": [
-              "src/positions.json",
-              "src/account_positions.json",
-              "src/position_reconciliation.json"
+              "src/latest_cockpit_feed.json"
             ],
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [],
             "changed_boundary_artifacts": [
-              "src/positions.json",
-              "src/account_positions.json",
-              "src/position_reconciliation.json"
+              "src/latest_cockpit_feed.json"
             ],
-            "last_ran_at": "2026-06-23T12:24:22.100853Z",
-            "last_ran_label": "2026-06-23T12:24:22.100853Z",
-            "last_scheduled_success_label": "2026-06-23T12:24:22.100853Z",
-            "latest_manual_support_label": "2026-06-16T15:49:12.978565Z",
-            "overdue_line": "overdue: Investing OS Broker Position Intake, last scheduled success 2026-06-23T12:24:22.100853Z; latest manual support 2026-06-16T15:49:12.978565Z"
+            "last_ran_at": "2026-06-23T12:54:02.257770Z",
+            "last_ran_label": "2026-06-23T12:54:02.257770Z",
+            "last_scheduled_success_label": "2026-06-23T12:54:02.257770Z",
+            "latest_manual_support_label": "2026-06-22T16:09:54.019077Z",
+            "overdue_line": "overdue: Investing OS Early Cockpit Build, last scheduled success 2026-06-23T12:54:02.257770Z; latest manual support 2026-06-22T16:09:54.019077Z"
           }
         ],
         "not_due_yet": []
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-19T00:00:00-04:00",
-        "now": "2026-06-24T08:24:01.979067-04:00",
+        "now": "2026-06-24T08:53:56.605716-04:00",
         "grace_minutes": 30,
-        "overdue_count": 8,
-        "due_waiting_count": 2,
-        "current_count": 12,
+        "overdue_count": 9,
+        "due_waiting_count": 0,
+        "current_count": 13,
         "not_due_yet_count": 0,
         "next_due": {
           "routine_id": "life-work-os-heartbeat-watch",
@@ -15145,25 +15134,25 @@
             "routine_name": "Investing OS FS Inbox Catch-up Preopen",
             "role": "fs_inbox_catchup_preopen",
             "schedule": "market weekdays 8:20 AM ET",
-            "due_state": "due_waiting",
+            "due_state": "current",
             "expected_since": "2026-06-19T00:00:00-04:00",
             "last_due_at": "2026-06-24T08:20:00-04:00",
             "next_due_at": "2026-06-25T08:20:00-04:00",
             "overdue_after": "2026-06-24T08:50:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-24T12:22:34.147359Z",
-            "last_success_at": "2026-06-23T12:25:58.887703Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-24T12:22:34.147359Z",
-            "last_scheduled_success_at": "2026-06-23T12:25:58.887703Z",
-            "last_scheduled_summary": "FS inbox catch-up preopen started",
+            "last_recorded_at": "2026-06-24T12:27:39.885575Z",
+            "last_success_at": "2026-06-24T12:27:39.885575Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-24T12:27:39.885575Z",
+            "last_scheduled_success_at": "2026-06-24T12:27:39.885575Z",
+            "last_scheduled_summary": "FS inbox catch-up preopen ingested 3 entries; logged 4 Source Call rows; marker advanced to [06/24/2026 08:10 ET]; flags SMH/AI-semi buy-dip refresh and crypto liquidity patience; no repo gate/card mutation; rows fetch-verified 4/4",
             "last_manual_recorded_at": "2026-06-16T15:48:07.469745Z",
             "last_manual_success_at": "2026-06-16T15:48:07.469745Z",
             "last_manual_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
             "manual_support_only": false,
-            "last_summary": "FS inbox catch-up preopen started",
+            "last_summary": "FS inbox catch-up preopen ingested 3 entries; logged 4 Source Call rows; marker advanced to [06/24/2026 08:10 ET]; flags SMH/AI-semi buy-dip refresh and crypto liquidity patience; no repo gate/card mutation; rows fetch-verified 4/4",
             "last_boundary_outcome": "stale_boundary",
             "last_boundary_artifact_count": 3,
             "last_boundary_artifacts": [
@@ -15173,16 +15162,14 @@
             ],
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [
-              "src/source_calls.json",
-              "src/fundstrat_daily_calls.json",
               "src/fundstrat_intake_summary.json"
             ],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-23T12:25:58.887703Z",
-            "last_ran_label": "2026-06-23T12:25:58.887703Z",
-            "last_scheduled_success_label": "2026-06-23T12:25:58.887703Z",
+            "last_ran_at": "2026-06-24T12:27:39.885575Z",
+            "last_ran_label": "2026-06-24T12:27:39.885575Z",
+            "last_scheduled_success_label": "2026-06-24T12:27:39.885575Z",
             "latest_manual_support_label": "2026-06-16T15:48:07.469745Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last scheduled success 2026-06-23T12:25:58.887703Z; latest manual support 2026-06-16T15:48:07.469745Z"
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last scheduled success 2026-06-24T12:27:39.885575Z; latest manual support 2026-06-16T15:48:07.469745Z"
           },
           {
             "routine_id": "investing-os-federal-funding-midday-watch",
@@ -15808,7 +15795,7 @@
             "routine_name": "Work OS Daily Briefing",
             "role": "work_os_daily_briefing",
             "schedule": "market weekdays 8:00 AM ET",
-            "due_state": "due_waiting",
+            "due_state": "overdue",
             "expected_since": "2026-06-19T00:00:00-04:00",
             "last_due_at": "2026-06-24T08:00:00-04:00",
             "next_due_at": "2026-06-25T08:00:00-04:00",
@@ -16177,6 +16164,42 @@
             "overdue_line": "overdue: Life OS Daily Briefing, last scheduled success 2026-06-19T11:33:11.341641Z; latest manual support 2026-06-17T19:30:25.764298Z"
           },
           {
+            "routine_id": "work-os-daily-briefing",
+            "routine_name": "Work OS Daily Briefing",
+            "role": "work_os_daily_briefing",
+            "schedule": "market weekdays 8:00 AM ET",
+            "due_state": "overdue",
+            "expected_since": "2026-06-19T00:00:00-04:00",
+            "last_due_at": "2026-06-24T08:00:00-04:00",
+            "next_due_at": "2026-06-25T08:00:00-04:00",
+            "overdue_after": "2026-06-24T08:30:00-04:00",
+            "max_age_minutes": 30,
+            "last_status": "success",
+            "last_run_source": "scheduled",
+            "last_recorded_at": "2026-06-19T12:03:02.248206Z",
+            "last_success_at": "2026-06-19T12:03:02.248206Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-19T12:03:02.248206Z",
+            "last_scheduled_success_at": "2026-06-19T12:03:02.248206Z",
+            "last_scheduled_summary": "Work OS daily briefing succeeded",
+            "last_manual_recorded_at": "2026-06-17T19:31:30.916013Z",
+            "last_manual_success_at": "2026-06-17T19:31:30.916013Z",
+            "last_manual_summary": "Work OS daily briefing manual read-only proof succeeded; scheduled proof still required",
+            "manual_support_only": false,
+            "last_summary": "Work OS daily briefing succeeded",
+            "last_boundary_outcome": "fired_unknown",
+            "last_boundary_artifact_count": 0,
+            "last_boundary_artifacts": [],
+            "missing_boundary_artifacts": [],
+            "stale_boundary_artifacts": [],
+            "changed_boundary_artifacts": [],
+            "last_ran_at": "2026-06-19T12:03:02.248206Z",
+            "last_ran_label": "2026-06-19T12:03:02.248206Z",
+            "last_scheduled_success_label": "2026-06-19T12:03:02.248206Z",
+            "latest_manual_support_label": "2026-06-17T19:31:30.916013Z",
+            "overdue_line": "overdue: Work OS Daily Briefing, last scheduled success 2026-06-19T12:03:02.248206Z; latest manual support 2026-06-17T19:31:30.916013Z"
+          },
+          {
             "routine_id": "life-os-weekly-review",
             "routine_name": "Life OS Weekly Review",
             "role": "life_os_weekly_review",
@@ -16285,127 +16308,10 @@
             "overdue_line": "overdue: Life/Work OS Safe Hygiene, last scheduled success 2026-06-19T06:32:32.449068Z; latest manual support 2026-06-17T19:33:51.770817Z"
           }
         ],
-        "due_waiting": [
-          {
-            "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-            "routine_name": "Investing OS FS Inbox Catch-up Preopen",
-            "role": "fs_inbox_catchup_preopen",
-            "schedule": "market weekdays 8:20 AM ET",
-            "due_state": "due_waiting",
-            "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "2026-06-24T08:20:00-04:00",
-            "next_due_at": "2026-06-25T08:20:00-04:00",
-            "overdue_after": "2026-06-24T08:50:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "started",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-24T12:22:34.147359Z",
-            "last_success_at": "2026-06-23T12:25:58.887703Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-24T12:22:34.147359Z",
-            "last_scheduled_success_at": "2026-06-23T12:25:58.887703Z",
-            "last_scheduled_summary": "FS inbox catch-up preopen started",
-            "last_manual_recorded_at": "2026-06-16T15:48:07.469745Z",
-            "last_manual_success_at": "2026-06-16T15:48:07.469745Z",
-            "last_manual_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
-            "manual_support_only": false,
-            "last_summary": "FS inbox catch-up preopen started",
-            "last_boundary_outcome": "stale_boundary",
-            "last_boundary_artifact_count": 3,
-            "last_boundary_artifacts": [
-              "src/source_calls.json",
-              "src/fundstrat_daily_calls.json",
-              "src/fundstrat_intake_summary.json"
-            ],
-            "missing_boundary_artifacts": [],
-            "stale_boundary_artifacts": [
-              "src/source_calls.json",
-              "src/fundstrat_daily_calls.json",
-              "src/fundstrat_intake_summary.json"
-            ],
-            "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-23T12:25:58.887703Z",
-            "last_ran_label": "2026-06-23T12:25:58.887703Z",
-            "last_scheduled_success_label": "2026-06-23T12:25:58.887703Z",
-            "latest_manual_support_label": "2026-06-16T15:48:07.469745Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last scheduled success 2026-06-23T12:25:58.887703Z; latest manual support 2026-06-16T15:48:07.469745Z"
-          },
-          {
-            "routine_id": "work-os-daily-briefing",
-            "routine_name": "Work OS Daily Briefing",
-            "role": "work_os_daily_briefing",
-            "schedule": "market weekdays 8:00 AM ET",
-            "due_state": "due_waiting",
-            "expected_since": "2026-06-19T00:00:00-04:00",
-            "last_due_at": "2026-06-24T08:00:00-04:00",
-            "next_due_at": "2026-06-25T08:00:00-04:00",
-            "overdue_after": "2026-06-24T08:30:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "success",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-19T12:03:02.248206Z",
-            "last_success_at": "2026-06-19T12:03:02.248206Z",
-            "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-19T12:03:02.248206Z",
-            "last_scheduled_success_at": "2026-06-19T12:03:02.248206Z",
-            "last_scheduled_summary": "Work OS daily briefing succeeded",
-            "last_manual_recorded_at": "2026-06-17T19:31:30.916013Z",
-            "last_manual_success_at": "2026-06-17T19:31:30.916013Z",
-            "last_manual_summary": "Work OS daily briefing manual read-only proof succeeded; scheduled proof still required",
-            "manual_support_only": false,
-            "last_summary": "Work OS daily briefing succeeded",
-            "last_boundary_outcome": "fired_unknown",
-            "last_boundary_artifact_count": 0,
-            "last_boundary_artifacts": [],
-            "missing_boundary_artifacts": [],
-            "stale_boundary_artifacts": [],
-            "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-19T12:03:02.248206Z",
-            "last_ran_label": "2026-06-19T12:03:02.248206Z",
-            "last_scheduled_success_label": "2026-06-19T12:03:02.248206Z",
-            "latest_manual_support_label": "2026-06-17T19:31:30.916013Z",
-            "overdue_line": "overdue: Work OS Daily Briefing, last scheduled success 2026-06-19T12:03:02.248206Z; latest manual support 2026-06-17T19:31:30.916013Z"
-          }
-        ],
+        "due_waiting": [],
         "not_due_yet": []
       },
       "overdue": [
-        {
-          "routine_id": "investing-os-morning-scan",
-          "routine_name": "Investing OS Morning Scan",
-          "role": "morning_scan",
-          "schedule": "market weekdays 8:35 AM ET",
-          "due_state": "overdue",
-          "expected_since": "2026-06-19T00:00:00-04:00",
-          "last_due_at": "2026-06-23T08:35:00-04:00",
-          "next_due_at": "2026-06-24T08:35:00-04:00",
-          "overdue_after": "2026-06-23T09:05:00-04:00",
-          "max_age_minutes": 30,
-          "last_status": "failed",
-          "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-23T12:41:20.816299Z",
-          "last_success_at": "2026-06-22T16:10:49.472491Z",
-          "last_scheduled_status": "failed",
-          "last_scheduled_recorded_at": "2026-06-23T12:41:20.816299Z",
-          "last_scheduled_success_at": "2026-06-22T16:10:49.472491Z",
-          "last_scheduled_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
-          "last_manual_recorded_at": "2026-06-22T16:09:01.980422Z",
-          "last_manual_success_at": "2026-06-22T16:09:01.980422Z",
-          "last_manual_summary": "morning scan manual run completed; Signal Log remains watch-only",
-          "manual_support_only": false,
-          "last_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
-          "last_boundary_outcome": "failed",
-          "last_boundary_artifact_count": 0,
-          "last_boundary_artifacts": [],
-          "missing_boundary_artifacts": [],
-          "stale_boundary_artifacts": [],
-          "changed_boundary_artifacts": [],
-          "last_ran_at": "2026-06-22T16:10:49.472491Z",
-          "last_ran_label": "2026-06-22T16:10:49.472491Z",
-          "last_scheduled_success_label": "2026-06-22T16:10:49.472491Z",
-          "latest_manual_support_label": "2026-06-22T16:09:01.980422Z",
-          "overdue_line": "overdue: Investing OS Morning Scan, last scheduled success 2026-06-22T16:10:49.472491Z; latest manual support 2026-06-22T16:09:01.980422Z"
-        },
         {
           "routine_id": "investing-os-daily-synthesis",
           "routine_name": "Investing OS Daily Synthesis",
@@ -16636,6 +16542,42 @@
           "overdue_line": "overdue: Life OS Daily Briefing, last scheduled success 2026-06-19T11:33:11.341641Z; latest manual support 2026-06-17T19:30:25.764298Z"
         },
         {
+          "routine_id": "work-os-daily-briefing",
+          "routine_name": "Work OS Daily Briefing",
+          "role": "work_os_daily_briefing",
+          "schedule": "market weekdays 8:00 AM ET",
+          "due_state": "overdue",
+          "expected_since": "2026-06-19T00:00:00-04:00",
+          "last_due_at": "2026-06-24T08:00:00-04:00",
+          "next_due_at": "2026-06-25T08:00:00-04:00",
+          "overdue_after": "2026-06-24T08:30:00-04:00",
+          "max_age_minutes": 30,
+          "last_status": "success",
+          "last_run_source": "scheduled",
+          "last_recorded_at": "2026-06-19T12:03:02.248206Z",
+          "last_success_at": "2026-06-19T12:03:02.248206Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-19T12:03:02.248206Z",
+          "last_scheduled_success_at": "2026-06-19T12:03:02.248206Z",
+          "last_scheduled_summary": "Work OS daily briefing succeeded",
+          "last_manual_recorded_at": "2026-06-17T19:31:30.916013Z",
+          "last_manual_success_at": "2026-06-17T19:31:30.916013Z",
+          "last_manual_summary": "Work OS daily briefing manual read-only proof succeeded; scheduled proof still required",
+          "manual_support_only": false,
+          "last_summary": "Work OS daily briefing succeeded",
+          "last_boundary_outcome": "fired_unknown",
+          "last_boundary_artifact_count": 0,
+          "last_boundary_artifacts": [],
+          "missing_boundary_artifacts": [],
+          "stale_boundary_artifacts": [],
+          "changed_boundary_artifacts": [],
+          "last_ran_at": "2026-06-19T12:03:02.248206Z",
+          "last_ran_label": "2026-06-19T12:03:02.248206Z",
+          "last_scheduled_success_label": "2026-06-19T12:03:02.248206Z",
+          "latest_manual_support_label": "2026-06-17T19:31:30.916013Z",
+          "overdue_line": "overdue: Work OS Daily Briefing, last scheduled success 2026-06-19T12:03:02.248206Z; latest manual support 2026-06-17T19:31:30.916013Z"
+        },
+        {
           "routine_id": "life-os-weekly-review",
           "routine_name": "Life OS Weekly Review",
           "role": "life_os_weekly_review",
@@ -16746,48 +16688,44 @@
       ],
       "due_waiting": [
         {
-          "routine_id": "investing-os-broker-position-intake",
-          "routine_name": "Investing OS Broker Position Intake",
-          "role": "broker_position_intake",
-          "schedule": "market weekdays 8:20 AM ET",
+          "routine_id": "investing-os-early-cockpit-build",
+          "routine_name": "Investing OS Early Cockpit Build",
+          "role": "early_cockpit_build",
+          "schedule": "market weekdays 8:50 AM ET",
           "due_state": "due_waiting",
           "expected_since": "2026-06-19T00:00:00-04:00",
-          "last_due_at": "2026-06-24T08:20:00-04:00",
-          "next_due_at": "2026-06-25T08:20:00-04:00",
-          "overdue_after": "2026-06-24T08:50:00-04:00",
+          "last_due_at": "2026-06-24T08:50:00-04:00",
+          "next_due_at": "2026-06-25T08:50:00-04:00",
+          "overdue_after": "2026-06-24T09:20:00-04:00",
           "max_age_minutes": 30,
           "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-24T12:22:29.373799Z",
-          "last_success_at": "2026-06-23T12:24:22.100853Z",
+          "last_recorded_at": "2026-06-24T12:53:17.846525Z",
+          "last_success_at": "2026-06-23T12:54:02.257770Z",
           "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-24T12:22:29.373799Z",
-          "last_scheduled_success_at": "2026-06-23T12:24:22.100853Z",
-          "last_scheduled_summary": "investing-os-broker-position-intake started",
-          "last_manual_recorded_at": "2026-06-22T16:09:01.679694Z",
-          "last_manual_success_at": "2026-06-16T15:49:12.978565Z",
-          "last_manual_summary": "broker position intake manual run refreshed SnapTrade book only after strict validation",
+          "last_scheduled_recorded_at": "2026-06-24T12:53:17.846525Z",
+          "last_scheduled_success_at": "2026-06-23T12:54:02.257770Z",
+          "last_scheduled_summary": "investing-os-early-cockpit-build started",
+          "last_manual_recorded_at": "2026-06-22T16:09:54.019077Z",
+          "last_manual_success_at": "2026-06-22T16:09:54.019077Z",
+          "last_manual_summary": "early cockpit build manual run refreshed dashboard artifacts",
           "manual_support_only": false,
-          "last_summary": "investing-os-broker-position-intake started",
+          "last_summary": "investing-os-early-cockpit-build started",
           "last_boundary_outcome": "produced_fresh",
-          "last_boundary_artifact_count": 3,
+          "last_boundary_artifact_count": 1,
           "last_boundary_artifacts": [
-            "src/positions.json",
-            "src/account_positions.json",
-            "src/position_reconciliation.json"
+            "src/latest_cockpit_feed.json"
           ],
           "missing_boundary_artifacts": [],
           "stale_boundary_artifacts": [],
           "changed_boundary_artifacts": [
-            "src/positions.json",
-            "src/account_positions.json",
-            "src/position_reconciliation.json"
+            "src/latest_cockpit_feed.json"
           ],
-          "last_ran_at": "2026-06-23T12:24:22.100853Z",
-          "last_ran_label": "2026-06-23T12:24:22.100853Z",
-          "last_scheduled_success_label": "2026-06-23T12:24:22.100853Z",
-          "latest_manual_support_label": "2026-06-16T15:49:12.978565Z",
-          "overdue_line": "overdue: Investing OS Broker Position Intake, last scheduled success 2026-06-23T12:24:22.100853Z; latest manual support 2026-06-16T15:49:12.978565Z"
+          "last_ran_at": "2026-06-23T12:54:02.257770Z",
+          "last_ran_label": "2026-06-23T12:54:02.257770Z",
+          "last_scheduled_success_label": "2026-06-23T12:54:02.257770Z",
+          "latest_manual_support_label": "2026-06-22T16:09:54.019077Z",
+          "overdue_line": "overdue: Investing OS Early Cockpit Build, last scheduled success 2026-06-23T12:54:02.257770Z; latest manual support 2026-06-22T16:09:54.019077Z"
         }
       ],
       "missing_scheduled_success_count": 0,
@@ -16896,20 +16834,20 @@
           "role": "broker_position_intake",
           "schedule": "market weekdays 8:20 AM ET",
           "proof_scope": "core",
-          "receipt_count": 19,
-          "last_status": "started",
+          "receipt_count": 20,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-24T12:22:29.373799Z",
-          "last_success_at": "2026-06-23T12:24:22.100853Z",
-          "last_scheduled_success_at": "2026-06-23T12:24:22.100853Z",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-24T12:22:29.373799Z",
-          "last_scheduled_summary": "investing-os-broker-position-intake started",
+          "last_recorded_at": "2026-06-24T12:24:10.165564Z",
+          "last_success_at": "2026-06-24T12:24:10.165564Z",
+          "last_scheduled_success_at": "2026-06-24T12:24:10.165564Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-24T12:24:10.165564Z",
+          "last_scheduled_summary": "broker position intake succeeded",
           "last_manual_recorded_at": "2026-06-22T16:09:01.679694Z",
           "last_manual_success_at": "2026-06-16T15:49:12.978565Z",
           "last_manual_summary": "broker position intake manual run refreshed SnapTrade book only after strict validation",
           "manual_support_only": false,
-          "last_summary": "investing-os-broker-position-intake started",
+          "last_summary": "broker position intake succeeded",
           "last_boundary_outcome": "produced_fresh",
           "last_boundary_artifact_count": 3,
           "last_boundary_artifacts": [
@@ -16931,25 +16869,30 @@
           "role": "morning_scan",
           "schedule": "market weekdays 8:35 AM ET",
           "proof_scope": "core",
-          "receipt_count": 14,
-          "last_status": "failed",
+          "receipt_count": 16,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-23T12:41:20.816299Z",
-          "last_success_at": "2026-06-22T16:10:49.472491Z",
-          "last_scheduled_success_at": "2026-06-22T16:10:49.472491Z",
-          "last_scheduled_status": "failed",
-          "last_scheduled_recorded_at": "2026-06-23T12:41:20.816299Z",
-          "last_scheduled_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
+          "last_recorded_at": "2026-06-24T12:39:39.032976Z",
+          "last_success_at": "2026-06-24T12:39:39.032976Z",
+          "last_scheduled_success_at": "2026-06-24T12:39:39.032976Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-24T12:39:39.032976Z",
+          "last_scheduled_summary": "morning scan wrote/readback-verified 3 Notion Signal Log rows; repo Signal Log cache 81 rows; UW proof refreshed to Jun23 16:10 ET; Jun24 UW/macro/query lanes dark",
           "last_manual_recorded_at": "2026-06-22T16:09:01.980422Z",
           "last_manual_success_at": "2026-06-22T16:09:01.980422Z",
           "last_manual_summary": "morning scan manual run completed; Signal Log remains watch-only",
           "manual_support_only": false,
-          "last_summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
-          "last_boundary_outcome": "failed",
-          "last_boundary_artifact_count": 0,
-          "last_boundary_artifacts": [],
+          "last_summary": "morning scan wrote/readback-verified 3 Notion Signal Log rows; repo Signal Log cache 81 rows; UW proof refreshed to Jun23 16:10 ET; Jun24 UW/macro/query lanes dark",
+          "last_boundary_outcome": "stale_boundary",
+          "last_boundary_artifact_count": 2,
+          "last_boundary_artifacts": [
+            "src/macro_state.json",
+            "src/signal_log.json"
+          ],
           "missing_boundary_artifacts": [],
-          "stale_boundary_artifacts": [],
+          "stale_boundary_artifacts": [
+            "src/macro_state.json"
+          ],
           "changed_boundary_artifacts": []
         },
         {
@@ -16958,20 +16901,20 @@
           "role": "early_cockpit_build",
           "schedule": "market weekdays 8:50 AM ET",
           "proof_scope": "core",
-          "receipt_count": 15,
-          "last_status": "success",
+          "receipt_count": 16,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-23T12:54:02.257770Z",
+          "last_recorded_at": "2026-06-24T12:53:17.846525Z",
           "last_success_at": "2026-06-23T12:54:02.257770Z",
           "last_scheduled_success_at": "2026-06-23T12:54:02.257770Z",
-          "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-23T12:54:02.257770Z",
-          "last_scheduled_summary": "early cockpit build succeeded",
+          "last_scheduled_status": "started",
+          "last_scheduled_recorded_at": "2026-06-24T12:53:17.846525Z",
+          "last_scheduled_summary": "investing-os-early-cockpit-build started",
           "last_manual_recorded_at": "2026-06-22T16:09:54.019077Z",
           "last_manual_success_at": "2026-06-22T16:09:54.019077Z",
           "last_manual_summary": "early cockpit build manual run refreshed dashboard artifacts",
           "manual_support_only": false,
-          "last_summary": "early cockpit build succeeded",
+          "last_summary": "investing-os-early-cockpit-build started",
           "last_boundary_outcome": "produced_fresh",
           "last_boundary_artifact_count": 1,
           "last_boundary_artifacts": [
@@ -17109,7 +17052,7 @@
           "role": "parabolic_cache",
           "schedule": "market weekdays 10:05 AM ET",
           "proof_scope": "core",
-          "receipt_count": 13,
+          "receipt_count": 11,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-23T14:07:35.876888Z",
@@ -17140,7 +17083,7 @@
           "role": "full_cockpit_build",
           "schedule": "market weekdays 10:30 AM ET",
           "proof_scope": "core",
-          "receipt_count": 24,
+          "receipt_count": 22,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-23T14:33:31.569189Z",
@@ -17150,8 +17093,8 @@
           "last_scheduled_recorded_at": "2026-06-23T14:33:31.569189Z",
           "last_scheduled_summary": "full cockpit build succeeded",
           "last_manual_recorded_at": "2026-06-22T16:10:08.613912Z",
-          "last_manual_success_at": "2026-06-16T14:37:41.716580Z",
-          "last_manual_summary": "full cockpit build manual run refreshed dashboard artifacts",
+          "last_manual_success_at": "",
+          "last_manual_summary": "",
           "manual_support_only": false,
           "last_summary": "full cockpit build succeeded",
           "last_boundary_outcome": "produced_fresh",
@@ -17274,20 +17217,20 @@
           "role": "fs_inbox_catchup_preopen",
           "schedule": "market weekdays 8:20 AM ET",
           "proof_scope": "support",
-          "receipt_count": 13,
-          "last_status": "started",
+          "receipt_count": 14,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-24T12:22:34.147359Z",
-          "last_success_at": "2026-06-23T12:25:58.887703Z",
-          "last_scheduled_success_at": "2026-06-23T12:25:58.887703Z",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-24T12:22:34.147359Z",
-          "last_scheduled_summary": "FS inbox catch-up preopen started",
+          "last_recorded_at": "2026-06-24T12:27:39.885575Z",
+          "last_success_at": "2026-06-24T12:27:39.885575Z",
+          "last_scheduled_success_at": "2026-06-24T12:27:39.885575Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-24T12:27:39.885575Z",
+          "last_scheduled_summary": "FS inbox catch-up preopen ingested 3 entries; logged 4 Source Call rows; marker advanced to [06/24/2026 08:10 ET]; flags SMH/AI-semi buy-dip refresh and crypto liquidity patience; no repo gate/card mutation; rows fetch-verified 4/4",
           "last_manual_recorded_at": "2026-06-16T15:48:07.469745Z",
           "last_manual_success_at": "2026-06-16T15:48:07.469745Z",
           "last_manual_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
           "manual_support_only": false,
-          "last_summary": "FS inbox catch-up preopen started",
+          "last_summary": "FS inbox catch-up preopen ingested 3 entries; logged 4 Source Call rows; marker advanced to [06/24/2026 08:10 ET]; flags SMH/AI-semi buy-dip refresh and crypto liquidity patience; no repo gate/card mutation; rows fetch-verified 4/4",
           "last_boundary_outcome": "stale_boundary",
           "last_boundary_artifact_count": 3,
           "last_boundary_artifacts": [
@@ -17297,8 +17240,6 @@
           ],
           "missing_boundary_artifacts": [],
           "stale_boundary_artifacts": [
-            "src/source_calls.json",
-            "src/fundstrat_daily_calls.json",
             "src/fundstrat_intake_summary.json"
           ],
           "changed_boundary_artifacts": []
@@ -17341,7 +17282,7 @@
           "role": "fs_inbox_catchup_midday",
           "schedule": "market weekdays 12:30 PM ET",
           "proof_scope": "support",
-          "receipt_count": 14,
+          "receipt_count": 13,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-23T16:35:37.518552Z",
@@ -18324,8 +18265,8 @@
           "label": "Signal Log cache",
           "status": "has_data",
           "written": true,
-          "count": 78,
-          "line": "Signal Log cache: written; count=78.",
+          "count": 81,
+          "line": "Signal Log cache: written; count=81.",
           "problems": []
         },
         {
@@ -19909,8 +19850,8 @@
     },
     "watch_only_why": {
       "status": "has_data",
-      "count": 115,
-      "line": "Why-not-acting lane: 115 watch-only signal(s) kept out of trade prompts.",
+      "count": 118,
+      "line": "Why-not-acting lane: 118 watch-only signal(s) kept out of trade prompts.",
       "rows": [
         {
           "ticker": "XLF, GS, ITA",
@@ -24353,7 +24294,7 @@
     },
     "deep_discount_research": [
       {
-        "checked_at": "2026-06-24T12:23:29.313344+00:00",
+        "checked_at": "2026-06-24T12:53:24.215973+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 3.42,
@@ -24385,7 +24326,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:28.536248+00:00",
+        "checked_at": "2026-06-24T12:53:23.436008+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -24413,7 +24354,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:40.410654+00:00",
+        "checked_at": "2026-06-24T12:53:35.376872+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -24445,7 +24386,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:40.655627+00:00",
+        "checked_at": "2026-06-24T12:53:35.623697+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 5.09,
@@ -24473,7 +24414,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:33.777431+00:00",
+        "checked_at": "2026-06-24T12:53:28.816528+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -24505,7 +24446,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:51.049981+00:00",
+        "checked_at": "2026-06-24T12:53:45.719956+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.05,
@@ -24537,7 +24478,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:56.324548+00:00",
+        "checked_at": "2026-06-24T12:53:51.018652+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.87,
@@ -24573,7 +24514,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:42.255235+00:00",
+        "checked_at": "2026-06-24T12:53:37.171058+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.92,
@@ -24601,7 +24542,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:37.722873+00:00",
+        "checked_at": "2026-06-24T12:53:32.632537+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.17,
@@ -24659,10 +24600,10 @@
         "Use only the deliberately reviewed starter cap; keep the rest staged as tickets, not trades."
       ]
     },
-    "generated_at": "2026-06-24T12:24:00.215502+00:00",
+    "generated_at": "2026-06-24T12:53:54.704499+00:00",
     "higher_quality_pullbacks": [
       {
-        "checked_at": "2026-06-24T12:23:42.785742+00:00",
+        "checked_at": "2026-06-24T12:53:37.697528+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.87,
@@ -24692,7 +24633,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:36.731856+00:00",
+        "checked_at": "2026-06-24T12:53:31.627435+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 4.99,
@@ -24728,7 +24669,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:28.795749+00:00",
+        "checked_at": "2026-06-24T12:53:23.693495+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 2.44,
@@ -24760,7 +24701,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:35.653923+00:00",
+        "checked_at": "2026-06-24T12:53:30.533873+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.41,
@@ -24790,7 +24731,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:56.856733+00:00",
+        "checked_at": "2026-06-24T12:53:51.534954+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.35,
@@ -24818,7 +24759,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:27.175002+00:00",
+        "checked_at": "2026-06-24T12:53:22.139947+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.12,
@@ -24846,7 +24787,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-24T12:23:44.439843+00:00",
+        "checked_at": "2026-06-24T12:53:39.498167+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 13.32,
@@ -24974,7 +24915,7 @@
       "row_count": 118,
       "rows": [
         {
-          "checked_at": "2026-06-24T12:23:44.958064+00:00",
+          "checked_at": "2026-06-24T12:53:40.022127+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.01,
@@ -25002,7 +24943,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:29.313344+00:00",
+          "checked_at": "2026-06-24T12:53:24.215973+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 3.42,
@@ -25034,7 +24975,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:43.343966+00:00",
+          "checked_at": "2026-06-24T12:53:38.283843+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.09,
@@ -25066,7 +25007,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:26.598705+00:00",
+          "checked_at": "2026-06-24T12:53:21.510309+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25094,7 +25035,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:34.025917+00:00",
+          "checked_at": "2026-06-24T12:53:29.059412+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.13,
@@ -25122,7 +25063,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:56.079653+00:00",
+          "checked_at": "2026-06-24T12:53:50.756237+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
@@ -25150,7 +25091,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:31.580537+00:00",
+          "checked_at": "2026-06-24T12:53:26.618660+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.09,
@@ -25178,7 +25119,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:28.536248+00:00",
+          "checked_at": "2026-06-24T12:53:23.436008+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25206,7 +25147,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:40.410654+00:00",
+          "checked_at": "2026-06-24T12:53:35.376872+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25238,7 +25179,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:40.655627+00:00",
+          "checked_at": "2026-06-24T12:53:35.623697+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.09,
@@ -25266,7 +25207,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:30.390768+00:00",
+          "checked_at": "2026-06-24T12:53:25.427866+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25294,7 +25235,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:33.777431+00:00",
+          "checked_at": "2026-06-24T12:53:28.816528+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25326,7 +25267,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:41.490419+00:00",
+          "checked_at": "2026-06-24T12:53:36.409884+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.11,
@@ -25354,7 +25295,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:52.987771+00:00",
+          "checked_at": "2026-06-24T12:53:47.684278+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.01,
@@ -25382,7 +25323,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:45.195207+00:00",
+          "checked_at": "2026-06-24T12:53:40.266576+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.75,
@@ -25410,7 +25351,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:37.966979+00:00",
+          "checked_at": "2026-06-24T12:53:32.882611+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.27,
@@ -25438,7 +25379,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:49.995391+00:00",
+          "checked_at": "2026-06-24T12:53:44.940513+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25468,7 +25409,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:46.527383+00:00",
+          "checked_at": "2026-06-24T12:53:41.641633+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.2,
@@ -25496,7 +25437,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:51.049981+00:00",
+          "checked_at": "2026-06-24T12:53:45.719956+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.05,
@@ -25528,7 +25469,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:28.252744+00:00",
+          "checked_at": "2026-06-24T12:53:23.188577+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.27,
@@ -25556,7 +25497,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:56.324548+00:00",
+          "checked_at": "2026-06-24T12:53:51.018652+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.87,
@@ -25592,7 +25533,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:46.278919+00:00",
+          "checked_at": "2026-06-24T12:53:41.362249+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.16,
@@ -25620,7 +25561,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:53.236469+00:00",
+          "checked_at": "2026-06-24T12:53:47.929297+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
@@ -25648,7 +25589,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:47.331038+00:00",
+          "checked_at": "2026-06-24T12:53:42.405183+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.98,
@@ -25676,7 +25617,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:42.255235+00:00",
+          "checked_at": "2026-06-24T12:53:37.171058+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.92,
@@ -25704,7 +25645,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:40.128776+00:00",
+          "checked_at": "2026-06-24T12:53:35.115712+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25732,7 +25673,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:27.674386+00:00",
+          "checked_at": "2026-06-24T12:53:22.639283+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
@@ -25760,7 +25701,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:43.098433+00:00",
+          "checked_at": "2026-06-24T12:53:38.026688+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25788,7 +25729,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:55.188777+00:00",
+          "checked_at": "2026-06-24T12:53:49.939564+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.12,
@@ -25816,7 +25757,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:29.830132+00:00",
+          "checked_at": "2026-06-24T12:53:24.766782+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25844,7 +25785,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:36.471126+00:00",
+          "checked_at": "2026-06-24T12:53:31.351392+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -25874,7 +25815,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:49.720770+00:00",
+          "checked_at": "2026-06-24T12:53:44.683108+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.53,
@@ -25902,7 +25843,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:35.896182+00:00",
+          "checked_at": "2026-06-24T12:53:30.785195+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.6,
@@ -25930,7 +25871,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:37.722873+00:00",
+          "checked_at": "2026-06-24T12:53:32.632537+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.17,
@@ -25962,7 +25903,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:42.785742+00:00",
+          "checked_at": "2026-06-24T12:53:37.697528+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.87,
@@ -25992,7 +25933,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:54.106714+00:00",
+          "checked_at": "2026-06-24T12:53:48.841731+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26024,7 +25965,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:51.783482+00:00",
+          "checked_at": "2026-06-24T12:53:46.480404+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26056,7 +25997,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:57.204506+00:00",
+          "checked_at": "2026-06-24T12:53:51.800906+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.09,
@@ -26084,7 +26025,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:49.466083+00:00",
+          "checked_at": "2026-06-24T12:53:44.416283+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26116,7 +26057,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:55.464582+00:00",
+          "checked_at": "2026-06-24T12:53:50.188942+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26144,7 +26085,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:44.704985+00:00",
+          "checked_at": "2026-06-24T12:53:39.773379+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.13,
@@ -26172,7 +26113,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:41.199997+00:00",
+          "checked_at": "2026-06-24T12:53:36.161243+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.22,
@@ -26200,7 +26141,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:54.406600+00:00",
+          "checked_at": "2026-06-24T12:53:49.135825+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.02,
@@ -26228,7 +26169,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:28.795749+00:00",
+          "checked_at": "2026-06-24T12:53:23.693495+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 2.44,
@@ -26260,7 +26201,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:35.653923+00:00",
+          "checked_at": "2026-06-24T12:53:30.533873+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.41,
@@ -26290,7 +26231,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:41.744072+00:00",
+          "checked_at": "2026-06-24T12:53:36.675463+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.1,
@@ -26318,7 +26259,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:30.111742+00:00",
+          "checked_at": "2026-06-24T12:53:25.061714+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.14,
@@ -26346,7 +26287,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:34.276409+00:00",
+          "checked_at": "2026-06-24T12:53:29.358262+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26376,7 +26317,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:49.190688+00:00",
+          "checked_at": "2026-06-24T12:53:44.148982+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26410,7 +26351,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:59.926176+00:00",
+          "checked_at": "2026-06-24T12:53:54.426883+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26444,7 +26385,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:45.709202+00:00",
+          "checked_at": "2026-06-24T12:53:40.798695+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.69,
@@ -26472,7 +26413,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:48.914191+00:00",
+          "checked_at": "2026-06-24T12:53:43.857826+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26502,7 +26443,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:56.856733+00:00",
+          "checked_at": "2026-06-24T12:53:51.534954+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.35,
@@ -26530,7 +26471,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:27.175002+00:00",
+          "checked_at": "2026-06-24T12:53:22.139947+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.12,
@@ -26558,7 +26499,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:44.439843+00:00",
+          "checked_at": "2026-06-24T12:53:39.498167+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 13.32,
@@ -26586,7 +26527,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:42.524794+00:00",
+          "checked_at": "2026-06-24T12:53:37.416555+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.32,
@@ -26614,7 +26555,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:36.731856+00:00",
+          "checked_at": "2026-06-24T12:53:31.627435+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 4.99,
@@ -26650,7 +26591,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:40.909062+00:00",
+          "checked_at": "2026-06-24T12:53:35.875157+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.09,
@@ -26678,7 +26619,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:58.435079+00:00",
+          "checked_at": "2026-06-24T12:53:52.934799+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26706,7 +26647,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:31.292855+00:00",
+          "checked_at": "2026-06-24T12:53:26.371820+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26737,7 +26678,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:32.669777+00:00",
+          "checked_at": "2026-06-24T12:53:27.697720+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.26,
@@ -26765,7 +26706,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:43.583714+00:00",
+          "checked_at": "2026-06-24T12:53:38.587693+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 3.68,
@@ -26795,7 +26736,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:29.562379+00:00",
+          "checked_at": "2026-06-24T12:53:24.465816+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.2,
@@ -26823,7 +26764,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:52.456852+00:00",
+          "checked_at": "2026-06-24T12:53:47.173765+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26853,7 +26794,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:34.557001+00:00",
+          "checked_at": "2026-06-24T12:53:29.645805+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26884,7 +26825,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:31.823152+00:00",
+          "checked_at": "2026-06-24T12:53:26.856297+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.31,
@@ -26912,7 +26853,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:39.005157+00:00",
+          "checked_at": "2026-06-24T12:53:34.023283+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 3.54,
@@ -26940,7 +26881,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:36.197326+00:00",
+          "checked_at": "2026-06-24T12:53:31.084125+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.11,
@@ -26968,7 +26909,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:33.184358+00:00",
+          "checked_at": "2026-06-24T12:53:28.222585+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27000,7 +26941,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:57.839966+00:00",
+          "checked_at": "2026-06-24T12:53:52.357421+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27030,7 +26971,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:44.133704+00:00",
+          "checked_at": "2026-06-24T12:53:39.161536+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
@@ -27058,7 +26999,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:52.721965+00:00",
+          "checked_at": "2026-06-24T12:53:47.433259+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.53,
@@ -27088,7 +27029,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:41.992227+00:00",
+          "checked_at": "2026-06-24T12:53:36.920592+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.02,
@@ -27119,7 +27060,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:46.781193+00:00",
+          "checked_at": "2026-06-24T12:53:41.889252+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.45,
@@ -27149,7 +27090,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:30.657024+00:00",
+          "checked_at": "2026-06-24T12:53:25.699143+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.23,
@@ -27177,7 +27118,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:33.494630+00:00",
+          "checked_at": "2026-06-24T12:53:28.546211+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.63,
@@ -27205,7 +27146,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:27.425582+00:00",
+          "checked_at": "2026-06-24T12:53:22.385139+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.41,
@@ -27235,7 +27176,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:27.987679+00:00",
+          "checked_at": "2026-06-24T12:53:22.908041+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.45,
@@ -27263,7 +27204,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:38.214223+00:00",
+          "checked_at": "2026-06-24T12:53:33.142116+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.42,
@@ -27293,7 +27234,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:50.502407+00:00",
+          "checked_at": "2026-06-24T12:53:45.457034+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.27,
@@ -27321,7 +27262,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:32.113681+00:00",
+          "checked_at": "2026-06-24T12:53:27.159568+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27351,7 +27292,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:54.659583+00:00",
+          "checked_at": "2026-06-24T12:53:49.383279+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.38,
@@ -27379,7 +27320,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:43.879750+00:00",
+          "checked_at": "2026-06-24T12:53:38.900032+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.35,
@@ -27407,7 +27348,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:51.511592+00:00",
+          "checked_at": "2026-06-24T12:53:46.200677+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.3,
@@ -27435,7 +27376,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:29.060479+00:00",
+          "checked_at": "2026-06-24T12:53:23.965481+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.16,
@@ -27463,7 +27404,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:35.376747+00:00",
+          "checked_at": "2026-06-24T12:53:30.267509+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.41,
@@ -27493,7 +27434,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:30.935297+00:00",
+          "checked_at": "2026-06-24T12:53:26.030100+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27525,7 +27466,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:26.925987+00:00",
+          "checked_at": "2026-06-24T12:53:21.860430+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.5,
@@ -27556,7 +27497,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:48.635112+00:00",
+          "checked_at": "2026-06-24T12:53:43.582404+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27586,7 +27527,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:50.243626+00:00",
+          "checked_at": "2026-06-24T12:53:45.190022+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.23,
@@ -27620,7 +27561,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:46.008381+00:00",
+          "checked_at": "2026-06-24T12:53:41.079420+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27652,7 +27593,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:53.611471+00:00",
+          "checked_at": "2026-06-24T12:53:48.173710+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27685,7 +27626,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:38.740396+00:00",
+          "checked_at": "2026-06-24T12:53:33.705280+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.28,
@@ -27713,7 +27654,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:59.630292+00:00",
+          "checked_at": "2026-06-24T12:53:54.134466+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.2,
@@ -27743,7 +27684,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:47.603431+00:00",
+          "checked_at": "2026-06-24T12:53:42.713479+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27773,7 +27714,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:34.854022+00:00",
+          "checked_at": "2026-06-24T12:53:30.007878+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.05,
@@ -27801,7 +27742,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:47.033704+00:00",
+          "checked_at": "2026-06-24T12:53:42.136366+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27837,7 +27778,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:58.713610+00:00",
+          "checked_at": "2026-06-24T12:53:53.226931+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.03,
@@ -27867,7 +27808,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:47.889105+00:00",
+          "checked_at": "2026-06-24T12:53:43.008687+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.64,
@@ -27895,7 +27836,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:36.993503+00:00",
+          "checked_at": "2026-06-24T12:53:31.875650+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 8.56,
@@ -27923,7 +27864,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:45.458378+00:00",
+          "checked_at": "2026-06-24T12:53:40.538416+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.31,
@@ -27951,7 +27892,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:56.606520+00:00",
+          "checked_at": "2026-06-24T12:53:51.271448+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 4.33,
@@ -27979,7 +27920,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:52.158161+00:00",
+          "checked_at": "2026-06-24T12:53:46.878922+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28014,7 +27955,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:32.364677+00:00",
+          "checked_at": "2026-06-24T12:53:27.409833+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.19,
@@ -28044,7 +27985,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:37.204707+00:00",
+          "checked_at": "2026-06-24T12:53:32.089373+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 6.9,
@@ -28072,7 +28013,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:37.456788+00:00",
+          "checked_at": "2026-06-24T12:53:32.338861+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.71,
@@ -28102,7 +28043,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:39.841875+00:00",
+          "checked_at": "2026-06-24T12:53:34.842818+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28133,7 +28074,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:59.025634+00:00",
+          "checked_at": "2026-06-24T12:53:53.528894+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.67,
@@ -28163,7 +28104,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:48.186547+00:00",
+          "checked_at": "2026-06-24T12:53:43.290042+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28194,7 +28135,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:59.349799+00:00",
+          "checked_at": "2026-06-24T12:53:53.855687+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.71,
@@ -28222,7 +28163,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:54.927904+00:00",
+          "checked_at": "2026-06-24T12:53:49.647268+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28252,7 +28193,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:39.540967+00:00",
+          "checked_at": "2026-06-24T12:53:34.537209+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.32,
@@ -28280,7 +28221,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:57.487745+00:00",
+          "checked_at": "2026-06-24T12:53:52.073557+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28310,7 +28251,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:38.475416+00:00",
+          "checked_at": "2026-06-24T12:53:33.390737+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.34,
@@ -28338,7 +28279,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:32.928824+00:00",
+          "checked_at": "2026-06-24T12:53:27.948752+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28369,7 +28310,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:39.270849+00:00",
+          "checked_at": "2026-06-24T12:53:34.265133+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28399,7 +28340,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:58.114891+00:00",
+          "checked_at": "2026-06-24T12:53:52.656673+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28429,7 +28370,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-24T12:23:55.710010+00:00",
+          "checked_at": "2026-06-24T12:53:50.459202+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28466,7 +28407,7 @@
   "open_opportunities": {
     "schema_version": "1.0",
     "as_of": "2026-06-24",
-    "generated_at": "2026-06-24T12:23:26.317439+00:00",
+    "generated_at": "2026-06-24T12:53:21.235479+00:00",
     "opportunities": [
       {
         "ticker": "MSFT",
@@ -28934,7 +28875,7 @@
     "status": "has_data",
     "count": 3,
     "as_of": "2026-06-24",
-    "generated_at": "2026-06-24T12:24:01.979067+00:00",
+    "generated_at": "2026-06-24T12:53:56.605716+00:00",
     "line": "3 options idea(s) ready to act now; 9 names checked. these ideas use ~3.4% of your ~10% options budget.",
     "rows": [
       {
@@ -29227,7 +29168,7 @@
         {
           "label": "Automations",
           "status": "alert",
-          "detail": "2 latest scheduled routine receipt failed"
+          "detail": "1 latest scheduled routine receipt failed"
         },
         {
           "label": "FS inbox",
@@ -29352,7 +29293,7 @@
             "key": "routine_fired",
             "label": "Routine fired",
             "status": "blocked",
-            "detail": "2 latest scheduled routine receipt failed"
+            "detail": "1 latest scheduled routine receipt failed"
           },
           {
             "key": "boundary_artifact",
@@ -29422,7 +29363,7 @@
           "blocked": 5,
           "unknown": 0
         },
-        "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+        "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
         "base_command_state": "RESOLVE",
         "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
       },
@@ -31751,7 +31692,7 @@
               "key": "routine_fired",
               "label": "Routine fired",
               "status": "blocked",
-              "detail": "2 latest scheduled routine receipt failed"
+              "detail": "1 latest scheduled routine receipt failed"
             },
             {
               "key": "boundary_artifact",
@@ -31821,7 +31762,7 @@
             "blocked": 5,
             "unknown": 0
           },
-          "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+          "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
           "base_command_state": "RESOLVE",
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         },
@@ -32432,7 +32373,7 @@
               "key": "routine_fired",
               "label": "Routine fired",
               "status": "blocked",
-              "detail": "2 latest scheduled routine receipt failed"
+              "detail": "1 latest scheduled routine receipt failed"
             },
             {
               "key": "boundary_artifact",
@@ -32502,7 +32443,7 @@
             "blocked": 5,
             "unknown": 0
           },
-          "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+          "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
           "base_command_state": "RESOLVE",
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         }
@@ -33398,7 +33339,7 @@
               "key": "routine_fired",
               "label": "Routine fired",
               "status": "blocked",
-              "detail": "2 latest scheduled routine receipt failed"
+              "detail": "1 latest scheduled routine receipt failed"
             },
             {
               "key": "boundary_artifact",
@@ -33468,7 +33409,7 @@
             "blocked": 5,
             "unknown": 0
           },
-          "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+          "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
           "base_command_state": "RESOLVE",
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         },
@@ -34213,7 +34154,7 @@
               "key": "routine_fired",
               "label": "Routine fired",
               "status": "blocked",
-              "detail": "2 latest scheduled routine receipt failed"
+              "detail": "1 latest scheduled routine receipt failed"
             },
             {
               "key": "boundary_artifact",
@@ -34283,7 +34224,7 @@
             "blocked": 5,
             "unknown": 0
           },
-          "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+          "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
           "base_command_state": "RESOLVE",
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         }
@@ -34984,7 +34925,7 @@
           "section": "higher_quality_pullbacks",
           "label": "Higher-quality pullback",
           "row": {
-            "checked_at": "2026-06-24T12:23:27.175002+00:00",
+            "checked_at": "2026-06-24T12:53:22.139947+00:00",
             "conviction": {},
             "currency": "USD",
             "current_exposure_pct": 1.12,
@@ -35073,7 +35014,7 @@
               "key": "routine_fired",
               "label": "Routine fired",
               "status": "blocked",
-              "detail": "2 latest scheduled routine receipt failed"
+              "detail": "1 latest scheduled routine receipt failed"
             },
             {
               "key": "boundary_artifact",
@@ -35143,7 +35084,7 @@
             "blocked": 5,
             "unknown": 0
           },
-          "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+          "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
           "base_command_state": "RESOLVE",
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         },
@@ -35731,7 +35672,7 @@
               "key": "routine_fired",
               "label": "Routine fired",
               "status": "blocked",
-              "detail": "2 latest scheduled routine receipt failed"
+              "detail": "1 latest scheduled routine receipt failed"
             },
             {
               "key": "boundary_artifact",
@@ -35801,7 +35742,7 @@
             "blocked": 5,
             "unknown": 0
           },
-          "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+          "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
           "base_command_state": "RESOLVE",
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         }
@@ -36476,7 +36417,7 @@
               "key": "routine_fired",
               "label": "Routine fired",
               "status": "blocked",
-              "detail": "2 latest scheduled routine receipt failed"
+              "detail": "1 latest scheduled routine receipt failed"
             },
             {
               "key": "boundary_artifact",
@@ -36546,7 +36487,7 @@
             "blocked": 5,
             "unknown": 0
           },
-          "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+          "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
           "base_command_state": "RESOLVE",
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         }
@@ -37223,7 +37164,7 @@
               "key": "routine_fired",
               "label": "Routine fired",
               "status": "blocked",
-              "detail": "2 latest scheduled routine receipt failed"
+              "detail": "1 latest scheduled routine receipt failed"
             },
             {
               "key": "boundary_artifact",
@@ -37293,7 +37234,7 @@
             "blocked": 5,
             "unknown": 0
           },
-          "summary": "Blocked at Routine fired: 2 latest scheduled routine receipt failed",
+          "summary": "Blocked at Routine fired: 1 latest scheduled routine receipt failed",
           "base_command_state": "RESOLVE",
           "honesty_rule": "Routine proof is only the first layer; it never means fresh boundary data or executable trade."
         }
@@ -38362,7 +38303,7 @@
     "options": {
       "source": "options_surface",
       "as_of": "2026-06-24",
-      "generated_at": "2026-06-24T12:24:01.979067+00:00",
+      "generated_at": "2026-06-24T12:53:56.605716+00:00",
       "ideas": [
         {
           "schema_version": "1.0",
@@ -39132,8 +39073,8 @@
       {
         "severity": "warn",
         "kind": "cloud_routine_failed",
-        "title": "2 cloud routine(s) failed latest receipt",
-        "why": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=2; overdue=2; support monitored=22, support overdue=8.",
+        "title": "1 cloud routine(s) failed latest receipt",
+        "why": "Core background cloud proof: 14/14 scheduled receipts proven; failed latest=1; overdue=1; support monitored=22, support overdue=9.",
         "source": "cloud_routines",
         "trigger": "failed_latest_count > 0",
         "next_step": "Check Ops/System Health when debugging routines; this is not a portfolio alert."

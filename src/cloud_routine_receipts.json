@@ -2,32 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:41.728924Z",
-      "summary": "investing-os-fs-inbox-catch-up-midday manual run started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:41.741263Z",
-      "summary": "FS inbox catch-up midday manual support checked prompt wiring only",
-      "details": {
-        "steps": [
-          {
-            "label": "FS inbox catch-up prompt present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-post-close-refresh",
       "status": "started",
       "run_source": "manual",
@@ -6558,7 +6532,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T12:39:39.032976Z",
       "summary": "morning scan wrote/readback-verified 3 Notion Signal Log rows; repo Signal Log cache 81 rows; UW proof refreshed to Jun23 16:10 ET; Jun24 UW/macro/query lanes dark"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T12:53:17.846525Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T12:54:03.302107Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "097a402d8fca81175be5ae4965ce74b2c2eba745e01c719c5e3f0093f0f1b95f",
+            "as_of": "2026-06-24T12:53:56.605716+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "21cdd79d0a6296737474b3f440036efec99acfddb61cabe6fc71c0febe9a7341",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-24T12:39:39.032976Z"
+  "updated_at": "2026-06-24T12:54:03.302107Z"
 }
