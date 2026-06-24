@@ -2,50 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:14.090403Z",
-      "summary": "investing-os-morning-scan manual run started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:14.246296Z",
-      "summary": "morning scan manual run completed; Signal Log remains watch-only",
-      "details": {
-        "steps": [
-          {
-            "label": "signal log validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/signal_log_intake.py",
-              "--validate",
-              "src/signal_log.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 30\n}",
-            "stderr": ""
-          },
-          {
-            "label": "macro cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/macro_pulse_scan.py",
-              "--validate",
-              "src/macro_state.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "started",
       "run_source": "manual",
@@ -6832,7 +6788,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T01:29:49.648324Z",
       "summary": "checked SEC/UW/Polymarket/Social; routed UUUU VAC to RQ and HOOD+Hormuz to verified Signal Log; repo caches validated; Social Watch/Kalshi direct/PortWatch direct dark; UW 10 inconclusive 3 missing"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T02:46:49.136531Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T02:55:20.133766Z",
+      "summary": "Chrome checked FlashInsights, Crypto FlashInsights, Intraday Word, First Word, Daily Technical Strategy, Live Technical Stock Analysis, US Policy/Fed Watch, crypto research, Macro Minute, Latest Videos, DTS video surfaces; new post-7PM details checked Sean Farrell Crypto Comments 2026-06-23 21:34 ET and Tom Lee Macro Minute 2026-06-23 21:10 ET; transcript vault entries written 2 and pushed; Gmail checked 0 because Chrome full-content available; compact rows landed 4, suppressed 0 from accepted payload, stale/pre-window/discovery-only surfaces suppressed incl FlashInsights afternoon, DTS 18:17, old crypto/listings; validations transcript-index/email-intake passed; dashboard refreshed; Social Watch dark/not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-24T01:29:49.648324Z"
+  "updated_at": "2026-06-24T02:55:20.133766Z"
 }
