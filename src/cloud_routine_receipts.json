@@ -2,104 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:49.488381Z",
-      "summary": "FS inbox catch-up evening manual support checked prompt wiring only",
-      "details": {
-        "steps": [
-          {
-            "label": "FS inbox catch-up prompt present",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true
-            }
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:49.500094Z",
-      "summary": "investing-os-fundstrat-late-evening-web-transcript-sweep manual run started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:49.988244Z",
-      "summary": "fundstrat late-evening web/transcript sweep manual support validated transcript index and intake plumbing",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat transcript public index validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_transcript_vault.py",
-              "--validate-public-index"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat transcript synthesis notes",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_transcript_synthesis.py",
-              "--limit",
-              "5",
-              "--out",
-              "tmp/fundstrat_transcript_notion_notes.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"out\": \"tmp\\\\fundstrat_transcript_notion_notes.json\",\n  \"notes\": 2,\n  \"transcript_ids\": [\n    \"fundstrat-2026-06-15-newton-interim-deal-underpins-a-constructive-framework-as-industrials-b\",\n    \"fundstrat-2026-06-15-farrell-geopolitical-tailwinds-may-give-warsh-room-to-lean-dovish-hype-r\"\n  ],\n  \"vault_notes_written\": 0,\n  \"vault_commit\": {\n    \"committed\": false,\n    \"pushed\": false,\n    \"reason\": \"not requested\"\n  }\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: 5 new urgent/action-changing alert(s).\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 40, 'alert_candidates': 5, 'duplicates': 3, 'suppressed': 32}\n- ALERT RGI: research/re-check | Equal-weight Industrials broke above multi-month resistance near 62 and can test 64, but relative confirmation versus equal-weight S&P is still needed.\n  why: Fundstrat item may change research priority or an existing action assumption.\n- ALERT RYE: trim/hedge/re-check | Energy remains a weak spot as WTI breaks down; avoid buying dips in RYE/Energy until crude stabilizes and relative trends repair.\n  why: Fundstrat flagged a defensive or avoid posture; check whether it affects current exposure or new-buy timing.\n- ALERT SPX: hedge/re-check | Newton says the near-term framework stays bullish after the interim deal; treat pullbacks toward SPX 7430 as support, while a daily close below 7396 reopens near-term concern.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- ALERT SPY: hedge/re-check | Newton remains near-term bullish as WTI, yields and USD weaken together; use FOMC/gap-fill weakness as an add opportunity rather than chasing every gap.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- ALERT STRC: hedge/re-check | Strategy stabilization is constructive, but STRC reserve coverage remains below the confidence threshold; keep MSTR/STRC funding flywheel on risk watch.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert\n- quiet GOLD: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:50.003887Z",
-      "summary": "investing-os-top-prospects-auto-research manual run started"
-    },
-    {
       "routine_id": "investing-os-top-prospects-auto-research",
       "status": "success",
       "run_source": "manual",
@@ -6516,7 +6418,83 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T14:33:11.927836Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T14:33:15.598982Z",
+      "summary": "full cockpit build failed",
+      "details": {
+        "returncode": 1,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "724d3b8693c8724c126cfa2123e0fcf4f8f490833c5d96e5a4c8deb77cfadae4",
+            "as_of": "2026-06-24T13:43:43.495115+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "724d3b8693c8724c126cfa2123e0fcf4f8f490833c5d96e5a4c8deb77cfadae4",
+            "changed": false
+          }
+        ]
+      },
+      "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T14:33:35.110068Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T14:35:32.663067Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "e196085cfd455603367e79f520513c566ddc2bca2fa50ddd2ec051686b5aa579",
+            "as_of": "2026-06-24T14:35:24.164724+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "724d3b8693c8724c126cfa2123e0fcf4f8f490833c5d96e5a4c8deb77cfadae4",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-24T14:07:02.753627Z"
+  "updated_at": "2026-06-24T14:35:32.663067Z"
 }
