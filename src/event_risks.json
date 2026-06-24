@@ -130,6 +130,46 @@
     "direction": "risk_watch"
   },
   {
+    "date": "2026-06-24",
+    "title": "Hormuz prediction markets keep near-term oil/rates normalization unproven",
+    "severity": "high",
+    "horizon": "Jun30-Jul31 event window",
+    "channels": [
+      "oil",
+      "rates",
+      "shipping",
+      "volatility",
+      "energy",
+      "growth",
+      "AI"
+    ],
+    "tickers": [
+      "USO",
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "SMH",
+      "MAGS",
+      "GOOGL",
+      "MSFT",
+      "LEU",
+      "UUUU"
+    ],
+    "affected": [
+      "Energy",
+      "Financials",
+      "High-duration growth",
+      "AI add timing",
+      "Nuclear/critical minerals",
+      "Portfolio new-buy timing"
+    ],
+    "source": "Polymarket Gamma/public pages checked 2026-06-24T01:23Z",
+    "summary": "Polymarket prices still show near-term Strait of Hormuz traffic normalization as uncertain: July 15 Yes 25.5%, July 31 Yes 45.5%, June 30 60-ship daily threshold Yes 18.5%, while Dec 31 Yes 86.5%. This keeps the oil/rates event-risk gate active for new-buy timing rather than clearing the shock.",
+    "trigger": "Clear only if IMF PortWatch 7DMA transit calls reach >=60 and WTI/TNX plus shipping/insurance reports confirm durable normalization; re-escalate if PortWatch stalls below 40-60, WTI/TNX jump, talks break, or shipping/insurance restrictions return.",
+    "direction": "risk_watch"
+  },
+  {
     "date": "2026-06-03",
     "title": "Financials breakdown and crypto-linked weakness weigh on tape breadth",
     "severity": "medium",

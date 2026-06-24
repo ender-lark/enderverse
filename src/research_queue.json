@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-19T15:25:50Z",
+  "generated_at": "2026-06-24T01:27:00Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -40,16 +40,24 @@
       "ticker": "COHR",
       "notes": "Coherent: Up to $50M letter of intent to expand Coherent's Sherman, Texas indium phosphide wafer facility. Agency/program: Commerce CHIPS Program Office / NIST / CHIPS indium phosphide production expansion. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Final CHIPS award terms, capex/production milestones, datacenter-photonics customer demand evidence.. Risks: letter of intent; not final award; facility execution; AI photonics demand timing.",
       "source": "federal_funding_monitor"
+    },
+    {
+      "r": "UUUU - review VAC acquisition dilution, financing, and rare-earth platform fit",
+      "pr": "high",
+      "status": "Queued",
+      "ticker": "UUUU",
+      "notes": "Packet: ticker/entity UUUU / Energy Fuels; source SEC 8-K filed 2026-06-23 plus Energy Fuels release; timestamp checked 2026-06-24T01:23Z; why it matters proposed $1.9B cash-and-stock VAC acquisition could transform mine-to-magnet strategy but adds dilution, integration, financing, approval and execution risk; current decision affected existing UUUU MONITOR/federal-funding research row; conviction effect mixed; time window deal diligence now through expected early-2027 close; disconfirmation trigger unfavorable equity issuance, financing shortfall, approval delay, or evidence VAC economics do not fund White Mesa/Donald growth; missing evidence full pro forma debt/share count, closing conditions, customer/offtake quality, post-announcement price/flow; route Research Queue.",
+      "source": "SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 2,
-    "pending": 2,
+    "input_rows": 1,
+    "pending": 1,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 5,
+    "stored_pending": 6,
     "stored_done": 0
   }
 }
