@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T14:48:25.830652Z",
-      "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 7 duplicate-stale-or-webinar items; validation passed; alert quiet; dark/stale macro latest June 15 duplicate, crypto latest June 8 stale; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T15:47:08.256947Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "started",
       "run_source": "manual",
@@ -6300,7 +6286,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T18:52:36.528856Z",
       "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content available; rows landed 1 QQQ 14:26 ET support/rebound re-check; rows suppressed/quiet 103 stale/context plus 11 duplicates; validation passed; dashboard refreshed; alert sent 1 QQQ research/re-check; Crypto latest Jun22 stale; Social Watch dark; Notion not used"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T19:46:34.446537Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T19:48:46.661216Z",
+      "summary": "Chrome checked Macro FlashInsights latest Jun24 14:26 duplicate and Crypto FlashInsights latest Jun22 stale; Gmail checked 0 because Chrome full-content feeds available; rows landed 0; no new discovery-only/article detail rows captured; validation passed; dashboard refresh skipped no new rows; alert quiet candidates=0 duplicates=12 suppressed=103; Crypto stale; Social Watch dark; Notion not used; blockers none"
     }
   ],
-  "updated_at": "2026-06-24T18:52:36.528856Z"
+  "updated_at": "2026-06-24T19:48:46.661216Z"
 }
