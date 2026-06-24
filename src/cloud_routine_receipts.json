@@ -2,66 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:48:06.913191Z",
-      "summary": "investing-os-fundstrat-pre-market-safety-sweep manual run started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:48:07.437147Z",
-      "summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: quiet - no new time-sensitive/action-changing Fundstrat item.\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 40, 'alert_candidates': 0, 'duplicates': 8, 'suppressed': 32}\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert\n- quiet GOLD: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-preopen",
       "status": "started",
       "run_source": "manual",
@@ -6283,7 +6223,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T20:36:11.871840Z",
+      "summary": "FS inbox catch-up postclose started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T20:39:07.772885Z",
+      "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/24/2026 09:25 ET]; Notion marker fetch-verified; no Source Call Log rows written"
     }
   ],
-  "updated_at": "2026-06-24T20:33:18.593298Z"
+  "updated_at": "2026-06-24T20:39:07.772885Z"
 }
