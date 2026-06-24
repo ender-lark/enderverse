@@ -21,7 +21,9 @@ Repo-local operating protocol for Codex agents working on the Investing OS.
   C:\Users\suraj\Documents\Codex\2026-06-24\automation-runtime-main` to audit
   key automation workspace health. The watchdog may auto-fix unhealthy key
   `cwds` only when the replacement checkout is itself clean/current `main`; it
-  must never fabricate scheduled receipts or mark dark lanes green.
+  must never fabricate scheduled receipts or mark dark lanes green. Keep its
+  proof check receipt-only; do not route the watchdog through live-status paths
+  that can append generated option-shadow rows and dirty the runtime checkout.
   `C:\Users\suraj\Documents\Codex\2026-06-24\automation-main` is preserved as
   drift evidence because generated option-shadow output left it dirty and stale.
   The older

@@ -188,6 +188,41 @@ def test_watchdog_dry_run_alert_is_opt_in(monkeypatch, tmp_path):
     assert calls[0]["dry_run"] is True
 
 
+def test_default_receipt_attention_path_skips_live_status(monkeypatch, tmp_path):
+    def fail_live_status(**_kwargs):
+        raise AssertionError("watchdog should not call live_status")
+
+    monkeypatch.setattr(
+        automation_health_watchdog.cloud_ops_status.live_status_mod,
+        "live_status",
+        fail_live_status,
+    )
+    monkeypatch.setattr(
+        automation_health_watchdog.cloud_ops_status,
+        "_receipt_summary",
+        lambda *_args, **_kwargs: {"summary": {"failed_latest": []}},
+    )
+    monkeypatch.setattr(
+        automation_health_watchdog.cloud_ops_status,
+        "_receipt_due_summary",
+        lambda *_args, **_kwargs: {"overdue": []},
+    )
+    monkeypatch.setattr(
+        automation_health_watchdog.cloud_ops_status,
+        "_proof_metadata",
+        lambda _path: {"verified_at": "2026-06-24T00:00:00-04:00"},
+    )
+
+    report = automation_health_watchdog.audit_automation_health(
+        automations_dir=tmp_path / "automations",
+        canonical_cwd=_canonical_checkout(tmp_path),
+        src_dir=tmp_path / "src",
+    )
+
+    assert report["status"] == "ok"
+    assert report["cloud_attention"] == []
+
+
 def test_replace_cwds_line_adds_missing_field(tmp_path):
     canonical = tmp_path / "automation-main"
     raw = 'name = "Watchdog"\nstatus = "ACTIVE"\n'

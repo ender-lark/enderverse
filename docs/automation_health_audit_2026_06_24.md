@@ -30,8 +30,10 @@
 Follow-up hardening added `src/automation_health_watchdog.py` and focused
 tests. The watchdog checks the installed Codex app automation records, verifies
 proof-critical routine workspaces are usable git checkouts on clean/current
-`main`, and summarizes failed or overdue routine receipts from
-`cloud_ops_status.py`.
+`main`, and summarizes failed or overdue routine receipts through a receipt-only
+loader. It intentionally does not call the full `cloud_ops_status.py` live-status
+path because that path can evaluate live readiness and append generated
+option-shadow rows.
 
 The auto-fix path is intentionally narrow:
 
@@ -48,6 +50,11 @@ The current clean runtime checkout for local app automations is:
 
 `C:\Users\suraj\Documents\Codex\2026-06-24\automation-runtime-main`
 
+The recurring Codex app automation is active as
+`investing-os-automation-health-watchdog`. It runs from the runtime checkout,
+uses the watchdog's `--apply` path for safe cwd repair, and sends Pushover when
+workspace, failed-receipt, or overdue-receipt attention remains.
+
 Validation on 2026-06-24 found 34 proof-critical installed automations with bad
 workspace state, including many still pointing at the older June 4 checkout and
 several pointing at the dirty/stale June 24 `automation-main` checkout. Running
@@ -61,6 +68,7 @@ Operator commands:
 ```powershell
 python src\automation_health_watchdog.py --canonical-cwd C:\Users\suraj\Documents\Codex\2026-06-24\automation-runtime-main --dry-run-alert --format text
 python src\automation_health_watchdog.py --canonical-cwd C:\Users\suraj\Documents\Codex\2026-06-24\automation-runtime-main --apply --dry-run-alert --format text
+python src\automation_health_watchdog.py --canonical-cwd C:\Users\suraj\Documents\Codex\2026-06-24\automation-runtime-main --apply --send-alert --format text
 ```
 
 ## Verification

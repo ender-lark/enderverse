@@ -305,6 +305,45 @@ def _summarize_cloud_attention(cloud_report: dict[str, Any]) -> list[dict[str, A
     return attention
 
 
+def load_receipt_attention_report(
+    *,
+    src_dir: Path = ROOT / "src",
+    now: str | None = None,
+) -> dict[str, Any]:
+    """Load only receipt failure/due proof, avoiding live-status side effects."""
+
+    src = Path(src_dir)
+    monitored_expected = [
+        cloud_ops_status._with_proof_scope(row)
+        for row in cloud_ops_status.DEFAULT_EXPECTED_AUTOMATIONS
+    ]
+    proof_expected = cloud_ops_status.proof_required_automations(monitored_expected)
+    support_expected = cloud_ops_status.support_automations(monitored_expected)
+    receipt_proof = src / cloud_ops_status.DEFAULT_RECEIPT_PROOF
+    automation_proof = src / cloud_ops_status.DEFAULT_AUTOMATION_PROOF
+    proof_meta = cloud_ops_status._proof_metadata(automation_proof)
+    activated_at = cloud_ops_status._parse_dt(proof_meta.get("verified_at"))
+    parsed_now = cloud_ops_status._parse_dt(now) if now is not None else None
+    receipts = cloud_ops_status._receipt_summary(receipt_proof, proof_expected)
+    support_receipts = cloud_ops_status._receipt_summary(receipt_proof, support_expected)
+    return {
+        "routine_receipts": receipts,
+        "support_routine_receipts": support_receipts,
+        "routine_receipt_due": cloud_ops_status._receipt_due_summary(
+            receipts,
+            proof_expected,
+            activated_at=activated_at,
+            now=parsed_now,
+        ),
+        "support_routine_receipt_due": cloud_ops_status._receipt_due_summary(
+            support_receipts,
+            support_expected,
+            activated_at=activated_at,
+            now=parsed_now,
+        ),
+    }
+
+
 def _build_alert_message(report: dict[str, Any]) -> str:
     lines = [
         f"status={report['status']}",
@@ -356,6 +395,7 @@ def audit_automation_health(
     *,
     automations_dir: Path = DEFAULT_AUTOMATIONS_DIR,
     canonical_cwd: Path = DEFAULT_CANONICAL_CWD,
+    src_dir: Path = ROOT / "src",
     apply: bool = False,
     fetch: bool = False,
     include_all_active: bool = False,
@@ -410,10 +450,7 @@ def audit_automation_health(
             fixes_applied.append(_apply_cwd_fix(record, canonical_cwd))
 
     if cloud_report is None:
-        cloud_report = cloud_ops_status.cloud_ops_status(
-            src_dir=ROOT / "src",
-            automations_dir=automations_dir,
-        )
+        cloud_report = load_receipt_attention_report(src_dir=src_dir)
     cloud_attention = _summarize_cloud_attention(cloud_report)
 
     unresolved_automation = [
@@ -432,6 +469,7 @@ def audit_automation_health(
         "status": status,
         "checked_automations": len(selected),
         "automations_dir": str(automations_dir),
+        "src_dir": str(src_dir),
         "canonical_cwd": str(canonical_cwd),
         "canonical": canonical,
         "automation_problems": automation_problems,
@@ -527,6 +565,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Known clean main checkout to use for safe cwd auto-fixes.",
     )
     parser.add_argument(
+        "--src-dir",
+        type=Path,
+        default=ROOT / "src",
+        help="Repo src directory containing routine proof files.",
+    )
+    parser.add_argument(
         "--apply",
         action="store_true",
         help="Rewrite unhealthy key automation cwds to --canonical-cwd.",
@@ -570,6 +614,7 @@ def main(argv: list[str] | None = None) -> int:
     report = audit_automation_health(
         automations_dir=args.automations_dir,
         canonical_cwd=args.canonical_cwd,
+        src_dir=args.src_dir,
         apply=args.apply,
         fetch=args.fetch,
         include_all_active=args.include_all_active,
