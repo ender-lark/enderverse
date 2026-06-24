@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:55:56.714155Z",
-      "summary": "deep synthesis started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:57:22.863220Z",
-      "summary": "drained AVGO + working-pile triage drafts; 2 Notion writes verified; SQL/query fallback used"
-    },
-    {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "started",
       "run_source": "scheduled",
@@ -7329,7 +7315,34 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T22:15:22.688601Z",
+      "summary": "investing-os-trump-trade-watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T22:15:22.822137Z",
+      "summary": "trump trade watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/political_trade_watch.py",
+          "--input",
+          "tmp/trump_trade_watch_uw.json",
+          "--out",
+          "src/political_trade_watch.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-24T20:14:40.778490Z"
+  "updated_at": "2026-06-24T22:15:22.822137Z"
 }
