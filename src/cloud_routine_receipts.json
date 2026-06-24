@@ -2,80 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:33.402749Z",
-      "summary": "investing-os-uw-opportunity-cache manual run started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:33.627747Z",
-      "summary": "UW opportunity cache manual run completed",
-      "details": {
-        "steps": [
-          {
-            "label": "uw opportunity self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--self-test"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "uw_opportunity_scan self-test: PASS",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 37
-            }
-          },
-          {
-            "label": "live source config validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_source_config_update.py",
-              "--validate",
-              "src/live_source_config.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"path\": \"src/live_source_config.json\"\n}",
-            "stderr": ""
-          },
-          {
-            "label": "uw opportunity existing bundle score",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/uw_opportunity_scan.py",
-              "--from-bundle",
-              "tmp/uw/opportunity_bundle.json",
-              "--emit",
-              "src/uw_opportunity_signals.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "",
-            "stderr": "Emitted 38 signal(s) -> src/uw_opportunity_signals.json"
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:33.637234Z",
-      "summary": "investing-os-parabolic-cache manual run started"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "success",
       "run_source": "manual",
@@ -6613,7 +6539,81 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T12:15:05.845553Z",
       "summary": "pre-market source intake landed 5 Fundstrat compact rows; broker caches validated not refreshed; UW Jun24 dark last_open_date=2026-06-23; Notion not used; Social/Meridian dark"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T12:22:29.373799Z",
+      "summary": "investing-os-broker-position-intake started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T12:22:34.147359Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T12:24:10.165564Z",
+      "summary": "broker position intake succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/snaptrade_book_refresh.py",
+          "--refresh-dashboard"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "17cbb4685f15d6ff212de169519d8b0f324f5320113aa877e8d58a9c9dfbe544",
+            "as_of": "2026-06-24",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "d5ea52e33869ac1aae91b6f8a3a5e548a7e61c0ec119ec91ca121278d5333931",
+            "changed": true
+          },
+          {
+            "path": "src/account_positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "8efe01166f976139998d8e30639e4583e2957cc58b1774e1373a2ac48c15e616",
+            "as_of": "2026-06-24",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "7ea66b64b24a3bea1e0b1837f011ea9955089b10431de2987ae0e9ed62fb7cad",
+            "changed": true
+          },
+          {
+            "path": "src/position_reconciliation.json",
+            "as_of_field": "current_snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "8248de190f85058e4e6fedefe85153b43abf5d4b8c2d7567eb98136ec49b2e71",
+            "as_of": "2026-06-24",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "02c433afe0145e92e780d768560e6c9eb7b5813729c070004840527257e73140",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-24T12:15:05.845553Z"
+  "updated_at": "2026-06-24T12:24:10.165564Z"
 }
