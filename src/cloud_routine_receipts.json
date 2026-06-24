@@ -2,73 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:36:04.527898Z",
-      "summary": "investing-os-fundstrat-pre-market-safety-sweep manual run started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:36:04.908657Z",
-      "summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: 5 new urgent/action-changing alert(s).\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 40, 'alert_candidates': 5, 'duplicates': 3, 'suppressed': 32}\n- ALERT RGI: research/re-check | Equal-weight Industrials broke above multi-month resistance near 62 and can test 64, but relative confirmation versus equal-weight S&P is still needed.\n  why: Fundstrat item may change research priority or an existing action assumption.\n- ALERT RYE: trim/hedge/re-check | Energy remains a weak spot as WTI breaks down; avoid buying dips in RYE/Energy until crude stabilizes and relative trends repair.\n  why: Fundstrat flagged a defensive or avoid posture; check whether it affects current exposure or new-buy timing.\n- ALERT SPX: hedge/re-check | Newton says the near-term framework stays bullish after the interim deal; treat pullbacks toward SPX 7430 as support, while a daily close below 7396 reopens near-term concern.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- ALERT SPY: hedge/re-check | Newton remains near-term bullish as WTI, yields and USD weaken together; use FOMC/gap-fill weakness as an add opportunity rather than chasing every gap.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- ALERT STRC: hedge/re-check | Strategy stabilization is constructive, but STRC reserve coverage remains below the confidence threshold; keep MSTR/STRC funding flywheel on risk watch.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert\n- quiet GOLD: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:36:04.918468Z",
-      "summary": "investing-os-fs-inbox-catch-up-preopen manual run started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-preopen",
       "status": "success",
       "run_source": "manual",
@@ -6906,7 +6839,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T23:31:44.335374Z",
       "summary": "Research Queue export drop missing; queue not_checked; cache not refreshed; fallback cache pending 5 done 0 ACT_NOW none skipped 0"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T00:47:20.595537Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T00:47:20.942394Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T00:48:02.333586Z",
+      "summary": "dry-run selected 0; queued none; write verification not_checked no live writes; remaining unqueued 2 RYF/XOP QUIET; dark lanes Research Queue readback not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-23T23:31:44.335374Z"
+  "updated_at": "2026-06-24T00:48:02.333586Z"
 }
