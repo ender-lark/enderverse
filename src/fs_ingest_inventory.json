@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-24T18:49:25Z",
+  "generated_at": "2026-06-24T23:15:16Z",
   "entries": [
     {
       "source_id": "fundstrat-gmail-19edd2922449bcdc-dal",
@@ -974,6 +974,23 @@
       "source_id": "fundstrat-web-flashinsights-2026-06-24-1426-et-qqq-intraday-support-recheck",
       "title": "Macro FlashInsights 14:26 ET: QQQ intraday support/rebound re-check",
       "ingested_at": "2026-06-24T18:50:00Z",
+      "total_sections": 2,
+      "sections": [
+        {
+          "name": "full body",
+          "status": "distilled"
+        },
+        {
+          "name": "decision-call extraction",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat-web-flashinsights-2026-06-24-1618-et-mu-earnings-beat-recheck",
+      "title": "Macro FlashInsights 16:18 ET: MU beat supports rebound re-check",
+      "ingested_at": "2026-06-24T23:15:16.339288+00:00",
       "total_sections": 2,
       "sections": [
         {

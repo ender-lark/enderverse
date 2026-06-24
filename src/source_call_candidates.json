@@ -2628,5 +2628,28 @@
     "use_case": "technical_timing",
     "decision_usefulness": "high",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "MU",
+    "tier": "D",
+    "confidence_in_tier": "LOW",
+    "verbatim_quote": "MU's after-hours earnings beat/guide-up moved shares higher and supports Newton's earlier QQQ/MU rebound re-check; use the Jun25 open as confirmation, not a fresh chase.",
+    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-24",
+    "window_end": "2026-08-23",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-24",
+    "fundstrat_lane": "technical",
+    "source_domain": "technical_timing",
+    "source_weight_note": "Technical/timing context only; lower weight until it gives specific levels, timing, or a clear setup.",
+    "confidence_policy": "Use at normal Fundstrat weight only when the setup is specific/confident; otherwise treat as context.",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "medium",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]
