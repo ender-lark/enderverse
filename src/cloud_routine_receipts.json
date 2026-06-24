@@ -2,80 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:32.898149Z",
-      "summary": "investing-os-fundstrat-daytime-watch manual run started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:37:33.392570Z",
-      "summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: 5 new urgent/action-changing alert(s).\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 40, 'alert_candidates': 5, 'duplicates': 3, 'suppressed': 32}\n- ALERT RGI: research/re-check | Equal-weight Industrials broke above multi-month resistance near 62 and can test 64, but relative confirmation versus equal-weight S&P is still needed.\n  why: Fundstrat item may change research priority or an existing action assumption.\n- ALERT RYE: trim/hedge/re-check | Energy remains a weak spot as WTI breaks down; avoid buying dips in RYE/Energy until crude stabilizes and relative trends repair.\n  why: Fundstrat flagged a defensive or avoid posture; check whether it affects current exposure or new-buy timing.\n- ALERT SPX: hedge/re-check | Newton says the near-term framework stays bullish after the interim deal; treat pullbacks toward SPX 7430 as support, while a daily close below 7396 reopens near-term concern.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- ALERT SPY: hedge/re-check | Newton remains near-term bullish as WTI, yields and USD weaken together; use FOMC/gap-fill weakness as an add opportunity rather than chasing every gap.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- ALERT STRC: hedge/re-check | Strategy stabilization is constructive, but STRC reserve coverage remains below the confidence threshold; keep MSTR/STRC funding flywheel on risk watch.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert\n- quiet GOLD: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          },
-          {
-            "label": "trigger check dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/trigger_check.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Trigger check: fired=3; not_checked=4; armed=5; expired=0.\nFired:\n- HELD held-review-sunday-rebalance-packet: held decision review due: Full-book rebalance (Council synthesis)\n- HELD held-review-sunday-geo-risk-register-v0: held decision review due: Geo Risk Register v0 (Power & Policy)\n- HELD held-review-sunday-policy-money-map-v0: held decision review due: Policy Money Map v0 (Power & Policy)\nNot checked:\n- EWRE ewre-weekly-close-above-38-2026-06: quote not checked\n- ASTS asts-reentry-zone-65-70: quote not checked\n- RKLB rklb-reentry-zone-85-90: quote not checked\n- MU parabolic-accel-mu: quote not checked",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
       "run_source": "manual",
@@ -6673,7 +6599,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T11:51:28.398951Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights plus DTS Jun23 and Crypto Comments Jun23 detail pages; Gmail checked 0 because Chrome full-content available; rows landed 0, duplicates already cached for KIE/silver/copper/MSTR/STRC; suppressed stale/discovery-only First Word/Intraday/US Policy/Fed/listing items; source-call merge +0; validation passed; dashboard refresh skipped no new rows; Notion not used; dark lanes none"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T12:10:59.028116Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T12:15:05.845553Z",
+      "summary": "pre-market source intake landed 5 Fundstrat compact rows; broker caches validated not refreshed; UW Jun24 dark last_open_date=2026-06-23; Notion not used; Social/Meridian dark"
     }
   ],
-  "updated_at": "2026-06-24T11:51:28.398951Z"
+  "updated_at": "2026-06-24T12:15:05.845553Z"
 }
