@@ -2,54 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T14:38:52.026785Z",
-      "summary": "weekly pilot manual support run checked routine heartbeat/status evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "heartbeat status write",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--src-dir",
-              "src",
-              "--out",
-              "src/heartbeat.json",
-              "--summary",
-              "src/heartbeat_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src/heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          },
-          {
-            "label": "heartbeat validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/heartbeat_status.py",
-              "--validate",
-              "src/heartbeat.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 5,\n    \"stale\": 0\n  }\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T14:46:52.184619Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6334,7 +6286,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T17:49:46.001980Z",
       "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content feed was available; rows landed 0; visible feed cards were stale/duplicate or non-action discovery only; validation passed; dashboard refresh skipped no new rows; alert quiet candidates=0 duplicates=11 suppressed=103; Crypto latest Jun22 stale; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T18:47:15.195718Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T18:52:36.528856Z",
+      "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content available; rows landed 1 QQQ 14:26 ET support/rebound re-check; rows suppressed/quiet 103 stale/context plus 11 duplicates; validation passed; dashboard refreshed; alert sent 1 QQQ research/re-check; Crypto latest Jun22 stale; Social Watch dark; Notion not used"
     }
   ],
-  "updated_at": "2026-06-24T17:49:46.001980Z"
+  "updated_at": "2026-06-24T18:52:36.528856Z"
 }
