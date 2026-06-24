@@ -14,9 +14,16 @@ Repo-local operating protocol for Codex agents working on the Investing OS.
   `C:\Users\suraj\OneDrive\Old\Documents\Investing OS (2.0)`, first verify
   whether it is only a wrapper. When it is not a git repo, pivot to the
   canonical main checkout before editing. Do not schedule cloud routines
-  against a feature checkout. As of 2026-06-24 the clean main checkout used for
-  cloud-routine maintenance is:
-  `C:\Users\suraj\Documents\Codex\2026-06-24\automation-main`.
+  against a feature checkout. As of the 2026-06-24 automation-watchdog repair,
+  the clean main checkout used for local Codex app automation runtime is:
+  `C:\Users\suraj\Documents\Codex\2026-06-24\automation-runtime-main`.
+  Use `python src\automation_health_watchdog.py --canonical-cwd
+  C:\Users\suraj\Documents\Codex\2026-06-24\automation-runtime-main` to audit
+  key automation workspace health. The watchdog may auto-fix unhealthy key
+  `cwds` only when the replacement checkout is itself clean/current `main`; it
+  must never fabricate scheduled receipts or mark dark lanes green.
+  `C:\Users\suraj\Documents\Codex\2026-06-24\automation-main` is preserved as
+  drift evidence because generated option-shadow output left it dirty and stale.
   The older
   `C:\Users\suraj\Documents\Codex\2026-06-17\auto-loose-thread-sweep\enderverse`
   checkout is preserved only as drift evidence because local failed-receipt
