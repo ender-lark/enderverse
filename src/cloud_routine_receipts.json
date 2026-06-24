@@ -3,20 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-16T15:48:07.485761Z",
-      "summary": "investing-os-broker-position-intake manual run started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T15:49:05.520985Z",
-      "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 1; validation passed; alert quiet 0 candidates; dark/stale macro unchanged since 2026-06-15, crypto unchanged since 2026-06-08; blockers none"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
       "status": "success",
       "run_source": "manual",
       "recorded_at": "2026-06-16T15:49:12.978565Z",
@@ -6226,7 +6212,21 @@
       "recorded_at": "2026-06-24T20:50:06.720461Z",
       "summary": "positions sync failed: SnapTrade local profile missing; Account Positions stale/not_checked; previous promoted book preserved 2026-06-24",
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T21:37:56.847864Z",
+      "summary": "federal funding post-close sweep started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-24T21:41:07.345948Z",
+      "summary": "sources checked War.gov Today/DOW releases/contracts Jun24 plus Jun23 DIU quantum, NSF NQVL, NASA SEWP, Commerce/CHIPS/NIST, DOE/LPO/OCED/EERE/NNSA, DHS/CBP, DOT, Treasury/IRS/IRA, EXIM/DFC; verified rows 6 new, direct public 2 LMT/RTX, research rows +2, Signal Log rows +6, Notion Research Queue write/readback 2/2, Signal Log Notion not written; dark/low-value sources no same-day Commerce/DOE/DHS/DOT/EXIM/DFC material public rows; blockers original canonical worktree dirty/behind so clean origin worktree used"
     }
   ],
-  "updated_at": "2026-06-24T20:50:06.720461Z"
+  "updated_at": "2026-06-24T21:41:07.345948Z"
 }

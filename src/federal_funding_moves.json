@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-06-24T15:29:33Z",
+  "generated_at": "2026-06-24T21:50:00Z",
   "as_of": "2026-06-24",
   "scan_status": "has_data",
   "rows": [
@@ -87,6 +87,34 @@
       "next_trigger": "Follow-on funded orders, production-rate disclosure, margin/backlog commentary, stock reaction, and whether PrSM replenishment demand persists.",
       "source_urls": [
         "https://www.war.gov/News/Contracts/Contract/Article/4524437/contracts-for-june-23-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-24",
+      "priority": "high",
+      "agency": "Department of War / Missile Defense Agency",
+      "program": "Terminal High Altitude Area Defense (THAAD) Interceptor multi-year procurement",
+      "recipient": "Lockheed Martin Missiles and Fire Control",
+      "title": "Lockheed Martin Missiles and Fire Control",
+      "award_text": "$35.327B sole-source fixed-price-incentive undefinitized contract for THAAD interceptor production; $842.9M obligated at award; performance March 2026-June 2032",
+      "award_value_usd": 35327000000,
+      "tickers": [
+        "LMT"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Largest same-day direct public-company funding item; materially reinforces LMT missile-defense backlog but still needs margin, obligation cadence, and already-priced-defense-strength checks before posture changes.",
+      "risks": [
+        "sole-source undefinitized contract",
+        "only partial funds obligated now",
+        "long-dated production through 2032",
+        "fixed-price incentive margin risk",
+        "supply-chain and production-ramp execution"
+      ],
+      "next_trigger": "Obligation ramp, interceptor production-rate disclosure, margin/backlog commentary, missile-defense budget follow-through, and same-session price/flow confirmation.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4525817/contracts-for-june-24-2026/"
       ],
       "source_quality": "primary"
     },
@@ -365,6 +393,32 @@
     {
       "date": "2026-06-23",
       "priority": "medium",
+      "agency": "Department of War / Defense Innovation Unit",
+      "program": "Quantum sensing and timing ISR initiative",
+      "recipient": "DIU quantum sensing solution-brief participants",
+      "title": "DIU quantum sensing solution-brief participants",
+      "award_text": "DIU initiative expected to invest up to $200M within the next year in quantum electric-field sensors, magnetometers, gravimeters, tactical clocks, and component insertions; no public-company awards named yet",
+      "award_value_usd": 200000000,
+      "tickers": [],
+      "directness": "watch_only",
+      "actionability": "watch",
+      "investing_angle": "A material defense quantum demand signal, but no named public-company recipient; watch for direct awards to quantum, defense electronics, timing, or sensor suppliers before changing posture.",
+      "risks": [
+        "solicitation/demand signal rather than award",
+        "no named public recipients",
+        "solution briefs still pending",
+        "task-order economics unknown",
+        "technology transition risk"
+      ],
+      "next_trigger": "Named DIU awards, public-company recipient disclosure, task-order dollars, production economics, or partner/customer linkage.",
+      "source_urls": [
+        "https://www.war.gov/News/Releases/Release/Article/4524344/department-of-war-announces-initiative-to-revolutionize-isr-via-quantum-sensing/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-23",
+      "priority": "medium",
       "agency": "Department of War / Army",
       "program": "Family of Maintenance Trainers IDIQ",
       "recipient": "TRU Simulation + Training",
@@ -389,6 +443,65 @@
         "https://trusimulation.com/en/about/investor-relations"
       ],
       "source_quality": "primary plus company ticker mapping"
+    },
+    {
+      "date": "2026-06-24",
+      "priority": "medium",
+      "agency": "National Science Foundation",
+      "program": "National Quantum Virtual Laboratory design competition",
+      "recipient": "Five university-led NQVL design teams with public/private partners",
+      "title": "Five university-led NQVL design teams with public/private partners",
+      "award_text": "$20M total NSF investment; five teams receive $4M over two years; public-company partners include Boeing, Honeywell, IonQ, NVIDIA, Quantinuum and others",
+      "award_value_usd": 20000000,
+      "tickers": [
+        "BA",
+        "HON",
+        "IONQ",
+        "NVDA"
+      ],
+      "directness": "public_read_through",
+      "actionability": "watch",
+      "investing_angle": "Useful quantum-sensing/network/computing ecosystem signal, but public companies are partners/read-throughs rather than direct awardees; keep as watch context for defense/AI/quantum themes.",
+      "risks": [
+        "university-led direct recipients",
+        "public companies are partners not awardees",
+        "small dollars per team",
+        "commercialization timing uncertain",
+        "read-through only"
+      ],
+      "next_trigger": "Named company tasking, implementation-phase awards, disclosed commercial contracts, or direct revenue linkage to public partners.",
+      "source_urls": [
+        "https://www.nsf.gov/news/nsf-selects-five-additional-teams-national-quantum-virtual"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-24",
+      "priority": "medium",
+      "agency": "Department of War / Air Force",
+      "program": "Advanced Medium Range Air-to-Air Missile D4/C9 preliminary design and proof-of-manufacturing",
+      "recipient": "Raytheon",
+      "title": "Raytheon",
+      "award_text": "$398.7M cost-plus-fixed-fee and cost-reimbursement undefinitized contract action for AMRAAM system requirements/preliminary design review activities; $104.1M FMS funds obligated; awarded June 23",
+      "award_value_usd": 398700000,
+      "tickers": [
+        "RTX"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Direct RTX missile backlog and allied-air-defense demand support, but early design scope and cost-type structure make it research context below LMT THAAD.",
+      "risks": [
+        "undefinitized contract action",
+        "design-review scope rather than full-rate production",
+        "FMS customer timing",
+        "cost-plus economics may limit upside",
+        "program execution risk"
+      ],
+      "next_trigger": "Follow-on production award, booked backlog commentary, margin detail, allied demand acceleration, and tape/flow confirmation.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4525817/contracts-for-june-24-2026/"
+      ],
+      "source_quality": "primary"
     },
     {
       "date": "2026-06-17",
@@ -514,13 +627,67 @@
         "https://www.prnewswire.com/news-releases/quantum-space-awarded-a-department-of-war-contract-to-advance-on-orbit-refueling-capabilities-302803727.html"
       ],
       "source_quality": "company_primary"
+    },
+    {
+      "date": "2026-06-24",
+      "priority": "low",
+      "agency": "Department of War / Army Corps of Engineers ERDC",
+      "program": "High-performance computing system production use, delivery, installation, and maintenance",
+      "recipient": "Hewlett Packard Enterprise",
+      "title": "Hewlett Packard Enterprise",
+      "award_text": "$28M firm-fixed-price contract; cumulative face value $43.6M; work/funding by order through March 2035",
+      "award_value_usd": 28000000,
+      "tickers": [
+        "HPE"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Direct federal HPC win maps to AI/HPC infrastructure themes, but size is too small for a capital decision unless it becomes part of a broader federal supercomputing cycle.",
+      "risks": [
+        "small relative to HPE scale",
+        "order-level funding unspecified",
+        "long ordering window",
+        "not a thesis-changing award alone"
+      ],
+      "next_trigger": "Larger ERDC/HPC follow-on awards, material Cray/supercomputing backlog disclosure, or broader federal AI/HPC procurement acceleration.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4525817/contracts-for-june-24-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-24",
+      "priority": "low",
+      "agency": "Department of War / Navy",
+      "program": "USS John C. Stennis refueling complex overhaul supplemental work and schedule incentive",
+      "recipient": "Huntington Ingalls Newport News Shipbuilding",
+      "title": "Huntington Ingalls Newport News Shipbuilding",
+      "award_text": "$44.1M cost-plus-incentive-fee modification for CVN 74 RCOH supplemental work; $15M obligated at award",
+      "award_value_usd": 44100000,
+      "tickers": [
+        "HII"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Real HII shipbuilding backlog support, but the modification is small versus HII scale and should stay watch-only unless carrier/shipyard margin evidence changes.",
+      "risks": [
+        "small relative to company scale",
+        "supplemental modification",
+        "shipyard schedule and labor execution",
+        "cost-plus incentive limits clean upside"
+      ],
+      "next_trigger": "Larger Navy shipbuilding awards, carrier RCOH margin/schedule commentary, or backlog acceleration evidence.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4525817/contracts-for-june-24-2026/"
+      ],
+      "source_quality": "primary"
     }
   ],
   "summary": {
-    "stored": 19,
-    "high": 3,
-    "direct_public": 5,
-    "research_candidates": 5,
+    "stored": 25,
+    "high": 4,
+    "direct_public": 7,
+    "research_candidates": 7,
     "top_signal": "Energy Fuels: $725M conditional loan commitment for U.S. rare-earth separation and metallization capacity",
     "merged": true
   }
