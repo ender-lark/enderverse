@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T02:51:16.562739Z",
-      "summary": "checked 14 web pages, videos 3 detail/1 listing, transcript vault 0, Gmail 0; landed 7 compact rows; suppressed/discovery-only 1 policy-suppressed utilities row plus stale/no-new late surfaces; validation passed; dashboard refresh ok; dark/stale crypto flash June 8, intraday Sep 17 2025, first word June 12, live technical June 4, fed watch Apr 29, no visible transcripts/captions; blockers none"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "started",
       "run_source": "scheduled",
@@ -6293,7 +6286,14 @@
         ]
       },
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:26:24.595702Z",
+      "summary": "FS inbox catch-up preopen ingested 1 entry through [06/24/2026 22:25 ET]; Source Call Log rows 5 fetch-verified; marker advanced; flags BTC crypto patience, STRC/MSTR Monday 8-K risk, HYPE no-chase relative strength, SOL watch-only, MU miner bounce watch; no trade, broker, repo gate, or card mutation"
     }
   ],
-  "updated_at": "2026-06-25T12:22:29.142382Z"
+  "updated_at": "2026-06-25T12:26:24.595702Z"
 }
