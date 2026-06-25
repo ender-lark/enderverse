@@ -1,30 +1,14 @@
 {
   "valid": true,
-  "generated_at": "2026-06-19T02:32:18.322407-04:00",
+  "generated_at": "2026-06-25T02:32:49.479311-04:00",
   "apply_requested": true,
   "max_mutations": 10,
-  "planned_count": 3,
+  "planned_count": 1,
   "operations": [
     {
       "op": "cancel_past_event_task",
-      "page_id": "354c5031-4bb6-8196-aa03-e877d785f84c",
-      "title": "Mom \u2014 Surgery: Interstim X implantation (Dr. Briskin)",
-      "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
-      "target_status": "Cancelled",
-      "properties": null
-    },
-    {
-      "op": "cancel_past_event_task",
-      "page_id": "348c5031-4bb6-813e-ac1a-f410eb9e01ac",
-      "title": "Saturday May 9: receive new sofa + old corner sofa hauled out",
-      "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
-      "target_status": "Cancelled",
-      "properties": null
-    },
-    {
-      "op": "cancel_past_event_task",
-      "page_id": "35ac5031-4bb6-815e-8577-d077bc2ca147",
-      "title": "Sunday May 10 morning: clear bedroom (old bed + filing cabinet) + receive new beds",
+      "page_id": "36dc5031-4bb6-81aa-bf37-e1322b2a19f4",
+      "title": "Mom sleep appointment (Dr. Iskandar) \u2014 ask about Inspire device",
       "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
       "target_status": "Cancelled",
       "properties": null
@@ -39,21 +23,11 @@
   "apply_result": {
     "applied": true,
     "dry_run": false,
-    "count": 3,
+    "count": 1,
     "results": [
       {
         "op": "cancel_past_event_task",
-        "page_id": "354c5031-4bb6-8196-aa03-e877d785f84c",
-        "updated": true
-      },
-      {
-        "op": "cancel_past_event_task",
-        "page_id": "348c5031-4bb6-813e-ac1a-f410eb9e01ac",
-        "updated": true
-      },
-      {
-        "op": "cancel_past_event_task",
-        "page_id": "35ac5031-4bb6-815e-8577-d077bc2ca147",
+        "page_id": "36dc5031-4bb6-81aa-bf37-e1322b2a19f4",
         "updated": true
       }
     ]

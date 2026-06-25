@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T23:02:04.156003Z",
-      "summary": "fundstrat after-hours catch-up started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T23:06:53.213393Z",
-      "summary": "checked 12 web pages, videos 0 detail/1 listing, transcript vault 0, Gmail 0; landed 0 rows; suppressed/discovery-only 2 duplicate-or-low-value items; validation passed; Notion none; dark/stale crypto flash June 8, intraday Sep 17 2025, first word June 12, live technical June 4, fed watch Apr 29, no June 16 daily technical or transcript-backed videos; blockers none"
-    },
-    {
       "routine_id": "investing-os-off-hours-research-queue",
       "status": "started",
       "run_source": "scheduled",
@@ -6204,7 +6190,37 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T05:49:34.836195Z",
       "summary": "processed H3/M2 defense funding updates LMT THAAD LMT PrSM BA MUOS RTX AMRAAM TXT trainers; Notion SQL counts blocked; writes verified 5/5; exact live backlog dark; price/flow/account/options/margin/order lanes not_checked"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T06:32:49.346180Z",
+      "summary": "life-work-os-safe-hygiene started"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T06:32:57.800295Z",
+      "summary": "Life/Work OS safe hygiene succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_hygiene.py",
+          "--apply",
+          "--max-mutations",
+          "10",
+          "--out",
+          "src/life_work_os_hygiene_receipt.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-25T05:49:34.836195Z"
+  "updated_at": "2026-06-25T06:32:57.800295Z"
 }
