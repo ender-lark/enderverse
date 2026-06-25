@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T00:47:04.877898Z",
-      "summary": "BUILDING dry-run 8; HOT dry-run 0; queued none; cache verified 21 unqueued uncorroborated, 0 HOT/ACT_NOW; Notion write/readback n/a; blocker constrained HOT gate empty"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T00:51:36.161625Z",
-      "summary": "FS inbox catch-up evening ingested 2 entries; logged 4 Newton calls; marker advanced to [06/16/2026 20:25 ET]; flags no direct gate/card contradiction"
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "started",
       "run_source": "scheduled",
@@ -6237,7 +6223,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T11:46:13.163651Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T11:51:50.787019Z",
+      "summary": "Chrome checked Macro FlashInsights duplicate Jun24, Crypto FlashInsights stale Jun22, research listings First Word/Intraday/DTS/US Policy/Fed/Crypto, and crypto detail pages Jun24 22:08/16:34; Gmail checked 0 Chrome full content available; rows landed 6 compact article_detail; suppressed duplicate Macro/First Word/DTS, stale Crypto Flash, old policy/Fed/intraday, and listing-only cards; validation passed; dashboard refresh passed; Notion not used; dark lanes Social Watch not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T11:32:24.756821Z"
+  "updated_at": "2026-06-25T11:51:50.787019Z"
 }

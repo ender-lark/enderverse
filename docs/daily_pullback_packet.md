@@ -1,4 +1,4 @@
-# Daily pullback packet - 2026-06-24
+# Daily pullback packet - 2026-06-25
 
 Candidate-only packet. No trades executed. No option contracts selected.
 
@@ -8,7 +8,7 @@ Candidate-only packet. No trades executed. No option contracts selected.
 - Plan impact: Use the model reference bands only as staged candidates until live evidence is refreshed.
 
 ## Source Status
-- Positions: has_data from 2026-06-24 on $1,856,472.
+- Positions: stale_or_dark from 2026-06-24 on $1,856,472.
 - UW: UW endpoint proof: 26 captured row(s); neutral/inconclusive rows do not promote trades.
 - Fundstrat: Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.
 - Notion Research Queue: fetched; no writeback needed.
@@ -62,8 +62,8 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 | NVDA | $199 | $237 | -15.9% | $247,265 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
 
 ## Full Watchlist Screen
-- Screened rows with chart data: 123.
-- Not checked: SOX, SPX, TNX.
+- Screened rows with chart data: 124.
+- Not checked: SOX, SPX, TNX, VIRTUAL.
 
 TLDR: Current plan is amber pre-Fed: keep the GOOGL/MSFT rotation live, use reduced bands only if gates turn green, and treat AVGO as the top secondary swap review.
 YOUR MOVE: Do not execute until execution mode and green/amber/red gates are explicitly reviewed.
