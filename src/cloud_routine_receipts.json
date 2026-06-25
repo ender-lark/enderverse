@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T14:03:38.334566Z",
-      "summary": "scanned 14 tickers; emitted 38 UW opportunity signals; cache landed src/uw_opportunity_signals.json; failures 0; empty source rows VOLT dark_pool, GRNJ flow/oi"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T14:07:46.031259Z",
-      "summary": "parabolic cache started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T14:08:54.110395Z",
-      "summary": "scored 16 tickers; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -5730,6 +5709,13 @@
       "routine_id": "investing-os-federal-funding-post-close-sweep",
       "status": "started",
       "run_source": "scheduled",
+      "recorded_at": "2026-06-24T21:37:04.901352Z",
+      "summary": "federal funding post-close sweep started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "started",
+      "run_source": "scheduled",
       "recorded_at": "2026-06-24T21:37:56.847864Z",
       "summary": "federal funding post-close sweep started"
     },
@@ -6459,7 +6445,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T14:49:58.299776Z",
       "summary": "Chrome checked Macro FlashInsights duplicate Jun24 and Crypto FlashInsights stale Jun22; Gmail checked 0 Chrome full content available; rows landed 0; suppressed duplicate/stale FlashInsight cards and webinar discovery-only banner; validation passed; dashboard refresh skipped; alert sent 1 WGMI re-check; dark lanes none; blockers none"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T15:23:00.833842Z",
+      "summary": "federal funding midday watch started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T15:28:40.317342Z",
+      "summary": "checked War.gov Jun24 contracts plus Jun25 releases/contracts page, service/DARPA/DIU/OSC, CHIPS/NIST, DOE/EDF/LPO/OCED/EERE/NNSA, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT, EXIM/DFC; verified rows 25, new rows 0, direct public 7, research candidates 7, Signal Log stored 94, Research Queue pending 11; Notion write/readback not run no new tracking row; dark War.gov Jun25 contracts until 5pm ET, SAM/USAspending not needed; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T14:49:58.299776Z"
+  "updated_at": "2026-06-25T15:28:40.317342Z"
 }
