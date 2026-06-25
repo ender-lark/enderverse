@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T12:23:56.419230Z",
-      "summary": "snapshot 2026-06-17; 11 accounts; 275 raw positions; diff ADD 1 TRIM 1 VALUE_CHANGE 145; 3 stated-balance warnings; dashboard refresh ok"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T12:26:38.741711Z",
-      "summary": "FS inbox catch-up preopen ingested 2 entries; logged 4 calls; marker advanced to [06/16/2026 22:40 ET]; flags crypto tactical/STRC risk, no gate/card contradiction"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "started",
       "run_source": "scheduled",
@@ -6368,7 +6354,21 @@
         "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-25 09:41 ET."
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T13:46:06.667271Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T13:48:31.733701Z",
+      "summary": "checked web pages 2 Macro/Crypto FlashInsights; Gmail 0 Chrome full-content available; rows landed 0; suppressed/discovery-only 2 duplicate/stale feed states: Macro latest Jun24 16:18 already cached, Crypto latest Jun22 stale; validation passed; dashboard refresh skipped no new rows; Fundstrat alerts sent 6 existing duplicate-unsent action-changing candidates; trigger guard fired 0 and EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T13:42:04.815778Z"
+  "updated_at": "2026-06-25T13:48:31.733701Z"
 }
