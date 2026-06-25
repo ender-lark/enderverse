@@ -2,41 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-loose-thread-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T02:37:10.010719Z",
-      "summary": "loose-thread sweep started"
-    },
-    {
-      "routine_id": "investing-os-loose-thread-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T02:39:00.293949Z",
-      "summary": "loose-thread sweep nothing new",
-      "details": {
-        "loose_thread_sweep_version": 2,
-        "candidate_count": 2,
-        "captured_count": 0,
-        "skipped_duplicate_count": 1,
-        "skipped_stale_count": 1,
-        "target_verification": "verified",
-        "target_routes": [
-          "system_update_queue"
-        ],
-        "notion_readback": "system_update_queue_search_fetch_verified; all target schemas fetched; no writes",
-        "dark_or_not_checked_blockers": [],
-        "notes": "WS2 tuning duplicate of existing System Update Queue row 381c5031-4bb6-81cd-9323-c352ddc0ee78; dossier sync follow-up resolved by merged DECISION-DOSSIER-ALERTS-V1"
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T02:46:56.025447Z",
-      "summary": "fundstrat late evening web/transcript sweep started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
       "status": "success",
       "run_source": "scheduled",
@@ -6254,7 +6219,81 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T12:14:19.363545Z",
       "summary": "Chrome/Gmail Fundstrat checked; rows landed 0 new because Jun24 detail rows already cached; position caches unchanged no broker upload; UW OI checked MU/SMH/QQQ summary-only; event/federal/price caches validated; dark lanes full UW bundle, fresh catalyst input, Notion writes none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:21:27.886745Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:22:29.016114Z",
+      "summary": "investing-os-broker-position-intake started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:22:29.142382Z",
+      "summary": "broker position intake failed",
+      "details": {
+        "returncode": 1,
+        "command": [
+          "python",
+          "src/snaptrade_book_refresh.py",
+          "--refresh-dashboard"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "17cbb4685f15d6ff212de169519d8b0f324f5320113aa877e8d58a9c9dfbe544",
+            "as_of": "2026-06-24",
+            "fresh": false,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "17cbb4685f15d6ff212de169519d8b0f324f5320113aa877e8d58a9c9dfbe544",
+            "changed": false
+          },
+          {
+            "path": "src/account_positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "8efe01166f976139998d8e30639e4583e2957cc58b1774e1373a2ac48c15e616",
+            "as_of": "2026-06-24",
+            "fresh": false,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "8efe01166f976139998d8e30639e4583e2957cc58b1774e1373a2ac48c15e616",
+            "changed": false
+          },
+          {
+            "path": "src/position_reconciliation.json",
+            "as_of_field": "current_snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "8248de190f85058e4e6fedefe85153b43abf5d4b8c2d7567eb98136ec49b2e71",
+            "as_of": "2026-06-24",
+            "fresh": false,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "8248de190f85058e4e6fedefe85153b43abf5d4b8c2d7567eb98136ec49b2e71",
+            "changed": false
+          }
+        ]
+      },
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-25T12:14:19.363545Z"
+  "updated_at": "2026-06-25T12:22:29.142382Z"
 }
