@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T01:16:41.371097Z",
-      "summary": "off-hours alt-data scout started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T01:26:06.380876Z",
-      "summary": "checked SEC BMNR/GOOGL/AVGO/MSFT, UW proof, Polymarket/Guardian, Kalshi search; found 3 packets; Notion Signal Log 3 written+verified; repo Signal Log +3 and Event Risk +1; suppressed AVGO/MSFT no-action; dark Social Watch, Kalshi no relevant markets, UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX/RYF flow empty"
-    },
-    {
       "routine_id": "investing-os-loose-thread-sweep",
       "status": "started",
       "run_source": "scheduled",
@@ -6237,7 +6223,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T11:51:50.787019Z",
       "summary": "Chrome checked Macro FlashInsights duplicate Jun24, Crypto FlashInsights stale Jun22, research listings First Word/Intraday/DTS/US Policy/Fed/Crypto, and crypto detail pages Jun24 22:08/16:34; Gmail checked 0 Chrome full content available; rows landed 6 compact article_detail; suppressed duplicate Macro/First Word/DTS, stale Crypto Flash, old policy/Fed/intraday, and listing-only cards; validation passed; dashboard refresh passed; Notion not used; dark lanes Social Watch not_checked; blockers none"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:01:43.855306Z",
+      "summary": "work-os-daily-briefing started"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:01:53.021947Z",
+      "summary": "Work OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "work_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/work_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-25T11:51:50.787019Z"
+  "updated_at": "2026-06-25T12:01:53.021947Z"
 }
