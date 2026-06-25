@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T16:47:25.317525Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T16:48:30.862351Z",
@@ -6180,7 +6173,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T00:46:35.969462Z",
       "summary": "dry-run selected 0; queued tickers none; Notion write/readback not_checked because no eligible rows; remaining unqueued 2 (RYF, XOP QUIET/BUILDING); dark/stale lanes: Research Queue readback not_checked, Daily Synthesis latest failed, Positions Sync stale/not_checked on missing SnapTrade profile; blockers none for this routine"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T00:47:53.463971Z",
+      "summary": "FS inbox catch-up evening started"
     }
   ],
-  "updated_at": "2026-06-25T00:46:35.969462Z"
+  "updated_at": "2026-06-25T00:47:53.463971Z"
 }
