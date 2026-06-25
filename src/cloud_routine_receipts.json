@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-16T18:46:05.828076Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T18:47:52.023325Z",
-      "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 3 duplicate-stale-or-discovery items; validation passed; alerts quiet; dark/stale crypto flash June 8; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-16T19:45:55.867981Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6194,7 +6180,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T01:17:18.190262Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T01:25:20.179639Z",
+      "summary": "off-hours alt-data scout checked SEC active universe, UW proof, Polymarket/Kalshi Hormuz, public news/search, and Social Watch availability; routed 1 MU Signal Log packet to Notion+repo with readback verified; suppressed Hormuz duplicate/no-action plus AVGO 144/LMT 11-K noise; validations passed; Social Watch and PortWatch direct pull not_checked; UW Market Movers 403 and Sector Tide unsupported"
     }
   ],
-  "updated_at": "2026-06-25T01:16:58.160254Z"
+  "updated_at": "2026-06-25T01:25:20.179639Z"
 }
