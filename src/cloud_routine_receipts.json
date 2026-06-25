@@ -2,33 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-os-daily-briefing",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:30:25.764298Z",
-      "summary": "Life OS daily briefing manual read-only proof succeeded; scheduled proof still required",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src\\life_work_os_briefing.py",
-          "--routine",
-          "life_daily",
-          "--out",
-          "src\\life_os_daily_briefing_last_run.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "work-os-daily-briefing",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:30:40.506205Z",
-      "summary": "work-os-daily-briefing started"
-    },
-    {
       "routine_id": "work-os-daily-briefing",
       "status": "failed",
       "run_source": "manual",
@@ -6433,7 +6406,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T20:51:54.122803Z",
       "summary": "positions sync succeeded: snapshot 2026-06-25; accounts 11; raw rows 276; diffs VALUE_CHANGE 29 share-change 0; warning 1; dashboard rc0; Notion verified"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T21:37:53.106989Z",
+      "summary": "federal funding post-close sweep started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T21:42:10.544033Z",
+      "summary": "checked War.gov Jun25 releases/contracts page plus Jun24 contracts, service/DARPA/DIU/OSC, CHIPS/NIST, DOE/EDF/LPO/OCED/EERE/NNSA, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT, EXIM/DFC; verified rows 27, direct public 7, new watch Signal Log 2, research rows 0 new/7 carried; Notion Signal Log write/readback 2/2; dark War.gov Jun25 contracts not posted/indexed, Notion SQL query blocked, SAM/USAspending not needed; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T20:51:54.122803Z"
+  "updated_at": "2026-06-25T21:42:10.544033Z"
 }

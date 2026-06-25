@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-06-25T15:28:04Z",
+  "generated_at": "2026-06-25T21:50:00Z",
   "as_of": "2026-06-25",
   "scan_status": "has_data",
   "rows": [
@@ -504,6 +504,61 @@
       "source_quality": "primary"
     },
     {
+      "date": "2026-06-25",
+      "priority": "medium",
+      "agency": "Department of War / Chief Digital and Artificial Intelligence Office",
+      "program": "Agent Network AI-enabled battle management and targeting Pace-Setting Project",
+      "recipient": "Department of War Agent Network participants",
+      "title": "Department of War Agent Network participants",
+      "award_text": "Department of War launched Agent Network, an AI-enabled battle-management and targeting capability; release says the second Pace-Setting Project builds on foundational Command and Control innovation by Palantir Technologies and Lumbra, but disclosed no new dollar award",
+      "award_value_usd": null,
+      "tickers": [
+        "PLTR"
+      ],
+      "directness": "public_read_through",
+      "actionability": "watch",
+      "investing_angle": "Official defense-AI demand signal supports PLTR defense-software watch context, but no contract value or new award was disclosed, so this is not a research_review or add-path catalyst.",
+      "risks": [
+        "no new award dollars disclosed",
+        "program launch rather than contract notice",
+        "Palantir named as foundation not sole recipient",
+        "execution and ethics oversight risk",
+        "valuation sensitivity in defense AI names"
+      ],
+      "next_trigger": "Named award or task order, program dollar disclosure, Maven/Agent Network revenue commentary, or verified market/tape reaction tied to the official release.",
+      "source_urls": [
+        "https://www.war.gov/News/Releases/Release/Article/4526862/dow-unleashes-agent-network-to-transform-ai-enabled-battle-management-and-targe/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-25",
+      "priority": "medium",
+      "agency": "Department of Commerce / CHIPS Research & Development Office",
+      "program": "CHIPS R&D silicon-carbide semiconductor award",
+      "recipient": "I-Pulse",
+      "title": "I-Pulse",
+      "award_text": "$250M definitive CHIPS R&D award to develop next-generation silicon-carbide semiconductors for harsh-environment high-temperature, high-current, high-voltage switching; Commerce received a minority, non-controlling equity stake",
+      "award_value_usd": 250000000,
+      "tickers": [],
+      "directness": "private_read_through",
+      "actionability": "watch",
+      "investing_angle": "Private direct recipient; useful watch context for U.S. SiC, pulsed-power drilling, geothermal, fusion, advanced manufacturing, and critical-minerals productivity, but no clean public-company beneficiary or immediate capital decision.",
+      "risks": [
+        "private company recipient",
+        "R&D execution risk",
+        "commercialization timing uncertain",
+        "no public-company direct revenue linkage",
+        "government equity stake may complicate future financing"
+      ],
+      "next_trigger": "Named public manufacturing partner, follow-on production award, disclosed SiC supply-chain/customer economics, or public-company revenue linkage.",
+      "source_urls": [
+        "https://www.nist.gov/news-events/news/2026/06/department-commerce-announces-definitive-agreement-i-pulse-250-million",
+        "https://www.ipulse-group.com/i-pulse-welcomes-codelco-as-strategic-investor/"
+      ],
+      "source_quality": "primary plus company ticker/read-through check"
+    },
+    {
       "date": "2026-06-17",
       "priority": "low",
       "agency": "Department of War / Air Force",
@@ -684,7 +739,7 @@
     }
   ],
   "summary": {
-    "stored": 25,
+    "stored": 27,
     "high": 4,
     "direct_public": 7,
     "research_candidates": 7,
