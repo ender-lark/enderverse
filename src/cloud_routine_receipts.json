@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T12:10:50.611919Z",
-      "summary": "pre-market source intake started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T12:14:00.872997Z",
-      "summary": "Gmail 7 full-body candidates checked, Chrome latest research checked; landed 0 rows; positions unchanged snapshot 2026-06-17; catalysts unchanged 12; event risks unchanged 5; dark/stale lanes: Drive broker/catalyst/event drops absent, Catalyst Notion stale Jun 11, UW only Jun16 after-hours proof"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-preopen",
       "status": "started",
       "run_source": "scheduled",
@@ -6331,7 +6317,22 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T13:30:50.558026Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T13:33:43.930379Z",
+      "summary": "repo synthesis refreshed/validated; Notion page 38ac5031-4bb6-8180-afa6-fb6f032d2749 write/readback verified; HOOD sell-fast review and Social Watch not_checked; broker positions stale/not_checked; verify_standard failed go_live_checklist CLI returncode 2",
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-25T13:17:32.981636Z"
+  "updated_at": "2026-06-25T13:33:43.930379Z"
 }
