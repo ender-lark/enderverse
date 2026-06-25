@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T08:47:34.204534Z",
-      "summary": "off-hours queue buffer started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T08:51:49.752823Z",
-      "summary": "skipped; verified live queued H2/M0/L0; selected none; remaining H2: MU parabolic wiring is code/framework follow-up, full-book rebalance pending operator review; Notion writes none; ordered query dark/not_checked; stale fallback mirror not source"
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "started",
       "run_source": "scheduled",
@@ -6293,7 +6279,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T12:41:25.859948Z",
       "summary": "morning scan success: Notion Signal Log rows 3 fetch-verified; repo Signal Log cache 94 rows validated; top signals AI-memory premarket recheck, SMH/QQQ bearish-flow caveat, BMNR crypto monitor; macro cache not refreshed snapshot 2026-06-04 no supplied macro inputs; Notion SQL blocked"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:52:51.483024Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:53:42.233321Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "96651dca1a62e7d4ea2b0f0a866ea298ef0aececfe322b77dea9f4a4159567e4",
+            "as_of": "2026-06-25T12:53:34.792742+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "4e665b302dbb30e385ca767e45a1c6a1ddcee09b3c85abc0a4af360396b9a169",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-25T12:41:25.859948Z"
+  "updated_at": "2026-06-25T12:53:42.233321Z"
 }
