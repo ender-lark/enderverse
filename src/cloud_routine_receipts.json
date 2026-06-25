@@ -2,33 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "work-os-daily-briefing",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:30.916013Z",
-      "summary": "Work OS daily briefing manual read-only proof succeeded; scheduled proof still required",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src\\life_work_os_briefing.py",
-          "--routine",
-          "work_daily",
-          "--out",
-          "src\\work_os_daily_briefing_last_run.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "life-os-weekly-review",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:35.867842Z",
-      "summary": "life-os-weekly-review started"
-    },
-    {
       "routine_id": "life-os-weekly-review",
       "status": "success",
       "run_source": "manual",
@@ -6407,7 +6380,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T23:10:51.592360Z",
       "summary": "web checked Macro/Crypto Flash, 10 research/video listings, latest all, 5 detail pages, 1 Vimeo caption player; videos checked 3; transcript vault 1 Sean Farrell Crypto Comments d2ae15e; Gmail checked 0 Chrome full-content available; rows landed 1 article_detail SPY First-to-Market plus transcript index metadata; suppressed duplicate/stale Flash Jun25, Crypto Flash Jun22, cached Jun24 crypto/DTS/Macro/First Word/Virtuals, stale policy/Fed/live-tech/intraday empty, listing/video-only; validation passed transcript index/email validate/source merge/26 focused tests; dashboard refreshed and preview healthy; Notion not used; dark social_watch not_checked and Crypto Flash stale; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T23:31:42.578962Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T23:32:26.210998Z",
+      "summary": "Research Queue not_checked; drop path missing; cache not refreshed; existing cache pending=11 done=0 ACT_NOW=none skipped=0"
     }
   ],
-  "updated_at": "2026-06-25T23:10:51.592360Z"
+  "updated_at": "2026-06-25T23:32:26.210998Z"
 }
