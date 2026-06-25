@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T12:42:05.690886Z",
-      "summary": "3 Signal Log rows written+verified; repo cache 39 rows; UW proof refreshed through 2026-06-16 16:10 ET; Jun17 tide not open, macro supplied inputs absent, Social Watch dark"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T12:52:54.957887Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
@@ -6368,7 +6354,46 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T13:50:46.576906Z",
       "summary": "checked web pages 2 Macro/Crypto FlashInsights; Gmail 0 Chrome full-content available; rows landed 0; suppressed/discovery-only 2 duplicate/stale feed states: Macro latest Jun24 16:18 already cached, Crypto latest Jun22 stale; validation passed; dashboard refresh skipped no new rows; Fundstrat alert output reported 6 candidates but state recorded 5 last-added named prompts due known alert-count cap; trigger guard fired 0 and EWRE/ASTS/RKLB/MU quote lanes not_checked; Notion duplicate check found existing System Update Queue row for alert cap; blockers none"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:03:11.824837Z",
+      "summary": "investing-os-uw-opportunity-cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:03:16.670869Z",
+      "summary": "uw opportunity cache succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "cmd",
+          "/c",
+          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/uw_opportunity_signals.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "9267cfb0768ef461a1104eac160171ebeb662943aa4a487e77a1a67d9b6d607b",
+            "as_of": "2026-06-25T14:03:16.560222+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "9c540f160caa3312cddf7c0d5a3aeeafb8364b4afc80411933772d14f8c808e0",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-25T13:50:46.576906Z"
+  "updated_at": "2026-06-25T14:03:16.670869Z"
 }
