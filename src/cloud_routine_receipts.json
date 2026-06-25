@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T18:49:47.182390Z",
-      "summary": "checked 2 Chrome FlashInsights pages Macro/Crypto, Gmail 0; landed 0 rows this run; suppressed/discovery-only duplicate UBS/XBI plus stale Jun8 Crypto; validation passed; dashboard refresh skipped no new rows; Fundstrat alert quiet 0 candidates/7 duplicates/45 suppressed; trigger guard fired 3 HELD sent, 4 quote not_checked; dark/stale Crypto Jun8 and Social Watch dark; blockers none"
-    },
-    {
-      "routine_id": "life-os-daily-briefing",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:29:15.585765Z",
-      "summary": "life-os-daily-briefing started"
-    },
-    {
       "routine_id": "life-os-daily-briefing",
       "status": "failed",
       "run_source": "manual",
@@ -6446,7 +6432,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T20:37:52.959145Z",
+      "summary": "FS inbox catch-up postclose started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T20:39:43.558947Z",
+      "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/25/2026 09:25 ET]; Notion marker fetch-verified; no Source Call Log rows written"
     }
   ],
-  "updated_at": "2026-06-25T20:33:22.575467Z"
+  "updated_at": "2026-06-25T20:39:43.558947Z"
 }
