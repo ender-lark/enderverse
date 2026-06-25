@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-17T14:47:14.827413Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T14:53:14.390988Z",
-      "summary": "checked web pages 2 Macro/Crypto FlashInsights, Gmail 0; landed 1 SPCX compact row; suppressed/discovery-only 0 new rows, older Macro handled and Crypto stale Jun8; validation passed; dashboard refresh ok; alert quiet no push; dark/stale Crypto FlashInsights Jun8 and Social Watch; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-17T15:47:45.312881Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6452,7 +6438,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T15:49:26.967701Z",
       "summary": "checked web pages 2 Macro/Crypto FlashInsights; Gmail 0 Chrome full-content available; rows landed 0; suppressed/discovery-only 2 duplicate/stale feed states: Macro latest Jun24 16:18 MU already cached, Crypto latest Jun22 11:14 MSTR/STRC stale duplicate; validation passed; dashboard refresh skipped no new rows; alert quiet candidates 0 duplicates 10 suppressed 117; trigger guard fired 0 and EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T16:32:01.324358Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T16:37:19.174478Z",
+      "summary": "FS inbox catch-up midday ingested 1 entry through [06/25/2026 09:25 ET]; Source Call Log rows 1 fetch-verified; marker advanced; flags Hormuz/Fed dovish-surprise macro watch; duplicate SPX/BTC/AMD snippets not re-logged; no trade, broker, repo gate, or card mutation"
     }
   ],
-  "updated_at": "2026-06-25T15:49:26.967701Z"
+  "updated_at": "2026-06-25T16:37:19.174478Z"
 }
