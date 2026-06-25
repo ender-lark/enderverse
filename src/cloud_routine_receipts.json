@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T16:48:30.862351Z",
-      "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 1 webinar banner; validation passed; alert quiet 0 candidates; dark/stale macro unchanged since 2026-06-15, crypto unchanged since 2026-06-08; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
       "recorded_at": "2026-06-16T17:47:27.878656Z",
@@ -6180,7 +6173,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T00:47:53.463971Z",
       "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T00:53:17.252608Z",
+      "summary": "Decision-relevant flags logged only: QQQ 704/720/734-785 refresh, MU near-term upside with fall-risk watch, TNX 4.32, JETS/Health Care/RSP broadening, SPX target 8000; MONTHLY LANDED core-stock-ideas full distill needed; ingested 2 entries through [06/24/2026 20:40 ET]; Source Call Log rows 8 fetch-verified; marker advanced; Notion query endpoint dark/not_checked; no trade, broker, repo gate, or card mutation"
     }
   ],
-  "updated_at": "2026-06-25T00:47:53.463971Z"
+  "updated_at": "2026-06-25T00:53:17.252608Z"
 }
