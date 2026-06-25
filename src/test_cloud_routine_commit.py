@@ -218,6 +218,7 @@ def test_default_allowlist_includes_redacted_fundstrat_intake_bookkeeping():
     assert "src/fundstrat_daytime_alert_state.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/live_source_config.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/fundstrat_daily_calls.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
+    assert "src/options_shadow_log.jsonl" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/orphan_triage.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/orphan_triage.md" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS
     assert "src/uw_endpoint_results.json" in cloud_routine_commit.DEFAULT_ALLOWED_PATHS

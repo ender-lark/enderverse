@@ -41,15 +41,43 @@ def rejection_row(result: dict, *, as_of: Optional[str] = None) -> Optional[dict
     }
 
 
+def _dedupe_key(row: dict) -> tuple:
+    """Stable identity for one rejected idea in one dated options run."""
+    return (
+        row.get("as_of"),
+        row.get("ticker"),
+        row.get("disposition"),
+        row.get("filter_reason"),
+        row.get("structure"),
+        row.get("iv_environment"),
+        row.get("break_even_pct"),
+    )
+
+
 def append_rejections(results, *, path: Path | str = DEFAULT_PATH, as_of: Optional[str] = None) -> int:
-    """Append every near-miss/hold from a build_expression() batch. Returns count written."""
+    """Append new near-miss/hold rows from a build_expression() batch. Returns count written.
+
+    Dashboard refreshes can run the full-build path more than once in one invocation
+    (pre-synthesis, final, parity). Keep the ledger append-only for new misses while
+    making repeated identical build passes idempotent.
+    """
     rows = [r for r in (rejection_row(x, as_of=as_of) for x in (results or [])) if r]
     if not rows:
         return 0
+    existing_keys = {_dedupe_key(row) for row in load_log(path)}
+    new_rows = []
+    for row in rows:
+        key = _dedupe_key(row)
+        if key in existing_keys:
+            continue
+        existing_keys.add(key)
+        new_rows.append(row)
+    if not new_rows:
+        return 0
     with Path(path).open("a", encoding="utf-8") as fh:
-        for r in rows:
+        for r in new_rows:
             fh.write(json.dumps(r) + "\n")
-    return len(rows)
+    return len(new_rows)
 
 
 def load_log(path: Path | str = DEFAULT_PATH) -> list[dict]:
@@ -93,6 +121,10 @@ def _self_test() -> int:
             fails.append("load_log count != 2")
         if len(open_misses(p)) != 2:
             fails.append("open_misses != 2")
+        if append_rejections(results, path=p) != 0:
+            fails.append("same rejected rows should not append twice")
+        if len(load_log(p)) != 2:
+            fails.append("idempotent append changed log count")
         if append_rejections([{"ticker": "A", "disposition": "ACT"}], path=p) != 0:
             fails.append("ACT-only batch should append 0")
     if fails:

@@ -84,6 +84,15 @@ def test_shadow_log_excludes_acted(tmp_path):
     assert osl.open_misses(p)[0]["ticker"] == waited["ticker"]
 
 
+def test_shadow_log_dedupes_repeated_full_build_passes(tmp_path):
+    waited = oe.build_expression(_cheap_act_subject(iv_rank=70.0, one_day_return=-0.06))
+    p = tmp_path / "shadow.jsonl"
+
+    assert osl.append_rejections([waited], path=p, as_of="2026-06-18") == 1
+    assert osl.append_rejections([waited], path=p, as_of="2026-06-18") == 0
+    assert len(osl.open_misses(p)) == 1
+
+
 def test_conviction_scaled_sizing_with_shown_ceiling():
     # cheap premium ($100/contract) so many contracts fit -> conviction scaling is visible
     strong = oe.size_position(100.0, portfolio_value=100000, open_premium_at_risk=0,

@@ -43,6 +43,13 @@ This prevents `verify_standard.py` or automation health checks from dirtying
 the runtime checkout while preserving shadow-log capture for real full cockpit
 builds.
 
+A later 2026-06-25 follow-up repaired the ignored local SnapTrade profile in
+the runtime checkout from the documented profile shape and the last validated
+account-owner map, without writing secrets to disk. The same follow-up made
+`src/options_shadow_log.jsonl` idempotent by dated near-miss identity and added
+it to the safe helper allowlist so real full-build shadow capture can be
+persisted without repeated duplicate rows.
+
 The auto-fix path is intentionally narrow:
 
 - It can rewrite unhealthy key automation `cwds` to a supplied canonical runtime
