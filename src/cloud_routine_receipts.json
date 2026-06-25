@@ -2,27 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T17:10:36.318046Z",
-      "summary": "30d weekly deep: semis damage-control, closure gaps outrun new signals, pilots evidenced but thin; Notion page written+verified; blocker: Notion query endpoint unavailable"
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T22:02:42.797093Z",
-      "summary": "weekly pilot run started"
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-07T22:09:16.173250Z",
-      "summary": "pilot dashboard updated; Sunday summary written; v0 1 row unchanged; gamma refreshed with GRNJ gap; 13F outside window and manager file missing"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "manual",
@@ -7314,7 +7293,41 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T22:15:24.901969Z",
+      "summary": "trump trade watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T22:16:08.479931Z",
+      "summary": "investing-os-trump-trade-watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T22:16:08.617861Z",
+      "summary": "trump trade watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/political_trade_watch.py",
+          "--input",
+          "tmp/trump_trade_watch_uw.json",
+          "--out",
+          "src/political_trade_watch.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-25T20:14:34.457945Z"
+  "updated_at": "2026-06-25T22:16:08.617861Z"
 }
