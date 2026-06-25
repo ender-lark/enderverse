@@ -70,6 +70,21 @@ The recurring Codex app automation is active as
 uses the watchdog's `--apply` path for safe cwd repair, and sends Pushover when
 workspace, failed-receipt, or overdue-receipt attention remains.
 
+On 2026-06-25, that app automation was upgraded in place to the Investing OS
+Automation Guardian. It remains scheduled twice daily and now explicitly:
+
+- gates on a clean/current `main` checkout before any repair work,
+- fast-forwards only when safe,
+- runs the watchdog with `--fetch --apply --send-alert`,
+- triages repairable ignored local-state blockers such as missing SnapTrade
+  profile shape or required environment-variable presence without printing
+  secrets,
+- avoids manual `--run-source scheduled` reruns, and
+- names `src/cloud_routine_commit.py` as the only routine write-back helper for
+  routine-owned repo artifacts,
+- summarizes workspace fixes, failed/overdue proof, alerts, next proof windows,
+  and any lanes left dark/not_checked.
+
 Validation on 2026-06-24 found 34 proof-critical installed automations with bad
 workspace state, including many still pointing at the older June 4 checkout and
 several pointing at the dirty/stale June 24 `automation-main` checkout. Running
@@ -77,6 +92,12 @@ the watchdog with `--apply` rewrote those 34 local Codex automation records to
 the clean runtime checkout. A post-fix dry run reported zero automation
 workspace problems and preserved six real cloud-proof attention items for
 failed/overdue receipts.
+
+Validation on 2026-06-25 after the guardian prompt update reported zero
+automation workspace problems and zero local cwd fixes needed. It still
+correctly surfaced two latest failed core receipts, Broker Position Intake and
+Daily Synthesis, as cloud-proof attention until their next natural scheduled
+runs prove green.
 
 Operator commands:
 
