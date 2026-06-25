@@ -3,33 +3,6 @@
   "receipts": [
     {
       "routine_id": "work-os-daily-briefing",
-      "status": "failed",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:30:47.912139Z",
-      "summary": "Work OS daily briefing manual read-only proof failed",
-      "details": {
-        "returncode": 2,
-        "command": [
-          "python",
-          "src\\life_work_os_briefing.py",
-          "--routine",
-          "work_daily",
-          "--out",
-          "src\\work_os_daily_briefing_last_run.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "work-os-daily-briefing",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:23.307011Z",
-      "summary": "work-os-daily-briefing started"
-    },
-    {
-      "routine_id": "work-os-daily-briefing",
       "status": "success",
       "run_source": "manual",
       "recorded_at": "2026-06-17T19:31:30.916013Z",
@@ -6420,7 +6393,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T21:42:10.544033Z",
       "summary": "checked War.gov Jun25 releases/contracts page plus Jun24 contracts, service/DARPA/DIU/OSC, CHIPS/NIST, DOE/EDF/LPO/OCED/EERE/NNSA, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT, EXIM/DFC; verified rows 27, direct public 7, new watch Signal Log 2, research rows 0 new/7 carried; Notion Signal Log write/readback 2/2; dark War.gov Jun25 contracts not posted/indexed, Notion SQL query blocked, SAM/USAspending not needed; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T23:01:25.138376Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T23:10:51.592360Z",
+      "summary": "web checked Macro/Crypto Flash, 10 research/video listings, latest all, 5 detail pages, 1 Vimeo caption player; videos checked 3; transcript vault 1 Sean Farrell Crypto Comments d2ae15e; Gmail checked 0 Chrome full-content available; rows landed 1 article_detail SPY First-to-Market plus transcript index metadata; suppressed duplicate/stale Flash Jun25, Crypto Flash Jun22, cached Jun24 crypto/DTS/Macro/First Word/Virtuals, stale policy/Fed/live-tech/intraday empty, listing/video-only; validation passed transcript index/email validate/source merge/26 focused tests; dashboard refreshed and preview healthy; Notion not used; dark social_watch not_checked and Crypto Flash stale; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T21:42:10.544033Z"
+  "updated_at": "2026-06-25T23:10:51.592360Z"
 }
