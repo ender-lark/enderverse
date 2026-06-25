@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T19:45:55.867981Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T19:47:32.345947Z",
-      "summary": "checked 2 web pages, Gmail 0; landed 0 rows; suppressed/discovery-only 1 low-value macro flash and 2 stale already-handled macro cards; validation passed; alert quiet; dark/stale crypto flash June 8; blockers none"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T20:32:11.612455Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
       "routine_id": "investing-os-post-close-refresh",
       "status": "success",
       "run_source": "scheduled",
@@ -6194,7 +6173,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T01:25:20.179639Z",
       "summary": "off-hours alt-data scout checked SEC active universe, UW proof, Polymarket/Kalshi Hormuz, public news/search, and Social Watch availability; routed 1 MU Signal Log packet to Notion+repo with readback verified; suppressed Hormuz duplicate/no-action plus AVGO 144/LMT 11-K noise; validations passed; Social Watch and PortWatch direct pull not_checked; UW Market Movers 403 and Sector Tide unsupported"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T02:16:49.416974Z",
+      "summary": "dossier keeper started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T02:17:33.039347Z",
+      "summary": "loose-thread sweep started"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T02:19:03.365838Z",
+      "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=37 coverage='25/25 current action/material fresh; missing=0 stale=0 unparsed=0' discipline='all dossiers pass buy-side discipline rail' dark_not_checked='BE source-call/options/flow/cash lanes not_checked; KTOS same-session UW/price-flow/account eligibility not_checked; remaining missing-draft backlog carried=37'"
     }
   ],
-  "updated_at": "2026-06-25T01:25:20.179639Z"
+  "updated_at": "2026-06-25T02:19:03.365838Z"
 }
