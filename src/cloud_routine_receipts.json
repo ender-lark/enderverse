@@ -2,20 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T02:59:32.823541Z",
-      "summary": "weekly pilot run started"
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T03:01:18.988327Z",
-      "summary": "30d repo+Notion-page deep review; semis/event-risk and NVDA gap still hang; pilots first-run evidenced but thin; Notion deep page written; blocker: Notion DB query unavailable"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "started",
       "run_source": "scheduled",
@@ -7342,7 +7328,34 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:16:14.015396Z",
+      "summary": "investing-os-trump-trade-watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:16:14.144415Z",
+      "summary": "trump trade watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/political_trade_watch.py",
+          "--input",
+          "tmp/trump_trade_watch_uw.json",
+          "--out",
+          "src/political_trade_watch.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-24T22:15:22.822137Z"
+  "updated_at": "2026-06-25T12:16:14.144415Z"
 }
