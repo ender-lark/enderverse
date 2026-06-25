@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T14:31:43.722579Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T14:32:23.831399Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -3774,7 +3753,7 @@
             ],
             "returncode": 0,
             "optional": false,
-            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER \u2014 2026-06-22 16:10 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 1 (inflection)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (11) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1 (early)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 2 (recognition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
+            "stdout": "==============================================================================\nPARABOLIC SETUP SCREENER — 2026-06-22 16:10 UTC\n==============================================================================\nThreshold: AUTOFIRE >= 9.0 | WATCHLIST >= 6.0 | SKIP < 6.0 | MAX = 13.0\n\n--- WATCHLIST (4) ---\nVIAV    score  8.50/13.0  Phase 1 (inflection)\nKEYS    score  7.25/13.0  Phase 1 (early)\nFORM    score  6.50/13.0  Phase 1 (inflection)\nLITE    score  6.00/13.0  Phase 4 (distribution)\n\n--- SKIP (11) ---\nMP      score  5.75/13.0  Phase 0 (boredom)\nAVAV    score  5.25/13.0  Phase 1/2 (transition)\nONTO    score  4.75/13.0  Phase 1 (early)\nBWXT    score  4.25/13.0  Phase 0 (boredom)\nCLS     score  4.25/13.0  Phase 1/2 (transition)\nAEHR    score  4.00/13.0  Phase 2 (recognition)\nCAMT    score  4.00/13.0  Phase 1/2 (transition)\nKTOS    score  4.00/13.0  Phase 1/2 (transition)\nCOHR    score  3.25/13.0  Phase 1 (early)\nVRT     score  3.25/13.0  Phase 1 (early)\nPWR     score  1.75/13.0  Phase 1 (early)",
             "stderr": "Emitted 15 results -> src/parabolic_setups.json (AUTOFIRE 0, WATCHLIST 4, SKIP 11)"
           }
         ]
@@ -6459,7 +6438,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T15:28:40.317342Z",
       "summary": "checked War.gov Jun24 contracts plus Jun25 releases/contracts page, service/DARPA/DIU/OSC, CHIPS/NIST, DOE/EDF/LPO/OCED/EERE/NNSA, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT, EXIM/DFC; verified rows 25, new rows 0, direct public 7, research candidates 7, Signal Log stored 94, Research Queue pending 11; Notion write/readback not run no new tracking row; dark War.gov Jun25 contracts until 5pm ET, SAM/USAspending not needed; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T15:47:17.295605Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T15:49:26.967701Z",
+      "summary": "checked web pages 2 Macro/Crypto FlashInsights; Gmail 0 Chrome full-content available; rows landed 0; suppressed/discovery-only 2 duplicate/stale feed states: Macro latest Jun24 16:18 MU already cached, Crypto latest Jun22 11:14 MSTR/STRC stale duplicate; validation passed; dashboard refresh skipped no new rows; alert quiet candidates 0 duplicates 10 suppressed 117; trigger guard fired 0 and EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T15:28:40.317342Z"
+  "updated_at": "2026-06-25T15:49:26.967701Z"
 }
