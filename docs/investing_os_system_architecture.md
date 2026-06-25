@@ -785,6 +785,10 @@ Dark-lane rules:
   `completion_audit.py`, HTML dashboard, and JSX validation card) split deferred
   optional dark lanes from actionable dark lanes. Deferred Social Watch should
   show as visible/not checked without producing a core manual-drop instruction.
+- Readiness/go-live probes are read-only status checks. When they reuse the
+  full-build feed path, they disable options shadow-log persistence with
+  `options_shadow_log_path=None`; only real full cockpit builds write
+  `src/options_shadow_log.jsonl` for options dial tuning.
 - The heartbeat/layer strip follows the same rule: actionable dark source lanes
   can mark Optional Source Lanes stale, but deferred-only Social Watch should
   keep the layer green with a deferred/not-checked note.

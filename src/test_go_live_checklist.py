@@ -511,6 +511,8 @@ def test_format_text_is_human_scannable(monkeypatch, tmp_path):
 
 
 def test_go_live_checklist_cli_runs_against_current_repo():
+    shadow_log = Path(__file__).resolve().parent / "options_shadow_log.jsonl"
+    before_shadow = shadow_log.read_bytes() if shadow_log.exists() else None
     env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
     proc = subprocess.run(
         [
@@ -530,9 +532,13 @@ def test_go_live_checklist_cli_runs_against_current_repo():
     report = json.loads(proc.stdout)
     assert "rows" in report
     assert any(row["key"] == "manual_drop" for row in report["rows"])
+    after_shadow = shadow_log.read_bytes() if shadow_log.exists() else None
+    assert after_shadow == before_shadow
 
 
 def test_go_live_checklist_cli_text_format_runs_against_current_repo():
+    shadow_log = Path(__file__).resolve().parent / "options_shadow_log.jsonl"
+    before_shadow = shadow_log.read_bytes() if shadow_log.exists() else None
     env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
     proc = subprocess.run(
         [
@@ -557,3 +563,5 @@ def test_go_live_checklist_cli_text_format_runs_against_current_repo():
     )
     assert "Ready:" in proc.stdout
     assert "Dashboard preview" in proc.stdout
+    after_shadow = shadow_log.read_bytes() if shadow_log.exists() else None
+    assert after_shadow == before_shadow

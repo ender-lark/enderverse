@@ -964,6 +964,9 @@ def _options_coverage(theses: list[dict] | None, positions_cache: Any, bundle: d
     return {"screened": len(screened), "universe": len(universe), "not_pulled": not_pulled, "line": line}
 
 
+_DEFAULT_OPTIONS_SHADOW_LOG = object()
+
+
 def _build_options_surface(
     cache: Any,
     *,
@@ -971,13 +974,13 @@ def _build_options_surface(
     positions_cache: Any,
     as_of: str | None,
     generated_at: str | None,
-    shadow_log_path: str | Path,
+    shadow_log_path: str | Path | None,
 ) -> dict | None:
     """Build the opt-in options-expression surface from the cached bundle, or None when absent.
 
-    Pure except for the shadow-log append (near-miss capture for later dial-tuning), which is
-    routed to ``shadow_log_path`` (so a build under a tmp src_dir never dirties the repo) and is
-    best-effort: a logging failure must never abort the full build.
+    Pure except for the optional shadow-log append (near-miss capture for later dial-tuning),
+    which is routed to ``shadow_log_path``. Pass ``None`` for read-only probes such as
+    readiness/go-live checks; a logging failure must never abort the full build.
     """
     bundle = options_bundle_from_cache(cache)
     if not bundle:
@@ -993,6 +996,9 @@ def _build_options_surface(
         generated_at=generated_at,
     )
     surface = opt_surface.apply_no_add_rails(surface, conviction_lookup)
+    if shadow_log_path is None:
+        surface["coverage"] = _options_coverage(theses, positions_cache, bundle)
+        return surface
     try:
         opt_surface.persist_shadow_log(surface, path=shadow_log_path)
     except Exception:  # noqa: BLE001 — logging a near-miss must never abort the build
@@ -1010,6 +1016,7 @@ def build_full_feed_from_files(
     as_of: str | None = None,
     run_timestamp: str | None = None,
     generated_at: str | None = None,
+    options_shadow_log_path: str | Path | None | object = _DEFAULT_OPTIONS_SHADOW_LOG,
 ) -> dict:
     """Load convention files and build a validated cockpit feed."""
     src = Path(src_dir) if src_dir else _src_dir()
@@ -1218,13 +1225,18 @@ def build_full_feed_from_files(
     # {ticker: {screener, chain}}; the build here stays pure and token-safe. When the cache is
     # absent the surface stays None, the cockpit block is omitted, and Today-Decide renders
     # nothing new (honest, byte-additive). `score` is promotion-ordering only, never the call.
+    shadow_log_path = (
+        src / "options_shadow_log.jsonl"
+        if options_shadow_log_path is _DEFAULT_OPTIONS_SHADOW_LOG
+        else options_shadow_log_path
+    )
     options_surface = _build_options_surface(
         _load_optional(src, "options_chain"),
         theses=theses,
         positions_cache=positions_cache,
         as_of=positions_as_of or today,
         generated_at=generated_at or now,
-        shadow_log_path=src / "options_shadow_log.jsonl",
+        shadow_log_path=shadow_log_path,
     )
     if options_surface is not None:
         feed["options_expression"] = opt_surface.cockpit_feed_block(options_surface)

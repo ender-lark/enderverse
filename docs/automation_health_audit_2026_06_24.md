@@ -32,8 +32,16 @@ tests. The watchdog checks the installed Codex app automation records, verifies
 proof-critical routine workspaces are usable git checkouts on clean/current
 `main`, and summarizes failed or overdue routine receipts through a receipt-only
 loader. It intentionally does not call the full `cloud_ops_status.py` live-status
-path because that path can evaluate live readiness and append generated
-option-shadow rows.
+path; the watchdog should remain a receipt/workspace monitor, not a full
+readiness rebuild.
+
+On 2026-06-25, the live readiness/go-live path was also made explicitly
+read-only for options shadow logging. `live_readiness.readiness_report()` passes
+`options_shadow_log_path=None` into the full-build feed loader, and the
+go-live checklist smoke tests assert `src/options_shadow_log.jsonl` is unchanged.
+This prevents `verify_standard.py` or automation health checks from dirtying
+the runtime checkout while preserving shadow-log capture for real full cockpit
+builds.
 
 The auto-fix path is intentionally narrow:
 

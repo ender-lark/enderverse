@@ -963,6 +963,27 @@ def test_full_build_runner_wires_options_expression_when_cache_present(tmp_path)
     assert shadow.is_file() and "ZZZ" in shadow.read_text(encoding="utf-8")
 
 
+def test_full_build_runner_can_skip_options_shadow_log_for_read_only_probe(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    _required_files(src)
+    _write(src / "theses.json", [
+        {"ticker": "NVDA", "tier": "T2", "stance": "ACTIVE", "horizon_days": 60, "factor_tags": ["ai_complex"]},
+        {"ticker": "SMH", "tier": "T2", "stance": "ACTIVE", "factor_tags": ["semiconductors"]},
+    ])
+    _write(src / "options_chain_cache.json", _options_cache_payload())
+
+    feed = build_full_feed_from_files(
+        src_dir=src,
+        as_of="2026-06-18",
+        run_timestamp="2026-06-18T14:00:00+00:00",
+        options_shadow_log_path=None,
+    )
+
+    assert "options_expression" in feed
+    assert not (src / "options_shadow_log.jsonl").exists()
+
+
 def test_full_build_runner_omits_options_when_cache_absent(tmp_path):
     src = tmp_path / "src"
     src.mkdir()

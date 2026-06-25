@@ -141,6 +141,10 @@ At the end of any substantive task/session, before going idle, capture loose thr
 - When manual auditing recurs, turn the audit into a tool and schedule it. Prove
   features against the real failures they target, and document honest gaps
   instead of faking green.
+- Readiness, go-live, smoke-test, and watchdog probes must be read-only. If they
+  need the full-build feed for status, pass `options_shadow_log_path=None` so
+  verification cannot append generated option-shadow rows or dirty the
+  automation runtime. Full cockpit builds keep the default shadow-log capture.
 
 ## Life/Work OS Scheduled Routines
 

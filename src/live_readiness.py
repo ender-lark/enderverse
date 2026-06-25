@@ -218,6 +218,7 @@ def readiness_report(
             as_of=as_of,
             run_timestamp=run_timestamp,
             generated_at=generated_at,
+            options_shadow_log_path=None,
         )
     except (FileNotFoundError, FullBuildError, json.JSONDecodeError, ValueError) as exc:
         build_problem = str(exc)
