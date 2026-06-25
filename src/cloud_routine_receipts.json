@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T16:32:39.357862Z",
-      "summary": "FS inbox catch-up midday started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T16:33:45.395478Z",
-      "summary": "FS inbox catch-up midday ingested 1 entry; logged 0 calls; no new gate/card contradiction"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6180,7 +6166,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T23:32:55.083875Z",
       "summary": "Research Queue not_checked: drop path missing; cache preserved 11 pending 0 done 0 ACT_NOW skipped 0"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T00:46:10.160225Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T00:46:35.969462Z",
+      "summary": "dry-run selected 0; queued tickers none; Notion write/readback not_checked because no eligible rows; remaining unqueued 2 (RYF, XOP QUIET/BUILDING); dark/stale lanes: Research Queue readback not_checked, Daily Synthesis latest failed, Positions Sync stale/not_checked on missing SnapTrade profile; blockers none for this routine"
     }
   ],
-  "updated_at": "2026-06-24T23:32:55.083875Z"
+  "updated_at": "2026-06-25T00:46:35.969462Z"
 }
