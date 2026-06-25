@@ -2174,5 +2174,39 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_f35ac06c1110"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "MAGS",
+    "tier": "A",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "Newton says MAGS fell 14% since mid-May; rotation is healthy and QQQ still technically good, but no DeMark downside exhaustion for 5-7 sessions means do not buy Mag 7 dips yet.",
+    "falsification_condition": "FALSIFIED if ['MAGS', 'QQQ'] fails to reach stated target within window, OR stop hit before target",
+    "date": "2026-06-25",
+    "window_end": "2026-07-09",
+    "window_days": 14,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-25",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_daeee3f7c3f7"
+  },
+  {
+    "source": "mark l. newton, cmt",
+    "ticker": "MSFT",
+    "tier": "B",
+    "confidence_in_tier": "MED",
+    "verbatim_quote": "Newton flags MSFT breaking March lows and its 50-month MA; negative momentum makes April 2025 lows near 344.80 hard to trust, so re-check/avoid adding software risk.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-25",
+    "window_end": "2026-08-24",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-25",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_efad75e62762"
   }
 ]

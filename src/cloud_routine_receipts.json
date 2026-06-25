@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T16:31:51.313657Z",
-      "summary": "FS inbox catch-up midday started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T16:35:06.736173Z",
-      "summary": "FS inbox catch-up midday ingested 1 entry; logged 1 Other row; marker advanced to [06/17/2026 09:10 ET]; no gate/card contradiction; query endpoint dark fallback search"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6452,7 +6438,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T16:51:57.855781Z",
       "summary": "Chrome checked Macro FlashInsights new Jun25 12:46 QQQ rotation/recheck plus prior Jun24 duplicates; Crypto FlashInsights stale Jun22; Gmail checked 0 Chrome full content available; rows landed 1 compact flashinsights_feed; suppressed low-value/discovery-only webinar banner plus duplicate/stale flash cards; validation passed; dashboard refresh passed; alert quiet candidates 0 duplicates 10 suppressed 118; dark lanes Social Watch not_checked and Crypto Flash stale; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T17:46:32.332504Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T17:51:57.019437Z",
+      "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content feed cards available; rows landed 2 MSFT/MAGS flashinsights_feed; low-value/discovery-only rows landed 0 and web suppressed 0; Crypto FlashInsights latest Jun22 stale/duplicate; validation passed; dashboard refresh passed; alerts sent 2 MAGS/MSFT; trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; dark lanes Social Watch not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T16:51:57.855781Z"
+  "updated_at": "2026-06-25T17:51:57.019437Z"
 }
