@@ -8,7 +8,7 @@ Candidate-only packet. No trades executed. No option contracts selected.
 - Plan impact: Use the model reference bands only as staged candidates until live evidence is refreshed.
 
 ## Source Status
-- Positions: has_data from 2026-06-25 on $1,839,300.
+- Positions: has_data from 2026-06-25 on $1,838,474.
 - UW: UW endpoint proof: 13 captured row(s); neutral/inconclusive rows do not promote trades.
 - Fundstrat: Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.
 - Notion Research Queue: fetched; no writeback needed.
@@ -18,8 +18,8 @@ Candidate-only packet. No trades executed. No option contracts selected.
 ## Act If Green
 | Ticker | Updated band | Model ref | First tranche | Existing exposure | Post-band exposure | Funding | Placement candidate | Do-nothing cost |
 | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| GOOGL | $100,000-$155,000 | $100,000-$155,000 | $50,000-$108,500 | $91,902 (5.0%) | 10.4%-13.4% | IVES $64,716, SMH $6,116, MAGS $375, GRNY $70,342 | Fidelity / Joint WROS - TOD *****2063 / taxable | GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
-| MSFT | $25,000-$40,000 | $25,000-$40,000 | $12,500-$28,000 | $33,607 (1.8%) | 3.2%-4.0% | GRNY/IVES first | Fidelity / ROLLOVER IRA - RamBalusu *****6333 / traditional | MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
+| GOOGL | $100,000-$155,000 | $100,000-$155,000 | $50,000-$108,500 | $91,975 (5.0%) | 10.4%-13.4% | IVES $64,639, SMH $5,848, MAGS $377, GRNY $70,083 | Fidelity / Joint WROS - TOD *****2063 / taxable | GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
+| MSFT | $25,000-$40,000 | $25,000-$40,000 | $12,500-$28,000 | $33,610 (1.8%) | 3.2%-4.0% | GRNY/IVES first | Fidelity / ROLLOVER IRA - RamBalusu *****6333 / traditional | MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
 
 Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.
 
@@ -40,7 +40,7 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 ## Deep Discount Research
 | Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| BMNR | $13 | $161 | -91.7% | $57,298 | Notion Working MONITOR, SEC filings via manual off-hours alt-data scout 2026-06-09, repo research queue Queued | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
+| BMNR | $13 | $161 | -91.7% | $57,299 | Notion Working MONITOR, SEC filings via manual off-hours alt-data scout 2026-06-09, repo research queue Queued | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
 | AVAV | $137 | $418 | -67.3% | $0 | chart only | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
 | KTOS | $46 | $134 | -65.4% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
 | LEU | $170 | $464 | -63.3% | $90,390 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
@@ -53,13 +53,13 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 ## Higher Quality Pullbacks
 | Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| MSFT | $353 | $555 | -36.5% | $33,607 | mark l. newton, cmt B | Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation. |
-| GOOGL | $344 | $409 | -15.9% | $91,902 | Fundstrat top-list, Notion Working WATCH, SEC 424B5 via manual off-hours alt-data scout 2026-06-09, fundstrat D, mark l. newton, cmt B, mark l. newton, cmt D, repo research queue Queued | Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction. |
-| FN | $568 | $749 | -24.2% | $7,384 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
-| AVGO | $379 | $495 | -23.4% | $45,344 | Notion Working STAGE, repo research queue Queued, user update 2026-06-05: important AVGO date passed | Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI. |
+| MSFT | $353 | $555 | -36.5% | $33,610 | mark l. newton, cmt B | Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation. |
+| GOOGL | $344 | $409 | -15.9% | $91,975 | Fundstrat top-list, Notion Working WATCH, SEC 424B5 via manual off-hours alt-data scout 2026-06-09, fundstrat D, mark l. newton, cmt B, mark l. newton, cmt D, repo research queue Queued | Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction. |
+| FN | $568 | $749 | -24.2% | $7,375 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
+| AVGO | $379 | $495 | -23.4% | $45,341 | Notion Working STAGE, repo research queue Queued, user update 2026-06-05: important AVGO date passed | Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI. |
 | AMZN | $227 | $279 | -18.5% | $20,493 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
-| NVDA | $196 | $237 | -17.2% | $244,830 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
-| VRT | $326 | $380 | -14.3% | $13,348 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
+| NVDA | $196 | $237 | -17.2% | $244,811 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
+| VRT | $326 | $380 | -14.3% | $13,328 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
 
 ## Full Watchlist Screen
 - Screened rows with chart data: 124.
