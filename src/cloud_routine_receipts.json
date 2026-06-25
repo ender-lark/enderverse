@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T12:53:34.668612Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T13:31:54.688623Z",
-      "summary": "daily synthesis started"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "success",
       "run_source": "scheduled",
@@ -6393,7 +6372,46 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:06:53.707641Z",
+      "summary": "investing-os-parabolic-cache started"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:07:04.375826Z",
+      "summary": "parabolic cache succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "cmd",
+          "/c",
+          "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1 --force && python parabolic_setup_screener.py --self-test"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/parabolic_setups.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "47bb286afe39199189d7246072a35f55ca7f7c8fd86ae4ae3ef0202baa2495fb",
+            "as_of": "2026-06-25T14:07:04.056107+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "4872f465acbd66875fcbcd6a10e9b1bc8cdc24c42e64ec959ca480d283b6e5cd",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-25T14:03:16.670869Z"
+  "updated_at": "2026-06-25T14:07:04.375826Z"
 }
