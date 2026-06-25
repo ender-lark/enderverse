@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T20:32:19.433776Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-postclose",
       "status": "started",
       "run_source": "scheduled",
@@ -6194,7 +6180,31 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T02:19:03.365838Z",
       "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=37 coverage='25/25 current action/material fresh; missing=0 stale=0 unparsed=0' discipline='all dossiers pass buy-side discipline rail' dark_not_checked='BE source-call/options/flow/cash lanes not_checked; KTOS same-session UW/price-flow/account eligibility not_checked; remaining missing-draft backlog carried=37'"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T02:20:14.938483Z",
+      "summary": "loose-thread sweep nothing new",
+      "details": {
+        "loose_thread_sweep_version": 2,
+        "candidate_count": 22,
+        "captured_count": 0,
+        "skipped_duplicate_count": 19,
+        "skipped_stale_count": 3,
+        "target_verification": "nothing_written",
+        "target_routes": [
+          "Research Queue",
+          "System Update Queue",
+          "Source Call Log",
+          "Decisions Log"
+        ],
+        "notion_dedupe": "schema fetch plus workspace_search fallback; query_data_sources unavailable on current Notion plan",
+        "captured_page_ids": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-25T02:19:03.365838Z"
+  "updated_at": "2026-06-25T02:20:14.938483Z"
 }
