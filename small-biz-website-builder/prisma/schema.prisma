@@ -1,0 +1,124 @@
+// Small Biz Website Builder — Prisma schema.
+// Mirrors docs/plan/02-data-model.md. ToS: only `placeId` is retained long-term;
+// Places-derived fields are cache (see placesRefreshedAt) refreshed/purged ~30 days.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  createdAt DateTime   @default(now())
+  searches  Search[]
+  prospects Prospect[]
+}
+
+model Search {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  zip         String
+  centerLat   Float
+  centerLng   Float
+  categories  String[]
+  status      String     @default("queued") // queued | running | done | error
+  resultCount Int        @default(0)
+  capped      Boolean    @default(false)     // true if the 60-result Places cap was hit (no silent truncation)
+  costCents   Int        @default(0)
+  createdAt   DateTime   @default(now())
+  prospects   Prospect[]
+}
+
+model Prospect {
+  id                String   @id @default(cuid())
+  userId            String
+  searchId          String
+  user              User     @relation(fields: [userId], references: [id])
+  search            Search   @relation(fields: [searchId], references: [id])
+
+  placeId           String
+  name              String
+  category          String
+  rawTypes          String[]
+  phone             String?
+  address           String?
+  town              String?
+  lat               Float?
+  lng               Float?
+
+  rating            Float?
+  reviewCount       Int?
+  priceLevel        Int?
+  websiteUri        String?
+  websiteStatus     String   @default("none") // none | social_only | directory_only | placeholder_dead | real
+  placesRefreshedAt DateTime?
+
+  zipMedianIncome   Int?
+  competitor        Json?
+  coreKeyword       String?
+
+  leadScore         Int?
+  scoreBreakdown    Json?
+  recommendedMonthly Int?
+  suggestedTier     String?
+  oneTimePrice      Int?
+  roi               Json?
+
+  status            String   @default("new") // new | saved | pitched | built | won | lost
+  notes             String?
+
+  createdAt         DateTime @default(now())
+  pitch             Pitch?
+  sites             Site[]
+
+  @@index([userId, status])
+  @@index([placeId])
+}
+
+model Pitch {
+  id         String   @id @default(cuid())
+  prospectId String   @unique
+  prospect   Prospect @relation(fields: [prospectId], references: [id])
+  content    Json
+  model      String?
+  createdAt  DateTime @default(now())
+}
+
+model Site {
+  id          String   @id @default(cuid())
+  prospectId  String
+  prospect    Prospect @relation(fields: [prospectId], references: [id])
+  slug        String   @unique
+  optionLabel String
+  themeId     String   // warm-boutique | luxe-dark | modern-clean | bold-field
+  content     Json
+  imageRefs   Json
+  status      String   @default("draft") // draft | published | exported
+  qaFlags     Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([prospectId])
+}
+
+model ZipDemographics {
+  zip           String   @id
+  medianIncome  Int?
+  perCapita     Int?
+  geoMultiplier Float?
+  fetchedAt     DateTime @default(now())
+}
+
+model PlacesCache {
+  cacheKey  String   @id
+  payload   Json
+  fetchedAt DateTime @default(now())
+  expiresAt DateTime
+}
