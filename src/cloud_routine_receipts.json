@@ -5,20 +5,6 @@
       "routine_id": "investing-os-loose-thread-sweep",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-17T02:17:17.689049Z",
-      "summary": "loose-thread sweep started"
-    },
-    {
-      "routine_id": "investing-os-loose-thread-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T02:17:52.822475Z",
-      "summary": "loose-thread sweep nothing new"
-    },
-    {
-      "routine_id": "investing-os-loose-thread-sweep",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-17T02:37:10.010719Z",
       "summary": "loose-thread sweep started"
     },
@@ -6254,7 +6240,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:11:25.247107Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:14:19.363545Z",
+      "summary": "Chrome/Gmail Fundstrat checked; rows landed 0 new because Jun24 detail rows already cached; position caches unchanged no broker upload; UW OI checked MU/SMH/QQQ summary-only; event/federal/price caches validated; dark lanes full UW bundle, fresh catalyst input, Notion writes none"
     }
   ],
-  "updated_at": "2026-06-25T12:01:53.021947Z"
+  "updated_at": "2026-06-25T12:14:19.363545Z"
 }
