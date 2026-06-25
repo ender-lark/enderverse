@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-16T17:47:27.878656Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T17:50:10.233847Z",
-      "summary": "checked 2 web pages, Gmail 0; landed 2 rows; suppressed/discovery-only 1 webinar banner; validation passed; alert sent 2 fresh prompts; dark/stale crypto unchanged since 2026-06-08; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-16T18:46:05.828076Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6180,7 +6166,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T00:53:17.252608Z",
       "summary": "Decision-relevant flags logged only: QQQ 704/720/734-785 refresh, MU near-term upside with fall-risk watch, TNX 4.32, JETS/Health Care/RSP broadening, SPX target 8000; MONTHLY LANDED core-stock-ideas full distill needed; ingested 2 entries through [06/24/2026 20:40 ET]; Source Call Log rows 8 fetch-verified; marker advanced; Notion query endpoint dark/not_checked; no trade, broker, repo gate, or card mutation"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T01:16:55.445819Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T01:16:58.160254Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-25T00:53:17.252608Z"
+  "updated_at": "2026-06-25T01:16:58.160254Z"
 }
