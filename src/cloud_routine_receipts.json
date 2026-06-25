@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T23:32:44.808440Z",
-      "summary": "off-hours research queue started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T23:33:12.021366Z",
-      "summary": "no queue export; cache untouched; queue not_checked"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "started",
       "run_source": "scheduled",
@@ -6220,7 +6206,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T08:47:19.724848Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T08:54:52.485284Z",
+      "summary": "queued H3/M3/L7; processed High FS Jun24 core-stock ideas; Source Call split rows 20/20 and Research Queue Findings readback verified; status kept Queued pending full article thesis/operator review; remaining H2 operator/code blocked plus M3/L7 conservative/defer; dark lanes full article text, same-session price/flow/account/options/margin, MCP SQL, ECHO duplicate-list issue; no trades"
     }
   ],
-  "updated_at": "2026-06-25T06:32:57.800295Z"
+  "updated_at": "2026-06-25T08:54:52.485284Z"
 }
