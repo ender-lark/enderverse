@@ -2349,5 +2349,24 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "QQQ",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "same-session",
+    "quote": "Intraday rotation is carrying QQQ higher despite Mag-7 weakness; re-check if large-cap weakness starts overpowering breadth.",
+    "date": "2026-06-25",
+    "subject": "FlashInsights: QQQ rotation versus Mag-7 weakness",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-25-1246-et-qqq",
+    "source": "Fundstrat Chrome member FlashInsights page",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]

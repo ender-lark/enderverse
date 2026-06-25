@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T15:47:45.312881Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T15:50:48.133753Z",
-      "summary": "checked web pages 2 Macro/Crypto FlashInsights, Gmail 0; landed 0 rows; suppressed/discovery-only 2 duplicate-or-stale feed states; validation passed; dashboard refresh skipped no new rows; alert quiet no push; dark/stale Crypto FlashInsights Jun8; blockers none"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-midday",
       "status": "started",
       "run_source": "scheduled",
@@ -6452,7 +6438,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T16:37:19.174478Z",
       "summary": "FS inbox catch-up midday ingested 1 entry through [06/25/2026 09:25 ET]; Source Call Log rows 1 fetch-verified; marker advanced; flags Hormuz/Fed dovish-surprise macro watch; duplicate SPX/BTC/AMD snippets not re-logged; no trade, broker, repo gate, or card mutation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T16:47:34.973960Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T16:51:57.855781Z",
+      "summary": "Chrome checked Macro FlashInsights new Jun25 12:46 QQQ rotation/recheck plus prior Jun24 duplicates; Crypto FlashInsights stale Jun22; Gmail checked 0 Chrome full content available; rows landed 1 compact flashinsights_feed; suppressed low-value/discovery-only webinar banner plus duplicate/stale flash cards; validation passed; dashboard refresh passed; alert quiet candidates 0 duplicates 10 suppressed 118; dark lanes Social Watch not_checked and Crypto Flash stale; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T16:37:19.174478Z"
+  "updated_at": "2026-06-25T16:51:57.855781Z"
 }
