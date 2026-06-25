@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-positions-sync",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T20:46:17.551865Z",
-      "summary": "positions sync started"
-    },
-    {
-      "routine_id": "investing-os-positions-sync",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T20:48:59.223298Z",
-      "summary": "positions sync succeeded: snapshot 2026-06-16; 11 accounts; 275 raw positions; 88 VALUE_CHANGE diffs; 0 share changes; 76 orphans; dashboard refresh ok"
-    },
-    {
       "routine_id": "investing-os-fundstrat-after-hours-catch-up",
       "status": "started",
       "run_source": "scheduled",
@@ -6204,7 +6190,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T02:57:14.378538Z",
       "summary": "Chrome checked 11 Fundstrat surfaces and opened 3 post-7pm detail pages: First Word 20:18 ET, Macro Minute 20:00 ET, DTS 19:21 ET; videos checked 2 and Vimeo captions vaulted 2 (Tom Lee SPX 8000 target, Newton QQQ/MU DTS); Gmail checked 0 because Chrome full-content/captions available; compact rows landed 5; suppressed discovery/stale/no-fresh surfaces Macro Flash 16:18 pre-cutoff, Crypto Flash Jun22 stale, Intraday/Live Technical/US Policy/Fed Watch/Crypto Research/Latest Videos listing-only or stale; validations passed; dashboard refreshed; dark lanes Social Watch only; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T05:46:06.076112Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T05:49:34.836195Z",
+      "summary": "processed H3/M2 defense funding updates LMT THAAD LMT PrSM BA MUOS RTX AMRAAM TXT trainers; Notion SQL counts blocked; writes verified 5/5; exact live backlog dark; price/flow/account/options/margin/order lanes not_checked"
     }
   ],
-  "updated_at": "2026-06-25T02:57:14.378538Z"
+  "updated_at": "2026-06-25T05:49:34.836195Z"
 }
