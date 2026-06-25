@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-17T17:47:16.267760Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T17:51:36.692172Z",
-      "summary": "checked 2 Chrome FlashInsights pages, Gmail 0; landed 2 compact rows UBS/XBI; suppressed duplicate SPCX and stale/older Crypto/Macro cards; validation passed; dashboard refresh ok; alerts sent 2; dark/stale Crypto newest Jun 8, Social Watch dark; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-17T18:47:25.010391Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6452,7 +6438,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T18:50:25.093849Z",
       "summary": "Chrome checked Macro FlashInsights latest duplicate Jun25 13:15 MSFT/13:00 MAGS and Crypto FlashInsights stale Jun22; Gmail checked 0 because Chrome full-content feed available; rows landed 0; suppressed duplicates/stale/discovery-only, alert quiet candidates 0 duplicates 12 suppressed 118; validation passed; trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T19:46:24.222380Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T19:48:40.463567Z",
+      "summary": "Chrome checked Macro FlashInsights latest Jun25 12:46/13:00/13:15 ET already cached and Crypto FlashInsights latest Jun22 stale/duplicate; Gmail checked 0 because Chrome full-content feed cards available; rows landed 0; low-value/discovery-only suppressed 0, duplicate/stale flash cards suppressed; validation passed; dashboard refresh skipped no new rows; alert quiet candidates 0 duplicates 12 suppressed 118; dark lanes Social Watch not_checked and Crypto Flash stale; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T18:50:25.093849Z"
+  "updated_at": "2026-06-25T19:48:40.463567Z"
 }
