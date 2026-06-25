@@ -724,5 +724,29 @@
     "priority": "medium",
     "source": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/mu-20260624.htm",
     "note": "SEC 8-K / Signal Log watch-only | Micron reported FY2026 Q3 revenue $41.46B, non-GAAP EPS $25.11, operating cash flow $25.39B, Q4 revenue guide $50.0B +/- $1.0B and gross margin about 86%; HBM4 is in high-volume shipments for lead-customer platform. Decision affected: MU holding plus AI/semi sleeve confirmation for MAGS/SMH/NVDA. Conviction effect: supports AI-memory demand, not action alone. Time window: next session to this week. Disconfirm if price/flow rejects, transcript detail undermines quality, customer concentration rises, or supply/capex overshoots. Missing: interpreted same-session UW/price confirmation and earnings-call detail. Notion verified: https://app.notion.com/p/38ac50314bb681229af4d77b8462e2f2"
+  },
+  {
+    "signal": "Morning scan: Micron earnings revive AI-memory tape, but do not chase without same-session flow",
+    "ticker": "MU, SMH, QQQ, NVDA, AVGO, GOOGL, AMD",
+    "date": "2026-06-25",
+    "priority": "high",
+    "source": "https://app.notion.com/p/38ac50314bb6815592efcd8032e7c1a8",
+    "note": "2026-06-25 premarket: WSJ/Barron's/Investing.com report Micron earnings lifted Nasdaq/AI semis; UW shows QQQ/SMH/MU 2026-06-25 premarket price rows but options volume is zero/null premarket. Watch-only; recheck regular-session price/flow before any action."
+  },
+  {
+    "signal": "Morning scan: semi rebound has bearish-flow caveat from 6/24 SMH/QQQ put alerts",
+    "ticker": "SMH, QQQ, MU, AMD, AVGO",
+    "date": "2026-06-25",
+    "priority": "medium",
+    "source": "https://app.notion.com/p/38ac50314bb681bfb4bddc330023835c",
+    "note": "UW option-flow alerts from 2026-06-24 showed repeated ask-side SMH 600P exp 2026-06-26, volume/OI above 2.5, plus QQQ 709P repeated hits. Same-session flow remains not_checked until regular-session prints."
+  },
+  {
+    "signal": "Morning scan: BMNR/crypto sleeve still weak after prior bullish OI build",
+    "ticker": "BMNR, MSTR, STRC, BTC",
+    "date": "2026-06-25",
+    "priority": "medium",
+    "source": "https://app.notion.com/p/38ac50314bb681dca7b3de04d4d05971",
+    "note": "UW BMNR 2026-06-25 premarket row shows 14.39 vs 2026-06-24 regular close 14.02 after a slide from 16.14 on 2026-06-18; prior repo UW cache had bullish BMNR call/OI signals as of 2026-06-24. Monitor/recheck only."
   }
 ]

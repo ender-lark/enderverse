@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T05:47:03.320373Z",
-      "summary": "off-hours worker started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T05:51:34.126600Z",
-      "summary": "live query unavailable; fallback search/fetch processed Med drawdown/concentration rail page written+verified and moved Working; known High queued blocked MU build follow-up + full-book operator review; FN/Thiel already Working; remaining ordered backlog dark/not_checked"
-    },
-    {
       "routine_id": "investing-os-off-hours-queue-buffer",
       "status": "started",
       "run_source": "scheduled",
@@ -6293,7 +6279,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T12:26:24.595702Z",
       "summary": "FS inbox catch-up preopen ingested 1 entry through [06/24/2026 22:25 ET]; Source Call Log rows 5 fetch-verified; marker advanced; flags BTC crypto patience, STRC/MSTR Monday 8-K risk, HYPE no-chase relative strength, SOL watch-only, MU miner bounce watch; no trade, broker, repo gate, or card mutation"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:37:45.363871Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T12:41:25.859948Z",
+      "summary": "morning scan success: Notion Signal Log rows 3 fetch-verified; repo Signal Log cache 94 rows validated; top signals AI-memory premarket recheck, SMH/QQQ bearish-flow caveat, BMNR crypto monitor; macro cache not refreshed snapshot 2026-06-04 no supplied macro inputs; Notion SQL blocked"
     }
   ],
-  "updated_at": "2026-06-25T12:26:24.595702Z"
+  "updated_at": "2026-06-25T12:41:25.859948Z"
 }
