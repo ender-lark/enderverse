@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T13:35:07.468461Z",
-      "summary": "repo synthesis refreshed 13 data lanes/1 dark Social Watch; Notion page written+readback verified; row-level Notion queries unavailable; verification passed"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T13:42:51.852376Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "success",
       "run_source": "scheduled",
@@ -6411,7 +6397,45 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:31:43.753534Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:31:47.120937Z",
+      "summary": "full cockpit build failed",
+      "details": {
+        "returncode": 1,
+        "command": [
+          "python",
+          "src\\live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "1a8ac6aac8083ce9939a779b9ef27ad81b40c87c77ba6cea9b173141badc69db",
+            "as_of": "2026-06-25T13:41:55.797923+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "1a8ac6aac8083ce9939a779b9ef27ad81b40c87c77ba6cea9b173141badc69db",
+            "changed": false
+          }
+        ]
+      },
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-25T14:07:04.375826Z"
+  "updated_at": "2026-06-25T14:31:47.120937Z"
 }
