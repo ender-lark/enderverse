@@ -1,26 +1,26 @@
 {
-  "entries": 1,
-  "full_body_entries": 1,
+  "entries": 5,
+  "full_body_entries": 5,
   "snippet_only_entries": 0,
-  "mentions": 1,
-  "daily_calls": 1,
-  "source_call_candidates": 1,
+  "mentions": 5,
+  "daily_calls": 5,
+  "source_call_candidates": 5,
   "merged": true,
   "bodies_redacted": true,
   "compact_full_body_derived": true,
-  "stored_entries": 1,
-  "stored_daily_calls": 116,
-  "stored_source_call_candidates": 116,
+  "stored_entries": 5,
+  "stored_daily_calls": 121,
+  "stored_source_call_candidates": 121,
   "source_calls": {
     "updated": true,
-    "candidates": 116,
-    "added": 1,
-    "stored": 116,
+    "candidates": 121,
+    "added": 5,
+    "stored": 121,
     "log_call_dates": 16
   },
   "web_compact_intake": {
     "source": "authenticated_fundstrat_chrome",
-    "checked_rows": 1,
+    "checked_rows": 5,
     "suppressed_rows": 0,
     "raw_bodies_stored": false
   }

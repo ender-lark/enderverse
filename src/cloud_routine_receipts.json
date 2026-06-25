@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T20:37:25.564452Z",
-      "summary": "FS inbox catch-up postclose started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-16T20:39:11.728186Z",
-      "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/16/2026 09:10 ET]"
-    },
-    {
       "routine_id": "investing-os-positions-sync",
       "status": "started",
       "run_source": "scheduled",
@@ -6204,7 +6190,21 @@
         "captured_page_ids": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T02:47:34.572576Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T02:57:14.378538Z",
+      "summary": "Chrome checked 11 Fundstrat surfaces and opened 3 post-7pm detail pages: First Word 20:18 ET, Macro Minute 20:00 ET, DTS 19:21 ET; videos checked 2 and Vimeo captions vaulted 2 (Tom Lee SPX 8000 target, Newton QQQ/MU DTS); Gmail checked 0 because Chrome full-content/captions available; compact rows landed 5; suppressed discovery/stale/no-fresh surfaces Macro Flash 16:18 pre-cutoff, Crypto Flash Jun22 stale, Intraday/Live Technical/US Policy/Fed Watch/Crypto Research/Latest Videos listing-only or stale; validations passed; dashboard refreshed; dark lanes Social Watch only; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T02:20:14.938483Z"
+  "updated_at": "2026-06-25T02:57:14.378538Z"
 }
