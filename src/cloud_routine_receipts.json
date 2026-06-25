@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-17T16:47:14.682205Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T16:49:24.166777Z",
-      "summary": "checked Chrome Macro+Crypto FlashInsights 2 pages, Gmail 0; landed 0 rows; suppressed/discovery-only 2 stale/already-handled feed states; validation passed; alert quiet 0 candidates/5 duplicates/45 suppressed; dark/stale crypto latest Jun8, macro latest already-handled Jun17 10:02 ET; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-17T17:47:16.267760Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6452,7 +6438,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T17:51:57.019437Z",
       "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content feed cards available; rows landed 2 MSFT/MAGS flashinsights_feed; low-value/discovery-only rows landed 0 and web suppressed 0; Crypto FlashInsights latest Jun22 stale/duplicate; validation passed; dashboard refresh passed; alerts sent 2 MAGS/MSFT; trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; dark lanes Social Watch not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T18:47:49.510794Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T18:50:25.093849Z",
+      "summary": "Chrome checked Macro FlashInsights latest duplicate Jun25 13:15 MSFT/13:00 MAGS and Crypto FlashInsights stale Jun22; Gmail checked 0 because Chrome full-content feed available; rows landed 0; suppressed duplicates/stale/discovery-only, alert quiet candidates 0 duplicates 12 suppressed 118; validation passed; trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T17:51:57.019437Z"
+  "updated_at": "2026-06-25T18:50:25.093849Z"
 }
