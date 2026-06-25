@@ -3,50 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T18:47:25.010391Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T18:49:28.047451Z",
-      "summary": "trigger check fired 3 trigger(s): HELD, HELD, HELD",
-      "details": {
-        "fired": [
-          {
-            "id": "held-review-sunday-rebalance-packet",
-            "ticker": "HELD",
-            "condition_type": "date_event",
-            "source": "Held decision packet: Full-book rebalance (Council synthesis) (https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4)",
-            "status": "fired",
-            "fire_reason": "held decision review due: Full-book rebalance (Council synthesis)"
-          },
-          {
-            "id": "held-review-sunday-geo-risk-register-v0",
-            "ticker": "HELD",
-            "condition_type": "date_event",
-            "source": "Held decision packet: Geo Risk Register v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d)",
-            "status": "fired",
-            "fire_reason": "held decision review due: Geo Risk Register v0 (Power & Policy)"
-          },
-          {
-            "id": "held-review-sunday-policy-money-map-v0",
-            "ticker": "HELD",
-            "condition_type": "date_event",
-            "source": "Held decision packet: Policy Money Map v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959)",
-            "status": "fired",
-            "fire_reason": "held decision review due: Policy Money Map v0 (Power & Policy)"
-          }
-        ],
-        "not_checked_count": 4,
-        "summary_line": "Trigger check: fired=3; not_checked=4; armed=5; expired=0."
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-17T18:49:47.182390Z",
@@ -6452,7 +6408,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T19:48:40.463567Z",
       "summary": "Chrome checked Macro FlashInsights latest Jun25 12:46/13:00/13:15 ET already cached and Crypto FlashInsights latest Jun22 stale/duplicate; Gmail checked 0 because Chrome full-content feed cards available; rows landed 0; low-value/discovery-only suppressed 0, duplicate/stale flash cards suppressed; validation passed; dashboard refresh skipped no new rows; alert quiet candidates 0 duplicates 12 suppressed 118; dark lanes Social Watch not_checked and Crypto Flash stale; blockers none"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T20:32:28.494102Z",
+      "summary": "investing-os-post-close-refresh started"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T20:33:22.575467Z",
+      "summary": "post-close refresh succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "5d51c909e1a8c9dfb93f0522a9e9b11868effeed19be1e5ff6fef46c48a181e4",
+            "as_of": "2026-06-25T20:33:14.026553+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "f50250dce7347ce0e077a9c0456becf522b062e1ee6a62c7e4b34be3965e57f8",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-25T19:48:40.463567Z"
+  "updated_at": "2026-06-25T20:33:22.575467Z"
 }

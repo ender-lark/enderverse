@@ -45,9 +45,9 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 | KTOS | $46 | $134 | -65.4% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
 | LEU | $170 | $464 | -63.3% | $90,390 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
 | ELF | $65 | $151 | -56.9% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
-| UUUU | $14 | $28 | -48.2% | $33,447 | Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
+| UUUU | $14 | $28 | -48.3% | $33,447 | Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
 | SOFI | $17 | $33 | -47.1% | $866 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
-| MP | $56 | $100 | -44.6% | $16,336 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
+| MP | $56 | $100 | -44.5% | $16,336 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
 | HOOD | $93 | $154 | -39.2% | $2,480 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review. |
 
 ## Higher Quality Pullbacks
