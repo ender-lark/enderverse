@@ -5,20 +5,6 @@
       "routine_id": "investing-os-off-hours-worker",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-06T05:46:54.412595Z",
-      "summary": "off-hours worker started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-06T05:52:45.265784Z",
-      "summary": "archived 2 done items; drafted GEO + TSM dossiers; 2 Notion writes verified; AI Labor left queued; SQL/query fallback used"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-07T05:47:18.966633Z",
       "summary": "off-hours worker started"
     },
@@ -7355,7 +7341,34 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:15:43.084909Z",
+      "summary": "investing-os-trump-trade-watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:15:43.233424Z",
+      "summary": "trump trade watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/political_trade_watch.py",
+          "--input",
+          "tmp/trump_trade_watch_uw.json",
+          "--out",
+          "src/political_trade_watch.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-25T12:16:14.144415Z"
+  "updated_at": "2026-06-25T14:15:43.233424Z"
 }
