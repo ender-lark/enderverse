@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T13:50:50.519743Z",
-      "summary": "checked Macro FlashInsights latest Jun16 3:06PM ET and Crypto FlashInsights latest Jun8; Gmail 4 full-body messages checked; landed 0 rows; suppressed/discovery-only 4 low-value or already-landed items; validation passed; daytime alert sent 3 SPY/BTC/STRC, duplicates 2, suppressed 44; stale/dark no Jun17 FlashInsights; blockers none"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T14:02:22.324391Z",
-      "summary": "uw opportunity cache started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6459,7 +6445,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:47:45.918290Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-25T14:49:58.299776Z",
+      "summary": "Chrome checked Macro FlashInsights duplicate Jun24 and Crypto FlashInsights stale Jun22; Gmail checked 0 Chrome full content available; rows landed 0; suppressed duplicate/stale FlashInsight cards and webinar discovery-only banner; validation passed; dashboard refresh skipped; alert sent 1 WGMI re-check; dark lanes none; blockers none"
     }
   ],
-  "updated_at": "2026-06-25T14:33:05.003026Z"
+  "updated_at": "2026-06-25T14:49:58.299776Z"
 }
