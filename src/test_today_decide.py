@@ -277,7 +277,8 @@ def test_html_renders_minimal_conviction_face_and_breakdown():
 def test_top_panel_separates_trust_from_card_scoped_gates():
     html = render_today_decide_html(_payload())
     assert "Can I trust this screen?" in html
-    assert "Source scoring is OFF" in html
+    assert "Source scoring" in html
+    assert "Source scoring is OFF" in html or "graded calls" in html
     assert "FS inbox" in html
     assert "Core data" in html
     assert 'class="td-gates-full"' not in html

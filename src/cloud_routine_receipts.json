@@ -2,104 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T20:33:57.397877Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T20:34:29.779972Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T20:40:15.164701Z",
-      "summary": "FS inbox catch-up postclose started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T20:40:15.387225Z",
-      "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/17/2026 09:10 ET]; Notion marker fetch-verified"
-    },
-    {
-      "routine_id": "investing-os-positions-sync",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T20:47:34.187535Z",
-      "summary": "positions sync started"
-    },
-    {
-      "routine_id": "investing-os-positions-sync",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T20:51:45.588859Z",
-      "summary": "positions sync succeeded: snapshot 2026-06-17; 11 accounts; 275 raw positions; 89 VALUE_CHANGE diffs; 0 share changes; 76 orphans; 3 warnings; dashboard refresh ok"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T23:01:13.987630Z",
-      "summary": "fundstrat after-hours catch-up started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T23:11:06.907234Z",
-      "summary": "checked 12 web pages/surfaces incl Macro/Crypto FlashInsights, 9 research/video listings, 1 Macro Minute detail; videos 1 detail with transcript; transcript vault 1 pushed; Gmail 0; landed 1 compact SPY row; suppressed/discovery-only duplicate 3:38 FOMC flash, stale crypto flash Jun8, stale/previous category heads; validation public-index/email passed; dashboard refreshed; Notion none; dark/stale Social Watch, stale crypto flash and old Intraday/Fed Watch; blockers none"
-    },
-    {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T23:30:48.156264Z",
-      "summary": "off-hours research queue started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T23:31:20.320951Z",
-      "summary": "Research Queue not_checked; drop folder missing; cache not refreshed; stale cache pending 3 done 0 ACT_NOW none skipped 0"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T00:46:53.738908Z",
-      "summary": "FS inbox catch-up evening started"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T00:47:46.792614Z",
-      "summary": "top prospects auto-research started"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T00:49:03.183448Z",
-      "summary": "dry-run 8; queued GOOGL,UUUU,TPL,SOFI,SATS,PKG,KTOS,HOOD; Notion readback verified 8/8; remaining unqueued uncorroborated 13; dark/stale lanes unchanged; blocker NOTION_API_TOKEN missing but NOTION_TOKEN alias worked"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "success",
       "run_source": "scheduled",
@@ -6311,7 +6213,249 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T02:54:54.930496Z",
       "summary": "Chrome checked Macro FlashInsights latest Jun25 13:15 pre-cutoff, Crypto FlashInsights stale Jun22, listings/details Intraday/First Word/DTS/Live Technical/US Policy/Fed/Crypto/Macro Minute/Latest Videos/DTS videos; post-7pm detail pages checked DTS Jun25 20:18 and Macro Minute Jun25 19:58; transcript vault entries written 2 and pushed; Gmail messages checked 0 because Chrome full content available; compact rows landed 4, suppressed low-value/discovery-only/stale 9; validations transcript-index/email-intake passed; dashboard refresh passed; dark lanes Social Watch not_checked, Crypto Flash stale; blockers none"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:37:18.211704Z",
+      "summary": "investing-os-pre-market-source-intake manual run started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:37:18.570079Z",
+      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
+      "details": {
+        "steps": [
+          {
+            "label": "fundstrat cache validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/fundstrat_email_intake.py",
+              "--validate",
+              "src"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
+            "stderr": ""
+          },
+          {
+            "label": "event risk validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/event_risk_intake.py",
+              "--validate",
+              "src/event_risks.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 13\n}",
+            "stderr": ""
+          },
+          {
+            "label": "catalyst cache validate",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true,
+              "rows": 12,
+              "valid_rows": 12,
+              "problem": ""
+            }
+          }
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:37:18.587904Z",
+      "summary": "investing-os-fundstrat-pre-market-safety-sweep manual run started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:37:19.102793Z",
+      "summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
+      "details": {
+        "steps": [
+          {
+            "label": "fundstrat cache validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/fundstrat_email_intake.py",
+              "--validate",
+              "src"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
+            "stderr": ""
+          },
+          {
+            "label": "fundstrat alert dry-run",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/fundstrat_daytime_alert.py",
+              "--dry-run",
+              "--format",
+              "text"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "Fundstrat daytime watch: 3 new urgent/action-changing alert(s).\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 135, 'alert_candidates': 3, 'duplicates': 2, 'suppressed': 130}\n- ALERT SPY: re-check/size | Newton raises 2026 SPX target to 8,000 from 7,300 and says this week's pullback is buyable consolidation, not a serious breakdown; add exposure only inside rails.\n  why: Fundstrat flagged an opportunity; compare it against better current uses of capital before acting.\n- ALERT SMH: hedge/re-check | Lee says May core PCE ex-financials is near target, yields fell, war inflation likely peaked, and semi/memory weakness remains buyable; use as confirmation before adding AI beta.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- ALERT SPY: hedge/re-check | Companion text says ex-financials core PCE is close to Fed target and explains the sharp yield drop; risk-on posture improves, but confirm price/flow before sizing.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert\n- quiet GOLD: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert",
+            "stderr": ""
+          },
+          {
+            "label": "pushover config self-test",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/pushover_notify.py",
+              "--self-test",
+              "--dry-run",
+              "--format",
+              "text"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
+            "stderr": ""
+          }
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:37:19.121669Z",
+      "summary": "investing-os-fs-inbox-catch-up-preopen manual run started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:37:19.140885Z",
+      "summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
+      "details": {
+        "steps": [
+          {
+            "label": "FS inbox catch-up prompt present",
+            "returncode": 0,
+            "optional": false,
+            "check": {
+              "valid": true
+            }
+          }
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:37:19.162167Z",
+      "summary": "investing-os-broker-position-intake manual run started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:39:10.673909Z",
+      "summary": "broker position intake manual run refreshed SnapTrade book only after strict validation",
+      "details": {
+        "steps": [
+          {
+            "label": "snaptrade book refresh",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/snaptrade_book_refresh.py",
+              "--refresh-dashboard"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 1\n  }\n}\n\n== refresh_decision_dossier_dynamic_reads ==\n+ C:\\Python314\\python.exe src/decision_dossier_refresh.py --in src\\decision_dossiers.json --out src\\decision_dossiers.json --uw-prices src\\uw_closes.json --uw-opportunity src\\uw_opportunity_signals.json --feed src\\latest_cockpit_feed.json --live-source-config src\\live_source_config.json\n{\n  \"valid\": true,\n  \"generated_at\": \"2026-06-26\",\n  \"as_of\": \"2026-06-25\",\n  \"updated_dossiers\": 0,\n  \"rows\": [\n    {\n      \"ticker\": \"AVGO\",\n      \"updated_reads\": [],\n      \"price_evidence\": false,\n      \"timing_evidence\": false\n    }\n  ],\n  \"written\": true,\n  \"out\": \"src\\\\decision_dossiers.json\"\n}\n\n== refresh_source_rates ==\n+ C:\\Python314\\python.exe src/source_call_tracker.py --hit-rates --calls src\\source_calls.json --out src\\source_rates.json\nsource_rates written to src\\source_rates.json (135 calls processed)\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-26\",\n    \"open_count\": 1,\n    \"history_count\": 6,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== draft_source_call_candidates ==\n+ C:\\Python314\\python.exe src/source_call_candidate_draft.py --feed src\\latest_cockpit_feed.json --out src\\source_call_candidates.json --merge-existing --merge-cache\n{\n  \"valid\": true,\n  \"out\": \"src\\\\source_call_candidates.json\",\n  \"written\": true,\n  \"cache_merged\": true,\n  \"observations\": 41,\n  \"drafted\": 41,\n  \"existing\": 135,\n  \"stored\": 135,\n  \"tickers\": [\n    \"AMD\",\n    \"BTC\",\n    \"CL\",\n    \"CPER\",\n    \"DAL\",\n    \"ETH\",\n    \"EWRE\",\n    \"EWY\",\n    \"GOLD\",\n    \"GOOGL\",\n    \"HYPE\",\n    \"JETS\",\n    \"KIE\",\n    \"MSFT\",\n    \"MSTR\",\n    \"QQQ\",\n    \"RGI\",\n    \"RSP\",\n    \"RSPH\",\n    \"RSPT\",\n    \"RYE\",\n    \"RYF\",\n    \"SLV\",\n    \"SOL\",\n    \"SOX\",\n    \"SPCX\",\n    \"SPX\",\n    \"SPY\",\n    \"STRC\",\n    \"TLT\",\n    \"TNX\",\n    \"UBS\",\n    \"UUP\",\n    \"VIRTUAL\",\n    \"WGMI\",\n    \"XBI\",\n    \"XHB\",\n    \"XHS\",\n    \"XLI\",\n    \"XLU\",\n    \"XOP\"\n  ],\n  \"cache_summary\": {\n    \"generated_at\": \"2026-06-26T04:38:22.107343+00:00\",\n    \"existing\": 135,\n    \"candidates\": 135,\n    \"added\": 0,\n    \"stored\": 135,\n    \"log_call_dates\": [\n      \"2026-06-03\",\n      \"2026-06-05\",\n      \"2026-06-08\",\n      \"2026-06-09\",\n      \"2026-06-10\",\n      \"2026-06-11\",\n      \"2026-06-12\",\n      \"2026-06-14\",\n      \"2026-06-15\",\n      \"2026-06-16\",\n      \"2026-06-17\",\n      \"2026-06-18\",\n      \"2026-06-21\",\n      \"2026-06-22\",\n      \"2026-06-23\",\n      \"2026-06-24\",\n      \"2026-06-25\"\n    ]\n  }\n}\n\n== build_daily_pullback_packet ==\n+ C:\\Python314\\python.exe src/fed_day_reallocation_packet.py --json-out src\\fed_day_reallocation_packet.json --md-out docs\\daily_pullback_packet.md\nDaily pullback packet written: src\\fed_day_reallocation_packet.json; docs\\daily_pullback_packet.md\nAct-if-green: 2; deep-discount rows: 9; watchlist rows: 124\n\n== repo_evidence_synthesis ==\n+ C:\\Python314\\python.exe src/daily_synthesis_from_feed.py --feed src\\latest_cockpit_feed.json --out src\\daily_synthesis.json --summary src\\daily_synthesis_intake_summary.json --merge-existing\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src\\\\daily_synthesis.json\",\n  \"feed\": \"src\\\\latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}\n\n== heartbeat_post_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 0,\n    \"ok\": 5,\n    \"stale\": 1\n  }\n}\n\n== build_publish_final ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"published\": true,\n  \"reason\": \"published\",\n  \"feed_out\": \"src\\\\latest_cockpit_feed.json\",\n  \"memory\": {\n    \"store_path\": \"src\\\\open_opportunities.json\",\n    \"as_of\": \"2026-06-26\",\n    \"open_count\": 1,\n    \"history_count\": 6,\n    \"dropped\": [],\n    \"updated\": true,\n    \"reason\": \"updated\"\n  }\n}\n\n== render_jsx_validation_surface ==\n+ C:\\Python314\\python.exe src/render_cockpit.py src\\latest_cockpit_feed.json --out src\\rendered\\conviction_cockpit_v5.jsx\nRENDER READY | src\\rendered\\conviction_cockpit_v5.jsx\nbuilt 2026-06-26 00:39 ET | curated/unwired lanes: questions | empty engine lanes: fresh_signals, needs_you (!= all clear - see synthesis hanging) | heartbeat STALE: Cloud Routine Receipts | prices as-of build, not live (say `refresh`)\n\n== build_jsx_validation_preview ==\n+ C:\\Python314\\python.exe src/cockpit_jsx_preview.py\n{\n  \"url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n  \"html\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\cockpit_jsx_preview.html\",\n  \"js\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\cockpit_jsx_preview.js\",\n  \"runtime_source\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\cockpit_jsx_preview.runtime.jsx\",\n  \"component\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\src\\\\rendered\\\\conviction_cockpit_v5.jsx\"\n}\n\n== render_summary_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out docs\\index.html\n\n== render_preview_html ==\n+ C:\\Python314\\python.exe src/cockpit_html_gen.py src\\latest_cockpit_feed.json --out tmp\\dashboard_preview.html\n\n== write_parity_feed ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out tmp\\dashboard_parity_feed.json\n{\n  \"built\": true,\n  \"feed_out\": \"tmp\\\\dashboard_parity_feed.json\",\n  \"actions\": 12,\n  \"research_actions\": 7,\n  \"dark_lanes\": 1,\n  \"dark_lane_keys\": [\n    \"social_watch\"\n  ],\n  \"dark_lane_details\": [\n    {\n      \"key\": \"social_watch\",\n      \"label\": \"Social Watch\",\n      \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n      \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n    }\n  ],\n  \"missing_required_inputs\": [],\n  \"missing_optional_inputs\": [\n    {\n      \"key\": \"meridian\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\meridian_items.json\"\n      ],\n      \"source\": \"archived Meridian thesis cache\",\n      \"missing_behavior\": \"Archived Meridian thesis context is not checked when absent; do not treat it as fresh tactical evidence or a live-source gap.\"\n    },\n    {\n      \"key\": \"social_watch\",\n      \"required\": false,\n      \"present\": false,\n      \"status\": \"missing_optional\",\n      \"resolved_path\": \"\",\n      \"candidate_paths\": [\n        \"src\\\\social_watch.json\",\n        \"src\\\\reddit_watch.json\",\n        \"src\\\\reddit_signals.json\"\n      ],\n      \"source\": \"reddit/social API or supplied normalized social cache\",\n      \"missing_behavior\": \"Social Watch is not checked; missing Reddit/social fetch is not no social anomalies.\"\n    }\n  ]\n}\n{\n  \"refreshed\": true,\n  \"steps\": [\n    {\n      \"name\": \"heartbeat_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"refresh_decision_dossier_dynamic_reads\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"refresh_source_rates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_pre_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"draft_source_call_candidates\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_daily_pullback_packet\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"repo_evidence_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"heartbeat_post_synthesis\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_publish_final\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_jsx_validation_surface\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"build_jsx_validation_preview\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_summary_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"render_preview_html\",\n      \"returncode\": 0\n    },\n    {\n      \"name\": \"write_parity_feed\",\n      \"returncode\": 0\n    }\n  ],\n  \"summary\": {\n    \"feed\": \"src\\\\latest_cockpit_feed.json\",\n    \"preview\": \"tmp\\\\dashboard_preview.html\",\n    \"generated_at\": \"2026-06-26T04:39:03.055917+00:00\",\n    \"data_flow\": {\n      \"staleness_stamp\": \"sourced: portfolio 06-26 \\u00b7 uw_price 06-26 \\u00b7 uw_macro 06-26 \\u00b7 fundstrat_bible 06-11 \\u00b7 fundstrat_daily 06-25\",\n      \"lanes_with_data\": 13,\n      \"dark_lanes\": 1,\n      \"dark_lane_keys\": [\n        \"social_watch\"\n      ]\n    },\n    \"actions\": {\n      \"count\": 12,\n      \"top\": [\n        {\n          \"ticker\": \"HOOD\",\n          \"kind\": \"sell_fast\",\n          \"action_state\": \"ACT_NOW\",\n          \"what\": \"Sell-fast review\"\n        },\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Middle East oil/rates shock can affect new-buy timing\"\n        },\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Iran closure threat re-escalates Hormuz oil/rates watch\"\n        },\n        {\n          \"ticker\": null,\n          \"kind\": \"event_risk\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Event risk: Fundstrat flags mixed Iran/Hormuz peace-flow risk\"\n        },\n        {\n          \"ticker\": \"MSFT\",\n          \"kind\": \"lean_in\",\n          \"action_state\": \"WATCH\",\n          \"what\": \"Lean-in \\u2014 looks good\"\n        }\n      ]\n    },\n    \"source_calls\": {\n      \"status\": \"has_data\",\n      \"line\": \"SCORING LAG: clean \\u2014 no calls past window-end awaiting a score.\",\n      \"observed_count\": 0\n    },\n    \"readiness\": {\n      \"go_live_ready\": true,\n      \"publish_ready\": true,\n      \"required_inputs_ready\": true,\n      \"live_data_ready\": true,\n      \"missing_required_inputs\": [],\n      \"stale_required_inputs\": [],\n      \"invalid_minimum_live_inputs\": [],\n      \"next_steps\": [\n        \"Review dark lanes; missing optional lanes must stay visible, not checked clear.\",\n        \"Social Watch: Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\"\n      ]\n    },\n    \"preview_server\": {\n      \"primary_surface\": \"html_dashboard\",\n      \"url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"canonical_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"html_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"mirror_url\": \"http://127.0.0.1:8765/dashboard_preview.html\",\n      \"jsx_url\": \"http://127.0.0.1:8765/cockpit_jsx_preview.html\",\n      \"directory\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\",\n      \"preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\dashboard_preview.html\",\n      \"preview_exists\": true,\n      \"canonical_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\dashboard_preview.html\",\n      \"canonical_exists\": true,\n      \"html_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\dashboard_preview.html\",\n      \"html_preview_exists\": true,\n      \"jsx_preview_file\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\cockpit_jsx_preview.html\",\n      \"jsx_preview_exists\": true,\n      \"server_running\": true,\n      \"server_health\": {\n        \"checkout\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\",\n        \"branch\": \"main\",\n        \"commit\": \"d7891dd\",\n        \"dirty\": true,\n        \"dirty_count\": 17,\n        \"feed\": {\n          \"exists\": true,\n          \"path\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\src\\\\latest_cockpit_feed.json\",\n          \"generated_at\": \"2026-06-26T04:39:03.055917+00:00\",\n          \"sha256\": \"493e9e4d164fa7b5c55a0600a7b4320f96550bf632ec9e13be08347aff23ef89\"\n        },\n        \"text\": \"checkout=C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main | branch=main | commit=d7891dd | feed=2026-06-26T04:39:03.055917+00:00 | feed_sha256=493e9e4d164fa7b5\"\n      }\n    },\n    \"dark_lane_details\": [\n      {\n        \"key\": \"social_watch\",\n        \"label\": \"Social Watch\",\n        \"next_step\": \"Supply social_watch.json from the compliant Reddit/social API intake before treating social anomalies as checked.\",\n        \"missing_impact\": \"Reddit/social early-signal anomalies are not checked; absence is not no social signal.\"\n      }\n    ]\n  }\n}\n{\n  \"valid\": true,\n  \"promoted\": true,\n  \"profiles\": 1,\n  \"accounts\": 11,\n  \"raw_positions\": 276,\n  \"snapshot_date\": \"2026-06-26\",\n  \"prior_snapshot_date\": \"2026-06-25\",\n  \"sleeve_value\": 1839453,\n  \"thesis_positions\": 13,\n  \"account_rows\": 276,\n  \"position_diff_counts\": {\n    \"VALUE_CHANGE\": 31\n  },\n  \"share_change_count\": 0,\n  \"warnings\": [\n    \"Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,262.70 vs broker stated $1,255.45 (delta +7.25, tolerance $6.28)\",\n    \"Joint WROS - TOD *****2063: stated-balance mismatch non-cash positions + cash $592,108.05 vs broker stated $586,032.61 (delta +6,075.44, tolerance $2,930.16)\"\n  ],\n  \"stated_balance_findings\": [\n    {\n      \"account\": \"Robinhood Crypto 8794\",\n      \"source_file\": \"snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e\",\n      \"computed_total\": 1262.7,\n      \"reported_total\": 1255.45,\n      \"delta\": 7.25,\n      \"tolerance\": 6.28,\n      \"computed_total_basis\": \"non-cash positions + cash\",\n      \"line\": \"Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,262.70 vs broker stated $1,255.45 (delta +7.25, tolerance $6.28)\",\n      \"missing_tickers\": [],\n      \"new_tickers\": []\n    },\n    {\n      \"account\": \"Joint WROS - TOD *****2063\",\n      \"source_file\": \"snaptrade://Parents/Fidelity/3d35642a-e87c-49f7-8122-43820adee669\",\n      \"computed_total\": 592108.05,\n      \"reported_total\": 586032.61,\n      \"delta\": 6075.44,\n      \"tolerance\": 2930.16,\n      \"computed_total_basis\": \"non-cash positions + cash\",\n      \"line\": \"Joint WROS - TOD *****2063: stated-balance mismatch non-cash positions + cash $592,108.05 vs broker stated $586,032.61 (delta +6,075.44, tolerance $2,930.16)\",\n      \"missing_tickers\": [],\n      \"new_tickers\": []\n    }\n  ],\n  \"written\": {\n    \"raw\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\snaptrade_raw.json\",\n    \"combined\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\snaptrade_combined.json\",\n    \"staged_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\snaptrade_positions.staged.json\",\n    \"staged_account_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\snaptrade_account_positions.staged.json\",\n    \"staged_position_reconciliation\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\tmp\\\\snaptrade_position_reconciliation.staged.json\",\n    \"positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\src\\\\positions.json\",\n    \"account_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\src\\\\account_positions.json\",\n    \"position_reconciliation\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-24\\\\automation-runtime-main\\\\src\\\\position_reconciliation.json\"\n  },\n  \"dashboard_refresh_returncode\": 0\n}",
+            "stderr": ""
+          }
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:39:10.699187Z",
+      "summary": "investing-os-morning-scan manual run started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:39:10.914082Z",
+      "summary": "morning scan manual run completed; Signal Log remains watch-only",
+      "details": {
+        "steps": [
+          {
+            "label": "signal log validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/signal_log_intake.py",
+              "--validate",
+              "src/signal_log.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 98\n}",
+            "stderr": ""
+          },
+          {
+            "label": "macro cache validate",
+            "command": [
+              "C:\\Python314\\python.exe",
+              "src/macro_pulse_scan.py",
+              "--validate",
+              "src/macro_state.json"
+            ],
+            "returncode": 0,
+            "optional": false,
+            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
+            "stderr": ""
+          }
+        ]
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:39:10.941343Z",
+      "summary": "investing-os-early-cockpit-build manual run started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "failed",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:40:22.652131Z",
+      "summary": "manual support run aborted after timeout during audit; process stopped by Codex; scheduled_proof=false",
+      "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "manual",
+      "recorded_at": "2026-06-26T04:41:33.352595Z",
+      "summary": "early cockpit build manual support rerun completed cleanly after timeout recovery; dashboard/feed refreshed; scheduled_proof=false"
     }
   ],
-  "updated_at": "2026-06-26T02:54:54.930496Z"
+  "updated_at": "2026-06-26T04:41:33.352595Z"
 }
