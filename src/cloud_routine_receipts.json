@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T00:54:30.149819Z",
-      "summary": "FS inbox catch-up evening ingested 3 entries; logged 6 calls; marker advanced to [06/17/2026 19:40 ET]; flags post-FOMC/rates source review, XBI breakout, crypto framework; no gate/card contradiction; query endpoint dark fallback search"
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T01:16:22.434514Z",
-      "summary": "off-hours alt-data scout started"
-    },
-    {
       "routine_id": "life-work-os-heartbeat-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6455,7 +6441,21 @@
       "run_source": "manual",
       "recorded_at": "2026-06-26T04:41:33.352595Z",
       "summary": "early cockpit build manual support rerun completed cleanly after timeout recovery; dashboard/feed refreshed; scheduled_proof=false"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T05:45:53.192079Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T05:48:18.293047Z",
+      "summary": "dedupe/verification pass; SQL blocked by Notion plan; fallback mirror H7/M3/L1 pending; selected UUUU/AVGO/defense rows already had verified Findings; new writes 0; live fetch verified UUUU VAC, AVGO, LMT THAAD/PrSM, BA, TXT; remaining exact live backlog dark; dark lanes price/flow/account/options/margin/order cadence"
     }
   ],
-  "updated_at": "2026-06-26T04:41:33.352595Z"
+  "updated_at": "2026-06-26T05:48:18.293047Z"
 }
