@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:17:05.928024Z",
-      "summary": "pre-market source intake landed 1 Fed Watch TLT macro/rates row; position cache unchanged no broker upload; Chrome/Gmail checked; UW HOOD/MAGS narrow premarket dark-pool empty; dark/stale Social Watch missing and Crypto FlashInsights stale Jun8"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:21:31.003853Z",
-      "summary": "FS inbox catch-up preopen started"
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -6501,7 +6487,35 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T13:16:12.052221Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T13:16:13.671772Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-26T12:53:14.682651Z"
+  "updated_at": "2026-06-26T13:16:13.671772Z"
 }
