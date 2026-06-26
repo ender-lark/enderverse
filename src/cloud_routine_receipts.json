@@ -5,27 +5,6 @@
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:54:35.813870Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:57:54.013839Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-18T12:59:35.924588Z",
       "summary": "early cockpit build succeeded",
       "details": {
@@ -6550,7 +6529,46 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T13:49:47.769647Z",
       "summary": "Chrome checked Macro FlashInsights latest visible complete card Jun25 1:15PM ET duplicate/stale and Crypto FlashInsights latest Jun22 11:14AM ET stale; Gmail checked 0 because Chrome full-content feed available; rows landed 0; low-value/discovery-only rows suppressed 0; validation passed; dashboard refresh skipped no new rows; alert gate sent 3 existing unsent cached action-changing alerts SPY/SMH/SPY; dark/stale no Jun26 FlashInsights and Crypto latest Jun22; blockers none"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T14:02:44.834408Z",
+      "summary": "investing-os-uw-opportunity-cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T14:02:49.731406Z",
+      "summary": "uw opportunity cache succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "cmd",
+          "/c",
+          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/uw_opportunity_signals.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "a06ee43131394cb59f644a2c2426a973bb2c8d114a0e3b807781f417e2ec1d76",
+            "as_of": "2026-06-26T14:02:49.620155+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "9267cfb0768ef461a1104eac160171ebeb662943aa4a487e77a1a67d9b6d607b",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-26T13:49:47.769647Z"
+  "updated_at": "2026-06-26T14:02:49.731406Z"
 }
