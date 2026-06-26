@@ -1,14 +1,14 @@
 {
   "valid": true,
-  "generated_at": "2026-06-25T09:17:31.557174-04:00",
+  "generated_at": "2026-06-25T21:17:06.793824-04:00",
   "threshold_hours": 36,
   "alarm_count": 0,
   "rows": [
     {
       "automation_id": "life-os-daily-briefing",
       "name": "Life OS Daily Briefing",
-      "expected_slot": "2026-06-23T07:30:00-04:00",
-      "stale_after": "2026-06-24T19:30:00-04:00",
+      "expected_slot": "2026-06-24T07:30:00-04:00",
+      "stale_after": "2026-06-25T19:30:00-04:00",
       "last_log_date": "2026-06-25",
       "last_log_url": "https://app.notion.com/p/2026-06-25-Life-OS-Daily-Briefing-38ac50314bb6816fb5d1e1cc5e9f6403",
       "state": "current",
@@ -17,8 +17,8 @@
     {
       "automation_id": "work-os-daily-briefing",
       "name": "Work OS Daily Briefing",
-      "expected_slot": "2026-06-23T08:00:00-04:00",
-      "stale_after": "2026-06-24T20:00:00-04:00",
+      "expected_slot": "2026-06-24T08:00:00-04:00",
+      "stale_after": "2026-06-25T20:00:00-04:00",
       "last_log_date": "2026-06-25",
       "last_log_url": "https://app.notion.com/p/2026-06-25-Work-OS-Daily-Briefing-38ac50314bb6817991f0ef114ee1cd5c",
       "state": "current",

@@ -2,31 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-work-os-heartbeat-watch",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:54.777559Z",
-      "summary": "Life/Work OS heartbeat watch manual read-only proof succeeded; scheduled proof still required",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src\\life_work_os_heartbeat.py",
-          "--out",
-          "src\\life_work_os_heartbeat.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:58.739044Z",
-      "summary": "life-work-os-safe-hygiene started"
-    },
-    {
       "routine_id": "life-work-os-safe-hygiene",
       "status": "failed",
       "run_source": "manual",
@@ -6368,7 +6343,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T00:52:03.031573Z",
       "summary": "FS inbox catch-up evening ingested 3 entries through [06/25/2026 20:40 ET]; Source Call Log rows 7 fetch-verified; flags MSFT structural weakness vs open add posture, QQQ 732-734/MAGS 5-7d caution, SPX 8000 breadth support, Lee semi-memory buyable conflict; no trades/broker/gate/card mutation"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T01:17:06.675237Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T01:17:08.523623Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-26T00:52:03.031573Z"
+  "updated_at": "2026-06-26T01:17:08.523623Z"
 }
