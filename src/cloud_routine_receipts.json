@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T01:24:41.457800Z",
-      "summary": "checked SEC GOOGL/BMNR/AVGO/MSFT/AMZN/NVDA/LEU/UUUU/MP/MU, UW proof, Polymarket/Kalshi/Guardian; found 2 packets; Notion Signal Log 2 written+verified; repo Signal Log +2 and Event Risk +1; suppressed AVGO mechanics/no new GOOGL-BMNR; dark Social Watch; blocked UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX/RYF flow empty"
-    },
-    {
-      "routine_id": "investing-os-loose-thread-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T02:17:24.077891Z",
-      "summary": "loose-thread sweep started"
-    },
-    {
       "routine_id": "investing-os-loose-thread-sweep",
       "status": "success",
       "run_source": "scheduled",
@@ -6459,7 +6445,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T08:46:47.871597Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T08:48:38.618818Z",
+      "summary": "queued H3/M3/L7 live Notion REST; skipped no-op selected none; remaining 13 queued; no Notion writes attempted; blockers High FS core-stock row already verified 2026-06-25, full-book rebalance needs operator disposition, MU parabolic trigger needs code/system wiring; Med/Low already have conservative Findings or need fresh source/operator evidence; dark lanes same-session price/flow/account/options/margin/order cadence and MCP SQL"
     }
   ],
-  "updated_at": "2026-06-26T06:33:48.993176Z"
+  "updated_at": "2026-06-26T08:48:38.618818Z"
 }
