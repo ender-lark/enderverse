@@ -2,42 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T08:52:23.390157Z",
-      "summary": "processed Findings updates for 3 rows; queued H2/M3/L4 remain; selected full-book held review, MU parabolic blocker, staging doctrine; Notion connector writes+fetchback verified 3/3, statuses kept Queued; remaining backlog 9: H2 require operator/code, M2 need fresh evidence, L4 lower/stale/system; dark/not_checked: MCP query unavailable, MU quote velocity, buying-power/leverage/source pulls"
-    },
-    {
-      "routine_id": "life-os-daily-briefing",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T11:33:12.597560Z",
-      "summary": "life-os-daily-briefing started"
-    },
-    {
-      "routine_id": "life-os-daily-briefing",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T11:33:22.911678Z",
-      "summary": "Life OS daily briefing succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_briefing.py",
-          "--routine",
-          "life_daily",
-          "--write-log",
-          "--push",
-          "--out",
-          "src/life_os_daily_briefing_last_run.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "started",
       "run_source": "scheduled",
@@ -6454,7 +6418,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T12:15:33.946449Z",
       "summary": "pre-market source intake success: rows landed 0; Fundstrat Chrome/Gmail full-body checked latest Jun25 already cached; source-call cache unchanged; position cache unchanged no new broker input; UW premarket dark-pool MSFT/MAGS/HOOD empty narrow check; Catalyst/Event Risk validated unchanged; dark/stale Crypto Flash latest Jun22 and Social Watch not_checked"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:21:36.299514Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:21:42.169726Z",
+      "summary": "investing-os-broker-position-intake started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:24:06.733510Z",
+      "summary": "FS inbox catch-up preopen nothing new; marker unchanged at [06/25/2026 20:40 ET]; latest inbox entry already classified; marker run log fetch-verified"
     }
   ],
-  "updated_at": "2026-06-26T12:15:33.946449Z"
+  "updated_at": "2026-06-26T12:24:06.733510Z"
 }
