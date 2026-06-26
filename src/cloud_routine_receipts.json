@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T05:51:13.931804Z",
-      "summary": "Off-hours worker: query endpoint dark; processed 8 live Research Queue rows (Med GOOGL; Low HOOD, UUUU, KTOS, SOFI, PKG, TPL, SATS), all Notion writes/readbacks verified; known High MU code follow-up and full-book operator review blocked; remaining ordered backlog dark/not_checked."
-    },
-    {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T06:31:55.035304Z",
-      "summary": "life-work-os-safe-hygiene started"
-    },
-    {
       "routine_id": "life-work-os-safe-hygiene",
       "status": "success",
       "run_source": "scheduled",
@@ -6451,7 +6437,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T11:50:38.176297Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights, all/latest category listings, and 5 detail pages; Gmail checked 0 because Chrome full content available; rows landed 0; duplicate/stale/detail already-cached rows suppressed; validation passed; dashboard refresh skipped no new rows; Notion not used; dark/stale lanes no Jun26 premarket FS evidence and Crypto Flash latest Jun22"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:02:57.537067Z",
+      "summary": "work-os-daily-briefing started"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:03:09.014710Z",
+      "summary": "Work OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "work_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/work_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-26T11:50:38.176297Z"
+  "updated_at": "2026-06-26T12:03:09.014710Z"
 }
