@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:40:34.049971Z",
-      "summary": "3 Signal Log rows written+verified; repo cache 44 rows; UW proof refreshed through 2026-06-17 16:10 ET, Jun18 tide not open; macro unchanged; blockers Notion SQL query unavailable, Social Watch dark"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:53:04.505230Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
@@ -6550,7 +6536,21 @@
         "error": "RuntimeError: dashboard refresh failed with return code 120"
       },
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T13:47:25.030942Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T13:49:47.769647Z",
+      "summary": "Chrome checked Macro FlashInsights latest visible complete card Jun25 1:15PM ET duplicate/stale and Crypto FlashInsights latest Jun22 11:14AM ET stale; Gmail checked 0 because Chrome full-content feed available; rows landed 0; low-value/discovery-only rows suppressed 0; validation passed; dashboard refresh skipped no new rows; alert gate sent 3 existing unsent cached action-changing alerts SPY/SMH/SPY; dark/stale no Jun26 FlashInsights and Crypto latest Jun22; blockers none"
     }
   ],
-  "updated_at": "2026-06-26T13:43:36.117834Z"
+  "updated_at": "2026-06-26T13:49:47.769647Z"
 }
