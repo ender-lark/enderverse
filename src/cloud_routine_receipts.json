@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-18T14:50:14.441983Z",
-      "summary": "checked web 2 FlashInsights pages Macro latest Jun17 and Crypto stale Jun8; Gmail search 9 messages full-body 0 no fresh post-prior-success candidates; rows landed 0; suppressed/discovery-only web stale cards and Gmail promo/webinar/search snippets; validation passed; dashboard refresh skipped no rows; alert quiet; trigger guard fired 0 with quote lanes not_checked EWRE/ASTS/RKLB/MU; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T15:46:01.523613Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-18T15:49:54.165783Z",
       "summary": "web pages checked 2 Macro latest Jun17 15:38 ET Crypto latest Jun8 09:32 ET; Gmail messages checked 2; rows landed 0; suppressed promo 1 duplicate First-to-Market 1 plus stale FlashInsights; validation passed; alert quiet 0 candidates 5 duplicates 55 suppressed; trigger guard fired 0 not_checked EWRE/ASTS/RKLB/MU quote lanes; blockers no same-day FlashInsights and quotes not checked"
     },
@@ -6580,7 +6566,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T16:56:41.091183Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing, and 2 detail pages; Gmail checked 0 because Chrome full content available; rows landed 2 QQQ/TLT; suppressed Macro 12:11 context, Crypto Jun22 stale/duplicate cards, First to Market private-credit broad context, discovery-only listing/menu cards; validation passed; dashboard refresh passed; alert sent 1 QQQ, duplicates 5, suppressed 131; dark/stale lanes Social Watch not_checked and Crypto Flash latest Jun22; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T17:46:57.684891Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T17:51:29.191607Z",
+      "summary": "Chrome Macro/Crypto FlashInsights checked; Macro latest Jun26 12:12 QQQ duplicate and 12:11 rotation suppressed non-distinct; Crypto latest Jun22 MSTR/ETH stale duplicate; latest-research listing article-card pass not_checked after Chrome navigation/scroll timeouts; Gmail checked 0 because FlashInsights full content available; rows landed 0; validation passed; alert quiet candidates=0 duplicates=6 suppressed=131; dark/stale lanes Crypto Flash Jun22 and latest-research listing not_checked; blocker latest-research listing timeout only"
     }
   ],
-  "updated_at": "2026-06-26T16:56:41.091183Z"
+  "updated_at": "2026-06-26T17:51:29.191607Z"
 }
