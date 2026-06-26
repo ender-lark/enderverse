@@ -2,60 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:33:20.136661Z",
-      "summary": "Life/Work OS safe hygiene manual planning proof succeeded; scheduled proof still required",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src\\life_work_os_hygiene.py",
-          "--max-mutations",
-          "10",
-          "--out",
-          "src\\life_work_os_hygiene_receipt.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:33:46.348411Z",
-      "summary": "life-work-os-safe-hygiene started"
-    },
-    {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:33:51.770817Z",
-      "summary": "Life/Work OS safe hygiene manual planning proof succeeded; scheduled proof still required",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src\\life_work_os_hygiene.py",
-          "--max-mutations",
-          "10",
-          "--out",
-          "src\\life_work_os_hygiene_receipt.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T19:46:48.946973Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6358,7 +6304,44 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T01:26:07.069335Z",
       "summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, War.gov/NIST; routed 2 verified Notion Signal Log rows plus repo mirrors and 1 Event Risk row; suppressed HOOD duplicate, SATS/MSFT/LMT mechanics, AVGO Form144, noisy Polymarket; Social Watch and direct PortWatch not_checked; UW blockers MARKET_MOVERS advanced-tier, SECTOR_TIDE unsupported, TNX flow empty"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T02:15:52.433858Z",
+      "summary": "dossier keeper started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T02:17:08.483595Z",
+      "summary": "loose-thread sweep started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T02:18:01.381240Z",
+      "summary": "loose-thread sweep nothing new",
+      "details": {
+        "loose_thread_sweep_version": 2,
+        "candidate_count": 0,
+        "captured_count": 0,
+        "skipped_duplicate_count": 0,
+        "skipped_stale_count": 0,
+        "target_verification": "nothing_written"
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T02:18:24.670082Z",
+      "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=38; drafted RYF/XOP as WATCH pending operator confirmation; coverage 25/25 current action/material fresh; discipline clean; pytest 32 passed; worklist now 45/83 covered, missing=38 stale=0 refresh_soon=0; dark/not_checked blockers: precise 52-week ranges, social/flow confirmation"
     }
   ],
-  "updated_at": "2026-06-26T01:26:07.069335Z"
+  "updated_at": "2026-06-26T02:18:24.670082Z"
 }
