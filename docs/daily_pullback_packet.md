@@ -62,7 +62,7 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 | AMZN | $233 | $279 | -16.5% | $20,377 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
 
 ## Full Watchlist Screen
-- Screened rows with chart data: 124.
+- Screened rows with chart data: 125.
 - Not checked: SOX, SPX, TNX, VIRTUAL.
 
 TLDR: Current plan is amber pre-Fed: keep the GOOGL/MSFT rotation live, use reduced bands only if gates turn green, and treat AVGO as the top secondary swap review.

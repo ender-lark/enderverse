@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T20:38:10.016521Z",
-      "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/18/2026 12:25 ET]; Notion marker fetch-verified"
-    },
-    {
-      "routine_id": "investing-os-positions-sync",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T20:46:12.135956Z",
-      "summary": "positions sync started"
-    },
-    {
       "routine_id": "investing-os-positions-sync",
       "status": "success",
       "run_source": "scheduled",
@@ -6614,7 +6600,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T21:41:25.542821Z",
       "summary": "federal funding post-close success: checked War.gov Today/releases/contracts Jun26 plus prior-24h CHIPS/NIST, service/DARPA/DIU/OSC, DOE/LPO/OCED/EERE/NNSA, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT, EXIM/DFC; verified rows 5 payload / cache 34, direct public cache 11; new direct public UAMY research plus CHG.L/LHX/LMT watch context; Research Queue +1 UAMY, Signal Log stored 108; Notion Research Queue write/readback verified 1/1; dark/no material same-day non-defense awards, USAspending/SAM not needed; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T23:01:12.567576Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T23:10:35.966642Z",
+      "summary": "Chrome checked Macro FlashInsights latest Jun26 17:12 ET, Crypto FlashInsights stale Jun22, Latest Research plus Intraday/First Word/DTS/Live Tech/US Policy/Fed/Crypto/Macro Minute/Latest Videos/DTS video surfaces; opened 3 Jun26 detail pages; videos checked latest listing/detail surfaces, no new transcript vault entries; Gmail checked 0 because Chrome full content available; rows landed 2 QQQ tech-relative sell and SPY private-credit/insurer risk; suppressed duplicate/stale/recap/discovery-only surfaces including Roadmap recap, US Policy duplicate, DTS/Macro Minute already cached, stale Crypto Flash; source merge, transcript-index validate, email validate, 26 pytest, dashboard refresh/check passed; Notion not used; dark/stale Social Watch not_checked and Crypto Flash stale; blockers none"
     }
   ],
-  "updated_at": "2026-06-26T21:41:25.542821Z"
+  "updated_at": "2026-06-26T23:10:35.966642Z"
 }

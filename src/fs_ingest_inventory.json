@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T16:51:19Z",
+  "generated_at": "2026-06-26T23:08:03Z",
   "entries": [
     {
       "source_id": "fundstrat-gmail-19edd2922449bcdc-dal",
@@ -413,6 +413,23 @@
       "source_id": "fundstrat-web-article-detail-2026-06-25-2018-et-spy-newton-target-8000-dip-buy",
       "title": "DTS: Newton raises SPX target to 8,000",
       "ingested_at": "2026-06-26T02:52:46.010015+00:00",
+      "total_sections": 2,
+      "sections": [
+        {
+          "name": "full body",
+          "status": "distilled"
+        },
+        {
+          "name": "decision-call extraction",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat-web-article-detail-2026-06-26-0904-et-spy-private-credit-insurer-risk",
+      "title": "First to Market: private-credit insurer risk watch",
+      "ingested_at": "2026-06-26T21:30:00-04:00",
       "total_sections": 2,
       "sections": [
         {
@@ -1297,6 +1314,23 @@
       "source_id": "fundstrat-web-flashinsights-2026-06-26-1212-et-qqq-mag7-risk",
       "title": "FlashInsights 12:12 ET: QQQ intraday bottom with Mag-7 risk",
       "ingested_at": "2026-06-26T16:51:19.297266+00:00",
+      "total_sections": 2,
+      "sections": [
+        {
+          "name": "full body",
+          "status": "distilled"
+        },
+        {
+          "name": "decision-call extraction",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat-web-flashinsights-2026-06-26-1712-et-qqq-tech-relative-sell",
+      "title": "FlashInsights 5:12 ET: Technology relative sell signal",
+      "ingested_at": "2026-06-26T21:30:00-04:00",
       "total_sections": 2,
       "sections": [
         {
