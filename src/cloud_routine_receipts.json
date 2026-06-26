@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T19:51:21.266685Z",
-      "summary": "checked web Macro/Crypto FlashInsights plus Latest Research; Gmail 0; landed 1 SPCX re-check row; suppressed 5 duplicate/context/discovery items; validation passed; dashboard refreshed; Pushover alert sent 1; trigger guard fired 0 with 4 quote lanes not_checked; dark/stale Social Watch dark, Crypto FlashInsights stale Jun8; blockers none"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T20:32:51.516999Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
       "routine_id": "investing-os-post-close-refresh",
       "status": "success",
       "run_source": "scheduled",
@@ -6621,7 +6607,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T20:39:37.295599Z",
       "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/26/2026 11:55 ET]; Notion marker fetch-verified; no Source Call Log rows written"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T20:47:05.849108Z",
+      "summary": "positions sync started"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T20:53:00.035037Z",
+      "summary": "positions sync succeeded: snapshot 2026-06-26; 11 accounts; 277 raw positions; diff VALUE_CHANGE 91 no share changes; dashboard ok; Notion verified"
     }
   ],
-  "updated_at": "2026-06-26T20:39:37.295599Z"
+  "updated_at": "2026-06-26T20:53:00.035037Z"
 }
