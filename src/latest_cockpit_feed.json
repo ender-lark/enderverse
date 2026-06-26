@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T12:22:44.668921+00:00",
+  "generated_at": "2026-06-26T12:24:23.260301+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-26 \u00b7 uw_price 06-26 \u00b7 uw_macro 06-26 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-25",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-26T08:22:44.668921-04:00",
+        "date": "2026-06-26T08:24:23.260301-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-26T08:22:44.668921-04:00",
+        "date": "2026-06-26T08:24:23.260301-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -3756,37 +3756,37 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-26T12:22:44.266172+00:00",
+      "last_run": "2026-06-26T12:24:23.085047+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-26T12:22:44.266172+00:00",
+      "last_run": "2026-06-26T12:24:23.085047+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-26T12:22:44.266172+00:00",
+      "last_run": "2026-06-26T12:24:23.085047+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-26T12:22:44.266172+00:00",
+      "last_run": "2026-06-26T12:24:23.085047+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-26T12:22:44.266172+00:00",
+      "last_run": "2026-06-26T12:24:23.085047+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "stale",
-      "last_run": "2026-06-26T12:22:44.266172+00:00",
+      "last_run": "2026-06-26T12:24:23.085047+00:00",
       "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json, src/event_risks.json, src/federal_funding_moves.json; +5 more"
     }
   ],
@@ -3794,7 +3794,7 @@
     "source": "Repo Evidence Synthesis",
     "date": "2026-06-26",
     "state_of_play": "Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Sell-fast review (act_now, high confidence, source top_prospects:sell_fast). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
-    "delta": "Latest Fundstrat Daily compact calls in radar: EWY avoid, XHS add, RSPT avoid. Target drift: 12 sizing gap(s) vs AI working model (0 under, 3 over, 9 missing); GRNY oversized 6.8% vs 3.0%; MU oversized 3.7% vs 3.0%; NVDA oversized 13.3% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more",
+    "delta": "Latest Fundstrat Daily compact calls in radar: EWY avoid, XHS add, RSPT avoid. Target drift: 12 sizing gap(s) vs AI working model (0 under, 3 over, 9 missing); GRNY oversized 6.9% vs 3.0%; MU oversized 4.3% vs 3.0%; NVDA oversized 13.3% vs 12.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; +6 more",
     "hanging": [
       "Operator review still required: HOOD: source says avoid / sell-fast \u2014 check whether you hold it, then decide trim/exit or log why you are overriding it.",
       "Social Watch is not checked: Reddit/social early-signal anomalies are not checked; absence is not no social signal."
@@ -14936,7 +14936,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-25T10:02:56-04:00",
-        "connector_proof_age_hours": 22.33
+        "connector_proof_age_hours": 22.36
       }
     ],
     "missing": [],
@@ -14978,7 +14978,7 @@
       "due_waiting_count": 1,
       "routine_receipt_due": {
         "activated_at": "2026-06-25T16:59:45-04:00",
-        "now": "2026-06-26T08:22:44.668921-04:00",
+        "now": "2026-06-26T08:24:23.260301-04:00",
         "grace_minutes": 30,
         "overdue_count": 0,
         "due_waiting_count": 1,
@@ -16051,11 +16051,11 @@
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-25T16:59:45-04:00",
-        "now": "2026-06-26T08:22:44.668921-04:00",
+        "now": "2026-06-26T08:24:23.260301-04:00",
         "grace_minutes": 30,
         "overdue_count": 0,
-        "due_waiting_count": 1,
-        "current_count": 13,
+        "due_waiting_count": 0,
+        "current_count": 14,
         "not_due_yet_count": 8,
         "next_due": {
           "routine_id": "life-work-os-heartbeat-watch",
@@ -16099,25 +16099,25 @@
             "routine_name": "Investing OS FS Inbox Catch-up Preopen",
             "role": "fs_inbox_catchup_preopen",
             "schedule": "market weekdays 8:20 AM ET",
-            "due_state": "due_waiting",
+            "due_state": "current",
             "expected_since": "2026-06-25T16:59:45-04:00",
             "last_due_at": "2026-06-26T08:20:00-04:00",
             "next_due_at": "2026-06-29T08:20:00-04:00",
             "overdue_after": "2026-06-26T08:50:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-26T12:21:36.299514Z",
-            "last_success_at": "2026-06-26T04:37:19.140885Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-26T12:21:36.299514Z",
-            "last_scheduled_success_at": "2026-06-25T12:26:24.595702Z",
-            "last_scheduled_summary": "FS inbox catch-up preopen started",
+            "last_recorded_at": "2026-06-26T12:24:06.733510Z",
+            "last_success_at": "2026-06-26T12:24:06.733510Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-26T12:24:06.733510Z",
+            "last_scheduled_success_at": "2026-06-26T12:24:06.733510Z",
+            "last_scheduled_summary": "FS inbox catch-up preopen nothing new; marker unchanged at [06/25/2026 20:40 ET]; latest inbox entry already classified; marker run log fetch-verified",
             "last_manual_recorded_at": "2026-06-26T04:37:19.140885Z",
             "last_manual_success_at": "2026-06-26T04:37:19.140885Z",
             "last_manual_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
             "manual_support_only": false,
-            "last_summary": "FS inbox catch-up preopen started",
+            "last_summary": "FS inbox catch-up preopen nothing new; marker unchanged at [06/25/2026 20:40 ET]; latest inbox entry already classified; marker run log fetch-verified",
             "last_boundary_outcome": "stale_boundary",
             "last_boundary_artifact_count": 3,
             "last_boundary_artifacts": [
@@ -16127,14 +16127,16 @@
             ],
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [
+              "src/source_calls.json",
+              "src/fundstrat_daily_calls.json",
               "src/fundstrat_intake_summary.json"
             ],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-25T12:26:24.595702Z",
-            "last_ran_label": "2026-06-25T12:26:24.595702Z",
-            "last_scheduled_success_label": "2026-06-25T12:26:24.595702Z",
+            "last_ran_at": "2026-06-26T12:24:06.733510Z",
+            "last_ran_label": "2026-06-26T12:24:06.733510Z",
+            "last_scheduled_success_label": "2026-06-26T12:24:06.733510Z",
             "latest_manual_support_label": "2026-06-26T04:37:19.140885Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last scheduled success 2026-06-25T12:26:24.595702Z; latest manual support 2026-06-26T04:37:19.140885Z"
+            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last scheduled success 2026-06-26T12:24:06.733510Z; latest manual support 2026-06-26T04:37:19.140885Z"
           },
           {
             "routine_id": "investing-os-federal-funding-midday-watch",
@@ -16926,50 +16928,7 @@
           }
         ],
         "overdue": [],
-        "due_waiting": [
-          {
-            "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-            "routine_name": "Investing OS FS Inbox Catch-up Preopen",
-            "role": "fs_inbox_catchup_preopen",
-            "schedule": "market weekdays 8:20 AM ET",
-            "due_state": "due_waiting",
-            "expected_since": "2026-06-25T16:59:45-04:00",
-            "last_due_at": "2026-06-26T08:20:00-04:00",
-            "next_due_at": "2026-06-29T08:20:00-04:00",
-            "overdue_after": "2026-06-26T08:50:00-04:00",
-            "max_age_minutes": 30,
-            "last_status": "started",
-            "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-26T12:21:36.299514Z",
-            "last_success_at": "2026-06-26T04:37:19.140885Z",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-26T12:21:36.299514Z",
-            "last_scheduled_success_at": "2026-06-25T12:26:24.595702Z",
-            "last_scheduled_summary": "FS inbox catch-up preopen started",
-            "last_manual_recorded_at": "2026-06-26T04:37:19.140885Z",
-            "last_manual_success_at": "2026-06-26T04:37:19.140885Z",
-            "last_manual_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
-            "manual_support_only": false,
-            "last_summary": "FS inbox catch-up preopen started",
-            "last_boundary_outcome": "stale_boundary",
-            "last_boundary_artifact_count": 3,
-            "last_boundary_artifacts": [
-              "src/source_calls.json",
-              "src/fundstrat_daily_calls.json",
-              "src/fundstrat_intake_summary.json"
-            ],
-            "missing_boundary_artifacts": [],
-            "stale_boundary_artifacts": [
-              "src/fundstrat_intake_summary.json"
-            ],
-            "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-25T12:26:24.595702Z",
-            "last_ran_label": "2026-06-25T12:26:24.595702Z",
-            "last_scheduled_success_label": "2026-06-25T12:26:24.595702Z",
-            "latest_manual_support_label": "2026-06-26T04:37:19.140885Z",
-            "overdue_line": "overdue: Investing OS FS Inbox Catch-up Preopen, last scheduled success 2026-06-25T12:26:24.595702Z; latest manual support 2026-06-26T04:37:19.140885Z"
-          }
-        ],
+        "due_waiting": [],
         "not_due_yet": [
           {
             "routine_id": "investing-os-federal-funding-midday-watch",
@@ -17792,20 +17751,20 @@
           "role": "fs_inbox_catchup_preopen",
           "schedule": "market weekdays 8:20 AM ET",
           "proof_scope": "support",
-          "receipt_count": 15,
-          "last_status": "started",
+          "receipt_count": 16,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-26T12:21:36.299514Z",
-          "last_success_at": "2026-06-26T04:37:19.140885Z",
-          "last_scheduled_success_at": "2026-06-25T12:26:24.595702Z",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-26T12:21:36.299514Z",
-          "last_scheduled_summary": "FS inbox catch-up preopen started",
+          "last_recorded_at": "2026-06-26T12:24:06.733510Z",
+          "last_success_at": "2026-06-26T12:24:06.733510Z",
+          "last_scheduled_success_at": "2026-06-26T12:24:06.733510Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-26T12:24:06.733510Z",
+          "last_scheduled_summary": "FS inbox catch-up preopen nothing new; marker unchanged at [06/25/2026 20:40 ET]; latest inbox entry already classified; marker run log fetch-verified",
           "last_manual_recorded_at": "2026-06-26T04:37:19.140885Z",
           "last_manual_success_at": "2026-06-26T04:37:19.140885Z",
           "last_manual_summary": "FS inbox catch-up preopen manual support checked prompt wiring only",
           "manual_support_only": false,
-          "last_summary": "FS inbox catch-up preopen started",
+          "last_summary": "FS inbox catch-up preopen nothing new; marker unchanged at [06/25/2026 20:40 ET]; latest inbox entry already classified; marker run log fetch-verified",
           "last_boundary_outcome": "stale_boundary",
           "last_boundary_artifact_count": 3,
           "last_boundary_artifacts": [
@@ -17815,6 +17774,8 @@
           ],
           "missing_boundary_artifacts": [],
           "stale_boundary_artifacts": [
+            "src/source_calls.json",
+            "src/fundstrat_daily_calls.json",
             "src/fundstrat_intake_summary.json"
           ],
           "changed_boundary_artifacts": []
@@ -18262,7 +18223,7 @@
           "role": "life_os_daily_briefing",
           "schedule": "daily 7:30 AM ET",
           "proof_scope": "support",
-          "receipt_count": 7,
+          "receipt_count": 6,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-26T11:33:04.012295Z",
@@ -24940,47 +24901,47 @@
           "low": 100000.0
         },
         "execution_status": "not_executed",
-        "existing_exposure_pct": 5.0,
-        "existing_exposure_usd": 91969.0,
+        "existing_exposure_pct": 5.03,
+        "existing_exposure_usd": 91688.0,
         "funded_by_model": [
           {
-            "notional_usd": 64860.95,
+            "notional_usd": 64270.58,
             "ticker": "IVES"
           },
           {
-            "notional_usd": 5580.9,
+            "notional_usd": 5847.26,
             "ticker": "SMH"
           },
           {
-            "notional_usd": 375.25,
+            "notional_usd": 366.48,
             "ticker": "MAGS"
           },
           {
-            "notional_usd": 70151.22,
+            "notional_usd": 70427.8,
             "ticker": "GRNY"
           }
         ],
         "funding_pool_context": [
           {
-            "candidate_trim_usd": 64860.95,
+            "candidate_trim_usd": 64270.58,
             "gate": "GREEN",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "IVES"
           },
           {
-            "candidate_trim_usd": 70151.22,
+            "candidate_trim_usd": 70427.8,
             "gate": "GREEN",
             "reason": "reservoir drawn to fund the names above",
             "ticker": "GRNY"
           },
           {
-            "candidate_trim_usd": 375.25,
+            "candidate_trim_usd": 366.48,
             "gate": "",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "MAGS"
           },
           {
-            "candidate_trim_usd": 5580.9,
+            "candidate_trim_usd": 5847.26,
             "gate": "",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "SMH"
@@ -24988,19 +24949,19 @@
         ],
         "funding_source": [
           {
-            "notional_usd": 64860.95,
+            "notional_usd": 64270.58,
             "ticker": "IVES"
           },
           {
-            "notional_usd": 5580.9,
+            "notional_usd": 5847.26,
             "ticker": "SMH"
           },
           {
-            "notional_usd": 375.25,
+            "notional_usd": 366.48,
             "ticker": "MAGS"
           },
           {
-            "notional_usd": 70151.22,
+            "notional_usd": 70427.8,
             "ticker": "GRNY"
           }
         ],
@@ -25009,15 +24970,15 @@
           "high": 108500.0,
           "low": 50000.0
         },
-        "model_notional_usd": 140968.32,
+        "model_notional_usd": 140912.12,
         "model_reference_band": {
           "high": 155000.0,
           "low": 100000.0
         },
         "options_status": "review_only",
         "post_band_exposure_pct": {
-          "high": 13.43,
-          "low": 10.44
+          "high": 13.53,
+          "low": 10.51
         },
         "status": "candidate_only",
         "ticker": "GOOGL"
@@ -25048,30 +25009,30 @@
           "low": 25000.0
         },
         "execution_status": "not_executed",
-        "existing_exposure_pct": 1.83,
-        "existing_exposure_usd": 33613.0,
+        "existing_exposure_pct": 1.8,
+        "existing_exposure_usd": 32845.0,
         "funded_by_model": [],
         "funding_pool_context": [
           {
-            "candidate_trim_usd": 64860.95,
+            "candidate_trim_usd": 64270.58,
             "gate": "GREEN",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "IVES"
           },
           {
-            "candidate_trim_usd": 70151.22,
+            "candidate_trim_usd": 70427.8,
             "gate": "GREEN",
             "reason": "reservoir drawn to fund the names above",
             "ticker": "GRNY"
           },
           {
-            "candidate_trim_usd": 375.25,
+            "candidate_trim_usd": 366.48,
             "gate": "",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "MAGS"
           },
           {
-            "candidate_trim_usd": 5580.9,
+            "candidate_trim_usd": 5847.26,
             "gate": "",
             "reason": "wrapper trimmed to fund same-factor singles",
             "ticker": "SMH"
@@ -25091,7 +25052,7 @@
         "options_status": "review_only",
         "post_band_exposure_pct": {
           "high": 4.0,
-          "low": 3.19
+          "low": 3.17
         },
         "status": "candidate_only",
         "ticker": "MSFT"
@@ -25126,47 +25087,47 @@
             "low": 100000.0
           },
           "execution_status": "not_executed",
-          "existing_exposure_pct": 5.0,
-          "existing_exposure_usd": 91969.0,
+          "existing_exposure_pct": 5.03,
+          "existing_exposure_usd": 91688.0,
           "funded_by_model": [
             {
-              "notional_usd": 64860.95,
+              "notional_usd": 64270.58,
               "ticker": "IVES"
             },
             {
-              "notional_usd": 5580.9,
+              "notional_usd": 5847.26,
               "ticker": "SMH"
             },
             {
-              "notional_usd": 375.25,
+              "notional_usd": 366.48,
               "ticker": "MAGS"
             },
             {
-              "notional_usd": 70151.22,
+              "notional_usd": 70427.8,
               "ticker": "GRNY"
             }
           ],
           "funding_pool_context": [
             {
-              "candidate_trim_usd": 64860.95,
+              "candidate_trim_usd": 64270.58,
               "gate": "GREEN",
               "reason": "wrapper trimmed to fund same-factor singles",
               "ticker": "IVES"
             },
             {
-              "candidate_trim_usd": 70151.22,
+              "candidate_trim_usd": 70427.8,
               "gate": "GREEN",
               "reason": "reservoir drawn to fund the names above",
               "ticker": "GRNY"
             },
             {
-              "candidate_trim_usd": 375.25,
+              "candidate_trim_usd": 366.48,
               "gate": "",
               "reason": "wrapper trimmed to fund same-factor singles",
               "ticker": "MAGS"
             },
             {
-              "candidate_trim_usd": 5580.9,
+              "candidate_trim_usd": 5847.26,
               "gate": "",
               "reason": "wrapper trimmed to fund same-factor singles",
               "ticker": "SMH"
@@ -25174,19 +25135,19 @@
           ],
           "funding_source": [
             {
-              "notional_usd": 64860.95,
+              "notional_usd": 64270.58,
               "ticker": "IVES"
             },
             {
-              "notional_usd": 5580.9,
+              "notional_usd": 5847.26,
               "ticker": "SMH"
             },
             {
-              "notional_usd": 375.25,
+              "notional_usd": 366.48,
               "ticker": "MAGS"
             },
             {
-              "notional_usd": 70151.22,
+              "notional_usd": 70427.8,
               "ticker": "GRNY"
             }
           ],
@@ -25195,15 +25156,15 @@
             "high": 108500.0,
             "low": 50000.0
           },
-          "model_notional_usd": 140968.32,
+          "model_notional_usd": 140912.12,
           "model_reference_band": {
             "high": 155000.0,
             "low": 100000.0
           },
           "options_status": "review_only",
           "post_band_exposure_pct": {
-            "high": 13.43,
-            "low": 10.44
+            "high": 13.53,
+            "low": 10.51
           },
           "status": "candidate_only",
           "ticker": "GOOGL"
@@ -25234,30 +25195,30 @@
             "low": 25000.0
           },
           "execution_status": "not_executed",
-          "existing_exposure_pct": 1.83,
-          "existing_exposure_usd": 33613.0,
+          "existing_exposure_pct": 1.8,
+          "existing_exposure_usd": 32845.0,
           "funded_by_model": [],
           "funding_pool_context": [
             {
-              "candidate_trim_usd": 64860.95,
+              "candidate_trim_usd": 64270.58,
               "gate": "GREEN",
               "reason": "wrapper trimmed to fund same-factor singles",
               "ticker": "IVES"
             },
             {
-              "candidate_trim_usd": 70151.22,
+              "candidate_trim_usd": 70427.8,
               "gate": "GREEN",
               "reason": "reservoir drawn to fund the names above",
               "ticker": "GRNY"
             },
             {
-              "candidate_trim_usd": 375.25,
+              "candidate_trim_usd": 366.48,
               "gate": "",
               "reason": "wrapper trimmed to fund same-factor singles",
               "ticker": "MAGS"
             },
             {
-              "candidate_trim_usd": 5580.9,
+              "candidate_trim_usd": 5847.26,
               "gate": "",
               "reason": "wrapper trimmed to fund same-factor singles",
               "ticker": "SMH"
@@ -25277,7 +25238,7 @@
           "options_status": "review_only",
           "post_band_exposure_pct": {
             "high": 4.0,
-            "low": 3.19
+            "low": 3.17
           },
           "status": "candidate_only",
           "ticker": "MSFT"
@@ -25286,15 +25247,15 @@
       "funding_reality_check": {
         "by_trim": [
           {
-            "pcra_proceeds_usd": 70151.22,
+            "pcra_proceeds_usd": 70427.8,
             "ticker": "GRNY"
           },
           {
-            "pcra_proceeds_usd": 25010.37,
+            "pcra_proceeds_usd": 24636.15,
             "ticker": "IVES"
           },
           {
-            "pcra_proceeds_usd": 5580.9,
+            "pcra_proceeds_usd": 5847.26,
             "ticker": "SMH"
           },
           {
@@ -25303,7 +25264,7 @@
           }
         ],
         "note": "PCRA proceeds can fund ETF buys in-place; funding individual-stock adds with them requires an operator transfer (explicit operator action).",
-        "pcra_trapped_usd": 100742.49,
+        "pcra_trapped_usd": 100911.21,
         "stock_adds_present": true,
         "transfer_required_for_full_plan": true
       },
@@ -25319,11 +25280,11 @@
     },
     "deep_discount_research": [
       {
-        "checked_at": "2026-06-26T04:47:52.092166+00:00",
+        "checked_at": "2026-06-26T12:22:54.222103+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 3.12,
-        "current_exposure_usd": 57301.0,
+        "current_exposure_pct": 3.03,
+        "current_exposure_usd": 55308.0,
         "disconfirmation": "Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve.",
         "fifty_two_week_high": 161.0,
         "first_flagged": "",
@@ -25333,7 +25294,7 @@
         "move_since_flagged": "",
         "pct_below_high": -91.73,
         "price": 13.32,
-        "rank_score": 91.16,
+        "rank_score": 91.18,
         "research_status": "MONITOR",
         "size": "",
         "size_band_usd": null,
@@ -25351,7 +25312,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:47:50.797320+00:00",
+        "checked_at": "2026-06-26T12:22:51.280162+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -25379,7 +25340,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:04.910859+00:00",
+        "checked_at": "2026-06-26T12:23:23.089767+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -25411,11 +25372,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:05.203980+00:00",
+        "checked_at": "2026-06-26T12:23:23.815403+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 4.91,
-        "current_exposure_usd": 90390.0,
+        "current_exposure_pct": 4.94,
+        "current_exposure_usd": 90136.0,
         "disconfirmation": "Needs uranium/HALEU flow and policy confirmation; size is already meaningful.",
         "fifty_two_week_high": 464.25,
         "first_flagged": "",
@@ -25439,7 +25400,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:47:57.351762+00:00",
+        "checked_at": "2026-06-26T12:23:05.629409+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -25471,11 +25432,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:24.904453+00:00",
+        "checked_at": "2026-06-26T12:24:10.662053+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 1.82,
-        "current_exposure_usd": 33447.0,
+        "current_exposure_pct": 1.77,
+        "current_exposure_usd": 32327.0,
         "disconfirmation": "Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list.",
         "fifty_two_week_high": 27.9,
         "first_flagged": "",
@@ -25485,7 +25446,7 @@
         "move_since_flagged": "",
         "pct_below_high": -48.32,
         "price": 14.42,
-        "rank_score": 37.99,
+        "rank_score": 38.0,
         "research_status": "",
         "size": "",
         "size_band_usd": null,
@@ -25507,11 +25468,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:18.123803+00:00",
+        "checked_at": "2026-06-26T12:23:55.075356+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.05,
-        "current_exposure_usd": 866.0,
+        "current_exposure_usd": 865.0,
         "disconfirmation": "Fundstrat bottom-list conflict and small current exposure make this research-only.",
         "fifty_two_week_high": 32.73,
         "first_flagged": "",
@@ -25539,11 +25500,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:07.460967+00:00",
+        "checked_at": "2026-06-26T12:23:28.965712+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 0.89,
-        "current_exposure_usd": 16336.0,
+        "current_exposure_pct": 0.88,
+        "current_exposure_usd": 16127.0,
         "disconfirmation": "Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal.",
         "fifty_two_week_high": 100.251,
         "first_flagged": "",
@@ -25567,11 +25528,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:01.717607+00:00",
+        "checked_at": "2026-06-26T12:23:15.670311+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 0.13,
-        "current_exposure_usd": 2480.0,
+        "current_exposure_pct": 0.11,
+        "current_exposure_usd": 2018.0,
         "disconfirmation": "Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review.",
         "fifty_two_week_high": 153.86,
         "first_flagged": "",
@@ -25625,14 +25586,14 @@
         "Use only the deliberately reviewed starter cap; keep the rest staged as tickets, not trades."
       ]
     },
-    "generated_at": "2026-06-26T04:48:29.655320+00:00",
+    "generated_at": "2026-06-26T12:24:21.429162+00:00",
     "higher_quality_pullbacks": [
       {
-        "checked_at": "2026-06-26T04:48:08.085479+00:00",
+        "checked_at": "2026-06-26T12:23:32.679318+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 1.83,
-        "current_exposure_usd": 33613.0,
+        "current_exposure_pct": 1.8,
+        "current_exposure_usd": 32845.0,
         "disconfirmation": "Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation.",
         "fifty_two_week_high": 555.45,
         "first_flagged": "2026-06-23",
@@ -25642,7 +25603,7 @@
         "move_since_flagged": "",
         "pct_below_high": -36.48,
         "price": 352.83,
-        "rank_score": 36.14,
+        "rank_score": 36.15,
         "research_status": "",
         "size": "",
         "size_band_usd": null,
@@ -25658,11 +25619,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:00.528962+00:00",
+        "checked_at": "2026-06-26T12:23:12.620706+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 5.0,
-        "current_exposure_usd": 91969.0,
+        "current_exposure_pct": 5.03,
+        "current_exposure_usd": 91688.0,
         "disconfirmation": "Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction.",
         "fifty_two_week_high": 408.61,
         "first_flagged": "",
@@ -25694,11 +25655,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:47:59.267193+00:00",
+        "checked_at": "2026-06-26T12:23:09.789336+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.4,
-        "current_exposure_usd": 7346.0,
+        "current_exposure_usd": 7307.0,
         "disconfirmation": "Advance only if optical/AI infrastructure evidence and flow beat the base packet.",
         "fifty_two_week_high": 748.89,
         "first_flagged": "",
@@ -25724,11 +25685,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:47:51.087502+00:00",
+        "checked_at": "2026-06-26T12:22:52.043320+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 2.46,
-        "current_exposure_usd": 45338.0,
+        "current_exposure_pct": 2.47,
+        "current_exposure_usd": 44995.0,
         "disconfirmation": "Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI.",
         "fifty_two_week_high": 495.0,
         "first_flagged": "",
@@ -25756,11 +25717,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:47:48.914736+00:00",
+        "checked_at": "2026-06-26T12:22:47.692929+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.11,
-        "current_exposure_usd": 20493.0,
+        "current_exposure_usd": 20210.0,
         "disconfirmation": "Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet.",
         "fifty_two_week_high": 278.56,
         "first_flagged": "",
@@ -25784,11 +25745,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:10.009916+00:00",
+        "checked_at": "2026-06-26T12:23:36.937644+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 13.31,
-        "current_exposure_usd": 244807.0,
+        "current_exposure_pct": 13.27,
+        "current_exposure_usd": 241899.0,
         "disconfirmation": "Already large; pullback is not enough unless target/sizing room and flow support it.",
         "fifty_two_week_high": 236.54,
         "first_flagged": "",
@@ -25798,7 +25759,7 @@
         "move_since_flagged": "",
         "pct_below_high": -17.25,
         "price": 195.74,
-        "rank_score": 14.8,
+        "rank_score": 14.83,
         "research_status": "",
         "size": "",
         "size_band_usd": null,
@@ -25812,11 +25773,11 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-26T04:48:25.737148+00:00",
+        "checked_at": "2026-06-26T12:24:12.676166+00:00",
         "conviction": {},
         "currency": "USD",
-        "current_exposure_pct": 0.73,
-        "current_exposure_usd": 13364.0,
+        "current_exposure_pct": 0.71,
+        "current_exposure_usd": 12878.0,
         "disconfirmation": "Advance only if power/cooling flow and entry quality beat the base packet.",
         "fifty_two_week_high": 379.935,
         "first_flagged": "",
@@ -25890,7 +25851,7 @@
         "writeback": "not_needed_no_new_notion_write"
       },
       "positions": {
-        "book_value_usd": 1839453.0,
+        "book_value_usd": 1823279.0,
         "snapshot_date": "2026-06-26",
         "status": "has_data",
         "warnings": []
@@ -25930,7 +25891,7 @@
         "low": 25000
       }
     },
-    "total_book_value_usd": 1839453.0,
+    "total_book_value_usd": 1823279.0,
     "watchlist_discount_screen": {
       "not_checked": [
         "SOX",
@@ -25941,7 +25902,7 @@
       "row_count": 124,
       "rows": [
         {
-          "checked_at": "2026-06-26T04:48:10.639000+00:00",
+          "checked_at": "2026-06-26T12:23:38.382000+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.01,
@@ -25969,11 +25930,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:52.092166+00:00",
+          "checked_at": "2026-06-26T12:22:54.222103+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 3.12,
-          "current_exposure_usd": 57301.0,
+          "current_exposure_pct": 3.03,
+          "current_exposure_usd": 55308.0,
           "disconfirmation": "Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve.",
           "fifty_two_week_high": 161.0,
           "first_flagged": "",
@@ -25983,7 +25944,7 @@
           "move_since_flagged": "",
           "pct_below_high": -91.73,
           "price": 13.32,
-          "rank_score": 91.16,
+          "rank_score": 91.18,
           "research_status": "MONITOR",
           "size": "",
           "size_band_usd": null,
@@ -26001,7 +25962,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:08.720982+00:00",
+          "checked_at": "2026-06-26T12:23:34.116979+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.07,
@@ -26033,7 +25994,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:48.210501+00:00",
+          "checked_at": "2026-06-26T12:22:46.233576+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26061,11 +26022,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:24.605041+00:00",
+          "checked_at": "2026-06-26T12:24:09.981628+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.07,
-          "current_exposure_usd": 1368.0,
+          "current_exposure_usd": 1341.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 10.69,
           "first_flagged": "",
@@ -26089,11 +26050,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:57.661142+00:00",
+          "checked_at": "2026-06-26T12:23:06.366015+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.13,
-          "current_exposure_usd": 2384.0,
+          "current_exposure_usd": 2348.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 36.8,
           "first_flagged": "",
@@ -26117,11 +26078,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:54.751538+00:00",
+          "checked_at": "2026-06-26T12:22:59.930944+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
-          "current_exposure_usd": 1501.0,
+          "current_exposure_usd": 1425.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 444.65,
           "first_flagged": "",
@@ -26131,7 +26092,7 @@
           "move_since_flagged": "",
           "pct_below_high": -67.95,
           "price": 142.52,
-          "rank_score": 67.93,
+          "rank_score": 67.94,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -26145,7 +26106,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:50.797320+00:00",
+          "checked_at": "2026-06-26T12:22:51.280162+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26173,7 +26134,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:04.910859+00:00",
+          "checked_at": "2026-06-26T12:23:23.089767+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26205,11 +26166,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:05.203980+00:00",
+          "checked_at": "2026-06-26T12:23:23.815403+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 4.91,
-          "current_exposure_usd": 90390.0,
+          "current_exposure_pct": 4.94,
+          "current_exposure_usd": 90136.0,
           "disconfirmation": "Needs uranium/HALEU flow and policy confirmation; size is already meaningful.",
           "fifty_two_week_high": 464.25,
           "first_flagged": "",
@@ -26233,11 +26194,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:53.402318+00:00",
+          "checked_at": "2026-06-26T12:22:57.092487+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
-          "current_exposure_usd": 10.0,
+          "current_exposure_usd": 15.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 2.38,
           "first_flagged": "",
@@ -26261,11 +26222,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:06.520889+00:00",
+          "checked_at": "2026-06-26T12:23:26.730602+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.1,
-          "current_exposure_usd": 1913.0,
+          "current_exposure_usd": 1870.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 46.75,
           "first_flagged": "",
@@ -26289,7 +26250,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:57.351762+00:00",
+          "checked_at": "2026-06-26T12:23:05.629409+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26321,11 +26282,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:10.948510+00:00",
+          "checked_at": "2026-06-26T12:23:39.062122+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.72,
-          "current_exposure_usd": 13233.0,
+          "current_exposure_pct": 0.7,
+          "current_exposure_usd": 12807.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 345.72,
           "first_flagged": "",
@@ -26349,11 +26310,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:02.031753+00:00",
+          "checked_at": "2026-06-26T12:23:16.369267+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.26,
-          "current_exposure_usd": 4742.0,
+          "current_exposure_usd": 4693.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 71.82,
           "first_flagged": "",
@@ -26377,7 +26338,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:17.139641+00:00",
+          "checked_at": "2026-06-26T12:23:52.772954+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26407,11 +26368,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:12.543083+00:00",
+          "checked_at": "2026-06-26T12:23:42.779075+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.19,
-          "current_exposure_usd": 3466.0,
+          "current_exposure_usd": 3413.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 20.81,
           "first_flagged": "",
@@ -26435,11 +26396,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:50.476761+00:00",
+          "checked_at": "2026-06-26T12:22:50.541882+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.25,
-          "current_exposure_usd": 4534.0,
+          "current_exposure_pct": 0.24,
+          "current_exposure_usd": 4463.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 133.86,
           "first_flagged": "",
@@ -26449,7 +26410,7 @@
           "move_since_flagged": "",
           "pct_below_high": -50.98,
           "price": 65.62,
-          "rank_score": 50.93,
+          "rank_score": 50.94,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -26463,11 +26424,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:24.904453+00:00",
+          "checked_at": "2026-06-26T12:24:10.662053+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.82,
-          "current_exposure_usd": 33447.0,
+          "current_exposure_pct": 1.77,
+          "current_exposure_usd": 32327.0,
           "disconfirmation": "Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list.",
           "fifty_two_week_high": 27.9,
           "first_flagged": "",
@@ -26477,7 +26438,7 @@
           "move_since_flagged": "",
           "pct_below_high": -48.32,
           "price": 14.42,
-          "rank_score": 37.99,
+          "rank_score": 38.0,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -26499,11 +26460,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:12.236850+00:00",
+          "checked_at": "2026-06-26T12:23:42.098261+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.15,
-          "current_exposure_usd": 2838.0,
+          "current_exposure_usd": 2682.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 207.52,
           "first_flagged": "",
@@ -26527,11 +26488,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:20.837285+00:00",
+          "checked_at": "2026-06-26T12:24:00.475713+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.01,
-          "current_exposure_usd": 260.0,
+          "current_exposure_pct": 0.02,
+          "current_exposure_usd": 274.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 104.32,
           "first_flagged": "",
@@ -26555,11 +26516,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:18.123803+00:00",
+          "checked_at": "2026-06-26T12:23:55.075356+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.05,
-          "current_exposure_usd": 866.0,
+          "current_exposure_usd": 865.0,
           "disconfirmation": "Fundstrat bottom-list conflict and small current exposure make this research-only.",
           "fifty_two_week_high": 32.73,
           "first_flagged": "",
@@ -26587,11 +26548,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:21.145242+00:00",
+          "checked_at": "2026-06-26T12:24:01.131607+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
-          "current_exposure_usd": 725.0,
+          "current_exposure_usd": 727.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 6.82,
           "first_flagged": "",
@@ -26615,11 +26576,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:23.696431+00:00",
+          "checked_at": "2026-06-26T12:24:07.784795+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.11,
-          "current_exposure_usd": 1952.0,
+          "current_exposure_pct": 0.1,
+          "current_exposure_usd": 1881.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 34.36,
           "first_flagged": "",
@@ -26643,11 +26604,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:07.460967+00:00",
+          "checked_at": "2026-06-26T12:23:28.965712+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.89,
-          "current_exposure_usd": 16336.0,
+          "current_exposure_pct": 0.88,
+          "current_exposure_usd": 16127.0,
           "disconfirmation": "Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal.",
           "fifty_two_week_high": 100.251,
           "first_flagged": "",
@@ -26671,11 +26632,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:13.538872+00:00",
+          "checked_at": "2026-06-26T12:23:44.917307+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.96,
-          "current_exposure_usd": 17679.0,
+          "current_exposure_pct": 0.95,
+          "current_exposure_usd": 17382.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 282.95,
           "first_flagged": "",
@@ -26685,7 +26646,7 @@
           "move_since_flagged": "",
           "pct_below_high": -44.15,
           "price": 158.02,
-          "rank_score": 43.97,
+          "rank_score": 43.98,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -26699,11 +26660,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:49.864397+00:00",
+          "checked_at": "2026-06-26T12:22:49.178354+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
-          "current_exposure_usd": 1534.0,
+          "current_exposure_usd": 1520.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 0.559,
           "first_flagged": "",
@@ -26727,7 +26688,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:52.733661+00:00",
+          "checked_at": "2026-06-26T12:22:55.618723+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26755,7 +26716,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:04.597075+00:00",
+          "checked_at": "2026-06-26T12:23:22.375458+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26783,11 +26744,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:01.717607+00:00",
+          "checked_at": "2026-06-26T12:23:15.670311+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.13,
-          "current_exposure_usd": 2480.0,
+          "current_exposure_pct": 0.11,
+          "current_exposure_usd": 2018.0,
           "disconfirmation": "Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review.",
           "fifty_two_week_high": 153.86,
           "first_flagged": "",
@@ -26815,7 +26776,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:00.210374+00:00",
+          "checked_at": "2026-06-26T12:23:11.959393+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26845,11 +26806,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:08.085479+00:00",
+          "checked_at": "2026-06-26T12:23:32.679318+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.83,
-          "current_exposure_usd": 33613.0,
+          "current_exposure_pct": 1.8,
+          "current_exposure_usd": 32845.0,
           "disconfirmation": "Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation.",
           "fifty_two_week_high": 555.45,
           "first_flagged": "2026-06-23",
@@ -26859,7 +26820,7 @@
           "move_since_flagged": "",
           "pct_below_high": -36.48,
           "price": 352.83,
-          "rank_score": 36.14,
+          "rank_score": 36.15,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -26875,7 +26836,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:08.427160+00:00",
+          "checked_at": "2026-06-26T12:23:33.349308+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26903,11 +26864,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:59.565636+00:00",
+          "checked_at": "2026-06-26T12:23:10.485816+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.6,
-          "current_exposure_usd": 29391.0,
+          "current_exposure_pct": 1.63,
+          "current_exposure_usd": 29692.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 117.18,
           "first_flagged": "",
@@ -26917,7 +26878,7 @@
           "move_since_flagged": "",
           "pct_below_high": -35.42,
           "price": 75.67,
-          "rank_score": 35.13,
+          "rank_score": 35.12,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -26931,11 +26892,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:16.807986+00:00",
+          "checked_at": "2026-06-26T12:23:52.091398+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.53,
-          "current_exposure_usd": 9784.0,
+          "current_exposure_pct": 0.54,
+          "current_exposure_usd": 9900.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 119.24,
           "first_flagged": "",
@@ -26959,7 +26920,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:19.417649+00:00",
+          "checked_at": "2026-06-26T12:23:57.037417+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -26991,11 +26952,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:26.353631+00:00",
+          "checked_at": "2026-06-26T12:24:14.042565+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.09,
-          "current_exposure_usd": 1698.0,
+          "current_exposure_usd": 1703.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 165.76,
           "first_flagged": "",
@@ -27019,11 +26980,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:10.320096+00:00",
+          "checked_at": "2026-06-26T12:23:37.699401+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.13,
-          "current_exposure_usd": 2333.0,
+          "current_exposure_pct": 0.12,
+          "current_exposure_usd": 2264.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 163.13,
           "first_flagged": "",
@@ -27047,7 +27008,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:16.503885+00:00",
+          "checked_at": "2026-06-26T12:23:51.415970+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27079,7 +27040,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:23.996422+00:00",
+          "checked_at": "2026-06-26T12:24:08.475223+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27107,7 +27068,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:22.019712+00:00",
+          "checked_at": "2026-06-26T12:24:03.029603+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27139,7 +27100,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:06.160486+00:00",
+          "checked_at": "2026-06-26T12:23:25.952289+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27170,7 +27131,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:22.370347+00:00",
+          "checked_at": "2026-06-26T12:24:03.785762+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.01,
@@ -27198,7 +27159,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:20.252361+00:00",
+          "checked_at": "2026-06-26T12:23:59.100528+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27229,11 +27190,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:59.267193+00:00",
+          "checked_at": "2026-06-26T12:23:09.789336+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.4,
-          "current_exposure_usd": 7346.0,
+          "current_exposure_usd": 7307.0,
           "disconfirmation": "Advance only if optical/AI infrastructure evidence and flow beat the base packet.",
           "fifty_two_week_high": 748.89,
           "first_flagged": "",
@@ -27259,11 +27220,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:51.087502+00:00",
+          "checked_at": "2026-06-26T12:22:52.043320+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 2.46,
-          "current_exposure_usd": 45338.0,
+          "current_exposure_pct": 2.47,
+          "current_exposure_usd": 44995.0,
           "disconfirmation": "Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI.",
           "fifty_two_week_high": 495.0,
           "first_flagged": "",
@@ -27291,11 +27252,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:53.065131+00:00",
+          "checked_at": "2026-06-26T12:22:56.333544+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.11,
-          "current_exposure_usd": 20478.0,
+          "current_exposure_pct": 1.1,
+          "current_exposure_usd": 20065.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 135.24,
           "first_flagged": "",
@@ -27319,11 +27280,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:11.566359+00:00",
+          "checked_at": "2026-06-26T12:23:40.564695+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.67,
-          "current_exposure_usd": 12330.0,
+          "current_exposure_usd": 12198.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 47.22,
           "first_flagged": "",
@@ -27347,11 +27308,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:05.843660+00:00",
+          "checked_at": "2026-06-26T12:23:25.199252+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.23,
-          "current_exposure_usd": 4213.0,
+          "current_exposure_pct": 0.24,
+          "current_exposure_usd": 4310.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 1085.68,
           "first_flagged": "",
@@ -27375,11 +27336,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:06.831147+00:00",
+          "checked_at": "2026-06-26T12:23:27.561336+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.11,
-          "current_exposure_usd": 1956.0,
+          "current_exposure_usd": 1928.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 16.18,
           "first_flagged": "",
@@ -27403,7 +27364,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:57.958470+00:00",
+          "checked_at": "2026-06-26T12:23:07.041349+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27433,7 +27394,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:16.160777+00:00",
+          "checked_at": "2026-06-26T12:23:50.704376+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27467,7 +27428,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:29.315209+00:00",
+          "checked_at": "2026-06-26T12:24:20.659093+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27501,11 +27462,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:48.914736+00:00",
+          "checked_at": "2026-06-26T12:22:47.692929+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.11,
-          "current_exposure_usd": 20493.0,
+          "current_exposure_usd": 20210.0,
           "disconfirmation": "Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet.",
           "fifty_two_week_high": 278.56,
           "first_flagged": "",
@@ -27529,11 +27490,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:10.009916+00:00",
+          "checked_at": "2026-06-26T12:23:36.937644+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 13.31,
-          "current_exposure_usd": 244807.0,
+          "current_exposure_pct": 13.27,
+          "current_exposure_usd": 241899.0,
           "disconfirmation": "Already large; pullback is not enough unless target/sizing room and flow support it.",
           "fifty_two_week_high": 236.54,
           "first_flagged": "",
@@ -27543,7 +27504,7 @@
           "move_since_flagged": "",
           "pct_below_high": -17.25,
           "price": 195.74,
-          "rank_score": 14.8,
+          "rank_score": 14.83,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -27557,7 +27518,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:15.848684+00:00",
+          "checked_at": "2026-06-26T12:23:50.022179+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27587,11 +27548,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:00.528962+00:00",
+          "checked_at": "2026-06-26T12:23:12.620706+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 5.0,
-          "current_exposure_usd": 91969.0,
+          "current_exposure_pct": 5.03,
+          "current_exposure_usd": 91688.0,
           "disconfirmation": "Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction.",
           "fifty_two_week_high": 408.61,
           "first_flagged": "",
@@ -27623,7 +27584,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:26.053006+00:00",
+          "checked_at": "2026-06-26T12:24:13.332867+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27653,11 +27614,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:52.388400+00:00",
+          "checked_at": "2026-06-26T12:22:54.940333+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.18,
-          "current_exposure_usd": 21793.0,
+          "current_exposure_pct": 1.19,
+          "current_exposure_usd": 21719.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 241.82,
           "first_flagged": "",
@@ -27681,7 +27642,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:27.660261+00:00",
+          "checked_at": "2026-06-26T12:24:16.945302+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27709,11 +27670,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:07.765320+00:00",
+          "checked_at": "2026-06-26T12:23:31.942529+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.32,
-          "current_exposure_usd": 5848.0,
+          "current_exposure_pct": 0.31,
+          "current_exposure_usd": 5724.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 329.88,
           "first_flagged": "",
@@ -27737,11 +27698,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:05.497663+00:00",
+          "checked_at": "2026-06-26T12:23:24.497616+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
-          "current_exposure_usd": 1560.0,
+          "current_exposure_usd": 1522.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 91.98,
           "first_flagged": "",
@@ -27765,11 +27726,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:03.268649+00:00",
+          "checked_at": "2026-06-26T12:23:19.210368+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 3.53,
-          "current_exposure_usd": 64861.0,
+          "current_exposure_pct": 3.52,
+          "current_exposure_usd": 64270.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 41.93,
           "first_flagged": "",
@@ -27779,7 +27740,7 @@
           "move_since_flagged": "",
           "pct_below_high": -14.43,
           "price": 35.88,
-          "rank_score": 13.78,
+          "rank_score": 13.79,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -27793,11 +27754,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:09.355376+00:00",
+          "checked_at": "2026-06-26T12:23:35.536203+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.28,
-          "current_exposure_usd": 23629.0,
+          "current_exposure_usd": 23353.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 299.86,
           "first_flagged": "",
@@ -27807,7 +27768,7 @@
           "move_since_flagged": "",
           "pct_below_high": -14.42,
           "price": 256.63,
-          "rank_score": 14.18,
+          "rank_score": 14.19,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -27821,11 +27782,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:25.737148+00:00",
+          "checked_at": "2026-06-26T12:24:12.676166+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.73,
-          "current_exposure_usd": 13364.0,
+          "current_exposure_pct": 0.71,
+          "current_exposure_usd": 12878.0,
           "disconfirmation": "Advance only if power/cooling flow and entry quality beat the base packet.",
           "fifty_two_week_high": 379.935,
           "first_flagged": "",
@@ -27849,7 +27810,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:51.421558+00:00",
+          "checked_at": "2026-06-26T12:22:52.751685+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27880,11 +27841,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:07.159305+00:00",
+          "checked_at": "2026-06-26T12:23:28.242853+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.02,
-          "current_exposure_usd": 376.0,
+          "current_exposure_usd": 366.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 71.16,
           "first_flagged": "",
@@ -27911,11 +27872,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:55.046141+00:00",
+          "checked_at": "2026-06-26T12:23:00.605528+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.31,
-          "current_exposure_usd": 5783.0,
+          "current_exposure_usd": 5669.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 1096.5,
           "first_flagged": "",
@@ -27939,11 +27900,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:56.046932+00:00",
+          "checked_at": "2026-06-26T12:23:02.733743+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.26,
-          "current_exposure_usd": 4711.0,
+          "current_exposure_usd": 4751.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 785.66,
           "first_flagged": "",
@@ -27967,7 +27928,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:15.480256+00:00",
+          "checked_at": "2026-06-26T12:23:49.279685+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -27998,7 +27959,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:23.001224+00:00",
+          "checked_at": "2026-06-26T12:24:06.327065+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28029,11 +27990,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:20.542392+00:00",
+          "checked_at": "2026-06-26T12:23:59.756546+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.52,
-          "current_exposure_usd": 9633.0,
+          "current_exposure_pct": 0.53,
+          "current_exposure_usd": 9707.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 1005.68,
           "first_flagged": "",
@@ -28059,11 +28020,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:51.791456+00:00",
+          "checked_at": "2026-06-26T12:22:53.540014+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.19,
-          "current_exposure_usd": 21855.0,
+          "current_exposure_pct": 1.14,
+          "current_exposure_usd": 20715.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 351.28,
           "first_flagged": "",
@@ -28073,7 +28034,7 @@
           "move_since_flagged": "",
           "pct_below_high": -11.98,
           "price": 309.18,
-          "rank_score": 11.76,
+          "rank_score": 11.77,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -28087,11 +28048,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:53.772490+00:00",
+          "checked_at": "2026-06-26T12:22:57.749014+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.23,
-          "current_exposure_usd": 4190.0,
+          "current_exposure_usd": 4183.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 94.395,
           "first_flagged": "",
@@ -28115,11 +28076,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:57.043306+00:00",
+          "checked_at": "2026-06-26T12:23:04.858533+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.63,
-          "current_exposure_usd": 11629.0,
+          "current_exposure_usd": 11512.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 42.76,
           "first_flagged": "",
@@ -28143,7 +28104,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:55.368880+00:00",
+          "checked_at": "2026-06-26T12:23:01.290916+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28173,11 +28134,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:12.867292+00:00",
+          "checked_at": "2026-06-26T12:23:43.471262+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.46,
-          "current_exposure_usd": 8424.0,
+          "current_exposure_pct": 0.47,
+          "current_exposure_usd": 8625.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 788.75,
           "first_flagged": "",
@@ -28187,7 +28148,7 @@
           "move_since_flagged": "",
           "pct_below_high": -8.9,
           "price": 718.59,
-          "rank_score": 16.82,
+          "rank_score": 16.81,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -28203,11 +28164,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:22.668831+00:00",
+          "checked_at": "2026-06-26T12:24:05.615410+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.72,
-          "current_exposure_usd": 13192.0,
+          "current_exposure_usd": 13052.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 476.79,
           "first_flagged": "",
@@ -28231,11 +28192,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:17.816800+00:00",
+          "checked_at": "2026-06-26T12:23:54.209655+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.27,
-          "current_exposure_usd": 4891.0,
+          "current_exposure_usd": 4914.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 53.8,
           "first_flagged": "",
@@ -28259,7 +28220,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:54.090674+00:00",
+          "checked_at": "2026-06-26T12:22:58.448178+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28291,7 +28252,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:59.913819+00:00",
+          "checked_at": "2026-06-26T12:23:11.183030+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.12,
@@ -28319,7 +28280,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:09.651690+00:00",
+          "checked_at": "2026-06-26T12:23:36.215452+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
@@ -28347,11 +28308,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:49.238234+00:00",
+          "checked_at": "2026-06-26T12:22:48.411620+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.41,
-          "current_exposure_usd": 7602.0,
+          "current_exposure_pct": 0.43,
+          "current_exposure_usd": 7776.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 179.8,
           "first_flagged": "",
@@ -28377,7 +28338,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:54.450310+00:00",
+          "checked_at": "2026-06-26T12:22:59.151397+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28408,7 +28369,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:58.277972+00:00",
+          "checked_at": "2026-06-26T12:23:07.710659+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28439,7 +28400,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:15.145408+00:00",
+          "checked_at": "2026-06-26T12:23:48.565556+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28469,7 +28430,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:56.656310+00:00",
+          "checked_at": "2026-06-26T12:23:04.103023+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28501,11 +28462,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:50.159135+00:00",
+          "checked_at": "2026-06-26T12:22:49.867543+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.46,
-          "current_exposure_usd": 8526.0,
+          "current_exposure_pct": 0.47,
+          "current_exposure_usd": 8659.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 1959.04,
           "first_flagged": "",
@@ -28529,7 +28490,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:27.001819+00:00",
+          "checked_at": "2026-06-26T12:24:15.564179+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28559,11 +28520,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:27.988254+00:00",
+          "checked_at": "2026-06-26T12:24:17.670404+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 5.06,
-          "current_exposure_usd": 93024.0,
+          "current_exposure_pct": 5.09,
+          "current_exposure_usd": 92723.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 56.52,
           "first_flagged": "",
@@ -28589,11 +28550,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:48.607613+00:00",
+          "checked_at": "2026-06-26T12:22:46.963489+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.51,
-          "current_exposure_usd": 9459.0,
+          "current_exposure_pct": 0.53,
+          "current_exposure_usd": 9587.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 562.99,
           "first_flagged": "",
@@ -28603,7 +28564,7 @@
           "move_since_flagged": "",
           "pct_below_high": -5.4,
           "price": 532.57,
-          "rank_score": 13.31,
+          "rank_score": 13.3,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -28620,11 +28581,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:01.395158+00:00",
+          "checked_at": "2026-06-26T12:23:14.936842+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.7,
-          "current_exposure_usd": 12923.0,
+          "current_exposure_usd": 12781.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 1125.0,
           "first_flagged": "",
@@ -28650,7 +28611,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:13.830498+00:00",
+          "checked_at": "2026-06-26T12:23:45.658080+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28680,11 +28641,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:02.949505+00:00",
+          "checked_at": "2026-06-26T12:23:18.510334+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.29,
-          "current_exposure_usd": 23812.0,
+          "current_exposure_pct": 1.31,
+          "current_exposure_usd": 23952.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 250.65,
           "first_flagged": "",
@@ -28708,7 +28669,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:21.438947+00:00",
+          "checked_at": "2026-06-26T12:24:01.819189+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28741,11 +28702,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:17.434143+00:00",
+          "checked_at": "2026-06-26T12:23:53.499932+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 5.3,
-          "current_exposure_usd": 97553.0,
+          "current_exposure_pct": 5.32,
+          "current_exposure_usd": 97012.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 671.83,
           "first_flagged": "",
@@ -28755,7 +28716,7 @@
           "move_since_flagged": "",
           "pct_below_high": -5.2,
           "price": 636.88,
-          "rank_score": 4.22,
+          "rank_score": 4.23,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -28775,11 +28736,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:58.624258+00:00",
+          "checked_at": "2026-06-26T12:23:08.409132+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.06,
-          "current_exposure_usd": 1017.0,
+          "current_exposure_usd": 1014.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 321.17,
           "first_flagged": "",
@@ -28803,11 +28764,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:00.841058+00:00",
+          "checked_at": "2026-06-26T12:23:13.439315+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 8.63,
-          "current_exposure_usd": 158818.0,
+          "current_exposure_pct": 8.58,
+          "current_exposure_usd": 156513.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 32.69,
           "first_flagged": "",
@@ -28817,7 +28778,7 @@
           "move_since_flagged": "",
           "pct_below_high": -5.14,
           "price": 31.01,
-          "rank_score": 3.55,
+          "rank_score": 3.57,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -28831,11 +28792,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:19.081557+00:00",
+          "checked_at": "2026-06-26T12:23:56.279534+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.3,
-          "current_exposure_usd": 5590.0,
+          "current_exposure_usd": 5427.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 655.95,
           "first_flagged": "",
@@ -28845,7 +28806,7 @@
           "move_since_flagged": "",
           "pct_below_high": -4.69,
           "price": 625.2,
-          "rank_score": 4.63,
+          "rank_score": 4.64,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -28859,11 +28820,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:02.333731+00:00",
+          "checked_at": "2026-06-26T12:23:17.094205+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.45,
-          "current_exposure_usd": 8222.0,
+          "current_exposure_pct": 0.46,
+          "current_exposure_usd": 8432.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 804.0,
           "first_flagged": "",
@@ -28889,7 +28850,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:13.186045+00:00",
+          "checked_at": "2026-06-26T12:23:44.226914+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28926,11 +28887,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:28.986087+00:00",
+          "checked_at": "2026-06-26T12:24:19.930903+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.23,
-          "current_exposure_usd": 22592.0,
+          "current_exposure_pct": 1.24,
+          "current_exposure_usd": 22642.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 47.8,
           "first_flagged": "",
@@ -28956,7 +28917,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:04.269682+00:00",
+          "checked_at": "2026-06-26T12:23:21.577944+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28987,7 +28948,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:19.896418+00:00",
+          "checked_at": "2026-06-26T12:23:58.309226+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29024,7 +28985,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:11.896773+00:00",
+          "checked_at": "2026-06-26T12:23:41.269711+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29056,11 +29017,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:09.024143+00:00",
+          "checked_at": "2026-06-26T12:23:34.778978+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 3.73,
-          "current_exposure_usd": 68648.0,
+          "current_exposure_pct": 4.33,
+          "current_exposure_usd": 78881.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 1255.0,
           "first_flagged": "",
@@ -29070,7 +29031,7 @@
           "move_since_flagged": "",
           "pct_below_high": -3.3,
           "price": 1213.56,
-          "rank_score": 2.61,
+          "rank_score": 2.51,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -29087,11 +29048,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:11.268069+00:00",
+          "checked_at": "2026-06-26T12:23:39.863433+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.31,
-          "current_exposure_usd": 5705.0,
+          "current_exposure_pct": 0.32,
+          "current_exposure_usd": 5862.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 302.95,
           "first_flagged": "",
@@ -29115,7 +29076,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:56.345636+00:00",
+          "checked_at": "2026-06-26T12:23:03.386232+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29146,11 +29107,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:01.104800+00:00",
+          "checked_at": "2026-06-26T12:23:14.166500+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 6.89,
-          "current_exposure_usd": 126725.0,
+          "current_exposure_pct": 6.94,
+          "current_exposure_usd": 126492.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 27.835,
           "first_flagged": "",
@@ -29160,7 +29121,7 @@
           "move_since_flagged": "",
           "pct_below_high": -3.11,
           "price": 26.97,
-          "rank_score": 1.84,
+          "rank_score": 1.85,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -29174,11 +29135,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:58.951652+00:00",
+          "checked_at": "2026-06-26T12:23:09.105698+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.43,
-          "current_exposure_usd": 7820.0,
+          "current_exposure_pct": 0.44,
+          "current_exposure_usd": 8072.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 2073.99,
           "first_flagged": "",
@@ -29204,7 +29165,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:23.365558+00:00",
+          "checked_at": "2026-06-26T12:24:07.110792+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29234,11 +29195,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:03.913981+00:00",
+          "checked_at": "2026-06-26T12:23:20.787209+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.33,
-          "current_exposure_usd": 6062.0,
+          "current_exposure_usd": 6048.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 343.45,
           "first_flagged": "",
@@ -29262,11 +29223,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:28.672566+00:00",
+          "checked_at": "2026-06-26T12:24:19.232439+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.71,
-          "current_exposure_usd": 13078.0,
+          "current_exposure_pct": 0.72,
+          "current_exposure_usd": 13086.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 45.65,
           "first_flagged": "",
@@ -29290,7 +29251,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:14.809110+00:00",
+          "checked_at": "2026-06-26T12:23:47.854837+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29320,7 +29281,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:03.593071+00:00",
+          "checked_at": "2026-06-26T12:23:20.065450+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29351,7 +29312,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:26.684725+00:00",
+          "checked_at": "2026-06-26T12:24:14.774729+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29381,11 +29342,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:14.158128+00:00",
+          "checked_at": "2026-06-26T12:23:46.396822+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.67,
-          "current_exposure_usd": 12338.0,
+          "current_exposure_pct": 0.66,
+          "current_exposure_usd": 12054.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 63.72,
           "first_flagged": "",
@@ -29409,7 +29370,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:14.478505+00:00",
+          "checked_at": "2026-06-26T12:23:47.176559+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29440,11 +29401,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:28.333076+00:00",
+          "checked_at": "2026-06-26T12:24:18.418551+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.69,
-          "current_exposure_usd": 12646.0,
+          "current_exposure_pct": 0.71,
+          "current_exposure_usd": 12920.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 186.09,
           "first_flagged": "",
@@ -29470,11 +29431,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:47:55.681973+00:00",
+          "checked_at": "2026-06-26T12:23:02.009565+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 0.19,
-          "current_exposure_usd": 3486.0,
+          "current_exposure_pct": 0.2,
+          "current_exposure_usd": 3595.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 605.11,
           "first_flagged": "",
@@ -29484,7 +29445,7 @@
           "move_since_flagged": "",
           "pct_below_high": -0.97,
           "price": 599.24,
-          "rank_score": 8.94,
+          "rank_score": 8.93,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -29500,11 +29461,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:25.434497+00:00",
+          "checked_at": "2026-06-26T12:24:11.993586+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 4.43,
-          "current_exposure_usd": 81399.0,
+          "current_exposure_pct": 4.49,
+          "current_exposure_usd": 81947.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 42.16,
           "first_flagged": "",
@@ -29514,7 +29475,7 @@
           "move_since_flagged": "",
           "pct_below_high": -0.88,
           "price": 41.79,
-          "rank_score": 0.07,
+          "rank_score": 0.06,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -29528,7 +29489,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:24.288798+00:00",
+          "checked_at": "2026-06-26T12:24:09.231168+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29558,11 +29519,11 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:02.625170+00:00",
+          "checked_at": "2026-06-26T12:23:17.771264+00:00",
           "conviction": {},
           "currency": "USD",
-          "current_exposure_pct": 1.36,
-          "current_exposure_usd": 25108.0,
+          "current_exposure_pct": 1.4,
+          "current_exposure_usd": 25468.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
           "fifty_two_week_high": 54.6,
           "first_flagged": "",
@@ -29586,7 +29547,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-26T04:48:27.328662+00:00",
+          "checked_at": "2026-06-26T12:24:16.286070+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29623,7 +29584,7 @@
   "open_opportunities": {
     "schema_version": "1.0",
     "as_of": "2026-06-26",
-    "generated_at": "2026-06-26T04:48:33.091828+00:00",
+    "generated_at": "2026-06-26T12:22:45.964147+00:00",
     "opportunities": [
       {
         "ticker": "MSFT",
@@ -30041,7 +30002,7 @@
     "status": "has_data",
     "count": 3,
     "as_of": "2026-06-26",
-    "generated_at": "2026-06-26T12:22:44.668921+00:00",
+    "generated_at": "2026-06-26T12:24:23.260301+00:00",
     "line": "3 options idea(s) ready to act now; 9 names checked. these ideas use ~3.5% of your ~10% options budget.",
     "rows": [
       {
@@ -32749,30 +32710,30 @@
               "low": 25000.0
             },
             "execution_status": "not_executed",
-            "existing_exposure_pct": 1.83,
-            "existing_exposure_usd": 33613.0,
+            "existing_exposure_pct": 1.8,
+            "existing_exposure_usd": 32845.0,
             "funded_by_model": [],
             "funding_pool_context": [
               {
-                "candidate_trim_usd": 64860.95,
+                "candidate_trim_usd": 64270.58,
                 "gate": "GREEN",
                 "reason": "wrapper trimmed to fund same-factor singles",
                 "ticker": "IVES"
               },
               {
-                "candidate_trim_usd": 70151.22,
+                "candidate_trim_usd": 70427.8,
                 "gate": "GREEN",
                 "reason": "reservoir drawn to fund the names above",
                 "ticker": "GRNY"
               },
               {
-                "candidate_trim_usd": 375.25,
+                "candidate_trim_usd": 366.48,
                 "gate": "",
                 "reason": "wrapper trimmed to fund same-factor singles",
                 "ticker": "MAGS"
               },
               {
-                "candidate_trim_usd": 5580.9,
+                "candidate_trim_usd": 5847.26,
                 "gate": "",
                 "reason": "wrapper trimmed to fund same-factor singles",
                 "ticker": "SMH"
@@ -32792,7 +32753,7 @@
             "options_status": "review_only",
             "post_band_exposure_pct": {
               "high": 4.0,
-              "low": 3.19
+              "low": 3.17
             },
             "status": "candidate_only",
             "ticker": "MSFT"
@@ -34369,47 +34330,47 @@
               "low": 100000.0
             },
             "execution_status": "not_executed",
-            "existing_exposure_pct": 5.0,
-            "existing_exposure_usd": 91969.0,
+            "existing_exposure_pct": 5.03,
+            "existing_exposure_usd": 91688.0,
             "funded_by_model": [
               {
-                "notional_usd": 64860.95,
+                "notional_usd": 64270.58,
                 "ticker": "IVES"
               },
               {
-                "notional_usd": 5580.9,
+                "notional_usd": 5847.26,
                 "ticker": "SMH"
               },
               {
-                "notional_usd": 375.25,
+                "notional_usd": 366.48,
                 "ticker": "MAGS"
               },
               {
-                "notional_usd": 70151.22,
+                "notional_usd": 70427.8,
                 "ticker": "GRNY"
               }
             ],
             "funding_pool_context": [
               {
-                "candidate_trim_usd": 64860.95,
+                "candidate_trim_usd": 64270.58,
                 "gate": "GREEN",
                 "reason": "wrapper trimmed to fund same-factor singles",
                 "ticker": "IVES"
               },
               {
-                "candidate_trim_usd": 70151.22,
+                "candidate_trim_usd": 70427.8,
                 "gate": "GREEN",
                 "reason": "reservoir drawn to fund the names above",
                 "ticker": "GRNY"
               },
               {
-                "candidate_trim_usd": 375.25,
+                "candidate_trim_usd": 366.48,
                 "gate": "",
                 "reason": "wrapper trimmed to fund same-factor singles",
                 "ticker": "MAGS"
               },
               {
-                "candidate_trim_usd": 5580.9,
+                "candidate_trim_usd": 5847.26,
                 "gate": "",
                 "reason": "wrapper trimmed to fund same-factor singles",
                 "ticker": "SMH"
@@ -34417,19 +34378,19 @@
             ],
             "funding_source": [
               {
-                "notional_usd": 64860.95,
+                "notional_usd": 64270.58,
                 "ticker": "IVES"
               },
               {
-                "notional_usd": 5580.9,
+                "notional_usd": 5847.26,
                 "ticker": "SMH"
               },
               {
-                "notional_usd": 375.25,
+                "notional_usd": 366.48,
                 "ticker": "MAGS"
               },
               {
-                "notional_usd": 70151.22,
+                "notional_usd": 70427.8,
                 "ticker": "GRNY"
               }
             ],
@@ -34438,15 +34399,15 @@
               "high": 108500.0,
               "low": 50000.0
             },
-            "model_notional_usd": 140968.32,
+            "model_notional_usd": 140912.12,
             "model_reference_band": {
               "high": 155000.0,
               "low": 100000.0
             },
             "options_status": "review_only",
             "post_band_exposure_pct": {
-              "high": 13.43,
-              "low": 10.44
+              "high": 13.53,
+              "low": 10.51
             },
             "status": "candidate_only",
             "ticker": "GOOGL"
@@ -36068,11 +36029,11 @@
           "section": "higher_quality_pullbacks",
           "label": "Higher-quality pullback",
           "row": {
-            "checked_at": "2026-06-26T04:47:48.914736+00:00",
+            "checked_at": "2026-06-26T12:22:47.692929+00:00",
             "conviction": {},
             "currency": "USD",
             "current_exposure_pct": 1.11,
-            "current_exposure_usd": 20493.0,
+            "current_exposure_usd": 20210.0,
             "disconfirmation": "Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet.",
             "fifty_two_week_high": 278.56,
             "first_flagged": "",
@@ -38392,7 +38353,7 @@
         "disconfirmation": "Advance only if optical/AI infrastructure evidence and flow beat the base packet.",
         "price": 567.79,
         "pct_below_high": -24.18,
-        "current_exposure_usd": 7346.0,
+        "current_exposure_usd": 7307.0,
         "source_tags": [
           "Fundstrat top-list"
         ],
@@ -38420,7 +38381,7 @@
         "disconfirmation": "Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI.",
         "price": 378.91,
         "pct_below_high": -23.45,
-        "current_exposure_usd": 45338.0,
+        "current_exposure_usd": 44995.0,
         "source_tags": [
           "Notion Working STAGE",
           "repo research queue Queued",
@@ -38443,14 +38404,14 @@
         "section": "higher_quality_pullbacks",
         "label": "Higher-quality pullback",
         "bucket": 1,
-        "impact_score": 14.8,
+        "impact_score": 14.83,
         "status": "has_data",
         "research_status": "",
         "summary": "-17.2% below 52w high; price $196; Yahoo Finance chart endpoint",
         "disconfirmation": "Already large; pullback is not enough unless target/sizing room and flow support it.",
         "price": 195.74,
         "pct_below_high": -17.25,
-        "current_exposure_usd": 244807.0,
+        "current_exposure_usd": 241899.0,
         "source_tags": [],
         "conviction": {},
         "thesis": "",
@@ -38476,7 +38437,7 @@
         "disconfirmation": "Advance only if power/cooling flow and entry quality beat the base packet.",
         "price": 325.57,
         "pct_below_high": -14.31,
-        "current_exposure_usd": 13364.0,
+        "current_exposure_usd": 12878.0,
         "source_tags": [],
         "conviction": {},
         "thesis": "",
@@ -38495,14 +38456,14 @@
         "section": "deep_discount_research",
         "label": "Deep-discount research",
         "bucket": 2,
-        "impact_score": 91.16,
+        "impact_score": 91.18,
         "status": "has_data",
         "research_status": "MONITOR",
         "summary": "-91.7% below 52w high; price $13; Notion Working MONITOR, SEC filings via manual off-hours alt-data scout 2026-06-09, repo research queue Queued",
         "disconfirmation": "Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve.",
         "price": 13.32,
         "pct_below_high": -91.73,
-        "current_exposure_usd": 57301.0,
+        "current_exposure_usd": 55308.0,
         "source_tags": [
           "Notion Working MONITOR",
           "SEC filings via manual off-hours alt-data scout 2026-06-09",
@@ -38558,7 +38519,7 @@
         "disconfirmation": "Needs uranium/HALEU flow and policy confirmation; size is already meaningful.",
         "price": 170.38,
         "pct_below_high": -63.3,
-        "current_exposure_usd": 90390.0,
+        "current_exposure_usd": 90136.0,
         "source_tags": [],
         "conviction": {},
         "thesis": "",
@@ -38640,7 +38601,7 @@
         "disconfirmation": "Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal.",
         "price": 55.62,
         "pct_below_high": -44.52,
-        "current_exposure_usd": 16336.0,
+        "current_exposure_usd": 16127.0,
         "source_tags": [],
         "conviction": {},
         "thesis": "",
@@ -38659,14 +38620,14 @@
         "section": "deep_discount_research",
         "label": "Deep-discount research",
         "bucket": 2,
-        "impact_score": 37.99,
+        "impact_score": 38.0,
         "status": "has_data",
         "research_status": "",
         "summary": "-48.3% below 52w high; price $14; Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working",
         "disconfirmation": "Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list.",
         "price": 14.42,
         "pct_below_high": -48.32,
-        "current_exposure_usd": 33447.0,
+        "current_exposure_usd": 32327.0,
         "source_tags": [
           "Fundstrat bottom/avoid-list",
           "SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24",
@@ -38698,7 +38659,7 @@
         "disconfirmation": "Fundstrat bottom-list conflict and small current exposure make this research-only.",
         "price": 17.3,
         "pct_below_high": -47.14,
-        "current_exposure_usd": 866.0,
+        "current_exposure_usd": 865.0,
         "source_tags": [
           "Fundstrat bottom/avoid-list"
         ],
@@ -38726,7 +38687,7 @@
         "disconfirmation": "Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review.",
         "price": 93.47,
         "pct_below_high": -39.25,
-        "current_exposure_usd": 2480.0,
+        "current_exposure_usd": 2018.0,
         "source_tags": [
           "Fundstrat bottom/avoid-list"
         ],
@@ -38771,7 +38732,7 @@
           "price": 567.79,
           "fifty_two_week_high": 748.89,
           "high_date": "2026-05-14",
-          "exposure_usd": 7346.0,
+          "exposure_usd": 7307.0,
           "exposure_pct": 0.4,
           "disconfirmation": "Advance only if optical/AI infrastructure evidence and flow beat the base packet.",
           "research_status": "",
@@ -38801,8 +38762,8 @@
           "price": 378.91,
           "fifty_two_week_high": 495.0,
           "high_date": "2026-06-03",
-          "exposure_usd": 45338.0,
-          "exposure_pct": 2.46,
+          "exposure_usd": 44995.0,
+          "exposure_pct": 2.47,
           "disconfirmation": "Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI.",
           "research_status": "STAGE",
           "source_tags": [
@@ -38828,13 +38789,13 @@
           "ticker": "NVDA",
           "tier": "higher",
           "label": "Higher-quality pullback",
-          "impact": 14.8,
+          "impact": 14.83,
           "pct_below_high": -17.25,
           "price": 195.74,
           "fifty_two_week_high": 236.54,
           "high_date": "2026-05-14",
-          "exposure_usd": 244807.0,
-          "exposure_pct": 13.31,
+          "exposure_usd": 241899.0,
+          "exposure_pct": 13.27,
           "disconfirmation": "Already large; pullback is not enough unless target/sizing room and flow support it.",
           "research_status": "",
           "source_tags": [],
@@ -38862,8 +38823,8 @@
           "price": 325.57,
           "fifty_two_week_high": 379.935,
           "high_date": "2026-05-14",
-          "exposure_usd": 13364.0,
-          "exposure_pct": 0.73,
+          "exposure_usd": 12878.0,
+          "exposure_pct": 0.71,
           "disconfirmation": "Advance only if power/cooling flow and entry quality beat the base packet.",
           "research_status": "",
           "source_tags": [],
@@ -38887,13 +38848,13 @@
           "ticker": "BMNR",
           "tier": "deep",
           "label": "Deep-discount research",
-          "impact": 91.16,
+          "impact": 91.18,
           "pct_below_high": -91.73,
           "price": 13.32,
           "fifty_two_week_high": 161.0,
           "high_date": "2025-07-03",
-          "exposure_usd": 57301.0,
-          "exposure_pct": 3.12,
+          "exposure_usd": 55308.0,
+          "exposure_pct": 3.03,
           "disconfirmation": "Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve.",
           "research_status": "MONITOR",
           "source_tags": [
@@ -38955,8 +38916,8 @@
           "price": 170.38,
           "fifty_two_week_high": 464.25,
           "high_date": "2025-10-16",
-          "exposure_usd": 90390.0,
-          "exposure_pct": 4.91,
+          "exposure_usd": 90136.0,
+          "exposure_pct": 4.94,
           "disconfirmation": "Needs uranium/HALEU flow and policy confirmation; size is already meaningful.",
           "research_status": "",
           "source_tags": [],
@@ -39044,8 +39005,8 @@
           "price": 55.62,
           "fifty_two_week_high": 100.251,
           "high_date": "2025-10-14",
-          "exposure_usd": 16336.0,
-          "exposure_pct": 0.89,
+          "exposure_usd": 16127.0,
+          "exposure_pct": 0.88,
           "disconfirmation": "Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal.",
           "research_status": "",
           "source_tags": [],
@@ -39067,13 +39028,13 @@
           "ticker": "UUUU",
           "tier": "deep",
           "label": "Deep-discount research",
-          "impact": 37.99,
+          "impact": 38.0,
           "pct_below_high": -48.32,
           "price": 14.42,
           "fifty_two_week_high": 27.9,
           "high_date": "2026-01-28",
-          "exposure_usd": 33447.0,
-          "exposure_pct": 1.82,
+          "exposure_usd": 32327.0,
+          "exposure_pct": 1.77,
           "disconfirmation": "Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list.",
           "research_status": "",
           "source_tags": [
@@ -39106,7 +39067,7 @@
           "price": 17.3,
           "fifty_two_week_high": 32.73,
           "high_date": "2025-11-12",
-          "exposure_usd": 866.0,
+          "exposure_usd": 865.0,
           "exposure_pct": 0.05,
           "disconfirmation": "Fundstrat bottom-list conflict and small current exposure make this research-only.",
           "research_status": "",
@@ -39136,8 +39097,8 @@
           "price": 93.47,
           "fifty_two_week_high": 153.86,
           "high_date": "2025-10-06",
-          "exposure_usd": 2480.0,
-          "exposure_pct": 0.13,
+          "exposure_usd": 2018.0,
+          "exposure_pct": 0.11,
           "disconfirmation": "Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review.",
           "research_status": "",
           "source_tags": [
@@ -39378,7 +39339,7 @@
     },
     "congruence": {
       "status": "ok",
-      "total_value": 1839453.0,
+      "total_value": 1823279.0,
       "flag_threshold_named_pct": 1.0,
       "rows": [
         {
@@ -39388,21 +39349,21 @@
           "stale": false,
           "named_held": {
             "GEV": 2170.08,
-            "BE": 21854.73,
-            "STRL": 9633.43,
-            "VOLT": 81399.07
+            "BE": 20715.06,
+            "STRL": 9706.88,
+            "VOLT": 81946.57
           },
-          "named_value": 115057.31,
-          "named_pct": 6.25,
+          "named_value": 114538.59,
+          "named_pct": 6.28,
           "adjacent_held": {
-            "LEU": 90389.79,
-            "UUUU": 33446.75,
-            "PWR": 8423.96,
-            "VRT": 13363.55
+            "LEU": 90136.29,
+            "UUUU": 32327.4,
+            "PWR": 8624.52,
+            "VRT": 12877.55
           },
-          "adjacent_value": 145624.05,
-          "adjacent_pct": 7.92,
-          "combined_pct": 14.17,
+          "adjacent_value": 143965.76,
+          "adjacent_pct": 7.9,
+          "combined_pct": 14.18,
           "watch_held": {},
           "watch_value": 0,
           "missing_named": [
@@ -39410,7 +39371,7 @@
           ],
           "flagged": false,
           "flag_note": "",
-          "line": "named $115,057 (6.25%) \u00e2\u20ac\u201d BE \u00c2\u00b7 GEV \u00c2\u00b7 STRL \u00c2\u00b7 VOLT  \u00c2\u00b7  +adjacent $145,624 (7.92%): LEU \u00c2\u00b7 PWR \u00c2\u00b7 UUUU \u00c2\u00b7 VRT \u00e2\u2020\u2019 14.17% combined"
+          "line": "named $114,539 (6.28%) \u00e2\u20ac\u201d BE \u00c2\u00b7 GEV \u00c2\u00b7 STRL \u00c2\u00b7 VOLT  \u00c2\u00b7  +adjacent $143,966 (7.90%): LEU \u00c2\u00b7 PWR \u00c2\u00b7 UUUU \u00c2\u00b7 VRT \u00e2\u2020\u2019 14.18% combined"
         },
         {
           "insight_id": "INSIGHT-002",
@@ -39418,9 +39379,9 @@
           "belief_strength": 92,
           "stale": false,
           "named_held": {
-            "TSM": 13192.44
+            "TSM": 13052.28
           },
-          "named_value": 13192.44,
+          "named_value": 13052.28,
           "named_pct": 0.72,
           "adjacent_held": {},
           "adjacent_value": 0,
@@ -39431,7 +39392,7 @@
           "missing_named": [],
           "flagged": true,
           "flag_note": "STRONGEST BELIEF \u00c2\u00b7 SMALLEST EXPOSURE \u00e2\u20ac\u201d informs once, never forces",
-          "line": "named $13,192 (0.72%) \u00e2\u20ac\u201d TSM"
+          "line": "named $13,052 (0.72%) \u00e2\u20ac\u201d TSM"
         }
       ],
       "flagged_ids": [
@@ -39442,7 +39403,7 @@
     "options": {
       "source": "options_surface",
       "as_of": "2026-06-26",
-      "generated_at": "2026-06-26T12:22:44.668921+00:00",
+      "generated_at": "2026-06-26T12:24:23.260301+00:00",
       "ideas": [
         {
           "schema_version": "1.0",

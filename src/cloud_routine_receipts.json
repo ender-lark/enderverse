@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T11:47:19.390390Z",
-      "summary": "fundstrat pre-market safety sweep started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T11:51:55.084626Z",
@@ -6439,7 +6432,67 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T12:24:06.733510Z",
       "summary": "FS inbox catch-up preopen nothing new; marker unchanged at [06/25/2026 20:40 ET]; latest inbox entry already classified; marker run log fetch-verified"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:24:31.865113Z",
+      "summary": "broker position intake succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/snaptrade_book_refresh.py",
+          "--refresh-dashboard"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "c68973afcf99db927b396d31f34dc886bdb49cd69515e104a3ec6647cebac632",
+            "as_of": "2026-06-26",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "01538329146cda85619953843fc076ffd786b47f6618f76376c5d9f1f9790f6d",
+            "changed": true
+          },
+          {
+            "path": "src/account_positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "ca1f4f42e2da620e4a0d59b6da1054090ec812552c7b31af3f6758ee6b080211",
+            "as_of": "2026-06-26",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "e6157a7c07309b77b34ff930f9971eb78a988fe7ff77d8d0e97df444db60e50b",
+            "changed": true
+          },
+          {
+            "path": "src/position_reconciliation.json",
+            "as_of_field": "current_snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "5de55344131f0baba6bbf74e3c34356f293741c14c263e2c0d58f261b9310a6e",
+            "as_of": "2026-06-26",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "e6d0885c86f521078c9b977f9f72f0d015b6a424c6cdec74c4e4ad649ca29f62",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-26T12:24:06.733510Z"
+  "updated_at": "2026-06-26T12:24:31.865113Z"
 }
