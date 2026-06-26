@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T13:34:17.256007Z",
-      "summary": "repo synthesis refreshed and Notion page 383c5031-4bb6-811a-8b73-d9b4f56e973c write/readback verified; hanging HOOD review and Social Watch dark; verify_standard failed date-rot daily packet fixture expected 2026-06-17 vs 2026-06-18"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T13:42:23.468768Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "success",
       "run_source": "scheduled",
@@ -6598,7 +6584,45 @@
         ]
       },
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T14:32:45.189039Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T14:34:35.430254Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "2d0c69f468a29178f6fc9c81e41595b58c0e0652591ebea20282b6e9e55d4998",
+            "as_of": "2026-06-26T14:34:28.066391+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "1e2ff131108f3964e0f5fa7c1bff81ec002e1a45d7366eb777f0fe93e1c02cb1",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-26T14:32:31.597230Z"
+  "updated_at": "2026-06-26T14:34:35.430254Z"
 }
