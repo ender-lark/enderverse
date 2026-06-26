@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T11:51:55.084626Z",
-      "summary": "checked web 10 pages Macro/Crypto FlashInsights plus research listings/detail; Gmail 0; landed 1 compact crypto Warsh-policy row; suppressed/discovery stale/duplicate Macro FlashInsights, Crypto FlashInsights Jun8, First Word, Intraday, US Policy, DTS/Fed duplicates; validation passed; dashboard refreshed; Notion not used; dark/stale lanes crypto FlashInsights stale, no fresh premarket First Word/Intraday"
-    },
-    {
-      "routine_id": "work-os-daily-briefing",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:03:04.706360Z",
-      "summary": "work-os-daily-briefing started"
-    },
-    {
       "routine_id": "work-os-daily-briefing",
       "status": "success",
       "run_source": "scheduled",
@@ -6492,7 +6478,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:37:16.929823Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:40:17.543125Z",
+      "summary": "morning scan success: Notion Signal Log rows 3 fetch-verified; repo Signal Log cache 101 rows validated; top signals MU AI-memory rally/recheck, BMNR monitor weakness, Hormuz oil risk easing not clear; macro cache unchanged stale 2026-06-04; dark lanes same-session UW semi flow empty, PortWatch/Social not_checked"
     }
   ],
-  "updated_at": "2026-06-26T12:24:31.865113Z"
+  "updated_at": "2026-06-26T12:40:17.543125Z"
 }
