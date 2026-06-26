@@ -3,20 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:24:18.331005Z",
-      "summary": "broker position intake started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:25:02.903394Z",
-      "summary": "FS inbox catch-up preopen nothing new; marker checked through [06/17/2026 19:40 ET]; Notion marker fetch-verified"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-18T12:27:37.462150Z",
@@ -6515,7 +6501,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T13:32:26.170947Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T13:35:45.284883Z",
+      "summary": "daily synthesis success: repo cache refreshed/validated from 2026-06-26T12:53:07Z cockpit feed; Notion page 38bc5031-4bb6-8179-bf27-e1bff940cb4a written/readback verified; HOOD sell-fast review leads; broker proof recovered; Social Watch/PortWatch stale Macro/Crypto Flash and unqueried row-level Notion lanes dark/not_checked; verify_standard passed 1869/6"
     }
   ],
-  "updated_at": "2026-06-26T13:16:13.671772Z"
+  "updated_at": "2026-06-26T13:35:45.284883Z"
 }
